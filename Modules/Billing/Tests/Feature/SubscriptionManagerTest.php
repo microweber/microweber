@@ -4,7 +4,7 @@ namespace Modules\Billing\Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Modules\Billing\Models\Stripe\SubscriptionCustomer;
+use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\Billing\Services\SubscriptionManager;
 use Tests\TestCase;
 
@@ -71,5 +71,58 @@ class SubscriptionManagerTest extends TestCase
         $response = $this->postJson('/billing/stripe/webhook', $payload);
 
         $response->assertStatus(200);
+    }
+
+    public function test_subscribe_to_valid_plan_successfully()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $manager = new SubscriptionManager();
+
+        // Mock getSubscriptionPlanBySKU helper
+        app()->bind('getSubscriptionPlanBySKU', function () {
+            return function ($sku) {
+                if ($sku === 'valid-sku') {
+                    return [
+                        'id' => 1,
+                        'sku' => 'valid-sku',
+                        'name' => 'Pro Plan',
+                        'remote_provider_price_id' => 'price_123',
+                        'group_id' => 0,
+                    ];
+                }
+                return null;
+            };
+        });
+
+        // Use Laravel's global helper override
+        if (!function_exists('getSubscriptionPlanBySKU')) {
+            function getSubscriptionPlanBySKU($sku) {
+                return app('getSubscriptionPlanBySKU')($sku);
+            }
+        }
+
+        // Mock SubscriptionCustomer::firstOrCreate to avoid real Stripe calls
+        $customer = SubscriptionCustomer::factory()->create(['user_id' => $user->id]);
+        $this->partialMock(SubscriptionCustomer::class, function ($mock) use ($customer) {
+            $mock->shouldReceive('stripe')->andReturn(new class {
+                public function __call($method, $args) {
+                    return new class {
+                        public function __call($method, $args) {
+                            return (object)[
+                                'id' => 'sub_123',
+                                'stripe_status' => 'active',
+                                'items' => (object)['data' => [['id' => 'item_123']]],
+                            ];
+                        }
+                    };
+                }
+            });
+        });
+
+        $result = $manager->subscribeToPlan('valid-sku');
+
+        $this->assertNotEmpty($result);
     }
 }

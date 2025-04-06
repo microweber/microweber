@@ -20,7 +20,7 @@ class SubscriptionPlan extends Model
         'group_id',
         'remote_provider',
         'remote_provider_price_id',
-        'display_price',
+        'price',
         'discount_price',
         'save_price',
         'save_price_badge',
@@ -29,6 +29,7 @@ class SubscriptionPlan extends Model
         'alternative_annual_plan_id',
         'description',
         'sort_order',
+
     ];
 
     public function features()
@@ -39,5 +40,24 @@ class SubscriptionPlan extends Model
     public function group()
     {
         return $this->belongsTo(SubscriptionPlanGroup::class, 'group_id');
+    }
+
+    /**
+     * Calculate the yearly price based on billing interval/cycle
+     *
+     * @return float
+     */
+    public function yearlyPrice()
+    {
+        // Check which field exists and has a value
+        $billingPeriod = $this->billing_interval ?? 'monthly';
+
+        // If billing period is yearly, return the price as-is
+        if ($billingPeriod === 'yearly') {
+            return $this->price;
+        }
+
+        // If billing period is monthly, multiply by 12 for yearly equivalent
+        return $this->price * 12;
     }
 }

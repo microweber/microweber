@@ -4,8 +4,7 @@ namespace Modules\Billing\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Carbon;
-use Modules\Billing\Models\Stripe\Subscription;
+use Modules\Billing\Models\Subscription;
 
 class StatsOverviewWidget extends BaseWidget
 {

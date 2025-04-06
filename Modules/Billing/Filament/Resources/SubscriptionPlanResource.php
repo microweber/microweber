@@ -59,7 +59,7 @@ class SubscriptionPlanResource extends Resource
                 Forms\Components\Section::make('Pricing')
                     ->description('Configure the pricing details for this plan')
                     ->schema([
-                        Forms\Components\TextInput::make('display_price')
+                        Forms\Components\TextInput::make('price')
                             ->required()
                             ->numeric()
                             ->prefix('$')
@@ -72,7 +72,7 @@ class SubscriptionPlanResource extends Resource
                             ->columnSpanFull()
                             ->helperText('Optional discounted price')
                             ->minValue(0)
-                            ->visible(fn (Forms\Get $get) => $get('display_price') > 0),
+                            ->visible(fn (Forms\Get $get) => $get('price') > 0),
                         Forms\Components\TextInput::make('save_price')
                             ->numeric()
                             ->prefix('$')
@@ -80,11 +80,11 @@ class SubscriptionPlanResource extends Resource
                             ->helperText('Amount customers save (calculated automatically)')
                             ->disabled()
                             ->dehydrated(false)
-                            ->visible(fn (Forms\Get $get) => $get('display_price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn (Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\TextInput::make('save_price_badge')
                             ->columnSpanFull()
                             ->helperText('Text to display for savings (e.g., "Save 20%")')
-                            ->visible(fn (Forms\Get $get) => $get('display_price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn (Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
                                 'monthly' => 'Monthly',
@@ -141,11 +141,11 @@ class SubscriptionPlanResource extends Resource
                     ->sortable()
                     ->badge()
                     ->color('primary'),
-                Tables\Columns\TextColumn::make('display_price')
+                Tables\Columns\TextColumn::make('price')
                     ->money('usd')
                     ->sortable()
                     ->description(fn (SubscriptionPlan $record): string =>
-                        $record->discount_price ? "Regular: $" . number_format($record->display_price, 2) : ''
+                        $record->discount_price ? "Regular: $" . number_format($record->price, 2) : ''
                     ),
                 Tables\Columns\TextColumn::make('billing_interval')
                     ->badge()

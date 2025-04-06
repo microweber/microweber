@@ -6,10 +6,11 @@ use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
 use Modules\Billing\Tests\Unit\BillingTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class SubscriptionPlanResourceTest extends BillingTestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_subscription_plans()
     {
         $group = SubscriptionPlanGroup::factory()->create();
@@ -23,14 +24,14 @@ class SubscriptionPlanResourceTest extends BillingTestCase
             ->assertSee($group->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_render_create_page()
     {
         $this->get(SubscriptionPlanResource::getUrl('create'))
             ->assertSuccessful();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_subscription_plan()
     {
         $group = SubscriptionPlanGroup::factory()->create();
@@ -47,7 +48,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_render_edit_page()
     {
         $plan = SubscriptionPlan::factory()->create();
@@ -55,10 +56,10 @@ class SubscriptionPlanResourceTest extends BillingTestCase
         $this->get(SubscriptionPlanResource::getUrl('edit', [
             'record' => $plan
         ]))->assertSuccessful()
-          ->assertSee($plan->name);
+            ->assertSee($plan->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_subscription_plan()
     {
         $plan = SubscriptionPlan::factory()->create();
@@ -75,7 +76,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_required_fields()
     {
         $response = $this->post(

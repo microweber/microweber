@@ -21,18 +21,24 @@ return new class extends Migration
 
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->nullable();
-            $table->unsignedInteger('company_id')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('company_id')->nullable();
 
-            $table->integer('currency_id')->unsigned()->nullable();
+            $table->integer('currency_id')->nullable();
 
             $table->string('name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->integer('active')->nullable()->default(1);
-            $table->timestamps();
+            $table->string('status')->nullable()->default('active');
+
+            $table->string('stripe_id')->nullable();
+            $table->string('pm_type')->nullable();
+            $table->string('pm_last_four', 4)->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+
+             $table->timestamps();
         });
     }
 

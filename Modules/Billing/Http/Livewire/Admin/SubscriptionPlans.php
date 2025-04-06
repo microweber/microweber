@@ -3,10 +3,8 @@
 namespace Modules\Billing\Http\Livewire\Admin;
 
 use Livewire\Component;
-use Modules\Billing\Models\Stripe\Subscription;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
-use function Filament\Support\format_money;
 
 class SubscriptionPlans extends Component
 {
@@ -51,7 +49,7 @@ class SubscriptionPlans extends Component
                     $findSubscriptionPlan->group_id = $findHostingPlanGroup->id;
                 }
 
-                $findSubscriptionPlan->display_price = currency_format(($stripePlan->amount / 100), $stripePlan->currency);
+                $findSubscriptionPlan->price = currency_format(($stripePlan->amount / 100), $stripePlan->currency);
                 if ($stripePlan->interval == 'month') {
                     $findSubscriptionPlan->billing_interval = 'monthly';
                 } else {

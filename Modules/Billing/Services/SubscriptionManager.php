@@ -2,7 +2,7 @@
 
 namespace Modules\Billing\Services;
 
-use Modules\Billing\Models\Stripe\SubscriptionCustomer;
+use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Cart\Models\Cart;
 use Modules\Checkout\Events\BeginCheckoutEvent;

@@ -5,7 +5,7 @@ namespace Modules\Billing\Filament\Widgets;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Modules\Billing\Models\Stripe\Subscription;
+use Modules\Billing\Models\Subscription;
 
 class LatestSubscriptionsWidget extends BaseWidget
 {
@@ -21,7 +21,7 @@ class LatestSubscriptionsWidget extends BaseWidget
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('stripe_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',

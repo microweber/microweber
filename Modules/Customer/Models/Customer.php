@@ -4,6 +4,8 @@ namespace Modules\Customer\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Address\Models\Address;
 use Modules\Company\Models\Company;
@@ -13,15 +15,18 @@ use Modules\Order\Models\Order;
 
 class Customer extends Model
 {
+
     protected $table = 'customers';
 
     use Filterable;
     use CacheableQueryBuilderTrait;
+    use Billable;
+    use Notifiable;
 
     public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users', 'companies'];
 
     protected $attributes = [
-        'active' => 1
+        'status' => 'active',
     ];
 
     public $fillable = [
@@ -30,16 +35,26 @@ class Customer extends Model
         'last_name',
         'phone',
         'email',
-        'active',
+        'status',
         'customer_data',
         'user_id',
         'currency_id',
-        'company_id'
+        'company_id',
+
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
+
     ];
+
+
     protected $casts = [
         'customer_data' => 'array'
     ];
     public $translatable = ['first_name', 'last_name'];
+
+
 
 
     public function modelFilter()
@@ -57,13 +72,19 @@ class Customer extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('active', 1);
+        return $query->where('status', 'active');
     }
 
     public function scopeInactive($query)
     {
-        return $query->where('active', 0);
+        return $query->whereNotIn('status', ['active']);
     }
+
+
+
+
+
+
 
     public function addresses()
     {
@@ -154,9 +175,12 @@ class Customer extends Model
     public function activeOptions()
     {
         return [
-            1 => 'Active',
-            0 => 'Inactive',
-            2 => 'In-Progress'
+            'active' => 'Active',
+            'suspended' => 'Suspended',
+            'pending' => 'Pending',
+            'deleted' => 'Deleted',
+            'inactive' => 'Inactive',
+
         ];
     }
 

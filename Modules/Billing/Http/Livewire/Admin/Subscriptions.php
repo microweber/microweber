@@ -3,7 +3,7 @@
 namespace Modules\Billing\Http\Livewire\Admin;
 
 use Livewire\Component;
-use Modules\Billing\Models\Stripe\Subscription;
+use Modules\Billing\Models\Subscription;
 
 class Subscriptions extends Component
 {

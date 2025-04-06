@@ -2,8 +2,6 @@
 namespace Modules\Billing\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Modules\Billing\Models\Stripe\Subscription;
-use Modules\Billing\Models\SubscriptionPlan;
 
 class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminController {
 

@@ -5,9 +5,9 @@ namespace Modules\Billing\Providers;
 use Illuminate\Support\Facades\Config;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\CashierServiceProvider;
-use Modules\Billing\Models\Stripe\Subscription;
-use Modules\Billing\Models\Stripe\SubscriptionCustomer;
-use Modules\Billing\Models\Stripe\SubscriptionItem;
+use Modules\Billing\Models\Subscription;
+use Modules\Billing\Models\SubscriptionCustomer;
+use Modules\Billing\Models\SubscriptionItem;
 
 class BillingCashierServiceProvider extends CashierServiceProvider
 {

@@ -14,10 +14,22 @@ return new class extends Migration {
 
 
         Schema::table('customers', function (Blueprint $table) {
-            $table->string('stripe_id')->nullable()->index();
-            $table->string('pm_type')->nullable();
-            $table->string('pm_last_four', 4)->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
+
+            if(!Schema::hasColumn('customers', 'stripe_id')) {
+                $table->string('stripe_id')->nullable()->index();
+            }
+            if(!Schema::hasColumn('customers', 'pm_type')) {
+                $table->string('pm_type')->nullable();
+            }
+
+            if(!Schema::hasColumn('customers', 'pm_last_four')) {
+                $table->string('pm_last_four', 4)->nullable();
+            }
+            if(!Schema::hasColumn('customers', 'trial_ends_at')) {
+                $table->timestamp('trial_ends_at')->nullable();
+            }
+
+
         });
     }
 

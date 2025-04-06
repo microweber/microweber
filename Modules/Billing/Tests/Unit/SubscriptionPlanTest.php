@@ -2,13 +2,14 @@
 
 namespace Modules\Billing\Tests\Unit;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
 
 class SubscriptionPlanTest extends BillingTestCase
 {
-    /** @test */
-    public function it_can_create_subscription_plan()
+
+    public function test_it_can_create_subscription_plan()
     {
         $group = SubscriptionPlanGroup::create([
             'name' => 'Test Group',
@@ -19,37 +20,44 @@ class SubscriptionPlanTest extends BillingTestCase
             'subscription_plan_group_id' => $group->id,
             'name' => 'Test Plan',
             'price' => 9.99,
-            'billing_cycle' => 'monthly',
-            'features' => ['feature1', 'feature2']
+            'billing_interval' => 'monthly',
+         ]);
+
+        $plan->features()->create([
+            'key' => 'feature1',
+            'value' => 'Feature 1 description'
+        ]);
+        $plan->features()->create([
+            'key' => 'feature2',
+            'value' => 'Feature 2 description'
         ]);
 
         $this->assertDatabaseHas('subscription_plans', [
             'name' => 'Test Plan',
             'price' => 9.99
         ]);
-        
+
         $this->assertEquals(2, count($plan->features));
     }
 
-    /** @test */
-    public function it_can_calculate_yearly_price()
+    public function test_it_can_calculate_yearly_price()
     {
         $plan = SubscriptionPlan::create([
             'name' => 'Yearly Test',
             'price' => 100,
-            'billing_cycle' => 'yearly'
+            'billing_interval' => 'yearly'
         ]);
 
         $this->assertEquals(100, $plan->yearlyPrice());
     }
 
-    /** @test */
-    public function it_can_convert_monthly_to_yearly()
+
+    public function test_it_can_convert_monthly_to_yearly()
     {
         $plan = SubscriptionPlan::create([
             'name' => 'Monthly Test',
             'price' => 10,
-            'billing_cycle' => 'monthly'
+            'billing_interval' => 'monthly'
         ]);
 
         $this->assertEquals(120, $plan->yearlyPrice());

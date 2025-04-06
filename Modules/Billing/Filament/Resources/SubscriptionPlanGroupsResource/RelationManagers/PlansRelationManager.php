@@ -44,7 +44,7 @@ class PlansRelationManager extends RelationManager
 
                 Forms\Components\Section::make('Цени')
                     ->schema([
-                        Forms\Components\TextInput::make('display_price')
+                        Forms\Components\TextInput::make('price')
                             ->label('Показвана цена')
                             ->maxLength(255),
 
@@ -120,7 +120,7 @@ class PlansRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('display_price')
+                Tables\Columns\TextColumn::make('price')
                     ->label('Цена')
                     ->searchable()
                     ->sortable(),

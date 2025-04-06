@@ -18,8 +18,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('type')->nullable();
             $table->integer('group_id')->nullable();
-            $table->longText('plan_data')->nullable();
-            $table->longText('display_price')->nullable();
+            $table->json('plan_data')->nullable();
+            $table->longText('price')->nullable();
             $table->longText('discount_price')->nullable();
             $table->longText('save_price')->nullable();
             $table->longText('save_price_badge')->nullable();

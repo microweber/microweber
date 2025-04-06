@@ -3,7 +3,6 @@
 use Modules\Billing\Models\SubscriptionPlanGroup;
 
 
-
 if (!function_exists('get_user_active_subscription_plan_by_group_sku')) {
     function get_user_active_subscription_plan_by_group_sku($sku)
     {
@@ -39,7 +38,7 @@ function checkUserIsSubscribedToPlanBySKU($userId, $sku)
 {
     $user = \MicroweberPackages\User\Models\User::where('id', $userId)->first();
     if ($user) {
-        $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrCreate([
+        $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
             'user_id' => $user->id,
         ]);
         $sub = $subscriptionCustomer->subscribed($sku);
@@ -63,7 +62,7 @@ function getUserActiveSubscriptionPlanBySKU($userId, $sku)
             }
         }
 
-        $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrNew([
+        $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrNew([
             'user_id' => $user->id,
         ]);
 
@@ -89,7 +88,7 @@ function getUserSubscriptionPlanBySKU($sku)
 {
     $user = auth()->user();
     if ($user) {
-        $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrNew([
+        $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrNew([
             'user_id' => $user->id,
         ]);
         if ($subscriptionCustomer) {
@@ -151,7 +150,7 @@ function getSubscriptionCustomer()
 {
     $user = auth()->user();
     if ($user) {
-        $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrNew([
+        $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrNew([
             'user_id' => $user->id,
         ]);
 

@@ -11,9 +11,9 @@ Route::get('/checkout/billing-portal', function (Request $request) {
         return redirect()->route('login');
     }
 
-    $findSubscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::where('user_id', $user->id)->first();
+    $findSubscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::where('user_id', $user->id)->first();
     if (!$findSubscriptionCustomer) {
-        $findSubscriptionCustomer = new \Modules\Billing\Models\Stripe\SubscriptionCustomer();
+        $findSubscriptionCustomer = new \Modules\Billing\Models\SubscriptionCustomer();
         $findSubscriptionCustomer->user_id = $user->id;
         $findSubscriptionCustomer->email = $user->email;
         $findSubscriptionCustomer->save();
@@ -36,7 +36,7 @@ Route::get('/checkout/subscription-success', function (Request $request) {
         return redirect()->route('login');
     }
 
-    $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrCreate([
+    $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
         'user_id' => $user->id,
     ]);
 
@@ -126,7 +126,7 @@ Route::get('/checkout/subscription-cancel', function (Request $request) {
         return redirect()->route('login');
     }
 
-    $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrCreate([
+    $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
         'user_id' => $user->id,
     ]);
 
@@ -185,7 +185,7 @@ Route::get('/checkout/purchase-success', function (Request $request) {
         return redirect()->route('login');
     }
 
-    $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrCreate([
+    $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
         'user_id' => $user->id,
     ]);
 
@@ -272,7 +272,7 @@ Route::get('/checkout/purchase-cancel', function (Request $request) {
         return redirect()->route('login');
     }
 
-    $subscriptionCustomer = \Modules\Billing\Models\Stripe\SubscriptionCustomer::firstOrCreate([
+    $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
         'user_id' => $user->id,
     ]);
 

@@ -4,7 +4,6 @@ namespace Modules\Billing\Http\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Modules\Billing\Models\Stripe\Subscription;
 use MicroweberPackages\User\Models\User;
 
 

@@ -17,15 +17,15 @@ class CustomerFilterTest extends TestCase
         $this->assertEquals(0, Customer::count(), 'Database should be empty before test');
 
         $activeCustomer = (new Customer())->create([
-            'active' => 1,
+            'status' => 'active',
             'email' => 'active@example.com'
         ]);
         $inactiveCustomer = (new  Customer())->create([
-            'active' => 0,
+            'status'  => 'inactive',
             'email' => 'inactive@example.com'
         ]);
         $premiumCustomer = (new Customer)->create([
-            'active' => 0,
+            'status'  => 'inactive',
             'email' => 'premium@example.com',
             'customer_data' => ['is_premium' => true]
         ]);
@@ -33,13 +33,14 @@ class CustomerFilterTest extends TestCase
 
 
         // Test active filter
-        $activeCustomers = Customer::where(['active' => 1])->get();
+        $activeCustomers = Customer::active()->get();
+
 
         $this->assertEquals(1, $activeCustomers->count());
         $this->assertEquals('active@example.com', $activeCustomers->first()->email);
 
         // Test inactive filter
-        $inactiveCustomers = Customer::where(['active' => 0])->get();
+        $inactiveCustomers = Customer::inactive()->get();
         $this->assertEquals(2, $inactiveCustomers->count());
         $inactiveEmails = $inactiveCustomers->pluck('email')->toArray();
         $this->assertContains('inactive@example.com', $inactiveEmails);
@@ -49,7 +50,7 @@ class CustomerFilterTest extends TestCase
 
 
         // Test active filter
-        $activeCustomers = Customer::where(['active' => 1])->get();
+        $activeCustomers = Customer::active()->get();
         $this->assertEquals(1, $activeCustomers->count());
         $this->assertEquals('active@example.com', $activeCustomers->first()->email);
 

@@ -4,7 +4,6 @@ namespace Modules\Billing\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
-use Modules\Billing\Models\Stripe\Subscription;
 use Modules\Billing\Models\SubscriptionManual;
 
 class AutoActivateFreeTrial  extends Command

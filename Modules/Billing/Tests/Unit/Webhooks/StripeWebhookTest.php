@@ -2,31 +2,42 @@
 
 namespace Modules\Billing\Tests\Unit\Webhooks;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Modules\Billing\Events\PaymentSucceeded;
-use Modules\Billing\Listeners\ProcessSuccessfulPayment;
 use Modules\Billing\Models\Subscription;
 use Modules\Billing\Tests\Unit\BillingTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class StripeWebhookTest extends BillingTestCase
 {
-    /** @test */
+    #[Test]
     public function it_processes_successful_payment_webhook()
     {
         Queue::fake();
         Event::fake();
 
+        $user = User::factory()->create();
+
+        $customer = $user->customer()->create([
+            'stripe_id' => 'cus_test123it_processes_successful_payment_webhook',
+            'active' => 1,
+            'stripe_plan' => 'plan_test123it_processes_successful_payment_webhook',
+            'trial_ends_at' => now()->addDays(14),
+        ]);
+
         $subscription = Subscription::factory()->create([
-            'stripe_id' => 'sub_test123',
-            'status' => 'active'
+            'customer_id' => $customer->id,
+            'stripe_id' => 'cus_test123it_processes_successful_payment_webhook',
+            'stripe_status' => 'active'
         ]);
 
         $payload = [
             'type' => 'invoice.payment_succeeded',
             'data' => [
                 'object' => [
-                    'subscription' => 'sub_test123',
+                    'subscription' => 'cus_test123it_processes_successful_payment_webhook',
                     'amount_paid' => 2999,
                     'currency' => 'usd'
                 ]
@@ -41,7 +52,7 @@ class StripeWebhookTest extends BillingTestCase
         Event::assertDispatched(PaymentSucceeded::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_rejects_invalid_webhook_signature()
     {
         $response = $this->postJson('/webhooks/stripe', [
@@ -53,12 +64,12 @@ class StripeWebhookTest extends BillingTestCase
         $response->assertStatus(403);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_subscription_cancellation()
     {
         $subscription = Subscription::factory()->create([
             'stripe_id' => 'sub_cancel123',
-            'status' => 'active'
+            'stripe_status' => 'active'
         ]);
 
         $payload = [
@@ -81,10 +92,10 @@ class StripeWebhookTest extends BillingTestCase
     protected function generateStripeSignature(array $payload): string
     {
         // Mock signature generation for testing
-        return 't='.time().',v1='.hash_hmac(
-            'sha256',
-            time().'.'.json_encode($payload),
-            'whsec_testsecret'
-        );
+        return 't=' . time() . ',v1=' . hash_hmac(
+                'sha256',
+                time() . '.' . json_encode($payload),
+                'whsec_testsecret'
+            );
     }
 }
