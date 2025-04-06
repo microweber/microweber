@@ -106,3 +106,4 @@ Modules/*/package-lock.json
 Modules/*/resources/assets/dist/*
 packages/*/mix-manifest.json
 /127.0.0.1
+/.env.testing
