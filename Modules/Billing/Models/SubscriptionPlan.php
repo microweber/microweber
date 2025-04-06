@@ -3,9 +3,18 @@
 namespace Modules\Billing\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Billing\Database\Factories\SubscriptionPlanFactory;
 
 class SubscriptionPlan extends Model
 {
+    use HasFactory;
+
+    public static function newFactory()
+    {
+        return SubscriptionPlanFactory::new();
+    }
+
     public $timestamps = false;
 
     protected $table = 'subscription_plans';
@@ -17,7 +26,7 @@ class SubscriptionPlan extends Model
     protected $fillable = [
         'name',
         'sku',
-        'group_id',
+        'subscription_plan_group_id',
         'remote_provider',
         'remote_provider_price_id',
         'price',
@@ -39,7 +48,7 @@ class SubscriptionPlan extends Model
 
     public function group()
     {
-        return $this->belongsTo(SubscriptionPlanGroup::class, 'group_id');
+        return $this->belongsTo(SubscriptionPlanGroup::class, 'subscription_plan_group_id');
     }
 
     /**

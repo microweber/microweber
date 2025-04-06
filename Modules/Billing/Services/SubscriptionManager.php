@@ -55,8 +55,8 @@ class SubscriptionManager
         }
 
         $swapFromPlan = false;
-        if (isset($plan['group_id']) and $plan['group_id'] != 0) {
-            $allPlansFromGroup = SubscriptionPlan::where('group_id', $plan['group_id'])->get();
+        if (isset($plan['subscription_plan_group_id']) and $plan['subscription_plan_group_id'] != 0) {
+            $allPlansFromGroup = SubscriptionPlan::where('subscription_plan_group_id', $plan['subscription_plan_group_id'])->get();
             if ($allPlansFromGroup) {
                 foreach ($allPlansFromGroup as $planFromGroup) {
                     $isOnPlan = checkUserIsSubscribedToPlanBySKU(user_id(), $planFromGroup['sku']);

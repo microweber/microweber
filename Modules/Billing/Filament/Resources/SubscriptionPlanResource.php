@@ -40,9 +40,9 @@ class SubscriptionPlanResource extends Resource
                             ->columnSpanFull()
                             ->helperText('A unique identifier for this plan')
                             ->placeholder('e.g., PRO-PLAN-MONTHLY'),
-                        Forms\Components\Select::make('group_id')
+                        Forms\Components\Select::make('subscription_plan_group_id')
                             ->relationship('group', 'name')
-                            ->required()
+                         //   ->required()
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
@@ -209,6 +209,8 @@ class SubscriptionPlanResource extends Resource
     {
         return [
             'index' => Pages\ListSubscriptionPlans::route('/'),
+            'create' => Pages\CreateSubscriptionPlan::route('/create'),
+            'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
         ];
     }
 }

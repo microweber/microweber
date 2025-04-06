@@ -89,7 +89,7 @@ class SubscriptionManagerTest extends TestCase
                         'sku' => 'valid-sku',
                         'name' => 'Pro Plan',
                         'remote_provider_price_id' => 'price_123',
-                        'group_id' => 0,
+                        'subscription_plan_group_id' => 0,
                     ];
                 }
                 return null;

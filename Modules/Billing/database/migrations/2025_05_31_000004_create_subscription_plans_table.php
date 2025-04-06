@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('sku')->unique()->nullable();
             $table->longText('description')->nullable();
             $table->string('type')->nullable();
-            $table->integer('group_id')->nullable();
+            $table->integer('subscription_plan_group_id')->nullable();
             $table->json('plan_data')->nullable();
             $table->longText('price')->nullable();
             $table->longText('discount_price')->nullable();

@@ -137,7 +137,7 @@ function getSubscriptionPlans($filter = [])
     }
 
     $query = \Modules\Billing\Models\SubscriptionPlan::query();
-    $query->where('group_id', $planGroup->id);
+    $query->where('subscription_plan_group_id', $planGroup->id);
     $query->orderBy('sort_order', 'asc');
     $plans = $query->get();
     if ($plans->count() > 0) {

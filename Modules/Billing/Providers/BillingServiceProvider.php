@@ -44,10 +44,10 @@ class BillingServiceProvider extends BaseModuleServiceProvider
 //            ]);
             Filament::registerNavigationItems([
                 NavigationItem::make('Billing')
-                    ->url('/admin/saas-billing', shouldOpenInNewTab: true)
+                    ->url('/admin/billing', shouldOpenInNewTab: true)
                     ->icon('heroicon-o-currency-dollar')
 //                    ->group('SaaS')
-//                    ->sort(3),
+                    ->sort(300),
             ]);
         });
     }

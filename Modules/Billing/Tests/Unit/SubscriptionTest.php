@@ -5,14 +5,38 @@ namespace Modules\Billing\Tests\Unit;
 use App\Models\User;
 use Modules\Billing\Models\Subscription;
 use Modules\Billing\Models\SubscriptionPlan;
+use Modules\Customer\Models\Customer;
 use PHPUnit\Framework\Attributes\Test;
 
 class SubscriptionTest extends BillingTestCase
 {
+
+    protected function tearDown(): void
+    {
+        // Delete any test subscriptions
+        Subscription::where('stripe_id', 'like', 'sub_test%')->delete();
+
+        // Delete any test customers
+        Customer::where('stripe_id', 'like', 'cus_test%')->delete();
+
+        // Delete any test subscription plans
+        SubscriptionPlan::where('name', 'like', 'Test%')->delete();
+
+        // Clean up any created users
+        User::whereHas('customer', function($query) {
+            $query->where('stripe_id', 'like', 'cus_test%');
+        })->delete();
+
+        parent::tearDown();
+    }
     #[Test]
     public function it_can_create_user_subscription()
     {
         $user = User::factory()->create();
+
+        Customer::where('stripe_id', 'cus_test123')->delete();
+        Subscription::where('stripe_id', 'sub_test123')->delete();
+        SubscriptionPlan::where('name', 'Test Pro Plan')->delete();
 
         $customer = $user->customer()->create([
             'stripe_id' => 'cus_test123',
@@ -22,7 +46,7 @@ class SubscriptionTest extends BillingTestCase
         ]);
 
         $plan = SubscriptionPlan::create([
-            'name' => 'Pro Plan',
+            'name' => 'Test Pro Plan',
             'price' => 29.99,
             'billing_interval' => 'monthly'
         ]);
@@ -57,7 +81,7 @@ class SubscriptionTest extends BillingTestCase
             'trial_ends_at' => now()->addDays(14),
         ]);
         $plan = SubscriptionPlan::create([
-            'name' => 'Basic Plan',
+            'name' => 'Test Basic Plan',
             'price' => 9.99,
             'billing_interval' => 'monthly'
         ]);
@@ -87,7 +111,7 @@ class SubscriptionTest extends BillingTestCase
             'trial_ends_at' => now()->addDays(14),
         ]);
         $plan = SubscriptionPlan::create([
-            'name' => 'Trial Plan',
+            'name' => 'Test Trial Plan',
             'price' => 0,
             'billing_interval' => 'monthly'
         ]);

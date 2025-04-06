@@ -13,14 +13,14 @@ use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
 
 class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {
-    public string $filamentId = 'admin-saas-billing';
-    public string $filamentPath = 'admin/saas-billing';
+    public string $filamentId = 'admin-billing';
+    public string $filamentPath = 'admin/billing';
 
     public function panel(Panel $panel): Panel
     {
         $panel
-            ->id('admin-saas-billing')
-            ->path('admin/saas-billing')
+            ->id('admin-billing')
+            ->path('admin/billing')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
