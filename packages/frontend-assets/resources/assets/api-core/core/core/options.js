@@ -446,7 +446,14 @@ mw.options = {
         var jsonAttr = element.getAttribute('data-mw-temp-option-save');
 
         if (jsonAttr) {
-            existingOption = JSON.parse(jsonAttr);
+
+            try {
+                existingOption = JSON.parse(jsonAttr);
+            } catch (e){
+                console.error('Error parsing JSON in tempOption:', jsonAttr);
+                return;
+            }
+
         }
         // find by group  and key
         // Specify the group and key to search for
