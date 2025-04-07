@@ -7,14 +7,18 @@ use Modules\Product\Models\ProductPrice;
 trait CustomFieldPriceTrait
 {
 
-    private $_addPriceField = null;
-    private $_removePriceField = null;
-    private $_addSpecialPriceField = null;
+    public $_addPriceField = null;
+    public $_removePriceField = null;
+    public $_addSpecialPriceField = null;
+    public $_removeSpecialPriceField = null;
 
     public function initializeCustomFieldPriceTrait()
     {
         $this->fillable[] = 'price'; // related with boot custom fields trait
         $this->fillable[] = 'special_price'; // related with boot custom fields trait
+     //  $this->appends[] = 'price'; // related with boot custom fields trait
+    //   $this->appends[] = 'special_price'; // related with boot custom fields trait
+
     }
 
     public static function bootCustomFieldPriceTrait()
@@ -34,9 +38,14 @@ trait CustomFieldPriceTrait
             if ($model->attributes and array_key_exists("special_price", $model->attributes)) {
                 if (isset($model->attributes['special_price'])) {
                     $model->_addSpecialPriceField = $model->attributes['special_price'];
+                } else {
+                    $model->_removeSpecialPriceField = true;
                 }
                 unset($model->attributes['special_price']);
             }
+
+
+
         });
 
         static::saved(function ($model) {

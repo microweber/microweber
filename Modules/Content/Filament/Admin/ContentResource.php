@@ -109,7 +109,7 @@ class ContentResource extends Resource
                                     return $record->getTagNamesAttribute();
                                 }
                                 return [];
-                            }) ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
+                            })->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
 
                                 if ($record) {
                                     $categoryIds = $record->getTagNamesAttribute();
@@ -230,7 +230,27 @@ class ContentResource extends Resource
                                 Forms\Components\TextInput::make('price')
                                     ->numeric()
                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                    ->columnSpan(['lg' => 2,'sm' => 2])
                                     ->required(),
+
+
+                                Forms\Components\TextInput::make('special_price')
+                                    ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
+
+                                        if ($record) {
+                                            $getSpecialPrice = $record->getSpecialPriceAttribute();
+
+                                            $set('special_price', $getSpecialPrice);
+                                        } else {
+                                            $set('special_price','');
+                                        }
+                                    })
+                                    ->numeric()
+                                    ->columnSpan(['lg' => 2,'sm' => 2])
+                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                    ->visible(function_exists('offers_get_price'))
+                                ,
+
 
                             ])->columnSpanFull()->visible(function (Forms\Get $get) {
                                 return $get('content_type') == 'product';

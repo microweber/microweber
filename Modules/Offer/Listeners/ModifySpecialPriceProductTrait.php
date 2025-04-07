@@ -4,26 +4,33 @@ namespace Modules\Offer\Listeners;
 
 use Modules\Offer\Models\Offer;
 
-trait ModifySpecialPriceProductTrait {
+trait ModifySpecialPriceProductTrait
+{
 
     public function handle($event)
     {
         $data = $event->getData();
         $product = $event->getModel();
 
-        if (!isset($product->priceModel->id)) {
+        if (!isset($product->priceModel)) {
             return;
         }
-        if (isset($data['content_data']['special_price'])) {
-
-            $this->saveSpecialPriceToModel($product, $data);
+        if (isset($product->_removeSpecialPriceField)) {
+            $query = Offer::where('product_id', '=', $product->id)->delete();
         }
+        if (!isset($product->_addSpecialPriceField)) {
+            return;
+        }
+
+
+        $this->saveSpecialPriceToModel($product, $product->_addSpecialPriceField);
 
 
     }
 
-    public function saveSpecialPriceToModel($productModel, $data){
-        if (isset($data['content_data']['special_price'])) {
+    public function saveSpecialPriceToModel($productModel, $offerPrice)
+    {
+        if ($productModel->_addSpecialPriceField) {
 
             $productId = $productModel->id;
             $priceId = $productModel->priceModel->id;
@@ -39,18 +46,13 @@ trait ModifySpecialPriceProductTrait {
                 $saveOffer['id'] = $findOffer->id;
             }
 
-            if(empty($data['content_data']['has_special_price'])) {
-                //removed special price
-                $saveOffer['is_active'] = 0;
-            } else {
-                // set special price
-                $saveOffer['is_active'] = 1;
-            }
-
-            $saveOffer['offer_price'] = $data['content_data']['special_price'];
-            $saveOffer['product_id_with_price_id'] = $productId . '|'.$priceId;
+            $saveOffer['offer_price'] = $offerPrice;
+            $saveOffer['product_id_with_price_id'] = $productId . '|' . $priceId;
 
             Offer::add($saveOffer);
+        } else {
+            $query = Offer::where('product_id', '=', $productModel->id)->delete();
+
         }
     }
 }

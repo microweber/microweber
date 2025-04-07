@@ -37,7 +37,7 @@ class OfferServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-
+        $this->app->register(OfferEventServiceProvider::class);
         /**
          * @property \Modules\Offer\Repositories\OfferRepository $offer_repository
          */
@@ -46,7 +46,7 @@ class OfferServiceProvider extends BaseModuleServiceProvider
         });
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(OfferModuleSettings::class);
-         FilamentRegistry::registerResource(OfferResource::class);
+        FilamentRegistry::registerResource(OfferResource::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\Offer\Microweber\OfferModule::class);
