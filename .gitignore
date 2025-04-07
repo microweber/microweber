@@ -27,8 +27,6 @@ phpinfo.php
 .settings
 .env
 .env.testing
-.env.example
-.env.dusk
 dwsync.xml
 /userfiles/backup
 /userfiles/*.log
@@ -46,10 +44,8 @@ dwsync.xml
 /userfiles/mw_content.json
 /userfiles/install_item_log.txt
 node_modules/
-/userfiles/mw_content.json
 /.settings
 /.project
-/userfiles/*.log
 /userfiles/*.json
 /userfiles/fonts/*
 /phpunit.phar
@@ -59,8 +55,6 @@ node_modules/
 /bootstrap/cache/*
 /webpack/dist/*
 /.rnd
-config/app.php
-config/database.php
 bootstrap/cache/*
 userfiles/modules/standalone-updater/
 /standalone-update
@@ -89,7 +83,6 @@ userfiles/modules/fullpage_cache/admin.php
 .vitepress/cache
 docs/.vitepress/dist
 docs/.vitepress/cache
-
 .aider*
 /packages/frontend-assets/resources/dist/
 /packages/frontend-assets-libs/resources/dist/
@@ -100,7 +93,6 @@ Templates/*/
 /public/vendor/
 /public/css/
 /public/templates/
-/packages/frontend-assets/resources/dist/
 Modules/*/mix-manifest.json
 Modules/*/package-lock.json
 Modules/*/resources/assets/dist/*
