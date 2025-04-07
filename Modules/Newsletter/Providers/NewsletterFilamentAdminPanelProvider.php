@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Providers;
 
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
@@ -37,13 +38,13 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
             ->brandLogoHeight('34px')
-            ->brandLogo(fn () => mw()->ui->admin_logo())
+            ->brandLogo(fn() => mw()->ui->admin_logo())
             ->unsavedChangesAlerts()
             ->sidebarWidth('15rem')
             ->databaseNotifications(true)
             ->colors([
                 'primary' => Color::Blue,
-            ]) ->pages([
+            ])->pages([
                 Homepage::class,
                 CreateCampaign::class,
                 EditCampaign::class,
@@ -62,6 +63,14 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 CampaignsChart::class,
                 SubscribersChart::class,
             ])
+            ->navigationItems([
+                NavigationItem::make('Back to admin')
+                    ->url(admin_url())
+                    ->group('Other')
+                    ->sort(20000)
+                    ->icon('mw-login'),
+
+            ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
             ->authMiddleware([
@@ -72,12 +81,13 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 
         $panel->renderHook(
             name: PanelsRenderHook::SIDEBAR_NAV_START,
-            hook: fn () => view('microweber-module-newsletter::livewire.filament.admin.sidebar.create-new-campaign-btn')
+            hook: fn() => view('microweber-module-newsletter::livewire.filament.admin.sidebar.create-new-campaign-btn')
         );
 
         $panel->plugin(new MicroweberFilamentTheme());
 
-      //  MicroweberFilamentTheme::configure();
+
+        //  MicroweberFilamentTheme::configure();
 
 
         return $panel;

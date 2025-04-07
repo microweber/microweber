@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Providers;
 
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
@@ -45,6 +46,14 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 in: __DIR__ . '/../Filament/Widgets',
                 for: 'Modules\\Billing\\Filament\\Widgets'
             )
+            ->navigationItems([
+                NavigationItem::make('Back to admin')
+                    ->url(admin_url())
+                    ->group('Other')
+                    ->sort(20000)
+                    ->icon('mw-login'),
+
+            ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
             ->authMiddleware([
