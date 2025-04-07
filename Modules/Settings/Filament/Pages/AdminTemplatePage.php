@@ -5,11 +5,13 @@ namespace Modules\Settings\Filament\Pages;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
+use MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController;
 
 class AdminTemplatePage extends Page
 {
@@ -25,7 +27,8 @@ class AdminTemplatePage extends Page
     protected static string $description = 'Configure your template settings';
 
     public $selectedTemplate = '';
-    public $layout_file = 'index.php';
+    public $importType = '';
+    public $layout_file = 'index.blade.php';
     public $data=[];
 
     public function getDescription(): string
@@ -78,16 +81,60 @@ class AdminTemplatePage extends Page
 
                                     return $selectedTemplate;
                                 })
+                                ->form([
+                                    Select::make('importType')
+                                        ->label('Install template content')
+                                        ->live()
+                                        ->options([
+                                            'default' => 'Apply template and use current content',
+                                            'full' => 'Install content and media files',
+                                            'only_media' => 'Install only media files',
+                                            'delete' => 'Replace all content and media files',
+                                        ])
+                                        ->default('default')
+                                        ->required(),
+                                ])
                                 ->requiresConfirmation()
-                                ->action(function (Get $get) {
-                                    $selectedTemplate = $get('selectedTemplate');
+                                ->modalDescription('Are you sure want to change the template of your website?')
 
+                                ->modalIcon('mw-template')
+                                ->modalHeading('Apply template')
+                                ->action(function (array $data, Get $get) {
+                                    $selectedTemplate =  $data['selectedTemplate'] ?? $get('selectedTemplate');
+                                    $importType = $data['importType'] ?? $get('importType');
+                                    $request = request();
 
-                                    $saveOption = [];
-                                    $saveOption['option_value'] = $selectedTemplate;
-                                    $saveOption['option_key'] = 'current_template';
-                                    $saveOption['option_group'] = 'template';
-                                    save_option($saveOption);
+                                    $request->merge([
+                                        'template' => $selectedTemplate,
+                                        'import_type' => $importType,
+                                    ]);
+
+                                    $controller = new TemplateApiController();
+
+                                    $controller = $controller->change($request);
+
+                                    if(isset($controller['error'])) {
+                                        Notification::make('template_error')
+                                            ->title('Error: ' . $controller['error'])
+                                            ->danger()
+                                            ->send();
+                                        return;
+                                    }
+
+                                    if(isset($controller['done'])) {
+
+                                        Notification::make('template_done')
+                                            ->title('Template is changed')
+                                            ->success()
+                                            ->send();
+                                    }
+
+//
+//                                    $saveOption = [];
+//                                    $saveOption['option_value'] = $selectedTemplate;
+//                                    $saveOption['option_key'] = 'current_template';
+//                                    $saveOption['option_group'] = 'template';
+//                                    save_option($saveOption);
 
                                     $notificationId = 'settings_updated' . crc32(date('i') . $selectedTemplate);
 

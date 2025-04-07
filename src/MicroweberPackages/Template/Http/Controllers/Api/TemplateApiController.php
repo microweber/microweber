@@ -13,11 +13,10 @@ class TemplateApiController
     /**
      * Change website template
      * @param Request $request
-     * @return string[]
-     */
+      */
     public function change(Request $request)
     {
-        $request = request();
+
         $template = $request->get('template', false);
         $importType = $request->get('import_type', 'default');
 
@@ -41,7 +40,7 @@ class TemplateApiController
             $installTemplate = new TemplateInstaller();
             $installTemplate->setSessionId($sessionId);
             $installTemplate->setFile($filePath);
-            $installTemplate->setBatchImporting(false);
+            $installTemplate->setBatchRestoring(false);
 
             // Delete old content and import fresh content
             if ($importType == 'delete') {
@@ -70,7 +69,7 @@ class TemplateApiController
         }
         clearcache();
 
-        return (new JsonResource($importLog))->response();
+        return $importLog;
     }
 
     /**
@@ -176,7 +175,7 @@ class TemplateApiController
      */
     protected function _getTemplatesPath() {
 
-        $templatesPath = userfiles_path() . 'templates';
+        $templatesPath = base_path() . 'Templates';
         $templatesPath = normalize_path($templatesPath);
 
         return $templatesPath;

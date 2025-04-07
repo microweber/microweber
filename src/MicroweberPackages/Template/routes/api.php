@@ -14,7 +14,7 @@ Route::name('api.template.')
             return view('template::template-settings-sidebar-render-component');
         });
 
-
+            // api/template/change
             Route::get('change', MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController::class.'@change')->name('change');
 
 
