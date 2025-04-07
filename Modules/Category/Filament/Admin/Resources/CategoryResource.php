@@ -15,15 +15,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
+use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableResource;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 
 class CategoryResource extends Resource
 {
-    use Translatable;
-    
+    use TranslatableResource;
+
     protected static ?string $model = Category::class;
-    
+
     protected static ?string $recordTitleAttribute = 'title';
 
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -196,35 +197,35 @@ class CategoryResource extends Resource
             'edit' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory::route('/{record}/edit'),
         ];
     }
-    
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'description', 'url', 'category_meta_title', 'category_meta_description'];
     }
-    
+
     public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->title;
     }
-    
+
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         $details = [];
-        
+
         if ($record->parent_id) {
             $parentCategory = Category::find($record->parent_id);
             if ($parentCategory) {
                 $details['Parent Category'] = $parentCategory->title;
             }
         }
-        
+
         if ($record->description) {
             $details['Description'] = Str::limit($record->description, 50);
         }
-        
+
         return $details;
     }
-    
+
     public static function getGlobalSearchResultActions(Model $record): array
     {
         return [

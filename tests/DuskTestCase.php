@@ -24,7 +24,7 @@ abstract class DuskTestCase extends BaseTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
-    public $template_name = 'big';
+    public $template_name = 'Bootstrap';
 
     use CreatesApplication;
 
@@ -36,18 +36,20 @@ abstract class DuskTestCase extends BaseTestCase
             define('MW_UNIT_TEST', true);
         }
 
-        $_ENV['APP_ENV'] = 'testing';
-        putenv('APP_ENV=testing');
+      //  $_ENV['APP_ENV'] = 'testing';
+      //  putenv('APP_ENV=testing');
         if (!defined('MW_SITE_URL')) {
             define('MW_SITE_URL', $this->siteUrl);
         }
         parent::setUp();
 
         if (!static::runningInSail()) {
-            static::startChromeDriver();
+            static::startChromeDriver([
+                '--port=9515'
+            ]);
         }
 
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+ //       \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
     }
 
@@ -115,7 +117,7 @@ abstract class DuskTestCase extends BaseTestCase
               //  $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
-            ), 90000, 90000
+            ), 9000, 9000
         );
     }
 

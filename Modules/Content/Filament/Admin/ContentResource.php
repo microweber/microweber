@@ -23,6 +23,7 @@ use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableResource;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
@@ -30,7 +31,7 @@ use Modules\Post\Models\Post;
 
 class ContentResource extends Resource
 {
-    use Translatable;
+    use TranslatableResource;
 
     protected static ?string $recordTitleAttribute = 'title';
 
