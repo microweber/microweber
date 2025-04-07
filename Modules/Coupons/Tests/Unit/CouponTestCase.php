@@ -10,14 +10,5 @@ class CouponTestCase extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->app->register(CouponsServiceProvider::class);
-    }
 
-    protected function getPackageProviders($app)
-    {
-        return [CouponsServiceProvider::class];
-    }
 }
