@@ -64,10 +64,21 @@
                 </span>
                 </button>
 
+                <style>
+                    .admin-thumbs-holder-images-wrap:not(:has(.background-image-holder)) .admin-thumbs-holder-bulk-actions {
+                     display: none;
+
+                     }
+
+
+                </style>
+
+
+
                 <hr class="h-px mb-8 mt-4 bg-gray-200 border-0 dark:bg-gray-700 w-full">
 
 
-                <div class="w-full mb-3">
+                <div class="admin-thumbs-holder-images-wrap w-full mb-3" >
 
 
                         <div
