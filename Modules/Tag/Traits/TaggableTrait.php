@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Collection;
  * /
  *
  */
-
 trait TaggableTrait
 {
     use _Taggable;
@@ -39,8 +38,10 @@ trait TaggableTrait
 
     public function initializeTaggableTrait()
     {
-      //  $this->appends[] = 'tags';
+        //     $this->appends[] = 'tags';
         $this->fillable[] = 'tag_names';
+        $this->fillable[] = 'tags';
+        $this->casts['tags'] = 'array';
     }
 
     /**
@@ -61,30 +62,74 @@ trait TaggableTrait
 
     public static function bootTaggableTrait()
     {
-        static::deleting(function($model) {
+        static::deleting(function ($model) {
             $model->untag();
         });
 
         static::saving(function ($model) {
             // append tags to content
-            if (isset($model->tag_names)) {
+
+
+            if (isset($model->attributes['tags'])) {
+                $tags = $model->attributes['tags'];
+
+
+                //parse_str($model->attributes['tags'],$tags);
+                if (is_string($tags)) {
+                    $tags = json_decode($tags, true);
+                }
+
+                if (empty($tags)) {
+                    //delete
+                    $model->untag();
+                } else {
+
+                    if (is_string($tags)) {
+                        $tags = explode(',', $tags);
+                    }
+
+                    $model->_toSaveTags = true;
+                    $model->_addTagsToContent = $tags;
+                }
+
+            } else if (isset($model->tag_names)) {
                 $model->_toSaveTags = true;
                 $model->_addTagsToContent = $model->tag_names;
                 unset($model->tag_names);
             }
+
+            if (isset($model->tags)) {
+                unset($model->tags);
+            }
+
+
         });
 
         static::saved(function ($model) {
             if ($model->_toSaveTags) {
+
                 if (!empty($model->_addTagsToContent)) {
-                    foreach ($model->_addTagsToContent as $tag) {
-                        $model->tag($tag); // attach the tag
-                    }
+
+                    $model->retag($model->_addTagsToContent);
+//                    foreach ($model->_addTagsToContent as $tag) {
+//
+//                        $model->tag($tag); // attach the tag
+//                    }
                 }
             }
         });
 
     }
+
+    public function getTagNamesAttribute()
+    {
+        return $this->tagged->map(function (Tagged $item) {
+            if (isset($item->tag_name)) {
+                return $item->tag_name;
+            }
+        })->toArray();
+    }
+
 
     /**
      * Return collection of tags related to the tagged model
@@ -95,10 +140,12 @@ trait TaggableTrait
      */
     public function getTagsAttribute()
     {
-        return $this->tagged->map(function(Tagged $item){
+
+        return $this->tagged->map(function (Tagged $item) {
             if (isset($item->tag_slug)) {
                 return $item;
             }
         });
     }
+
 }

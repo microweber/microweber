@@ -31,7 +31,7 @@ use Modules\Post\Models\Post;
 class ContentResource extends Resource
 {
     use Translatable;
-    
+
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = \Modules\Content\Models\Content::class;
@@ -102,7 +102,25 @@ class ContentResource extends Resource
                         Forms\Components\Hidden::make('layout_file')->visible(function (Forms\Get $get) {
                             return $get('content_type') == 'page';
                         }),
+                        Forms\Components\Hidden::make('tags')
+                            ->default(function (?Model $record) {
+                                if ($record) {
 
+                                    return $record->getTagNamesAttribute();
+                                }
+                                return [];
+                            }) ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
+
+                                if ($record) {
+                                    $categoryIds = $record->getTagNamesAttribute();
+                                    if (!is_array($categoryIds)) {
+                                        $categoryIds = explode(',', $categoryIds);
+                                    }
+                                    $set('tags', $categoryIds);
+                                } else {
+                                    $set('tags', []);
+                                }
+                            }),
                         Forms\Components\Hidden::make('categoryIds')
                             ->default(function (?Model $record) {
                                 if ($record) {
@@ -387,6 +405,7 @@ class ContentResource extends Resource
                             ->schema([
                                 Forms\Components\TagsInput::make('tags')
                                     ->label(false)
+                                    ->reorderable()
                                     ->helperText('Separate using commas or Enter key.')
                                     ->placeholder('Add a tag'),
                             ]),
@@ -814,17 +833,17 @@ class ContentResource extends Resource
             'edit' => \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent::route('/{record}/edit'),
         ];
     }
-    
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'description', 'content_body', 'url'];
     }
-    
+
     public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->title;
     }
-    
+
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
@@ -832,7 +851,7 @@ class ContentResource extends Resource
             'Status' => $record->is_active ? 'Published' : 'Unpublished',
         ];
     }
-    
+
     public static function getGlobalSearchResultActions(Model $record): array
     {
         return [
