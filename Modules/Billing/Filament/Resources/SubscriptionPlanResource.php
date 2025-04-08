@@ -11,8 +11,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
+use Filament\Actions\Action;
+use Modules\Billing\Services\StripeService;
 
 class SubscriptionPlanResource extends Resource
 {
@@ -44,7 +45,7 @@ class SubscriptionPlanResource extends Resource
                             ->placeholder('e.g., PRO-PLAN-MONTHLY'),
                         Forms\Components\Select::make('subscription_plan_group_id')
                             ->relationship('group', 'name')
-                         //   ->required()
+                            //   ->required()
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
@@ -74,7 +75,7 @@ class SubscriptionPlanResource extends Resource
                             ->columnSpanFull()
                             ->helperText('Optional discounted price')
                             ->minValue(0)
-                            ->visible(fn (Forms\Get $get) => $get('price') > 0),
+                            ->visible(fn(Forms\Get $get) => $get('price') > 0),
                         Forms\Components\TextInput::make('save_price')
                             ->numeric()
                             ->prefix('$')
@@ -82,11 +83,11 @@ class SubscriptionPlanResource extends Resource
                             ->helperText('Amount customers save (calculated automatically)')
                             ->disabled()
                             ->dehydrated(false)
-                            ->visible(fn (Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\TextInput::make('save_price_badge')
                             ->columnSpanFull()
                             ->helperText('Text to display for savings (e.g., "Save 20%")')
-                            ->visible(fn (Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
+                            ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
                                 'monthly' => 'Monthly',
@@ -101,7 +102,7 @@ class SubscriptionPlanResource extends Resource
                             ->numeric()
                             ->columnSpanFull()
                             ->helperText('ID of the annual version of this plan (if applicable)')
-                            ->visible(fn (Forms\Get $get) => in_array($get('billing_interval'), ['monthly', 'yearly'])),
+                            ->visible(fn(Forms\Get $get) => in_array($get('billing_interval'), ['monthly', 'yearly'])),
                     ])->columns(1),
 
                 Forms\Components\Section::make('Integration')
@@ -118,7 +119,7 @@ class SubscriptionPlanResource extends Resource
                         Forms\Components\TextInput::make('remote_provider_price_id')
                             ->columnSpanFull()
                             ->helperText('The price ID from your payment provider')
-                            ->visible(fn (Forms\Get $get) => $get('remote_provider') !== null),
+                            ->visible(fn(Forms\Get $get) => $get('remote_provider') !== null),
                     ])->columns(1),
             ]);
     }
@@ -130,7 +131,7 @@ class SubscriptionPlanResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (SubscriptionPlan $record): string => $record->description ?? '')
+                    ->description(fn(SubscriptionPlan $record): string => $record->description ?? '')
                     ->wrap(),
                 Tables\Columns\TextColumn::make('sku')
                     ->searchable()
@@ -146,12 +147,11 @@ class SubscriptionPlanResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money('usd')
                     ->sortable()
-                    ->description(fn (SubscriptionPlan $record): string =>
-                        $record->discount_price ? "Regular: $" . number_format($record->price, 2) : ''
+                    ->description(fn(SubscriptionPlan $record): string => $record->discount_price ? "Regular: $" . number_format($record->price, 2) : ''
                     ),
                 Tables\Columns\TextColumn::make('billing_interval')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'monthly' => 'gray',
                         'yearly' => 'success',
                         'annually' => 'success',
@@ -161,7 +161,7 @@ class SubscriptionPlanResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('remote_provider')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'stripe' => 'indigo',
                         'paypal' => 'blue',
                         'paddle' => 'orange',
@@ -192,18 +192,31 @@ class SubscriptionPlanResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('Sync from Stripe')
+                    ->label('Sync from Stripe')
+                    ->color('primary')
+                    ->action(function () {
+                        $service = new StripeService();
+                        $count = $service->syncProducts();
+
+                        Notification::make()
+                            ->success()
+                            ->title("Synced {$count} products from Stripe.")
+                            ->send();
+                    }),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->poll('10s');
+            ]);
     }
 
     public static function getRelations(): array
     {
         return [
-
+            //
         ];
     }
 
@@ -215,4 +228,6 @@ class SubscriptionPlanResource extends Resource
             'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
         ];
     }
+
+
 }
