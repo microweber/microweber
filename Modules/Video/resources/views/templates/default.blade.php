@@ -10,6 +10,7 @@ description: Default
         margin: 0 auto;
         padding: 0;
         height: auto!important;
+        position: relative;
 
     }
 
