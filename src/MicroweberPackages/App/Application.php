@@ -33,7 +33,7 @@ use Modules\Attributes\Repositories\AttributesManager;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;
 use Modules\Checkout\Repositories\CheckoutManager;
-use Modules\Content\Repositories\ContentManager;
+use Modules\Content\Services\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\ContentData\Repositories\DataFieldsManager;
 use Modules\Country\Repositories\CountryManager;

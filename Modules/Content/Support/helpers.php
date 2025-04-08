@@ -149,6 +149,7 @@ if (!function_exists('get_content_by_id')) {
 if (!function_exists('content_link')) {
     function content_link($id = false)
     {
+
         return app()->content_manager->link($id);
     }
 }

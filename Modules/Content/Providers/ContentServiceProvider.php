@@ -62,7 +62,7 @@ class ContentServiceProvider extends BaseModuleServiceProvider
 
 
         /**
-         * @property \Modules\Content\Repositories\ContentManager    $content_manager
+         * @property \Modules\Content\Services\ContentManager    $content_manager
          */
         $this->app->singleton('content_manager', function ($app) {
             return new ContentManager();

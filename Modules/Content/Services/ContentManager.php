@@ -955,8 +955,7 @@ class ContentManager
         if (!$link) {
             return;
         }
-
-        $site_url = $this->app->url_manager->site();
+         $site_url = $this->app->url_manager->site();
 
         if (isset($link['is_home']) and intval($link['is_home']) == 1) {
             return $site_url;

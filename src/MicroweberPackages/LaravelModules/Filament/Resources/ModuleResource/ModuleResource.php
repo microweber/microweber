@@ -110,33 +110,33 @@ class ModuleResource extends Resource
             ]);
     }
 
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        /** @var SystemModulesSushi $record */
-
-        return [
-            'Module' => $record->name,
-        ];
-    }
-
-    public static function getGlobalSearchResultActions(Model $record): array
-    {
-        return [
-            Action::make('view')
-                ->url(static::getUrl('view', ['record' => $record])),
-        ];
-    }
-
-    /** @return Builder<SystemModulesSushi> */
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery();
-    }
+//    public static function getGloballySearchableAttributes(): array
+//    {
+//        return ['name'];
+//    }
+//
+//    public static function getGlobalSearchResultDetails(Model $record): array
+//    {
+//        /** @var SystemModulesSushi $record */
+//
+//        return [
+//            'Module' => $record->name,
+//        ];
+//    }
+//
+//    public static function getGlobalSearchResultActions(Model $record): array
+//    {
+//        return [
+//            Action::make('view')
+//                ->url(static::getUrl('view', ['record' => $record])),
+//        ];
+//    }
+//
+//    /** @return Builder<SystemModulesSushi> */
+//    public static function getGlobalSearchEloquentQuery(): Builder
+//    {
+//        return parent::getGlobalSearchEloquentQuery();
+//    }
 
     public static function getRelations(): array
     {

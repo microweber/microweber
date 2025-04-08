@@ -189,6 +189,7 @@ class Content extends Model
 
     public function link()
     {
+
         return content_link($this->id);
     }
 
@@ -225,15 +226,6 @@ class Content extends Model
         return $shortDescription;
     }
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ProductScope());
-    }
 
 
 

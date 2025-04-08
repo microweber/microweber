@@ -104,6 +104,18 @@ class Product extends Content
         $this->attributes['subtype'] = 'product';
     }
 
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new ProductScope());
+    }
+
+
     public function modelFilter()
     {
         return $this->provideFilter(ProductFilter::class);

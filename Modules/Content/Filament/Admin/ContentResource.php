@@ -826,6 +826,9 @@ class ContentResource extends Resource
 
                     Tables\Actions\Action::make('live_edit')
                         ->url(function (Content $record) {
+
+
+
                             return $record->link() . '?editmode=y';
                         })
                         ->icon('heroicon-o-eye'),

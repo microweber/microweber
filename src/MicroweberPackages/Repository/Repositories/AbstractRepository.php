@@ -1038,6 +1038,8 @@ abstract class AbstractRepository implements Repository
             }
 
             $this->newQuery();
+           // $item = $this->getModel()->newInstance()->newQueryWithoutScopes()
+            //$item = $this->getModel()->newInstance()->newQueryWithoutScopes()
             $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
 
             if ($params) {
@@ -1421,9 +1423,9 @@ abstract class AbstractRepository implements Repository
             return false;
         }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__.$id, func_get_args(), function () use ($id) {
             $table = $this->getModel()->getTable();
-            $item = $this->getModel()->query()->where('id', $id)->first();
+            $item = $this->getModel()->newInstance()->newQueryWithoutScopes()->where('id', $id)->first();
 
             if (!$item) {
                 return false;
