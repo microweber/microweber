@@ -15,16 +15,16 @@ class PlansRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $title = 'Планове';
+    protected static ?string $title = 'Plans';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Основна информация')
+                Forms\Components\Section::make('Basic Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Име')
+                            ->label('Name')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('sku')
@@ -33,69 +33,69 @@ class PlansRelationManager extends RelationManager
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('type')
-                            ->label('Тип')
+                            ->label('Type')
                             ->maxLength(255),
 
                         Forms\Components\Textarea::make('description')
-                            ->label('Описание')
+                            ->label('Description')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Цени')
+                Forms\Components\Section::make('Prices')
                     ->schema([
                         Forms\Components\TextInput::make('price')
-                            ->label('Показвана цена')
+                            ->label('Displayed Price')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('discount_price')
-                            ->label('Отстъпка')
+                            ->label('Discount')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('save_price')
-                            ->label('Спестена сума')
+                            ->label('Saved Amount')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('save_price_badge')
-                            ->label('Бейдж за спестена сума')
+                            ->label('Saved Amount Badge')
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Настройки на абонамента')
+                Forms\Components\Section::make('Subscription Settings')
                     ->schema([
                         Forms\Components\TextInput::make('billing_interval')
-                            ->label('Интервал на плащане')
+                            ->label('Billing Interval')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('trial_days')
-                            ->label('Пробен период (дни)')
+                            ->label('Trial Period (days)')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('default_interval')
-                            ->label('Интервал по подразбиране')
+                            ->label('Default Interval')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('auto_apply_coupon_code')
-                            ->label('Автоматичен купон')
+                            ->label('Auto Apply Coupon')
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Външни настройки')
+                Forms\Components\Section::make('External Settings')
                     ->schema([
                         Forms\Components\TextInput::make('remote_provider')
-                            ->label('Външен доставчик')
+                            ->label('External Provider')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('remote_provider_price_id')
-                            ->label('ID на цена от доставчик')
+                            ->label('Provider Price ID')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('alternative_annual_plan_id')
-                            ->label('Алтернативен годишен план')
+                            ->label('Alternative Annual Plan')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('position')
-                            ->label('Подредба')
+                            ->label('Order')
                             ->numeric(),
                     ])->columns(2),
             ]);
@@ -106,7 +106,7 @@ class PlansRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Име')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
 
@@ -116,52 +116,52 @@ class PlansRelationManager extends RelationManager
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('type')
-                    ->label('Тип')
+                    ->label('Type')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Цена')
+                    ->label('Price')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('billing_interval')
-                    ->label('Интервал')
+                    ->label('Interval')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('trial_days')
-                    ->label('Пробен период')
+                    ->label('Trial Period')
                     ->numeric()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('position')
-                    ->label('Подредба')
+                    ->label('Order')
                     ->numeric()
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
-                    ->label('Тип')
+                    ->label('Type')
                     ->options([
-                        'monthly' => 'Месечен',
-                        'yearly' => 'Годишен',
+                        'monthly' => 'Monthly',
+                        'yearly' => 'Yearly',
                     ]),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Добави план'),
+                    ->label('Add Plan'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->label('Редактирай'),
+                    ->label('Edit'),
                 Tables\Actions\DeleteAction::make()
-                    ->label('Изтрий'),
+                    ->label('Delete'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label('Изтрий избраните'),
+                        ->label('Delete Selected'),
                 ]),
             ]);
     }

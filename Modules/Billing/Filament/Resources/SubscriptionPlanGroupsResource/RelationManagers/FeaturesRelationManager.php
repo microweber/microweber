@@ -15,26 +15,26 @@ class FeaturesRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'key';
 
-    protected static ?string $title = 'Характеристики';
+    protected static ?string $title = 'Features';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Основна информация')
+                Forms\Components\Section::make('Basic Information')
                     ->schema([
                         Forms\Components\TextInput::make('key')
-                            ->label('Ключ')
+                            ->label('Key')
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('value')
-                            ->label('Стойност')
+                            ->label('Value')
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('position')
-                            ->label('Позиция')
+                            ->label('Position')
                             ->numeric(),
                     ])->columns(2),
             ]);
@@ -45,17 +45,17 @@ class FeaturesRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('key')
-                    ->label('Ключ')
+                    ->label('Key')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('value')
-                    ->label('Стойност')
+                    ->label('Value')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('position')
-                    ->label('Позиция')
+                    ->label('Position')
                     ->numeric()
                     ->sortable(),
             ])
@@ -64,18 +64,18 @@ class FeaturesRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Добави характеристика'),
+                    ->label('Add Feature'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->label('Редактирай'),
+                    ->label('Edit'),
                 Tables\Actions\DeleteAction::make()
-                    ->label('Изтрий'),
+                    ->label('Delete'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label('Изтрий избраните'),
+                        ->label('Delete Selected'),
                 ]),
             ])
             ->defaultSort('position', 'asc');
