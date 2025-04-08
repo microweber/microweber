@@ -26,15 +26,26 @@
             acceptedFileTypes: '{{ implode(',', $fileTypes) }}',
             fileUrlShort: '',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+            clearState() {
+                this.state = '';
+                this.fileUrlShort = '';
+                this.typeFile = 'file';
+                $dispatch('file-cleared');
+            }
         }"
          x-effect="() => {
              if (state && state.length > 0) {
                   let getFileExtension = state.split('.').pop();
-              if (getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
+             if (getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
                 typeFile = 'image';
+            } else if (getFileExtension == 'mp4' || getFileExtension == 'mov' || getFileExtension == 'avi' || getFileExtension == 'm4v' || getFileExtension == 'mkv') {
+                typeFile = 'video';
+            } else if (getFileExtension == 'wav' || getFileExtension == 'midi' || getFileExtension == 'mp3' || getFileExtension == 'ogg' || getFileExtension == 'flac') {
+                typeFile = 'audio';
             } else {
                 typeFile = 'file';
             }
+
             fileUrlShort = state.split('/').pop();
          }
      }"
@@ -72,7 +83,7 @@
                     <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 min-h-[300px]"
                          >
                         <div class="flex gap-2 items-center">
-                        <button class="text-white bg-white/5 rounded-md" x-on:click="state = ''">
+                        <button type="button" class="text-white bg-white/5 rounded-md" x-on:click="clearState()">
                             <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
                             </svg>
@@ -85,16 +96,37 @@
                 </div>
             </div>
 
-            <div class="w-full" x-show="state && typeFile !== 'image'">
+
+ <div class="w-full" x-show="state && typeFile == 'video'">
+     <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
+         <div class="absolute w-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 z-10">
+             <div class="flex gap-2 items-center">
+                 <button type="button" class="text-white bg-white/5 rounded-md hover:bg-white/20" x-on:click="clearState()">
+                     <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                         <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
+                     </svg>
+                 </button>
+                 <span x-html="fileUrlShort"></span>
+             </div>
+         </div>
+         <video class="w-full" style="min-height: 300px" controls>
+             <source :src="state">
+             Your browser does not support the video tag.
+         </video>
+     </div>
+ </div>
+
+
+
+
+
+
+            <div class="w-full" x-show="state && typeFile !== 'image' && typeFile !== 'video' && typeFile !== 'audio'">
                 <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
                     <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5"
                          >
                         <div class="flex gap-2 items-center">
-                        <button class="text-white bg-white/5 rounded-md" x-on:click="function() {
-
-                            state = '';
-
-                        }">
+                        <button type="button" class="text-white bg-white/5 rounded-md" x-on:click="clearState()">
                             <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
                             </svg>

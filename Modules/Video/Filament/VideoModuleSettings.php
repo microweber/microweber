@@ -40,6 +40,8 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     ->live()
                                     ->helperText('Enter the URL or embed code for the video you want to display.'),
                                 MwFileUpload::make('options.upload')
+                                    ->live()
+                                    ->video()
                                     ->label('Upload Video')
                                     ->helperText('Upload a video file from your computer.')
                             ]),

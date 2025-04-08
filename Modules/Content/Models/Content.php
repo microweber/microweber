@@ -400,7 +400,7 @@ class Content extends Model
     {
         if(function_exists('offers_get_price')){
             $priceModel = $this->getPriceModelAttribute();
-            if($priceModel->id) {
+            if($priceModel && $priceModel->id) {
                 $productId = $this->id;
                 $offers_get_price = offers_get_price($productId, $priceModel->id);
                 if($offers_get_price and isset($offers_get_price['offer_price']) and $offers_get_price['offer_price'] != '') {

@@ -23,15 +23,9 @@ class VideoModule extends BaseModule
     public static string $settingsComponent = VideoModuleSettings::class;
     public static string $templatesNamespace = 'modules.video::templates';
 
-    /**
-     * Sample video URLs for demo/placeholder content organized by category
-     */
+
     private array $demoVideoUrls = [
-        'Nature' => [
-            'https://youtu.be/3PZ65s2qLTE' => 'Wildlife Documentary',
-            'https://www.youtube.com/watch?v=UV0mhY2Dxr0' => 'Ocean Life',
-            'https://www.youtube.com/watch?v=H4tyzzP33Cw' => 'Science Relax'
-        ]
+      'https://youtu.be/3PZ65s2qLTE'
     ];
 
     /**
@@ -41,7 +35,6 @@ class VideoModule extends BaseModule
      */
     public function render()
     {
-        $this->handleEmbedUrl();
 
         $viewData = $this->prepareViewData();
         $template = $this->resolveTemplate($viewData);
@@ -49,20 +42,7 @@ class VideoModule extends BaseModule
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
-    /**
-     * Handle embed URL initialization
-     */
-    private function handleEmbedUrl(): void
-    {
-        $embedUrl = get_option('embed_url', $this->params['id']);
-        if (empty($embedUrl)) {
-            // Select random category
-            $randomCategory = array_rand($this->demoVideoUrls);
-            // Select random video from category
-            $randomVideo = array_rand($this->demoVideoUrls[$randomCategory]);
-            save_option('embed_url', $randomVideo, $this->params['id']);
-        }
-    }
+
 
     /**
      * Prepare view data for rendering
@@ -72,6 +52,16 @@ class VideoModule extends BaseModule
     private function prepareViewData(): array
     {
         $viewData = $this->getViewData();
+
+
+        $embedUrl =$viewData['options']['embed_url'] ?? $this->params['embed_url'] ?? null;
+        $upload =$viewData['options']['upload'] ?? $this->params['upload'] ?? null;
+
+        if(empty($embedUrl) and empty($upload)){
+            $this->params['url'] = $this->demoVideoUrls[array_rand($this->demoVideoUrls)];
+        }
+
+
         $renderData = renderVideoModule($this->params);
 
         return array_merge($viewData, $renderData);

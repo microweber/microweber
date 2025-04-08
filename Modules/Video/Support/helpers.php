@@ -91,6 +91,7 @@ if (!function_exists('renderVideoModule')) {
         $upload = false;
         $getUpload = get_option('upload', $params['id']);
 
+
         if (!empty($getUpload)) {
             $getUpload = trim($getUpload);
             $upload = $getUpload;

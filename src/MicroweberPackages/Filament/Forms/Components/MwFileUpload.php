@@ -46,6 +46,13 @@ class MwFileUpload extends Field
 
         return $this;
     }
+    public function video(): static
+    {
+
+        $this->fileTypes = ['video/*'];
+
+        return $this;
+    }
 
 
     public function multiple(bool | Closure $condition = true): static
