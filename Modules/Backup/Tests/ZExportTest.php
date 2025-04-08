@@ -1,5 +1,6 @@
 <?php
-namespace MicroweberPackages\Export\tests;
+
+namespace Modules\Backup\Tests;
 
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;

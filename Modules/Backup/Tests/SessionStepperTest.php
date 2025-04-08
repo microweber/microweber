@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Export\tests;
+namespace Modules\Backup\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\SessionStepper;
