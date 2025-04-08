@@ -12,12 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('newsletter_subscribers', function (Blueprint $table) {
-            $table->string('status')->default('active')->after('is_subscribed');
-            $table->timestamp('subscribed_at')->nullable()->after('status');
-            $table->timestamp('unsubscribed_at')->nullable()->after('subscribed_at');
-            $table->foreignId('list_id')->nullable()->after('id');
-            $table->foreign('list_id')->references('id')->on('newsletter_lists');
-            $table->unique('email', 'subscriber_email_unique');
+
+            if(!Schema::hasColumn('newsletter_subscribers', 'status')) {
+                $table->string('status')->default('active');
+            }
+            if(!Schema::hasColumn('newsletter_subscribers', 'subscribed_at')) {
+                $table->timestamp('subscribed_at')->nullable();
+            }
+            if(!Schema::hasColumn('newsletter_subscribers', 'unsubscribed_at')) {
+                $table->timestamp('unsubscribed_at')->nullable();
+            }
+            if(!Schema::hasColumn('newsletter_subscribers', 'list_id')) {
+                $table->foreignId('list_id')->nullable();
+            }
+            if(!Schema::hasColumn('newsletter_subscribers', 'confirmation_code')) {
+                $table->string('confirmation_code')->nullable();
+            }
+
+
+
         });
     }
 

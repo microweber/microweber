@@ -24,9 +24,7 @@ class MultilanguageFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        if (!mw_is_installed()) {
-            return;
-        }
+
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
             //     return;
@@ -35,31 +33,31 @@ class MultilanguageFilamentPlugin implements Plugin
 
         // TODO
         $defaultLocales = [];
-
-        try {
-            if (Schema::hasTable('multilanguage_supported_locales')) {
-                $getSupportedLocales = DB::table('multilanguage_supported_locales')
-                    ->where('is_active', 1)
-                    ->get();
-                if ($getSupportedLocales->count() > 0) {
-                    foreach ($getSupportedLocales as $locale) {
-                        $defaultLocales[] = $locale->locale;
+        if (mw_is_installed() and function_exists('get_supported_languages')) {
+            try {
+                if (Schema::hasTable('multilanguage_supported_locales')) {
+                    $getSupportedLocales = DB::table('multilanguage_supported_locales')
+                        ->where('is_active', 1)
+                        ->get();
+                    if ($getSupportedLocales->count() > 0) {
+                        foreach ($getSupportedLocales as $locale) {
+                            $defaultLocales[] = $locale->locale;
+                        }
                     }
                 }
+            } catch (\Exception $e) {
+                $defaultLocales = [];
             }
-        } catch (\Exception $e) {
-            $defaultLocales = [];
         }
-
         if (empty($defaultLocales)) {
             //@todo disable multilanguage
             $defaultLocales = ['en_US'];
         }
 
-        if (mw_is_installed() and function_exists('get_supported_languages')) {
+        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
+        $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
-            $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
-            $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
+        if (mw_is_installed() and function_exists('get_supported_languages')) {
             $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
 
             // TODO

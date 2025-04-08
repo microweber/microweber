@@ -5,6 +5,7 @@ namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
+use MicroweberPackages\Multilanguage\Filament\Pages\ListRecords\Concerns\TranslatableRecordsList;
 use Modules\Content\Filament\Admin\ContentResource;
 
 class ListContents extends ListRecords
@@ -12,7 +13,7 @@ class ListContents extends ListRecords
     protected static string $resource = ContentResource::class;
 
     use HasToggleableTable;
-    use ListRecords\Concerns\Translatable;
+    use TranslatableRecordsList;
 
 
     public function getDefaultLayoutView(): string
