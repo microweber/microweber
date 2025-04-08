@@ -432,6 +432,13 @@ export const Handle = function (options) {
         });
 
 
+        this.resizer.on('resizeStart',  data => {
+            const target = this.getTarget();
+            if(!target) {
+                return;
+            }
+            target.draggable = false;
+        })
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
             if(!target) {
