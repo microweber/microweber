@@ -49,6 +49,7 @@ description: Opens video in a popup
         color: var(--mw-primary-color);
     }
 </style>
-
+<div class="video-dialog-container">
 <template id="video-dialog-template-{{ $params['id'] ?? '' }}" style="display: none">{!! $code ?? '' !!}</template>
 <span id="video-dialog-button-{{ $params['id'] ?? '' }}"></span>
+</div>

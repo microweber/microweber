@@ -82,8 +82,9 @@ description: Default
     });
 </script>
 @endif
+<div class="video-player-container">{!! $code ?? '' !!}</div>
 
-{!! $code ?? '' !!}
+
 
 <script>
     $(document).ready(function () {

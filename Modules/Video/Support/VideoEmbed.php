@@ -405,6 +405,14 @@ class VideoEmbed
         if ($this->isAutoplay()){
             $videoUrl .= '&mute=1';
         }
+        if ($this->isHideControls()){
+            $videoUrl .= '&controls=0';
+        }
+        if ($this->isLoop()){
+            $videoUrl .= '&loop=1';
+        }
+
+
         return $this->_getVideoIframe($videoUrl);
     }
 
@@ -441,6 +449,12 @@ class VideoEmbed
         $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $videoId . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
         if ($this->isAutoplay()){
             $videoUrl .= '&mute=1';
+        }
+        if( $this->isHideControls()){
+            $videoUrl .= '&controls=0';
+        }
+        if ($this->isLoop()){
+            $videoUrl .= '&loop=1';
         }
 
         return $this->_getVideoIframe($videoUrl);

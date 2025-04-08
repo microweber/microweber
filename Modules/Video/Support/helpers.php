@@ -115,6 +115,11 @@ if (!function_exists('renderVideoModule')) {
             }
         }
 
+        if($prior == 2 ){
+            $code = false;
+        }
+
+
         $lazyload = get_option('lazyload', $params['id']);
         if ($lazyload == false) {
             if (isset($params['lazyload'])) {
@@ -144,13 +149,13 @@ if (!function_exists('renderVideoModule')) {
 
         if ($w == false) {
             if (isset($params['width'])) {
-                $w = intval($params['width']);
+                $w = trim($params['width']);
             }
         }
 
         if ($h == false) {
             if (isset($params['height'])) {
-                $h = intval($params['height']);
+                $h = trim($params['height']);
             }
         }
         if ($w == '') {

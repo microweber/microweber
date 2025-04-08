@@ -15,7 +15,7 @@ class VideoModule extends BaseModule
     /**
      * Module configuration
      */
-    public static string $name = 'Video module';
+    public static string $name = 'Video';
     public static string $module = 'video';
     public static string $icon = 'heroicon-o-video-camera';
     public static string $categories = 'media, video';
@@ -25,7 +25,7 @@ class VideoModule extends BaseModule
 
 
     private array $demoVideoUrls = [
-      'https://youtu.be/3PZ65s2qLTE'
+      'https://www.youtube.com/watch?v=jNXLl4Vb5xY'
     ];
 
     /**

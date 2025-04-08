@@ -34,17 +34,49 @@ class VideoModuleSettings extends LiveEditModuleSettings
                 Tabs::make('Settings')
                     ->tabs([
                         Tabs\Tab::make('Video')
+                            ->columnSpanFull()
                             ->schema([
-                                Textarea::make('options.embed_url')
-                                    ->label('Paste video URL or Embed Code')
+                                ToggleButtons::make('options.prior')
+                                    ->label('Video Source')
                                     ->live()
-                                    ->helperText('Enter the URL or embed code for the video you want to display.'),
-                                MwFileUpload::make('options.upload')
-                                    ->live()
-                                    ->video()
-                                    ->label('Upload Video')
-                                    ->helperText('Upload a video file from your computer.')
+                                    ->columnSpanFull()
+                                    ->reactive()
+                                    ->options([
+                                        '1' => 'Embed Video',
+                                        '2' => 'Upload Video',
+                                    ])
+                                    ->afterStateUpdated(function ($state, callable $set) {
+
+                                    })
+                                    ->default('1'),
+
+                                Group::make([
+                                    Textarea::make('options.embed_url')
+                                        ->label('Paste video URL or Embed Code')
+                                        ->live()
+                                        ->visible(fn (Get $get) => $get('options.prior') !== '2')
+                                        ->afterStateUpdated(function ($state, callable $set) {
+                                            if ($state) {
+                                            //    $set('options.upload', null);
+                                            }
+                                        })
+                                        ->helperText('Enter the URL or embed code for the video you want to display.'),
+
+                                    MwFileUpload::make('options.upload')
+                                        ->label('Upload Video')
+                                        ->live()
+                                        ->video()
+                                        ->visible(fn (Get $get) => $get('options.prior') === '2')
+                                        ->afterStateUpdated(function ($state, callable $set) {
+                                            if ($state) {
+                                             //   $set('options.embed_url', null);
+                                            }
+                                        })
+                                        ->helperText('Upload a video file from your computer.'),
+                                ]),
                             ]),
+
+
 
                         Tabs\Tab::make('Settings')
                             ->schema([
