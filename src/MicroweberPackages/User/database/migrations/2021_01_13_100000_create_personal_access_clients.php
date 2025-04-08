@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class CreatePersonalAccessClients extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -38,4 +38,4 @@ class CreatePersonalAccessClients extends Migration
     {
         Schema::dropIfExists('oauth_personal_access_clients');
     }
-}
+};
