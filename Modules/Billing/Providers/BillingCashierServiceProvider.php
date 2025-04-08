@@ -32,7 +32,7 @@ class BillingCashierServiceProvider extends CashierServiceProvider
     {
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/cashier.php', 'cashier'
+            __DIR__ . '/../config/cashier.php', 'cashier'
         );
 
         if (mw_is_installed()) {
