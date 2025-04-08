@@ -13,7 +13,7 @@ class AudioModule extends BaseModule
     public static string $module = 'audio';
     public static string $icon = 'modules.audio-icon';
     public static string $categories = 'media, music';
-    public static int $position = 2;
+    public static int $position = 20;
     public static string $settingsComponent = AudioModuleSettings::class;
     public static string $templatesNamespace = 'modules.audio::templates';
 

@@ -14,7 +14,7 @@ class MwFileUpload extends Field
 
     protected array $fileTypes = [];
 
-    protected bool | Closure $isMultiple = false;
+    protected bool|Closure $isMultiple = false;
 
 //    protected function setUp(): void
 //    {
@@ -28,7 +28,7 @@ class MwFileUpload extends Field
 //        });
 //    }
 
-    public function fileTypes(array | Closure $fileTypes): static
+    public function fileTypes(array|Closure $fileTypes): static
     {
         $this->fileTypes = $fileTypes;
 
@@ -37,8 +37,9 @@ class MwFileUpload extends Field
 
     public function getFileTypes(): array
     {
-        return (array) $this->evaluate($this->fileTypes);
+        return (array)$this->evaluate($this->fileTypes);
     }
+
     public function image(): static
     {
 
@@ -46,6 +47,15 @@ class MwFileUpload extends Field
 
         return $this;
     }
+
+    public function audio(): static
+    {
+
+        $this->fileTypes = ['audio/*'];
+
+        return $this;
+    }
+
     public function video(): static
     {
 
@@ -55,7 +65,7 @@ class MwFileUpload extends Field
     }
 
 
-    public function multiple(bool | Closure $condition = true): static
+    public function multiple(bool|Closure $condition = true): static
     {
         $this->view = 'filament-forms::components.mw-file-upload-multiple';
 
@@ -66,7 +76,7 @@ class MwFileUpload extends Field
 
     public function isMultiple(): bool
     {
-        return (bool) $this->evaluate($this->isMultiple);
+        return (bool)$this->evaluate($this->isMultiple);
     }
 
 
