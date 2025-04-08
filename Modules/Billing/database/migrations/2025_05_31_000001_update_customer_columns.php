@@ -22,6 +22,10 @@ return new class extends Migration {
                 $table->string('pm_type')->nullable();
             }
 
+            if(!Schema::hasColumn('customers', 'status')) {
+                $table->string('status')->nullable();
+            }
+
             if(!Schema::hasColumn('customers', 'pm_last_four')) {
                 $table->string('pm_last_four', 4)->nullable();
             }

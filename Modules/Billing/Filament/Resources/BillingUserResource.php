@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Modules\Billing\Models\BillingUser;
 use Modules\Billing\Models\SubscriptionPlan;
+use Filament\Notifications\Notification;
+use Modules\Billing\Services\StripeService;
+use Filament\Actions\Action;
 
 class BillingUserResource extends Resource
 {
@@ -75,6 +78,20 @@ class BillingUserResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('sync_customers')
+                    ->label('Sync Customers')
+                    ->color('primary')
+                    ->action(function () {
+                        $service = new StripeService();
+                        $count = $service->syncCustomers();
+
+                        Notification::make()
+                            ->title("Synced {$count} customers with Stripe")
+                            ->success()
+                            ->send();
+                    }),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -100,4 +117,6 @@ class BillingUserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+
+
 }

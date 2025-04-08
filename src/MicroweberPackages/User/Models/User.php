@@ -26,6 +26,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
 use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
+use Modules\Profile\Traits\HasTwoFactorAuthentication;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
 use \Illuminate\Support\Facades\Auth;

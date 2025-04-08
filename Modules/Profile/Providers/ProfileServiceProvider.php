@@ -16,7 +16,7 @@ class ProfileServiceProvider extends BaseModuleServiceProvider
     {
         $this->registerMiddleware();
         $this->registerConfig();
-        $this->registerUserModel();
+      //  $this->registerUserModel();
         parent::registerTranslations();
         parent::registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
@@ -35,7 +35,7 @@ class ProfileServiceProvider extends BaseModuleServiceProvider
     protected function registerMiddleware(): void
     {
         $this->app['router']->aliasMiddleware(
-            '2fa.rate_limit', 
+            '2fa.rate_limit',
             TwoFactorRateLimit::class
         );
     }
