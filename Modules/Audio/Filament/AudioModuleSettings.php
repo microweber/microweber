@@ -44,9 +44,18 @@ class AudioModuleSettings extends LiveEditModuleSettings
                             return false;
                         })
                         ->label('Upload audio file')
-                        ->fileTypes(['audio'])
-                        ->helperText('Select an logo for your website.')
-                        ->live(),
+                        ->fileTypes(['audio/mpeg', 'audio/wav', 'audio/ogg'])
+                        ->helperText('Only audio files are allowed (MP3, WAV, OGG)')
+                        ->live()
+                        ->rules([
+                            'nullable',
+                            'file',
+                            'mimes:mp3,wav,ogg'
+                        ])
+                        ->validationMessages([
+                            'mimes' => 'The audio file must be a valid audio format (MP3, WAV, OGG)'
+                        ])
+                        ->disabled(fn (Get $get) => $get('options.data-audio-source') !== 'file'),
 
                     TextInput::make('options.data-audio-url')
                         ->hidden(function (Get $get) {
