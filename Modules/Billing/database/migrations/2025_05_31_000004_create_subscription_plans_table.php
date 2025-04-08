@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('remote_provider_price_id')->nullable();
             $table->integer('alternative_annual_plan_id')->nullable();
             $table->integer('sort_order')->nullable();
+            $table->integer('is_hidden')->nullable();
 
         });
     }
