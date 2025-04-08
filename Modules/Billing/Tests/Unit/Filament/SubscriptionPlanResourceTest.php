@@ -15,11 +15,20 @@ class SubscriptionPlanResourceTest extends BillingTestCase
     #[Test]
     public function it_can_list_subscription_plans()
     {
+        SubscriptionPlan::truncate();
+        SubscriptionPlanGroup::truncate();
+
+
         $this->loginAsAdmin();
         $group = SubscriptionPlanGroup::factory()->create();
         $plans = SubscriptionPlan::factory()
             ->count(3)
             ->create(['subscription_plan_group_id' => $group->id]);
+        $group->save();
+       foreach ($plans as $plan) {
+           $plan->save();
+       }
+
 
         $this->get(SubscriptionPlanResource::getUrl('index', [], false, 'admin-billing'))
             ->assertSuccessful()
@@ -43,8 +52,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
         $planData = SubscriptionPlan::factory()
             ->make(['subscription_plan_group_id' => $group->id]);
 
-        $group->save();
-        $planData->save();
+
 
         Filament::setCurrentPanel(
             Filament::getPanel('admin-billing'),

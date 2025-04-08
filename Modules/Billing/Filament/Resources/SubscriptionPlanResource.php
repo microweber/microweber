@@ -36,6 +36,8 @@ class SubscriptionPlanResource extends Resource
                             ->placeholder('e.g., Professional Plan'),
                         Forms\Components\TextInput::make('sku')
                             ->required()
+                            ->reactive()
+                            ->live()
                             ->unique(ignoreRecord: true)
                             ->columnSpanFull()
                             ->helperText('A unique identifier for this plan')
