@@ -2,12 +2,14 @@
 
 namespace MicroweberPackages\App\Managers;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
 use MicroweberPackages\Package\MicroweberComposerClient;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -284,7 +286,19 @@ class UpdateManager
             scan_for_modules(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
             scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
 
+
+
+           // $this->log($output->fetch());
+
             mw()->layouts_manager->scan();
+
+
+            $output = new BufferedOutput();
+            $output->setDecorated(false);
+            Artisan::call('migrate', ['--force' => true], $output);
+
+
+
             app()->template_manager->clear_cached_custom_css();
             app()->template_manager->clear_cached_apijs_assets();
             event_trigger('mw_db_init_default');
