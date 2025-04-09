@@ -19,10 +19,18 @@ return new class extends Migration
                 $table->string('ip')->nullable();
                 $table->string('user_agent')->nullable();
                 $table->timestamps();
-                
-                // Add index for better query performance
-                $table->index(['campaign_id', 'email']);
+
             });
+
+
+            try {
+                Schema::create('newsletter_campaigns_pixel', function (Blueprint $table) {
+                    $table->index('campaign_id');
+                    $table->index('email');
+                });
+            } catch (\Exception $e) {
+                // Handle the exception if needed
+            }
         }
     }
 

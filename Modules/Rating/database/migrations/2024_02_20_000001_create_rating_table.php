@@ -23,10 +23,17 @@ return new class extends Migration
                 $table->unsignedBigInteger('edited_by')->nullable();
                 $table->timestamps();
 
-                $table->index(['rel_type', 'rel_id']);
-                $table->index('session_id');
-                $table->index('created_by');
+
             });
+
+            try {
+                Schema::create('rating', function (Blueprint $table) {
+                    $table->index('rel_type');
+                    $table->index('rel_id');
+                });
+            } catch (\Exception $e) {
+                // Handle the exception if needed
+            }
         }
     }
 

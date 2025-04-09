@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->id();
             $table->string('content_type')->nullable();
             $table->string('subtype')->nullable();
-            $table->string('url',500)->nullable()->index();
-            $table->string('title',1000)->nullable()->index();
+            $table->string('url',500)->nullable();
+            $table->string('title',1000)->nullable();
             $table->integer('parent')->nullable();
             $table->text('description')->nullable();
             $table->integer('position')->nullable();
@@ -56,6 +56,16 @@ return new class extends Migration {
 
 
         });
+
+
+        try {
+            Schema::create('content', function (Blueprint $table) {
+                $table->index('url');
+                $table->index('title');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

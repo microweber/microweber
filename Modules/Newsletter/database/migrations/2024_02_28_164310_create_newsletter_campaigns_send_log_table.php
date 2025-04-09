@@ -18,10 +18,18 @@ return new class extends Migration
                 $table->integer('subscriber_id')->nullable();
                 $table->boolean('is_sent')->nullable()->default(false);
                 $table->timestamps();
-                
-                // Add index for better query performance
-                $table->index(['campaign_id', 'subscriber_id']);
+
             });
+            try {
+                Schema::create('newsletter_campaigns_send_log', function (Blueprint $table) {
+                    $table->index('campaign_id');
+                    $table->index('subscriber_id');
+                });
+            } catch (\Exception $e) {
+                // Handle the exception if needed
+            }
+
+
         }
     }
 

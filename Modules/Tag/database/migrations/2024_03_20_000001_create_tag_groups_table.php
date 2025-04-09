@@ -13,10 +13,19 @@ return new class extends Migration {
 
         Schema::create('tagging_tag_groups', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('slug')->index();
+            $table->string('slug');
             $table->string('name');
             $table->timestamps();
         });
+
+
+        try {
+            Schema::create('tagging_tag_groups', function (Blueprint $table) {
+                $table->index('slug');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     public function down()

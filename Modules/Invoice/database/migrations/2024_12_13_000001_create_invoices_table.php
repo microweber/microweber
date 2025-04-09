@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->id();
             $table->date('invoice_date')->nullable();
             $table->date('due_date')->nullable();
-            $table->string('invoice_number')->unique()->nullable();
+            $table->string('invoice_number')->nullable();
             $table->string('reference_number')->nullable();
             $table->integer('customer_id')->nullable();
             $table->integer('company_id')->nullable()->default(0);
@@ -35,6 +35,15 @@ return new class extends Migration {
             $table->timestamps();
 
         });
+        try {
+            Schema::create('invoices', function (Blueprint $table) {
+                $table->unique('invoice_number');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
+
+
     }
 
     public function down(): void

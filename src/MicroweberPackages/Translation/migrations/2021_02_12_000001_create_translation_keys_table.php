@@ -24,9 +24,16 @@ class CreateTranslationKeysTable extends Migration
             $table->bigIncrements('id');
             $table->string('translation_namespace')->nullable();
             $table->string('translation_group');
-            $table->index('translation_group');
-            $table->text('translation_key');
+             $table->text('translation_key');
         });
+
+        try {
+            Schema::create('translation_keys', function (Blueprint $table) {
+                $table->index('translation_group');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

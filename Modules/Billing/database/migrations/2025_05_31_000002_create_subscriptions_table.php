@@ -10,14 +10,20 @@ return new class extends Migration {
      */
     public function up(): void
     {
+
+
+        if (Schema::hasTable('subscriptions')) {
+            return;
+        }
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id');
             $table->integer('user_id')->nullable();
             $table->integer('subscription_plan_id')->nullable();;
-             $table->string('type')->nullable();
+            $table->string('subscription_customer_id')->nullable();
+            $table->string('type')->nullable();
             $table->string('name')->nullable();
-            $table->string('stripe_id')->unique()->nullable();;
+            $table->string('stripe_id')->nullable();;
             $table->string('stripe_status')->nullable();;
             $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();
@@ -25,7 +31,16 @@ return new class extends Migration {
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
-         });
+        });
+
+        try {
+            Schema::create('subscriptions', function (Blueprint $table) {
+                $table->unique('stripe_id');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
+
     }
 
     /**

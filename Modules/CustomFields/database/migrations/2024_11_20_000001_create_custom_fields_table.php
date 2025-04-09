@@ -17,10 +17,10 @@ return new class extends Migration {
 
         Schema::create('custom_fields', function (Blueprint $table) {
             $table->id();
-            $table->string('rel_type', 500)->nullable()->index();
-            $table->string('rel_id', 500)->nullable()->index();
+            $table->string('rel_type', 500)->nullable();
+            $table->string('rel_id', 500)->nullable();
             $table->integer('position')->nullable();
-            $table->string('type', 500)->nullable()->index();
+            $table->string('type', 500)->nullable();
             $table->text('name')->nullable();
             $table->text('name_key')->nullable();
             $table->text('placeholder')->nullable();
@@ -37,6 +37,15 @@ return new class extends Migration {
             $table->integer('copy_of_field')->nullable();
 
         });
+
+
+        try {
+            Schema::create('custom_fields', function (Blueprint $table) {
+                $table->index(['rel_type', 'rel_id', 'type']);
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

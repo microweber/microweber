@@ -43,6 +43,15 @@ return new class extends Migration {
 
             $table->index(['rel_type', 'rel_id', 'parent_id']);
         });
+
+
+        try {
+            Schema::create('categories', function (Blueprint $table) {
+                $table->index(['rel_type', 'rel_id', 'parent_id']);
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

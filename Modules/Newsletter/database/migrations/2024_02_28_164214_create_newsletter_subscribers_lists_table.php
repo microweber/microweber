@@ -14,13 +14,21 @@ return new class extends Migration
         if (!Schema::hasTable('newsletter_subscribers_lists')) {
             Schema::create('newsletter_subscribers_lists', function (Blueprint $table) {
                 $table->id();
-                $table->integer('subscriber_id');
-                $table->integer('list_id');
+                $table->integer('subscriber_id')->nullable();
+                $table->integer('list_id')->nullable();;
                 $table->timestamps();
-                
-                // Add index for better query performance
-                $table->index(['subscriber_id', 'list_id']);
+
             });
+
+
+            try {
+                Schema::create('newsletter_subscribers_lists', function (Blueprint $table) {
+                    $table->index('subscriber_id');
+                    $table->index('list_id');
+                });
+            } catch (\Exception $e) {
+                // Handle the exception if needed
+            }
         }
     }
 

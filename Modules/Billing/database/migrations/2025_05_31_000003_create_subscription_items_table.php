@@ -11,16 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
+
+        if (Schema::hasTable('subscription_items')) {
+            return;
+        }
         Schema::create('subscription_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscription_id');
-            $table->string('stripe_id')->unique();
+            $table->string('stripe_id');
             $table->string('stripe_product');
             $table->string('stripe_price');
             $table->integer('quantity')->nullable();
             $table->timestamps();
 
         });
+
+        try {
+            Schema::create('subscription_items', function (Blueprint $table) {
+                $table->unique('stripe_id');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

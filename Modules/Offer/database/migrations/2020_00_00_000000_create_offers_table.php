@@ -14,8 +14,10 @@ return new class extends Migration {
 
         if (!Schema::hasTable('offers')) {
             Schema::create('offers', function (Blueprint $table) {
-                $table->increments('id')->index();
+                $table->increments('id');
             });
+
+
         }
 
         if (Schema::hasTable('offers')) {

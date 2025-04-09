@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
+
+        if(Schema::hasTable('subscription_plans')) {
+            return;
+        }
+
+
         Schema::create('subscription_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('sku')->unique()->nullable();
+            $table->string('sku')->nullable();
             $table->longText('description')->nullable();
             $table->string('type')->nullable();
             $table->integer('subscription_plan_group_id')->nullable();
@@ -34,6 +40,15 @@ return new class extends Migration
             $table->integer('is_hidden')->nullable();
 
         });
+
+
+        try {
+            Schema::create('subscription_plans', function (Blueprint $table) {
+                $table->unique('sku');
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

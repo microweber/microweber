@@ -20,12 +20,24 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('user_id')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+
+        try {
+            Schema::create('sessions', function (Blueprint $table) {
+                $table->index('user_id');
+
+
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
+
     }
 
     /**

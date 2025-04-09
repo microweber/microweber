@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if(Schema::hasTable('subscriptions_manual')) {
+            return;
+        }
         Schema::create('subscriptions_manual', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
@@ -20,6 +23,14 @@ return new class extends Migration
             $table->timestamps();
             $table->index(['user_id']);
         });
+
+        try {
+            Schema::create('subscriptions_manual', function (Blueprint $table) {
+                $table->index(['user_id']);
+            });
+        } catch (\Exception $e) {
+            // Handle the exception if needed
+        }
     }
 
     /**

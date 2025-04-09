@@ -23,16 +23,19 @@ return new class extends Migration {
 
 
         });
-        Schema::table('categories_items', function (Blueprint $table) {
 
-            try {
+        try {
+
+            Schema::table('categories_items', function (Blueprint $table) {
+
+
                 $table->unique(['rel_id', 'parent_id']);
-            } catch (\Exception $e) {
-                // do nothing
-            }
 
 
-        });
+            });
+        } catch (\Exception $e) {
+            // do nothing
+        }
     }
 
     /**

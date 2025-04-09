@@ -33,15 +33,17 @@ return new class extends Migration
 
 
         });
-
-
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
         try {
-            $table->unique(['token']);
+            Schema::table('personal_access_tokens', function (Blueprint $table) {
+
+                $table->unique(['token']);
+
+            });
         } catch (\Exception $e) {
-            // do nothing
+            // Handle the exception if needed
         }
-        });
+
+
 
     }
 
