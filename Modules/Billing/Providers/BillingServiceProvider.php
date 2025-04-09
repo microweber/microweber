@@ -38,15 +38,15 @@ class BillingServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
         Filament::serving(function () {
-//            Filament::registerNavigationGroups([
-//                NavigationGroup::make()
-//                    ->label('SaaS')
-//            ]);
+    //            Filament::registerNavigationGroups([
+    //                NavigationGroup::make()
+    //                    ->label('SaaS')
+    //            ]);
             Filament::registerNavigationItems([
                 NavigationItem::make('Billing')
                     ->url('/admin/billing', shouldOpenInNewTab: true)
                     ->icon('heroicon-o-currency-dollar')
-//                    ->group('SaaS')
+    //                    ->group('SaaS')
                     ->sort(300),
             ]);
         });
@@ -82,6 +82,18 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         $this->commands([
             AutoActivateFreeTrial::class,
         ]);
+
+        // Register Billing Services
+        $this->app->singleton(\Modules\Billing\Services\StripeService::class, function ($app) {
+            return new \Modules\Billing\Services\StripeService();
+        });
+        $this->app->singleton(\Modules\Billing\Services\SubscriptionManager::class, function ($app) {
+            return new \Modules\Billing\Services\SubscriptionManager();
+        });
+        $this->app->singleton(\Modules\Billing\Services\UserDemoActivate::class, function ($app) {
+            return new \Modules\Billing\Services\UserDemoActivate();
+        });
+
         // Register filament page for Microweber module settings
 //         FilamentRegistry::registerPage(Settings::class);
 //         FilamentRegistry::registerResource(SubscriptionPlanResource::class);

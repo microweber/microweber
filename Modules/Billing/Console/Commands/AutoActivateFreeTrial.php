@@ -7,12 +7,20 @@ use Illuminate\Console\Command;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Services\UserDemoActivate;
 
-class AutoActivateFreeTrial  extends Command
+class AutoActivateFreeTrial extends Command
 {
 
     protected $signature = 'billing:auto-activate-free-trial';
 
     protected $description = 'Auto activate free trial for users that have not activated it yet.';
+
+    protected UserDemoActivate $userDemoActivate;
+
+    public function __construct(UserDemoActivate $userDemoActivate)
+    {
+        parent::__construct();
+        $this->userDemoActivate = $userDemoActivate;
+    }
 
     public function handle()
     {
@@ -39,7 +47,7 @@ class AutoActivateFreeTrial  extends Command
                     $user->demo_started_at = null;
                     $user->save();
 
-                    UserDemoActivate::activate($user->id);
+                    $this->userDemoActivate->activate($user->id);
 
                     $this->info('Free trial auto activated for user: ' . $user->email);
 

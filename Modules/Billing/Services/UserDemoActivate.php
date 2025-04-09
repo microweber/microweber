@@ -10,7 +10,7 @@ use MicroweberPackages\User\Models\User;
 
 class UserDemoActivate
 {
-    public static function activate($userId)
+    public function activate($userId)
     {
         $user = User::where('id', $userId)->first();
 
@@ -30,7 +30,7 @@ class UserDemoActivate
         ];
     }
 
-    public static function deactivate($userId)
+    public function deactivate($userId)
     {
         $user = User::where('id', $userId)->first();
         $user->demo_expired = 1;
@@ -59,7 +59,7 @@ class UserDemoActivate
         ];
     }
 
-    public static function get($userId)
+    public function get($userId)
     {
         $user = User::where('id', $userId)->first();
         if(!$user){
@@ -91,8 +91,8 @@ class UserDemoActivate
                     $isValidDemoExpiredAtDate = false;
                 }
                 if ($isValidDemoExpiredAtDate && Carbon::parse($user->demo_expired_at)->isPast()) {
-                    self::deactivate($userId);
-                    return self::get($userId);
+                    $this->deactivate($userId);
+                    return $this->get($userId);
                 }
             }
 
