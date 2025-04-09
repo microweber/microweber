@@ -50,9 +50,8 @@ class UserDemoExpiredNotification extends Notification
             'type' => class_basename(self::class),
             'subject' => 'Your demo account is expired',
             'content'=>'Hey, {{first_name}}, <br /> <br />
-Unfortunately your websites is expired. <br />
-You have a 10 days before the websites be deleted from our servers. <br />
-You can still upgrade just for $1 <br /> <br />
+Unfortunately your demo is expired. <br />
+You have 2 weeks before the demo be deleted from our servers. <br /> <br />
 Want to Upgrade now? <br />
 <a href="{{upgrade_link}}">Upgrade</a>',
             'variables' => [
