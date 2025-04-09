@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\User\Models\User;
 
-
+/* @deprecated */
 class Users extends Component
 {
     use WithPagination;
@@ -30,7 +30,7 @@ class Users extends Component
 
         $users = $usersQuery->paginate(10);
 
-        return view('billing::admin.livewire.users', [
+        return view('modules.billing::admin.livewire.users', [
             'users' => $users
         ]);
     }

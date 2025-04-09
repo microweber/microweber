@@ -107,7 +107,7 @@ Route::get('/checkout/subscription-success', function (Request $request) {
 
    return redirect(site_url('project/plans'));
 //
-//    return view('billing::finish', [
+//    return view('modules.billing::finish', [
 //        'backButtonUrl' => $backButtonUrl,
 //        'checkoutSessionData' => $checkoutSessionData,
 //        'latestInvoiceData' => $latestInvoiceData,
@@ -169,7 +169,7 @@ Route::get('/checkout/subscription-cancel', function (Request $request) {
         return redirect(site_url('projects/plans'));
     }
 
-    return view('billing::cancel', [
+    return view('modules.billing::cancel', [
         'backButtonUrl' => $backButtonUrl,
 
     ]);
@@ -254,7 +254,7 @@ Route::get('/checkout/purchase-success', function (Request $request) {
 
     $backButtonUrl = session_get('billing_purchase_referer');
 
-    return view('billing::purchase-finish', [
+    return view('modules.billing::purchase-finish', [
         'backButtonUrl' => $backButtonUrl,
         'checkoutSessionData' => $checkoutSessionData,
         'latestInvoiceData' => $latestInvoiceData,
@@ -315,7 +315,7 @@ Route::get('/checkout/purchase-cancel', function (Request $request) {
         return redirect(site_url('projects/plans'));
     }
 
-    return view('billing::purchase-cancel', [
+    return view('modules.billing::purchase-cancel', [
         'backButtonUrl' => $backButtonUrl,
 
     ]);

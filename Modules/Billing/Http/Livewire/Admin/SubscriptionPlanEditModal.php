@@ -5,7 +5,7 @@ namespace Modules\Billing\Http\Livewire\Admin;
 use LivewireUI\Modal\ModalComponent;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
-
+/* @deprecated */
 class SubscriptionPlanEditModal extends ModalComponent
 {
 
@@ -16,7 +16,7 @@ class SubscriptionPlanEditModal extends ModalComponent
 
     public function render()
     {
-        return view('billing::admin.livewire.subscription-plan-edit-modal');
+        return view('modules.billing::admin.livewire.subscription-plan-edit-modal');
     }
 
     public function mount()

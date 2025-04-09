@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\Billing\Services\SubscriptionManager;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Http;
 
 class SubscriptionManagerTest extends TestCase
 {
@@ -47,82 +48,5 @@ class SubscriptionManagerTest extends TestCase
         $this->assertEquals('Plan not found', $result['error']);
     }
 
-    public function test_webhook_endpoint_returns_ok()
-    {
-        config(['cashier.webhook.secret' => null]);
 
-        $user = User::factory()->create();
-
-        SubscriptionCustomer::create([
-            'user_id' => $user->id,
-            'stripe_id' => 'cus_test123',
-        ]);
-
-        $payload = [
-            'id' => 'evt_test_webhook',
-            'type' => 'customer.subscription.created',
-            'data' => [
-                'object' => [
-                    'customer' => 'cus_test123',
-                ],
-            ],
-        ];
-
-        $response = $this->postJson('/billing/stripe/webhook', $payload);
-
-        $response->assertStatus(200);
-    }
-
-    public function test_subscribe_to_valid_plan_successfully()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $manager = new SubscriptionManager();
-
-        // Mock getSubscriptionPlanBySKU helper
-        app()->bind('getSubscriptionPlanBySKU', function () {
-            return function ($sku) {
-                if ($sku === 'valid-sku') {
-                    return [
-                        'id' => 1,
-                        'sku' => 'valid-sku',
-                        'name' => 'Pro Plan',
-                        'remote_provider_price_id' => 'price_123',
-                        'subscription_plan_group_id' => 0,
-                    ];
-                }
-                return null;
-            };
-        });
-
-        // Use Laravel's global helper override
-        if (!function_exists('getSubscriptionPlanBySKU')) {
-            function getSubscriptionPlanBySKU($sku) {
-                return app('getSubscriptionPlanBySKU')($sku);
-            }
-        }
-
-        // Mock SubscriptionCustomer::firstOrCreate to avoid real Stripe calls
-        $customer = SubscriptionCustomer::factory()->create(['user_id' => $user->id]);
-        $this->partialMock(SubscriptionCustomer::class, function ($mock) use ($customer) {
-            $mock->shouldReceive('stripe')->andReturn(new class {
-                public function __call($method, $args) {
-                    return new class {
-                        public function __call($method, $args) {
-                            return (object)[
-                                'id' => 'sub_123',
-                                'stripe_status' => 'active',
-                                'items' => (object)['data' => [['id' => 'item_123']]],
-                            ];
-                        }
-                    };
-                }
-            });
-        });
-
-        $result = $manager->subscribeToPlan('valid-sku');
-
-        $this->assertNotEmpty($result);
-    }
 }

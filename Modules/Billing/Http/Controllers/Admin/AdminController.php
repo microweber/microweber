@@ -7,27 +7,27 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 
     public function index(Request $request)
     {
-        return view('billing::admin.index');
+        return view('modules.billing::admin.index');
     }
 
     public function users(Request $request)
     {
-        return view('billing::admin.users');
+        return view('modules.billing::admin.users');
     }
 
 
     public function subscriptionPlans(Request $request)
     {
-        return view('billing::admin.subscription-plans');
+        return view('modules.billing::admin.subscription-plans');
     }
 
     public function subscriptionPlanGroups(Request $request)
     {
-        return view('billing::admin.subscription-plan-groups');
+        return view('modules.billing::admin.subscription-plan-groups');
     }
 
     public function settings(Request $request)
     {
-        return view('billing::admin.settings');
+        return view('modules.billing::admin.settings');
     }
 }

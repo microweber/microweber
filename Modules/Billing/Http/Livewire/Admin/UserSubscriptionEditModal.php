@@ -9,6 +9,8 @@ use Modules\Billing\Models\SubscriptionPlan;
 use Modules\SaasPanel\UserDemo;
 use MicroweberPackages\User\Models\User;
 
+
+/* @deprecated */
 class UserSubscriptionEditModal extends ModalComponent
 {
 
@@ -23,7 +25,7 @@ class UserSubscriptionEditModal extends ModalComponent
 
     public function render()
     {
-        return view('billing::admin.livewire.user-subscription-edit-modal');
+        return view('modules.billing::admin.livewire.user-subscription-edit-modal');
     }
 
     public function save()

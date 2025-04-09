@@ -5,7 +5,7 @@ namespace Modules\Billing\Http\Livewire\Admin;
 use Livewire\Component;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
-
+/* @deprecated */
 class SubscriptionPlans extends Component
 {
     public $listeners = ['refreshSubscriptionPlans' => '$refresh'];
@@ -15,7 +15,7 @@ class SubscriptionPlans extends Component
     public function render()
     {
         $subscriptionPlans = SubscriptionPlan::all();
-        return view('billing::admin.livewire.subscription-plans', compact('subscriptionPlans'));
+        return view('modules.billing::admin.livewire.subscription-plans', compact('subscriptionPlans'));
     }
 
     public function syncPricesFromStripe()
