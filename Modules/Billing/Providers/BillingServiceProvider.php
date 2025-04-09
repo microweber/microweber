@@ -69,6 +69,7 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         $this->app->register(BillingCashierServiceProvider::class);
 
         $this->app->register(BillingFilamentAdminPanelProvider::class);
+        $this->app->register(BillingFilamentFrontentPanelProvider::class);
         $this->commands([
             AutoActivateFreeTrial::class,
         ]);
@@ -84,7 +85,7 @@ class BillingServiceProvider extends BaseModuleServiceProvider
             return new \Modules\Billing\Services\UserDemoActivate();
         });
 
-        FilamentRegistry::registerPage(\Modules\Billing\Filament\Fronetend\Pages\UserSubscriptionPanel::class);
+      //  FilamentRegistry::registerPage(\Modules\Billing\Filament\Fronetend\Pages\UserSubscriptionPanel::class);
 
         // Register filament page for Microweber module settings
 //         FilamentRegistry::registerPage(Settings::class);

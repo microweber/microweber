@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Billing\Filament\Fronetend\Pages;
+namespace Modules\Billing\Filament\Frontend\Pages;
 
 use Filament\Actions\ActionGroup;
 use Filament\Forms;
