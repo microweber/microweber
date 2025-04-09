@@ -3,15 +3,10 @@
 namespace Modules\Billing\Providers;
 
 use Filament\Facades\Filament;
-use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Billing\Console\Commands\AutoActivateFreeTrial;
 use Modules\Billing\Http\Livewire\Admin\SubscriptionPlanEditModal;
 use Modules\Billing\Http\Livewire\Admin\SubscriptionPlanGroupEditModal;
@@ -19,11 +14,6 @@ use Modules\Billing\Http\Livewire\Admin\SubscriptionPlans;
 use Modules\Billing\Http\Livewire\Admin\Subscriptions;
 use Modules\Billing\Http\Livewire\Admin\Users;
 use Modules\Billing\Http\Livewire\Admin\UserSubscriptionEditModal;
-use Modules\Newsletter\Providers\NewsletterFilamentAdminPanelProvider;
-use Modules\Billing\Filament\Pages\Settings;
-use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource;
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
-use Modules\Billing\Filament\Resources\BillingUserResource;
 
 
 class BillingServiceProvider extends BaseModuleServiceProvider
@@ -93,6 +83,8 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton(\Modules\Billing\Services\UserDemoActivate::class, function ($app) {
             return new \Modules\Billing\Services\UserDemoActivate();
         });
+
+        FilamentRegistry::registerPage(\Modules\Billing\Filament\Fronetend\Pages\UserSubscriptionPanel::class);
 
         // Register filament page for Microweber module settings
 //         FilamentRegistry::registerPage(Settings::class);

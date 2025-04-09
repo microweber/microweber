@@ -4,7 +4,7 @@ namespace Modules\Billing\Tests\Unit\Filament;
 
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
 use Modules\Billing\Tests\Unit\BillingTestCase;
@@ -58,7 +58,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
             Filament::getPanel('admin-billing'),
         );
 
-        Livewire::test(\Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages\CreateSubscriptionPlan::class)
+        Livewire::test(SubscriptionPlanResource\Pages\CreateSubscriptionPlan::class)
             ->fillForm([
                 'name' => $planData->name,
                 'sku' => $planData->sku,
@@ -112,7 +112,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
             Filament::getPanel('admin-billing'),
         );
 
-        Livewire::test(\Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages\EditSubscriptionPlan::class, [
+        Livewire::test(\Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages\EditSubscriptionPlan::class, [
             'record' => $plan->id,
         ])
             ->fillForm([
@@ -146,7 +146,7 @@ class SubscriptionPlanResourceTest extends BillingTestCase
             Filament::getPanel('admin-billing'),
         );
 
-        Livewire::test(\Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages\CreateSubscriptionPlan::class)
+        Livewire::test(SubscriptionPlanResource\Pages\CreateSubscriptionPlan::class)
             ->fillForm([
                 'name' => '',
                 'sku' => '',

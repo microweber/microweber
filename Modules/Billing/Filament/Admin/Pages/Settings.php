@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Billing\Filament\Pages;
+namespace Modules\Billing\Filament\Admin\Pages;
 
+use Filament\Actions\Action;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Placeholder;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Actions\Action;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Billing\Services\StripeService;
 

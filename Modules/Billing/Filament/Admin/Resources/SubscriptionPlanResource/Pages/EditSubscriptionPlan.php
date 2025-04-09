@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
+namespace Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages;
 
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource;
 
 class EditSubscriptionPlan extends EditRecord
 {

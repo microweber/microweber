@@ -1,11 +1,12 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources\BillingUserResource\Pages;
+namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages;
 
 use App\Models\User;
-use Modules\Billing\Filament\Resources\BillingUserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Modules\Billing\Filament\Admin\Resources\BillingUserResource;
+use Modules\Billing\Filament\Resources\BillingUserResource\Pages\UserDemo;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Models\SubscriptionPlan;
 

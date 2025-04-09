@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources\BillingUserResource\Pages;
+namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages;
 
-use Modules\Billing\Filament\Resources\BillingUserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Modules\Billing\Filament\Admin\Resources\BillingUserResource;
 
 class ListUsers extends ListRecords
 {

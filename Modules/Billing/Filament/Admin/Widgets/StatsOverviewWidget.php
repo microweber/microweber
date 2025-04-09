@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Billing\Filament\Widgets;
+namespace Modules\Billing\Filament\Admin\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

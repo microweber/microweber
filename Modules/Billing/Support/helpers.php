@@ -48,6 +48,22 @@ function checkUserIsSubscribedToPlanBySKU($userId, $sku)
     }
     return false;
 }
+function getUserActiveSubscriptionPlan($userId)
+{
+
+    $user = \MicroweberPackages\User\Models\User::where('id', $userId)->first();
+    if ($user) {
+        $subscriptionCustomer = \Modules\Billing\Models\SubscriptionCustomer::firstOrCreate([
+            'user_id' => $user->id,
+        ]);
+        $subscriptionCustomer->load('subscriptions');
+        $subs = $subscriptionCustomer->subscriptions;
+        if ($subs) {
+            return $subs->toArray();
+        }
+    }
+    return [];
+}
 function getUserActiveSubscriptionPlanBySKU($userId, $sku)
 {
     $user = \MicroweberPackages\User\Models\User::where('id', $userId)->first();

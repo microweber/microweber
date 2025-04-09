@@ -1,18 +1,16 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources;
+namespace Modules\Billing\Filament\Admin\Resources;
 
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource\RelationManagers;
-use Modules\Billing\Models\SubscriptionPlan;
-use Modules\Billing\Models\SubscriptionPlanGroup;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Notifications\Notification;
-use Filament\Actions\Action;
+use Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
+use Modules\Billing\Filament\Resources\SubscriptionPlanResource\RelationManagers;
+use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Services\StripeService;
 
 class SubscriptionPlanResource extends Resource
@@ -223,9 +221,9 @@ class SubscriptionPlanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSubscriptionPlans::route('/'),
-            'create' => Pages\CreateSubscriptionPlan::route('/create'),
-            'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
+            'index' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages\ListSubscriptionPlans::route('/'),
+            'create' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages\CreateSubscriptionPlan::route('/create'),
+            'edit' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages\EditSubscriptionPlan::route('/{record}/edit'),
         ];
     }
 

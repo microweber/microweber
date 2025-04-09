@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
+namespace Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages;
 
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource;
 use Filament\Resources\Pages\CreateRecord;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource;
 
 class CreateSubscriptionPlan extends CreateRecord
 {

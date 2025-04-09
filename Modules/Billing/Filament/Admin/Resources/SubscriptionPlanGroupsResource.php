@@ -1,18 +1,15 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources;
+namespace Modules\Billing\Filament\Admin\Resources;
 
-use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\Pages;
-use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\Pages;
+use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 use Modules\Billing\Models\SubscriptionPlanGroup;
-use Illuminate\Support\Str;
 
 class SubscriptionPlanGroupsResource extends Resource
 {
@@ -110,17 +107,17 @@ class SubscriptionPlanGroupsResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\PlansRelationManager::make(),
-            RelationManagers\FeaturesRelationManager::make(),
+            \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers\PlansRelationManager::make(),
+            \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers\FeaturesRelationManager::make(),
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSubscriptionPlanGroups::route('/'),
-            'create' => Pages\CreateSubscriptionPlanGroups::route('/create'),
-            'edit' => Pages\EditSubscriptionPlanGroups::route('/{record}/edit'),
+            'index' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\ListSubscriptionPlanGroups::route('/'),
+            'create' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\CreateSubscriptionPlanGroups::route('/create'),
+            'edit' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\EditSubscriptionPlanGroups::route('/{record}/edit'),
         ];
     }
 }

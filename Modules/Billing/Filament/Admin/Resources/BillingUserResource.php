@@ -1,22 +1,18 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources;
+namespace Modules\Billing\Filament\Admin\Resources;
 
-use App\Models\User;
-use Modules\Billing\Filament\Resources\BillingUserResource\Pages;
-use Modules\Billing\Filament\Resources\BillingUserResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\Billing\Filament\Resources\BillingUserResource\Pages;
+use Modules\Billing\Filament\Resources\BillingUserResource\RelationManagers;
 use Modules\Billing\Models\BillingUser;
 use Modules\Billing\Models\SubscriptionPlan;
-use Filament\Notifications\Notification;
 use Modules\Billing\Services\StripeService;
-use Filament\Actions\Action;
 
 class BillingUserResource extends Resource
 {
@@ -112,9 +108,9 @@ class BillingUserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => \Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages\ListUsers::route('/'),
+            'create' => \Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages\CreateUser::route('/create'),
+            'edit' => \Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages\EditUser::route('/{record}/edit'),
         ];
     }
 

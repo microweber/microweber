@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Billing\Filament\Widgets;
+namespace Modules\Billing\Filament\Admin\Widgets;
 
 use Filament\Tables;
 use Filament\Tables\Table;

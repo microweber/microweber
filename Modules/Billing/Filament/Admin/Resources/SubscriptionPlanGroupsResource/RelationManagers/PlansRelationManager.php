@@ -1,13 +1,12 @@
 <?php
 
-namespace Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\RelationManagers;
+namespace Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 class PlansRelationManager extends RelationManager
 {
