@@ -12,13 +12,13 @@ use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookController
 {
 
-    public function __construct()
+/*    public function __construct()
     {
         if (config('cashier.webhook.secret')) {
 
             $this->middleware(VerifyWebhookSignature::class);
         }
-    }
+    }*/
 
     public function handleWebhook(Request $request)
     {

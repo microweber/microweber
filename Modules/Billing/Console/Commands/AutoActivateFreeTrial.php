@@ -5,6 +5,7 @@ namespace Modules\Billing\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Modules\Billing\Models\SubscriptionManual;
+use Modules\Billing\Services\UserDemoActivate;
 
 class AutoActivateFreeTrial  extends Command
 {
@@ -38,7 +39,7 @@ class AutoActivateFreeTrial  extends Command
                     $user->demo_started_at = null;
                     $user->save();
 
-                    \Modules\SaasPanel\UserDemo::activate($user->id);
+                    UserDemoActivate::activate($user->id);
 
                     $this->info('Free trial auto activated for user: ' . $user->email);
 

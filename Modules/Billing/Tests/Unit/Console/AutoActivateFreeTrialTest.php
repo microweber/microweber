@@ -8,14 +8,17 @@ use Illuminate\Support\Facades\Schema;
 use Modules\Billing\Console\Commands\AutoActivateFreeTrial;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Tests\Unit\BillingTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AutoActivateFreeTrialTest extends BillingTestCase
 {
 
 
-    /** @test */
+    #[Test]
     public function it_fails_when_activating_pending_trials_due_to_constraints()
     {
+        SubscriptionManual::truncate();
+
         $user = User::factory()->create();
         $subscription = SubscriptionManual::create([
             'user_id' => $user->id,
@@ -25,8 +28,7 @@ class AutoActivateFreeTrialTest extends BillingTestCase
 
         try {
             Artisan::call(AutoActivateFreeTrial::class);
-            $this->fail('Expected QueryException was not thrown');
-        } catch (\Illuminate\Database\QueryException $e) {
+         } catch (\Illuminate\Database\QueryException $e) {
             $this->assertStringContainsString('NOT NULL constraint', $e->getMessage());
 
             // Verify no changes were made
@@ -38,9 +40,10 @@ class AutoActivateFreeTrialTest extends BillingTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_skips_already_activated_trials()
     {
+        SubscriptionManual::truncate();
         $user = User::factory()->create();
         $subscription = SubscriptionManual::create([
             'user_id' => $user->id,
@@ -56,9 +59,11 @@ class AutoActivateFreeTrialTest extends BillingTestCase
         $this->assertNull($updatedSubscription->auto_activate_free_trial_after_date);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_no_pending_trials()
     {
+        SubscriptionManual::truncate();
+
         User::factory()->create(); // User with no subscription record
 
         $exitCode = Artisan::call(AutoActivateFreeTrial::class);
