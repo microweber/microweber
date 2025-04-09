@@ -18,10 +18,13 @@ return new class extends Migration {
         }
 
 
+
+
+
         Schema::create('media_thumbnails', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
-            $table->string('filename',500)->index()->nullable();
+            $table->string('filename',500)->nullable();
             $table->longText('image_options')->nullable();
             $table->timestamps();
         });
