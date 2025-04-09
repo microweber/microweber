@@ -20,7 +20,7 @@ class OpenApiServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
-        $this->app->register(L5SwaggerServiceProvider::class);
+       $this->app->register(L5SwaggerServiceProvider::class);
         $this->registerConfig();
         $this->registerViews();
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/swagger.php'));

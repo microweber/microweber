@@ -70,6 +70,17 @@ class SwGen
 
     protected function getBaseInfo()
     {
+        $siteUrl = site_url();
+        $parsedUrl = parse_url($siteUrl);
+        $host = $parsedUrl['host'] ?? '';
+        $port = $parsedUrl['port'] ?? '';
+        $scheme = $parsedUrl['scheme'] ?? 'http';
+        $basePath = $parsedUrl['path'] ?? '/';
+
+        if($port) {
+            $host .= ':' . $port;
+        }
+
         $baseInfo = [
             'swagger' => '2.0',
             'info' => [
@@ -77,8 +88,8 @@ class SwGen
                 'description' => $this->config['description'],
                 'version' => $this->config['appVersion'],
             ],
-            'host' => $this->config['host'],
-            'basePath' => $this->config['basePath'],
+            'host' => $host,
+            'basePath' =>  $basePath
         ];
 
         if (!empty($this->config['schemes'])) {
@@ -113,6 +124,8 @@ class SwGen
         } else {
             $authFlow = 'accessCode';
         }
+
+
        // $authFlow = $this->config['authFlow'];
 
         $this->validateAuthFlow($authFlow);
@@ -642,7 +655,8 @@ class SwGen
 
     private function getEndpoint(string $path)
     {
-        return rtrim($this->config['host'], '/') . $path;
+      //  return rtrim($this->config['host'], '/') . $path;
+        return  site_url($path);
     }
 
     private function generateOauthScopes()

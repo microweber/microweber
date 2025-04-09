@@ -12,6 +12,7 @@
 namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -107,15 +108,24 @@ class UserServiceProvider extends AuthServiceProvider
         ];
 
         $need_to_generate_keys = false;
+
         if (!is_file($publicKey) or !is_file($privateKey)) {
             $need_to_generate_keys = true;
         }
-        if ($need_to_generate_keys) {
-            $keys = RSAKeys::createKey( 4096);
-            file_put_contents($publicKey, \Arr::get($keys, 'publickey'));
-            file_put_contents($privateKey, \Arr::get($keys, 'privatekey'));
-        }
 
+      /*  else if (is_file($privateKey) and filesize($privateKey) < 10){
+            $need_to_generate_keys = true;
+        }*/
+
+        if ($need_to_generate_keys) {
+            $privateKeyGenerate = \MicroweberPackages\User\Services\RSAKeys::createKey(4096);
+            $publicKeyGenerate = $privateKeyGenerate->getPublicKey();
+            $privateKeyValue = $privateKeyGenerate->toString('PKCS8');
+            $publicKeyValue = $publicKeyGenerate->toString('PKCS8');
+
+            file_put_contents($publicKey, $publicKeyValue);
+            file_put_contents($privateKey, $privateKeyValue);
+        }
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 

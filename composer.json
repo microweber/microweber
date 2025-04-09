@@ -37,7 +37,6 @@
     "filament/support": "^3.3.4",
     "microweber-deps/eloquent-serialize": "^1.2",
     "microweber-deps/wire-elements-modal": "^1.0",
-    "microweber-deps/l5-swagger": "v1.0.0",
     "akaunting/laravel-money": "*",
     "alexwestergaard/php-ga4": "dev-master",
     "barryvdh/laravel-debugbar": "v3.14.10",
@@ -141,7 +140,8 @@
     "tapp/filament-timezone-field": "*",
     "league/flysystem-bundle": "^3.4",
     "league/flysystem-aws-s3-v3": "^3.29",
-    "barryvdh/laravel-dompdf": "*"
+    "barryvdh/laravel-dompdf": "*",
+    "darkaonline/l5-swagger": "^9.0"
   },
   "require-dev": {
     "fakerphp/faker": "^1.24",

@@ -24,6 +24,7 @@ use Rupadana\FilamentSlider\Components\InputSliderGroup;
 
 abstract class LiveEditModuleSettings extends Page
 {
+
     public string $module;
     public string $optionGroup;
     public array $options = [];

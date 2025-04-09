@@ -10,7 +10,7 @@ use Modules\OpenApi\Models\SwGen;
 
 class SwaggerController extends L5SwaggerController
 {
-    public function docs(Request $request, string $file = null)
+    public function docs(Request $request, string $file = null): \Illuminate\Http\Response
     {
 
         $host = (parse_url(site_url()));

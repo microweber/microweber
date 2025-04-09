@@ -16,6 +16,13 @@ class ListContents extends ListRecords
     use TranslatableRecordsList;
 
 
+//    public function render(): \Illuminate\Contracts\View\View
+//    {
+//
+//
+//        return parent::render();
+//    }
+
     public function getDefaultLayoutView(): string
     {
         return 'grid';
