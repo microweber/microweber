@@ -16,12 +16,12 @@ return new class extends Migration
         }
         Schema::create('subscriptions_manual', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
             $table->integer('subscription_plan_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->tinyInteger('auto_activate_free_trial_after_date')->nullable();
-            $table->dateTime('activate_free_trial_after_date');
+            $table->dateTime('activate_free_trial_after_date')->nullable();
             $table->timestamps();
-            $table->index(['user_id']);
+
         });
 
         try {

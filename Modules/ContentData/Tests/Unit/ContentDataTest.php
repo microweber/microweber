@@ -33,7 +33,7 @@ class ContentDataTest extends TestCase
 
         $product = Product::find($newProduct3->id);
         $contentData = $product->getContentData();
-
+ 
         $this->assertEquals('bobi', $contentData['rich']);
         $this->assertEquals('1', $contentData['qty']);
         $this->assertEquals('skubidu', $contentData['sku']);

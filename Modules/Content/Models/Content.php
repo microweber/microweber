@@ -55,12 +55,14 @@ class Content extends Model
     use HasMultilanguageTrait;
     use MaxPositionTrait;
     use ParentCannotBeSelfTrait;
+
     /**
      * @method filter(array $filter)
      * @see ProductFilter
      */
 
     use CustomFieldPriceTrait;
+
     protected $table = 'content';
     protected $content_type = 'content';
     public $additionalData = [];
@@ -194,7 +196,6 @@ class Content extends Model
     }
 
 
-
     public function editLink()
     {
         return content_edit_link($this->id);
@@ -225,9 +226,6 @@ class Content extends Model
 
         return $shortDescription;
     }
-
-
-
 
 
     private function fetchSingleAttributeByType($type, $returnAsObject = false)
@@ -263,7 +261,6 @@ class Content extends Model
     }
 
 
-
     /* PRODUCT related functions */
 
     public function getPriceAttribute()
@@ -280,9 +277,10 @@ class Content extends Model
 
     public function getPricesAttribute()
     {
-        return   app()->shop_manager->get_product_prices($this->id, false);
+        return app()->shop_manager->get_product_prices($this->id, false);
 
     }
+
     public function getPriceDisplayAttribute()
     {
         $originalPrice = $this->getPriceAttribute();
@@ -363,11 +361,11 @@ class Content extends Model
         return '';
     }
 
-    public function getDiscountPercentage() : int
+    public function getDiscountPercentage(): int
     {
         $originalPrice = $this->getPriceAttribute();
         $specialPrice = $this->getSpecialPriceAttribute();
-        if(!$originalPrice or !$specialPrice){
+        if (!$originalPrice or !$specialPrice) {
             return 0;
         }
         $item = [];
@@ -390,13 +388,13 @@ class Content extends Model
 
     public function getSpecialPriceAttribute()
     {
-        if(function_exists('offers_get_price')){
+        if (function_exists('offers_get_price')) {
             $priceModel = $this->getPriceModelAttribute();
-            if($priceModel && $priceModel->id) {
+            if ($priceModel && $priceModel->id) {
                 $productId = $this->id;
                 $offers_get_price = offers_get_price($productId, $priceModel->id);
-                if($offers_get_price and isset($offers_get_price['offer_price']) and $offers_get_price['offer_price'] != '') {
-                    return  $offers_get_price['offer_price'];
+                if ($offers_get_price and isset($offers_get_price['offer_price']) and $offers_get_price['offer_price'] != '') {
+                    return $offers_get_price['offer_price'];
                 }
             }
         }
@@ -575,16 +573,49 @@ class Content extends Model
         }
     }
 
-    public function getContentData($values = [])
+    public function getContentData()
     {
-        $defaultKeys = self::$contentDataDefault;
-        $contentData = parent::getContentData($values);
-
-        foreach ($contentData as $key => $value) {
-            $defaultKeys[$key] = $value;
+        $defaultKeys = [];
+        if (isset(self::$contentDataDefault) and is_array(self::$contentDataDefault)) {
+            $defaultKeys = self::$contentDataDefault;
         }
 
-        return $defaultKeys;
+
+        $savedData = app()->content_repository->getContentData($this->id);
+
+
+        $ready = [];
+        if (isset($savedData) and is_array($savedData)) {
+            foreach ($savedData as $key => $value) {
+                if (isset($value['field_name']) and isset($value['field_value'])) {
+                    $ready[$value['field_name']] = $value['field_value'];
+                }
+            }
+        }
+        if ($defaultKeys) {
+            foreach ($defaultKeys as $key => $value) {
+                if (!isset($ready[$key])) {
+                    $ready[$key] = $value;
+                }
+            }
+        }
+        return $ready;
+
+
+        /*
+
+
+           $contentData = self::contentData($values);
+
+           if ($contentData) {
+               $contentData = $contentData->toArray();
+               dd($contentData);
+           }
+           foreach ($contentData as $key => $value) {
+               $defaultKeys[$key] = $value;
+           }
+
+           return $defaultKeys;*/
     }
 
     public function scopeFrontendFilter($query, $params)
