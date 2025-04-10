@@ -52,14 +52,22 @@ class UserSubscriptionPanel extends Page
             }
         }
 
+        $disabledSkus = [];
+        foreach ($this->activeSubscriptions as $subscription) {
+            if ($subscription->plan && $subscription->plan->sku) {
+                $disabledSkus[] = $subscription->plan->sku;
+            }
+        }
+
         return [
             RadioDeck::make('plan')
                 ->label('Choose a Subscription Plan')
                 ->options($options)
                 ->descriptions($descriptions)
                 ->icons($icons)
+                ->disableOptionWhen(fn($value) => in_array($value, $disabledSkus))
                 ->required()
-                ->columns(3),
+                ->columns(1),
         ];
     }
 
