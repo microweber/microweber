@@ -2,8 +2,10 @@
 
 namespace Modules\Billing\Services;
 
+use Illuminate\Support\Facades\Config;
 use Laravel\Cashier\Cashier;
 use MicroweberPackages\User\Models\User;
+use Modules\Payment\Models\PaymentProvider;
 use Stripe\StripeClient;
 use Exception;
 use Modules\Billing\Models\SubscriptionPlan;
@@ -16,10 +18,56 @@ class StripeService
      * @var StripeClient
      */
     protected $stripe;
+    public $paymentProivderId = 0;
 
     public function __construct()
     {
+
+        $cashier_billing_payment_provider_id = get_option('cashier_billing_payment_provider_id', 'payments');
+        if ($cashier_billing_payment_provider_id) {
+            $this->paymentProivderId = $cashier_billing_payment_provider_id;
+            $provider = PaymentProvider::where('is_active', 1)
+                ->where('provider', 'stripe')
+                ->where('id', $cashier_billing_payment_provider_id)
+                ->first();
+
+            $cashier_stripe_publishable_api_key = '';
+            $cashier_stripe_api_key = '';
+            $cashier_stripe_webhook_secret = 'false';
+            if ($provider->settings and isset($provider->settings['publishable_key'])) {
+                $cashier_stripe_publishable_api_key = $provider->settings['publishable_key'];
+            }
+
+            if ($provider->settings and isset($provider->settings['secret_key'])) {
+                $cashier_stripe_api_key = $provider->settings['secret_key'];
+            }
+            if ($provider->settings and isset($provider->settings['webhook_secret'])) {
+                $cashier_stripe_webhook_secret = $provider->settings['webhook_secret'];
+            }
+
+
+            //  $cashier_stripe_api_key = get_option('cashier_stripe_api_key', 'payments');
+            //   $cashier_stripe_publishable_api_key = get_option('cashier_stripe_publishable_api_key', 'payments');
+            //$cashier_stripe_webhook_secret = get_option('cashier_stripe_webhook_secret', 'payments');
+            $cashier_currency = get_option('cashier_currency', 'payments');
+            $cashier_currency_locale = get_option('cashier_currency_locale', 'payments');
+
+            if ($cashier_currency) {
+                Config::set('cashier.currency', $cashier_currency);
+            }
+            if ($cashier_currency_locale) {
+                Config::set('cashier.currency_locale', $cashier_currency_locale);
+            }
+
+            if ($cashier_stripe_api_key) {
+                Config::set('cashier.secret', $cashier_stripe_api_key);
+                Config::set('cashier.key', $cashier_stripe_publishable_api_key);
+                Config::set('cashier.webhook.secret', $cashier_stripe_webhook_secret);
+            }
+        }
         $this->stripe = Cashier::stripe();
+
+
     }
 
     public function getProducts(array $params = [])
@@ -35,6 +83,11 @@ class StripeService
     public function getInvoices(array $params = [])
     {
         return $this->stripe->invoices->all($params);
+    }
+    public function getPaymentProivderId(): int
+    {
+       return $this->paymentProivderId;
+
     }
 
     public function testConnection(): bool
