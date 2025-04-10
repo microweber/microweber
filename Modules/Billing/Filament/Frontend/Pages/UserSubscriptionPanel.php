@@ -22,6 +22,7 @@ class UserSubscriptionPanel extends Page
 
 
     public ?string $plan = null;
+
     protected function getFormSchema(): array
     {
         $plans = SubscriptionPlan::query()->get();
@@ -74,21 +75,14 @@ class UserSubscriptionPanel extends Page
             return;
         }
 
-            $request = new Request();
-            $request->merge(['sku' => $planSku]);
+        $request = request();
+        $request->merge(['sku' => $planSku]);
 
-            $controller = new SubscribeToPlanController();
-            $response = $controller->subscribeToPlan($request);
-            dd($response);
-            if (method_exists($response, 'getTargetUrl')) {
-                $redirectUrl = $response->getTargetUrl();
+        $controller = new SubscribeToPlanController();
+        $response = $controller->subscribeToPlan($request);
 
-            }
 
-            Notification::make()
-                ->title('Unexpected response from server')
-                ->danger()
-                ->send();
+        return $response;
 
     }
 

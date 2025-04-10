@@ -195,7 +195,13 @@ class SubscriptionPlanResource extends Resource
                     ->label('Sync from Stripe')
                     ->color('primary')
                     ->action(function () {
-                        $service = new StripeService();
+
+
+                        // Sync products from Stripe
+                        $service = app()->make(\Modules\Billing\Services\StripeService::class);
+                        /**
+                         * @var StripeService $service
+                         */
                         $count = $service->syncProducts();
 
                         Notification::make()

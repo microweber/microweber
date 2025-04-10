@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\ValidatesWhenResolvedTrait;
 use Illuminate\Validation\ValidationException;
-use Auth;
+
 
 class RegisterRequest extends FormRequest
 {

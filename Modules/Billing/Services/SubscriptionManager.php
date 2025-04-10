@@ -12,25 +12,128 @@ use Modules\SiteStats\Models\UserAttribute;
 
 class SubscriptionManager
 {
-     public function getSubscriptionCustomer()
+    private function handleCart($plan)
+    {
+        mw()->cart_manager->delete_cart([
+            'session_id' => session_id()
+        ]);
+
+        mw()->cart_manager->update_cart([
+            'rel_type' => morph_name(SubscriptionPlan::class),
+            'rel_id' => $plan['id'],
+            'qty' => 1,
+            'title' => $plan['name'],
+            'price' => $plan['price'],
+        ]);
+
+        return get_cart();
+    }
+
+    private function createOrder(SubscriptionCustomer $subscriptionCustomer, $plan, $isPaid = false)
+    {
+        $cartTotal = cart_total();
+        $currencyCode = get_currency_code();
+
+
+
+        // Sync products from Stripe
+        $service = app()->make(\Modules\Billing\Services\StripeService::class);
+        /**
+         * @var StripeService $service
+         */
+        $payment_provider_id = $service->getPaymentProivderId();
+        $payment_provider = $service->getPaymentProivderType();
+
+        $order = new Order();
+        $order->created_by = $subscriptionCustomer->user_id;
+        $order->customer_id = $subscriptionCustomer->id;
+        $order->first_name = $subscriptionCustomer->first_name;
+        $order->last_name = $subscriptionCustomer->last_name;
+        $order->payment_provider = $payment_provider;
+        $order->payment_provider_id = $payment_provider_id;
+        $order->email = $subscriptionCustomer->email();
+        $order->currency = $currencyCode;
+        $order->amount = $cartTotal;
+        $order->rel_type = morph_name(SubscriptionPlan::class);
+        $order->rel_id = $plan['id'];
+        $order->is_paid = $isPaid;
+        $order->order_completed = $isPaid;
+        $order->transaction_id = $isPaid ? 'billing-order-'.time().rand(1111,99999) : null;
+        $order->save();
+
+        $this->attachCartItemsToOrder($order);
+
+        return $order;
+    }
+
+    private function attachCartItemsToOrder($order)
+    {
+        $cart = get_cart();
+        if (!empty($cart)) {
+            foreach ($cart as $cartItem) {
+                Cart::where('id', $cartItem['id'])->update([
+                    'order_completed' => 1,
+                    'order_id' => $order->id
+                ]);
+            }
+        }
+    }
+
+    private function prepareCheckoutData($plan, $order, $subscriptionCustomer, $type = 'subscription')
+    {
+        $metaData = [
+            'subscription_plan_id' => $plan['id'],
+            'internal_order_id' => $order->id,
+        ];
+
+        $utmDetails = UserAttribute::getUtmDetails($subscriptionCustomer->user_id);
+        if (!empty($utmDetails)) {
+            $metaData = array_merge($metaData, $utmDetails);
+        }
+
+        $checkoutData = [
+            'success_url' => route("billing.{$type}.success") . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route("billing.{$type}.cancel") . '?session_id={CHECKOUT_SESSION_ID}',
+            'metadata' => $metaData,
+        ];
+
+        if (!empty($plan['auto_apply_coupon_code'])) {
+            $checkoutData['discounts'][]['coupon'] = $plan['auto_apply_coupon_code'];
+        } else {
+            $checkoutData['allow_promotion_codes'] = true;
+        }
+
+        return $checkoutData;
+    }
+
+    private function triggerCheckoutEvent()
+    {
+        event(new BeginCheckoutEvent([
+            'cart' => get_cart(),
+            'total' => cart_total(),
+            'discount' => cart_get_discount(),
+            'currency' => get_currency_code()
+        ]));
+    }
+
+    public function getSubscriptionCustomer()
     {
         $user = auth()->user();
 
         if (!$user) {
-            return ['error'=>'User not found'];
+            return ['error' => 'User not found'];
         }
 
         $subscriptionCustomer = SubscriptionCustomer::firstOrCreate([
             'user_id' => $user->id,
         ]);
 
-        if($subscriptionCustomer->stripe_id){
+        if ($subscriptionCustomer->stripe_id) {
             $stripe = $subscriptionCustomer->stripe();
             try {
-                $stripeCustomer = $stripe->customers->retrieve($subscriptionCustomer->stripe_id);
-            }  catch (\Stripe\Exception\InvalidRequestException $e) {
-                $subscriptionCustomer->stripe_id = null;
-                $subscriptionCustomer->save();
+                $stripe->customers->retrieve($subscriptionCustomer->stripe_id);
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+                $subscriptionCustomer->update(['stripe_id' => null]);
             }
         }
 
@@ -40,7 +143,7 @@ class SubscriptionManager
     public function subscribeToPlan($sku, $referer = null)
     {
         if (!$sku) {
-            return ['error'=>'SKU not found'];
+            return ['error' => 'SKU not found'];
         }
 
         if ($referer) {
@@ -48,62 +151,59 @@ class SubscriptionManager
         }
 
         $subscriptionCustomer = $this->getSubscriptionCustomer($referer);
-
         $plan = getSubscriptionPlanBySKU($sku);
+
         if (!$plan) {
             return ['error' => 'Plan not found'];
         }
 
-        $swapFromPlan = false;
-        if (isset($plan['subscription_plan_group_id']) and $plan['subscription_plan_group_id'] != 0) {
-            $allPlansFromGroup = SubscriptionPlan::where('subscription_plan_group_id', $plan['subscription_plan_group_id'])->get();
-            if ($allPlansFromGroup) {
-                foreach ($allPlansFromGroup as $planFromGroup) {
-                    $isOnPlan = checkUserIsSubscribedToPlanBySKU(user_id(), $planFromGroup['sku']);
-                    if ($isOnPlan) {
-                        $planSubDetails = getUserSubscriptionPlanBySKU($planFromGroup['sku']);
-                        $subId = $planSubDetails['stripe_id'];
-                        if ($subId) {
-                            $stripe = $subscriptionCustomer->stripe();
-                            $stripeSubscription = $stripe->subscriptions->retrieve($subId);
+        $swapFromPlan = $this->findSwapablePlan($plan, $subscriptionCustomer);
 
-                            if ($stripeSubscription->status == 'active') {
-                                $swapFromPlan = $planFromGroup;
-                            } else {
-                                return ['error' => 'Cannot swap from inactive plan'];
-                            }
-                        }
+        return $swapFromPlan
+            ? $this->swapSubscription($subscriptionCustomer, $swapFromPlan, $plan)
+            : $this->newSubscription($subscriptionCustomer, $plan);
+    }
+
+    private function findSwapablePlan($plan, $subscriptionCustomer)
+    {
+        if (!isset($plan['subscription_plan_group_id']) || $plan['subscription_plan_group_id'] == 0) {
+            return false;
+        }
+
+        $groupPlans = SubscriptionPlan::where('subscription_plan_group_id', $plan['subscription_plan_group_id'])->get();
+
+        foreach ($groupPlans as $groupPlan) {
+            if (checkUserIsSubscribedToPlanBySKU(user_id(), $groupPlan['sku'])) {
+                $planSubDetails = getUserSubscriptionPlanBySKU($groupPlan['sku']);
+
+                if (!empty($planSubDetails['stripe_id'])) {
+                    $stripe = $subscriptionCustomer->stripe();
+                    $subscription = $stripe->subscriptions->retrieve($planSubDetails['stripe_id']);
+
+                    if ($subscription->status == 'active') {
+                        return $groupPlan;
                     }
                 }
             }
         }
 
-        if ($swapFromPlan) {
-            return $this->swapSubscription($subscriptionCustomer, $swapFromPlan, $plan);
-        } else {
-            return $this->newSubscription($subscriptionCustomer, $plan);
-        }
+        return false;
     }
 
-    public function swapSubscription($subscriptionCustomer, $plan, $newPlan)
+    public function swapSubscription(SubscriptionCustomer $subscriptionCustomer, $plan, $newPlan)
     {
-        $swapFromPlan = $plan;
-
-        $planSubDetails = getUserSubscriptionPlanBySKU($swapFromPlan['sku']);
-
-        $subId = $planSubDetails['stripe_id'];
-
+        $planSubDetails = getUserSubscriptionPlanBySKU($plan['sku']);
         $stripe = $subscriptionCustomer->stripe();
-        $stripeSubscription = $stripe->subscriptions->retrieve($subId);
+        $subscription = $stripe->subscriptions->retrieve($planSubDetails['stripe_id']);
 
         $updateSub = $stripe->subscriptions->update(
-            $subId,
+            $planSubDetails['stripe_id'],
             [
                 'cancel_at_period_end' => false,
                 'proration_behavior' => 'create_prorations',
                 'items' => [
                     [
-                        'id' => $stripeSubscription->items->data[0]->id,
+                        'id' => $subscription->items->data[0]->id,
                         'price' => $newPlan['remote_provider_price_id'],
                     ],
                 ],
@@ -111,216 +211,41 @@ class SubscriptionManager
         );
 
         if ($updateSub) {
-            $customerDetails = [];
-            $customerDetails['email'] = $subscriptionCustomer->email();
-
-            mw()->cart_manager->delete_cart([
-                'session_id' => session_id()
-            ]);
-            mw()->cart_manager->update_cart([
-                'for'=>'subscription_plans',
-                'for_id'=>$plan['id'],
-                'qty'=>1,
-                'title'=>$plan['name'],
-                'price'=> 10,
-            ]);
-
-            $cartTotal = cart_total();
-            $cartDiscount = cart_get_discount();
-            $currencyCode = get_currency_code();
-
-            $newOrder = new Order();
-            $newOrder->created_by = $subscriptionCustomer->user_id;
-            $newOrder->first_name = $subscriptionCustomer->first_name;
-            $newOrder->last_name = $subscriptionCustomer->last_name;
-            $newOrder->payment_gw = 'stripe';
-            $newOrder->email = $customerDetails['email'];
-            $newOrder->currency = $currencyCode;
-            $newOrder->amount = $cartTotal;
-            $newOrder->rel_type = 'subscription_plans';
-            $newOrder->rel_id = $plan['id'];
-            $newOrder->is_paid = 1;
-            $newOrder->order_completed = 1;
-            $newOrder->transaction_id = time().rand(1111,99999);
-            $newOrder->save();
-
-            $getCart = get_cart();
-            if (!empty($getCart)) {
-                foreach ($getCart as $cartItem) {
-                    $findCartItem = Cart::where('id', $cartItem['id'])->first();
-                    if ($findCartItem) {
-                        $findCartItem->order_completed = 1;
-                        $findCartItem->order_id = $newOrder->id;
-                        $findCartItem->save();
-                    }
-                }
-            }
-
-            event(new  OrderWasPaid($newOrder, []));
+            $cart = $this->handleCart($plan);
+            $order = $this->createOrder($subscriptionCustomer, $plan, true);
+            event(new OrderWasPaid($order, []));
         }
 
         return $updateSub;
     }
 
-    public function newSubscription($subscriptionCustomer, $plan)
+    public function newSubscription(SubscriptionCustomer $subscriptionCustomer, $plan)
     {
-        $customerDetails = [];
-        $customerDetails['email'] = $subscriptionCustomer->email();
-
-        mw()->cart_manager->delete_cart([
-            'session_id' => session_id()
-        ]);
-        mw()->cart_manager->update_cart([
-            'for'=>'subscription_plans',
-            'for_id'=>$plan['id'],
-            'qty'=>1,
-            'title'=>$plan['name'],
-            'price'=> 10,
-        ]);
-
-        $cartTotal = cart_total();
-        $cartDiscount = cart_get_discount();
-        $currencyCode = get_currency_code();
-
-        $newOrder = new Order();
-        $newOrder->created_by = $subscriptionCustomer->user_id;
-        $newOrder->first_name = $subscriptionCustomer->first_name;
-        $newOrder->last_name = $subscriptionCustomer->last_name;
-        $newOrder->payment_gw = 'stripe';
-        $newOrder->email = $customerDetails['email'];
-        $newOrder->is_paid = 0;
-        $newOrder->order_completed = 0;
-        $newOrder->currency = $currencyCode;
-        $newOrder->amount = $cartTotal;
-        $newOrder->rel_type = 'subscription_plans';
-        $newOrder->rel_id = $plan['id'];
-        $newOrder->save();
-
-        $getCart = get_cart();
-        if (!empty($getCart)) {
-            foreach ($getCart as $cartItem) {
-                $findCartItem = Cart::where('id', $cartItem['id'])->first();
-                if ($findCartItem) {
-                    $findCartItem->order_completed = 1;
-                    $findCartItem->order_id = $newOrder->id;
-                    $findCartItem->save();
-                }
-            }
-        }
-
-        $metaData = [
-            'subscription_plan_id' => $plan['id'],
-            'internal_order_id' => $newOrder->id,
-        ];
-
-        $utmDetails = UserAttribute::getUtmDetails($subscriptionCustomer->user_id);
-        if (!empty($utmDetails)) {
-            $metaData = array_merge($metaData, $utmDetails);
-        }
-
-        $checkoutData = [
-            'success_url' => route('billing.subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('billing.subscription.cancel') . '?session_id={CHECKOUT_SESSION_ID}',
-            'metadata' => $metaData,
-        ];
-
-        if(!empty($plan['auto_apply_coupon_code'])) {
-            $checkoutData['discounts'][]['coupon'] = $plan['auto_apply_coupon_code'];
-        } else {
-            $checkoutData['allow_promotion_codes'] = true;
-        }
+        $cart = $this->handleCart($plan);
+        $order = $this->createOrder($subscriptionCustomer, $plan);
+        $checkoutData = $this->prepareCheckoutData($plan, $order, $subscriptionCustomer);
 
         $response = $subscriptionCustomer
             ->newSubscription('default', $plan['remote_provider_price_id'])
-            ->checkout($checkoutData, $customerDetails);
+            ->checkout($checkoutData, ['email' => $subscriptionCustomer->email()]);
 
-        event(new BeginCheckoutEvent([
-            'cart'=>$getCart,
-            'total'=>$cartTotal,
-            'discount'=>$cartDiscount,
-            'currency'=>$currencyCode
-        ]));
+        $this->triggerCheckoutEvent();
 
         return $response;
     }
 
-    public function newPurchase($subscriptionCustomer, $plan)
+    public function newPurchase(SubscriptionCustomer $subscriptionCustomer, $plan)
     {
-        $customerDetails = [];
-        $customerDetails['email'] = $subscriptionCustomer->email();
+        $cart = $this->handleCart($plan);
+        $order = $this->createOrder($subscriptionCustomer, $plan);
+        $checkoutData = $this->prepareCheckoutData($plan, $order, $subscriptionCustomer, 'purchase');
 
-        mw()->cart_manager->delete_cart([
-            'session_id' => session_id()
-        ]);
-        mw()->cart_manager->update_cart([
-            'for'=>'subscription_plans',
-            'for_id'=>$plan['id'],
-            'qty'=>1,
-            'title'=>$plan['name'],
-            'price'=> 10,
-        ]);
-        $cartTotal = cart_total();
-        $cartDiscount = cart_get_discount();
-        $currencyCode = get_currency_code();
+        $response = $subscriptionCustomer->checkout(
+            [$plan['remote_provider_price_id'] => 1],
+            $checkoutData
+        );
 
-        $newOrder = new Order();
-        $newOrder->created_by = $subscriptionCustomer->user_id;
-        $newOrder->first_name = $subscriptionCustomer->first_name;
-        $newOrder->last_name = $subscriptionCustomer->last_name;
-        $newOrder->payment_gw = 'stripe';
-        $newOrder->email = $customerDetails['email'];
-        $newOrder->is_paid = 0;
-        $newOrder->order_completed = 0;
-        $newOrder->currency = $currencyCode;
-        $newOrder->amount = $cartTotal;
-        $newOrder->rel_type = 'subscription_plans';
-        $newOrder->rel_id = $plan['id'];
-        $newOrder->save();
-
-        $getCart = get_cart();
-        if (!empty($getCart)) {
-            foreach ($getCart as $cartItem) {
-                $findCartItem = Cart::where('id', $cartItem['id'])->first();
-                if ($findCartItem) {
-                    $findCartItem->order_completed = 1;
-                    $findCartItem->order_id = $newOrder->id;
-                    $findCartItem->save();
-                }
-            }
-        }
-
-        $metaData = [
-            'subscription_plan_id' => $plan['id'],
-            'internal_order_id' => $newOrder->id,
-        ];
-
-        $utmDetails = UserAttribute::getUtmDetails($subscriptionCustomer->user_id);
-        if (!empty($utmDetails)) {
-            $metaData = array_merge($metaData, $utmDetails);
-        }
-
-        $checkoutData = [
-            'success_url' => route('billing.purchase.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('billing.purchase.cancel') . '?session_id={CHECKOUT_SESSION_ID}',
-            'metadata' => $metaData,
-        ];
-
-        if(!empty($plan['auto_apply_coupon_code'])) {
-            $checkoutData['discounts'][]['coupon'] = $plan['auto_apply_coupon_code'];
-        } else {
-            $checkoutData['allow_promotion_codes'] = true;
-        }
-
-        $quantity = 1;
-
-        $response = $subscriptionCustomer->checkout([$plan['remote_provider_price_id'] => $quantity], $checkoutData);
-
-        event(new BeginCheckoutEvent([
-            'cart'=>$getCart,
-            'total'=>$cartTotal,
-            'discount'=>$cartDiscount,
-            'currency'=>$currencyCode,
-        ]));
+        $this->triggerCheckoutEvent();
 
         return $response;
     }

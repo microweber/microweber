@@ -560,7 +560,8 @@ class CartManager extends Crud
         }
         if (isset($params['session_id'])) {
             $id = $params['session_id'];
-            Cart::where('session_id', $id)->delete();
+            Cart::where('session_id', $id)->whereNull('order_completed')->delete();
+            Cart::where('session_id', $id)->where('order_completed',0)->delete();
         }
         if (isset($params['order_id'])) {
             $id = $params['order_id'];
