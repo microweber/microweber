@@ -10,6 +10,7 @@ use Filament\Pages\Page;
 use Illuminate\Http\Request;
 use Modules\Billing\Http\Controllers\SubscribeToPlanController;
 use Modules\Billing\Models\SubscriptionPlan;
+use Modules\Billing\Models\Subscription;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 
 class UserSubscriptionPanel extends Page
@@ -20,8 +21,20 @@ class UserSubscriptionPanel extends Page
 
     protected static ?string $slug = 'user-subscription';
 
-
     public ?string $plan = null;
+
+    public $activeSubscriptions = [];
+
+    public function mount()
+    {
+        $user = auth()->user();
+        if ($user) {
+            $this->activeSubscriptions = Subscription::with('plan')
+                ->where('user_id', $user->id)
+                ->where('stripe_status', 'active')
+                ->get();
+        }
+    }
 
     protected function getFormSchema(): array
     {
@@ -30,15 +43,15 @@ class UserSubscriptionPanel extends Page
         $options = [];
         $descriptions = [];
         $icons = [];
-        $plansOfTheUser = getUserActiveSubscriptionPlans();
 
-        if($plans) {
+        if ($plans) {
             foreach ($plans as $plan) {
                 $options[$plan->sku] = $plan->name;
                 $descriptions[$plan->sku] = $plan->description ?? '';
                 $icons[$plan->sku] = 'heroicon-m-currency-dollar';
             }
         }
+
         return [
             RadioDeck::make('plan')
                 ->label('Choose a Subscription Plan')
@@ -49,13 +62,6 @@ class UserSubscriptionPanel extends Page
                 ->columns(3),
         ];
     }
-
-//    public function form(Form $form): Form
-//    {
-//        return $form
-//            ->schema($this->getFormSchema())
-//            ->statePath('data');
-//    }
 
     public function submit()
     {
@@ -83,9 +89,7 @@ class UserSubscriptionPanel extends Page
         $controller = new SubscribeToPlanController();
         $response = $controller->subscribeToPlan($request);
 
-
         return $response;
-
     }
 
     protected function getActions(): array
