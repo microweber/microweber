@@ -17,9 +17,9 @@ class UserSubscriptionPanel extends Page
 {
     protected static string $view = 'modules.billing::filament.pages.user-subscription-panel';
 
-    protected static ?string $title = 'My Subscription';
+    protected static ?string $title = 'New Subscription';
 
-    protected static ?string $slug = 'user-subscription';
+    protected static ?string $slug = 'new-subscription';
 
     public ?string $plan = null;
 

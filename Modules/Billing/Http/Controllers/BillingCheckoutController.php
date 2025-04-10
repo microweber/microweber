@@ -30,7 +30,7 @@ class BillingCheckoutController
             return redirect(url()->previous() . '?status=no-subscription');
         }
 
-        return $customer->redirectToBillingPortal(route('filament.billing'));
+        return $customer->redirectToBillingPortal();
     }
 
     public function subscriptionSuccess(Request $request)
