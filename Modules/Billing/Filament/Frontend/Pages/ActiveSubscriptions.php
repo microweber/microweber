@@ -13,17 +13,25 @@ class ActiveSubscriptions extends Page
 
     protected static ?string $slug = 'my-active-subscriptions';
 
-    public array $activeSubscriptions = [];
+    public array $groupedSubscriptions = [];
 
     public function mount()
     {
         $user = auth()->user();
         if ($user) {
-            $this->activeSubscriptions = Subscription::with('plan')
+            $subscriptions = Subscription::with(['plan.group'])
                 ->where('user_id', $user->id)
                 ->where('stripe_status', 'active')
-                ->get()
-                ->toArray();
+                ->get();
+
+            $grouped = [];
+
+            foreach ($subscriptions as $subscription) {
+                $groupName = $subscription->plan->group->name ?? 'Plans';
+                $grouped[$groupName][] = $subscription->toArray();
+            }
+
+            $this->groupedSubscriptions = $grouped;
         }
     }
 }
