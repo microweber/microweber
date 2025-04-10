@@ -30,13 +30,15 @@ class UserSubscriptionPanel extends Page
         $options = [];
         $descriptions = [];
         $icons = [];
+        $plansOfTheUser = getUserActiveSubscriptionPlans();
 
-        foreach ($plans as $plan) {
-            $options[$plan->sku] = $plan->name;
-            $descriptions[$plan->sku] = $plan->description ?? '';
-            $icons[$plan->sku] = 'heroicon-m-currency-dollar';
+        if($plans) {
+            foreach ($plans as $plan) {
+                $options[$plan->sku] = $plan->name;
+                $descriptions[$plan->sku] = $plan->description ?? '';
+                $icons[$plan->sku] = 'heroicon-m-currency-dollar';
+            }
         }
-
         return [
             RadioDeck::make('plan')
                 ->label('Choose a Subscription Plan')

@@ -48,8 +48,14 @@ function checkUserIsSubscribedToPlanBySKU($userId, $sku)
     }
     return false;
 }
-function getUserActiveSubscriptionPlan($userId)
+function getUserActiveSubscriptionPlans($userId = false)
 {
+    if(!$userId){
+        $userId = user_id();
+    }
+    if (!$userId) {
+        return [];
+    }
 
     $user = \MicroweberPackages\User\Models\User::where('id', $userId)->first();
     if ($user) {

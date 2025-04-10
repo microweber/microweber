@@ -36,7 +36,7 @@ class SubscriptionManager
 
 
 
-        // Sync products from Stripe
+        //   Stripe
         $service = app()->make(\Modules\Billing\Services\StripeService::class);
         /**
          * @var StripeService $service
@@ -219,7 +219,7 @@ class SubscriptionManager
         return $updateSub;
     }
 
-    public function newSubscription(SubscriptionCustomer $subscriptionCustomer, $plan)
+    public function newSubscription(SubscriptionCustomer $subscriptionCustomer, $plan) : \Laravel\Cashier\Checkout
     {
         $cart = $this->handleCart($plan);
         $order = $this->createOrder($subscriptionCustomer, $plan);
@@ -234,7 +234,7 @@ class SubscriptionManager
         return $response;
     }
 
-    public function newPurchase(SubscriptionCustomer $subscriptionCustomer, $plan)
+    public function newPurchase(SubscriptionCustomer $subscriptionCustomer, $plan)  : \Laravel\Cashier\Checkout
     {
         $cart = $this->handleCart($plan);
         $order = $this->createOrder($subscriptionCustomer, $plan);

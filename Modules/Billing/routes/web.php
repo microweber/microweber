@@ -2,6 +2,8 @@
 
 
 use Illuminate\Http\Request;
+use \Illuminate\Support\Facades\Route;
+use Modules\Billing\Models\Subscription;
 
 
 Route::get('/checkout/billing-portal', function (Request $request) {
@@ -52,60 +54,89 @@ Route::get('/checkout/subscription-success', function (Request $request) {
             $transactionData['value'] = intval($checkoutSessionData['amount_total']) / 100;
             $transactionData['transaction_id'] = $checkoutSessionData['id'];
             if (isset($checkoutSessionData['currency'])) {
-                $transactionData['currency'] = $checkoutSessionData['currency'];
+                $transactionData['currency'] = strtoupper($checkoutSessionData['currency']);
             }
         }
 
     }
-    if ($latestInvoice) {
-        $latestInvoiceData = $subscriptionCustomer->stripe()->invoices->retrieve($latestInvoice);
-        if ($latestInvoiceData and isset($latestInvoiceData['total']) and $latestInvoiceData['total']) {
-            $transactionData['value'] = intval($latestInvoiceData['total']) / 100;
-            $transactionData['transaction_id'] = $latestInvoiceData['id'];
-            if (isset($latestInvoiceData['currency'])) {
-                $transactionData['currency'] = $latestInvoiceData['currency'];
-            }
+    if ($checkoutSessionData->payment_status == 'paid') {
 
+        if ($latestInvoice) {
+            $latestInvoiceData = $subscriptionCustomer->stripe()->invoices->retrieve($latestInvoice);
+            if ($latestInvoiceData and isset($latestInvoiceData['total']) and $latestInvoiceData['total']) {
+                $transactionData['value'] = intval($latestInvoiceData['total']) / 100;
+                $transactionData['transaction_id'] = $latestInvoiceData['id'];
+                if (isset($latestInvoiceData['currency'])) {
+                    $transactionData['currency'] = $latestInvoiceData['currency'];
+                }
+
+            }
+        }
+        if ($checkoutSessionData->mode == 'subscription') {
+
+            if (isset($checkoutSessionData->metadata->subscription_plan_id)) {
+                $stripePlanPriceGet = \Modules\Billing\Models\SubscriptionPlan::where('id', $checkoutSessionData->metadata->subscription_plan_id)->first();
+                if ($stripePlanPriceGet) {
+                    $stripePlanPriceId = $stripePlanPriceGet->remote_provider_price_id;
+                } else {
+                    $stripePlanPriceId = '';
+                    $stripePlanPriceId = '';
+                }
+
+                Subscription::updateOrCreate([
+                    'user_id' => $user->id,
+                    'stripe_id' => $checkoutSessionData->customer,
+                    'customer_id' => $subscriptionCustomer->id,
+                    'subscription_plan_id' => $checkoutSessionData->metadata->subscription_plan_id,
+                ],
+                    [
+                        'stripe_status' => 'active',
+                        'stripe_price' => $stripePlanPriceId,
+                        'starts_at' => now()
+                    ]);
+
+            }
+        }
+        if (isset($checkoutSessionData->metadata->internal_order_id)) {
+            $findOrder = \Modules\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
+            if ($findOrder) {
+                $utmData = [];
+                if (isset($checkoutSessionData->metadata->utm_source)) {
+                    $utmData['utm_source'] = $checkoutSessionData->metadata->utm_source;
+                }
+                if (isset($checkoutSessionData->metadata->utm_medium)) {
+                    $utmData['utm_medium'] = $checkoutSessionData->metadata->utm_medium;
+                }
+                if (isset($checkoutSessionData->metadata->utm_campaign)) {
+                    $utmData['utm_campaign'] = $checkoutSessionData->metadata->utm_campaign;
+                }
+                if (isset($checkoutSessionData->metadata->utm_content)) {
+                    $utmData['utm_content'] = $checkoutSessionData->metadata->utm_content;
+                }
+                if (isset($checkoutSessionData->metadata->utm_term)) {
+                    $utmData['utm_term'] = $checkoutSessionData->metadata->utm_term;
+                }
+
+                $findOrder->is_paid = 1;
+                $findOrder->order_completed = 1;
+                $findOrder->transaction_id = $transactionData['transaction_id'] ?? $checkoutSessionData->id;
+                $findOrder->save();
+
+                event(new \Modules\Order\Events\OrderWasPaid($findOrder, $utmData));
+            }
+        }
+
+
+        $redirectOnSuccess = get_option('cashier_success_url', 'payments');
+        if ($redirectOnSuccess) {
+            return redirect($redirectOnSuccess)->with('transactionData', $transactionData);
         }
     }
 
-    if (isset($checkoutSessionData->metadata->internal_order_id)) {
-        $findOrder = \MicroweberPackages\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
-        if ($findOrder) {
-            $utmData = [];
-            if (isset($checkoutSessionData->metadata->utm_source)) {
-                $utmData['utm_source'] = $checkoutSessionData->metadata->utm_source;
-            }
-            if (isset($checkoutSessionData->metadata->utm_medium)) {
-                $utmData['utm_medium'] = $checkoutSessionData->metadata->utm_medium;
-            }
-            if (isset($checkoutSessionData->metadata->utm_campaign)) {
-                $utmData['utm_campaign'] = $checkoutSessionData->metadata->utm_campaign;
-            }
-            if (isset($checkoutSessionData->metadata->utm_content)) {
-                $utmData['utm_content'] = $checkoutSessionData->metadata->utm_content;
-            }
-            if (isset($checkoutSessionData->metadata->utm_term)) {
-                $utmData['utm_term'] = $checkoutSessionData->metadata->utm_term;
-            }
-
-            $findOrder->is_paid = 1;
-            $findOrder->order_completed = 1;
-            $findOrder->transaction_id = $checkoutSessionData->id;
-            $findOrder->save();
-
-            event(new \MicroweberPackages\Order\Events\OrderWasPaid($findOrder, $utmData));
-        }
-    }
-
-    $redirectOnSuccess = get_option('cashier_success_url', 'payments');
-    if ($redirectOnSuccess) {
-        return redirect($redirectOnSuccess)->with('transactionData', $transactionData);
-    }
 
     $backButtonUrl = session_get('billing_subscription_referer');
 
-   return redirect(site_url('project/plans'));
+    return redirect(site_url('project/plans'));
 //
 //    return view('modules.billing::finish', [
 //        'backButtonUrl' => $backButtonUrl,
@@ -137,7 +168,7 @@ Route::get('/checkout/subscription-cancel', function (Request $request) {
     }
 
     if (isset($checkoutSessionData->metadata->internal_order_id)) {
-        $findOrder = \MicroweberPackages\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
+        $findOrder = \Modules\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
         if ($findOrder) {
             $utmData = [];
             if (isset($checkoutSessionData->metadata->utm_source)) {
@@ -156,7 +187,7 @@ Route::get('/checkout/subscription-cancel', function (Request $request) {
                 $utmData['utm_term'] = $checkoutSessionData->metadata->utm_term;
             }
 
-            event(new \MicroweberPackages\Order\Events\OrderWasCanceled($findOrder, $utmData));
+            event(new \Modules\Order\Events\OrderWasCanceled($findOrder, $utmData));
         }
     }
 
@@ -219,7 +250,7 @@ Route::get('/checkout/purchase-success', function (Request $request) {
     }
 
     if (isset($checkoutSessionData->metadata->internal_order_id)) {
-        $findOrder = \MicroweberPackages\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
+        $findOrder = \Modules\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
         if ($findOrder) {
             $utmData = [];
             if (isset($checkoutSessionData->metadata->utm_source)) {
@@ -243,7 +274,7 @@ Route::get('/checkout/purchase-success', function (Request $request) {
             $findOrder->transaction_id = $checkoutSessionData->id;
             $findOrder->save();
 
-            event(new \MicroweberPackages\Order\Events\OrderWasPaid($findOrder, $utmData));
+            event(new \Modules\Order\Events\OrderWasPaid($findOrder, $utmData));
         }
     }
 
@@ -283,7 +314,7 @@ Route::get('/checkout/purchase-cancel', function (Request $request) {
     }
 
     if (isset($checkoutSessionData->metadata->internal_order_id)) {
-        $findOrder = \MicroweberPackages\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
+        $findOrder = \Modules\Order\Models\Order::where('id', $checkoutSessionData->metadata->internal_order_id)->first();
         if ($findOrder) {
             $utmData = [];
             if (isset($checkoutSessionData->metadata->utm_source)) {
@@ -302,7 +333,7 @@ Route::get('/checkout/purchase-cancel', function (Request $request) {
                 $utmData['utm_term'] = $checkoutSessionData->metadata->utm_term;
             }
 
-            event(new \MicroweberPackages\Order\Events\OrderWasCanceled($findOrder, $utmData));
+            event(new \Modules\Order\Events\OrderWasCanceled($findOrder, $utmData));
         }
     }
 
