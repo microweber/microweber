@@ -4,60 +4,55 @@ namespace Modules\Billing\Filament\Frontend\Pages;
 
 use Filament\Actions\ActionGroup;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Modules\Billing\Http\Controllers\SubscribeToPlanController;
 use Modules\Billing\Models\SubscriptionPlan;
-use Modules\Billing\Services\SubscriptionManager;
+use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 
 class UserSubscriptionPanel extends Page
 {
-   // protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
-
     protected static string $view = 'modules.billing::filament.pages.user-subscription-panel';
 
     protected static ?string $title = 'My Subscription';
 
     protected static ?string $slug = 'user-subscription';
 
-    public ?string $selectedPlanSku = null;
+
     public ?string $plan = null;
-
-
-
-    protected function getCurrentPlanSku(): ?string
-    {
-        $user = auth()->user();
-        if (!$user) {
-            return null;
-        }
-        $activePlan = getUserActiveSubscriptionPlan($user->id);
-        return $activePlan['sku'] ?? null;
-    }
-
     protected function getFormSchema(): array
     {
+        $plans = SubscriptionPlan::query()->get();
+
+        $options = [];
+        $descriptions = [];
+        $icons = [];
+
+        foreach ($plans as $plan) {
+            $options[$plan->sku] = $plan->name;
+            $descriptions[$plan->sku] = $plan->description ?? '';
+            $icons[$plan->sku] = 'heroicon-m-currency-dollar';
+        }
+
         return [
-            Select::make('plan')
-                ->label('Select Subscription Plan')
-                ->options(
-                    SubscriptionPlan::query()
-                        ->pluck('name', 'sku')
-                        ->toArray()
-                )
-                ->searchable()
-                ->required(),
+            RadioDeck::make('plan')
+                ->label('Choose a Subscription Plan')
+                ->options($options)
+                ->descriptions($descriptions)
+                ->icons($icons)
+                ->required()
+                ->columns(3),
         ];
     }
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema($this->getFormSchema())
-            ->statePath('data');
-    }
+//    public function form(Form $form): Form
+//    {
+//        return $form
+//            ->schema($this->getFormSchema())
+//            ->statePath('data');
+//    }
 
     public function submit()
     {
@@ -79,21 +74,22 @@ class UserSubscriptionPanel extends Page
             return;
         }
 
-        /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = app(SubscriptionManager::class);
-        $result = $subscriptionManager->subscribeToPlan($planSku);
+            $request = new Request();
+            $request->merge(['sku' => $planSku]);
 
-        if (isset($result['error'])) {
+            $controller = new SubscribeToPlanController();
+            $response = $controller->subscribeToPlan($request);
+            dd($response);
+            if (method_exists($response, 'getTargetUrl')) {
+                $redirectUrl = $response->getTargetUrl();
+
+            }
+
             Notification::make()
-                ->title('Error: ' . $result['error'])
+                ->title('Unexpected response from server')
                 ->danger()
                 ->send();
-        } else {
-            Notification::make()
-                ->title('Subscription updated successfully')
-                ->success()
-                ->send();
-        }
+
     }
 
     protected function getActions(): array
@@ -101,12 +97,10 @@ class UserSubscriptionPanel extends Page
         return [
             ActionGroup::make([
                 Forms\Components\Actions\Action::make('save')
-                    ->label('Update Subscription')
+                    ->label('Continue to Payment')
                     ->action('submit')
                     ->color('primary'),
             ]),
         ];
     }
-
-
 }

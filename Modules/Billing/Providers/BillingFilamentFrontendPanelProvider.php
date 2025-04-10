@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Filament\Http\Middleware\AuthenticateUser;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Billing\Filament\Frontend\Pages\UserSubscriptionPanel;
 use Modules\Profile\Filament\Pages\EditProfile;
 use Modules\Profile\Filament\Pages\ForgotPassword;
@@ -64,6 +65,8 @@ class BillingFilamentFrontendPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+              ->plugin(new MicroweberFilamentTheme())
+
             ->authMiddleware([
                 Authenticate::class,
             ]);
