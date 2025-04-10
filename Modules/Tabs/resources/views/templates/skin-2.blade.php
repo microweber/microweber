@@ -124,7 +124,7 @@
                     @php $count++; @endphp
                     <a class="nav-link {{ $count == 1 ? 'active' : '' }} col-lg-3 col-md-6 col-12" href="javascript:;">
                         {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}
-                        <h4 class="header-section-title mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
+                        <h4 class=" mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
                     </a>
                 @endforeach
             @endif
