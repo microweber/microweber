@@ -26,11 +26,11 @@ class BillingCheckoutController
             $customer->save();
         }
 
-        if ($customer->subscriptions()->count() == 0) {
+        if ($customer->subscriptions()->where('stripe_status', 'active')->count() == 0) {
             return redirect(url()->previous() . '?status=no-subscription');
         }
 
-        return $customer->redirectToBillingPortal();
+        return $customer->redirectToBillingPortal(route('filament.billing'));
     }
 
     public function subscriptionSuccess(Request $request)
