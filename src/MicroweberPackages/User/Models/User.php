@@ -8,6 +8,7 @@ use Filament\Panel;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use MicroweberPackages\User\Database\Factories\UserFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         MustVerifyEmailTrait,
         CanResetPassword,
         CacheableQueryBuilderTrait;
+
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
 
     protected $casts = [
         'username' => StripTagsCast::class,

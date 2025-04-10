@@ -65,9 +65,14 @@ class CommentsManager
                 break;
         }
 
-        // Apply pagination
-        $perPage = module_option('comments', 'comments_per_page', config('modules.comments.comments_per_page'));
-        return $query->paginate($perPage);
+        // Apply pagination with proper page handling
+        $perPage = $this->getConfig('comments_per_page', config('modules.comments.comments_per_page'));
+        return $query->paginate(
+            $perPage,
+            ['*'],
+            $this->getConfig('page_name', 'page'),
+            $this->getConfig('page', 1)
+        );
     }
 
     public function create($data)
@@ -85,7 +90,8 @@ class CommentsManager
         // Validate comment length
         $minLength = $this->getConfig('min_comment_length');
         $maxLength = $this->getConfig('max_comment_length');
-        $commentLength = Str::length($data['body']);
+        $body = $data['body'] ?? $data['comment_body'] ?? '';
+        $commentLength = Str::length($body);
 
         if ($commentLength < $minLength) {
             throw new \Exception("Comment must be at least {$minLength} characters long");
@@ -124,7 +130,7 @@ class CommentsManager
         $comment->rel_type = $data['rel_type'] ?? null;
         $comment->rel_id = $data['rel_id'] ?? null;
         $comment->comment_subject = $data['subject'] ?? null;
-        $comment->comment_body = $data['body'];
+        $comment->comment_body = $data['body'] ?? $data['comment_body'];
         $comment->comment_name = $data['name'] ?? Auth::user()?->name;
         $comment->comment_email = $data['email'] ?? Auth::user()?->email;
         $comment->comment_website = $data['website'] ?? null;
