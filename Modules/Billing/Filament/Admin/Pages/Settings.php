@@ -11,7 +11,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Option\Models\Option;
-use Modules\Billing\Services\StripeService;
+use Modules\Payment\Models\PaymentProvider;
 
 class Settings extends Page implements HasForms
 {
@@ -32,62 +32,69 @@ class Settings extends Page implements HasForms
 
     public function form(Form $form): Form
     {
+        $providers = PaymentProvider::where('is_active', 1)
+            ->where('provider', 'stripe')
+            ->orderBy('position', 'asc')
+            ->get();
+
+        $options = [];
+        $descriptions = [];
+        $icons = [];
+
+        foreach ($providers as $provider) {
+            $options[$provider->id] = $provider->name;
+            $descriptions[$provider->id] = $provider->description ?? '';
+            $icons[$provider->id] = 'heroicon-m-credit-card';
+        }
+
+        $schema = [];
+
+        if ($providers->isEmpty()) {
+            $schema[] = Placeholder::make('no_providers')
+                ->label('No active payment providers found')
+                ->content('Please set up at least one payment provider to enable billing. For now only Stripe is supported.')
+                ->extraAttributes(['class' => 'text-center text-lg font-semibold']);
+
+            $schema[] = \Filament\Forms\Components\Actions::make([
+                \Filament\Forms\Components\Actions\Action::make('setup_providers')
+                    ->label('Go to Payment Providers Setup')
+                    ->url(admin_url('payment-providers'))
+                    ->color('primary')
+                    ->openUrlInNewTab(),
+            ]);
+        } else {
+            $schema[] = \JaOcero\RadioDeck\Forms\Components\RadioDeck::make('cashier_billing_payment_provider_id')
+                ->label('Select Payment Provider')
+                ->options($options)
+                ->descriptions($descriptions)
+                ->icons($icons)
+                ->required()
+                ->columns(2);
+        }
+
+        $schema[] = TextInput::make('cashier_success_url')
+            ->label('Success URL redirect')
+            ->url()
+            ->columnSpan('full');
+
+        $schema[] = TextInput::make('cashier_cancel_url')
+            ->label('Cancel URL redirect')
+            ->url()
+            ->columnSpan('full');
+        $schema[] = TextInput::make('cashier_currency')
+            ->label('Currency')
+            ->placeholder('USD')
+            ->default('USD')
+            ->columnSpan('full');
+
+        $schema[] = TextInput::make('cashier_currency_locale')
+            ->label('Currency locale')
+            ->placeholder('en_US')
+            ->default('en_US')
+            ->columnSpan('full');
         return $form
             ->statePath('data')
-            ->schema([
-
-                TextInput::make('cashier_stripe_publishable_api_key')
-                    ->label('Publishable key')
-                    ->required()
-                    ->placeholder('pk_...')
-                    ->columnSpan('full'),
-
-
-                TextInput::make('cashier_stripe_api_key')
-                    ->label('Secret key')
-                    ->required()
-                    ->placeholder('sk_...')
-                    ->columnSpan('full'),
-
-
-
-                TextInput::make('cashier_stripe_webhook_secret')
-                    ->label('Webhook secret')
-
-                    ->placeholder('whsec_...')
-                    ->columnSpan('full'),
-
-                Placeholder::make('webhook_url')
-                    ->label('Callback URL')
-                    ->content(fn () => route('billing.webhook.stripe'))
-                    ->columnSpan('full'),
-
-                TextInput::make('currency')
-                    ->label('Currency')
-
-                    ->placeholder('USD')
-                    ->default('USD')
-                    ->columnSpan('full'),
-
-                TextInput::make('currency_locale')
-                    ->label('Currency locale')
-
-                    ->placeholder('en_US')
-                    ->default('en_US')
-                    ->columnSpan('full'),
-
-                TextInput::make('cashier_success_url')
-                    ->label('Success URL redirect')
-
-                    ->url()
-                    ->columnSpan('full'),
-
-                TextInput::make('cashier_cancel_url')
-                    ->label('Cancel URL redirect')
-
-                    ->url()
-                    ->columnSpan('full'),
-            ]);
+            ->schema($schema);
     }
 
     public function getFormDefaults(): array
@@ -119,30 +126,8 @@ class Settings extends Page implements HasForms
         return [
             Action::make('Save Settings')
                 ->label('Save Settings')
-                ->action(fn () => $this->save())
+                ->action(fn() => $this->save())
                 ->color('success'),
-
-            Action::make('Test Stripe Connection')
-                ->label('Test Stripe Connection')
-                ->action(fn () => $this->testStripeConnection())
-                ->color('primary'),
         ];
-    }
-
-    public function testStripeConnection(): void
-    {
-        $service = new StripeService();
-
-        if ($service->testConnection()) {
-            Notification::make()
-                ->success()
-                ->title('Stripe connection successful.')
-                ->send();
-        } else {
-            Notification::make()
-                ->danger()
-                ->title('Stripe connection failed.')
-                ->send();
-        }
     }
 }
