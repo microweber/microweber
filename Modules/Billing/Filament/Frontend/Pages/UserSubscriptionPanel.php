@@ -14,7 +14,7 @@ use Modules\Billing\Services\SubscriptionManager;
 
 class UserSubscriptionPanel extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+   // protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     protected static string $view = 'modules.billing::filament.pages.user-subscription-panel';
 
@@ -23,13 +23,9 @@ class UserSubscriptionPanel extends Page
     protected static ?string $slug = 'user-subscription';
 
     public ?string $selectedPlanSku = null;
+    public ?string $plan = null;
 
-    public function mount(): void
-    {
-        $this->form->fill([
-            'plan' => $this->getCurrentPlanSku(),
-        ]);
-    }
+
 
     protected function getCurrentPlanSku(): ?string
     {
@@ -112,10 +108,5 @@ class UserSubscriptionPanel extends Page
         ];
     }
 
-    public function render(): View
-    {
-        return view(static::$view, [
-            'form' => $this->form,
-        ]);
-    }
+
 }

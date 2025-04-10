@@ -32,6 +32,11 @@ class BillingServiceProvider extends BaseModuleServiceProvider
     //                NavigationGroup::make()
     //                    ->label('SaaS')
     //            ]);
+
+
+
+
+
             Filament::registerNavigationItems([
                 NavigationItem::make('Billing')
                     ->url('/admin/billing', shouldOpenInNewTab: true)
@@ -56,6 +61,18 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
 
+        // Register Billing Services
+        $this->app->singleton(\Modules\Billing\Services\StripeService::class, function ($app) {
+            return new \Modules\Billing\Services\StripeService();
+        });
+        $this->app->singleton(\Modules\Billing\Services\SubscriptionManager::class, function ($app) {
+            return new \Modules\Billing\Services\SubscriptionManager();
+        });
+        $this->app->singleton(\Modules\Billing\Services\UserDemoActivate::class, function ($app) {
+            return new \Modules\Billing\Services\UserDemoActivate();
+        });
+
+
 
         Livewire::component('billing::settings', \Modules\Billing\Http\Livewire\Admin\Settings::class);
         Livewire::component('billing::users', Users::class);
@@ -69,21 +86,11 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         $this->app->register(BillingCashierServiceProvider::class);
 
         $this->app->register(BillingFilamentAdminPanelProvider::class);
-        $this->app->register(BillingFilamentFrontentPanelProvider::class);
+        $this->app->register(BillingFilamentFrontendPanelProvider::class);
         $this->commands([
             AutoActivateFreeTrial::class,
         ]);
 
-        // Register Billing Services
-        $this->app->singleton(\Modules\Billing\Services\StripeService::class, function ($app) {
-            return new \Modules\Billing\Services\StripeService();
-        });
-        $this->app->singleton(\Modules\Billing\Services\SubscriptionManager::class, function ($app) {
-            return new \Modules\Billing\Services\SubscriptionManager();
-        });
-        $this->app->singleton(\Modules\Billing\Services\UserDemoActivate::class, function ($app) {
-            return new \Modules\Billing\Services\UserDemoActivate();
-        });
 
       //  FilamentRegistry::registerPage(\Modules\Billing\Filament\Fronetend\Pages\UserSubscriptionPanel::class);
 

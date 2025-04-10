@@ -31,16 +31,16 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 'primary' => Color::Blue,
             ])
             ->discoverResources(
-                in: __DIR__ . '/../Filament/Resources/Admin',
-                for: 'Modules\\Billing\\Filament\\Resources\\Admin'
+                in: __DIR__ . '/../Filament/Admin/Resources',
+                for: 'Modules\\Billing\\Filament\\Admin\\Resources'
             )
             ->discoverPages(
-                in: __DIR__ . '/../Filament/Pages/Admin',
-                for: 'Modules\\Billing\\Filament\\Pages\\Admin'
+                in: __DIR__ . '/../Filament/Admin/Pages',
+                for: 'Modules\\Billing\\Filament\\Admin\\Pages'
             )
             ->discoverWidgets(
-                in: __DIR__ . '/../Filament/Widgets/Admin',
-                for: 'Modules\\Billing\\Filament\\Widgets\\Admin'
+                in: __DIR__ . '/../Filament/Admin/Widgets',
+                for: 'Modules\\Billing\\Filament\\Admin\\Widgets'
             )
             ->navigationItems([
                 NavigationItem::make('Back to admin')

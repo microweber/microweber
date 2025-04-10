@@ -25,13 +25,17 @@ use Modules\Profile\Filament\Pages\Login;
 use Modules\Profile\Filament\Pages\Register;
 use Modules\Profile\Filament\Pages\TwoFactorAuth;
 
-class BillingFilamentFrontentPanelProvider extends PanelProvider
+class BillingFilamentFrontendPanelProvider extends PanelProvider
 {
+
+    public string $filamentId = 'billing';
+    public string $filamentPath = 'billing';
+
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('billing')
-            ->path('billing')
+            ->id($this->filamentId)
+            ->path($this->filamentPath)
             ->login(Login::class)
             ->registration(Register::class)
             ->passwordReset(ForgotPassword::class)
@@ -39,16 +43,16 @@ class BillingFilamentFrontentPanelProvider extends PanelProvider
                 'primary' => Color::Purple,
             ])
             ->discoverResources(
-                in: __DIR__ . '/../Filament/Resources/Frontend',
-                for: 'Modules\\Billing\\Filament\\Resources\\Frontend')
+                in: __DIR__ . '/../Filament/Frontend/Resources',
+                for: 'Modules\\Billing\\Filament\\Frontend\\Resources')
             ->discoverPages(
-                in: __DIR__ . '/../Filament/Pages/Frontend',
-                for: 'Modules\\Billing\\Filament\\Pages\\Frontend')
+                in: __DIR__ . '/../Filament/Frontend/Pages',
+                for: 'Modules\\Billing\\Filament\\Frontend\\Pages')
             ->pages([
-                 UserSubscriptionPanel::class,
-             ])
-            ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets/Frontend',
-                for: 'Modules\\Billing\\Filament\\Widgets\\Frontend')
+                UserSubscriptionPanel::class,
+            ])
+            ->discoverWidgets(in: __DIR__ . '/../Filament/Frontend/Widgets',
+                for: 'Modules\\Billing\\Filament\\Frontend\\Widgets')
             ->widgets([
                 //     Widgets\AccountWidget::class,
             ])
