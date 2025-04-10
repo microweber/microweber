@@ -38,18 +38,13 @@ class UserSubscriptionPanel extends Page
 
     protected function getFormSchema(): array
     {
-        $plans = SubscriptionPlan::query()->get();
+        $plans = SubscriptionPlan::with('group')->get();
 
-        $options = [];
-        $descriptions = [];
-        $icons = [];
+        $groupedPlans = [];
 
-        if ($plans) {
-            foreach ($plans as $plan) {
-                $options[$plan->sku] = $plan->name;
-                $descriptions[$plan->sku] = $plan->description ?? '';
-                $icons[$plan->sku] = 'heroicon-m-currency-dollar';
-            }
+        foreach ($plans as $plan) {
+            $groupName = $plan->group->name ?? 'Plans';
+            $groupedPlans[$groupName][] = $plan;
         }
 
         $disabledSkus = [];
@@ -59,16 +54,39 @@ class UserSubscriptionPanel extends Page
             }
         }
 
-        return [
-            RadioDeck::make('plan')
-                ->label('Choose a Subscription Plan')
-                ->options($options)
-                ->descriptions($descriptions)
-                ->icons($icons)
-                ->disableOptionWhen(fn($value) => in_array($value, $disabledSkus))
-                ->required()
-                ->columns(1),
-        ];
+        $schema = [];
+
+        foreach ($groupedPlans as $groupName => $plansInGroup) {
+            $options = [];
+            $descriptions = [];
+            $icons = [];
+
+            foreach ($plansInGroup as $plan) {
+                $options[$plan->sku] = $plan->name;
+                $descriptions[$plan->sku] = $plan->description ?? '';
+                $icons[$plan->sku] = 'heroicon-m-currency-dollar';
+            }
+
+            $schema[] = Forms\Components\Section::make($groupName)
+                ->schema([
+                    RadioDeck::make('plan')
+                        ->label(function () use ($groupName) {
+                            if($groupName != 'Plans') {
+                                return 'Select a plan from ' . $groupName;
+                            } else {
+                                return 'Select a plan';
+                            }
+                        })
+                        ->options($options)
+                        ->descriptions($descriptions)
+                        ->icons($icons)
+                        ->disableOptionWhen(fn($value) => in_array($value, $disabledSkus))
+                        ->required()
+                        ->columns(1),
+                ]);
+        }
+
+        return $schema;
     }
 
     public function submit()

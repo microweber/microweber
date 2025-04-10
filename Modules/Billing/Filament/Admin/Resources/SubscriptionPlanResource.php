@@ -88,9 +88,8 @@ class SubscriptionPlanResource extends Resource
                             ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
-                                'monthly' => 'Monthly',
-                                'yearly' => 'Yearly',
-                                'annually' => 'Annually',
+                                'month' => 'Month',
+                                'year' => 'Year',
                                 'lifetime' => 'Lifetime',
                             ])
                             ->required()
