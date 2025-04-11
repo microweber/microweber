@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaggedTable extends Migration
+return new class extends Migration
 {
 
     public function up()
@@ -47,4 +47,4 @@ class CreateTaggedTable extends Migration
     {
         Schema::dropIfExists('tagging_tagged');
     }
-}
+};
