@@ -50,3 +50,8 @@ compile({
     entryPoints: [`./mw-media-browser.js`],
     outfile: `./dist/mw-media-browser.js`,
 })
+compile({
+    ...defaultOptions,
+    entryPoints: [`./mw-tree-component.js`],
+    outfile: `./dist/mw-tree-component.js`,
+})

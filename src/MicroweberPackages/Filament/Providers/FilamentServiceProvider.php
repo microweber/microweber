@@ -144,6 +144,10 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             AlpineComponent::make('mw-media-browser', __DIR__ . '/../resources/js/components/dist/mw-media-browser.js'),
         ], 'mw-filament/forms');
 
+        FilamentAsset::register([
+            AlpineComponent::make('mw-tree-component', __DIR__ . '/../resources/js/components/dist/mw-tree-component.js'),
+        ], 'mw-filament/forms');
+
     }
 
 
