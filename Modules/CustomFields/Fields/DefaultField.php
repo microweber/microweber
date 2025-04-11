@@ -134,13 +134,13 @@ class DefaultField
             }
         }
 
-        if (!isset($renderSettings['show_placeholder'])
-            || $renderSettings['show_placeholder'] == false
-            || (strpos($renderSettings['show_placeholder'], 'false') !== false)
-        ) {
+        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false      )
+        {
             $renderData['placeholder'] = '';
         } else {
-        }
+            $renderData['placeholder'] = $renderSettings['placeholder'] ?? '';
+
+         }
 
         $this->renderData = $renderData;
     }

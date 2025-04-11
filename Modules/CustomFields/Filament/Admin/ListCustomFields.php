@@ -149,6 +149,13 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
                     ->helperText('Toggle to turn on the placeholder and write your text below')
                     ->label('Show placeholder')
                     ->columnSpanFull(),
+
+                TextInput::make('options.placeholder')
+                    ->label('Placeholder')
+                    ->visible(fn (Get $get) => $get('options.show_placeholder'))
+                    ->placeholder('Placeholder text')
+                    ,
+
                 Toggle::make('options.required')
                     ->helperText('Toggle to make this field required for the user')
                     ->label('Required'),
