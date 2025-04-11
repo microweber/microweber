@@ -405,8 +405,9 @@ class ContentResource extends Resource
 
 
                         Forms\Components\Section::make('Parent page')
-                            ->schema(function (?Model $record,Forms\Get $get) {
+                            ->schema(function (?Model $record, Forms\Get $get) {
                                 $parent = null;
+                                $isShopFilter = null;
                                 $categoryIds = [];
                                 if ($record) {
                                     $parent = $record->parent;
@@ -414,38 +415,26 @@ class ContentResource extends Resource
                                 }
 
 
-                                $singleSelect = false;
-                                if ($record) {
-                                    $singleSelect = $record->content_type === 'page';
-                                } elseif ($get('content_type') === 'page') {
-                                    $singleSelect = true;
-                                }
+                                $singleSelect = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
 
+                                $skipCategories = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
 
-                                $skipCategories = false;
-                                if ($record) {
-                                    $skipCategories = $record->content_type === 'page';
-                                } elseif ($get('content_type') === 'page') {
-                                    $skipCategories = true;
-                                }
+                                $contentTypeFilter = ($record && $record->content_type === 'page') || $get('content_type') === 'page' ? 'page' : false;
 
-                                $contentTypeFilter =false;
-
-                                if ($record) {
-                                    if($record->content_type === 'page'){
-                                        $contentTypeFilter = 'page';
-                                    }
-                                }elseif ($get('content_type') === 'page') {
-                                    $contentTypeFilter = 'page';
-                                }
+                                $isShopFilter = match (true) {
+                                    ($record && $record->content_type === 'product') || $get('content_type') === 'product' => 1,
+                                    ($record && $record->content_type === 'post') || $get('content_type') === 'post' => 0,
+                                    default => null,
+                                };
 
 
                                 $viewData = [
                                     'selectedPage' => $parent,
                                     'singleSelect' => $singleSelect,
-                                    'skipCategories' =>$skipCategories,
+                                    'skipCategories' => $skipCategories,
                                     'contentType' => $contentTypeFilter,
                                     'skipPageId' => $record?->id,
+                                    'isShopFilter' => $isShopFilter,
                                     'selectedCategories' => $categoryIds
                                 ];
 

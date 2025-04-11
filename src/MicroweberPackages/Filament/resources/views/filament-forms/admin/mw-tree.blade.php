@@ -1,4 +1,4 @@
-@props(['selectedCategories','selectedPage','skipCategories','contentType','skipPageId'])
+@props(['selectedCategories','selectedPage','skipCategories','contentType','skipPageId','isShopFilter'])
 
 
 <div>
@@ -100,6 +100,14 @@
                     @if(isset($contentType) and $contentType)
 
                         params.content_type = '{{$contentType}}'
+
+                    @endif
+
+
+
+                    @if(isset($isShopFilter))
+
+                        params.is_shop = '{{ intval($contentType) }}'
 
                     @endif
 
