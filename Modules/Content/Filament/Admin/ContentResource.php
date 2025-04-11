@@ -231,7 +231,7 @@ class ContentResource extends Resource
                                 Forms\Components\TextInput::make('price')
                                     ->numeric()
                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                    ->columnSpan(['lg' => 2,'sm' => 2])
+                                    ->columnSpan(['lg' => 2, 'sm' => 2])
                                     ->required(),
 
 
@@ -243,11 +243,11 @@ class ContentResource extends Resource
 
                                             $set('special_price', $getSpecialPrice);
                                         } else {
-                                            $set('special_price','');
+                                            $set('special_price', '');
                                         }
                                     })
                                     ->numeric()
-                                    ->columnSpan(['lg' => 2,'sm' => 2])
+                                    ->columnSpan(['lg' => 2, 'sm' => 2])
                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                     ->visible(function_exists('offers_get_price'))
                                 ,
@@ -404,22 +404,56 @@ class ContentResource extends Resource
                             ]),
 
 
-//            Forms\Components\Section::make('Parent page')
-//                ->schema(function(?Models $record) {
-//                    $parent = null;
-//                    $categoryIds = [];
-//                    if ($record) {
-//                        $parent = $record->parent;
-//                        $categoryIds = $record->getCategoryIdsAttribute();
-//                    }
-//                    return [
-//                        Forms\Components\View::make('filament-forms::admin.mw-tree')
-//                            ->viewData([
-//                                'selectedPage' => $parent,
-//                                'selectedCategories' => $categoryIds
-//                            ])
-//                    ];
-//                }),
+                        Forms\Components\Section::make('Parent page')
+                            ->schema(function (?Model $record,Forms\Get $get) {
+                                $parent = null;
+                                $categoryIds = [];
+                                if ($record) {
+                                    $parent = $record->parent;
+                                    $categoryIds = $record->getCategoryIdsAttribute();
+                                }
+
+
+                                $singleSelect = false;
+                                if ($record) {
+                                    $singleSelect = $record->content_type === 'page';
+                                } elseif ($get('content_type') === 'page') {
+                                    $singleSelect = true;
+                                }
+
+
+                                $skipCategories = false;
+                                if ($record) {
+                                    $skipCategories = $record->content_type === 'page';
+                                } elseif ($get('content_type') === 'page') {
+                                    $skipCategories = true;
+                                }
+
+                                $contentTypeFilter =false;
+
+                                if ($record) {
+                                    if($record->content_type === 'page'){
+                                        $contentTypeFilter = 'page';
+                                    }
+                                }elseif ($get('content_type') === 'page') {
+                                    $contentTypeFilter = 'page';
+                                }
+
+
+                                $viewData = [
+                                    'selectedPage' => $parent,
+                                    'singleSelect' => $singleSelect,
+                                    'skipCategories' =>$skipCategories,
+                                    'contentType' => $contentTypeFilter,
+                                    'skipPageId' => $record?->id,
+                                    'selectedCategories' => $categoryIds
+                                ];
+
+                                return [
+                                    Forms\Components\View::make('filament-forms::admin.mw-tree')
+                                        ->viewData($viewData)
+                                ];
+                            }),
 
 
                         Forms\Components\Section::make('Tags')
@@ -826,7 +860,6 @@ class ContentResource extends Resource
 
                     Tables\Actions\Action::make('live_edit')
                         ->url(function (Content $record) {
-
 
 
                             return $record->link() . '?editmode=y';

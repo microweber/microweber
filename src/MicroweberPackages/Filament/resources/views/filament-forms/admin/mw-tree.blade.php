@@ -1,4 +1,4 @@
-@props(['selectedCategories','selectedPage'])
+@props(['selectedCategories','selectedPage','skipCategories','contentType','skipPageId'])
 
 
 <div>
@@ -29,6 +29,7 @@
                 async init() {
                     var skip = [];
                     var selectedData = [];
+                    var params = {};
                     var options = {
                         selectable: true
                     };
@@ -71,16 +72,46 @@
                     if (selectedData.length > 0) {
                         options.selectedData = selectedData;
                     }
+
+                    @if(isset($skipPageId) and $skipPageId)
+
+                    skip.push({
+                        id: {{$skipPageId}},
+                        type: 'page'
+                    })
+
+                    @endif
+
+
+
                     if (skip.length > 0) {
                         options.skip = skip;
                     }
 
+                    options.selectedData = selectedData;
+
+                    @if(isset($skipCategories) and $skipCategories)
+
+                        params.skip_categories = 1
+
+                    @endif
+
+
+                    @if(isset($contentType) and $contentType)
+
+                        params.content_type = '{{$contentType}}'
+
+                    @endif
 
 
 
                     var opts = {
-                        options
+                        options,
+                        params
                     };
+
+                    console.log(opts)
+
 
                     let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
                     pagesTree.tree.on('selectionChange', e => {
