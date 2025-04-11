@@ -178,6 +178,9 @@ class InstallController extends Controller
 
         $view = dirname(dirname(__DIR__)) . '/resources/views/install.php';
         $view = normalize_path($view, false);
+        if(!is_dir(userfiles_path())) {
+            mkdir_recursive(userfiles_path());
+        }
 
 
         $connection = Config::get('database.connections');
@@ -488,9 +491,6 @@ class InstallController extends Controller
                     define('STDIN', fopen("php://stdin", "r"));
                 }
 
-                if(!is_dir(userfiles_path())) {
-                    mkdir_recursive(userfiles_path());
-                }
 
                 if (!$install_step or $install_step == 1) {
                     app()->module_manager->logger = $this;
