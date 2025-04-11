@@ -2,13 +2,14 @@
 
 namespace MicroweberPackages\User\Models;
 
+
 use EloquentFilter\Filterable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MicroweberPackages\User\Database\Factories\UserFactory;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     protected static function newFactory()
     {
-        return UserFactory::new();
+        return \Database\Factories\UserFactory::new();
     }
 
     protected $casts = [
