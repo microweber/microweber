@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { promises as fs } from 'fs';
+import  fs  from 'fs';
 import path from 'path';
 
 // Directories to scan for second-level subfolders
@@ -39,39 +39,43 @@ const runNpmScript = (folder) => {
 };
 
 // Function to find and execute npm in second-level directories
-const findAndRunNpmInSecondLevel = async (dir) => {
-    try {
-        const files = await fs.readdir(dir);
-        const promises = [];
+const findAndRunNpmInSecondLevel = (dir) => {
+    const promises = [];
+
+        const files = fs.readdirSync(dir);
 
         for (const file of files) {
             const fullPath = path.join(dir, file);
-            const stat = await fs.lstat(fullPath);
+            const stat = fs.lstatSync(fullPath);
 
             // Only run if it's a second-level directory
             if (stat.isDirectory()) {
                 const packageJsonPath = path.join(fullPath, 'package.json');
-                try {
-                    await fs.access(packageJsonPath);  // Check if package.json exists
+                console.log(packageJsonPath, fs.existsSync(packageJsonPath))
+                if(fs.existsSync(packageJsonPath)) {
                     promises.push(runNpmScript(fullPath));  // Run npm script if package.json exists
-                } catch {
-                    // package.json does not exist, skip
                 }
             }
         }
 
-        await Promise.all(promises);  // Run all npm scripts in parallel
-    } catch (err) {
-        console.error(`Error reading directory ${dir}:`, err);
-    }
+    return  promises;
 };
 
 // Run the script in all specified second-level directories
 const run = async () => {
-    const promises = directories.map(async (dir) => {
-        const dirPath = path.resolve(dir);  // Resolve the path of the directory
-        await findAndRunNpmInSecondLevel(dirPath);  // Only go one level deep
-    });
+
+
+
+
+    const promises = [];
+
+for (const dir of directories) {
+    const dirPath = path.resolve(dir);  // Resolve the path of the directory
+    const result =   findAndRunNpmInSecondLevel(dirPath);  // Only go one level deep
+    promises.push(...result);
+}
+
+
 
     await Promise.all(promises);
     console.log('All npm build jobs are done!');
