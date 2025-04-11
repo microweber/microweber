@@ -235,10 +235,16 @@ class Customer extends Model
         if ($userName) {
             return $userName;
         }
-
-        return '...';
+        if ((isset($this->name) && !empty($this->name))) {
+            return $this->name;
+        }
+        return '';
     }
 
+    public function email()
+    {
+        return $this->getEmail();
+    }
     public function getEmail()
     {
         if (isset($this->email) && !empty($this->email)) {
@@ -252,7 +258,7 @@ class Customer extends Model
             }
         }
 
-        return '...';
+        return '';
     }
 
     public function getPhone()

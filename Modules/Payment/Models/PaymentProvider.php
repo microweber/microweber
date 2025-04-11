@@ -2,8 +2,12 @@
 
 namespace Modules\Payment\Models;
 
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+
 class PaymentProvider extends \Illuminate\Database\Eloquent\Model
 {
+    use CacheableQueryBuilderTrait;
+
     protected $fillable = [
         'id',
         'name',

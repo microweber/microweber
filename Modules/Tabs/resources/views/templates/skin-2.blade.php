@@ -124,7 +124,7 @@
                     @php $count++; @endphp
                     <a class="nav-link {{ $count == 1 ? 'active' : '' }} col-lg-3 col-md-6 col-12" href="javascript:;">
                         {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}
-                        <h4 class="header-section-title mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
+                        <h4 class=" mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
                     </a>
                 @endforeach
             @endif
@@ -144,7 +144,7 @@
             <div class="edit safe-mode" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
                 <div class="row border-bottom safe-mode cloneable element pb-5 mb-5">
                     <div class="col-lg-4 col-12">
-                        <img src="{{ asset('templates/big2/modules/tabs/templates/gallery-1-6.jpg') }}" class="schedule-image img-fluid" alt="">
+                        <img src="{{ asset('templates/big2/img/layouts/gallery-1-6.jpg') }}" class="schedule-image img-fluid" alt="">
                     </div>
 
                     <div class="col-lg-8 col-12 mt-3 mt-lg-0">
@@ -152,7 +152,7 @@
                         <div class="small-text">{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</div>
                         <div class="d-flex align-items-center mt-4">
                             <div class="avatar-group d-flex">
-                                <img loading="lazy" class="avatar-image" src="{{ asset('templates/big2/resources/assets/img/layouts/1.jpg') }}">
+                                <img loading="lazy" class="avatar-image" src="{{ asset('templates/big2/img/layouts/events/1.jpg') }}">
                                 <div class="ms-3">
                                     Logan Wilson
                                     <p class="speakers-text mb-0">CEO / Founder</p>

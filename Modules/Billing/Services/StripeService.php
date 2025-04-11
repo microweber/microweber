@@ -2,13 +2,16 @@
 
 namespace Modules\Billing\Services;
 
+use Illuminate\Support\Facades\Config;
 use Laravel\Cashier\Cashier;
 use MicroweberPackages\User\Models\User;
+use Modules\Payment\Models\PaymentProvider;
 use Stripe\StripeClient;
 use Exception;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanFeature;
 use Modules\Customer\Models\Customer;
+use Modules\Billing\Models\Subscription;
 
 class StripeService
 {
@@ -16,9 +19,15 @@ class StripeService
      * @var StripeClient
      */
     protected $stripe;
+    public $paymentProivderId = 0;
+    public $paymentProivderType = 'stripe';
 
     public function __construct()
     {
+        $cashier_billing_payment_provider_id = get_option('cashier_billing_payment_provider_id', 'payments');
+        if ($cashier_billing_payment_provider_id) {
+            $this->paymentProivderId = $cashier_billing_payment_provider_id;
+        }
         $this->stripe = Cashier::stripe();
     }
 
@@ -35,6 +44,16 @@ class StripeService
     public function getInvoices(array $params = [])
     {
         return $this->stripe->invoices->all($params);
+    }
+
+    public function getPaymentProivderId(): int
+    {
+        return $this->paymentProivderId;
+    }
+
+    public function getPaymentProivderType(): string
+    {
+        return $this->paymentProivderType;
     }
 
     public function testConnection(): bool
@@ -132,8 +151,8 @@ class StripeService
                 $email = $stripeCustomer->email ?? '';
 
                 //find user with email
-                $user =  User::where('email', $email)->first();
-                if(!$user){
+                $user = User::where('email', $email)->first();
+                if (!$user) {
                     //create user
                     $user = new User();
                     $user->email = $email;
@@ -145,10 +164,9 @@ class StripeService
                     $user->save();
                 }
 
-
                 $customer = Customer::firstOrNew(['stripe_id' => $stripeCustomer->id]);
 
-                if($user and $customer->user_id != $user->id){
+                if ($user && $customer->user_id != $user->id) {
                     $customer->user_id = $user->id;
                 }
 
@@ -160,6 +178,48 @@ class StripeService
                 $customer->pm_type = $stripeCustomer->invoice_settings->default_payment_method->type ?? null;
                 $customer->pm_last_four = $stripeCustomer->invoice_settings->default_payment_method->card->last4 ?? null;
                 $customer->save();
+
+                // sync subscriptions for this customer
+                try {
+                    $stripeSubscriptions = $this->stripe->subscriptions->all([
+                        'customer' => $stripeCustomer->id,
+                        'limit' => 100,
+                    ]);
+
+                    foreach ($stripeSubscriptions->data as $stripeSubscription) {
+                        $planId = null;
+                        $stripePriceId = null;
+                        $priceAmount = null;
+                        $billingInterval = null;
+
+                        if (isset($stripeSubscription->items->data[0])) {
+                            $item = $stripeSubscription->items->data[0];
+                            $stripePriceId = $item->price->id ?? null;
+                            $priceAmount = isset($item->price->unit_amount) ? ($item->price->unit_amount / 100) : null;
+                            $billingInterval = $item->price->recurring->interval ?? null;
+
+                            $plan = SubscriptionPlan::where('remote_provider_price_id', $stripePriceId)->first();
+                            if ($plan) {
+                                $planId = $plan->id;
+                            }
+                        }
+
+                        Subscription::updateOrCreate(
+                            [
+                                'stripe_id' => $stripeSubscription->id,
+                            ],
+                            [
+                                'customer_id' => $customer->id,
+                                'user_id' => $user->id,
+                                'subscription_plan_id' => $planId,
+                                'stripe_status' => $stripeSubscription->status,
+                                'stripe_price' => $stripePriceId
+                            ]
+                        );
+                    }
+                } catch (\Exception $e) {
+                    // ignore subscription sync errors for this customer
+                }
 
                 $count++;
             }

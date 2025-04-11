@@ -4,63 +4,89 @@ namespace Modules\Billing\Filament\Frontend\Pages;
 
 use Filament\Actions\ActionGroup;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Modules\Billing\Http\Controllers\SubscribeToPlanController;
 use Modules\Billing\Models\SubscriptionPlan;
-use Modules\Billing\Services\SubscriptionManager;
+use Modules\Billing\Models\Subscription;
+use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 
 class UserSubscriptionPanel extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
-
     protected static string $view = 'modules.billing::filament.pages.user-subscription-panel';
 
-    protected static ?string $title = 'My Subscription';
+    protected static ?string $title = 'New Subscription';
 
-    protected static ?string $slug = 'user-subscription';
+    protected static ?string $slug = 'new-subscription';
 
-    public ?string $selectedPlanSku = null;
+    public ?string $plan = null;
 
-    public function mount(): void
-    {
-        $this->form->fill([
-            'plan' => $this->getCurrentPlanSku(),
-        ]);
-    }
+    public $activeSubscriptions = [];
 
-    protected function getCurrentPlanSku(): ?string
+    public function mount()
     {
         $user = auth()->user();
-        if (!$user) {
-            return null;
+        if ($user) {
+            $this->activeSubscriptions = Subscription::with('plan')
+                ->where('user_id', $user->id)
+                ->where('stripe_status', 'active')
+                ->get();
         }
-        $activePlan = getUserActiveSubscriptionPlan($user->id);
-        return $activePlan['sku'] ?? null;
     }
 
     protected function getFormSchema(): array
     {
-        return [
-            Select::make('plan')
-                ->label('Select Subscription Plan')
-                ->options(
-                    SubscriptionPlan::query()
-                        ->pluck('name', 'sku')
-                        ->toArray()
-                )
-                ->searchable()
-                ->required(),
-        ];
-    }
+        $plans = SubscriptionPlan::with('group')->get();
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema($this->getFormSchema())
-            ->statePath('data');
+        $groupedPlans = [];
+
+        foreach ($plans as $plan) {
+            $groupName = $plan->group->name ?? 'Plans';
+            $groupedPlans[$groupName][] = $plan;
+        }
+
+        $disabledSkus = [];
+        foreach ($this->activeSubscriptions as $subscription) {
+            if ($subscription->plan && $subscription->plan->sku) {
+                $disabledSkus[] = $subscription->plan->sku;
+            }
+        }
+
+        $schema = [];
+
+        foreach ($groupedPlans as $groupName => $plansInGroup) {
+            $options = [];
+            $descriptions = [];
+            $icons = [];
+
+            foreach ($plansInGroup as $plan) {
+                $options[$plan->sku] = $plan->name;
+                $descriptions[$plan->sku] = $plan->description ?? '';
+                $icons[$plan->sku] = 'heroicon-m-currency-dollar';
+            }
+
+            $schema[] = Forms\Components\Section::make($groupName)
+                ->schema([
+                    RadioDeck::make('plan')
+                        ->label(function () use ($groupName) {
+                            if($groupName != 'Plans') {
+                                return 'Select a plan from ' . $groupName;
+                            } else {
+                                return 'Select a plan';
+                            }
+                        })
+                        ->options($options)
+                        ->descriptions($descriptions)
+                        ->icons($icons)
+                        ->disableOptionWhen(fn($value) => in_array($value, $disabledSkus))
+                        ->required()
+                        ->columns(1),
+                ]);
+        }
+
+        return $schema;
     }
 
     public function submit()
@@ -83,21 +109,13 @@ class UserSubscriptionPanel extends Page
             return;
         }
 
-        /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = app(SubscriptionManager::class);
-        $result = $subscriptionManager->subscribeToPlan($planSku);
+        $request = request();
+        $request->merge(['sku' => $planSku]);
 
-        if (isset($result['error'])) {
-            Notification::make()
-                ->title('Error: ' . $result['error'])
-                ->danger()
-                ->send();
-        } else {
-            Notification::make()
-                ->title('Subscription updated successfully')
-                ->success()
-                ->send();
-        }
+        $controller = new SubscribeToPlanController();
+        $response = $controller->subscribeToPlan($request);
+
+        return $response;
     }
 
     protected function getActions(): array
@@ -105,17 +123,10 @@ class UserSubscriptionPanel extends Page
         return [
             ActionGroup::make([
                 Forms\Components\Actions\Action::make('save')
-                    ->label('Update Subscription')
+                    ->label('Continue to Payment')
                     ->action('submit')
                     ->color('primary'),
             ]),
         ];
-    }
-
-    public function render(): View
-    {
-        return view(static::$view, [
-            'form' => $this->form,
-        ]);
     }
 }

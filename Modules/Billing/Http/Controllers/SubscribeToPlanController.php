@@ -14,6 +14,12 @@ class SubscribeToPlanController
         $referer = $request->headers->get('referer');
 
         $swap = $subscriptionManager->subscribeToPlan($sku, $referer);
+        if (isset($swap) and is_object($swap) and method_exists($swap, 'toArray')) {
+            $data = $swap->toArray();
+            if (isset($data['url']) and $data['url']) {
+                return redirect($data['url']);
+            }
+        }
 
         return redirect(route('billing.subscription.success') . '?latest_invoice=' . $swap->latest_invoice);
     }

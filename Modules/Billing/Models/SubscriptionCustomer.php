@@ -9,13 +9,18 @@ use Modules\Customer\Models\Customer;
 
 class SubscriptionCustomer extends Customer
 {
-//    use Billable;
-//    use Notifiable;
+    // use Billable;
+    // use Notifiable;
 
     public $table = 'customers';
 
-//    public function routeNotificationForMail(Notification $notification): array|string
-//    {
-//        return $this->email();
-//    }
+    public function subscriptions()
+    {
+        return $this->hasMany(\Modules\Billing\Models\Subscription::class, 'customer_id');
+    }
+
+    // public function routeNotificationForMail(Notification $notification): array|string
+    // {
+    //     return $this->email();
+    // }
 }

@@ -88,9 +88,8 @@ class SubscriptionPlanResource extends Resource
                             ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
-                                'monthly' => 'Monthly',
-                                'yearly' => 'Yearly',
-                                'annually' => 'Annually',
+                                'month' => 'Month',
+                                'year' => 'Year',
                                 'lifetime' => 'Lifetime',
                             ])
                             ->required()
@@ -195,7 +194,13 @@ class SubscriptionPlanResource extends Resource
                     ->label('Sync from Stripe')
                     ->color('primary')
                     ->action(function () {
-                        $service = new StripeService();
+
+
+                        // Sync products from Stripe
+                        $service = app()->make(\Modules\Billing\Services\StripeService::class);
+                        /**
+                         * @var StripeService $service
+                         */
                         $count = $service->syncProducts();
 
                         Notification::make()

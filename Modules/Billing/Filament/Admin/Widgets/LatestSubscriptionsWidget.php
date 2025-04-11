@@ -21,16 +21,20 @@ class LatestSubscriptionsWidget extends BaseWidget
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('user_id')
+                    ->label('User ID')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('stripe_status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'active' => 'success',
                         'canceled' => 'danger',
                         'past_due' => 'warning',
                         default => 'secondary',
                     }),
-                Tables\Columns\TextColumn::make('amount')
-                    ->money()
+                Tables\Columns\TextColumn::make('subscription_plan_id')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
