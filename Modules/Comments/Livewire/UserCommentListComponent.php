@@ -65,7 +65,7 @@ class UserCommentListComponent extends Component
         }
     }
 
-    public $commentsPage = 0;
+    public $commentsPage = 1; // Start from page 1
 
     public $queryString = [
         'commentsPage'

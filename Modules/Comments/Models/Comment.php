@@ -3,11 +3,13 @@
 namespace Modules\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use League\CommonMark\CommonMarkConverter;
 use Modules\Content\Models\Content;
 
 class Comment extends Model
 {
+    use Notifiable;
     protected $table = 'comments';
     protected $fillable = [
         'comment_subject',
@@ -18,8 +20,62 @@ class Comment extends Model
         'rel_type',
         'rel_id',
         'reply_to_comment_id',
+        'is_moderated',
+        'is_new',
+        'is_spam',
+        'user_ip',
+        'session_id',
+        'created_by'
+    ];
+
+    protected $casts = [
+        'rel_type' => 'string',
+        'rel_id' => 'string',
+        'reply_to_comment_id' => 'integer',
+        'is_moderated' => 'boolean',
+
+        'is_new' => 'boolean',
+        'is_spam' => 'boolean',
+        'is_reported' => 'boolean',
+        'created_by' => 'integer',
+        'user_ip' => 'string',
+        'session_id' => 'string',
+        'user_agent' => 'string',
+        'comment_body' => 'string',
+        'comment_name' => 'string',
+        'comment_email' => 'string',
+        'comment_website' => 'string',
+        'comment_subject' => 'string',
+
+        'created_at' => 'datetime',
+
+        'updated_at' => 'datetime',
 
     ];
+
+    public function isSpam()
+    {
+        if ($this->is_spam == 1) {
+            return true;
+        }
+
+        // Check for common spam patterns
+        $spamKeywords = ['viagra', 'casino', 'loan', 'credit', 'click here'];
+        foreach ($spamKeywords as $keyword) {
+            if (stripos($this->comment_body, $keyword) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function shouldNotifyParent()
+    {
+        return $this->reply_to_comment_id
+            && config('modules.comments.notify_on_reply')
+            && !$this->isSpam();
+    }
 
     public static function booted()
     {
@@ -48,9 +104,7 @@ class Comment extends Model
     }
 
     public function isPending() {
-        if ($this->is_new == 1 && $this->is_moderated == 0) {
-            return true;
-        }
+        return $this->is_new == 1 && $this->is_moderated == 0;
     }
 
     public function scopePending($query)
@@ -139,12 +193,18 @@ class Comment extends Model
 
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'reply_to_comment_id');
+        return $this->hasMany(Comment::class, 'reply_to_comment_id')->with('replies');
     }
 
-    public function parentComment()
+    public function parent()
     {
         return $this->belongsTo(Comment::class, 'reply_to_comment_id');
+    }
+
+    // Alias for parent() to maintain backward compatibility
+    public function parentComment()
+    {
+        return $this->parent();
     }
 
     public function parentCommentBody() {
