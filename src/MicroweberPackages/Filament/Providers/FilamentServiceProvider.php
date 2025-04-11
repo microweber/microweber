@@ -22,15 +22,37 @@ use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use Spatie\LaravelPackageTools\Package;
 
 
 class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 {
     use MergesConfig;
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name('filament-panels')
+            ->hasCommands($this->getCommands())
+            ->hasRoute('web')
+            ->hasTranslations()
+            ->hasViews();
+    }
+    protected function bootPackageRoutes(): self
+    {
+        if (empty($this->package->routeFileNames)) {
+            return $this;
+        }
 
+        foreach ($this->package->routeFileNames as $routeFileName) {
+            $this->loadRoutesFrom(normalize_path("{$this->package->basePath('/routes/')}{$routeFileName}.php",false));
+        }
+
+        return $this;
+    }
     public function packageRegistered(): void
     {
-        parent::packageRegistered();
+
+
         //register FilamentManager
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
         $this->mergeConfigFrom(__DIR__ . '/../config/money.php', 'money');

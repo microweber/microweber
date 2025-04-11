@@ -1,5 +1,6 @@
 <?php
 
+
 use Filament\Facades\Filament;
 use Filament\Http\Controllers\Auth\EmailVerificationController;
 use Filament\Http\Controllers\Auth\LogoutController;
@@ -172,3 +173,5 @@ Route::name('filament.')
             }
         }
     });
+
+

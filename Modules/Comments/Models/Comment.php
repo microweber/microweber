@@ -28,12 +28,37 @@ class Comment extends Model
         'created_by'
     ];
 
+    protected $casts = [
+        'rel_type' => 'string',
+        'rel_id' => 'string',
+        'reply_to_comment_id' => 'integer',
+        'is_moderated' => 'boolean',
+
+        'is_new' => 'boolean',
+        'is_spam' => 'boolean',
+        'is_reported' => 'boolean',
+        'created_by' => 'integer',
+        'user_ip' => 'string',
+        'session_id' => 'string',
+        'user_agent' => 'string',
+        'comment_body' => 'string',
+        'comment_name' => 'string',
+        'comment_email' => 'string',
+        'comment_website' => 'string',
+        'comment_subject' => 'string',
+
+        'created_at' => 'datetime',
+
+        'updated_at' => 'datetime',
+
+    ];
+
     public function isSpam()
     {
         if ($this->is_spam == 1) {
             return true;
         }
-        
+
         // Check for common spam patterns
         $spamKeywords = ['viagra', 'casino', 'loan', 'credit', 'click here'];
         foreach ($spamKeywords as $keyword) {
@@ -41,14 +66,14 @@ class Comment extends Model
                 return true;
             }
         }
-        
+
         return false;
     }
 
     public function shouldNotifyParent()
     {
-        return $this->reply_to_comment_id 
-            && config('modules.comments.notify_on_reply') 
+        return $this->reply_to_comment_id
+            && config('modules.comments.notify_on_reply')
             && !$this->isSpam();
     }
 

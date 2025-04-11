@@ -57,6 +57,7 @@ class CommentResource extends Resource
                     ])
                     ->searchable()
                     ->reactive()
+                    ->dehydrated(true)
                     ->afterStateUpdated(function (callable $set, $state) {
                         if ($state === morph_name(\Modules\Content\Models\Content::class)) {
                             $set('rel_id', null);
@@ -67,6 +68,7 @@ class CommentResource extends Resource
                     ->relationship('content', 'title')
                     ->searchable()
                     ->preload()
+                    ->dehydrated(true)
                     ->visible(fn($get) => $get('rel_type') === morph_name(\Modules\Content\Models\Content::class))
                     ->required(fn($get) => $get('rel_type') === morph_name(\Modules\Content\Models\Content::class)),
             ]);
