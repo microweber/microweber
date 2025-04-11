@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class CreateMenusTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,6 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-
-
         if (!Schema::hasTable('menus')) {
             Schema::create('menus', function (Blueprint $table) {
                 $table->increments('id');
@@ -57,10 +55,9 @@ class CreateMenusTable extends Migration
                             ->where('id', $field->id)
                             ->limit(1)
                             ->update(['menu_name' => str_slug($field->title)]);
-
                     }
                 }
             }
         }
     }
-}
+};

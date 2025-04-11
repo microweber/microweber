@@ -17,11 +17,12 @@ return new class extends Migration {
                 $table->string('rel_id')->nullable();
 
                 $table->string('comment_subject')->nullable();
-                $table->longText('comment_body')->nullable();;
+                $table->longText('comment_body')->nullable();
 
                 $table->string('comment_name')->nullable();
                 $table->string('comment_email')->nullable();
                 $table->string('comment_website')->nullable();
+                $table->string('user_agent')->nullable();
 
                 $table->integer('reply_to_comment_id')->nullable();
 
@@ -35,19 +36,8 @@ return new class extends Migration {
                 $table->integer('is_spam')->nullable();
                 $table->integer('is_reported')->nullable();
 
-
                 $table->timestamps();
             });
-            if (Schema::hasTable('comments')) {
-                Schema::create('comments', function (Blueprint $table) {
-
-                    if(Schema::hasColumn('comments', 'user_agent')) {
-                        $table->string('user_agent')->nullable();
-                    }
-
-
-                });
-            }
         }
     }
 
