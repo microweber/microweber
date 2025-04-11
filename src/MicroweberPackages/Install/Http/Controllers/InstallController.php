@@ -488,6 +488,9 @@ class InstallController extends Controller
                     define('STDIN', fopen("php://stdin", "r"));
                 }
 
+                if(!is_dir(userfiles_path())) {
+                    mkdir_recursive(userfiles_path());
+                }
 
                 if (!$install_step or $install_step == 1) {
                     app()->module_manager->logger = $this;
