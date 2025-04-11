@@ -14,6 +14,7 @@ namespace MicroweberPackages\LiveEdit\Providers;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
@@ -40,25 +41,20 @@ use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LiveEditServiceProvider extends PackageServiceProvider
+class LiveEditServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
-    {
-        $package->name('microweber-live-edit');
-        $package->hasViews('microweber-live-edit');
 
 
-    }
 
     public function register()
     {
-        parent::register();
-        View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
+
+        View::addNamespace('microweber-live-edit', __DIR__ . '/../resources/views');
 
         app()->singleton('live_edit_manager', function () {
             return new LiveEditManagerService();
         });
-
+        parent::register();
         Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
         Livewire::component('microweber-live-edit::module-items-editor', ModuleSettingsItemsEditorComponent::class);
         Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
@@ -104,7 +100,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
-        parent::boot();
+
         $router = $this->app['router'];
 //
         $router->middlewareGroup('live_edit', [

@@ -28,7 +28,7 @@ return new class extends Migration {
                 $table->integer('created_by')->nullable();
                 $table->string('session_id')->nullable();
                 $table->string('user_ip')->nullable();
-                $table->string('user_agent')->nullable();
+
                 $table->integer('is_new')->nullable()->default(1);
                 $table->integer('is_moderated')->nullable()->default(0);
 
@@ -38,6 +38,16 @@ return new class extends Migration {
 
                 $table->timestamps();
             });
+            if (Schema::hasTable('comments')) {
+                Schema::create('comments', function (Blueprint $table) {
+
+                    if(Schema::hasColumn('comments', 'user_agent')) {
+                        $table->string('user_agent')->nullable();
+                    }
+
+
+                });
+            }
         }
     }
 
