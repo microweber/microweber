@@ -19,8 +19,6 @@ export default function mwTreeFormComponent({ state, options = {}, params = {} }
             };
 
 
-            // Check if options is an object and has the suffix property
-            console.log(options)
 
 
             const pagesTree = await mw.widget.tree(`#mw-tree-edit-content-${options.suffix}`, treeOptions);

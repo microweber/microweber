@@ -1,119 +1,70 @@
-@php
-    use Filament\Support\Facades\FilamentView;
+@props(['selectedCategories', 'selectedPage', 'skipCategories', 'contentType', 'skipPageId', 'isShopFilter'])
 
-    $id = $getId();
-    $statePath = $getStatePath();
-@endphp
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
     :has-inline-label="$hasInlineLabel"
 >
-
-
     @php
-        $suffix = '';
-
+        $id = $this->getId();
+        $statePath = $this->getStatePath();
         $suffix = $this->getId();
 
+        // Prepare the options array
+        $options = [
+            'suffix' => $suffix,
+            'selectable' => true,
+        ];
 
+        if (isset($singleSelect) && $singleSelect) {
+            $options['singleSelect'] = true;
+        }
 
+        // Prepare selected data
+        if (isset($selectedPage)) {
+            $options['selectedData'][] = [
+                'id' => $selectedPage,
+                'type' => 'page'
+            ];
+        }
+
+        if (isset($selectedCategories)) {
+            foreach ($selectedCategories as $category) {
+                $options['selectedData'][] = [
+                    'id' => $category,
+                    'type' => 'category'
+                ];
+            }
+        }
+
+        // Prepare params array
+        $params = [];
+        if (isset($skipCategories) && $skipCategories) {
+            $params['skip_categories'] = 1;
+        }
+        if (isset($contentType) && $contentType) {
+            $params['content_type'] = $contentType;
+        }
+        if (isset($isShopFilter)) {
+            $params['is_shop'] = intval($isShopFilter);
+        }
     @endphp
-
-
-
-
-    <script>
-
-
-        document.addEventListener('alpine:init', () => {
-
-            Alpine.data('mwTreeFormComponent', ({state}) => ({
-                state,
-                async init() {
-                    var skip = [];
-                    var selectedData = [];
-                    var options = {
-                        selectable: true
-                    };
-
-                    @if(isset($singleSelect) and $singleSelect)
-
-                        options.singleSelect = true;
-
-                    @endif
-
-                    @if(isset($selectedPage) and $selectedPage)
-
-                    selectedData.push({
-                        id: '{{$selectedPage}}',
-                        type: 'page'
-                    })
-
-                    @endif
-
-                    @if(isset($selectedCategories) and $selectedCategories)
-
-                    @foreach($selectedCategories as $selectedCategory)
-
-                    selectedData.push({
-                        id: {{$selectedCategory}},
-                        type: 'category'
-                    })
-
-
-                    @endforeach
-
-                        @endif
-
-                    if (selectedData.length > 0) {
-                        options.selectedData = selectedData;
-                    }
-                    if(skip.length > 0){
-                        options.skip = skip;
-                    }
-
-
-
-                    var opts = {
-                        options
-                    };
-
-                    let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
-                    pagesTree.tree.on('selectionChange', e => {
-                        let result = pagesTree.tree.getSelected();
-                        this.state = result;
-                    })
-                }
-            }))
-
-        })
-    </script>
-
-
-    <?php
-
-    /*
-    @if($this->data)
-    {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
-    @endif
-     */
-    ?>
-
 
     <div
 
 
+        ax-load="visible"
+
+        ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('mw-tree-component', 'mw-filament/forms') }}"
+
+
         x-data="mwTreeFormComponent({
-                state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }}
-            })"
+            state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+            options: {{ json_encode($options, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }},
+            params: {{ json_encode($params, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }}
+        })"
+
     >
-
-        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"> </div>
-
+        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"></div>
     </div>
-
-
 </x-dynamic-component>
-
-
