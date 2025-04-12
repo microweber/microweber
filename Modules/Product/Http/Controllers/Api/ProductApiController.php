@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 8/19/2020
- * Time: 4:09 PM
- */
 
 namespace Modules\Product\Http\Controllers\Api;
 
@@ -13,35 +7,28 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Http\Requests\ProductUpdateRequest;
-use Modules\Product\Repositories\ProductRepository;
+use Modules\Product\Models\Product;
 
 class ProductApiController extends AdminDefaultController
 {
-    public $product;
-
-    public function __construct(ProductRepository $product)
-    {
-        $this->product = $product;
-
-    }
-
     /**
-     * /**
      * Display a listing of the product.
      *
-     * @param \Modules\Product\Http\Requests\ProductRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        return (new JsonResource(
-            $this->product
-                ->filter($request->all())
-                ->paginate($request->get('limit', 30))
-                ->appends($request->except('page'))
+        $query = Product::query();
 
-        ))->response();
+        if ($request->has('filter')) {
+            $query->filter($request->all());
+        }
 
+        $products = $query->paginate($request->get('limit', 30))
+            ->appends($request->except('page'));
+
+        return (new JsonResource($products))->response();
     }
 
     /**
@@ -52,46 +39,50 @@ class ProductApiController extends AdminDefaultController
      */
     public function store(ProductRequest $request)
     {
-        $result = $this->product->create($request->all());
-        return (new JsonResource($result))->response();
+
+
+        $product = Product::create($request->all());
+        return (new JsonResource($product))->response();
     }
 
     /**
-     * Display the specified resource.show
+     * Display the specified resource.
      *
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $result = $this->product->show($id);
-
-        return (new JsonResource($result))->response();
+        $product = Product::findOrFail($id);
+        return (new JsonResource($product))->response();
     }
-
 
     /**
      * Update the specified resource in storage.
      *
-     * @param ProductRequest $request
-     * @param string $product
+     * @param ProductUpdateRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductUpdateRequest $request, $product)
+    public function update(ProductUpdateRequest $request, $id)
     {
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
 
-        $result = $this->product->update($request->all(), $product);
-        return (new JsonResource($result))->response();
+        return (new JsonResource($product))->response();
     }
 
     /**
      * Destroy resources by given id.
      *
-     * @param string $id
-     * @return void
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        return (new JsonResource(['id' => $this->product->delete($id)]));
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return (new JsonResource(['id' => $id]));
     }
 }

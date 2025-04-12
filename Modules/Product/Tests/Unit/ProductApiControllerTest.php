@@ -5,9 +5,12 @@ namespace Modules\Product\Tests\Unit;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Modules\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use Modules\Content\Events\ContentWasCreated;
+use Modules\Offer\Listeners\AddSpecialPriceProductListener;
 
 class ProductApiControllerTest extends TestCase
 {
@@ -17,7 +20,12 @@ class ProductApiControllerTest extends TestCase
 
         $this->loginAsAdmin();
         $categoryIds = [];
-
+//        Event::fake();
+//
+//        Event::assertListening(
+//            ContentWasCreated::class,
+//            AddSpecialPriceProductListener::class
+//        );
 
         $category = new Category();
         $category->title = 'New cat for my custom model' . rand();
@@ -257,12 +265,10 @@ class ProductApiControllerTest extends TestCase
         $title = 'Product with labels';
 
         $contentData = [
-            'title' => $title,
-            'sku' => 'sku-test',
+             'sku' => 'sku-test',
             'label' => 'new',
             'label-color' => 'green',
             'label-type' => 'text',
-            'special_price' => 10,
 
 
         ];
@@ -272,9 +278,10 @@ class ProductApiControllerTest extends TestCase
             route('api.product.store'),
             [
                 'title' => $title,
-                'price' => 100,
+                'special_price' => 10,
 
-                'content_data' => $contentData
+                'price' => 100,
+                 'content_data' => $contentData
             ]
         );
         $saved = $response->getContent();

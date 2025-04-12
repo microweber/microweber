@@ -23,6 +23,7 @@ trait ContentDataTrait
         static::saving(function ($model) {
 
             if (isset($model->attributes['content_data'])) {
+
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
             }
@@ -62,6 +63,9 @@ trait ContentDataTrait
                         $findContentData->field_value = $fieldValue;
                         $findContentData->save();
                     } else {
+
+
+
                         DB::table('content_data')
                             ->where('id', $findContentData->id)
                             ->update(['field_value' => $fieldValue]);

@@ -9,6 +9,11 @@ trait ModifySpecialPriceProductTrait
 
     public function handle($event)
     {
+
+        //moved to Modules/Product/Traits/CustomFieldPriceTrait.php as the listener is not always called by some reason
+
+        return;
+
         $data = $event->getData();
         $product = $event->getModel();
 
@@ -51,7 +56,7 @@ trait ModifySpecialPriceProductTrait
 
             Offer::add($saveOffer);
         } else {
-            $query = Offer::where('product_id', '=', $productModel->id)->delete();
+        //    $query = Offer::where('product_id', '=', $productModel->id)->delete();
 
         }
     }

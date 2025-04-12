@@ -60,7 +60,9 @@ class Offer extends Model
         } else {
             $offerData['expires_at'] = null;
         }
-
+        if (!isset($offerData['is_active'])) {
+            $offerData['is_active'] =1 ;
+        }
         if (empty($offerData['is_active'])) {
             $offerData['is_active'] = 0;
         } elseif ($offerData['is_active'] == 'on') {

@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Traits;
 
+use Modules\Offer\Models\Offer;
 use Modules\Product\Models\ProductPrice;
 
 trait CustomFieldPriceTrait
@@ -79,6 +80,37 @@ trait CustomFieldPriceTrait
 
             }
 
+
+            if(function_exists('offers_get_price')) {
+
+
+                if ($model->_addSpecialPriceField) {
+                    $offerPrice = $model->_addSpecialPriceField;
+                    $productId = $model->id;
+                    $priceId = $model->priceModel->id;
+
+                    $query = Offer::where('price_id', $priceId);
+                    if ($productId) {
+                        $query->where('product_id', '=', $productId);
+                    }
+                    $findOffer = $query->first();
+
+                    $saveOffer = array();
+                    if ($findOffer) {
+                        $saveOffer['id'] = $findOffer->id;
+                    }
+
+                    $saveOffer['offer_price'] = $offerPrice;
+                    $saveOffer['product_id_with_price_id'] = $productId . '|' . $priceId;
+
+                    Offer::add($saveOffer);
+                } else {
+                    //    $query = Offer::where('product_id', '=', $productModel->id)->delete();
+                    if (isset($model->_removeSpecialPriceField)) {
+                        $model = Offer::where('product_id', '=', $model->id)->delete();
+                    }
+                }
+            }
         });
     }
 

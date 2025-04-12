@@ -10,13 +10,16 @@ use Modules\Content\Events\ContentWasDeleted;
 use Modules\Content\Events\ContentWasDestroyed;
 use Modules\Content\Events\ContentWasRestored;
 use Modules\Content\Events\ContentWasUpdated;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class ContentObserver
+class ContentObserver  implements ShouldHandleEventsAfterCommit
 {
 
 
     public function creating(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentIsCreating($content));
     }
 
@@ -25,11 +28,15 @@ class ContentObserver
      */
     public function created(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentWasCreated($content));
     }
 
     public function updating(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentIsUpdating($content));
     }
 
@@ -38,6 +45,8 @@ class ContentObserver
      */
     public function updated(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentWasUpdated($content));
     }
 
@@ -46,6 +55,8 @@ class ContentObserver
      */
     public function deleted(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentWasDeleted($content));
     }
 
@@ -54,6 +65,8 @@ class ContentObserver
      */
     public function restored(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentWasRestored($content));
     }
 
@@ -62,6 +75,8 @@ class ContentObserver
      */
     public function forceDeleted(Model $content): void
     {
+        app()->content_repository->clearCache();
+
         event(new ContentWasDestroyed($content));
     }
 }
