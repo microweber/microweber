@@ -44,7 +44,7 @@ class CommentPolicyTest extends TestCase
         ]);
 
         $policy = new CommentPolicy();
-        
+
         // Admin can always update
         $admin = User::factory()->create(['is_admin' => 1]);
         $this->assertTrue($policy->update($admin, $comment));
@@ -56,7 +56,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -64,7 +64,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -72,7 +72,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -80,7 +80,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -88,7 +88,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -96,7 +96,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -104,7 +104,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -112,7 +112,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -120,7 +120,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -128,7 +128,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -136,7 +136,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -144,7 +144,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -152,7 +152,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -160,7 +160,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -168,7 +168,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -176,7 +176,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -184,7 +184,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -192,7 +192,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -200,7 +200,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -208,7 +208,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -216,7 +216,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -224,7 +224,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -232,7 +232,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -240,7 +240,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -248,7 +248,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -256,7 +256,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -264,7 +264,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -272,7 +272,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -280,7 +280,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -288,7 +288,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -296,7 +296,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -304,7 +304,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -312,7 +312,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -320,7 +320,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -328,7 +328,7 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
+
         // Test session/IP validation with fresh comment
         $anonComment = Comment::create([
             'comment_name' => 'Anon',
@@ -336,17 +336,17 @@ class CommentPolicyTest extends TestCase
             'user_ip' => request()->ip(),
             'session_id' => session()->getId()
         ]);
-        
-        // Debug session/IP values
-        echo "\nDEBUG:\n";
-        echo "Comment IP: " . $anonComment->user_ip . "\n";
-        echo "Current IP: " . user_ip() . "\n";
-        echo "Comment Session: " . $anonComment->session_id . "\n"; 
-        echo "Current Session: " . session()->getId() . "\n";
+
+//        // Debug session/IP values
+//        echo "\nDEBUG:\n";
+//        echo "Comment IP: " . $anonComment->user_ip . "\n";
+//        echo "Current IP: " . user_ip() . "\n";
+//        echo "Comment Session: " . $anonComment->session_id . "\n";
+//        echo "Current Session: " . session()->getId() . "\n";
 
         // Should allow update when session/IP matches
         $result = $policy->update(null, $anonComment);
-        echo "Policy result: " . ($result ? 'true' : 'false') . "\n";
+ //       echo "Policy result: " . ($result ? 'true' : 'false') . "\n";
         $this->assertTrue($result);
 
         // Should reject when session/IP doesn't match
@@ -356,15 +356,15 @@ class CommentPolicyTest extends TestCase
         ]);
         $this->assertFalse($policy->update(null, $anonComment));
 
-        
-        
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
 
         // Test creator validation in isolation
         $creatorComment = Comment::create([
@@ -395,5 +395,5 @@ class CommentPolicyTest extends TestCase
         $this->assertTrue($policy->update($user1, $comment));
     }
 
-    
+
 }
