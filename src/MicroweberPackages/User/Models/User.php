@@ -132,6 +132,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'profile_url',
         'website_url',
         'phone',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at'
     );
 
     protected $rules = [
