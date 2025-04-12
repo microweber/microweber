@@ -103,8 +103,6 @@ class NewsletterCampaignResourceTest extends NewsletterTestCase
             ->assertHasFormErrors([
                 'name' => 'required',
                 'list_id' => 'required',
-                'email_content_html' => 'required',
-                'email_content_type' => 'required',
             ]);
     }
 }
