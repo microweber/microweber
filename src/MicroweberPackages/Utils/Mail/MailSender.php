@@ -355,7 +355,7 @@ class MailSender
 
         //try {
             Mail::send(
-                'mw_email_send::emails.simple',
+                'app::email.simple',
                 $content,
                 function ($message) use ($to, $subject, $from_address, $from_name, $reply_to, $attachments) {
 
