@@ -4,8 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class AddIndexToMultilanguageTables2 extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -33,4 +32,4 @@ class AddIndexToMultilanguageTables2 extends Migration
         }
     }
 
-}
+};

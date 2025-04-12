@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\SchemaOrg\tests;
+namespace Modules\Content\Tests\Unit;
 
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;

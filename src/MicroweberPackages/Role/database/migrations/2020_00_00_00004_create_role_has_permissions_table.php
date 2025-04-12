@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleHasPermissionsTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -38,4 +37,4 @@ class CreateRoleHasPermissionsTable extends Migration
 
         Schema::drop($tableNames['role_has_permissions']);
     }
-}
+};

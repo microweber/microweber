@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 
-class MigrateOldVersion213 extends Migration
-{
+return new class extends Migration {
 
     public function up()
     {
@@ -579,5 +578,5 @@ class MigrateOldVersion213 extends Migration
         }
     }
 
-}
+};
 
