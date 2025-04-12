@@ -34,7 +34,7 @@ jobs:
       - name: Npm install
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
       - run: npm install
@@ -62,7 +62,7 @@ jobs:
       - name: Npm install
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
       - run: npm install
@@ -123,7 +123,7 @@ jobs:
       - name: Npm install
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
       - run: npm install
