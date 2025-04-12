@@ -18,7 +18,7 @@ class OfferEventServiceProvider extends EventServiceProvider
      *
      * @var array
      */
-    protected $listen = [
+   /* protected $listen = [
 
         ContentWasCreated::class => [
             AddSpecialPriceProductListener::class
@@ -26,7 +26,7 @@ class OfferEventServiceProvider extends EventServiceProvider
         ContentWasUpdated::class => [
             EditSpecialPriceProductListener::class
         ]
-    ];
+    ];*/
 
     public function register()
     {
