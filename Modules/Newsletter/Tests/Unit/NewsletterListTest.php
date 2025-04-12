@@ -47,6 +47,9 @@ class NewsletterListTest extends TestCase
         $subscriberList = NewsletterSubscriberList::factory()->create([
             'list_id' => $list->id,
         ]);
+        $list->save();
+        $list->refresh();
+        $list->load('subscribers');
 
         $this->assertTrue($list->subscribers->contains($subscriberList));
     }
