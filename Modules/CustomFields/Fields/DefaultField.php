@@ -138,7 +138,7 @@ class DefaultField
         {
             $renderData['placeholder'] = '';
         } else {
-            $renderData['placeholder'] = $renderSettings['placeholder'] ?? '';
+            $renderData['placeholder'] = $renderSettings['placeholder'] ?? $renderData['placeholder'] ?? '';
 
          }
 
