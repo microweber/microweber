@@ -645,13 +645,14 @@ class CartManager extends Crud
             $cont = $this->app->content_manager->get_by_id($for_id);
 
             if (isset($cont['is_active'])) {
+
                 if ($cont['is_active'] != 1) {
                     $cont = false;
                 }
             }
 
             if (isset($cont['is_deleted'])) {
-                if ($cont['is_deleted'] > 0) {
+                if ($cont['is_deleted'] == 1) {
                     $cont = false;
                 }
             }
@@ -693,8 +694,9 @@ class CartManager extends Crud
         ]);
 
         $product_prices = array();
-        if ($for == 'content') {
+        if ($for == 'content' or $for == morph_name(\Modules\Content\Models\Content::class)) {
             $prices_data = app()->shop_manager->get_product_prices($for_id, true);
+ 
             if ($prices_data) {
                 foreach ($prices_data as $price_data) {
                     if (isset($price_data['name'])) {
@@ -836,6 +838,7 @@ class CartManager extends Crud
         }
         if ($found_price == false) {
             $found_price = 0;
+
             if (isset($data['price'])) {
                 $found_price = $data['price'];
             }
