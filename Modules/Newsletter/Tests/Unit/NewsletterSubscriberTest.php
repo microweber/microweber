@@ -75,4 +75,17 @@ class NewsletterSubscriberTest extends TestCase
         
         $this->assertEquals(3, $subscriber->lists()->count());
     }
+
+    #[Test]
+    public function it_has_lists_relationship()
+    {
+        $list = NewsletterList::factory()->create();
+        $subscriber = NewsletterSubscriber::create(['email' => 'test@example.com']);
+        $subscriber->lists()->attach($list->id);
+
+        $related = $subscriber->lists;
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $related);
+        $this->assertInstanceOf(NewsletterList::class, $related->first());
+        $this->assertEquals($list->id, $related->first()->id);
+    }
 }

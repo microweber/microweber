@@ -14,6 +14,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProcessCampaignsCommandTest extends TestCase
@@ -28,7 +29,7 @@ class ProcessCampaignsCommandTest extends TestCase
         config(['queue.default' => 'database']);
     }
 
-    /** @test */
+    #[Test]
     public function it_marks_scheduled_campaign_as_pending_and_processes_it()
     {
         $sender = NewsletterSenderAccount::factory()->create();
@@ -80,7 +81,7 @@ class ProcessCampaignsCommandTest extends TestCase
         $this->assertDatabaseMissing('newsletter_subscribers_lists', ['id' => $subscriberList->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_sender_missing()
     {
         $list = NewsletterList::factory()->create();
@@ -108,7 +109,7 @@ class ProcessCampaignsCommandTest extends TestCase
         $this->assertDatabaseMissing('newsletter_templates', ['id' => $template->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_template_missing()
     {
         $sender = NewsletterSenderAccount::factory()->create();
@@ -136,7 +137,7 @@ class ProcessCampaignsCommandTest extends TestCase
         $this->assertDatabaseMissing('newsletter_sender_accounts', ['id' => $sender->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_content_missing()
     {
         $sender = NewsletterSenderAccount::factory()->create();
@@ -164,7 +165,7 @@ class ProcessCampaignsCommandTest extends TestCase
         $this->assertDatabaseMissing('newsletter_sender_accounts', ['id' => $sender->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_shows_error_if_queue_driver_not_database()
     {
         config(['queue.default' => 'sync']);
