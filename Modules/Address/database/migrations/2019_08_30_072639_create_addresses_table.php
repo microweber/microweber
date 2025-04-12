@@ -20,7 +20,7 @@ return new class extends Migration
 
 
         Schema::create('addresses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name')->nullable();
             $table->string('address_street_1')->nullable();
             $table->string('address_street_2')->nullable();

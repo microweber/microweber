@@ -41,7 +41,8 @@ class CustomerModelTest extends TestCase
             'zip' => '12345',
             'phone' => '1234567890',
             'type' => Address::BILLING_TYPE,
-            'customer_id' => $customer->id
+            'rel_id' => $customer->id,
+            'rel_type' => morph_name(Customer::class),
         ]);
 
         // Assert the address was created
