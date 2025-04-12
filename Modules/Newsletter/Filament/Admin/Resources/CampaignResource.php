@@ -10,6 +10,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
@@ -30,6 +31,7 @@ use Livewire\Attributes\On;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\EditCampaign;
 use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\ManageCampaigns;
+use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\CreateCampaign;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use Modules\Newsletter\Filament\Components\SelectTemplate;
@@ -48,15 +50,39 @@ class CampaignResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-megaphone';
 
-//    protected static ?string $slug = 'newsletter/sender-accounts';
+    //    protected static ?string $slug = 'newsletter/sender-accounts';
 
-//    protected static bool $shouldRegisterNavigation = false;
+    //    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $label = 'Campaigns';
     protected static ?string $navigationLabel = 'Campaigns';
 
     protected static ?string $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 2;
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Select::make('list_id')
+                    ->label('List')
+                    ->relationship('list', 'name')
+                    ->required(),
+                Textarea::make('email_content_html')
+                    ->label('Email Content HTML')
+                ,
+                Select::make('email_content_type')
+                    ->label('Email Content Type')
+                    ->options([
+                        'design' => 'Design',
+                        'html' => 'HTML',
+                    ])
+                    ->required(),
+            ]);
+    }
 
     public static function table(Table $table): Table
     {
@@ -274,7 +300,8 @@ class CampaignResource extends Resource
     {
         return [
             'index' => ManageCampaigns::route('/'),
-//            'edit' => EditCampaign::route('/{record}/edit'),
+            'create' => CreateCampaign::route('/create'),
+            'edit' => EditCampaign::route('/{record}/edit'),
         ];
     }
 }

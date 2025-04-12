@@ -14,6 +14,9 @@ class NewsletterCampaignFactory extends Factory
     {
         return [
             'list_id' => NewsletterList::factory(),
+            'name' => $this->faker->sentence(3),
+            'email_content_html' => $this->faker->paragraph,
+            'email_content_type' => 'html',
             'subject' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
             'status' => 'draft',

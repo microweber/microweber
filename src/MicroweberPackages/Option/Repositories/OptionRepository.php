@@ -78,29 +78,38 @@ class OptionRepository extends AbstractRepository
             return self::$_getAllExistingOptionGroups;
         }
 
-        $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-            if (!Schema::hasTable('options')) {
-                return [];
-            }
+        $allOptions = [];
+        try {
+            $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+                if (!Schema::hasTable('options')) {
+                    return [];
+                }
 
 
 
-            $allOptions = [];
-            $getAllOptions = DB::table('options')
-                ->select('option_group')
-                ->whereNotNull('option_group')
-                ->groupBy('option_group')
-                ->get();
-            $getAllOptions = collect($getAllOptions)->map(function ($option) {
-                return (array)$option;
-            })->toArray();
+                $allOptions = [];
+                $getAllOptions = DB::table('options')
+                    ->select('option_group')
+                    ->whereNotNull('option_group')
+                    ->groupBy('option_group')
+                    ->get();
+                $getAllOptions = collect($getAllOptions)->map(function ($option) {
+                    return (array)$option;
+                })->toArray();
 
-            if ($getAllOptions and is_array($getAllOptions)) {
-                $allOptions = array_flatten($getAllOptions);
-            }
+                if ($getAllOptions and is_array($getAllOptions)) {
+                    $allOptions = array_flatten($getAllOptions);
+                }
 
-            return $allOptions;
-        });
+                return $allOptions;
+            });
+        } catch (\Exception $e) {
+            return [];
+        }
+
+
+
+
 
         self::$_getAllExistingOptionGroups = $allOptions;
 
@@ -143,6 +152,9 @@ class OptionRepository extends AbstractRepository
         if (!$isExsitOptionGroup) {
             return false;
         }
+
+
+
 
         $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
 
