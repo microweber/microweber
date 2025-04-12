@@ -3,9 +3,12 @@
 namespace Modules\Newsletter\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Newsletter\Database\Factories\NewsletterSenderAccountFactory;
 
 class NewsletterSenderAccount extends Model
 {
+    use HasFactory;
 
     public $timestamps = false;
 
@@ -33,4 +36,8 @@ class NewsletterSenderAccount extends Model
         'is_active'
     ];
 
+    protected static function newFactory()
+    {
+        return NewsletterSenderAccountFactory::new();
+    }
 }
