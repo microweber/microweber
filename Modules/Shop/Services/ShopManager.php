@@ -144,7 +144,7 @@ class ShopManager
                     $return[$name] = $price_data['value'];
                 }
             }
-            dd($return);
+
             return $return;
         }
     }

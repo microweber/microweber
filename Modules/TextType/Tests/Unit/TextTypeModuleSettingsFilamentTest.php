@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class TextTypeModuleSettingsFilamentTest extends TestCase
 {
-    use RefreshDatabase;
+
 
     public function testTextTypeModuleSettingsForm()
     {

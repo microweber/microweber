@@ -2,6 +2,7 @@
 
 namespace Modules\Shipping\Tests\Unit\Drivers;
 
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Modules\Shipping\Drivers\ShippingToCountry;
 use Tests\TestCase;
@@ -9,6 +10,7 @@ use Tests\TestCase;
 class ShippingToCountryTest extends TestCase
 {
     #[Test]
+
     public function testDriverInitialization()
     {
         $driver = new ShippingToCountry();

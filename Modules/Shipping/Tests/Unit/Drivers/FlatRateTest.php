@@ -2,6 +2,7 @@
 
 namespace Modules\Shipping\Tests\Unit\Drivers;
 
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Modules\Shipping\Drivers\FlatRate;
 use Modules\Shipping\Models\ShippingProvider;
@@ -10,6 +11,7 @@ use Tests\TestCase;
 class FlatRateTest extends TestCase
 {
     #[Test]
+
     public function testFlatRateInitialization()
     {
         $flatRate = new FlatRate();
@@ -49,5 +51,5 @@ class FlatRateTest extends TestCase
         $this->assertEquals(20, $flatRate->getShippingCost());
     }
 
-    
+
 }

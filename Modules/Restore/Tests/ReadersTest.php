@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Restore\tests;
+namespace Modules\Restore\Tests;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;

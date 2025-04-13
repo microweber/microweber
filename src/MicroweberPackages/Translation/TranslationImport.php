@@ -62,6 +62,7 @@ class TranslationImport
 
         try {
             $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
+
         } catch (\Exception $e) {
             return ['error' => 'Error when trying to import translation keys.'];
         }

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class VideoModuleSettingsFilamentTest extends TestCase
 {
-    use RefreshDatabase;
+
 
     public function testVideoModuleSettingsForm()
     {

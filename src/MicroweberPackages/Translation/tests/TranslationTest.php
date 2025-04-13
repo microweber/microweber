@@ -96,6 +96,7 @@ class TranslationTest extends TestCase
         $installLanguage = 'bg_BG';
 
         $installResponse = TranslationPackageInstallHelper::installLanguage($installLanguage);
+
         $this->assertNotEmpty($installResponse);
         $this->assertArrayHasKey('success', $installResponse);
 
@@ -120,7 +121,7 @@ class TranslationTest extends TestCase
 
     public function testAddNewTranslationsToLocale()
     {
-
+$this->loginAsAdmin();
         $newLocale = 'bg_BG';
 
         $newTranslations = [];

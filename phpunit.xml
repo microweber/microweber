@@ -6,6 +6,7 @@
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
+         enforceTimeLimit="false"
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"

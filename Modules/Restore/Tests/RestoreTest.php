@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Restore\tests;
+namespace Modules\Restore\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\SessionStepper;

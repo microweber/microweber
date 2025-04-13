@@ -696,7 +696,7 @@ class CartManager extends Crud
         $product_prices = array();
         if ($for == 'content' or $for == morph_name(\Modules\Content\Models\Content::class)) {
             $prices_data = app()->shop_manager->get_product_prices($for_id, true);
- 
+
             if ($prices_data) {
                 foreach ($prices_data as $price_data) {
                     if (isset($price_data['name'])) {

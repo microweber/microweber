@@ -8,14 +8,18 @@ use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\Cre
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\EditShippingProvider;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders;
 use Modules\Shipping\Models\ShippingProvider;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PickupFromAddressFilamentResourceTest extends TestCase
 {
-    use RefreshDatabase;
+
+    #[Test]
 
     public function testPickupFromAddressShippingProviderLifecycle()
     {
+        ShippingProvider::truncate();
         // Create Pickup From Address Shipping Provider
         Livewire::test(CreateShippingProvider::class)
             ->fillForm([
