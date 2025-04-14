@@ -1,0 +1,30 @@
+{
+    "name": "modules/login",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Login\\": "",
+            "Modules\\Login\\Database\\Factories\\": "database/factories/",
+            "Modules\\Login\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Login\\Tests\\": "Tests/"
+        }
+    }
+}

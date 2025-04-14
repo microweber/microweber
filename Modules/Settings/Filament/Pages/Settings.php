@@ -4,8 +4,8 @@ namespace Modules\Settings\Filament\Pages;
 
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
-use Filament\Support\Enums\MaxWidth;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use Modules\Register\Filament\Pages\Admin\AdminRegisterSettingsPage;
 
 
 class Settings extends Page
@@ -38,7 +38,7 @@ class Settings extends Page
         $settingsPages[] = new AdminSeoPage();
         $settingsPages[] = new AdminAdvancedPage();
         $settingsPages[] = new AdminFilesPage();
-        $settingsPages[] = new AdminLoginRegisterPage();
+       // $settingsPages[] = new AdminLoginRegisterPage();
         $settingsPages[] = new AdminLanguagePage();
         $settingsPages[] = new AdminPrivacyPolicyPage();
         $settingsPages[] = new AdminUpdatesPage();

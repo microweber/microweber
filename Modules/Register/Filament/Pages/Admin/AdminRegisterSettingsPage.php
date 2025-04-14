@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Settings\Filament\Pages;
+namespace Modules\Register\Filament\Pages\Admin;
 
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
@@ -8,15 +8,15 @@ use Filament\Forms\Form;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
-class AdminLoginRegisterPage extends AdminSettingsPage
+class AdminRegisterSettingsPage extends AdminSettingsPage
 {
     protected static ?string $navigationIcon = 'mw-login';
 
     protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
-    protected static ?string $title = 'Login & Register';
+    protected static ?string $title = 'Register settings';
 
-    protected static string $description = 'Configure your login and registration settings';
+    protected static string $description = 'Configure your registration settings';
 
     public array $optionGroups = [
         'users'

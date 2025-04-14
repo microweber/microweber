@@ -1,0 +1,11 @@
+{
+    "name": "Login",
+    "alias": "login",
+    "description": "",
+    "keywords": [],
+    "priority":3000,
+    "providers": [
+        "Modules\\Login\\Providers\\LoginServiceProvider"
+    ],
+    "files": []
+}

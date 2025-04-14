@@ -3,17 +3,16 @@
 namespace Modules\Settings\Providers;
 
 
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use Modules\Settings\Filament\Pages\{
-    AdminAdvancedPage,
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Register\Filament\Pages\Admin\AdminRegisterSettingsPage;
+use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminCustomTagsPage,
     AdminEmailPage,
     AdminExperimentalPage,
     AdminFilesPage,
     AdminGeneralPage,
     AdminLanguagePage,
-    AdminLoginRegisterPage,
     AdminMaintenanceModePage,
     AdminPoweredByPage,
     AdminPrivacyPolicyPage,
@@ -33,8 +32,7 @@ use Modules\Settings\Filament\Pages\{
     AdminUiColorsPage,
     AdminUpdatesPage,
     AdminWebManifestPage,
-    Settings
-};
+    Settings};
 
 class SettingsServiceProvider extends BaseModuleServiceProvider
 {
@@ -73,7 +71,7 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminFilesPage::class);
         FilamentRegistry::registerPage(AdminGeneralPage::class);
         FilamentRegistry::registerPage(AdminLanguagePage::class);
-        FilamentRegistry::registerPage(AdminLoginRegisterPage::class);
+        FilamentRegistry::registerPage(AdminRegisterSettingsPage::class);
         FilamentRegistry::registerPage(AdminMaintenanceModePage::class);
         FilamentRegistry::registerPage(AdminPoweredByPage::class);
         FilamentRegistry::registerPage(AdminPrivacyPolicyPage::class);
