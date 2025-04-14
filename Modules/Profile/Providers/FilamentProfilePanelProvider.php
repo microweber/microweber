@@ -37,6 +37,11 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Purple,
             ])
+
+            ->renderHook(
+                'panels::auth.login.form.after',
+                fn() => view('modules.profile::auth.social-login')
+            )
             ->discoverResources(
                 in: __DIR__ . '/../Filament/Resources',
                 for: 'Modules\\Profile\\Filament\\Resources')
