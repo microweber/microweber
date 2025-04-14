@@ -889,7 +889,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-simple-main {
-    @apply mx-4 max-w-sm bg-transparent !px-0 py-0 shadow-none ring-0 dark:!bg-transparent sm:!max-w-sm sm:!rounded-none;
+    @apply mx-4 max-w-sm bg-transparent py-0 shadow-none ring-0 dark:!bg-transparent sm:!max-w-sm sm:!rounded-none;
 }
 
 .a-color-picker-row input {
