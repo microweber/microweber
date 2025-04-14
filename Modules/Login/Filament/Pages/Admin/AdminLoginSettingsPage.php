@@ -3,6 +3,7 @@
 namespace Modules\Login\Filament\Pages\Admin;
 
 use Filament\Actions\Action;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
@@ -44,7 +45,6 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                                 );
                             }),
                     ]),
-
                 Section::make('Facebook Login')
                     ->schema([
                         Toggle::make('options.users.enable_user_fb_registration')
@@ -59,6 +59,17 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->password()
                             ->reactive()
                             ->visible(fn(callable $get) => $get('options.users.enable_user_fb_registration')),
+                        Placeholder::make('Facebook Login Help')
+                            ->label('Facebook Login Help')
+                            ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://developers.facebook.com/apps" target="_blank">API access</a><br>' .
+                                    '2. In Website with Facebook Login please enter: ' . site_url() . '<br>' .
+                                    '3. If asked for callback url - use: ' . api_link('social_login_process?provider=facebook')
+                                );
+                            })
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_fb_registration')),
+
                     ]),
 
                 Section::make('Twitter Login')
@@ -75,6 +86,17 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->password()
                             ->reactive()
                             ->visible(fn(callable $get) => $get('options.users.enable_user_twitter_registration')),
+                        Placeholder::make('Twitter Login Help')
+                            ->label('Twitter Login Help')
+                            ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://dev.twitter.com/apps" target="_blank">Register your application</a><br>' .
+                                    '2. In Website enter: ' . site_url() . '<br>' .
+                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=twitter')
+                                );
+                            })
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_twitter_registration')),
+
                     ]),
 
                 Section::make('Google Login')
@@ -91,6 +113,16 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->password()
                             ->reactive()
                             ->visible(fn(callable $get) => $get('options.users.enable_user_google_registration')),
+                        Placeholder::make('Google Login Help')
+                            ->label('Google Login Help')
+                            ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://code.google.com/apis/console/" target="_blank">Set your API access</a><br>' .
+                                    '2. In redirect URI please enter: ' . api_link('social_login_process?provider=google')
+                                );
+                            })
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_google_registration')),
+
                     ]),
 
                 Section::make('GitHub Login')
@@ -106,6 +138,16 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->label('GitHub App Secret')
                             ->password()
                             ->reactive()
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_github_registration')),
+                        Placeholder::make('GitHub Login Help')
+                            ->label('GitHub Login Help')
+                            ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://github.com/settings/applications/new" target="_blank">Register your application</a><br>' .
+                                    '2. In Main URL enter: ' . site_url() . '<br>' .
+                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=github')
+                                );
+                            })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_github_registration')),
                     ]),
 
@@ -123,6 +165,16 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->password()
                             ->reactive()
                             ->visible(fn(callable $get) => $get('options.users.enable_user_linkedin_registration')),
+                        Placeholder::make('LinkedIn Login Help')
+                            ->label('LinkedIn Login Help')
+                            ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://www.linkedin.com/secure/developer" target="_blank">Register your application</a><br>' .
+                                    '2. In Website enter: ' . site_url() . '<br>' .
+                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=linkedin')
+                                );
+                            })
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_linkedin_registration')),
                     ]),
 
                 Section::make('Microweber Login')
@@ -130,6 +182,11 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                         Toggle::make('options.users.enable_user_microweber_registration')
                             ->label('Enable Microweber Login')
                             ->live(),
+                        TextInput::make('options.users.microweber_app_url')
+                            ->label('Server URL')
+                            ->default('https://mwlogin.com')
+                            ->reactive()
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
                         TextInput::make('options.users.microweber_app_id')
                             ->label('Microweber App ID')
                             ->reactive()
@@ -139,7 +196,12 @@ class AdminLoginSettingsPage extends AdminSettingsPage
                             ->password()
                             ->reactive()
                             ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
-                    ]),
+                        Placeholder::make('Microweber Login Help')
+                            ->label('Microweber Login Help')
+                            ->helperText('Please enter your credentials for Microweber login server')
+                            ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
+                    ])
+
             ]);
     }
 }
