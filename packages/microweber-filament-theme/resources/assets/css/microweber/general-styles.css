@@ -22,9 +22,16 @@
 }
 
 .fi-color-danger svg {
-    fill: red;
+    stroke: red;
 }
 
+.fi-btn-color-danger {
+    --tw-ring-color: red !important;
+
+    &:hover {
+        background-color: rgb(255 69 69 / 10%) !important;
+    }
+}
 
 .fi-radio-input {
     @apply mt-1.5;
@@ -882,7 +889,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-simple-main {
-    @apply mx-4 max-w-sm bg-transparent !px-0 py-0 shadow-none ring-0 dark:!bg-transparent sm:!max-w-sm sm:!rounded-none;
+    @apply mx-4 max-w-sm bg-transparent py-0 shadow-none ring-0 dark:!bg-transparent sm:!max-w-sm sm:!rounded-none;
 }
 
 .a-color-picker-row input {
@@ -937,7 +944,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-resource-list-records-page .fi-header, .fi-resource-create-record-page .fi-header, .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px] bg-white py-[30px] z-10;
+    @apply sticky top-[60px] bg-white py-[30px] z-[100];
 }
 
 .fi-select-input {
@@ -945,9 +952,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-modal-content {
-    svg {
-        @apply fill-current dark:fill-white;
-    }
+    /*svg {*/
+    /*    @apply fill-current dark:fill-white;*/
+    /*}*/
 
     .group:hover .group-hover\:bg-white {
         svg {
@@ -1021,4 +1028,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     .mw-dialog-footer {
         @apply hidden;
     }
+}
+
+
+.fixed.inset-0.z-40 {
+    @apply z-[999];
 }
