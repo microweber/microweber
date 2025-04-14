@@ -2,11 +2,13 @@
 
 namespace Modules\Register\Filament\Pages\Admin;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
+use Modules\Login\Filament\Pages\Admin\AdminLoginSettingsPage;
 
 class AdminRegisterSettingsPage extends AdminSettingsPage
 {
@@ -21,7 +23,13 @@ class AdminRegisterSettingsPage extends AdminSettingsPage
     public array $optionGroups = [
         'users'
     ];
-
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('Go to Login Settings')
+                ->url(AdminLoginSettingsPage::getUrl()),
+        ];
+    }
     public function form(Form $form): Form
     {
         return $form
