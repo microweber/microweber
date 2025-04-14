@@ -6,7 +6,6 @@ function module_info($module_name)
 }
 
 
-
 function module_name_decode($module_name)
 {
     $module_name = str_replace('__', '/', $module_name);
@@ -78,14 +77,69 @@ function module_admin_url($module_name = false)
 {
     $module = module_info($module_name);
 
+    if (app()->bound('modules')) {
+        $module = app()->modules->find($module_name);
+
+
+        if ($module) {
+
+            if ($module->get('admin_url')) {
+                return $module->get('admin_url');
+            }
+
+            $moduleNameLower = $module->getLowerName();
+
+
+            $pluralModuleNameLower = \Illuminate\Support\Str::plural($moduleNameLower);
+
+
+            $routeNames =
+                [
+                    'filament.admin.resources.' . $moduleNameLower,
+                    'filament.admin.resources.' . $moduleNameLower . '.index',
+                    'filament.admin.pages.' . $moduleNameLower,
+                    'admin.' . $moduleNameLower . '.index',
+                    'admin.' . $moduleNameLower,
+
+                    'filament.admin.resources.' . $pluralModuleNameLower,
+                    'filament.admin.resources.' . $pluralModuleNameLower . '.index',
+                    'filament.admin.pages.' . $pluralModuleNameLower,
+                    'admin.' . $pluralModuleNameLower . '.index',
+                    'admin.' . $pluralModuleNameLower,
+                ];
+
+
+//            $routeCollection = Illuminate\Support\Facades\Route::getRoutes();
+////
+//            foreach ($routeCollection as $value) {
+//                dump($value->getName());
+//            }
+//
+//            dd($routeCollection);
+            foreach ($routeNames as $routeName) {
+
+                if (\Illuminate\Support\Facades\Route::has($routeName)) {
+
+                    return route($routeName);
+                }
+            }
+
+
+            return $module->get('admin_url');
+        }
+
+        //filament.admin.resources.orders
+
+        return admin_url($module_name);
+    }
 
     $urlFromModuleAdmin = \MicroweberPackages\Module\Facades\ModuleAdmin::getAdminUrl($module_name);
-    if($urlFromModuleAdmin){
+    if ($urlFromModuleAdmin) {
         return $urlFromModuleAdmin;
     }
 
     if (isset($module['settings']['routes']['admin'])) {
-        if (Route::has($module['settings']['routes']['admin'])) {
+        if (\Illuminate\Support\Facades\Route::has($module['settings']['routes']['admin'])) {
             return route($module['settings']['routes']['admin']);
         }
     }
@@ -110,10 +164,6 @@ function locate_module($module_name, $custom_view = false, $no_fallback_to_view 
 
 
 //event_bind('mw_db_init_modules', 're_init_modules_db');
-
-
-
-
 
 
 function get_saved_modules_as_template($params)

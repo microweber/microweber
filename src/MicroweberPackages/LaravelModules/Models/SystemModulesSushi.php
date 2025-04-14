@@ -108,14 +108,9 @@ class SystemModulesSushi extends Model
      */
     public function adminUrl()
     {
-        if (app()->bound('modules')) {
-            $module = app()->modules->findOrFail($this->name);
-            if ($module) {
-                return $module->get('admin_url');
-            }
-        }
 
-        return null;
+        return module_admin_url($this->name);
+
     }
 
     /**
