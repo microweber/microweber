@@ -762,7 +762,29 @@ class ModuleManager
         return $try_file1;
     }
 
+    public function info($module_name)
+    {
+        $module_name = preg_replace('/admin$/', '', $module_name);
+        $module_name = rtrim($module_name, '/');
 
+        $return = [];
+        if (app()->bound('modules')) {
+
+            if ($module = app()->modules->find($module_name)) {
+
+
+                $name = $module->getName();
+                $description = $module->getDescription();
+                $return['module'] = $module->getLowerName();
+                $return['name'] = $name;
+                $return['description'] = $description;
+                // todo
+                //admin url
+            }
+        }
+        return $return;
+
+    }
 
     public function ui($name, $arr = false)
     {

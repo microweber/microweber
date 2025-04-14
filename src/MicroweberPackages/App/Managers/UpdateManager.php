@@ -253,7 +253,7 @@ class UpdateManager
 
             //$system_refresh->run();
 
-            $this->_set_time_limit();
+            //$this->_set_time_limit();
 
             $option = array();
             $option['option_value'] = MW_VERSION;
