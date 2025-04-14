@@ -5,7 +5,6 @@ namespace Modules\Settings\Filament\Pages;
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use Modules\Register\Filament\Pages\Admin\AdminRegisterSettingsPage;
 
 
 class Settings extends Page
@@ -38,7 +37,7 @@ class Settings extends Page
         $settingsPages[] = new AdminSeoPage();
         $settingsPages[] = new AdminAdvancedPage();
         $settingsPages[] = new AdminFilesPage();
-       // $settingsPages[] = new AdminLoginRegisterPage();
+     $settingsPages[] = new AdminLoginRegisterPage();
         $settingsPages[] = new AdminLanguagePage();
         $settingsPages[] = new AdminPrivacyPolicyPage();
         $settingsPages[] = new AdminUpdatesPage();
@@ -61,6 +60,7 @@ class Settings extends Page
         $settingsPages[] = new AdminShopAutoRespondEmailPage();
         $settingsPages[] = new AdminShopOtherPage();
         $settingsPages[] = new AdminShopOtherPage();
+
         $registeredSettingsPages = FilamentRegistry::getPages(self::class, Filament::getCurrentPanel()->getId());
 
 

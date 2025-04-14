@@ -13,6 +13,7 @@ use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminFilesPage,
     AdminGeneralPage,
     AdminLanguagePage,
+    AdminLoginRegisterPage,
     AdminMaintenanceModePage,
     AdminPoweredByPage,
     AdminPrivacyPolicyPage,
@@ -71,7 +72,7 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminFilesPage::class);
         FilamentRegistry::registerPage(AdminGeneralPage::class);
         FilamentRegistry::registerPage(AdminLanguagePage::class);
-        FilamentRegistry::registerPage(AdminRegisterSettingsPage::class);
+       FilamentRegistry::registerPage(AdminLoginRegisterPage::class);
         FilamentRegistry::registerPage(AdminMaintenanceModePage::class);
         FilamentRegistry::registerPage(AdminPoweredByPage::class);
         FilamentRegistry::registerPage(AdminPrivacyPolicyPage::class);

@@ -3,31 +3,16 @@
     "alias": "profile",
     "description": "User profile management module with authentication, registration, and profile editing capabilities.",
     "keywords": [],
-    "priority": 0,
+    "priority": 5000,
     "providers": [
         "Modules\\Profile\\Providers\\ProfileServiceProvider"
     ],
     "files": [],
-    "minimumCoreVersion": "1.0.0",
+    "minimumCoreVersion": "3.0.0",
     "title": "Profile Module",
     "version": "1.0.0",
     "author": "Microweber",
     "official": true,
+    "target-dir": "Profile"
 
-    "target-dir": "Profile",
-    "autoload": {
-        "psr-4": {
-            "Modules\\Profile\\": ""
-        }
-    },
-    "routes": {
-        "web": {
-            "prefix": "profile",
-            "middleware": ["web"]
-        },
-        "api": {
-            "prefix": "api/profile",
-            "middleware": ["api"]
-        }
-    }
 }
