@@ -78,8 +78,42 @@ class Settings extends Page
             }
         }
 
-
         $settingsGroups = [];
+        $panel = Filament::getCurrentPanel()->getId();
+        $panelNavigationGroups = Filament::getCurrentPanel()->getNavigationGroups();
+        if ($panelNavigationGroups) {
+            foreach ($panelNavigationGroups as $navGroup) {
+                $groupLabel = $navGroup->getLabel() ?? 'Other Settings';
+
+                foreach ($navGroup->getItems() as $item) {
+                    $settingsGroups[$groupLabel][] = [
+                        'title' => $item->getLabel(),
+                        'description' => $item->getDescription() ?? '',
+                        'heading' => $item->getLabel(),
+                        'slug' => $item->getSlug() ?? '',
+                        'icon' => $item->getIcon() ?? 'heroicon-o-chevron-right',
+                        'url' => $item->getUrl(),
+                    ];
+
+                    // Add child items if they exist
+                    if (method_exists($item, 'getChildItems') && !empty($item->getChildItems())) {
+                        foreach ($item->getChildItems() as $childItem) {
+                            $settingsGroups[$groupLabel][] = [
+                                'title' => $childItem->getLabel(),
+                                'description' => $childItem->getDescription() ?? '',
+                                'heading' => $childItem->getLabel(),
+                                'slug' => $childItem->getSlug() ?? '',
+                                'icon' => $childItem->getIcon() ?? 'heroicon-o-chevron-right',
+                                'url' => $childItem->getUrl(),
+                            ];
+                        }
+                    }
+                }
+            }
+
+
+        }
+
 
         foreach ($settingsPages as $settingsPage) {
             $instance = new $settingsPage;
@@ -131,7 +165,6 @@ class Settings extends Page
                 'url' => $url,
             ];
         }
-
 
 
         return [

@@ -39,7 +39,7 @@ class BillingServiceProvider extends BaseModuleServiceProvider
 
             Filament::registerNavigationItems([
                 NavigationItem::make('Billing')
-                    ->url('/admin/billing', shouldOpenInNewTab: true)
+                    ->url(admin_url('billing'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-currency-dollar')
     //                    ->group('SaaS')
                     ->sort(300),

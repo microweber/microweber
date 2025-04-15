@@ -11,13 +11,12 @@ use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {
     public string $filamentId = 'admin-billing';
-    public string $filamentPath = 'admin/billing';
 
     public function panel(Panel $panel): Panel
     {
         $panel
             ->id('admin-billing')
-            ->path('admin/billing')
+            ->path(mw_admin_prefix_url().'/billing')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
