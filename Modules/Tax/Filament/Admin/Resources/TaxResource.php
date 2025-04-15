@@ -17,6 +17,7 @@ use Modules\Tax\Models\TaxType;
 class TaxResource extends Resource
 {
     protected static ?string $model = TaxType::class;
+    protected static ?string $navigationIcon = 'mw-taxes';
 
     protected static ?string $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax';

@@ -145,7 +145,16 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('Shop'),
                 'Other' => NavigationGroup::make()
                     ->label('Other')
-                    ->collapsible(false),
+                    ->collapsible(true),
+
+                'Settings' => NavigationGroup::make()
+                    ->label('Settings')
+                    ->collapsible(true),
+
+                'Shop Settings' => NavigationGroup::make()
+                    ->label('Shop Settings')
+
+                    ->collapsible(true),
             ])
             ->navigationItems([
                 NavigationItem::make('E-mail Marketing')

@@ -2,6 +2,8 @@
 
 namespace Modules\Payment\Providers;
 
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Contracts\Container\Container;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
@@ -22,6 +24,20 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+
+            if($panelId == 'admin') {
+                Filament::registerNavigationItems([
+                    NavigationItem::make('Payment providers')
+                        ->url(PaymentProviderResource::getUrl())
+                        ->group('Shop Settings')
+                     //   ->parentItem('Shop Settings')
+                        ->icon('mw-payments')
+                 ]);
+            }
+
+        });
     }
 
     /**

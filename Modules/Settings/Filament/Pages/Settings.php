@@ -3,6 +3,7 @@
 namespace Modules\Settings\Filament\Pages;
 
 use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 
@@ -80,40 +81,27 @@ class Settings extends Page
 
         $settingsGroups = [];
         $panel = Filament::getCurrentPanel()->getId();
-        $panelNavigationGroups = Filament::getCurrentPanel()->getNavigationGroups();
-        if ($panelNavigationGroups) {
-            foreach ($panelNavigationGroups as $navGroup) {
-                $groupLabel = $navGroup->getLabel() ?? 'Other Settings';
+        //  $panelNavigationGroups = Filament::getCurrentPanel()->getNavigationGroups();
+        $panelNavigationItems = Filament::getCurrentPanel()->getNavigation();
 
-                foreach ($navGroup->getItems() as $item) {
-                    $settingsGroups[$groupLabel][] = [
-                        'title' => $item->getLabel(),
-                        'description' => $item->getDescription() ?? '',
-                        'heading' => $item->getLabel(),
-                        'slug' => $item->getSlug() ?? '',
-                        'icon' => $item->getIcon() ?? 'heroicon-o-chevron-right',
-                        'url' => $item->getUrl(),
-                    ];
+//dd($panelNavigationGroups,$panelNavigationItems);
+        if ($panelNavigationItems) {
+            foreach ($panelNavigationItems as $navGroup) {
+                $settingsGroupsNavGroup = $this->buildNavFromPanelNavGroup($navGroup);
 
-                    // Add child items if they exist
-                    if (method_exists($item, 'getChildItems') && !empty($item->getChildItems())) {
-                        foreach ($item->getChildItems() as $childItem) {
-                            $settingsGroups[$groupLabel][] = [
-                                'title' => $childItem->getLabel(),
-                                'description' => $childItem->getDescription() ?? '',
-                                'heading' => $childItem->getLabel(),
-                                'slug' => $childItem->getSlug() ?? '',
-                                'icon' => $childItem->getIcon() ?? 'heroicon-o-chevron-right',
-                                'url' => $childItem->getUrl(),
-                            ];
+                if (!empty($settingsGroupsNavGroup)) {
+                    foreach ($settingsGroupsNavGroup as $itemsNavGroup) {
+                        foreach ($itemsNavGroup as $itemsNavGroupItem) {
+
+                            $settingsGroups[$navGroup->getLabel()][] = $itemsNavGroupItem;
                         }
                     }
+                    //dd($settingsGroupsNavGroup);
+                    //  $settingsGroups = array_merge($settingsGroups, $settingsGroupsNavGroup);
                 }
+
             }
-
-
         }
-
 
         foreach ($settingsPages as $settingsPage) {
             $instance = new $settingsPage;
@@ -170,5 +158,148 @@ class Settings extends Page
         return [
             'settingsGroups' => $settingsGroups,
         ];
+    }
+
+
+    private function buildNavFromPanelNavGroup(NavigationGroup $navGroup)
+    {
+        $settingsGroups = [];
+
+        $groupLabel = '';
+        if (method_exists($navGroup, 'getLabel')) {
+            $groupLabel = $navGroup->getLabel();
+        } elseif (method_exists($navGroup, 'getTitle')) {
+            $groupLabel = $navGroup->getTitle();
+        }
+
+        if (method_exists($navGroup, 'getItems')) {
+            foreach ($navGroup->getItems() as $item) {
+
+                $itemData = [
+                    'title' => '',
+                    'description' => '',
+                    'heading' => '',
+                    'slug' => '',
+                    'icon' => 'mw-general',
+                    'url' => ''
+                ];
+
+                try {
+                    if (method_exists($item, 'getLabel')) {
+                        $itemData['title'] = $item->getLabel();
+                        $itemData['heading'] = $item->getLabel();
+                    }
+                } catch (\Exception $e) {
+                }
+
+                try {
+                    if (method_exists($item, 'getDescription')) {
+                        $itemData['description'] = $item->getDescription();
+                    }
+                } catch (\Exception $e) {
+                }
+
+                if (!isset($itemData['description']) or $itemData['description'] == '') {
+                    try {
+                        if (method_exists($item, 'getNavgationLabel')) {
+                            $itemData['description'] = $item->getNavgationLabel();
+                        }
+                    } catch (\Exception $e) {
+                    }
+                }
+       /*         if (!isset($itemData['description']) or $itemData['description'] == '') {
+                    try {
+
+                        if (method_exists($item, 'getBadgeTooltip')) {
+                            $itemData['description'] = $item->getBadgeTooltip();
+
+                        }
+                    } catch (\Exception $e) {
+                    }
+                }*/
+
+                try {
+                    if (method_exists($item, 'getSlug')) {
+                        $itemData['slug'] = $item->getSlug();
+                    }
+                } catch (\Exception $e) {
+                }
+
+                try {
+                    if (method_exists($item, 'getIcon')) {
+                        $itemData['icon'] = $item->getIcon();
+                    }
+                } catch (\Exception $e) {
+                }
+
+                try {
+                    if (method_exists($item, 'getUrl')) {
+                        $itemData['url'] = $item->getUrl();
+                    }
+                } catch (\Exception $e) {
+                }
+
+                $settingsGroups[$groupLabel][] = $itemData;
+
+                if (method_exists($item, 'getChildItems')) {
+                    try {
+                        $childItems = $item->getChildItems();
+                        if (!empty($childItems)) {
+                            foreach ($childItems as $childItem) {
+                                $childItemData = [
+                                    'title' => '',
+                                    'description' => '',
+                                    'heading' => '',
+                                    'slug' => '',
+                                    'icon' => 'mw-general',
+                                    'url' => ''
+                                ];
+
+                                try {
+                                    if (method_exists($childItem, 'getLabel')) {
+                                        $childItemData['title'] = $childItem->getLabel();
+                                        $childItemData['heading'] = $childItem->getLabel();
+                                    }
+                                } catch (\Exception $e) {
+                                }
+
+                                try {
+                                    if (method_exists($childItem, 'getDescription')) {
+                                        $childItemData['description'] = $childItem->getDescription();
+                                    }
+                                } catch (\Exception $e) {
+                                }
+
+                                try {
+                                    if (method_exists($childItem, 'getSlug')) {
+                                        $childItemData['slug'] = $childItem->getSlug();
+                                    }
+                                } catch (\Exception $e) {
+                                }
+
+                                try {
+                                    if (method_exists($childItem, 'getIcon')) {
+                                        $childItemData['icon'] = $childItem->getIcon();
+                                    }
+                                } catch (\Exception $e) {
+                                }
+
+                                try {
+                                    if (method_exists($childItem, 'getUrl')) {
+                                        $childItemData['url'] = $childItem->getUrl();
+                                    }
+                                } catch (\Exception $e) {
+                                }
+
+                                $settingsGroups[$groupLabel][] = $childItemData;
+                            }
+                        }
+                    } catch (\Exception $e) {
+                    }
+                }
+            }
+        }
+
+        return $settingsGroups;
     }
 }
