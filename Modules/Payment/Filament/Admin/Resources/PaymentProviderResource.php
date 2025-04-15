@@ -23,12 +23,19 @@ class PaymentProviderResource extends Resource
     protected static ?string $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 14;
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
+    public static string $description = 'Configure your shop payments settings';
+    public function getDescription(): string
+    {
+
+        return static::$description;
+    }
 
 
     // protected static ?string $navigationParentItem = 'Shop';
 
+    //protected static ?string $label = 'Configure your shop payments settings';
    // protected static ?string $navigationLabel = 'Configure your shop payments settings';
 
     public static function getAvailableToSetup()
