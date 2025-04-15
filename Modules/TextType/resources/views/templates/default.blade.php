@@ -18,6 +18,7 @@
     #js-element-<?php echo $randId; ?>,
     #js-element-<?php echo $randId; ?> + .typed-cursor{
         font-size: <?php echo isset($fontSize) ? $fontSize : 24; ?>px;
+        color: <?php echo isset($textColor) ? $textColor : 'inherit'; ?>;
         vertical-align: middle;
     }
     #js-element-<?php echo $randId; ?> + span.typed-cursor.typed-cursor--blink {

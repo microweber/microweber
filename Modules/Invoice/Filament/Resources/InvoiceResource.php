@@ -48,7 +48,28 @@ class InvoiceResource extends Resource
 
                                 Forms\Components\Select::make('customer_id')
                                     ->relationship('customer', 'name')
-                                    ->getOptionLabelFromRecordUsing(fn($record) => $record->getFullName())
+                                    ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->id}] {$record->getFullName()} ({$record->getEmail()})")                                    ->createOptionForm([
+
+                                        Forms\Components\Select::make('user_id')
+                                            ->relationship('user', 'email')
+                                            ->required(),
+
+
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('email')
+                                            ->email()
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('phone')
+                                            ->tel()
+                                            ->required(),
+
+                                        Forms\Components\Textarea::make('address')
+                                            ->rows(2)
+                                            ->required(),
+                                    ])
                                     ->searchable()
                                     ->preload()
                                     ->required(),
@@ -131,6 +152,11 @@ class InvoiceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')
                     ->searchable()

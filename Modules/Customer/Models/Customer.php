@@ -229,6 +229,8 @@ class Customer extends Model
     {
         if ((isset($this->first_name) && !empty($this->first_name)) and (isset($this->last_name) && !empty($this->last_name))) {
             return $this->first_name . ' ' . $this->last_name;
+        } else if ((isset($this->name) && !empty($this->name))) {
+            return $this->name;
         }
 
         $userName = user_name($this->user_id);

@@ -32,10 +32,10 @@ class CustomerResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('first_name')
-                    ->required()
+
                     ->maxLength(255),
                 Forms\Components\TextInput::make('last_name')
-                    ->required()
+
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
 
@@ -56,7 +56,8 @@ class CustomerResource extends Resource
                     ->label('Currency')
                     ->options(collect(\Modules\Currency\Models\Currency::all())->pluck('name', 'id'))
                     ->searchable()
-                    ->reactive()
+                    ->default('USD')
+
                     ->required(),
                 Forms\Components\Select::make('company_id')
                     ->label('Company')
@@ -118,6 +119,7 @@ class CustomerResource extends Resource
             })
 
             ->columns([
+                Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('first_name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('last_name')->sortable()->searchable(),

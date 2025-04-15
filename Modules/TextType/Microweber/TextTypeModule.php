@@ -22,6 +22,7 @@ class TextTypeModule extends BaseModule
         $viewData['text'] = $this->getOption('text', 'Your cool text here!');
         $viewData['fontSize'] = $this->getOption('fontSize', '24');
         $viewData['animationSpeed'] = $this->getOption('animationSpeed', '50');
+        $viewData['textColor'] = $this->getOption('textColor', 'inherit');
         $viewData['id'] = $this->params['id'];
         return $viewData;
     }

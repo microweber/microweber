@@ -3,7 +3,9 @@
 namespace Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages;
 
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource;
 
 class ListPayments extends ListRecords
@@ -14,6 +16,10 @@ class ListPayments extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Action::make('settings')
+                ->label('Payment Provider Settings')
+                ->url(PaymentProviderResource::getUrl('index'))
+                ->icon('heroicon-o-cog-6-tooth'),
         ];
     }
 }
