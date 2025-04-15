@@ -7,6 +7,7 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\Filament\Support\FilamentHelpers;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 
@@ -183,7 +184,7 @@ class Settings extends Page
                     'description' => '',
                     'heading' => '',
                     'slug' => '',
-                    'icon' => 'mw-general',
+                    'icon' => '',
                     'url' => ''
                 ];
 
@@ -210,16 +211,7 @@ class Settings extends Page
                     } catch (\Exception $e) {
                     }
                 }
-                /*         if (!isset($itemData['description']) or $itemData['description'] == '') {
-                             try {
 
-                                 if (method_exists($item, 'getBadgeTooltip')) {
-                                     $itemData['description'] = $item->getBadgeTooltip();
-
-                                 }
-                             } catch (\Exception $e) {
-                             }
-                         }*/
 
                 try {
                     if (method_exists($item, 'getSlug')) {
@@ -228,11 +220,9 @@ class Settings extends Page
                 } catch (\Exception $e) {
                 }
 
-                try {
-                    if (method_exists($item, 'getIcon')) {
-                        $itemData['icon'] = $item->getIcon();
-                    }
-                } catch (\Exception $e) {
+                if (!isset($itemData['icon']) or $itemData['icon'] == '') {
+
+                    $itemData['icon'] = FilamentHelpers::getNavigationItemIcon($item);
                 }
 
                 try {
@@ -243,44 +233,14 @@ class Settings extends Page
                 }
 
 
+                if (!isset($itemData['description']) or $itemData['description'] == '') {
+                    // a reflection class for the item to get the description
+                    $itemData['description'] = FilamentHelpers::getNavigationItemDescription($item);
+
+                }
 
 
-               if (!isset($itemData['description']) or $itemData['description'] == '') {
-
-
-                   // a reflection class for the item to get the description
-
-                   $reflectionClass = new \ReflectionClass($item);
-                   $refIsActive = $reflectionClass->getProperty('isActive');
-
-                   if ($refIsActive) {
-                       $isActiveVal = $refIsActive->getValue($item);
-
-                       if (is_closure($isActiveVal)) {
-                           $reflector = new \ReflectionFunction($isActiveVal);
-                           $reflectionClassClosure = $reflector->getClosureCalledClass();
-
-                           if ($reflectionClassClosure && method_exists($reflectionClassClosure->getName(), 'getDescription')) {
-                               try {
-                                   $descriptionMethod = $reflectionClassClosure->getMethod('getDescription');
-                                   if ($descriptionMethod->isStatic()) {
-                                       $itemData['description'] = $reflectionClassClosure->getName()::getDescription();
-                                   } else {
-                                        $itemData['description'] = app()->make($reflectionClassClosure->getName())->getDescription();
-                                   }
-
-                                } catch (\Exception $e) {
-                                   // Method not accessible or other reflection error
-                               }
-                           }
-                       }
-                   }
-
-                   $settingsGroups[$groupLabel][] = $itemData;
-
-               }
-
-
+                $settingsGroups[$groupLabel][] = $itemData;
 
 
                 if (method_exists($item, 'getChildItems')) {
@@ -332,6 +292,13 @@ class Settings extends Page
                                     }
                                 } catch (\Exception $e) {
                                 }
+
+                                if (!isset($childItemData['description']) or $childItemData['description'] == '') {
+                                    // a reflection class for the item to get the description
+                                    $childItemData['description'] = FilamentHelpers::getNavigationItemDescription($childItem);
+
+                                }
+
 
                                 $settingsGroups[$groupLabel][] = $childItemData;
                             }

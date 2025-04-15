@@ -769,8 +769,9 @@ class ModuleManager
 
         $return = [];
         if (app()->bound('modules')) {
+            $module = app()->modules->find($module_name);
 
-            if ($module = app()->modules->find($module_name)) {
+            if ($module) {
 
 
                 $name = $module->getName();
@@ -778,8 +779,14 @@ class ModuleManager
                 $return['module'] = $module->getLowerName();
                 $return['name'] = $name;
                 $return['description'] = $description;
+                $return['icon'] = 'mw-general';
+
+
+
+
                 // todo
                 //admin url
+
             }
         }
         return $return;
