@@ -20,6 +20,8 @@ class FaqModuleSettings extends LiveEditModuleSettingsTable
      */
     public string $module = 'faq';
     public string $modelName = Faq::class;
+
+
     public string $tableComponentName = FaqTableList::class;
 
     public function form(Form $form): Form

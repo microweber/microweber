@@ -9,6 +9,7 @@ use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Faq\Filament\FaqTableList;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Microweber\FaqModule;
+use Modules\Settings\Filament\Pages\Settings;
 
 class FaqServiceProvider extends BaseModuleServiceProvider
 {
@@ -38,6 +39,7 @@ class FaqServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerResource(FaqModuleResource::class);
+        FilamentRegistry::registerResource(FaqModuleResource::class,Settings::class);
 
         // Register Microweber module
         Microweber::module(FaqModule::class);

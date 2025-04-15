@@ -13,6 +13,7 @@ use Modules\Rating\Filament\RatingModuleSettings;
 use Modules\Rating\Filament\RatingTableList;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
 use Modules\Rating\Microweber\RatingModule;
+use Modules\Settings\Filament\Pages\Settings;
 
 class RatingServiceProvider extends BaseModuleServiceProvider
 {
@@ -44,6 +45,7 @@ class RatingServiceProvider extends BaseModuleServiceProvider
 
         // Register Filament resource
         FilamentRegistry::registerResource(RatingModuleResource::class);
+        FilamentRegistry::registerResource(RatingModuleResource::class,Settings::class);
 
         // Register Microweber module
         Microweber::module(RatingModule::class);

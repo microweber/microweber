@@ -20,9 +20,12 @@ use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplateResource extends Resource
 {
+
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $model = MailTemplate::class;
 
-    protected static ?string $navigationGroup = 'System';
+    protected static ?string $navigationGroup = 'Other';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 

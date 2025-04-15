@@ -22,7 +22,7 @@ class RatingModuleResource extends Resource
     protected static ?string $navigationGroup = 'Other';
 
     protected static ?int $navigationSort = 100;
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

@@ -19,6 +19,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
 use Modules\Backup\Filament\Resources\BackupResource;
+use Modules\Settings\Filament\Pages\Settings;
 
 
 class BackupServiceProvider extends BaseModuleServiceProvider
@@ -56,6 +57,7 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         );
 
         FilamentRegistry::registerResource(BackupResource::class);
+        FilamentRegistry::registerResource(BackupResource::class, Settings::class);
 //        FilamentRegistry::registerPage(CreateBackup::class);
     }
 

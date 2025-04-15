@@ -37,7 +37,7 @@ class Settings extends Page
         $settingsPages[] = new AdminSeoPage();
         $settingsPages[] = new AdminAdvancedPage();
         $settingsPages[] = new AdminFilesPage();
-     $settingsPages[] = new AdminLoginRegisterPage();
+        $settingsPages[] = new AdminLoginRegisterPage();
         $settingsPages[] = new AdminLanguagePage();
         $settingsPages[] = new AdminPrivacyPolicyPage();
         $settingsPages[] = new AdminUpdatesPage();
@@ -62,6 +62,7 @@ class Settings extends Page
         $settingsPages[] = new AdminShopOtherPage();
 
         $registeredSettingsPages = FilamentRegistry::getPages(self::class, Filament::getCurrentPanel()->getId());
+        $registeredSettingsResources = FilamentRegistry::getResources(self::class, Filament::getCurrentPanel()->getId());
 
 
         if (!empty($registeredSettingsPages)) {
@@ -70,25 +71,68 @@ class Settings extends Page
             }
         }
 
+        if (!empty($registeredSettingsResources)) {
+            foreach ($registeredSettingsResources as $registeredSettingsResource) {
+
+                $settingsPages[] = new $registeredSettingsResource;
+            }
+        }
+
 
         $settingsGroups = [];
-        foreach ($settingsPages as $settingsPage) {
 
+        foreach ($settingsPages as $settingsPage) {
+            $instance = new $settingsPage;
             $defaultGroup = 'Website Settings';
-            $group = (new $settingsPage)::getNavigationGroup();
-            if (empty($group)) {
-                $group = $defaultGroup;
+
+            $group = method_exists($settingsPage, 'getNavigationGroup')
+                ? $settingsPage::getNavigationGroup()
+                : $defaultGroup;
+
+            $slug = method_exists($instance, 'getSlug') ? $instance->getSlug() : '';
+
+            if (isset($settingsGroups[$group]) && array_search($slug, array_column($settingsGroups[$group], 'slug')) !== false) {
+                continue;
+            }
+
+            $title = '';
+            if (method_exists($instance, 'getTitle')) {
+                $title = $instance->getTitle();
+            } elseif (method_exists($instance, 'getNavigationLabel')) {
+                $title = $instance->getNavigationLabel();
+            }
+
+            $description = '';
+            if (method_exists($instance, 'getDescription')) {
+                $description = $instance->getDescription();
+            }
+
+            $heading = '';
+            if (method_exists($instance, 'getHeading')) {
+                $heading = $instance->getHeading();
+            }
+
+            $icon = '';
+            if (method_exists($instance, 'getNavigationIcon')) {
+                $icon = $instance->getNavigationIcon();
+            }
+
+            $url = '';
+            if (method_exists($settingsPage, 'getNavigationUrl')) {
+                $url = $settingsPage::getNavigationUrl();
             }
 
             $settingsGroups[$group][] = [
-                'title' => (new $settingsPage)->getTitle(),
-                'description' => (new $settingsPage)->getDescription(),
-                'heading' => (new $settingsPage)->getHeading(),
-                'slug' => (new $settingsPage)->getSlug(),
-                'icon' => (new $settingsPage)->getNavigationIcon(),
-                'url' => (new $settingsPage)::getNavigationUrl(),
+                'title' => $title,
+                'description' => $description,
+                'heading' => $heading,
+                'slug' => $slug,
+                'icon' => $icon,
+                'url' => $url,
             ];
         }
+
+
 
         return [
             'settingsGroups' => $settingsGroups,

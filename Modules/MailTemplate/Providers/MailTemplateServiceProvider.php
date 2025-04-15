@@ -10,6 +10,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource;
 use Modules\MailTemplate\Filament\MailTemplateModuleSettings;
 use Modules\MailTemplate\Services\MailTemplateService;
+use Modules\Settings\Filament\Pages\Settings;
 
 class MailTemplateServiceProvider extends BaseModuleServiceProvider
 {
@@ -35,6 +36,7 @@ class MailTemplateServiceProvider extends BaseModuleServiceProvider
             // Register Filament Resources and Pages
             //   FilamentRegistry::registerResource(MailTemplateResource::class);
             FilamentRegistry::registerResource(MailTemplateResource::class);
+            FilamentRegistry::registerResource(MailTemplateResource::class,Settings::class);
 
             // Register the MailTemplateService as a singleton
             $this->app->singleton(MailTemplateService::class, function ($app) {

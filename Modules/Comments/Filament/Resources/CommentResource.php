@@ -19,7 +19,7 @@ class CommentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationGroup = 'Other';
     protected static ?string $recordTitleAttribute = 'comment_subject';
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
 
 
 

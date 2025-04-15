@@ -13,11 +13,11 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
 {
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
     //protected static ?string $navigationIcon = 'heroicon-o-cookie';
     protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static ?string $navigationGroup = 'Settings';
-    protected static ?string $title = 'Cookie Notice Settings';
+    protected static ?string $navigationGroup = 'Other';
+    protected static ?string $title = 'Cookie Notice';
     protected static ?string $navigationLabel = 'Cookie Notice';
     protected static ?int $navigationSort = 11;
 

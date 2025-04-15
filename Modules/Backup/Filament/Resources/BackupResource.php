@@ -30,6 +30,7 @@ class BackupResource extends Resource
 
     public static $sessionId = null;
     private static $restoreFile = null;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static $restoreType = null;
 

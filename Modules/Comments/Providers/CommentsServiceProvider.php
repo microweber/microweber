@@ -25,6 +25,7 @@ use Modules\Comments\Filament\CommentsModuleSettings;
 use Modules\Comments\Filament\Pages\CommentsModuleSettingsAdmin;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Services\CommentsManager;
+use Modules\Settings\Filament\Pages\Settings;
 
 class CommentsServiceProvider extends BaseModuleServiceProvider
 {
@@ -55,6 +56,9 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerResource(CommentResource::class);
+
+        FilamentRegistry::registerResource(CommentResource::class,Settings::class);
+
         FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
         FilamentRegistry::registerPage(CommentsModuleSettings::class);
 

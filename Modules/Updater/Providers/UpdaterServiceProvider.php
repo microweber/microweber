@@ -5,6 +5,7 @@ namespace Modules\Updater\Providers;
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use Modules\Settings\Filament\Pages\Settings;
 use Modules\Updater\Filament\Pages\UpdaterPage;
 use Modules\Updater\Services\UpdaterHelper;
 
@@ -23,14 +24,15 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         //$this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->registerRoutes();
-        
+
         // Register services
         $this->app->singleton(UpdaterHelper::class, function ($app) {
             return new UpdaterHelper();
         });
-        
+
         // Register filament page
         FilamentRegistry::registerPage(UpdaterPage::class);
+        FilamentRegistry::registerPage(UpdaterPage::class,Settings::class);
     }
 
     /**

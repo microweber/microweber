@@ -13,10 +13,14 @@ class UpdaterPage extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
     protected static ?string $navigationLabel = 'Updater';
+    protected static ?string $title = 'Updater';
     protected static ?string $navigationGroup = 'System';
     protected static ?int $navigationSort = 100;
     protected static ?string $slug = 'updater';
     protected static string $view = 'modules.updater::filament.pages.updater';
+
+    protected static bool $shouldRegisterNavigation = false;
+
 
     public $currentVersion;
     public $latestVersion;
@@ -44,7 +48,10 @@ class UpdaterPage extends Page
             $this->canUpdate = false;
         }
     }
-
+    public static function getNavigationLabel(): string
+    {
+        return __('Updater');
+    }
     public function changeBranch($branch)
     {
         $this->selectedBranch = $branch;

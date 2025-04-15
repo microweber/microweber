@@ -2,6 +2,7 @@
 
 namespace Modules\Comments\Filament\Pages;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
@@ -10,12 +11,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
+use Modules\Comments\Filament\Resources\CommentResource;
 use Modules\Settings\Filament\Pages\Settings;
 
 class CommentsModuleSettingsAdmin extends AdminSettingsPage
 {
 
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
@@ -26,6 +28,16 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
     public array $optionGroups = [
         'comments'
     ];
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('List comments')
+                ->label('List comments')
+                ->url(fn() => CommentResource::getUrl('index'))
+             ,
+        ];
+    }
     public function form(Form $form): Form
     {
         return $form

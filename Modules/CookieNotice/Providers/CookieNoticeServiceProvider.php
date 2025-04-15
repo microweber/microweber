@@ -12,6 +12,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin;
 use Modules\CookieNotice\Microweber\CookieNoticeModule;
+use Modules\Settings\Filament\Pages\Settings;
 
 class CookieNoticeServiceProvider extends BaseModuleServiceProvider
 {
@@ -32,6 +33,9 @@ class CookieNoticeServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(CookieNoticeModuleSettingsAdmin::class);
+        FilamentRegistry::registerResource(CookieNoticeModuleSettingsAdmin::class,Settings::class);
+
+
         // Register Microweber module
         Microweber::module(CookieNoticeModule::class);
         $cookieName = config('modules.cookie_notice.cookie_name') ?? 'cookie_notice_accepted';
