@@ -25,7 +25,6 @@ use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {
     public string $filamentId = 'admin-newsletter';
-    public string $filamentPath = 'admin/newsletter';
 
     public function panel(Panel $panel): Panel
     {
@@ -33,7 +32,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 
         $panel
             ->id('admin-newsletter')
-            ->path('admin/newsletter')
+            ->path(mw_admin_prefix_url() . '/newsletter')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
