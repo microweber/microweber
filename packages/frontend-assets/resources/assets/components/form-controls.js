@@ -698,22 +698,24 @@ mw.emitter = {
 
                 const idata = await new Promise(resolve => {
                     var conf = {
-                        method: 'POST',
+                        tupe: 'POST',
                         url: url,
-                        body: JSON.stringify({
+                        data:  ({
                             limit: '5',
                             keyword: '',
                             order_by: 'updated_at desc',
                             search_in_fields: 'title',
                         })
                     }
-                    fetch(url, conf)
-                            .then(response => response.json())
-                            .then(json => {
-                                resolve(json);
-                            }).catch(()=>{
-                                resolve();
-                            });
+                    $.ajax({
+                        ...conf,
+                        success: function (response) {
+                            resolve(response);
+                        },
+                        error: function () {
+                            resolve();
+                        }
+                    });
                 })
 
                 scope.autoComplete = new TomSelect(treeEl, {
@@ -796,7 +798,7 @@ mw.emitter = {
                         }
                     },
                 });
-                console.log
+
 
 
 

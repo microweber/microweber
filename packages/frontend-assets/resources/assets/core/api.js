@@ -58,29 +58,7 @@ import MicroweberBaseClass from "../containers/base-class.js";
 
         };
 
-        post = {
-            async create(data) {
 
-            },
-            async edit(data) {
-
-            },
-            async delete(data) {
-
-            }
-        };
-
-        product = {
-            async create(data) {
-
-            },
-            async edit(data) {
-
-            },
-            async delete(data) {
-
-            }
-        };
     }
 
 

@@ -696,22 +696,29 @@ mw.emitter = {
 
                 const idata = await new Promise(resolve => {
                     var conf = {
-                        method: 'POST',
+                        type: 'POST',
                         url: url,
-                        body: JSON.stringify({
+                        data:  ({
                             limit: '5',
                             keyword: '',
                             order_by: 'updated_at desc',
                             search_in_fields: 'title',
                         })
                     }
-                    fetch(url, conf)
-                            .then(response => response.json())
-                            .then(json => {
-                                resolve(json);
-                            }).catch(()=>{
-                                resolve();
-                            });
+
+
+                    $.ajax({
+                        ...conf,
+                        success: function (response) {
+                            resolve(response);
+                        },
+                        error: function () {
+                            resolve();
+                        }
+                    });
+
+
+
                 })
 
                 scope.autoComplete = new TomSelect(treeEl, {
@@ -992,14 +999,17 @@ mw.emitter = {
                 }, 78)
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js');
+
             if(_linkText) {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 
             }
 
 
-            var currentVal = {}
+            var currentVal = {};
+
+
+
 
 
             $.getJSON(url, function (res){
