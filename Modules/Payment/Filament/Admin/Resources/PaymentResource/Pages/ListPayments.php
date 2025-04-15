@@ -17,7 +17,7 @@ class ListPayments extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('settings')
-                ->label('Settings')
+                ->label('Payment Provider Settings')
                 ->url(PaymentProviderResource::getUrl('index'))
                 ->icon('heroicon-o-cog-6-tooth'),
         ];
