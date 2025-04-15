@@ -9,22 +9,22 @@
 @import './summary';
 @import './table';
 
-.fi-ta-filters-above-content-ctn {
-    @apply sm:!px-3;
-}
+/*.fi-ta-filters-above-content-ctn {*/
+/*    @apply sm:!px-3;*/
+/*}*/
 
-.fi-ta-header-toolbar {
-    @apply sm:!px-3;
-}
+/*.fi-ta-header-toolbar {*/
+/*    @apply sm:!px-3;*/
+/*}*/
 
-.fi-ta-record {
-    @apply rounded-lg;
-}
+/*.fi-ta-record {*/
+/*    @apply rounded-lg;*/
+/*}*/
 
-.fi-ta-pagination {
-    @apply !px-0;
-}
+/*.fi-ta-pagination {*/
+/*    @apply !px-0;*/
+/*}*/
 
-.fi-ta-filters-below-content {
-    @apply sm:!px-3;
-}
+/*.fi-ta-filters-below-content {*/
+/*    @apply sm:!px-3;*/
+/*}*/
