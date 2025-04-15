@@ -1039,3 +1039,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-modal:not(.fi-width-screen) .fi-modal-window:not(.fi-modal-slide-over-window) {
    @apply absolute z-[999]
 }
+
+.fi-resource-module-resource-modules {
+    .fi-ta-record {
+
+        svg {
+            @apply fill-current w-[48px] h-[48px];
+        }
+    }
+}
