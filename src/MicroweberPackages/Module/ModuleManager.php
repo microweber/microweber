@@ -685,7 +685,6 @@ class ModuleManager
         return $this->dir($module_name);
 
 
-
         $template_dir = templates_dir() . 'default/';
 
         if (defined('ACTIVE_TEMPLATE_DIR')) {
@@ -780,8 +779,9 @@ class ModuleManager
                 $return['name'] = $name;
                 $return['description'] = $description;
                 $return['icon'] = 'mw-general';
+                // $return['iconSvg'] =$module->getModuleIcon();
 
-
+//dump($return);
 
 
                 // todo
@@ -917,7 +917,7 @@ class ModuleManager
         if ($laravelModule) {
             $lowerName = $laravelModule->getLowerName();
 
-            return asset('modules/' . $lowerName) ;
+            return asset('modules/' . $lowerName);
         }
 
         $secure_connection = false;

@@ -26,7 +26,9 @@ class SystemModulesSushi extends Model
         'priority',
         'sort',
         'status',
-        'icon'
+        'icon',
+        'iconSvg' => 'string',
+
     ];
 
     /**
@@ -49,6 +51,7 @@ class SystemModulesSushi extends Model
             'status' => 'boolean',
 
             'icon' => 'string',
+            'iconSvg' => 'string',
         ];
     }
 
@@ -75,10 +78,11 @@ class SystemModulesSushi extends Model
                 'path' => $module->getPath(),
                 'version' => $module->get('version', 'dev'),
                 'type' => $module->get('type', '1'),
-                'priority' => (int) $module->get('priority', 1024),
-                'sort' => (int) $module->get('order', 0),
+                'priority' => (int)$module->get('priority', 1024),
+                'sort' => (int)$module->get('order', 0),
                 'status' => true,
                 'icon' => $this->getModuleIcon($module),
+                'iconSvg' => $this->getModuleIcon($module),
             ];
         }
 
@@ -94,7 +98,7 @@ class SystemModulesSushi extends Model
     protected function getModuleIcon($module)
     {
         $iconPath = $module->getPath() . '/resources/svg/icon.svg';
-        if (file_exists($iconPath)) {
+        if (is_file($iconPath)) {
             return file_get_contents($iconPath);
         }
 
