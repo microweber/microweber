@@ -62,7 +62,7 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         // Register main settings page
-        FilamentRegistry::registerPage(Settings::class);
+       FilamentRegistry::registerPage(Settings::class);
 
         // Register website settings pages
         FilamentRegistry::registerPage(AdminAdvancedPage::class);

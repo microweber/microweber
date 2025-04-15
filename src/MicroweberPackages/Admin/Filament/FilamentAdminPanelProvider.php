@@ -96,7 +96,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->login()
             // ->registration()
             ->font('Inter')
-           // ->sidebarCollapsibleOnDesktop()
+            // ->sidebarCollapsibleOnDesktop()
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
                 return mw()->ui->admin_logo();
@@ -151,9 +151,29 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('Settings')
                     ->collapsible(true),
 
-                'Shop Settings' => NavigationGroup::make()
-                    ->label('Shop Settings')
+                'Website Settings' => NavigationGroup::make()
+                    ->extraSidebarAttributes([
+                        'class' => 'hidden bg-gray-50 dark:bg-gray-900',
+                    ])
+                    ->label('Website Settings')
+                    ->collapsed(false)
+                    ->collapsible(true),
 
+
+                'Shop Settings' => NavigationGroup::make()
+                    ->extraSidebarAttributes([
+                        'class' => 'hidden bg-gray-50 dark:bg-gray-900',
+                    ])
+                    ->label('Shop Settings')
+                    ->collapsed(false)
+                    ->collapsible(true),
+
+                'System Settings' => NavigationGroup::make()
+                    ->extraSidebarAttributes([
+                        'class' => 'hidden bg-gray-50 dark:bg-gray-900',
+                    ])
+                    ->label('System Settings')
+                    ->collapsed(false)
                     ->collapsible(true),
             ])
             ->navigationItems([
@@ -162,6 +182,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->group('Other')
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),
+
 
             ])
             ->widgets([
@@ -227,21 +248,23 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         }
 //getPanelClusters
-
-        $panel->resources($this->getPanelResources())
-            ->pages($this->getPanelPages())
-            ->livewireComponents($this->getPanelClusters())
-
-            ->discoverResources(
-                in: app_path('Filament/Admin/Resources'),
-                for: 'App\\Filament\\Admin\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+        $panel->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
-            );
+            )
+            ->discoverResources(
+                in: app_path('Filament/Admin/Resources'),
+                for: 'App\\Filament\\Admin\\Resources');
+
+
+        $panel->resources($this->getPanelResources())
+            ->pages($this->getPanelPages());;
+
+        $panel->livewireComponents($this->getPanelClusters());
+
 
         //  MicroweberFilamentTheme::configure();
 

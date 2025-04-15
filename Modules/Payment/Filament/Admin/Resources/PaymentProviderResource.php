@@ -21,13 +21,13 @@ class PaymentProviderResource extends Resource
     protected static ?string $navigationIcon = 'mw-payments';
 
     protected static ?string $navigationGroup = 'Shop Settings';
-    protected static ?int $navigationSort = 4;
- //   protected static bool $shouldRegisterNavigation = false;
+    protected static ?int $navigationSort = 14;
+
+    protected static bool $shouldRegisterNavigation = false;
 
 
 
     // protected static ?string $navigationParentItem = 'Shop';
-    protected static ?string $label = 'Payment Providers';
 
    // protected static ?string $navigationLabel = 'Configure your shop payments settings';
 

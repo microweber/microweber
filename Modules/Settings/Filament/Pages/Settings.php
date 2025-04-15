@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 
 class Settings extends Page
@@ -17,6 +18,9 @@ class Settings extends Page
     protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 97;
+
+
+
 
     public function getBreadcrumb(): string
     {

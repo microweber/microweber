@@ -23,6 +23,12 @@ class AdminAdvancedPage extends AdminSettingsPage
 
     protected static ?string $title = 'Advanced';
 
+
+
+    public function getView(): string
+    {
+        return static::$view;
+    }
     public function form(Form $form): Form
     {
         return $form

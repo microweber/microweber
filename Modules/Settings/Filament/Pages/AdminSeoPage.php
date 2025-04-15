@@ -10,9 +10,11 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;
+use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 class AdminSeoPage extends AdminSettingsPage
 {
