@@ -2,6 +2,7 @@
 
 namespace Modules\TextType\Filament;
 
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -34,6 +35,13 @@ class TextTypeModuleSettings extends LiveEditModuleSettings
                     ->numeric()
                     ->live()
                     ->default(100), // Default speed value
+
+
+                ColorPicker::make('options.textColor')
+                    ->label('Text Color')
+                    ->helperText('Enter the text color for the marquee text.')
+                    ->live()
+                    ->default('#000000'),
 
                 // Other options...
             ]);
