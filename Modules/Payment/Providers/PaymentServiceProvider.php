@@ -24,7 +24,7 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        Filament::serving(function () {
+      /*  Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
 
             if($panelId == 'admin') {
@@ -37,7 +37,7 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
                  ]);
             }
 
-        });
+        });*/
     }
 
     /**

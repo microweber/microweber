@@ -2,6 +2,7 @@
 
 namespace Modules\Settings\Filament\Pages;
 
+use Arcanedev\Html\Elements\P;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
@@ -18,8 +19,6 @@ class Settings extends Page
     protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 97;
-
-
 
 
     public function getBreadcrumb(): string
@@ -211,16 +210,16 @@ class Settings extends Page
                     } catch (\Exception $e) {
                     }
                 }
-       /*         if (!isset($itemData['description']) or $itemData['description'] == '') {
-                    try {
+                /*         if (!isset($itemData['description']) or $itemData['description'] == '') {
+                             try {
 
-                        if (method_exists($item, 'getBadgeTooltip')) {
-                            $itemData['description'] = $item->getBadgeTooltip();
+                                 if (method_exists($item, 'getBadgeTooltip')) {
+                                     $itemData['description'] = $item->getBadgeTooltip();
 
-                        }
-                    } catch (\Exception $e) {
-                    }
-                }*/
+                                 }
+                             } catch (\Exception $e) {
+                             }
+                         }*/
 
                 try {
                     if (method_exists($item, 'getSlug')) {
@@ -243,7 +242,46 @@ class Settings extends Page
                 } catch (\Exception $e) {
                 }
 
-                $settingsGroups[$groupLabel][] = $itemData;
+
+
+
+               if (!isset($itemData['description']) or $itemData['description'] == '') {
+
+
+                   // a reflection class for the item to get the description
+
+                   $reflectionClass = new \ReflectionClass($item);
+                   $refIsActive = $reflectionClass->getProperty('isActive');
+
+                   if ($refIsActive) {
+                       $isActiveVal = $refIsActive->getValue($item);
+
+                       if (is_closure($isActiveVal)) {
+                           $reflector = new \ReflectionFunction($isActiveVal);
+                           $reflectionClassClosure = $reflector->getClosureCalledClass();
+
+                           if ($reflectionClassClosure && method_exists($reflectionClassClosure->getName(), 'getDescription')) {
+                               try {
+                                   $descriptionMethod = $reflectionClassClosure->getMethod('getDescription');
+                                   if ($descriptionMethod->isStatic()) {
+                                       $itemData['description'] = $reflectionClassClosure->getName()::getDescription();
+                                   } else {
+                                        $itemData['description'] = app()->make($reflectionClassClosure->getName())->getDescription();
+                                   }
+
+                                } catch (\Exception $e) {
+                                   // Method not accessible or other reflection error
+                               }
+                           }
+                       }
+                   }
+
+                   $settingsGroups[$groupLabel][] = $itemData;
+
+               }
+
+
+
 
                 if (method_exists($item, 'getChildItems')) {
                     try {
