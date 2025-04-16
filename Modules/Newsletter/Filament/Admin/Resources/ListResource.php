@@ -58,7 +58,7 @@ class ListResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable(),
-                TextColumn::make('subscribers'),
+                TextColumn::make('subscribersCount'),
             ])
             ->filters([
                 //

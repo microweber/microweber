@@ -27,6 +27,7 @@ class NewsletterList extends Model
         return $this->hasMany(NewsletterSubscriberList::class, 'list_id', 'id');
     }
 
+
     public function getSubscribersCountAttribute()
     {
         return NewsletterSubscriberList::where('list_id', $this->id)->count();
