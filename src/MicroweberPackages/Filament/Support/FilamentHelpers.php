@@ -26,7 +26,9 @@ class FilamentHelpers
                 $singularName = Str::singular($refLabelVal);
 
                 if($refLabelVal){
-                    $checkForModuleIcon = module_info($refLabelVal);
+
+
+                   $checkForModuleIcon = module_info($refLabelVal);
 
                     if(!empty($checkForModuleIcon) and isset($checkForModuleIcon['icon']) and $checkForModuleIcon['icon'] != '') {
                         $icon = $checkForModuleIcon['icon'];

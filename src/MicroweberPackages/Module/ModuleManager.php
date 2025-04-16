@@ -778,14 +778,16 @@ class ModuleManager
                 $return['module'] = $module->getLowerName();
                 $return['name'] = $name;
                 $return['description'] = $description;
-                $return['icon'] = 'mw-general';
+               $return['icon'] = 'mw-general';
                 // $return['iconSvg'] =$module->getModuleIcon();
 
-//dump($return);
+                $checkIfWeHaveIconInconfig = config('modules.'.$return['module'].'.icon');
+
+                 if($checkIfWeHaveIconInconfig){
+                     $return['icon']  = $checkIfWeHaveIconInconfig;
+                 }
 
 
-                // todo
-                //admin url
 
             }
         }

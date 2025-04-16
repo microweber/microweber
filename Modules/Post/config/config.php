@@ -2,4 +2,5 @@
 
 return [
     'name' => 'Post',
+    'icon' => 'modules.post-icon',
 ];
