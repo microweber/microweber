@@ -35,7 +35,9 @@ use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\CreateCam
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use Modules\Newsletter\Filament\Components\SelectTemplate;
-use Modules\Newsletter\Filament\Exports\NewsletterCampaignExporter; // Added exporter import
+use Modules\Newsletter\Filament\Exports\NewsletterCampaignExporter;
+
+// Added exporter import
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
 use Modules\Newsletter\Models\NewsletterCampaignPixel;
@@ -73,6 +75,22 @@ class CampaignResource extends Resource
                     ->label('List')
                     ->relationship('list', 'name')
                     ->required(),
+
+                Select::make('status')
+                    ->options([
+
+                        NewsletterCampaign::STATUS_DRAFT => 'Draft',
+                        NewsletterCampaign::STATUS_QUEUED => 'Queued',
+                        NewsletterCampaign::STATUS_PENDING => 'Pending',
+                        NewsletterCampaign::STATUS_PROCESSING => 'Processing',
+                        NewsletterCampaign::STATUS_FINISHED => 'Finished',
+                        NewsletterCampaign::STATUS_CANCELED => 'Canceled',
+                    ])
+                    ->default(NewsletterCampaign::STATUS_DRAFT)
+                    ->required()
+                    ->hidden(fn(callable $get) => $get('id') === null),
+
+
                 Textarea::make('email_content_html')
                     ->label('Email Content HTML')
                 ,
@@ -94,7 +112,7 @@ class CampaignResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
                 TextColumn::make('subscribers')
-                    ->color(function() {
+                    ->color(function () {
                         return 'gray';
                     })
                     ->alignCenter(),
@@ -102,16 +120,16 @@ class CampaignResource extends Resource
 //                TextColumn::make('scheduled_at'),
                 TextColumn::make('opened')
                     ->alignCenter()
-                    ->color(function() {
+                    ->color(function () {
                         return 'success';
                     }),
                 TextColumn::make('clicked')
                     ->alignCenter()
-                    ->color(function() {
+                    ->color(function () {
                         return 'info';
                     }),
                 Tables\Columns\ViewColumn::make('status')->alignCenter()
-                        ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
+                    ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
 
                 TextColumn::make('status_log')
             ])
@@ -119,29 +137,29 @@ class CampaignResource extends Resource
             ->filters([
                 //
             ])
-             ->headerActions([ // Added header actions
-                 Tables\Actions\ExportAction::make()
-                     ->icon('heroicon-m-cloud-arrow-down')
-                     ->form(function (Tables\Actions\ExportAction $action): array {
-                         $exportColumns = NewsletterCampaignExporter::getColumns();
-                         $formSchema = [];
-                         foreach ($exportColumns as $column) {
-                             $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
-                                 ->label($column->getLabel())
-                                 ->default(true);
-                         }
-                         $formSchema[] = Checkbox::make('export_multiple')
-                             ->label('Export to multiple files (ZIP)');
-                         return $formSchema;
-                     })
-                     ->action(function (array $data) {
-                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
-                         $exportMultiple = $data['export_multiple'] ?? false;
-                         $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
-                         return redirect()->to($url);
-                     }),
-                 Tables\Actions\CreateAction::make(),
-             ])
+            ->headerActions([ // Added header actions
+                Tables\Actions\ExportAction::make()
+                    ->icon('heroicon-m-cloud-arrow-down')
+                    ->form(function (Tables\Actions\ExportAction $action): array {
+                        $exportColumns = NewsletterCampaignExporter::getColumns();
+                        $formSchema = [];
+                        foreach ($exportColumns as $column) {
+                            $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                ->label($column->getLabel())
+                                ->default(true);
+                        }
+                        $formSchema[] = Checkbox::make('export_multiple')
+                            ->label('Export to multiple files (ZIP)');
+                        return $formSchema;
+                    })
+                    ->action(function (array $data) {
+                        $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
+                        $exportMultiple = $data['export_multiple'] ?? false;
+                        $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
+                        return redirect()->to($url);
+                    }),
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
 
                 Tables\Actions\Action::make('edit')
@@ -153,7 +171,7 @@ class CampaignResource extends Resource
                         }
                         return true;
                     })
-                    ->url(fn (NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
+                    ->url(fn(NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 
                 Tables\Actions\Action::make('cancel')
                     ->label('Cancel')
@@ -185,7 +203,7 @@ class CampaignResource extends Resource
                             $getOpened = NewsletterCampaignPixel::where('campaign_id', $campaign->id)->get();
                             if ($getOpened) {
                                 foreach ($getOpened as $opened) {
-                                    $findSubscriber = NewsletterSubscriber::select(['id','email'])->where('email', $opened->email)->first();
+                                    $findSubscriber = NewsletterSubscriber::select(['id', 'email'])->where('email', $opened->email)->first();
                                     if ($findSubscriber) {
                                         $subscriberIds[] = $findSubscriber->id;
                                     }
@@ -201,7 +219,6 @@ class CampaignResource extends Resource
                             }
 
                             $subscriberIds = array_unique($subscriberIds);
-
 
 
                             $newCampaignName = $campaign->name . ' - Opened';
@@ -254,7 +271,7 @@ class CampaignResource extends Resource
                             $getClicked = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->get();
                             if ($getClicked) {
                                 foreach ($getClicked as $clicked) {
-                                    $findSubscriber = NewsletterSubscriber::select(['id','email'])->where('email', $clicked->email)->first();
+                                    $findSubscriber = NewsletterSubscriber::select(['id', 'email'])->where('email', $clicked->email)->first();
                                     if ($findSubscriber) {
                                         $subscriberIds[] = $findSubscriber->id;
                                     }
