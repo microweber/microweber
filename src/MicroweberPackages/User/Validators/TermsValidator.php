@@ -9,7 +9,7 @@
 namespace MicroweberPackages\User\Validators;
 
 use Illuminate\Validation\Validator;
-use MicroweberPackages\User\TosManager;
+use MicroweberPackages\User\Services\TosManager;
 
 class TermsValidator {
 

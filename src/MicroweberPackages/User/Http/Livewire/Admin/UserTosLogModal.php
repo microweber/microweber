@@ -18,7 +18,7 @@ class UserTosLogModal extends AdminModalComponent
             $terms_params = array();
             $terms_params['user_id'] = $this->userId;
 
-            $terms = new \MicroweberPackages\User\TosManager();
+            $terms = new \MicroweberPackages\User\Services\TosManager();
             $terms = $terms->get($terms_params);
         }
 

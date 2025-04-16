@@ -1,4 +1,4 @@
-<?php namespace MicroweberPackages\User\Socialite;
+<?php namespace MicroweberPackages\User\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

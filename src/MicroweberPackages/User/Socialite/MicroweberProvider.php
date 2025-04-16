@@ -3,9 +3,7 @@ namespace MicroweberPackages\User\Socialite;
 
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
-
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Exception\RequestException;
+use MicroweberPackages\User\Models\SocialiteUser;
 
 class MicroweberProvider extends AbstractProvider implements ProviderInterface
 {

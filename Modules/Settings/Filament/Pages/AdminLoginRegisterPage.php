@@ -93,7 +93,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString(
                                     '1. <a href="https://developers.facebook.com/apps" target="_blank">API access</a><br>' .
                                     '2. In Website with Facebook Login please enter: ' . site_url() . '<br>' .
-                                    '3. If asked for callback url - use: ' . api_link('social_login_process?provider=facebook')
+                                    '3. If asked for callback url - use: ' . url('oauth/callback/facebook') . '<br>'
                                 );
                             })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_fb_registration')),
@@ -120,7 +120,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString(
                                     '1. <a href="https://dev.twitter.com/apps" target="_blank">Register your application</a><br>' .
                                     '2. In Website enter: ' . site_url() . '<br>' .
-                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=twitter')
+                                    '3. In Callback URL enter: ' . url('oauth/callback/twitter') . '<br>'
                                 );
                             })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_twitter_registration')),
@@ -146,7 +146,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                             ->helperText(function () {
                                 return new HtmlString(
                                     '1. <a href="https://code.google.com/apis/console/" target="_blank">Set your API access</a><br>' .
-                                    '2. In redirect URI please enter: ' . api_link('social_login_process?provider=google')
+                                    '2. In redirect URI please enter: ' . url('oauth/callback/google') . '<br>'
                                 );
                             })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_google_registration')),
@@ -173,7 +173,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString(
                                     '1. <a href="https://github.com/settings/applications/new" target="_blank">Register your application</a><br>' .
                                     '2. In Main URL enter: ' . site_url() . '<br>' .
-                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=github')
+                                    '3. In Callback URL enter: ' . url('oauth/callback/github') . '<br>'
                                 );
                             })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_github_registration')),
@@ -199,7 +199,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                                 return new HtmlString(
                                     '1. <a href="https://www.linkedin.com/secure/developer" target="_blank">Register your application</a><br>' .
                                     '2. In Website enter: ' . site_url() . '<br>' .
-                                    '3. In Callback URL enter: ' . api_link('social_login_process?provider=linkedin')
+                                    '3. In Callback URL enter: ' . url('oauth/callback/linkedin') . '<br>'
                                 );
                             })
                             ->visible(fn(callable $get) => $get('options.users.enable_user_linkedin_registration')),
@@ -226,8 +226,14 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                             ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
                         Placeholder::make('Microweber Login Help')
                             ->label('Microweber Login Help')
-                            ->helperText('Please enter your credentials for Microweber login server')
-                            ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
+                             ->helperText(function () {
+                                return new HtmlString(
+                                    '1. <a href="https://mwlogin.com/" target="_blank">Register your Microweber application</a><br>' .
+                                    '2. In Website enter: ' . site_url() . '<br>' .
+                                    '3. In Callback URL enter: ' . url('oauth/callback/microweber') . '<br>'
+                                );
+                            })
+                             ->visible(fn(callable $get) => $get('options.users.enable_user_microweber_registration')),
                     ])
             ]);
     }

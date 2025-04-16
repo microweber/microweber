@@ -14,7 +14,7 @@ use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
-use MicroweberPackages\User\UserManager;
+use MicroweberPackages\User\Services\UserManager;
 use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 

@@ -2,9 +2,12 @@
 namespace MicroweberPackages\User\Socialite;
 
 
+use MicroweberPackages\User\Models\SocialiteUser;
+use MicroweberPackages\User\Models\UserOauthData;
+
 class UserProvider
 {
-    public static function findOrCreate(\MicroweberPackages\User\Socialite\SocialiteUser $payload, $provider)
+    public static function findOrCreate(\MicroweberPackages\User\Models\SocialiteUser $payload, $provider)
     {
         $user = UserOauthData::where('data_id', '=', $payload->id)->get();
         if ($user->isEmpty()) {

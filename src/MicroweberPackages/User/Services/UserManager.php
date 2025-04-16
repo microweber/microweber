@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\User;
+namespace MicroweberPackages\User\Services;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;

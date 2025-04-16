@@ -3,17 +3,10 @@
 namespace Modules\Profile\Filament\Pages;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Filament\Facades\Filament;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use Filament\Models\Contracts\FilamentUser;
 use Filament\Pages\Auth\Login as BaseLogin;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
-use MicroweberPackages\User\UserManager;
 
 class Login extends BaseLogin
 {

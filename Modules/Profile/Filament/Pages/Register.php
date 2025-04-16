@@ -8,10 +8,9 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
 use Filament\Pages\Auth\Register as BaseRegister;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\ValidationException;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
-use MicroweberPackages\User\UserManager;
+use MicroweberPackages\User\Services\UserManager;
 
 class Register extends BaseRegister
 {

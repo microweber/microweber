@@ -12,14 +12,11 @@
 namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Laravel\Passport\Passport;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
-use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
 use MicroweberPackages\User\Http\Livewire\Admin\DeleteUserForm;
 use MicroweberPackages\User\Http\Livewire\Admin\LoginAsUserForm;
@@ -32,9 +29,7 @@ use MicroweberPackages\User\Http\Livewire\Admin\UsersList;
 use MicroweberPackages\User\Http\Livewire\Admin\UserTosLogModal;
 use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
-use MicroweberPackages\User\Services\RSAKeys;
-use MicroweberPackages\User\UserManager;
-
+use MicroweberPackages\User\Services\UserManager;
 
 
 class UserServiceProvider extends AuthServiceProvider
@@ -78,6 +73,9 @@ class UserServiceProvider extends AuthServiceProvider
 
 
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
+
+        $this->app->register(\MicroweberPackages\User\Providers\UserSocialiteServiceProvider::class);
+
     }
 
     public function registerMenu()
@@ -99,7 +97,7 @@ class UserServiceProvider extends AuthServiceProvider
     {
 
         /**
-         * @property \MicroweberPackages\User\UserManager $user_manager
+         * @property \MicroweberPackages\User\Services\UserManager $user_manager
          */
 
         [$publicKey, $privateKey] = [
