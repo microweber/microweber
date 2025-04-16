@@ -191,7 +191,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware($this->getPanelMiddlewares())
-            ->authGuard('web')
+            ->authGuard('admin')
             ->authMiddleware([
                 //  Authenticate::class,
                 \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
