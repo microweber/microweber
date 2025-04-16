@@ -50,6 +50,13 @@ class UserManager
             return false;
         }
 
+//        $adminUser = Auth::guard('admin')->user();
+//
+//        if ($adminUser &&  $adminUser->is_admin == 1) {
+//            return true;
+//        }
+
+
         if (Auth::check()) {
             return Auth::user()->is_admin;
         }

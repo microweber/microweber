@@ -33,11 +33,20 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
 
-        //todo 
 
-        if (Auth::user() &&  Auth::user()->is_admin == 1) {
+     //   $adminUser = Auth::guard('admin')->user();
+       // dd($adminUser);
+
+       // return $next($request);
+
+        //todo
+//
+//        if ($adminUser &&  $adminUser->is_admin == 1) {
+//            return $next($request);
+//        }
+
+        if (is_admin()) {
             return $next($request);
         }
 

@@ -429,11 +429,31 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Fil
             ->where('data_id', $oauthUser->getId())
             ->first();
 
+        if ($oauthUser->getEmail()) {
+            $user = User::where('email', $oauthUser->getEmail())->first();
+            if (!$user) {
+                $user = User::where('username', $oauthUser->getEmail())->first();
+            }
+            if (!$user) {
+                //create user if not exists
+                $user = new User();
+                $user->email = $oauthUser->getEmail();
+                $user->name = $oauthUser->getName();
+                $user->save();
+                return $user;
+            } else {
+                return $user;
+            }
+        }
+
+
+
         return $oauthData ? User::find($oauthData->user_id) : null;
     }
 
     public static function createForProvider(string $provider, SocialiteUserContract $oauthUser, Authenticatable|\Illuminate\Contracts\Auth\Authenticatable $user): FilamentSocialiteUserContract
     {
+
         $oauthData = new UserOauthData([
             'user_id' => $user->id,
             'provider' => $provider,

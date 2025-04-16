@@ -192,10 +192,10 @@ class FilamentAdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware($this->getPanelMiddlewares())
-            ->authGuard('admin')
+         //   ->authGuard('web')
             ->authMiddleware([
-                 Authenticate::class,
-              //  \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
+                // Authenticate::class,
+               \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
                 //  Admin::class,
             ])->bootUsing(function (Panel $panel) {
                 //  dd($panel);

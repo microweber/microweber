@@ -16,8 +16,8 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
 
     public function admin(): MicroweberFilamentSocialitePlugin
     {
-        $this->userClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
-        $this->socialiteUserClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
+       // $this->userClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
+      //  $this->socialiteUserClass = Config::get('auth.providers.admins.model', \App\Models\Admin::class);
         return $this;
     }
 
@@ -67,5 +67,25 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
          //   ->registration(true)
             ->userModelClass($this->userClass)
             ->socialiteUserModelClass($this->socialiteUserClass);
+    }
+
+    public function setSocialiteUserClass(string $socialiteUserClass): void
+    {
+        $this->socialiteUserClass = $socialiteUserClass;
+    }
+
+    public function setUserClass(string $userClass): void
+    {
+        $this->userClass = $userClass;
+    }
+
+    public function getUserClass(): string
+    {
+        return $this->userClass;
+    }
+
+    public function getSocialiteUserClass(): string
+    {
+        return $this->socialiteUserClass;
     }
 }

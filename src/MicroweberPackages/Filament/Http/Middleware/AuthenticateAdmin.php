@@ -14,7 +14,6 @@ class AuthenticateAdmin extends Middleware
     {
 
 
-
         if (!mw_is_installed()) {
             //
             return redirect('/')->with('error', 'Microweber is not installed.');
@@ -25,6 +24,11 @@ class AuthenticateAdmin extends Middleware
 
 
             return $next($request);
+        }
+
+        if (is_logged()) {
+            //logout the user if not admin and try to access admin
+            return redirect(site_url('profile'));
         }
 
 
