@@ -17,10 +17,12 @@ use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\ManageCam
 use Modules\Newsletter\Filament\Admin\Resources\ListResource\Pages\ManageLists;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
+use Modules\Newsletter\Filament\Exports\NewsletterListExporter; // Added exporter import
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use Illuminate\Support\Arr;
 
 class ListResource extends Resource
 {
@@ -60,12 +62,49 @@ class ListResource extends Resource
             ->filters([
                 //
             ])
+             ->headerActions([ // Added header actions
+                 Tables\Actions\ExportAction::make()
+                     ->icon('heroicon-m-cloud-arrow-down')
+                     ->form(function (Tables\Actions\ExportAction $action): array {
+                         $exportColumns = NewsletterListExporter::getColumns();
+                         $formSchema = [];
+                         foreach ($exportColumns as $column) {
+                             $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                 ->label($column->getLabel())
+                                 ->default(true);
+                         }
+                         return $formSchema;
+                     })
+                     ->action(function (array $data) {
+                         $selectedColumns = array_keys(array_filter($data));
+                         $url = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns]);
+                         return redirect()->to($url);
+                     }),
+                 Tables\Actions\CreateAction::make(),
+             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\ExportBulkAction::make() // Added bulk export action
+                        ->form(function (Tables\Actions\BulkAction $action): array {
+                            $exportColumns = NewsletterListExporter::getColumns();
+                            $formSchema = [];
+                            foreach ($exportColumns as $column) {
+                                $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                    ->label($column->getLabel())
+                                    ->default(true);
+                            }
+                            return $formSchema;
+                        })
+                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                            $selectedColumns = array_keys(array_filter($data));
+                            $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
+                            $route = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds)]);
+                            return redirect()->to($route);
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

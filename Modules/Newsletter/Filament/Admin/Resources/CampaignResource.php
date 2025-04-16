@@ -35,6 +35,7 @@ use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\CreateCam
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use Modules\Newsletter\Filament\Components\SelectTemplate;
+use Modules\Newsletter\Filament\Exports\NewsletterCampaignExporter; // Added exporter import
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
 use Modules\Newsletter\Models\NewsletterCampaignPixel;
@@ -43,6 +44,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use Illuminate\Support\Arr;
 
 class CampaignResource extends Resource
 {
@@ -117,6 +119,26 @@ class CampaignResource extends Resource
             ->filters([
                 //
             ])
+             ->headerActions([ // Added header actions
+                 Tables\Actions\ExportAction::make()
+                     ->icon('heroicon-m-cloud-arrow-down')
+                     ->form(function (Tables\Actions\ExportAction $action): array {
+                         $exportColumns = NewsletterCampaignExporter::getColumns();
+                         $formSchema = [];
+                         foreach ($exportColumns as $column) {
+                             $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                 ->label($column->getLabel())
+                                 ->default(true);
+                         }
+                         return $formSchema;
+                     })
+                     ->action(function (array $data) {
+                         $selectedColumns = array_keys(array_filter($data));
+                         $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns]);
+                         return redirect()->to($url);
+                     }),
+                 Tables\Actions\CreateAction::make(),
+             ])
             ->actions([
 
                 Tables\Actions\Action::make('edit')
@@ -290,9 +312,26 @@ class CampaignResource extends Resource
                     ->iconSize('lg'),
             ])
             ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                ]),
+                Tables\Actions\BulkActionGroup::make([ // Added bulk actions
+                    Tables\Actions\ExportBulkAction::make()
+                        ->form(function (Tables\Actions\BulkAction $action): array {
+                            $exportColumns = NewsletterCampaignExporter::getColumns();
+                            $formSchema = [];
+                            foreach ($exportColumns as $column) {
+                                $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                    ->label($column->getLabel())
+                                    ->default(true);
+                            }
+                            return $formSchema;
+                        })
+                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                            $selectedColumns = array_keys(array_filter($data));
+                            $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
+                            $route = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds)]);
+                            return redirect()->to($route);
+                        }),
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

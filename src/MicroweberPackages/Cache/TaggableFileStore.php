@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Cache;
 
 use Closure;
+use Illuminate\Cache\ArrayLock;
+use Illuminate\Cache\CacheLock;
 use Illuminate\Cache\Events\CacheHit;
 use Illuminate\Cache\Events\CacheMissed;
 use Illuminate\Cache\Events\KeyForgotten;
@@ -11,6 +13,7 @@ use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
@@ -734,6 +737,8 @@ class TaggableFileStore implements Store
         return $this->prefix;
     }
 
+
+
     /**
      * Get the full path for the given cache key.
      *
@@ -811,6 +816,57 @@ class TaggableFileStore implements Store
         is_dir(dirname($pathname)) || $this->makeDirRecursive(dirname($pathname));
 
         return is_dir($pathname) || @mkdir($pathname);
+    }
+
+
+
+
+
+    /**
+     * Get the expiration time of the key.
+     *
+     * @param  int  $seconds
+     * @return float
+     */
+    protected function calculateExpiration($seconds)
+    {
+        return $this->toTimestamp($seconds);
+    }
+
+    /**
+     * Get the UNIX timestamp, with milliseconds, for the given number of seconds in the future.
+     *
+     * @param  int  $seconds
+     * @return float
+     */
+    protected function toTimestamp($seconds)
+    {
+        return $seconds > 0 ? (Carbon::now()->getPreciseTimestamp(3) / 1000) + $seconds : 0;
+    }
+
+    /**
+     * Get a lock instance.
+     *
+     * @param  string  $name
+     * @param  int  $seconds
+     * @param  string|null  $owner
+     * @return \Illuminate\Contracts\Cache\Lock
+     */
+    public function lock($name, $seconds = 0, $owner = null)
+    {
+        return new CacheLock($this, $name, $seconds, $owner);
+    }
+
+    /**
+     * Restore a lock instance using the owner identifier.
+     *
+     * @param  string  $name
+     * @param  string  $owner
+     * @return \Illuminate\Contracts\Cache\Lock
+     */
+    public function restoreLock($name, $owner)
+    {
+        return $this->lock($name, 0, $owner);
     }
 
 }

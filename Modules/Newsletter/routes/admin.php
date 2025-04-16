@@ -5,6 +5,21 @@ use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterTemplate;
 use Modules\Newsletter\Senders\NewsletterMailSender;
+use Modules\Newsletter\Http\Controllers\Admin\NewsletterSubscriberExportController;
+use Modules\Newsletter\Http\Controllers\Admin\NewsletterListExportController;
+use Modules\Newsletter\Http\Controllers\Admin\NewsletterCampaignExportController;
+
+
+Route::name('filament.admin-newsletter.')
+    ->prefix(mw_admin_prefix_url() . '/modules/newsletter')
+    ->middleware(['admin'])
+    ->group(function () {
+
+        // Export Routes
+        Route::get('/export/subscribers', [NewsletterSubscriberExportController::class, 'export'])->name('export.subscribers');
+        Route::get('/export/lists', [NewsletterListExportController::class, 'export'])->name('export.lists');
+        Route::get('/export/campaigns', [NewsletterCampaignExportController::class, 'export'])->name('export.campaigns');
+    });
 
 Route::name('admin.newsletter.')
     ->prefix(mw_admin_prefix_url() . '/modules/newsletter')
@@ -90,7 +105,7 @@ Route::name('admin.newsletter.')
             if (!$templateFilename) {
                 return;
             }
-            $templateJson = file_get_contents(module_path('newsletter'). '/resources/views/email-templates/' . $templateFilename . '.json');
+            $templateJson = file_get_contents(module_path('newsletter') . '/resources/views/email-templates/' . $templateFilename . '.json');
             $templateJson = json_decode($templateJson, true);
 
 //            $templateHtml = file_get_contents(module_path('newsletter'). '/resources/views/email-templates/' . $templateFilename. '.html');
@@ -113,5 +128,6 @@ Route::name('admin.newsletter.')
         })->name('preview-email-template');
 
         Route::post('sender-accounts/save', \Modules\Newsletter\Http\Controllers\Admin\NewsletterSenderAccountController::class . '@save')->name('sender-accounts.save');
+
 
     });

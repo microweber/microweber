@@ -109,7 +109,21 @@ class SubscribersResource extends Resource
                     ->chunkSize(50),
                 Tables\Actions\ExportAction::make()
                     ->icon('heroicon-m-cloud-arrow-down')
-                    ->exporter(NewsletterSubscriberExporter::class),
+                    ->form(function (Tables\Actions\ExportAction $action): array {
+                        $exportColumns = NewsletterSubscriberExporter::getColumns();
+                        $formSchema = [];
+                        foreach ($exportColumns as $column) {
+                            $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                ->label($column->getLabel())
+                                ->default(true);
+                        }
+                        return $formSchema;
+                    })
+                    ->action(function (array $data, Table $table) {
+                        $selectedColumns = array_keys(array_filter($data));
+                        $url = route('filament.admin-newsletter.export.subscribers', ['columns' => $selectedColumns]);
+                        return redirect()->to($url);
+                    }),
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
@@ -119,7 +133,22 @@ class SubscribersResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\ExportBulkAction::make()
-                        ->exporter(NewsletterSubscriberExporter::class),
+                        ->form(function (Tables\Actions\BulkAction $action): array {
+                            $exportColumns = NewsletterSubscriberExporter::getColumns();
+                            $formSchema = [];
+                            foreach ($exportColumns as $column) {
+                                $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                    ->label($column->getLabel())
+                                    ->default(true);
+                            }
+                            return $formSchema;
+                        })
+                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                            $selectedColumns = array_keys(array_filter($data));
+                            $selectedIds = implode(',', $action->getRecords()->pluck('id')->toArray());
+                            $url = route('filament.admin-newsletter.export.subscribers', ['columns' => $selectedColumns, 'selected_ids' =>  implode(',', $action->getRecords()->pluck('id')->toArray())]);
+                            return redirect()->to($url);
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
