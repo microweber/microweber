@@ -53,7 +53,12 @@ class NewsletterSubscriberExportController extends \MicroweberPackages\Admin\Htt
             foreach ($subscribers as $subscriber) {
                 $rowData = [];
                 foreach ($selectedColumns as $column) {
-                    $rowData[] = data_get($subscriber, $column);
+                     if ($column == 'lists') {
+                        $lists = $subscriber->lists()->pluck('newsletter_lists.id')->toArray();
+                        $rowData[] = implode(',', $lists);
+                    } else {
+                        $rowData[] = data_get($subscriber, $column);
+                    }
                 }
                 $exportData[] = $rowData;
             }
@@ -99,7 +104,12 @@ class NewsletterSubscriberExportController extends \MicroweberPackages\Admin\Htt
                 foreach ($chunk as $subscriber) {
                     $rowData = [];
                     foreach ($selectedColumns as $column) {
-                        $rowData[] = data_get($subscriber, $column);
+                         if ($column == 'lists') {
+                            $lists = $subscriber->lists()->pluck('newsletter_lists.id')->toArray();
+                            $rowData[] = implode(',', $lists);
+                        } else {
+                            $rowData[] = data_get($subscriber, $column);
+                        }
                     }
                     $exportData[] = $rowData;
                 }
@@ -144,8 +154,8 @@ class NewsletterSubscriberExportController extends \MicroweberPackages\Admin\Htt
             try {
                 $csv->insertOne($headers);
             } catch (CannotInsertRecord $e) {
-                \Log::error('Cannot insert headers to CSV: ' . $e->getMessage());
-            }
+
+             }
         }
 
         // Add data
@@ -153,10 +163,10 @@ class NewsletterSubscriberExportController extends \MicroweberPackages\Admin\Htt
             try {
                 $csv->insertOne($row);
             } catch (CannotInsertRecord $e) {
-                \Log::error('Cannot insert row to CSV: ' . $e->getMessage());
+
             }
         }
 
-        return $csv->getContent();
+        return $csv->toString();
     }
 }
