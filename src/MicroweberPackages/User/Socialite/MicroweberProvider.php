@@ -83,7 +83,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new SocialiteUser)->setRaw($user)->map([
             //    'id' => $user['id'],
             'email' => $user['email'],
            // 'name' => $user['name'],

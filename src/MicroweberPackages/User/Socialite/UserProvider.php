@@ -1,13 +1,12 @@
 <?php
 namespace MicroweberPackages\User\Socialite;
 
-use MicroweberPackages\User\Models\UserData;
 
 class UserProvider
 {
-    public static function findOrCreate(\MicroweberPackages\User\Socialite\User $payload, $provider)
+    public static function findOrCreate(\MicroweberPackages\User\Socialite\SocialiteUser $payload, $provider)
     {
-        $user = UserData::where('data_id', '=', $payload->id)->get();
+        $user = UserOauthData::where('data_id', '=', $payload->id)->get();
         if ($user->isEmpty()) {
             $data = [
                 'email' => $payload->email,
@@ -20,12 +19,12 @@ class UserProvider
                 $data['first_name'] = $name[0];
                 $data['last_name'] = $name[1];
             }
-            $baseUser = new User($data);
+            $baseUser = new SocialiteUser($data);
             $baseUser->save();
 
             app()->cache_manager->delete('users');
 
-            $user = new UserData([
+            $user = new UserOauthData([
                 'user_id' => $baseUser->id,
                 'provider' => $provider,
                 'data_token' => $payload->token,
@@ -40,6 +39,6 @@ class UserProvider
             $user = $user->first();
         }
 
-        return User::find($user->user_id);
+        return SocialiteUser::find($user->user_id);
     }
 }

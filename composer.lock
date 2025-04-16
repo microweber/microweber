@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e686e7d3a7b701bc9f6cd540adc8a375",
+    "content-hash": "2fc727d73173182d5f2d7c0505c36ad0",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3417,6 +3417,94 @@
                 }
             ],
             "time": "2024-10-09T13:47:03+00:00"
+        },
+        {
+            "name": "dutchcodingcompany/filament-socialite",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DutchCodingCompany/filament-socialite.git",
+                "reference": "be7e58a1e73f9222f288f0ab04b1945198310e62"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DutchCodingCompany/filament-socialite/zipball/be7e58a1e73f9222f288f0ab04b1945198310e62",
+                "reference": "be7e58a1e73f9222f288f0ab04b1945198310e62",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.2.72",
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "laravel/socialite": "^5.5",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "larastan/larastan": "^2.9|^3.0",
+                "nunomaduro/collision": "^7.0|^8.1",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.5.3",
+                "rector/rector": "^0.19.8|^2.0"
+            },
+            "suggest": {
+                "owenvoke/blade-fontawesome": "^2.0"
+            },
+            "bin": [
+                "bin/upgrade-v2"
+            ],
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentSocialite": "DutchCodingCompany\\FilamentSocialite\\Facades\\FilamentSocialite"
+                    },
+                    "providers": [
+                        "DutchCodingCompany\\FilamentSocialite\\FilamentSocialiteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Utils\\Rector\\": "utils/rector/src",
+                    "DutchCodingCompany\\FilamentSocialite\\": "src",
+                    "DutchCodingCompany\\FilamentSocialite\\Tests\\": "tests",
+                    "DutchCodingCompany\\FilamentSocialite\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Boers",
+                    "email": "m@rcoboe.rs",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Janssen",
+                    "email": "dododedodonl@thor.edu",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Bram Raaijmakers",
+                    "email": "bram@dutchcodingcompany.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Social login for Filament through Laravel Socialite",
+            "homepage": "https://github.com/dutchcodingcompany/filament-socialite",
+            "keywords": [
+                "dutchcodingcompany",
+                "filament-socialite",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/DutchCodingCompany/filament-socialite/issues",
+                "source": "https://github.com/DutchCodingCompany/filament-socialite/tree/2.4.0"
+            },
+            "time": "2025-02-25T10:24:58+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -8948,11 +9036,11 @@
         },
         {
             "name": "microweber-packages/frontend-assets",
-            "version": "dev-feature/comment-tests-cleanup",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "5d901bb50e63f264f72c6734cef9315030eb4277"
+                "reference": "7bc3df8e4a400abec277f6ab111597f45dd0f997"
             },
             "type": "library",
             "extra": {
@@ -8989,11 +9077,11 @@
         },
         {
             "name": "microweber-packages/frontend-assets-libs",
-            "version": "dev-feature/comment-tests-cleanup",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "a08522943045c24ed88e499a9804d9e74d9a7150"
+                "reference": "fedbd34d4d9763321ad7c7a1582eb594a2ceb1c6"
             },
             "require": {
                 "php": "^8.1"
@@ -9091,7 +9179,7 @@
         },
         {
             "name": "microweber-packages/laravel-helper-functions",
-            "version": "dev-feature/comment-tests-cleanup",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
@@ -9123,7 +9211,7 @@
         },
         {
             "name": "microweber-packages/microweber-filament-theme",
-            "version": "dev-feature/comment-tests-cleanup",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
