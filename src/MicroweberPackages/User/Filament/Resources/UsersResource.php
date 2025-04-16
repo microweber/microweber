@@ -34,7 +34,7 @@ class UsersResource extends Resource
             TextInput::make('last_name'),
 
 
-            TextInput::make('username')->required()->unique(
+            TextInput::make('username')->unique(
                 ignoreRecord: true,
             ),
             TextInput::make('email')->email()->required()->unique(
@@ -54,7 +54,7 @@ class UsersResource extends Resource
                 }),
             TextInput::make('password_confirmation')
                 ->password()
-                ->required(),
+               ,
 
             Select::make('is_admin')
                 ->label('Is Admin')

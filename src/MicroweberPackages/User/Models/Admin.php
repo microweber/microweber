@@ -7,6 +7,7 @@ use MicroweberPackages\User\Scopes\IsAdminScope;
 
 class Admin extends User
 {
+    protected $table = 'users';
 
     public function canAccessPanel(Panel $panel): bool
     {

@@ -16,6 +16,7 @@ use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
@@ -193,8 +194,8 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('admin')
             ->authMiddleware([
-                //  Authenticate::class,
-                \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
+                 Authenticate::class,
+              //  \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
                 //  Admin::class,
             ])->bootUsing(function (Panel $panel) {
                 //  dd($panel);
@@ -239,6 +240,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new UsersFilamentPlugin());
         //    $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
+         $panel->plugin(MicroweberFilamentSocialitePlugin::make()->admin()->configure());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {
