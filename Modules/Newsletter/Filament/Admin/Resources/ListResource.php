@@ -23,6 +23,7 @@ use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterTemplate;
 use Illuminate\Support\Arr;
+use Filament\Forms\Components\Checkbox;
 
 class ListResource extends Resource
 {
@@ -73,11 +74,14 @@ class ListResource extends Resource
                                  ->label($column->getLabel())
                                  ->default(true);
                          }
+                         $formSchema[] = Checkbox::make('export_multiple')
+                             ->label('Export to multiple files (ZIP)');
                          return $formSchema;
                      })
                      ->action(function (array $data) {
-                         $selectedColumns = array_keys(array_filter($data));
-                         $url = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns]);
+                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
+                         $exportMultiple = $data['export_multiple'] ?? false;
+                         $url = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                          return redirect()->to($url);
                      }),
                  Tables\Actions\CreateAction::make(),
@@ -97,12 +101,15 @@ class ListResource extends Resource
                                     ->label($column->getLabel())
                                     ->default(true);
                             }
+                            $formSchema[] = Checkbox::make('export_multiple')
+                                ->label('Export to multiple files (ZIP)')
+                                ->default(false);
                             return $formSchema;
                         })
                         ->action(function (array $data, Tables\Actions\BulkAction $action) {
-                            $selectedColumns = array_keys(array_filter($data));
+                            $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
-                            $route = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds)]);
+                            $route = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
                             return redirect()->to($route);
                         }),
                     Tables\Actions\DeleteBulkAction::make(),

@@ -130,11 +130,14 @@ class CampaignResource extends Resource
                                  ->label($column->getLabel())
                                  ->default(true);
                          }
+                         $formSchema[] = Checkbox::make('export_multiple')
+                             ->label('Export to multiple files (ZIP)');
                          return $formSchema;
                      })
                      ->action(function (array $data) {
-                         $selectedColumns = array_keys(array_filter($data));
-                         $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns]);
+                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
+                         $exportMultiple = $data['export_multiple'] ?? false;
+                         $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                          return redirect()->to($url);
                      }),
                  Tables\Actions\CreateAction::make(),
@@ -322,12 +325,15 @@ class CampaignResource extends Resource
                                     ->label($column->getLabel())
                                     ->default(true);
                             }
+                            $formSchema[] = Checkbox::make('export_multiple')
+                                ->label('Export to multiple files (ZIP)')
+                                ->default(false);
                             return $formSchema;
                         })
                         ->action(function (array $data, Tables\Actions\BulkAction $action) {
-                            $selectedColumns = array_keys(array_filter($data));
+                            $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
                             $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
-                            $route = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds)]);
+                            $route = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
                             return redirect()->to($route);
                         }),
                     Tables\Actions\DeleteBulkAction::make(),
