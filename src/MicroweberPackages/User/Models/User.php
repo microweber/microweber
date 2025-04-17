@@ -344,7 +344,20 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Fil
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+
+        // todo
+
+
+        $panelId = $panel->getId();
+
+        //check if name start with admin
+
+        if (str_starts_with($panelId, 'admin')) {
+            return is_admin();
+        }
+
+
+        return is_logged();
     }
 
 
