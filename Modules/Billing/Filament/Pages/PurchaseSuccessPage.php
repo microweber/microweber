@@ -14,7 +14,7 @@ class PurchaseSuccessPage extends Page
 
     protected static ?string $title = 'Purchase Successful';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public function getBreadcrumb(): string
     {

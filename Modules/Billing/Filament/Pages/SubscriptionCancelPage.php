@@ -14,7 +14,7 @@ class SubscriptionCancelPage extends Page
 
     protected static ?string $title = 'Subscription Cancelled';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
 
     public function getBreadcrumb(): string

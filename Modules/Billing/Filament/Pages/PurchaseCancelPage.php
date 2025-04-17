@@ -14,7 +14,7 @@ class PurchaseCancelPage extends Page
 
     protected static ?string $title = 'Purchase Cancelled';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public function getBreadcrumb(): string
     {

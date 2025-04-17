@@ -64,7 +64,7 @@ class MicroweberFilamentSocialitePlugin extends FilamentSocialitePlugin
 
         return MicroweberFilamentSocialitePlugin::make()
             ->providers($providers)
-         //   ->registration(true)
+            ->registration(true)
             ->userModelClass($this->userClass)
             ->socialiteUserModelClass($this->socialiteUserClass);
     }
