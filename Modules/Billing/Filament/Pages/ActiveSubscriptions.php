@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Billing\Filament\Frontend\Pages;
+namespace Modules\Billing\Filament\Pages;
 
 use Filament\Pages\Page;
 use Modules\Billing\Models\Subscription;

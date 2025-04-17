@@ -118,7 +118,7 @@ class BillingCheckoutController
             }
         }
 
-        return redirect(site_url('project/plans'));
+        return redirect()->route('filament.billing.pages.subscription-success-page');
     }
 
     public function subscriptionCancel(Request $request)
@@ -154,9 +154,7 @@ class BillingCheckoutController
             return redirect($redirectOnCancel);
         }
 
-        return view('modules.billing::cancel', [
-            'backButtonUrl' => session_get('billing_subscription_referer'),
-        ]);
+        return redirect()->route('filament.billing.pages.subscription-cancel-page');
     }
 
     public function purchaseSuccess(Request $request)
@@ -219,12 +217,7 @@ class BillingCheckoutController
             return redirect($redirectOnSuccess)->with('transactionData', $transactionData);
         }
 
-        return view('modules.billing::purchase-finish', [
-            'backButtonUrl' => session_get('billing_purchase_referer'),
-            'checkoutSessionData' => $checkoutSessionData,
-            'latestInvoiceData' => $latestInvoiceData,
-            'transactionData' => $transactionData,
-        ]);
+        return redirect()->route('filament.billing.pages.purchase-success-page');
     }
 
     public function purchaseCancel(Request $request)
@@ -260,8 +253,6 @@ class BillingCheckoutController
             return redirect($redirectOnCancel);
         }
 
-        return view('modules.billing::purchase-cancel', [
-            'backButtonUrl' => session_get('billing_purchase_referer'),
-        ]);
+        return redirect()->route('filament.billing.pages.purchase-cancel-page');
     }
 }

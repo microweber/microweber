@@ -1,17 +1,15 @@
 <?php
 
-namespace Modules\Billing\Filament\Frontend\Pages;
+namespace Modules\Billing\Filament\Pages;
 
 use Filament\Actions\ActionGroup;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Http\Request;
-use Modules\Billing\Http\Controllers\SubscribeToPlanController;
-use Modules\Billing\Models\SubscriptionPlan;
-use Modules\Billing\Models\Subscription;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use Modules\Billing\Http\Controllers\SubscribeToPlanController;
+use Modules\Billing\Models\Subscription;
+use Modules\Billing\Models\SubscriptionPlan;
 
 class UserSubscriptionPanel extends Page
 {

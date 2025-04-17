@@ -5,13 +5,13 @@
             Manage Billing Portal
         </a>
     </div>
-    @if(empty($this->groupedSubscriptions))
+    @if(empty($groupedSubscriptions))
         <div class="p-4 bg-yellow-100 text-yellow-800 rounded">
             You have no active subscriptions.
         </div>
     @else
         <div class="space-y-8">
-            @foreach($this->groupedSubscriptions as $groupName => $subscriptions)
+            @foreach($groupedSubscriptions as $groupName => $subscriptions)
                 <div>
                     <h3 class="text-md font-semibold mb-4">{{ $groupName }}</h3>
                     <div class="grid grid-cols-1 md:grid-cols-1 gap-6">

@@ -5,26 +5,19 @@ namespace Modules\Billing\Providers;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use MicroweberPackages\Filament\Http\Middleware\AuthenticateUser;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
-use Modules\Billing\Filament\Frontend\Pages\UserSubscriptionPanel;
-use Modules\Profile\Filament\Pages\EditProfile;
+use Modules\Billing\Filament\Pages\PurchaseCancelPage;
+use Modules\Billing\Filament\Pages\PurchaseSuccessPage;
+use Modules\Billing\Filament\Pages\SubscriptionCancelPage;
+use Modules\Billing\Filament\Pages\SubscriptionSuccessPage;
+use Modules\Billing\Filament\Pages\UserSubscriptionPanel;
 use Modules\Profile\Filament\Pages\ForgotPassword;
 use Modules\Profile\Filament\Pages\Login;
 use Modules\Profile\Filament\Pages\Register;
-use Modules\Profile\Filament\Pages\TwoFactorAuth;
 
 class BillingFilamentFrontendPanelProvider extends PanelProvider
 {
@@ -51,6 +44,10 @@ class BillingFilamentFrontendPanelProvider extends PanelProvider
                 for: 'Modules\\Billing\\Filament\\Frontend\\Pages')
             ->pages([
                 UserSubscriptionPanel::class,
+                SubscriptionSuccessPage::class,
+                SubscriptionCancelPage::class,
+                PurchaseSuccessPage::class,
+                PurchaseCancelPage::class,
             ])
             ->discoverWidgets(in: __DIR__ . '/../Filament/Frontend/Widgets',
                 for: 'Modules\\Billing\\Filament\\Frontend\\Widgets')
