@@ -34,6 +34,7 @@
         $options = [
             'suffix' => $suffix,
             'selectable' => true,
+              'selectedData' => [],
         ];
 
         if (isset($singleSelect) && $singleSelect) {
@@ -53,6 +54,9 @@
         }
     @endphp
 
+
+
+
     <div
 
         ax-load="visible"
@@ -61,8 +65,8 @@
 
         x-data="mwTreeFormComponent({
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
-            options: {{ json_encode($options, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }},
-            params: {{ json_encode($params, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }}
+            options: {{ json_encode($options) }},
+            params: {{ json_encode($params) }}
         })"
 
     >

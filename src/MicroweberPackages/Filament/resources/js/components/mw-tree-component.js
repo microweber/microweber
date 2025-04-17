@@ -19,6 +19,9 @@ export default function mwTreeFormComponent({ state, options = {}, params = {} }
             };
 
 
+            console.log(treeOptions)
+
+
 
 
             const pagesTree = await mw.widget.tree(`#mw-tree-edit-content-${options.suffix}`, treeOptions);

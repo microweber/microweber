@@ -1,19 +1,26 @@
-@props(['selectedCategories', 'selectedPage', 'skipCategories', 'contentType', 'skipPageId', 'isShopFilter'])
+@php
+    use Filament\Support\Facades\FilamentView;
 
+    $id = $getId();
+    $statePath = $getStatePath();
+@endphp
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
     :has-inline-label="$hasInlineLabel"
 >
+
+
     @php
         $id = $this->getId();
-        $statePath = $this->getStatePath();
+      //  $statePath = $this->getStatePath();
         $suffix = $this->getId();
 
         // Prepare the options array
         $options = [
             'suffix' => $suffix,
             'selectable' => true,
+            'selectedData' => [],
         ];
 
         if (isset($singleSelect) && $singleSelect) {
@@ -21,14 +28,14 @@
         }
 
         // Prepare selected data
-        if (isset($selectedPage)) {
+        if (isset($selectedPage) and $selectedPage) {
             $options['selectedData'][] = [
                 'id' => $selectedPage,
                 'type' => 'page'
             ];
         }
 
-        if (isset($selectedCategories)) {
+        if (isset($selectedCategories) and $selectedCategories) {
             foreach ($selectedCategories as $category) {
                 $options['selectedData'][] = [
                     'id' => $category,
@@ -50,6 +57,17 @@
         }
     @endphp
 
+
+
+    <?php
+
+    /*
+    @if($this->data)
+    {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
+    @endif
+     */
+    ?>
+
     <div
 
 
@@ -60,11 +78,16 @@
 
         x-data="mwTreeFormComponent({
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
-            options: {{ json_encode($options, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }},
-            params: {{ json_encode($params, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }}
+            options: {{ json_encode($options) }},
+            params: {{ json_encode($params) }}
         })"
 
     >
         <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"></div>
+
     </div>
+
+
 </x-dynamic-component>
+
+
