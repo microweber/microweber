@@ -106,15 +106,17 @@ class SubscriptionPlanResource extends Resource
                     ->description('Configure external service integration details')
                     ->schema([
                         Forms\Components\Select::make('remote_provider')
+                            ->reactive()
                             ->options([
                                 'stripe' => 'Stripe',
-                                'paypal' => 'PayPal',
-                                'paddle' => 'Paddle',
+                               // 'paypal' => 'PayPal',
+                              //  'paddle' => 'Paddle',
                             ])
                             ->columnSpanFull()
                             ->helperText('The payment provider this plan is integrated with'),
 
                         Forms\Components\Select::make('remote_provider_id')
+                            ->reactive()
                             ->options(function (callable $get) {
                                 $provider = $get('remote_provider');
                                 if (!$provider) {
@@ -132,7 +134,7 @@ class SubscriptionPlanResource extends Resource
 
                         Forms\Components\TextInput::make('remote_provider_price_id')
                             ->columnSpanFull()
-
+                            ->reactive()
                             ->helperText('The price ID from your payment provider')
                             ->visible(fn ($get) => filled($get('remote_provider_id'))),
 
