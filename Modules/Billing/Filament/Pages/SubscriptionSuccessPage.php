@@ -21,4 +21,9 @@ class SubscriptionSuccessPage extends Page
     {
         return '';
     }
+
+    public function getTitle(): string
+    {
+        return '';
+    }
 }

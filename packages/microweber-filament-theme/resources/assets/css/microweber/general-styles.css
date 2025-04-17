@@ -773,8 +773,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .bg-custom-600:not(.fi-fo-toggle) {
 
+
+
     svg  {
-        @apply dark:text-black dark:fill-current;
+        @apply dark:text-black fill-white dark:fill-current;
     }
     @apply dark:bg-slate-50 dark:text-black;
 }
@@ -782,6 +784,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-modal-header svg {
     @apply dark:text-white dark:fill-current;
 }
+
+
 
 .mw-control-boxclose {
     @apply fill-current;
@@ -965,6 +969,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
             @apply dark:fill-current;
         }
     }
+}
+
+.group:hover .group-hover\:bg-white {
+    @apply dark:bg-slate-800;
 }
 
 
