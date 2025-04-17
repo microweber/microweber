@@ -46,9 +46,7 @@
         margin: auto;
         fill: currentColor;
     }
-    .active svg{
-        filter: invert(1);
-    }
+
 </style>
 
 <script>

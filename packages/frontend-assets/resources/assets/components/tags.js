@@ -318,8 +318,15 @@ mw.treeTags = mw.treeChips = function(options){
 
 
     const treeSelectedData = (selectedData) => {
-        return (this.options.selectedData || []).map(obj => {
-            return Object.assign({}, obj, scope.tree.get(obj)._data);
+        return (this.options.selectedData || selectedData || []).map(obj => {
+            let curr =  scope.tree.get(obj);
+            if(!curr) {
+                curr = {};
+                console.warn('Object can not be found in tree data', obj);
+            } else {
+                curr = curr._data || {}
+            }
+            return Object.assign({}, obj, curr);
         });
     }
 
