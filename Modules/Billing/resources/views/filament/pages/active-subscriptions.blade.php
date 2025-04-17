@@ -6,9 +6,27 @@
         </a>
     </div>
     @if(empty($groupedSubscriptions))
-        <div class="p-4 bg-yellow-100 text-yellow-800 rounded">
-            You have no active subscriptions.
+        <div class="mt-10 flex justify-center">
+            <div class="bg-white dark:bg-[#1f2937] p-6 max-w-md text-center">
+                <div class="flex justify-center mb-4">
+                    <div class="bg-yellow-100 dark:bg-yellow-500/10 rounded-full p-3">
+                        <svg class="w-8 h-8 text-yellow-500 dark:text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">No Active Subscriptions</h2>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">You don’t currently have any active subscriptions.</p>
+
+                <div class="mt-5">
+                    <a href="{{ route('filament.billing.pages.new-subscription') }}"
+                       class="inline-block px-5 py-2 bg-primary-500 hover:bg-primary-500 text-white text-sm font-medium rounded-lg transition-all duration-300">
+                        Add Subscription
+                    </a>
+                </div>
+            </div>
         </div>
+
     @else
         <div class="space-y-8">
             @foreach($groupedSubscriptions as $groupName => $subscriptions)
