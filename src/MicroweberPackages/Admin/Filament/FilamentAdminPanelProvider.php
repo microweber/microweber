@@ -249,7 +249,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 $panel->plugin($plugin);
             }
         }
-//getPanelClusters
+
         $panel->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')

@@ -9,6 +9,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Billing\Filament\Pages\ActiveSubscriptions;
 use Modules\Billing\Filament\Pages\PurchaseCancelPage;
@@ -65,6 +66,7 @@ class BillingFilamentFrontendPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
               ->plugin(new MicroweberFilamentTheme())
+              ->plugin(MicroweberFilamentSocialitePlugin::make()->admin()->configure())
 
             ->authMiddleware([
                 Authenticate::class,
