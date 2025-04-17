@@ -159,6 +159,13 @@ class SubscriptionManager
             return ['error' => 'Plan not found'];
         }
 
+
+        $isRecurring = !empty($plan['billing_interval']);
+
+        if (!$isRecurring) {
+            return $this->newPurchase($subscriptionCustomer, $plan);
+        }
+
         $swapFromPlan = $this->findSwapablePlan($plan, $subscriptionCustomer);
 
         return $swapFromPlan
