@@ -56,6 +56,18 @@ module.exports = {
                     900: 'rgba(var(--primary-900), <alpha-value>)',
                     950: 'rgba(var(--primary-950), <alpha-value>)',
                 },
+                custom__old: {
+                    50: '#edf5ff',
+                    100: '#d0e2ff',
+                    200: '#a6c8ff',
+                    300: '#78a9ff',
+                    400: '#4589ff',
+                    500: '#4991fc',
+                    600: '#4592ff',
+                    700: '#0f62fe',
+                    800: '#001d6f',
+                    900: '#001141',
+                },
                 danger: {
                     50: 'rgba(var(--danger-50), <alpha-value>)',
                     100: 'rgba(var(--danger-100), <alpha-value>)',
