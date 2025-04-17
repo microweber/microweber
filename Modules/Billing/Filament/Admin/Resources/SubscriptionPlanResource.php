@@ -12,6 +12,7 @@ use Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
 use Modules\Billing\Filament\Resources\SubscriptionPlanResource\RelationManagers;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Services\StripeService;
+use Modules\Payment\Models\PaymentProvider;
 
 class SubscriptionPlanResource extends Resource
 {
@@ -90,8 +91,7 @@ class SubscriptionPlanResource extends Resource
                             ->options([
                                 'month' => 'Month',
                                 'year' => 'Year',
-                                'lifetime' => 'Lifetime',
-                            ])
+                             ])
                             ->required()
                             ->columnSpanFull()
                             ->helperText('How often customers will be billed'),
@@ -106,17 +106,37 @@ class SubscriptionPlanResource extends Resource
                     ->description('Configure external service integration details')
                     ->schema([
                         Forms\Components\Select::make('remote_provider')
+                            ->reactive()
                             ->options([
                                 'stripe' => 'Stripe',
-                                'paypal' => 'PayPal',
-                                'paddle' => 'Paddle',
+
                             ])
                             ->columnSpanFull()
                             ->helperText('The payment provider this plan is integrated with'),
+
+                        Forms\Components\Select::make('remote_provider_id')
+                            ->reactive()
+                            ->options(function (callable $get) {
+                                $provider = $get('remote_provider');
+                                if (!$provider) {
+                                    return [];
+                                }
+                                return PaymentProvider::where('is_active', 1)
+                                    ->where('provider', $provider)
+                                    ->pluck('name', 'id')
+                                    ->toArray();
+                            })
+                            ->searchable()
+                            ->columnSpanFull()
+                            ->helperText('Select the payment provider instance')
+                            ->visible(fn ($get) => filled($get('remote_provider'))),
+
                         Forms\Components\TextInput::make('remote_provider_price_id')
                             ->columnSpanFull()
+                            ->reactive()
                             ->helperText('The price ID from your payment provider')
-                            ->visible(fn(Forms\Get $get) => $get('remote_provider') !== null),
+                            ->visible(fn ($get) => filled($get('remote_provider_id'))),
+
                     ])->columns(1),
             ]);
     }

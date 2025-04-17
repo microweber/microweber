@@ -34,6 +34,7 @@ return new class extends Migration
             $table->integer('trial_days')->nullable();
             $table->string('default_interval')->nullable();
             $table->string('remote_provider')->nullable();
+            $table->string('remote_provider_id')->nullable();
             $table->string('remote_provider_price_id')->nullable();
             $table->integer('alternative_annual_plan_id')->nullable();
             $table->integer('sort_order')->nullable();

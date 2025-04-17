@@ -28,6 +28,7 @@ class SubscriptionPlan extends Model
         'sku',
         'subscription_plan_group_id',
         'remote_provider',
+        'remote_provider_id',
         'remote_provider_price_id',
         'price',
         'discount_price',

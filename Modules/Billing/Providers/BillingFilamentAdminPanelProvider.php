@@ -27,7 +27,7 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->sidebarWidth('15rem')
             ->databaseNotifications(true)
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Purple,
             ])
             ->discoverResources(
                 in: __DIR__ . '/../Filament/Admin/Resources',
