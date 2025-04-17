@@ -109,8 +109,7 @@ class SubscriptionPlanResource extends Resource
                             ->reactive()
                             ->options([
                                 'stripe' => 'Stripe',
-                               // 'paypal' => 'PayPal',
-                              //  'paddle' => 'Paddle',
+
                             ])
                             ->columnSpanFull()
                             ->helperText('The payment provider this plan is integrated with'),
