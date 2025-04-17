@@ -9,9 +9,9 @@ class ActiveSubscriptions extends Page
 {
     protected static string $view = 'modules.billing::filament.pages.active-subscriptions';
 
-    protected static ?string $title = 'My Active Subscriptions';
+    protected static ?string $title = 'Active Subscriptions';
 
-    protected static ?string $slug = 'my-active-subscriptions';
+    protected static ?string $slug = 'active-subscriptions';
 
     public array $groupedSubscriptions = [];
 

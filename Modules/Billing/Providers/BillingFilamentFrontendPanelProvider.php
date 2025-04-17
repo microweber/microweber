@@ -10,6 +10,7 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
+use Modules\Billing\Filament\Pages\ActiveSubscriptions;
 use Modules\Billing\Filament\Pages\PurchaseCancelPage;
 use Modules\Billing\Filament\Pages\PurchaseSuccessPage;
 use Modules\Billing\Filament\Pages\SubscriptionCancelPage;
@@ -44,6 +45,7 @@ class BillingFilamentFrontendPanelProvider extends PanelProvider
                 for: 'Modules\\Billing\\Filament\\Frontend\\Pages')
             ->pages([
                 UserSubscriptionPanel::class,
+                ActiveSubscriptions::class,
                 SubscriptionSuccessPage::class,
                 SubscriptionCancelPage::class,
                 PurchaseSuccessPage::class,

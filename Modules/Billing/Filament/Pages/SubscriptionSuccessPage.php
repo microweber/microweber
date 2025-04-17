@@ -14,6 +14,9 @@ class SubscriptionSuccessPage extends Page
 
     protected static ?string $title = 'Subscription Successful';
 
+    protected static bool $shouldRegisterNavigation = false;
+
+
     public function getBreadcrumb(): string
     {
         return '';

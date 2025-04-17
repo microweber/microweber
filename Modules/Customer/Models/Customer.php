@@ -39,6 +39,7 @@ class Customer extends Model
         'customer_data',
         'user_id',
         'currency_id',
+        'currency',
         'company_id',
 
         'stripe_id',

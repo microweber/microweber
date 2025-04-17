@@ -130,7 +130,10 @@ class SubscriptionManager
         if (!$subscriptionCustomer->email) {
             $subscriptionCustomer->email = $subscriptionCustomer->getEmail();
         }
-        if ($subscriptionCustomer->stripe_id) {
+
+
+
+       if ($subscriptionCustomer->stripe_id) {
             $stripe = $subscriptionCustomer->stripe();
             try {
                 $stripe->customers->retrieve($subscriptionCustomer->stripe_id);
