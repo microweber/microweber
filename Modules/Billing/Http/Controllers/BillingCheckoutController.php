@@ -14,6 +14,8 @@ class BillingCheckoutController
     public function billingPortal(Request $request)
     {
         $user = Auth::user();
+
+
         if (!$user) {
             return redirect()->route('login');
         }

@@ -35,7 +35,6 @@ class SubscriptionManager
         $currencyCode = get_currency_code();
 
 
-
         //   Stripe
         $service = app()->make(\Modules\Billing\Services\StripeService::class);
         /**
@@ -51,14 +50,14 @@ class SubscriptionManager
         $order->last_name = $subscriptionCustomer->last_name;
         $order->payment_provider = $payment_provider;
         $order->payment_provider_id = $payment_provider_id;
-        $order->email = $subscriptionCustomer->email();
+        $order->email = $subscriptionCustomer->getEmail();
         $order->currency = $currencyCode;
         $order->amount = $cartTotal;
         $order->rel_type = morph_name(SubscriptionPlan::class);
         $order->rel_id = $plan['id'];
         $order->is_paid = $isPaid;
         $order->order_completed = $isPaid;
-        $order->transaction_id = $isPaid ? 'billing-order-'.time().rand(1111,99999) : null;
+        $order->transaction_id = $isPaid ? 'billing-order-' . time() . rand(1111, 99999) : null;
         $order->save();
 
         $this->attachCartItemsToOrder($order);
@@ -126,8 +125,11 @@ class SubscriptionManager
 
         $subscriptionCustomer = SubscriptionCustomer::firstOrCreate([
             'user_id' => $user->id,
+            'email' => $user->email,
         ]);
-
+        if (!$subscriptionCustomer->email) {
+            $subscriptionCustomer->email = $subscriptionCustomer->getEmail();
+        }
         if ($subscriptionCustomer->stripe_id) {
             $stripe = $subscriptionCustomer->stripe();
             try {
@@ -219,7 +221,7 @@ class SubscriptionManager
         return $updateSub;
     }
 
-    public function newSubscription(SubscriptionCustomer $subscriptionCustomer, $plan) : \Laravel\Cashier\Checkout
+    public function newSubscription(SubscriptionCustomer $subscriptionCustomer, $plan): \Laravel\Cashier\Checkout
     {
         $cart = $this->handleCart($plan);
         $order = $this->createOrder($subscriptionCustomer, $plan);
@@ -234,7 +236,7 @@ class SubscriptionManager
         return $response;
     }
 
-    public function newPurchase(SubscriptionCustomer $subscriptionCustomer, $plan)  : \Laravel\Cashier\Checkout
+    public function newPurchase(SubscriptionCustomer $subscriptionCustomer, $plan): \Laravel\Cashier\Checkout
     {
         $cart = $this->handleCart($plan);
         $order = $this->createOrder($subscriptionCustomer, $plan);

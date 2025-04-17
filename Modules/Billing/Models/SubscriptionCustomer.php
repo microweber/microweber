@@ -18,6 +18,11 @@ class SubscriptionCustomer extends Customer
     {
         return $this->hasMany(\Modules\Billing\Models\Subscription::class, 'customer_id');
     }
+//    public function stripeEmail(): string|null
+//    {
+//        dd(323);
+//    }
+
 
     // public function routeNotificationForMail(Notification $notification): array|string
     // {

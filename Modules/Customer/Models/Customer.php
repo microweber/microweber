@@ -245,6 +245,8 @@ class Customer extends Model
 
     public function email()
     {
+       // Modules\Billing\Models\SubscriptionCustomer::email must return a relationship instance.
+
         return $this->getEmail();
     }
     public function getEmail()
@@ -286,6 +288,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Currency::class);
     }
-
+    public function stripeEmail()
+    {
+        return $this->getEmail();
+    }
 
 }
