@@ -145,7 +145,6 @@ class MicroweberFilamentTheme implements Plugin
             'infolists::components.icon-entry.true' => 'heroicon-s-check-circle',
 
             'notifications::database.modal.empty-state' => 'heroicon-s-bell-slash',
-            'notifications::database.modal.empty-state' => 'heroicon-s-bell-slash',
 
             'panels::pages.dashboard.navigation-item' => 'heroicon-m-home',
             'panels::resources.pages.edit-record.navigation-item' => 'heroicon-m-pencil-square',

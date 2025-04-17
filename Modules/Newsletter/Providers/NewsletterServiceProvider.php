@@ -51,12 +51,14 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(TemplateEditor::class);
 
         // Register Microweber Icons set
-        $this->callAfterResolving(Factory::class, function (Factory $factory) {
-            $factory->add('newsletter', [
-                'path' => realpath(__DIR__ . '/../resources/svg'),
-                'prefix' => 'newsletter',
-            ]);
-        });
+        if(is_dir(realpath(__DIR__ . '/../resources/svg'))) {
+            $this->callAfterResolving(Factory::class, function (Factory $factory) {
+                $factory->add('newsletter', [
+                    'path' => realpath(__DIR__ . '/../resources/svg'),
+                    'prefix' => 'newsletter',
+                ]);
+            });
+        }
         $this->loadViewsFrom((dirname(__DIR__)) . '/resources/views', 'microweber-module-newsletter');
         Event::listen(ServingFilament::class, function () {
             Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
