@@ -20,4 +20,9 @@ class PurchaseSuccessPage extends Page
     {
         return '';
     }
+
+    public function getTitle(): string
+    {
+        return '';
+    }
 }
