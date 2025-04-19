@@ -1,13 +1,48 @@
 <?php
 /**
-* Created by PhpStorm.
+ * Created by PhpStorm.
  * User: Bojidar
-* Date: 10/7/2020
-* Time: 5:50 PM
-*/
+ * Date: 10/7/2020
+ * Time: 5:50 PM
+ */
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+
+
+
+
+Route::name('api.auth.')
+    ->prefix('api/auth')
+    ->middleware([
+        'api.public',
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
+    ->group(function () {
+        Route::post('login', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@login')
+            ->name('login')
+            ->middleware(['allowed_ips', 'throttle:60,1']);
+
+        Route::post('logout', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@logout')
+            ->name('logout')
+            ->middleware(['auth:sanctum']);
+    });
+
+Route::post('/api/auth/refreshToken', function (Request $request) {
+    $user = $request->user();
+
+    if (!$user || !$request->user()->tokenCan('refresh')) {
+        return response()->json(['message' => 'Invalid refresh token'], 403);
+    }
+
+    // Create new access token
+    $newToken = $user->createToken('access', ['access'])->plainTextToken;
+
+    return response()->json([
+        'access_token' => $newToken
+    ]);
+})->middleware('auth:sanctum')->name('api.auth.refreshToken');
+
 
 Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $request) {
 
@@ -15,7 +50,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
         return array('error' => 'You must be logged');
     }
 
-    $userId = (int) $request->all()['user_id'];
+    $userId = (int)$request->all()['user_id'];
 
     $allowToExport = false;
     if ($userId == user_id()) {
@@ -33,7 +68,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
     $tablesList = mw()->database_manager->get_tables_list(true);
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
-        $columns  = \Illuminate\Support\Facades\Schema::getColumnListing($table);
+        $columns = \Illuminate\Support\Facades\Schema::getColumnListing($table);
         if (in_array('created_by', $columns)) {
             $exportFromTables[] = $table;
         }
@@ -58,9 +93,8 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 
 // Admin web
 Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->group(function () {
-    Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@index')->name('admin.login')->middleware(['allowed_ips']);
+    Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class . '@index')->name('admin.login')->middleware(['allowed_ips']);
 });
-
 
 
 // OLD API SAVE USER
@@ -68,7 +102,7 @@ Route::post('api/save_user', function (\Illuminate\Http\Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
-    if(!is_logged()){
+    if (!is_logged()) {
         App::abort(403, 'Unauthorized action.');
     }
 
@@ -81,7 +115,7 @@ Route::post('api/delete_user', function (\Illuminate\Support\Facades\Request $re
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
-    if(!is_admin()){
+    if (!is_admin()) {
         App::abort(403, 'Unauthorized action.');
     }
     $input = $request->all();
@@ -101,7 +135,7 @@ Route::name('api.')
 
         Route::post('user_login', function () {
             return user_login(request()->all());
-        })->name('user_login')->middleware(['allowed_ips','throttle:60,1']);
+        })->name('user_login')->middleware(['allowed_ips', 'throttle:60,1']);
 
     });
 
@@ -109,32 +143,32 @@ Route::name('api.user.')
     ->prefix('api/user')
     ->middleware([
         'api.public',
-      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
         \MicroweberPackages\App\Http\Middleware\XSS::class
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers')
     ->group(function () {
 
-    Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
-    Route::any('logout', 'UserLoginController@logout')->name('logout')->excludedMiddleware(
-        \MicroweberPackages\App\Http\Middleware\XSS::class
-    );
-    Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
+        Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips', 'throttle:60,1']);
+        Route::any('logout', 'UserLoginController@logout')->name('logout')->excludedMiddleware(
+            \MicroweberPackages\App\Http\Middleware\XSS::class
+        );
+        Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 
-    Route::post('/forgot-password', 'UserForgotPasswordController@send')
-        ->middleware(['throttle:120,10'])
-        ->name('password.email');
-    Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
+        Route::post('/forgot-password', 'UserForgotPasswordController@send')
+            ->middleware(['throttle:120,10'])
+            ->name('password.email');
+        Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
 
-    Route::post('/profile-update', 'UserProfileController@update')->name('profile.update');
+        Route::post('/profile-update', 'UserProfileController@update')->name('profile.update');
 
-});
+    });
 
 Route::name('api.')
     ->prefix('api')
     ->middleware([
         'api',
-      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
         \MicroweberPackages\App\Http\Middleware\XSS::class
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
@@ -146,8 +180,8 @@ Route::name('api.')
                 \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class
             ])
             ->excludedMiddleware(
-           'api'
-        );;
+                'api'
+            );;
 
-        Route::apiResource('user', 'UserApiController')->middleware(['admin','xss']);
+        Route::apiResource('user', 'UserApiController')->middleware(['admin', 'xss']);
     });

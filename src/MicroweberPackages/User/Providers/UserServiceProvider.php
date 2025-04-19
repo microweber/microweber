@@ -15,6 +15,7 @@ use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Laravel\Passport\Passport;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
@@ -130,6 +131,9 @@ class UserServiceProvider extends AuthServiceProvider
      //   Passport::ignoreMigrations();
 
 
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::personalAccessTokensExpireIn(now()->addYear());
 
         // Register Validators
         Validator::extendImplicit(
