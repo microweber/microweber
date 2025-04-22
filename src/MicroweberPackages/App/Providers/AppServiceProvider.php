@@ -602,6 +602,9 @@ class AppServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('admin', AuthenticateSession::class);
         $router->pushMiddlewareToGroup('admin', \MicroweberPackages\Admin\Http\Middleware\Admin::class);
 
+
+        //$router->pushMiddlewareToGroup('api', \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class);
+
         $router->pushMiddlewareToGroup('api', \Illuminate\Session\Middleware\StartSession::class);
         $router->pushMiddlewareToGroup('api', \Illuminate\Cookie\Middleware\EncryptCookies::class);
         $router->pushMiddlewareToGroup('api', \Illuminate\View\Middleware\ShareErrorsFromSession::class);

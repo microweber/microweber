@@ -15,33 +15,41 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.auth.')
     ->prefix('api/auth')
     ->middleware([
-        'api.public',
-        \MicroweberPackages\App\Http\Middleware\XSS::class
+      //  'api.public',
+       \MicroweberPackages\App\Http\Middleware\XSS::class
     ])
     ->group(function () {
+
+        Route::post('refreshToken', function (\Illuminate\Http\Request $request) {
+
+
+            $user = $request->user();
+
+
+
+            if (!$user || !$request->user()->tokenCan('refresh')) {
+                return response()->json(['message' => 'Invalid refresh token'], 403);
+            }
+
+            // Create new access token
+            $token = $user->createToken('access', ['access'])->plainTextToken;
+
+            return response()->json([
+                'token' => $token,
+            ]);
+        })->middleware(['api'])->name('refreshToken');
+
+
         Route::post('login', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@login')
             ->name('login')
             ->middleware(['allowed_ips', 'throttle:60,1']);
 
         Route::post('logout', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@logout')
             ->name('logout')
-            ->middleware(['auth:sanctum']);
+            ->middleware(['api']);
     });
 
-Route::post('/api/auth/refreshToken', function (Request $request) {
-    $user = $request->user();
 
-    if (!$user || !$request->user()->tokenCan('refresh')) {
-        return response()->json(['message' => 'Invalid refresh token'], 403);
-    }
-
-    // Create new access token
-    $newToken = $user->createToken('access', ['access'])->plainTextToken;
-
-    return response()->json([
-        'access_token' => $newToken
-    ]);
-})->middleware('auth:sanctum')->name('api.auth.refreshToken');
 
 
 Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $request) {

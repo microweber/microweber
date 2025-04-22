@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use MicroweberPackages\Core\Models\HasSearchableTrait;

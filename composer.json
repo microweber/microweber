@@ -70,7 +70,7 @@
     "laravel/dusk": "*",
     "laravel/fortify": "*",
     "laravel/passport": "*",
-    "laravel/sanctum": "*",
+    "laravel/sanctum": "^4.0",
     "laravel/socialite": "*",
     "laravel/tinker": "^2.9",
     "lcobucci/jwt": "*",
