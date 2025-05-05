@@ -24,6 +24,10 @@ if (!function_exists('gd_info')) {
     exit('Error: GD PHP extension is required to run Microweber');
 }
 
+if (!function_exists('mb_convert_encoding')) {
+    exit('Error: MBString PHP extension is required to run Microweber');
+}
+
 if (!class_exists('PDO') ) {
     exit('Error: PDO PHP extension is required to run Microweber');
 }
