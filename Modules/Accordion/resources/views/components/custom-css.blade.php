@@ -12,6 +12,13 @@
             $accordionBorderColor = $accordionBorderColor . '!important;';
         }
 
+    if (isset($accordionContentColor) and $accordionContentColor) {
+            $accordionContentColor = $accordionContentColor . '!important;';
+        }
+
+     if (isset($accordionTextColor) and $accordionTextColor) {
+            $accordionTextColor = $accordionTextColor . '!important;';
+        }
 @endphp
 
 <style>
@@ -22,6 +29,14 @@
         &:hover {
             background-color: {{$accordionHoverColor}};
         }
+    }
+
+    #{{ $params['id'] }} .mw-accordion-text-color {
+        color: {{$accordionTextColor}};
+    }
+
+    #{{ $params['id'] }} .mw-accordion-module-content {
+        background-color: {{$accordionContentColor}};
     }
 
 </style>

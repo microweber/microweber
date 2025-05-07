@@ -26,6 +26,26 @@
             "help": "The style of the accordion",
             "options": {
             }
+        },
+
+        {
+            "type": "color",
+            "label": "accordion content color",
+            "name": "accordionContentColor",
+            "placeholder": "Select accordion content color",
+            "help": "The style of the accordion",
+            "options": {
+            }
+        },
+
+        {
+            "type": "color",
+            "label": "accordion text color",
+            "name": "accordionTextColor",
+            "placeholder": "Select accordion text color",
+            "help": "The style of the accordion",
+            "options": {
+            }
         }
     ]
 }
