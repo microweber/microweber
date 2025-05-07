@@ -21,6 +21,9 @@
     @php $accordion = $defaults @endphp
 @endif
 
+@include('modules.accordion::components.custom-css')
+
+
 <style>
     .misc-skin-12 .tab-pane .element {
         display: flex;

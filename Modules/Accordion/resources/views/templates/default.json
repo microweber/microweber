@@ -1,0 +1,31 @@
+{
+    "schema": [
+        {
+            "type": "color",
+            "label": "accordion color",
+            "name": "accordionColor",
+            "placeholder": "Select accordion style",
+            "help": "The style of the accordion",
+            "options": {
+            }
+        },
+        {
+            "type": "color",
+            "label": "accordion hover color",
+            "name": "accordionHoverColor",
+            "placeholder": "Select hover style",
+            "help": "The style of the accordion",
+            "options": {
+            }
+        },
+        {
+            "type": "color",
+            "label": "accordion border color",
+            "name": "accordionBorderColor",
+            "placeholder": "Select accordion border color",
+            "help": "The style of the accordion",
+            "options": {
+            }
+        }
+    ]
+}

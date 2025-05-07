@@ -31,6 +31,9 @@
     })
 </script>
 
+@include('modules.accordion::components.custom-css')
+
+
 <div id="mw-accordion-module-{{ $params['id'] }}">
     @foreach ($accordion as $key => $slide)
         @php
