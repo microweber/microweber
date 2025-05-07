@@ -636,6 +636,13 @@
         background-position: center top;
     }
 
+    .mw-reset-content-content-box {
+        max-height: 400px;
+        overflow: auto;
+        margin-bottom: 40px;
+        padding-bottom: 68px;
+    }
+
 </style>
 
 <div class="mw-reest-content-wrapper position-relative">
@@ -657,12 +664,7 @@
         </div>
     </div>
 
-    <div class="card p-3 border" style="
-    max-height: 367px;
-
-    overflow: auto;
-    margin-bottom: 40px;
-    padding-bottom: 68px;">
+    <div class="card p-3 border mw-reset-content-content-box">
         <div class="card-header p-3">
             <label class="mw-ui-check">
                 <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>
