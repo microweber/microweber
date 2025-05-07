@@ -29,6 +29,10 @@
         &:hover {
             background-color: {{$accordionHoverColor}};
         }
+
+        i.mdi {
+            color: {{$accordionTextColor}};
+        }
     }
 
     #{{ $params['id'] }} .mw-accordion-text-color {
