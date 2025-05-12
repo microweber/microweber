@@ -2,16 +2,16 @@
 
 namespace Modules\Ai\Services;
 
-use Modules\Ai\Services\Contracts\AiServiceInterface;
-use Modules\Ai\Services\Drivers\OpenAiDriver;
 use InvalidArgumentException;
+use Modules\Ai\Services\Drivers\AiServiceInterface;
+use Modules\Ai\Services\Drivers\OpenAiDriver;
 
 class AiService implements AiServiceInterface
 {
     /**
      * The active driver instance.
      *
-     * @var AiServiceInterface
+     * @var \Modules\Ai\Services\Drivers\AiServiceInterface
      */
     protected AiServiceInterface $driver;
 
@@ -38,7 +38,7 @@ class AiService implements AiServiceInterface
      *
      * @param string $driver
      * @param array $config
-     * @return AiServiceInterface
+     * @return \Modules\Ai\Services\Drivers\AiServiceInterface
      *
      * @throws InvalidArgumentException
      */

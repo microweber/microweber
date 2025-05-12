@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Ai\Services\Contracts;
+namespace Modules\Ai\Services\Drivers;
 
 interface AiServiceInterface
 {

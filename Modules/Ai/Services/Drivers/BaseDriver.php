@@ -2,8 +2,6 @@
 
 namespace Modules\Ai\Services\Drivers;
 
-use Modules\Ai\Services\Contracts\AiServiceInterface;
-
 abstract class BaseDriver implements AiServiceInterface
 {
     /**

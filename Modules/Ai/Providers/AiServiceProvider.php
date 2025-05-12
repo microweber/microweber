@@ -3,13 +3,12 @@
 namespace Modules\Ai\Providers;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
 use Modules\Ai\Services\AiService;
-use Modules\Ai\Services\Contracts\AiServiceInterface;
-use Modules\Settings\Filament\Pages\Settings;
+use Modules\Ai\Services\Drivers\AiServiceInterface;
 
 class AiServiceProvider extends BaseModuleServiceProvider
 {
@@ -60,16 +59,19 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
         $this->registerConfig();
         $this->registerViews();
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         // Register the AI service as a singleton
-        $this->app->singleton(AiServiceInterface::class, function ($app) {
+        $this->app->singleton('ai', function ($app) {
             return new AiService(
                 config('modules.ai.default'),
                 config('modules.ai.drivers')
             );
         });
         FilamentRegistry::registerPage(AiSettingsPage::class);
-        //  FilamentRegistry::registerPage(AiSettingsPage::class,Settings::class);
+
+        LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
 
 
     }
