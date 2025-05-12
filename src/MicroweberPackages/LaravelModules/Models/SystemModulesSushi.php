@@ -26,8 +26,8 @@ class SystemModulesSushi extends Model
         'priority',
         'sort',
         'status',
-        'icon',
-        'iconSvg' => 'string',
+      //  'icon',
+      //  'iconSvg' => 'string',
 
     ];
 
@@ -50,8 +50,8 @@ class SystemModulesSushi extends Model
             'sort' => 'integer',
             'status' => 'boolean',
 
-            'icon' => 'string',
-            'iconSvg' => 'string',
+        //    'icon' => 'string',
+          //  'iconSvg' => 'string',
         ];
     }
 
@@ -81,8 +81,8 @@ class SystemModulesSushi extends Model
                 'priority' => (int)$module->get('priority', 1024),
                 'sort' => (int)$module->get('order', 0),
                 'status' => true,
-                'icon' => $this->getModuleIcon($module),
-                'iconSvg' => $this->getModuleIcon($module),
+           //     'icon' => $this->getModuleIcon($module),
+              //  'iconSvg' => $this->getModuleIcon($module),
             ];
         }
 
@@ -124,7 +124,14 @@ class SystemModulesSushi extends Model
      */
     public function getIconInline()
     {
-        return $this->icon;
+      //  return $this->icon;
+        $module = app()->modules->find( $this->name);
+
+        if(!$module){
+            return '';
+        }
+
+        return $this->getModuleIcon($module);
     }
 
     /**
