@@ -37,7 +37,7 @@ return [
         ],
 
         'openrouter' => [
-            'default_model' => env('OPENROUTER_DEFAULT_MODEL', 'meta-llama/llama-3.3-70b-instruct'),
+            'model' => env('OPENROUTER_MODEL', 'meta-llama/llama-3.3-70b-instruct'),
             'use_cache' => env('OPENROUTER_USE_CACHE', false),
             'cache_duration' => env('OPENROUTER_CACHE_DURATION', 600), // minutes
             'api_key' => env('OPENROUTER_API_KEY'),

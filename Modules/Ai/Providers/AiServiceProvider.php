@@ -3,9 +3,12 @@
 namespace Modules\Ai\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Ai\Filament\Pages\AiSettingsPage;
 use Modules\Ai\Services\AiService;
 use Modules\Ai\Services\Contracts\AiServiceInterface;
+use Modules\Settings\Filament\Pages\Settings;
 
 class AiServiceProvider extends BaseModuleServiceProvider
 {
@@ -27,6 +30,11 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 config('modules.ai.drivers')
             );
         });
+        FilamentRegistry::registerPage(AiSettingsPage::class);
+      //  FilamentRegistry::registerPage(AiSettingsPage::class,Settings::class);
+
+
+
     }
 
 

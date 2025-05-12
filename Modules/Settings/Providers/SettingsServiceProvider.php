@@ -5,7 +5,6 @@ namespace Modules\Settings\Providers;
 
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use Modules\Register\Filament\Pages\Admin\AdminRegisterSettingsPage;
 use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminCustomTagsPage,
     AdminEmailPage,
