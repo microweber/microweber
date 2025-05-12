@@ -22,6 +22,13 @@ class AccordionModule extends BaseModule
         $rel_type = $this->params['rel_type'] ?? 'module';
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
         $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
+
+        $viewData['accordionColor'] = $viewData['options']['accordionColor'] ?? 'var(--mw-primary-color);';
+        $viewData['accordionHoverColor'] = $viewData['options']['accordionHoverColor'] ?? 'var(--mw-primary-color);';
+        $viewData['accordionBorderColor'] = $viewData['options']['accordionBorderColor'] ?? 'var(--mw-primary-color);';
+        $viewData['accordionContentColor'] = $viewData['options']['accordionContentColor'] ?? '#ffffff;';
+        $viewData['accordionTextColor'] = $viewData['options']['accordionTextColor'] ?? '#000;';
+
         $viewData['defaults'] = [
             [
                 'title' => 'Open settings and type your title',

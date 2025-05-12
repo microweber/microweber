@@ -30,6 +30,9 @@
     })
 </script>
 
+@include('modules.accordion::components.custom-css')
+
+
 <div class="accordion background-color-element element" id="mw-accordion-module-{{ $params['id'] }}">
     @foreach ($accordion as $key => $slide)
         @php
@@ -41,11 +44,11 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button  mw-accordion-module-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
                         aria-expanded="true"
                         aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}{{ isset($slide['title']) ? $slide['title'] : '' }}
+                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }} <span class="mw-accordion-text-color"> {{ isset($slide['title']) ? $slide['title'] : '' }}</span>
                 </button>
             </h2>
 
@@ -53,7 +56,7 @@
                  class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}"
                  aria-labelledby="header-item-{{ $edit_field_key }}"
                  data-parent="#mw-accordion-module-{{ $params['id'] }}">
-                <div class="accordion-body">
+                <div class="accordion-body mw-accordion-module-content">
                     @include('modules.accordion::partials.render_accordion_item_content')
                 </div>
             </div>

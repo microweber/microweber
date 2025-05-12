@@ -636,16 +636,18 @@
         background-position: center top;
     }
 
+    .mw-reset-content-content-box {
+        max-height: 400px;
+        overflow: auto;
+        margin-bottom: 40px;
+        padding-bottom: 68px;
+    }
+
 </style>
 
 <div class="mw-reest-content-wrapper position-relative">
 
     <div class="d-flex align-items-center gap-4 mb-4">
-        <div>
-            <span class="mdi mdi-alert mw-color-important" style="font-size:45px"></span>
-        </div>
-
-
         <div class="d-flex align-items-center gap-4 mb-4">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" height="45px" viewBox="0 -960 960 960" width="45px"
@@ -662,7 +664,7 @@
         </div>
     </div>
 
-    <div class="card p-3 border">
+    <div class="card p-3 border mw-reset-content-content-box">
         <div class="card-header p-3">
             <label class="mw-ui-check">
                 <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>

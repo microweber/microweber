@@ -177,6 +177,13 @@ $handleholderHeight: 42;
     }
 }
 
+.mw-handle-item {
+    .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
+        background-color: var(--light-bg);
+        color: rgb(0, 0, 0);
+    }
+}
+
 html.dark, html[data-mw-theme="dark"]{
     .mw-handle-item {
         .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{

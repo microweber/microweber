@@ -42,9 +42,10 @@
     })
 </script>
 
+@include('modules.accordion::components.custom-css')
+
 <style>
     .mw-accordion-faq-skin-button {
-        background-color: #F9F9F9;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -76,13 +77,13 @@
             @endphp
             <div class="mw-accordion-faq-skin-card card mb-3 {{ $key == 0 ? 'active' : '' }}">
                 <div class="mw-accordion-faq-skin-header card-header p-0" id="header-item-{{ $edit_field_key }}">
-                    <button class="mw-accordion-faq-skin-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                        <h5 class="ps-2 mb-0"> {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }} {{ isset($slide['title']) ? $slide['title'] : '' }} </h5>
+                    <button class="mw-accordion-faq-skin-button  mw-accordion-module-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
+                        <h5 class="ps-2 mb-0 mw-accordion-text-color"> {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }} {{ isset($slide['title']) ? $slide['title'] : '' }} </h5>
                         <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
                     </button>
                 </div>
                 <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
-                    <div class="card-body py-3 px-4">
+                    <div class="card-body mw-accordion-module-content py-3 px-4">
                         @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
                 </div>

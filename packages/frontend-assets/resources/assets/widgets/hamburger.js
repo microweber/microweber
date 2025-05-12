@@ -91,7 +91,7 @@ class MWSiteMobileMenuService {
         }
 
         const holder = document.querySelector('.navigation-holder');
-        this.$block.style.top =  `${(holder ? holder.offsetHeight : 0)}px`;
+        this.$block.style.top =  `${(holder ? (holder.offsetHeight + (holder.getBoundingClientRect().top + scrollY)) : 0)}px`;
         this.$block.style.maxHeight = `calc(100vh - ${this.$block.style.top})`;
 
         document.body.classList[action]('mw-vhmbgr-menu-active');
