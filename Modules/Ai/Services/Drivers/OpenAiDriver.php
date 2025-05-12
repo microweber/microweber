@@ -47,7 +47,7 @@ class OpenAiDriver extends BaseDriver
      * @return string|array The generated content or function call response array containing:
      *                      ['function_call' => object, 'content' => ?string]
      */
-    public function sendToChat(array $messages, array $options = []): string|array
+    public function sendToChat(array $messages, array $options = [], ?array $schema = null): string|array
     {
         $params = [
             'model' => $options['model'] ?? 'gpt-3.5-turbo',
