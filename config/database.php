@@ -48,23 +48,23 @@ return [
     'connections' => [
 
         'sqlite' => [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => env('DB_DATABASE_FILENAME') ? database_path(env('DB_DATABASE_FILENAME')) : env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix'   => env('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
         'mysql' => [
-            'driver'    => 'mysql',
+            'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => env('DB_PREFIX', ''),
+            'charset' => 'utf8',
+         //   'collation' => 'utf8_unicode_ci',
+            'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
-            'strict'    => false,
+            'strict' => false,
         ],
 
         'pgsql' => [
@@ -83,12 +83,12 @@ return [
         ],
 
         'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' =>  env('DB_DATABASE', 'laravel'),
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
-            'prefix'   => env('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
     ],
@@ -122,8 +122,8 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => '127.0.0.1',
-            'port'     => 6379,
+            'host' => '127.0.0.1',
+            'port' => 6379,
             'database' => 0,
         ],
 
