@@ -177,6 +177,10 @@ body {
 
 #mw-live-edit-search-content {
     @apply max-w-[400px];
+
+    .form-select {
+        @apply dark:text-white;
+    }
 }
 
 #mw-dialog-holder-mw-add-content-editor-front {
@@ -333,6 +337,14 @@ h1,h2,h3,h4,h5,h6 {
 /* s-field-content styles */
 .s-field-content {
     @apply flex flex-col;
+
+    .active {
+        @apply dark:!bg-slate-900;
+    }
+
+    svg {
+        @apply fill-current dark:!fill-white;
+    }
 }
 
 /* mw-multiple-fields styles */

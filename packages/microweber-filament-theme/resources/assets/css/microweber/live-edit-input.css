@@ -30,7 +30,21 @@
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    @apply border-none flex-1 text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full bg-[#f0f0f0] pl-[10px];
+    @apply border-none flex-1 text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full bg-[#f0f0f0] pl-[10px] dark:!bg-slate-900;
+    span {
+        @apply dark:text-white;
+
+    }
+
+    option {
+        @apply dark:!text-white;
+    }
+
+    li > span{
+        &:hover {
+           @apply dark:bg-slate-700;
+        }
+    }
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
