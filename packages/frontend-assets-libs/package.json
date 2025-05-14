@@ -14,6 +14,7 @@
     "dependencies": {
         "@mdi/font": "^7.4.47",
         "async-alpine": "^2.0.1",
+        "bootstrap-datepicker": "^1.10.0",
         "bxslider": "^4.2.17",
         "codemirror": "^5.65.18",
         "copy-webpack-plugin": "^12.0.2",

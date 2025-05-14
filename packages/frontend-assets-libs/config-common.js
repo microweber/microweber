@@ -27,6 +27,7 @@ const nodeModulesScripts = [
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.js`, process: false},
     {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
+       {target: `bootstrap_datepicker`, path: `node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js`, process: false},
 
     {
         target: `rangy`,
@@ -66,7 +67,7 @@ const css = [
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.css` },
 
     {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.css`},
-
+   {target: `bootstrap_datepicker`, path: `node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css`},
 
 ];
 
