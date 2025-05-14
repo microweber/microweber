@@ -43,7 +43,8 @@ class AiSettingsPage extends AdminSettingsPage
                                 'openrouter' => 'OpenRouter',
                                 'ollama' => 'Ollama',
                                 'gemini' => 'Google Gemini',
-                            ]),
+                            ])
+                        ->helperText('Select the provider to use for AI text generation tasks'),
 
                         Select::make('options.ai.default_driver_images')
                             ->label('Set default AI provider for image generation')
@@ -150,7 +151,7 @@ class AiSettingsPage extends AdminSettingsPage
                         TextInput::make('options.ai.ollama_api_url')
                             ->live()
                             ->label('Ollama API URL')
-                            ->placeholder('Enter your Ollama API URL (e.g., http://localhost:11434/api/generate)')
+                            ->placeholder('http://localhost:11434/api/generate')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),
                     ]),
             ]);

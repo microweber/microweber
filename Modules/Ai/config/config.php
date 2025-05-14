@@ -29,8 +29,8 @@ return [
             'enabled' => env('OPENAI_ENABLED', false),
             'api_key' => env('OPENAI_API_KEY'),
             'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
-            'max_tokens' => env('OPENAI_MAX_TOKENS', 30000),
-            'temperature' => env('OPENAI_TEMPERATURE', 0.0),
+            'max_tokens' => env('OPENAI_MAX_TOKENS', null),
+            'temperature' => env('OPENAI_TEMPERATURE', 0.7),
             'use_cache' => true,
             'cache_duration' => env('OPENAI_CACHE_DURATION', 600), // minutes
             'models' => [
@@ -75,7 +75,7 @@ return [
             'supports_images' => env('GEMINI_SUPPORTS_IMAGES', true),
             'api_key' => env('GEMINI_API_KEY'),
             'model' => env('GEMINI_MODEL', 'gemini-pro'),
-            'max_tokens' => env('GEMINI_MAX_TOKENS', 1000),
+            'max_tokens' => env('GEMINI_MAX_TOKENS', null),
             'temperature' => env('GEMINI_TEMPERATURE', 0.7),
             'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta/models/'),
             'models' => [
@@ -83,6 +83,7 @@ return [
                 'gemini-pro-vision' => 'Gemini Pro Vision',
                 'gemini-1.5-pro' => 'Gemini 1.5 Pro',
                 'gemini-1.5-flash' => 'Gemini 1.5 Flash',
+                'gemini-2.0-flash-exp' => 'Gemini 2.0 Flash Experimental',
             ],
         ],
     ],
