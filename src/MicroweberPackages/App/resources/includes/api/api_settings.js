@@ -229,6 +229,12 @@
 
             }
         ],
+        "bootstrap_datepicker": [
+            function () {
+                mw.require(mw.settings.libs_url + 'bootstrap_datepicker/bootstrap-datepicker.min.js');
+                mw.require(mw.settings.libs_url + 'bootstrap_datepicker/bootstrap-datepicker.min.css');
+            }
+        ],
 
 
      };

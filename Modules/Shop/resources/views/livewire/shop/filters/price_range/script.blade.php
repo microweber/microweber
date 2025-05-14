@@ -1,5 +1,5 @@
 <script>
-    mw.lib.require('noUIiSliderStyled');
+    mw.lib.require('nouislider');
     $(document).ready(function() {
 
         let priceRangeElement = document.getElementById('{{$priceRangeElement}}');
