@@ -33,8 +33,10 @@ return [
             'cache_duration' => env('OPENAI_CACHE_DURATION', 600), // minutes
             'models' => [
                 'gpt-4o-mini' =>  'GPT 4o Mini',
-                'gpt-4' => 'GPT 4',
-                'gpt-4-turbo' => 'GPT 4 Turbo',
+                'gpt-4.1-nano' =>  'GPT 4.1 Nano',
+                'gpt-4.1-mini' =>  'GPT 4.1 Mini',
+
+
                 'gpt-4o' => 'GPT 4o',
             ],
         ],

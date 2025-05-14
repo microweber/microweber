@@ -50,9 +50,12 @@ class OpenAiDriver extends BaseDriver
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
 
+
         $this->client = (new Factory)->withApiKey(
             $config['api_key'] ?? env('OPENAI_API_KEY')
-        )->make();
+        )
+            ->withHttpClient($client = new \GuzzleHttp\Client(['timeout' => 600]))
+            ->make();
     }
 
     /**

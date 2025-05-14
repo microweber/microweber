@@ -54,10 +54,12 @@ class OpenRouterAiDriver extends BaseDriver
         if ($schema) {
 
             $payload['structured_outputs'] = true;
-            $payload['response_format'] = [
-                'type' => 'json_schema',
-                'json_schema' => $schema
-            ];
+            $payload['format'] = $schema;
+            $payload['response_format'] = 'json';
+//             $payload['response_format'] = [
+//                'type' => 'json_object',
+//                'schema' => $schema
+//            ];
         }
 
 
@@ -70,6 +72,7 @@ class OpenRouterAiDriver extends BaseDriver
 
         try {
             $response = $this->makeRequest('/chat/completions', $payload);
+            dump($response);
             $content = $response['choices'][0]['message']['content'] ?? '';
 
             // Handle function calls if present
