@@ -50,6 +50,7 @@ class AiSettingsPage extends AdminSettingsPage
                     ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'openai')
                     ->schema([
                         Select::make('options.ai.openai_model')
+                            ->live()
                             ->label('OpenAI Model')
                             ->options(config('modules.ai.drivers.openai.models', [
                                 'gpt-3.5-turbo' => 'GPT 3.5 Turbo',
@@ -58,6 +59,7 @@ class AiSettingsPage extends AdminSettingsPage
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://platform.openai.com/docs/models/gpt-4" target="_blank">Learn more</a> about the models.</small>')),
 
                         TextInput::make('options.ai.openai_api_key')
+                            ->live()
                             ->label('OpenAI API Key')
                             ->placeholder('Enter your OpenAI API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://platform.openai.com/signup" target="_blank">Sign up</a> for an OpenAI account to get your API key.</small>')),
@@ -69,6 +71,7 @@ class AiSettingsPage extends AdminSettingsPage
                     ->schema([
                         Select::make('options.ai.gemini_model')
                             ->label('Gemini Model')
+                            ->live()
                             ->options(config('modules.ai.drivers.gemini.models', [
                                 'gemini-pro' => 'Gemini Pro',
                                 'gemini-pro-vision' => 'Gemini Pro Vision',
@@ -76,6 +79,7 @@ class AiSettingsPage extends AdminSettingsPage
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://ai.google.dev/models/gemini" target="_blank">Learn more</a> about the models.</small>')),
 
                         TextInput::make('options.ai.gemini_api_key')
+                            ->live()
                             ->label('Gemini API Key')
                             ->placeholder('Enter your Gemini API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://makersuite.google.com/app/apikey" target="_blank">Get your API key</a> from Google AI Studio.</small>')),
@@ -86,6 +90,7 @@ class AiSettingsPage extends AdminSettingsPage
                     ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'openrouter')
                     ->schema([
                         Select::make('options.ai.openrouter_model')
+                            ->live()
                             ->label('OpenRouter Model')
                             ->options(config('modules.ai.drivers.openrouter.models', [
                                 'meta-llama/llama-3.3-70b-instruct' => 'Meta Llama 3.3 70B Instruct',
@@ -94,6 +99,7 @@ class AiSettingsPage extends AdminSettingsPage
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://openrouter.ai/" target="_blank">Learn more</a> about the models.</small>')),
 
                         TextInput::make('options.ai.openrouter_api_key')
+                            ->live()
                             ->label('OpenRouter API Key')
                             ->placeholder('Enter your OpenRouter API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://openrouter.ai/signup" target="_blank">Sign up</a> for an OpenRouter account.</small>')),
@@ -104,6 +110,7 @@ class AiSettingsPage extends AdminSettingsPage
                     ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'ollama')
                     ->schema([
                         Select::make('options.ai.ollama_model')
+                            ->live()
                             ->label('Ollama Model')
                             ->options(config('modules.ai.drivers.ollama.models', [
                                 'llama3.2' => 'Llama 3.2',
@@ -113,3 +120,4 @@ class AiSettingsPage extends AdminSettingsPage
             ]);
     }
 }
+

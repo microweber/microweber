@@ -30,28 +30,34 @@ class AiServiceProvider extends BaseModuleServiceProvider
             $geminiApiKey = get_option('gemini_api_key', 'ai');
 
             if ($openAiModel) {
-                Config::set('modules.ai.openai_model', $openAiModel);
+                Config::set('modules.ai.drivers.openai.model', $openAiModel);
             }
             if ($openAiApiKey) {
-                Config::set('modules.ai.openai_api_key', $openAiApiKey);
+                Config::set('modules.ai.drivers.openai.api_key', $openAiApiKey);
             }
 
             if ($openRouterModel) {
-                Config::set('modules.ai.openrouter_model', $openRouterModel);
+                Config::set('modules.ai..drivers.openrouter.model', $openRouterModel);
             }
             if ($openRouterApiKey) {
-                Config::set('modules.ai.openrouter_api_key', $openRouterApiKey);
+                Config::set('modules.ai..drivers.openrouter.api_key', $openRouterApiKey);
             }
 
             if ($ollamaModel) {
-                Config::set('modules.ai.ollama_model', $ollamaModel);
+                Config::set('modules.ai.drivers.ollama.model', $ollamaModel);
             }
             if ($ollamaBaseUrl) {
-                Config::set('modules.ai.ollama_base_url', $ollamaBaseUrl);
+                Config::set('modules.ai.drivers.ollama.base_url', $ollamaBaseUrl);
             }
 
         }
-
+        // Register the AI service as a singleton
+        $this->app->singleton('ai', function ($app) {
+            return new AiService(
+                config('modules.ai.default'),
+                config('modules.ai.drivers')
+            );
+        });
     }
 
     public function register(): void
@@ -62,13 +68,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
-        // Register the AI service as a singleton
-        $this->app->singleton('ai', function ($app) {
-            return new AiService(
-                config('modules.ai.default'),
-                config('modules.ai.drivers')
-            );
-        });
+
         FilamentRegistry::registerPage(AiSettingsPage::class);
 
         LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));

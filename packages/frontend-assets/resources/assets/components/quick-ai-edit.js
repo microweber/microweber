@@ -202,7 +202,7 @@ const defaultAiAdapter = async message => {
 
     if(window.MwAi) {
 
-        let messages = [message];
+        let messages = [{ role: 'user', content: message }];
 
 
         let res = await MwAi().sendToChat(messages)
