@@ -4,6 +4,8 @@ namespace Modules\Ai\Services;
 
 use InvalidArgumentException;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
+use Modules\Ai\Services\Drivers\GeminiAiDriver;
+use Modules\Ai\Services\Drivers\OllamaAiDriver;
 use Modules\Ai\Services\Drivers\OpenAiDriver;
 use Modules\Ai\Services\Drivers\OpenRouterAiDriver;
 
@@ -24,6 +26,13 @@ class AiService implements AiServiceInterface
     protected array $drivers = [];
 
     /**
+     * The configuration for all drivers.
+     *
+     * @var array
+     */
+    protected array $config = [];
+
+    /**
      * Create a new AI service instance.
      *
      * @param string $defaultDriver
@@ -31,6 +40,7 @@ class AiService implements AiServiceInterface
      */
     public function __construct(string $defaultDriver, array $config)
     {
+        $this->config = $config;
         $this->driver = $this->createDriver($defaultDriver, $config[$defaultDriver] ?? []);
     }
 
@@ -52,9 +62,9 @@ class AiService implements AiServiceInterface
         $driverClass = match ($driver) {
             'openai' => OpenAiDriver::class,
             'openrouter' => OpenRouterAiDriver::class,
-
+            'gemini' => GeminiAiDriver::class,
+            'ollama' => OllamaAiDriver::class,
             //todo add more drivers
-
             default => throw new InvalidArgumentException("Driver [{$driver}] not supported."),
         };
 
@@ -64,30 +74,61 @@ class AiService implements AiServiceInterface
     /**
      * Send messages to chat and get a response.
      *
-     *                       [
-     *                           ['role' => 'system', 'content' => 'System message'],
-     *                           ['role' => 'user', 'content' => 'User message'],
-     *                           ['role' => 'assistant', 'content' => 'Assistant response'],
-     *                           ['role' => 'function', 'name' => 'function_name', 'content' => 'Function response']
-     *                       ]
-     *                      - functions: Array of function definitions for the AI to call
-     *                      - function_call: Optional specific function to call
-     *                      - model: AI model to use
-     *                      - temperature: Sampling temperature
-     *                      - max_tokens: Maximum tokens in response
-     * @param array $messages
-     * @param array $options
-     * @param array|null $schema
-     * @return string|array The generated content or function call response array containing:
-     *                      ['function_call' => object, 'content' => ?string]
+     * @param array $messages Array of messages
+     * @param array $options Additional options
+     * @return string|array The generated content or function call response array
      */
     public function sendToChat(array $messages, array $options = []): string|array
     {
+        // Check if the current driver is enabled
+        $driverName = $this->driver->getActiveDriver();
+        $isEnabled = $this->config[$driverName]['enabled'] ?? false;
 
-
-
+        if (!$isEnabled) {
+            throw new \Exception("AI driver '$driverName' is not enabled. Please enable it in the settings.");
+        }
 
         return $this->driver->sendToChat($messages, $options);
+    }
+
+    /**
+     * Process an image with AI (using the default image driver)
+     *
+     * @param string $prompt Text prompt for image generation
+     * @param array $options Additional options
+     * @return mixed Response from the AI image model
+     */
+    public function processImage(string $prompt, array $options = [])
+    {
+        $imageDriver = config('modules.ai.default_driver_images', 'gemini');
+        $driverConfig = $this->config[$imageDriver] ?? [];
+
+        // Check if the image driver is enabled
+        if (empty($driverConfig['enabled'])) {
+            throw new \Exception("AI image driver '$imageDriver' is not enabled. Please enable it in the settings.");
+        }
+
+        // Check if the driver supports images
+        if (empty($driverConfig['supports_images'])) {
+            throw new \Exception("AI driver '$imageDriver' does not support image generation.");
+        }
+
+        // Create the image driver if not already loaded
+        if (!isset($this->drivers[$imageDriver])) {
+            $this->drivers[$imageDriver] = $this->createDriver($imageDriver, $driverConfig);
+        }
+
+        // Use the appropriate method based on the driver
+        if ($imageDriver === 'gemini') {
+            // For Gemini, processImageWithPrompt is implemented in the GeminiAiDriver
+            return $this->drivers[$imageDriver]->processImageWithPrompt($prompt, $options);
+        } elseif ($imageDriver === 'openai') {
+            // Implement DALL-E image generation here or call a specific method on OpenAiDriver
+            // This is just a placeholder - implementation would depend on how OpenAI driver handles images
+            return $this->drivers[$imageDriver]->generateImage($prompt, $options);
+        }
+
+        throw new \Exception("Image processing not implemented for driver '$imageDriver'");
     }
 
     /**
@@ -108,6 +149,6 @@ class AiService implements AiServiceInterface
      */
     public function setActiveDriver(string $driver): void
     {
-        $this->driver = $this->createDriver($driver, []);
+        $this->driver = $this->createDriver($driver, $this->config[$driver] ?? []);
     }
 }

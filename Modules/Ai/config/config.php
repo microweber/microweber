@@ -12,6 +12,7 @@ return [
     */
 
     'default_driver' => env('AI_DRIVER', 'openai'),
+    'default_driver_images' => env('AI_DRIVER_IMAGES', 'gemini'),
 
     /*
     |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ return [
 
     'drivers' => [
         'openai' => [
+            'enabled' => env('OPENAI_ENABLED', false),
             'api_key' => env('OPENAI_API_KEY'),
             'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
             'max_tokens' => env('OPENAI_MAX_TOKENS', 30000),
@@ -32,9 +34,9 @@ return [
             'use_cache' => true,
             'cache_duration' => env('OPENAI_CACHE_DURATION', 600), // minutes
             'models' => [
-                'gpt-4o-mini' =>  'GPT 4o Mini',
-                'gpt-4.1-nano' =>  'GPT 4.1 Nano',
-                'gpt-4.1-mini' =>  'GPT 4.1 Mini',
+                'gpt-4o-mini' => 'GPT 4o Mini',
+                'gpt-4.1-nano' => 'GPT 4.1 Nano',
+                'gpt-4.1-mini' => 'GPT 4.1 Mini',
 
 
                 'gpt-4o' => 'GPT 4o',
@@ -42,6 +44,7 @@ return [
         ],
 
         'ollama' => [
+            'enabled' => env('OLLAMA_ENABLED', false),
             'url' => env('OLLAMA_API_URL', 'http://localhost:11434/api/generate'),
             'model' => env('OLLAMA_MODEL', 'llama3.2'), // Specify your default model
             'models' => [
@@ -50,6 +53,7 @@ return [
         ],
 
         'openrouter' => [
+            'enabled' => env('OPENROUTER_ENABLED', false),
             'model' => env('OPENROUTER_MODEL', 'meta-llama/llama-3.3-70b-instruct'),
             'use_cache' => env('OPENROUTER_USE_CACHE', false),
             'cache_duration' => env('OPENROUTER_CACHE_DURATION', 600), // minutes
@@ -67,6 +71,8 @@ return [
         ],
 
         'gemini' => [
+            'enabled' => env('GEMINI_ENABLED', false),
+            'supports_images' => env('GEMINI_SUPPORTS_IMAGES', true),
             'api_key' => env('GEMINI_API_KEY'),
             'model' => env('GEMINI_MODEL', 'gemini-pro'),
             'max_tokens' => env('GEMINI_MAX_TOKENS', 1000),

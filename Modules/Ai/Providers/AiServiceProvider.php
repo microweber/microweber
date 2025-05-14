@@ -19,16 +19,45 @@ class AiServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
         if (mw_is_installed()) {
+            // Load general settings
             $defaultDriver = get_option('default_driver', 'ai');
             if ($defaultDriver) {
                 Config::set('modules.ai.default_driver', $defaultDriver);
             }
+
+            $defaultDriverImages = get_option('default_driver_images', 'ai');
+            if ($defaultDriverImages) {
+                Config::set('modules.ai.default_driver_images', $defaultDriverImages);
+            }
+
+            // Load driver enabled states
+            $openAiEnabled = get_option('openai_enabled', 'ai');
+            if ($openAiEnabled !== null) {
+                Config::set('modules.ai.drivers.openai.enabled', (bool)$openAiEnabled);
+            }
+
+            $geminiEnabled = get_option('gemini_enabled', 'ai');
+            if ($geminiEnabled !== null) {
+                Config::set('modules.ai.drivers.gemini.enabled', (bool)$geminiEnabled);
+            }
+
+            $openRouterEnabled = get_option('openrouter_enabled', 'ai');
+            if ($openRouterEnabled !== null) {
+                Config::set('modules.ai.drivers.openrouter.enabled', (bool)$openRouterEnabled);
+            }
+
+            $ollamaEnabled = get_option('ollama_enabled', 'ai');
+            if ($ollamaEnabled !== null) {
+                Config::set('modules.ai.drivers.ollama.enabled', (bool)$ollamaEnabled);
+            }
+
+            // Load driver-specific settings
             $openAiModel = get_option('openai_model', 'ai');
             $openAiApiKey = get_option('openai_api_key', 'ai');
             $openRouterModel = get_option('openrouter_model', 'ai');
             $openRouterApiKey = get_option('openrouter_api_key', 'ai');
             $ollamaModel = get_option('ollama_model', 'ai');
-            $ollamaBaseUrl = get_option('ollama_base_url', 'ai');
+            $ollamaApiUrl = get_option('ollama_api_url', 'ai');
             $geminiModel = get_option('gemini_model', 'ai');
             $geminiApiKey = get_option('gemini_api_key', 'ai');
 
@@ -49,11 +78,18 @@ class AiServiceProvider extends BaseModuleServiceProvider
             if ($ollamaModel) {
                 Config::set('modules.ai.drivers.ollama.model', $ollamaModel);
             }
-            if ($ollamaBaseUrl) {
-                Config::set('modules.ai.drivers.ollama.base_url', $ollamaBaseUrl);
+            if ($ollamaApiUrl) {
+                Config::set('modules.ai.drivers.ollama.url', $ollamaApiUrl);
             }
 
+            if ($geminiModel) {
+                Config::set('modules.ai.drivers.gemini.model', $geminiModel);
+            }
+            if ($geminiApiKey) {
+                Config::set('modules.ai.drivers.gemini.api_key', $geminiApiKey);
+            }
         }
+
         // Register the AI service as a singleton
         $this->app->singleton('ai', function ($app) {
             return new AiService(
@@ -65,20 +101,15 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     public function register(): void
     {
-
         $this->registerConfig();
         $this->registerViews();
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
-
         FilamentRegistry::registerPage(AiSettingsPage::class);
 
         LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
-
-
     }
-
 
     public function provides(): array
     {

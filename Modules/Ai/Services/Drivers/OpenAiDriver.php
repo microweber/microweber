@@ -43,7 +43,7 @@ class OpenAiDriver extends BaseDriver
         if (isset($config['model'])) {
             $this->model = $config['model'];
         } else {
-            $this->model =  'gpt-4o-mini';
+            $this->model = 'gpt-4o-mini';
         }
 
         // Initialize cache configuration
@@ -99,7 +99,7 @@ class OpenAiDriver extends BaseDriver
             'top_p' => $options['top_p'] ?? 1.0,
             'frequency_penalty' => $options['frequency_penalty'] ?? 0.0,
             'presence_penalty' => $options['presence_penalty'] ?? 0.0,
-            'stop' => $options['stop'] ??  null,
+            'stop' => $options['stop'] ?? null,
         ];
 
         $schema = null;
@@ -144,15 +144,13 @@ class OpenAiDriver extends BaseDriver
                 'function_call' => $response->choices[0]->message->function_call,
                 'content' => null
             ];
-        }
-        // Handle tool calls in the response (newer API)
+        } // Handle tool calls in the response (newer API)
         else if (isset($response->choices[0]->message->tool_calls)) {
             $result = [
                 'tool_calls' => $response->choices[0]->message->tool_calls,
                 'content' => null
             ];
-        }
-        // Return content, which may be JSON formatted if schema was provided
+        } // Return content, which may be JSON formatted if schema was provided
         else {
             $result = $response->choices[0]->message->content;
         }

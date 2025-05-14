@@ -2,6 +2,7 @@
 
 namespace Modules\Ai\Filament\Pages;
 
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -35,19 +36,48 @@ class AiSettingsPage extends AdminSettingsPage
                     ->view('filament-forms::sections.section')
                     ->schema([
                         Select::make('options.ai.default_driver')
-                            ->label('Set default AI provider')
+                            ->label('Set default AI provider for text generation')
                             ->live()
                             ->options([
                                 'openai' => 'OpenAI',
                                 'openrouter' => 'OpenRouter',
-                             //   'ollama' => 'Ollama',
-                              //  'gemini' => 'Google Gemini',
+                                'ollama' => 'Ollama',
+                                'gemini' => 'Google Gemini',
+                            ]),
+
+                        Select::make('options.ai.default_driver_images')
+                            ->label('Set default AI provider for image generation')
+                            ->live()
+                            ->options([
+                                'gemini' => 'Google Gemini',
+                                'openai' => 'OpenAI (DALL-E)',
                             ])
+                            ->helperText('Select the provider to use for AI image generation tasks')
+                    ]),
+
+                Section::make('Enable AI Providers')
+                    ->view('filament-forms::sections.section')
+                    ->schema([
+                        Checkbox::make('options.ai.openai_enabled')
+                            ->label('Enable OpenAI')
+                            ->live(),
+
+                        Checkbox::make('options.ai.gemini_enabled')
+                            ->label('Enable Google Gemini')
+                            ->live(),
+
+                        Checkbox::make('options.ai.openrouter_enabled')
+                            ->label('Enable OpenRouter')
+                            ->live(),
+
+                        Checkbox::make('options.ai.ollama_enabled')
+                            ->label('Enable Ollama')
+                            ->live(),
                     ]),
 
                 Section::make('OpenAI Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'openai')
+                    ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                     ->schema([
                         Select::make('options.ai.openai_model')
                             ->live()
@@ -67,7 +97,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                 Section::make('Google Gemini Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'gemini')
+                    ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                     ->schema([
                         Select::make('options.ai.gemini_model')
                             ->label('Gemini Model')
@@ -87,7 +117,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                 Section::make('OpenRouter Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'openrouter')
+                    ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                     ->schema([
                         Select::make('options.ai.openrouter_model')
                             ->live()
@@ -107,7 +137,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                 Section::make('Ollama Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.default_driver') === 'ollama')
+                    ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                     ->schema([
                         Select::make('options.ai.ollama_model')
                             ->live()
@@ -116,8 +146,13 @@ class AiSettingsPage extends AdminSettingsPage
                                 'llama3.2' => 'Llama 3.2',
                             ]))
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://ollama.com/" target="_blank">Learn more</a> about the models.</small>')),
+
+                        TextInput::make('options.ai.ollama_api_url')
+                            ->live()
+                            ->label('Ollama API URL')
+                            ->placeholder('Enter your Ollama API URL (e.g., http://localhost:11434/api/generate)')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),
                     ]),
             ]);
     }
 }
-
