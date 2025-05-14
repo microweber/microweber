@@ -1061,3 +1061,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     }
 }
 
+.fi-fo-field-wrp-helper-text {
+    a {
+        @apply underline underline-offset-2;
+    }
+}
