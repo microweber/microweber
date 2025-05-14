@@ -198,9 +198,42 @@ class QuickEditService extends MicroweberBaseClass {
     }
 
 }
-
-
 const defaultAiAdapter = async message => {
+
+    if(window.MwAi) {
+
+        let messages = [message];
+
+
+        let res = await MwAi().sendToChat(messages)
+        res = JSON.parse(res);
+
+        if(res && res.success && res.success == false && res.message) {
+            return {
+                succcess: false,
+                message: res.message
+            };
+
+        }
+
+        if(res && res.data) {
+            return {
+                succcess: true,
+                data: res.data
+            };
+        }
+
+        return {
+            succcess: false,
+            message: 'Error'
+        }
+
+
+    }
+
+}
+
+const defaultAiAdapterOld = async message => {
     if(!window.ai || !window.ai.languageModel || !message) {
         return {
             succcess: false,
@@ -240,7 +273,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         super()
         const defaults = {
             document: mw.top().app.canvas.getDocument(),
-            nodesSelector: 'h1,h2,h3,h4,h5,h6,p,span,div,li,a,button,code',
+            nodesSelector: 'h1,h2,h3,h4,h5,h6,p',
             editsSelector: '.edit[rel][field][id]',
             aiAdapter: defaultAiAdapter
         }

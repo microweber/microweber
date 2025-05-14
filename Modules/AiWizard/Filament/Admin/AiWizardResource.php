@@ -13,7 +13,6 @@ use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\CreateAiWizardPage;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\EditAiWizardPage;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\ListAiWizardPages;
 use Modules\Content\Models\Content;
-use Modules\Ai\Services\Contracts\AiServiceInterface;
 
 class AiWizardResource extends Resource
 {

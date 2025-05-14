@@ -2,10 +2,10 @@
 
 namespace Modules\AiWizard\Livewire;
 
-use Livewire\Component;
-use Modules\Ai\Services\Contracts\AiServiceInterface;
-use League\CommonMark\CommonMarkConverter;
 use Filament\Notifications\Notification;
+use League\CommonMark\CommonMarkConverter;
+use Livewire\Component;
+use Modules\Ai\Services\Drivers\AiServiceInterface;
 
 class SectionProcessor extends Component
 {

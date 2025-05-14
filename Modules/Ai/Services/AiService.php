@@ -5,6 +5,7 @@ namespace Modules\Ai\Services;
 use InvalidArgumentException;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
 use Modules\Ai\Services\Drivers\OpenAiDriver;
+use Modules\Ai\Services\Drivers\OpenRouterAiDriver;
 
 class AiService implements AiServiceInterface
 {
@@ -50,6 +51,10 @@ class AiService implements AiServiceInterface
 
         $driverClass = match ($driver) {
             'openai' => OpenAiDriver::class,
+            'openrouter' => OpenRouterAiDriver::class,
+
+            //todo add more drivers
+
             default => throw new InvalidArgumentException("Driver [{$driver}] not supported."),
         };
 
@@ -59,24 +64,29 @@ class AiService implements AiServiceInterface
     /**
      * Send messages to chat and get a response.
      *
-     * @param array $messages Array of messages in the format:
      *                       [
      *                           ['role' => 'system', 'content' => 'System message'],
      *                           ['role' => 'user', 'content' => 'User message'],
      *                           ['role' => 'assistant', 'content' => 'Assistant response'],
      *                           ['role' => 'function', 'name' => 'function_name', 'content' => 'Function response']
      *                       ]
-     * @param array $options Additional options including:
      *                      - functions: Array of function definitions for the AI to call
      *                      - function_call: Optional specific function to call
      *                      - model: AI model to use
      *                      - temperature: Sampling temperature
      *                      - max_tokens: Maximum tokens in response
+     * @param array $messages
+     * @param array $options
+     * @param array|null $schema
      * @return string|array The generated content or function call response array containing:
      *                      ['function_call' => object, 'content' => ?string]
      */
-    public function sendToChat(array $messages, array $options = []): string|array
+    public function sendToChat(array $messages, array $options = [], ?array $schema = null): string|array
     {
+
+
+
+
         return $this->driver->sendToChat($messages, $options);
     }
 
