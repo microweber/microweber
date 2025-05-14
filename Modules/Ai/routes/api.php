@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Ai\Facades\Ai;
 
-Route::middleware([  'admin'])->group(function () {
+Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', function (Illuminate\Http\Request $request) {
 
         $rules = [
@@ -20,7 +20,7 @@ Route::middleware([  'admin'])->group(function () {
         ];
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()->toArray()
@@ -31,7 +31,7 @@ Route::middleware([  'admin'])->group(function () {
         $request->validate($rules);
 
 
-        if(!$request->input('messages')) {
+        if (!$request->input('messages')) {
             return response()->json([
                 'success' => false,
                 'message' => 'Messages are required'
@@ -39,14 +39,14 @@ Route::middleware([  'admin'])->group(function () {
         }
 
         $messages = $request->input('messages');
+        $options = $request->input('options', []);
 
-        if(!is_array($messages)) {
-            $messages = [$messages];
+
+        $response = Ai::sendToChat($messages, $options);
+
+        if (is_string($response)) {
+            $response = @json_decode($response);
         }
-
-
-
-        $response = Ai::sendToChat($messages, $request->input('options', []));
 
         try {
 

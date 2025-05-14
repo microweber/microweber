@@ -26,11 +26,11 @@ return [
     'drivers' => [
         'openai' => [
             'api_key' => env('OPENAI_API_KEY'),
-            'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
-            'max_tokens' => env('OPENAI_MAX_TOKENS', 1000),
-            'temperature' => env('OPENAI_TEMPERATURE', 0.7),
+            'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
+            'max_tokens' => env('OPENAI_MAX_TOKENS', 30000),
+            'temperature' => env('OPENAI_TEMPERATURE', 0.0),
             'models' => [
-                'gpt-3.5-turbo' => 'GPT 3.5 Turbo',
+                'gpt-4o-mini' =>  'GPT 4o Mini',
                 'gpt-4' => 'GPT 4',
                 'gpt-4-turbo' => 'GPT 4 Turbo',
                 'gpt-4o' => 'GPT 4o',

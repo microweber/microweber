@@ -20,7 +20,7 @@ class OpenRouterAiDriver extends BaseDriver
         $this->apiKey = $config['api_key'] ?? config('services.openrouter.api_key');
         $this->apiEndpoint = rtrim($config['api_endpoint'] ?? 'https://openrouter.ai/api/v1/', '/');
         $this->defaultModel = $config['model'] ?? 'meta-llama/llama-3-8b-instruct';
-        $this->useCache = $config['use_cache'] ?? false;
+        $this->useCache = $config['use_cache'] ?? true;
         $this->cacheDuration = $config['cache_duration'] ?? 60;
     }
 
@@ -29,7 +29,7 @@ class OpenRouterAiDriver extends BaseDriver
         return 'openrouter';
     }
 
-    public function sendToChat(array $messages, array $options = [], ?array $schema = null): string|array
+    public function sendToChat(array $messages, array $options = []): string|array
     {
         if ($this->useCache) {
             $cacheKey = 'openrouter_' . md5(json_encode($messages) . json_encode($options));
@@ -38,10 +38,15 @@ class OpenRouterAiDriver extends BaseDriver
             }
         }
 
+        $schema = null;
+        if (isset($options['schema']) and $options['schema']) {
+            $schema = $options['schema'];
+        }
+
         $payload = [
             'model' => $options['model'] ?? $this->defaultModel,
             'messages' => $messages,
-            'max_tokens' => $options['max_tokens'] ?? 5000,
+            'max_tokens' => $options['max_tokens'] ?? null,
         ];
 
         if ($schema) {
