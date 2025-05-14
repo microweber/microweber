@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'default' => env('AI_DRIVER', 'openai'),
+    'default_driver' => env('AI_DRIVER', 'openai'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,6 +29,8 @@ return [
             'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
             'max_tokens' => env('OPENAI_MAX_TOKENS', 30000),
             'temperature' => env('OPENAI_TEMPERATURE', 0.0),
+            'use_cache' => true,
+            'cache_duration' => env('OPENAI_CACHE_DURATION', 600), // minutes
             'models' => [
                 'gpt-4o-mini' =>  'GPT 4o Mini',
                 'gpt-4' => 'GPT 4',

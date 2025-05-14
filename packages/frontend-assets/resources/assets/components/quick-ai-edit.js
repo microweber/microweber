@@ -202,7 +202,7 @@ const defaultAiAdapter = async(message, options) => {
         let messagesOptions = options;
 
         let res = await MwAi().sendToChat(messages,messagesOptions)
-        res = JSON.parse(res);
+      //  res = JSON.parse(res);
 
         if (res && res.success && res.success == false && res.message) {
             return {

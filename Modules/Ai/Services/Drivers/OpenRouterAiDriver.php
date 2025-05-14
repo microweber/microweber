@@ -17,11 +17,11 @@ class OpenRouterAiDriver extends BaseDriver
     {
         parent::__construct($config);
 
-        $this->apiKey = $config['api_key'] ?? config('services.openrouter.api_key');
+        $this->apiKey = $config['api_key'] ?? null;
         $this->apiEndpoint = rtrim($config['api_endpoint'] ?? 'https://openrouter.ai/api/v1/', '/');
         $this->defaultModel = $config['model'] ?? 'meta-llama/llama-3-8b-instruct';
-        $this->useCache = $config['use_cache'] ?? true;
-        $this->cacheDuration = $config['cache_duration'] ?? 60;
+        $this->useCache = $config['use_cache'] ?? false;
+        $this->cacheDuration = $config['cache_duration'] ?? 600;
     }
 
     public function getDriverName(): string
@@ -31,9 +31,11 @@ class OpenRouterAiDriver extends BaseDriver
 
     public function sendToChat(array $messages, array $options = []): string|array
     {
+
         if ($this->useCache) {
             $cacheKey = 'openrouter_' . md5(json_encode($messages) . json_encode($options));
             if ($cached = Cache::get($cacheKey)) {
+
                 return $cached;
             }
         }
@@ -86,10 +88,7 @@ class OpenRouterAiDriver extends BaseDriver
 
             return $result;
         } catch (\Exception $e) {
-            Log::error('OpenRouter API error', [
-                'error' => $e->getMessage(),
-                'messages' => $messages
-            ]);
+
             throw $e;
         }
     }
@@ -125,7 +124,7 @@ class OpenRouterAiDriver extends BaseDriver
         }
 
         curl_close($ch);
-
+        $result = trim($result);
         if ($httpCode >= 400) {
             throw new \Exception("API returned error code: $httpCode, Response: $result");
         }

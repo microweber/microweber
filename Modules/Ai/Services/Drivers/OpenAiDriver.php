@@ -43,12 +43,12 @@ class OpenAiDriver extends BaseDriver
         if (isset($config['model'])) {
             $this->model = $config['model'];
         } else {
-            $this->model = config('modules.ai.drivers.openai.model', 'gpt-4o-mini');
+            $this->model =  'gpt-4o-mini';
         }
 
         // Initialize cache configuration
-        $this->useCache = $config['use_cache'] ?? config('modules.ai.drivers.openai.use_cache', true);
-        $this->cacheDuration = $config['cache_duration'] ?? config('modules.ai.drivers.openai.cache_duration', 60);
+        $this->useCache = $config['use_cache'] ?? false;
+        $this->cacheDuration = $config['cache_duration'] ?? 600;
 
         $this->client = (new Factory)->withApiKey(
             $config['api_key'] ?? env('OPENAI_API_KEY')

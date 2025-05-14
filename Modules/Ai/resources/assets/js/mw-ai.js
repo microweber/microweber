@@ -60,6 +60,8 @@ function MwAi() {
 
                 // Check if the response is valid
 
+                console.log( 'AI Response:', responseData);
+
 
 
 

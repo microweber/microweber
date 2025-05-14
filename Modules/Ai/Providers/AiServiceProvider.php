@@ -19,7 +19,10 @@ class AiServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
         if (mw_is_installed()) {
-
+            $defaultDriver = get_option('default_driver', 'ai');
+            if ($defaultDriver) {
+                Config::set('modules.ai.default_driver', $defaultDriver);
+            }
             $openAiModel = get_option('openai_model', 'ai');
             $openAiApiKey = get_option('openai_api_key', 'ai');
             $openRouterModel = get_option('openrouter_model', 'ai');
@@ -37,10 +40,10 @@ class AiServiceProvider extends BaseModuleServiceProvider
             }
 
             if ($openRouterModel) {
-                Config::set('modules.ai..drivers.openrouter.model', $openRouterModel);
+                Config::set('modules.ai.drivers.openrouter.model', $openRouterModel);
             }
             if ($openRouterApiKey) {
-                Config::set('modules.ai..drivers.openrouter.api_key', $openRouterApiKey);
+                Config::set('modules.ai.drivers.openrouter.api_key', $openRouterApiKey);
             }
 
             if ($ollamaModel) {
@@ -54,7 +57,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
         // Register the AI service as a singleton
         $this->app->singleton('ai', function ($app) {
             return new AiService(
-                config('modules.ai.default'),
+                config('modules.ai.default_driver'),
                 config('modules.ai.drivers')
             );
         });
