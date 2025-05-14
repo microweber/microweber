@@ -1,79 +1,76 @@
-
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
 
 
-
 const elementSchema = {
-  "type": "object",
-  "properties": {
-    "tag": {
-      "type": "string"
+    "type": "object",
+    "properties": {
+        "tag": {
+            "type": "string"
+        },
+        "text": {
+            "type": "string"
+        },
+        "html": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        }
     },
-    "text": {
-      "type": "string"
-    },
-    "html": {
-      "type": "string"
-    },
-    "id": {
-      "type": "string"
-    }
-  },
-  "required": [
-    "tag",
-    "text",
-    "html",
-    "id"
-  ]
+    "required": [
+        "tag",
+        "text",
+        "html",
+        "id"
+    ]
 };
 
 const editSchema = {
-  "type": "object",
-  "$id": "schema:edit",
-  "properties": {
-    "id": {
-      "type": "string"
+    "type": "object",
+    "$id": "schema:edit",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "tag": {
+            "type": "string"
+        },
+        "rel": {
+            "type": "string"
+        },
+        "field": {
+            "type": "string"
+        },
+        "content": {
+            "type": "array",
+            "items": elementSchema
+        },
+        "children": {
+            "type": "array",
+            "items": {
+                "$ref": "schema:edit"
+            }
+        }
     },
-    "tag": {
-      "type": "string"
-    },
-    "rel": {
-      "type": "string"
-    },
-    "field": {
-      "type": "string"
-    },
-    "content": {
-      "type": "array",
-      "items": elementSchema
-    },
-    "children": {
-      "type": "array",
-      "items": {
-        "$ref": "schema:edit"
-      }
-    }
-  },
-  "required": [
-    "tag",
-    "rel",
-    "field"
-  ]
+    "required": [
+        "tag",
+        "rel",
+        "field"
+    ]
 }
 
 const JSONSchema = {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "array",
-  "items": editSchema
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": editSchema
 }
 
 
-
-
 class QuickEditGUI {
-    constructor(instance){
+    constructor(instance) {
         this.instance = instance;
     }
+
     static _text(obj) {
         return `
             <div class="form-control-live-edit-label-wrapper my-4">
@@ -89,7 +86,6 @@ class QuickEditGUI {
     }
 
 
-
     text(obj) {
         const frag = document.createElement("div");
         frag.innerHTML = QuickEditGUI._text(obj);
@@ -97,7 +93,7 @@ class QuickEditGUI {
         inp.$$ref = obj;
 
 
-        obj.node.$$ref = inp ;
+        obj.node.$$ref = inp;
 
         inp.addEventListener('input', () => {
             this.instance.pause();
@@ -111,6 +107,7 @@ class QuickEditGUI {
         return frag.firstElementChild;
     }
 }
+
 class QuickEditService extends MicroweberBaseClass {
     constructor(instance) {
         super();
@@ -123,8 +120,8 @@ class QuickEditService extends MicroweberBaseClass {
     }
 
     static node = {
-      text: node => node.textContent.trim(),
-      html: node => node.innerHTML.trim(),
+        text: node => node.textContent.trim(),
+        html: node => node.innerHTML.trim(),
     }
 
     #collectSingle(editNode, toJson, onNode) {
@@ -135,7 +132,7 @@ class QuickEditService extends MicroweberBaseClass {
                 return nestedEdits.length === 0 || !nestedEdits.find(edit => this.#editNodeContains(edit, node))
             })
             .map(node => {
-                if(!node.id) {
+                if (!node.id) {
                     node.id = mw.id();
                 }
 
@@ -146,10 +143,10 @@ class QuickEditService extends MicroweberBaseClass {
                     id: node.id,
                 };
 
-                if(!toJson) {
+                if (!toJson) {
                     curr.node = node;
                 }
-                if(onNode) {
+                if (onNode) {
                     onNode.call(undefined, curr)
                 }
                 return curr
@@ -163,7 +160,7 @@ class QuickEditService extends MicroweberBaseClass {
 
         while (edits.length > 0) {
             const edit = edits[0];
-            edits.splice(0,1);
+            edits.splice(0, 1);
             const children = Array.from(edit.querySelectorAll(this.component.settings.editsSelector));
             const curr = {
 
@@ -173,15 +170,15 @@ class QuickEditService extends MicroweberBaseClass {
                 field: edit.getAttribute('field'),
                 content: this.#collectSingle(edit, toJson, onNode)
             }
-            if(!toJson) {
+            if (!toJson) {
                 curr.node = edit;
             }
-            if(children.length) {
+            if (children.length) {
                 edits = edits.filter(child => children.indexOf(child) === -1);
                 curr.children = this.collect(children, toJson, onNode);
             }
             result.push(curr);
-            if(onNode) {
+            if (onNode) {
                 onNode.call(this.instance, curr)
             }
 
@@ -190,25 +187,23 @@ class QuickEditService extends MicroweberBaseClass {
     }
 
 
-
-
-
     toJSON() {
         return this.collect(undefined, true);
     }
 
 }
+
 const defaultAiAdapter = async message => {
 
-    if(window.MwAi) {
+    if (window.MwAi) {
 
-        let messages = [{ role: 'user', content: message }];
+        let messages = [{role: 'user', content: message}];
 
 
         let res = await MwAi().sendToChat(messages)
         res = JSON.parse(res);
 
-        if(res && res.success && res.success == false && res.message) {
+        if (res && res.success && res.success == false && res.message) {
             return {
                 succcess: false,
                 message: res.message
@@ -216,7 +211,7 @@ const defaultAiAdapter = async message => {
 
         }
 
-        if(res && res.data) {
+        if (res && res.data) {
             return {
                 succcess: true,
                 data: res.data
@@ -234,7 +229,7 @@ const defaultAiAdapter = async message => {
 }
 
 const defaultAiAdapterOld = async message => {
-    if(!window.ai || !window.ai.languageModel || !message) {
+    if (!window.ai || !window.ai.languageModel || !message) {
         return {
             succcess: false,
             message: 'Ai is not supported in your browser'
@@ -246,10 +241,10 @@ const defaultAiAdapterOld = async message => {
 
     res = res.split("```json")[1];
 
-    if(res ) {
+    if (res) {
         res = res.split("```")[0].trim();
 
-        if(res.slice(-1) !== ']') {
+        if (res.slice(-1) !== ']') {
             res += ']'
         }
 
@@ -308,17 +303,17 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
     observer() {
-        const config = { characterData: true, childList: true, subtree: true };
+        const config = {characterData: true, childList: true, subtree: true};
 
         const cache = new WeakMap();
 
         const getTarget = target => {
             const cached = cache.get(target);
-            if(cached) {
+            if (cached) {
                 return cached;
             }
             let node = target;
-            if(node.nodeType === 3) {
+            if (node.nodeType === 3) {
                 node = node.parentElement;
             }
 
@@ -327,7 +322,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
             }
 
 
-            if(this.#currentNodes.indexOf(node) !== -1) {
+            if (this.#currentNodes.indexOf(node) !== -1) {
                 cache.set(target, node);
                 return node;
             }
@@ -338,7 +333,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const callback = (mutationList, observer) => {
             for (const mutation of mutationList) {
                 const target = getTarget(mutation.target);
-                if(target && target.$$ref && !this.#paused) {
+                if (target && target.$$ref && !this.#paused) {
                     target.$$ref.value = target.textContent;
                 }
 
@@ -357,19 +352,19 @@ export class QuickEditComponent extends MicroweberBaseClass {
     }
 
     applyJSON(json = [], extend = true) {
-        for (let i = 0; i < json.length; i++)  {
+        for (let i = 0; i < json.length; i++) {
             const edit = json[i];
-            for (let ic = 0; ic < edit.content.length; ic++)  {
+            for (let ic = 0; ic < edit.content.length; ic++) {
                 const obj = edit.content[ic];
                 const input = document.getElementById(`data-node-id-${obj.id}`);
                 const target = this.settings.document.getElementById(`${obj.id}`);
-                if(input) {
+                if (input) {
                     input.value = obj.text;
                 } else {
                     console.warn(`${obj.id} has no refference field `)
                 }
 
-                if(target) {
+                if (target) {
                     target.textContent = obj.text;
                 } else {
                     console.warn(`${obj.tag}#${obj.id} is not present in the selected document `)
@@ -383,7 +378,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const nodes = [];
         const enodes = [];
         this.api.collect(undefined, undefined, obj => {
-            if(obj.node.matches(this.settings.nodesSelector)) {
+            if (obj.node.matches(this.settings.nodesSelector)) {
                 const node = this.gui.build(obj);
                 enodes.push(node);
                 nodes.push(obj.node);
@@ -406,12 +401,12 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         this.#currentEditorNodes = [];
-        if(this.#currentEditor) {
+        if (this.#currentEditor) {
             this.#currentEditor.remove();
         }
 
         this.#currentEditor = null;
-        if(this.#observer) {
+        if (this.#observer) {
             this.#observer.disconnect();
         }
 
@@ -419,12 +414,13 @@ export class QuickEditComponent extends MicroweberBaseClass {
     }
 
     schema() {
-      return JSONSchema;
+        return JSONSchema;
     }
 
     toJSON() {
         return this.api.toJSON();
     }
+
     collect() {
         return this.api.collect();
     }
@@ -470,7 +466,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
     async ai(about) {
 
-        if(this.#aiPending) {
+        if (this.#aiPending) {
             return
         }
 
@@ -481,9 +477,12 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
 
-        let res = await this.aiAdapter(message);
+        let options = [];
+        options['schema'] = this.schema();
 
-        if(res.succcess) {
+        let res = await this.aiAdapter(message,options);
+
+        if (res.succcess) {
             this.applyJSON(res.data);
         } else {
             console.error(res.message);
