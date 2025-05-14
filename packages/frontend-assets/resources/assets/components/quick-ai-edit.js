@@ -61,7 +61,7 @@ const editSchema = {
 
 const JSONSchema = {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "array",
+    "type": "object",
     "items": editSchema
 }
 
@@ -193,14 +193,15 @@ class QuickEditService extends MicroweberBaseClass {
 
 }
 
-const defaultAiAdapter = async message => {
+const defaultAiAdapter = async(message, options) => {
 
     if (window.MwAi) {
 
         let messages = [{role: 'user', content: message}];
 
+        let messagesOptions = options;
 
-        let res = await MwAi().sendToChat(messages)
+        let res = await MwAi().sendToChat(messages,messagesOptions)
         res = JSON.parse(res);
 
         if (res && res.success && res.success == false && res.message) {
@@ -269,7 +270,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const defaults = {
             document: mw.top().app.canvas.getDocument(),
             nodesSelector: 'h1,h2,h3,h4,h5,h6,p',
-            editsSelector: '.edit[rel][field][id]',
+            editsSelector: '.edit[rel][field]:not(.module)',
             aiAdapter: defaultAiAdapter
         }
         this.settings = Object.assign({}, defaults, options);
@@ -352,23 +353,44 @@ export class QuickEditComponent extends MicroweberBaseClass {
     }
 
     applyJSON(json = [], extend = true) {
+        // Handle both direct array and nested data structure
+        if (json.data) {
+            // If we're dealing with the new format that has a data property
+            json = json.data;
+        }
+
+        // Handle single object or array
+        if (!Array.isArray(json)) {
+            json = [json];
+        }
+
+        // Process each item in the array
         for (let i = 0; i < json.length; i++) {
             const edit = json[i];
-            for (let ic = 0; ic < edit.content.length; ic++) {
-                const obj = edit.content[ic];
-                const input = document.getElementById(`data-node-id-${obj.id}`);
-                const target = this.settings.document.getElementById(`${obj.id}`);
-                if (input) {
-                    input.value = obj.text;
-                } else {
-                    console.warn(`${obj.id} has no refference field `)
-                }
 
-                if (target) {
-                    target.textContent = obj.text;
-                } else {
-                    console.warn(`${obj.tag}#${obj.id} is not present in the selected document `)
+            // Process content array if it exists
+            if (edit.content && Array.isArray(edit.content)) {
+                for (let ic = 0; ic < edit.content.length; ic++) {
+                    const obj = edit.content[ic];
+                    const input = document.getElementById(`data-node-id-${obj.id}`);
+                    const target = this.settings.document.getElementById(`${obj.id}`);
+                    if (input) {
+                        input.value = obj.text;
+                    } else {
+                        console.warn(`${obj.id} has no refference field `);
+                    }
+
+                    if (target) {
+                        target.textContent = obj.text;
+                    } else {
+                        console.warn(`${obj.tag}#${obj.id} is not present in the selected document `);
+                    }
                 }
+            }
+
+            // Recursively process children if they exist
+            if (edit.children && Array.isArray(edit.children)) {
+                this.applyJSON(edit.children, extend);
             }
         }
     }
@@ -477,16 +499,17 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
 
-        let options = [];
-        options['schema'] = this.schema();
+        let messageOptions = {};
+      //  messageOptions.schema = this.schema();
+        messageOptions.schema = editSchema;
 
-        let res = await this.aiAdapter(message,options);
 
-        if (res.succcess) {
+        let res = await this.aiAdapter(message,messageOptions);
+
+        if (res.succcess && res.data) {
             this.applyJSON(res.data);
         } else {
             console.error(res.message);
-
         }
 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
