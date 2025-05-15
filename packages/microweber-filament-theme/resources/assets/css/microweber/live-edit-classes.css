@@ -765,7 +765,7 @@ h1,h2,h3,h4,h5,h6 {
 
 
 .mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
-    @apply !overflow-hidden;
+    @apply !overflow-hidden !p-0;
 }
 
 .mw-live-edit-page-wrapper {
