@@ -7,6 +7,6 @@ Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', [Modules\Ai\Http\Controllers\AiController::class, 'chat'])
         ->name('api.ai.chat');
 
-    Route::post('api/ai/editImage', [Modules\Ai\Http\Controllers\AiController::class, 'editImage'])
+    Route::post('api/ai/edit-image', [Modules\Ai\Http\Controllers\AiController::class, 'editImage'])
         ->name('api.ai.edit-image');
 });

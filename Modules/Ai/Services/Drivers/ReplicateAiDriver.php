@@ -72,8 +72,37 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         return 'replicate';
     }
 
-    public function generateImage(string $prompt, array $options = []): array
+    /**
+     * Get file extension from URL
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function getFileExtensionFromUrl(string $url): string
     {
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+
+        // Extract extension from URL path
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        // If no extension found or not allowed, default to png
+        if (empty($extension) || !in_array($extension, $allowedExtensions)) {
+            return 'png';
+        }
+
+        // Convert jpeg to jpg for consistency
+        if ($extension === 'jpeg') {
+            return 'jpg';
+        }
+
+        return $extension;
+    }
+
+    public function generateImage(array $messages, array $options = []): array
+    {
+
+        $prompt = implode( ' ', array_column($messages, 'content'));
         // Check cache first if caching is enabled
         if ($this->useCache) {
             $cacheKey = 'replicate_image_' . md5($prompt . json_encode($options));
@@ -155,8 +184,20 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
                         Storage::disk('public')->makeDirectory($directory);
                     }
 
-                    // Create a unique filename based on the prompt
-                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.png';
+                    // Get file extension from URL
+                    $extension = $this->getFileExtensionFromUrl($imageUrl);
+
+                    $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+
+
+                    // Validate the extension
+                    if (!in_array($extension, $allowedExtensions)) {
+                        throw new \Exception("Invalid image extension: $extension");
+                    }
+
+
+                    // Create a unique filename with correct extension
+                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.' . $extension;
 
                     // Download and store the image
                     $imageContent = $this->fetchImageContent($imageUrl);

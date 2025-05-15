@@ -5,7 +5,7 @@ namespace Modules\Ai\Services\Drivers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-class GeminiAiDriver extends BaseDriver
+class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface
 {
     protected string $apiKey;
     protected string $apiEndpoint;

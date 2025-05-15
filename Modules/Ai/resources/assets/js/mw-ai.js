@@ -5,10 +5,10 @@ function MwAi() {
 
         },
 
-        async generateImage(prompt, options = {}) {
+        async generateImage(messages, options = {}) {
             try {
                 const data = await $.post(mw.settings.site_url + 'api/ai/edit-image', {
-                    prompt: prompt,
+                    messages: messages,
                     options: options
                 });
 

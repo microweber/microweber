@@ -109,6 +109,32 @@ return [
 
 
             ],
+
+            'field_mapping' => [
+                'google/imagen-3' => [
+                    'prompt' => 'prompt',
+                    'image' => 'image',
+                    'negative_prompt' => 'negative_prompt',
+                    'width' => 'width',
+                    'height' => 'height',
+                    'num_inference_steps' => 'num_inference_steps',
+                    'seed' => 'seed',
+                ],
+
+                'minimax/image-01' => [
+
+                    'image' => 'subject_reference',
+                    'negative_prompt' => 'negative_prompt',
+                    'width' => 'width',
+                    'height' => 'height',
+                    'num_inference_steps' => 'num_inference_steps',
+                    'seed' => 'seed',
+                ],
+                'luma/photon-flash' => [
+                    'image' => 'image_reference_url',
+
+                ],
+            ]
         ],
     ],
 

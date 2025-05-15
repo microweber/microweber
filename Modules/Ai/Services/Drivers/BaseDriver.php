@@ -2,7 +2,7 @@
 
 namespace Modules\Ai\Services\Drivers;
 
-abstract class BaseDriver implements AiChatServiceInterface
+abstract class BaseDriver implements AiServiceInterface
 {
 
     use AiParseJsonTrait;
