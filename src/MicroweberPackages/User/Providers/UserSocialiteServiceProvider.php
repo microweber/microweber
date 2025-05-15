@@ -72,7 +72,9 @@ class UserSocialiteServiceProvider extends AuthServiceProvider
                     if (!isset($svc['redirect'])) {
                         Config::set('services.microweber.redirect', $callback_url);
                     }
-                    $this->socialite->extend('microweber', function ($app) {
+                    $socialite = $this->app->make(\Laravel\Socialite\Contracts\Factory::class);
+
+                    $socialite->extend('microweber', function ($app) {
                         $config = app()->config['services.microweber'];
 
                         return $this->socialite->buildProvider(MicroweberProvider::class, $config);
