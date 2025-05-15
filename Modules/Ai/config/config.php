@@ -93,21 +93,24 @@ return [
         'replicate' => [
             'enabled' => env('REPLICATE_ENABLED', false),
             'api_key' => env('REPLICATE_API_KEY'),
-            'model' => env('REPLICATE_MODEL', 'stability-ai/stable-diffusion-2'),
+            'model' => env('REPLICATE_MODEL', 'stability-ai/stable-diffusion-3.5-medium'),
             'max_tokens' => env('REPLICATE_MAX_TOKENS', null),
             'temperature' => env('REPLICATE_TEMPERATURE', 0.7),
             'use_cache' => env('REPLICATE_USE_CACHE', false),
             'cache_duration' => env('REPLICATE_CACHE_DURATION', 600), // minutes
-            'api_endpoint' => env('REPLICATE_API_ENDPOINT', 'https://api.replicate.com/v1/predictions'),
+            'api_endpoint' => env('REPLICATE_API_ENDPOINT', 'https://api.replicate.com'),
             'models' => [
-                'stability-ai/stable-diffusion-2' => 'Stable Diffusion 2',
-                'stability-ai/stable-diffusion-2.1' => 'Stable Diffusion 2.1',
-                'stability-ai/stable-diffusion-xl' => 'Stable Diffusion XL',
-                'stability-ai/stable-diffusion-2.1-base' => 'Stable Diffusion 2.1 Base',
+                'stability-ai/stable-diffusion-3.5-medium' => 'Stable Diffusion 3.5 Medium',
+                'google/imagen-3' => 'Imagen 3',
+                'google/imagen-3-fast' => 'Imagen 3 Fast',
+                'minimax/image-01' => 'Minimax Image 0.1',
+                'black-forest-labs/flux-dev-lora' => 'Flux Dev Lora',
+
             ],
         ],
     ],
 
 
 ];
+
 

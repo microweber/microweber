@@ -5,7 +5,7 @@ namespace Modules\Ai\Services\Drivers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-class ReplicateAiDriver extends BaseDriver
+class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
 {
     /**
      * The Replicate API token.
@@ -19,14 +19,14 @@ class ReplicateAiDriver extends BaseDriver
      *
      * @var string
      */
-    protected string $apiEndpoint = 'https://api.replicate.com/v1';
+    protected string $apiEndpoint = 'https://api.replicate.com';
 
     /**
      * Default model for image generation.
      *
      * @var string
      */
-    protected string $defaultImageModel = 'minimax/image-01';
+    protected string $defaultImageModel = 'stability-ai/stable-diffusion-3.5-medium';
 
     /**
      * Whether to use caching.
@@ -51,8 +51,8 @@ class ReplicateAiDriver extends BaseDriver
     {
         parent::__construct($config);
 
-        $this->apiToken = $config['api_token'] ?? env('REPLICATE_API_TOKEN');
-        $this->defaultImageModel = $config['image_model'] ?? 'minimax/image-01';
+        $this->apiToken = $config['api_key'] ?? env('REPLICATE_API_TOKEN');
+        $this->defaultImageModel = $config['model'] ?? 'stability-ai/stable-diffusion-3.5-medium';
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
 
@@ -94,23 +94,35 @@ class ReplicateAiDriver extends BaseDriver
         $payload = [
             'input' => [
                 'prompt' => $prompt,
-                'aspect_ratio' => $options['aspect_ratio'] ?? '3:4',
-                'number_of_images' => $options['number_of_images'] ?? 1,
-                'prompt_optimizer' => $options['prompt_optimizer'] ?? true,
             ]
         ];
 
-        // Add additional options if provided
-        if (isset($options['guidance_scale'])) {
-            $payload['input']['guidance_scale'] = $options['guidance_scale'];
-        }
+        // Add model-specific parameters
+        if (strpos($model, 'stability-ai/stable-diffusion') !== false) {
+            // Add specific parameters for Stability AI models
+            if (isset($options['negative_prompt'])) {
+                $payload['input']['negative_prompt'] = $options['negative_prompt'];
+            }
+        } else {
+            // Default parameters for other models
+            $payload['input']['aspect_ratio'] = $options['aspect_ratio'] ?? '3:4';
+            $payload['input']['number_of_images'] = $options['number_of_images'] ?? 1;
+            $payload['input']['prompt_optimizer'] = $options['prompt_optimizer'] ?? true;
 
-        if (isset($options['negative_prompt'])) {
-            $payload['input']['negative_prompt'] = $options['negative_prompt'];
+            // Add additional options if provided
+            if (isset($options['guidance_scale'])) {
+                $payload['input']['guidance_scale'] = $options['guidance_scale'];
+            }
+
+            if (isset($options['negative_prompt'])) {
+                $payload['input']['negative_prompt'] = $options['negative_prompt'];
+            }
         }
 
         try {
-            $endpoint = "/models/{$model}/predictions";
+            // Use the correct endpoint format for the model
+            $endpoint = "/v1/models/{$model}/predictions";
+
             $response = $this->makeRequest($endpoint, $payload);
 
             // Store in cache if caching is enabled
@@ -120,7 +132,6 @@ class ReplicateAiDriver extends BaseDriver
 
             return $response;
         } catch (\Exception $e) {
-            Log::error('Replicate image generation error: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -136,6 +147,11 @@ class ReplicateAiDriver extends BaseDriver
      */
     protected function makeRequest(string $endpoint, array $data = [], string $method = 'POST'): array
     {
+        // Ensure endpoint starts with a slash
+        if (substr($endpoint, 0, 1) !== '/') {
+            $endpoint = '/' . $endpoint;
+        }
+
         $url = $this->apiEndpoint . $endpoint;
 
         $headers = [
@@ -190,3 +206,4 @@ class ReplicateAiDriver extends BaseDriver
         throw new \Exception('Chat functionality is not supported by the Replicate driver');
     }
 }
+

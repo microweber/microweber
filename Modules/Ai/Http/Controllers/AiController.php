@@ -5,6 +5,7 @@ namespace Modules\Ai\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Ai\Facades\Ai;
+use Modules\Ai\Facades\AiImages;
 
 class AiController extends Controller
 {
@@ -29,9 +30,14 @@ class AiController extends Controller
         $imageUrl = $request->input('url');
         $options = $request->input('options', []);
 
+
+        if($imageUrl){
+            $options['image'] = $imageUrl;
+        }
+
         try {
             // Process the image with AI
-            $response = Ai::processImageWithPrompt($prompt, $imageUrl, $options);
+            $response = AiImages::generateImage($prompt, $options);
 
             return response()->json([
                 'success' => true,

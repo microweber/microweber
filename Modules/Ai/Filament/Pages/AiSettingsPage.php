@@ -184,11 +184,11 @@ class AiSettingsPage extends AdminSettingsPage
                             ->live()
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Image Generation Model')
-                            ->options([
-                                'minimax/image-01' => 'Minimax Image-01',
-                                'stability-ai/sdxl' => 'Stability AI SDXL',
-                                'midjourney/mj6' => 'Midjourney MJ6',
-                            ])
+                            ->options(config('modules.ai.drivers.replicate.models', [
+                                'stabilityai/stable-diffusion-xl-base-1.0' => 'Stable Diffusion XL',
+                                'stabilityai/stable-diffusion-xl-1024-v1-0' => 'Stable Diffusion XL 1024',
+                                'stabilityai/stable-diffusion-xl-1024-v1-0-inpainting' => 'Stable Diffusion XL Inpainting',
+                            ]))
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://replicate.com/collections/text-to-image" target="_blank">Learn more</a> about available models.</small>')),
 
                         TextInput::make('options.ai.replicate_api_token')

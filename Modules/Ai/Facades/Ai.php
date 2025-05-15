@@ -12,7 +12,7 @@ use Modules\Ai\Services\Drivers\AiServiceInterface;
  * @method static string getActiveDriver() Get the name of the currently active AI driver.
  * @method static void setActiveDriver(string $driver) Set the active AI driver.
  *
- * @see \Modules\Ai\Services\Drivers\AiServiceInterface
+ * @see \Modules\Ai\Services\Drivers\AiChatServiceInterface
  */
 class Ai extends \Illuminate\Support\Facades\Facade
 {

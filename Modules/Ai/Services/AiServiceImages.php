@@ -60,8 +60,9 @@ class AiServiceImages
         }
 
         $driverClass = match ($driver) {
-             'gemini' => GeminiAiDriver::class,
             'replicate' => ReplicateAiDriver::class,
+            'gemini' => GeminiAiDriver::class,
+
             default => throw new InvalidArgumentException("Driver [{$driver}] not supported for image generation."),
         };
 
