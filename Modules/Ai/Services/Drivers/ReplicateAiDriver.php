@@ -27,7 +27,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
      *
      * @var string
      */
-    protected string $defaultImageModel = 'stability-ai/stable-diffusion-3.5-medium';
+    protected string $defaultImageModel = 'google/imagen-3';
 
     /**
      * Whether to use caching.
@@ -53,7 +53,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         parent::__construct($config);
 
         $this->apiToken = $config['api_key'] ?? env('REPLICATE_API_TOKEN');
-        $this->defaultImageModel = $config['model'] ?? 'stability-ai/stable-diffusion-3.5-medium';
+        $this->defaultImageModel = $config['model'] ?? 'google/imagen-3';
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
 
@@ -102,6 +102,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
             $payload['input']['number_of_images'] = $options['number_of_images'] ?? 1;
             $payload['input']['prompt_optimizer'] = $options['prompt_optimizer'] ?? true;
 
+
             // Add additional options if provided
             if (isset($options['guidance_scale'])) {
                 $payload['input']['guidance_scale'] = $options['guidance_scale'];
@@ -111,6 +112,21 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
                 $payload['input']['negative_prompt'] = $options['negative_prompt'];
             }
         }
+
+
+        $payload['input']['output_format'] = $options['output_format'] ?? 'png';
+
+        if (isset($options['image'])) {
+            $payload['input']['image'] = $options['image'];
+            if (strpos($model, 'minimax/image-01') !== false) {
+                $payload['input']['subject_reference'] = $options['image'];
+            }
+
+            if (strpos($model, 'luma/photon-flash') !== false) {
+                $payload['input']['image_reference_url'] = $options['image'];
+            }
+        }
+
 
         try {
             // Use the correct endpoint format for the model
