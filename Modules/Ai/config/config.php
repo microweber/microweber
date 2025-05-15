@@ -37,8 +37,6 @@ return [
                 'gpt-4o-mini' => 'GPT 4o Mini',
                 'gpt-4.1-nano' => 'GPT 4.1 Nano',
                 'gpt-4.1-mini' => 'GPT 4.1 Mini',
-
-
                 'gpt-4o' => 'GPT 4o',
             ],
         ],
@@ -74,17 +72,22 @@ return [
             'enabled' => env('GEMINI_ENABLED', false),
             'supports_images' => env('GEMINI_SUPPORTS_IMAGES', true),
             'api_key' => env('GEMINI_API_KEY'),
-            'model' => env('GEMINI_MODEL', 'gemini-pro'),
+            'model' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
             'max_tokens' => env('GEMINI_MAX_TOKENS', null),
             'temperature' => env('GEMINI_TEMPERATURE', 0.7),
-            'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta/models/'),
+            'use_cache' => env('GEMINI_USE_CACHE', false),
+            'cache_duration' => env('GEMINI_CACHE_DURATION', 600), // minutes
+            'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta'),
             'models' => [
-                'gemini-pro' => 'Gemini Pro',
-                'gemini-pro-vision' => 'Gemini Pro Vision',
+                'gemini-1.0-pro' => 'Gemini 1.0 Pro',
+                'gemini-1.0-pro-vision' => 'Gemini 1.0 Pro Vision',
                 'gemini-1.5-pro' => 'Gemini 1.5 Pro',
+                'gemini-1.5-pro-vision' => 'Gemini 1.5 Pro Vision',
                 'gemini-1.5-flash' => 'Gemini 1.5 Flash',
-                'gemini-2.0-flash-exp' => 'Gemini 2.0 Flash Experimental',
+                'gemini-2.0-flash' => 'Gemini 2.0 Flash',
+
             ],
         ],
     ],
 ];
+

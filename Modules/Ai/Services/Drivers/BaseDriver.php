@@ -4,6 +4,9 @@ namespace Modules\Ai\Services\Drivers;
 
 abstract class BaseDriver implements AiServiceInterface
 {
+
+    use AiParseJsonTrait;
+
     /**
      * The configuration options for the driver.
      *
