@@ -522,16 +522,31 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
         const message = `Using the existing object IDS,
         By using this schema: \n ${JSON.stringify(this.schema())} \n
-        Write text about ${about} to this object and populate the schema,
+        Write text to this object and populate the schema,
         You are a website content writer, and you must write the text in a way that is relevant to the object,
-        The website subject is ${about}, expan on the subject and try to find relevant information in the existing text,
+        The website subject is ${about},
+        expand on the subject and try to find relevant information in the existing text,
 
 
         do not change element IDS,
         do not change the structure of the schema,
         use only the existing object IDS,
         do not assign any new object IDS,
-        populate existing object IDS: \n ${JSON.stringify(this.toJSON())}`;
+        return only valid json object,
+        populate existing object IDS: \n ${JSON.stringify(this.toJSON())}
+
+
+
+You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
+"""[
+  JSON
+{
+   { Schema Definition ... populate the schema with the existing object IDs }
+
+"""
+
+
+        `;
 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
 
