@@ -3,7 +3,7 @@
 }
 
 .page-link {
-    @apply relative block text-xs px-1.5 py-0.5 ml-[-1px] leading-5 text-gray-600 bg-white dark:bg-slate-900 border border-gray-300;
+    @apply relative block text-xs px-1.5 py-0.5 ml-[-1px] leading-5 text-gray-600 bg-white dark:bg-gray-900 border border-gray-300;
 }
 
 .page-link:hover {
@@ -23,11 +23,11 @@
 }
 
 .page-item.active .page-link {
-    @apply z-10 text-white bg-gray-600 border-gray-600 dark:bg-slate-800 dark:border-white dark:text-black;
+    @apply z-10 text-white bg-gray-600 border-gray-600 dark:bg-gray-800 dark:border-white dark:text-black;
 }
 
 .page-item.disabled .page-link {
-    @apply text-gray-400 dark:text-white pointer-events-none bg-white dark:bg-slate-900 border-gray-300;
+    @apply text-gray-400 dark:text-white pointer-events-none bg-white dark:bg-gray-900 border-gray-300;
 }
 
 
@@ -40,7 +40,7 @@
 }
 
 .mw-live-edit-pagination-tabler .page-item .page-link:hover, .mw-live-edit-pagination-tabler .page-item .page-link.active {
-    @apply bg-gray-100 dark:bg-slate-900 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white;
+    @apply bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white;
 
 }
 
