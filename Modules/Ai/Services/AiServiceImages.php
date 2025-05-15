@@ -77,7 +77,7 @@ class AiServiceImages
      * @return array Response containing image URLs or data
      * @throws \Exception
      */
-    public function generateImage(string $prompt, array $options = []): array
+    public function generateImage(array $messages, array $options = []): string|array
     {
         // Check if the current driver is enabled
         $driverName = $this->getActiveDriver();
@@ -89,17 +89,17 @@ class AiServiceImages
 
         // Different drivers have different methods for image generation
         if ($driverName === 'openai') {
-            return $this->driver->images()->create([
-                'prompt' => $prompt,
-                'n' => $options['number_of_images'] ?? 1,
-                'size' => $options['size'] ?? '1024x1024',
-                'model' => $options['model'] ?? 'dall-e-3',
-                'quality' => $options['quality'] ?? 'standard',
-            ]);
+//            return $this->driver->images()->create([
+//                'prompt' => $prompt,
+//                'n' => $options['number_of_images'] ?? 1,
+//                'size' => $options['size'] ?? '1024x1024',
+//                'model' => $options['model'] ?? 'dall-e-3',
+//                'quality' => $options['quality'] ?? 'standard',
+//            ]);
         } elseif ($driverName === 'gemini') {
-            return $this->driver->processImageWithPrompt($prompt, $options['imageBase64'] ?? '', $options);
+    //        return $this->driver->processImageWithPrompt($prompt, $options['imageBase64'] ?? '', $options);
         } elseif ($driverName === 'replicate') {
-            return $this->driver->generateImage($prompt, $options);
+            return $this->driver->generateImage($messages, $options);
         }
 
         throw new \Exception("Image generation not supported by driver: $driverName");

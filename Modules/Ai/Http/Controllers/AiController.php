@@ -9,14 +9,13 @@ use Modules\Ai\Facades\AiImages;
 
 class AiController extends Controller
 {
-    public function editImage(Request $request)
+    public function generateImage(Request $request)
     {
-        // Validate the request
         $rules = [
-            'prompt' => 'required|string',
-            'url' => 'required|string',
-        ];
+            'messages' => 'required|array',
+            'options' => 'sometimes|array',
 
+        ];
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
@@ -26,8 +25,28 @@ class AiController extends Controller
             ], 422);
         }
 
-        $prompt = $request->input('prompt');
-        $imageUrl = $request->input('url');
+
+        $request->validate($rules);
+
+
+        if (!$request->input('messages')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Messages are required'
+            ], 422);
+        }
+
+        $messages = $request->input('messages');
+         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->toArray()
+            ], 422);
+        }
+
+         $imageUrl = $request->input('url');
         $options = $request->input('options', []);
 
 
@@ -37,7 +56,7 @@ class AiController extends Controller
 
         try {
             // Process the image with AI
-            $response = AiImages::generateImage($prompt, $options);
+            $response = AiImages::generateImage($messages, $options);
 
             $result = [
                 'success' => true,

@@ -498,12 +498,13 @@ export class ElementActions extends MicroweberBaseClass {
             toDataURL(img.src, b64 => {
 
                 if (window.MwAi) {
-
+                    let message = area.value;
                     let messages = [{role: 'user', content: message}];
 
-                    let messagesOptions = options;
+                    let messagesOptions = {};
+                    messagesOptions['image'] = b64;
 
-                    let res =   MwAi().generateImage(messages, messagesOptions)
+                    let res = MwAi().generateImage(messages, messagesOptions)
 
                     res.then((url) => {
                         img.src = url;
@@ -516,37 +517,35 @@ export class ElementActions extends MicroweberBaseClass {
                 }
 
 
-
-            /*    $.post(mw.settings.site_url + 'api/ai/edit-image', {
-                    prompt: area.value,
-                    url: b64
-                }, data => {
-                    if (data.success) {
-                        // First try to use the stored file URL if available
-                        if (data.url) {
-                            img.src = data.url;
-                        }
-                        // Fall back to base64 data if URL is not available
-                        else if (data.data) {
-                            img.src = 'data:image/png;base64,' + data.data;
+                /*    $.post(mw.settings.site_url + 'api/ai/edit-image', {
+                        prompt: area.value,
+                        url: b64
+                    }, data => {
+                        if (data.success) {
+                            // First try to use the stored file URL if available
+                            if (data.url) {
+                                img.src = data.url;
+                            }
+                            // Fall back to base64 data if URL is not available
+                            else if (data.data) {
+                                img.src = 'data:image/png;base64,' + data.data;
+                            } else {
+                                alert('Error: No image data received');
+                            }
+                            button.disabled = false;
+                            button.textContent = 'Submit';
                         } else {
-                            alert('Error: No image data received');
+                            alert('Error processing image: ' + (data.message || 'Unknown error'));
+                            button.disabled = false;
+                            button.textContent = 'Submit';
                         }
+                    }).fail((xhr) => {
+                        alert('Error processing image: ' + (xhr.responseJSON?.message || 'Server error'));
                         button.disabled = false;
                         button.textContent = 'Submit';
-                    } else {
-                        alert('Error processing image: ' + (data.message || 'Unknown error'));
-                        button.disabled = false;
-                        button.textContent = 'Submit';
-                    }
-                }).fail((xhr) => {
-                    alert('Error processing image: ' + (xhr.responseJSON?.message || 'Server error'));
-                    button.disabled = false;
-                    button.textContent = 'Submit';
-                });
+                    });
 
-                */
-
+                    */
 
 
             });

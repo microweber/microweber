@@ -72,9 +72,37 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         return 'replicate';
     }
 
-    public function generateImage(string $prompt, array $options = []): array
+    /**
+     * Get file extension from URL
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function getFileExtensionFromUrl(string $url): string
     {
-        // Check cache first if caching is enabled
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+
+        // Extract extension from URL path
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        // If no extension found or not allowed, default to png
+        if (empty($extension) || !in_array($extension, $allowedExtensions)) {
+            return 'png';
+        }
+
+        // Convert jpeg to jpg for consistency
+        if ($extension === 'jpeg') {
+            return 'jpg';
+        }
+
+        return $extension;
+    }
+
+    public function generateImage(array $messages, array $options = []): array
+    {
+        $prompt = implode(' ', array_column($messages, 'content'));
+
         if ($this->useCache) {
             $cacheKey = 'replicate_image_' . md5($prompt . json_encode($options));
             if ($cached = Cache::get($cacheKey)) {
@@ -83,50 +111,27 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         }
 
         $model = $options['model'] ?? $this->defaultImageModel;
+        $defaultParams = $this->config['default_parameters'] ?? [];
+        $fieldMapping = $this->config['field_mapping'][$model] ?? [];
 
-        $payload = [
-            'input' => [
-                'prompt' => $prompt,
-            ]
-        ];
+        $payload = ['input' => ['prompt' => $prompt]];
 
-        // Add model-specific parameters
-        if (strpos($model, 'stability-ai/stable-diffusion') !== false) {
-            // Add specific parameters for Stability AI models
-            if (isset($options['negative_prompt'])) {
-                $payload['input']['negative_prompt'] = $options['negative_prompt'];
-            }
-        } else {
-            // Default parameters for other models
-            $payload['input']['aspect_ratio'] = $options['aspect_ratio'] ?? '3:4';
-            $payload['input']['number_of_images'] = $options['number_of_images'] ?? 1;
-            $payload['input']['prompt_optimizer'] = $options['prompt_optimizer'] ?? true;
-
-
-            // Add additional options if provided
-            if (isset($options['guidance_scale'])) {
-                $payload['input']['guidance_scale'] = $options['guidance_scale'];
-            }
-
-            if (isset($options['negative_prompt'])) {
-                $payload['input']['negative_prompt'] = $options['negative_prompt'];
-            }
+        // Apply default parameters first
+        foreach ($defaultParams as $key => $defaultValue) {
+            $payload['input'][$key] = $options[$key] ?? $defaultValue;
         }
 
+        // Apply field mappings
+        if (!empty($fieldMapping)) {
+            foreach ($options as $key => $value) {
+                if (isset($fieldMapping[$key])) {
+                    $mappedKey = $fieldMapping[$key];
+                    $payload['input'][$mappedKey] = $value;
+                }
+            }
+        }
 
         $payload['input']['output_format'] = $options['output_format'] ?? 'png';
-
-        if (isset($options['image'])) {
-            $payload['input']['image'] = $options['image'];
-            if (strpos($model, 'minimax/image-01') !== false) {
-                $payload['input']['subject_reference'] = $options['image'];
-            }
-
-            if (strpos($model, 'luma/photon-flash') !== false) {
-                $payload['input']['image_reference_url'] = $options['image'];
-            }
-        }
-
 
         try {
             // Use the correct endpoint format for the model
@@ -155,8 +160,20 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
                         Storage::disk('public')->makeDirectory($directory);
                     }
 
-                    // Create a unique filename based on the prompt
-                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.png';
+                    // Get file extension from URL
+                    $extension = $this->getFileExtensionFromUrl($imageUrl);
+
+                    $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+
+
+                    // Validate the extension
+                    if (!in_array($extension, $allowedExtensions)) {
+                        throw new \Exception("Invalid image extension: $extension");
+                    }
+
+
+                    // Create a unique filename with correct extension
+                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.' . $extension;
 
                     // Download and store the image
                     $imageContent = $this->fetchImageContent($imageUrl);

@@ -109,10 +109,44 @@ return [
 
 
             ],
+
+            'default_parameters' => [
+                'aspect_ratio' => '3:4',
+                'number_of_images' => 1,
+                'prompt_optimizer' => true
+            ],
+
+            'field_mapping' => [
+                'google/imagen-3' => [
+                    'prompt' => 'prompt',
+                    'image' => 'image',
+                    'negative_prompt' => 'negative_prompt',
+                    'width' => 'width',
+                    'height' => 'height',
+                    'aspect_ratio' => 'aspect_ratio',
+                    'number_of_images' => 'number_of_images',
+                    'prompt_optimizer' => 'prompt_optimizer',
+                    'guidance_scale' => 'guidance_scale'
+                ],
+
+                'minimax/image-01' => [
+                    'prompt' => 'prompt',
+                    'image' => 'subject_reference',
+                    'negative_prompt' => 'negative_prompt',
+                    'width' => 'width',
+                    'height' => 'height',
+                    'aspect_ratio' => 'aspect_ratio',
+                    'number_of_images' => 'number_of_images',
+                    'prompt_optimizer' => 'prompt_optimizer'
+                ],
+                'luma/photon-flash' => [
+                    'prompt' => 'prompt',
+                    'image' => 'image_reference_url'
+                ],
+            ]
         ],
     ],
 
 
 ];
-
 
