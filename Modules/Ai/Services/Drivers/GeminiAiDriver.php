@@ -10,6 +10,7 @@ class GeminiAiDriver extends BaseDriver
     protected string $apiKey;
     protected string $apiEndpoint;
     protected string $defaultModel;
+    protected string $defaultModelImages;
     protected bool $useCache;
     protected int $cacheDuration;
 
@@ -19,7 +20,8 @@ class GeminiAiDriver extends BaseDriver
 
         $this->apiKey = $config['api_key'] ?? env('GEMINI_API_KEY');
         $this->apiEndpoint = rtrim($config['api_endpoint'] ?? 'https://generativelanguage.googleapis.com/v1beta', '/');
-        $this->defaultModel = $config['model'] ?? 'gemini-1.5-flash';
+        $this->defaultModel = $config['model'] ?? 'gemini-2.0-flash';
+        $this->defaultModelImages = $config['model_images'] ?? 'gemini-2.0-flash-exp-image-generation';
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
     }
@@ -201,34 +203,39 @@ class GeminiAiDriver extends BaseDriver
         }
 
         // Use vision model for image processing
-        $model = $options['model'] ?? 'gemini-1.5-pro-vision';
+        $model = $options['model'] ?? $this->defaultModelImages;
 
         $payload = [
             'contents' => [
                 [
-                    'role' => 'user',
                     'parts' => [
                         [
                             'text' => $prompt
                         ],
                         [
                             'inline_data' => [
-                                'mime_type' => 'image/jpeg',
+                                'mime_type' => 'image/png',
                                 'data' => $imageBase64
                             ]
                         ]
                     ]
                 ]
+            ],
+            'generationConfig' => [
+                'responseModalities' => [ 'Image']
             ]
         ];
 
         try {
             $endpoint = "/models/" . $model . ":generateContent";
 
-
             $response = $this->makeRequest($endpoint, $payload);
 
-            if (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
+            if (isset($response['candidates'][0]['content']['parts'][0]['inlineData']['data'])) {
+                return [
+                    'data' => $response['candidates'][0]['content']['parts'][0]['inlineData']['data']
+                ];
+            } elseif (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
                 return [
                     'text' => $response['candidates'][0]['content']['parts'][0]['text']
                 ];
@@ -236,7 +243,6 @@ class GeminiAiDriver extends BaseDriver
 
             return $response;
         } catch (\Exception $e) {
-
             throw $e;
         }
     }
@@ -290,3 +296,4 @@ class GeminiAiDriver extends BaseDriver
         return $decodedResult;
     }
 }
+

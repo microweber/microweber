@@ -50,8 +50,9 @@ class AiSettingsPage extends AdminSettingsPage
                             ->label('Set default AI provider for image generation')
                             ->live()
                             ->options([
-                                'gemini' => 'Google Gemini',
-                                'openai' => 'OpenAI (DALL-E)',
+                             //   'gemini' => 'Google Gemini',
+                             //   'openai' => 'OpenAI (DALL-E)',
+                                'replicate' => 'Replicate',
                             ])
                             ->helperText('Select the provider to use for AI image generation tasks')
                     ]),
@@ -170,6 +171,34 @@ class AiSettingsPage extends AdminSettingsPage
                             ->placeholder('http://localhost:11434/api/generate')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),
                     ]),
+
+                Section::make('Replicate Settings')
+                    ->view('filament-forms::sections.section')
+                    ->schema([
+                        Toggle::make('options.ai.replicate_enabled')
+                            ->label('Enable Replicate')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark'),
+                        Select::make('options.ai.replicate_image_model')
+                            ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
+                            ->label('Image Generation Model')
+                            ->options([
+                                'minimax/image-01' => 'Minimax Image-01',
+                                'stability-ai/sdxl' => 'Stability AI SDXL',
+                                'midjourney/mj6' => 'Midjourney MJ6',
+                            ])
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://replicate.com/collections/text-to-image" target="_blank">Learn more</a> about available models.</small>')),
+
+                        TextInput::make('options.ai.replicate_api_token')
+                            ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
+                            ->label('Replicate API Token')
+                            ->placeholder('Enter your Replicate API token')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://replicate.com/account/api-tokens" target="_blank">Get your API token</a> from Replicate.</small>')),
+
+                                         ]),
             ]);
     }
 }

@@ -12,7 +12,7 @@ return [
     */
 
     'default_driver' => env('AI_DRIVER', 'openai'),
-    'default_driver_images' => env('AI_DRIVER_IMAGES', 'gemini'),
+    'default_driver_images' => env('AI_DRIVER_IMAGES', 'replicate'),
 
     /*
     |--------------------------------------------------------------------------
@@ -70,24 +70,44 @@ return [
 
         'gemini' => [
             'enabled' => env('GEMINI_ENABLED', false),
-            'supports_images' => env('GEMINI_SUPPORTS_IMAGES', true),
             'api_key' => env('GEMINI_API_KEY'),
-            'model' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
+            'model' => env('GEMINI_MODEL', 'gemini-2.0-flash'),
             'max_tokens' => env('GEMINI_MAX_TOKENS', null),
             'temperature' => env('GEMINI_TEMPERATURE', 0.7),
             'use_cache' => env('GEMINI_USE_CACHE', false),
             'cache_duration' => env('GEMINI_CACHE_DURATION', 600), // minutes
             'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta'),
             'models' => [
+                'gemini-2.0-flash' => 'Gemini 2.0 Flash',
+
                 'gemini-1.0-pro' => 'Gemini 1.0 Pro',
                 'gemini-1.0-pro-vision' => 'Gemini 1.0 Pro Vision',
                 'gemini-1.5-pro' => 'Gemini 1.5 Pro',
                 'gemini-1.5-pro-vision' => 'Gemini 1.5 Pro Vision',
                 'gemini-1.5-flash' => 'Gemini 1.5 Flash',
-                'gemini-2.0-flash' => 'Gemini 2.0 Flash',
 
             ],
         ],
+
+
+        'replicate' => [
+            'enabled' => env('REPLICATE_ENABLED', false),
+            'api_key' => env('REPLICATE_API_KEY'),
+            'model' => env('REPLICATE_MODEL', 'stability-ai/stable-diffusion-2'),
+            'max_tokens' => env('REPLICATE_MAX_TOKENS', null),
+            'temperature' => env('REPLICATE_TEMPERATURE', 0.7),
+            'use_cache' => env('REPLICATE_USE_CACHE', false),
+            'cache_duration' => env('REPLICATE_CACHE_DURATION', 600), // minutes
+            'api_endpoint' => env('REPLICATE_API_ENDPOINT', 'https://api.replicate.com/v1/predictions'),
+            'models' => [
+                'stability-ai/stable-diffusion-2' => 'Stable Diffusion 2',
+                'stability-ai/stable-diffusion-2.1' => 'Stable Diffusion 2.1',
+                'stability-ai/stable-diffusion-xl' => 'Stable Diffusion XL',
+                'stability-ai/stable-diffusion-2.1-base' => 'Stable Diffusion 2.1 Base',
+            ],
+        ],
     ],
+
+
 ];
 

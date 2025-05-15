@@ -8,6 +8,43 @@ use Modules\Ai\Facades\Ai;
 
 class AiController extends Controller
 {
+    public function editImage(Request $request)
+    {
+        // Validate the request
+        $rules = [
+            'prompt' => 'required|string',
+            'url' => 'required|string',
+        ];
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->toArray()
+            ], 422);
+        }
+
+        $prompt = $request->input('prompt');
+        $imageUrl = $request->input('url');
+        $options = $request->input('options', []);
+
+        try {
+            // Process the image with AI
+            $response = Ai::processImageWithPrompt($prompt, $imageUrl, $options);
+
+            return response()->json([
+                'success' => true,
+                'resp' => $response
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function chat(Request $request)
     {
         $rules = [
@@ -66,3 +103,4 @@ class AiController extends Controller
         }
     }
 }
+
