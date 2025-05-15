@@ -110,3 +110,12 @@
 }
 
 
+.form-check-label {
+    @apply dark:!text-white;
+}
+
+.mw-dialog-holder {
+    @apply dark:!bg-slate-900;
+}
+
+

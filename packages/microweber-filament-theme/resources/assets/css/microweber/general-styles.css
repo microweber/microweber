@@ -82,7 +82,7 @@
 }
 
 .modal-header, .modal-body, .modal-footer {
-    @apply text-black dark:text-white border-0 dark:bg-slate-800;
+    @apply text-black dark:text-white border-0 dark:bg-slate-900;
 }
 
 .font-weight-bold {
@@ -1064,5 +1064,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-fo-field-wrp-helper-text {
     a {
         @apply underline underline-offset-2;
+    }
+}
+
+.mw-ui-form-controller-root  {
+    .form-control-live-edit-label-wrapper{
+        @apply ml-5;
     }
 }
