@@ -12,7 +12,7 @@
 
 .btn-secondary {
     @apply text-white bg-gray-600 border-gray-600 hover:bg-gray-700 hover:border-gray-700;
-    @apply dark:bg-slate-700 dark:border-gray-700 dark:hover:bg-gray-800 dark:hover:border-black dark:text-white;
+    @apply dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-800 dark:hover:border-black dark:text-white;
     @apply disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-600 dark:disabled:border-gray-600 dark:disabled:text-gray-300;
 }
 
@@ -48,7 +48,7 @@
 
 .btn-dark {
     @apply text-white bg-gray-800 border-black hover:bg-gray-900 hover:border-black;
-    @apply dark:bg-slate-800 dark:border-white dark:hover:bg-black dark:hover:border-black dark:text-white;
+    @apply dark:bg-gray-800 dark:border-white dark:hover:bg-black dark:hover:border-black dark:text-white;
     @apply disabled:bg-gray-600 disabled:border-gray-600 disabled:cursor-not-allowed dark:disabled:bg-gray-800 dark:disabled:border-gray-800 dark:disabled:text-gray-500;
 }
 

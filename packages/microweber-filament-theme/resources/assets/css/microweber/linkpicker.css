@@ -7,11 +7,11 @@
 }
 
 .form-control-live-edit-label-wrapper a {
-    @apply hover:bg-white/80 hover:dark:bg-slate-900 rounded py-2 px-4 text-center text-gray-600 dark:text-white w-full text-sm;
+    @apply hover:bg-white/80 hover:dark:bg-gray-900 rounded py-2 px-4 text-center text-gray-600 dark:text-white w-full text-sm;
 }
 
 .form-control-live-edit-label-wrapper a.active {
-    @apply bg-white dark:bg-slate-900;
+    @apply bg-white dark:bg-gray-900;
 }
 
 .mw-ui-field-holder {
@@ -42,7 +42,7 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
-    @apply bg-white dark:bg-slate-900 !p-7 flex-1;
+    @apply bg-white dark:bg-gray-900 !p-7 flex-1;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller--radio-list {

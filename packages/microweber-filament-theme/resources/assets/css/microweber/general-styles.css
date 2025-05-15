@@ -70,7 +70,7 @@
 }
 
 .bg-white {
-    @apply dark:bg-slate-800;
+    @apply dark:bg-gray-800;
 }
 
 .text-gray-500 {
@@ -82,7 +82,7 @@
 }
 
 .modal-header, .modal-body, .modal-footer {
-    @apply text-black dark:text-white border-0 dark:bg-slate-800;
+    @apply text-black dark:text-white border-0 dark:bg-gray-900;
 }
 
 .font-weight-bold {
@@ -107,7 +107,7 @@
 }
 
 .form-check-input[type="checkbox"] {
-    @apply w-4 h-4 text-blue-600  border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-slate-700 dark:border-gray-600;
+    @apply w-4 h-4 text-blue-600  border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
 }
 
 .form-check {
@@ -116,15 +116,15 @@
 
 
 .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 dark:!bg-slate-800   dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+    @apply !bg-gray-100 dark:!bg-gray-800   dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 dark:text-white dark:bg-slate-800  text-gray-600 dark:text-white shadow-none border-none;
+    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 dark:text-white dark:bg-gray-800  text-gray-600 dark:text-white shadow-none border-none;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white dark:!bg-slate-800 dark:text-white border-none;
+    @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
 }
 
 
@@ -398,11 +398,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-container {
-    @apply bg-white dark:bg-slate-800 dark:text-white;
+    @apply bg-white dark:bg-gray-800 dark:text-white;
 }
 
 .mw-dialog-header {
-    @apply bg-white dark:!bg-slate-800 dark:text-white;
+    @apply bg-white dark:!bg-gray-800 dark:text-white;
 
 }
 
@@ -411,7 +411,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-footer {
-    @apply bg-white dark:bg-slate-800 dark:text-white !p-6 !border-0 flex items-center justify-end gap-3 !m-0;
+    @apply bg-white dark:bg-gray-800 dark:text-white !p-6 !border-0 flex items-center justify-end gap-3 !m-0;
 }
 
 .mw-dialog-footer .btn {
@@ -686,7 +686,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-tree-nav-skin-category-manager li[data-type="page"] > .mw-tree-item-content-root .mw-tree-item-content {
-    @apply !bg-gray-50 dark:!bg-slate-700 !pl-[35px] !rounded-none;
+    @apply !bg-gray-50 dark:!bg-gray-700 !pl-[35px] !rounded-none;
 }
 
 .mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
@@ -715,7 +715,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-tree-nav-skin-category-manager li[data-type="category"] > .mw-tree-item-content-root .mw-tree-item-content {
-    @apply !bg-gray-50 dark:!bg-slate-700 !rounded-none !shadow-none;
+    @apply !bg-gray-50 dark:!bg-gray-700 !rounded-none !shadow-none;
 }
 
 
@@ -747,7 +747,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-le-modules-dialog .modules-list-defaultModules {
 
-    @apply bg-white dark:bg-slate-800;
+    @apply bg-white dark:bg-gray-800;
 
     input {
         margin: 10px auto;
@@ -768,7 +768,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-control-box-default {
-    @apply px-3 dark:bg-slate-800;
+    @apply px-3 dark:bg-gray-800;
 }
 
 .bg-custom-600:not(.fi-fo-toggle) {
@@ -796,19 +796,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-file-manager-paging-bottom {
-    @apply dark:bg-slate-800 dark:text-white;
+    @apply dark:bg-gray-800 dark:text-white;
 }
 
 .fi-fo-placeholder .bg-gray-100 {
-    @apply dark:bg-slate-800;
+    @apply dark:bg-gray-800;
 }
 
 #toolbar {
-    @apply dark:bg-slate-800 dark:text-white;
+    @apply dark:bg-gray-800 dark:text-white;
 }
 
 #general-theme-settings, select option, .v3ti .v3ti-new-tagp, #mw-element-style-editor-app, .v3ti .v3ti-content, .fi-body  {
-    @apply dark:!bg-slate-800 dark:text-white;
+    @apply dark:!bg-gray-800 dark:text-white;
 }
 
 #general-theme-settings {
@@ -816,11 +816,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-ese-holder, .mw-element-spacing-editor .input input, .mw-field.mw-field-flat input, .box-shadow-options .card {
-    @apply dark:!bg-slate-900 dark:text-white;
+    @apply dark:!bg-gray-900 dark:text-white;
 }
 
 .fi-section-content, .fi-section-content-ctn, .fi-section-header, .fi-wi-stats-overview-stat {
-    @apply dark:!bg-slate-900 dark:!border-slate-900 rounded-none;
+    @apply dark:!bg-gray-900 dark:!border-slate-900 rounded-none;
 
 }
 
@@ -833,7 +833,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-le-modules-dialog {
-    @apply bg-white dark:bg-slate-800 dark:text-white;
+    @apply bg-white dark:bg-gray-800 dark:text-white;
 
 }
 
@@ -842,7 +842,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
  }
 
 .mw-modules-list-block-item:hover {
-    @apply dark:bg-slate-700 dark:text-white;
+    @apply dark:bg-gray-700 dark:text-white;
 }
 
 .fi-sidebar-group-label {
@@ -860,7 +860,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-section-header, .fi-ta-header {
-    @apply bg-gray-50 dark:bg-slate-800 !p-3 m-0 border;
+    @apply bg-gray-50 dark:bg-gray-800 !p-3 m-0 border;
 
     border-bottom: none;
 
@@ -874,7 +874,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-main-ctn.w-screen, .fi-topbar nav {
-    @apply bg-slate-50 dark:bg-slate-900;
+    @apply bg-slate-50 dark:bg-gray-900;
 }
 
 [data-icon="mw-language"] {
@@ -905,7 +905,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-accordion-component-header {
-    @apply bg-gray-100 dark:bg-slate-800;
+    @apply bg-gray-100 dark:bg-gray-800;
 }
 
 .fi-pagination-overview {
@@ -914,12 +914,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 #save-toolbar {
-    @apply fixed bottom-0 w-100 d-flex justify-center py-5 z-10 bg-white dark:bg-slate-800 dark:text-white;
+    @apply fixed bottom-0 w-100 d-flex justify-center py-5 z-10 bg-white dark:bg-gray-800 dark:text-white;
 }
 
 
 .mw-control-box-bottom.mw-control-box-default {
-    @apply dark:bg-slate-800 dark:text-white bg-white shadow border p-3;
+    @apply dark:bg-gray-800 dark:text-white bg-white shadow border p-3;
 
 }
 
@@ -932,7 +932,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-domtree li.selected > span {
-    @apply   bg-gray-100 dark:bg-slate-900  ;
+    @apply   bg-gray-100 dark:bg-gray-900  ;
 }
 
 .mw-domtree li.selectable-true > span:hover {
@@ -972,7 +972,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .group:hover .group-hover\:bg-white {
-    @apply dark:bg-slate-800;
+    @apply dark:bg-gray-800;
 }
 
 
@@ -1035,7 +1035,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 #mw-dialog-holder-module-quick-setting-dialog-mw_unlock_package_modal {
-    @apply dark:bg-slate-800 dark:text-white !w-[800px];
+    @apply dark:bg-gray-800 dark:text-white !w-[800px];
 
     .mw-dialog-footer {
         @apply hidden;
@@ -1066,3 +1066,14 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply underline underline-offset-2;
     }
 }
+
+.mw-ui-form-controller-root  {
+    .form-control-live-edit-label-wrapper{
+        @apply ml-5;
+    }
+}
+.form-check [type="radio"] {
+    @apply !rounded-full;
+}
+
+

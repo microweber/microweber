@@ -30,7 +30,7 @@
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    @apply border-none flex-1 text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full bg-[#f0f0f0] pl-[10px] dark:!bg-slate-900 dark:!text-white;;
+    @apply border-none flex-1 text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full bg-[#f0f0f0] pl-[10px] dark:!bg-gray-900 dark:!text-white;;
     span {
         @apply dark:text-white;
 
@@ -38,7 +38,7 @@
 
     li > span{
         &:hover {
-           @apply dark:bg-slate-700;
+           @apply dark:bg-gray-700;
         }
     }
 }
@@ -107,6 +107,15 @@
             @apply dark:fill-white;
         }
     }
+}
+
+
+.form-check-label {
+    @apply dark:!text-white;
+}
+
+.mw-dialog-holder {
+    @apply dark:!bg-gray-900;
 }
 
 
