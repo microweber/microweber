@@ -7,16 +7,16 @@ use Modules\Ai\Services\Drivers\AiServiceInterface;
 use Modules\Ai\Services\Drivers\GeminiAiDriver;
 use Modules\Ai\Services\Drivers\OllamaAiDriver;
 use Modules\Ai\Services\Drivers\OpenAiDriver;
-use Modules\Ai\Services\Drivers\OpenRouterAiDriver;
+use Modules\Ai\Services\Drivers\ReplicateAiDriver;
 
-class AiService implements AiServiceInterface
+class AiServiceImages
 {
     /**
      * The active driver instance.
      *
-     * @var \Modules\Ai\Services\Drivers\AiServiceInterface
+     * @var object
      */
-    protected AiServiceInterface $driver;
+    protected $driver;
 
     /**
      * The available driver instances.
@@ -33,7 +33,7 @@ class AiService implements AiServiceInterface
     protected array $config = [];
 
     /**
-     * Create a new AI service instance.
+     * Create a new AI service images instance.
      *
      * @param string $defaultDriver
      * @param array $config
@@ -49,51 +49,61 @@ class AiService implements AiServiceInterface
      *
      * @param string $driver
      * @param array $config
-     * @return \Modules\Ai\Services\Drivers\AiServiceInterface
+     * @return object
      *
      * @throws InvalidArgumentException
      */
-    protected function createDriver(string $driver, array $config): AiServiceInterface
+    protected function createDriver(string $driver, array $config): object
     {
         if (isset($this->drivers[$driver])) {
             return $this->drivers[$driver];
         }
 
         $driverClass = match ($driver) {
-            'openai' => OpenAiDriver::class,
-            'openrouter' => OpenRouterAiDriver::class,
+            'replicate' => ReplicateAiDriver::class,
             'gemini' => GeminiAiDriver::class,
-            'ollama' => OllamaAiDriver::class,
-            //todo add more drivers
-            default => throw new InvalidArgumentException("Driver [{$driver}] not supported."),
+
+            default => throw new InvalidArgumentException("Driver [{$driver}] not supported for image generation."),
         };
 
         return $this->drivers[$driver] = new $driverClass($config);
     }
 
     /**
-     * Send messages to chat and get a response.
+     * Generate an image based on a prompt.
      *
-     * @param array $messages Array of messages
-     * @param array $options Additional options
-     * @return string|array The generated content or function call response array
+     * @param string $prompt The text prompt for image generation
+     * @param array $options Additional options specific to the driver
+     * @return array Response containing image URLs or data
+     * @throws \Exception
      */
-    public function sendToChat(array $messages, array $options = []): string|array
+    public function generateImage(string $prompt, array $options = []): array
     {
         // Check if the current driver is enabled
-        $driverName = $this->driver->getActiveDriver();
+        $driverName = $this->getActiveDriver();
         $isEnabled = $this->config[$driverName]['enabled'] ?? false;
 
         if (!$isEnabled) {
             throw new \Exception("AI driver '$driverName' is not enabled. Please enable it in the settings.");
         }
 
-        return $this->driver->sendToChat($messages, $options);
+        // Different drivers have different methods for image generation
+        if ($driverName === 'openai') {
+            return $this->driver->images()->create([
+                'prompt' => $prompt,
+                'n' => $options['number_of_images'] ?? 1,
+                'size' => $options['size'] ?? '1024x1024',
+                'model' => $options['model'] ?? 'dall-e-3',
+                'quality' => $options['quality'] ?? 'standard',
+            ]);
+        } elseif ($driverName === 'gemini') {
+            return $this->driver->processImageWithPrompt($prompt, $options['imageBase64'] ?? '', $options);
+        } elseif ($driverName === 'replicate') {
+            return $this->driver->generateImage($prompt, $options);
+        }
+
+        throw new \Exception("Image generation not supported by driver: $driverName");
     }
-
-
-
-
 
     /**
      * Get the name of the currently active AI driver.
@@ -102,7 +112,7 @@ class AiService implements AiServiceInterface
      */
     public function getActiveDriver(): string
     {
-        return $this->driver->getActiveDriver();
+        return $this->driver->getDriverName();
     }
 
     /**
@@ -116,4 +126,3 @@ class AiService implements AiServiceInterface
         $this->driver = $this->createDriver($driver, $this->config[$driver] ?? []);
     }
 }
-

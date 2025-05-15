@@ -10,6 +10,7 @@ class GeminiAiDriver extends BaseDriver
     protected string $apiKey;
     protected string $apiEndpoint;
     protected string $defaultModel;
+    protected string $defaultModelImages;
     protected bool $useCache;
     protected int $cacheDuration;
 
@@ -19,7 +20,8 @@ class GeminiAiDriver extends BaseDriver
 
         $this->apiKey = $config['api_key'] ?? env('GEMINI_API_KEY');
         $this->apiEndpoint = rtrim($config['api_endpoint'] ?? 'https://generativelanguage.googleapis.com/v1beta', '/');
-        $this->defaultModel = $config['model'] ?? 'gemini-1.5-pro';
+        $this->defaultModel = $config['model'] ?? 'gemini-2.0-flash';
+        $this->defaultModelImages = $config['model_images'] ?? 'gemini-2.0-flash-exp-image-generation';
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
     }
@@ -51,46 +53,54 @@ class GeminiAiDriver extends BaseDriver
             }
         }
 
-        // Convert OpenAI-style messages to Gemini format
-        $geminiMessages = $this->convertToGeminiFormat($messages);
-
         $model = $options['model'] ?? $this->defaultModel;
         $temperature = $options['temperature'] ?? 0.7;
         $maxTokens = $options['max_tokens'] ?? null;
-
-        $payload = [
-            'contents' => $geminiMessages,
-            'generationConfig' => [
-                'temperature' => $temperature,
-            ]
-        ];
-
-        if ($maxTokens !== null) {
-            $payload['generationConfig']['maxOutputTokens'] = $maxTokens;
+        $schema = null;
+        if (isset($options['schema']) and $options['schema']) {
+            $schema = $options['schema'];
         }
-
-        // Add JSON schema response format if provided
-        if (isset($options['schema']) && $options['schema']) {
-            $payload['generationConfig']['responseSchema'] = $options['schema'];
-            $payload['generationConfig']['responseSchemaFollowingStrategy'] = 'STRICT';
-        }
-
         try {
-            $endpoint = "/models/{$model}:generateContent";
-            $response = $this->makeRequest($endpoint, $payload);
+            // Direct generateContent endpoint for API v1beta
+            $endpoint = "/models/" . $model . ":generateContent";
 
-            $result = null;
+            // Convert OpenAI format to Gemini API format
+            $geminiPayload = [
+                'contents' => $this->convertToGeminiFormat($messages),
+                'generationConfig' => [
+                    'temperature' => $temperature
+                ]
+            ];
 
-            // Extract content from Gemini response
+            if ($maxTokens !== null) {
+                $geminiPayload['generationConfig']['maxOutputTokens'] = $maxTokens;
+            }
+
+
+            $response = $this->makeRequest($endpoint, $geminiPayload);
+
+
+            $result = [];
+
+            // Process Gemini response
             if (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
                 $result = $response['candidates'][0]['content']['parts'][0]['text'];
-            } elseif (isset($response['promptFeedback']['blockReason'])) {
-                // Handle content blocking
-                $result = "Response blocked: " . ($response['promptFeedback']['blockReason'] ?? 'Unknown reason');
+            } elseif (isset($response['error'])) {
+                throw new \Exception($response['error']['message'] ?? 'Unknown error');
             } else {
                 // Fallback for other response formats
                 $result = json_encode($response);
             }
+
+            if ($schema) {
+
+                $result = $this->parseJson($result);
+            }
+
+            if (!$result) {
+                $result = [];
+            }
+
 
             // Store in cache if caching is enabled
             if ($this->useCache) {
@@ -99,9 +109,79 @@ class GeminiAiDriver extends BaseDriver
 
             return $result;
         } catch (\Exception $e) {
-            Log::error('Gemini API error: ' . $e->getMessage());
             throw $e;
         }
+    }
+
+    /**
+     * Convert OpenAI format messages to Gemini API format
+     *
+     * @param array $messages
+     * @return array
+     */
+    protected function convertToGeminiFormat(array $messages): array
+    {
+        $contents = [];
+        $currentUserContent = [];
+        $currentRole = null;
+
+        foreach ($messages as $message) {
+            $role = $message['role'];
+            $content = $message['content'];
+
+            // If we have a role change, push the accumulated content
+            if ($currentRole !== null && $currentRole !== $role) {
+                $contents[] = [
+                    'role' => $currentRole === 'user' ? 'user' : 'model',
+                    'parts' => [
+                        ['text' => implode("\n", $currentUserContent)]
+                    ]
+                ];
+                $currentUserContent = [];
+            }
+
+            $currentRole = $role;
+
+            if (is_array($content)) {
+                // Handle multimodal content
+                $parts = [];
+                foreach ($content as $part) {
+                    if ($part['type'] === 'text') {
+                        $currentUserContent[] = $part['text'];
+                    } elseif ($part['type'] === 'image_url' && isset($part['image_url']['url'])) {
+                        $contents[] = [
+                            'role' => $role === 'user' ? 'user' : 'model',
+                            'parts' => [
+                                [
+                                    'text' => implode("\n", $currentUserContent)
+                                ],
+                                [
+                                    'inline_data' => [
+                                        'mime_type' => 'image/jpeg',
+                                        'data' => str_replace('data:image/png;base64,', '', $part['image_url']['url'])
+                                    ]
+                                ]
+                            ]
+                        ];
+                        $currentUserContent = [];
+                    }
+                }
+            } else {
+                $currentUserContent[] = $content;
+            }
+        }
+
+        // Push any remaining content
+        if (!empty($currentUserContent)) {
+            $contents[] = [
+                'role' => $currentRole === 'user' ? 'user' : 'model',
+                'parts' => [
+                    ['text' => implode("\n", $currentUserContent)]
+                ]
+            ];
+        }
+
+        return $contents;
     }
 
     /**
@@ -122,16 +202,19 @@ class GeminiAiDriver extends BaseDriver
             }
         }
 
-        $model = $options['model'] ?? 'gemini-2.0-flash-exp-image-generation';
+        // Use vision model for image processing
+        $model = $options['model'] ?? $this->defaultModelImages;
 
         $payload = [
             'contents' => [
                 [
                     'parts' => [
-                        ['text' => $prompt],
+                        [
+                            'text' => $prompt
+                        ],
                         [
                             'inline_data' => [
-                                'mime_type' => 'image/png', // Adjust mime type if needed
+                                'mime_type' => 'image/png',
                                 'data' => $imageBase64
                             ]
                         ]
@@ -139,57 +222,29 @@ class GeminiAiDriver extends BaseDriver
                 ]
             ],
             'generationConfig' => [
-                'responseModalities' => ['Text', 'Image']
+                'responseModalities' => [ 'Image']
             ]
         ];
 
         try {
-            $endpoint = "/models/{$model}:generateContent";
-            return $this->makeRequest($endpoint, $payload);
+            $endpoint = "/models/" . $model . ":generateContent";
+
+            $response = $this->makeRequest($endpoint, $payload);
+
+            if (isset($response['candidates'][0]['content']['parts'][0]['inlineData']['data'])) {
+                return [
+                    'data' => $response['candidates'][0]['content']['parts'][0]['inlineData']['data']
+                ];
+            } elseif (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
+                return [
+                    'text' => $response['candidates'][0]['content']['parts'][0]['text']
+                ];
+            }
+
+            return $response;
         } catch (\Exception $e) {
-            Log::error('Gemini image processing error: ' . $e->getMessage());
             throw $e;
         }
-    }
-
-    /**
-     * Convert OpenAI-style messages format to Gemini format.
-     *
-     * @param array $messages
-     * @return array
-     */
-    protected function convertToGeminiFormat(array $messages): array
-    {
-        $geminiMessages = [];
-        $currentMessage = [];
-        $role = '';
-
-        foreach ($messages as $message) {
-            // Gemini uses "user" and "model" roles
-            if ($message['role'] === 'system') {
-                // Add system messages as user messages with a special prefix
-                $currentMessage = [
-                    'role' => 'user',
-                    'parts' => [['text' => "[System Instruction] " . $message['content']]]
-                ];
-                $geminiMessages[] = $currentMessage;
-            } elseif ($message['role'] === 'assistant') {
-                $currentMessage = [
-                    'role' => 'model',
-                    'parts' => [['text' => $message['content']]]
-                ];
-                $geminiMessages[] = $currentMessage;
-            } elseif ($message['role'] === 'user') {
-                $currentMessage = [
-                    'role' => 'user',
-                    'parts' => [['text' => $message['content']]]
-                ];
-                $geminiMessages[] = $currentMessage;
-            }
-            // Note: Gemini doesn't have direct equivalent of "function" role
-        }
-
-        return $geminiMessages;
     }
 
     /**
@@ -202,7 +257,7 @@ class GeminiAiDriver extends BaseDriver
      */
     protected function makeRequest(string $endpoint, array $data, string $method = 'POST'): array
     {
-        $url = $this->apiEndpoint . $endpoint . "?key=" . urlencode($this->apiKey);
+        $url = $this->apiEndpoint . $endpoint . '?key=' . $this->apiKey;
 
         $headers = [
             'Content-Type: application/json'
@@ -212,6 +267,7 @@ class GeminiAiDriver extends BaseDriver
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
 
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -220,19 +276,24 @@ class GeminiAiDriver extends BaseDriver
 
         $result = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($ch)) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            throw new \Exception("cURL Error: $error");
-        }
+        $error = curl_error($ch);
 
         curl_close($ch);
+
+        if ($error) {
+            throw new \Exception("cURL Error: $error");
+        }
 
         if ($httpCode >= 400) {
             throw new \Exception("Gemini API returned error code: $httpCode, Response: $result");
         }
 
-        return json_decode($result, true);
+        $decodedResult = json_decode($result, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Failed to decode JSON response: " . json_last_error_msg() . ", Raw response: $result");
+        }
+
+        return $decodedResult;
     }
 }
+

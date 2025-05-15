@@ -2,8 +2,11 @@
 
 namespace Modules\Ai\Services\Drivers;
 
-abstract class BaseDriver implements AiServiceInterface
+abstract class BaseDriver implements AiChatServiceInterface
 {
+
+    use AiParseJsonTrait;
+
     /**
      * The configuration options for the driver.
      *
@@ -42,6 +45,9 @@ abstract class BaseDriver implements AiServiceInterface
     {
         // Base implementation does nothing
     }
+
+    abstract function sendToChat(array $messages, array $options = []): string|array;
+
 
     /**
      * Get the name of this driver.

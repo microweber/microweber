@@ -12,7 +12,7 @@ return [
     */
 
     'default_driver' => env('AI_DRIVER', 'openai'),
-    'default_driver_images' => env('AI_DRIVER_IMAGES', 'gemini'),
+    'default_driver_images' => env('AI_DRIVER_IMAGES', 'replicate'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +37,6 @@ return [
                 'gpt-4o-mini' => 'GPT 4o Mini',
                 'gpt-4.1-nano' => 'GPT 4.1 Nano',
                 'gpt-4.1-mini' => 'GPT 4.1 Mini',
-
-
                 'gpt-4o' => 'GPT 4o',
             ],
         ],
@@ -72,19 +70,49 @@ return [
 
         'gemini' => [
             'enabled' => env('GEMINI_ENABLED', false),
-            'supports_images' => env('GEMINI_SUPPORTS_IMAGES', true),
             'api_key' => env('GEMINI_API_KEY'),
-            'model' => env('GEMINI_MODEL', 'gemini-pro'),
+            'model' => env('GEMINI_MODEL', 'gemini-2.0-flash'),
             'max_tokens' => env('GEMINI_MAX_TOKENS', null),
             'temperature' => env('GEMINI_TEMPERATURE', 0.7),
-            'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta/models/'),
+            'use_cache' => env('GEMINI_USE_CACHE', false),
+            'cache_duration' => env('GEMINI_CACHE_DURATION', 600), // minutes
+            'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta'),
             'models' => [
-                'gemini-pro' => 'Gemini Pro',
-                'gemini-pro-vision' => 'Gemini Pro Vision',
+                'gemini-2.0-flash' => 'Gemini 2.0 Flash',
+
+                'gemini-1.0-pro' => 'Gemini 1.0 Pro',
+                'gemini-1.0-pro-vision' => 'Gemini 1.0 Pro Vision',
                 'gemini-1.5-pro' => 'Gemini 1.5 Pro',
+                'gemini-1.5-pro-vision' => 'Gemini 1.5 Pro Vision',
                 'gemini-1.5-flash' => 'Gemini 1.5 Flash',
-                'gemini-2.0-flash-exp' => 'Gemini 2.0 Flash Experimental',
+
+            ],
+        ],
+
+
+        'replicate' => [
+            'enabled' => env('REPLICATE_ENABLED', false),
+            'api_key' => env('REPLICATE_API_KEY'),
+            'model' => env('REPLICATE_MODEL', 'google/imagen-3'),
+            'max_tokens' => env('REPLICATE_MAX_TOKENS', null),
+            'temperature' => env('REPLICATE_TEMPERATURE', 0.7),
+            'use_cache' => env('REPLICATE_USE_CACHE', false),
+            'cache_duration' => env('REPLICATE_CACHE_DURATION', 600), // minutes
+            'api_endpoint' => env('REPLICATE_API_ENDPOINT', 'https://api.replicate.com'),
+            'models' => [
+                'google/imagen-3' => 'Imagen 3',
+                'google/imagen-3-fast' => 'Imagen 3 Fast',
+                'minimax/image-01' => 'Minimax Image 0.1',
+                'stability-ai/stable-diffusion-3.5-medium' => 'Stable Diffusion 3.5 Medium',
+
+                'black-forest-labs/flux-dev-lora' => 'Flux Dev Lora',
+
+
             ],
         ],
     ],
+
+
 ];
+
+

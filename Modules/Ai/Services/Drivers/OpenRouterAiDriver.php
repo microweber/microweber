@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 
 class OpenRouterAiDriver extends BaseDriver
 {
+    use AiParseJsonTrait;
+
     protected string $apiKey;
     protected string $apiEndpoint;
     protected string $defaultModel;
@@ -54,8 +56,10 @@ class OpenRouterAiDriver extends BaseDriver
         if ($schema) {
 
             $payload['structured_outputs'] = true;
-            $payload['format'] = $schema;
-            $payload['response_format'] = 'json';
+            $payload['format'] = 'json';
+            $payload['type'] = 'array';
+            $payload['items'] = $schema;
+            //$payload['response_format'] = 'json';
 //             $payload['response_format'] = [
 //                'type' => 'json_object',
 //                'schema' => $schema
@@ -72,8 +76,24 @@ class OpenRouterAiDriver extends BaseDriver
 
         try {
             $response = $this->makeRequest('/chat/completions', $payload);
-            dump($response);
+            //
             $content = $response['choices'][0]['message']['content'] ?? '';
+
+
+            //check if it has ```json nd parse it
+            if ($schema) {
+                $content = $this->parseJson($content);
+
+//                if (str_contains($content, '```json')) {
+//                    $content = str_replace('```json', '', $content);
+//                    $content = str_replace('```', '', $content);
+//                    $content = json_decode($content, true);
+//                } else {
+//                    $content = json_decode($content, true);
+//                }
+
+            }
+
 
             // Handle function calls if present
             if (isset($response['choices'][0]['message']['function_call'])) {

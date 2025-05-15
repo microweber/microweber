@@ -8,6 +8,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
 use Modules\Ai\Services\AiService;
+use Modules\Ai\Services\AiServiceImages;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
 
 class AiServiceProvider extends BaseModuleServiceProvider
@@ -51,6 +52,11 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 Config::set('modules.ai.drivers.ollama.enabled', (bool)$ollamaEnabled);
             }
 
+            $replicateEnabled = get_option('replicate_enabled', 'ai');
+            if ($replicateEnabled !== null) {
+                Config::set('modules.ai.drivers.replicate.enabled', (bool)$replicateEnabled);
+            }
+
             // Load driver-specific settings
             $openAiModel = get_option('openai_model', 'ai');
             $openAiApiKey = get_option('openai_api_key', 'ai');
@@ -60,6 +66,8 @@ class AiServiceProvider extends BaseModuleServiceProvider
             $ollamaApiUrl = get_option('ollama_api_url', 'ai');
             $geminiModel = get_option('gemini_model', 'ai');
             $geminiApiKey = get_option('gemini_api_key', 'ai');
+            $replicateApiToken = get_option('replicate_api_key', 'ai');
+            $replicateImageModel = get_option('replicate_model', 'ai');
 
             if ($openAiModel) {
                 Config::set('modules.ai.drivers.openai.model', $openAiModel);
@@ -88,12 +96,27 @@ class AiServiceProvider extends BaseModuleServiceProvider
             if ($geminiApiKey) {
                 Config::set('modules.ai.drivers.gemini.api_key', $geminiApiKey);
             }
+
+            if ($replicateApiToken) {
+                Config::set('modules.ai.drivers.replicate.api_key', $replicateApiToken);
+            }
+            if ($replicateImageModel) {
+                Config::set('modules.ai.drivers.replicate.model', $replicateImageModel);
+            }
         }
 
         // Register the AI service as a singleton
         $this->app->singleton('ai', function ($app) {
             return new AiService(
                 config('modules.ai.default_driver'),
+                config('modules.ai.drivers')
+            );
+        });
+
+        // Register the AI image service as a singleton
+        $this->app->singleton('ai.images', function ($app) {
+            return new AiServiceImages(
+                config('modules.ai.default_driver_images'),
                 config('modules.ai.drivers')
             );
         });
