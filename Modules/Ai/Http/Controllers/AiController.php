@@ -31,7 +31,7 @@ class AiController extends Controller
         $options = $request->input('options', []);
 
 
-        if($imageUrl){
+        if ($imageUrl) {
             $options['image'] = $imageUrl;
         }
 
@@ -39,10 +39,24 @@ class AiController extends Controller
             // Process the image with AI
             $response = AiImages::generateImage($prompt, $options);
 
-            return response()->json([
+            $result = [
                 'success' => true,
-                'resp' => $response
-            ]);
+                'response' => $response,
+                'data' => ''
+            ];
+
+            // Add the base64 data if available
+            if (isset($response['data'])) {
+                $result['data'] = $response['data'];
+                unset($response['data']);
+            }
+
+            // Add the URL to the frontend response if available
+            if (isset($response['url'])) {
+                $result['url'] = $response['url'];
+            }
+
+            return response()->json($result);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

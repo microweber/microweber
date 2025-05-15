@@ -4,6 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
 {
@@ -71,14 +72,6 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         return 'replicate';
     }
 
-    /**
-     * Generate an image with a text prompt.
-     *
-     * @param string $prompt The text prompt
-     * @param array $options Additional options for image generation
-     * @return array Response containing image URLs or error
-     * @throws \Exception
-     */
     public function generateImage(string $prompt, array $options = []): array
     {
         // Check cache first if caching is enabled
@@ -125,6 +118,46 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
 
             $response = $this->makeRequest($endpoint, $payload);
 
+            // Handle different response formats - some models return output as array, others as string
+            $imageUrl = null;
+            if (isset($response['output'])) {
+                if (is_array($response['output']) && count($response['output']) > 0) {
+                    // If output is an array (like in stability-ai models)
+                    $imageUrl = $response['output'][0];
+                } elseif (is_string($response['output'])) {
+                    // If output is a string URL (like in google/imagen models)
+                    $imageUrl = $response['output'];
+                }
+            }
+
+            // Store the image to disk if URL is available
+            if ($imageUrl) {
+                try {
+                    // Create directory if it doesn't exist
+                    $directory = 'media/replicate';
+                    if (!Storage::disk('public')->exists($directory)) {
+                        Storage::disk('public')->makeDirectory($directory);
+                    }
+
+                    // Create a unique filename based on the prompt
+                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.png';
+
+                    // Download and store the image
+                    $imageContent = $this->fetchImageContent($imageUrl);
+                    Storage::disk('public')->put($imagePath, $imageContent);
+
+                    // Add the public URL to the response
+                    $response['url'] = Storage::url($imagePath);
+
+                    // Also add the base64 encoded image data for backward compatibility
+                    $response['data'] = base64_encode($imageContent);
+                } catch (\Exception $e) {
+                    Log::error('Failed to store image: ' . $e->getMessage());
+                    // If storing fails, we'll still return the original URL
+                    $response['url'] = $imageUrl;
+                }
+            }
+
             // Store in cache if caching is enabled
             if ($this->useCache && isset($response['output'])) {
                 Cache::put($cacheKey, $response, $this->cacheDuration * 60);
@@ -133,6 +166,43 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
             return $response;
         } catch (\Exception $e) {
             throw $e;
+        }
+    }
+
+    /**
+     * Fetch image content from URL
+     *
+     * @param string $url The image URL to fetch
+     * @return string Image content
+     * @throws \Exception
+     */
+    protected function fetchImageContent(string $url): string
+    {
+        try {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+            $imageData = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+
+            curl_close($ch);
+
+            if ($error) {
+                throw new \Exception("cURL Error when downloading image: $error");
+            }
+
+            if ($httpCode >= 400) {
+                throw new \Exception("Error downloading image, HTTP code: $httpCode");
+            }
+
+            return $imageData;
+        } catch (\Exception $e) {
+            throw new \Exception("Failed to download image: " . $e->getMessage());
         }
     }
 

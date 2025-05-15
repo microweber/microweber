@@ -180,7 +180,7 @@ class AiSettingsPage extends AdminSettingsPage
                             ->live()
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-x-mark'),
-                        Select::make('options.ai.replicate_image_model')
+                        Select::make('options.ai.replicate_model')
                             ->live()
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Image Generation Model')
@@ -191,7 +191,7 @@ class AiSettingsPage extends AdminSettingsPage
                             ]))
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://replicate.com/collections/text-to-image" target="_blank">Learn more</a> about available models.</small>')),
 
-                        TextInput::make('options.ai.replicate_api_token')
+                        TextInput::make('options.ai.replicate_api_key')
                             ->live()
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Replicate API Token')

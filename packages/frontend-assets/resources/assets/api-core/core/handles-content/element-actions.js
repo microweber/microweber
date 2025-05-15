@@ -492,16 +492,39 @@ export class ElementActions extends MicroweberBaseClass {
             button.disabled = !area.value.trim();
         });
         button.addEventListener('click', e => {
+            button.disabled = true;
+            button.textContent = 'Processing...';
+
             toDataURL(img.src, b64 => {
                 $.post(mw.settings.site_url + 'api/ai/editImage', {
                     prompt: area.value,
                     url: b64
                 }, data => {
-                    img.src = 'data:image/png;base64,' + data.resp.data
-                })
-            })
-        })
-
+                    if (data.success) {
+                        // First try to use the stored file URL if available
+                        if (data.url) {
+                            img.src = data.url;
+                        }
+                        // Fall back to base64 data if URL is not available
+                        else if (data.data) {
+                            img.src = 'data:image/png;base64,' + data.data;
+                        } else {
+                            alert('Error: No image data received');
+                        }
+                        button.disabled = false;
+                        button.textContent = 'Submit';
+                    } else {
+                        alert('Error processing image: ' + (data.message || 'Unknown error'));
+                        button.disabled = false;
+                        button.textContent = 'Submit';
+                    }
+                }).fail((xhr) => {
+                    alert('Error processing image: ' + (xhr.responseJSON?.message || 'Server error'));
+                    button.disabled = false;
+                    button.textContent = 'Submit';
+                });
+            });
+        });
     }
 
     editImageWithEditor(element) {
@@ -671,3 +694,5 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.freeDraggableElementManager.destroyFreeDraggableElement(element);
     }
 }
+
+

@@ -66,8 +66,8 @@ class AiServiceProvider extends BaseModuleServiceProvider
             $ollamaApiUrl = get_option('ollama_api_url', 'ai');
             $geminiModel = get_option('gemini_model', 'ai');
             $geminiApiKey = get_option('gemini_api_key', 'ai');
-            $replicateApiToken = get_option('replicate_api_token', 'ai');
-            $replicateImageModel = get_option('replicate_image_model', 'ai');
+            $replicateApiToken = get_option('replicate_api_key', 'ai');
+            $replicateImageModel = get_option('replicate_model', 'ai');
 
             if ($openAiModel) {
                 Config::set('modules.ai.drivers.openai.model', $openAiModel);
@@ -98,10 +98,10 @@ class AiServiceProvider extends BaseModuleServiceProvider
             }
 
             if ($replicateApiToken) {
-                Config::set('modules.ai.drivers.replicate.api_token', $replicateApiToken);
+                Config::set('modules.ai.drivers.replicate.api_key', $replicateApiToken);
             }
             if ($replicateImageModel) {
-                Config::set('modules.ai.drivers.replicate.image_model', $replicateImageModel);
+                Config::set('modules.ai.drivers.replicate.model', $replicateImageModel);
             }
         }
 
