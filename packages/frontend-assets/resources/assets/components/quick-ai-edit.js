@@ -292,6 +292,8 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
             obj.node.textContent = obj.text;
 
+            mw.top().app.registerChangedState(obj.node);
+
 
         })
     }
@@ -399,6 +401,10 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
                         if (target) {
                             target.textContent = obj.text;
+
+                            mw.top().app.registerChangedState(target);
+
+
                         } else {
                             console.log(`Target element ${obj.tag}#${obj.id} not found in document`);
                         }

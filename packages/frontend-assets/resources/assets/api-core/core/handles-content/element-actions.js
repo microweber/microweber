@@ -496,7 +496,28 @@ export class ElementActions extends MicroweberBaseClass {
             button.textContent = 'Processing...';
 
             toDataURL(img.src, b64 => {
-                $.post(mw.settings.site_url + 'api/ai/edit-image', {
+
+                if (window.MwAi) {
+
+                    let messages = [{role: 'user', content: message}];
+
+                    let messagesOptions = options;
+
+                    let res =   MwAi().generateImage(messages, messagesOptions)
+
+                    res.then((url) => {
+                        img.src = url;
+                        button.disabled = false;
+                        button.textContent = 'Submit';
+
+                    });
+
+
+                }
+
+
+
+            /*    $.post(mw.settings.site_url + 'api/ai/edit-image', {
                     prompt: area.value,
                     url: b64
                 }, data => {
@@ -523,6 +544,11 @@ export class ElementActions extends MicroweberBaseClass {
                     button.disabled = false;
                     button.textContent = 'Submit';
                 });
+
+                */
+
+
+
             });
         });
     }

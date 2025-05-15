@@ -1,4 +1,3 @@
-
 function MwAi() {
     return {
         async init() {
@@ -6,9 +5,29 @@ function MwAi() {
 
         },
 
+        async generateImage(prompt, options = {}) {
+            try {
+                const data = await $.post(mw.settings.site_url + 'api/ai/edit-image', {
+                    prompt: prompt,
+                    options: options
+                });
 
-
-
+                if (data.success) {
+                    // First try to use the stored file URL if available
+                    if (data.url) {
+                        return data.url;
+                    }
+                    // Fall back to base64 data if URL is not available
+                    else if (data.data) {
+                        return 'data:image/png;base64,' + data.data;
+                    }
+                }
+                throw new Error('Image generation failed');
+            } catch (error) {
+                console.error('AI Image Generation Error:', error);
+                throw error;
+            }
+        },
 
         async sendToChat(messages, options = {}) {
 
