@@ -9,7 +9,7 @@ use Modules\Ai\Facades\AiImages;
 
 class AiController extends Controller
 {
-    public function editImage(Request $request)
+    public function generateImage(Request $request)
     {
         $rules = [
             'messages' => 'required|array',
