@@ -496,7 +496,7 @@ export class ElementActions extends MicroweberBaseClass {
             button.textContent = 'Processing...';
 
             toDataURL(img.src, b64 => {
-                $.post(mw.settings.site_url + 'api/ai/editImage', {
+                $.post(mw.settings.site_url + 'api/ai/edit-image', {
                     prompt: area.value,
                     url: b64
                 }, data => {

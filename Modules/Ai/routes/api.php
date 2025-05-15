@@ -8,5 +8,5 @@ Route::middleware(['admin'])->group(function () {
         ->name('api.ai.chat');
 
     Route::post('api/ai/editImage', [Modules\Ai\Http\Controllers\AiController::class, 'editImage'])
-        ->name('api.ai.editImage');
+        ->name('api.ai.edit-image');
 });
