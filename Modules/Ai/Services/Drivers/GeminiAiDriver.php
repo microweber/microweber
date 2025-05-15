@@ -94,8 +94,8 @@ class GeminiAiDriver extends BaseDriver
 
                 $result = $this->parseJson($result);
             }
-            dd($result);
-            if(!$result){
+
+            if (!$result) {
                 $result = [];
             }
 
@@ -107,7 +107,7 @@ class GeminiAiDriver extends BaseDriver
 
             return $result;
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
         }
     }
 
@@ -224,7 +224,6 @@ class GeminiAiDriver extends BaseDriver
 
         try {
             $endpoint = "/models/" . $model . ":generateContent";
-
 
 
             $response = $this->makeRequest($endpoint, $payload);

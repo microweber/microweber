@@ -82,7 +82,10 @@ class OllamaAiDriver extends BaseDriver
 
         $model = $options['model'] ?? $this->defaultModel;
         $temperature = $options['temperature'] ?? 0.7;
-
+        $schema = null;
+        if (isset($options['schema']) and $options['schema']) {
+            $schema = $options['schema'];
+        }
         $payload = [
             'model' => $model,
             'prompt' => $prompt,
@@ -97,9 +100,29 @@ class OllamaAiDriver extends BaseDriver
             $payload['options']['num_predict'] = $options['max_tokens'];
         }
 
+        if ($schema) {
+
+            $payload['structured_outputs'] = true;
+            $payload['format'] = 'json';
+            $payload['type'] = 'array';
+            $payload['items'] = $schema;
+
+        }
+
         try {
             $response = $this->makeRequest($payload);
+
+
+
             $result = $response['response'] ?? '';
+            if ($schema) {
+
+                $result = $this->parseJson($result);
+            }
+
+            if(!$result){
+                $result = [];
+            }
 
             // Store in cache if caching is enabled
             if ($this->useCache && !empty($result)) {

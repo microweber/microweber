@@ -2,7 +2,7 @@
 
 namespace Modules\Ai\Filament\Pages;
 
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -40,9 +40,9 @@ class AiSettingsPage extends AdminSettingsPage
                             ->live()
                             ->options([
                                 'openai' => 'OpenAI',
+                                'gemini' => 'Google Gemini',
                                 'openrouter' => 'OpenRouter',
                                 'ollama' => 'Ollama',
-                                'gemini' => 'Google Gemini',
                             ])
                         ->helperText('Select the provider to use for AI text generation tasks'),
 
@@ -56,33 +56,21 @@ class AiSettingsPage extends AdminSettingsPage
                             ->helperText('Select the provider to use for AI image generation tasks')
                     ]),
 
-                Section::make('Enable AI Providers')
-                    ->view('filament-forms::sections.section')
-                    ->schema([
-                        Checkbox::make('options.ai.openai_enabled')
-                            ->label('Enable OpenAI')
-                            ->live(),
-
-                        Checkbox::make('options.ai.gemini_enabled')
-                            ->label('Enable Google Gemini')
-                            ->live(),
-
-                        Checkbox::make('options.ai.openrouter_enabled')
-                            ->label('Enable OpenRouter')
-                            ->live(),
-
-                        Checkbox::make('options.ai.ollama_enabled')
-                            ->label('Enable Ollama')
-                            ->live(),
-                    ]),
-
                 Section::make('OpenAI Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                     ->schema([
+                        Toggle::make('options.ai.openai_enabled')
+                            ->label('Enable OpenAI')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark')
+
+                            ,
+
                         Select::make('options.ai.openai_model')
                             ->live()
                             ->label('OpenAI Model')
+                            ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->options(config('modules.ai.drivers.openai.models', [
                                 'gpt-3.5-turbo' => 'GPT 3.5 Turbo',
                                 'gpt-4' => 'GPT 4',
@@ -92,17 +80,26 @@ class AiSettingsPage extends AdminSettingsPage
                         TextInput::make('options.ai.openai_api_key')
                             ->live()
                             ->label('OpenAI API Key')
+                            ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->placeholder('Enter your OpenAI API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://platform.openai.com/signup" target="_blank">Sign up</a> for an OpenAI account to get your API key.</small>')),
                     ]),
 
                 Section::make('Google Gemini Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                     ->schema([
+                        Toggle::make('options.ai.gemini_enabled')
+                            ->label('Enable Google Gemini')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark')
+
+                            ,
+
                         Select::make('options.ai.gemini_model')
                             ->label('Gemini Model')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                             ->options(config('modules.ai.drivers.gemini.models', [
                                 'gemini-pro' => 'Gemini Pro',
                                 'gemini-pro-vision' => 'Gemini Pro Vision',
@@ -111,6 +108,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                         TextInput::make('options.ai.gemini_api_key')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                             ->label('Gemini API Key')
                             ->placeholder('Enter your Gemini API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://makersuite.google.com/app/apikey" target="_blank">Get your API key</a> from Google AI Studio.</small>')),
@@ -118,10 +116,18 @@ class AiSettingsPage extends AdminSettingsPage
 
                 Section::make('OpenRouter Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                     ->schema([
+                        Toggle::make('options.ai.openrouter_enabled')
+                            ->label('Enable OpenRouter')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark')
+
+                            ,
+
                         Select::make('options.ai.openrouter_model')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                             ->label('OpenRouter Model')
                             ->options(config('modules.ai.drivers.openrouter.models', [
                                 'meta-llama/llama-3.3-70b-instruct' => 'Meta Llama 3.3 70B Instruct',
@@ -131,6 +137,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                         TextInput::make('options.ai.openrouter_api_key')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                             ->label('OpenRouter API Key')
                             ->placeholder('Enter your OpenRouter API key')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://openrouter.ai/signup" target="_blank">Sign up</a> for an OpenRouter account.</small>')),
@@ -138,10 +145,18 @@ class AiSettingsPage extends AdminSettingsPage
 
                 Section::make('Ollama Settings')
                     ->view('filament-forms::sections.section')
-                    ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                     ->schema([
+                        Toggle::make('options.ai.ollama_enabled')
+                            ->label('Enable Ollama')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark')
+
+                            ,
+
                         Select::make('options.ai.ollama_model')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                             ->label('Ollama Model')
                             ->options(config('modules.ai.drivers.ollama.models', [
                                 'llama3.2' => 'Llama 3.2',
@@ -150,6 +165,7 @@ class AiSettingsPage extends AdminSettingsPage
 
                         TextInput::make('options.ai.ollama_api_url')
                             ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                             ->label('Ollama API URL')
                             ->placeholder('http://localhost:11434/api/generate')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),

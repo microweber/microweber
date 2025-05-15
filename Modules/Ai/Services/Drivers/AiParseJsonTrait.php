@@ -14,9 +14,9 @@ trait AiParseJsonTrait
                 $content = str_replace('```', '', $content);
                 $content = trim($content);
 
-                $content = Items::fromString($content)	;
+                $content = Items::fromString($content);
                 $content = iterator_to_array($content);
-             
+
              } else {
                 $content = trim($content);
 
