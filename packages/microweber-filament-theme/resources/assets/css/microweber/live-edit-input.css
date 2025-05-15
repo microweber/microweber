@@ -30,7 +30,7 @@
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    @apply border-none flex-1 text-[14px] leading-[22px] text-left caret-black min-h-[20px] w-full bg-[#f0f0f0] pl-[10px] dark:!bg-gray-900 dark:!text-white;;
+    @apply border !rounded-[7px] flex-1 text-[10px] leading-[15px] text-left caret-black min-h-[20px] w-full bg-[#f0f0f0] pl-[10px] dark:!bg-gray-900 dark:!text-white;;
     span {
         @apply dark:text-white;
 
