@@ -566,7 +566,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
         let res = await this.aiAdapter(message, messageOptions);
 
-        if (res.succcess && res.data) {
+        if (res.success && res.data) {
             this.applyJSON(res.data);
         } else {
             console.error(res.message);

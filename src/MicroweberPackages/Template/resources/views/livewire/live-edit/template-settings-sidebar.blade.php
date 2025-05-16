@@ -4,7 +4,6 @@
     @include('admin::layouts.partials.loads-user-custom-fonts')
 
 
-
     <div wire:ignore>
         <style>
             .fi-main-ctn {
@@ -43,25 +42,23 @@
             }
 
 
-
-                mw.top().app.on('fontsChanged', function ($event) {
-
+            mw.top().app.on('fontsChanged', function ($event) {
 
 
-                    if (mw.top().app.fontManager) {
-                        mw.top().app.fontManager.reloadLiveEdit();
-                    }
+                if (mw.top().app.fontManager) {
+                    mw.top().app.fontManager.reloadLiveEdit();
+                }
 
 
-                    // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
-                    // if (customFontsStylesheet != null) {
-                    //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-                    //     customFontsStylesheet.href = customFontsStylesheetRestyle;
-                    // }
+                // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
+                // if (customFontsStylesheet != null) {
+                //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+                //     customFontsStylesheet.href = customFontsStylesheetRestyle;
+                // }
 
-                    setTimeout(function () {
-                        mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
-                    }, 1000);
+                setTimeout(function () {
+                    mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
+                }, 1000);
 
 
             });
@@ -156,6 +153,234 @@
         </script>
 
 
+        @if(isset($styleSettings) and $styleSettings)
+
+            <script>
+
+
+                //ai-change-template-design-button
+
+                document.addEventListener('DOMContentLoaded', function () {
+
+
+                    if(typeof mw.top().win.MwAi === 'function'){
+                        $('.ai-change-template-design-button').removeClass('d-none')
+                    }
+
+
+                });
+
+                window.mw_template_settings_styles_and_selectors = @json($styleSettings)
+
+
+
+
+
+                async function changeDesign(about) {
+                    var designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
+
+                    if(!about){
+                        //open a dialog
+
+                        about = prompt('Please enter the design task description:', 'Make it blue and white');
+                    }
+                   // var about = 'make it blue and white';
+
+                    // First, recursively remove clearAll items and unwanted properties
+                    function preapareAndCleanTemplateStylesAndSelectorsData(items) {
+                        if (!Array.isArray(items)) return items;
+
+                        return items.filter(item => {
+                            // Remove items with fieldType clearAll
+                            if (item.fieldType === 'clearAll') return false;
+
+                            // Clean unwanted properties
+                            ['readSettingsFromFiles', 'parent', 'backUrl', 'url'].forEach(prop => {
+                                if (item.hasOwnProperty(prop)) delete item[prop];
+                            });
+
+                            // Clean nested settings
+                            if (item.settings && Array.isArray(item.settings)) {
+                                item.settings = preapareAndCleanTemplateStylesAndSelectorsData(item.settings);
+                            }
+
+                            // Clean nested fieldSettings if it's an array
+                            if (item.fieldSettings && Array.isArray(item.fieldSettings)) {
+                                item.fieldSettings = preapareAndCleanTemplateStylesAndSelectorsData(item.fieldSettings);
+                            }
+
+                            return item.settings?.length > 0 || item.fieldSettings || item.selectors;
+                        });
+                    }
+
+                    designSelectors = preapareAndCleanTemplateStylesAndSelectorsData(designSelectors);
+
+                    // Filter out items without settings after cleaning
+                    designSelectors = designSelectors.filter(item => {
+                        return item.settings && Array.isArray(item.settings) && item.settings.length > 0;
+                    });
+
+                    // Array to collect all selector-property combinations
+                    let allSelectorPropertyPairs = [];
+
+                    // Collect all selector-property pairs
+                    for (let i = 0; i < designSelectors.length; i++) {
+                        let item = designSelectors[i];
+
+                        // Process nested settings
+                        for (let k = 0; k < item.settings.length; k++) {
+                            let setting = item.settings[k];
+
+                            if (setting.selectors && setting.selectors.length > 0 && setting.fieldSettings) {
+                                const nestedSelector = setting.selectors[0];
+
+                                // Handle nested fieldSettings as an object
+                                if (!Array.isArray(setting.fieldSettings) && typeof setting.fieldSettings === 'object') {
+                                    const property = setting.fieldSettings.property;
+                                    if (property) {
+                                        allSelectorPropertyPairs.push({
+                                            selector: nestedSelector,
+                                            property: property,
+                                            target: {
+                                                object: setting.fieldSettings,
+                                                key: 'value'
+                                            }
+                                        });
+                                    }
+                                }
+                                // Handle nested fieldSettings as an array
+                                else if (Array.isArray(setting.fieldSettings) && setting.fieldSettings.length > 0) {
+                                    for (let m = 0; m < setting.fieldSettings.length; m++) {
+                                        const property = setting.fieldSettings[m].property;
+                                        if (property) {
+                                            allSelectorPropertyPairs.push({
+                                                selector: nestedSelector,
+                                                property: property,
+                                                target: {
+                                                    object: setting.fieldSettings[m],
+                                                    key: 'value'
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Filter unique selector-property combinations
+                    const uniquePairs = [];
+                    const uniqueKeys = new Set();
+
+                    for (const pair of allSelectorPropertyPairs) {
+                        const key = `${pair.selector}|${pair.property}`;
+                        if (!uniqueKeys.has(key)) {
+                            uniqueKeys.add(key);
+                            uniquePairs.push(pair);
+                        }
+                    }
+
+                    // Now make all the cssEditor calls
+                    for (const pair of uniquePairs) {
+                        const propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
+                        pair.target.object[pair.target.key] = propertyValue;
+                    }
+
+
+                    let valuesForEdit = {};
+                    for (const pair of uniquePairs) {
+                        const propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
+
+
+                        if (!valuesForEdit[pair.selector]) {
+                            valuesForEdit[pair.selector] = {};
+                        }
+
+
+                        valuesForEdit[pair.selector][pair.property] = propertyValue;
+                    }
+
+
+                    // console.log('Updated design settings:', designSelectors);
+                    // console.log('uniquePairs:', uniquePairs);
+                    console.log('valuesForEdit:', valuesForEdit);
+                    let editSchema = JSON.stringify(valuesForEdit);
+
+                    const message = `Using the existing object IDS,
+        By using this schema: \n ${editSchema} \n
+        You must write CSS values to the goven object,
+        You are CSS values editror, you must edit the values of the css to complete the user design taks,
+
+        The css design task is : ${about}
+
+        You must write the text for the website and will the existing object IDs with the text,
+
+
+
+You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
+"""[
+  JSON
+{
+   { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
+
+"""`
+
+
+                    let messageOptions = {};
+                    //  messageOptions.schema = this.schema();
+                    messageOptions.schema = editSchema;
+                    mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
+
+
+                    let messages = [{role: 'user', content: message}];
+
+
+                    let res = await mw.top().win.MwAi().sendToChat(messages, messageOptions)
+
+                    if (res.success && res.data) {
+
+
+                        for (const selector in res.data) {
+                            if (res.data.hasOwnProperty(selector)) {
+                                // Loop through all properties for the current selector
+                                for (const property in res.data[selector]) {
+                                    if (res.data[selector].hasOwnProperty(property)) {
+                                        const value = res.data[selector][property];
+
+                                        // Apply the property to the selector using the CSS editor
+                                        if (mw.top().app.cssEditor) {
+                                            // Determine unit if needed (you might need to adjust this based on property type)
+                                            const unit = property.includes('color') ? '' : '';
+
+                                            // Apply the CSS property
+                                            mw.top().app.cssEditor.setPropertyForSelector(
+                                                selector,
+                                                property,
+                                                value + unit,
+                                                true,
+                                                true
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                    }
+                    mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
+
+                    return designSelectors;
+                }
+
+
+            </script>
+
+        @endif
+
+
+
         @if(isset($styleSettings))
 
             <div
@@ -179,6 +404,22 @@
 
                 <div class="d-flex align-items-end" style="display: none">
 
+<div class="ai-change-template-design-button d-none">
+
+
+     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+             title="changeDesign"
+             class=" " x-on:click="()=> {
+                            changeDesign();
+                        }">
+
+
+
+                        AI
+                    </button> 
+
+
+</div>
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings"

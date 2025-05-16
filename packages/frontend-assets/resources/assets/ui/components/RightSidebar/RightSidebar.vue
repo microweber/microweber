@@ -38,6 +38,10 @@
                                     frameborder="0"
                                     allowfullscreen></iframe>
 
+
+
+
+
                         </div>
 
                     </div>
@@ -117,7 +121,7 @@ export default {
         },
         buildIframeUrlTemplateSettings: function (url) {
 
-            var moduleType = 'editor/sidebar_template_settings';
+            var moduleType = 'editor/sidebar_template_settings`';
             var attrsForSettings = {};
 
             attrsForSettings.live_edit = true;
