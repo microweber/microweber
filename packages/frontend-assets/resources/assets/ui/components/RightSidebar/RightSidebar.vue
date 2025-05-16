@@ -14,19 +14,19 @@
 
                     </span>
 
-<!--                    <div id="rightSidebarTabStyleEditorNav" role="tablist">-->
-<!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"-->
-<!--                           v-on:click="closeElementStyleEditorIfOpened"-->
-<!--                           data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">-->
-<!--                            Template Styles-->
-<!--                        </a>-->
+                    <!--                    <div id="rightSidebarTabStyleEditorNav" role="tablist">-->
+                    <!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"-->
+                    <!--                           v-on:click="closeElementStyleEditorIfOpened"-->
+                    <!--                           data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">-->
+                    <!--                            Template Styles-->
+                    <!--                        </a>-->
 
-<!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"-->
-<!--                           v-on:click="closeElementStyleEditorIfOpened"-->
-<!--                           data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">-->
-<!--                            Tools-->
-<!--                        </a>-->
-<!--                    </div>-->
+                    <!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"-->
+                    <!--                           v-on:click="closeElementStyleEditorIfOpened"-->
+                    <!--                           data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">-->
+                    <!--                            Tools-->
+                    <!--                        </a>-->
+                    <!--                    </div>-->
                 </div>
 
                 <div class="tab-content" data-show="showTemplateSettings" v-show="true">
@@ -41,13 +41,13 @@
                         </div>
 
                     </div>
-<!--                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"-->
-<!--                         role="tabpanel" style="display: none;">-->
+                    <!--                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"-->
+                    <!--                         role="tabpanel" style="display: none;">-->
 
-<!--                        <ToolsButtons></ToolsButtons>-->
+                    <!--                        <ToolsButtons></ToolsButtons>-->
 
 
-<!--                    </div>-->
+                    <!--                    </div>-->
                 </div>
 
                 <div class="tab-content" v-show="showElementStyleEditor">
@@ -71,7 +71,7 @@
     left: 250px;
 }
 .live-edit-gui-editor-opened #live-edit-frame-holder {
-     right: var(--sidebar-end-size);
+    right: var(--sidebar-end-size);
 }
 </style>
 
