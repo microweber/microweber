@@ -430,14 +430,55 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const editor = document.createElement("div");
         const nodes = [];
         const enodes = [];
+
+        // Create a container to hold the organized edit fields
+        const editFieldsContainer = document.createElement('div');
+        editFieldsContainer.className = 'edit-fields-container';
+
+        // Group objects by their parent edit section
+        const fieldGroups = {};
+
         this.api.collect(undefined, undefined, obj => {
             if (obj.node.matches(this.settings.nodesSelector)) {
                 const node = this.gui.build(obj);
                 enodes.push(node);
                 nodes.push(obj.node);
-                editor.appendChild(node);
+
+                // Get the parent section for grouping
+                const parentEdit = obj.node.closest('.edit');
+                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel'): 'default';
+
+                if (!fieldGroups[sectionId]) {
+                    fieldGroups[sectionId] = [];
+                }
+
+                fieldGroups[sectionId].push(node);
             }
         });
+
+        // Create card sections for each group
+        Object.keys(fieldGroups).forEach(sectionId => {
+            const section = document.createElement('div');
+            section.className = 'card mb-4';
+
+            const header = document.createElement('div');
+            header.className = 'card-header';
+            header.textContent = sectionId !== 'default' ? `Section: ${sectionId}` : 'Content Elements';
+
+            const body = document.createElement('div');
+            body.className = 'card-body';
+
+            fieldGroups[sectionId].forEach(field => {
+                body.appendChild(field);
+            });
+
+            section.appendChild(header);
+            section.appendChild(body);
+            editFieldsContainer.appendChild(section);
+        });
+
+        // Add the organized fields container to the editor
+        editor.appendChild(editFieldsContainer);
 
         this.#currentEditor = editor;
         this.#currentEditorNodes = enodes;
@@ -480,47 +521,130 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
     aiGUI(prompt = '') {
         const editor = document.createElement("div");
+        editor.className = "relative";
+        // Create a sticky chat container
+        const stickyContainer = document.createElement("div");
+        stickyContainer.className = "sticky-ai-chat-container";
+        stickyContainer.style.position = "sticky";
+        stickyContainer.style.bottom = "0";
+        stickyContainer.style.background = "#fff";
+        stickyContainer.style.padding = "5px";
+        stickyContainer.style.borderTop = "1px solid #e5e5e5";
+        stickyContainer.style.boxShadow = "0 -2px 10px rgba(0,0,0,0.05)";
+        stickyContainer.style.zIndex = "100";
 
-        editor.innerHTML = `
-            <div class="form-control-live-edit-label-wrapper my-4 mb-20">
+        // Create dropdown for edit mode
+        const modeSelector = `
+            <div class="form-control-live-edit-label-wrapper my-4">
+                <label class="live-edit-label">${mw.lang('Edit Mode')}</label>
+                <div class="custom-select w-full">
+                    <select class="form-control-live-edit-input edit-mode-selector">
+                        <option value="whole-page">${mw.lang('Whole Page')}</option>
+                        <option value="current-layout">${mw.lang('Current Layout')}</option>
+                    </select>
+                </div>
+            </div>
+        `;
+
+        stickyContainer.innerHTML = `
+            ${modeSelector}
+            <div class="form-control-live-edit-label-wrapper my-4">
                 <label class="live-edit-label">${mw.lang('Enter topic')}</label>
                 <textarea class="form-control-live-edit-input" placeholder="${mw.lang('Car rental company')}">${prompt}</textarea>
             </div>
 
             <button type="button" class="btn btn-dark w-full live-edit-toolbar-buttons">${mw.lang('Submit')}</button>
-        `
+        `;
 
+        // Add the sticky container to the editor
+        editor.appendChild(stickyContainer);
 
-        const field = editor.querySelector('textarea');
-        const button = editor.querySelector('button');
+        // Organize edit fields into card sections
+        const organizeEditorContent = () => {
+            // Get all existing edit field wrappers
+            const editFields = Array.from(editor.querySelectorAll('.form-control-live-edit-label-wrapper')).filter(el => !el.closest('.sticky-ai-chat-container'));
+
+            if (!editFields.length) return;
+
+            // Remove existing edit fields
+            editFields.forEach(field => field.remove());
+
+            // Create sections for edit fields
+            const editFieldsContainer = document.createElement('div');
+            editFieldsContainer.className = 'edit-fields-container';
+
+            // Group fields by their parent edit node (use $$ref to find the original object)
+            const fieldGroups = {};
+            editFields.forEach(field => {
+                const ref = field.$$ref;
+                const parentId = ref && ref.node ? (ref.node.closest('.edit') || {id: 'default'}).id : 'default';
+
+                if (!fieldGroups[parentId]) {
+                    fieldGroups[parentId] = [];
+                }
+
+                fieldGroups[parentId].push(field);
+            });
+
+            // Create card sections for each group
+            Object.keys(fieldGroups).forEach(groupId => {
+                const section = document.createElement('div');
+                section.className = 'card mb-4';
+
+                const header = document.createElement('div');
+                header.className = 'card-header';
+                header.textContent = groupId !== 'default' ? `Section: ${groupId}` : 'Content Elements';
+
+                const body = document.createElement('div');
+                body.className = 'card-body';
+
+                fieldGroups[groupId].forEach(field => {
+                    body.appendChild(field);
+                });
+
+                section.appendChild(header);
+                section.appendChild(body);
+                editFieldsContainer.appendChild(section);
+            });
+
+            // Insert before the sticky container
+            editor.insertBefore(editFieldsContainer, stickyContainer);
+        };
+
+        // Apply organization after the editor content is populated
+        setTimeout(organizeEditorContent, 100);
+
+        const field = stickyContainer.querySelector('textarea');
+        const button = stickyContainer.querySelector('button');
+        const modeSelect = stickyContainer.querySelector('.edit-mode-selector');
 
         button.addEventListener("click", () => {
-            const val = field.value.trim()
-            this.ai(val);
+            const val = field.value.trim();
+            const mode = modeSelect.value;
+            this.ai(val, mode);
         });
 
-        button.disabled = !field.value.trim()
+        button.disabled = !field.value.trim();
 
-        field.addEventListener("input", () => button.disabled = !field.value.trim())
-        field.addEventListener("focus", () => button.disabled = !field.value.trim())
+        field.addEventListener("input", () => button.disabled = !field.value.trim());
+        field.addEventListener("focus", () => button.disabled = !field.value.trim());
 
         this.on('aiRequestStart', () => {
-            button.disabled = !button.disabled;
-        })
+            button.disabled = true;
+        });
 
         this.on('aiRequestEnd', () => {
-            button.disabled = !button.disabled;
+            button.disabled = !field.value.trim();
+        });
 
-        })
         return editor;
     }
 
     #aiPending = false
 
-    async ai(about) {
-
+    async ai(about, mode = 'whole-page') {
         if (this.#aiPending) {
-            return
+            return;
         }
 
         this.#aiPending = true;
@@ -532,6 +656,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         You are a website content writer, and you must write the text in a way that is relevant to the object,
 
         The website subject is: ${about}
+        The edit mode is: ${mode}
 
         You must write the text for the website and will the existing object IDs with the text,
         Expand on the subject and try to fill and write relevant information in the existing text
