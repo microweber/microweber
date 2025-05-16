@@ -19,11 +19,11 @@
                                         @if(isset($setting['icon']) and $setting['icon'] != '')
 
                                         <?php try{ ?>
-                                          @svg($setting['icon'], "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
+                                          @svg($setting['icon'], "h-6 w-6 text-black/90 dark:text-white")
 
                                         <?php }catch(\Exception $e){ ?>
 
-                                            @svg('mw-general', "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
+                                            @svg('mw-general', "h-6 w-6 text-black/90 dark:text-white")
 
 
 
