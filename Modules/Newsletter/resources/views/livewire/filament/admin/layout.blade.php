@@ -65,7 +65,7 @@
                     href="{{route($tab['route'])}}"
                 @endif
                 class="first:rounded-l-lg last:rounded-r-lg cursor-pointer flex items-center justify-center gap-3 w-full py-4 px-2 hover:bg-gray-500/5 {{$activeClass}}">
-                @svg($tab['icon'], "h-6 w-6 text-black/90 dark:text-white")
+                @svg($tab['icon'], "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
                 {{$tab['name']}}
             </a>
         @endforeach

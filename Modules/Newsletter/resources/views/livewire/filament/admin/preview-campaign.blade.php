@@ -18,10 +18,10 @@
     <div class="flex gap-4 bg-blue-500/5 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 mt-4">
         <div class="flex items-center justify-center bg-blue-500/10 dark:bg-white/5 transition duration-150 bg-white rounded-xl p-4">
             @if ($model->recipients_from === 'all_subscribers')
-            @svg("heroicon-o-users", "h-6 w-6 text-black/90 dark:text-white")
+            @svg("heroicon-o-users", "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
             @endif
             @if ($model->recipients_from === 'specific_list')
-            @svg("heroicon-o-list-bullet", "h-6 w-6 text-black/90 dark:text-white")
+            @svg("heroicon-o-list-bullet", "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
             @endif
         </div>
         <div class="w-full flex flex-col justify-center">
@@ -55,7 +55,7 @@
     <div class="flex gap-4 bg-blue-500/5 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 mt-4">
         <div class="flex items-center justify-center">
             <div class="bg-blue-500/10 dark:bg-white/5 transition duration-150 bg-white rounded-xl p-4">
-                @svg("heroicon-o-user", "h-6 w-6 text-black/90 dark:text-white")
+                @svg("heroicon-o-user", "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
             </div>
         </div>
         <div class="w-full flex flex-col justify-center">
@@ -77,7 +77,7 @@
 
     <div class="flex gap-4 bg-blue-500/5 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 mt-4">
         <div class="flex items-center justify-center bg-blue-500/10 dark:bg-white/5 transition duration-150 bg-white rounded-xl p-4">
-            @svg("heroicon-o-calendar-days", "h-6 w-6 text-black/90 dark:text-white")
+            @svg("heroicon-o-calendar-days", "h-6 w-6 text-black/90 dark:text-white dark:fill-white")
         </div>
         <div class="w-full flex flex-col justify-center">
             <h3 class="font-bold">
