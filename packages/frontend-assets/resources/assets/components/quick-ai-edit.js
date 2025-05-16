@@ -114,6 +114,7 @@ class QuickEditService extends MicroweberBaseClass {
         super();
         this.component = instance;
         this.document = this.component.settings.document;
+
     }
 
     #editNodeContains(editNode, child) {
@@ -285,9 +286,9 @@ export class QuickEditComponent extends MicroweberBaseClass {
         this.settings = Object.assign({}, defaults, options);
         this.api = new QuickEditService(this);
         this.gui = new QuickEditGUI(this);
-
+        this.activeLayout = null;
         this.aiAdapter = this.settings.aiAdapter;
-        this.editMode = 'whole-page'; // Add default edit mode
+        //this.editMode = 'whole-page'; // Add default edit mode
 
         this.on('change', obj => {
 
@@ -297,6 +298,29 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         })
+
+
+      /*  if (mw.top().app && mw.top().app.canvas) {
+
+            // todo destroy listener
+            mw.top().app.canvas.on('canvasDocumentClick', () => {
+                var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+
+                if (!activeLayout) {
+                    if (activeElement) {
+                        activeLayout = activeElement.closest('.module-layouts');
+                    }
+                }
+
+                if (activeLayout && this.activeLayout !== activeLayout) {
+                    this.activeLayout = activeLayout;
+                    this.editor();
+                }
+            })
+        }
+*/
+
     }
 
     #currentEditor = null;
@@ -436,11 +460,34 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const editFieldsContainer = document.createElement('div');
         editFieldsContainer.className = 'edit-fields-container';
 
+
+
+        var collectEdits = undefined;
+        //
+        // if (this.editMode == 'current-layout') {
+        //
+        //     if (this.activeLayout) {
+        //
+        //         collectEdits = Array.from(this.activeLayout.querySelectorAll(this.settings.editsSelector));
+        //
+        //
+        //     } else {
+        //         collectEdits = Array.from(this.settings.document.querySelectorAll(this.settings.editsSelector));
+        //     }
+        //
+        //
+        // }
         // Group objects by their parent edit section
         const fieldGroups = {};
 
-        this.api.collect(undefined, undefined, obj => {
+
+        console.log('collectEdits', collectEdits)
+
+
+        this.api.collect(collectEdits, undefined, obj => {
             if (obj.node.matches(this.settings.nodesSelector)) {
+
+
                 const node = this.gui.build(obj);
                 enodes.push(node);
                 nodes.push(obj.node);
@@ -449,11 +496,11 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 const parentEdit = obj.node.closest('.edit');
                 let parentEditClosesIdElement = parentEdit.closest('id');
                 let parentEditClosesId = null;
-                if(parentEditClosesIdElement){
-                    parentEditClosesId  =   parentEditClosesId.id;
+                if (parentEditClosesIdElement) {
+                    parentEditClosesId = parentEditClosesId.id;
                 }
 
-                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') +parentEditClosesId : 'default';
+                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') + parentEditClosesId : 'default';
 
                 const sectionTitle = parentEdit ?
                     (parentEdit.getAttribute('id')
@@ -590,20 +637,10 @@ export class QuickEditComponent extends MicroweberBaseClass {
         editor.style.zIndex = "2";
 
         // Create dropdown for edit mode
-        const modeSelector = `
-            <div class="form-control-live-edit-label-wrapper my-4">
-                <label class="live-edit-label">${mw.lang('Edit Mode')}</label>
-                <div class="custom-select w-full">
-                    <select class="form-control-live-edit-input edit-mode-selector">
-                        <option value="whole-page">${mw.lang('Whole Page')}</option>
-                        <option value="current-layout">${mw.lang('Current Layout')}</option>
-                    </select>
-                </div>
-            </div>
-        `;
+
 
         editor.innerHTML = `
-            ${modeSelector}
+
             <div class="form-control-live-edit-label-wrapper my-4">
                 <label class="live-edit-label">${mw.lang('Enter topic')}</label>
                 <textarea class="form-control-live-edit-input" placeholder="${mw.lang('Car rental company')}">${prompt}</textarea>
@@ -715,13 +752,16 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const button = editor.querySelector('button');
         const modeSelect = editor.querySelector('.edit-mode-selector');
 
-        // Set the select to the current editMode value
-        modeSelect.value = this.editMode;
-
-        // Update the editMode when the select changes
-        modeSelect.addEventListener("change", () => {
-            this.editMode = modeSelect.value;
-        });
+        // // Set the select to the current editMode value
+        // modeSelect.value = this.editMode;
+        //
+        // // Update the editMode when the select changes
+        // modeSelect.addEventListener("change", () => {
+        //     this.editMode = modeSelect.value;
+        //
+        //     //render the editor again with the new edit mode
+        //     this.editor();
+        // });
 
         button.addEventListener("click", () => {
             const val = field.value.trim();
