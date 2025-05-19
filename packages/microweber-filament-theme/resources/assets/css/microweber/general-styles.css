@@ -372,9 +372,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-file-manager-search-button {
-    @apply flex items-center justify-center min-h-[37px];
-    border: 1px solid #ececec;
-
+    @apply flex items-center justify-center h-[37px] w-[37px] ms-3;
 }
 
 .settings-title-inside {
