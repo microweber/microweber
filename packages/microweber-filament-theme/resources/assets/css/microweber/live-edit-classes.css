@@ -117,12 +117,12 @@ body {
 
 .mw-live-edit-resolutions-wrapper,
 .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 dark:!bg-gray-800 !rounded-[5px] !p-[5px] !max-h-[35px] !flex !items-center !justify-center !gap-[2px];
+    @apply !bg-gray-100 dark:!bg-gray-700 !rounded-[5px] !p-[5px] !max-h-[35px] !flex !items-center !justify-center !gap-[2px];
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply dark:!bg-gray-800 !rounded-[5px]  !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none text-[14px];
+    @apply dark:!bg-gray-700 !rounded-[5px]  !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none text-[14px];
     border: 1px solid transparent !important;
 }
 
@@ -138,7 +138,7 @@ body {
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white !border-white dark:!bg-gray-800;
+    @apply !bg-white !border-white dark:!bg-gray-800 dark:!border-gray-800;
 
 }
 
