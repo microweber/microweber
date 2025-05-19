@@ -420,12 +420,6 @@ html.dark {
 .mw-file-manager--multiselect--count{
     white-space: nowrap;
 }
-html.dark {
-    .mw-file-manager-bar{
-
-        background-color: rgb(30 41 59 / 1);
-    }
-}
 
 .mw-file-manager-bar-view-type-selector{
     display: inline-block;
