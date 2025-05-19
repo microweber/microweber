@@ -61,7 +61,7 @@
     @apply !rounded-[7px];
 }
 
-.fi-panel-admin .rounded-full {
+.fi-panel-admin .rounded-full, .picker-button {
     @apply !rounded-full;
     border-radius: 999px !important;
 }
@@ -1076,8 +1076,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 
-body > div > [role="status"].z-50 {
-    z-index: 2000;
-}
+/*body > div > [role="status"].z-50 {*/
+/*    z-index: 2000;*/
+/*}*/
 
 
