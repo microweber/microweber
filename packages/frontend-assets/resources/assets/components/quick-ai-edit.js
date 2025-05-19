@@ -166,7 +166,7 @@ class QuickEditService extends MicroweberBaseClass {
 
     collect(edits, toJson, onNode) {
         const result = [];
-        edits = edits || Array.from(this.document.querySelectorAll(this.component.settings.editsSelector));
+        edits = edits || Array.from(this.component.settings.root.querySelectorAll(this.component.settings.editsSelector));
 
         while (edits.length > 0) {
             const edit = edits[0];
@@ -239,39 +239,6 @@ const defaultAiAdapter = async (message, options) => {
 
 }
 
-const defaultAiAdapterOld = async message => {
-    if (!window.ai || !window.ai.languageModel || !message) {
-        return {
-            succcess: false,
-            message: 'Ai is not supported in your browser'
-        };
-    }
-    const session = await ai.languageModel.create();
-
-    let res = await session.prompt(message)
-
-    res = res.split("```json")[1];
-
-    if (res) {
-        res = res.split("```")[0].trim();
-
-        if (res.slice(-1) !== ']') {
-            res += ']'
-        }
-
-        res = JSON.parse(res);
-    } else {
-        return {
-            succcess: false,
-            message: 'Error'
-        };
-    }
-
-    return {
-        succcess: true,
-        data: res
-    };
-}
 
 
 export class QuickEditComponent extends MicroweberBaseClass {
@@ -279,6 +246,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         super()
         const defaults = {
             document: mw.top().app.canvas.getDocument(),
+            root: mw.top().app.canvas.getDocument().body,
             nodesSelector: 'h1,h2,h3,h4,h5,h6,p',
             editsSelector: '.edit[rel][field]:not(.module)',
             aiAdapter: defaultAiAdapter
@@ -373,7 +341,6 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 if (target && target.$$ref && !this.#paused) {
                     target.$$ref.value = target.textContent;
                 }
-
             }
         };
 
@@ -381,7 +348,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const observer = new MutationObserver(callback);
 
 
-        observer.observe(this.settings.document.body, config);
+        observer.observe(this.settings.root || this.settings.document.body, config);
 
         this.#observer = observer;
 

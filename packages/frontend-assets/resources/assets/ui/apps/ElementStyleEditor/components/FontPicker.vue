@@ -33,7 +33,7 @@
           </span>
         </li>
       </ul>
-        <small class="cursor-pointer d-flex ms-auto justify-content-end" v-on:click="loadMoreFonts()">Add more fonts</small>
+        <small class="cursor-pointer d-flex ms-auto justify-content-end py-3" v-on:click="loadMoreFonts()">Add more fonts</small>
 
   </div>
 
