@@ -4,7 +4,7 @@
     <div class="d-flex col-auto justify-content-end">
 
         <div
-            class="mw-ui-btn mw-ui-btn-outline tip background-select-item d-flex justify-content-end" style="background-color: #f0f0f0; border: none !important;"
+            class="btn btn-primary mw-ui-btn-outline tip background-select-item d-flex justify-content-end" style="background-color: #f0f0f0; border: none !important;"
             @click="selectBackgroundImage"
             data-tip="Select background image"
         >
