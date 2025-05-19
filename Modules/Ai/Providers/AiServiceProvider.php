@@ -17,7 +17,64 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     protected string $moduleNameLower = 'ai';
 
+
     public function boot(): void
+    {
+        $this->setAiConfig();
+
+        // Register the agent factory
+        $this->app->singleton('ai.agents', function($app) {
+            return new \Modules\Ai\Services\AgentFactory($app);
+        });
+
+        // Register standard agents
+        $this->app->make('ai.agents')->register('base',
+            \Modules\Ai\Agents\BaseAgent::class);
+
+
+        $this->app->make('ai.agents')->register('content',
+            \Modules\Ai\Agents\ContentAgent::class);
+        $this->app->make('ai.agents')->register('shop',
+            \Modules\Ai\Agents\ShopAgent::class);
+
+        // Register the AI service as a singleton
+        $this->app->singleton('ai', function ($app) {
+            return new AiService(
+                config('modules.ai.default_driver'),
+                config('modules.ai.drivers')
+            );
+        });
+
+        // Register the AI image service as a singleton
+        $this->app->singleton('ai.images', function ($app) {
+            return new AiServiceImages(
+                config('modules.ai.default_driver_images'),
+                config('modules.ai.drivers')
+            );
+        });
+    }
+
+    public function register(): void
+    {
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        FilamentRegistry::registerPage(AiSettingsPage::class);
+
+        LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
+    }
+
+    public function provides(): array
+    {
+        return [
+            AiServiceInterface::class,
+        ];
+    }
+
+
+    public function setAiConfig(): void
     {
         if (mw_is_installed()) {
             // Load general settings
@@ -104,40 +161,5 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 Config::set('modules.ai.drivers.replicate.model', $replicateImageModel);
             }
         }
-
-        // Register the AI service as a singleton
-        $this->app->singleton('ai', function ($app) {
-            return new AiService(
-                config('modules.ai.default_driver'),
-                config('modules.ai.drivers')
-            );
-        });
-
-        // Register the AI image service as a singleton
-        $this->app->singleton('ai.images', function ($app) {
-            return new AiServiceImages(
-                config('modules.ai.default_driver_images'),
-                config('modules.ai.drivers')
-            );
-        });
-    }
-
-    public function register(): void
-    {
-        $this->registerConfig();
-        $this->registerViews();
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-
-        FilamentRegistry::registerPage(AiSettingsPage::class);
-
-        LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));
-    }
-
-    public function provides(): array
-    {
-        return [
-            AiServiceInterface::class,
-        ];
     }
 }

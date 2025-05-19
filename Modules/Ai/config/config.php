@@ -79,7 +79,6 @@ return [
             'api_endpoint' => env('GEMINI_API_ENDPOINT', 'https://generativelanguage.googleapis.com/v1beta'),
             'models' => [
                 'gemini-2.0-flash' => 'Gemini 2.0 Flash',
-
                 'gemini-1.0-pro' => 'Gemini 1.0 Pro',
                 'gemini-1.0-pro-vision' => 'Gemini 1.0 Pro Vision',
                 'gemini-1.5-pro' => 'Gemini 1.5 Pro',

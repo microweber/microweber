@@ -4,6 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use NeuronAI\Chat\Messages\Message;
 
 class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface
 {
@@ -222,7 +223,7 @@ class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface
                 ]
             ],
             'generationConfig' => [
-                'responseModalities' => [ 'Image']
+                'responseModalities' => ['Image']
             ]
         ];
 
