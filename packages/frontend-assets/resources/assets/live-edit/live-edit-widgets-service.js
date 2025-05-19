@@ -7,7 +7,34 @@ import BaseComponent from "../containers/base-class.js";
 export class LiveEditWidgetsService extends BaseComponent{
     constructor(){
         super();
-        this.quickEditComponent = new QuickEditComponent();
+        this.quickEditor();
+    }
+
+    quickEditor(options) {
+        if(this.quickEditComponent) {
+            this.quickEditComponent.destroyEditor();
+        }
+        this.quickEditComponent = new QuickEditComponent(options);
+
+    }
+
+    setQuickEditorForNode(node) {
+         if(!node) {
+            console.log(node, 'is not defined');
+            return;
+         }
+         this.quickEditor({
+            root: node
+         });
+
+        this.quickEditComponentBox.boxContent.innerHTML = '';
+        this.quickEditComponentBox.boxContent.appendChild(this.quickEditComponent.editor());
+
+        console.log(this.quickEditComponent.editor())
+        console.log(this.quickEditComponentBox.boxContent)
+
+        this.quickEditComponentBox.show();
+        this.status.quickEditComponent = true;
     }
 
     status = {
@@ -70,6 +97,8 @@ export class LiveEditWidgetsService extends BaseComponent{
             title: mw.lang('Quick Edit'),
             width: 'var(--sidebar-end-size)'
         });
+
+        this.quickEditComponentBox = box;
 
         this.#closeQuickEditComponentBox = box;
 

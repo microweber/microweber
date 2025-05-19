@@ -25,6 +25,7 @@ import {SingleFilePickerComponent} from './services/single-file-picker-component
 import {MWBroadcast} from './services/broadcast.js';
 import {MWDocumentFocus} from './services/document.focus.service.js';
 import {MWPageAlreadyOpened} from './components/live-edit/page-already-opened.service.js';
+import { HandleIcons } from '../core/handle-icons.js';
 
 if (!mw.app) {
     mw.app = new MWUniversalContainer();
@@ -47,6 +48,9 @@ const canvas = new LiveEditCanvas({
     onSetUrl: canvasSetUrlInterceptor
 });
 
+mw.app.register('iconService', HandleIcons);
+
+
 
 mw.app.register('documentFocus', MWDocumentFocus);
 mw.app.register('broadcast', MWBroadcast);
@@ -62,6 +66,9 @@ mw.app.register('linkPicker', LinkPicker);
 mw.app.register('colorPicker', ColorPicker);
 mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
 mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
+
+
+
 
 
 mw.app.normalizeBase64Image = normalizeBase64Image;

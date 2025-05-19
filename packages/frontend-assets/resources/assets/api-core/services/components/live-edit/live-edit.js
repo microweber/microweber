@@ -54,7 +54,7 @@ export const liveEditComponent = () => {
 
 
     mw.app.liveEdit = liveEdit;
-        mw.app.liveEditWidgets = new LiveEditWidgetsService();
+    mw.app.liveEditWidgets = new LiveEditWidgetsService();
 
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();

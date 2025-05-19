@@ -21,7 +21,7 @@ export class ElementHandleContent {
         this.tools = DomService;
         this.rootScope = rootScope;
         this.settingsTarget = new ElementSettingsTarget(this.rootScope);
-        this.handleIcons = new HandleIcons();
+        this.handleIcons = mw.top().app.iconService;
         this.elementActions = new ElementActions(this.rootScope);
         this.elementHandleButtonsVisibility = new ElementHandleButtonsVisibility(this.rootScope);
 
