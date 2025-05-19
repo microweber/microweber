@@ -535,6 +535,7 @@ html.dark .mw-file-manager-top-bar-actions-content{
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .mw-file-manager-top-bar-actions .mw-ui-btn {
     display: inline-flex;
@@ -740,7 +741,7 @@ html.dark .mw-file-manager--sort-select{
         min-height: 0px;
         width: 100px;
         font-size: 14px;
-        height: 37px;
+        height: 34px;
         margin: 3px 7px;
 
 }
