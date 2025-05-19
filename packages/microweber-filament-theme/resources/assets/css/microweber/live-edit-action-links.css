@@ -51,7 +51,7 @@
 
 .mw-admin-action-links.mw-adm-liveedit-tabs,
 .fi-tabs .fi-tabs-item {
-    @apply !font-bold pb-[10px] text-[14px];
+    @apply !font-bold pb-[5px] text-[14px];
 }
 
 .mw-admin-action-links.mw-adm-liveedit-tabs:active,
