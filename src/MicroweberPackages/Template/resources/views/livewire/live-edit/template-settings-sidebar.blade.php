@@ -395,6 +395,23 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }"
             >
 
+                <div class="ai-settings-wrapper pt-3">
+                    <label for="" class="live-edit-label">
+                        MAKE YOUR WEBSITE FASTER WITH AI
+                    </label>
+                    <div class="ai-change-template-design-button d-none">
+
+
+                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="changeDesign"
+                                class="btn btn-link" x-on:click="()=> {
+                            changeDesign();
+                        }">
+
+                            Go with AI
+                        </button>
+                </div>
+
                     <?php if (!empty($styleSettings)): ?>
                 <div class="mt-5">
             <span
@@ -404,19 +421,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                 <div class="d-flex align-items-end" style="display: none">
 
-<div class="ai-change-template-design-button d-none">
 
-
-     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-             title="changeDesign"
-             class=" " x-on:click="()=> {
-                            changeDesign();
-                        }">
-
-
-
-                        AI
-                    </button>
 
 
 </div>
