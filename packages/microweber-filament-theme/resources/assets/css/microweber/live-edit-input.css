@@ -55,12 +55,12 @@
     @apply border-0 outline-0 appearance-none !shadow-none bg-transparent;
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {
-    @apply w-full transition-[width] duration-[0.3s] !shadow-none;
-}
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {*/
+/*    @apply w-full transition-[width] duration-[0.3s] !shadow-none;*/
+/*}*/
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
@@ -74,13 +74,13 @@
     @apply bg-[#4A4A4A];
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect {
-    @apply absolute bottom-0 h-[1px] left-[6px] w-[calc(100%-12px)] bg-[#e7e7e7] box-border;
-}
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect {*/
+/*    @apply absolute bottom-0 h-[1px] left-[6px] w-[calc(100%-12px)] bg-[#e7e7e7] box-border;*/
+/*}*/
 
-#style-edit-global-template-settings-holder .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {
-    @apply !hidden;
-}
+/*#style-edit-global-template-settings-holder .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {*/
+/*    @apply !hidden;*/
+/*}*/
 
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible {
