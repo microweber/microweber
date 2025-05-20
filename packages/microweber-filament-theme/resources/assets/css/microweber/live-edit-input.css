@@ -78,7 +78,7 @@
     @apply absolute bottom-0 h-[1px] left-[6px] w-[calc(100%-12px)] bg-[#e7e7e7] box-border;
 }
 
-#general-theme-settings .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {
+#style-edit-global-template-settings-holder .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {
     @apply !hidden;
 }
 
