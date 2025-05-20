@@ -468,7 +468,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .noUi-base,
 .noUi-connects {
-    @apply w-full h-[3px] relative z-10;
+    @apply w-full h-[2px] relative z-10;
 }
 
 .noUi-connects {
