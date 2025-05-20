@@ -889,9 +889,10 @@ html.dark .mw-le-layouts-dialog {
 
 :root{
     --sidebar-start-size: 250px;
-    --sidebar-end-size: 28rem;
+    --sidebar-end-size: 15%;
+    --sidebar-end-size-min: 250px;
+    --sidebar-end-size-max: 500px;
 }
-
 
 #css-editor-template {
     position: fixed;
@@ -899,10 +900,11 @@ html.dark .mw-le-layouts-dialog {
     bottom: 0;
     right: calc(var(--sidebar-end-size) + 10px);
     width: var(--sidebar-end-size);
+    min-width: var(--sidebar-end-size-min);
+    max-width: var(--sidebar-end-size-max);
     z-index: 5;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
-
 }
 
 #css-editor-template.active + #live-edit-frame-holder {
