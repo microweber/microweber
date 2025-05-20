@@ -31,7 +31,7 @@
           </span>
         </li>
       </ul>
-        <small class="cursor-pointer d-flex ms-auto justify-content-end pt-3" v-on:click="loadMoreFonts()">Add more fonts</small>
+        <small class="cursor-pointer d-flex ms-auto justify-content-end pt-3 pb-1" v-on:click="loadMoreFonts()">Add more fonts</small>
 
   </div>
 
