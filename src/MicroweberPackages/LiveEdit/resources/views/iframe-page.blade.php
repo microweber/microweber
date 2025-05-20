@@ -92,7 +92,9 @@
 
 
             #mw-live-edit-gui-editor-box {
-                width: var(--sidebar-end-size)
+                width: var(--sidebar-end-size);
+                min-width: var(--sidebar-end-size-min);
+                max-width: var(--sidebar-end-size-max);
             }
         </style>
 

@@ -890,8 +890,8 @@ html.dark .mw-le-layouts-dialog {
 :root{
     --sidebar-start-size: 250px;
     --sidebar-end-size: 15%;
-    --sidebar-end-size-min: 250px;
-    --sidebar-end-size-max: 500px;
+    --sidebar-end-size-min: 300px;
+    --sidebar-end-size-max: 700px;
 }
 
 #css-editor-template {
@@ -929,6 +929,9 @@ html.dark .mw-le-layouts-dialog {
     border-left: var(--tblr-body-color);
     padding: 11px;
     z-index: 1;
+
+    min-width: var(--sidebar-end-size-min);
+    max-width: var(--sidebar-end-size-max);
 
 }
 
