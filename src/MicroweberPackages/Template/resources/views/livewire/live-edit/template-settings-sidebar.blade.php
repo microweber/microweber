@@ -24,6 +24,57 @@
 
             }
 
+            function resetAllDeignSelectorsValuesSettings() {
+                var askForConfirmText = mw.lang('Are you sure you want to reset stylesheet settings ?');
+
+
+                var confirmed = confirm(askForConfirmText);
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                let desinSelectors = window.mw_template_settings_styles_and_selectors;
+                if (desinSelectors) {
+                    desinSelectors = JSON.parse(JSON.stringify(desinSelectors));
+
+
+                    desinSelectors = preapareAndCleanTemplateStylesAndSelectorsData(desinSelectors);
+
+                    var valuesForEdit = preapareTemplateValuesForEdit(desinSelectors);
+
+                    console.log( 'valuesForEdit:', valuesForEdit);
+
+                    // FIX: Loop over object keys instead of using for...of
+                    for (const selector in valuesForEdit) {
+                        if (valuesForEdit.hasOwnProperty(selector)) {
+                            const properties = valuesForEdit[selector];
+                            for (const property in properties) {
+                                if (properties.hasOwnProperty(property)) {
+                                    const value = properties[property];
+
+                                    // Apply the property to the selector using the CSS editor
+                                    if (mw.top().app.cssEditor) {
+                                        // Determine unit if needed (you might need to adjust this based on property type)
+                                        const unit = property.includes('color') ? '' : '';
+
+                                        // Apply the CSS property
+                                        mw.top().app.cssEditor.setPropertyForSelector(
+                                            selector,
+                                            property,
+                                            '', // Reset value to empty
+                                            true,
+                                            true
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             function resetStylesheetSettings() {
                 var askForConfirmText = '<div class="">' +
                     '<h4 class="">' + mw.lang('Are you sure you want to reset stylesheet settings ?') + '</h4>' +
@@ -163,7 +214,7 @@
                 document.addEventListener('DOMContentLoaded', function () {
 
 
-                    if(typeof mw.top().win.MwAi === 'function'){
+                    if (typeof mw.top().win.MwAi === 'function') {
                         $('.ai-change-template-design-button').removeClass('d-none')
                     }
 
@@ -172,22 +223,7 @@
 
                 window.mw_template_settings_styles_and_selectors = @json($styleSettings)
 
-
-
-
-
-                async function changeDesign(about) {
-                    var designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
-
-                    if(!about){
-                        //open a dialog
-
-                        about = prompt('Please enter the design task description:', 'Make it blue and white');
-                    }
-                   // var about = 'make it blue and white';
-
-                    // First, recursively remove clearAll items and unwanted properties
-                    function preapareAndCleanTemplateStylesAndSelectorsData(items) {
+               function preapareAndCleanTemplateStylesAndSelectorsData(items) {
                         if (!Array.isArray(items)) return items;
 
                         return items.filter(item => {
@@ -213,8 +249,8 @@
                         });
                     }
 
-                    designSelectors = preapareAndCleanTemplateStylesAndSelectorsData(designSelectors);
 
+                function preapareTemplateValuesForEdit(designSelectors) {
                     // Filter out items without settings after cleaning
                     designSelectors = designSelectors.filter(item => {
                         return item.settings && Array.isArray(item.settings) && item.settings.length > 0;
@@ -300,6 +336,28 @@
                         valuesForEdit[pair.selector][pair.property] = propertyValue;
                     }
 
+                    return valuesForEdit;
+
+                }
+
+
+                async function changeDesign(about) {
+                    var designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
+
+                    if (!about) {
+                        //open a dialog
+
+                        about = prompt('Please enter the design task description:', 'Make it blue and white');
+                    }
+                    // var about = 'make it blue and white';
+
+                    // First, recursively remove clearAll items and unwanted properties
+
+
+                    designSelectors = preapareAndCleanTemplateStylesAndSelectorsData(designSelectors);
+
+                    var valuesForEdit = preapareTemplateValuesForEdit(designSelectors);
+
 
                     // console.log('Updated design settings:', designSelectors);
                     // console.log('uniquePairs:', uniquePairs);
@@ -367,7 +425,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                         }
 
 
-
                     }
                     mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
 
@@ -399,17 +456,17 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     <label for="" class="live-edit-label mb-2">
                         MAKE YOUR WEBSITE FASTER WITH AI
                     </label>
-                    <div class="ai-change-template-design-button d-none">  </div>
+                    <div class="ai-change-template-design-button d-none"></div>
 
 
-                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="changeDesign"
-                                class="btn btn-link p-0" x-on:click="()=> {
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="changeDesign"
+                            class="btn btn-link p-0" x-on:click="()=> {
                             changeDesign();
                         }">
 
-                            Go with AI
-                        </button>
+                        Go with AI
+                    </button>
 
                 </div>
 
@@ -427,13 +484,24 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings"
                             class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
-                            resetStylesheetSettings();
+                            resetAllDeignSelectorsValuesSettings();
                         }">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
                              width="24"><path
                                 d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
 
                     </button>
+{{--
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Reset stylesheet settings"
+                            class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
+                            resetStylesheetSettings();
+                        }">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                             width="24"><path
+                                d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+
+                    </button>--}}
                 </div>
             </span>
 
@@ -706,6 +774,3 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
     </div>
 
 </div>
-
-
-
