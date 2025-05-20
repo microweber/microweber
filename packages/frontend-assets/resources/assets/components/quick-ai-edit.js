@@ -1,4 +1,5 @@
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
+import { AIChatForm } from "./ai-chat.js";
 
 
 const elementSchema = {
@@ -86,6 +87,79 @@ class QuickEditGUI {
         return node;
     }
 
+    img(obj) {
+        console.log(obj);
+
+        const frag = document.createElement("div");
+
+        frag.$$ref = obj;
+        frag.innerHTML = `
+
+            <img src="${obj.node.src}">
+
+            <nav>
+
+            </nav>
+
+        `;
+
+        const changeBTN = document.createElement('button');
+        changeBTN.innerHTML =  mw.lang('Change image');
+        const img = frag.querySelector('img')
+
+        const nav = frag.querySelector('nav');
+        nav.appendChild(changeBTN);
+        img.addEventListener('click', e => {
+            obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+            obj.node.classList.add('mw-scroll-into-view-mark');
+            setTimeout(() => {
+                obj.node.classList.remove('mw-scroll-into-view-mark');
+            }, 2500);
+
+        })
+        changeBTN.addEventListener('click', e => {
+
+
+            let dialog;
+
+            const onResult = data => {
+                img.src = data[0];
+                obj.node.src = data[0];
+                dialog.remove()
+            }
+            var picker = new mw.filePicker({
+                type: 'images',
+                label: false,
+                autoSelect: false,
+                footer: true,
+                _frameMaxHeight: true,
+                onResult: onResult,
+                okLabel: mw.lang('Select image'),
+            });
+            dialog = mw.top().dialog({
+                content: picker.root,
+                title: mw.lang('Select image'),
+                footer: false,
+                width: 860,
+            });
+            picker.$cancel.on('click', function () {
+                dialog.remove()
+            })
+
+
+            $(dialog).on('Remove', () => {
+
+
+
+            })
+        })
+
+
+
+
+         return frag
+    }
+
 
     text(obj) {
         const frag = document.createElement("div");
@@ -103,6 +177,14 @@ class QuickEditGUI {
             this.instance.play();
         });
 
+        inp.addEventListener('focus', e => {
+            obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                        obj.node.classList.add('mw-scroll-into-view-mark');
+            setTimeout(() => {
+                obj.node.classList.remove('mw-scroll-into-view-mark');
+            }, 2500);
+        })
+
         frag.firstElementChild.$$ref = obj;
 
         return frag.firstElementChild;
@@ -114,7 +196,6 @@ class QuickEditService extends MicroweberBaseClass {
         super();
         this.component = instance;
         this.document = this.component.settings.document;
-
     }
 
     #editNodeContains(editNode, child) {
@@ -203,6 +284,8 @@ class QuickEditService extends MicroweberBaseClass {
 
 }
 
+const useAi = (messages, messagesOptions) => MwAi().sendToChat(messages, messagesOptions).then(data => [ data, null ]).catch(err => [ null, err ]);
+
 const defaultAiAdapter = async (message, options) => {
 
     if (window.MwAi) {
@@ -211,30 +294,21 @@ const defaultAiAdapter = async (message, options) => {
 
         let messagesOptions = options;
 
-        let res = await MwAi().sendToChat(messages, messagesOptions)
+        let [res, err] = await useAi(messages, messagesOptions);
         //  res = JSON.parse(res);
 
-        if (res && res.success && res.success == false && res.message) {
+        if (res ) {
             return {
                 succcess: false,
                 message: res.message
             };
 
-        }
-
-        if (res && res.data) {
+        } else {
             return {
-                succcess: true,
-                data: res.data
-            };
+                succcess: false,
+                message: 'Error'
+            }
         }
-
-        return {
-            succcess: false,
-            message: 'Error'
-        }
-
-
     }
 
 }
@@ -247,16 +321,16 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const defaults = {
             document: mw.top().app.canvas.getDocument(),
             root: mw.top().app.canvas.getDocument().body,
-            nodesSelector: 'h1,h2,h3,h4,h5,h6,p',
+            nodesSelector: 'h1,h2,h3,h4,h5,h6,p,img',
             editsSelector: '.edit[rel][field]:not(.module)',
             aiAdapter: defaultAiAdapter
         }
         this.settings = Object.assign({}, defaults, options);
         this.api = new QuickEditService(this);
         this.gui = new QuickEditGUI(this);
-        this.activeLayout = null;
+
         this.aiAdapter = this.settings.aiAdapter;
-        //this.editMode = 'whole-page'; // Add default edit mode
+        this.editMode = 'whole-page'; // Add default edit mode
 
         this.on('change', obj => {
 
@@ -266,29 +340,6 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         })
-
-
-      /*  if (mw.top().app && mw.top().app.canvas) {
-
-            // todo destroy listener
-            mw.top().app.canvas.on('canvasDocumentClick', () => {
-                var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-
-                if (!activeLayout) {
-                    if (activeElement) {
-                        activeLayout = activeElement.closest('.module-layouts');
-                    }
-                }
-
-                if (activeLayout && this.activeLayout !== activeLayout) {
-                    this.activeLayout = activeLayout;
-                    this.editor();
-                }
-            })
-        }
-*/
-
     }
 
     #currentEditor = null;
@@ -427,35 +478,16 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const editFieldsContainer = document.createElement('div');
         editFieldsContainer.className = 'edit-fields-container';
 
-
-
-        var collectEdits = undefined;
-        //
-        // if (this.editMode == 'current-layout') {
-        //
-        //     if (this.activeLayout) {
-        //
-        //         collectEdits = Array.from(this.activeLayout.querySelectorAll(this.settings.editsSelector));
-        //
-        //
-        //     } else {
-        //         collectEdits = Array.from(this.settings.document.querySelectorAll(this.settings.editsSelector));
-        //     }
-        //
-        //
-        // }
         // Group objects by their parent edit section
         const fieldGroups = {};
 
-
-        console.log('collectEdits', collectEdits)
-
-
-        this.api.collect(collectEdits, undefined, obj => {
+        this.api.collect(undefined, undefined, obj => {
             if (obj.node.matches(this.settings.nodesSelector)) {
-
-
-                const node = this.gui.build(obj);
+                let type = 'text';
+                if(obj.tag === 'IMG') {
+                    type = 'img'
+                }
+                const node = this.gui.build(obj, type);
                 enodes.push(node);
                 nodes.push(obj.node);
 
@@ -463,11 +495,11 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 const parentEdit = obj.node.closest('.edit');
                 let parentEditClosesIdElement = parentEdit.closest('id');
                 let parentEditClosesId = null;
-                if (parentEditClosesIdElement) {
-                    parentEditClosesId = parentEditClosesId.id;
+                if(parentEditClosesIdElement){
+                    parentEditClosesId  =   parentEditClosesId.id;
                 }
 
-                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') + parentEditClosesId : 'default';
+                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') +parentEditClosesId : 'default';
 
                 const sectionTitle = parentEdit ?
                     (parentEdit.getAttribute('id')
@@ -591,212 +623,26 @@ export class QuickEditComponent extends MicroweberBaseClass {
         return this.api.collect();
     }
 
-    aiGUI(prompt = '') {
-
-        // Create a sticky chat container
-        const editor = document.createElement("div");
-        editor.className = "sticky-ai-chat-container";
-        editor.style.position = "sticky";
-        editor.style.bottom = "0";
-        editor.style.background = "#fff";
-        editor.style.padding = "0px";
-        editor.style.borderTop = "1px solid #e5e5e5";
-        editor.style.zIndex = "2";
-
-        // Create dropdown for edit mode
+    aiGUI() {
+        const aiChatForm = new AIChatForm();
 
 
-        editor.innerHTML = `
+        aiChatForm.on("submit", async value => {
 
-            <div class="form-control-live-edit-label-wrapper my-4">
-                <label class="live-edit-label">${mw.lang('Enter topic')}</label>
-                <textarea class="form-control-live-edit-input" placeholder="${mw.lang('Car rental company')}">${prompt}</textarea>
-            </div>
-
-            <button type="button" class="btn btn-dark w-full live-edit-toolbar-buttons">${mw.lang('Submit')}</button>
-        `;
-
-
-        // Organize edit fields into card sections
-        const organizeEditorContent = () => {
-            // Get all existing edit field wrappers
-            const editFields = Array.from(editor.querySelectorAll('.form-control-live-edit-label-wrapper')).filter(el => !el.closest('.sticky-ai-chat-container'));
-
-            if (!editFields.length) return;
-
-            // Remove existing edit fields
-            editFields.forEach(field => field.remove());
-
-            // Create sections for edit fields
-            const editFieldsContainer = document.createElement('div');
-            editFieldsContainer.className = 'edit-fields-container';
-
-            // Group fields by their parent edit node (use $$ref to find the original object)
-            const fieldGroups = {};
-            editFields.forEach(field => {
-                const ref = field.$$ref;
-                const parentId = ref && ref.node ? (ref.node.closest('.edit') || {id: 'default'}).id : 'default';
-
-                // Initialize the group object with title if it doesn't exist
-                if (!fieldGroups[parentId]) {
-                    fieldGroups[parentId] = {
-                        title: parentId !== 'default' ? `Section: ${parentId}` : 'Content Elements',
-                        nodes: []
-                    };
-                }
-
-                fieldGroups[parentId].nodes.push(field);
-            });
-
-            // Create card sections for each group
-            Object.keys(fieldGroups).forEach(groupId => {
-                const section = document.createElement('div');
-                section.className = 'card mb-4';
-                section.dataset.sectionId = groupId; // Store section ID for future reference
-
-                // Create container for styled HR-like header with text in the middle
-                const header = document.createElement('div');
-                header.className = 'section-header-divider text-center position-relative my-3';
-
-                // Apply the styling for the container and pseudo-elements
-                header.style.cssText = `
-                    display: flex;
-                    align-items: center;
-                    margin: 15px 0;
-                    text-align: center;
-                `;
-
-                // Create the before line
-                const beforeDiv = document.createElement('div');
-                beforeDiv.className = 'header-line-before';
-                beforeDiv.style.cssText = `
-                    flex-grow: 1;
-                    height: 1px;
-                    background-color: #dee2e6;
-                    margin-right: 15px;
-                `;
-
-                // Create the text element - use the title from fieldGroups
-                const headerText = document.createElement('span');
-                headerText.className = 'header-text fw-bold text-secondary';
-                headerText.textContent = fieldGroups[groupId].title;
-
-                // Create the after line
-                const afterDiv = document.createElement('div');
-                afterDiv.className = 'header-line-after';
-                afterDiv.style.cssText = `
-                    flex-grow: 1;
-                    height: 1px;
-                    background-color: #dee2e6;
-                    margin-left: 15px;
-                `;
-
-                // Assemble the header
-                header.appendChild(beforeDiv);
-                header.appendChild(headerText);
-                header.appendChild(afterDiv);
-
-                const body = document.createElement('div');
-                body.className = 'card-body';
-
-                fieldGroups[groupId].nodes.forEach(field => {
-                    body.appendChild(field);
-                });
-
-                section.appendChild(header);
-                section.appendChild(body);
-                editFieldsContainer.appendChild(section);
-            });
-
-            // Insert before the sticky container
-            editor.insertBefore(editFieldsContainer, editor);
-        };
-
-        // Apply organization after the editor content is populated
-        setTimeout(organizeEditorContent, 100);
-
-        const field = editor.querySelector('textarea');
-        const button = editor.querySelector('button');
-        const modeSelect = editor.querySelector('.edit-mode-selector');
-
-        // // Set the select to the current editMode value
-        // modeSelect.value = this.editMode;
-        //
-        // // Update the editMode when the select changes
-        // modeSelect.addEventListener("change", () => {
-        //     this.editMode = modeSelect.value;
-        //
-        //     //render the editor again with the new edit mode
-        //     this.editor();
-        // });
-
-        button.addEventListener("click", () => {
-            const val = field.value.trim();
-            this.ai(val);
+            const val = value.trim();
+            aiChatForm.disable();
+            await this.ai(val);
+            aiChatForm.enable();
         });
-
-        button.disabled = !field.value.trim();
-
-        field.addEventListener("input", () => button.disabled = !field.value.trim());
-        field.addEventListener("focus", () => button.disabled = !field.value.trim());
-
-        this.on('aiRequestStart', () => {
-            button.disabled = true;
+     // });
+=======
+            const val = value.trim();
+            aiChatForm.disable();
+            await this.ai(val);
+            aiChatForm.enable();
         });
-
-        this.on('aiRequestEnd', () => {
-            button.disabled = !field.value.trim();
-        });
-
-        return editor;
-    }
-
-    #aiPending = false
-
-    async ai(about) {
-        if (this.#aiPending) {
-            return;
-        }
-
-        this.#aiPending = true;
-        this.dispatch('aiRequestStart');
-
-        const message = `Using the existing object IDS,
-        By using this schema: \n ${JSON.stringify(this.schema())} \n
-        Write text to this object and populate the schema,
-        You are a website content writer, and you must write the text in a way that is relevant to the object,
-
-        The website subject is: ${about}
-        The edit mode is: ${this.editMode}
-
-        You must write the text for the website and will the existing object IDs with the text,
-        Expand on the subject and try to fill and write relevant information in the existing text
-
-
-        do not change element IDS,
-        do not change the structure of the schema,
-        use only the existing object IDS,
-        do not assign any new object IDS,
-        return only valid json object,
-        populate the existing object IDS: \n ${JSON.stringify(this.toJSON())}
-
-
-
-You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
-"""[
-  JSON
-{
-   { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
-
-"""
-
-
-        `;
-
-        mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
-
-        let messageOptions = {};
-        //  messageOptions.schema = this.schema();
+>>>>>>> d2bbecca74 (ai chat)
+ messageOptions.schema = this.schema();
         messageOptions.schema = editSchema;
 
 
