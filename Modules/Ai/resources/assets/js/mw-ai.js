@@ -30,67 +30,39 @@ function MwAi() {
         },
 
         async sendToChat(messages, options = {}) {
-
-
-            try {
-                // Create data object
+            return new Promise((resolve, reject) => {
                 let  data = {
                     messages: messages,
                     options: options
                 };
 
-
-                 // Set up AJAX settings
                 let  ajaxSettings = {
                     url: mw.settings.site_url + 'api/ai/chat',
                     type: 'POST',
                     data: data,
-                 //   data: JSON.stringify(data),
                     dataType: "json",
-
-                 //   contentType: "application/json; charset=utf-8",
                };
 
-                // Add CSRF token if jQuery is available
-                if (typeof $ !== 'undefined' && $('meta[name="csrf-token"]').length) {
+               const csrf = $('meta[name="csrf-token"]')
+
+                if ( csrf.length) {
                     ajaxSettings.headers = {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                        "X-CSRF-TOKEN": csrf.attr("content")
                     };
                 }
 
-                // Create a local variable for the response
-                let responseData;
-
-                // Wait for the promise to resolve
-                responseData = await $.post(ajaxSettings)
+                $.post(ajaxSettings)
                     .then(function(res) {
                         if (res.success && res.data) {
-                            responseData = res;
-                            return responseData;
+                            resolve(res);
                         } else {
-                            throw new Error('Invalid response format or unsuccessful operation');
+                            reject(res);
                         }
                     })
                     .fail(function(jqXHR, textStatus, errorThrown) {
-                        console.error('AI Service Error:', textStatus, errorThrown);
-                        throw new Error(`HTTP error! Status: ${jqXHR.status}`);
+                        reject(errorThrown);
                     });
-
-
-                // Check if the response is valid
-
-                console.log( 'AI Response:', responseData);
-
-
-
-
-
-                return responseData;
-
-            } catch (error) {
-                console.error('AI Service Error:', error);
-                throw error;
-            }
+            })
         }
     }
 }
