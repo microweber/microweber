@@ -411,6 +411,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             Go with AI
                         </button>
 
+                </div>
 
                     <?php if (!empty($styleSettings)): ?>
                 <div class="mt-5">
@@ -421,10 +422,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                 <div class="d-flex align-items-end" style="display: none">
 
-
-
-
-</div>
+                    
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings"
