@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="form-range mt-1" id="range-slider-{{$rand}}}"></div>
+        <div class="form-range mt-1 mx-3" id="range-slider-{{$rand}}}"></div>
     </div>
 
     <div>
