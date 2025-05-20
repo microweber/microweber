@@ -634,15 +634,58 @@ export class QuickEditComponent extends MicroweberBaseClass {
             await this.ai(val);
             aiChatForm.enable();
         });
-     // });
-=======
-            const val = value.trim();
-            aiChatForm.disable();
-            await this.ai(val);
-            aiChatForm.enable();
-        });
->>>>>>> d2bbecca74 (ai chat)
- messageOptions.schema = this.schema();
+
+
+
+        return aiChatForm.form;
+    }
+
+ #aiPending = false
+
+    async ai(about) {
+        if (this.#aiPending) {
+            return;
+        }
+
+        this.#aiPending = true;
+        this.dispatch('aiRequestStart');
+
+        const message = `Using the existing object IDS,
+        By using this schema: \n ${JSON.stringify(this.schema())} \n
+        Write text to this object and populate the schema,
+        You are a website content writer, and you must write the text in a way that is relevant to the object,
+
+        The website subject is: ${about}
+        The edit mode is: ${this.editMode}
+
+        You must write the text for the website and will the existing object IDs with the text,
+        Expand on the subject and try to fill and write relevant information in the existing text
+
+
+        do not change element IDS,
+        do not change the structure of the schema,
+        use only the existing object IDS,
+        do not assign any new object IDS,
+        return only valid json object,
+        populate the existing object IDS: \n ${JSON.stringify(this.toJSON())}
+
+
+
+You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
+"""[
+  JSON
+{
+   { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
+
+"""
+
+
+        `;
+
+        mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
+
+        let messageOptions = {};
+        //  messageOptions.schema = this.schema();
         messageOptions.schema = editSchema;
 
 
@@ -658,6 +701,8 @@ export class QuickEditComponent extends MicroweberBaseClass {
         this.#aiPending = false;
         this.dispatch('aiRequestEnd');
     }
+
+
 }
 
 
