@@ -15,9 +15,9 @@
                 {{$label}}
             </label>
 
-            <div>
+            <div class="d-flex align-items-center justify-content-end gap-2">
                 <input type="number" {!! $attributes->merge([]) !!} id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input form-control-input-range-slider" />
-                <label>
+                <label class="live-edit-label">
                     {{$labelUnit}}
                 </label>
             </div>
