@@ -395,11 +395,11 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }"
             >
 
-                <div class="ai-settings-wrapper pt-3">
+                <div class="ai-settings-wrapper pt-3 bg-gray-700">
                     <label for="" class="live-edit-label">
                         MAKE YOUR WEBSITE FASTER WITH AI
                     </label>
-                    <div class="ai-change-template-design-button d-none">
+                    <div class="ai-change-template-design-button d-none">  </div>
 
 
                         <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -410,7 +410,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                             Go with AI
                         </button>
-                </div>
+
 
                     <?php if (!empty($styleSettings)): ?>
                 <div class="mt-5">
