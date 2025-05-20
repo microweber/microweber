@@ -78,9 +78,10 @@
     @apply absolute bottom-0 h-[1px] left-[6px] w-[calc(100%-12px)] bg-[#e7e7e7] box-border;
 }
 
-.form-control-live-edit-label-wrapper .form-select.form-control-live-edit-input .form-control-live-edit-bottom-effect {
+#general-theme-settings .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {
     @apply !hidden;
 }
+
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible {
     @apply border-none;
