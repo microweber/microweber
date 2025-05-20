@@ -4,10 +4,10 @@ if (!function_exists('media_uploads_url')) {
     function media_uploads_url()
     {
         $environment = app()->environment();
-        $folder = media_base_url() . ('/default/');
+        $folder = media_base_url() . ('default/');
 
         if (mw_is_multisite()) {
-            $folder = media_base_url() . ('/' . $environment . '/');
+            $folder = media_base_url() . ( $environment . '/');
         }
 
 

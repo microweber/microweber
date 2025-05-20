@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
+use MicroweberPackages\LaravelModules\LaravelModule;
+use MicroweberPackages\LaravelTemplates\LaravelTemplate;
+
 class TemplateCssParser
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
@@ -19,8 +22,6 @@ class TemplateCssParser
     {
 
 
-
-
         if (config('microweber.developer_mode') == 1) {
             $cache = false;
         }
@@ -28,7 +29,7 @@ class TemplateCssParser
         $themeFolderName = $this->app->template_manager->folder_name();
         $optionGroupName = 'mw-template-' . $themeFolderName;
 
-        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $optionGroupName);
+        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $themeFolderName);
         $user_has_settings = $this->_getOptionVariables($optionGroupName);
 
         if ($defaultCssFile and !$user_has_settings) {
@@ -57,6 +58,7 @@ class TemplateCssParser
             }
 
         }
+
 
         if ($cache == false and $to_generate_css_file) {
             $returnUrl = $to_generate_css_file;
@@ -141,7 +143,13 @@ class TemplateCssParser
         $optionGroupName = array_get($params, 'option_group', false);
         $templateFolder = array_get($params, 'template_folder', false);
         $cssPath = array_get($params, 'css_path', false);
+
+
         $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $templateFolder);
+
+
+
+
 
         $dn = dirname($outputFileLocations['output']['file']);
         if (!is_dir($dn)) {
@@ -169,56 +177,61 @@ class TemplateCssParser
 //        ];
 
 
-
         $compiler = new \ScssPhp\ScssPhp\Compiler();
 
 
         $compiler->setSourceMapOptions(array(
-            'sourceMapWriteTo' =>$outputFileLocations['output']['fileMap'],
+            'sourceMapWriteTo' => $outputFileLocations['output']['fileMap'],
             'sourceMapURL' => $outputFileLocations['output']['fileMapUrl'],
             'sourceMapBasepath' => $outputFileLocations['lessDirPath'],
-            'sourceRoot' => dirname($outputFileLocations['styleFilePath']).'/',
+            'sourceRoot' => dirname($outputFileLocations['styleFilePath']) . '/',
 
         ));
-        if(!is_file($outputFileLocations['styleFilePath'])){
+        if (!is_file($outputFileLocations['styleFilePath'])) {
             return;
         }
 
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
-        $cssOrigFileDistContent=  '';
-        $cssOrigFileDist =normalize_path( $outputFileLocations['styleFilePathDist'], false);
-        if(is_file($cssOrigFileDist)){
+        $cssOrigFileDistContent = '';
+
+        $cssOrigFileDist = normalize_path($outputFileLocations['styleFilePathDist'], false);
+        if (is_file($cssOrigFileDist)) {
             $cssOrigFileDistContent = file_get_contents($cssOrigFileDist);
         }
 
+       // dd($outputFileLocations,$cssOrigFileDist,$cssOrigFileDistContent);
 
-      //  $cssOrigNoSettings = file_get_contents($outputFileLocations['output']['fileCss']);
-         $variables =  $this->_getOptionVariables($optionGroupName);
 
-        if(!$variables){
-            $cssOrigFileDistContent = $this->replaceAssetsRelativePaths($cssOrigFileDistContent,$params);
+        //  $cssOrigNoSettings = file_get_contents($outputFileLocations['output']['fileCss']);
+        $variables = $this->_getOptionVariables($optionGroupName);
 
+      //  dd($variables);
+//dd($cssOrigFileDistContent);
+        if (!$variables) {
+            $cssOrigFileDistContent = $this->replaceAssetsRelativePaths($cssOrigFileDistContent, $params);
+            $cssOrigFileDistContent = str_replace('/*# sourceMappingURL' , '/*# NOsourceMappingURL', $cssOrigFileDistContent);
+            $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssOrigFileDistContent);
             return $cssOrigFileDistContent;
         }
 
         $compiler->setVariables($variables);
         $compiler->addParsedFile($outputFileLocations['styleFilePath']);
-        $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']).'/');
+        $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']) . '/');
 
-        $cssContent = $compiler->compile($cssOrig,dirname($outputFileLocations['styleFilePath']).'/');
+        $cssContent = $compiler->compile($cssOrig, dirname($outputFileLocations['styleFilePath']) . '/');
 
 
-        $cssContent = $this->replaceAssetsRelativePaths($cssContent,$params);
+        $cssContent = $this->replaceAssetsRelativePaths($cssContent, $params);
 
         //replace vars with with -- as  --primary: $primary;
-        foreach ($variables as $variable_name=>$variable_val){
-            $replace = '--'.$variable_name.': '.$variable_val.'';
-            $search = '--'.$variable_name.': $'.$variable_name.'';
-            $cssContent = str_replace($search,$replace,$cssContent);
+        foreach ($variables as $variable_name => $variable_val) {
+            $replace = '--' . $variable_name . ': ' . $variable_val . '';
+            $search = '--' . $variable_name . ': $' . $variable_name . '';
+            $cssContent = str_replace($search, $replace, $cssContent);
 
-            $search = '$'.$variable_name.'';
+            $search = '$' . $variable_name . '';
             $replace = "$variable_val";
-            $cssContent = str_replace($search,$replace,$cssContent);
+            $cssContent = str_replace($search, $replace, $cssContent);
 
         }
 
@@ -239,13 +252,13 @@ class TemplateCssParser
             $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname(dirname($params['path'])) . '/';
             $cssContent = str_replace('../', $template_url_css_assets, $cssContent);
             // relative to userfiles/media/default/css/new-world
-             $cssContent = str_replace(userfiles_url(), '../../../../../../', $cssContent);
+            $cssContent = str_replace(userfiles_url(), '../../../../../../', $cssContent);
 
         }
         return $cssContent;
     }
 
-        public function compileLess($params)
+    public function compileLess($params)
     {
 
         $lessFilePath = array_get($params, 'path', false);
@@ -298,7 +311,7 @@ class TemplateCssParser
         }
 
         // Save compiled file
-         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
+        $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
 
         return $cssContent;
@@ -309,6 +322,30 @@ class TemplateCssParser
 
         $lessFilePath = str_replace('\\', '/', $lessFilePath);
 
+
+        $is_laravel_template = app()->template_manager->is_laravel_template($templateFolder);
+
+        /** @var LaravelTemplate $checkIfActiveSiteTemplate */
+        $checkIfActiveSiteTemplate = app()->templates->find($templateFolder);
+
+        if(!$checkIfActiveSiteTemplate){
+            return [];
+        }
+        $templateFolderPublicLower = $checkIfActiveSiteTemplate->getLowerName() ;
+        $checkIfActiveSiteTemplatePath = $checkIfActiveSiteTemplate->get('path');
+        //dd($checkIfActiveSiteTemplatePath);
+
+        //  $assets_dir = templates_dir().'' . $templateFolder . '/resources/assets/';
+        //  $assets_dir = normalize_path($assets_dir,true);
+
+
+        $lessFilePathOrig = $lessFilePath;
+
+        if ($is_laravel_template) {
+          $lessFilePath = 'resources/assets/' . $lessFilePath;
+        }
+
+
         $templateConfig = app()->template_manager->get_config();
 
         if (isset($templateConfig['version'])) {
@@ -317,15 +354,28 @@ class TemplateCssParser
             $lessFilePathWithVersion = $lessFilePath . '.' . MW_VERSION;
         }
 
+
+        //$lessFilePathWithVersion
+
+        //$templateFolder
+
+        // todo fix fo the new folder structure
+
         $lessDirPath = dirname($lessFilePathWithVersion);
-        $templateUrlWithPathBase = templates_url() . $templateFolder . '/';
-        $templateUrlWithPath = $templateUrlWithPathBase . $lessDirPath . '/';
-        $templatePath = templates_dir() . $templateFolder;
+        $templateUrlWithPathBase = templates_url() . $templateFolderPublicLower . '/';
+
+        $templateUrlWithPath = $templateUrlWithPathBase . dirname($lessFilePathOrig) . '/';
+        $templatePath = templates_dir() . $templateFolder. '/';
+
+
+
 
 
         // Output dirs
         $outputDir = media_uploads_path() . 'css/' . $templateConfig['dir_name'] . '/';
         $outputUrl = media_uploads_url() . 'css/' . $templateConfig['dir_name'] . '/';
+
+      //  dd($outputDir, $outputUrl, $lessFilePathWithVersion);
 
         if (!is_dir($outputDir)) {
             mkdir_recursive($outputDir);
@@ -340,7 +390,7 @@ class TemplateCssParser
         }
 
         if (is_file($lessFilePath)) {
-            $mtime =$mtime.''. filemtime($lessFilePath);
+            $mtime = $mtime . '' . filemtime($lessFilePath);
         }
 
         $outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css';
@@ -359,7 +409,13 @@ class TemplateCssParser
         $outputFileCssLocal = false;
         if (is_array($templateConfig) and isset($templateConfig['stylesheet_compiler']) and isset($templateConfig['stylesheet_compiler']['css_file']) and $templateConfig['stylesheet_compiler']['css_file']) {
             $cssfilepath = $templateConfig['stylesheet_compiler']['css_file'];
-            $templateUrlWithPathCss = $templateUrlWithPathBase . dirname($cssfilepath) . '/';
+
+            if($is_laravel_template){
+                $cssfilepath = 'resources/assets/' . $cssfilepath;
+            }
+
+
+            $templateUrlWithPathCss = $templatePath . dirname($cssfilepath) . '/';
             $outputFileCss = $templateUrlWithPathBase . dirname($cssfilepath) . '/';
             $outputFileCss = $outputDir . $cssfilepath;
 
@@ -381,7 +437,8 @@ class TemplateCssParser
 
         $styleFilePath = sanitize_path($styleFilePath);
 
-        return array(
+
+        $ready = array(
             'lessFilePath' => $lessFilePath,
             'lessDirPath' => $lessDirPath,
             'styleFilePath' => $styleFilePath,
@@ -403,6 +460,10 @@ class TemplateCssParser
                 //'fileCssLocal' => $outputFileCssLocal,
             )
         );
+
+         //dd($ready);
+
+        return $ready;
     }
 
     private function _saveCompiledCss($outputFile, $cssContent)
