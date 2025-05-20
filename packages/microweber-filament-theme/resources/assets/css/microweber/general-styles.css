@@ -1079,3 +1079,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 /*body > div > [role="status"].z-50 {*/
 /*    z-index: 2000;*/
 /*}*/
+
+
+.ai-settings-wrapper {
+    @apply dark:bg-gray-700 dark:text-white bg-gray-100 shadow border border-gray-300 p-5 mt-3;
+}

@@ -395,8 +395,8 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }"
             >
 
-                <div class="ai-settings-wrapper pt-3 bg-gray-700">
-                    <label for="" class="live-edit-label">
+                <div class="ai-settings-wrapper">
+                    <label for="" class="live-edit-label mb-2">
                         MAKE YOUR WEBSITE FASTER WITH AI
                     </label>
                     <div class="ai-change-template-design-button d-none">  </div>
@@ -404,7 +404,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                         <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                                 title="changeDesign"
-                                class="btn btn-link" x-on:click="()=> {
+                                class="btn btn-link p-0" x-on:click="()=> {
                             changeDesign();
                         }">
 
@@ -422,7 +422,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                 <div class="d-flex align-items-end" style="display: none">
 
-                    
+
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings"
