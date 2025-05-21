@@ -17,3 +17,10 @@
         }
     }
 }
+
+fi-btn {
+
+    &:hover {
+        @apply dark:!text-white;
+    }
+}
