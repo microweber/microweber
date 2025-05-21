@@ -152,6 +152,14 @@ export default {
                     'position',
                 ];
 
+
+
+
+                if(typeof mw.top().win.MwAi !== 'undefined' && typeof mw.top().win.MwAi().sendToChat === 'function') {
+                   styleEditorSettings.fieldSettings.components.push('aiChat');
+                }
+
+
                 mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
 
 

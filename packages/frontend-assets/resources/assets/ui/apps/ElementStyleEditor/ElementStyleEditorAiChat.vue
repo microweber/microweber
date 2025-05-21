@@ -73,6 +73,7 @@ export default {
                 'border-width',
                 'border-style',
 
+
                 'box-shadow',
 
 
