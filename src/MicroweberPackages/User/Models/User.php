@@ -347,17 +347,31 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Fil
 
         // todo
 
-
+        $isAdmin = is_admin();
         $panelId = $panel->getId();
 
-        //check if name start with admin
-
-        if (str_starts_with($panelId, 'admin')) {
-            return is_admin();
+        if ($isAdmin) {
+            return true;
         }
 
 
-        return is_logged();
+        //check if name start with admin
+
+        if ($panelId == 'admin') {
+            return is_admin();
+        }
+        if ($panelId == 'profile') {
+            return is_logged();
+        }
+
+//        if(is_admin()){
+//            return true;
+//        }
+
+        // return is_logged();
+
+
+        return false;
     }
 
 
@@ -458,7 +472,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Fil
                 return $user;
             }
         }
-
 
 
         return $oauthData ? User::find($oauthData->user_id) : null;

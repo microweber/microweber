@@ -3,6 +3,7 @@
 namespace Modules\Profile\Tests\Feature;
 
 use MicroweberPackages\User\tests\UserTestHelperTrait;
+use Modules\Profile\Providers\FilamentProfilePanelProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Livewire\Livewire;
 use MicroweberPackages\User\Models\User;
@@ -98,7 +99,19 @@ class AuthenticationTest extends TestCase
             'is_active' => 1,
             'is_admin' => 1
         ]);
-        $this->assertTrue($admin->canAccessPanel(\Filament\Panel::make()),
+        //login as admin
+
+        $this->assertTrue(auth()->attempt([
+            'email' => $admin->email,
+            'password' => 'password'
+        ]), 'Direct authentication should work');
+
+        $panelProvider  = new FilamentProfilePanelProvider(app());
+        $panel = \Filament\Panel::make();
+
+        $filamentPanel = $panelProvider->panel($panel);
+
+        $this->assertTrue($admin->canAccessPanel($filamentPanel),
             'Admin should access panel');
 
         // Test two factor authentication
