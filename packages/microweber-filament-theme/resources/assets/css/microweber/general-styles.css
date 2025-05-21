@@ -21,10 +21,6 @@
     }
 }
 
-.fi-color-danger svg {
-    stroke: red;
-    fill: red;
-}
 
 .fi-btn-color-danger {
     --tw-ring-color: red !important;
