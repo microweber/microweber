@@ -18,3 +18,7 @@
     .fi-modal-footer.fi-sticky {
     @apply rounded-b-lg;
 }
+
+.fi-modal-footer {
+    @apply z-10;
+}
