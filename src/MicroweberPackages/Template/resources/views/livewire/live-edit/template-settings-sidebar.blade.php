@@ -44,7 +44,6 @@
 
                     var valuesForEdit = preapareTemplateValuesForEdit(desinSelectors);
 
-                    console.log( 'valuesForEdit:', valuesForEdit);
 
                     // FIX: Loop over object keys instead of using for...of
                     for (const selector in valuesForEdit) {

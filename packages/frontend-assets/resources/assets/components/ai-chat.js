@@ -38,6 +38,7 @@ const AIChatFormCSS= `
         align-items: center;
         justify-content: center;
         border-radius: 30px !important;
+        color: #111;
 
     }
 
@@ -50,11 +51,11 @@ const AIChatFormCSS= `
 
      }
 
-     .mw-ai-chat-box-area:has(textarea:focus){
+     .mw-ai-chat-box-area:has(.mw-ai-chat-box-area-field:focus){
         box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
      }
 
-     .mw-ai-chat-box textarea{
+     .mw-ai-chat-box .mw-ai-chat-box-area-field{
         width: 100%;
         resize: none;
         background: transparent;
@@ -67,10 +68,10 @@ const AIChatFormCSS= `
       }
 
 `;
-const AIChatFormTpl = `
+const AIChatFormTpl = (multiLine, placeholder) => `
     <div class="mw-ai-chat-box">
         <div class="mw-ai-chat-box-area">
-            <textarea placeholder="${mw.lang('Enter topic')}"></textarea>
+            <${multiLine ? 'textarea' : 'input' } class="mw-ai-chat-box-area-field" placeholder="${placeholder || mw.lang('Enter topic')}">${multiLine ? '</textarea>' : ''}
             <div class="mw-ai-chat-box-footer">
                 <div class="mw-ai-chat-box-options">
 
@@ -83,11 +84,7 @@ const AIChatFormTpl = `
         </div>
      </div>
 
-     <style>
-
-        ${AIChatFormCSS}
-
-     </style>
+     <style>${AIChatFormCSS}</style>
 `;
 
 
@@ -147,8 +144,13 @@ export class MWSpeechRecognition extends MicroweberBaseClass {
 
 }
 export class AIChatForm extends MicroweberBaseClass {
-    constructor() {
+    constructor(options = []) {
         super();
+        const defaults = {
+            multiLine: true,
+            submitOnEnter: false
+        }
+        this.settings = Object.assign({}, defaults, options);
         this.init();
 
 
@@ -156,11 +158,11 @@ export class AIChatForm extends MicroweberBaseClass {
 
     rend() {
         const frag = document.createElement('div');
-        frag.innerHTML = AIChatFormTpl;
+        frag.innerHTML = AIChatFormTpl(this.settings.multiLine, this.settings.placeholder);
         frag.className = 'mw-ai-chat-form';
 
         this.form = frag;
-        this.area = frag.querySelector('textarea');
+        this.area = frag.querySelector('.mw-ai-chat-box-area-field');
         this.micButton = frag.querySelector('.mw-ai-chat-box-action-voice');
         this.sendButton = frag.querySelector('.mw-ai-chat-box-action-send');
 
@@ -187,7 +189,17 @@ export class AIChatForm extends MicroweberBaseClass {
         this.area.style.height = this.area.scrollHeight+'px';
     }
     handleArea() {
+        this.area.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                if(this.settings.submitOnEnter && !e.shiftKey) {
+                    this.dispatch('submit',  this.area.value);
+                    e.preventDefault();
+                }
+            }
+        })
+
         this.area.addEventListener('input', () => {
+
             this.areaSize();
             this.dispatch('areaValue',  this.area.value);
         });
@@ -211,10 +223,6 @@ export class AIChatForm extends MicroweberBaseClass {
         this.area.disabled = true;
         this.micButton.disabled = true;
         this.sendButton.disabled = true;
-    }
-
-    enable() {
-        this.disabled = false;
         this.enabled = true;
         this.area.disabled = false;
         this.micButton.disabled = false;
@@ -224,6 +232,7 @@ export class AIChatForm extends MicroweberBaseClass {
     init() {
         this.rend()
         this.#speech()
+        this.handleArea()
         this.handleMic()
         this.handleSubmit()
     }

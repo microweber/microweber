@@ -111,11 +111,11 @@ class QuickEditGUI {
         nav.appendChild(changeBTN);
         img.addEventListener('click', e => {
             obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-            obj.node.classList.add('mw-scroll-into-view-mark');
-            setTimeout(() => {
-                obj.node.classList.remove('mw-scroll-into-view-mark');
-            }, 2500);
 
+            mw.top().app.liveEdit.handles.get('element').set(obj.node)
+
+            mw.top().app.liveEdit.handles.get('module').hide();
+            mw.top().app.liveEdit.handles.get('layout').hide();
         })
         changeBTN.addEventListener('click', e => {
 
@@ -179,10 +179,11 @@ class QuickEditGUI {
 
         inp.addEventListener('focus', e => {
             obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-                        obj.node.classList.add('mw-scroll-into-view-mark');
-            setTimeout(() => {
-                obj.node.classList.remove('mw-scroll-into-view-mark');
-            }, 2500);
+            mw.top().app.liveEdit.handles.get('element').set(obj.node);
+            mw.top().app.liveEdit.handles.get('module').hide();
+            mw.top().app.liveEdit.handles.get('layout').hide();
+
+
         })
 
         frag.firstElementChild.$$ref = obj;

@@ -1,13 +1,14 @@
 <template>
+    <div>
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3">
+            <Lang>AI Style Editor</Lang>
+        </span>
+        <div id="ai-gui-editor" ref="wrapper"></div>
     <div v-if="canShowAiChat">
         <div class="d-flex">
-
-
             <svg fill="currentColor" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'
                  xmlns:xlink='http://www.w3.org/1999/xlink'>
                 <rect width='24' height='24' stroke='none' fill='currentColor' opacity='0'/>
-
-
                 <g transform="matrix(0.71 0 0 0.71 12 12)">
                     <path
                         style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
@@ -34,12 +35,38 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 
 <script>
 
+import { AIChatForm } from '../../../components/ai-chat';
+
+
 
 export default {
+
+    mounted() {
+        const target = this.$refs.wrapper;
+        const aiChatForm = new AIChatForm({
+            multiLine: true,
+            submitOnEnter: true,
+            placeholder: mw.lang('Make text bigger')
+        });
+        target.appendChild(aiChatForm.form);
+
+        console.log(aiChatForm)
+
+        aiChatForm.on('submit', val => {
+            this.aiMessage = val;
+
+            this.submitAiRequest()
+        })
+        aiChatForm.on('areaValue', val => {
+
+            this.aiMessage = val;
+        })
+    },
     components: {},
     data() {
 
