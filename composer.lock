@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a560b677086ac82b83a385800c547afa",
+    "content-hash": "0f435b639c55f6b94b2c781d8f7db465",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1670,12 +1670,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/peter-mw/installers.git",
-                "reference": "3f4f464"
+                "reference": "8d033f3d6f3b4e5519fa440fdb728678995a126f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/peter-mw/installers/zipball/3f4f464",
-                "reference": "3f4f464",
+                "url": "https://api.github.com/repos/peter-mw/installers/zipball/8d033f3d6f3b4e5519fa440fdb728678995a126f",
+                "reference": "8d033f3d6f3b4e5519fa440fdb728678995a126f",
                 "shasum": ""
             },
             "require": {
@@ -1803,7 +1803,7 @@
                 "shopware"
             ],
             "support": {
-                "source": "https://github.com/peter-mw/installers/tree/master"
+                "source": "https://github.com/peter-mw/installers/tree/microweber-v3"
             },
             "time": "2025-01-22T16:53:16+00:00"
         },

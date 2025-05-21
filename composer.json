@@ -47,7 +47,7 @@
     "butschster/meta-tags": "v3.2",
     "calebporzio/sushi": "^2.5",
     "composer/composer": "v2.7.7",
-    "composer/installers": "dev-master#3f4f464",
+    "composer/installers": "dev-master",
     "coolsam/flatpickr": "*",
     "coolsam/modules": "4",
     "doctrine/dbal": "4.2.2",
