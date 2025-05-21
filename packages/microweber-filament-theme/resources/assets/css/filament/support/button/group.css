@@ -4,6 +4,10 @@
     .fi-btn {
         @apply rounded-none;
 
+        &:hover {
+            @apply dark:!text-white;
+        }
+
         &:nth-child(1 of .fi-btn) {
             @apply rounded-es-md rounded-ss-md;
         }
@@ -11,5 +15,12 @@
         &:nth-last-child(1 of .fi-btn) {
             @apply rounded-ee-md rounded-se-md;
         }
+    }
+}
+
+fi-btn {
+
+    &:hover {
+        @apply dark:!text-white;
     }
 }

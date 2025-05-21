@@ -21,9 +21,6 @@
     }
 }
 
-.fi-color-danger svg {
-    stroke: red;
-}
 
 .fi-btn-color-danger {
     --tw-ring-color: red !important;
@@ -776,6 +773,14 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply dark:text-black dark:fill-current;
     }
     @apply dark:bg-slate-50 dark:text-black;
+
+    &:hover {
+        @apply dark:text-white;
+
+        svg {
+            @apply dark:text-white dark:fill-white;
+        }
+    }
 }
 
 .fi-modal-header svg {
