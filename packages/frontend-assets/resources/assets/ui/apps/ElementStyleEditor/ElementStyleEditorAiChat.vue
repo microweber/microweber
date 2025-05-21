@@ -19,13 +19,13 @@
 
             <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showAiChat }"
                   v-on:click="toggleAiChat">
-        AiChat
+                AI Style Editor
       </span>
         </div>
 
         <div v-if="showAiChat">
             <div class="mb-4">
-                <input type="text" v-model="aiMessage" placeholder="Type your message..."
+                <input type="text" v-model="aiMessage" placeholder="Make text bigger..."
                        @keyup.enter="submitAiRequest"/>
                 <button @click="submitAiRequest">Send</button>
                 <div v-if="loading" class="text-center">AI is thinking...</div>
@@ -57,8 +57,12 @@ export default {
                 'background-clip',
                 'color',
                 'font-size',
+                'font-style',
+                'font-variant',
+
                 'font-weight',
                 'text-align',
+                'text-shadow',
                 'font-family',
                 'text-decoration',
                 'text-transform',
@@ -123,6 +127,12 @@ export default {
 
 
                 'box-shadow',
+                'filter',
+                'opacity',
+
+
+
+
 
             ],
             canShowAiChat: canShowAiChat,

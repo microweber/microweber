@@ -84,8 +84,8 @@ class AdminLiveEditPage extends Page
             ])
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
-            ->modalWidth(MaxWidth::Medium);
-        //->slideOver() ;
+            ->modalWidth(MaxWidth::Medium)
+        ->slideOver() ;
     }
 
     public function addPageAction(): Action
@@ -239,7 +239,7 @@ class AdminLiveEditPage extends Page
                     ->send();
 
             })
-            ->modalSubmitActionLabel('Save');
-        //  ->slideOver();
+            ->modalSubmitActionLabel('Save')
+         ->slideOver();
     }
 }

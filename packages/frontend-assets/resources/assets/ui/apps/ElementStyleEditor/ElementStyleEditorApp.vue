@@ -60,6 +60,12 @@
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
 
+
+            <div class="mb-4" v-show="showAiChatSettings">
+               <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
+            </div>
+
+
             <div class="mb-4" v-show="showLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
@@ -67,11 +73,6 @@
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
-            <div class="mb-4" v-show="showAiChatSettings">
-
-
-                <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
-            </div>
 
 
         </div>
@@ -139,7 +140,7 @@ export default {
             showLayoutSettings: true,
             showImageSettings: true,
             showPredefinedStylesApplierSettings: true,
-            showAiChatSettings: false,
+            showAiChatSettings: true,
         }
     },
 
