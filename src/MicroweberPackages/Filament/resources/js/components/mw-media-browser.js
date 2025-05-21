@@ -13,7 +13,7 @@ export default function mwMediaManagerComponent({mediaIds}) {
 
         editMediaOptionsById(id) {
             // Get the current state path from the form event
-            const statePath = this.$el.closest('[wire\\:id]').getAttribute('wire:id');
+            const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
             this.$wire.mountFormComponentAction(statePath, 'edit', {id: id});
         },
 
@@ -30,7 +30,7 @@ export default function mwMediaManagerComponent({mediaIds}) {
         bulkDeleteSelectedMedia() {
             if (this.selectedImages && this.selectedImages.length > 0) {
                 if (confirm('Are you sure you want to delete the selected images?')) {
-                    const statePath = this.$el.closest('[wire\\:id]').getAttribute('wire:id');
+                    const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
                     this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds', statePath, {
                         ids: this.selectedImages
                     });
@@ -42,7 +42,7 @@ export default function mwMediaManagerComponent({mediaIds}) {
         async deleteMediaById(id) {
             const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
             if (dialogConfirm) {
-                const statePath = this.$el.closest('[wire\\:id]').getAttribute('wire:id');
+                const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
                 this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById', statePath, {
                     id: id
                 });
@@ -51,7 +51,7 @@ export default function mwMediaManagerComponent({mediaIds}) {
 
         async editImageFilename(id, url) {
             const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
-            const statePath = this.$el.closest('[wire\\:id]').getAttribute('wire:id');
+            const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
             this.$wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename', statePath, {
                 data: { id: id, filename: editedImage }
             });
