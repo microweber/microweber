@@ -54,6 +54,7 @@ export default {
         return {
             cssPropertiesToSelect: [
                 'background-color',
+                'background-clip',
                 'color',
                 'font-size',
                 'font-weight',
@@ -66,16 +67,62 @@ export default {
                 'text-shadow',
 
                 'margin',
+                'margin-top',
+                'margin-bottom',
+                'margin-left',
+                'margin-right',
+
+
+
                 'padding',
+                'padding-top',
+                'padding-bottom',
+                'padding-left',
+                'padding-right',
+
+
                 'border-radius',
+                'border-radius-top-left',
+                'border-radius-top-right',
+                'border-radius-bottom-left',
+                'border-radius-bottom-right',
+
+
                 'border',
+                'border-top',
+                'border-bottom',
+                'border-left',
+                'border-right',
+
+
                 'border-color',
+                'border-top-color',
+                'border-bottom-color',
+                'border-left-color',
+                'border-right-color',
+
+
                 'border-width',
+                'border-top-width',
+                'border-bottom-width',
+                'border-left-width',
+                'border-right-width',
+
+
                 'border-style',
+                'border-top-style',
+                'border-bottom-style',
+                'border-left-style',
+                'border-right-style',
+
+
+
+
+
+
 
 
                 'box-shadow',
-
 
             ],
             canShowAiChat: canShowAiChat,
@@ -175,6 +222,43 @@ export default {
         By using this schema: \n ${editSchema} \n
         You must write CSS values to the goven object,
         You are CSS values editor, you must edit the values of the css to complete the user design task,
+
+
+You are a CSS value editor.
+
+Your job is to modify and output only the CSS values needed to complete the user's design task.
+
+When the user requests a **gradient on text**, you must:
+
+* Set \`color: transparent\`
+* Set \`background-clip: text\`
+* Set \`-webkit-background-clip: text\`
+* Set the gradient value in the \`background\` property
+
+When the user requests a **gradient on the element background**, you must:
+
+* Remove any \`background-color\` value
+* Set the gradient value in the \`background\` property
+* Remove \`background-clip\`
+* Remove \`-webkit-background-clip\`
+* Remove \`color: transparent\`
+
+
+
+If the user asks to style a box (e.g., div, button, card):
+Add padding if mentioned or implied (e.g., "space inside", "room around text")
+Set background-color if a solid color is requested
+Set color for text color
+Optionally add border-radius, box-shadow, or border if mentioned
+
+
+If the user asks to style the element, do it
+
+
+Only return the CSS key-value pairs that apply to the current task. Do not return full selectors or surrounding styles. Keep the output minimal and task-focused.
+
+
+
 
         The css design task is : ${about}
 
