@@ -1,7 +1,9 @@
 <div class="flex flex-col w-full">
 
     <div class="font-medium w-full">
+        <a href="{{$content->editLink()}}">
         {{$content->title}}
+        </a>
     </div>
 
     @php

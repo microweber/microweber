@@ -200,6 +200,42 @@
                 openRTECSsEditor2Vue(e);
             });
 
+            document.addEventListener('DOMContentLoaded', function () {
+
+                if (mw.top().app && mw.top().app.canvas) {
+
+
+                    var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+
+                    if (!activeLayout) {
+                        if (activeElement) {
+                            activeLayout = activeElement.closest('.module-layouts');
+                        }
+                    }
+                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    window.css_vars_design_active_layout = activeLayout;
+
+
+
+
+
+                    mw.top().app.canvas.on('canvasDocumentClick', () => {
+                         var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                         var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+
+                         if (!activeLayout) {
+                             if (activeElement) {
+                                 activeLayout = activeElement.closest('.module-layouts');
+                             }
+                         }
+                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        window.css_vars_design_active_layout = activeLayout;
+
+
+                    })
+                }
+            });
 
         </script>
 
@@ -219,35 +255,76 @@
                     }
 
 
+                    //add chanfe for css_vars_design_apply_mode
+
+                    $('#css_vars_design_apply_mode').on('change', function () {
+                        var selectedValue = $(this).val();
+
+
+                        window.css_vars_design_apply_mode = selectedValue;
+
+
+
+                        var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+
+                        if (!activeLayout) {
+                            if (activeElement) {
+                                activeLayout = activeElement.closest('.module-layouts');
+                            }
+                        }
+                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        window.css_vars_design_active_layout = activeLayout;
+
+
+
+
+
+                    });
+
+
                 });
+
+
+
+
 
                 window.mw_template_settings_styles_and_selectors = @json($styleSettings)
 
-               function preapareAndCleanTemplateStylesAndSelectorsData(items) {
-                        if (!Array.isArray(items)) return items;
 
-                        return items.filter(item => {
-                            // Remove items with fieldType clearAll
-                            if (item.fieldType === 'clearAll') return false;
 
-                            // Clean unwanted properties
-                            ['readSettingsFromFiles', 'parent', 'backUrl', 'url'].forEach(prop => {
-                                if (item.hasOwnProperty(prop)) delete item[prop];
-                            });
 
-                            // Clean nested settings
-                            if (item.settings && Array.isArray(item.settings)) {
-                                item.settings = preapareAndCleanTemplateStylesAndSelectorsData(item.settings);
-                            }
 
-                            // Clean nested fieldSettings if it's an array
-                            if (item.fieldSettings && Array.isArray(item.fieldSettings)) {
-                                item.fieldSettings = preapareAndCleanTemplateStylesAndSelectorsData(item.fieldSettings);
-                            }
+                window.css_vars_design_apply_mode = 'template';
 
-                            return item.settings?.length > 0 || item.fieldSettings || item.selectors;
+
+
+
+                function preapareAndCleanTemplateStylesAndSelectorsData(items) {
+                    if (!Array.isArray(items)) return items;
+
+                    return items.filter(item => {
+                        // Remove items with fieldType clearAll
+                        if (item.fieldType === 'clearAll') return false;
+
+                        // Clean unwanted properties
+                        ['readSettingsFromFiles', 'parent', 'backUrl', 'url'].forEach(prop => {
+                            if (item.hasOwnProperty(prop)) delete item[prop];
                         });
-                    }
+
+                        // Clean nested settings
+                        if (item.settings && Array.isArray(item.settings)) {
+                            item.settings = preapareAndCleanTemplateStylesAndSelectorsData(item.settings);
+                        }
+
+                        // Clean nested fieldSettings if it's an array
+                        if (item.fieldSettings && Array.isArray(item.fieldSettings)) {
+                            item.fieldSettings = preapareAndCleanTemplateStylesAndSelectorsData(item.fieldSettings);
+                        }
+
+                        return item.settings?.length > 0 || item.fieldSettings || item.selectors;
+                    });
+                }
 
 
                 function preapareTemplateValuesForEdit(designSelectors) {
@@ -280,7 +357,8 @@
                                             target: {
                                                 object: setting.fieldSettings,
                                                 key: 'value'
-                                            }
+                                            },
+                                            layout: setting.layout || item.layout // collect layout info if present
                                         });
                                     }
                                 }
@@ -295,7 +373,8 @@
                                                 target: {
                                                     object: setting.fieldSettings[m],
                                                     key: 'value'
-                                                }
+                                                },
+                                                layout: setting.layout || item.layout // collect layout info if present
                                             });
                                         }
                                     }
@@ -305,8 +384,8 @@
                     }
 
                     // Filter unique selector-property combinations
-                    const uniquePairs = [];
-                    const uniqueKeys = new Set();
+                    var uniquePairs = []; // Using var as in original code
+                    var uniqueKeys = new Set();
 
                     for (const pair of allSelectorPropertyPairs) {
                         const key = `${pair.selector}|${pair.property}`;
@@ -316,30 +395,95 @@
                         }
                     }
 
-                    // Now make all the cssEditor calls
-                    for (const pair of uniquePairs) {
-                        const propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
-                        pair.target.object[pair.target.key] = propertyValue;
+                    if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
+                        const activeLayout = window.css_vars_design_active_layout;
+                        const layoutId = typeof activeLayout === 'string'
+                            ? activeLayout
+                            : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+
+                        if (layoutId) {
+                            const layoutSelectorTarget = '#' + layoutId;
+                            const processedPairs = [];
+
+                            for (const pair of uniquePairs) {
+                                let currentSelector = pair.selector;
+                                let finalSelector = pair.selector;
+
+                                if (currentSelector === ':root') {
+                                    finalSelector = layoutSelectorTarget;
+                                }
+
+                                let includeThisPair = false;
+                                if (finalSelector === layoutSelectorTarget) {
+                                    includeThisPair = true;
+                                } else if (pair.layout && pair.layout == layoutId) {
+                                    includeThisPair = true;
+                                }
+
+                                if (includeThisPair) {
+                                    // Create a shallow copy to modify selector, keeping target reference intact
+                                    const pairToAdd = { ...pair };
+                                    pairToAdd.selector = finalSelector; // Ensure the selector is the final one
+                                    processedPairs.push(pairToAdd);
+                                }
+                            }
+                            uniquePairs = processedPairs;
+
+                            // Deduplicate again, as different original pairs might now target the same finalSelector and property
+                            const finalUniquePairsAfterTransform = [];
+                            const finalUniqueKeysAfterTransform = new Set();
+                            for (const p of uniquePairs) {
+                                const key = `${p.selector}|${p.property}`;
+                                if (!finalUniqueKeysAfterTransform.has(key)) {
+                                    finalUniqueKeysAfterTransform.add(key);
+                                    finalUniquePairsAfterTransform.push(p);
+                                }
+                            }
+                            uniquePairs = finalUniquePairsAfterTransform;
+
+                        } else {
+                            uniquePairs = []; // No layout ID, so no pairs if in layout mode
+                        }
                     }
 
+                    // Now make all the cssEditor calls
+                    // This loop uses `pair.target.object` which should be the original reference.
+                    for (const pair of uniquePairs) {
+                        const propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
+                        if (pair.target && typeof pair.target.object === 'object' && pair.target.object !== null) {
+                            pair.target.object[pair.target.key] = propertyValue;
+                        }
+                    }
 
                     let valuesForEdit = {};
                     for (const pair of uniquePairs) {
+                        // pair.selector is now correctly #layoutId if it was :root in layout mode and processed above
                         const propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
 
+                        let selectorKey = pair.selector; // Use the processed selector from the pair
 
-                        if (!valuesForEdit[pair.selector]) {
-                            valuesForEdit[pair.selector] = {};
+                        if (!valuesForEdit[selectorKey]) {
+                            valuesForEdit[selectorKey] = {};
                         }
 
+                        valuesForEdit[selectorKey][pair.property] = propertyValue;
+                    }
 
-                        valuesForEdit[pair.selector][pair.property] = propertyValue;
+                    // Ensure valuesForEdit has the layout key if empty in layout mode
+                    if (Object.keys(valuesForEdit).length === 0 &&
+                        window.css_vars_design_apply_mode === 'layout' &&
+                        window.css_vars_design_active_layout) {
+                        const activeLayout = window.css_vars_design_active_layout;
+                        const layoutId = typeof activeLayout === 'string'
+                            ? activeLayout
+                            : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+                        if (layoutId) {
+                            valuesForEdit['#' + layoutId] = {};
+                        }
                     }
 
                     return valuesForEdit;
-
                 }
-
 
                 async function changeDesign(about) {
                     var designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
@@ -393,15 +537,42 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     let messages = [{role: 'user', content: message}];
 
 
+
+
+                    if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
+
+
+
+                        const activeLayout = window.css_vars_design_active_layout;
+                        const layoutId = typeof activeLayout === 'string'
+                            ? activeLayout
+                            : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+
+                        if (layoutId) {
+                            selector  =  '#' + layoutId  ;
+
+                            console.log( 'layoutId:', layoutId);
+                        }
+                    }
                     let res = await mw.top().win.MwAi().sendToChat(messages, messageOptions)
 
                     if (res.success && res.data) {
 
 
-                        for (const selector in res.data) {
+                        for (let selector in res.data) {
                             if (res.data.hasOwnProperty(selector)) {
+
+
+
+
+
                                 // Loop through all properties for the current selector
-                                for (const property in res.data[selector]) {
+                                for (let property in res.data[selector]) {
+
+
+
+
+
                                     if (res.data[selector].hasOwnProperty(property)) {
                                         const value = res.data[selector][property];
 
@@ -409,6 +580,8 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                         if (mw.top().app.cssEditor) {
                                             // Determine unit if needed (you might need to adjust this based on property type)
                                             const unit = property.includes('color') ? '' : '';
+
+
 
                                             // Apply the CSS property
                                             mw.top().app.cssEditor.setPropertyForSelector(
@@ -439,6 +612,19 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
         @if(isset($styleSettings))
+
+
+
+
+
+
+
+            <select class="form-control form-select "  name="css_vars_design_apply_mode" id="css_vars_design_apply_mode" >
+                <option value="template">Template</option>
+                <option value="layout">Layout</option>
+            </select>
+
+
 
             <div
                 x-data="{styleEditorData:{}, showStyleSettings: '/'}"

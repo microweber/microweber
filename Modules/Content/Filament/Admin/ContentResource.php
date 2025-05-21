@@ -26,6 +26,7 @@ use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableResource;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
+use Modules\Media\Models\Media;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 
@@ -48,6 +49,17 @@ class ContentResource extends Resource
         if (isset($params['id'])) {
             $id = $params['id'];
         }
+
+        $relType = \Modules\Content\Models\Content::class;
+        $relId = $id;
+
+        $mediaIds = Media::query()
+            ->where('rel_type', $relType)
+            ->where('rel_id', $relId)
+            ->orderBy('position', 'asc')
+            ->pluck('id')->toArray();
+
+
         $contentType = 'page';
         $contentSubtype = 'static';
         if (isset($params['contentType'])) {
@@ -76,7 +88,6 @@ class ContentResource extends Resource
 
         $site_url = site_url();
         $sessionId = session()->getId();
-
 
         $mainForm = [
 
@@ -159,6 +170,8 @@ class ContentResource extends Resource
                                 }
                             })
                         ,
+
+
                         Forms\Components\Hidden::make('parent'),
 
                         Forms\Components\Hidden::make('is_shop')
@@ -222,8 +235,17 @@ class ContentResource extends Resource
                             ->columnSpanFull()
                             ->columns(2),
 
-                        MwMediaBrowser::make('mediaIds')->label('Pictures'),
 
+                        Forms\Components\Section::make('Media')
+                            ->schema([
+                                MwMediaBrowser::make('mediaIds')
+                                    ->label('Add images')
+                                    ->setRelType($relType)
+                                    ->setRelId($relId)
+                                    ->default(function () use ($relType, $relId, $mediaIds) {
+                                        return $mediaIds;
+                                    })
+                            ]),
 
                         Forms\Components\Section::make('Pricing')
                             ->schema([
@@ -527,7 +549,14 @@ class ContentResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema(static::formArray());
+        $params = [];
+        $record = $form->getRecord();
+
+        if ($record && $record->id) {
+            $params['id'] = $record->id;
+        }
+
+        return $form->schema(static::formArray($params));
     }
 
     public static function seoFormArray()
