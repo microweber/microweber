@@ -618,7 +618,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
         <div class="form-control-live-edit-label-wrapper">
-            <select class="form-control form-select "  name="css_vars_design_apply_mode" id="css_vars_design_apply_mode" >
+            <select class="form-control-live-edit-input form-select "  name="css_vars_design_apply_mode" id="css_vars_design_apply_mode" >
                 <option value="template">Template</option>
                 <option value="layout">Layout</option>
             </select>
