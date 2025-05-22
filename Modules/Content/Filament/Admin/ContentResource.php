@@ -565,12 +565,55 @@ class ContentResource extends Resource
             Forms\Components\Section::make('Search engine optimisation (SEO)')
                 ->description('Add a title and description to see how this product might appear in a search engine listing')
                 ->schema([
+                    Forms\Components\Grid::make()
+                        ->schema([
+                            // Replace Button with Actions\Action which is the correct component in Filament v3
+                            Forms\Components\Actions::make([
+                                Forms\Components\Actions\Action::make('generateSeoContent')
+                                    ->label('Generate SEO Content')
+                                    ->visible(app()->has('ai'))
+                                    ->icon('heroicon-o-sparkles')
+                                    ->color('primary')
+                                    ->action(function (Forms\Get $get, Forms\Set $set) {
+                                        // Get content details to generate better SEO
+                                        $title = $get('title');
+                                        $description = $get('description');
+                                        $content_body = $get('content_body');
+
+                                        $contentToAnalyze = "Title: {$title}\n\nDescription: {$description}\n\nContent: {$content_body}";
+                                        $prompt = "Generate SEO metadata for the following content. Include a meta title (max 60 characters), meta description (max 160 characters), and relevant keywords separated by commas:\n\n{$contentToAnalyze}";
+
+                                        /*
+                                        * @var \Modules\Ai\Agents\BaseAgent $agent
+                                        */
+                                        $agent = app('ai.agents')->agent('base');
+
+                                        $class = new class {
+                                            public string $meta_title;
+                                            public string $meta_description;
+                                            public string $meta_keywords;
+                                        };
+
+                                        $resp = $agent->structured(
+                                            new \NeuronAI\Chat\Messages\UserMessage($prompt),
+                                            $class::class
+                                        );
+
+                                        if ($resp) {
+                                            $set('content_meta_title', $resp->meta_title);
+                                            $set('description', $resp->meta_description);
+                                            $set('content_meta_keywords', $resp->meta_keywords);
+                                        }
+                                    }),
+                            ])
+                        ])
+                        ->visible(app()->has('ai'))
+                        ->columnSpanFull(),
 
                     Forms\Components\TextInput::make('content_meta_title')
                         ->label('Meta Title')
                         ->helperText('Describe for what is this page about in short title')
                         ->columnSpanFull(),
-
 
                     Forms\Components\Textarea::make('description')
                         ->label('Meta Description')
@@ -581,7 +624,6 @@ class ContentResource extends Resource
                         ->label('Meta Keywords')
                         ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
                         ->columnSpanFull(),
-
                 ])
         ];
     }
