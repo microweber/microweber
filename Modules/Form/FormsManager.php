@@ -660,16 +660,16 @@ class FormsManager
 
                     $fileContent = @file_get_contents($file['tmp_name']);
                     if ($fileContent) {
-                        $save = Storage::disk('media')->put($targetFileName, $fileContent);
+                        $save = Storage::disk('public')->put($targetFileName, $fileContent);
                         if ($save) {
 
-                            $realPath = Storage::disk('media')->path($targetFileName);
+                            $realPath = Storage::disk('public')->path($targetFileName);
 
                             $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
                             $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
                             $fileSize = \Illuminate\Support\Facades\File::size($realPath);
 
-                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
+                            $mediaFileUrl = Storage::disk('public')->url($targetFileName);
                             $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
 
                             $fieldsData[] = [

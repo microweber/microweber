@@ -47,7 +47,10 @@ class TestimonialsModule extends BaseModule
             ->orderBy('position', 'asc')
             ->get();
 
-        if ($testimonials->isEmpty()) {
+        $getTestimonialsCreatedDefault = $this->getOption('getTestimonialsCreatedDefault');
+
+        if (!$getTestimonialsCreatedDefault and $testimonials->isEmpty()) {
+            $this->saveOption('getTestimonialsCreatedDefault', '1');
             return collect($this->getDefaultTestimonials());
         }
 
@@ -66,9 +69,17 @@ class TestimonialsModule extends BaseModule
             return [];
         }
 
-        return array_map(function($testimonial) {
+        return array_map(function ($testimonial) {
             $testimonial['client_image'] = app()->url_manager->replace_site_url_back($testimonial['client_image']);
-            return new Testimonial($testimonial);
+
+            $testimonialModel = new Testimonial();
+            $testimonial['rel_id'] = $this->getRelId();
+            $testimonial['rel_type'] = $this->getRelType();
+            $testimonialModel->fill($testimonial);
+            $testimonialModel->save();
+
+
+            return $testimonialModel;
         }, $defaultContent['testimonials']);
     }
 

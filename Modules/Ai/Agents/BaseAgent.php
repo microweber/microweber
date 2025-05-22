@@ -25,6 +25,8 @@ use NeuronAI\StructuredOutput\JsonSchema;
 class BaseAgent extends Agent
 {
 
+    protected string $instructions = 'Your are a helpful and friendly AI that can help with anything that is asked.';
+
     protected $providerName = null;
     protected $model = null;
 

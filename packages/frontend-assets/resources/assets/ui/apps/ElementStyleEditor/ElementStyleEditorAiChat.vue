@@ -1,9 +1,6 @@
 <template>
     <div>
-        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3 mb-1 d-block">
-            <Lang>AI Style Editor</Lang>
-        </span>
-        <div id="ai-gui-editor" ref="wrapper"></div>
+
 
         <div v-if="canShowAiChat">
             <div class="d-flex mt-4">
@@ -24,7 +21,15 @@
               </span>
             </div>
 
-            <div v-if="showAiChat">
+            <div v-show="showAiChat">
+
+
+                 <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3 mb-1 d-block">
+            <Lang>AI Style Editor</Lang>
+        </span>
+                <div id="ai-gui-editor" ref="wrapper"></div>
+
+
                 <div class="form-control-live-edit-label-wrapper my-3">
                     <input  class="form-control-live-edit-input " type="text" v-model="aiMessage" placeholder="Make text bigger..."
                            @keyup.enter="submitAiRequest"/>

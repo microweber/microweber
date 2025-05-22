@@ -104,7 +104,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         $prompt = implode(' ', array_column($messages, 'content'));
 
         if ($this->useCache) {
-            $cacheKey = 'replicate_image_' . md5($prompt . json_encode($options));
+            $cacheKey = 'replicate_image_gen_' . md5($prompt . json_encode($options));
             if ($cached = Cache::get($cacheKey)) {
                 return $cached;
             }
@@ -153,42 +153,38 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
 
             // Store the image to disk if URL is available
             if ($imageUrl) {
-                try {
-                    // Create directory if it doesn't exist
-                    $directory = 'media/replicate';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                    }
 
-                    // Get file extension from URL
-                    $extension = $this->getFileExtensionFromUrl($imageUrl);
-
-                    $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
-
-
-                    // Validate the extension
-                    if (!in_array($extension, $allowedExtensions)) {
-                        throw new \Exception("Invalid image extension: $extension");
-                    }
-
-
-                    // Create a unique filename with correct extension
-                    $imagePath = $directory . '/' . md5($prompt . microtime()) . '.' . $extension;
-
-                    // Download and store the image
-                    $imageContent = $this->fetchImageContent($imageUrl);
-                    Storage::disk('public')->put($imagePath, $imageContent);
-
-                    // Add the public URL to the response
-                    $response['url'] = Storage::url($imagePath);
-
-                    // Also add the base64 encoded image data for backward compatibility
-                    $response['data'] = base64_encode($imageContent);
-                } catch (\Exception $e) {
-                    Log::error('Failed to store image: ' . $e->getMessage());
-                    // If storing fails, we'll still return the original URL
-                    $response['url'] = $imageUrl;
+                // Create directory if it doesn't exist
+                $directory = 'media/replicate';
+                if (!Storage::disk('public')->exists($directory)) {
+                    Storage::disk('public')->makeDirectory($directory);
                 }
+
+                // Get file extension from URL
+                $extension = $this->getFileExtensionFromUrl($imageUrl);
+
+                $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+
+
+                // Validate the extension
+                if (!in_array($extension, $allowedExtensions)) {
+                    throw new \Exception("Invalid image extension: $extension");
+                }
+
+
+                // Create a unique filename with correct extension
+                $imagePath = $directory . '/' . md5($prompt . microtime()) . '.' . $extension;
+
+                // Download and store the image
+                $imageContent = $this->fetchImageContent($imageUrl);
+                Storage::disk('public')->put($imagePath, $imageContent);
+
+                // Add the public URL to the response
+                $response['url'] = Storage::disk('public')->url($imagePath);
+
+                // Also add the base64 encoded image data for backward compatibility
+                $response['data'] = base64_encode($imageContent);
+
             }
 
             // Store in cache if caching is enabled

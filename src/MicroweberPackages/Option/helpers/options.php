@@ -9,10 +9,21 @@ function get_module_option($optionKey, $optionGroup = false, $returnFull = false
     return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
 }
 
+function save_module_option($optionKey, $value = false, $group = false, $module = false)
+{
+    $option = array();
+    $option['option_value'] = $value;
+    $option['option_key'] = $optionKey;
+    $option['option_group'] = $group;
+    $option['module'] = $module;
+
+    return save_option($option);
+}
+
 function module_option($optionGroup = false, $optionKey = false, $default = false)
 {
     $get = get_module_option($optionKey, $optionGroup);
-    if($get === null){
+    if ($get === null) {
         return $default;
     }
     return $get;

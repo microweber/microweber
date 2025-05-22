@@ -49,6 +49,12 @@ trait HasMicroweberModuleOptions
 
     }
 
+    public function saveOption($key,$value = null )
+    {
+
+        $save = save_module_option($key, $value,$this->params['id']  , static::$module);
+
+    }
     public function getOption($key, $default = null)
     {
 

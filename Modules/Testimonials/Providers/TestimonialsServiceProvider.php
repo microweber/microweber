@@ -39,5 +39,10 @@ class TestimonialsServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.testimonials.filament.testimonials-table-list', TestimonialsTableList::class);
         FilamentRegistry::registerPage(TestimonialsModuleSettings::class);
         Microweber::module(TestimonialsModule::class);
+
+
+
+
+
     }
 }

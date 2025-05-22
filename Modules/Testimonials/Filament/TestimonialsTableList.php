@@ -7,6 +7,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\CreateAction;
@@ -22,7 +23,9 @@ use Livewire\Component;
 
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
+use Modules\Ai\Facades\AiImages;
 use Modules\Testimonials\Models\Testimonial;
+use NeuronAI\Chat\Messages\UserMessage;
 
 class TestimonialsTableList extends LiveEditModuleTable
 {
@@ -60,23 +63,24 @@ class TestimonialsTableList extends LiveEditModuleTable
 
         // Check if there are testimonials for this module and if not, add default ones
         $testimonialsCount = $query->count();
-        if ($testimonialsCount == 0) {
-            $defaultContent = file_get_contents(module_path('testimonials') . '/default_content.json');
-            $defaultContent = json_decode($defaultContent, true);
-            if (isset($defaultContent['testimonials'])) {
-                foreach ($defaultContent['testimonials'] as $testimonial) {
-                    $newTestimonial = new Testimonial();
-                    $newTestimonial->fill($testimonial);
-                    $newTestimonial->rel_id = $this->rel_id;
-                    $newTestimonial->rel_type = $this->rel_type;
-                    $newTestimonial->save();
-                }
-            }
-        }
+//        if ($testimonialsCount == 0) {
+//            $defaultContent = file_get_contents(module_path('testimonials') . '/default_content.json');
+//            $defaultContent = json_decode($defaultContent, true);
+//            if (isset($defaultContent['testimonials'])) {
+//                foreach ($defaultContent['testimonials'] as $testimonial) {
+//                    $newTestimonial = new Testimonial();
+//                    $newTestimonial->fill($testimonial);
+//                    $newTestimonial->rel_id = $this->rel_id;
+//                    $newTestimonial->rel_type = $this->rel_type;
+//                    $newTestimonial->save();
+//                }
+//            }
+//        }
 
         return $table
             ->query($query)
             ->defaultSort('position', 'asc')
+            ->selectable()
             ->columns([
 
                 ImageColumn::make('client_image')
@@ -94,11 +98,98 @@ class TestimonialsTableList extends LiveEditModuleTable
 
             ])
             ->headerActions([
+                CreateAction::make('createTestimonialWithAi')
+                    ->visible(app()->has('ai'))
+                    ->createAnother(false)
+                    ->label('Create with AI')
+                    ->form([
+                        Textarea::make('createTestimonialWithAiSubject')
+                            ->label('Subject')
+                            ->required(),
+
+                        TextInput::make('createTestimonialWithAiContentNumber')
+                            ->numeric()
+                            ->default(1)
+                            ->label('Number of testimonials')
+                            ->required(),
+
+                        Toggle::make('createTestimonialWithAiContentImages')
+                            ->visible(app()->has('ai.images'))
+                            ->label('Also create images')
+                            ->default(false)
+                            ->onColor('success')
+                            ->inline()
+                        ,
+
+                    ])
+                    ->action(function (array $data) {
+
+                        $prompt = "Write testimonials for a client with the following details: " . $data['createTestimonialWithAiSubject'];
+
+                        $numberOfTesimonials = $data['createTestimonialWithAiContentNumber'] ?? 1;
+                        $createImages = $data['createTestimonialWithAiContentImages'] ?? false;
+
+                        $class = new class {
+                            public string $name;
+                            public string $content;
+                            public string $client_company;
+                            public string $client_role;
+                        };
+
+                        /*
+                         *  @var \Modules\Ai\Agents\BaseAgent $agent ;
+                         */
+                        $agent = app('ai.agents')->agent('base');
+
+
+                        for ($i = 0; $i < $numberOfTesimonials; $i++) {
+
+                            $resp = $agent->structured(
+                                new UserMessage($prompt)
+                                , $class::class
+                            );
+                            $resp = json_decode(json_encode($resp), true);
+
+                            if ($resp) {
+                                $testimonial = new Testimonial();
+                                $testimonial->name = $resp['name'] ?? 'John Doe';
+                                $testimonial->content = $resp['content'] ?? 'This is a testimonial content.';
+                                $testimonial->client_company = $resp['client_company'] ?? 'Company Name';
+                                $testimonial->client_role = $resp['client_role'] ?? 'Client Role';
+                                $testimonial->rel_id = $this->rel_id;
+                                $testimonial->rel_type = $this->rel_type;
+                                $testimonial->save();
+                            }
+
+
+                            if ($createImages) {
+
+                                $messagesForImages = [];
+                                $messagesForImages[] = ['role' => 'user', 'content' => 'Create an image for the testimonial: ' . $resp['content']];
+
+                                $response = AiImages::generateImage($messagesForImages);
+
+                                if ($response and isset($response['url']) and $response['url']) {
+                                    $testimonial->client_image = $response['url'];
+                                    $testimonial->save();
+                                }
+
+                            }
+
+
+                        }
+
+
+                        $this->resetTable();
+                    }),
+
+
                 CreateAction::make('create')
                     ->slideOver()
                     ->form($this->editFormArray())
             ])
             ->actions([
+
                 EditAction::make('edit')
                     ->slideOver()
                     ->form($this->editFormArray()),
@@ -106,7 +197,7 @@ class TestimonialsTableList extends LiveEditModuleTable
             ])
             ->reorderable('position')
             ->bulkActions([
-                // BulkActionGroup::make([ DeleteBulkAction::make() ])
+                DeleteBulkAction::make()
             ]);
     }
 
