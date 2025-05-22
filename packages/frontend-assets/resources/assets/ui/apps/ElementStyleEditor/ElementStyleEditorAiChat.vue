@@ -4,8 +4,8 @@
             <Lang>AI Style Editor</Lang>
         </span>
         <div id="ai-gui-editor" ref="wrapper"></div>
-    <div class="mb-4" v-if="canShowAiChat">
-        <div class="d-flex">
+    <div v-if="canShowAiChat">
+        <div class="d-flex mt-4">
             <svg fill="currentColor" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'
                  xmlns:xlink='http://www.w3.org/1999/xlink'>
                 <rect width='24' height='24' stroke='none' fill='currentColor' opacity='0'/>
