@@ -9,13 +9,16 @@ function get_module_option($optionKey, $optionGroup = false, $returnFull = false
     return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
 }
 
-function save_module_option($optionKey, $value = false, $group = false, $module = false)
+function save_module_option($optionKey, $value = false, $group = false, $module = false, $lang = null)
 {
     $option = array();
     $option['option_value'] = $value;
     $option['option_key'] = $optionKey;
     $option['option_group'] = $group;
     $option['module'] = $module;
+    if ($lang) {
+        $option['lang'] = $lang;
+    }
 
     return save_option($option);
 }
