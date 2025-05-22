@@ -61,9 +61,6 @@
             </div>
 
 
-            <div class="mb-4" v-show="showAiChatSettings">
-               <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
-            </div>
 
 
             <div class="mb-4" v-show="showLayoutSettings">
@@ -73,6 +70,9 @@
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
+            <div class="mb-4" v-show="showAiChatSettings">
+                <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
+            </div>
 
 
         </div>
