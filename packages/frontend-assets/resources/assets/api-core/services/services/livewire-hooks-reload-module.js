@@ -141,6 +141,8 @@ export class LivewireHooksReloadModule {
                         }
                         instance.performReload();
                     }
+                    mw.spinner({element: mw.top().win.document.body}).remove();
+
                 })
 
                 fail(({status, content, preventDefault}) => {

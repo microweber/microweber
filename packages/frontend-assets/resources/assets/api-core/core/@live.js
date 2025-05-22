@@ -479,6 +479,20 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
     getSelectedNode() {
         return this.activeNode;
     }
+
+    getSelectedLayoutNode() {
+        var node = this.getSelectedNode();
+        if (node && node.classList.contains('module-layouts')) {
+            return node;
+        }
+        if (node) {
+           var  activeLayout = node.closest('.module-layouts');
+           if(activeLayout) {
+               return activeLayout;
+           }
+        }
+    }
+
     selectNode(target, event) {
 
 
@@ -1215,7 +1229,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             can = DomService.hasAnyOfClasses(el, exceptions);
         }
 
-        if(can) {
+        if(can && el && el.parentElement) {
             can = !DomService.firstParentOrCurrent(el.parentElement, '[data-mw-free-element="true"]')
         }
 

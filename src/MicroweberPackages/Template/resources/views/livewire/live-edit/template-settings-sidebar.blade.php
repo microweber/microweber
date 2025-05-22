@@ -115,6 +115,30 @@
         </script>
 
         <script>
+
+            function updateLayoutIdDisplay() {
+                const mode = $('#css_vars_design_apply_mode').val();
+                const layoutDisplay = document.getElementById('layout-id-display');
+
+                const activeLayoutIdSpan = document.getElementById('active-layout-id');
+
+                const activeLayoutIdSpanVal = activeLayoutIdSpan.textContent;
+
+                if (mode === 'layout') {
+                    const activeLayout = window.css_vars_design_active_layout;
+                    const layoutId = typeof activeLayout === 'string'
+                        ? activeLayout
+                        : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
+
+                    activeLayoutIdSpan.textContent = layoutId;
+                    layoutDisplay.style.display = 'block';
+                } else {
+                    layoutDisplay.style.display = 'none';
+                }
+            }
+
+
+
             function openRTECSsEditor2(settings) {
 
                 console.log('openRTECSsEditor2', settings);
@@ -237,50 +261,33 @@
                 if (mw.top().app && mw.top().app.canvas) {
 
 
-                    var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
+
                     const layoutDisplay = document.getElementById('layout-id-display');
                     const activeLayoutIdSpan = document.getElementById('active-layout-id');
 
-                    if (!activeLayout) {
-                        if (activeElement) {
-                            activeLayout = activeElement.closest('.module-layouts');
-                        }
-                    }
-                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-                    window.css_vars_design_active_layout = activeLayout;
 
-                    function updateLayoutIdDisplay() {
-                        const mode = $('#css_vars_design_apply_mode').val();
+                     window.css_vars_design_active_layout = activeLayout;
 
-                        if (mode === 'layout') {
-                            const activeLayout = window.css_vars_design_active_layout;
-                            const layoutId = typeof activeLayout === 'string'
-                                ? activeLayout
-                                : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
 
-                            activeLayoutIdSpan.textContent = layoutId;
-                            layoutDisplay.style.display = 'block';
-                        } else {
-                            layoutDisplay.style.display = 'none';
-                        }
-                    }
 
                     updateLayoutIdDisplay();
 
 
                     mw.top().app.canvas.on('canvasDocumentClick', () => {
-                        var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-                        var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+                        var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
 
-                        if (!activeLayout) {
-                            if (activeElement) {
-                                activeLayout = activeElement.closest('.module-layouts');
-                            } else if (activeModule) {
-                                activeLayout = activeModule.closest('.module-layouts');
-                            }
-                        }
+                        // var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                        // var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        // var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+                        //
+                        // if (!activeLayout) {
+                        //     if (activeElement) {
+                        //         activeLayout = activeElement.closest('.module-layouts');
+                        //     } else if (activeModule) {
+                        //         activeLayout = activeModule.closest('.module-layouts');
+                        //     }
+                        // }
                         window.css_vars_design_active_layout = activeLayout;
                         updateLayoutIdDisplay();
 
@@ -317,18 +324,11 @@
                         window.css_vars_design_apply_mode = selectedValue;
 
 
-                        var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        var activeLayout =  mw.top().app.liveEdit.getSelectedLayoutNode();
 
-                        if (!activeLayout) {
-                            if (activeElement) {
-                                activeLayout = activeElement.closest('.module-layouts');
-                            }
-                        }
-                        var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                         window.css_vars_design_active_layout = activeLayout;
 
-
+                        updateLayoutIdDisplay();
                     });
 
 
@@ -596,6 +596,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                         }
                     }
                     let res = await mw.top().win.MwAi().sendToChat(messages, messageOptions)
+                    mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
 
                     if (res.success && res.data) {
 
@@ -633,7 +634,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
                     }
-                    mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
 
                     return designSelectors;
                 }
