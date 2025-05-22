@@ -53,7 +53,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 40px 20px;
+    gap: 40px 0;
     margin: 0 7px;
     padding-inline-end: 10px;
     max-height: calc(var(--top100vh) / 2);
@@ -65,7 +65,7 @@
 
 
 .animation-item-wrapper{
-    width: calc(25% - 20px);
+    width: calc(40% - 20px);
     aspect-ratio: 1 / 1;
     position: relative;
 }
