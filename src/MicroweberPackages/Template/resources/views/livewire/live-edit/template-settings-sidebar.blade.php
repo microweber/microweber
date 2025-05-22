@@ -198,6 +198,39 @@
                 // openRTECSsEditor2(e);
                 openRTECSsEditor2Vue(e);
             });
+            function scrollToSelecttedLayout() {
+                const activeLayoutIdSpan = document.getElementById('active-layout-id');
+
+                const activeLayoutIdSpanVal = activeLayoutIdSpan.textContent;
+
+                if(!activeLayoutIdSpanVal) {
+                    return;
+                }
+                var firstLayoutElement = mw.top().app.canvas.getDocument().getElementById(activeLayoutIdSpanVal);
+
+                if(firstLayoutElement){
+                    mw.top().app.canvas.getWindow().mw.tools.scrollTo(firstLayoutElement, 100);
+
+                }
+            }
+            function openSelectedLayoutSettings() {
+
+                const activeLayoutIdSpan = document.getElementById('active-layout-id');
+
+                const activeLayoutIdSpanVal = activeLayoutIdSpan.textContent;
+
+                if(!activeLayoutIdSpanVal) {
+                    return;
+                }
+                var firstLayoutElement = mw.top().app.canvas.getDocument().getElementById(activeLayoutIdSpanVal);
+
+                if(firstLayoutElement){
+                    mw.top().app.editor.dispatch('onLayoutSettingsRequest', firstLayoutElement);
+                }
+            }
+
+
+
 
             document.addEventListener('DOMContentLoaded', function () {
 
@@ -206,6 +239,8 @@
 
                     var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
                     var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    const layoutDisplay = document.getElementById('layout-id-display');
+                    const activeLayoutIdSpan = document.getElementById('active-layout-id');
 
                     if (!activeLayout) {
                         if (activeElement) {
@@ -215,24 +250,43 @@
                     var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                     window.css_vars_design_active_layout = activeLayout;
 
+                    function updateLayoutIdDisplay() {
+                        const mode = $('#css_vars_design_apply_mode').val();
 
+                        if (mode === 'layout') {
+                            const activeLayout = window.css_vars_design_active_layout;
+                            const layoutId = typeof activeLayout === 'string'
+                                ? activeLayout
+                                : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
 
+                            activeLayoutIdSpan.textContent = layoutId;
+                            layoutDisplay.style.display = 'block';
+                        } else {
+                            layoutDisplay.style.display = 'none';
+                        }
+                    }
+
+                    updateLayoutIdDisplay();
 
 
                     mw.top().app.canvas.on('canvasDocumentClick', () => {
-                         var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                         var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-
-                         if (!activeLayout) {
-                             if (activeElement) {
-                                 activeLayout = activeElement.closest('.module-layouts');
-                             }
-                         }
+                        var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
                         var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-                        window.css_vars_design_active_layout = activeLayout;
+                        var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
 
+                        if (!activeLayout) {
+                            if (activeElement) {
+                                activeLayout = activeElement.closest('.module-layouts');
+                            } else if (activeModule) {
+                                activeLayout = activeModule.closest('.module-layouts');
+                            }
+                        }
+                        window.css_vars_design_active_layout = activeLayout;
+                        updateLayoutIdDisplay();
 
                     })
+
+
                 }
             });
 
@@ -263,7 +317,6 @@
                         window.css_vars_design_apply_mode = selectedValue;
 
 
-
                         var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
                         var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
 
@@ -276,16 +329,10 @@
                         window.css_vars_design_active_layout = activeLayout;
 
 
-
-
-
                     });
 
 
                 });
-
-
-
 
 
                 window.mw_template_settings_styles_and_selectors = @json($styleSettings)
@@ -294,9 +341,7 @@
 
 
 
-                window.css_vars_design_apply_mode = 'template';
-
-
+                    window.css_vars_design_apply_mode = 'template';
 
 
                 function preapareAndCleanTemplateStylesAndSelectorsData(items) {
@@ -421,7 +466,7 @@
 
                                 if (includeThisPair) {
                                     // Create a shallow copy to modify selector, keeping target reference intact
-                                    const pairToAdd = { ...pair };
+                                    const pairToAdd = {...pair};
                                     pairToAdd.selector = finalSelector; // Ensure the selector is the final one
                                     processedPairs.push(pairToAdd);
                                 }
@@ -536,10 +581,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     let messages = [{role: 'user', content: message}];
 
 
-
-
                     if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
-
 
 
                         const activeLayout = window.css_vars_design_active_layout;
@@ -548,9 +590,9 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
 
                         if (layoutId) {
-                            selector  =  '#' + layoutId  ;
+                            selector = '#' + layoutId;
 
-                            console.log( 'layoutId:', layoutId);
+                            console.log('layoutId:', layoutId);
                         }
                     }
                     let res = await mw.top().win.MwAi().sendToChat(messages, messageOptions)
@@ -562,14 +604,8 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             if (res.data.hasOwnProperty(selector)) {
 
 
-
-
-
                                 // Loop through all properties for the current selector
                                 for (let property in res.data[selector]) {
-
-
-
 
 
                                     if (res.data[selector].hasOwnProperty(property)) {
@@ -579,7 +615,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                                         if (mw.top().app.cssEditor) {
                                             // Determine unit if needed (you might need to adjust this based on property type)
                                             const unit = property.includes('color') ? '' : '';
-
 
 
                                             // Apply the CSS property
@@ -612,18 +647,28 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
         @if(isset($styleSettings))
 
+            <div class="form-control-live-edit-label-wrapper mt-5 mb-2">
+                <label for="" class="live-edit-label">Choose where to edit</label>
+                <select class="form-control-live-edit-input form-select " name="css_vars_design_apply_mode"
+                        id="css_vars_design_apply_mode">
+                    <option value="template">Template</option>
+                    <option value="layout">Layout</option>
+                </select>
 
 
+                <div id="layout-id-display" class="mt-2 small text-muted" style="display: none;">
+
+                  <span   id="active-layout-id" onclick="scrollToSelecttedLayout()"></span>
 
 
+                  <span    id="active-layout-id-open-settings" onclick="openSelectedLayoutSettings()">
 
-        <div class="form-control-live-edit-label-wrapper mt-5 mb-2">
-            <label for="" class="live-edit-label">Choose where to edit</label>
-            <select class="form-control-live-edit-input form-select "  name="css_vars_design_apply_mode" id="css_vars_design_apply_mode" >
-                <option value="template">Template</option>
-                <option value="layout">Layout</option>
-            </select>
-        </div>
+&#x2699;
+
+                  </span>
+
+                </div>
+            </div>
 
 
             <div
