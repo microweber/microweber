@@ -4,7 +4,7 @@
             <Lang>AI Style Editor</Lang>
         </span>
         <div id="ai-gui-editor" ref="wrapper"></div>
-    <div v-if="canShowAiChat">
+    <div class="mb-4" v-if="canShowAiChat">
         <div class="d-flex">
             <svg fill="currentColor" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'
                  xmlns:xlink='http://www.w3.org/1999/xlink'>
@@ -21,7 +21,7 @@
             <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showAiChat }"
                   v-on:click="toggleAiChat">
                 AI Style Editor
-      </span>
+          </span>
         </div>
 
         <div v-if="showAiChat">
