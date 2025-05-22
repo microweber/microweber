@@ -736,12 +736,11 @@ html.dark .mw-file-manager--sort-select{
     background-color: transparent;
 }
 .mw-file-manager--sort-select{
-
-        border-radius: 5px;
-        min-height: 0px;
-        width: 100px;
-        font-size: 14px;
-        height: 34px;
-        margin: 3px 7px;
-
+    border-radius: 5px;
+    min-height: 0px;
+    width: 100px;
+    font-size: 10px;
+    height: 34px;
+    margin: 3px 7px;
+    padding-block: 0;
 }
