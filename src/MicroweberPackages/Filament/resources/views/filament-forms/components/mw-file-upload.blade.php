@@ -52,7 +52,7 @@
     >
 
 
-        <div class="w-full flex flex-col mw-file-upload-background-module-boxes items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500 dark:text-white dark:!hover:bg-gray-700">
+        <div class="flex flex-col mw-file-upload-background-module-boxes items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500 dark:text-white dark:!hover:bg-gray-700">
 
 
             <button
@@ -78,7 +78,7 @@
                     Select media file or <b class="text-yellow-500 font-bold">Upload</b>
                 </span>
             </button>
-            <div class="w-full" x-show="state && typeFile == 'image'">
+            <div class="w-[300px] h-[300px]" x-show="state && typeFile == 'image'">
                 <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
                     <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 min-h-[300px]"
                          >
