@@ -101,8 +101,8 @@
                 </div>
             </div>
 
-            <div class="current-template-modules-list-wrap" x-show="modulesList.length > 0">
-                <label class="current-template-modules-list-label live-edit-label">This layout contains these
+            <div class="current-template-modules-list-wrap mt-4" x-show="modulesList.length > 0">
+                <label class="current-template-modules-list-label live-edit-label mb-2">This layout contains these
                     modules</label>
                 <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2">
                     <template x-for="module in modulesList" :key="module.moduleId">

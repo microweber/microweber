@@ -656,7 +656,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                 </select>
 
 
-                <div id="layout-id-display" class="mt-2 small text-muted" style="display: none;">
+                <div id="layout-id-display" class="mt-2 small text-muted my-2" style="display: none;">
 
                   <div class="d-flex justify-content-between">
                       <span   id="active-layout-id" onclick="scrollToSelecttedLayout()"></span>
