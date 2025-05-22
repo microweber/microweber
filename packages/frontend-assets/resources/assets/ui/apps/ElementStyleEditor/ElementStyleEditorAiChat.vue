@@ -1,11 +1,10 @@
 <template>
     <div>
-        <div class="mb-3">
-            <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3 mb-1 d-block">
             <Lang>AI Style Editor</Lang>
         </span>
-            <div id="ai-gui-editor" ref="wrapper"></div>
-        </div>
+        <div id="ai-gui-editor" ref="wrapper"></div>
+
         <div v-if="canShowAiChat">
             <div class="d-flex mt-4">
                 <svg fill="currentColor" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'
@@ -26,10 +25,10 @@
             </div>
 
             <div v-if="showAiChat">
-                <div class="mb-4">
-                    <input type="text" v-model="aiMessage" placeholder="Make text bigger..."
+                <div class="form-control-live-edit-label-wrapper my-3">
+                    <input  class="form-control-live-edit-input " type="text" v-model="aiMessage" placeholder="Make text bigger..."
                            @keyup.enter="submitAiRequest"/>
-                    <button @click="submitAiRequest">Send</button>
+                    <button class="btn btn-link ms-auto" @click="submitAiRequest">Send</button>
                     <div v-if="loading" class="text-center">AI is thinking...</div>
                     <div v-else-if="error" class="text-danger">{{ error }}</div>
                 </div>

@@ -1093,8 +1093,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply dark:!bg-gray-900 dark:!text-white;
 }
 
-.mw-ai-chat-box-action-send {
-    button {
+.mw-ai-chat-box-actions button {
         @apply dark:!text-white;
-    }
 }
