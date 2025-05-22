@@ -1,9 +1,11 @@
 <template>
     <div>
-        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3 mb-3">
+        <div class="mb-3">
+            <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3">
             <Lang>AI Style Editor</Lang>
         </span>
-        <div id="ai-gui-editor" ref="wrapper"></div>
+            <div id="ai-gui-editor" ref="wrapper"></div>
+        </div>
         <div v-if="canShowAiChat">
             <div class="d-flex mt-4">
                 <svg fill="currentColor" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'
