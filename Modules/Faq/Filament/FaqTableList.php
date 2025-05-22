@@ -19,6 +19,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Modules\Faq\Models\Faq;
+use NeuronAI\Chat\Messages\UserMessage;
 
 class FaqTableList extends Component implements HasForms, HasTable
 {
@@ -64,6 +65,58 @@ class FaqTableList extends Component implements HasForms, HasTable
                     ->label('Active'),
             ])
             ->headerActions([
+                CreateAction::make('createFaqWithAi')
+                    ->visible(app()->has('ai'))
+                    ->createAnother(false)
+                    ->label('Create with AI')
+                    ->form([
+                        Textarea::make('createFaqWithAiSubject')
+                            ->label('Subject')
+                            ->required()
+                            ->helperText('Describe the topic for which you need FAQs generated'),
+
+                        TextInput::make('createFaqWithAiContentNumber')
+                            ->numeric()
+                            ->default(5)
+                            ->label('Number of FAQs')
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                        $prompt = "Generate frequently asked questions with detailed answers about: " . $data['createFaqWithAiSubject'];
+
+                        $numberOfFaqs = $data['createFaqWithAiContentNumber'] ?? 5;
+
+                        $class = new class {
+                            public string $question;
+                            public string $answer;
+                        };
+
+                        /*
+                         * @var \Modules\Ai\Agents\BaseAgent $agent
+                         */
+                        $agent = app('ai.agents')->agent('base');
+
+                        for ($i = 0; $i < $numberOfFaqs; $i++) {
+                            $resp = $agent->structured(
+                                new UserMessage($prompt),
+                                $class::class
+                            );
+                            $resp = json_decode(json_encode($resp), true);
+
+                            if ($resp) {
+                                $faq = new Faq();
+                                $faq->question = $resp['question'] ?? 'What is this?';
+                                $faq->answer = $resp['answer'] ?? 'This is a sample answer.';
+                                $faq->is_active = true;
+                                $faq->rel_id = $this->rel_id;
+                                $faq->rel_type = $this->rel_type;
+                                $faq->save();
+                            }
+                        }
+
+                        $this->resetTable();
+                    }),
+
                 CreateAction::make('create')
                     ->slideOver()
                     ->form($this->editFormArray())

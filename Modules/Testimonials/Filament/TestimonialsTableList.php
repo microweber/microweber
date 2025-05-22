@@ -163,22 +163,15 @@ class TestimonialsTableList extends LiveEditModuleTable
 
 
                             if ($createImages) {
-
                                 $messagesForImages = [];
                                 $messagesForImages[] = ['role' => 'user', 'content' => 'Create an image for the testimonial: ' . $resp['content']];
-
                                 $response = AiImages::generateImage($messagesForImages);
-
                                 if ($response and isset($response['url']) and $response['url']) {
                                     $testimonial->client_image = $response['url'];
                                     $testimonial->save();
                                 }
-
                             }
-
-
                         }
-
 
                         $this->resetTable();
                     }),
