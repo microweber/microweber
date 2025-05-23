@@ -111,13 +111,7 @@
 
             // Initialize events
             const initEvents = function () {
-                var activeNode = mw.top().app.liveEdit.getSelectedNode();
-                var can = mw.top().app.liveEdit.canBeElement(activeNode);
-                if (!can) {
-                    setHtmlToNode = false;
-                } else {
-                    setHtmlToNode = activeNode;
-                }
+
 
                 mw.top().app.canvas.on('canvasDocumentClick', function () {
 
@@ -133,17 +127,56 @@
                 });
 
                 mw.top().app.editor.on('editNodeRequest', function () {
-                    setHtmlToNode = mw.top().app.liveEdit.getSelectedNode();
                     if (setHtmlToNode) {
                         setEditorContent();
                     }
                 });
 
 
+                mw.top().app.liveEdit.handles.get('element').on('targetChange', (node, event ) => {
+
+
+                        setEditorContent();
+
+
+                });
+
+
+                mw.top().app.state.on('undo', () => {
+
+                        setEditorContent();
+
+
+                });
+                mw.top().app.state.on('redo', () => {
+
+                        setEditorContent();
+
+
+                });
+
+
+
+
             };
 
             // Set editor content based on selected node
             const setEditorContent = function () {
+
+                var activeNode = mw.top().app.liveEdit.getSelectedNode();
+                var can = mw.top().app.liveEdit.canBeElement(activeNode);
+                if (!can) {
+                    setHtmlToNode = false;
+                } else {
+                    setHtmlToNode = activeNode;
+                }
+
+                if(!setHtmlToNode){
+                    return;
+                }
+
+
+
                 if (setHtmlToNode) {
                     var htmlOrigClone = '';
                     var htmlOrig = setHtmlToNode.innerHTML;
