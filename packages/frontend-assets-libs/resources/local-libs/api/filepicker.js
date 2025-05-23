@@ -187,14 +187,8 @@ mw.filePicker = function (options) {
             return $wrap[0];
         },
 
-        ai: function () ai: function () {
-            var $input = $('<input class="form-control-live-edit-input" placeholder="'+mw.lang('Describe your image')+'">');
-            'aspect_ratio';
-            'number_of_images';
-            'image';
-            'width';
-            'height';
-            scope.$urlInput = $input;
+        ai: function ()   {
+
 
             const aspectRatio = [
                 {value: '16/9', css: '16 / 9',  label: '16/9'},
