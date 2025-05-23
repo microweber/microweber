@@ -973,6 +973,15 @@ MWEditor.controllers = {
             });
 
             scope.on('smallEditorSkinChanged', skin => {
+
+                if(!dropdown) return;
+                if(!dropdown.root) return;
+                if(!dropdown.root.find('iframe').get(0)) return;
+                if(!dropdown.root.find('iframe').get(0).contentWindow) return;
+                if(!dropdown.root.find('iframe').get(0).contentWindow.document) return;
+                if(!dropdown.root.find('iframe').get(0).contentWindow.document.querySelector('input')) return;
+
+
                 const field = dropdown.root.find('iframe').get(0).contentWindow.document.querySelector('input');
                 if(field) {
                     field.style.color = skin === 'dark' ? 'white' : 'black'
