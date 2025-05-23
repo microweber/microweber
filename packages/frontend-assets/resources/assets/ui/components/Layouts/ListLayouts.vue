@@ -61,13 +61,13 @@
 
                     <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">
                         <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
-<!--                            <button
+                      <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('masonry')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
-                            </button>-->
+                            </button>
 
                             <button
                                 type="button"
