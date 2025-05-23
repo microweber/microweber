@@ -3,3 +3,46 @@
         display: block;
     }
 }
+
+.mw-native-select  selectedcontent   {
+
+
+    display: flex ;
+    align-items: center;
+    gap: 10px;
+}
+.mw-native-select option{
+    padding: 5px 0;
+}
+.mw-native-select{
+
+
+
+    height: 35px;
+    display: flex;
+    align-items: center;
+
+
+
+    padding: 0 10px;
+
+}
+.mw-native-select,
+.mw-native-select::picker(select) {
+  appearance: base-select;
+  background-image: none !important;
+
+
+}
+
+
+.mw-native-select::picker-icon {
+  color: #999;
+  transition: 0.4s rotate;
+}
+.mw-native-select:open::picker-icon {
+  rotate: 180deg;
+}
+::picker(.mw-native-select) {
+  border: none;
+}

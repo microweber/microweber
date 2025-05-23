@@ -109,12 +109,14 @@ mw.filePickerDialog  = (conf = {pickerOptions: {}, dialogOptions: {}}, callback)
     }
 }
 
+
 mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
     var defaults = {
         components: [
             {type: 'desktop', label: mw.lang('My computer')},
+            {type: 'ai', label: mw.lang('AI')},
             {type: 'url', label: mw.lang('URL')},
             {type: 'server', label: mw.lang('Uploaded')},
             {type: 'library', label: mw.lang('Media library')}
@@ -185,6 +187,111 @@ mw.filePicker = function (options) {
             return $wrap[0];
         },
 
+        ai: function () {
+            var $input = $('<input class="form-control-live-edit-input" placeholder="'+mw.lang('Describe your image')+'">');
+            'aspect_ratio';
+            'number_of_images';
+            'image';
+            'width';
+            'height';
+            scope.$urlInput = $input;
+
+            const aspectRatio = [
+                {value: '16/9', css: '16 / 9',  label: '16/9'},
+                {value: '9/16', css: '9 / 16',  label: '9/16'},
+                {value: '4/3', css: '4 / 3',  label: '4/3'},
+                {value: '1/1', css: '1 / 1',  label: '1/1'},
+                {value: '3/2', css: '3 / 2',  label: '3/2'},
+                {value: '1.618/1', css: '1.618 / 1',  label: 'Golden Ratio (1.618:1)'},
+
+            ];
+            const id = mw.id();
+
+
+            const html = `
+                <div class="form-control-live-edit-label-wrapper" id="${id}">
+
+                </div>
+                <div class="form-control-live-edit-label-wrapper" style="max-width: 400px;margin: auto">
+                <div class="form-control-live-edit-label-wrapper">
+                    <label>${scope._getComponentObject('ai').label}</label>
+                    <input class="form-control-live-edit-input" name="prompt" placeholder="${mw.lang('Describe your image')}">
+                </div>
+                <div class="form-control-live-edit-label-wrapper">
+                    <label>${mw.lang('Aspect ratio')}</label>
+                    <select name="aspect_ratio" class="mw-native-select">
+                        <button>
+                            <selectedcontent></selectedcontent>
+                        </button>
+                        ${aspectRatio.map(o => {
+                            return `<option value="${o.value}">
+                                <span class="mw-filepicker-aspect-ratio-icon" style="aspect-ratio: ${o.css};display: inline-block; width: 30px;border: 3px solid #777"></span>
+                                <span class="mw-filepicker-aspect-ratio-label" >${o.label}</span>
+                            </option>`
+                        }).join('')}
+                    </select>
+                </div>
+                 <div class="flex row">
+                    <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                        <label>${mw.lang('Width')}</label>
+                        <input class="form-control-live-edit-input" name="width" type="number" min="1">
+                    </div>
+                    <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                        <label>${mw.lang('Height')}</label>
+                        <input class="form-control-live-edit-input" name="height" type="number" min="1">
+                    </div>
+                </div>
+                <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                    <label>${mw.lang('Number of images')}</label>
+                    <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="6" value="1">
+                </div>
+
+                <br>
+                <span class="btn btn-pill " data-action="generate">Generate</span>
+</div>
+            `;
+
+            var $wrap = this._$inputWrapper();
+            $wrap.html(html);
+
+
+
+            const submit = async () => {
+                const body = {};
+                $wrap[0].querySelectorAll('[name]').forEach(node => body[node.name] = node.value);
+                const url = '';
+                mw.spinner({
+                    element: $wrap[0],
+                    size: 30
+                }).show();
+
+                const _data = await $.post(url, body);
+                $('#' + id).html(`${_data.images.map(im => `<img src="${im}">`).join('')}`)
+                scope.setSectionValue(_data.images);
+                if (scope.settings.autoSelect) {
+                    // scope.result();
+                }
+
+                mw.spinner({
+                    element: $wrap[0],
+
+                }).remove();
+            }
+
+            $wrap[0].querySelector('[type="number"]').addEventListener('change', function(){
+                const max = parseFloat(this.max);
+                if(!isNaN(max) && this.value > max) {
+                    this.value = max;
+                }
+            });
+            $wrap[0].querySelector('[data-action="generate"]').addEventListener('click', e => {
+                submit()
+            });
+
+
+            return $wrap[0];
+        },
+
         desktop: function () {
 
 
@@ -239,7 +346,7 @@ mw.filePicker = function (options) {
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
-                        console.log(scope)
+
                         _uploadTempResult.push(file)
 
                         $(scope).trigger('FileUploaded', [file]);
