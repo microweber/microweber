@@ -112,8 +112,14 @@
                     htmlOrigCloneNode.querySelectorAll('.module').forEach(function (el) {
 
                         el.innerHTML = '[module]'
+                        el.contentEditable = false;
 
-
+                    });
+                    htmlOrigCloneNode.querySelectorAll('[data-mwplaceholder]').forEach(function (el) {
+                        el.removeAttribute('data-mwplaceholder');
+                    });
+                    htmlOrigCloneNode.querySelectorAll('[data-mw-live-edithover]').forEach(function (el) {
+                        el.removeAttribute('data-mw-live-edithover');
                     });
 
 
