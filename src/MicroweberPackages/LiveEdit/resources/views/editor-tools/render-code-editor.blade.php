@@ -76,11 +76,10 @@
     </style>
 
 
-
-
     <script>
 
         var targetWindow = mw.top().app.canvas.getWindow();
+        var targetDocument = mw.top().app.canvas.getDocument();
 
         mw.lib.require('codemirror');
         var html_code_area_editor2
@@ -89,17 +88,43 @@
         var $time_out_handle = 0, html_code_area_editor;
 
         function setEditorContent() {
-            if(setHtmlToNode){
+            if (setHtmlToNode) {
+                var htmlOrigClone = '';
                 var htmlOrig = setHtmlToNode.innerHTML;
-                //  var frag = document.createDocumentFragment();
-                //  var holder = document.createElement("div")
-                //  holder.innerHTML = htmlOrig;
-                //  frag.appendChild(holder);
-                //
-                //   $('.module', frag).html('[module]');
-                // var html_no_mods = frag.innerHTML;
+                var origId = setHtmlToNode.getAttribute('id');
 
-                html_code_area_editor2.setValue(htmlOrig);
+                //var htmlOrigCloneNode = Object.assign({}, setHtmlToNode);
+                // var htmlOrigCloneNode = setHtmlToNode ;
+
+                var hasClone = false;
+                var htmlOrigCloneNode = false;
+
+                const original = targetDocument.getElementById(origId);
+                if (original) {
+                    hasClone = true;
+                    htmlOrigCloneNode = original.cloneNode(true);
+
+                }
+
+
+                //relalce .module with [module]
+                if (hasClone && htmlOrigCloneNode) {
+                    htmlOrigCloneNode.querySelectorAll('.module').forEach(function (el) {
+
+                        el.innerHTML = '[module]'
+
+
+                    });
+
+
+                    htmlOrigClone = htmlOrigCloneNode.innerHTML;
+                    html_code_area_editor2.setValue(htmlOrigClone);
+                } else {
+                    html_code_area_editor2.setValue(htmlOrig);
+                }
+
+
+                // html_code_area_editor2.setValue(htmlOrig);
                 html_code_area_editor2.refresh();
             } else {
                 // disable editor
@@ -109,36 +134,36 @@
 
             }
         }
+
         function applyHtmlEdit2() {
             var custom_html_code_mirror = document.getElementById("html_code_area_editor2")
             var val = $(custom_html_code_mirror).val();
 
-            if(setHtmlToNode){
+            if (setHtmlToNode) {
                 setHtmlToNode.innerHTML = val;
 
-                //
-                // var modules_ids = {};
-                // var modules_list = $('.module', setHtmlToNode);
-                //
-                //
-                // $(modules_list).each(function () {
-                //     var id = $(this).attr('id');
-                //     if (id) {
-                //         id = '#' + id;
-                //     } else {
-                //         id = $(this).attr('data-type');
-                //     }
-                //     if (!id) {
-                //         id = $(this).attr('type');
-                //     }
-                //     modules_ids[id] = true;
-                // });
-                //
-                //
-                // $.each(modules_ids, function (index, value) {
-                //     targetWindow.mw.reload_module(index);
-                // });
 
+                var modules_ids = {};
+                var modules_list = $('.module', setHtmlToNode);
+
+
+                $(modules_list).each(function () {
+                    var id = $(this).attr('id');
+                    if (id) {
+                        id = '#' + id;
+                    } else {
+                        id = $(this).attr('data-type');
+                    }
+                    if (!id) {
+                        id = $(this).attr('type');
+                    }
+                    modules_ids[id] = true;
+                });
+
+
+                $.each(modules_ids, function (index, value) {
+                    targetWindow.mw.reload_module(index);
+                });
 
 
                 mw.top().app.registerChangedState(setHtmlToNode);
@@ -175,7 +200,6 @@
         }
 
 
-
         $(document).ready(function () {
 
             html_code_area_editor2 = CodeMirror.fromTextArea(document.getElementById("html_code_area_editor2"), {
@@ -198,20 +222,13 @@
             });
 
 
-
-
-
-
-
-
         });
-
 
 
         mw.top().app.canvas.on('canvasDocumentClick', function () {
             var activeNode = mw.top().app.liveEdit.getSelectedNode();
             var can = mw.top().app.liveEdit.canBeElement(activeNode)
-            if(!can){
+            if (!can) {
                 setHtmlToNode = false;
             } else {
                 setHtmlToNode = activeNode;
@@ -222,9 +239,8 @@
     </script>
 
 
-
     <div id="custom_html_code_mirror_container">
-<textarea class="form-select w100" dir="ltr"  id="html_code_area_editor2" rows="30">
+<textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30">
 
 
 </textarea>
