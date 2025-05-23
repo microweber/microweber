@@ -138,11 +138,16 @@ export default {
         },
         removeHtmlEditor: function () {
 
-            if (this.htmlEditorDialog) {
-                this.htmlEditorDialog.remove();
-                this.markAsRemoved();
-
+            try {
+                if (this.htmlEditorIframe) {
+                    this.htmlEditorIframe.remove();
+                    this.htmlEditorIframe = null;
+                }
+            } catch (e) {
+                this.htmlEditorIframe = null;
             }
+
+            this.markAsRemoved();
         },
         markAsRemoved: function () {
 
