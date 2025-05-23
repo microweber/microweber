@@ -1,9 +1,5 @@
 <div>
-
-
     <style>
-
-
         .CodeMirror,
         #select_edit_field_wrap {
             height: 100%;
@@ -35,7 +31,6 @@
             transform-origin: 0 0;
             pointer-events: none;
         }
-
 
         .CodeMirror, #select_edit_field_wrap {
             height: calc(100vh - 55px) !important;
@@ -71,195 +66,221 @@
             transform-origin: 0 0;
             pointer-events: none;
         }
-
-
     </style>
 
 
     <script>
-
-        var targetWindow = mw.top().app.canvas.getWindow();
-        var targetDocument = mw.top().app.canvas.getDocument();
-
         mw.lib.require('codemirror');
-        var html_code_area_editor2
+    </script>
+    <script>
+        function mwCodeEditor() {
+            // Private variables
+            let html_code_area_editor2;
+            let targetWindow;
+            let targetDocument;
+            let setHtmlToNode = false;
 
-        var setHtmlToNode = false;
-        var $time_out_handle = 0, html_code_area_editor;
+            // Initialize the editor
+            const init = function () {
+                targetWindow = mw.top().app.canvas.getWindow();
+                targetDocument = mw.top().app.canvas.getDocument();
 
-        function setEditorContent() {
-            if (setHtmlToNode) {
-                var htmlOrigClone = '';
-                var htmlOrig = setHtmlToNode.innerHTML;
-                var origId = setHtmlToNode.getAttribute('id');
+                initCodeEditor();
+                initEvents();
+            };
 
-                //var htmlOrigCloneNode = Object.assign({}, setHtmlToNode);
-                // var htmlOrigCloneNode = setHtmlToNode ;
+            // Initialize the code editor
+            const initCodeEditor = function () {
+                html_code_area_editor2 = CodeMirror.fromTextArea(document.getElementById("html_code_area_editor2"), {
+                    lineNumbers: true,
+                    gutter: false,
+                    lineWrapping: true,
+                    matchTags: {bothTags: true},
+                    extraKeys: {"Ctrl-Space": "autocomplete"},
+                    mode: {
+                        name: "text/html", globalVars: true
+                    }
+                });
 
-                var hasClone = false;
-                var htmlOrigCloneNode = false;
+                html_code_area_editor2.setSize("100%", "auto");
+                html_code_area_editor2.setOption("theme", 'material');
+                html_code_area_editor2.on("change", function (cm, change) {
+                    $('#html_code_area_editor2').val(cm.getValue());
+                });
+            };
 
-                const original = targetDocument.getElementById(origId);
-                if (original) {
-                    hasClone = true;
-                    htmlOrigCloneNode = original.cloneNode(true);
-
-                }
-
-
-                //relalce .module with [module]
-                if (hasClone && htmlOrigCloneNode) {
-                    htmlOrigCloneNode.querySelectorAll('.module').forEach(function (el) {
-
-                        el.innerHTML = '[module]'
-                        el.contentEditable = false;
-
-                    });
-                    htmlOrigCloneNode.querySelectorAll('[data-mwplaceholder]').forEach(function (el) {
-                        el.removeAttribute('data-mwplaceholder');
-                    });
-                    htmlOrigCloneNode.querySelectorAll('[data-mw-live-edithover]').forEach(function (el) {
-                        el.removeAttribute('data-mw-live-edithover');
-                    });
-
-
-                    htmlOrigClone = htmlOrigCloneNode.innerHTML;
-                    html_code_area_editor2.setValue(htmlOrigClone);
+            // Initialize events
+            const initEvents = function () {
+                var activeNode = mw.top().app.liveEdit.getSelectedNode();
+                var can = mw.top().app.liveEdit.canBeElement(activeNode);
+                if (!can) {
+                    setHtmlToNode = false;
                 } else {
-                    html_code_area_editor2.setValue(htmlOrig);
+                    setHtmlToNode = activeNode;
                 }
 
+                mw.top().app.canvas.on('canvasDocumentClick', function () {
 
-                // html_code_area_editor2.setValue(htmlOrig);
-                html_code_area_editor2.refresh();
-            } else {
-                // disable editor
-                html_code_area_editor2.setValue('');
-                html_code_area_editor2.refresh();
+                    setEditorContent();
+                });
+                mw.top().app.canvas.on('canvasDocumentInput', function () {
+
+                    setEditorContent();
+                });
+                mw.top().app.canvas.on('canvasDocumentKeydown', function () {
+
+                    setEditorContent();
+                });
+
+                mw.top().app.editor.on('editNodeRequest', function () {
+                    setHtmlToNode = mw.top().app.liveEdit.getSelectedNode();
+                    if (setHtmlToNode) {
+                        setEditorContent();
+                    }
+                });
 
 
-            }
+            };
+
+            // Set editor content based on selected node
+            const setEditorContent = function () {
+                if (setHtmlToNode) {
+                    var htmlOrigClone = '';
+                    var htmlOrig = setHtmlToNode.innerHTML;
+                    var origId = setHtmlToNode.getAttribute('id');
+
+                    var hasClone = false;
+                    var htmlOrigCloneNode = false;
+
+                    const original = targetDocument.getElementById(origId);
+                    if (original) {
+                        hasClone = true;
+                        htmlOrigCloneNode = original.cloneNode(true);
+                    }
+
+                    // Replace .module with [module]
+                    if (hasClone && htmlOrigCloneNode) {
+                        htmlOrigCloneNode.querySelectorAll('.module').forEach(function (el) {
+                            el.innerHTML = '[module]';
+                            el.contentEditable = false;
+                        });
+
+                        htmlOrigCloneNode.querySelectorAll('[data-mwplaceholder]').forEach(function (el) {
+                            el.removeAttribute('data-mwplaceholder');
+                        });
+
+                        htmlOrigCloneNode.querySelectorAll('[data-mw-live-edithover]').forEach(function (el) {
+                            el.removeAttribute('data-mw-live-edithover');
+                        });
+
+                        htmlOrigClone = htmlOrigCloneNode.innerHTML;
+                        html_code_area_editor2.setValue(htmlOrigClone);
+                    } else {
+                        html_code_area_editor2.setValue(htmlOrig);
+                    }
+
+                    html_code_area_editor2.refresh();
+                } else {
+                    // Disable editor
+                    html_code_area_editor2.setValue('');
+                    html_code_area_editor2.refresh();
+                }
+            };
+
+            // Apply HTML edit to the selected node
+            const applyHtmlEdit = function () {
+                var custom_html_code_mirror = document.getElementById("html_code_area_editor2");
+                var val = $(custom_html_code_mirror).val();
+
+                if (setHtmlToNode) {
+                    setHtmlToNode.innerHTML = val;
+
+                    var modules_ids = {};
+                    var modules_list = $('.module', setHtmlToNode);
+
+                    $(modules_list).each(function () {
+                        var id = $(this).attr('id');
+                        if (id) {
+                            id = '#' + id;
+                        } else {
+                            id = $(this).attr('data-type');
+                        }
+                        if (!id) {
+                            id = $(this).attr('type');
+                        }
+                        modules_ids[id] = true;
+                    });
+
+                    $.each(modules_ids, function (index, value) {
+                        targetWindow.mw.reload_module(index);
+                    });
+
+                    mw.top().app.registerChangedState(setHtmlToNode);
+                }
+            };
+
+            // Format the code in the editor
+            const formatCode = function () {
+                html_code_area_editor2.setSelection({
+                        'line': html_code_area_editor2.firstLine(),
+                        'ch': 0,
+                        'sticky': null
+                    }, {
+                        'line': html_code_area_editor2.lastLine(),
+                        'ch': 0,
+                        'sticky': null
+                    },
+                    {scroll: false});
+
+                // Auto indent the selection
+                html_code_area_editor2.indentSelection("smart");
+
+                html_code_area_editor2.setSelection({
+                        'line': html_code_area_editor2.firstLine(),
+                        'ch': 0,
+                        'sticky': null
+                    }, {
+                        'line': html_code_area_editor2.firstLine(),
+                        'ch': 0,
+                        'sticky': null
+                    },
+                    {scroll: false});
+            };
+
+            // Public methods
+            return {
+                init: init,
+                applyHtmlEdit: applyHtmlEdit,
+                formatCode: formatCode
+            };
         }
 
+        // Initialize the editor
+        const codeEditor = mwCodeEditor();
+
+        // Define global functions that use the editor instance
         function applyHtmlEdit2() {
-            var custom_html_code_mirror = document.getElementById("html_code_area_editor2")
-            var val = $(custom_html_code_mirror).val();
-
-            if (setHtmlToNode) {
-                setHtmlToNode.innerHTML = val;
-
-
-                var modules_ids = {};
-                var modules_list = $('.module', setHtmlToNode);
-
-
-                $(modules_list).each(function () {
-                    var id = $(this).attr('id');
-                    if (id) {
-                        id = '#' + id;
-                    } else {
-                        id = $(this).attr('data-type');
-                    }
-                    if (!id) {
-                        id = $(this).attr('type');
-                    }
-                    modules_ids[id] = true;
-                });
-
-
-                $.each(modules_ids, function (index, value) {
-                    targetWindow.mw.reload_module(index);
-                });
-
-
-                mw.top().app.registerChangedState(setHtmlToNode);
-            }
-
-
+            codeEditor.applyHtmlEdit();
         }
 
         function format_code2() {
-            html_code_area_editor2.setSelection({
-                    'line': html_code_area_editor2.firstLine(),
-                    'ch': 0,
-                    'sticky': null
-                }, {
-                    'line': html_code_area_editor2.lastLine(),
-                    'ch': 0,
-                    'sticky': null
-                },
-                {scroll: false});
-            //auto indent the selection
-            html_code_area_editor2.indentSelection("smart");
-
-            html_code_area_editor2.setSelection({
-                    'line': html_code_area_editor2.firstLine(),
-                    'ch': 0,
-                    'sticky': null
-                }, {
-                    'line': html_code_area_editor2.firstLine(),
-                    'ch': 0,
-                    'sticky': null
-                },
-                {scroll: false});
-
+            codeEditor.formatCode();
         }
 
-
         $(document).ready(function () {
-
-            html_code_area_editor2 = CodeMirror.fromTextArea(document.getElementById("html_code_area_editor2"), {
-                lineNumbers: true,
-                gutter: false,
-                lineWrapping: true,
-                matchTags: {bothTags: true},
-
-                extraKeys: {"Ctrl-Space": "autocomplete"},
-                mode: {
-                    name: "text/html", globalVars: true
-                }
-            });
-
-            html_code_area_editor2.setSize("100%", "auto");
-            html_code_area_editor2.setOption("theme", 'material');
-            html_code_area_editor2.on("change", function (cm, change) {
-                $('#html_code_area_editor2').val(cm.getValue());
-
-            });
-
-
+            codeEditor.init();
         });
-
-
-        mw.top().app.canvas.on('canvasDocumentClick', function () {
-            var activeNode = mw.top().app.liveEdit.getSelectedNode();
-            var can = mw.top().app.liveEdit.canBeElement(activeNode)
-            if (!can) {
-                setHtmlToNode = false;
-            } else {
-                setHtmlToNode = activeNode;
-            }
-            setEditorContent();
-        });
-
     </script>
 
-
     <div id="custom_html_code_mirror_container">
-<textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30">
-
-
-</textarea>
+        <textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30"></textarea>
     </div>
-
 
     <div class="mw-css-editor-c2a-nav">
         <div class="btn-group btn-block" role="group">
-
             <?php /*        <button onclick="format_code2();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
 */ ?>
             <span onclick="applyHtmlEdit2();" class="btn btn-dark" type="button"><?php _e('Update'); ?></span>
         </div>
     </div>
-
 </div>
