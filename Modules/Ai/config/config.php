@@ -114,7 +114,13 @@ return [
                 'number_of_images' => 1,
                 'prompt_optimizer' => true
             ],
-
+            'supported_aspect_ratio' => [
+                '16:9',
+                '9:16',
+                '4:3',
+                '3:4',
+                '1:1',
+            ],
             'field_mapping' => [
                 'google/imagen-3' => [
                     'prompt' => 'prompt',

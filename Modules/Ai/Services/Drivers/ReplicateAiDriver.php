@@ -102,15 +102,17 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
     public function generateImage(array $messages, array $options = []): array
     {
         $prompt = implode(' ', array_column($messages, 'content'));
+        $urls = [];
 
         if ($this->useCache) {
-            $cacheKey = 'replicate_image_gen_' . md5($prompt . json_encode($options));
+            $cacheKey = 'replicate_image_generate_' . md5($prompt . json_encode($options));
             if ($cached = Cache::get($cacheKey)) {
                 return $cached;
             }
         }
 
         $model = $options['model'] ?? $this->defaultImageModel;
+        $number_of_images = $options['number_of_images'] ?? 1;
         $defaultParams = $this->config['default_parameters'] ?? [];
         $fieldMapping = $this->config['field_mapping'][$model] ?? [];
 
@@ -131,6 +133,26 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
             }
         }
 
+        // Validate aspect_ratio if provided
+        if (isset($payload['input']['aspect_ratio']) && !empty($this->config['supported_aspect_ratio'])) {
+            $providedAspectRatio = $payload['input']['aspect_ratio'];
+            if (!in_array($providedAspectRatio, $this->config['supported_aspect_ratio'])) {
+                // Aspect ratio is invalid, remove it or use default
+                unset($payload['input']['aspect_ratio']);
+                // If default is available, reapply it
+                if (isset($defaultParams['aspect_ratio'])) {
+                    $payload['input']['aspect_ratio'] = $defaultParams['aspect_ratio'];
+                }
+            }
+        }
+
+        // Set number of images if the model supports it
+        if ($number_of_images > 1) {
+            // Different models use different parameter names
+            $numImagesParam = $fieldMapping['number_of_images'] ?? 'number_of_images';
+            $payload['input'][$numImagesParam] = $number_of_images;
+        }
+
         $payload['input']['output_format'] = $options['output_format'] ?? 'png';
 
         try {
@@ -140,55 +162,61 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
             $response = $this->makeRequest($endpoint, $payload);
 
             // Handle different response formats - some models return output as array, others as string
-            $imageUrl = null;
+            $imageUrls = [];
             if (isset($response['output'])) {
-                if (is_array($response['output']) && count($response['output']) > 0) {
+                if (is_array($response['output'])) {
                     // If output is an array (like in stability-ai models)
-                    $imageUrl = $response['output'][0];
+                    $imageUrls = $response['output'];
                 } elseif (is_string($response['output'])) {
-                    // If output is a string URL (like in google/imagen models)
-                    $imageUrl = $response['output'];
+                    // If output is a string URL (like in some models)
+                    $imageUrls = [$response['output']];
                 }
             }
 
-            // Store the image to disk if URL is available
-            if ($imageUrl) {
-
+            // Store each image to disk if URLs are available
+            if (!empty($imageUrls)) {
                 // Create directory if it doesn't exist
                 $directory = 'media/replicate';
                 if (!Storage::disk('public')->exists($directory)) {
                     Storage::disk('public')->makeDirectory($directory);
                 }
 
-                // Get file extension from URL
-                $extension = $this->getFileExtensionFromUrl($imageUrl);
-
                 $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
 
+                foreach ($imageUrls as $index => $imageUrl) {
+                    // Get file extension from URL
+                    $extension = $this->getFileExtensionFromUrl($imageUrl);
 
-                // Validate the extension
-                if (!in_array($extension, $allowedExtensions)) {
-                    throw new \Exception("Invalid image extension: $extension");
+                    // Validate the extension
+                    if (!in_array($extension, $allowedExtensions)) {
+                        continue; // Skip invalid extensions
+                    }
+
+                    // Create a unique filename with correct extension
+                    $imagePath = $directory . '/' . md5($prompt . microtime() . $index) . '.' . $extension;
+
+                    // Download and store the image
+                    $imageContent = $this->fetchImageContent($imageUrl);
+                    Storage::disk('public')->put($imagePath, $imageContent);
+
+                    // Add the public URL to the urls array
+                    $urls[] = Storage::disk('public')->url($imagePath);
+
                 }
 
+                // Add URLs and data to the response
+                $response['urls'] = $urls;
+                //$response['data'] = $baseData;
 
-                // Create a unique filename with correct extension
-                $imagePath = $directory . '/' . md5($prompt . microtime()) . '.' . $extension;
-
-                // Download and store the image
-                $imageContent = $this->fetchImageContent($imageUrl);
-                Storage::disk('public')->put($imagePath, $imageContent);
-
-                // Add the public URL to the response
-                $response['url'] = Storage::disk('public')->url($imagePath);
-
-                // Also add the base64 encoded image data for backward compatibility
-                $response['data'] = base64_encode($imageContent);
+                // Keep single URL for backward compatibility
+                if (!empty($urls)) {
+                    $response['url'] = $urls[0];
+                }
 
             }
 
             // Store in cache if caching is enabled
-            if ($this->useCache && isset($response['output'])) {
+            if ($this->useCache && !empty($imageUrls)) {
                 Cache::put($cacheKey, $response, $this->cacheDuration * 60);
             }
 
@@ -305,4 +333,3 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         throw new \Exception('Chat functionality is not supported by the Replicate driver');
     }
 }
-

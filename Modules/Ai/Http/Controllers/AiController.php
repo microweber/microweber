@@ -60,15 +60,10 @@ class AiController extends Controller
 
             $result = [
                 'success' => true,
-                'response' => $response,
-                'data' => ''
+                'data' => $response,
+
             ];
 
-            // Add the base64 data if available
-            if (isset($response['data'])) {
-                $result['data'] = $response['data'];
-                unset($response['data']);
-            }
 
             // Add the URL to the frontend response if available
             if (isset($response['url'])) {

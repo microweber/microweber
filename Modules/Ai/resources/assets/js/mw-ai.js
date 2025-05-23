@@ -6,27 +6,39 @@ function MwAi() {
         },
 
         async generateImage(messages, options = {}) {
-            try {
-                const data = await $.post(mw.settings.site_url + 'api/ai/generateImage', {
+            return new Promise((resolve, reject) => {
+                let data = {
                     messages: messages,
                     options: options
-                });
+                };
 
-                if (data.success) {
-                    // First try to use the stored file URL if available
-                    if (data.url) {
-                        return data.url;
-                    }
-                    // Fall back to base64 data if URL is not available
-                    else if (data.data) {
-                        return 'data:image/png;base64,' + data.data;
-                    }
+                let ajaxSettings = {
+                    url: mw.settings.site_url + 'api/ai/generateImage',
+                    type: 'POST',
+                    data: data,
+                    dataType: "json",
+                };
+
+                const csrf = $('meta[name="csrf-token"]')
+
+                if (csrf.length) {
+                    ajaxSettings.headers = {
+                        "X-CSRF-TOKEN": csrf.attr("content")
+                    };
                 }
-                throw new Error('Image generation failed');
-            } catch (error) {
-                console.error('AI Image Generation Error:', error);
-                throw error;
-            }
+
+                $.post(ajaxSettings)
+                    .then(function(res) {
+                        if (res.success) {
+                            resolve(res);
+                        } else {
+                            reject('Image generation failed');
+                        }
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        reject(errorThrown || 'AI Image Generation Error');
+                    });
+            });
         },
 
         async sendToChat(messages, options = {}) {
