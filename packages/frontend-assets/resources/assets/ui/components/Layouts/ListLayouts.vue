@@ -64,7 +64,7 @@
                       <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('masonry')"
-                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
+                                :class="['btn', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
                             </button>
@@ -72,14 +72,14 @@
                             <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('list')"
-                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
+                                :class="['btn', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <GridIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('full')"
-                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'full'? 'btn-dark': 'btn-outline-dark']"
+                                :class="['btn', layoutsListTypePreview == 'full'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
