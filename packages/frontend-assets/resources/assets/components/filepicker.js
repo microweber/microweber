@@ -15,6 +15,72 @@ var fileUploadProgress = function (fileName, progress, target) {
 };
 
 
+    const toDataURL = async (url, callback) => {
+        if(typeof url !== 'string') {
+            url = URL.createObjectURL(url);
+        }
+
+        return new Promise(resolve => {
+
+            const img = new Image();
+
+            img.crossOrigin = "anonymous";
+
+            const size = 600;
+
+            let maxWidth = size, maxHeight = size;
+
+            img.onload = function() {
+
+                const originalWidth = img.width;
+                const originalHeight = img.height;
+
+
+                const aspectRatio = originalWidth / originalHeight;
+
+                let newWidth, newHeight;
+
+
+                if (originalWidth > maxWidth || originalHeight > maxHeight) {
+                    if (originalWidth / maxWidth > originalHeight / maxHeight) {
+
+                        newWidth = maxWidth;
+                        newHeight = maxWidth / aspectRatio;
+                    } else {
+
+                        newHeight = maxHeight;
+                        newWidth = maxHeight * aspectRatio;
+                    }
+                } else {
+
+                    newWidth = originalWidth;
+                    newHeight = originalHeight;
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                const base64String = canvas.toDataURL();
+
+                if(typeof callback === 'function') {
+                    callback(base64String);
+                }
+
+
+                resolve(base64String)
+            };
+
+
+            img.src = url;
+
+        });
+    }
+
+
 mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
 
 
@@ -194,6 +260,7 @@ mw.filePicker = function (options) {
 
 
             const html = `
+                <div class="mw-image-picker-ai">
                 <div class="form-control-live-edit-label-wrapper" id="${id}">
 
                 </div>
@@ -216,7 +283,7 @@ mw.filePicker = function (options) {
             }).join('')}
                     </select>
                 </div>
-                 <div class="flex row">
+                 <div class="flex gap-10">
                     <div class="form-control-live-edit-label-wrapper" style="width: 200px">
                         <label>${mw.lang('Width')}</label>
                         <input class="form-control-live-edit-input" name="width" type="number" min="1">
@@ -231,51 +298,72 @@ mw.filePicker = function (options) {
                     <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="6" value="1">
                 </div>
 
-                <br>
-                <span class="btn btn-pill " data-action="generate">Generate</span>
-</div>
+                <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                    <label>${mw.lang('Refference image')}</label>
+                    <div class="refference-image-pick-container">
+                        <span class="refference-image-pick-preview" style="display: none">
+                            <span class="refference-image-pick-preview-remove">
+                             ${mw.top().app.iconService.icon('delete')}
+                            </span>
+                        </span>
+                        <span class="btn btn-primary refference-image-pick">
+                            ${mw.lang('Select image')}
+                            <input type="file">
+                        </span>
+                    </div>
+                </div>
+
+                    <br>
+                    <span class="btn btn-pill " data-action="generate">Generate</span>
+                </div>
+                </div>
             `;
 
             var $wrap = this._$inputWrapper();
             $wrap.html(html);
 
+            const refPickerNode = $wrap[0].querySelector('.refference-image-pick');
+            const refPickerNodepreview = $wrap[0].querySelector('.refference-image-pick-preview');
+
+
+            let refImage = null;
+
+            $wrap[0].querySelector('[type="file"]').addEventListener('input', async function(){
+                mw.spinner({ element: $wrap[0], size: 30 }).show();
+                refImage = this.files[0] ? await toDataURL(this.files[0]) : null;
+                 mw.spinner({ element: $wrap[0], size: 30 }).remove();
+                 refPickerNodepreview.style.backgroundImage = refImage ? `url(${refImage})` : 'none';
+                 refPickerNodepreview.style.display = refImage ?  `` : 'none';
+            })
+            $wrap[0].querySelector('.refference-image-pick-preview-remove').addEventListener('click', e=>{
+                refImage = null;
+                refPickerNodepreview.style.backgroundImage = `none`;
+                refPickerNodepreview.style.display = `none`;
+            });
+
+
+
 
             const submit = async () => {
                 const body = {};
-                $wrap[0].querySelectorAll('[name]').forEach(node => body[node.name] = node.value);
-                const url = '';
+                Array
+                    .from($wrap[0].querySelectorAll('[name]'))
+                    .filter(node => !!(''+node.value.trim()))
+                    .forEach(node => body[node.name] = node.value);
 
 
-                mw.spinner({
-                    element: $wrap[0],
-                    size: 30
-                }).show();
+                    if(refImage) {
+                        body.image = refImage
+                    }
 
-                // const _data = await $.post(url, body);
-                //
                 var images = [];
 
                 if (window.MwAi) {
                     let message = body['prompt'];
                     let messages = [{role: 'user', content: message}];
-
-                    let messagesOptions = {};
-                    if (body['aspect_ratio']) {
-                        messagesOptions['aspect_ratio'] = body['aspect_ratio'];
-                    }
-                    if (body['width']) {
-                        messagesOptions['width'] = body['width'];
-                    }
-                    if (body['height']) {
-                        messagesOptions['height'] = body['height'];
-                    }
-                    if (body['number_of_images']) {
-                        messagesOptions['number_of_images'] = body['number_of_images'];
-                    }
-                    // refence image must be here if added as base64
-                    //messagesOptions['image'] = b64;
                     var mwAi = MwAi();
-                    let res = await mwAi.generateImage(messages, messagesOptions);
+                    mw.spinner({ element: $wrap[0], size: 30 }).show();
+                    let res = await mwAi.generateImage(messages, body);
                     if (res.data && res.data.urls) {
                         images = res.data.urls;
                     }
@@ -283,17 +371,12 @@ mw.filePicker = function (options) {
 
                     $('#' + id).html(`${images.map(im => `<img src="${im}">`).join('')}`)
                     scope.setSectionValue(images);
-                    if (scope.settings.autoSelect) {
-                        // scope.result();
-                    }
+                    mw.spinner({ element: $wrap[0]}).remove();
                 }
 
 
 
-                mw.spinner({
-                    element: $wrap[0],
 
-                }).remove();
             }
 
             $wrap[0].querySelector('[type="number"]').addEventListener('change', function () {

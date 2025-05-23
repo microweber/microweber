@@ -4,29 +4,28 @@
     }
 }
 
+
+
+/* Native <select> */
+
 .mw-native-select  selectedcontent   {
-
-
     display: flex ;
     align-items: center;
     gap: 10px;
 }
+
 .mw-native-select option{
     padding: 5px 0;
 }
+
 .mw-native-select{
-
-
-
     height: 35px;
     display: flex;
     align-items: center;
-
-
-
     padding: 0 10px;
 
 }
+
 .mw-native-select,
 .mw-native-select::picker(select) {
   appearance: base-select;
@@ -35,14 +34,80 @@
 
 }
 
-
 .mw-native-select::picker-icon {
   color: #999;
   transition: 0.4s rotate;
 }
+
 .mw-native-select:open::picker-icon {
   rotate: 180deg;
 }
+
 ::picker(.mw-native-select) {
   border: none;
 }
+
+
+/* Native </select> */
+
+
+/* .mw-image-picker-ai */
+
+
+.mw-image-picker-ai {
+
+
+    max-height: calc(100vh - 370px);
+    overflow: auto;
+}
+.mw-image-picker-ai .form-control-live-edit-label-wrapper, .mw-image-picker-ai .flex{
+    padding: 5px 0;
+}
+
+/* .refference-image-picker */
+
+.refference-image-pick-container{
+    position: relative;
+    overflow: hidden;
+}
+
+.refference-image-pick-preview{
+    display: block;
+    position: relative;
+}
+
+.refference-image-pick-preview-remove {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.refference-image-pick-preview-remove svg{
+    width: 20px;
+}
+.refference-image-pick-preview{
+    width: 80px;
+    height: 80px;
+    display: block;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.refference-image-pick  {
+    position: relative;
+    overflow: hidden;
+}
+.refference-image-pick input{
+    position: absolute;
+    font-size: 200px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+/* /.refference-image-picker */
+/* /.mw-image-picker-ai */
