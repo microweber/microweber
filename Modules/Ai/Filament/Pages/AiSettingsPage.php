@@ -172,6 +172,30 @@ class AiSettingsPage extends AdminSettingsPage
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),
                     ]),
 
+                Section::make('Anthropic/Claude Settings')
+                    ->view('filament-forms::sections.section')
+                    ->schema([
+                        Toggle::make('options.ai.anthropic_enabled')
+                            ->label('Enable Anthropic/Claude')
+                            ->live()
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-x-mark'),
+                        Select::make('options.ai.anthropic_model')
+                            ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.anthropic_enabled'))
+                            ->label('Anthropic/Claude Model')
+                            ->options(config('modules.ai.drivers.anthropic.models', [
+
+                            ]))
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://www.anthropic.com/claude" target="_blank">Learn more</a> about the models.</small>')),
+                        TextInput::make('options.ai.anthropic_api_key')
+                            ->live()
+                            ->visible(fn(callable $get) => $get('options.ai.anthropic_enabled'))
+                            ->label('Anthropic API Key')
+                            ->placeholder('Enter your Anthropic API key')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Find your API key in your Anthropic account dashboard.</small>')),
+                    ]),
+
                 Section::make('Replicate Settings')
                     ->view('filament-forms::sections.section')
                     ->schema([

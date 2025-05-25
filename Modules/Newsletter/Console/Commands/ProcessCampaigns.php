@@ -141,6 +141,8 @@ class ProcessCampaigns extends Command
         }
 
         $campaignProgress = ($remainingSubscribersCount / $allSubscribersCount) * 100;
+
+
         $campaign->jobs_progress = round(($limit - $campaignProgress), 2);
 
         if ($campaign->jobs_progress == 100) {

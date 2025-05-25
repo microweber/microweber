@@ -43,7 +43,7 @@ return [
 
         'ollama' => [
             'enabled' => env('OLLAMA_ENABLED', false),
-            'url' => env('OLLAMA_API_URL', 'http://localhost:11434/api/generate'),
+            'url' => env('OLLAMA_API_URL', 'http://localhost:11434/api'),
             'model' => env('OLLAMA_MODEL', 'llama3.2'), // Specify your default model
             'models' => [
                 'llama3.2' => 'Llama 3.2'
@@ -150,8 +150,24 @@ return [
                 ],
             ]
         ],
+
+        'anthropic' => [
+            'enabled' => env('ANTHROPIC_ENABLED', false),
+            'api_key' => env('ANTHROPIC_API_KEY'),
+            'model' => env('ANTHROPIC_MODEL', 'claude-sonnet-4'),
+            'max_tokens' => env('ANTHROPIC_MAX_TOKENS', null),
+            'temperature' => env('ANTHROPIC_TEMPERATURE', 0.7),
+            'use_cache' => env('ANTHROPIC_USE_CACHE', false),
+            'cache_duration' => env('ANTHROPIC_CACHE_DURATION', 600), // minutes
+            'models' => [
+                'claude-sonnet-4-20250514'      => 'Claude Sonnet 4',
+                'claude-3-7-sonnet-latest'    => 'Claude Sonnet 3.7',
+                'claude-3-5-sonnet-latest'    => 'Claude Sonnet 3.5',
+                'claude-3-opus-latest'       => 'Claude Opus 4',
+                'claude-3-5-haiku-latest'     => 'Claude Haiku 3.5',
+            ],
+        ],
     ],
 
 
 ];
-
