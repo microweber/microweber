@@ -14,11 +14,13 @@ Route::name('api.template.')
             return view('template::template-settings-sidebar-render-component');
         });
 
-            // api/template/change
-            Route::get('change', MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController::class.'@change')->name('change');
+        Route::get('template-style-settings',
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateStyleEditorSettingsController::class . '@templateStyleSettings')
+            ->name('template-style-settings');
 
 
-
+        // api/template/change
+        Route::post('change', MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController::class . '@change')->name('change');
 
 
     });
@@ -75,7 +77,7 @@ Route::get('api/template/compile_css', function (Request $request) {
     $response = Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
-})->name('template_compile_css')->middleware(['api','admin']);
+})->name('template_compile_css')->middleware(['api', 'admin']);
 
 
 Route::any('api/template/print_custom_css_fonts', function (Request $request) {

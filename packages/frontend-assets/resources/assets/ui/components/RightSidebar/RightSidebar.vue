@@ -10,7 +10,9 @@
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
                           class="x-close-modal-link" style="top: 5px; right: -25px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                             fill="currentColor"><path
+                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 
                     </span>
 
@@ -32,6 +34,12 @@
                 <div class="tab-content" data-show="showTemplateSettings" v-show="true">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
+                        aaaa
+
+                        <TemplateSettings></TemplateSettings>
+
+                        aaaa
+
                         <div>
 
                             <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
@@ -70,6 +78,7 @@
 .live-edit-sidebar-opened #live-edit-frame-holder {
     left: 250px;
 }
+
 .live-edit-gui-editor-opened #live-edit-frame-holder {
     right: var(--sidebar-end-size);
 }
@@ -129,7 +138,7 @@ export default {
             var srcBase = route('live_edit.module_settings');
 
 
-            if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+            if (typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
                 if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
                     srcBase = mw.settings.liveEditModuleSettingsUrls[moduleType];
                 }
@@ -160,7 +169,6 @@ export default {
         this.emitter.on("live-edit-ui-show", show => {
 
 
-
             if (show === 'template-settings') {
                 rightSidebarInstance.buttonIsActive = true;
                 rightSidebarInstance.showTemplateSettings = true;
@@ -188,8 +196,6 @@ export default {
                 rightSidebarInstance.showSidebar = false;
                 rightSidebarInstance.buttonIsActive = false;
                 rightSidebarInstance.closeSidebar()
-
-
 
 
             } else {
