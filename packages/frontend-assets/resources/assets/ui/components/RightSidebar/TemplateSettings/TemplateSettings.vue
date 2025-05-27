@@ -66,7 +66,7 @@
                 </span>
 
                 <div v-for="(settingGroup, index) in mainStyleGroups" :key="index" class="my-3">
-                    <a @click="navigateTo(settingGroup.url)" 
+                    <a @click="navigateTo(settingGroup.url)"
                        class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
                         {{ settingGroup.title }}
                     </a>
@@ -80,7 +80,8 @@
                     <p v-if="currentSetting.description">{{ currentSetting.description }}</p>
                 </div>
 
-                <!-- Show field settings if this is a field item -->
+                <!-- If currentSetting itself is a field, render it using NestedSettingsItem -->
+                <!-- NestedSettingsItem will also handle currentSetting.settings if it exists (for complex fields) -->
                 <div v-if="currentSetting.fieldType">
                     <nested-settings-item
                         :setting="currentSetting"
@@ -89,23 +90,28 @@
                         @update="handleSettingUpdate"
                         @open-style-editor="handleStyleEditorOpen" />
                 </div>
-
-                <!-- Show sub-items if this is a group -->
-                <div v-else-if="subItems && subItems.length > 0">
-                    <div v-for="(subItem, index) in subItems" :key="index" class="my-3">
-                        <div v-if="subItem.fieldType">
+                <!-- Else (currentSetting is a group, not a field itself) -->
+                <div v-else>
+                    <!-- Option 1: Children are in currentSetting.settings array -->
+                    <div v-if="currentSetting.settings && currentSetting.settings.length > 0">
+                        <div v-for="(childSetting, index) in currentSetting.settings" :key="'direct_child_'+index" class="my-3">
                             <nested-settings-item
-                                :setting="subItem"
+                                :setting="childSetting"
                                 :root-selector="getRootSelector()"
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
                                 @open-style-editor="handleStyleEditorOpen" />
                         </div>
-                        <div v-else>
-                            <a @click="navigateTo(subItem.url)" 
-                               class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
-                                {{ subItem.title }}
-                            </a>
+                    </div>
+                    <!-- Option 2: Children are found via subItems (URL matching), and no direct .settings array -->
+                    <div v-else-if="subItems && subItems.length > 0">
+                         <div v-for="(subItemFromFlatList, index) in subItems" :key="'sub_item_'+index" class="my-3">
+                            <nested-settings-item
+                                :setting="subItemFromFlatList"
+                                :root-selector="getRootSelector()"
+                                @navigate="navigateTo"
+                                @update="handleSettingUpdate"
+                                @open-style-editor="handleStyleEditorOpen" />
                         </div>
                     </div>
                 </div>
@@ -323,31 +329,38 @@ export default {
         hasStyleSettings() {
             return this.styleSettingVars && this.styleSettingVars.length > 0;
         },
-        
+
         mainStyleGroups() {
             if (!this.styleSettingVars) return [];
             return this.styleSettingVars.filter(item => item.main === true);
         },
-        
+
         currentSetting() {
             if (this.currentPath === '/') return null;
-            return this.styleSettingVars.find(item => item.url === this.currentPath);
+            // Ensure we get a setting that is most likely to have children if multiple exist for the same URL
+            // Prefer item with a 'settings' array, otherwise the first one found.
+            const items = this.styleSettingVars.filter(item => item.url === this.currentPath);
+            if (items.length === 0) return null;
+            return items.find(item => item.settings && item.settings.length > 0) || items[0];
         },
-        
+
         subItems() {
-            if (!this.currentSetting || this.currentSetting.fieldType) return [];
-            
-            // Find all items that have this current path as their parent in the URL hierarchy
+            // Only calculate subItems if currentSetting exists, is NOT a field,
+            // AND does NOT have its own 'settings' array defining its children.
+            if (!this.currentSetting ||
+                this.currentSetting.fieldType ||
+                (this.currentSetting.settings && this.currentSetting.settings.length > 0)) {
+                return [];
+            }
+
             const currentPathSegments = this.currentPath.split('/').filter(p => p);
             return this.styleSettingVars.filter(item => {
                 if (!item.url || item.url === this.currentPath) return false;
-                
+
                 const itemSegments = item.url.split('/').filter(p => p);
-                
-                // Check if this item is a direct child of current path
+
                 if (itemSegments.length === currentPathSegments.length + 1) {
-                    // Check if all parent segments match
-                    return currentPathSegments.every((segment, index) => 
+                    return currentPathSegments.every((segment, index) =>
                         segment === itemSegments[index]
                     );
                 }
@@ -373,9 +386,9 @@ export default {
                     this.optionGroup = response.data.optionGroup || '';
                     this.optionGroupLess = response.data.optionGroupLess || '';
                     this.styleSheetSourceFile = response.data.styleSheetSourceFile || false;
-                    
+
                     // Ensure styleSettingVars is always an array and has proper structure
-                    this.styleSettingVars = Array.isArray(response.data.styleSettingsVars) 
+                    this.styleSettingVars = Array.isArray(response.data.styleSettingsVars)
                         ? response.data.styleSettingsVars.filter(item => item && typeof item === 'object')
                         : [];
 
