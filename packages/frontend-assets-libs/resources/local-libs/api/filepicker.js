@@ -1,4 +1,7 @@
 
+/*
+this file is moved to packages/frontend-assets/resources/assets/components/filepicker.js
+
 
 
 var fileUploadProgress = function (fileName, progress, target) {
@@ -166,7 +169,7 @@ mw.filePicker = function (options) {
     this.components = {
         _$inputWrapper: function (label) {
             var html = '<div class="form-control-live-edit-label-wrapper">' +
-                /*'<label>' + label + '</label>' +*/
+                /!*'<label>' + label + '</label>' +*!/
                 '</div>';
             return mw.$(html);
         },
@@ -360,9 +363,9 @@ mw.filePicker = function (options) {
         },
         server: function () {
             var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
-            /*mw.load_module('files/admin', $wrap, function () {
+            /!*mw.load_module('files/admin', $wrap, function () {
 
-            }, {'filetype':'images'});*/
+            }, {'filetype':'images'});*!/
 
             $(scope).on('$firstOpen', function (e, el, type) {
                  if (type === 'server') {
@@ -419,7 +422,7 @@ mw.filePicker = function (options) {
                 }
             });
 
-            /*mw.load_module('pictures/media_library', $wrap);*/
+            /!*mw.load_module('pictures/media_library', $wrap);*!/
             return $wrap[0];
         }
     };
@@ -685,3 +688,4 @@ mw.filePicker = function (options) {
 
     this.init();
 };
+*/

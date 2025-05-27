@@ -111,6 +111,10 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
             }
         }
 
+        if(isset($options['number_of_images'])){
+            $options['number_of_images'] = intval($options['number_of_images']);
+        }
+
         $model = $options['model'] ?? $this->defaultImageModel;
         $number_of_images = $options['number_of_images'] ?? 1;
         $defaultParams = $this->config['default_parameters'] ?? [];
@@ -150,7 +154,7 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
         if ($number_of_images > 1) {
             // Different models use different parameter names
             $numImagesParam = $fieldMapping['number_of_images'] ?? 'number_of_images';
-            $payload['input'][$numImagesParam] = $number_of_images;
+            $payload['input'][$numImagesParam] = intval($number_of_images);
         }
 
         $payload['input']['output_format'] = $options['output_format'] ?? 'png';
