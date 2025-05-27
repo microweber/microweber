@@ -31,7 +31,7 @@ class StyleSettingsFirstLevelConvertor
         if (is_array($settings) && !empty($settings)) {
             foreach ($settings as &$setting) {
                 if (!isset($setting['title'])) {
-                    $setting['title'] = 'Undefined';
+                    $setting['title'] = 'Main';
                 }
                 $setting['url'] = $parentUrl . str_slug($setting['title']);
                 $setting['backUrl'] = substr($parentUrl, 0, -1);

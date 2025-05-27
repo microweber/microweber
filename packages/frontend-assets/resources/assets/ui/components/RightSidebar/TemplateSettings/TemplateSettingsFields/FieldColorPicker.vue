@@ -1,17 +1,20 @@
 <template>
     <div>
-        <label class="live-edit-label">{{ setting.title }}</label>
-        <input 
-            type="color" 
-            class="form-control form-control-color" 
-            :value="currentValue" 
-            @input="updateValue" 
+        <ColorPicker 
+            :color="currentValue"
+            @change="updateValue"
+            :label="setting.title"
         />
     </div>
 </template>
 
 <script>
+import ColorPicker from '../../../../apps/ElementStyleEditor/components/ColorPicker.vue';
+
 export default {
+    components: {
+        ColorPicker
+    },
     props: {
         setting: {
             type: Object,
@@ -40,8 +43,7 @@ export default {
         }
     },
     methods: {
-        updateValue(event) {
-            const value = event.target.value;
+        updateValue(value) {
             this.currentValue = value;
             this.$emit('update', {
                 selector: this.selectorToApply,

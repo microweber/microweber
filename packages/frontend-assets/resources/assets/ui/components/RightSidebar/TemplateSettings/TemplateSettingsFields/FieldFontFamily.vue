@@ -1,19 +1,21 @@
 <template>
     <div>
         <label class="live-edit-label">{{ setting.title }}</label>
-        <select class="form-select" :value="currentValue" @change="updateValue">
-            <option v-for="font in availableFonts" :key="font" :value="font">
-                {{ font }}
-            </option>
-        </select>
-        <button type="button" class="btn btn-outline-dark btn-sm mt-2" @click="loadMoreFonts">
-            Load more fonts
-        </button>
+        <FontPicker 
+            v-model="currentValue" 
+            @change="updateValue"
+            :label="setting.title"
+        />
     </div>
 </template>
 
 <script>
+import FontPicker from '../../../../apps/ElementStyleEditor/components/FontPicker.vue';
+
 export default {
+    components: {
+        FontPicker
+    },
     props: {
         setting: {
             type: Object,
@@ -26,8 +28,7 @@ export default {
     },
     data() {
         return {
-            currentValue: '',
-            availableFonts: ['Arial', 'Helvetica', 'Times New Roman', 'Georgia', 'Courier New']
+            currentValue: ''
         };
     },
     mounted() {
@@ -41,32 +42,15 @@ export default {
         if (window.mw?.top()?.app) {
             window.mw.top().app.on('setPropertyForSelector', this.onPropertyChange);
         }
-
-        this.initializeFonts();
     },
     methods: {
-        initializeFonts() {
-            if (window.mw?.top()?.app?.fontManager) {
-                window.mw.top().app.fontManager.subscribe((fonts) => {
-                    if (fonts) {
-                        this.availableFonts = fonts;
-                    }
-                });
-            }
-        },
-        updateValue(event) {
-            const value = event.target.value;
+        updateValue(value) {
             this.currentValue = value;
             this.$emit('update', {
                 selector: this.selectorToApply,
                 property: this.setting.fieldSettings.property,
                 value: value
             });
-        },
-        loadMoreFonts() {
-            if (window.mw?.top()?.app?.fontManager) {
-                window.mw.top().app.fontManager.manageFonts();
-            }
         },
         onPropertyChange(event) {
             if (event.selector === this.selectorToApply && 
