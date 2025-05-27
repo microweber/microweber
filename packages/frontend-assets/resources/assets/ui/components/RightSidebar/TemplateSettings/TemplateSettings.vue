@@ -26,7 +26,7 @@
             </div>
 
             <!-- Choose where to edit dropdown -->
-            <div v-if="styleSettingVars && styleSettingVars.length > 0" class="form-control-live-edit-label-wrapper mt-3 mb-3">
+            <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper mt-3 mb-3">
                 <label for="css_vars_design_apply_mode" class="live-edit-label">Choose where to edit</label>
                 <select class="form-control-live-edit-input form-select" v-model="applyMode" @change="handleApplyModeChange">
                     <option value="template">Template</option>
@@ -42,7 +42,7 @@
             </div>
 
             <!-- AI Design Button -->
-            <div class="ai-settings-wrapper" v-if="styleSettingVars && styleSettingVars.length > 0">
+            <div class="ai-settings-wrapper" v-if="hasStyleSettings">
                 <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
                 <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
                 <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -53,7 +53,7 @@
             </div>
 
             <!-- Main settings list when at root path -->
-            <div v-if="currentPath === '/' && styleSettingVars && styleSettingVars.length > 0" class="mt-5">
+            <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
                 <span class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
                     Styles
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -65,9 +65,8 @@
                     </button>
                 </span>
 
-                <div v-for="(settingGroup, index) in styleSettingVars" :key="index" class="my-3">
-                    <a v-if="settingGroup && settingGroup.main && settingGroup.url && settingGroup.title" 
-                       @click="navigateTo(settingGroup.url)" 
+                <div v-for="(settingGroup, index) in mainStyleGroups" :key="index" class="my-3">
+                    <a @click="navigateTo(settingGroup.url)" 
                        class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
                         {{ settingGroup.title }}
                     </a>
@@ -81,13 +80,35 @@
                     <p v-if="currentSetting.description">{{ currentSetting.description }}</p>
                 </div>
 
-                <!-- Use the NestedSettingsItem component -->
-                <nested-settings-item
-                    :setting="currentSetting"
-                    :root-selector="getRootSelector()"
-                    @navigate="navigateTo"
-                    @update="handleSettingUpdate"
-                    @open-style-editor="handleStyleEditorOpen" />
+                <!-- Show field settings if this is a field item -->
+                <div v-if="currentSetting.fieldType">
+                    <nested-settings-item
+                        :setting="currentSetting"
+                        :root-selector="getRootSelector()"
+                        @navigate="navigateTo"
+                        @update="handleSettingUpdate"
+                        @open-style-editor="handleStyleEditorOpen" />
+                </div>
+
+                <!-- Show sub-items if this is a group -->
+                <div v-else-if="subItems && subItems.length > 0">
+                    <div v-for="(subItem, index) in subItems" :key="index" class="my-3">
+                        <div v-if="subItem.fieldType">
+                            <nested-settings-item
+                                :setting="subItem"
+                                :root-selector="getRootSelector()"
+                                @navigate="navigateTo"
+                                @update="handleSettingUpdate"
+                                @open-style-editor="handleStyleEditorOpen" />
+                        </div>
+                        <div v-else>
+                            <a @click="navigateTo(subItem.url)" 
+                               class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
+                                {{ subItem.title }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Style Editor iframe holder -->
@@ -272,29 +293,11 @@ import axios from 'axios';
 import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
 import Slider from '@vueform/slider';
 import NestedSettingsItem from './NestedSettingsItem.vue';
-import FieldColorPicker from './TemplateSettingsFields/FieldColorPicker.vue';
-import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
-import FieldDropdown from './TemplateSettingsFields/FieldDropdown.vue';
-import FieldFontFamily from './TemplateSettingsFields/FieldFontFamily.vue';
-import FieldClearAll from './TemplateSettingsFields/FieldClearAll.vue';
-import FieldColorPalette from './TemplateSettingsFields/FieldColorPalette.vue';
-import FieldButton from './TemplateSettingsFields/FieldButton.vue';
-import FieldInfoBox from './TemplateSettingsFields/FieldInfoBox.vue';
-import FieldStyleEditor from './TemplateSettingsFields/FieldStyleEditor.vue';
 
 export default {
     components: {
         ColorPicker,
         Slider,
-        FieldColorPicker,
-        FieldRangeSlider,
-        FieldDropdown,
-        FieldFontFamily,
-        FieldClearAll,
-        FieldColorPalette,
-        FieldButton,
-        FieldInfoBox,
-        FieldStyleEditor,
         NestedSettingsItem
     },
     data() {
@@ -317,9 +320,39 @@ export default {
         };
     },
     computed: {
+        hasStyleSettings() {
+            return this.styleSettingVars && this.styleSettingVars.length > 0;
+        },
+        
+        mainStyleGroups() {
+            if (!this.styleSettingVars) return [];
+            return this.styleSettingVars.filter(item => item.main === true);
+        },
+        
         currentSetting() {
             if (this.currentPath === '/') return null;
-            return this.findSettingByUrl(this.currentPath, this.styleSettingVars);
+            return this.styleSettingVars.find(item => item.url === this.currentPath);
+        },
+        
+        subItems() {
+            if (!this.currentSetting || this.currentSetting.fieldType) return [];
+            
+            // Find all items that have this current path as their parent in the URL hierarchy
+            const currentPathSegments = this.currentPath.split('/').filter(p => p);
+            return this.styleSettingVars.filter(item => {
+                if (!item.url || item.url === this.currentPath) return false;
+                
+                const itemSegments = item.url.split('/').filter(p => p);
+                
+                // Check if this item is a direct child of current path
+                if (itemSegments.length === currentPathSegments.length + 1) {
+                    // Check if all parent segments match
+                    return currentPathSegments.every((segment, index) => 
+                        segment === itemSegments[index]
+                    );
+                }
+                return false;
+            });
         }
     },
     mounted() {
@@ -378,6 +411,74 @@ export default {
                 this.currentError = "Error loading template settings";
                 this.isLoading = false;
             }
+        },
+
+        navigateTo(path) {
+            this.currentPath = path;
+        },
+
+        goBack() {
+            if (this.currentSetting && this.currentSetting.backUrl) {
+                this.navigateTo(this.currentSetting.backUrl);
+            } else {
+                this.navigateTo('/');
+            }
+        },
+
+        getRootSelector() {
+            if (!this.currentSetting) return '';
+
+            // Look for rootSelector in the current setting
+            if (this.currentSetting.rootSelector) {
+                return this.currentSetting.rootSelector;
+            }
+
+            // Look for rootSelector in parent items by traversing the URL path
+            const pathSegments = this.currentPath.split('/').filter(p => p);
+            let currentPath = '';
+            let rootSelector = '';
+
+            for (const segment of pathSegments) {
+                currentPath += '/' + segment;
+                const setting = this.styleSettingVars.find(item => item.url === currentPath);
+                if (setting && setting.rootSelector) {
+                    rootSelector = setting.rootSelector;
+                }
+            }
+
+            return rootSelector;
+        },
+
+        handleSettingUpdate(data) {
+            if (!window.mw?.top()?.app?.cssEditor) return;
+
+            window.mw.top().app.cssEditor.setPropertyForSelector(
+                data.selector,
+                data.property,
+                data.value,
+                true,
+                true
+            );
+        },
+
+        handleStyleEditorOpen(setting) {
+            this.showStyleSettings = 'styleEditor';
+            this.styleEditorData = setting;
+
+            // Trigger the style editor open event
+            if (window.mw?.top()?.app) {
+                window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
+            }
+        },
+
+        goBackFromStyleEditor() {
+            if (this.styleEditorData.backUrl) {
+                this.navigateTo(this.styleEditorData.backUrl);
+            } else {
+                this.navigateTo('/');
+            }
+            this.showStyleSettings = this.currentPath;
+            this.styleEditorData = {};
         },
 
         updateSettings(event, settingKey, optionGroup) {
@@ -447,145 +548,6 @@ export default {
         loadMoreFonts() {
             if (window.mw?.top()?.app?.fontManager) {
                 window.mw.top().app.fontManager.manageFonts();
-            }
-        },
-
-        navigateTo(path) {
-            this.currentPath = path;
-        },
-
-        goBack() {
-            if (this.currentSetting && this.currentSetting.backUrl) {
-                this.navigateTo(this.currentSetting.backUrl);
-            } else {
-                this.navigateTo('/');
-            }
-        },
-
-        findSettingByUrl(url, settings) {
-            if (!settings) return null;
-
-            for (const setting of settings) {
-                if (setting.url === url) {
-                    return setting;
-                }
-
-                if (setting.settings) {
-                    const found = this.findSettingByUrl(url, setting.settings);
-                    if (found) {
-                        return found;
-                    }
-                }
-            }
-
-            return null;
-        },
-
-        getRootSelector() {
-            if (!this.currentSetting) return '';
-
-            const parent = this.currentSetting.parent;
-            if (parent && parent.rootSelector) {
-                return parent.rootSelector;
-            }
-
-            const pathParts = this.currentPath.split('/').filter(p => p);
-            let currentPath = '';
-            let rootSelector = '';
-
-            for (const part of pathParts) {
-                currentPath += '/' + part;
-                const setting = this.findSettingByUrl(currentPath, this.styleSettingVars);
-                if (setting && setting.rootSelector) {
-                    rootSelector = setting.rootSelector;
-                }
-            }
-
-            return rootSelector;
-        },
-
-        handleSettingUpdate(data) {
-            if (!window.mw?.top()?.app?.cssEditor) return;
-
-            window.mw.top().app.cssEditor.setPropertyForSelector(
-                data.selector,
-                data.property,
-                data.value,
-                true,
-                true
-            );
-        },
-
-        setupEventListeners() {
-            // Font change listener
-            if (window.mw?.top()?.app) {
-                window.mw.top().app.on('fontsChanged', (event) => {
-                    if (window.mw.top().app.fontManager) {
-                        window.mw.top().app.fontManager.reloadLiveEdit();
-                    }
-
-                    setTimeout(() => {
-                        if (window.mw.top().app.templateSettings && this.styleSheetSourceFile) {
-                            window.mw.top().app.templateSettings.reloadStylesheet(this.styleSheetSourceFile, this.optionGroupLess);
-                        }
-                    }, 1000);
-                });
-
-                // CSS Editor listener
-                window.mw.top().app.on('mw.rte.css.editor2.open', (settings) => {
-                    this.openRTECssEditor2Vue(settings);
-                });
-            }
-        },
-
-        setupLayoutListener() {
-            if (!window.mw?.top()?.app?.liveEdit) return;
-
-            this.updateActiveLayout();
-
-            if (window.mw.top().app.canvas) {
-                window.mw.top().app.canvas.on('canvasDocumentClick', () => {
-                    this.updateActiveLayout();
-                });
-            }
-        },
-
-        updateActiveLayout() {
-            if (window.mw?.top()?.app?.liveEdit) {
-                const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
-                window.css_vars_design_active_layout = activeLayout;
-
-                if (activeLayout) {
-                    const layoutId = typeof activeLayout === 'string'
-                        ? activeLayout
-                        : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
-                    this.activeLayoutId = layoutId;
-                } else {
-                    this.activeLayoutId = 'None';
-                }
-            }
-        },
-
-        handleApplyModeChange() {
-            window.css_vars_design_apply_mode = this.applyMode;
-            this.updateActiveLayout();
-        },
-
-        scrollToSelectedLayout() {
-            if (!this.activeLayoutId || this.activeLayoutId === 'None') return;
-
-            const element = window.mw.top().app.canvas.getDocument().getElementById(this.activeLayoutId);
-            if (element) {
-                window.mw.top().app.canvas.getWindow().mw.tools.scrollTo(element, 100);
-            }
-        },
-
-        openSelectedLayoutSettings() {
-            if (!this.activeLayoutId || this.activeLayoutId === 'None') return;
-
-            const element = window.mw.top().app.canvas.getDocument().getElementById(this.activeLayoutId);
-            if (element && window.mw.top().app.editor) {
-                window.mw.top().app.editor.dispatch('onLayoutSettingsRequest', element);
             }
         },
 
@@ -788,6 +750,81 @@ export default {
             return valuesForEdit;
         },
 
+        setupEventListeners() {
+            // Setup event listeners for CSS editor and other MW events
+            if (window.mw?.top()?.app) {
+                window.mw.top().app.on('fontsChanged', () => {
+                    if (window.mw.top().app.fontManager) {
+                        window.mw.top().app.fontManager.reloadLiveEdit();
+                    }
+
+                    setTimeout(() => {
+                        if (window.mw?.top()?.app?.templateSettings) {
+                            window.mw.top().app.templateSettings.reloadStylesheet(this.styleSheetSourceFile, this.optionGroupLess);
+                        }
+                    }, 1000);
+                });
+
+                // Setup style editor event listener
+                window.mw.top().app.on('mw.rte.css.editor2.open', (settings) => {
+                    this.openRTECssEditor2Vue(settings);
+                });
+            }
+        },
+
+        setupLayoutListener() {
+            // Setup layout selection and tracking
+            this.$nextTick(() => {
+                if (window.mw?.top()?.app?.canvas) {
+                    const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
+                    window.css_vars_design_active_layout = activeLayout;
+                    this.updateLayoutIdDisplay();
+
+                    window.mw.top().app.canvas.on('canvasDocumentClick', () => {
+                        const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
+                        window.css_vars_design_active_layout = activeLayout;
+                        this.updateLayoutIdDisplay();
+                    });
+                }
+            });
+        },
+
+        handleApplyModeChange() {
+            window.css_vars_design_apply_mode = this.applyMode;
+            const activeLayout = window.mw?.top()?.app?.liveEdit?.getSelectedLayoutNode();
+            window.css_vars_design_active_layout = activeLayout;
+            this.updateLayoutIdDisplay();
+        },
+
+        updateLayoutIdDisplay() {
+            if (this.applyMode === 'layout') {
+                const activeLayout = window.css_vars_design_active_layout;
+                const layoutId = typeof activeLayout === 'string'
+                    ? activeLayout
+                    : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
+
+                this.activeLayoutId = layoutId;
+            }
+        },
+
+        scrollToSelectedLayout() {
+            if (!this.activeLayoutId || this.activeLayoutId === 'None') return;
+
+            const firstLayoutElement = window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(this.activeLayoutId);
+            if (firstLayoutElement) {
+                window.mw.top().app.canvas.getWindow().mw.tools.scrollTo(firstLayoutElement, 100);
+            }
+        },
+
+        openSelectedLayoutSettings() {
+            if (!this.activeLayoutId || this.activeLayoutId === 'None') return;
+
+            const firstLayoutElement = window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(this.activeLayoutId);
+            if (firstLayoutElement) {
+                window.mw.top().app.editor.dispatch('onLayoutSettingsRequest', firstLayoutElement);
+            }
+        },
+
         async resetAllDesignSelectorsValuesSettings() {
             const askForConfirmText = window.mw.lang('Are you sure you want to reset stylesheet settings ?');
             const confirmed = confirm(askForConfirmText);
@@ -892,26 +929,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             } finally {
                 window.mw.top().spinner({element: window.mw.top().doc.body, size: 60, decorate: true}).remove();
             }
-        },
-
-        handleStyleEditorOpen(setting) {
-            this.showStyleSettings = 'styleEditor';
-            this.styleEditorData = setting;
-
-            // Trigger the style editor open event
-            if (window.mw?.top()?.app) {
-                window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
-            }
-        },
-
-        goBackFromStyleEditor() {
-            if (this.styleEditorData.backUrl) {
-                this.navigateTo(this.styleEditorData.backUrl);
-            } else {
-                this.navigateTo('/');
-            }
-            this.showStyleSettings = this.currentPath;
-            this.styleEditorData = {};
         }
     }
 };
