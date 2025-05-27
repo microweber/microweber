@@ -1,36 +1,36 @@
 <template>
     <div class="mt-3">
-        <div v-if="setting.title">
-            <h4 v-if="setting.settings?.length">{{ setting.title }}</h4>
-            <p v-if="setting.description">{{ setting.description }}</p>
-            
-            <div v-if="setting.fieldType" class="mt-3">
-                <component 
-                    :is="getComponentType(setting.fieldType)"
-                    :setting="setting"
-                    :selector-to-apply="selectorToApply"
-                    :root-selector="rootSelector"
-                    @update="$emit('update', $event)"
-                    @open-style-editor="$emit('open-style-editor', $event)" 
-                />
+        <!-- Case 1: The setting is a field -->
+        <div v-if="setting.fieldType">
+            <!-- Display title/description for the field itself, if not a styleEditor button -->
+            <div v-if="setting.fieldType !== 'styleEditor' && setting.title">
+                 <!-- Using h5 or similar for field titles to distinguish from main group titles (h4 in parent) -->
+                 <h5>{{ setting.title }}</h5>
+                 <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
             </div>
-
-            <div v-else-if="setting.url && !setting.settings?.length">
-                <a @click="$emit('navigate', setting.url)" class="mw-admin-action-links">
-                    {{ setting.title }}
-                </a>
-            </div>
+            <component
+                :is="getComponentType(setting.fieldType)"
+                :setting="setting"
+                :selector-to-apply="selectorToApply"
+                :root-selector="rootSelector"
+                @update="$emit('update', $event)"
+                @open-style-editor="$emit('open-style-editor', $event)"
+            />
         </div>
 
-        <div v-if="setting.settings && setting.settings.length > 0" class="nested-settings">
-            <div v-for="(nestedSetting, idx) in setting.settings" :key="idx" class="mt-3 mb-4">
-                <nested-settings-item
-                    :setting="nestedSetting"
-                    :root-selector="rootSelector"
-                    @navigate="$emit('navigate', $event)"
-                    @update="$emit('update', $event)"
-                    @open-style-editor="$emit('open-style-editor', $event)" />
-            </div>
+        <!-- Case 2: The setting is a navigable group (not a field, but has a URL and title) -->
+        <div v-else-if="setting.url && setting.title">
+            <a @click="$emit('navigate', setting.url)"
+               class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-1 d-block">
+                {{ setting.title }}
+            </a>
+            <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
+        </div>
+
+        <!-- Fallback: If it's not a field and not a URL-based link, but has a title (e.g. a static title/description item) -->
+        <div v-else-if="setting.title">
+            <h5>{{ setting.title }}</h5>
+            <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
         </div>
     </div>
 </template>
@@ -50,18 +50,20 @@ export default {
     },
     computed: {
         selectorToApply() {
-            if (!this.setting.selectors) return '';
-            
+            if (!this.setting.selectors || this.setting.selectors.length === 0) return '';
+
             let selector = this.setting.selectors[this.setting.selectors.length - 1];
-            
+
             if (this.rootSelector && selector) {
                 if (selector === ':root') {
                     return this.rootSelector;
                 } else {
-                    return `${this.rootSelector} ${selector}`;
+                    const rs = this.rootSelector.trimEnd();
+                    const s = selector.trimStart();
+                    return `${rs} ${s}`.trim();
                 }
             }
-            
+
             return selector || '';
         }
     },
@@ -77,7 +79,9 @@ export default {
                 case 'button': return 'field-button';
                 case 'infoBox': return 'field-info-box';
                 case 'styleEditor': return 'field-style-editor';
-                default: return null;
+                default:
+                    console.warn('Unknown fieldType:', fieldType, 'for setting:', this.setting.title);
+                    return null;
             }
         }
     }

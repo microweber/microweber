@@ -382,7 +382,14 @@ export default {
                 if (response.data) {
                     // Ensure we have proper array/object structures
                     this.settingsGroups = response.data.settingsGroups || {};
-                    this.options = response.data.options || {};
+
+                    // Ensure options is an object
+                    if (response.data.options && typeof response.data.options === 'object' && !Array.isArray(response.data.options)) {
+                        this.options = response.data.options;
+                    } else {
+                        this.options = {}; // Default to empty object if it's an array, null, or not an object
+                    }
+
                     this.optionGroup = response.data.optionGroup || '';
                     this.optionGroupLess = response.data.optionGroupLess || '';
                     this.styleSheetSourceFile = response.data.styleSheetSourceFile || false;
