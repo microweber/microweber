@@ -283,7 +283,7 @@ mw.filePicker = function (options) {
             }).join('')}
                     </select>
                 </div>
-                 <div class="flex gap-10">
+                 <div class="flex gap-4">
                     <div class="form-control-live-edit-label-wrapper" style="width: 200px">
                         <label>${mw.lang('Width')}</label>
                         <input class="form-control-live-edit-input" name="width" type="number" min="1">

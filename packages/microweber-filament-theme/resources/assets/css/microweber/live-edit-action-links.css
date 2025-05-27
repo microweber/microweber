@@ -80,7 +80,3 @@
     @apply text-red-500 !important;
 }
 
-.mw-admin-action-links.mw-liveedit-button-animation-component,
-.fi-tabs .fi-tabs-item {
-    @apply bg-transparent border-none;
-}

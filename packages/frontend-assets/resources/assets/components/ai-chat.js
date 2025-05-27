@@ -67,6 +67,16 @@ const AIChatFormCSS= `
         border-radius: 20px !important;
       }
 
+      .mw-ai-chat-box-options select{
+        width: 140px;
+        height:31px;
+        font-size:12px;
+        selectedcontent{
+            white-space-nowrap;
+        }
+
+      }
+
 `;
 const AIChatFormTpl = (multiLine, placeholder) => `
     <div class="mw-ai-chat-box">
@@ -74,7 +84,15 @@ const AIChatFormTpl = (multiLine, placeholder) => `
             <${multiLine ? 'textarea' : 'input' } class="mw-ai-chat-box-area-field" placeholder="${placeholder || mw.lang('Enter topic')}">${multiLine ? '</textarea>' : ''}
             <div class="mw-ai-chat-box-footer">
                 <div class="mw-ai-chat-box-options">
-
+                    <select class="mw-native-select">
+                        <button>
+                            <selectedcontent></selectedcontent>
+                        </button>
+                        <option value="" selected disabled>${mw.lang('Choose action')}</option>
+                        <option value="images">${mw.lang('Regenerate Images')}</option>
+                        <option value="text">${mw.lang('Regenerate texts')}</option>
+                        <option value="all">${mw.lang('Regenerate texts and images')}</option>
+                    </select>
                 </div>
                 <div class="mw-ai-chat-box-actions">
                     <button type="button" class="mw-ai-chat-box-action-voice">${mw.top().app.iconService.icon('mic')}</button>
@@ -217,12 +235,15 @@ export class AIChatForm extends MicroweberBaseClass {
     }
 
     disable() {
-
         this.disabled = true;
         this.enabled = false;
         this.area.disabled = true;
         this.micButton.disabled = true;
         this.sendButton.disabled = true;
+    }
+
+    enable() {
+        this.disabled = false;
         this.enabled = true;
         this.area.disabled = false;
         this.micButton.disabled = false;
@@ -235,5 +256,6 @@ export class AIChatForm extends MicroweberBaseClass {
         this.handleArea()
         this.handleMic()
         this.handleSubmit()
+        this.enable()
     }
 }

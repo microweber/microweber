@@ -85,7 +85,7 @@ class QuickEditGUI {
     }
 
     img(obj) {
-        console.log(obj);
+
 
         const frag = document.createElement("div");
 
@@ -204,19 +204,21 @@ class QuickEditService extends MicroweberBaseClass {
 
     #collectSingle(editNode, toJson, onNode) {
         const nestedEdits = Array.from(editNode.querySelectorAll(this.component.settings.editsSelector));
+        const skipTags = [ 'IFRAME'];
         return Array
             .from(editNode.querySelectorAll(this.component.settings.nodesSelector))
             .filter(node => {
                 return nestedEdits.length === 0 || !nestedEdits.find(edit => this.#editNodeContains(edit, node))
             })
             .map(node => {
-
+                if (skipTags.indexOf(node.nodeName ) !== -1 ){
+                    return;
+                }
 
                 var can = mw.app.liveEdit.canBeEditable(node)
                 if (!can) {
                     return;
                 }
-
 
                 if (!node.id) {
                     node.id = mw.id();
@@ -240,14 +242,16 @@ class QuickEditService extends MicroweberBaseClass {
     }
 
 
-    collect(edits, toJson, onNode) {
+    collect(edits, toJson, onNode) {0
         const result = [];
         edits = edits || Array.from(this.component.settings.root.querySelectorAll(this.component.settings.editsSelector));
 
         while (edits.length > 0) {
             const edit = edits[0];
+
             edits.splice(0, 1);
             const children = Array.from(edit.querySelectorAll(this.component.settings.editsSelector));
+
             const curr = {
 
                 id: edit.id,
@@ -269,6 +273,7 @@ class QuickEditService extends MicroweberBaseClass {
             }
 
         }
+
         return result;
     }
 
@@ -642,7 +647,6 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         aiChatForm.on("submit", async value => {
-
             const val = value.trim();
             aiChatForm.disable();
             await this.ai(val);
@@ -659,10 +663,6 @@ export class QuickEditComponent extends MicroweberBaseClass {
         if (this.#aiPending) {
             return;
         }
-
-        console.log('AI request started');
-        console.log(this.toJSON());
-
 
         this.#aiPending = true;
         this.dispatch('aiRequestStart');

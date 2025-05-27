@@ -60,7 +60,7 @@ export default {
         });
         target.appendChild(aiChatForm.form);
 
-        console.log(aiChatForm)
+
 
         aiChatForm.on('submit', val => {
             this.aiMessage = val;
