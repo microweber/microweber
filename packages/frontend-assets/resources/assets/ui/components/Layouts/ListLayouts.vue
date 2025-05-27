@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">
-                        <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
+                        <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons gap-2">
                       <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('masonry')"
@@ -69,13 +69,13 @@
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
                             </button>
 
-                            <button
-                                type="button"
-                                v-on:click="switchLayoutsListTypePreview('list')"
-                                :class="['btn', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
-                            >
-                                <GridIcon style="max-width:23px;max-height:23px;" />
-                            </button>
+<!--                            <button-->
+<!--                                type="button"-->
+<!--                                v-on:click="switchLayoutsListTypePreview('list')"-->
+<!--                                :class="['btn', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"-->
+<!--                            >-->
+<!--                                <GridIcon style="max-width:23px;max-height:23px;" />-->
+<!--                            </button>-->
                             <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('full')"
