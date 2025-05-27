@@ -1,16 +1,19 @@
 <template>
-    <div>
-        <label class="live-edit-label">{{ setting.title }}</label>
-        <select class="form-select" :value="currentValue" @change="updateValue">
-            <option v-for="(label, value) in setting.fieldSettings.options" :key="value" :value="value">
-                {{ label }}
-            </option>
-        </select>
-    </div>
+    <DropdownSmall 
+        v-model="currentValue"
+        :label="setting.title"
+        :options="formattedOptions"
+        @update:modelValue="updateValue"
+    />
 </template>
 
 <script>
+import DropdownSmall from '../../../../apps/ElementStyleEditor/components/DropdownSmall.vue';
+
 export default {
+    components: {
+        DropdownSmall
+    },
     props: {
         setting: {
             type: Object,
@@ -19,6 +22,14 @@ export default {
         selectorToApply: {
             type: String,
             default: ''
+        }
+    },
+    computed: {
+        formattedOptions() {
+            return Object.entries(this.setting.fieldSettings.options).map(([key, value]) => ({
+                key,
+                value
+            }));
         }
     },
     data() {
@@ -39,8 +50,7 @@ export default {
         }
     },
     methods: {
-        updateValue(event) {
-            const value = event.target.value;
+        updateValue(value) {
             this.currentValue = value;
             this.$emit('update', {
                 selector: this.selectorToApply,

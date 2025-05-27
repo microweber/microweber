@@ -34,19 +34,21 @@
                 <div class="tab-content" data-show="showTemplateSettings" v-show="true">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
-                        aaaa
+
 
                         <TemplateSettings></TemplateSettings>
 
-                        aaaa
 
+<!--
+
+OLD iframe is commented out, use the new TemplateSettings component instead
                         <div>
 
                             <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                                     frameborder="0"
                                     allowfullscreen></iframe>
 
-                        </div>
+                        </div>-->
 
                     </div>
                     <!--                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"-->
