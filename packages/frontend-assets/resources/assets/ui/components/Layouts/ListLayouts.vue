@@ -14,6 +14,16 @@
          style="inset:20px; transform:none; animation-duration: .3s;"
     >
 
+        <!-- Close Button -->
+        <button
+            type="button"
+            class="mw-le-dialog-close-btn"
+            @click="showModal = false"
+            aria-label="Close"
+            style="position:absolute;top:16px;right:16px;z-index:10;background:none;border:none;font-size:2rem;line-height:1;cursor:pointer;"
+        >
+            &times;
+        </button>
 
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
@@ -50,12 +60,11 @@
 
                     <div v-show="layoutsList?.categories?.length">
                         <div class="modules-list-search-block input-icon">
-                          <span class="input-icon-addon ms-3">
-
-                                <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
-                            </span>
-
                             <input v-model="filterKeyword" type="text" v-bind:placeholder="$lang('Type to Search') + '...'" class="modules-list-search-field form-control rounded-0">
+                              <span class="input-icon-addon ms-3">
+
+                                    <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                                </span>
                         </div>
                     </div>
 
