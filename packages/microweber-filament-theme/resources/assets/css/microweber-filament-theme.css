@@ -6,10 +6,5 @@
 
 
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form{
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 0px 2px #292929c7;
+    @apply sticky bottom-0 z-10 bg-white dark:bg-gray-700 rounded-[20px] shadow-[0_0px_2px_rgba(41,41,41,0.78)];
 }
