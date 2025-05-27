@@ -1,5 +1,5 @@
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
-import { AIChatForm } from "./ai-chat.js";
+import {AIChatForm} from "./ai-chat.js";
 
 
 const elementSchema = {
@@ -11,9 +11,7 @@ const elementSchema = {
         "text": {
             "type": "string"
         },
-        "html": {
-            "type": "string"
-        },
+
         "id": {
             "type": "string"
         }
@@ -21,7 +19,7 @@ const elementSchema = {
     "required": [
         "tag",
         "text",
-        "html",
+
         "id"
     ]
 };
@@ -55,8 +53,7 @@ const editSchema = {
     },
     "required": [
         "tag",
-        "rel",
-        "field",
+
         "id"
     ]
 }
@@ -104,7 +101,7 @@ class QuickEditGUI {
         `;
 
         const changeBTN = document.createElement('button');
-        changeBTN.innerHTML =  mw.lang('Change image');
+        changeBTN.innerHTML = mw.lang('Change image');
         const img = frag.querySelector('img')
 
         const nav = frag.querySelector('nav');
@@ -150,14 +147,11 @@ class QuickEditGUI {
             $(dialog).on('Remove', () => {
 
 
-
             })
         })
 
 
-
-
-         return frag
+        return frag
     }
 
 
@@ -285,7 +279,7 @@ class QuickEditService extends MicroweberBaseClass {
 
 }
 
-const useAi = (messages, messagesOptions) => MwAi().sendToChat(messages, messagesOptions).then(data => [ data, null ]).catch(err => [ null, err ]);
+const useAi = (messages, messagesOptions) => MwAi().sendToChat(messages, messagesOptions).then(data => [data, null]).catch(err => [null, err]);
 
 const defaultAiAdapter = async (message, options) => {
 
@@ -298,7 +292,7 @@ const defaultAiAdapter = async (message, options) => {
         let [res, err] = await useAi(messages, messagesOptions);
         //  res = JSON.parse(res);
 
-        if (res ) {
+        if (res) {
             return {
                 succcess: false,
                 message: res.message
@@ -313,7 +307,6 @@ const defaultAiAdapter = async (message, options) => {
     }
 
 }
-
 
 
 export class QuickEditComponent extends MicroweberBaseClass {
@@ -408,9 +401,20 @@ export class QuickEditComponent extends MicroweberBaseClass {
     }
 
     applyJSON(json = [], extend = true) {
+
         // Handle case where json is wrapped in a response object
+        if (json.success === true && json.data) {
+            json = json.data;
+        }
+
+        // Handle direct data property
         if (json.data) {
             json = json.data;
+        }
+
+        // Check for content array at the top level
+        if (json.content && Array.isArray(json.content)) {
+            json = json.content;
         }
 
         // Handle case where json is a single object rather than an array
@@ -418,56 +422,65 @@ export class QuickEditComponent extends MicroweberBaseClass {
             json = [json];
         }
 
-        const processNode = (node) => {
-            // Process content array if it exists
-            if (node.content && Array.isArray(node.content)) {
-                node.content.forEach(obj => {
-                    let skip = true;
+        // Enhanced recursive function to process nodes at any depth
+        const processAllNodesAtAnyDepth = (node) => {
+            // Base case: if node is null or undefined, just return
+            if (!node) return;
 
-                    if (obj && obj.id) {
-                        skip = false;
-                    }
+            // 1. Process this individual node if it has text content
+            if (node.id && node.text !== undefined) {
+                const input = document.getElementById(`data-node-id-${node.id}`);
+                const target = this.settings.document.getElementById(`${node.id}`);
 
-                    if (!skip) {
+                console.log(`Processing node ${node.tag || 'unknown'}#${node.id}`);
 
-                        const input = document.getElementById(`data-node-id-${obj.id}`);
-                        const target = this.settings.document.getElementById(`${obj.id}`);
+                if (input) {
+                    input.value = node.text;
+                    console.log(`Updated input for ${node.id}`);
+                }
 
-                        console.log(`Input field for ${obj.id}:`, input);
-                        console.log(`Target element ${obj.tag}#${obj.id}:`, target);
-
-
-                        if (input) {
-                            input.value = obj.text;
-                        } else {
-                            console.log(`Input field for ${obj.id} not found`);
-                        }
-
-                        if (target) {
-                            target.textContent = obj.text;
-
-                            mw.top().app.registerChangedState(target);
-
-
-                        } else {
-                            console.log(`Target element ${obj.tag}#${obj.id} not found in document`);
-                        }
-                    }
-                });
+                if (target) {
+                    target.textContent = node.text;
+                    mw.top().app.registerChangedState(target);
+                    console.log(`Updated target element ${node.id}`);
+                }
             }
 
-            // Process children recursively
-            if (node.children && Array.isArray(node.children)) {
-                node.children.forEach(child => {
-                    processNode(child);
-                });
+            // 2. Check if this is a content array directly
+            if (Array.isArray(node)) {
+                node.forEach(item => processAllNodesAtAnyDepth(item));
+                return;
+            }
+
+            // 3. Process content property (if it exists)
+            if (node.content) {
+                if (Array.isArray(node.content)) {
+                    // Process array of content
+                    node.content.forEach(item => processAllNodesAtAnyDepth(item));
+                } else {
+                    // Process single content object
+                    processAllNodesAtAnyDepth(node.content);
+                }
+            }
+
+            // 4. Process children property (if it exists)
+            if (node.children) {
+                if (Array.isArray(node.children)) {
+                    // Process array of children
+                    node.children.forEach(child => processAllNodesAtAnyDepth(child));
+                } else {
+                    // Process single child object
+                    processAllNodesAtAnyDepth(node.children);
+                }
             }
         };
 
-        // Process the top-level nodes
+        // Process all top-level nodes using the enhanced recursive function
         json.forEach(node => {
-            processNode(node);
+            processAllNodesAtAnyDepth(node);
         });
+
+        console.log('JSON processing complete');
     }
 
     editor() {
@@ -485,7 +498,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         this.api.collect(undefined, undefined, obj => {
             if (obj.node.matches(this.settings.nodesSelector)) {
                 let type = 'text';
-                if(obj.tag === 'IMG') {
+                if (obj.tag === 'IMG') {
                     type = 'img'
                 }
                 const node = this.gui.build(obj, type);
@@ -496,11 +509,11 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 const parentEdit = obj.node.closest('.edit');
                 let parentEditClosesIdElement = parentEdit.closest('id');
                 let parentEditClosesId = null;
-                if(parentEditClosesIdElement){
-                    parentEditClosesId  =   parentEditClosesId.id;
+                if (parentEditClosesIdElement) {
+                    parentEditClosesId = parentEditClosesId.id;
                 }
 
-                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') +parentEditClosesId : 'default';
+                const sectionId = parentEdit ? parentEdit.getAttribute('field') + parentEdit.getAttribute('rel') + parentEditClosesId : 'default';
 
                 const sectionTitle = parentEdit ?
                     (parentEdit.getAttribute('id')
@@ -637,38 +650,50 @@ export class QuickEditComponent extends MicroweberBaseClass {
         });
 
 
-
         return aiChatForm.form;
     }
 
- #aiPending = false
+    #aiPending = false
 
     async ai(about) {
         if (this.#aiPending) {
             return;
         }
 
+        console.log('AI request started');
+        console.log(this.toJSON());
+
+
         this.#aiPending = true;
         this.dispatch('aiRequestStart');
 
         const message = `Using the existing object IDS,
         By using this schema: \n ${JSON.stringify(this.schema())} \n
-        Write text to this object and populate the schema,
+
+        Write text to this object and populate the content and children file of the schema items,
+
         You are a website content writer, and you must write the text in a way that is relevant to the object,
 
         The website subject is: ${about}
-        The edit mode is: ${this.editMode}
 
         You must write the text for the website and will the existing object IDs with the text,
         Expand on the subject and try to fill and write relevant information in the existing text
 
 
-        do not change element IDS,
-        do not change the structure of the schema,
-        use only the existing object IDS,
-        do not assign any new object IDS,
-        return only valid json object,
-        populate the existing object IDS: \n ${JSON.stringify(this.toJSON())}
+        critical: do not change element IDS,
+        critical: do not change the structure of the schema,
+        critical: use only the existing object IDS,
+        critical: do not assign any new object IDS,
+        critical: return only valid json object,
+        critical: do not change the schema structure,
+        critical: do not change the existing object IDS,
+        critical: keep the existing object IDS,
+        critical: write text in the existing object IDS's content text node
+
+
+
+
+        content: \n ${JSON.stringify(this.toJSON())}
 
 
 
@@ -676,7 +701,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 """[
   JSON
 {
-   { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
+   { Use the content, populate the content and children of the items  with text ... write the text in the content and children with the existing object IDs and the text in the 'text' node for each object with the existing object IDS }
 
 """
 
@@ -686,13 +711,16 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).show();
 
         let messageOptions = {};
-        //  messageOptions.schema = this.schema();
+        //messageOptions.schema = this.schema();
+        //   messageOptions.schema = editSchema;
         messageOptions.schema = editSchema;
 
 
         let res = await this.aiAdapter(message, messageOptions);
 
-        if (res.success && res.data) {
+        if (res.success && res.data && res.data.content) {
+            this.applyJSON(res.data.content);
+        } else if (res.success && res.data && res.data) {
             this.applyJSON(res.data);
         } else {
             console.error(res.message);
@@ -705,5 +733,3 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
 }
-
-
