@@ -297,11 +297,10 @@ const defaultAiAdapter = async (message, options) => {
         let [res, err] = await useAi(messages, messagesOptions);
         //  res = JSON.parse(res);
 
+
+
         if (res) {
-            return {
-                succcess: false,
-                message: res.message
-            };
+            return res;
 
         } else {
             return {
@@ -437,17 +436,17 @@ export class QuickEditComponent extends MicroweberBaseClass {
                 const input = document.getElementById(`data-node-id-${node.id}`);
                 const target = this.settings.document.getElementById(`${node.id}`);
 
-                console.log(`Processing node ${node.tag || 'unknown'}#${node.id}`);
+
 
                 if (input) {
                     input.value = node.text;
-                    console.log(`Updated input for ${node.id}`);
+
                 }
 
                 if (target) {
                     target.textContent = node.text;
                     mw.top().app.registerChangedState(target);
-                    console.log(`Updated target element ${node.id}`);
+
                 }
             }
 
@@ -485,7 +484,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
             processAllNodesAtAnyDepth(node);
         });
 
-        console.log('JSON processing complete');
+
     }
 
     editor() {
@@ -647,6 +646,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         aiChatForm.on("submit", async value => {
+
             const val = value.trim();
             aiChatForm.disable();
             await this.ai(val);
@@ -716,17 +716,23 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
         messageOptions.schema = editSchema;
 
 
+
         let res = await this.aiAdapter(message, messageOptions);
 
         if (res.success && res.data && res.data.content) {
             this.applyJSON(res.data.content);
+
         } else if (res.success && res.data && res.data) {
             this.applyJSON(res.data);
+
         } else {
             console.error(res.message);
+
         }
 
+
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();
+
         this.#aiPending = false;
         this.dispatch('aiRequestEnd');
     }
