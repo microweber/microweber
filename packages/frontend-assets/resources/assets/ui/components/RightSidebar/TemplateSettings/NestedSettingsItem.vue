@@ -36,8 +36,29 @@
 </template>
 
 <script>
+import FieldColorPicker from './TemplateSettingsFields/FieldColorPicker.vue';
+import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
+import FieldDropdown from './TemplateSettingsFields/FieldDropdown.vue';
+import FieldFontFamily from './TemplateSettingsFields/FieldFontFamily.vue';
+import FieldClearAll from './TemplateSettingsFields/FieldClearAll.vue';
+import FieldColorPalette from './TemplateSettingsFields/FieldColorPalette.vue';
+import FieldButton from './TemplateSettingsFields/FieldButton.vue';
+import FieldInfoBox from './TemplateSettingsFields/FieldInfoBox.vue';
+import FieldStyleEditor from './TemplateSettingsFields/FieldStyleEditor.vue';
+
 export default {
     name: 'NestedSettingsItem',
+    components: {
+        FieldColorPicker,
+        FieldRangeSlider,
+        FieldDropdown,
+        FieldFontFamily,
+        FieldClearAll,
+        FieldColorPalette,
+        FieldButton,
+        FieldInfoBox,
+        FieldStyleEditor
+    },
     props: {
         setting: {
             type: Object,
