@@ -6,7 +6,8 @@
             <div v-if="setting.fieldType !== 'styleEditor' && setting.title">
                  <!-- Using h5 or similar for field titles to distinguish from main group titles (h4 in parent) -->
                  <h5>{{ setting.title }}</h5>
-                 <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
+                 <!-- Description should only be shown if this is the active view in the parent component -->
+                 <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
             </div>
             <component
                 :is="getComponentType(setting.fieldType)"
@@ -24,13 +25,15 @@
                class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-1 d-block">
                 {{ setting.title }}
             </a>
-            <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
+            <!-- Only show description when this item is the current path (active) -->
+            <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
         </div>
 
         <!-- Fallback: If it's not a field and not a URL-based link, but has a title (e.g. a static title/description item) -->
         <div v-else-if="setting.title">
             <h5>{{ setting.title }}</h5>
-            <p v-if="setting.description" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
+            <!-- Only show description when this item is active -->
+            <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
         </div>
     </div>
 </template>
@@ -67,6 +70,11 @@ export default {
         rootSelector: {
             type: String,
             default: ''
+        },
+        // New prop to determine if this setting is the active/current one
+        isActive: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {

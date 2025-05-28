@@ -14,8 +14,9 @@
             <!-- Navigation path -->
             <div v-if="currentPath !== '/'" class="mb-3">
                 <button @click="goBack"
-                      class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
-                    <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
+                    <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
+                         height="32" viewBox="0 0 32 32">
                         <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                             <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
                             <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
@@ -28,12 +29,14 @@
             <!-- Choose where to edit dropdown -->
             <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper mt-3 mb-3">
                 <label for="css_vars_design_apply_mode" class="live-edit-label">Choose where to edit</label>
-                <select class="form-control-live-edit-input form-select" v-model="applyMode" @change="handleApplyModeChange">
+                <select class="form-control-live-edit-input form-select" v-model="applyMode"
+                        @change="handleApplyModeChange">
                     <option value="template">Template</option>
                     <option value="layout">Layout</option>
                 </select>
 
-                <div id="layout-id-display" class="mt-2 small text-muted my-2" v-if="applyMode === 'layout'" style="display: block;">
+                <div id="layout-id-display" class="mt-2 small text-muted my-2" v-if="applyMode === 'layout'"
+                     style="display: block;">
                     <div class="d-flex justify-content-between">
                         <span id="active-layout-id" @click="scrollToSelectedLayout">{{ activeLayoutId }}</span>
                         <span id="active-layout-id-open-settings" @click="openSelectedLayoutSettings">⚙</span>
@@ -54,12 +57,14 @@
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
-                <span class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
+                <span
+                    class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
                     Styles
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Reset stylesheet settings" class="reset-template-settings-and-stylesheet-button"
                             @click="resetAllDesignSelectorsValuesSettings">
-                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+                             width="24">
                             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                         </svg>
                     </button>
@@ -88,30 +93,31 @@
                         :root-selector="getRootSelector()"
                         @navigate="navigateTo"
                         @update="handleSettingUpdate"
-                        @open-style-editor="handleStyleEditorOpen" />
+                        @open-style-editor="handleStyleEditorOpen"/>
                 </div>
                 <!-- Else (currentSetting is a group, not a field itself) -->
                 <div v-else>
                     <!-- Option 1: Children are in currentSetting.settings array -->
                     <div v-if="currentSetting.settings && currentSetting.settings.length > 0">
-                        <div v-for="(childSetting, index) in currentSetting.settings" :key="'direct_child_'+index" class="my-3">
+                        <div v-for="(childSetting, index) in currentSetting.settings" :key="'direct_child_'+index"
+                             class="my-3">
                             <nested-settings-item
                                 :setting="childSetting"
                                 :root-selector="getRootSelector()"
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
-                                @open-style-editor="handleStyleEditorOpen" />
+                                @open-style-editor="handleStyleEditorOpen"/>
                         </div>
                     </div>
                     <!-- Option 2: Children are found via subItems (URL matching), and no direct .settings array -->
                     <div v-else-if="subItems && subItems.length > 0">
-                         <div v-for="(subItemFromFlatList, index) in subItems" :key="'sub_item_'+index" class="my-3">
+                        <div v-for="(subItemFromFlatList, index) in subItems" :key="'sub_item_'+index" class="my-3">
                             <nested-settings-item
                                 :setting="subItemFromFlatList"
                                 :root-selector="getRootSelector()"
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
-                                @open-style-editor="handleStyleEditorOpen" />
+                                @open-style-editor="handleStyleEditorOpen"/>
                         </div>
                     </div>
                 </div>
@@ -122,10 +128,12 @@
                 <div>
                     <button @click="goBackFromStyleEditor"
                             class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
-                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
+                             height="32" viewBox="0 0 32 32">
                             <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                                 <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
-                                <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
+                                <path class="arrow-icon--arrow"
+                                      d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
                             </g>
                         </svg>
                         <div class="ms-1 font-weight-bold">Back</div>
@@ -150,9 +158,12 @@
 
                     <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
                         <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
-                            <div v-for="(settingGroupInside, settingGroupInsideName) in settings.values" :key="settingGroupInsideName" class="mb-2 ps-2">
-                                <label :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
-                                    <a class="mw-admin-action-links mw-action-links-with-accordion mw-adm-liveedit-tabs collapsed" type="button" data-bs-toggle="collapse"
+                            <div v-for="(settingGroupInside, settingGroupInsideName) in settings.values"
+                                 :key="settingGroupInsideName" class="mb-2 ps-2">
+                                <label
+                                    :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
+                                    <a class="mw-admin-action-links mw-action-links-with-accordion mw-adm-liveedit-tabs collapsed"
+                                       type="button" data-bs-toggle="collapse"
                                        :data-bs-target="'#flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
                                        aria-expanded="false"
                                        :aria-controls="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
@@ -171,9 +182,9 @@
                                                 <label class="mr-4">{{ setting.label }}</label>
                                                 <div>
                                                     <input type="text" class="form-control"
-                                                          :value="[setting.value ? setting.value : setting.default]"
-                                                          v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                          :name="settingKey"/>
+                                                           :value="[setting.value ? setting.value : setting.default]"
+                                                           v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
+                                                           :name="settingKey"/>
                                                 </div>
                                             </div>
 
@@ -185,7 +196,7 @@
                                                             :key="settingKey"
                                                             :color="[setting.value ? setting.value : setting.default]"
                                                             v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                            :name="settingKey" />
+                                                            :name="settingKey"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -199,7 +210,7 @@
                                             <div v-if="setting.type === 'range'">
                                                 <label class="mr-4">
                                                     {{ setting.label }} -
-                                                    {{options[setting.optionGroup][settingKey]}}
+                                                    {{ options[setting.optionGroup][settingKey] }}
                                                     <span v-if="setting.range.unit">
                                                         {{ setting.range.unit ? setting.range.unit : '' }}
                                                     </span>
@@ -243,7 +254,8 @@
                                                 <select class="form-select"
                                                         v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                         v-model="options[setting.optionGroup][settingKey]">
-                                                    <option v-for="(optionValue, optionKey) in setting.options" :value="optionKey">
+                                                    <option v-for="(optionValue, optionKey) in setting.options"
+                                                            :value="optionKey">
                                                         {{ optionValue }}
                                                     </option>
                                                 </select>
@@ -260,7 +272,8 @@
                                                         {{ fontFamily }}
                                                     </option>
                                                 </select>
-                                                <button type="button" class="btn btn-outline-dark btn-sm mt-3" v-on:click="loadMoreFonts()">
+                                                <button type="button" class="btn btn-outline-dark btn-sm mt-3"
+                                                        v-on:click="loadMoreFonts()">
                                                     Load more
                                                 </button>
                                             </div>
@@ -270,14 +283,26 @@
                             </div>
                         </div>
 
-                        <div style="display: none" v-on:click="resetStylesheetSettings" class="d-flex align-items-center justify-content-between cursor-pointer" v-if="settings && settings.type == 'stylesheet'">
+                        <div style="display: none" v-on:click="resetStylesheetSettings"
+                             class="d-flex align-items-center justify-content-between cursor-pointer"
+                             v-if="settings && settings.type == 'stylesheet'">
                             <span>Reset Stylesheet Settings</span>
-                            <svg fill="currentColor" title="Reset stylesheet settings" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg>
+                            <svg fill="currentColor" title="Reset stylesheet settings"
+                                 xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
+                                <path
+                                    d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/>
+                            </svg>
                         </div>
 
-                        <div v-on:click="resetTemplateSettings" class="d-flex align-items-center justify-content-between cursor-pointer" v-if="settings && settings.type == 'template'">
+                        <div v-on:click="resetTemplateSettings"
+                             class="d-flex align-items-center justify-content-between cursor-pointer"
+                             v-if="settings && settings.type == 'template'">
                             <span>Reset Template Settings</span>
-                            <svg fill="currentColor" title="Reset template settings" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg>
+                            <svg fill="currentColor" title="Reset template settings" xmlns="http://www.w3.org/2000/svg"
+                                 height="18" viewBox="0 -960 960 960" width="18">
+                                <path
+                                    d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -292,18 +317,15 @@
 }
 </style>
 
-<style src="@vueform/slider/themes/default.css"></style>
 
 <script>
 import axios from 'axios';
 import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
-import Slider from '@vueform/slider';
 import NestedSettingsItem from './NestedSettingsItem.vue';
 
 export default {
     components: {
         ColorPicker,
-        Slider,
         NestedSettingsItem
     },
     data() {
@@ -913,7 +935,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
    { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
 """`
 
-            let messageOptions = { schema: editSchema };
+            let messageOptions = {schema: editSchema};
             window.mw.top().spinner({element: window.mw.top().doc.body, size: 60, decorate: true}).show();
 
             let messages = [{role: 'user', content: message}];
