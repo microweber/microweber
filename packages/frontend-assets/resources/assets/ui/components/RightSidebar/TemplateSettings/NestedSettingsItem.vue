@@ -11,10 +11,17 @@
             </div>
             <component
                 :is="getComponentType(setting.fieldType)"
-                :setting="setting"
+                :setting="{
+                    ...setting,
+                    fieldSettings: {
+                        ...(setting.fieldSettings || {}),
+                        value: this.currentValue // Use computed currentValue
+                    }
+                }"
                 :selector-to-apply="selectorToApply"
                 :root-selector="rootSelector"
-                @update="$emit('update', $event)"
+                @update="handleUpdate"
+                @batch-update="handleBatchUpdate"
                 @open-style-editor="$emit('open-style-editor', $event)"
             />
         </div>
@@ -62,16 +69,16 @@ export default {
         FieldInfoBox,
         FieldStyleEditor
     },
+    inject: ['templateSettings'],
     props: {
         setting: {
             type: Object,
             required: true
         },
-        rootSelector: {
+        rootSelector: { // This is the root selector for the current group/context
             type: String,
             default: ''
         },
-        // New prop to determine if this setting is the active/current one
         isActive: {
             type: Boolean,
             default: false
@@ -79,21 +86,43 @@ export default {
     },
     computed: {
         selectorToApply() {
-            if (!this.setting.selectors || this.setting.selectors.length === 0) return '';
+            if (!this.setting.selectors || this.setting.selectors.length === 0) return this.rootSelector || '';
 
-            let selector = this.setting.selectors[this.setting.selectors.length - 1];
+            let baseSelector = this.setting.selectors[this.setting.selectors.length - 1];
+            let effectiveRootSelector = this.setting.rootSelector || this.rootSelector || ''; // Prefer setting's own rootSelector if defined
 
-            if (this.rootSelector && selector) {
-                if (selector === ':root') {
-                    return this.rootSelector;
+            if (effectiveRootSelector && baseSelector) {
+                if (baseSelector === ':root') {
+                    return effectiveRootSelector;
                 } else {
-                    const rs = this.rootSelector.trimEnd();
-                    const s = selector.trimStart();
+                    // Avoid duplicating root selector if baseSelector already contains it (e.g. from a more specific item)
+                    if (baseSelector.startsWith(effectiveRootSelector) && effectiveRootSelector !== '') {
+                        return baseSelector;
+                    }
+                    const rs = effectiveRootSelector.trimEnd();
+                    const s = baseSelector.trimStart();
                     return `${rs} ${s}`.trim();
                 }
             }
+            return baseSelector || effectiveRootSelector || '';
+        },        currentValue() {
+            if (!this.setting.fieldSettings?.property) {
+                return this.setting.fieldSettings?.value || '';
+            }
 
-            return selector || '';
+            const property = this.setting.fieldSettings.property;
+            const selector = this.selectorToApply;
+
+            // Access the getCssPropertyValue method from the TemplateSettings component via injection
+            if (this.templateSettings && typeof this.templateSettings.getCssPropertyValue === 'function') {
+                const valueFromParent = this.templateSettings.getCssPropertyValue(selector, property);
+                if (valueFromParent !== undefined && valueFromParent !== null) {
+                    return valueFromParent;
+                }
+            }
+
+            // Return default value if no other value is found
+            return this.setting.fieldSettings?.value || '';
         }
     },
     methods: {
@@ -112,6 +141,48 @@ export default {
                     console.warn('Unknown fieldType:', fieldType, 'for setting:', this.setting.title);
                     return null;
             }
+        },
+        handleUpdate(eventData) { // eventData is {selector, property, value} or just value from simple fields
+            // Ensure the eventData has the selector and property if not already provided by the child field component
+            const dataToEmit = {
+                selector: eventData.selector || this.selectorToApply,
+                property: eventData.property || this.setting.fieldSettings?.property,
+                value: eventData.value !== undefined ? eventData.value : eventData, // some fields might emit value directly
+                ...eventData // allow eventData to override if it has its own selector/property
+            };
+            this.$emit('update', dataToEmit);
+        },
+        handleBatchUpdate(updates) { // updates is an array of {selector, property, value}
+            // This is for complex fields like colorPalette or clearAll that modify multiple properties
+            // The actual updateCssProperty calls will be done in the parent (TemplateSettings)
+            // We just need to ensure the selectors in `updates` are correctly contextualized if necessary.
+            const processedUpdates = updates.map(update => {
+                // If a child component provides a full selector, use it.
+                // Otherwise, assume the update is for the current item's selectorToApply.
+                return {
+                    ...update,
+                    selector: update.selector || this.selectorToApply,
+                };
+            });
+            this.$emit('batch-update', processedUpdates); // Parent will handle these
+        },        onCssPropertyChanged(data) {
+            // This method will handle CSS property changes from the parent TemplateSettings component
+            // and will trigger a re-render of the field with the new value
+            if (data.selector === this.selectorToApply && data.property === this.setting.fieldSettings?.property) {
+                // Force the component to refresh since currentValue is computed and will get the new value
+                this.$forceUpdate();
+            }
+        }
+    },    mounted() {
+        // Register this component to receive CSS property change notifications from TemplateSettings
+        if (this.templateSettings && typeof this.templateSettings.registerPropertyChangeListener === 'function') {
+            this.templateSettings.registerPropertyChangeListener(this.onCssPropertyChanged);
+        }
+    },
+    beforeUnmount() {
+        // Unregister this component from CSS property change notifications
+        if (this.templateSettings && typeof this.templateSettings.unregisterPropertyChangeListener === 'function') {
+            this.templateSettings.unregisterPropertyChangeListener(this.onCssPropertyChanged);
         }
     }
 };

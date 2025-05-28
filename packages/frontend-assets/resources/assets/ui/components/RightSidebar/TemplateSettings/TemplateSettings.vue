@@ -45,16 +45,7 @@
             </div>
 
             <!-- AI Design Button -->
-            <div class="ai-settings-wrapper" v-if="hasStyleSettings">
-                <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
-                <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Change Design with AI" class="btn btn-link p-0"
-                        @click="changeDesign" :disabled="!isAIAvailable">
-                    Go with AI
-                </button>
-            </div>
-
+            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable" />
 
             <div v-if="currentPath !== '/'" class="mb-3 mt-3">
                 <button @click="goBack"
@@ -69,8 +60,6 @@
                     <div class="ms-1 font-weight-bold">Back</div>
                 </button>
             </div>
-
-
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
@@ -344,14 +333,21 @@ import axios from 'axios';
 import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
 import NestedSettingsItem from './NestedSettingsItem.vue';
 import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
+import FieldAiChangeDesign from './TemplateSettingsFields/FieldAiChangeDesign.vue';
+import { reactive } from 'vue';
 
 export default {
     components: {
         ColorPicker,
         NestedSettingsItem,
-        FieldRangeSlider
+        FieldRangeSlider,
+        FieldAiChangeDesign
     },
-    data() {
+    provide() {
+        return {
+            templateSettings: this
+        };
+    },    data() {
         return {
             isLoading: true,
             currentError: null,
@@ -363,11 +359,13 @@ export default {
             styleSheetSourceFile: false,
             styleSettingVars: [],
             currentPath: '/',
-            applyMode: 'template',
+            applyMode: 'template', // 'template' or 'layout'
             activeLayoutId: 'None',
             isAIAvailable: false,
             styleEditorData: {},
-            showStyleSettings: '/'
+            showStyleSettings: '/',
+            styleValues: reactive({}), // Changed to reactive for Vue 3
+            propertyChangeListeners: [], // Array to store registered listeners for Vue 3 event handling
         };
     },
     computed: {
@@ -414,10 +412,51 @@ export default {
         }
     },
     mounted() {
-        this.fetchData();
+        this.fetchData().then(() => {
+            this.initializeStyleValues();
+        });
         this.checkAIAvailability();
         this.setupEventListeners();
+
+        if (window.mw?.top()?.app) {
+            window.mw.top().app.on('setPropertyForSelector', this.onPropertyChange);
+            window.mw.top().app.__vueTemplateSettingsInstance = this; // Set instance reference
+        }
         this.setupLayoutListener();
+    },
+    beforeUnmount() {
+        if (window.mw?.top()?.app) {
+            window.mw.top().app.off('setPropertyForSelector', this.onPropertyChange);
+            if (window.mw.top().app.__vueTemplateSettingsInstance === this) {
+                window.mw.top().app.__vueTemplateSettingsInstance = null; // Clear instance reference
+            }
+        }
+    },
+    watch: {
+        applyMode(newMode, oldMode) {
+            if (newMode !== oldMode) {
+                window.css_vars_design_apply_mode = newMode;
+                this.updateLayoutIdDisplay();
+                this.initializeStyleValues();
+            }
+        },
+        activeLayoutId(newId, oldId) {
+            if (newId !== oldId) {
+                const newActiveLayout = newId === 'None' || !newId ? null : window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(newId);
+                window.css_vars_design_active_layout = newActiveLayout;
+                this.initializeStyleValues();
+            }
+        },
+        styleSettingVars: {
+            handler() {
+                this.initializeStyleValues();
+            },
+            deep: true
+        },
+        currentPath() {
+            // When path changes, the relevant rootSelector might change, so re-evaluating values might be needed
+            // if not all values are pre-cached. For now, initializeStyleValues fetches all.
+        }
     },
     methods: {
         async fetchData() {
@@ -425,32 +464,24 @@ export default {
                 this.isLoading = true;
                 const response = await axios.get(window.mw.settings.api_url + 'template/template-style-settings');
                 if (response.data) {
-                    // Ensure we have proper array/object structures
                     this.settingsGroups = response.data.settingsGroups || {};
-
-                    // Ensure options is an object
                     if (response.data.options && typeof response.data.options === 'object' && !Array.isArray(response.data.options)) {
                         this.options = response.data.options;
                     } else {
-                        this.options = {}; // Default to empty object if it's an array, null, or not an object
+                        this.options = {};
                     }
-
                     this.optionGroup = response.data.optionGroup || '';
                     this.optionGroupLess = response.data.optionGroupLess || '';
                     this.styleSheetSourceFile = response.data.styleSheetSourceFile || false;
-
-                    // Ensure styleSettingVars is always an array and has proper structure
                     this.styleSettingVars = Array.isArray(response.data.styleSettingsVars)
                         ? response.data.styleSettingsVars.filter(item => item && typeof item === 'object')
                         : [];
 
-                    // Set global variables from Blade template
                     if (this.styleSettingVars && this.styleSettingVars.length > 0) {
                         window.mw_template_settings_styles_and_selectors = this.styleSettingVars;
-                        window.css_vars_design_apply_mode = 'template';
+                        window.css_vars_design_apply_mode = this.applyMode;
                     }
 
-                    // Ensure options structure for settings groups
                     if (this.settingsGroups && typeof this.settingsGroups === 'object') {
                         Object.keys(this.settingsGroups).forEach(groupKey => {
                             const group = this.settingsGroups[groupKey];
@@ -470,12 +501,167 @@ export default {
                         });
                     }
                 }
-                this.isLoading = false;
             } catch (error) {
                 console.error("Error fetching template settings:", error);
                 this.currentError = "Error loading template settings";
+            } finally {
                 this.isLoading = false;
             }
+        },
+
+        flattenStyleSettings(settingsArray) {
+            let flat = [];
+            if (!Array.isArray(settingsArray)) return flat;
+            settingsArray.forEach(item => {
+                flat.push(item);
+                if (item.settings && Array.isArray(item.settings)) {
+                    flat = flat.concat(this.flattenStyleSettings(item.settings));
+                }
+            });
+            return flat;
+        },
+
+        findRootSelectorForPath(path) {
+            if (!path || !this.styleSettingVars) return '';
+            const pathSegments = path.split('/').filter(p => p);
+            let currentPathAttempt = '';
+            let foundRootSelector = '';
+
+            for (const segment of pathSegments) {
+                currentPathAttempt += '/' + segment;
+                const pathSetting = this.styleSettingVars.find(s => s.url === currentPathAttempt);
+                if (pathSetting && pathSetting.rootSelector) {
+                    foundRootSelector = pathSetting.rootSelector;
+                }
+            }
+            return foundRootSelector;
+        },
+
+        initializeStyleValues() {
+            if (!this.styleSettingVars || !window.mw?.top()?.app?.cssEditor) {
+                this.styleValues = reactive({});
+                return;
+            }
+            const newStyleValues = {};
+            const itemsToProcess = this.flattenStyleSettings(this.styleSettingVars);
+
+            itemsToProcess.forEach(item => {
+                if (item.fieldSettings && item.fieldSettings.property && item.selectors && item.selectors.length > 0) {
+                    const baseSelector = item.selectors[item.selectors.length - 1];
+                    const property = item.fieldSettings.property;
+
+                    let itemRootSelector = item.rootSelector || this.findRootSelectorForPath(item.url) || '';
+
+                    let finalSelector = baseSelector;
+                    if (itemRootSelector && baseSelector) {
+                        if (baseSelector === ':root') {
+                            finalSelector = itemRootSelector;
+                        } else {
+                            if (baseSelector.startsWith(itemRootSelector) && itemRootSelector !== '') {
+                                finalSelector = baseSelector;
+                            } else {
+                                finalSelector = `${itemRootSelector.trimEnd()} ${baseSelector.trimStart()}`.trim();
+                            }
+                        }
+                    }
+
+                    if (this.applyMode === 'layout' && this.activeLayoutId && this.activeLayoutId !== 'None') {
+                        const layoutSelectorTarget = '#' + this.activeLayoutId;
+                        if (baseSelector === ':root' || itemRootSelector === ':root') {
+                            finalSelector = layoutSelectorTarget;
+                        }
+                    }
+
+                    const value = window.mw.top().app.cssEditor.getPropertyForSelector(finalSelector, property);
+                    newStyleValues[`${finalSelector}|${property}`] = value;
+                }
+            });
+
+            // Replace the entire object instead of using $set
+            this.styleValues = reactive(newStyleValues);
+        },        getCssPropertyValue(selector, property) {
+            const key = `${selector}|${property}`;
+            if (this.styleValues.hasOwnProperty(key)) {
+                return this.styleValues[key];
+            }
+            // Fallback to cssEditor if not in cache
+            if (window.mw?.top()?.app?.cssEditor) {
+                const value = window.mw.top().app.cssEditor.getPropertyForSelector(selector, property);
+                // Cache the value for future use
+                this.styleValues[key] = value;
+                return value;
+            }
+            return undefined;
+        },
+
+        updateCssProperty(selector, property, value) {
+            if (window.mw?.top()?.app?.cssEditor) {
+                window.mw.top().app.cssEditor.setPropertyForSelector(selector, property, value, true, true);
+                // Update our local cache immediately
+                const key = `${selector}|${property}`;
+                this.styleValues[key] = value;
+            }
+        },        onPropertyChange({ selector, property, value }) {
+            const key = `${selector}|${property}`;
+            // Update the reactive styleValues cache
+            this.styleValues[key] = value;
+            
+            // Also update any setting fieldSettings.value that matches this selector and property
+            this.updateSettingFieldValues(selector, property, value);
+            
+            // Notify all registered listeners (for Vue 3 event handling)
+            if (this.propertyChangeListeners && this.propertyChangeListeners.length > 0) {
+                const eventData = { selector, property, value };
+                this.propertyChangeListeners.forEach(callback => {
+                    if (typeof callback === 'function') {
+                        try {
+                            callback(eventData);
+                        } catch (error) {
+                            console.warn('Error calling property change listener:', error);
+                        }
+                    }
+                });
+            }
+        },
+
+        updateSettingFieldValues(selector, property, value) {
+            // Find and update any setting fieldSettings.value that matches this selector and property
+            const itemsToProcess = this.flattenStyleSettings(this.styleSettingVars);
+            itemsToProcess.forEach(item => {
+                if (item.fieldSettings && 
+                    item.fieldSettings.property === property && 
+                    item.selectors && 
+                    item.selectors.length > 0) {
+                    
+                    // Calculate the final selector for this item to see if it matches
+                    const baseSelector = item.selectors[item.selectors.length - 1];
+                    let itemRootSelector = item.rootSelector || this.findRootSelectorForPath(item.url) || '';
+                    
+                    let finalSelector = baseSelector;
+                    if (itemRootSelector && baseSelector) {
+                        if (baseSelector === ':root') {
+                            finalSelector = itemRootSelector;
+                        } else {
+                            if (baseSelector.startsWith(itemRootSelector) && itemRootSelector !== '') {
+                                finalSelector = baseSelector;
+                            } else {
+                                finalSelector = `${itemRootSelector.trimEnd()} ${baseSelector.trimStart()}`.trim();
+                            }
+                        }
+                    }
+
+                    if (this.applyMode === 'layout' && this.activeLayoutId && this.activeLayoutId !== 'None') {
+                        const layoutSelectorTarget = '#' + this.activeLayoutId;
+                        if (baseSelector === ':root' || itemRootSelector === ':root') {
+                            finalSelector = layoutSelectorTarget;
+                        }
+                    }
+
+                    if (finalSelector === selector) {
+                        item.fieldSettings.value = value;
+                    }
+                }
+            });
         },
 
         navigateTo(path) {
@@ -493,12 +679,10 @@ export default {
         getRootSelector() {
             if (!this.currentSetting) return '';
 
-            // Look for rootSelector in the current setting
             if (this.currentSetting.rootSelector) {
                 return this.currentSetting.rootSelector;
             }
 
-            // Look for rootSelector in parent items by traversing the URL path
             const pathSegments = this.currentPath.split('/').filter(p => p);
             let currentPath = '';
             let rootSelector = '';
@@ -515,25 +699,27 @@ export default {
         },
 
         handleSettingUpdate(data) {
-            if (!window.mw?.top()?.app?.cssEditor) return;
+            this.updateCssProperty(data.selector, data.property, data.value);
+        },
 
-            window.mw.top().app.cssEditor.setPropertyForSelector(
-                data.selector,
-                data.property,
-                data.value,
-                true,
-                true
-            );
+        handleBatchUpdate(updates) {
+            if (Array.isArray(updates)) {
+                updates.forEach(update => {
+                    if (update.selector && update.property) {
+                        this.updateCssProperty(update.selector, update.property, update.value);
+                    }
+                });
+            }
         },
 
         handleStyleEditorOpen(setting) {
             this.showStyleSettings = 'styleEditor';
             this.styleEditorData = setting;
 
-            // Trigger the style editor open event
             if (window.mw?.top()?.app) {
                 window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
             }
+            this.openRTECssEditor2Vue(setting); // Call to openRTECssEditor2Vue
         },
 
         goBackFromStyleEditor() {
@@ -591,7 +777,6 @@ export default {
                 '</div>';
 
             window.mw.tools.confirm_reset_module_by_id(this.optionGroup, function () {
-                // Reset template settings
             }, askForConfirmText);
         },
 
@@ -622,221 +807,55 @@ export default {
 
         openRTECssEditor2Vue(settings) {
             let iframeStyleEditorId = 'iframeStyleEditorId-Vue';
-            let checkIframeStyleEditor = document.getElementById(iframeStyleEditorId);
+            let iframeHolder = document.getElementById('iframe-holder');
 
-            if (!checkIframeStyleEditor) {
-                const moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue';
-                const attrsForSettings = {
-                    live_edit: true,
-                    module_settings: true,
-                    id: 'mw_global_rte_css_editor2_editor_vue',
-                    type: moduleType,
-                    iframe: true,
-                    disable_auto_element_change: true,
-                    output_static_selector: true,
-                    from_url: window.mw.top().app.canvas.getWindow().location.href
-                };
-
-                const src = window.route('live_edit.module_settings') + "?" + window.json2url(attrsForSettings);
-                const iframeHolder = document.getElementById('iframe-holder');
-
-                if (iframeHolder) {
-                    iframeHolder.innerHTML += `<iframe id="${iframeStyleEditorId}" src="${src}" style="width:100%;height:500px;border:none;"></iframe>`;
-
-                    document.getElementById(iframeStyleEditorId).addEventListener('load', () => {
-                        window.mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
-                        window.mw.top().app.dispatch('cssEditorSettings', settings);
-                    });
-                }
-            } else {
-                window.mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
-                window.mw.top().app.dispatch('cssEditorSettings', settings);
+            if (!iframeHolder) {
+                console.error('Cannot open style editor: iframe-holder element not found.');
+                return;
             }
+
+            // Clear previous iframe if exists
+            let existingIframe = document.getElementById(iframeStyleEditorId);
+            if (existingIframe) {
+                existingIframe.remove();
+            }
+
+            // Create the iframe
+            const iframe = document.createElement('iframe');
+            iframe.id = iframeStyleEditorId;
+            iframe.style.width = '100%';
+            iframe.style.height = 'calc(100vh - 220px)'; // Adjust height as needed
+            iframe.frameBorder = '0';
+
+            // Determine the correct src for the style editor Vue app
+            // This is a placeholder URL and needs to be configured for your application.
+            // It should point to the route or HTML page that serves your ElementStyleEditorApp.
+            let styleEditorUrl = window.mw?.settings?.site_url + 'editor_tools/style_editor_iframe';
+            // Example of adding params, adjust as necessary based on how your style editor app consumes them
+            if (settings && settings.type) {
+                 styleEditorUrl += '?type=' + encodeURIComponent(settings.type);
+            }
+            if (settings && settings.selector) {
+                 styleEditorUrl += (styleEditorUrl.includes('?') ? '&' : '?') + 'selector=' + encodeURIComponent(settings.selector);
+            }
+            // Add more params from settings if needed
+
+            iframe.src = styleEditorUrl;
+
+            iframe.onload = () => {
+                console.log('Style editor iframe loaded for URL:', styleEditorUrl);
+                // The ElementStyleEditorApp.vue (or similar in the iframe) should listen for events
+                // like 'mw.rte.css.editor2.open' or receive data via postMessage/URL params
+                // to initialize itself with the correct context and settings.
+            };
+
+            iframe.onerror = () => {
+                console.error('Error loading style editor iframe from URL:', styleEditorUrl);
+                iframeHolder.innerHTML = '<p class="text-danger">Error loading style editor. Please check console.</p>';
+            }
+
+            iframeHolder.appendChild(iframe);
         },
-
-        prepareAndCleanTemplateStylesAndSelectorsData(items) {
-            if (!Array.isArray(items)) return items;
-
-            return items.filter(item => {
-                if (item.fieldType === 'clearAll') return false;
-
-                ['readSettingsFromFiles', 'parent', 'backUrl', 'url'].forEach(prop => {
-                    if (item.hasOwnProperty(prop)) delete item[prop];
-                });
-
-                if (item.settings && Array.isArray(item.settings)) {
-                    item.settings = this.prepareAndCleanTemplateStylesAndSelectorsData(item.settings);
-                }
-
-                if (item.fieldSettings && Array.isArray(item.fieldSettings)) {
-                    item.fieldSettings = this.prepareAndCleanTemplateStylesAndSelectorsData(item.fieldSettings);
-                }
-
-                return item.settings?.length > 0 || item.fieldSettings || item.selectors;
-            });
-        },
-
-        prepareTemplateValuesForEdit(designSelectors) {
-            designSelectors = designSelectors.filter(item => {
-                return item.settings && Array.isArray(item.settings) && item.settings.length > 0;
-            });
-
-            let allSelectorPropertyPairs = [];
-
-            for (let i = 0; i < designSelectors.length; i++) {
-                let item = designSelectors[i];
-
-                for (let k = 0; k < item.settings.length; k++) {
-                    let setting = item.settings[k];
-
-                    if (setting.selectors && setting.selectors.length > 0 && setting.fieldSettings) {
-                        const nestedSelector = setting.selectors[0];
-
-                        if (!Array.isArray(setting.fieldSettings) && typeof setting.fieldSettings === 'object') {
-                            const property = setting.fieldSettings.property;
-                            if (property) {
-                                allSelectorPropertyPairs.push({
-                                    selector: nestedSelector,
-                                    property: property,
-                                    target: {
-                                        object: setting.fieldSettings,
-                                        key: 'value'
-                                    },
-                                    layout: setting.layout || item.layout
-                                });
-                            }
-                        } else if (Array.isArray(setting.fieldSettings) && setting.fieldSettings.length > 0) {
-                            for (let m = 0; m < setting.fieldSettings.length; m++) {
-                                const property = setting.fieldSettings[m].property;
-                                if (property) {
-                                    allSelectorPropertyPairs.push({
-                                        selector: nestedSelector,
-                                        property: property,
-                                        target: {
-                                            object: setting.fieldSettings[m],
-                                            key: 'value'
-                                        },
-                                        layout: setting.layout || item.layout
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            let uniquePairs = [];
-            let uniqueKeys = new Set();
-
-            for (const pair of allSelectorPropertyPairs) {
-                const key = `${pair.selector}|${pair.property}`;
-                if (!uniqueKeys.has(key)) {
-                    uniqueKeys.add(key);
-                    uniquePairs.push(pair);
-                }
-            }
-
-            if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
-
-                if (layoutId) {
-                    const layoutSelectorTarget = '#' + layoutId;
-                    const processedPairs = [];
-
-                    for (const pair of uniquePairs) {
-                        let finalSelector = pair.selector;
-
-                        if (pair.selector === ':root') {
-                            finalSelector = layoutSelectorTarget;
-                        }
-
-                        let includeThisPair = false;
-                        if (finalSelector === layoutSelectorTarget || (pair.layout && pair.layout == layoutId)) {
-                            includeThisPair = true;
-                        }
-
-                        if (includeThisPair) {
-                            const pairToAdd = {...pair};
-                            pairToAdd.selector = finalSelector;
-                            processedPairs.push(pairToAdd);
-                        }
-                    }
-                    uniquePairs = processedPairs;
-
-                    const finalUniquePairsAfterTransform = [];
-                    const finalUniqueKeysAfterTransform = new Set();
-                    for (const p of uniquePairs) {
-                        const key = `${p.selector}|${p.property}`;
-                        if (!finalUniqueKeysAfterTransform.has(key)) {
-                            finalUniqueKeysAfterTransform.add(key);
-                            finalUniquePairsAfterTransform.push(p);
-                        }
-                    }
-                    uniquePairs = finalUniquePairsAfterTransform;
-                } else {
-                    uniquePairs = [];
-                }
-            }
-
-            for (const pair of uniquePairs) {
-                const propertyValue = window.mw?.top()?.app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
-                if (pair.target && typeof pair.target.object === 'object' && pair.target.object !== null) {
-                    pair.target.object[pair.target.key] = propertyValue;
-                }
-            }
-
-            let valuesForEdit = {};
-            for (const pair of uniquePairs) {
-                const propertyValue = window.mw?.top()?.app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
-                let selectorKey = pair.selector;
-
-                if (!valuesForEdit[selectorKey]) {
-                    valuesForEdit[selectorKey] = {};
-                }
-
-                valuesForEdit[selectorKey][pair.property] = propertyValue;
-            }
-
-            if (Object.keys(valuesForEdit).length === 0 &&
-                window.css_vars_design_apply_mode === 'layout' &&
-                window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
-                if (layoutId) {
-                    valuesForEdit['#' + layoutId] = {};
-                }
-            }
-
-            return valuesForEdit;
-        },
-
-        setupEventListeners() {
-            // Setup event listeners for CSS editor and other MW events
-            if (window.mw?.top()?.app) {
-                window.mw.top().app.on('fontsChanged', () => {
-                    if (window.mw.top().app.fontManager) {
-                        window.mw.top().app.fontManager.reloadLiveEdit();
-                    }
-
-                    setTimeout(() => {
-                        if (window.mw?.top()?.app?.templateSettings) {
-                            window.mw.top().app.templateSettings.reloadStylesheet(this.styleSheetSourceFile, this.optionGroupLess);
-                        }
-                    }, 1000);
-                });
-
-                // Setup style editor event listener
-                window.mw.top().app.on('mw.rte.css.editor2.open', (settings) => {
-                    this.openRTECssEditor2Vue(settings);
-                });
-            }
-        },
-
         setupLayoutListener() {
             // Setup layout selection and tracking
             this.$nextTick(() => {
@@ -853,14 +872,9 @@ export default {
                 }
             });
         },
-
-        handleApplyModeChange() {
-            window.css_vars_design_apply_mode = this.applyMode;
-            const activeLayout = window.mw?.top()?.app?.liveEdit?.getSelectedLayoutNode();
-            window.css_vars_design_active_layout = activeLayout;
-            this.updateLayoutIdDisplay();
+        setupEventListeners() {
+            // Add any additional event listeners here
         },
-
         updateLayoutIdDisplay() {
             if (this.applyMode === 'layout') {
                 const activeLayout = window.css_vars_design_active_layout;
@@ -920,81 +934,25 @@ export default {
                         }
                     }
                 }
+            }        },
+
+        registerPropertyChangeListener(callback) {
+            // Store callback for Vue 3 event handling since we can't use $on/$off
+            if (!this.propertyChangeListeners) {
+                this.propertyChangeListeners = [];
             }
+            this.propertyChangeListeners.push(callback);
         },
 
-        async changeDesign(about) {
-            if (!window.mw?.top()?.win?.MwAi) {
-                alert('AI functionality is not available');
-                return;
-            }
-
-            let designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
-
-            if (!about) {
-                about = prompt('Please enter the design task description:', 'Make it blue and white');
-                if (!about) return;
-            }
-
-            designSelectors = this.prepareAndCleanTemplateStylesAndSelectorsData(designSelectors);
-            const valuesForEdit = this.prepareTemplateValuesForEdit(designSelectors);
-
-            console.log('valuesForEdit:', valuesForEdit);
-            let editSchema = JSON.stringify(valuesForEdit);
-
-            const message = `Using the existing object IDS,
-By using this schema: \n ${editSchema} \n
-You must write CSS values to the given object,
-You are CSS values editor, you must edit the values of the css to complete the user design task,
-
-The css design task is : ${about}
-
-You must write the text for the website and fill the existing object IDs with the text,
-
-You must respond ONLY with the JSON schema with the following structure. Do not add any additional comments""" + \\
-"""[
-  JSON
-{
-   { Populated Schema Definition with the items filled with text ... populate the schema with the existing object IDs and the text  }
-"""`
-
-            let messageOptions = {schema: editSchema};
-            window.mw.top().spinner({element: window.mw.top().doc.body, size: 60, decorate: true}).show();
-
-            let messages = [{role: 'user', content: message}];
-
-            try {
-                let res = await window.mw.top().win.MwAi().sendToChat(messages, messageOptions);
-
-                if (res.success && res.data) {
-                    for (let selector in res.data) {
-                        if (res.data.hasOwnProperty(selector)) {
-                            for (let property in res.data[selector]) {
-                                if (res.data[selector].hasOwnProperty(property)) {
-                                    const value = res.data[selector][property];
-
-                                    if (window.mw?.top()?.app?.cssEditor) {
-                                        const unit = property.includes('color') ? '' : '';
-                                        window.mw.top().app.cssEditor.setPropertyForSelector(
-                                            selector,
-                                            property,
-                                            value + unit,
-                                            true,
-                                            true
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
+        unregisterPropertyChangeListener(callback) {
+            // Remove callback from listeners array
+            if (this.propertyChangeListeners) {
+                const index = this.propertyChangeListeners.indexOf(callback);
+                if (index > -1) {
+                    this.propertyChangeListeners.splice(index, 1);
                 }
-            } catch (error) {
-                console.error('AI design change failed:', error);
-                alert('Failed to change design with AI');
-            } finally {
-                window.mw.top().spinner({element: window.mw.top().doc.body, size: 60, decorate: true}).remove();
             }
-        }
+        },
     }
 };
 </script>

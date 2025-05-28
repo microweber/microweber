@@ -4,22 +4,22 @@
         <div v-if="setting.description" class="mb-2">
             <small>{{ setting.description }}</small>
         </div>
-        
+
         <div v-if="setting.fieldSettings && setting.fieldSettings.colors" class="color-palette-container">
-            <div v-for="(colorPalette, index) in setting.fieldSettings.colors" :key="index" 
+            <div v-for="(colorPalette, index) in setting.fieldSettings.colors" :key="index"
                  class="mt-2 color-palette-item" @click="applyColorPalette(colorPalette)">
                 <div class="d-flex flex-cols gap-2 cursor-pointer">
-                    <div v-if="colorPalette.name" 
+                    <div v-if="colorPalette.name"
                          class="color-swatch"
                          :style="{ background: colorPalette.name }">
                     </div>
-                    
+
                     <div v-for="(mainColor, colorIndex) in colorPalette.mainColors" :key="colorIndex"
                          class="color-swatch"
                          :style="{ background: mainColor }">
                     </div>
                 </div>
-                
+
                 <div v-if="colorPalette.label" class="palette-label mt-1">
                     <small>{{ colorPalette.label }}</small>
                 </div>
@@ -46,22 +46,21 @@ export default {
     },
     methods: {
         applyColorPalette(colorPalette) {
-            if (!window.mw?.top()?.app?.cssEditor) return;
-            
             if (colorPalette.properties) {
+                const updates = [];
                 Object.keys(colorPalette.properties).forEach(property => {
-                    const value = colorPalette.properties[property];
-                    window.mw.top().app.cssEditor.setPropertyForSelector(
-                        this.selectorToApply, 
-                        property, 
-                        value, 
-                        true, 
-                        true
-                    );
+                    updates.push({
+                        selector: this.selectorToApply, // or this.rootSelector if applicable to the palette's design
+                        property: property,
+                        value: colorPalette.properties[property]
+                    });
                 });
+                if (updates.length > 0) {
+                    this.$emit('batch-update', updates);
+                }
             }
-            
-            this.$emit('update', {
+
+            this.$emit('palette-applied', {
                 selector: this.selectorToApply,
                 palette: colorPalette
             });

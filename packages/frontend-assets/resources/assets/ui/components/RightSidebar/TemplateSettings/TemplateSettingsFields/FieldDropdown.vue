@@ -1,6 +1,6 @@
 <template>
     <DropdownSmall 
-        v-model="currentValue"
+        v-model="setting.fieldSettings.value"
         :label="setting.title"
         :options="formattedOptions"
         @update:modelValue="updateValue"
@@ -14,6 +14,7 @@ export default {
     components: {
         DropdownSmall
     },
+    inject: ['templateSettings'],
     props: {
         setting: {
             type: Object,
@@ -32,42 +33,22 @@ export default {
             }));
         }
     },
-    data() {
-        return {
-            currentValue: ''
-        };
-    },
-    mounted() {
-        if (window.mw?.top()?.app?.cssEditor) {
-            this.currentValue = window.mw.top().app.cssEditor.getPropertyForSelector(
-                this.selectorToApply, 
-                this.setting.fieldSettings.property
-            ) || '';
-        }
-        
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.on('setPropertyForSelector', this.onPropertyChange);
-        }
-    },
     methods: {
         updateValue(value) {
-            this.currentValue = value;
             this.$emit('update', {
                 selector: this.selectorToApply,
                 property: this.setting.fieldSettings.property,
                 value: value
             });
-        },
-        onPropertyChange(event) {
-            if (event.selector === this.selectorToApply && 
-                event.property === this.setting.fieldSettings.property) {
-                this.currentValue = event.value || '';
-            }
         }
     },
-    beforeUnmount() {
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.off('setPropertyForSelector', this.onPropertyChange);
+    mounted() {
+        // Get initial value from parent's CSS property cache
+        if (this.setting.fieldSettings?.property && this.templateSettings) {
+            const currentValue = this.templateSettings.getCssPropertyValue(this.selectorToApply, this.setting.fieldSettings.property);
+            if (currentValue !== undefined && currentValue !== null) {
+                this.setting.fieldSettings.value = currentValue;
+            }
         }
     }
 };

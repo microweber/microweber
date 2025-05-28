@@ -1,7 +1,7 @@
 <template>
     <SliderSmall
         :label="setting.title"
-        :modelValue="stripUnit(currentValue)"
+        :modelValue="currentSliderValue"
         :min="setting.fieldSettings.min"
         :max="setting.fieldSettings.max"
         :step="setting.fieldSettings.step"
@@ -11,12 +11,11 @@
 </template>
 
 <script>
-
-
 import SliderSmall from "../../../../apps/ElementStyleEditor/components/SliderSmall.vue";
 
 export default {
     components: { SliderSmall },
+    inject: ['templateSettings'],
     props: {
         setting: {
             type: Object,
@@ -29,48 +28,50 @@ export default {
     },
     data() {
         return {
-            currentValue: '0'
+            currentSliderValue: 0
         };
     },
-    mounted() {
-        if (window.mw?.top()?.app?.cssEditor) {
-            let val = window.mw.top().app.cssEditor.getPropertyForSelector(
-                this.selectorToApply,
-                this.setting.fieldSettings.property
-            ) || '0' + this.setting.fieldSettings.unit;
-
-            this.currentValue = this.stripUnit(val);
+    watch: {
+        // Watch for changes in the setting's value
+        'setting.fieldSettings.value': {
+            handler(newValue) {
+                if (newValue !== undefined && newValue !== null) {
+                    const strippedValue = this.stripUnit(newValue);
+                    if (strippedValue !== this.currentSliderValue) {
+                        this.currentSliderValue = strippedValue;
+                    }
+                }
+            },
+            immediate: true
         }
-
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.on('setPropertyForSelector', this.onPropertyChange);
+    },
+    mounted() {
+        // Initialize the slider value from parent component's cached CSS values
+        if (this.templateSettings && this.selectorToApply && this.setting.fieldSettings.property) {
+            const cssValue = this.templateSettings.getCssPropertyValue(this.selectorToApply, this.setting.fieldSettings.property);
+            if (cssValue) {
+                this.currentSliderValue = this.stripUnit(cssValue);
+            } else if (this.setting.fieldSettings.value) {
+                this.currentSliderValue = this.stripUnit(this.setting.fieldSettings.value);
+            }
+        } else if (this.setting.fieldSettings.value) {
+            this.currentSliderValue = this.stripUnit(this.setting.fieldSettings.value);
         }
     },
     methods: {
         stripUnit(value) {
-            if (!value) return '0';
-            return String(value).replace(this.setting.fieldSettings.unit, '');
+            if (!value) return 0;
+            const unit = this.setting.fieldSettings.unit || '';
+            return parseFloat(String(value).replace(unit, ''));
         },
         handleSliderUpdate(newValue) {
-            this.currentValue = newValue;
-            const valueWithUnit = newValue + this.setting.fieldSettings.unit;
-
+            this.currentSliderValue = newValue;
+            const valueWithUnit = newValue + (this.setting.fieldSettings.unit || '');
             this.$emit('update', {
                 selector: this.selectorToApply,
                 property: this.setting.fieldSettings.property,
                 value: valueWithUnit
             });
-        },
-        onPropertyChange(event) {
-            if (event.selector === this.selectorToApply &&
-                event.property === this.setting.fieldSettings.property) {
-                this.currentValue = this.stripUnit(event.value);
-            }
-        }
-    },
-    beforeUnmount() {
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.off('setPropertyForSelector', this.onPropertyChange);
         }
     }
 };

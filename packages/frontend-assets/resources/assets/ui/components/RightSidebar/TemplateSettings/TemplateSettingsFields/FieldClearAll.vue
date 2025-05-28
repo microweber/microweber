@@ -30,27 +30,29 @@ export default {
     },
     methods: {
         clearAll() {
-            if (!window.mw?.top()?.app?.cssEditor) return;
-            
+            if (!this.setting.fieldSettings || !this.setting.fieldSettings.properties) return;
+
             window.mw.confirm('Are you sure you want to clear styles?', () => {
+                const updates = [];
                 for (const property of this.setting.fieldSettings.properties) {
-                    window.mw.top().app.cssEditor.setPropertyForSelector(
-                        this.selectorToApply, 
-                        property, 
-                        '', 
-                        true, 
-                        true
-                    );
-                    
-                    if (this.rootSelector) {
-                        window.mw.top().app.cssEditor.setPropertyForSelector(
-                            this.rootSelector, 
-                            property, 
-                            '', 
-                            true, 
-                            true
-                        );
+                    updates.push({
+                        selector: this.selectorToApply,
+                        property: property,
+                        value: '' // Reset value to empty
+                    });
+
+                    // If a rootSelector is also provided and relevant for clearing, add it to updates too.
+                    // This depends on how `clearAll` is intended to behave with root selectors.
+                    if (this.rootSelector && this.rootSelector !== this.selectorToApply) { // Avoid duplicate if they are the same
+                         updates.push({
+                            selector: this.rootSelector,
+                            property: property,
+                            value: '' // Reset value to empty
+                        });
                     }
+                }
+                if (updates.length > 0) {
+                    this.$emit('batch-update', updates);
                 }
             });
         }

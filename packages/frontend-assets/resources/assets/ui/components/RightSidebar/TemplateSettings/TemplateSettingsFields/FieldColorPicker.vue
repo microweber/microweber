@@ -1,7 +1,8 @@
 <template>
     <div>
-        <ColorPicker 
-            :color="currentValue"
+
+        <ColorPicker
+            :color="currentColorValue"
             @change="updateValue"
             :label="setting.title"
         />
@@ -15,6 +16,7 @@ export default {
     components: {
         ColorPicker
     },
+    inject: ['templateSettings'],
     props: {
         setting: {
             type: Object,
@@ -27,40 +29,44 @@ export default {
     },
     data() {
         return {
-            currentValue: ''
+            currentColorValue: null
         };
     },
-    mounted() {
-        if (window.mw?.top()?.app?.cssEditor) {
-            this.currentValue = window.mw.top().app.cssEditor.getPropertyForSelector(
-                this.selectorToApply, 
-                this.setting.fieldSettings.property
-            ) || '';
+    watch: {
+        // Watch for changes in the setting's value
+        'setting.fieldSettings.value': {
+            handler(newValue) {
+                if (newValue !== this.currentColorValue) {
+                    this.currentColorValue = newValue;
+                }
+            },
+            immediate: true
         }
-        
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.on('setPropertyForSelector', this.onPropertyChange);
+    },
+    mounted() {
+        // Initialize the color value from parent component's cached CSS values
+        if (this.templateSettings && this.selectorToApply && this.setting.fieldSettings.property) {
+
+            const cssValue = this.templateSettings.getCssPropertyValue(this.selectorToApply, this.setting.fieldSettings.property);
+
+
+            if (cssValue) {
+                this.currentColorValue = cssValue;
+            } else {
+                this.currentColorValue = this.setting.fieldSettings.value || '';
+            }
+        } else {
+            this.currentColorValue = this.setting.fieldSettings.value || '';
         }
     },
     methods: {
         updateValue(value) {
-            this.currentValue = value;
+            this.currentColorValue = value;
             this.$emit('update', {
                 selector: this.selectorToApply,
                 property: this.setting.fieldSettings.property,
                 value: value
             });
-        },
-        onPropertyChange(event) {
-            if (event.selector === this.selectorToApply && 
-                event.property === this.setting.fieldSettings.property) {
-                this.currentValue = event.value || '';
-            }
-        }
-    },
-    beforeUnmount() {
-        if (window.mw?.top()?.app) {
-            window.mw.top().app.off('setPropertyForSelector', this.onPropertyChange);
         }
     }
 };
