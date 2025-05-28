@@ -221,6 +221,11 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
         elementHandle.resizer.on('resizeStop', e => {
             this.isResizing = false;
             var target = mw.top().app.liveEdit.handles.get('element').getTarget();
+
+            if(!target){
+                return;
+            }
+
             var css = {
                 'max-width': '100%',
                 'width': target.style.width
