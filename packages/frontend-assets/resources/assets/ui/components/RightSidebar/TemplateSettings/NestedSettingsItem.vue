@@ -3,7 +3,7 @@
         <!-- Case 1: The setting is a field -->
         <div v-if="setting.fieldType">
             <!-- Display title/description for the field itself, if not a styleEditor button -->
-            <div v-if="setting.fieldType !== 'styleEditor' && setting.title">
+            <div v-if="setting.fieldType === 'info' && setting.title">
                  <!-- Using h5 or similar for field titles to distinguish from main group titles (h4 in parent) -->
                  <h5>{{ setting.title }}</h5>
                  <!-- Description should only be shown if this is the active view in the parent component -->

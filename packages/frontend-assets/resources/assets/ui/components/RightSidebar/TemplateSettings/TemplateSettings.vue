@@ -216,15 +216,19 @@
                                                     </span>
                                                 </label>
                                                 <div>
-                                                    <Slider
-                                                        :min="[setting.range.min ? setting.range.min : 0]"
-                                                        :max="[setting.range.max ? setting.range.max : 100]"
-                                                        :step="[setting.range.step ? setting.range.step : 1]"
-                                                        v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                        v-model="options[setting.optionGroup][settingKey]"
-                                                        :merge="1"
-                                                        :tooltips="false"
-                                                        :tooltipPosition="'right'"
+                                                    <FieldRangeSlider
+                                                        :setting="{
+                                                            title: setting.label,
+                                                            fieldSettings: {
+                                                                min: setting.range.min ? setting.range.min : 0,
+                                                                max: setting.range.max ? setting.range.max : 100,
+                                                                step: setting.range.step ? setting.range.step : 1,
+                                                                unit: setting.range.unit ? setting.range.unit : '',
+                                                                property: settingKey
+                                                            }
+                                                        }"
+                                                        :selectorToApply="':root'"
+                                                        @update="(data) => updateSettings(data.value, settingKey, setting.optionGroup)"
                                                     />
                                                 </div>
                                             </div>
@@ -322,11 +326,13 @@
 import axios from 'axios';
 import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
 import NestedSettingsItem from './NestedSettingsItem.vue';
+import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
 
 export default {
     components: {
         ColorPicker,
-        NestedSettingsItem
+        NestedSettingsItem,
+        FieldRangeSlider
     },
     data() {
         return {
