@@ -3,7 +3,7 @@
 }
 
 .page-link {
-    @apply relative block text-xs px-1.5 py-0.5 ml-[-1px] leading-5 text-gray-600 bg-white dark:bg-gray-900 border border-gray-300 !rounded-none;
+    @apply relative block text-xs px-1.5 py-0.5 ml-[-1px] leading-5 text-gray-600 bg-white dark:text-white dark:bg-gray-900 border border-gray-300 !rounded-none;
 }
 
 .page-link:hover {
