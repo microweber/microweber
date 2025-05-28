@@ -7151,7 +7151,7 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
   top: 240px;
 }
 .mw-control-box.active {
-  z-index: 100;
+  z-index: 1;
 }
 .mw-control-box {
   position: fixed;
