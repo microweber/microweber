@@ -307,8 +307,7 @@
                         <div v-on:click="resetTemplateSettings"
                              class="d-flex align-items-center justify-content-between cursor-pointer"
                              v-if="settings && settings.type == 'template'">
-                            <span>Reset Template Settings</span>
-                            <svg fill="currentColor" title="Reset template settings" xmlns="http://www.w3.org/2000/svg"
+                            <span>Reset Template Settings</span>                            <svg fill="currentColor" title="Reset template settings" xmlns="http://www.w3.org/2000/svg"
                                  height="18" viewBox="0 -960 960 960" width="18">
                                 <path
                                     d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/>
@@ -347,7 +346,8 @@ export default {
         return {
             templateSettings: this
         };
-    },    data() {
+    },
+    data() {
         return {
             isLoading: true,
             currentError: null,
@@ -409,7 +409,15 @@ export default {
                 }
                 return false;
             });
-        }
+        },
+
+        // Design mode checking and selector transformation methods
+        isLayoutMode() {
+            return this.applyMode === 'layout';
+        },
+
+        isTemplateMode() {
+            return this.applyMode === 'template';        },
     },
     mounted() {
         this.fetchData().then(() => {
@@ -457,8 +465,66 @@ export default {
             // When path changes, the relevant rootSelector might change, so re-evaluating values might be needed
             // if not all values are pre-cached. For now, initializeStyleValues fetches all.
         }
-    },
-    methods: {
+    },    methods: {
+        // Design mode checking and selector transformation methods
+        getActiveLayoutId() {
+            if (!this.isLayoutMode) return null;
+            
+            const activeLayout = window.css_vars_design_active_layout;
+            if (!activeLayout) return null;
+            
+            return typeof activeLayout === 'string'
+                ? activeLayout
+                : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+        },
+
+        transformSelectorBasedOnMode(selector, rootSelector = '') {
+            // If in template mode, no transformation needed
+            if (this.isTemplateMode) {
+                return this.applySelectorWithRoot(selector, rootSelector);
+            }
+
+            // If in layout mode, transform :root selectors to layout ID
+            if (this.isLayoutMode) {
+                const layoutId = this.getActiveLayoutId();
+                if (!layoutId) {
+                    console.warn('Layout mode active but no layout ID found');
+                    return this.applySelectorWithRoot(selector, rootSelector);
+                }
+
+                const layoutSelectorTarget = '#' + layoutId;
+
+                // Transform :root to layout ID
+                if (selector === ':root') {
+                    return layoutSelectorTarget;
+                }
+
+                // If the rootSelector is :root, use layout ID instead
+                if (rootSelector === ':root') {
+                    return selector ? `${layoutSelectorTarget} ${selector}`.trim() : layoutSelectorTarget;
+                }
+
+                // Apply normal root selector logic but with potential layout transformation
+                return this.applySelectorWithRoot(selector, rootSelector);
+            }
+
+            return selector;
+        },
+
+        applySelectorWithRoot(selector, rootSelector = '') {
+            if (!rootSelector || !selector) return selector || rootSelector || '';
+
+            if (selector === ':root') {
+                return rootSelector;
+            } else if (selector.startsWith(rootSelector) && rootSelector !== '') {
+                return selector;
+            } else {
+                const rs = rootSelector.trimEnd();
+                const s = selector.trimStart();
+                return `${rs} ${s}`.trim();
+            }
+        },
+
         async fetchData() {
             try {
                 this.isLoading = true;
@@ -580,13 +646,19 @@ export default {
             // Replace the entire object instead of using $set
             this.styleValues = reactive(newStyleValues);
         },        getCssPropertyValue(selector, property) {
-            const key = `${selector}|${property}`;
+            // Get the root selector for the current context
+            const rootSelector = this.getRootSelector();
+            
+            // Transform selector based on current design mode
+            const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
+            
+            const key = `${transformedSelector}|${property}`;
             if (this.styleValues.hasOwnProperty(key)) {
                 return this.styleValues[key];
             }
             // Fallback to cssEditor if not in cache
             if (window.mw?.top()?.app?.cssEditor) {
-                const value = window.mw.top().app.cssEditor.getPropertyForSelector(selector, property);
+                const value = window.mw.top().app.cssEditor.getPropertyForSelector(transformedSelector, property);
                 // Cache the value for future use
                 this.styleValues[key] = value;
                 return value;
@@ -595,10 +667,16 @@ export default {
         },
 
         updateCssProperty(selector, property, value) {
+            // Get the root selector for the current context
+            const rootSelector = this.getRootSelector();
+            
+            // Transform selector based on current design mode
+            const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
+            
             if (window.mw?.top()?.app?.cssEditor) {
-                window.mw.top().app.cssEditor.setPropertyForSelector(selector, property, value, true, true);
-                // Update our local cache immediately
-                const key = `${selector}|${property}`;
+                window.mw.top().app.cssEditor.setPropertyForSelector(transformedSelector, property, value, true, true);
+                // Update our local cache with the transformed selector
+                const key = `${transformedSelector}|${property}`;
                 this.styleValues[key] = value;
             }
         },        onPropertyChange({ selector, property, value }) {
@@ -942,9 +1020,7 @@ export default {
                 this.propertyChangeListeners = [];
             }
             this.propertyChangeListeners.push(callback);
-        },
-
-        unregisterPropertyChangeListener(callback) {
+        },        unregisterPropertyChangeListener(callback) {
             // Remove callback from listeners array
             if (this.propertyChangeListeners) {
                 const index = this.propertyChangeListeners.indexOf(callback);
@@ -952,6 +1028,167 @@ export default {
                     this.propertyChangeListeners.splice(index, 1);
                 }
             }
+        },
+
+        prepareAndCleanTemplateStylesAndSelectorsData(items) {
+            if (!Array.isArray(items)) return items;
+
+            return items.filter(item => {
+                if (item.fieldType === 'clearAll') return false;
+
+                ['readSettingsFromFiles', 'parent', 'backUrl', 'url'].forEach(prop => {
+                    if (item.hasOwnProperty(prop)) delete item[prop];
+                });
+
+                if (item.settings && Array.isArray(item.settings)) {
+                    item.settings = this.prepareAndCleanTemplateStylesAndSelectorsData(item.settings);
+                }
+
+                if (item.fieldSettings && Array.isArray(item.fieldSettings)) {
+                    item.fieldSettings = this.prepareAndCleanTemplateStylesAndSelectorsData(item.fieldSettings);
+                }
+
+                return item.settings?.length > 0 || item.fieldSettings || item.selectors;
+            });
+        },
+
+        prepareTemplateValuesForEdit(designSelectors) {
+            designSelectors = designSelectors.filter(item => {
+                return item.settings && Array.isArray(item.settings) && item.settings.length > 0;
+            });
+
+            let allSelectorPropertyPairs = [];
+
+            for (let i = 0; i < designSelectors.length; i++) {
+                let item = designSelectors[i];
+
+                for (let k = 0; k < item.settings.length; k++) {
+                    let setting = item.settings[k];
+
+                    if (setting.selectors && setting.selectors.length > 0 && setting.fieldSettings) {
+                        const nestedSelector = setting.selectors[0];
+
+                        if (!Array.isArray(setting.fieldSettings) && typeof setting.fieldSettings === 'object') {
+                            const property = setting.fieldSettings.property;
+                            if (property) {
+                                allSelectorPropertyPairs.push({
+                                    selector: nestedSelector,
+                                    property: property,
+                                    target: {
+                                        object: setting.fieldSettings,
+                                        key: 'value'
+                                    },
+                                    layout: setting.layout || item.layout
+                                });
+                            }
+                        } else if (Array.isArray(setting.fieldSettings) && setting.fieldSettings.length > 0) {
+                            for (let m = 0; m < setting.fieldSettings.length; m++) {
+                                const property = setting.fieldSettings[m].property;
+                                if (property) {
+                                    allSelectorPropertyPairs.push({
+                                        selector: nestedSelector,
+                                        property: property,
+                                        target: {
+                                            object: setting.fieldSettings[m],
+                                            key: 'value'
+                                        },
+                                        layout: setting.layout || item.layout
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            let uniquePairs = [];
+            let uniqueKeys = new Set();
+
+            for (const pair of allSelectorPropertyPairs) {
+                const key = `${pair.selector}|${pair.property}`;
+                if (!uniqueKeys.has(key)) {
+                    uniqueKeys.add(key);
+                    uniquePairs.push(pair);
+                }
+            }
+
+            if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
+                const activeLayout = window.css_vars_design_active_layout;
+                const layoutId = typeof activeLayout === 'string'
+                    ? activeLayout
+                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+
+                if (layoutId) {
+                    const layoutSelectorTarget = '#' + layoutId;
+                    const processedPairs = [];
+
+                    for (const pair of uniquePairs) {
+                        let finalSelector = pair.selector;
+
+                        if (pair.selector === ':root') {
+                            finalSelector = layoutSelectorTarget;
+                        }
+
+                        let includeThisPair = false;
+                        if (finalSelector === layoutSelectorTarget || (pair.layout && pair.layout == layoutId)) {
+                            includeThisPair = true;
+                        }
+
+                        if (includeThisPair) {
+                            const pairToAdd = {...pair};
+                            pairToAdd.selector = finalSelector;
+                            processedPairs.push(pairToAdd);
+                        }
+                    }
+                    uniquePairs = processedPairs;
+
+                    const finalUniquePairsAfterTransform = [];
+                    const finalUniqueKeysAfterTransform = new Set();
+                    for (const p of uniquePairs) {
+                        const key = `${p.selector}|${p.property}`;
+                        if (!finalUniqueKeysAfterTransform.has(key)) {
+                            finalUniqueKeysAfterTransform.add(key);
+                            finalUniquePairsAfterTransform.push(p);
+                        }
+                    }
+                    uniquePairs = finalUniquePairsAfterTransform;
+                } else {
+                    uniquePairs = [];
+                }
+            }
+
+            for (const pair of uniquePairs) {
+                const propertyValue = window.mw?.top()?.app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
+                if (pair.target && typeof pair.target.object === 'object' && pair.target.object !== null) {
+                    pair.target.object[pair.target.key] = propertyValue;
+                }
+            }
+
+            let valuesForEdit = {};
+            for (const pair of uniquePairs) {
+                const propertyValue = window.mw?.top()?.app?.cssEditor?.getPropertyForSelector(pair.selector, pair.property);
+                let selectorKey = pair.selector;
+
+                if (!valuesForEdit[selectorKey]) {
+                    valuesForEdit[selectorKey] = {};
+                }
+
+                valuesForEdit[selectorKey][pair.property] = propertyValue;
+            }
+
+            if (Object.keys(valuesForEdit).length === 0 &&
+                window.css_vars_design_apply_mode === 'layout' &&
+                window.css_vars_design_active_layout) {
+                const activeLayout = window.css_vars_design_active_layout;
+                const layoutId = typeof activeLayout === 'string'
+                    ? activeLayout
+                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+                if (layoutId) {
+                    valuesForEdit['#' + layoutId] = {};
+                }
+            }
+
+            return valuesForEdit;
         },
     }
 };

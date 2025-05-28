@@ -41,22 +41,25 @@ export default {
             type: String,
             default: '#ffffff',
         },
-    },
-    data() {
-
-        var colorHex = this.getHexColorDisplayValueText(this.color)
+    },    data() {
+        var colorValue = this.color || '#ffffff';
+        var colorHex = this.getHexColorDisplayValueText(colorValue);
 
         return {
-            selectedColor: this.color,
-
+            selectedColor: colorValue,
             selectedColorHex: colorHex,
         };
-    },
-    watch: {
+    },watch: {
         color(newColor) {
             this.selectedColor = newColor;
             this.setHexColorDisplay(newColor);
         },
+    },
+    mounted() {
+        // Set initial color display when component is mounted
+        this.$nextTick(() => {
+            this.setHexColorDisplay(this.color);
+        });
     },
     methods: {
         getHexColorDisplayValueText(newColor) {
@@ -85,31 +88,27 @@ export default {
             }
             return newColor;
 
-        },
-
-        setHexColorDisplay(newColor) {
-            this.$refs.colorPickerButton.style.backgroundColor = newColor;
+        },        setHexColorDisplay(newColor) {
+            if (this.$refs.colorPickerButton) {
+                if (!newColor || newColor === 'transparent' || newColor === '') {
+                    this.$refs.colorPickerButton.style.backgroundColor = 'transparent';
+                } else {
+                    this.$refs.colorPickerButton.style.backgroundColor = newColor;
+                }
+            }
             this.selectedColorHex = this.getHexColorDisplayValueText(newColor);
         },
         handleColorChange(event) {
             const newColor = event.target.value;
             this.setNewColor(newColor);
-        },
-        setNewColor(newColor) {
+        },        setNewColor(newColor) {
             this.selectedColor = newColor;
-
             this.setHexColorDisplay(newColor);
-
-
-            this.$refs.colorPickerButton.style.backgroundColor = newColor;
-
-
             this.$emit('change', newColor);
-        },
-        resetColor() {
+        },        resetColor() {
             this.selectedColor = '';
+            this.setHexColorDisplay('');
             this.$emit('change', this.selectedColor);
-            this.$refs.colorPickerButton.style.backgroundColor = 'transparent';
         },
         togglePicker() {
             let el = this.$refs.colorPickerButton;
