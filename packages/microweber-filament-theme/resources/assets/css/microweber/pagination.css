@@ -23,7 +23,7 @@
 }
 
 .page-item.active .page-link {
-    @apply z-10 text-white bg-gray-600 border-gray-600 dark:bg-gray-800 dark:border-white dark:text-black;
+    @apply z-10 text-white bg-gray-600 border-gray-600 dark:bg-gray-700 dark:border-white dark:text-white;
 }
 
 .page-item.disabled .page-link {
