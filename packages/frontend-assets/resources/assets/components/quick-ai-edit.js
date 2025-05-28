@@ -1,4 +1,3 @@
-import { node } from "webpack";
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
 import {AIChatForm} from "./ai-chat.js";
 
