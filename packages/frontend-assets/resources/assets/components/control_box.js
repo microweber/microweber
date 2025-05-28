@@ -10,7 +10,7 @@ const css = `
         display: block;
     }
     .mw-control-box.active {
-        z-index: 100;
+        z-index: 1;
     }
     .mw-control-box {
         position: fixed;
