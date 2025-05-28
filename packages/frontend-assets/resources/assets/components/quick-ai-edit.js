@@ -1,3 +1,4 @@
+import { node } from "webpack";
 import MicroweberBaseClass from "../api-core/services/containers/base-class.js";
 import {AIChatForm} from "./ai-chat.js";
 
@@ -235,14 +236,20 @@ class QuickEditService extends MicroweberBaseClass {
                     curr.node = node;
                 }
                 if (onNode) {
-                    onNode.call(undefined, curr)
+                    const onres = onNode.call(this.component, curr, node);
+                    if(onres !== false) {
+                        return curr;
+                    }
+                } else {
+                    return curr
                 }
-                return curr
-            });
+
+            })
+            .filter(itm => !!itm);
     }
 
 
-    collect(edits, toJson, onNode) {0
+    collect(edits, toJson, onNode) {
         const result = [];
         edits = edits || Array.from(this.component.settings.root.querySelectorAll(this.component.settings.editsSelector));
 
@@ -267,9 +274,14 @@ class QuickEditService extends MicroweberBaseClass {
                 edits = edits.filter(child => children.indexOf(child) === -1);
                 curr.children = this.collect(children, toJson, onNode);
             }
-            result.push(curr);
+
             if (onNode) {
-                onNode.call(this.instance, curr)
+                const onres = onNode.call(this.component, curr, edit);
+                if(onres !== false) {
+                    result.push(curr);
+                }
+            } else {
+                result.push(curr);
             }
 
         }
@@ -277,28 +289,42 @@ class QuickEditService extends MicroweberBaseClass {
         return result;
     }
 
+    collectImages(edits, toJson) {
+        const result = [];
+        this.collect(edits, toJson, (curr, node) => {
+            if(node.nodeName === 'IMG') {
+                result.push(curr);
+            }
+        });
+        return result;
+    }
 
-    toJSON() {
-        return this.collect(undefined, true);
+    collectTexts(edits, toJson) {
+        return this.collect(edits, toJson, (curr, node) => {
+
+            return node.nodeName !== 'IMG';
+        });
+    }
+
+
+    toJSON(onNode) {
+        return this.collect(undefined, true, onNode);
     }
 
 }
 
-const useAi = (messages, messagesOptions) => MwAi().sendToChat(messages, messagesOptions).then(data => [data, null]).catch(err => [null, err]);
 
-const defaultAiAdapter = async (message, options) => {
+
+
+const sendToChat = (messages, messagesOptions) => (MwAi().sendToChat(messages, messagesOptions).then(data => [data, null]).catch(err => [null, err]));
+const generateImage =  (messages, messagesOptions) =>(MwAi().generateImage(messages, messagesOptions).then(data => [data, null]).catch(err => [null, err]));
+
+
+const defaultAiTextAdapter = async (message, options) => {
 
     if (window.MwAi) {
-
         let messages = [{role: 'user', content: message}];
-
-        let messagesOptions = options;
-
-        let [res, err] = await useAi(messages, messagesOptions);
-        //  res = JSON.parse(res);
-
-
-
+        let [res, err] = await sendToChat(messages, options);
         if (res) {
             return res;
 
@@ -313,6 +339,29 @@ const defaultAiAdapter = async (message, options) => {
 }
 
 
+const defaultAiImagesAdapter = async (message, numberOfImages = 1, messagesOptions) => {
+
+        let messages = [{role: 'user', content: message}];
+        const arr = Array.from({length: numberOfImages}).map(() => generateImage(messages, messagesOptions))
+
+        let res = await Promise.all(arr);
+
+        res = res.map(itm => itm[0]).filter(itm => !!itm);
+
+        if (res) {
+            return res;
+
+        } else {
+            return {
+                succcess: false,
+                message: 'Error'
+            }
+        }
+
+
+}
+
+
 export class QuickEditComponent extends MicroweberBaseClass {
     constructor(options = {}) {
         super()
@@ -321,13 +370,15 @@ export class QuickEditComponent extends MicroweberBaseClass {
             root: mw.top().app.canvas.getDocument().body,
             nodesSelector: 'h1,h2,h3,h4,h5,h6,p,img',
             editsSelector: '.edit[rel][field]:not(.module)',
-            aiAdapter: defaultAiAdapter
+            aiTextAdapter: defaultAiTextAdapter,
+            aiImagesAdapter: defaultAiImagesAdapter,
         }
         this.settings = Object.assign({}, defaults, options);
         this.api = new QuickEditService(this);
         this.gui = new QuickEditGUI(this);
 
-        this.aiAdapter = this.settings.aiAdapter;
+        this.aiTextAdapter = this.settings.aiTextAdapter;
+        this.aiImagesAdapter = this.settings.aiImagesAdapter;
         this.editMode = 'whole-page'; // Add default edit mode
 
         this.on('change', obj => {
@@ -338,6 +389,8 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
         })
+
+        top.p = this;
     }
 
     #currentEditor = null;
@@ -404,6 +457,16 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
     }
 
+    applyImages(images = []) {
+        const canvasNodes = this.canvasNodes.filter(node => node.nodeName === 'IMG')
+        const editorNodes = this.editorNodes.filter(node => node.$$ref.tag === 'IMG')
+        images.forEach((img, i) => {
+            canvasNodes[i].src = img;
+            editorNodes[i].querySelector('img').src = img;
+            mw.top().app.registerChangedState(canvasNodes[i]);
+        })
+    }
+
     applyJSON(json = [], extend = true) {
 
         // Handle case where json is wrapped in a response object
@@ -419,6 +482,9 @@ export class QuickEditComponent extends MicroweberBaseClass {
         // Check for content array at the top level
         if (json.content && Array.isArray(json.content)) {
             json = json.content;
+        }
+        if (json.items && Array.isArray(json.items)) {
+            json = json.items;
         }
 
         // Handle case where json is a single object rather than an array
@@ -608,7 +674,10 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
         this.observer();
 
-        editor.appendChild(this.aiGUI())
+        editor.appendChild(this.aiGUI());
+
+        this.canvasNodes = nodes;
+        this.editorNodes = enodes;
 
         return editor;
     }
@@ -641,9 +710,32 @@ export class QuickEditComponent extends MicroweberBaseClass {
         return this.api.collect();
     }
 
-    aiGUI() {
-        const aiChatForm = new AIChatForm();
+    collectTexts(edits, toJson) {
+        return this.api.collectTexts(edits, toJson)
+    }
 
+    collectImages(edits, toJson) {
+        return this.api.collectImages(edits, toJson)
+    }
+
+    aiGUI() {
+        const chatOptions = [
+            {id: 'images', content: mw.lang('Regenerate Images')},
+            {id: 'text', content: mw.lang('Regenerate texts')},
+            {id: 'all', content: mw.lang('Regenerate texts and images'), selected: false},
+        ];
+        const aiChatForm = new AIChatForm({
+            chatOptions,
+        });
+
+        this.aiChatForm = aiChatForm;
+
+        this.chatOption = 'all';
+
+
+        aiChatForm.on("chatOptionChange", value => {
+            this.chatOption = value;
+        });
 
         aiChatForm.on("submit", async value => {
 
@@ -660,6 +752,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
     #aiPending = false
 
     async ai(about) {
+        console.log(this.collectTexts());
         if (this.#aiPending) {
             return;
         }
@@ -693,7 +786,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
 
 
-        content: \n ${JSON.stringify(this.toJSON())}
+        content: \n ${JSON.stringify(this.collectTexts(undefined, true))}
 
 
 
@@ -716,19 +809,28 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
         messageOptions.schema = editSchema;
 
 
+        if(this.chatOption === 'all' || this.chatOption === 'text') {
+            let textRes = await this.aiTextAdapter(message, messageOptions);
 
-        let res = await this.aiAdapter(message, messageOptions);
+            if (textRes.success  && textRes.data?.content) {
+                this.applyJSON(textRes.data.content);
 
-        if (res.success && res.data && res.data.content) {
-            this.applyJSON(res.data.content);
+            } else if (textRes.success && textRes.data) {
+                this.applyJSON(textRes.data);
 
-        } else if (res.success && res.data && res.data) {
-            this.applyJSON(res.data);
+            } else {
+                console.error(textRes.message);
+            }
+        }
 
-        } else {
-            console.error(res.message);
+
+
+        if(this.chatOption === 'all' || this.chatOption === 'images') {
+            let imageRes = await this.aiImagesAdapter(about, this.collectImages(undefined, true).length);
+            this.applyImages(imageRes)
 
         }
+
 
 
         mw.top().spinner(({element: mw.top().doc.body, size: 60, decorate: true})).remove();

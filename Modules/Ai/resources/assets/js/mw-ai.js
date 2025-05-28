@@ -5,7 +5,7 @@ function MwAi() {
 
         },
 
-        async generateImage(messages, options = {}) {
+        generateImage(messages, options = {}) {
             return new Promise((resolve, reject) => {
                 let data = {
                     messages: messages,

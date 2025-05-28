@@ -67,32 +67,36 @@ const AIChatFormCSS= `
         border-radius: 20px !important;
       }
 
+      .mw-ai-chat-box-options select selectedcontent{
+        white-space: nowrap;
+      }
       .mw-ai-chat-box-options select{
         width: 140px;
         height:31px;
         font-size:12px;
-        selectedcontent{
-            white-space-nowrap;
-        }
+
 
       }
 
 `;
-const AIChatFormTpl = (multiLine, placeholder) => `
+
+
+
+
+const AIChatFormTpl = (multiLine, placeholder, options) => `
     <div class="mw-ai-chat-box">
         <div class="mw-ai-chat-box-area">
             <${multiLine ? 'textarea' : 'input' } class="mw-ai-chat-box-area-field" placeholder="${placeholder || mw.lang('Enter topic')}">${multiLine ? '</textarea>' : ''}
             <div class="mw-ai-chat-box-footer">
                 <div class="mw-ai-chat-box-options">
-                    <select class="mw-native-select">
+                ${options ? `
+                    <select class="mw-native-select" name="chatOptions">
                         <button>
                             <selectedcontent></selectedcontent>
                         </button>
                         <option value="" selected disabled>${mw.lang('Choose action')}</option>
-                        <option value="images">${mw.lang('Regenerate Images')}</option>
-                        <option value="text">${mw.lang('Regenerate texts')}</option>
-                        <option value="all">${mw.lang('Regenerate texts and images')}</option>
-                    </select>
+                        ${options.map(o => `<option value="${o.id}" ${o.selected ? 'selected' : ''}>${o.content}</option>`).join('')}
+                    </select>`: ''}
                 </div>
                 <div class="mw-ai-chat-box-actions">
                     <button type="button" class="mw-ai-chat-box-action-voice">${mw.top().app.iconService.icon('mic')}</button>
@@ -176,10 +180,16 @@ export class AIChatForm extends MicroweberBaseClass {
 
     rend() {
         const frag = document.createElement('div');
-        frag.innerHTML = AIChatFormTpl(this.settings.multiLine, this.settings.placeholder);
+        frag.innerHTML = AIChatFormTpl(this.settings.multiLine, this.settings.placeholder, this.settings.chatOptions);
         frag.className = 'mw-ai-chat-form';
 
         this.form = frag;
+        this.chatOptionsSelect = this.form.querySelector('[name="chatOptions"]');
+        if(this.chatOptionsSelect) {
+            this.chatOptionsSelect.addEventListener('input', e => {
+                this.dispatch('chatOptionChange', this.chatOptionsSelect.value);
+            })
+        }
         this.area = frag.querySelector('.mw-ai-chat-box-area-field');
         this.micButton = frag.querySelector('.mw-ai-chat-box-action-voice');
         this.sendButton = frag.querySelector('.mw-ai-chat-box-action-send');
@@ -240,6 +250,9 @@ export class AIChatForm extends MicroweberBaseClass {
         this.area.disabled = true;
         this.micButton.disabled = true;
         this.sendButton.disabled = true;
+        if(this.chatOptionsSelect ) {
+            this.chatOptionsSelect.disabled = true;
+        }
     }
 
     enable() {
@@ -248,6 +261,9 @@ export class AIChatForm extends MicroweberBaseClass {
         this.area.disabled = false;
         this.micButton.disabled = false;
         this.sendButton.disabled = false;
+        if(this.chatOptionsSelect ) {
+            this.chatOptionsSelect.disabled = false;
+        }
     }
 
     init() {
