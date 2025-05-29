@@ -27,34 +27,30 @@ class TemplateStylesSettingsReader
             $settings = @file_get_contents($filePath);
             $settings = @json_decode($settings, true);
 
-            if (isset($settings['settings']) and is_array($settings['settings']) and !empty($settings['settings'])) {
+            if (isset($settings['settings']) && is_array($settings['settings']) && !empty($settings['settings'])) {
                 foreach ($settings['settings'] as $keySettings => $setting) {
-                    $settingsFromFoldersAndFiles = $this->readStyleSettingsFromFilesAndFolders($setting);
-
-                    if (!empty($settingsFromFoldersAndFiles['settings'])) {
-
-
-
-                        foreach ($settingsFromFoldersAndFiles['settings'] as $key => $value) {
-
-                            $settings['settings'][$keySettings]['settings'][] = $value;
+                    // Process recursive settings if they exist
+                    if (isset($setting['settings']) && is_array($setting['settings']) && !empty($setting['settings'])) {
+                        foreach ($setting['settings'] as $subKey => $subSetting) {
+                            $settingsFromSubFiles = $this->readStyleSettingsFromFilesAndFolders($subSetting);
+                            if (!empty($settingsFromSubFiles['settings'])) {
+                                foreach ($settingsFromSubFiles['settings'] as $key => $value) {
+                                    $settings['settings'][$keySettings]['settings'][$subKey]['settings'][] = $value;
+                                }
+                            }
                         }
                     }
 
-                   //   $settings = $this->makeInheritSelectors($settings);
-
-
-                    //    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
-
-// add to array insead of merge
-
-                    //  $settings['settings']= (...$settings['settings'], ...$settingsFromFile['settings'], ...$settingsFromFolders['settings']);;
-
-
+                    // Process this level's settings from files
+                    $settingsFromFoldersAndFiles = $this->readStyleSettingsFromFilesAndFolders($setting);
+                    if (!empty($settingsFromFoldersAndFiles['settings'])) {
+                        foreach ($settingsFromFoldersAndFiles['settings'] as $key => $value) {
+                            $settings['settings'][$keySettings]['settings'][] = $value;
+                        }
+                    }
                 }
             }
         }
- //dd(end($settings['settings']));
         return $settings;
     }
 
@@ -88,7 +84,6 @@ class TemplateStylesSettingsReader
 
         return $results;
     }
-
 
     private function readStyleSettingsFromFile($setting)
     {
@@ -151,9 +146,7 @@ class TemplateStylesSettingsReader
                 $settingsFromFolder = $this->getStyleSettingsFromFolder($templateColorsFolderExists);
 
                 if (is_array($settingsFromFolder)) {
-                    //add to array insead of merge
                     $newSettings = array_merge($newSettings, $settingsFromFolder['settings']);
-
                 }
             }
         }

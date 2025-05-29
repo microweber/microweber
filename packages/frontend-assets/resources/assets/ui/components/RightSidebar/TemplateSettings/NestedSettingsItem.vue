@@ -55,6 +55,7 @@ import FieldColorPalette from './TemplateSettingsFields/FieldColorPalette.vue';
 import FieldButton from './TemplateSettingsFields/FieldButton.vue';
 import FieldInfoBox from './TemplateSettingsFields/FieldInfoBox.vue';
 import FieldStyleEditor from './TemplateSettingsFields/FieldStyleEditor.vue';
+import FieldBackButton from './TemplateSettingsFields/FieldBackButton.vue';
 
 export default {
     name: 'NestedSettingsItem',
@@ -67,7 +68,8 @@ export default {
         FieldColorPalette,
         FieldButton,
         FieldInfoBox,
-        FieldStyleEditor
+        FieldStyleEditor,
+        FieldBackButton
     },
     inject: ['templateSettings'],
     props: {

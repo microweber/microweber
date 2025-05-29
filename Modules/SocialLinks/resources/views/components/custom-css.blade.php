@@ -26,12 +26,17 @@
     #{{ $params['id'] }} .mw-socialLinks a svg {
         width: {{$iconSize}};
         height: {{$iconSize}};
-        color: {{$iconColor}};
 
+       @if($iconColor)
+        color: {{$iconColor}};
+       @endif
+
+       @if($iconHoverColor)
         &:hover {
             color: {{$iconHoverColor}};
         }
-    }
+       @endif
+}
 
     #{{ $params['id'] }} .mw-socialLinks {
         display: {{$iconFlex}};

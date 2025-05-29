@@ -14,8 +14,9 @@ Route::name('api.template.')
             return view('template::template-settings-sidebar-render-component');
         });
 
-        Route::get('template-style-settings',
-            \MicroweberPackages\Template\Http\Controllers\Api\TemplateStyleEditorSettingsController::class . '@templateStyleSettings')
+        Route::get('template-style-settings',[
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateStyleEditorSettingsController::class , 'templateStyleSettings'
+        ])
             ->name('template-style-settings');
 
 

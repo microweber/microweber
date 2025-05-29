@@ -8,23 +8,14 @@
 
         <div v-else-if="currentError" class="alert alert-danger">
             {{ currentError }}
-        </div>
-
-        <div v-else>
+        </div>        <div v-else>
             <!-- Navigation path -->
-            <div v-if="currentPath !== '/'" class="mb-3">
-                <button @click="goBack"
-                        class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
-                    <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
-                         height="32" viewBox="0 0 32 32">
-                        <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
-                            <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
-                            <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
-                        </g>
-                    </svg>
-                    <div class="ms-1 font-weight-bold">Back</div>
-                </button>
-            </div>
+            <FieldBackButton 
+                :current-path="currentPath"
+                :current-setting="currentSetting"
+                :show-button="currentPath !== '/'"
+                @go-back="navigateTo"
+            />
 
             <!-- Choose where to edit dropdown -->
             <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper mt-3 mb-3">
@@ -42,24 +33,15 @@
                         <span id="active-layout-id-open-settings" @click="openSelectedLayoutSettings">⚙</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- AI Design Button -->
+            </div>            <!-- AI Design Button -->
             <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
 
-            <div v-if="currentPath !== '/'" class="mb-3 mt-3">
-                <button @click="goBack"
-                        class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
-                    <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
-                         height="32" viewBox="0 0 32 32">
-                        <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
-                            <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
-                            <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
-                        </g>
-                    </svg>
-                    <div class="ms-1 font-weight-bold">Back</div>
-                </button>
-            </div>
+            <FieldBackButton 
+                :current-path="currentPath"
+                :current-setting="currentSetting"
+                :show-button="currentPath !== '/'"
+                @go-back="navigateTo"
+            />
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
@@ -127,24 +109,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Style Editor iframe holder -->
+            </div>            <!-- Style Editor iframe holder -->
             <div v-if="showStyleSettings === 'styleEditor'" class="mt-3">
-                <div>
-                    <button @click="goBackFromStyleEditor"
-                            class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
-                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
-                             height="32" viewBox="0 0 32 32">
-                            <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
-                                <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
-                                <path class="arrow-icon--arrow"
-                                      d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
-                            </g>
-                        </svg>
-                        <div class="ms-1 font-weight-bold">Back</div>
-                    </button>
-                </div>
+                <FieldBackButton 
+                    :current-path="currentPath"
+                    :current-setting="styleEditorData"
+                    :show-button="true"
+                    @go-back="goBackFromStyleEditor"
+                />
 
                 <b v-if="styleEditorData.title">{{ styleEditorData.title }}</b>
                 <p v-if="styleEditorData.description">{{ styleEditorData.description }}</p>
@@ -183,6 +155,7 @@ import NestedSettingsItem from './NestedSettingsItem.vue';
 import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
 import FieldAiChangeDesign from './TemplateSettingsFields/FieldAiChangeDesign.vue';
 import FieldSettingsGroups from './TemplateSettingsFields/FieldSettingsGroups.vue';
+import FieldBackButton from './TemplateSettingsFields/FieldBackButton.vue';
 import {reactive} from 'vue';
 
 export default {
@@ -191,7 +164,8 @@ export default {
         NestedSettingsItem,
         FieldRangeSlider,
         FieldAiChangeDesign,
-        FieldSettingsGroups
+        FieldSettingsGroups,
+        FieldBackButton
     },
     provide() {
         return {
@@ -717,18 +691,8 @@ export default {
                     }
                 }
             });
-        },
-
-        navigateTo(path) {
+        },        navigateTo(path) {
             this.currentPath = path;
-        },
-
-        goBack() {
-            if (this.currentSetting && this.currentSetting.backUrl) {
-                this.navigateTo(this.currentSetting.backUrl);
-            } else {
-                this.navigateTo('/');
-            }
         },
 
         getRootSelector() {
@@ -774,10 +738,11 @@ export default {
                 window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
             }
             this.openRTECssEditor2Vue(setting); // Call to openRTECssEditor2Vue
-        },
-
-        goBackFromStyleEditor() {
-            if (this.styleEditorData.backUrl) {
+        },        goBackFromStyleEditor(path) {
+            // If path is provided by FieldBackButton, use it; otherwise use the original logic
+            if (path) {
+                this.navigateTo(path);
+            } else if (this.styleEditorData.backUrl) {
                 this.navigateTo(this.styleEditorData.backUrl);
             } else {
                 this.navigateTo('/');
