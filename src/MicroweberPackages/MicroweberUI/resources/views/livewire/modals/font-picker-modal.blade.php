@@ -1,50 +1,58 @@
-<div>
-
+<div x-data>
     <script wire:ignore>
-        window.loadFontFamily = function (family) {
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('fontLoader', {
+                loadedFonts: new Set(),
+                loadFont(family) {
+                    if (!family) {
+                        return;
+                    }
 
-            if (!family) {
-                return;
-            }
-            var id = 'font-' + family.replace(/[^a-zA-Z0-9]/g, '');
+                    var id = 'font-' + family.replace(/[^a-zA-Z0-9]/g, '');
 
-            var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
-            var fileref = document.createElement("link")
-            fileref.setAttribute("rel", "stylesheet")
-            fileref.setAttribute("type", "text/css")
-            fileref.setAttribute("href", filename)
-            fileref.setAttribute("referrerpolicy", "no-referrer")
-            fileref.setAttribute("crossorigin", "anonymous")
-            fileref.setAttribute("data-noprefix", "1")
-            fileref.setAttribute("id", id)
+                    // Skip if already loaded
+                    if (this.loadedFonts.has(id)) {
+                        return;
+                    }
 
+                    var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
+                    var fileref = document.createElement("link")
+                    fileref.setAttribute("rel", "stylesheet")
+                    fileref.setAttribute("type", "text/css")
+                    fileref.setAttribute("href", filename)
+                    fileref.setAttribute("referrerpolicy", "no-referrer")
+                    fileref.setAttribute("crossorigin", "anonymous")
+                    fileref.setAttribute("data-noprefix", "1")
+                    fileref.setAttribute("id", id)
 
-            var fileref2 = document.createElement("link")
-            fileref2.setAttribute("rel", "stylesheet")
-            fileref2.setAttribute("type", "text/css")
-            fileref2.setAttribute("href", filename);
-            fileref2.setAttribute("referrerpolicy", "no-referrer")
-            fileref2.setAttribute("crossorigin", "anonymous")
-            fileref2.setAttribute("data-noprefix", "1")
-            fileref2.setAttribute("data-noprefix", "1")
-            fileref2.setAttribute("id", id)
+                    var fileref2 = document.createElement("link")
+                    fileref2.setAttribute("rel", "stylesheet")
+                    fileref2.setAttribute("type", "text/css")
+                    fileref2.setAttribute("href", filename);
+                    fileref2.setAttribute("referrerpolicy", "no-referrer")
+                    fileref2.setAttribute("crossorigin", "anonymous")
+                    fileref2.setAttribute("data-noprefix", "1")
+                    fileref2.setAttribute("id", id)
 
+                    if(self !== top){
+                        //check if the font is already loaded
+                        if (mw.top().doc.getElementById(id)) {
+                            return;
+                        }
+                        mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
+                        document.getElementsByTagName("head")[0].appendChild(fileref2)
+                    } else {
+                        //check if the font is already loaded
+                        if (document.getElementById(id)) {
+                            return;
+                        }
+                        document.getElementsByTagName("head")[0].appendChild(fileref)
+                    }
 
-            if(self !== top){
-                //check if the font is already loaded
-                if (mw.top().doc.getElementById(id)) {
-                    return;
+                    this.loadedFonts.add(id);
                 }
-                mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
-                document.getElementsByTagName("head")[0].appendChild(fileref2)
-            } else {
-                //check if the font is already loaded
-                if (document.getElementById(id)) {
-                    return;
-                }
-                document.getElementsByTagName("head")[0].appendChild(fileref)
-            }
-        }
+            });
+        });
     </script>
 
     <div class="row mw-font-picker-modal-wrapper">
@@ -83,20 +91,17 @@
 
             <script>
                 document.addEventListener('fontAddedToFavorites', function (e) {
-
                     if(e.detail.fontFamily) {
-
                         if (mw.top().app.fontManager) {
                             mw.top().app.fontManager.selectFont(e.detail.fontFamily);
                         }
-                        loadFontFamily(e.detail.fontFamily);
+                        Alpine.store('fontLoader').loadFont(e.detail.fontFamily);
                     }
-                    mw.top().app.dispatch('fontsChanged')
+                    mw.top().app.dispatch('fontsChanged');
                 });
 
                 document.addEventListener('fontRemovedFromFavorites', function (e) {
-
-                    mw.top().app.dispatch('fontsChanged')
+                    mw.top().app.dispatch('fontsChanged');
                 });
             </script>
 
@@ -107,11 +112,10 @@
                         @php
                             $fontId = md5($font['family'].$font['category']);
                         @endphp
-                        <div wire:key="font-id-{{$fontId}}" x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }" class="d-flex justify-content-between px-3">
-
-                            <script>
-                                loadFontFamily('{{$font['family']}}');
-                            </script>
+                        <div wire:key="font-id-{{$fontId}}"
+                             x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }"
+                             x-init="$store.fontLoader.loadFont('{{$font['family']}}')"
+                             class="d-flex justify-content-between px-3">
 
                                 <div>
                                <button type="button" x-on:click="favorite = true" wire:click="favorite('{{$font['family']}}')">
@@ -145,12 +149,10 @@
     </div>
 
     <script>
-
         document.addEventListener('font-picker-load-fonts', function (e) {
-
             if (e.detail.fonts) {
                 for (var i in e.detail.fonts) {
-                    loadFontFamily(e.detail.fonts[i]['family']);
+                    Alpine.store('fontLoader').loadFont(e.detail.fonts[i]['family']);
                 }
             }
 
@@ -158,9 +160,5 @@
                 mw.top().app.canvas.dispatch('reloadCustomCss');
             }
         });
-
-
-
-
     </script>
 </div>
