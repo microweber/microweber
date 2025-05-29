@@ -8,7 +8,8 @@
 
         <div v-else-if="currentError" class="alert alert-danger">
             {{ currentError }}
-        </div>        <div v-else>
+        </div>
+        <div v-else>
             <!-- Navigation path -->
             <FieldBackButton
                 :current-path="currentPath"
@@ -36,14 +37,14 @@
             </div>            <!-- AI Design Button -->
             <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
 
-           <div class="mt-3">
-               <FieldBackButton
-                   :current-path="currentPath"
-                   :current-setting="currentSetting"
-                   :show-button="currentPath !== '/'"
-                   @go-back="navigateTo"
-               />
-           </div>
+            <div class="mt-3">
+                <FieldBackButton
+                    :current-path="currentPath"
+                    :current-setting="currentSetting"
+                    :show-button="currentPath !== '/'"
+                    @go-back="navigateTo"
+                />
+            </div>
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
@@ -261,7 +262,11 @@ export default {
                 this.fetchExistingLayoutSelectors();
             }
         });
+
+        // Check AI availability on mount
         this.checkAIAvailability();
+
+
         this.setupEventListeners();
 
         if (window.mw?.top()?.app) {
@@ -693,7 +698,7 @@ export default {
                     }
                 }
             });
-        },        navigateTo(path) {
+        }, navigateTo(path) {
             this.currentPath = path;
         },
 
@@ -740,7 +745,7 @@ export default {
                 window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
             }
             this.openRTECssEditor2Vue(setting); // Call to openRTECssEditor2Vue
-        },        goBackFromStyleEditor(path) {
+        }, goBackFromStyleEditor(path) {
             // If path is provided by FieldBackButton, use it; otherwise use the original logic
             if (path) {
                 this.navigateTo(path);
@@ -760,7 +765,11 @@ export default {
         },
 
         checkAIAvailability() {
-            this.isAIAvailable = typeof window.mw?.top()?.win?.MwAi === 'function';
+            const isAvailable = typeof window.mw?.top()?.win?.MwAi === 'function';
+            this.isAIAvailable = isAvailable;
+
+            // Set global indicator for template use
+            window.mwAIAvailable = isAvailable;
         },
 
         openRTECssEditor2Vue(settings) {
