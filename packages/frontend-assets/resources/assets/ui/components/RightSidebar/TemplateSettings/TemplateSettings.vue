@@ -10,7 +10,7 @@
             {{ currentError }}
         </div>        <div v-else>
             <!-- Navigation path -->
-            <FieldBackButton 
+            <FieldBackButton
                 :current-path="currentPath"
                 :current-setting="currentSetting"
                 :show-button="currentPath !== '/'"
@@ -36,12 +36,14 @@
             </div>            <!-- AI Design Button -->
             <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
 
-            <FieldBackButton 
-                :current-path="currentPath"
-                :current-setting="currentSetting"
-                :show-button="currentPath !== '/'"
-                @go-back="navigateTo"
-            />
+           <div class="mt-3">
+               <FieldBackButton
+                   :current-path="currentPath"
+                   :current-setting="currentSetting"
+                   :show-button="currentPath !== '/'"
+                   @go-back="navigateTo"
+               />
+           </div>
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
@@ -111,7 +113,7 @@
                 </div>
             </div>            <!-- Style Editor iframe holder -->
             <div v-if="showStyleSettings === 'styleEditor'" class="mt-3">
-                <FieldBackButton 
+                <FieldBackButton
                     :current-path="currentPath"
                     :current-setting="styleEditorData"
                     :show-button="true"
