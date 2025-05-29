@@ -633,6 +633,8 @@ export default {
             // Transform selector based on current design mode
             const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
 
+
+
             if (window.mw?.top()?.app?.cssEditor) {
                 window.mw.top().app.cssEditor.setPropertyForSelector(transformedSelector, property, value, true, true);
                 // Update our local cache with the transformed selector
