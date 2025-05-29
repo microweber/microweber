@@ -732,14 +732,49 @@ export default {
             this.updateCssProperty(data.selector, data.property, data.value);
         },
 
+
         handleBatchUpdate(updates) {
             // Handle batch updates for multiple properties (like color palettes or clear all)
             if (Array.isArray(updates) && updates.length > 0) {
+                // Group updates by selector to use bulk update
+                const updatesBySelector = {};
+
                 updates.forEach(update => {
                     if (update.selector && update.property !== undefined) {
-                        this.updateCssProperty(update.selector, update.property, update.value);
+                        // Get the root selector for the current context
+                        const rootSelector = this.getRootSelector();
+
+                        // Transform selector based on current design mode
+                        const transformedSelector = this.transformSelectorBasedOnMode(update.selector, rootSelector);
+
+                        if (!updatesBySelector[transformedSelector]) {
+                            updatesBySelector[transformedSelector] = {};
+                        }
+
+                        updatesBySelector[transformedSelector][update.property] = update.value;
+
+                        // Update our local cache
+                        const key = `${transformedSelector}|${update.property}`;
+                        this.styleValues[key] = update.value;
                     }
                 });
+
+                // Apply bulk updates using setPropertyForSelectorBulk
+                if (window.mw?.top()?.app?.cssEditor && Object.keys(updatesBySelector).length > 0) {
+                    for (const selector in updatesBySelector) {
+                        if (updatesBySelector.hasOwnProperty(selector)) {
+                            const properties = updatesBySelector[selector];
+
+                            // Use the bulk update method from stylesheet-editor service
+                            window.mw.top().app.cssEditor.setPropertyForSelectorBulk(
+                                selector,
+                                properties,
+                                true, // record = true
+                                false // skipMedia = false
+                            );
+                        }
+                    }
+                }
             }
         },
 

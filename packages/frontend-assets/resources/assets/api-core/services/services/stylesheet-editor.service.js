@@ -182,6 +182,23 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     recordTimeout = {}
 
+
+    setPropertyForSelectorBulk(sel, props, record = true, skipMedia = false) {
+
+
+
+        for (const prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                this.setPropertyForSelector(sel, prop, props[prop], record, skipMedia);
+            }
+        }
+        this._cssTemp(this._temp);
+
+        console.log('setPropertyForSelectorBulk', sel, props, record, skipMedia, this._temp);
+
+    }
+
+
     setPropertyForSelector(sel, prop, val, record = true, skipMedia = false) {
 
 

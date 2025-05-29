@@ -20,15 +20,15 @@
                 <button class="btn" :class="{'btn-primary': aiFormType === 'advanced', 'btn-outline-primary': aiFormType !== 'advanced'}"
                         @click="switchFormType('advanced')">Advanced</button>
             </div>
-
+            <textarea v-model="aiMessage" class="form-control-live-edit-input"
+                      placeholder="Make it blue and white..." rows="3"></textarea>
+            <div class="d-flex mt-2">
+                <button class="btn btn-sm btn-primary" @click="submitAiRequest">Send</button>
+                <button class="btn btn-sm btn-outline-secondary ms-2" @click="toggleAIChatForm">Cancel</button>
+            </div>
             <!-- Simple textarea form -->
             <div v-if="aiFormType === 'simple'" class="form-control-live-edit-label-wrapper">
-                <textarea v-model="aiMessage" class="form-control-live-edit-input"
-                         placeholder="Make it blue and white..." rows="3"></textarea>
-                <div class="d-flex mt-2">
-                    <button class="btn btn-sm btn-primary" @click="submitAiRequest">Send</button>
-                    <button class="btn btn-sm btn-outline-secondary ms-2" @click="toggleAIChatForm">Cancel</button>
-                </div>
+
             </div>
 
             <!-- Advanced AIChatForm container (hidden for now) -->
