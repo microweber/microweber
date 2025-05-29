@@ -167,7 +167,9 @@ export default {
                 };
             });
             this.$emit('batch-update', processedUpdates); // Parent will handle these
-        },        onCssPropertyChanged(data) {
+        },
+
+        onCssPropertyChanged(data) {
             // This method will handle CSS property changes from the parent TemplateSettings component
             // and will trigger a re-render of the field with the new value
             if (data.selector === this.selectorToApply && data.property === this.setting.fieldSettings?.property) {

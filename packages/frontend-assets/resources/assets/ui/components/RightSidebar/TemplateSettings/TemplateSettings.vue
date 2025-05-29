@@ -84,6 +84,7 @@
                         :root-selector="getRootSelector()"
                         @navigate="navigateTo"
                         @update="handleSettingUpdate"
+                        @batch-update="handleBatchUpdate"
                         @open-style-editor="handleStyleEditorOpen"/>
                 </div>
                 <!-- Else (currentSetting is a group, not a field itself) -->
@@ -97,6 +98,7 @@
                                 :root-selector="getRootSelector()"
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
+                                @batch-update="handleBatchUpdate"
                                 @open-style-editor="handleStyleEditorOpen"/>
                         </div>
                     </div>
@@ -108,6 +110,7 @@
                                 :root-selector="getRootSelector()"
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
+                                @batch-update="handleBatchUpdate"
                                 @open-style-editor="handleStyleEditorOpen"/>
                         </div>
                     </div>
@@ -634,7 +637,6 @@ export default {
             const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
 
 
-
             if (window.mw?.top()?.app?.cssEditor) {
                 window.mw.top().app.cssEditor.setPropertyForSelector(transformedSelector, property, value, true, true);
                 // Update our local cache with the transformed selector
@@ -726,13 +728,15 @@ export default {
         },
 
         handleSettingUpdate(data) {
+            // Handle regular field updates with single property changes
             this.updateCssProperty(data.selector, data.property, data.value);
         },
 
         handleBatchUpdate(updates) {
-            if (Array.isArray(updates)) {
+            // Handle batch updates for multiple properties (like color palettes or clear all)
+            if (Array.isArray(updates) && updates.length > 0) {
                 updates.forEach(update => {
-                    if (update.selector && update.property) {
+                    if (update.selector && update.property !== undefined) {
                         this.updateCssProperty(update.selector, update.property, update.value);
                     }
                 });
