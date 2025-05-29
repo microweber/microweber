@@ -4,6 +4,8 @@
         <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
         <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
 
+        <div ref="aiChatFormBox"></div>
+
         <div v-if="!showAIChatForm">
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                     title="Change Design with AI" class="btn btn-link p-0"
@@ -302,32 +304,23 @@ export default {
         },
 
         initAIChatForm() {
-            try {
-                // Create new AIChatForm instance
                 this.aiChatFormInstance = new AIChatForm({
                     multiLine: true,
                     submitOnEnter: true,
                     placeholder: 'Make it blue and white...'
                 });
 
-                // Mount the form to the container
-                this.$refs.aiChatFormContainer.appendChild(this.aiChatFormInstance.form);
-
-                // Set up event listeners safely
-                if (typeof this.aiChatFormInstance.on === 'function') {
+                setTimeout(() => {
+                    // todo
+                    this.$refs.aiChatFormBox.appendChild(this.aiChatFormInstance.form);
                     this.aiChatFormInstance.on('submit', (value) => {
                         this.aiMessage = value;
                         this.changeDesign(value);
                     });
-
                     this.aiChatFormInstance.on('areaValue', (value) => {
                         this.aiMessage = value;
                     });
-                }
-            } catch (e) {
-                console.error('Failed to initialize AIChatForm', e);
-                throw e;
-            }
+                });
         },
 
         submitAiRequest() {
@@ -458,13 +451,20 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }
         }
     },
+
+
+
     mounted() {
         // Update the UI based on AI availability
         if (this.isAIAvailable && document.querySelector('.ai-change-template-design-button')) {
             document.querySelector('.ai-change-template-design-button').classList.remove('d-none');
         }
 
+  this.initAIChatForm()
+
         console.log('FieldAiChangeDesign mounted, AI availability:', this.isAIAvailable);
+
+
     },
     beforeUnmount() {
         // Clean up AIChatForm instance if exists

@@ -6,5 +6,9 @@
 
 
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form{
-    @apply sticky bottom-0 z-10 bg-white dark:bg-gray-800 rounded-sm shadow-[0_0px_2px_rgba(41,41,41,0.78)];
+    @apply sticky bottom-0 z-10  rounded-sm shadow-[0_0px_2px_rgba(41,41,41,0.78)];
+}
+
+.mw-ai-chat-box-area{
+    @apply bg-white dark:bg-gray-800;
 }
