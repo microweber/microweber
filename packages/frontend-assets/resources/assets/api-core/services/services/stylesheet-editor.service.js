@@ -63,7 +63,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
         const css = CSSJSON.toCSS(json);
 
 
-
         var tempStylesheetElement = this.settings.document.querySelector('#' + this.settings.tempStylesheetId);
 
         if (tempStylesheetElement == null) {
@@ -73,7 +72,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             mw.app._cssTemp._cssTemp = tempStylesheetElement;
         }
 
-        mw.app._cssTemp.id =  this.settings.tempStylesheetId;
+        mw.app._cssTemp.id = this.settings.tempStylesheetId;
         if (!mw.app._cssTemp) {
 
         } else {
@@ -87,7 +86,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.changed = true;
         const sheets = [
             this.settings.document.querySelector('link#mw-template-settings'),
-           // this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
+            // this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
             this.settings.document.querySelector('#mw-custom-user-css'),
             this.settings.document.querySelector('#' + this.settings.tempStylesheetId)
 
@@ -110,7 +109,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 for (let i = 0, l = rules.length; i < l; i++) {
 
 
-                    if(rules[i].cssRules && rules[i].cssRules.length) {
+                    if (rules[i].cssRules && rules[i].cssRules.length) {
                         removePropertyFromSheet(rules[i], property)
                     } else if (rules[i].selectorText === selector) {
 
@@ -132,7 +131,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         var canvasDocument = mw.top().app.canvas.getDocument();
 
         if (selector) {
-            if(typeof selector === 'object') {
+            if (typeof selector === 'object') {
                 return getComputedStyle(selector).getPropertyValue(prop);
             }
 
@@ -151,7 +150,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     holder = canvasDocument.createElement('div');
                     holder.id = 'mw-non-existing-temp-element-holder';
                     holder.style.display = 'none';
-                    if(canvasDocument && canvasDocument.body) {
+                    if (canvasDocument && canvasDocument.body) {
                         canvasDocument.body.append(holder);
                     }
                 }
@@ -159,7 +158,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
                     holder.append(newEl[0]);
                 }
-                if(canvasDocument && canvasDocument.body) {
+                if (canvasDocument && canvasDocument.body) {
                     ActiveNode = canvasDocument.querySelector(selector);
                 }
 
@@ -184,7 +183,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
     setPropertyForSelectorBulk(sel, props, record = true, skipMedia = false) {
-
 
 
         for (const prop in props) {
@@ -216,8 +214,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             var timeoutName = sel + prop;
 
 
-
-            if(!this.recordTimeout[timeoutNameStart]) {
+            if (!this.recordTimeout[timeoutNameStart]) {
 
                 var state = mw.top().app.state.state();
                 var prev = state[state.length - 1];
@@ -235,8 +232,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     }
                 }
             }
-
-
 
 
         }
@@ -281,7 +276,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this.removeSheetRuleProperty(sel, prop);
         }
 
-console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._temp);
         this._cssTemp(this._temp);
 
         if (record) {
@@ -307,7 +301,6 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
             value: val
         });
     }
-
 
 
     style(node, css = {}, record) {
@@ -339,11 +332,7 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
         })
 
 
-
-
     }
-
-
 
 
     // cloning only works if source node has styles in the live edit styles
@@ -354,25 +343,24 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
         for (let item in json) {
             const isMedia = item.indexOf('@') === 0;
             let target = json[item];
-            if(isMedia) {
+            if (isMedia) {
                 target = json[item].children
             }
-            if(target[fromSelector]) {
-                if(!target[toSelector]) {
+            if (target[fromSelector]) {
+                if (!target[toSelector]) {
                     target[toSelector] = {}
                 }
 
 
-
                 target[toSelector] = Object.assign({}, target[toSelector].attributes || {}, target[fromSelector].attributes);
 
-                if(isMedia) {
+                if (isMedia) {
                     json[item].children = target
                 } else {
                     json[item] = target;
                 }
 
-                res.push(  target[toSelector])
+                res.push(target[toSelector])
 
             }
         }
@@ -383,16 +371,16 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
     }
 
     temp(node, prop, val, record) {
-        if(typeof(val) === 'number') {
+        if (typeof (val) === 'number') {
 
         } else {
             val = (val || '').trim();
         }
 
-        if(typeof(node) === 'string') {
+        if (typeof (node) === 'string') {
             node = mw.app.canvas.getDocument().querySelector(node);
         }
-        if(!node) {
+        if (!node) {
             return;
         }
 
@@ -407,16 +395,13 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
         const sel = mw.tools.generateSelectorForNode(node);
 
 
-
-        if(curr !== val && record) {
+        if (curr !== val && record) {
             this.setPropertyForSelector(sel, prop, curr, record);
 
         }
 
 
-
         this.setPropertyForSelector(sel, prop, val, record);
-
 
 
     }
@@ -526,8 +511,6 @@ console.log('setPropertyForSelector', sel, prop, val, record, skipMedia, this._t
     init() {
         this.getLiveeditCSS();
     }
-
-
 
 
 }
