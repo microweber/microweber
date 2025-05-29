@@ -45,7 +45,7 @@
             </div>
 
             <!-- AI Design Button -->
-            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable" />
+            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
 
             <div v-if="currentPath !== '/'" class="mb-3 mt-3">
                 <button @click="goBack"
@@ -153,169 +153,18 @@
                     <div id="iframe-holder"></div>
                 </div>
             </div>
-
             <!-- Template Settings -->
-            <div v-if="settingsGroups && Object.keys(settingsGroups).length !== 0">
-                <div v-for="(settings, settingGroupKey) in settingsGroups" :key="settingGroupKey" class="mt-2 mb-5">
-                    <a v-on:click="showSettingsGroup(settingGroupKey)"
-                       class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
-                        {{ settingGroupKey }}
-                    </a>
-
-                    <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
-                        <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
-                            <div v-for="(settingGroupInside, settingGroupInsideName) in settings.values"
-                                 :key="settingGroupInsideName" class="mb-2 ps-2">
-                                <label
-                                    :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
-                                    <a class="mw-admin-action-links mw-action-links-with-accordion mw-adm-liveedit-tabs collapsed"
-                                       type="button" data-bs-toggle="collapse"
-                                       :data-bs-target="'#flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
-                                       aria-expanded="false"
-                                       :aria-controls="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
-                                        {{ settingGroupInsideName }}
-                                    </a>
-                                </label>
-
-                                <div :id="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
-                                     class="accordion-collapse collapse"
-                                     :aria-labelledby="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
-                                     :data-bs-parent="'#accordionFlush' + stringToId(settingGroupKey)">
-                                    <div class="accordion-body ps-2">
-                                        <div v-for="(setting, settingKey) in settingGroupInside" class="mt-2">
-                                            <!-- Existing settings rendering -->
-                                            <div v-if="setting.type === 'text'">
-                                                <label class="mr-4">{{ setting.label }}</label>
-                                                <div>
-                                                    <input type="text" class="form-control"
-                                                           :value="[setting.value ? setting.value : setting.default]"
-                                                           v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                           :name="settingKey"/>
-                                                </div>
-                                            </div>
-
-                                            <div v-if="setting.type === 'color'">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="mr-4">{{ setting.label }}</div>
-                                                    <div>
-                                                        <ColorPicker
-                                                            :key="settingKey"
-                                                            :color="[setting.value ? setting.value : setting.default]"
-                                                            v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                            :name="settingKey"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div v-if="setting.type === 'title'">
-                                                <div class="text-uppercase">
-                                                    <span>{{ setting.label }}</span>
-                                                </div>
-                                            </div>
-
-                                            <div v-if="setting.type === 'range'">
-                                                <label class="mr-4">
-                                                    {{ setting.label }} -
-                                                    {{ options[setting.optionGroup][settingKey] }}
-                                                    <span v-if="setting.range.unit">
-                                                        {{ setting.range.unit ? setting.range.unit : '' }}
-                                                    </span>
-                                                </label>
-                                                <div>
-                                                    <FieldRangeSlider
-                                                        :setting="{
-                                                            title: setting.label,
-                                                            fieldSettings: {
-                                                                min: setting.range.min ? setting.range.min : 0,
-                                                                max: setting.range.max ? setting.range.max : 100,
-                                                                step: setting.range.step ? setting.range.step : 1,
-                                                                unit: setting.range.unit ? setting.range.unit : '',
-                                                                property: settingKey
-                                                            }
-                                                        }"
-                                                        :selectorToApply="':root'"
-                                                        @update="(data) => updateSettings(data.value, settingKey, setting.optionGroup)"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div v-if="setting.type === 'dropdown_image'">
-                                                <div>{{ setting.label }}</div>
-                                                <select class="form-select"
-                                                        v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                        :name="settingKey"
-                                                        :value="[setting.value ? setting.value : setting.default]">
-                                                    <option v-for="(optionValue, optionKey) in setting.options"
-                                                            :value="optionKey">
-                                                        {{ optionValue }}
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div v-if="setting.type === 'toggle_switch'">
-                                                <div class="mb-2">{{ setting.label }}</div>
-                                                <label class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" checked="">
-                                                </label>
-                                            </div>
-
-                                            <div v-if="setting.type === 'dropdown'">
-                                                <div>{{ setting.label }}</div>
-                                                <select class="form-select"
-                                                        v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                        v-model="options[setting.optionGroup][settingKey]">
-                                                    <option v-for="(optionValue, optionKey) in setting.options"
-                                                            :value="optionKey">
-                                                        {{ optionValue }}
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div v-if="setting.type === 'font_selector'">
-                                                <div>{{ setting.label }}</div>
-                                                <select class="form-select"
-                                                        v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                        :name="settingKey"
-                                                        :value="[setting.value ? setting.value : setting.default]">
-                                                    <option v-for="fontFamily in supportedFonts"
-                                                            :value="fontFamily">
-                                                        {{ fontFamily }}
-                                                    </option>
-                                                </select>
-                                                <button type="button" class="btn btn-outline-dark btn-sm mt-3"
-                                                        v-on:click="loadMoreFonts()">
-                                                    Load more
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="display: none" v-on:click="resetStylesheetSettings"
-                             class="d-flex align-items-center justify-content-between cursor-pointer"
-                             v-if="settings && settings.type == 'stylesheet'">
-                            <span>Reset Stylesheet Settings</span>
-                            <svg fill="currentColor" title="Reset stylesheet settings"
-                                 xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
-                                <path
-                                    d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/>
-                            </svg>
-                        </div>
-
-                        <div v-on:click="resetTemplateSettings"
-                             class="d-flex align-items-center justify-content-between cursor-pointer"
-                             v-if="settings && settings.type == 'template'">
-                            <span>Reset Template Settings</span>                            <svg fill="currentColor" title="Reset template settings" xmlns="http://www.w3.org/2000/svg"
-                                 height="18" viewBox="0 -960 960 960" width="18">
-                                <path
-                                    d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <FieldSettingsGroups
+                v-if="settingsGroups && Object.keys(settingsGroups).length !== 0"
+                :settings-groups="settingsGroups"
+                :options="options"
+                :supported-fonts="supportedFonts"
+                :style-sheet-source-file="styleSheetSourceFile"
+                :option-group="optionGroup"
+                :option-group-less="optionGroupLess"
+                @settings-updated="handleSettingsUpdated"
+                @load-more-fonts="loadMoreFonts"
+            />
         </div>
     </div>
 </template>
@@ -333,14 +182,16 @@ import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker
 import NestedSettingsItem from './NestedSettingsItem.vue';
 import FieldRangeSlider from './TemplateSettingsFields/FieldRangeSlider.vue';
 import FieldAiChangeDesign from './TemplateSettingsFields/FieldAiChangeDesign.vue';
-import { reactive } from 'vue';
+import FieldSettingsGroups from './TemplateSettingsFields/FieldSettingsGroups.vue';
+import {reactive} from 'vue';
 
 export default {
     components: {
         ColorPicker,
         NestedSettingsItem,
         FieldRangeSlider,
-        FieldAiChangeDesign
+        FieldAiChangeDesign,
+        FieldSettingsGroups
     },
     provide() {
         return {
@@ -364,25 +215,33 @@ export default {
             isAIAvailable: false,
             styleEditorData: {},
             showStyleSettings: '/',
-            styleValues: reactive({}), // Changed to reactive for Vue 3
+            styleValues: reactive({}),
             propertyChangeListeners: [], // Array to store registered listeners for Vue 3 event handling
+            existingLayoutSelectors: [],
+            existingLayoutSelectorsInitialized: false,
         };
-    },
-    computed: {
+    }, computed: {
+        displayedStyleSettingVars() {
+            if (this.isLayoutMode && this.existingLayoutSelectorsInitialized) {
+                return this.filterSettingsForLayoutMode(this.styleSettingVars, this.existingLayoutSelectors);
+            }
+            return this.styleSettingVars;
+        },
+
         hasStyleSettings() {
-            return this.styleSettingVars && this.styleSettingVars.length > 0;
+            return this.displayedStyleSettingVars && this.displayedStyleSettingVars.length > 0;
         },
 
         mainStyleGroups() {
-            if (!this.styleSettingVars) return [];
-            return this.styleSettingVars.filter(item => item.main === true);
+            if (!this.displayedStyleSettingVars) return [];
+            return this.displayedStyleSettingVars.filter(item => item.main === true);
         },
 
         currentSetting() {
             if (this.currentPath === '/') return null;
             // Ensure we get a setting that is most likely to have children if multiple exist for the same URL
             // Prefer item with a 'settings' array, otherwise the first one found.
-            const items = this.styleSettingVars.filter(item => item.url === this.currentPath);
+            const items = this.displayedStyleSettingVars.filter(item => item.url === this.currentPath);
             if (items.length === 0) return null;
             return items.find(item => item.settings && item.settings.length > 0) || items[0];
         },
@@ -397,7 +256,7 @@ export default {
             }
 
             const currentPathSegments = this.currentPath.split('/').filter(p => p);
-            return this.styleSettingVars.filter(item => {
+            return this.displayedStyleSettingVars.filter(item => {
                 if (!item.url || item.url === this.currentPath) return false;
 
                 const itemSegments = item.url.split('/').filter(p => p);
@@ -417,11 +276,14 @@ export default {
         },
 
         isTemplateMode() {
-            return this.applyMode === 'template';        },
-    },
-    mounted() {
+            return this.applyMode === 'template';
+        },
+    }, mounted() {
         this.fetchData().then(() => {
             this.initializeStyleValues();
+            if (this.isLayoutMode) {
+                this.fetchExistingLayoutSelectors();
+            }
         });
         this.checkAIAvailability();
         this.setupEventListeners();
@@ -439,20 +301,29 @@ export default {
                 window.mw.top().app.__vueTemplateSettingsInstance = null; // Clear instance reference
             }
         }
-    },
-    watch: {
+    }, watch: {
         applyMode(newMode, oldMode) {
             if (newMode !== oldMode) {
                 window.css_vars_design_apply_mode = newMode;
                 this.updateLayoutIdDisplay();
                 this.initializeStyleValues();
+
+                if (newMode === 'layout') {
+                    this.fetchExistingLayoutSelectors();
+                } else {
+                    this.existingLayoutSelectors = [];
+                    this.existingLayoutSelectorsInitialized = false;
+                }
             }
-        },
-        activeLayoutId(newId, oldId) {
+        }, activeLayoutId(newId, oldId) {
             if (newId !== oldId) {
                 const newActiveLayout = newId === 'None' || !newId ? null : window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(newId);
                 window.css_vars_design_active_layout = newActiveLayout;
                 this.initializeStyleValues();
+
+                if (this.isLayoutMode) {
+                    this.fetchExistingLayoutSelectors();
+                }
             }
         },
         styleSettingVars: {
@@ -465,14 +336,124 @@ export default {
             // When path changes, the relevant rootSelector might change, so re-evaluating values might be needed
             // if not all values are pre-cached. For now, initializeStyleValues fetches all.
         }
-    },    methods: {
+    }, methods: {
+        fetchExistingLayoutSelectors() {
+            let selectors = [];
+            const layoutElement = this.getActiveLayoutElement();
+
+            if (layoutElement && window.mw?.top()?.app?.cssEditor?.getUsedSelectorsForElement) {
+                // Get selectors specifically for the layout element
+                selectors = window.mw.top().app.cssEditor.getUsedSelectorsForElement(layoutElement);
+            } else if (layoutElement && window.mw?.top()?.app?.cssEditor?.getUsedSelectors) {
+                // Fallback: get all selectors and filter for layout-specific ones
+                const allSelectors = window.mw.top().app.cssEditor.getUsedSelectors();
+                const layoutId = this.getActiveLayoutId();
+                if (layoutId) {
+                    selectors = allSelectors.filter(selector =>
+                        selector.includes('#' + layoutId) || selector === ':root'
+                    );
+                }
+            } else {
+                console.warn('getUsedSelectors function not found for layout mode filtering.');
+            }
+
+            this.existingLayoutSelectors = Array.isArray(selectors) ? selectors : [];
+            this.existingLayoutSelectorsInitialized = true;
+        },
+
+        getActiveLayoutElement() {
+            const layoutId = this.getActiveLayoutId();
+            if (!layoutId) return null;
+            return window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(layoutId);
+        },
+
+        filterSettingsForLayoutMode(settings, existingSelectors, parentRootSelector = '') {
+            if (!this.isLayoutMode || !this.existingLayoutSelectorsInitialized) {
+                return settings;
+            }
+
+            const effectiveExistingSelectors = Array.isArray(existingSelectors) ? existingSelectors : [];
+            const layoutId = this.getActiveLayoutId();
+            const layoutSelector = layoutId ? '#' + layoutId : '';
+
+            return settings.reduce((acc, setting) => {
+                const currentGroupRootSelector = setting.rootSelector || parentRootSelector;
+
+                if (setting.settings && Array.isArray(setting.settings)) { // It's a group
+                    let groupItselfVisible = true;
+                    if (setting.rootSelector) {
+                        // Check if group's root selector is relevant to current layout
+                        if (setting.rootSelector === ':root') {
+                            groupItselfVisible = true; // :root is always relevant
+                        } else if (layoutSelector && setting.rootSelector.includes(layoutSelector)) {
+                            groupItselfVisible = true; // Directly related to layout
+                        } else if (effectiveExistingSelectors.includes(setting.rootSelector)) {
+                            groupItselfVisible = true; // Selector exists in layout
+                        } else {
+                            groupItselfVisible = false;
+                        }
+                    }
+
+                    if (groupItselfVisible) {
+                        const filteredChildren = this.filterSettingsForLayoutMode(setting.settings, effectiveExistingSelectors, currentGroupRootSelector);
+                        if (filteredChildren.length > 0) {
+                            acc.push({...setting, settings: filteredChildren});
+                        } else if (setting.url && setting.title && !setting.fieldType) {
+                            // Keep navigational groups even if empty
+                            acc.push({...setting, settings: []});
+                        }
+                    }
+                } else if (setting.fieldType) { // It's a field
+                    if (setting.fieldType === 'clearAll') {
+                        acc.push(setting); // Always show clearAll fields
+                    } else {
+                        const fieldSpecificSelectors = setting.selectors && Array.isArray(setting.selectors) && setting.selectors.length > 0 ? setting.selectors : null;
+                        let isVisible = false;
+
+                        if (fieldSpecificSelectors) {
+                            // Check if any field selector is relevant to layout
+                            for (const selector of fieldSpecificSelectors) {
+                                if (selector === ':root') {
+                                    isVisible = true;
+                                    break;
+                                } else if (layoutSelector && selector.includes(layoutSelector)) {
+                                    isVisible = true;
+                                    break;
+                                } else if (effectiveExistingSelectors.includes(selector)) {
+                                    isVisible = true;
+                                    break;
+                                }
+                            }
+                        } else if (currentGroupRootSelector) {
+                            // Use parent group's root selector
+                            if (currentGroupRootSelector === ':root') {
+                                isVisible = true;
+                            } else if (layoutSelector && currentGroupRootSelector.includes(layoutSelector)) {
+                                isVisible = true;
+                            } else if (effectiveExistingSelectors.includes(currentGroupRootSelector)) {
+                                isVisible = true;
+                            }
+                        }
+
+                        if (isVisible) {
+                            acc.push(setting);
+                        }
+                    }
+                } else { // Other items (titles, descriptions, etc.)
+                    acc.push(setting);
+                }
+
+                return acc;
+            }, []);
+        },
+
         // Design mode checking and selector transformation methods
         getActiveLayoutId() {
             if (!this.isLayoutMode) return null;
-            
+
             const activeLayout = window.css_vars_design_active_layout;
             if (!activeLayout) return null;
-            
+
             return typeof activeLayout === 'string'
                 ? activeLayout
                 : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
@@ -601,15 +582,13 @@ export default {
                 }
             }
             return foundRootSelector;
-        },
-
-        initializeStyleValues() {
-            if (!this.styleSettingVars || !window.mw?.top()?.app?.cssEditor) {
+        }, initializeStyleValues() {
+            if (!this.displayedStyleSettingVars || !window.mw?.top()?.app?.cssEditor) {
                 this.styleValues = reactive({});
                 return;
             }
             const newStyleValues = {};
-            const itemsToProcess = this.flattenStyleSettings(this.styleSettingVars);
+            const itemsToProcess = this.flattenStyleSettings(this.displayedStyleSettingVars);
 
             itemsToProcess.forEach(item => {
                 if (item.fieldSettings && item.fieldSettings.property && item.selectors && item.selectors.length > 0) {
@@ -645,13 +624,13 @@ export default {
 
             // Replace the entire object instead of using $set
             this.styleValues = reactive(newStyleValues);
-        },        getCssPropertyValue(selector, property) {
+        }, getCssPropertyValue(selector, property) {
             // Get the root selector for the current context
             const rootSelector = this.getRootSelector();
-            
+
             // Transform selector based on current design mode
             const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
-            
+
             const key = `${transformedSelector}|${property}`;
             if (this.styleValues.hasOwnProperty(key)) {
                 return this.styleValues[key];
@@ -669,27 +648,27 @@ export default {
         updateCssProperty(selector, property, value) {
             // Get the root selector for the current context
             const rootSelector = this.getRootSelector();
-            
+
             // Transform selector based on current design mode
             const transformedSelector = this.transformSelectorBasedOnMode(selector, rootSelector);
-            
+
             if (window.mw?.top()?.app?.cssEditor) {
                 window.mw.top().app.cssEditor.setPropertyForSelector(transformedSelector, property, value, true, true);
                 // Update our local cache with the transformed selector
                 const key = `${transformedSelector}|${property}`;
                 this.styleValues[key] = value;
             }
-        },        onPropertyChange({ selector, property, value }) {
+        }, onPropertyChange({selector, property, value}) {
             const key = `${selector}|${property}`;
             // Update the reactive styleValues cache
             this.styleValues[key] = value;
-            
+
             // Also update any setting fieldSettings.value that matches this selector and property
             this.updateSettingFieldValues(selector, property, value);
-            
+
             // Notify all registered listeners (for Vue 3 event handling)
             if (this.propertyChangeListeners && this.propertyChangeListeners.length > 0) {
-                const eventData = { selector, property, value };
+                const eventData = {selector, property, value};
                 this.propertyChangeListeners.forEach(callback => {
                     if (typeof callback === 'function') {
                         try {
@@ -700,21 +679,19 @@ export default {
                     }
                 });
             }
-        },
-
-        updateSettingFieldValues(selector, property, value) {
+        }, updateSettingFieldValues(selector, property, value) {
             // Find and update any setting fieldSettings.value that matches this selector and property
-            const itemsToProcess = this.flattenStyleSettings(this.styleSettingVars);
+            const itemsToProcess = this.flattenStyleSettings(this.displayedStyleSettingVars);
             itemsToProcess.forEach(item => {
-                if (item.fieldSettings && 
-                    item.fieldSettings.property === property && 
-                    item.selectors && 
+                if (item.fieldSettings &&
+                    item.fieldSettings.property === property &&
+                    item.selectors &&
                     item.selectors.length > 0) {
-                    
+
                     // Calculate the final selector for this item to see if it matches
                     const baseSelector = item.selectors[item.selectors.length - 1];
                     let itemRootSelector = item.rootSelector || this.findRootSelectorForPath(item.url) || '';
-                    
+
                     let finalSelector = baseSelector;
                     if (itemRootSelector && baseSelector) {
                         if (baseSelector === ':root') {
@@ -764,10 +741,9 @@ export default {
             const pathSegments = this.currentPath.split('/').filter(p => p);
             let currentPath = '';
             let rootSelector = '';
-
             for (const segment of pathSegments) {
                 currentPath += '/' + segment;
-                const setting = this.styleSettingVars.find(item => item.url === currentPath);
+                const setting = this.displayedStyleSettingVars.find(item => item.url === currentPath);
                 if (setting && setting.rootSelector) {
                     rootSelector = setting.rootSelector;
                 }
@@ -810,69 +786,6 @@ export default {
             this.styleEditorData = {};
         },
 
-        updateSettings(event, settingKey, optionGroup) {
-            let value = event;
-            if (event.target) {
-                value = event.target.value;
-            }
-
-            if (!this.options[optionGroup]) {
-                this.$set(this.options, optionGroup, {});
-            }
-
-            this.options[optionGroup][settingKey] = value;
-
-            axios.post(window.mw.settings.api_url + 'save_option', {
-                'option_group': optionGroup,
-                'option_key': settingKey,
-                'option_value': value,
-            }).then((response) => {
-                if (response.data) {
-                    if (this.styleSheetSourceFile) {
-                        window.mw.app.templateSettings.reloadStylesheet(this.styleSheetSourceFile, this.optionGroupLess);
-                    }
-                }
-            });
-        },
-
-        stringToId(str) {
-            return str.replace(/[^a-z0-9]/gi, '-').toLowerCase();
-        },
-
-        showSettingsGroup(settingGroupKey) {
-            let id = 'settings-group-' + this.stringToId(settingGroupKey);
-            let el = document.getElementById(id);
-            if (el.style.display === 'none') {
-                el.style.display = 'block';
-            } else {
-                el.style.display = 'none';
-            }
-        },
-
-        resetTemplateSettings() {
-            let askForConfirmText = '<div class="">' +
-                '<h4 class="">' + window.mw.lang('Are you sure you want to reset template settings ?') + '</h4>' +
-                '</div>';
-
-            window.mw.tools.confirm_reset_module_by_id(this.optionGroup, function () {
-            }, askForConfirmText);
-        },
-
-        resetStylesheetSettings() {
-            let askForConfirmText = '<div class="">' +
-                '<h4 class="">' + window.mw.lang('Are you sure you want to reset stylesheet settings ?') + '</h4>' +
-                '</div>';
-
-            window.mw.tools.confirm_reset_module_by_id(this.optionGroupLess, () => {
-                if (window.mw?.top()?.app?.templateSettings) {
-                    window.mw.top().app.templateSettings.reloadStylesheet(this.styleSheetSourceFile, this.optionGroupLess);
-                }
-                setTimeout(function () {
-                    window.mw.top().win.location.reload();
-                }, 3000);
-            }, askForConfirmText);
-        },
-
         loadMoreFonts() {
             if (window.mw?.top()?.app?.fontManager) {
                 window.mw.top().app.fontManager.manageFonts();
@@ -911,10 +824,10 @@ export default {
             let styleEditorUrl = window.mw?.settings?.site_url + 'editor_tools/style_editor_iframe';
             // Example of adding params, adjust as necessary based on how your style editor app consumes them
             if (settings && settings.type) {
-                 styleEditorUrl += '?type=' + encodeURIComponent(settings.type);
+                styleEditorUrl += '?type=' + encodeURIComponent(settings.type);
             }
             if (settings && settings.selector) {
-                 styleEditorUrl += (styleEditorUrl.includes('?') ? '&' : '?') + 'selector=' + encodeURIComponent(settings.selector);
+                styleEditorUrl += (styleEditorUrl.includes('?') ? '&' : '?') + 'selector=' + encodeURIComponent(settings.selector);
             }
             // Add more params from settings if needed
 
@@ -949,10 +862,17 @@ export default {
                     });
                 }
             });
-        },
-        setupEventListeners() {
+        }, setupEventListeners() {
             // Add any additional event listeners here
         },
+
+        handleSettingsUpdated(eventData) {
+            // Handle settings update from FieldSettingsGroups component
+            // The component already handles the API call and stylesheet reload
+            // This is just for any additional parent component logic if needed
+            console.log('Settings updated:', eventData);
+        },
+
         updateLayoutIdDisplay() {
             if (this.applyMode === 'layout') {
                 const activeLayout = window.css_vars_design_active_layout;
@@ -1012,7 +932,8 @@ export default {
                         }
                     }
                 }
-            }        },
+            }
+        },
 
         registerPropertyChangeListener(callback) {
             // Store callback for Vue 3 event handling since we can't use $on/$off
@@ -1020,7 +941,7 @@ export default {
                 this.propertyChangeListeners = [];
             }
             this.propertyChangeListeners.push(callback);
-        },        unregisterPropertyChangeListener(callback) {
+        }, unregisterPropertyChangeListener(callback) {
             // Remove callback from listeners array
             if (this.propertyChangeListeners) {
                 const index = this.propertyChangeListeners.indexOf(callback);
