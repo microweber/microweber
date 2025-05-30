@@ -122,13 +122,15 @@ export default {
         initIframeWrapper() {
             // Create iframe element
             this.iframe = document.createElement('iframe');
-            this.iframe.allowTransparency = true;
+
+
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
             this.iframe.style.border = '1px solid #dee2e6';
             this.iframe.style.borderRadius = '6px';
-            this.iframe.style.backgroundColor = 'transparent';
+            this.iframe.style.colorScheme   = 'normal';
+
 
             // Append to container
             this.$refs.iframeContainer.appendChild(this.iframe);
