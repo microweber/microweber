@@ -304,23 +304,25 @@ export default {
         },
 
         initAIChatForm() {
-                this.aiChatFormInstance = new AIChatForm({
-                    multiLine: true,
-                    submitOnEnter: true,
-                    placeholder: 'Make it blue and white...'
-                });
+            this.aiChatFormInstance = new AIChatForm({
+                multiLine: true,
+                submitOnEnter: true,
+                placeholder: 'Make it blue and white...'
+            });
 
-                setTimeout(() => {
-                    // todo
-                    this.$refs.aiChatFormBox.appendChild(this.aiChatFormInstance.form);
-                    this.aiChatFormInstance.on('submit', (value) => {
-                        this.aiMessage = value;
-                        this.changeDesign(value);
-                    });
-                    this.aiChatFormInstance.on('areaValue', (value) => {
-                        this.aiMessage = value;
-                    });
+            setTimeout(() => {
+
+
+                // todo
+                this.$refs.aiChatFormBox.appendChild(this.aiChatFormInstance.form);
+                this.aiChatFormInstance.on('submit', (value) => {
+                    this.aiMessage = value;
+                    this.changeDesign(value);
                 });
+                this.aiChatFormInstance.on('areaValue', (value) => {
+                    this.aiMessage = value;
+                });
+            });
         },
 
         submitAiRequest() {
@@ -460,7 +462,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             document.querySelector('.ai-change-template-design-button').classList.remove('d-none');
         }
 
-  this.initAIChatForm()
+        this.initAIChatForm()
 
         console.log('FieldAiChangeDesign mounted, AI availability:', this.isAIAvailable);
 
