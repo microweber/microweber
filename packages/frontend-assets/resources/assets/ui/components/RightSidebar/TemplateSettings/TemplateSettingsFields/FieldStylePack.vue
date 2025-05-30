@@ -7,6 +7,7 @@
 
 <script>
 export default {
+    inject: ['templateSettings'],
     props: {
         setting: {
             type: Object,
@@ -21,11 +22,34 @@ export default {
             default: ''
         }
     },
-    data() {
+    computed: {
+        isLayoutMode() {
+            return this.templateSettings && this.templateSettings.applyMode === 'layout';
+        },
+        
+        activeLayoutId() {
+            return this.templateSettings && this.isLayoutMode ? this.templateSettings.activeLayoutId : null;
+        }
+    },    data() {
         return {
             iframe: null,
             fontCallbacks: [],
             currentStylePack: null,
+        }
+    },
+    watch: {
+        // Watch for changes in layout mode
+        isLayoutMode() {
+            this.$nextTick(() => {
+                this.updateIframeContent();
+            });
+        },
+        
+        // Watch for changes in active layout ID
+        activeLayoutId() {
+            this.$nextTick(() => {
+                this.updateIframeContent();
+            });
         }
     },
     mounted() {
@@ -44,14 +68,11 @@ export default {
             mw.top().app.canvas.off('reloadCustomCssDone');
         }
     },
-    methods: {
-        applyStylePack(stylePack) {
+    methods: {        applyStylePack(stylePack) {
             if (stylePack.properties) {
                 const updates = [];
                 Object.keys(stylePack.properties).forEach(property => {
                     updates.push({
-                        selector: this.selectorToApply,
-                        property: property,
                         value: stylePack.properties[property]
                     });
                 });
@@ -221,9 +242,7 @@ export default {
             } catch (error) {
                 console.error('Error injecting canvas styles:', error);
             }
-        },
-
-        updateIframeContent() {
+        },        updateIframeContent() {
             if (!this.iframe || !this.iframe.contentDocument) return;
 
             const iframeDoc = this.iframe.contentDocument;
@@ -234,11 +253,21 @@ export default {
             // Clear existing content
             previewContent.innerHTML = '';
 
+            // Create a wrapper div for layout mode
+            let contentWrapper = previewContent;
+            if (this.isLayoutMode && this.activeLayoutId && this.activeLayoutId !== 'None') {
+                const layoutWrapper = iframeDoc.createElement('div');
+                layoutWrapper.id = this.activeLayoutId;
+                layoutWrapper.className = 'layout-wrapper';
+                previewContent.appendChild(layoutWrapper);
+                contentWrapper = layoutWrapper;
+            }
+
             // Render all style packs
             if (this.setting.fieldSettings && this.setting.fieldSettings.styleProperties) {
                 this.setting.fieldSettings.styleProperties.forEach((stylePack, index) => {
                     const stylePackElement = this.createStylePackElement(stylePack, index, iframeDoc);
-                    previewContent.appendChild(stylePackElement);
+                    contentWrapper.appendChild(stylePackElement);
                 });
             }
         },
