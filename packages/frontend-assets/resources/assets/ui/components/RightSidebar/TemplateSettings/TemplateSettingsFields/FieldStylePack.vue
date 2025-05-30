@@ -97,6 +97,8 @@ export default {
             this.iframe.onload = () => {
                 this.injectCanvasStyles();
                 this.updateIframeContent();
+
+                mw.top().tools.iframeAutoHeight(this.iframe)
             };
 
             // Set initial content with empty container
@@ -109,9 +111,8 @@ export default {
                     <style>
                         body {
                             margin: 0;
-                            padding: 20px;
-                            font-family: sans-serif;
-                            background-color: #f8f9fa;
+                            padding: 0px;
+
                         }
                         .style-pack-container {
                             display: flex;
