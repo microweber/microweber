@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showButton" class="mb-3">
+    <div v-if="showButton" class="mb-3 mw-live-edit-settings-back-button">
         <button @click="handleGoBack"
                 class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start">
             <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32"
@@ -39,11 +39,11 @@ export default {
     methods: {
         handleGoBack() {
             let backPath = '/';
-            
+
             if (this.currentSetting && this.currentSetting.backUrl) {
                 backPath = this.currentSetting.backUrl;
             }
-            
+
             this.$emit('go-back', backPath);
         }
     }
