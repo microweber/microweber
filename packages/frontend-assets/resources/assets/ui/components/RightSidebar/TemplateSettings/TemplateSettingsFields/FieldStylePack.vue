@@ -122,7 +122,7 @@ export default {
             this.iframe.style.height = '400px';
             this.iframe.style.border = '1px solid #dee2e6';
             this.iframe.style.borderRadius = '6px';
-            this.iframe.style.backgroundColor = '#fff';
+            this.iframe.style.backgroundColor = 'transparent';
 
             // Append to container
             this.$refs.iframeContainer.appendChild(this.iframe);
@@ -157,15 +157,15 @@ export default {
                         }
                         .style-pack-item {
                             cursor: pointer;
-                            padding: 15px;
+                            padding: 5px;
                             border-radius: 8px;
                             transition: all 0.2s;
-                            border: 2px solid #dee2e6;
-                            margin-bottom: 15px;
-                            background-color: #fff;
+                            border: 1px solid #dee2e6;
+                            margin-bottom: 10px;
+                            background-color: transparent;
                         }
                         .style-pack-item:hover {
-                            background-color: #f8f9fa;
+                            background-color: transparent;
                             border-color: #007bff;
                             transform: translateY(-2px);
                             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -199,7 +199,6 @@ export default {
                             min-width: 0;
                             display: flex;
                             justify-content: center;
-                            padding: 8px;
 
 
                         }
@@ -211,6 +210,7 @@ export default {
                             font-size: 14px;
                             padding: 8px 12px !important;
                             border-radius: 4px;
+                            width: 100%;
                         }
                         .style-label {
                             text-align: center;
@@ -232,6 +232,8 @@ export default {
                         .mt-1 {
                             margin-top: 0.25rem;
                         }
+
+
                     </style>
                 </head>
                 <body>

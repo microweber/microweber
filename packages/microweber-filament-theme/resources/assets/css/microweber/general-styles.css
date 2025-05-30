@@ -1129,3 +1129,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .color-palette-item {
     @apply dark:border-gray-700 dark:border hover:dark:!bg-gray-700;
 }
+
+
+#preview-content {
+    @apply dark:bg-gray-900 dark:text-white;
+}
