@@ -40,9 +40,11 @@ export default {
         previewElementsFormat() {
             return this.setting.previewElementsFormat || 'block';
         }
-    }, data() {
+    },
+    data() {
         return {
             iframe: null,
+            isDarkMode: false,
             fontCallbacks: [],
             currentStylePack: null,
         }
@@ -91,10 +93,6 @@ export default {
                 });
 
 
-
-
-
-
                 if (updates.length > 0) {
                     this.$emit('batch-update', updates);
                 }
@@ -124,12 +122,14 @@ export default {
             this.iframe = document.createElement('iframe');
 
 
+
+            this.iframe.allowTransparency = true;
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
             this.iframe.style.border = '1px solid #dee2e6';
             this.iframe.style.borderRadius = '6px';
-            this.iframe.style.colorScheme   = 'normal';
+            this.iframe.style.colorScheme = 'normal';
 
 
             // Append to container
@@ -170,10 +170,10 @@ export default {
                             transition: all 0.2s;
                             border: 1px solid #dee2e6;
                             margin-bottom: 10px;
-                            background-color: transparent;
+                            background-color: #f2f2f2;
                         }
                         .style-pack-item:hover {
-                            background-color: transparent;
+                            background-color: #d7d7d7;
                             border-color: #007bff;
                             transform: translateY(-2px);
                             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
