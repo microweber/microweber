@@ -1,4 +1,9 @@
 <template>
+    <label v-if="setting.title" class="live-edit-label">{{ setting.title }}</label>
+    <div v-if="setting.description" class="mt-1">
+        <small>{{ setting.description }}</small>
+    </div>
+
     <div class="mt-2">
         <!-- Iframe wrapper for rendering elements with canvas styles - always visible now -->
         <div ref="iframeContainer" class="iframe-wrapper"></div>
@@ -26,11 +31,11 @@ export default {
         isLayoutMode() {
             return this.templateSettings && this.templateSettings.applyMode === 'layout';
         },
-        
+
         activeLayoutId() {
             return this.templateSettings && this.isLayoutMode ? this.templateSettings.activeLayoutId : null;
         }
-    },    data() {
+    }, data() {
         return {
             iframe: null,
             fontCallbacks: [],
@@ -44,7 +49,7 @@ export default {
                 this.updateIframeContent();
             });
         },
-        
+
         // Watch for changes in active layout ID
         activeLayoutId() {
             this.$nextTick(() => {
@@ -68,7 +73,8 @@ export default {
             mw.top().app.canvas.off('reloadCustomCssDone');
         }
     },
-    methods: {        applyStylePack(stylePack) {
+    methods: {
+        applyStylePack(stylePack) {
             if (stylePack.properties) {
                 const updates = [];
                 Object.keys(stylePack.properties).forEach(property => {
@@ -133,6 +139,7 @@ export default {
                         body {
                             margin: 0;
                             padding: 0px;
+                            zoom: 50%;
 
                         }
                         .style-pack-container {
@@ -242,7 +249,7 @@ export default {
             } catch (error) {
                 console.error('Error injecting canvas styles:', error);
             }
-        },        updateIframeContent() {
+        }, updateIframeContent() {
             if (!this.iframe || !this.iframe.contentDocument) return;
 
             const iframeDoc = this.iframe.contentDocument;
@@ -300,7 +307,6 @@ export default {
                     Object.keys(attrs).forEach(attr => {
                         component.setAttribute(attr, attrs[attr]);
                     });
-
 
 
                     // Apply style pack properties to preview element
