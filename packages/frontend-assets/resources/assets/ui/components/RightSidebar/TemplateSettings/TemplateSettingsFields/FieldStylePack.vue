@@ -90,6 +90,11 @@ export default {
                     });
                 });
 
+
+
+
+
+
                 if (updates.length > 0) {
                     this.$emit('batch-update', updates);
                 }
@@ -117,6 +122,7 @@ export default {
         initIframeWrapper() {
             // Create iframe element
             this.iframe = document.createElement('iframe');
+            this.iframe.allowTransparency = true;
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
