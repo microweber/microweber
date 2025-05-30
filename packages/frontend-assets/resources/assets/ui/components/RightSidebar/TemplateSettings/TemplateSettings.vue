@@ -11,6 +11,8 @@
         </div>
         <div v-else>
             <!-- Navigation path -->
+
+            <div class="mw-template-settings-back-button-sticky">
             <FieldBackButton
                 :current-path="currentPath"
                 :current-setting="currentSetting"
@@ -18,6 +20,7 @@
                 @go-back="navigateTo"
             />
 
+            </div>
             <!-- Choose where to edit dropdown -->
             <div v-if="hasStyleSettings" class="form-control-live-edit-label-wrapper mt-3 mb-3">
                 <label for="css_vars_design_apply_mode" class="live-edit-label">Choose where to edit</label>
@@ -37,14 +40,6 @@
             </div>            <!-- AI Design Button -->
             <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
 
-            <div class="mt-3">
-                <FieldBackButton
-                    :current-path="currentPath"
-                    :current-setting="currentSetting"
-                    :show-button="currentPath !== '/'"
-                    @go-back="navigateTo"
-                />
-            </div>
 
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
@@ -117,6 +112,9 @@
                 </div>
             </div>            <!-- Style Editor iframe holder -->
             <div v-if="showStyleSettings === 'styleEditor'" class="mt-3">
+
+                <div class="mw-template-settings-back-button-sticky">
+
                 <FieldBackButton
                     :current-path="currentPath"
                     :current-setting="styleEditorData"
@@ -124,6 +122,7 @@
                     @go-back="goBackFromStyleEditor"
                 />
 
+                </div>
                 <b v-if="styleEditorData.title">{{ styleEditorData.title }}</b>
                 <p v-if="styleEditorData.description">{{ styleEditorData.description }}</p>
 

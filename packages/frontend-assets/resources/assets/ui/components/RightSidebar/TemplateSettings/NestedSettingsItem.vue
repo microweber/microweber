@@ -27,7 +27,7 @@
         </div>
 
         <!-- Case 2: The setting is a navigable group (not a field, but has a URL and title) -->
-        <div v-else-if="setting.url && setting.title">
+        <div v-else-if="setting.url && setting.title && setting.title !== 'Main'">
             <a @click="$emit('navigate', setting.url)"
                class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-1 d-block">
                 {{ setting.title }}

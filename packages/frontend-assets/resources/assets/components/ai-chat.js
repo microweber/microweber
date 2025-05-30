@@ -116,7 +116,7 @@ export class MWSpeechRecognition extends MicroweberBaseClass {
     constructor() {
         super();
         this.init();
-        this.events();
+
     }
 
     #status = false;
@@ -125,6 +125,7 @@ export class MWSpeechRecognition extends MicroweberBaseClass {
         this.recognition = new (window.SpeechRecognition ||
         window.webkitSpeechRecognition ||
         window.mozSpeechRecognition)();
+        this.events();
     }
 
     events () {

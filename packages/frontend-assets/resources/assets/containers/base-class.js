@@ -1,27 +1,27 @@
 class MicroweberBaseClass {
-    #events = {};
+    _events = {};
     on(e, f) {
-        this.#events[e] ? this.#events[e].push(f) : (this.#events[e] = [f]);
+        this._events[e] ? this._events[e].push(f) : (this._events[e] = [f]);
         return this;
     };
     off(e, f) {
-        if(!this.#events[e]) {
+        if(!this._events[e]) {
             return this;
         }
         if(typeof f === 'function') {
-            const index = this.#events[e].indexOf(f);
+            const index = this._events[e].indexOf(f);
             if(index === -1) {
                 return this;
             }
-            this.#events[e].splice(index, 1);
+            this._events[e].splice(index, 1);
         } else {
-            this.#events[e] = [];
+            this._events[e] = [];
         }
         return this;
     };
 
     dispatch (e, f, f2) {
-        this.#events[e] ? this.#events[e].forEach(function (c) {
+        this._events[e] ? this._events[e].forEach(function (c) {
             c.call(this, f);
         }) : '';
         return this;
@@ -31,11 +31,11 @@ class MicroweberBaseClass {
         return this.dispatch(e, f)
     };
 
-    #styles = {};
+    _styles = {};
 
     css(id, styles, forced) {
-        if(!this.#styles[id] || forced) {
-            this.#styles[id] = true;
+        if(!this._styles[id] || forced) {
+            this._styles[id] = true;
             const style = document.createElement('style');
             style.appendChild(document.createTextNode(styles));
             document.head.appendChild(style);
