@@ -34,6 +34,11 @@ export default {
 
         activeLayoutId() {
             return this.templateSettings && this.isLayoutMode ? this.templateSettings.activeLayoutId : null;
+        },
+
+        // Get display format from setting or default to 'block'
+        previewElementsFormat() {
+            return this.setting.previewElementsFormat || 'block';
         }
     }, data() {
         return {
@@ -115,7 +120,7 @@ export default {
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
-            this.iframe.style.border = '1px solid var(--tblr-border-color, #dee2e6)';
+            this.iframe.style.border = '1px solid #dee2e6';
             this.iframe.style.borderRadius = '6px';
             this.iframe.style.backgroundColor = '#fff';
 
@@ -141,7 +146,7 @@ export default {
                         body {
                             margin: 0;
                             padding: 0px;
-                            zoom: 60%;
+                            background-color: transparent !important;
 
                         }
                         .style-pack-container {
@@ -173,12 +178,31 @@ export default {
                             min-width: 80px;
                             font-size: 12px;
                         }
+                        /* Format display types */
+                        .preview-display-block {
+                            display: block;
+                        }
+                        .preview-display-flex {
+                            display: flex;
+                            gap: 10px;
+                            flex-wrap: wrap;
+                        }
+                        .preview-display-flexZoom {
+                            display: flex;
+                            gap: 5px;
+                            flex-wrap: wrap;
+                            zoom: 0.5;
+                        }
                         .style-preview-element {
                             flex: 1;
                             min-width: 0;
                             display: flex;
                             justify-content: center;
                             padding: 8px;
+                        }
+                        .preview-display-block .style-preview-element {
+                            display: block;
+                            margin-bottom: 10px;
                         }
                         .preview-component {
                             font-size: 14px;
@@ -291,7 +315,9 @@ export default {
 
             // Create preview elements
             const previewDiv = iframeDoc.createElement('div');
-            previewDiv.className = 'd-flex gap-2 cursor-pointer style-pack-preview';
+            // Apply display format class based on previewElementsFormat prop or setting
+            const displayFormat = this.previewElementsFormat;
+            previewDiv.className = `preview-display-${displayFormat} cursor-pointer style-pack-preview`;
 
             if (this.setting.previewElements && this.setting.previewElements.length > 0) {
                 // Use actual preview elements
@@ -303,13 +329,11 @@ export default {
                     component.className = `preview-component ${preview.class || ''}`;
                     component.textContent = preview.label || '';
 
-
                     const attrs = preview.attributes || {};
 
                     Object.keys(attrs).forEach(attr => {
                         component.setAttribute(attr, attrs[attr]);
                     });
-
 
                     // Apply style pack properties to preview element
                     if (stylePack.properties) {
@@ -385,4 +409,3 @@ export default {
     }
 }
 </script>
-
