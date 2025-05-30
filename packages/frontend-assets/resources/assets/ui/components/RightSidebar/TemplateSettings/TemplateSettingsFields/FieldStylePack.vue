@@ -147,6 +147,7 @@ export default {
                             margin: 0;
                             padding: 0px;
                             background-color: transparent !important;
+                            background: transparent !important;
 
                         }
                         .style-pack-container {
@@ -199,6 +200,8 @@ export default {
                             display: flex;
                             justify-content: center;
                             padding: 8px;
+
+
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
