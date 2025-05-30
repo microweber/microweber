@@ -265,6 +265,15 @@ export default {
                     component.className = `preview-component ${preview.class || ''}`;
                     component.textContent = preview.label || '';
 
+
+                    const attrs = preview.attributes || {};
+
+                    Object.keys(attrs).forEach(attr => {
+                        component.setAttribute(attr, attrs[attr]);
+                    });
+
+
+
                     // Apply style pack properties to preview element
                     if (stylePack.properties) {
                         Object.keys(stylePack.properties).forEach(property => {
