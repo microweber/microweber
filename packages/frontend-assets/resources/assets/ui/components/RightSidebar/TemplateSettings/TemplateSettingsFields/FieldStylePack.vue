@@ -84,7 +84,7 @@ export default {
                         value: stylePack.properties[property]
                     });
                 });
- 
+
                 if (updates.length > 0) {
                     this.$emit('batch-update', updates);
                 }
@@ -141,7 +141,7 @@ export default {
                         body {
                             margin: 0;
                             padding: 0px;
-                            zoom: 50%;
+                            zoom: 60%;
 
                         }
                         .style-pack-container {
