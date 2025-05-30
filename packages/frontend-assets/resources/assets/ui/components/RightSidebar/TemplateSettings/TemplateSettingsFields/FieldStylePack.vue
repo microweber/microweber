@@ -79,10 +79,12 @@ export default {
                 const updates = [];
                 Object.keys(stylePack.properties).forEach(property => {
                     updates.push({
+                        selector: this.selectorToApply || this.rootSelector,
+                        property: property,
                         value: stylePack.properties[property]
                     });
                 });
-
+ 
                 if (updates.length > 0) {
                     this.$emit('batch-update', updates);
                 }
