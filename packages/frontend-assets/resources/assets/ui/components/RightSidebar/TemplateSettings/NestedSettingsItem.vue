@@ -56,6 +56,7 @@ import FieldButton from './TemplateSettingsFields/FieldButton.vue';
 import FieldInfoBox from './TemplateSettingsFields/FieldInfoBox.vue';
 import FieldStyleEditor from './TemplateSettingsFields/FieldStyleEditor.vue';
 import FieldBackButton from './TemplateSettingsFields/FieldBackButton.vue';
+import FieldStylePack from './TemplateSettingsFields/FieldStylePack.vue';
 
 export default {
     name: 'NestedSettingsItem',
@@ -69,6 +70,7 @@ export default {
         FieldButton,
         FieldInfoBox,
         FieldStyleEditor,
+        FieldStylePack,
         FieldBackButton
     },
     inject: ['templateSettings'],
@@ -139,6 +141,7 @@ export default {
                 case 'button': return 'field-button';
                 case 'infoBox': return 'field-info-box';
                 case 'styleEditor': return 'field-style-editor';
+                case 'stylePack': return 'field-style-pack';
                 default:
                     console.warn('Unknown fieldType:', fieldType, 'for setting:', this.setting.title);
                     return null;
