@@ -310,7 +310,7 @@ export default {
                 placeholder: 'Make it blue and white...'
             });
 
-            setTimeout(() => {
+
 
 
                 // todo
@@ -322,7 +322,7 @@ export default {
                 this.aiChatFormInstance.on('areaValue', (value) => {
                     this.aiMessage = value;
                 });
-            });
+
         },
 
         submitAiRequest() {
