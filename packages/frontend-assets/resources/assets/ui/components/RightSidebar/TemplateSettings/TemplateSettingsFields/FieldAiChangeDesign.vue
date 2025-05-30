@@ -55,6 +55,7 @@ export default {
     inject: ['templateSettings'],
     data() {
         return {
+            supportedFonts: [],
             showAIChatForm: false,
             aiFormType: 'simple', // Default to simple form
             aiChatFormInstance: null,
@@ -349,6 +350,8 @@ export default {
                 return;
             }
 
+
+
             this.loading = true;
             let designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
 
@@ -361,10 +364,14 @@ export default {
             console.log('valuesForEdit:', valuesForEdit);
             let editSchema = JSON.stringify(valuesForEdit);
 
+            let supportedFonts = this.supportedFonts.map(font => font).join(', ');
+
             const message = `Using the existing object IDS,
 By using this schema: \n ${editSchema} \n
 You must write CSS values to the given object,
 You are CSS values editor, you must edit the values of the css to complete the user design task,
+
+If the user asks to change the font, you must use one of the following fonts: ${supportedFonts} ,
 
 The css design task is to make the design: ${about}
 
@@ -457,6 +464,9 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
 
     mounted() {
+
+        this.supportedFonts = mw.top().app.fontManager.getFonts();
+
         // Update the UI based on AI availability
         if (this.isAIAvailable && document.querySelector('.ai-change-template-design-button')) {
             document.querySelector('.ai-change-template-design-button').classList.remove('d-none');
