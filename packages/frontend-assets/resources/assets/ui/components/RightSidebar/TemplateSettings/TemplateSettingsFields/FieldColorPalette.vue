@@ -1,9 +1,6 @@
 <template>
     <div class="mt-2">
-        <label v-if="setting.title" class="live-edit-label">{{ setting.title }}</label>
-        <div v-if="setting.description" class="mb-2">
-            <small>{{ setting.description }}</small>
-        </div>
+
 
         <div v-if="setting.fieldSettings && setting.fieldSettings.colors" class="color-palette-container">
             <div v-for="(colorPalette, index) in setting.fieldSettings.colors" :key="index"
