@@ -37,8 +37,17 @@
                         <span id="active-layout-id-open-settings" @click="openSelectedLayoutSettings">⚙</span>
                     </div>
                 </div>
-            </div>            <!-- AI Design Button -->
+            </div>
+
+
+
+            <!-- AI Design Button -->
             <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"  @batch-update="handleBatchUpdate"/>
+
+
+
+
+
 
 
             <!-- Main settings list when at root path -->

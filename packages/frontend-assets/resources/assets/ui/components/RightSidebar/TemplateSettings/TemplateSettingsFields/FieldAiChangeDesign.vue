@@ -4,7 +4,6 @@
         <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
         <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
 
-        <div ref="aiChatFormBox"></div>
 
         <div v-if="!showAIChatForm">
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -15,30 +14,16 @@
         </div>
 
         <div v-show="showAIChatForm" class="mt-2">
+
+            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Close Change Design with AI" class="btn btn-link p-0"
+                    @click="toggleAIChatForm">
+                Close
+            </button>
+
+
             <!-- Buttons to switch between form types -->
-            <div class="btn-group btn-group-sm mb-2">
-                <button class="btn" :class="{'btn-primary': aiFormType === 'simple', 'btn-outline-primary': aiFormType !== 'simple'}"
-                        @click="switchFormType('simple')">Simple</button>
-                <button class="btn" :class="{'btn-primary': aiFormType === 'advanced', 'btn-outline-primary': aiFormType !== 'advanced'}"
-                        @click="switchFormType('advanced')">Advanced</button>
-            </div>
-            <textarea v-model="aiMessage" class="form-control-live-edit-input"
-                      placeholder="Make it blue and white..." rows="3"></textarea>
-            <div class="d-flex mt-2">
-                <button class="btn btn-sm btn-primary" @click="submitAiRequest">Send</button>
-                <button class="btn btn-sm btn-outline-secondary ms-2" @click="toggleAIChatForm">Cancel</button>
-            </div>
-            <!-- Simple textarea form -->
-            <div v-if="aiFormType === 'simple'" class="form-control-live-edit-label-wrapper">
-
-            </div>
-
-            <!-- Advanced AIChatForm container (hidden for now) -->
-            <div v-if="aiFormType === 'advanced'">
-                <div ref="aiChatFormContainer"></div>
-                <button class="btn btn-sm btn-outline-secondary mt-2" @click="toggleAIChatForm">Cancel</button>
-            </div>
-
+            <div ref="aiChatFormBox"></div>
             <!-- Shared UI elements -->
             <div v-if="loading" class="text-center mt-2">AI is thinking...</div>
             <div v-if="error" class="text-danger mt-2">{{ error }}</div>
@@ -48,7 +33,7 @@
 
 <script>
 
-import { AIChatForm } from '../../../../../components/ai-chat';
+import {AIChatForm} from '../../../../../components/ai-chat';
 
 
 export default {
@@ -290,19 +275,6 @@ export default {
             }
         },
 
-        switchFormType(type) {
-            this.aiFormType = type;
-
-            if (type === 'advanced' && !this.aiChatFormInstance && this.$refs.aiChatFormContainer) {
-                try {
-                    this.initAIChatForm();
-                } catch (e) {
-                    console.error('Error initializing AIChatForm', e);
-                    this.aiFormType = 'simple'; // Fallback to simple form
-                    this.error = 'Advanced form is not available. Using simple form.';
-                }
-            }
-        },
 
         initAIChatForm() {
             this.aiChatFormInstance = new AIChatForm({
@@ -312,17 +284,16 @@ export default {
             });
 
 
+            // todo, must clear the box value
 
-
-                // todo
-                this.$refs.aiChatFormBox.appendChild(this.aiChatFormInstance.form);
-                this.aiChatFormInstance.on('submit', (value) => {
-                    this.aiMessage = value;
-                    this.changeDesign(value);
-                });
-                this.aiChatFormInstance.on('areaValue', (value) => {
-                    this.aiMessage = value;
-                });
+            this.$refs.aiChatFormBox.appendChild(this.aiChatFormInstance.form);
+            this.aiChatFormInstance.on('submit', (value) => {
+                this.aiMessage = value;
+                this.changeDesign(value);
+            });
+            this.aiChatFormInstance.on('areaValue', (value) => {
+                this.aiMessage = value;
+            });
 
         },
 
@@ -436,17 +407,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                     // Clear form input after successful request
                     this.aiMessage = '';
 
-                    // If using AIChatForm, try to clear it too
-                    if (this.aiFormType === 'advanced' && this.aiChatFormInstance && typeof this.aiChatFormInstance.clear === 'function') {
-                        try {
-                            this.aiChatFormInstance.clear();
-                        } catch (e) {
-                            console.error('Failed to clear AIChatForm', e);
-                        }
-                    }
 
-                    // Close the form after successful submission
-                    this.showAIChatForm = false;
                 } else {
                     throw new Error('Invalid response from AI');
                 }
@@ -460,7 +421,6 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
             }
         }
     },
-
 
 
     mounted() {
