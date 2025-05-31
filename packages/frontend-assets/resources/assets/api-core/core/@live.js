@@ -484,6 +484,31 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
     getSelectedNode() {
         return this.activeNode;
     }
+    getSelectedElementNode() {
+        var node = this.getSelectedNode();
+        if (node && node.classList.contains('element')) {
+            return node;
+        }
+        if (node) {
+            var  activeLayout = node.closest('.element');
+            if(activeLayout) {
+                return activeLayout;
+            }
+        }
+    }
+    getSelectedModuleNode() {
+        var node = this.getSelectedNode();
+        if (node && node.classList.contains('module')) {
+            return node;
+        }
+        if (node) {
+            var  activeLayout = node.closest('.module');
+            if(activeLayout) {
+                return activeLayout;
+            }
+        }
+    }
+
 
     getSelectedLayoutNode() {
         var node = this.getSelectedNode();

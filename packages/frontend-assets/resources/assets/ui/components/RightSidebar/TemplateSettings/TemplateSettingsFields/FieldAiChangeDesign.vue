@@ -153,14 +153,9 @@ export default {
                     uniqueKeys.add(key);
                     uniquePairs.push(pair);
                 }
-            }
-
-            // Apply layout-specific filtering
-            if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+            }            // Apply layout-specific filtering
+            if (this.templateSettings.applyMode === 'layout' && this.templateSettings.activeLayoutId && this.templateSettings.activeLayoutId !== 'None') {
+                const layoutId = this.templateSettings.activeLayoutId;
 
                 if (layoutId) {
                     const layoutSelectorTarget = '#' + layoutId;
@@ -241,16 +236,11 @@ export default {
                 }
 
                 valuesForEdit[selectorKey][pair.property] = propertyValue;
-            }
-
-            // Ensure valuesForEdit has the layout key if empty in layout mode
+            }            // Ensure valuesForEdit has the layout key if empty in layout mode
             if (Object.keys(valuesForEdit).length === 0 &&
-                window.css_vars_design_apply_mode === 'layout' &&
-                window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+                this.templateSettings.applyMode === 'layout' &&
+                this.templateSettings.activeLayoutId && this.templateSettings.activeLayoutId !== 'None') {
+                const layoutId = this.templateSettings.activeLayoutId;
                 if (layoutId) {
                     valuesForEdit['#' + layoutId] = {};
                 }

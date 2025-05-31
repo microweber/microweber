@@ -40,14 +40,9 @@
             </div>
 
 
-
             <!-- AI Design Button -->
-            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"  @batch-update="handleBatchUpdate"/>
-
-
-
-
-
+            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"
+                                 @batch-update="handleBatchUpdate"/>
 
 
             <!-- Main settings list when at root path -->
@@ -295,10 +290,8 @@ export default {
                 window.mw.top().app.__vueTemplateSettingsInstance = null; // Clear instance reference
             }
         }
-    }, watch: {
-        applyMode(newMode, oldMode) {
+    }, watch: {        applyMode(newMode, oldMode) {
             if (newMode !== oldMode) {
-                window.css_vars_design_apply_mode = newMode;
                 this.updateLayoutIdDisplay();
                 this.initializeStyleValues();
 
@@ -309,10 +302,9 @@ export default {
                     this.existingLayoutSelectorsInitialized = false;
                 }
             }
-        }, activeLayoutId(newId, oldId) {
+        },        activeLayoutId(newId, oldId) {
             if (newId !== oldId) {
                 const newActiveLayout = newId === 'None' || !newId ? null : window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(newId);
-                window.css_vars_design_active_layout = newActiveLayout;
                 this.initializeStyleValues();
 
                 if (this.isLayoutMode) {
@@ -439,18 +431,21 @@ export default {
 
                 return acc;
             }, []);
-        },
-
-        // Design mode checking and selector transformation methods
+        },        // Design mode checking and selector transformation methods
         getActiveLayoutId() {
             if (!this.isLayoutMode) return null;
+            return this.activeLayoutId && this.activeLayoutId !== 'None' ? this.activeLayoutId : null;
+        },
 
-            const activeLayout = window.css_vars_design_active_layout;
-            if (!activeLayout) return null;
-
-            return typeof activeLayout === 'string'
-                ? activeLayout
-                : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+        updateActiveLayoutFromElement(activeLayoutElement) {
+            if (activeLayoutElement) {
+                const layoutId = typeof activeLayoutElement === 'string'
+                    ? activeLayoutElement
+                    : (activeLayoutElement?.id || activeLayoutElement?.getAttribute?.('id'));
+                this.activeLayoutId = layoutId || 'None';
+            } else {
+                this.activeLayoutId = 'None';
+            }
         },
 
         transformSelectorBasedOnMode(selector, rootSelector = '') {
@@ -516,11 +511,8 @@ export default {
                     this.styleSheetSourceFile = response.data.styleSheetSourceFile || false;
                     this.styleSettingVars = Array.isArray(response.data.styleSettingsVars)
                         ? response.data.styleSettingsVars.filter(item => item && typeof item === 'object')
-                        : [];
-
-                    if (this.styleSettingVars && this.styleSettingVars.length > 0) {
+                        : [];                    if (this.styleSettingVars && this.styleSettingVars.length > 0) {
                         window.mw_template_settings_styles_and_selectors = this.styleSettingVars;
-                        window.css_vars_design_apply_mode = this.applyMode;
                     }
 
                     if (this.settingsGroups && typeof this.settingsGroups === 'object') {
@@ -618,7 +610,10 @@ export default {
 
             // Replace the entire object instead of using $set
             this.styleValues = reactive(newStyleValues);
-        }, getCssPropertyValue(selector, property) {
+        },
+
+
+        getCssPropertyValue(selector, property) {
             // Get the root selector for the current context
             const rootSelector = this.getRootSelector();
 
@@ -869,23 +864,22 @@ export default {
             }
 
             iframeHolder.appendChild(iframe);
-        },
-        setupLayoutListener() {
+        },        setupLayoutListener() {
             // Setup layout selection and tracking
             this.$nextTick(() => {
                 if (window.mw?.top()?.app?.canvas) {
                     const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
-                    window.css_vars_design_active_layout = activeLayout;
+                    this.updateActiveLayoutFromElement(activeLayout);
                     this.updateLayoutIdDisplay();
 
                     window.mw.top().app.canvas.on('canvasDocumentClick', () => {
                         const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
-                        window.css_vars_design_active_layout = activeLayout;
+                        this.updateActiveLayoutFromElement(activeLayout);
                         this.updateLayoutIdDisplay();
                     });
                 }
             });
-        }, setupEventListeners() {
+        },setupEventListeners() {
             // Add any additional event listeners here
         },
 
@@ -894,16 +888,9 @@ export default {
             // The component already handles the API call and stylesheet reload
             // This is just for any additional parent component logic if needed
             console.log('Settings updated:', eventData);
-        },
-
-        updateLayoutIdDisplay() {
+        },        updateLayoutIdDisplay() {
             if (this.applyMode === 'layout') {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id') || 'None');
-
-                this.activeLayoutId = layoutId;
+                this.activeLayoutId = this.activeLayoutId || 'None';
             }
         },
 
@@ -1054,13 +1041,8 @@ export default {
                     uniqueKeys.add(key);
                     uniquePairs.push(pair);
                 }
-            }
-
-            if (window.css_vars_design_apply_mode === 'layout' && window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+            }            if (this.applyMode === 'layout' && this.activeLayoutId && this.activeLayoutId !== 'None') {
+                const layoutId = this.activeLayoutId;
 
                 if (layoutId) {
                     const layoutSelectorTarget = '#' + layoutId;
@@ -1118,15 +1100,10 @@ export default {
                 }
 
                 valuesForEdit[selectorKey][pair.property] = propertyValue;
-            }
-
-            if (Object.keys(valuesForEdit).length === 0 &&
-                window.css_vars_design_apply_mode === 'layout' &&
-                window.css_vars_design_active_layout) {
-                const activeLayout = window.css_vars_design_active_layout;
-                const layoutId = typeof activeLayout === 'string'
-                    ? activeLayout
-                    : (activeLayout?.id || activeLayout?.getAttribute?.('id'));
+            }            if (Object.keys(valuesForEdit).length === 0 &&
+                this.applyMode === 'layout' &&
+                this.activeLayoutId && this.activeLayoutId !== 'None') {
+                const layoutId = this.activeLayoutId;
                 if (layoutId) {
                     valuesForEdit['#' + layoutId] = {};
                 }

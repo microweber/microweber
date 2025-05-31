@@ -52,7 +52,6 @@ export default {
                 );
 
 
-                console.log('Effective CSS Value:', cssValue, 'for selector:', this.effectiveSelector);
 
                 if (cssValue) {
                     return cssValue;
