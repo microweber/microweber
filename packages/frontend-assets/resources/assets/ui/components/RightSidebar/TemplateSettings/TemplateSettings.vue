@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>            <!-- AI Design Button -->
-            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"/>
+            <FieldAiChangeDesign v-if="hasStyleSettings" :is-ai-available="isAIAvailable"  @batch-update="handleBatchUpdate"/>
 
 
             <!-- Main settings list when at root path -->

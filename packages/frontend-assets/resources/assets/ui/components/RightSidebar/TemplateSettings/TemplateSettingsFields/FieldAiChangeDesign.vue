@@ -350,8 +350,6 @@ export default {
                 return;
             }
 
-
-
             this.loading = true;
             let designSelectors = JSON.parse(JSON.stringify(window.mw_template_settings_styles_and_selectors));
 
@@ -364,14 +362,19 @@ export default {
             console.log('valuesForEdit:', valuesForEdit);
             let editSchema = JSON.stringify(valuesForEdit);
 
-            let supportedFonts = this.supportedFonts.map(font => font).join(', ');
+            // Only include supported fonts if the request contains the word "font"
+            let fontInfo = '';
+            if (about && about.toLowerCase().includes('font')) {
+                let supportedFonts = this.supportedFonts.map(font => font).join(', ');
+                fontInfo = `If the user asks to change the font, you must use one of the following fonts: ${supportedFonts} ,`;
+            }
 
             const message = `Using the existing object IDS,
 By using this schema: \n ${editSchema} \n
 You must write CSS values to the given object,
 You are CSS values editor, you must edit the values of the css to complete the user design task,
 
-If the user asks to change the font, you must use one of the following fonts: ${supportedFonts} ,
+${fontInfo}
 
 The css design task is to make the design: ${about}
 
@@ -400,6 +403,9 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                 let res = await window.mw.top().win.MwAi().sendToChat(messages, messageOptions);
 
                 if (res.success && res.data) {
+                    // Collect updates in a batch
+                    const updates = [];
+
                     // Process each selector and property in the AI response
                     for (let selector in res.data) {
                         if (res.data.hasOwnProperty(selector)) {
@@ -407,30 +413,24 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
                             for (let property in res.data[selector]) {
                                 if (res.data[selector].hasOwnProperty(property)) {
                                     const value = res.data[selector][property];
+                                    // Determine unit if needed
+                                    const unit = property.includes('color') ? '' : '';
 
-                                    // Apply the property either through the Vue instance or directly
-                                    if (this.templateSettings && typeof this.templateSettings.updateCssProperty === 'function') {
-                                        this.templateSettings.updateCssProperty(
-                                            selector,
-                                            property,
-                                            value
-                                        );
-                                    } else if (window.mw?.top()?.app?.cssEditor) {
-                                        // Determine unit if needed
-                                        const unit = property.includes('color') ? '' : '';
-
-                                        // Apply the CSS property
-                                        window.mw.top().app.cssEditor.setPropertyForSelector(
-                                            selector,
-                                            property,
-                                            value + unit,
-                                            true,
-                                            true
-                                        );
-                                    }
+                                    // Add to updates batch
+                                    updates.push({
+                                        selector: selector,
+                                        property: property,
+                                        value: value + unit
+                                    });
                                 }
                             }
                         }
+                    }
+
+
+                    // Apply all updates at once
+                    if (updates.length > 0) {
+                        this.$emit('batch-update', updates);
                     }
 
                     // Clear form input after successful request
