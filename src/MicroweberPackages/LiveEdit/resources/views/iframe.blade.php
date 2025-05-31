@@ -40,6 +40,14 @@
     <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
 
     <?php event_trigger('mw.live_edit.header'); ?>
+
+
+
+    @include('admin::layouts.partials.loads-user-custom-fonts')
+
+
+
+
 </head>
 <body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
 

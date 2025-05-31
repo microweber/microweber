@@ -33,6 +33,7 @@
             }
             ?>
 
+            @include('admin::layouts.partials.loads-user-custom-fonts')
 
             <?php event_trigger('mw.live_edit.header'); ?>
         </div>
