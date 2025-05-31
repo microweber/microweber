@@ -409,6 +409,14 @@ export default {
         },
 
         setupCssReloadListener() {
+            mw.top().app.canvas.on('liveEditCanvasLoaded', () => {
+                this.injectCanvasStyles();
+                this.updateIframeContent();
+                console.log('Page changed, refreshing style pack preview');
+
+            });
+
+
             if (mw.top() && mw.top().app && mw.top().app.canvas) {
                 mw.top().app.canvas.on('reloadCustomCssDone', () => {
                     // Refresh iframe content when CSS is reloaded
