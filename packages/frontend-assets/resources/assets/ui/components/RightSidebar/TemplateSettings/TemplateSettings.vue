@@ -197,6 +197,8 @@ export default {
             currentPath: '/',
             applyMode: 'template', // 'template' or 'layout'
             activeLayoutId: 'None',
+            activeModuleId: 'None',
+            activeElementId: 'None',
             isAIAvailable: false,
             styleEditorData: {},
             showStyleSettings: '/',
@@ -290,7 +292,8 @@ export default {
                 window.mw.top().app.__vueTemplateSettingsInstance = null; // Clear instance reference
             }
         }
-    }, watch: {        applyMode(newMode, oldMode) {
+    }, watch: {
+        applyMode(newMode, oldMode) {
             if (newMode !== oldMode) {
                 this.updateLayoutIdDisplay();
                 this.initializeStyleValues();
@@ -302,7 +305,7 @@ export default {
                     this.existingLayoutSelectorsInitialized = false;
                 }
             }
-        },        activeLayoutId(newId, oldId) {
+        }, activeLayoutId(newId, oldId) {
             if (newId !== oldId) {
                 const newActiveLayout = newId === 'None' || !newId ? null : window.mw?.top()?.app?.canvas?.getDocument()?.getElementById(newId);
                 this.initializeStyleValues();
@@ -437,6 +440,7 @@ export default {
             return this.activeLayoutId && this.activeLayoutId !== 'None' ? this.activeLayoutId : null;
         },
 
+
         updateActiveLayoutFromElement(activeLayoutElement) {
             if (activeLayoutElement) {
                 const layoutId = typeof activeLayoutElement === 'string'
@@ -511,7 +515,8 @@ export default {
                     this.styleSheetSourceFile = response.data.styleSheetSourceFile || false;
                     this.styleSettingVars = Array.isArray(response.data.styleSettingsVars)
                         ? response.data.styleSettingsVars.filter(item => item && typeof item === 'object')
-                        : [];                    if (this.styleSettingVars && this.styleSettingVars.length > 0) {
+                        : [];
+                    if (this.styleSettingVars && this.styleSettingVars.length > 0) {
                         window.mw_template_settings_styles_and_selectors = this.styleSettingVars;
                     }
 
@@ -791,7 +796,10 @@ export default {
                 window.mw.top().app.dispatch('mw.rte.css.editor2.open', setting);
             }
             this.openRTECssEditor2Vue(setting); // Call to openRTECssEditor2Vue
-        }, goBackFromStyleEditor(path) {
+        },
+
+
+        goBackFromStyleEditor(path) {
             // If path is provided by FieldBackButton, use it; otherwise use the original logic
             if (path) {
                 this.navigateTo(path);
@@ -864,22 +872,65 @@ export default {
             }
 
             iframeHolder.appendChild(iframe);
-        },        setupLayoutListener() {
+        }, setupLayoutListener() {
             // Setup layout selection and tracking
             this.$nextTick(() => {
                 if (window.mw?.top()?.app?.canvas) {
                     const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
                     this.updateActiveLayoutFromElement(activeLayout);
+                    const activeModule = window.mw.top().app.liveEdit.getSelectedModuleNode();
+                    this.updateActiveModuleFromElement(activeModule);
+                    const activeElement = window.mw.top().app.liveEdit.getSelectedElementNode();
+                    this.updateActiveElementFromElement(activeElement);
                     this.updateLayoutIdDisplay();
 
                     window.mw.top().app.canvas.on('canvasDocumentClick', () => {
                         const activeLayout = window.mw.top().app.liveEdit.getSelectedLayoutNode();
                         this.updateActiveLayoutFromElement(activeLayout);
+                        const activeModule = window.mw.top().app.liveEdit.getSelectedModuleNode();
+                        this.updateActiveModuleFromElement(activeModule);
+                        const activeElement = window.mw.top().app.liveEdit.getSelectedElementNode();
+                        this.updateActiveElementFromElement(activeElement);
                         this.updateLayoutIdDisplay();
                     });
                 }
             });
-        },setupEventListeners() {
+        },
+
+        updateActiveModuleFromElement(activeModuleElement) {
+            if (activeModuleElement) {
+                const moduleId = typeof activeModuleElement === 'string'
+                    ? activeModuleElement
+                    : (activeModuleElement?.id || activeModuleElement?.getAttribute?.('id'));
+                this.activeModuleId = moduleId || 'None';
+            } else {
+                this.activeModuleId = 'None';
+            }
+        },
+
+        updateActiveElementFromElement(activeElementElement) {
+            if (activeElementElement) {
+                const elementId = typeof activeElementElement === 'string'
+                    ? activeElementElement
+                    : (activeElementElement?.id || activeElementElement?.getAttribute?.('id'));
+                this.activeElementId = elementId || 'None';
+            } else {
+                this.activeElementId = 'None';
+            }
+        },
+
+        updateActiveLayoutFromElement(activeLayoutElement) {
+            if (activeLayoutElement) {
+                const layoutId = typeof activeLayoutElement === 'string'
+                    ? activeLayoutElement
+                    : (activeLayoutElement?.id || activeLayoutElement?.getAttribute?.('id'));
+                this.activeLayoutId = layoutId || 'None';
+            } else {
+                this.activeLayoutId = 'None';
+            }
+        },
+
+        setupEventListeners() {
             // Add any additional event listeners here
         },
 
@@ -888,7 +939,7 @@ export default {
             // The component already handles the API call and stylesheet reload
             // This is just for any additional parent component logic if needed
             console.log('Settings updated:', eventData);
-        },        updateLayoutIdDisplay() {
+        }, updateLayoutIdDisplay() {
             if (this.applyMode === 'layout') {
                 this.activeLayoutId = this.activeLayoutId || 'None';
             }
@@ -1041,7 +1092,8 @@ export default {
                     uniqueKeys.add(key);
                     uniquePairs.push(pair);
                 }
-            }            if (this.applyMode === 'layout' && this.activeLayoutId && this.activeLayoutId !== 'None') {
+            }
+            if (this.applyMode === 'layout' && this.activeLayoutId && this.activeLayoutId !== 'None') {
                 const layoutId = this.activeLayoutId;
 
                 if (layoutId) {
@@ -1100,7 +1152,8 @@ export default {
                 }
 
                 valuesForEdit[selectorKey][pair.property] = propertyValue;
-            }            if (Object.keys(valuesForEdit).length === 0 &&
+            }
+            if (Object.keys(valuesForEdit).length === 0 &&
                 this.applyMode === 'layout' &&
                 this.activeLayoutId && this.activeLayoutId !== 'None') {
                 const layoutId = this.activeLayoutId;
