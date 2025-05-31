@@ -194,6 +194,14 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         console.log('setPropertyForSelectorBulk', sel, props, record, skipMedia, this._temp);
 
+
+        mw.top().app.dispatch('setPropertyForSelectorBulk', {
+            selector: sel,
+            properties: props,
+            record: record,
+            skipMedia: skipMedia
+
+        });
     }
 
 

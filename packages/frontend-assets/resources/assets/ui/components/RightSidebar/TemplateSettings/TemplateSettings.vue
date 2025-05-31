@@ -13,12 +13,12 @@
             <!-- Navigation path -->
 
             <div class="mw-template-settings-back-button-sticky">
-            <FieldBackButton
-                :current-path="currentPath"
-                :current-setting="currentSetting"
-                :show-button="currentPath !== '/'"
-                @go-back="navigateTo"
-            />
+                <FieldBackButton
+                    :current-path="currentPath"
+                    :current-setting="currentSetting"
+                    :show-button="currentPath !== '/'"
+                    @go-back="navigateTo"
+                />
 
             </div>
             <!-- Choose where to edit dropdown -->
@@ -110,17 +110,19 @@
                         </div>
                     </div>
                 </div>
-            </div>            <!-- Style Editor iframe holder -->
+            </div>
+
+            <!-- Style Editor iframe holder -->
             <div v-if="showStyleSettings === 'styleEditor'" class="mt-3">
 
                 <div class="mw-template-settings-back-button-sticky">
 
-                <FieldBackButton
-                    :current-path="currentPath"
-                    :current-setting="styleEditorData"
-                    :show-button="true"
-                    @go-back="goBackFromStyleEditor"
-                />
+                    <FieldBackButton
+                        :current-path="currentPath"
+                        :current-setting="styleEditorData"
+                        :show-button="true"
+                        @go-back="goBackFromStyleEditor"
+                    />
 
                 </div>
                 <b v-if="styleEditorData.title">{{ styleEditorData.title }}</b>
@@ -834,18 +836,14 @@ export default {
             iframe.style.height = 'calc(100vh - 220px)'; // Adjust height as needed
             iframe.frameBorder = '0';
 
-            // Determine the correct src for the style editor Vue app
-            // This is a placeholder URL and needs to be configured for your application.
-            // It should point to the route or HTML page that serves your ElementStyleEditorApp.
+
             let styleEditorUrl = window.mw?.settings?.site_url + 'editor_tools/style_editor_iframe';
-            // Example of adding params, adjust as necessary based on how your style editor app consumes them
             if (settings && settings.type) {
                 styleEditorUrl += '?type=' + encodeURIComponent(settings.type);
             }
             if (settings && settings.selector) {
                 styleEditorUrl += (styleEditorUrl.includes('?') ? '&' : '?') + 'selector=' + encodeURIComponent(settings.selector);
             }
-            // Add more params from settings if needed
 
             iframe.src = styleEditorUrl;
 

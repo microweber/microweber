@@ -79,7 +79,21 @@ trait LiveEditTrait
             $current_lang = current_lang();
         }
         $multiLanguageEnabledLanguages = json_encode($multiLanguageEnabledLanguages);
-        $templateConfig = json_encode($templateConfig);
+
+
+        $templateConfigReady = [];
+        $templateConfigReady['dir_name'] = $templateConfig['dir_name'] ?? '';
+        $templateConfigReady['name'] = $templateConfig['name'] ?? '';
+        $templateConfigReady['is_symlink'] = $templateConfig['is_symlink'] ?? false;
+
+
+        $fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+
+        $templateConfigReady['fonts'] = $fonts ;
+
+
+
+        $templateConfigReady = json_encode($templateConfigReady);
         $templateComposer = json_encode($templateComposer);
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
@@ -98,7 +112,7 @@ trait LiveEditTrait
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
         mw.liveEditIframeData.content_link = '" . $contentLink . "';
         mw.liveEditIframeData.template_name = '{$templateName}';
-        mw.liveEditIframeData.template_config = {$templateConfig};
+        mw.liveEditIframeData.template_config = {$templateConfigReady};
         mw.liveEditIframeData.template_composer = {$templateComposer};
         mw.liveEditIframeData.multiLanguageIsEnabled = '{$multiLanguageIsEnabled}';
         mw.liveEditIframeData.multiLanguageCurrentLanguage = '{$current_lang}';
