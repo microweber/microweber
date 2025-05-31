@@ -1133,6 +1133,18 @@ MWEditor.controllers = {
                 { label:'Times New Roman', value: 'Times New Roman' },
             ];
 
+
+            if(mw.top().app && mw.top().app.fontManager) {
+                var supportedFonts = mw.top().app.fontManager.getFonts();
+
+                if(supportedFonts && supportedFonts.length) {
+                    supportedFonts.forEach(function (fontFamily) {
+                        defaultData.push({ label: fontFamily, value: fontFamily });
+                    });
+                }
+                defaultData.push({ label:'More...', value: '$more' });
+
+            }
             var dropdown = new MWEditor.core.dropdown({
                 data: defaultData,
                 placeholder: rootScope.lang('Font'),
