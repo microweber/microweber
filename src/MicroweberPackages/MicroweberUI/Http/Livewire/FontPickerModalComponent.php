@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Livewire\WithPagination;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Template\Adapters\GoogleFontDownloader;
+use MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController;
 use MicroweberPackages\Utils\Misc\GoogleFonts;
 
 class FontPickerModalComponent extends ModalComponent
@@ -67,39 +68,9 @@ class FontPickerModalComponent extends ModalComponent
 
     public function favorite($fontFamily)
     {
-        $fontsPath = userfiles_path() . 'fonts';
-        if (!is_dir($fontsPath)) {
-            mkdir_recursive($fontsPath);
-        }
 
-        $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
-        $fontUrl = str_replace('%2B', '+', $fontFamily);
-        $fontUrl = urlencode($fontUrl);
-
-        $downloader = new GoogleFontDownloader();
-        $downloader->setOutputPath($fontsPath);
-        $downloader->addFontUrl("https://{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic");
-        $downloader->download();
-
-        $newFavorites = [];
-        $favoritesFonts = GoogleFonts::getEnabledFonts();
-
-        if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
-            $newFavorites = array_merge($newFavorites, $favoritesFonts);
-            $findFont = false;
-            foreach ($favoritesFonts as $font) {
-                if ($font == $fontFamily) {
-                    $findFont = true;
-                }
-            }
-            if (!$findFont) {
-                $newFavorites[] = $fontFamily;
-            }
-        } else {
-            $newFavorites[] = $fontFamily;
-        }
-
-        save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
+        $controller = new TemplateFontsController();
+        $controller->favorite($fontFamily);
 
         $this->dispatch('fontAddedToFavorites',
             fontFamily:$fontFamily
@@ -109,24 +80,29 @@ class FontPickerModalComponent extends ModalComponent
 
     function getFonts()
     {
-
-
-        $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
-        $fontsMore = json_decode(file_get_contents(__DIR__ . DS . 'fonts-more.json'), true);
-
-        $readyFonts = [];
-        if (!empty($fonts) && isset($fonts['items'])) {
-            foreach ($fonts['items'] as $font) {
-                $readyFonts[] = $font;
-            }
+        $controller = new TemplateFontsController();
+        $readyFonts = $controller->getFonts();
+        if (empty($readyFonts)) {
+            $readyFonts = [];
         }
-        if (!empty($fontsMore) && isset($fontsMore['items'])) {
-            foreach ($fontsMore['items'] as $font) {
-                $readyFonts[] = $font;
-            }
-        }
-
         return $readyFonts;
+
+//        $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
+//        $fontsMore = json_decode(file_get_contents(__DIR__ . DS . 'fonts-more.json'), true);
+//
+//        $readyFonts = [];
+//        if (!empty($fonts) && isset($fonts['items'])) {
+//            foreach ($fonts['items'] as $font) {
+//                $readyFonts[] = $font;
+//            }
+//        }
+//        if (!empty($fontsMore) && isset($fontsMore['items'])) {
+//            foreach ($fontsMore['items'] as $font) {
+//                $readyFonts[] = $font;
+//            }
+//        }
+//
+//        return $readyFonts;
 
     }
 

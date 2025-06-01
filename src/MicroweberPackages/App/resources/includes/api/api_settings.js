@@ -235,7 +235,11 @@
                 mw.require(mw.settings.libs_url + 'bootstrap_datepicker/bootstrap-datepicker.min.css');
             }
         ],
-
+         "webfontloader": [
+             function () {
+                 mw.require(mw.settings.libs_url + 'webfontloader/webfontloader.js');
+             }
+         ],
 
      };
      mw.settings.xlibs = {};

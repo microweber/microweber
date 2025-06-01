@@ -50,6 +50,7 @@
         "gulp-babel": "^8.0.0",
         "gulp-copy": "^4.0.1",
         "sass-loader": "^12.1.0",
-        "vue-loader": "^16.2.0"
+        "vue-loader": "^16.2.0",
+        "webfontloader": "^1.6.28"
     }
 }

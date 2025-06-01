@@ -19,6 +19,11 @@ Route::name('api.template.')
         ])
             ->name('template-style-settings');
 
+        Route::post('save-template-fonts',[
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'saveTemplateFonts'
+        ])
+            ->name('save-template-fonts');
+
 
         // api/template/change
         Route::post('change', MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController::class . '@change')->name('change');

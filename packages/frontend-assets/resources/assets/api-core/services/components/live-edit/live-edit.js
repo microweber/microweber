@@ -17,6 +17,7 @@ import { LiveEditWidgetsService } from '../../../../live-edit/live-edit-widgets-
 
 
 
+
 export const liveEditComponent = () => {
 
     const doc = mw.app.canvas.getDocument();

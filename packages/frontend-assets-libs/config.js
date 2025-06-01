@@ -27,6 +27,7 @@ const nodeModulesScripts = [
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.js`, process: false},
     {target: `bootstrap_datepicker`, path: `node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js`, process: false},
+    {target: `webfontloader`, path: `node_modules/webfontloader/webfontloader.js`, process: false},
 
     {
         target: `rangy`,

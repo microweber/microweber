@@ -919,16 +919,6 @@ export default {
             }
         },
 
-        updateActiveLayoutFromElement(activeLayoutElement) {
-            if (activeLayoutElement) {
-                const layoutId = typeof activeLayoutElement === 'string'
-                    ? activeLayoutElement
-                    : (activeLayoutElement?.id || activeLayoutElement?.getAttribute?.('id'));
-                this.activeLayoutId = layoutId || 'None';
-            } else {
-                this.activeLayoutId = 'None';
-            }
-        },
 
         setupEventListeners() {
             // Add any additional event listeners here

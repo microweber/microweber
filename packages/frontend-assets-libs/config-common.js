@@ -68,6 +68,7 @@ const css = [
 
     {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.css`},
    {target: `bootstrap_datepicker`, path: `node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css`},
+    {target: `webfontloader`, path: `node_modules/webfontloader/webfontloader.js`, process: false},
 
 ];
 
