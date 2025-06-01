@@ -49,9 +49,6 @@ export class LiveEditFontManager extends BaseComponent {
 
         var liveEditIframeOnSave = mw.top().app.canvas.getLiveEditData();
 
-        if (canvasWindow.mw) {
-            canvasWindow.mw.on('saveEnd', (sdata) => this.saveNewLoadedTempFontsUsedOnPage());
-        }
 
     }
 
@@ -272,6 +269,7 @@ export class LiveEditFontManager extends BaseComponent {
 
 
         if (this.loadedNewFontsTemp === undefined || this.loadedNewFontsTemp.size === 0) {
+
             return;
         }
 
@@ -282,7 +280,7 @@ export class LiveEditFontManager extends BaseComponent {
             return;
         }
 
-        const allElements = canvasDocument.querySelectorAll('*');
+        const allElements = canvasDocument.querySelectorAll(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'a', 'li', 'td', 'th']);
         const usedFontFamiliesOnPage = new Set();
 
         allElements.forEach(element => {

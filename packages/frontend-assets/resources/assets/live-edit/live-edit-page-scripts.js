@@ -270,6 +270,11 @@ if(window.self !== window.top) {
 
                     mw.top().app.cssEditor.publishIfChanged();
                 }
+
+                if (mw.top() && mw.top().app && mw.top().app.fontManager && mw.top().app.fontManager) {
+
+                    mw.top().app.fontManager.saveNewLoadedTempFontsUsedOnPage();
+                }
             }
 
             if (mw.top().app) {
