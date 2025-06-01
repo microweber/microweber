@@ -1,4 +1,13 @@
 <div x-data>
+
+    {{--
+    CODE IS MOVED TO VUE.js
+
+    this file is deprecated and will be removed in the future.
+
+    --}}
+
+
     <script wire:ignore>
         document.addEventListener('alpine:init', () => {
             Alpine.store('fontLoader', {

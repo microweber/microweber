@@ -1158,11 +1158,18 @@ MWEditor.controllers = {
 
             if(mw.top().app && mw.top().app.fontManager) {
                 mw.top().app.fontManager.subscribeToSelectedFont(function (selectedFontEvent) {
-                    var sel = api.getSelection();
-                    var focusNode = sel.focusNode;
-                    if (selectedFontEvent.applyToSelectedElement == focusNode) {
-                        api.fontFamily(selectedFontEvent.fontFamily);
+
+
+                    try {
+                        var sel = api.getSelection();
+
+                        var focusNode = sel.focusNode;
+                        if (selectedFontEvent.applyToSelectedElement == focusNode) {
+                            api.fontFamily(selectedFontEvent.fontFamily);
+                        }
+                    } catch (e) {
                     }
+
                 });
                 mw.top().app.fontManager.subscribe(function(fonts) {
                     var newDefaultData = [];

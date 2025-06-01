@@ -8,6 +8,7 @@
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
        <ElementSettingsModal></ElementSettingsModal>
+       <FontsManager></FontsManager>
 <!--       <ModalsContainer ></ModalsContainer >-->
 
     </div>
@@ -28,6 +29,7 @@ import LeftSidebar from "./components/LeftSidebar/LeftSidebar.vue";
 import RightSidebar from "./components/RightSidebar/RightSidebar.vue";
 import ListLayouts from "./components/Layouts/ListLayouts.vue";
 import ListModules from "./components/Modules/ListModules.vue";
+import FontsManager from "./components/FontsManager/FontsManager.vue";
 import ElementSettingsModal from "./components/ElementSettings/ElementSettingsModal.vue";
 
 export default {
@@ -38,7 +40,8 @@ export default {
         LeftSidebar,
         RightSidebar,
         ListLayouts,
-        ListModules
+        ListModules,
+        FontsManager,
     },
 
     data() {

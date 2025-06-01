@@ -26,6 +26,11 @@ export class LiveEditFontManager extends BaseComponent {
         mw.app.on('liveEditCanvasLoaded', event => {
             this.init();
         });
+        mw.app.on('fontsManagerSelectedFont', event => {
+            mw.top().app.dispatch('hideFontsManager');
+        });
+
+
     }
 
 
@@ -147,38 +152,12 @@ export class LiveEditFontManager extends BaseComponent {
     manageFonts(params) {
 
 
-        if (params && params.applySelectionToElement) {
-            this.applyToSelectedElement = params.applySelectionToElement;
-        }
-
-        var attrsForSettings = {};
-
-        attrsForSettings.live_edit = true;
-        attrsForSettings.module_settings = true;
-        attrsForSettings.id = 'mw_editor_fonts_manager_modal';
-        attrsForSettings.type = 'editor/fonts/font-manager-modal';
-        attrsForSettings.iframe = true;
-        attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+        mw.top().app.dispatch('showFontsManager', params);
 
 
-        var moduleType = 'editor/fonts/font-manager-modal';
-        //    var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
-        var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
 
-
-        var dialog = mw.top().dialogIframe({
-            url: src,
-            autoHeight: true,
-            width: 800,
-
-            title: mw.lang('Select font')
-        });
-
-
-        mw.top().app.on('fontsManagerSelectedFont', (newFont) => {
-            dialog.remove();
-        });
     }
+
 
 
     loadNewFontTemp(family) {
@@ -318,6 +297,7 @@ export class LiveEditFontManager extends BaseComponent {
             )
                 .then(response => response.json())
                 .then(data => console.log('Fonts saved:', data))
+                .then(data => this.reloadLiveEdit())
                 .then(data => this._fireFontsManagerChange())
                 .catch(error => console.error('Error saving fonts:', error));
 

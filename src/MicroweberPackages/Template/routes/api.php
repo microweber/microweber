@@ -14,15 +14,36 @@ Route::name('api.template.')
             return view('template::template-settings-sidebar-render-component');
         });
 
+
+
+
         Route::get('template-style-settings',[
             \MicroweberPackages\Template\Http\Controllers\Api\TemplateStyleEditorSettingsController::class , 'templateStyleSettings'
         ])
             ->name('template-style-settings');
 
+        Route::get('get-fonts',[
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'getFonts'
+        ])
+            ->name('get-fonts');
+
+        Route::get('get-favorite-fonts',[
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'getFavoriteFonts'
+        ])
+            ->name('get-favorite-fonts');
+
+        Route::post('remove-favorite-font',[
+            \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'removeFavoriteFont'
+        ])
+            ->name('remove-favorite-font');
+
         Route::post('save-template-fonts',[
             \MicroweberPackages\Template\Http\Controllers\Api\TemplateFontsController::class , 'saveTemplateFonts'
         ])
             ->name('save-template-fonts');
+
+
+
 
 
         // api/template/change
