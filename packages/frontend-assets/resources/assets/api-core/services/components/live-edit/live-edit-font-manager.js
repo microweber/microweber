@@ -155,9 +155,7 @@ export class LiveEditFontManager extends BaseComponent {
         mw.top().app.dispatch('showFontsManager', params);
 
 
-
     }
-
 
 
     loadNewFontTemp(family) {
@@ -194,9 +192,9 @@ export class LiveEditFontManager extends BaseComponent {
                 fileref.setAttribute("rel", "stylesheet");
                 fileref.setAttribute("type", "text/css");
                 fileref.setAttribute("href", filename);
-                // fileref.setAttribute("referrerpolicy", "no-referrer");
-                //  fileref.setAttribute("crossorigin", "anonymous");
-                //fileref.setAttribute("data-noprefix", "1");
+                fileref.setAttribute("referrerpolicy", "no-referrer");
+                fileref.setAttribute("crossorigin", "anonymous");
+                fileref.setAttribute("data-noprefix", "1");
                 fileref.setAttribute("id", id);
 
                 win.document.getElementsByTagName("head")[0].appendChild(fileref);
@@ -211,70 +209,84 @@ export class LiveEditFontManager extends BaseComponent {
 
     }
 
-    unLoadNewFontTemp(family) {
-        if (!family) {
-            return;
-        }
 
-        var id = 'font-' + family.replace(/[^a-zA-Z0-9]/g, '');
-
-        if (!this.loadedNewFontsTemp.has(family)) {
-            // console.log('Font not in loadedNewFontsTemp to unload:', family);
-            return;
-        }
-
-        mw.tools.eachWindow(function (win) {
-            if (win && win.document) {
-                var fontLink = win.document.getElementById(id);
-                if (fontLink) {
-                    fontLink.parentNode.removeChild(fontLink);
-                    // console.log('Font unloaded from window:', family, win.location.href);
-                }
-            }
-        });
-
-        if (window.document && window.document.getElementById(id)) {
-            var fontLink = window.document.getElementById(id);
-            if (fontLink) {
-                fontLink.parentNode.removeChild(fontLink);
-                // console.log('Font unloaded from self window:', family, window.location.href);
-            }
-        }
-
-        this.loadedNewFontsTemp.delete(family);
-    }
-
-    saveNewLoadedTempFontsUsedOnPage() {
-
-
-        if (this.loadedNewFontsTemp === undefined || this.loadedNewFontsTemp.size === 0) {
-
-            return;
-        }
-
-
+    scanPageForNewUsedFonts() {
         const canvasDocument = mw.top().app.canvas.getDocument();
         if (!canvasDocument) {
             console.warn('Canvas document not available.');
-            return;
+            return [];
         }
 
-        const allElements = canvasDocument.querySelectorAll(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'a', 'li', 'td', 'th']);
+        // Get all elements that might have font styles
+        const allElements = canvasDocument.querySelectorAll([
+            '.element',
+            '.edit',
+            '.mw-text',
+            '.mw-text-editable',
+            '.main p',
+            '.main h1',
+            '.main h2',
+            '.main h3',
+            '.main h4',
+            '.main h5',
+            '.main h6',
+            '.main span',
+            '.main div'
+        ]);
         const usedFontFamiliesOnPage = new Set();
 
+        // For debugging
+        //console.log('Scanning for fonts in use...');
+        // console.log('Temp loaded fonts:', Array.from(this.loadedNewFontsTemp));
+
+        // Collect all font families used on the page
         allElements.forEach(element => {
             const computedStyle = window.getComputedStyle(element);
             const fontFamilyStr = computedStyle.fontFamily;
-            const parsedFonts = this._parseFontFamilies(fontFamilyStr);
-            parsedFonts.forEach(font => usedFontFamiliesOnPage.add(font));
-        });
-
-        const fontsToSave = [];
-        this.loadedNewFontsTemp.forEach(tempFont => {
-            if (usedFontFamiliesOnPage.has(tempFont)) {
-                fontsToSave.push(tempFont);
+            if (fontFamilyStr) {
+                const parsedFonts = this._parseFontFamilies(fontFamilyStr);
+                parsedFonts.forEach(font => {
+                    // Normalize font name by trimming and converting to lowercase for comparison
+                    const normalizedFont = font.trim();
+                    if (normalizedFont) {
+                        usedFontFamiliesOnPage.add(normalizedFont);
+                    }
+                });
             }
         });
+
+        // console.log('All fonts found on page:', Array.from(usedFontFamiliesOnPage));
+
+        // Filter to only include fonts from loadedNewFontsTemp that are actually used
+        const usedTempFonts = [];
+
+        // Use a more explicit loop for better debugging and comparison
+        this.loadedNewFontsTemp.forEach(tempFont => {
+            const normalizedTempFont = tempFont.trim();
+
+            // Check if this temp font is used on the page
+            if (Array.from(usedFontFamiliesOnPage).some(pageFont =>
+                pageFont === normalizedTempFont ||
+                pageFont.toLowerCase() === normalizedTempFont.toLowerCase()
+            )) {
+                usedTempFonts.push(tempFont);
+                console.log(`Font "${tempFont}" is being used on the page`);
+            } else {
+                console.log(`Font "${tempFont}" is NOT being used on the page`);
+            }
+        });
+
+        //console.log('Final list of used temp fonts:', usedTempFonts);
+        return usedTempFonts;
+    }
+
+    saveNewLoadedTempFontsUsedOnPage() {
+        if (this.loadedNewFontsTemp === undefined || this.loadedNewFontsTemp.size === 0) {
+            return;
+        }
+
+        // Use the new scanning function to get only used temp fonts
+        const fontsToSave = this.scanPageForNewUsedFonts();
 
         if (fontsToSave.length > 0) {
             console.log('Fonts to save to server:', fontsToSave);
