@@ -38,6 +38,21 @@ class TemplateFontsController
 
     public function favorite($fontFamily)
     {
+        // Check if the font exists in our available font list
+        $availableFonts = $this->getFonts();
+        $fontExists = false;
+
+        foreach ($availableFonts as $font) {
+            if ($font['family'] === $fontFamily) {
+                $fontExists = true;
+                break;
+            }
+        }
+
+        if (!$fontExists) {
+            return false; // Font doesn't exist in our list, don't save it
+        }
+
         $fontsPath = userfiles_path() . 'fonts';
         if (!is_dir($fontsPath)) {
             mkdir_recursive($fontsPath);
@@ -72,7 +87,7 @@ class TemplateFontsController
 
         save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
-
+        return true; // Successfully saved the font
     }
 
     public function getFonts()
