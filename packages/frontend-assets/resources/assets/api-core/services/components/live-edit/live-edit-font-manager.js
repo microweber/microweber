@@ -15,6 +15,42 @@ export class LiveEditFontManager extends BaseComponent {
             'Verdana',
             'Times New Roman',
             'Georgia',
+
+
+            'Courier New',
+            'sans-serif',
+            'serif',
+            'sans',
+            'monospace',
+            'system-ui',
+        ];
+
+        this.genericNames = [
+            'serif', 'sans-serif',
+            'monospace',
+            'cursive',
+            'fantasy',
+            'system-ui',
+            'ui-serif',
+            'ui-sans-serif',
+            'ui-monospace',
+            'ui-rounded',
+            'math',
+            'emoji',
+            'Arial',
+            'Tahoma',
+            'Verdana',
+            'Times New Roman',
+            'Georgia',
+
+
+            'Courier New',
+            'sans-serif',
+
+            'serif',
+            'sans',
+            'monospace',
+            'system-ui',
         ];
 
         this.loadedNewFontsTemp = new Set();
@@ -98,6 +134,18 @@ export class LiveEditFontManager extends BaseComponent {
         };
     }
 
+
+    isGenericFontFamily(fontName) {
+        if (!fontName) {
+            return false;
+        }
+        // Normalize the font name to lowercase for comparison
+        const normalizedFontName = fontName.toLowerCase();
+        // Check if the font name is in the generic names list
+        return this.genericNames.some(genericName => genericName.toLowerCase() === normalizedFontName);
+    }
+
+
     addFont(font) {
 
         if (!this.fonts.includes(font)) {
@@ -157,6 +205,14 @@ export class LiveEditFontManager extends BaseComponent {
 
     }
 
+    getFontUrl(family) {
+        if (!family) {
+            return;
+        }
+        var filename = "https://fonts.googleapis.com/css?family=" + encodeURIComponent(family);
+
+        return filename;
+    }
 
     loadNewFontTemp(family) {
         if (!family) {
@@ -176,7 +232,8 @@ export class LiveEditFontManager extends BaseComponent {
         }
 
         // var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
-        var filename = "https://fonts.googleapis.com/css?family=" + encodeURIComponent(family);
+        //var filename = "https://fonts.googleapis.com/css?family=" + encodeURIComponent(family);
+        var filename =this.getFontUrl(family);
         //var filename = "https://fonts.googleapis.com/css?family=" + encodeURIComponent(family) + ":300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic"
 
 
@@ -244,7 +301,7 @@ export class LiveEditFontManager extends BaseComponent {
             const computedStyle = window.getComputedStyle(element);
             const fontFamilyStr = computedStyle.fontFamily;
             if (fontFamilyStr) {
-                const parsedFonts = this._parseFontFamilies(fontFamilyStr);
+                const parsedFonts = this.parseFontFamilies(fontFamilyStr);
                 parsedFonts.forEach(font => {
                     // Normalize font name by trimming and converting to lowercase for comparison
                     const normalizedFont = font.trim();
@@ -341,7 +398,7 @@ export class LiveEditFontManager extends BaseComponent {
     }
 
     // Helper function to clean up font names (remove quotes)
-    _parseFontFamilies(fontFamilyStr) {
+    parseFontFamilies(fontFamilyStr) {
         if (!fontFamilyStr) return [];
         const fonts = this._splitFontFamily(fontFamilyStr);
         return fonts.map(font => {

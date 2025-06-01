@@ -47,6 +47,8 @@ export default {
             isDarkMode: false,
             fontCallbacks: [],
             currentStylePack: null,
+            fontsLoaded: false,
+            fontsToLoad: [],
         }
     },
     watch: {
@@ -65,13 +67,15 @@ export default {
         }
     },
     mounted() {
-        this.initIframeWrapper();
+        // First scan and load fonts, then initialize the iframe
+        this.scanAndLoadFonts();
 
-        // Listen for font changes
-        this.setupFontChangeListener();
-
-        // Listen for custom CSS reload events
-        this.setupCssReloadListener();
+        // Give a small timeout to allow font loading to start
+        setTimeout(() => {
+            this.initIframeWrapper();
+            this.setupFontChangeListener();
+            this.setupCssReloadListener();
+        }, 100);
     },
     beforeUnmount() {
         // Clean up event listeners
@@ -81,6 +85,100 @@ export default {
         }
     },
     methods: {
+        // Scan for font-family properties and load them
+        scanAndLoadFonts() {
+            if (!this.setting.fieldSettings || !this.setting.fieldSettings.styleProperties) {
+                console.log('No style properties to scan for fonts');
+                return;
+            }
+
+            const fontFamilyProperties = [];
+            const fontManager = mw.top()?.app?.fontManager;
+
+            if (!fontManager) {
+                console.warn('Font manager not available');
+                return;
+            }
+
+            // Scan all style packs for font-family properties
+            this.setting.fieldSettings.styleProperties.forEach(stylePack => {
+                if (!stylePack.properties) return;
+
+                Object.entries(stylePack.properties).forEach(([key, value]) => {
+                    if (key.endsWith('-font-family')) {
+                        fontFamilyProperties.push(value);
+                    }
+                });
+            });
+
+            console.log('Found font-family properties:', fontFamilyProperties);
+
+            // Parse and load each font family
+            this.fontsToLoad = []; // Reset the fonts list
+            fontFamilyProperties.forEach(fontFamilyStr => {
+                if (fontManager.parseFontFamilies) {
+                    // Use parseFontFamilies to extract font names
+                    const fontFamilies = fontManager.parseFontFamilies(fontFamilyStr);
+                    fontFamilies.forEach(family => {
+                        if (family && !this.fontsToLoad.includes(family)) {
+
+                            if (fontManager.isGenericFontFamily(family)) {
+                                // Skip generic names
+                                return;
+                            }
+
+                            this.fontsToLoad.push(family);
+                        }
+                    });
+                }
+            });
+
+            console.log('Fonts to load:', this.fontsToLoad);
+
+            // Load each font in the parent window
+            this.fontsToLoad.forEach(family => {
+                fontManager.loadNewFontTemp(family);
+            });
+
+            this.fontsLoaded = true;
+        },
+
+        // New method to inject fonts into iframe
+        injectFontsIntoIframe() {
+            if (!this.iframe || !this.iframe.contentDocument || !this.fontsToLoad.length) return;
+
+            const fontManager = mw.top()?.app?.fontManager;
+            if (!fontManager) return;
+
+            const iframeDoc = this.iframe.contentDocument;
+            const iframeHead = iframeDoc.head;
+
+            console.log('Injecting fonts into iframe:', this.fontsToLoad);
+
+            this.fontsToLoad.forEach(family => {
+                const fontUrl = fontManager.getFontUrl(family);
+                if (!fontUrl) return;
+
+                // Create a unique ID for this font link
+                const fontId = 'font-' + family.replace(/[^a-zA-Z0-9]/g, '');
+
+                // Skip if already added
+                if (iframeDoc.getElementById(fontId)) return;
+
+                // Create and append link element
+                const link = iframeDoc.createElement('link');
+                link.id = fontId;
+                link.rel = 'stylesheet';
+                link.href = fontUrl;
+                link.setAttribute("referrerpolicy", "no-referrer");
+                link.setAttribute("crossorigin", "anonymous");
+                link.setAttribute("data-noprefix", "1");
+
+                iframeHead.appendChild(link);
+                console.log('Injected font into iframe:', family, fontUrl);
+            });
+        },
+
         applyStylePack(stylePack) {
             if (stylePack.properties) {
                 const updates = [];
@@ -121,8 +219,6 @@ export default {
             // Create iframe element
             this.iframe = document.createElement('iframe');
 
-
-
             this.iframe.allowTransparency = true;
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
@@ -131,15 +227,16 @@ export default {
             this.iframe.style.borderRadius = '6px';
             this.iframe.style.colorScheme = 'normal';
 
-
             // Append to container
             this.$refs.iframeContainer.appendChild(this.iframe);
 
             // Initialize iframe content after it's loaded
             this.iframe.onload = () => {
+
+
                 this.injectCanvasStyles();
                 this.updateIframeContent();
-
+                this.injectFontsIntoIframe();
                 mw.top().tools.iframeAutoHeight(this.iframe)
             };
 
@@ -288,7 +385,10 @@ export default {
             } catch (error) {
                 console.error('Error injecting canvas styles:', error);
             }
-        }, updateIframeContent() {
+        },
+
+
+        updateIframeContent() {
             if (!this.iframe || !this.iframe.contentDocument) return;
 
             const iframeDoc = this.iframe.contentDocument;
@@ -330,7 +430,7 @@ export default {
             const previewDiv = iframeDoc.createElement('div');
             // Apply display format class based on previewElementsFormat prop or setting
             const displayFormat = this.previewElementsFormat;
-            previewDiv.className = `preview-display-${displayFormat} cursor-pointer style-pack-preview`;
+            previewDiv.className = `preview-display-${displayFormat} cursor-pointer style-pack-preview main`;
 
             if (this.setting.previewElements && this.setting.previewElements.length > 0) {
                 // Use actual preview elements
@@ -398,7 +498,13 @@ export default {
             if (mw.top() && mw.top().app) {
                 mw.top().app.on('fontsManagerSelectedFont', (e) => {
                     if (typeof e.fontFamily !== 'undefined') {
-                        // Refresh iframe content when font changes
+                        // Add newly selected font to our list
+                        if (!this.fontsToLoad.includes(e.fontFamily)) {
+                            this.fontsToLoad.push(e.fontFamily);
+                        }
+
+                        // Inject the new font and refresh the iframe
+                        this.injectFontsIntoIframe();
                         this.injectCanvasStyles();
                         this.updateIframeContent();
 
@@ -410,6 +516,8 @@ export default {
 
         setupCssReloadListener() {
             mw.top().app.canvas.on('liveEditCanvasLoaded', () => {
+                // Re-inject fonts when canvas is loaded
+                this.injectFontsIntoIframe();
                 this.injectCanvasStyles();
                 this.updateIframeContent();
                 console.log('Page changed, refreshing style pack preview');
@@ -419,7 +527,8 @@ export default {
 
             if (mw.top() && mw.top().app && mw.top().app.canvas) {
                 mw.top().app.canvas.on('reloadCustomCssDone', () => {
-                    // Refresh iframe content when CSS is reloaded
+                    // Re-inject fonts when CSS is reloaded
+                    this.injectFontsIntoIframe();
                     this.injectCanvasStyles();
                     this.updateIframeContent();
 
