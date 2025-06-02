@@ -7,7 +7,7 @@
         leave-active-class="animate__animated animate__zoomOut"
     >
         <div v-if="showModal"
-             class="mw-le-dialog-block mw-le-layouts-dialog w-100 active mw-font-modal"
+             class="mw-le-dialog-block mw-le-layouts-dialog"
              style="inset:20px; transform:none; animation-duration: .3s;"
         >
             <!-- Close Button -->
@@ -21,7 +21,7 @@
                 &times;
             </button>
 
-            <div class="row mw-font-picker-modal-wrapper form-control-live-edit-wrapper">
+            <div class="row mw-font-picker-modal-wrapper form-control-live-edit-label-wrapper">
                 <div class="col-md-4 h-auto bg-white">
                     <div class="mt-3 ms-2">
                         <input
@@ -152,21 +152,6 @@
     height: 100%;
     overflow-y: auto;
     padding: 20px;
-}
-
-/* Modal size adjustment */
-.mw-font-modal {
-    max-width: 900px !important;
-    max-height: 80vh !important;
-    width: 90% !important;
-    height: auto !important;
-    margin: 0 auto !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    inset: auto !important;
-    position: fixed !important;
-    overflow: hidden !important;
 }
 
 /* Added compact pagination styles */
