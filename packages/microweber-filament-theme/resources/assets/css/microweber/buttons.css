@@ -54,7 +54,7 @@
 
 .btn-link {
     @apply font-normal !px-0  text-blue-500 bg-transparent border-transparent hover:text-blue-600;
-    @apply dark:text-blue-600 dark:hover:text-blue-700;
+    @apply dark:text-white dark:hover:text-blue-700;
     @apply disabled:text-blue-300 disabled:cursor-not-allowed dark:disabled:text-blue-400;
 }
 

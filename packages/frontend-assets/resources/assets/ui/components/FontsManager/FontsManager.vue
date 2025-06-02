@@ -7,8 +7,8 @@
         leave-active-class="animate__animated animate__zoomOut"
     >
         <div v-if="showModal"
-             class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
-             style="inset:20px; transform:none; animation-duration: .3s;"
+             class="mw-le-dialog-block mw-le-layouts-dialog mw-font-modal active"
+             style="animation-duration: .3s;"
         >
             <!-- Close Button -->
             <button
@@ -21,13 +21,13 @@
                 &times;
             </button>
 
-            <div class="row mw-font-picker-modal-wrapper">
+            <div class="row mw-font-picker-modal-wrapper form-control-live-edit-label-wrapper">
                 <div class="col-md-4 h-auto bg-white">
                     <div class="mt-3 ms-2">
                         <input
                             v-model="filterKeyword"
                             type="text"
-                            class="form-control"
+                            class="form-control-live-edit-input"
                             placeholder="Search fonts..."
                         />
                     </div>
@@ -86,23 +86,36 @@
                                 No fonts found matching your criteria.
                             </div>
 
+                            <!-- Modified pagination section -->
                             <div class="mt-4 d-flex justify-content-center">
                                 <nav aria-label="Font pagination">
-                                    <ul class="pagination">
+                                    <ul class="pagination pagination-sm mw-compact-pagination">
                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                             <button class="page-link" @click="changePage(currentPage - 1)"
                                                     :disabled="currentPage === 1">
-                                                Previous
+                                                &laquo;
                                             </button>
                                         </li>
-                                        <li v-for="page in totalPages" :key="page" class="page-item"
+                                        <li v-if="getVisiblePages()[0] > 1" class="page-item">
+                                            <button class="page-link" @click="changePage(1)">1</button>
+                                        </li>
+                                        <li v-if="getVisiblePages()[0] > 2" class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                        <li v-for="page in getVisiblePages()" :key="page" class="page-item"
                                             :class="{ active: page === currentPage }">
                                             <button class="page-link" @click="changePage(page)">{{ page }}</button>
+                                        </li>
+                                        <li v-if="getVisiblePages()[getVisiblePages().length-1] < totalPages - 1" class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                        <li v-if="getVisiblePages()[getVisiblePages().length-1] < totalPages" class="page-item">
+                                            <button class="page-link" @click="changePage(totalPages)">{{ totalPages }}</button>
                                         </li>
                                         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
                                             <button class="page-link" @click="changePage(currentPage + 1)"
                                                     :disabled="currentPage === totalPages">
-                                                Next
+                                                &raquo;
                                             </button>
                                         </li>
                                     </ul>
@@ -141,14 +154,27 @@
     padding: 20px;
 }
 
-.mw-font-picker-modal-wrapper button.active {
-    font-weight: bold;
-    color: #0b5ed7;
+/* Modal size adjustment */
+.mw-font-modal {
+    max-width: 1000px !important;
+    max-height: 600px !important;
+    width: 90% !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
 }
 
-.mw-font-picker-modal-wrapper .btn-link {
-    text-align: left;
-    text-decoration: none;
+/* Added compact pagination styles */
+.mw-compact-pagination {
+    margin-bottom: 0;
+}
+.mw-compact-pagination .page-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    min-width: 32px;
+    text-align: center;
 }
 </style>
 
@@ -314,6 +340,24 @@ export default {
                     mw.top().app.fontManager.loadNewFontTemp(font.family);
                 }
             });
+        },
+
+        // Added method to get visible page numbers
+        getVisiblePages() {
+            const maxVisiblePages = 3; // Show maximum 3 pages in the middle
+            let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+
+            // Adjust start page if end page is at maximum
+            if (endPage === this.totalPages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            const visiblePages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                visiblePages.push(i);
+            }
+            return visiblePages;
         },
 
         changePage(page) {
