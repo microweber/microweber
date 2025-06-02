@@ -1088,7 +1088,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .tab-pane, .CodeMirror-scroll, .CodeMirror-gutter.CodeMirror-linenumbers {
-    @apply dark:!bg-gray-900 dark:!text-white;
+    @apply dark:!bg-gray-800 dark:!text-white;
 }
 
 .mw-ai-chat-box-actions button {
@@ -1123,7 +1123,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-template-settings-back-button-sticky {
-    @apply sticky top-[-20px] z-10 dark:bg-gray-900 dark:text-white text-gray-900 bg-white p-4;
+    @apply sticky top-[-20px] z-10 dark:bg-gray-800 dark:text-white text-gray-900 bg-white p-4;
 }
 
 .color-palette-item {
