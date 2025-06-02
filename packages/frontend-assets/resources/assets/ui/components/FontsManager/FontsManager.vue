@@ -7,8 +7,8 @@
         leave-active-class="animate__animated animate__zoomOut"
     >
         <div v-if="showModal"
-             class="mw-le-dialog-block mw-le-layouts-dialog"
-             style="inset:20px; transform:none; animation-duration: .3s;"
+             class="mw-le-dialog-block mw-le-layouts-dialog mw-font-modal active"
+             style="animation-duration: .3s;"
         >
             <!-- Close Button -->
             <button
@@ -152,6 +152,18 @@
     height: 100%;
     overflow-y: auto;
     padding: 20px;
+}
+
+/* Modal size adjustment */
+.mw-font-modal {
+    max-width: 1000px !important;
+    max-height: 600px !important;
+    width: 90% !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
 }
 
 /* Added compact pagination styles */
