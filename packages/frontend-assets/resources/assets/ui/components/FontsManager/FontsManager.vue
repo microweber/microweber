@@ -154,16 +154,6 @@
     padding: 20px;
 }
 
-.mw-font-picker-modal-wrapper button.active {
-    font-weight: bold;
-    color: #0b5ed7;
-}
-
-.mw-font-picker-modal-wrapper .btn-link {
-    text-align: left;
-    text-decoration: none;
-}
-
 /* Added compact pagination styles */
 .mw-compact-pagination {
     margin-bottom: 0;
