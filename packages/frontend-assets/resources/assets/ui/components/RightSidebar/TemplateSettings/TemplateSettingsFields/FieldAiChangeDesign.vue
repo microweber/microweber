@@ -1,6 +1,6 @@
 <template>
     <!-- AI Design Button -->
-    <div class="ai-settings-wrapper">
+    <div class="ai-settings-wrapper mb-3">
         <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
         <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
 
