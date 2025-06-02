@@ -378,12 +378,7 @@ export default {
                             display: block;
                             margin-bottom: 10px;
                         }
-                        .preview-component {
-                            font-size: 14px;
-                            padding: 8px 12px !important;
-                            border-radius: 4px;
-                            width: 100%;
-                        }
+
                         .style-label {
                             text-align: center;
                             font-weight: 500;
@@ -546,7 +541,7 @@ export default {
             // Add label if available
             if (stylePack.label) {
                 const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'style-label mt-1';
+                labelDiv.className = 'live-edit-label mt-1';
 
                 const small = iframeDoc.createElement('small');
                 small.textContent = stylePack.label;
