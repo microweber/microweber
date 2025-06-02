@@ -541,11 +541,11 @@ export default {
             // Add label if available
             if (stylePack.label) {
                 const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'form-control-live-edit-label-wrapper';
+                labelDiv.className = 'form-control-live-edit-label-wrapper text-center';
 
                 const label = iframeDoc.createElement('label');
                 label.textContent = stylePack.label;
-                label.className = 'live-edit-label text-center';
+                label.className = 'live-edit-label';
 
                 labelDiv.appendChild(label);
                 innerDiv.appendChild(labelDiv);
