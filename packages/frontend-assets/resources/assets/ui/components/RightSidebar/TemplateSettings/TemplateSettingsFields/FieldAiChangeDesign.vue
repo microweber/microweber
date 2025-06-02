@@ -1,13 +1,13 @@
 <template>
     <!-- AI Design Button -->
-    <div class="ai-settings-wrapper">
+    <div class="ai-settings-wrapper mb-3">
         <label class="live-edit-label mb-2">MAKE YOUR WEBSITE FASTER WITH AI</label>
         <div :class="{'d-none': !isAIAvailable}" class="ai-change-template-design-button"></div>
 
 
         <div v-if="!showAIChatForm">
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Change Design with AI" class="btn btn-link p-0"
+                    title="Change Design with AI" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
                     @click="toggleAIChatForm" :disabled="!isAIAvailable">
                 Go with AI
             </button>

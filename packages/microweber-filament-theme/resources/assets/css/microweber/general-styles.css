@@ -1084,7 +1084,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 .ai-settings-wrapper {
-    @apply dark:bg-gray-800 dark:text-white bg-gray-100 shadow border rounded-sm border-gray-300 p-5 mt-3;
+    @apply dark:bg-gray-800 dark:text-white bg-gray-100 shadow border rounded-md border-gray-300 p-5 mt-3;
 }
 
 .tab-pane, .CodeMirror-scroll, .CodeMirror-gutter.CodeMirror-linenumbers {
@@ -1123,7 +1123,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-template-settings-back-button-sticky {
-    @apply sticky top-[-20px] z-10 dark:bg-gray-800 dark:text-white text-gray-900 bg-white p-4;
+    @apply sticky top-[-20px] z-10 dark:bg-gray-800 dark:text-white text-gray-900 bg-white py-4 px-0;
 }
 
 .color-palette-item {

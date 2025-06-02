@@ -264,8 +264,8 @@ export default {
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
-            this.iframe.style.border = '1px solid #dee2e6';
-            this.iframe.style.borderRadius = '6px';
+            this.iframe.style.border = 'none';
+            this.iframe.style.borderRadius = '7px';
             this.iframe.style.colorScheme = 'normal';
 
             // Append to container
@@ -291,9 +291,9 @@ export default {
             };
 
             const darkThemeColors = {
-                borderColor: '#495057',
-                backgroundColor: '#2d3748',
-                backgroundColorHover: '#3a4a5e',
+                borderColor: '#f5f5f5',
+                backgroundColor: '#f5f5f5',
+                backgroundColorHover: '#f9f9f9',
                 itemBackgroundColor: '#1a202c',
                 textColor: '#e2e8f0',
                 accentColor: '#63b3ed',
@@ -327,6 +327,7 @@ export default {
                             background-color: transparent !important;
                             background: transparent !important;
                             color: var(--text-color);
+                            overflow: hidden;
                         }
                         .style-pack-container {
                             display: flex;
@@ -335,19 +336,14 @@ export default {
                         }
                         .style-pack-item {
                             cursor: pointer;
-                            padding: 5px;
+                            padding: 10px;
                             border-radius: 8px;
                             transition: all 0.2s;
                             border: 1px solid var(--border-color);
                             margin-bottom: 10px;
                             background-color: var(--background-color);
                         }
-                        .style-pack-item:hover {
-                            background-color: var(--background-color-hover);
-                            border-color: var(--accent-color);
-                            transform: translateY(-2px);
-                            box-shadow: 0 4px 8px var(--shadow-color);
-                        }
+
                         .style-preview-item {
                             padding: 8px 15px;
                             border-radius: 6px;
@@ -382,12 +378,7 @@ export default {
                             display: block;
                             margin-bottom: 10px;
                         }
-                        .preview-component {
-                            font-size: 14px;
-                            padding: 8px 12px !important;
-                            border-radius: 4px;
-                            width: 100%;
-                        }
+
                         .style-label {
                             text-align: center;
                             font-weight: 500;
@@ -550,12 +541,13 @@ export default {
             // Add label if available
             if (stylePack.label) {
                 const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'style-label mt-1';
+                labelDiv.className = 'form-control-live-edit-label-wrapper text-center';
 
-                const small = iframeDoc.createElement('small');
-                small.textContent = stylePack.label;
+                const label = iframeDoc.createElement('label');
+                label.textContent = stylePack.label;
+                label.className = 'live-edit-label';
 
-                labelDiv.appendChild(small);
+                labelDiv.appendChild(label);
                 innerDiv.appendChild(labelDiv);
             }
 
