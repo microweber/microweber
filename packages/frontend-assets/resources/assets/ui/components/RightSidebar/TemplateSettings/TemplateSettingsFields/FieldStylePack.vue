@@ -543,9 +543,9 @@ export default {
                 const labelDiv = iframeDoc.createElement('div');
                 labelDiv.className = 'form-control-live-edit-label-wrapper';
 
-                const label = iframeDoc.createElement('small');
+                const label = iframeDoc.createElement('label');
                 label.textContent = stylePack.label;
-                label.className = 'live-edit-label';
+                label.className = 'live-edit-label text-center';
 
                 labelDiv.appendChild(label);
                 innerDiv.appendChild(labelDiv);
