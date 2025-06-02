@@ -480,7 +480,7 @@ export default {
 
         createStylePackElement(stylePack, index, iframeDoc) {
             const stylePackDiv = iframeDoc.createElement('div');
-            stylePackDiv.className = 'style-pack-item form-control-live-edit-label-wrapper';
+            stylePackDiv.className = 'style-pack-item';
             stylePackDiv.onclick = () => this.applyStylePack(stylePack);
 
             const innerDiv = iframeDoc.createElement('div');
@@ -540,13 +540,14 @@ export default {
 
             // Add label if available
             if (stylePack.label) {
-                const labelDiv = iframeDoc.createElement('label');
-                labelDiv.className = 'live-edit-label';
+                const labelDiv = iframeDoc.createElement('div');
+                labelDiv.className = 'form-control-live-edit-label-wrapper';
 
-                const small = iframeDoc.createElement('small');
-                small.textContent = stylePack.label;
+                const label = iframeDoc.createElement('small');
+                label.textContent = stylePack.label;
+                label.className = 'live-edit-label';
 
-                labelDiv.appendChild(small);
+                labelDiv.appendChild(label);
                 innerDiv.appendChild(labelDiv);
             }
 
