@@ -265,7 +265,7 @@ export default {
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
             this.iframe.style.border = 'none';
-            this.iframe.style.borderRadius = '8px';
+            this.iframe.style.borderRadius = '7px';
             this.iframe.style.colorScheme = 'normal';
 
             // Append to container
@@ -336,7 +336,7 @@ export default {
                         }
                         .style-pack-item {
                             cursor: pointer;
-                            padding: 5px;
+                            padding: 10px;
                             border-radius: 8px;
                             transition: all 0.2s;
                             border: 1px solid var(--border-color);
@@ -480,7 +480,7 @@ export default {
 
         createStylePackElement(stylePack, index, iframeDoc) {
             const stylePackDiv = iframeDoc.createElement('div');
-            stylePackDiv.className = 'style-pack-item';
+            stylePackDiv.className = 'style-pack-item form-control-live-edit-label-wrapper';
             stylePackDiv.onclick = () => this.applyStylePack(stylePack);
 
             const innerDiv = iframeDoc.createElement('div');
