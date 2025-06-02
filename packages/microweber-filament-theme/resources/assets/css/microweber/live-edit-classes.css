@@ -38,6 +38,10 @@
     @apply relative;
 }
 
+.mw-le-layouts-dialog {
+    @apply dark:!bg-gray-800;
+}
+
 .input-icon-addon {
     @apply absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none min-w-[2.5rem] justify-center text-[1.2em];
 }
