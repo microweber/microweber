@@ -291,9 +291,9 @@ export default {
             };
 
             const darkThemeColors = {
-                borderColor: '#f5f5ff5',
-                backgroundColor: '#f5f5ff5',
-                backgroundColorHover: '#3a4a5e',
+                borderColor: '#f5f5f5',
+                backgroundColor: '#f5f5f5',
+                backgroundColorHover: '#f9f9f9',
                 itemBackgroundColor: '#1a202c',
                 textColor: '#e2e8f0',
                 accentColor: '#63b3ed',
