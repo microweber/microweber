@@ -540,8 +540,8 @@ export default {
 
             // Add label if available
             if (stylePack.label) {
-                const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'live-edit-label mt-1';
+                const labelDiv = iframeDoc.createElement('label');
+                labelDiv.className = 'live-edit-label';
 
                 const small = iframeDoc.createElement('small');
                 small.textContent = stylePack.label;
