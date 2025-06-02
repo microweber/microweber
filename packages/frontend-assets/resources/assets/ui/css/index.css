@@ -521,7 +521,7 @@ html.preview #preview-button {
 
 }
 html.dark .mw-le-layouts-dialog {
-    background-color:rgb(30 41 59 / var(--tw-bg-opacity));
+    @apply bg-gray-800 text-white;
 }
 
 .mw-le-layouts-dialog-row {
