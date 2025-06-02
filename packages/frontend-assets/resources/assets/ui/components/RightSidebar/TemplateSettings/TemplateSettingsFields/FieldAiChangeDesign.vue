@@ -7,7 +7,7 @@
 
         <div v-if="!showAIChatForm">
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Change Design with AI" class="btn btn-link p-0"
+                    title="Change Design with AI" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
                     @click="toggleAIChatForm" :disabled="!isAIAvailable">
                 Go with AI
             </button>
