@@ -291,8 +291,8 @@ export default {
             };
 
             const darkThemeColors = {
-                borderColor: '#495057',
-                backgroundColor: '#2d3748',
+                borderColor: '#f5f5ff5',
+                backgroundColor: '#f5f5ff5',
                 backgroundColorHover: '#3a4a5e',
                 itemBackgroundColor: '#1a202c',
                 textColor: '#e2e8f0',
@@ -343,12 +343,7 @@ export default {
                             margin-bottom: 10px;
                             background-color: var(--background-color);
                         }
-                        .style-pack-item:hover {
-                            background-color: var(--background-color-hover);
-                            border-color: var(--accent-color);
-                            transform: translateY(-2px);
-                            box-shadow: 0 4px 8px var(--shadow-color);
-                        }
+
                         .style-preview-item {
                             padding: 8px 15px;
                             border-radius: 6px;
