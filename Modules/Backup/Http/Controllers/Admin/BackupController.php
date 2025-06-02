@@ -127,7 +127,7 @@ class BackupController
 
         // Check if the file exist.
         if (file_exists($filename)) {
-            ob_end_clean(); // DON'T REMOVE! This add one more bite info and broke the zip file
+
             return response()->download($filename, $fileId);
 
         } else {

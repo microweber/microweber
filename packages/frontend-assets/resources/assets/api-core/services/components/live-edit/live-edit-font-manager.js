@@ -46,6 +46,7 @@ export class LiveEditFontManager extends BaseComponent {
 
             'Courier New',
             'sans-serif',
+            'segoe ui',
 
             'serif',
             'sans',

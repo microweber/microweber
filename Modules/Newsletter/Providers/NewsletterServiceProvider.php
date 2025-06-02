@@ -6,6 +6,7 @@ use BladeUI\Icons\Factory;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -72,9 +73,17 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
 
         // Register Microweber module
         Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
+        $this->commands(ProcessCampaigns::class);
+
+        Schedule::command('newsletter:process-campaigns')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+
+
 
         if (is_cli()) {
-            $this->commands(ProcessCampaigns::class);
+
             $this->commands(ProcessCampaignsPerformanceTest::class);
         }
     }

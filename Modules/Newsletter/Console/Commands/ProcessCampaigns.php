@@ -137,7 +137,8 @@ class ProcessCampaigns extends Command
         $delay = 1;
         foreach ($batchList as $subscriber) {
             $delay++;
-            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id))->delay(now()->addSeconds($delay));
+            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id));
+          //  dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id))->delay(now()->addSeconds($delay));
         }
 
         $campaignProgress = ($remainingSubscribersCount / $allSubscribersCount) * 100;

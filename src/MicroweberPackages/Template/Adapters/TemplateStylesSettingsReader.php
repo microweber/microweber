@@ -167,7 +167,14 @@ class TemplateStylesSettingsReader
                         $settingsFromFile = @file_get_contents($templateColorsFolderExistsContentItem);
                         $settingsFromFile = @json_decode($settingsFromFile, true);
                         if (is_array($settingsFromFile)) {
-                            $settings = array_merge($settings, $settingsFromFile['settings']);
+                            if(isset($settingsFromFile['settings'])){
+                                $settings = array_merge($settings, $settingsFromFile['settings']);
+                            } else {
+                                $settingsFromFileMergeSettings = [];
+                                $settingsFromFileMergeSettings['settings'] = $settingsFromFile;
+                                $settings = array_merge($settings, $settingsFromFileMergeSettings['settings']);
+                            }
+
                         }
                     }
                 }

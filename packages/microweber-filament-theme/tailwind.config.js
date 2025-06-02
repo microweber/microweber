@@ -166,6 +166,7 @@ module.exports = {
         files: [
             './../../app/Filament/Admin/**/*.php',
             './../../resources/**/*.blade.php',
+            './../frontend-assets/resources/assets/**/*.vue',
             './resources/assets/css/*.css',
             './resources/assets/css/**/*.scss',
             './../../Modules/**/*.blade.php',
