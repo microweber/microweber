@@ -47,6 +47,7 @@ export default {
             isDarkMode: false,
             fontCallbacks: [],
             currentStylePack: null,
+            previousStylePack: null, // Track the previously selected style pack
             fontsLoaded: false,
             fontsToLoad: [],
         }
@@ -180,6 +181,30 @@ export default {
         },
 
         applyStylePack(stylePack) {
+            // Unset properties from the previous style pack before applying the new one
+            if (this.previousStylePack && this.previousStylePack.properties) {
+                const selector = this.selectorToApply || this.rootSelector;
+                const propertiesToUnset = {};
+
+                // Create an object with empty values for all previous properties
+                Object.keys(this.previousStylePack.properties).forEach(property => {
+                    propertiesToUnset[property] = '';
+                });
+
+                // Unset all properties from the previous style pack
+                if (Object.keys(propertiesToUnset).length > 0) {
+                    window.mw.top().app.cssEditor.setPropertyForSelectorBulk(
+                        selector,
+                        propertiesToUnset,
+                        false, // record = true to track the changes
+                        false // skipMedia = false
+                    );
+                }
+            }
+
+            // Store the current style pack as previous before applying the new one
+            this.previousStylePack = this.currentStylePack;
+
             if (stylePack.properties) {
                 const updates = [];
                 Object.keys(stylePack.properties).forEach(property => {
@@ -189,7 +214,6 @@ export default {
                         value: stylePack.properties[property]
                     });
                 });
-
 
                 if (updates.length > 0) {
                     this.$emit('batch-update', updates);

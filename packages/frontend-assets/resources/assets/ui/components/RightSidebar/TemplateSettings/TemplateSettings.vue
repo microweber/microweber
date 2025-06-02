@@ -45,6 +45,7 @@
                                  @batch-update="handleBatchUpdate"/>
 
 
+
             <!-- Main settings list when at root path -->
             <div v-if="currentPath === '/' && hasStyleSettings" class="mt-5">
                 <span
