@@ -71,6 +71,23 @@ export default {
         // First scan and load fonts, then initialize the iframe
         this.scanAndLoadFonts();
 
+        this.isDarkMode = mw.top().app.theme.isDark();
+
+        mw.top().app.theme.on('change', (isDark) => {
+            this.isDarkMode = mw.top().app.theme.isDark();
+
+
+            // this.isDarkMode = mw.top().app.theme.isDark();
+            // if (this.iframe && this.iframe.contentDocument) {
+            //     this.updateIframeContent();
+            //
+            //     // Re-inject styles when theme changes
+            //     this.injectCanvasStyles();
+            //     this.updateIframeContent();
+            // }
+        });
+        //
+
         // Give a small timeout to allow font loading to start
         setTimeout(() => {
             this.initIframeWrapper();
@@ -256,13 +273,35 @@ export default {
 
             // Initialize iframe content after it's loaded
             this.iframe.onload = () => {
-
-
                 this.injectCanvasStyles();
                 this.updateIframeContent();
                 this.injectFontsIntoIframe();
                 mw.top().tools.iframeAutoHeight(this.iframe)
             };
+
+            // Define color variables based on theme
+            const lightThemeColors = {
+                borderColor: '#dee2e6',
+                backgroundColor: '#f2f2f2',
+                backgroundColorHover: '#d7d7d7',
+                itemBackgroundColor: '#f8f9fa',
+                textColor: '#495057',
+                accentColor: '#007bff',
+                shadowColor: 'rgba(0,0,0,0.1)'
+            };
+
+            const darkThemeColors = {
+                borderColor: '#495057',
+                backgroundColor: '#2d3748',
+                backgroundColorHover: '#3a4a5e',
+                itemBackgroundColor: '#1a202c',
+                textColor: '#e2e8f0',
+                accentColor: '#63b3ed',
+                shadowColor: 'rgba(0,0,0,0.3)'
+            };
+
+            // Select theme based on dark mode state
+            const colors = this.isDarkMode ? darkThemeColors : lightThemeColors;
 
             // Set initial content with empty container
             this.iframe.srcdoc = `
@@ -272,12 +311,22 @@ export default {
                     <meta charset="utf-8">
                     <title>Style Pack Preview</title>
                     <style>
+                        :root {
+                            --border-color: ${colors.borderColor};
+                            --background-color: ${colors.backgroundColor};
+                            --background-color-hover: ${colors.backgroundColorHover};
+                            --item-background-color: ${colors.itemBackgroundColor};
+                            --text-color: ${colors.textColor};
+                            --accent-color: ${colors.accentColor};
+                            --shadow-color: ${colors.shadowColor};
+                        }
+
                         body {
                             margin: 0;
                             padding: 0px;
                             background-color: transparent !important;
                             background: transparent !important;
-
+                            color: var(--text-color);
                         }
                         .style-pack-container {
                             display: flex;
@@ -289,21 +338,21 @@ export default {
                             padding: 5px;
                             border-radius: 8px;
                             transition: all 0.2s;
-                            border: 1px solid #dee2e6;
+                            border: 1px solid var(--border-color);
                             margin-bottom: 10px;
-                            background-color: #f2f2f2;
+                            background-color: var(--background-color);
                         }
                         .style-pack-item:hover {
-                            background-color: #d7d7d7;
-                            border-color: #007bff;
+                            background-color: var(--background-color-hover);
+                            border-color: var(--accent-color);
                             transform: translateY(-2px);
-                            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            box-shadow: 0 4px 8px var(--shadow-color);
                         }
                         .style-preview-item {
                             padding: 8px 15px;
                             border-radius: 6px;
-                            background-color: #f8f9fa;
-                            border: 1px solid #dee2e6;
+                            background-color: var(--item-background-color);
+                            border: 1px solid var(--border-color);
                             text-align: center;
                             min-width: 80px;
                             font-size: 12px;
@@ -328,8 +377,6 @@ export default {
                             min-width: 0;
                             display: flex;
                             justify-content: center;
-
-
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
@@ -344,7 +391,7 @@ export default {
                         .style-label {
                             text-align: center;
                             font-weight: 500;
-                            color: #495057;
+                            color: var(--text-color);
                         }
                         .d-flex {
                             display: flex;
@@ -361,8 +408,6 @@ export default {
                         .mt-1 {
                             margin-top: 0.25rem;
                         }
-
-
                     </style>
                 </head>
                 <body>
