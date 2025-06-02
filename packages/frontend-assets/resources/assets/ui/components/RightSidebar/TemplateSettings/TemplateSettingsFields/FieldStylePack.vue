@@ -264,8 +264,8 @@ export default {
             this.iframe.className = 'preview-iframe';
             this.iframe.style.width = '100%';
             this.iframe.style.height = '400px';
-            this.iframe.style.border = '1px solid #dee2e6';
-            this.iframe.style.borderRadius = '6px';
+            this.iframe.style.border = 'none';
+            this.iframe.style.borderRadius = '8px';
             this.iframe.style.colorScheme = 'normal';
 
             // Append to container
@@ -327,6 +327,7 @@ export default {
                             background-color: transparent !important;
                             background: transparent !important;
                             color: var(--text-color);
+                            overflow: hidden;
                         }
                         .style-pack-container {
                             display: flex;
