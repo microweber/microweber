@@ -22,7 +22,7 @@
             </button>
 
             <div class="row mw-font-picker-modal-wrapper">
-                <div class="col-md-4 h-auto">
+                <div class="col-md-4 h-auto bg-white">
                     <div class="mt-3 ms-2">
                         <input
                             v-model="filterKeyword"
@@ -37,7 +37,7 @@
                             v-for="(categoryName, categoryKey) in categories"
                             :key="categoryKey"
                             @click="filterCategorySubmit(categoryKey)"
-                            class="btn btn-link"
+                            class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
                             :class="{'active': categoryKey === filterCategory}"
                         >
                             {{ categoryName }}
