@@ -112,6 +112,7 @@ export class LiveEditWidgetsService extends BaseComponent{
             this.quickEditComponent.destroyEditor()
 
             this.status.quickEditComponent = false;
+            mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened')
         })
 
         this.dispatch('openQuickEditComponent');

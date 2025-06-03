@@ -6,9 +6,23 @@
 
 
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form{
-    @apply sticky bottom-0 z-10  rounded-sm shadow-[0_0px_2px_rgba(41,41,41,0.78)];
+    @apply sticky bottom-0 z-10   ;
 }
 
-.mw-ai-chat-box-area{
-    @apply bg-white dark:bg-gray-800;
+.quick-ai-card{
+
+    background: #7d7d7d17;
+    margin-bottom: 1rem;
+}
+
+.card-body{
+    padding: 20px;
+}
+
+.quick-ai-card-header {
+    padding: 10px 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #74747469;
 }
