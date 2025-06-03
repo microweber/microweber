@@ -37,11 +37,11 @@
         </div>
 
         <!-- Fallback: If it's not a field and not a URL-based link, but has a title (e.g. a static title/description item) -->
-        <div v-else-if="setting.title">
-            <h5>{{ setting.title }}</h5>
-            <!-- Only show description when this item is active -->
-            <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
-        </div>
+<!--        <div v-else-if="setting.title">-->
+<!--            <h5>{{ setting.title }}</h5>-->
+<!--            &lt;!&ndash; Only show description when this item is active &ndash;&gt;-->
+<!--            <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>-->
+<!--        </div>-->
     </div>
 </template>
 
