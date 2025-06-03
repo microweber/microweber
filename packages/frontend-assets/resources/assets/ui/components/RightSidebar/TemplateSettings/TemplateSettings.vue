@@ -69,8 +69,8 @@
             <!-- Settings detail when not at root path -->
             <div v-if="currentPath !== '/' && currentSetting && showStyleSettings !== 'styleEditor'">
                 <div class="mb-3">
-                    <h4 v-if="currentSetting.title">{{ currentSetting.title }}</h4>
-                    <p v-if="currentSetting.description">{{ currentSetting.description }}</p>
+                    <h6 v-if="currentSetting.title">{{ currentSetting.title }}</h6>
+                    <small v-if="currentSetting.description">{{ currentSetting.description }}</small>
                 </div>
 
                 <!-- If currentSetting itself is a field, render it using NestedSettingsItem -->
