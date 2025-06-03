@@ -377,6 +377,7 @@ export default {
                             min-width: 0;
                             display: flex;
                             justify-content: center;
+                            align-items: center;
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
@@ -424,10 +425,9 @@ export default {
                         }
 
                         .color-palette-item {
-
-                            border-radius: 7px;
-                            height: 50px;
-                            width: 20px;
+                            border-radius: 100%;
+                            height: 30px;
+                            width: 27px;
                         }
 
                     </style>
