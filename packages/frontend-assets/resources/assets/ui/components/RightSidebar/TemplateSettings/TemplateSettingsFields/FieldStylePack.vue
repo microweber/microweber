@@ -408,12 +408,12 @@ export default {
                             letter-spacing: 0.75px;
                             text-overflow: ellipsis;
                             text-transform: uppercase;
-                            color: var(--text-color);
+
                             padding-left: 0;
                             overflow: hidden;
                             box-sizing: border-box;
                             display:block;
-                            font-weight: semibold;
+                            font-weight: 600;
 
                         }
 

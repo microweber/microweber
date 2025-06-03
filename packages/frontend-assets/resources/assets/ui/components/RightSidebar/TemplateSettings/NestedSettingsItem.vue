@@ -4,9 +4,9 @@
         <div v-if="setting.fieldType">
             <!-- Display title/description for the field itself, if not a styleEditor button -->
             <div v-if="setting.fieldType === 'info' && setting.title">
-                 <!-- Using h5 or similar for field titles to distinguish from main group titles (h4 in parent) -->
-                 <h5>{{ setting.title }}</h5>
-                 <!-- Description should only be shown if this is the active view in the parent component -->
+<!--                 &lt;!&ndash; Using h5 or similar for field titles to distinguish from main group titles (h4 in parent) &ndash;&gt;-->
+<!--                 <h5>{{ setting.title }}</h5>-->
+<!--                 &lt;!&ndash; Description should only be shown if this is the active view in the parent component &ndash;&gt;-->
                  <p v-if="setting.description && isActive" class="text-muted small mt-0 mb-2">{{ setting.description }}</p>
             </div>
             <component
