@@ -399,6 +399,18 @@ export default {
                         .mt-1 {
                             margin-top: 0.25rem;
                         }
+
+                        .live-edit-label {
+                            padding: 0 2px;
+                            text-rendering: optimizelegibility;
+                            -webkit-font-smoothing: antialiased;
+                            font-size: 9.75px;
+                            letter-spacing: 0.75px;
+                            text-overflow: ellipsis;
+                            @apply font-semibold text-gray-600 dark:text-white ps-0 block overflow-hidden box-border uppercase;
+                        }
+
+
                     </style>
                 </head>
                 <body>
