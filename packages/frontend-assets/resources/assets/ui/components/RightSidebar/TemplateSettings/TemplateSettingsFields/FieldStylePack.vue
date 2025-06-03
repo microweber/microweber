@@ -376,7 +376,7 @@ export default {
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
-                            margin-bottom: 10px;
+
                         }
 
                         .style-label {
@@ -399,6 +399,25 @@ export default {
                         .mt-1 {
                             margin-top: 0.25rem;
                         }
+
+                        .live-edit-label {
+                            padding: 0 2px;
+                            text-rendering: optimizelegibility;
+                            -webkit-font-smoothing: antialiased;
+                            font-size: 9.75px;
+                            letter-spacing: 0.75px;
+                            text-overflow: ellipsis;
+                            text-transform: uppercase;
+
+                            padding-left: 0;
+                            overflow: hidden;
+                            box-sizing: border-box;
+                            display:block;
+                            font-weight: 600;
+
+                        }
+
+
                     </style>
                 </head>
                 <body>

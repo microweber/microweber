@@ -45,9 +45,20 @@ const AIChatFormCSS= `
      .mw-ai-chat-box-area{
         position:relative;
         display: block;
-        background: rgb(153 153 153 / 34%);
+        background: rgb(205 205 205);
         border: none;
         border-radius: 20px;
+
+     }
+
+    html.dark .mw-ai-chat-box-area textareat::placeholder {
+        color: white;
+        opacity: 0.5;
+    }
+    html.dark .mw-ai-chat-box-area{
+
+        background: rgba(var(--gray-700), var(--tw-bg-opacity, 1));
+
 
      }
 

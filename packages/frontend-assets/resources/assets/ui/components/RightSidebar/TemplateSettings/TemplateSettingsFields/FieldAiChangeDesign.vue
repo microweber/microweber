@@ -16,7 +16,7 @@
         <div v-show="showAIChatForm" class="mt-2">
 
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Close Change Design with AI" class="btn btn-link p-0"
+                    title="Close Change Design with AI" class="tn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
                     @click="toggleAIChatForm">
                 Close
             </button>

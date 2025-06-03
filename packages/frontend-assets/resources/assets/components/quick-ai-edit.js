@@ -607,50 +607,27 @@ export class QuickEditComponent extends MicroweberBaseClass {
         // Create card sections for each group
         Object.keys(fieldGroups).forEach(sectionId => {
             const section = document.createElement('div');
-            section.className = 'card mb-4';
+            section.className = 'quick-ai-card';
             section.dataset.sectionId = sectionId; // Store section ID for future reference
 
             // Create container for styled HR-like header with text in the middle
             const header = document.createElement('div');
-            header.className = 'section-header-divider text-center position-relative my-3';
+            header.className = 'quick-ai-card-header';
 
-            // Apply the styling for the container and pseudo-elements
-            header.style.cssText = `
-                display: flex;
-                align-items: center;
-                margin: 15px 0;
-                text-align: center;
-            `;
 
-            // Create the before line
-            const beforeDiv = document.createElement('div');
-            beforeDiv.className = 'header-line-before';
-            beforeDiv.style.cssText = `
-                flex-grow: 1;
-                height: 1px;
-                background-color: #dee2e6;
-                margin-right: 15px;
-            `;
+
 
             // Create the text element - use the title from fieldGroups
             const headerText = document.createElement('span');
             headerText.className = 'header-text fw-bold text-secondary';
             headerText.textContent = fieldGroups[sectionId].title;
 
-            // Create the after line
-            const afterDiv = document.createElement('div');
-            afterDiv.className = 'header-line-after';
-            afterDiv.style.cssText = `
-                flex-grow: 1;
-                height: 1px;
-                background-color: #dee2e6;
-                margin-left: 15px;
-            `;
+
 
             // Assemble the header
-            header.appendChild(beforeDiv);
+
             header.appendChild(headerText);
-            header.appendChild(afterDiv);
+
 
             const body = document.createElement('div');
             body.className = 'card-body';

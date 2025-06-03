@@ -5,11 +5,11 @@
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
-                    <h3 v-show="showTemplateSettings" class="fs-2 font-weight-bold">Template Style Editor</h3>
+                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold">Template Style Editor</h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
-                          class="x-close-modal-link" style="top: 5px; right: -25px;">
+                          class="x-close-modal-link" style="top: 5px; right: -5px;">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                              fill="currentColor"><path
                             d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
