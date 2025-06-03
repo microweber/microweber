@@ -379,6 +379,14 @@ export default {
 
                         }
 
+                        .preview-component h1 {
+                            margin: 0;
+                        }
+
+                        .style-preview-element p {
+                            margin: 0;
+                        }
+
                         .style-label {
                             text-align: center;
                             font-weight: 500;
