@@ -363,7 +363,7 @@ export default {
                         }
                         .preview-display-flex {
                             display: flex;
-                            gap: 10px;
+
                             flex-wrap: wrap;
                         }
                         .preview-display-flexZoom {

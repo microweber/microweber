@@ -72,11 +72,6 @@ OLD iframe is commented out, use the new TemplateSettings component instead
 </template>
 
 <style>
-.general-theme-settings {
-    background: #000;
-
-}
-
 .live-edit-sidebar-opened #live-edit-frame-holder {
     left: 250px;
 }
