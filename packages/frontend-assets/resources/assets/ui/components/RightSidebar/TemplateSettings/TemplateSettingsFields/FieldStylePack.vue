@@ -363,12 +363,12 @@ export default {
                         }
                         .preview-display-flex {
                             display: flex;
-
                             flex-wrap: wrap;
+                            gap: 0; /* Remove gap between flex items */
                         }
                         .preview-display-flexZoom {
                             display: flex;
-                            gap: 5px;
+                            gap: 0; /* Remove gap between flex items */
                             flex-wrap: wrap;
                             zoom: 0.5;
                         }
@@ -378,6 +378,8 @@ export default {
                             display: flex;
                             justify-content: center;
                             align-items: center;
+                            margin: 0; /* Remove any margin */
+                            padding: 0; /* Remove any padding */
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
@@ -425,9 +427,9 @@ export default {
                         }
 
                         .color-palette-item {
-                            border-radius: 100%;
-                            height: 30px;
-                            width: 27px;
+                            border-radius: 7px;
+                            height: 60px;
+                            width: 20px;
                         }
 
                     </style>
