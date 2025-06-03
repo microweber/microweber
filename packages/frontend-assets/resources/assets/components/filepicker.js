@@ -295,7 +295,7 @@ mw.filePicker = function (options) {
                 </div>
                 <div class="form-control-live-edit-label-wrapper" style="width: 200px">
                     <label>${mw.lang('Number of images')}</label>
-                    <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="6" value="1">
+                    <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="${scope.settings.multiple ? 6 : 1}" value="1">
                 </div>
 
                 <div class="form-control-live-edit-label-wrapper" style="width: 200px">

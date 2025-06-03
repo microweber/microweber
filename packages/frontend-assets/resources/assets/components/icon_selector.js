@@ -327,6 +327,9 @@
 
             if (typeof options.load === 'string') {
                 mw.require(options.load);
+                if(mw !== mw.top()) {
+                    mw.top().require(options.load);
+                }
             } else if (typeof options.load === 'function') {
                 options.load();
             }
@@ -457,6 +460,7 @@
 
 
         var _e = {};
+
 
         this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };

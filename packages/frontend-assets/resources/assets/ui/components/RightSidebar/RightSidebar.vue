@@ -5,7 +5,7 @@
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
-                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold">Template Style Editor</h3>
+                    <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Template Style Editor</Lang></h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"

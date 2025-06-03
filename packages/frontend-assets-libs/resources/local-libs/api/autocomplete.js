@@ -132,7 +132,7 @@ mw.autoComplete = function(options){
     this.rendSelected = function(){
         if(this.options.multiple){
             this.uniqueValue();
-            this.chips.setData(this.selected);
+            this.tags.setData(this.selected);
         }
         else{
             this.rendSingle();
@@ -263,7 +263,7 @@ mw.autoComplete = function(options){
         this.prepare(options);
         this.buildUI();
         if(this.options.multiple){
-            this.chips = new mw.chips({
+            this.tags = new mw.tags({
                 element:this.valueHolder,
                 data:[]
             });
