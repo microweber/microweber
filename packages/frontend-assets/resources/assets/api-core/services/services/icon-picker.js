@@ -29,7 +29,7 @@ export class IconPicker extends MicroweberBaseClass {
         };
         var target = $(targetElementSelector)[0];
 
-        console.log("", target);
+
         const settings = Object.assign({}, defaults, options, {target});
 
         mw.iconLoader().init();

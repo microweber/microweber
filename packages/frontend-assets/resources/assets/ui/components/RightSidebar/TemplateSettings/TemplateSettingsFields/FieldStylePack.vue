@@ -291,9 +291,9 @@ export default {
             };
 
             const darkThemeColors = {
-                borderColor: '#f5f5f5',
-                backgroundColor: '#f5f5f5',
-                backgroundColorHover: '#f9f9f9',
+                borderColor: 'rgb(242, 242, 242)',
+                backgroundColor: 'rgb(242, 242, 242)',
+                backgroundColorHover: 'rgb(215, 215, 215)',
                 itemBackgroundColor: '#1a202c',
                 textColor: '#e2e8f0',
                 accentColor: '#63b3ed',
@@ -336,12 +336,16 @@ export default {
                         }
                         .style-pack-item {
                             cursor: pointer;
-                            padding: 10px;
+                            padding: 27px 22px 22px;
                             border-radius: 8px;
                             transition: all 0.2s;
                             border: 1px solid var(--border-color);
                             margin-bottom: 10px;
                             background-color: var(--background-color);
+
+                            &:hover {
+                                background-color: var(--background-color-hover);
+                            }
                         }
 
                         .style-preview-item {
@@ -359,12 +363,12 @@ export default {
                         }
                         .preview-display-flex {
                             display: flex;
-                            gap: 10px;
                             flex-wrap: wrap;
+                            gap: 0; /* Remove gap between flex items */
                         }
                         .preview-display-flexZoom {
                             display: flex;
-                            gap: 5px;
+                            gap: 0; /* Remove gap between flex items */
                             flex-wrap: wrap;
                             zoom: 0.5;
                         }
@@ -373,10 +377,16 @@ export default {
                             min-width: 0;
                             display: flex;
                             justify-content: center;
+                            align-items: center;
+                            margin: 0; /* Remove any margin */
+                            padding: 0; /* Remove any padding */
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
+                        }
 
+                        .style-preview-element p, .preview-component {
+                            margin: 0;
                         }
 
                         .style-label {
@@ -408,15 +418,19 @@ export default {
                             letter-spacing: 0.75px;
                             text-overflow: ellipsis;
                             text-transform: uppercase;
-
                             padding-left: 0;
                             overflow: hidden;
                             box-sizing: border-box;
                             display:block;
-                            font-weight: 600;
-
+                            font-weight: 300;
+                            margin-top: 5px;
                         }
 
+                        .color-palette-item {
+                            border-radius: 7px;
+                            height: 60px;
+                            width: 20px;
+                        }
 
                     </style>
                 </head>
@@ -560,7 +574,7 @@ export default {
             // Add label if available
             if (stylePack.label) {
                 const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'form-control-live-edit-label-wrapper text-center';
+                labelDiv.className = 'form-control-live-edit-label-wrapper';
 
                 const label = iframeDoc.createElement('label');
                 label.textContent = stylePack.label;

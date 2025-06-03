@@ -3,7 +3,7 @@
 
 
 
-mw.tags = mw.chips = function(options){
+mw.tags = function(options){
 
     "use strict";
 

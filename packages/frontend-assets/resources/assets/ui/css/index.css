@@ -889,7 +889,7 @@ html.dark .mw-le-layouts-dialog {
 
 :root{
     --sidebar-start-size: 250px;
-    --sidebar-end-size: 300px;
+    --sidebar-end-size: 350px;
     --sidebar-end-size-min: 300px;
     --sidebar-end-size-max: 700px;
 }

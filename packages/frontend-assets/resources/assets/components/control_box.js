@@ -82,6 +82,24 @@ export class ControlBox extends BaseComponent {
 
     #active = false;
 
+    static hasOpened(side = '') {
+        if(side) {
+            side = '.mw-control-box-' + side;
+        }
+        return !!mw.top().doc.querySelector('.mw-control-box.active' + side);
+    }
+
+    static getInstances(side = '') {
+        if(side) {
+            side = '.mw-control-box-' + side;
+        }
+        return Array.from(mw.top().doc.querySelectorAll('.mw-control-box.active' + side)).map(node => node.__instance);
+    }
+
+    static hideAll () {
+        ControlBox.getInstances().forEach(instance => instance.hide());
+    }
+
     config(options) {
 
         this.defaults = {
@@ -101,6 +119,7 @@ export class ControlBox extends BaseComponent {
     build() {
         this.box = document.createElement('div');
         this.box.className = 'mw-control-box mw-control-box-' + this.settings.position + ' mw-control-box-' + this.settings.skin;
+        this.box.__instance = this;
         this.box.id = this.id;
         this.boxContent = document.createElement('div');
         this.boxContent.className = 'mw-control-box-content';

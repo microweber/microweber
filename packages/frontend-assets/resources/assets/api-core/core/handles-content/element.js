@@ -120,7 +120,8 @@ export class ElementHandleContent {
 
                 action: (el) => {
 
-                    this.elementActions.cloneElementFirstClonableParent(el);
+                    this.elementActions.cloneElement(el);
+                    // this.elementActions.cloneElementFirstClonableParent(el);
 
                 }
             },
