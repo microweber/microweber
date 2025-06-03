@@ -336,7 +336,7 @@ export default {
                         }
                         .style-pack-item {
                             cursor: pointer;
-                            padding: 10px;
+                            padding: 27px 22px 22px;
                             border-radius: 8px;
                             transition: all 0.2s;
                             border: 1px solid var(--border-color);
