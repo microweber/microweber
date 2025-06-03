@@ -407,7 +407,14 @@ export default {
                             font-size: 9.75px;
                             letter-spacing: 0.75px;
                             text-overflow: ellipsis;
-                            @apply font-semibold text-gray-600 dark:text-white ps-0 block overflow-hidden box-border uppercase;
+                            text-transform: uppercase;
+                            color: var(--text-color);
+                            padding-left: 0;
+                            overflow: hidden;
+                            box-sizing: border-box;
+                            display:block;
+                            font-weight: semibold;
+
                         }
 
 
