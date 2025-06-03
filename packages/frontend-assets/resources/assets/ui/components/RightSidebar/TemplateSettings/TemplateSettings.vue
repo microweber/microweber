@@ -68,7 +68,7 @@
 
             <!-- Settings detail when not at root path -->
             <div v-if="currentPath !== '/' && currentSetting && showStyleSettings !== 'styleEditor'">
-                <div class="mb-3">
+                <div class="my-5">
                     <h6 v-if="currentSetting.title">{{ currentSetting.title }}</h6>
                     <small v-if="currentSetting.description">{{ currentSetting.description }}</small>
                 </div>
