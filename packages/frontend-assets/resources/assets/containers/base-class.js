@@ -1,4 +1,5 @@
 class MicroweberBaseClass {
+    // must be public, due to issue in babel.js
     _events = {};
     on(e, f) {
         this._events[e] ? this._events[e].push(f) : (this._events[e] = [f]);
