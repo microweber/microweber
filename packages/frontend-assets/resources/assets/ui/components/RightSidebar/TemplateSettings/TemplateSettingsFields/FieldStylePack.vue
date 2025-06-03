@@ -423,6 +423,12 @@ export default {
                             margin-top: 5px;
                         }
 
+                        .color-palette-item {
+
+                            border-radius: 7px;
+                            height: 50px;
+                            width: 20px;
+                        }
 
                     </style>
                 </head>
