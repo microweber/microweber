@@ -291,9 +291,9 @@ export default {
             };
 
             const darkThemeColors = {
-                borderColor: '#f5f5f5',
-                backgroundColor: '#f5f5f5',
-                backgroundColorHover: '#f9f9f9',
+                borderColor: 'rgb(242, 242, 242)',
+                backgroundColor: 'rgb(242, 242, 242)',
+                backgroundColorHover: 'rgb(215, 215, 215)',
                 itemBackgroundColor: '#1a202c',
                 textColor: '#e2e8f0',
                 accentColor: '#63b3ed',
@@ -342,6 +342,10 @@ export default {
                             border: 1px solid var(--border-color);
                             margin-bottom: 10px;
                             background-color: var(--background-color);
+
+                            &:hover {
+                                background-color: var(--background-color-hover);
+                            }
                         }
 
                         .style-preview-item {
@@ -376,14 +380,9 @@ export default {
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
-
                         }
 
-                        .preview-component h1 {
-                            margin: 0;
-                        }
-
-                        .style-preview-element p {
+                        .style-preview-element p, .preview-component {
                             margin: 0;
                         }
 
@@ -416,13 +415,12 @@ export default {
                             letter-spacing: 0.75px;
                             text-overflow: ellipsis;
                             text-transform: uppercase;
-
                             padding-left: 0;
                             overflow: hidden;
                             box-sizing: border-box;
                             display:block;
-                            font-weight: 600;
-
+                            font-weight: 300;
+                            margin-top: 5px;
                         }
 
 
@@ -568,7 +566,7 @@ export default {
             // Add label if available
             if (stylePack.label) {
                 const labelDiv = iframeDoc.createElement('div');
-                labelDiv.className = 'form-control-live-edit-label-wrapper text-center';
+                labelDiv.className = 'form-control-live-edit-label-wrapper';
 
                 const label = iframeDoc.createElement('label');
                 label.textContent = stylePack.label;
