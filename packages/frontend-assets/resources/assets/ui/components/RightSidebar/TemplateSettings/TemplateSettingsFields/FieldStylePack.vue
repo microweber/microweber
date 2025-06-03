@@ -376,7 +376,7 @@ export default {
                         }
                         .preview-display-block .style-preview-element {
                             display: block;
-                            margin-bottom: 10px;
+
                         }
 
                         .style-label {
