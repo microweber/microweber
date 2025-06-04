@@ -14,6 +14,7 @@
 
             <div class="mw-template-settings-back-button-sticky">
                 <FieldBackButton
+                    v-if="!hasActiveStylePackOpener"
                     :current-path="currentPath"
                     :current-setting="currentSetting"
                     :show-button="currentPath !== '/'"
@@ -96,7 +97,9 @@
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
                                 @batch-update="handleBatchUpdate"
-                                @open-style-editor="handleStyleEditorOpen"/>
+                                @open-style-editor="handleStyleEditorOpen"
+                                @style-pack-expanded-state="handleStylePackExpandedState"
+                                :ref="el => { if(!nestedItems) nestedItems = []; nestedItems.push(el); }"/>
                         </div>
                     </div>
                     <!-- Option 2: Children are found via subItems (URL matching), and no direct .settings array -->
@@ -108,7 +111,9 @@
                                 @navigate="navigateTo"
                                 @update="handleSettingUpdate"
                                 @batch-update="handleBatchUpdate"
-                                @open-style-editor="handleStyleEditorOpen"/>
+                                @open-style-editor="handleStyleEditorOpen"
+                                @style-pack-expanded-state="handleStylePackExpandedState"
+                                :ref="el => { if(!nestedItems) nestedItems = []; nestedItems.push(el); }"/>
                         </div>
                     </div>
                 </div>
@@ -204,6 +209,9 @@ export default {
             propertyChangeListeners: [], // Array to store registered listeners for Vue 3 event handling
             existingLayoutSelectors: [],
             existingLayoutSelectorsInitialized: false,
+            stylePacksExpandedState: {},
+            activeStylePackOpener: null,
+            hasActiveStylePackOpener: false,
         };
     }, computed: {
         displayedStyleSettingVars() {
@@ -711,6 +719,13 @@ export default {
                 }
             });
         }, navigateTo(path) {
+            // Try to collapse any active style pack first
+            if (this.hasActiveStylePackOpener && path !== this.currentPath) {
+                if (this.collapseActiveStylePack()) {
+                    return; // Stop navigation if we collapsed a style pack
+                }
+            }
+
             this.currentPath = path;
         },
 
@@ -1151,6 +1166,37 @@ export default {
             }
 
             return valuesForEdit;
+        },
+
+        handleStylePackExpandedState(data) {
+            const { id, isExpanded } = data;
+
+            // Store the expanded state by id
+            this.stylePacksExpandedState[id] = isExpanded;
+
+            // Track the currently active style pack opener
+            if (isExpanded) {
+                this.activeStylePackOpener = id;
+                this.hasActiveStylePackOpener = true;
+            } else if (this.activeStylePackOpener === id) {
+                this.activeStylePackOpener = null;
+                this.hasActiveStylePackOpener = false;
+            }
+        },
+
+        collapseActiveStylePack() {
+            if (this.hasActiveStylePackOpener && this.nestedItems) {
+                for (const item of this.nestedItems) {
+                    if (item && typeof item.collapseStylePack === 'function') {
+                        if (item.collapseStylePack()) {
+                            this.activeStylePackOpener = null;
+                            this.hasActiveStylePackOpener = false;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         },
     }
 };

@@ -23,6 +23,8 @@
                 @update="handleUpdate"
                 @batch-update="handleBatchUpdate"
                 @open-style-editor="$emit('open-style-editor', $event)"
+                @style-pack-expanded-state="$emit('style-pack-expanded-state', $event)"
+                ref="fieldComponent"
             />
         </div>
 
@@ -87,6 +89,11 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    data() {
+        return {
+            stylePackExpanded: false
+        };
     },
     computed: {
         selectorToApply() {
@@ -179,6 +186,17 @@ export default {
                 // Force the component to refresh since currentValue is computed and will get the new value
                 this.$forceUpdate();
             }
+        },
+
+        // New method to collapse style pack if it's expanded
+        collapseStylePack() {
+            if (this.setting.fieldType === 'stylePack' && this.$refs.fieldComponent) {
+                const fieldComponent = this.$refs.fieldComponent;
+                if (typeof fieldComponent.collapseStylePacks === 'function') {
+                    return fieldComponent.collapseStylePacks();
+                }
+            }
+            return false;
         }
     },    mounted() {
         // Register this component to receive CSS property change notifications from TemplateSettings

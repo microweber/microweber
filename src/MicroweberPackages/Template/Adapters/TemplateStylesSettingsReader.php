@@ -39,6 +39,14 @@ class TemplateStylesSettingsReader
                                 $this->processMergeFieldSettingsFromFiles($subSetting);
                                 $settings['styleSettingsVars'][$keySettings]['settings'][$subKey] = $subSetting;
                             }
+
+                            // Process mergeFieldSettingsFromFolders for each nested setting
+                            if (isset($subSetting['mergeFieldSettingsFromFolders']) &&
+                                is_array($subSetting['mergeFieldSettingsFromFolders']) &&
+                                !empty($subSetting['mergeFieldSettingsFromFolders'])) {
+                                $this->processMergeFieldSettingsFromFolders($subSetting);
+                                $settings['styleSettingsVars'][$keySettings]['settings'][$subKey] = $subSetting;
+                            }
                         }
                     }
 
@@ -67,6 +75,14 @@ class TemplateStylesSettingsReader
                                 $settings['settings'][$keySettings]['settings'][$subKey] = $subSetting;
                             }
 
+                            // Process mergeFieldSettingsFromFolders for each nested setting
+                            if (isset($subSetting['mergeFieldSettingsFromFolders']) &&
+                                is_array($subSetting['mergeFieldSettingsFromFolders']) &&
+                                !empty($subSetting['mergeFieldSettingsFromFolders'])) {
+                                $this->processMergeFieldSettingsFromFolders($subSetting);
+                                $settings['settings'][$keySettings]['settings'][$subKey] = $subSetting;
+                            }
+
                             $settingsFromSubFiles = $this->readStyleSettingsFromFilesAndFolders($subSetting);
                             if (!empty($settingsFromSubFiles['settings'])) {
                                 if (!isset($settings['settings'][$keySettings]['settings'][$subKey]['settings'])) {
@@ -84,6 +100,14 @@ class TemplateStylesSettingsReader
                         is_array($setting['mergeFieldSettingsFromFiles']) &&
                         !empty($setting['mergeFieldSettingsFromFiles'])) {
                         $this->processMergeFieldSettingsFromFiles($setting);
+                        $settings['settings'][$keySettings] = $setting;
+                    }
+
+                    // Process mergeFieldSettingsFromFolders for the current setting
+                    if (isset($setting['mergeFieldSettingsFromFolders']) &&
+                        is_array($setting['mergeFieldSettingsFromFolders']) &&
+                        !empty($setting['mergeFieldSettingsFromFolders'])) {
+                        $this->processMergeFieldSettingsFromFolders($setting);
                         $settings['settings'][$keySettings] = $setting;
                     }
 
@@ -187,6 +211,14 @@ class TemplateStylesSettingsReader
                                 $this->processMergeFieldSettingsFromFiles($fileSetting);
                                 $settingsFromFile['settings'][$key] = $fileSetting;
                             }
+
+                            // Process mergeFieldSettingsFromFolders for each setting
+                            if (isset($fileSetting['mergeFieldSettingsFromFolders']) &&
+                                is_array($fileSetting['mergeFieldSettingsFromFolders']) &&
+                                !empty($fileSetting['mergeFieldSettingsFromFolders'])) {
+                                $this->processMergeFieldSettingsFromFolders($fileSetting);
+                                $settingsFromFile['settings'][$key] = $fileSetting;
+                            }
                         }
 
                         $newSettings = array_merge($newSettings, $settingsFromFile['settings']);
@@ -217,6 +249,14 @@ class TemplateStylesSettingsReader
                             $this->processMergeFieldSettingsFromFiles($folderSetting);
                             $settingsFromFolder['settings'][$key] = $folderSetting;
                         }
+
+                        // Process mergeFieldSettingsFromFolders for each setting from folder
+                        if (isset($folderSetting['mergeFieldSettingsFromFolders']) &&
+                            is_array($folderSetting['mergeFieldSettingsFromFolders']) &&
+                            !empty($folderSetting['mergeFieldSettingsFromFolders'])) {
+                            $this->processMergeFieldSettingsFromFolders($folderSetting);
+                            $settingsFromFolder['settings'][$key] = $folderSetting;
+                        }
                     }
 
                     $newSettings = array_merge($newSettings, $settingsFromFolder['settings']);
@@ -232,6 +272,15 @@ class TemplateStylesSettingsReader
                     is_array($subSetting['mergeFieldSettingsFromFiles']) &&
                     !empty($subSetting['mergeFieldSettingsFromFiles'])) {
                     $this->processMergeFieldSettingsFromFiles($subSetting);
+                    // Update the original setting
+                    $setting['settings'][$key] = $subSetting;
+                }
+
+                // Process mergeFieldSettingsFromFolders for each nested setting
+                if (isset($subSetting['mergeFieldSettingsFromFolders']) &&
+                    is_array($subSetting['mergeFieldSettingsFromFolders']) &&
+                    !empty($subSetting['mergeFieldSettingsFromFolders'])) {
+                    $this->processMergeFieldSettingsFromFolders($subSetting);
                     // Update the original setting
                     $setting['settings'][$key] = $subSetting;
                 }
@@ -325,6 +374,101 @@ class TemplateStylesSettingsReader
 
         // For debugging: Log the merged fieldSettings
         // file_put_contents('H:\debug\microweber\debug-merged-settings.json', json_encode($setting, JSON_PRETTY_PRINT));
+    }
+
+    /**
+     * Process mergeFieldSettingsFromFolders for a setting
+     *
+     * @param array &$setting The setting to process (passed by reference)
+     */
+    private function processMergeFieldSettingsFromFolders(&$setting)
+    {
+        if (!isset($setting['mergeFieldSettingsFromFolders']) ||
+            !is_array($setting['mergeFieldSettingsFromFolders']) ||
+            empty($setting['mergeFieldSettingsFromFolders'])) {
+            return;
+        }
+
+        $foldersForFieldSettings = $setting['mergeFieldSettingsFromFolders'];
+
+        foreach ($foldersForFieldSettings as $folderPath) {
+            $fullFolderPath = $this->templateDir . DS . $folderPath;
+            $fullFolderPath = $this->normalizePath($fullFolderPath);
+
+            if (!is_dir($fullFolderPath)) {
+                // Log folder not found for debugging
+                // error_log("Folder not found: " . $fullFolderPath);
+                continue;
+            }
+
+            $jsonFiles = glob($fullFolderPath . DS . '*.json');
+            if (!is_array($jsonFiles)) {
+                continue;
+            }
+
+            foreach ($jsonFiles as $jsonFilePath) {
+                if (!is_file($jsonFilePath)) {
+                    continue;
+                }
+
+                $settingsFromFile = @file_get_contents($jsonFilePath);
+                if ($settingsFromFile === false) {
+                    // Log file read error for debugging
+                    // error_log("Failed to read file: " . $jsonFilePath);
+                    continue;
+                }
+
+                $settingsFromFile = @json_decode($settingsFromFile, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // Log JSON parse error for debugging
+                    // error_log("JSON parse error for file " . $jsonFilePath . ": " . json_last_error_msg());
+                    continue;
+                }
+
+                // Handle direct settings format or nested 'settings' key
+                $settingsToProcess = [];
+                if (isset($settingsFromFile['settings']) && is_array($settingsFromFile['settings'])) {
+                    $settingsToProcess = $settingsFromFile['settings'];
+                } else if (is_array($settingsFromFile)) {
+                    $settingsToProcess = [$settingsFromFile];
+                }
+
+                foreach ($settingsToProcess as $fileSetting) {
+                    // If we find fieldSettings in the loaded file, merge them into the current setting
+                    if (isset($fileSetting['fieldSettings'])) {
+                        if (!isset($setting['fieldSettings'])) {
+                            $setting['fieldSettings'] = [];
+                        }
+
+                        // Merge fieldSettings properties
+                        foreach ($fileSetting['fieldSettings'] as $key => $value) {
+                            if ($key === 'styleProperties' && is_array($value) && !empty($value)) {
+                                // Special handling for styleProperties
+                                if (!isset($setting['fieldSettings']['styleProperties'])) {
+                                    $setting['fieldSettings']['styleProperties'] = [];
+                                }
+
+                                // Append each styleProperty from the file to the current setting
+                                foreach ($value as $styleProperty) {
+                                    if (!$this->stylePropertyExists($setting['fieldSettings']['styleProperties'], $styleProperty)) {
+                                        $setting['fieldSettings']['styleProperties'][] = $styleProperty;
+                                    }
+                                }
+                            } elseif (isset($setting['fieldSettings'][$key]) && is_array($setting['fieldSettings'][$key]) && is_array($value)) {
+                                // For other arrays, do a simple merge
+                                $setting['fieldSettings'][$key] = array_merge($setting['fieldSettings'][$key], $value);
+                            } else {
+                                // For non-array values or keys that don't exist in current setting
+                                $setting['fieldSettings'][$key] = $value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // For debugging: Log the merged fieldSettings
+        // file_put_contents('H:\debug\microweber\debug-merged-folder-settings.json', json_encode($setting, JSON_PRETTY_PRINT));
     }
 
     /**

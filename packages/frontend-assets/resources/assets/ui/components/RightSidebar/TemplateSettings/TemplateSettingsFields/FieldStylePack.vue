@@ -5,14 +5,28 @@
     </div>
 
     <div class="mt-2">
+        <!-- Back button that appears only when style pack opener is expanded -->
+        <FieldBackButton
+            v-if="isStylePackOpenerMode && stylePacksExpanded"
+            :current-path="'/'"
+            :button-text="'Back to styles'"
+            :show-button="true"
+            @go-back="collapseStylePacks"
+        />
+
         <!-- Iframe wrapper for rendering elements with canvas styles - always visible now -->
         <div ref="iframeContainer" class="iframe-wrapper"></div>
     </div>
 </template>
 
 <script>
+import FieldBackButton from './FieldBackButton.vue';
+
 export default {
     inject: ['templateSettings'],
+    components: {
+        FieldBackButton
+    },
     props: {
         setting: {
             type: Object,
@@ -39,6 +53,13 @@ export default {
         // Get display format from setting or default to 'block'
         previewElementsFormat() {
             return this.setting.previewElementsFormat || 'block';
+        },
+
+        // Check if stylePackOpener mode is enabled
+        isStylePackOpenerMode() {
+            return this.setting.previewElementsMode === 'stylePackOpener' &&
+                   Array.isArray(this.setting.previewElementsStyleProperties) &&
+                   this.setting.previewElementsStyleProperties.length > 0;
         }
     },
     data() {
@@ -50,6 +71,9 @@ export default {
             previousStylePack: null, // Track the previously selected style pack
             fontsLoaded: false,
             fontsToLoad: [],
+            stylePacksExpanded: false, // Track if the style packs are expanded in opener mode
+            uniqueId: 'style-pack-' + Math.random().toString(36).substr(2, 9), // Generate unique ID for this component
+            selectedStylePackProperties: null, // Store selected style pack properties for opener
         }
     },
     watch: {
@@ -65,6 +89,14 @@ export default {
             this.$nextTick(() => {
                 this.updateIframeContent();
             });
+        },
+
+        // Watch for changes in expanded state and emit event
+        stylePacksExpanded(newVal) {
+            this.$emit('style-pack-expanded-state', {
+                id: this.uniqueId,
+                isExpanded: newVal
+            });
         }
     },
     mounted() {
@@ -75,18 +107,7 @@ export default {
 
         mw.top().app.theme.on('change', (isDark) => {
             this.isDarkMode = mw.top().app.theme.isDark();
-
-
-            // this.isDarkMode = mw.top().app.theme.isDark();
-            // if (this.iframe && this.iframe.contentDocument) {
-            //     this.updateIframeContent();
-            //
-            //     // Re-inject styles when theme changes
-            //     this.injectCanvasStyles();
-            //     this.updateIframeContent();
-            // }
         });
-        //
 
         // Give a small timeout to allow font loading to start
         setTimeout(() => {
@@ -237,9 +258,32 @@ export default {
                 }
             }
 
+            // Store the selected style pack properties for the opener display
+            this.selectedStylePackProperties = { ...stylePack.properties };
+
+            // Update previewElementsStyleProperties for the opener preview
+            if (
+                this.isStylePackOpenerMode &&
+                this.setting.previewElementsStyleProperties &&
+                this.setting.previewElementsStyleProperties.length > 0
+            ) {
+                // Update the opener preview with selected style properties
+                this.setting.previewElementsStyleProperties[0].properties = { ...stylePack.properties };
+
+                // Also update the label if available
+                if (stylePack.label && this.setting.previewElementsStyleProperties[0]) {
+                    this.setting.previewElementsStyleProperties[0].label = stylePack.label;
+                }
+            }
+
             // Update the current style pack and refresh the iframe
             this.currentStylePack = stylePack;
             this.updateIframeContent();
+
+            // After updating the opener, collapse the style packs
+            if (this.isStylePackOpenerMode && this.stylePacksExpanded) {
+                this.collapseStylePacks();
+            }
 
             this.$emit('style-pack-applied', {
                 selector: this.selectorToApply,
@@ -348,6 +392,40 @@ export default {
                             }
                         }
 
+                        .style-pack-opener {
+                            cursor: pointer;
+                            padding: 27px 22px 22px;
+                            border-radius: 8px;
+                            transition: all 0.2s;
+                            border: 1px solid var(--border-color);
+                            margin-bottom: 10px;
+                            background-color: var(--background-color);
+                            position: relative;
+
+                            &:hover {
+                                background-color: var(--background-color-hover);
+                            }
+                        }
+
+                        .style-pack-opener:after {
+                            content: '⌄';
+                            position: absolute;
+                            right: 15px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            font-size: 24px;
+                            color: var(--text-color);
+                            opacity: 0.7;
+                        }
+
+                        .style-pack-container.expanded .style-pack-item {
+                            display: block;
+                        }
+
+                        .style-pack-container:not(.expanded) .style-pack-item {
+                            display: none;
+                        }
+
                         .style-preview-item {
                             padding: 8px 15px;
                             border-radius: 6px;
@@ -432,6 +510,14 @@ export default {
                             border: 1px solid #ececec;
                         }
 
+                        .click-to-expand {
+                            text-align: center;
+                            font-size: 12px;
+                            color: var(--text-color);
+                            opacity: 0.7;
+                            margin-top: 5px;
+                        }
+
                     </style>
                 </head>
                 <body>
@@ -480,6 +566,136 @@ export default {
             }
         },
 
+        // New method to toggle style packs expansion
+        toggleStylePacksExpansion() {
+            this.stylePacksExpanded = !this.stylePacksExpanded;
+            this.updateIframeContent();
+
+            // Emit event when expanded state changes with unique ID
+            this.$emit('style-pack-expanded-state', {
+                id: this.uniqueId,
+                isExpanded: this.stylePacksExpanded
+            });
+        },
+
+        // Method to collapse style packs without toggling
+        collapseStylePacks() {
+            if (this.stylePacksExpanded) {
+                this.stylePacksExpanded = false;
+                this.updateIframeContent();
+                this.$emit('style-pack-expanded-state', {
+                    id: this.uniqueId,
+                    isExpanded: false
+                });
+                return true;
+            }
+            return false;
+        },
+
+        // New method to create opener element
+        createOpenerElement(iframeDoc) {
+            const openerDiv = iframeDoc.createElement('div');
+            openerDiv.className = 'style-pack-opener';
+            openerDiv.onclick = () => this.toggleStylePacksExpansion();
+
+            const innerDiv = iframeDoc.createElement('div');
+            innerDiv.className = 'd-flex flex-column';
+
+            // Create preview elements
+            const previewDiv = iframeDoc.createElement('div');
+            previewDiv.className = `preview-display-${this.previewElementsFormat} cursor-pointer style-pack-preview main`;
+
+            if (this.setting.previewElements && this.setting.previewElements.length > 0) {
+                // Use actual preview elements from setting
+                this.setting.previewElements.forEach(preview => {
+                    const previewElement = iframeDoc.createElement('div');
+                    previewElement.className = 'style-preview-element';
+
+                    const component = iframeDoc.createElement(preview.tag || 'div');
+                    component.className = `preview-component ${preview.class || ''}`;
+                    component.textContent = preview.label || '';
+
+                    const attrs = preview.attributes || {};
+                    Object.keys(attrs).forEach(attr => {
+                        component.setAttribute(attr, attrs[attr]);
+                    });
+
+                    // Apply the style properties from previewElementsStyleProperties to the component
+                    if (this.setting.previewElementsStyleProperties &&
+                        this.setting.previewElementsStyleProperties.length > 0 &&
+                        this.setting.previewElementsStyleProperties[0].properties) {
+
+                        const styleProps = this.setting.previewElementsStyleProperties[0].properties;
+
+                        // Apply CSS variables and direct styles
+                        Object.keys(styleProps).forEach(property => {
+                            if (property.startsWith('--')) {
+                                component.style.setProperty(property, styleProps[property]);
+                            } else {
+                                const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+                                component.style[cssProperty] = styleProps[property];
+                            }
+                        });
+
+                        // Specifically apply font properties based on element type
+                        if (preview.tag === 'h1' || preview.tag === 'h2' || preview.tag === 'h3' ||
+                            preview.tag === 'h4' || preview.tag === 'h5' || preview.tag === 'h6') {
+                            // Apply heading font styles
+                            if (styleProps['--mw-heading-font-family']) {
+                                component.style.fontFamily = styleProps['--mw-heading-font-family'];
+                            }
+                            if (styleProps['--mw-heading-font-weight']) {
+                                component.style.fontWeight = styleProps['--mw-heading-font-weight'];
+                            }
+                            if (styleProps['--mw-heading-font-size']) {
+                                component.style.fontSize = styleProps['--mw-heading-font-size'];
+                            }
+                        } else if (preview.tag === 'p' || preview.tag === 'div' || preview.tag === 'span') {
+                            // Apply paragraph font styles
+                            if (styleProps['--mw-paragraph-font-family']) {
+                                component.style.fontFamily = styleProps['--mw-paragraph-font-family'];
+                            }
+                            if (styleProps['--mw-paragraph-font-weight']) {
+                                component.style.fontWeight = styleProps['--mw-paragraph-font-weight'];
+                            }
+                            if (styleProps['--mw-paragraph-font-size']) {
+                                component.style.fontSize = styleProps['--mw-paragraph-font-size'];
+                            }
+                        }
+                    }
+
+                    previewElement.appendChild(component);
+                    previewDiv.appendChild(previewElement);
+                });
+            }
+
+            innerDiv.appendChild(previewDiv);
+
+            // Add label if available from previewElementsStyleProperties
+            if (this.setting.previewElementsStyleProperties &&
+                this.setting.previewElementsStyleProperties[0] &&
+                this.setting.previewElementsStyleProperties[0].label) {
+
+                const labelDiv = iframeDoc.createElement('div');
+                labelDiv.className = 'form-control-live-edit-label-wrapper';
+
+                const label = iframeDoc.createElement('label');
+                label.textContent = this.setting.previewElementsStyleProperties[0].label;
+                label.className = 'live-edit-label';
+
+                labelDiv.appendChild(label);
+                innerDiv.appendChild(labelDiv);
+            }
+
+            // Add "Click to expand" text
+            const expandText = iframeDoc.createElement('div');
+            expandText.className = 'click-to-expand';
+            expandText.textContent = 'Click to see style options';
+            innerDiv.appendChild(expandText);
+
+            openerDiv.appendChild(innerDiv);
+            return openerDiv;
+        },
 
         updateIframeContent() {
             if (!this.iframe || !this.iframe.contentDocument) return;
@@ -502,12 +718,37 @@ export default {
                 contentWrapper = layoutWrapper;
             }
 
-            // Render all style packs
-            if (this.setting.fieldSettings && this.setting.fieldSettings.styleProperties) {
-                this.setting.fieldSettings.styleProperties.forEach((stylePack, index) => {
-                    const stylePackElement = this.createStylePackElement(stylePack, index, iframeDoc);
-                    contentWrapper.appendChild(stylePackElement);
-                });
+            // Handle stylePackOpener mode
+            if (this.isStylePackOpenerMode) {
+                // Create a container for all style packs
+                const stylePackContainer = iframeDoc.createElement('div');
+                stylePackContainer.className = 'style-pack-container';
+                if (this.stylePacksExpanded) {
+                    stylePackContainer.classList.add('expanded');
+                }
+                contentWrapper.appendChild(stylePackContainer);
+
+                // Add the opener element if not expanded
+                if (!this.stylePacksExpanded) {
+                    const openerElement = this.createOpenerElement(iframeDoc);
+                    stylePackContainer.appendChild(openerElement);
+                }
+
+                // Render all style packs (they will be hidden by CSS if not expanded)
+                if (this.setting.fieldSettings && this.setting.fieldSettings.styleProperties) {
+                    this.setting.fieldSettings.styleProperties.forEach((stylePack, index) => {
+                        const stylePackElement = this.createStylePackElement(stylePack, index, iframeDoc);
+                        stylePackContainer.appendChild(stylePackElement);
+                    });
+                }
+            } else {
+                // Regular rendering of all style packs
+                if (this.setting.fieldSettings && this.setting.fieldSettings.styleProperties) {
+                    this.setting.fieldSettings.styleProperties.forEach((stylePack, index) => {
+                        const stylePackElement = this.createStylePackElement(stylePack, index, iframeDoc);
+                        contentWrapper.appendChild(stylePackElement);
+                    });
+                }
             }
         },
 
@@ -536,17 +777,48 @@ export default {
                     component.textContent = preview.label || '';
 
                     const attrs = preview.attributes || {};
-
                     Object.keys(attrs).forEach(attr => {
                         component.setAttribute(attr, attrs[attr]);
                     });
 
-                    // Apply style pack properties to preview element
+                    // Apply style pack properties to the preview element using CSS variables
                     if (stylePack.properties) {
                         Object.keys(stylePack.properties).forEach(property => {
-                            const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
-                            component.style.setProperty(cssProperty, stylePack.properties[property]);
+                            // For CSS variables starting with --, use setProperty
+                            if (property.startsWith('--')) {
+                                component.style.setProperty(property, stylePack.properties[property]);
+                            } else {
+                                // For direct properties, apply to style object
+                                const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+                                component.style[cssProperty] = stylePack.properties[property];
+                            }
                         });
+
+                        // Specifically apply font properties based on element type
+                        if (preview.tag === 'h1' || preview.tag === 'h2' || preview.tag === 'h3' ||
+                            preview.tag === 'h4' || preview.tag === 'h5' || preview.tag === 'h6') {
+                            // Apply heading font styles
+                            if (stylePack.properties['--mw-heading-font-family']) {
+                                component.style.fontFamily = stylePack.properties['--mw-heading-font-family'];
+                            }
+                            if (stylePack.properties['--mw-heading-font-weight']) {
+                                component.style.fontWeight = stylePack.properties['--mw-heading-font-weight'];
+                            }
+                            if (stylePack.properties['--mw-heading-font-size']) {
+                                component.style.fontSize = stylePack.properties['--mw-heading-font-size'];
+                            }
+                        } else if (preview.tag === 'p' || preview.tag === 'div' || preview.tag === 'span') {
+                            // Apply paragraph font styles
+                            if (stylePack.properties['--mw-paragraph-font-family']) {
+                                component.style.fontFamily = stylePack.properties['--mw-paragraph-font-family'];
+                            }
+                            if (stylePack.properties['--mw-paragraph-font-weight']) {
+                                component.style.fontWeight = stylePack.properties['--mw-paragraph-font-weight'];
+                            }
+                            if (stylePack.properties['--mw-paragraph-font-size']) {
+                                component.style.fontSize = stylePack.properties['--mw-paragraph-font-size'];
+                            }
+                        }
                     }
 
                     previewElement.appendChild(component);
