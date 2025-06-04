@@ -1,6 +1,6 @@
 .mw-admin-action-links,
 .fi-tabs .fi-tabs-item, .fi-tabs .fi-tabs-item .fi-tabs-item-label {
-    @apply relative no-underline !font-bold text-black dark:text-white hover:cursor-pointer text-[1rem];
+    @apply relative no-underline !font-bold !text-black dark:!text-white hover:cursor-pointer text-[1rem];
 }
 
 
