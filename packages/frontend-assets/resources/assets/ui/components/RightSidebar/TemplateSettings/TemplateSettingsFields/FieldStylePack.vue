@@ -363,8 +363,7 @@ export default {
                         }
                         .preview-display-flex {
                             display: flex;
-                            flex-wrap: wrap;
-                            gap: 0; /* Remove gap between flex items */
+                            gap: 6px;
                         }
                         .preview-display-flexZoom {
                             display: flex;
@@ -374,7 +373,7 @@ export default {
                         }
                         .style-preview-element {
                             flex: 1;
-                            min-width: 0;
+
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -430,6 +429,7 @@ export default {
                             border-radius: 7px;
                             height: 60px;
                             width: 20px;
+                            border: 1px solid #ececec;
                         }
 
                     </style>
