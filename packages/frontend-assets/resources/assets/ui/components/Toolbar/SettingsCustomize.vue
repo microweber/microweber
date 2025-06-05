@@ -83,26 +83,28 @@ export default {
                 CSSGUIService.hide()
             }
             if(name === 'template-settings') {
-                //mw.top().app.templateSettingsBox.toggle();
 
-
-
-
-
-//return;
                 if(!this.buttonIsActive){
                     this.buttonIsActive = true;
                     this.buttonIsActiveStyleEditor = false;
                     this.emitter.emit('live-edit-ui-show', name);
-                     mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
-
+                    mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
+                     const arr = Array.from(document.querySelectorAll('#general-theme-settings,.mw-control-box')).map(node => {
+                        let z = getComputedStyle(node).zIndex;
+                        if(z === 'auto') {
+                            return 0
+                        }
+                        return parseFloat(z);
+                     });
+                     const maxZ = Math.max(...arr);
+                     mw.top().doc.querySelector('#general-theme-settings').style.zIndex = maxZ + 1;
                 } else {
                     this.buttonIsActive = false;
                     this.emitter.emit("live-edit-ui-show", 'template-settings-close');
                     if(!mw.top().controlBox.hasOpened('right')) {
-
                         mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
                     }
+                    mw.top().doc.querySelector('#general-theme-settings').style.zIndex = 0;
 
                 }
 

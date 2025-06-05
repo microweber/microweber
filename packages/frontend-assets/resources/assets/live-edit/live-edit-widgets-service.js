@@ -44,6 +44,9 @@ export class LiveEditWidgetsService extends BaseComponent{
     }
 
     #hasOpened() {
+        if(document.querySelector('#general-theme-settings.active')) {
+            return true;
+        }
         for( let i in this.status) {
             if(this.status[i]) {
                 return true;
@@ -63,7 +66,7 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     closeAll() {
         this.closeAdminSidebar()
-        this.closeLayers()
+        // this.closeLayers()
         this.closeQuickEditComponent()
         this.#zIndex()
     }

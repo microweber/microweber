@@ -71,7 +71,7 @@ a {
     background: var(--tblr-bg-surface);
     display: flex;
     position: relative;
-    z-index: 104;
+    z-index: 999;
     transition: var(--toolbar-height-animation-speed);
 }
 

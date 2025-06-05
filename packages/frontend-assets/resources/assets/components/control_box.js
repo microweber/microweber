@@ -85,6 +85,10 @@ export class ControlBox extends BaseComponent {
     static hasOpened(side = '') {
         if(side) {
             side = '.mw-control-box-' + side;
+
+            if(side === 'right') {
+                 side += ', #general-theme-settings.active'
+            }
         }
         return !!mw.top().doc.querySelector('.mw-control-box.active' + side);
     }
@@ -96,8 +100,21 @@ export class ControlBox extends BaseComponent {
         return Array.from(mw.top().doc.querySelectorAll('.mw-control-box.active' + side)).map(node => node.__instance);
     }
 
-    static hideAll () {
-        ControlBox.getInstances().forEach(instance => instance.hide());
+    static hideAll (skip) {
+        ControlBox.getInstances().forEach(instance => {
+            if(skip) {
+                if(skip !== instance) {
+                    instance.hide()
+                }
+
+            } else {
+                instance.hide()
+            }
+        });
+    }
+
+    hideOthers() {
+        ControlBox.hideAll(this);
     }
 
     config(options) {
@@ -195,7 +212,7 @@ export class ControlBox extends BaseComponent {
 
     zIndexManager() {
         let i = 0 ,
-        all = document.querySelectorAll('.mw-control-box.active'),
+        all = document.querySelectorAll('.mw-control-box.active, #general-theme-settings.active'),
         max = 0;
         for ( ; i < all.length; i++) {
             if(all[i] === this.box) {
@@ -215,6 +232,7 @@ export class ControlBox extends BaseComponent {
     }
 
     show() {
+        this.hideOthers()
         this.#active = true;
         mw.$(this.box).addClass('active');
         this.zIndexManager();

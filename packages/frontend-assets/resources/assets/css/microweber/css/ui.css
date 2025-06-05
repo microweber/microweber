@@ -7150,9 +7150,7 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
 #mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
   top: 240px;
 }
-.mw-control-box.active {
-  z-index: 1;
-}
+
 .mw-control-box {
   position: fixed;
   padding: 20px;
