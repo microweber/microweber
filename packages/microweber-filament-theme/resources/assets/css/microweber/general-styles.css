@@ -38,25 +38,25 @@
 /*.fi .fi-body.fi-panel-admin .fi-layout *:not([class*="rounded-full"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full, .noUi-touch-area, .noUi-handle-lower) {*/
 
 /*}*/
-
 .fi .fi-body.fi-panel-admin .fi-layout:not(.rounded-full, .noUi-touch-area, .noUi-handle-lower),
-    button, a, /* Buttons & Links */
-    input, textarea, select, /* Form elements */
-    .fi-btn, .fi-input, .fi-select, .fi-textarea, .fi-toggle, /* Filament form elements */
-    .fi-input-wrp, .fi-select-wrp, .fi-textarea-wrp, .fi-toggle-wrp, /* Input wrappers */
-    .fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-table, /* Containers */
-    .fi-alert, .fi-dropdown-menu, .fi-list-item, .fi-sidebar, .fi-tabs, /* UI Components */
-    .fi-breadcrumbs, .fi-toast, .fi-widget, .fi-fieldset, /* Other UI elements */
-    .fi-action, .fi-action-wrp, .fi-repeater-item-wrp, /* Actions & Repeaters */
-    .fi-file-upload-wrp, .fi-radio-wrp, .fi-checkbox-wrp, /* File Uploads & Form Controls */
-    .fi-section-wrp, .fi-grid-wrp, .fi-flex-wrp, /* Layout Wrappers */
-    .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper, /* Live Edit */
-    live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
-    .form-input, .form-textarea, .form-select, .form-multiselect
+button, a, /* Buttons & Links */
+input:not(.fi-checkbox-input), textarea, select, /* Form elements */
+.fi-btn, .fi-input, .fi-select, .fi-textarea, .fi-toggle, /* Filament form elements */
+.fi-input-wrp, .fi-select-wrp, .fi-textarea-wrp, .fi-toggle-wrp, /* Input wrappers */
+.fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-table, /* Containers */
+.fi-alert, .fi-dropdown-menu, .fi-list-item, .fi-sidebar, .fi-tabs, /* UI Components */
+.fi-breadcrumbs, .fi-toast, .fi-widget, .fi-fieldset, /* Other UI elements */
+.fi-action, .fi-action-wrp, .fi-repeater-item-wrp, /* Actions & Repeaters */
+.fi-file-upload-wrp, .fi-radio-wrp, .fi-checkbox-wrp, /* File Uploads & Form Controls */
+.fi-section-wrp, .fi-grid-wrp, .fi-flex-wrp, /* Layout Wrappers */
+.mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper, /* Live Edit */
+live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
+.form-input, .form-textarea, .form-select, .form-multiselect
 
 {
     @apply !rounded-[7px];
 }
+
 
 .fi-panel-admin .rounded-full, .picker-button {
     @apply !rounded-full;
