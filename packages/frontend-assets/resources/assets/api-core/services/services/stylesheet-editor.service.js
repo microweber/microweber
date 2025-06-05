@@ -1,6 +1,6 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CSSJSON from "../../core/libs/cssjson/cssjson.js";
-import getComputedStyle from "@popperjs/core/lib/dom-utils/getComputedStyle.js";
+
 
 
 mw.lib.require('jseldom');
@@ -183,16 +183,45 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
     setPropertyForSelectorBulk(sel, props, record = true, skipMedia = false) {
+        const currprops = {};
+        if(record) {
+
+            for (const prop in props) {
+                if (props.hasOwnProperty(prop)) {
+                   currprops[prop] = this.getPropertyForSelector(sel, prop)
+                }
+            }
+
+            mw.top().app.state.record({
+                target: '$liveEditStyle',
+                value: {
+                    selector:  sel,
+                    value: currprops
+                }
+            });
+        }
 
 
         for (const prop in props) {
             if (props.hasOwnProperty(prop)) {
-                this.setPropertyForSelector(sel, prop, props[prop], record, skipMedia);
+                this.setPropertyForSelector(sel, prop, props[prop], false, skipMedia);
             }
         }
+
         this._cssTemp(this._temp);
 
-        console.log('setPropertyForSelectorBulk', sel, props, record, skipMedia, this._temp);
+
+        if(record) {
+            mw.top().app.state.record({
+                target: '$liveEditStyle',
+                value: {
+                    selector:  sel,
+                    value: props
+                }
+            });
+        }
+
+
 
 
         mw.top().app.dispatch('setPropertyForSelectorBulk', {
@@ -332,10 +361,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         const css = this.cloneStyles(selectorFromNode, selToNode);
 
-        console.log(css);
+
 
         css.forEach(style => {
-            console.log(toNode, style, true)
+
             this.style(toNode, style, true)
         })
 
@@ -379,9 +408,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     temp(node, prop, val, record) {
-        if (typeof (val) === 'number') {
+        if (typeof val === 'number') {
 
-        } else {
+        } else if(typeof val === 'string') {
+
             val = (val || '').trim();
         }
 

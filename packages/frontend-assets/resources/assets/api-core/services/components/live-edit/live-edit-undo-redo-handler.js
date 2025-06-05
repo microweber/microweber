@@ -12,15 +12,11 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         this.dragElementTargetForUndo = null;
 
         mw.app.state.on('change', (data) => {
-
             this.handleUndoRedo(data);
         });
 
-
-
         this.startTarget = null;
         this.endTarget = null;
-
 
         this.handleDragAndDropUndoRedo();
 
@@ -132,7 +128,8 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
     #stateTypeDataHandles = {
         $liveEditStyle: active => {
-            this.#stateTypeHandles.$liveEditStyle( active.selector,  active.value, false );
+
+            this.#stateTypeHandles.$liveEditStyle( active.active.value.selector,  active.active.value.value, false );
         },
         $liveEditCSS: active => {
 
@@ -184,7 +181,17 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
     }
     #stateTypeHandles = {
         $liveEditStyle: (selector, value) => {
-            mw.top().app.cssEditor.style( selector,  value, false )
+            if(typeof value === 'object') {
+                for (let val in value ) {
+
+                    mw.top().app.cssEditor.setPropertyForSelector( selector, val,  value[val], false);
+
+                }
+
+            } else  {
+                mw.top().app.cssEditor.style( selector,  value, false )
+            }
+
         },
         $liveEditCSS: (selector, property, value) => {
 
@@ -226,7 +233,8 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             return;
         }
         if(target === '$liveEditStyle' && mw.top().app.cssEditor) {
-            this.#stateTypeDataHandles.$liveEditStyle(data.active );
+
+            this.#stateTypeDataHandles.$liveEditStyle(data );
             return;
         }
         if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
