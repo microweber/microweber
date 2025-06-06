@@ -190,7 +190,7 @@ export class LayoutHandleContent {
                 icon: mw.top().app.iconService.icon('edit'),
                 className: 'mw-handle-edit-layout-button',
                 action: function(target) {
-mw.app.liveEditWidgets.openQuickEditComponent()
+                    mw.app.liveEditWidgets.openQuickEditComponent()
                     mw.top().app.liveEditWidgets.setQuickEditorForNode(target);
                 }
 

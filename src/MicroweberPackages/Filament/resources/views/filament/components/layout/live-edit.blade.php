@@ -163,7 +163,9 @@
                     document.documentElement.classList['add']('live-edit-gui-editor-opened');
                 });
                 tsEditor.on('hide', () => {
-                    document.documentElement.classList['remove']('live-edit-gui-editor-opened');
+                   if(!mw.top().controlBox.hasOpened('right')) {
+                        mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
+                    }
                 })
 
                 mw.top().app.templateSettingsBox = tsEditor;

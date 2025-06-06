@@ -79,17 +79,24 @@ export class LiveEditWidgetsService extends BaseComponent{
             this.quickEditComponent.destroyEditor()
             this.#closeQuickEditComponentBox?.remove();
             this.status.quickEditComponent = false;
-            mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
+
+
+
+            if(!mw.top().controlBox.hasOpened('right')) {
+                mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
+            }
+
+            this.dispatch('closeQuickEditComponent');
 
         }
 
     }
 
     openQuickEditComponent() {
-        this.closeAll();
+
         this.status.quickEditComponent = true;
 
-        mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
+
 
         const box = new (mw.top()).controlBox({
             content:``,
@@ -115,10 +122,11 @@ export class LiveEditWidgetsService extends BaseComponent{
             this.quickEditComponent.destroyEditor()
 
             this.status.quickEditComponent = false;
-            mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened')
+
         })
 
         this.dispatch('openQuickEditComponent');
+        mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
         return this;
 
     }

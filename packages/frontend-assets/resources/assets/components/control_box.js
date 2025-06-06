@@ -113,6 +113,21 @@ export class ControlBox extends BaseComponent {
         });
     }
 
+
+    static hideAllBySide (side, skip) {
+        ControlBox.getInstances(side).forEach(instance => {
+            if(skip) {
+                if(skip !== instance) {
+                    instance.hide()
+                }
+
+            } else {
+                instance.hide()
+            }
+        });
+    }
+
+
     hideOthers() {
         ControlBox.hideAll(this);
     }
@@ -232,10 +247,11 @@ export class ControlBox extends BaseComponent {
     }
 
     show() {
-        this.hideOthers()
+        ControlBox.hideAllBySide(this.settings.position, this);
         this.#active = true;
         mw.$(this.box).addClass('active');
         this.zIndexManager();
+
         this.dispatch('show');
     }
 

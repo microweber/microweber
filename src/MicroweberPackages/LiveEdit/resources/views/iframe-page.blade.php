@@ -99,32 +99,7 @@
             }
         </style>
 
-        <script>
 
-            addEventListener('load', () => {
-                const guiEditor = new (mw.top()).controlBox({
-                    content: ``,
-                    position: 'right',
-                    id: 'mw-live-edit-gui-editor-box',
-                    closeButton: true,
-                    title: mw.lang('Element Style Editor')
-                });
-
-
-                guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
-
-                mw.top().app.guiEditorBox = guiEditor
-
-
-                guiEditor.on('show', () => {
-                    document.documentElement.classList['add']('live-edit-gui-editor-opened');
-                });
-                guiEditor.on('hide', () => {
-                    document.documentElement.classList['remove']('live-edit-gui-editor-opened');
-                });
-            });
-
-        </script>
 
         <div id="mw-element-style-editor-app-container">
             <div class="d-flex align-items-center justify-content-between mb-3">

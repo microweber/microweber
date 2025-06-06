@@ -2,6 +2,31 @@ import MicroweberBaseClass from "./base-class.js";
 
 export class MWUniversalContainer extends MicroweberBaseClass {
 
+    constructor() {
+        super();
+
+
+    }
+
+
+    readyPromise (callback) {
+        return new Promise(resolve => {
+            if(this._ready) {
+                if(callback) {
+                    callback.call(mw.app)
+                };
+                resolve()
+            } else {
+                this.on('ready', () => {
+                    if(callback) {
+                        callback.call(mw.app)
+                    }
+                    resolve()
+                })
+            }
+        })
+    }
+
     #modules = {};
 
 
