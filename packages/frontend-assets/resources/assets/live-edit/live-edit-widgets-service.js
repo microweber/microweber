@@ -97,13 +97,17 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.status.quickEditComponent = true;
 
 
+        const closeButtonAction = () => {
+            this.closeQuickEditComponent();
+            this.status.quickEditComponent = false;
+        }
 
         const box = new (mw.top()).controlBox({
             content:``,
             position:  'right',
             id: 'mw-live-edit-quickEditComponent-box',
             closeButton: true,
-            closeButtonAction: 'remove',
+            closeButtonAction: closeButtonAction,
             title: mw.lang('Quick Edit'),
             width: 'var(--sidebar-end-size)'
         });
