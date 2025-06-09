@@ -110,7 +110,7 @@ return [
             ],
 
             'default_parameters' => [
-                'aspect_ratio' => '3:4',
+                'aspect_ratio' => '16:9',
                 'number_of_images' => 1,
                 'prompt_optimizer' => true
             ],

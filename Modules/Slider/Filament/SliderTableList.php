@@ -22,6 +22,8 @@ use Filament\Tables\Contracts\HasTable;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Slider\Models\Slider;
 use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
+use Modules\Ai\Facades\AiImages;
+use NeuronAI\Chat\Messages\UserMessage;
 
 class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
 {
@@ -136,30 +138,111 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
     {
         return $table
             ->query(Slider::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
-            ->defaultSort('position', 'asc')
-            ->columns([
+            ->defaultSort('position', 'asc')            ->columns([
                 ImageColumn::make('media')
-                    ->circular()
-                    ->label('Media'),
+                    ->label('Image')
+                    ->circular(),
                 TextColumn::make('name')
-                    ->label('Name'),
+                    ->label('Title')
+                    ->searchable(),
                 TextColumn::make('description')
                     ->label('Description')
                     ->limit(50),
-            ])
-            ->filters([
+                TextColumn::make('button_text')
+                    ->label('Button')
+                    ->limit(20),
+            ])            ->filters([
                 // ...
             ])
             ->headerActions([
-                CreateAction::make()
+                CreateAction::make('createSlideWithAi')
+                    ->visible(app()->has('ai'))
+                    ->createAnother(false)
+                    ->label('Create with AI')
+                    ->form([
+                        Textarea::make('createSlideWithAiSubject')
+                            ->label('Subject')
+                            ->required()
+                            ->helperText('Describe the topic or theme for which you need slides generated'),
+
+                        TextInput::make('createSlideWithAiContentNumber')
+                            ->numeric()
+                            ->default(3)
+                            ->label('Number of slides')
+                            ->required(),
+
+                        Toggle::make('createSlideWithAiContentImages')
+                            ->visible(app()->has('ai.images'))
+                            ->label('Also create images')
+                            ->default(true)
+                            ->onColor('success')
+                            ->inline(),
+                    ])
+                    ->action(function (array $data) {
+                        $prompt = "Create compelling slide content for: " . $data['createSlideWithAiSubject'];
+
+                        $numberOfSlides = $data['createSlideWithAiContentNumber'] ?? 3;
+                        $createImages = $data['createSlideWithAiContentImages'] ?? false;
+
+                        $class = new class {
+                            public string $name;
+                            public string $description;
+                            public string $button_text;
+                            public string $link;
+                        };
+
+                        /*
+                         * @var \Modules\Ai\Agents\BaseAgent $agent
+                         */
+                        $agent = app('ai.agents')->agent('base');
+
+                        for ($i = 0; $i < $numberOfSlides; $i++) {
+                            $resp = $agent->structured(
+                                new UserMessage($prompt),
+                                $class::class
+                            );
+                            $resp = json_decode(json_encode($resp), true);
+
+                            if ($resp) {
+                                $slide = new Slider();
+                                $slide->name = $resp['name'] ?? 'Slide Title';
+                                $slide->description = $resp['description'] ?? 'Slide description content.';
+                                $slide->button_text = $resp['button_text'] ?? 'Learn More';
+                                $slide->link = $resp['link'] ?? '#';
+                                $slide->rel_id = $this->rel_id;
+                                $slide->rel_type = $this->rel_type;
+                                $slide->position = $i;
+                                $slide->save();
+
+                                if ($createImages) {
+                                    $messagesForImages = [];
+                                    $imagePrompt = 'Create a beautiful, professional slide image for: ' . $resp['name'] . '. ' . $resp['description'];
+                                    $messagesForImages[] = ['role' => 'user', 'content' => $imagePrompt];
+                                    
+                                    try {
+                                        $response = AiImages::generateImage($messagesForImages);
+                                        if ($response && isset($response['url']) && $response['url']) {
+                                            $slide->media = $response['url'];
+                                            $slide->save();
+                                        }
+                                    } catch (\Exception $e) {
+                                        // Log error but continue with slide creation
+                                        \Log::error('Failed to generate image for slide: ' . $e->getMessage());
+                                    }
+                                }
+                            }
+                        }
+
+                        $this->resetTable();
+                    }),                CreateAction::make('create')
                     ->slideOver()
                     ->form($this->editFormArray())
             ])
             ->actions([
-                EditAction::make()
+                EditAction::make('edit')
                     ->slideOver()
                     ->form($this->editFormArray()),
-                DeleteAction::make()
+                DeleteAction::make('delete')
             ])
             ->reorderable('position')
             ->bulkActions([
