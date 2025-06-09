@@ -29,6 +29,7 @@ import { HandleIcons } from '../core/handle-icons.js';
 
 if (!mw.app) {
     mw.app = new MWUniversalContainer();
+
 }
 
 
@@ -66,7 +67,49 @@ mw.app.register('linkPicker', LinkPicker);
 mw.app.register('colorPicker', ColorPicker);
 mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
 mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
+mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 
+
+mw.app.templateSettingsWidget = new mw.controlBox({
+    content: `<div id="template-settings-teleport-widget-conten"></div>`,
+    position:  'right',
+    id: `template-settings-teleport-widget`,
+    closeButton: true,
+    title: mw.lang('Template settings')
+});
+mw.app.templateSettingsWidget.box.style.width = 'var(--sidebar-end-size)';
+
+    const guiEditor = new (mw.top()).controlBox({
+        content: ``,
+        position: 'right',
+        id: 'mw-live-edit-gui-editor-box',
+        closeButton: true,
+        title: mw.lang('Element Style Editor')
+    });
+
+
+    guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
+
+    mw.top().app.guiEditorBox = guiEditor
+
+
+    mw.app.templateSettingsWidget.on('show', () => document.documentElement.classList['add']('live-edit-gui-editor-opened'));
+    guiEditor.on('show', () => document.documentElement.classList['add']('live-edit-gui-editor-opened') );
+    guiEditor.on('hide', () => {
+        if(!mw.controlBox.hasOpened('right')) {
+            document.documentElement.classList['remove']('live-edit-gui-editor-opened');
+        }
+
+
+    });
+
+     mw.app.templateSettingsWidget.on('hide', () => {
+        if(!mw.controlBox.hasOpened('right')) {
+            document.documentElement.classList['remove']('live-edit-gui-editor-opened');
+        }
+
+
+    });
 
 
 

@@ -86,6 +86,7 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
     mw.app.cssEditor = cssGUIEditor;
     mw.app.themeCssVarsEditor = themeCssVarsEditorInstance;
     mw.app.dispatch('ready');
+    mw.app._ready = true;
 });
 
 window.top.addEventListener('popstate', function () {

@@ -1,4 +1,5 @@
 <template>
+    <Teleport defer to="#template-settings-teleport-widget">
     <div class="p-3">
         <div v-if="isLoading" class="text-center">
             <div class="spinner-border" role="status">
@@ -152,7 +153,7 @@
                 @load-more-fonts="loadMoreFonts"
             />
         </div>
-    </div>
+    </div></Teleport>
 </template>
 
 <style>
@@ -212,6 +213,7 @@ export default {
             stylePacksExpandedState: {},
             activeStylePackOpener: null,
             hasActiveStylePackOpener: false,
+
         };
     }, computed: {
         displayedStyleSettingVars() {
@@ -271,7 +273,9 @@ export default {
         isTemplateMode() {
             return this.applyMode === 'template';
         },
-    }, mounted() {
+    },
+
+    mounted() {
         this.fetchData().then(() => {
             this.initializeStyleValues();
             if (this.isLayoutMode) {
@@ -290,7 +294,10 @@ export default {
             window.mw.top().app.__vueTemplateSettingsInstance = this; // Set instance reference
         }
         this.setupLayoutListener();
+
+
     },
+
     beforeUnmount() {
         if (window.mw?.top()?.app) {
             window.mw.top().app.off('setPropertyForSelector', this.onPropertyChange);
