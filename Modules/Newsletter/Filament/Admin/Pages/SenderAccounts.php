@@ -46,7 +46,7 @@ class SenderAccounts extends Page implements HasTable
                             ->label('Send email function')
                             ->options([
                                 'php_mail' => 'PHP Mail',
-                                'smtp' => 'SMTP Server',
+                                'gmail' => 'SMTP Server',
                                 'mailchimp' => 'Mailchimp',
                                 'mailgun' => 'Mailgun',
                                 'mandrill' => 'Mandrill',
@@ -56,6 +56,7 @@ class SenderAccounts extends Page implements HasTable
                             ->icons([
                                 'php_mail' => 'newsletter-php',
                                 'smtp' => 'newsletter-smtp',
+                                'gmail' => 'newsletter-smtp',
                                 'mailchimp' => 'newsletter-mailchimp',
                                 'mailgun' => 'newsletter-mailgun',
                                 'mandrill' => 'newsletter-mandrill',
@@ -92,6 +93,24 @@ class SenderAccounts extends Page implements HasTable
                                 ->helperText('Enter the SMTP port'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'smtp') {
+                                return false;
+                            }
+                            return true;
+                        }),
+
+
+                        Group::make([
+                            TextInput::make('gmail_email')
+                                ->label('Gmail Email Address')
+                                ->required()
+                                ->helperText('Enter your Gmail email address'),
+                            TextInput::make('gmail_app_password')
+                                ->label('Gmail App Password')
+                                ->required()
+                                ->password()
+                                ->helperText('Enter your Gmail app password (create one at myaccount.google.com/apppasswords)'),
+                        ])->hidden(function(Get $get) {
+                            if ($get('account_type') == 'gmail') {
                                 return false;
                             }
                             return true;

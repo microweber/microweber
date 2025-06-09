@@ -177,6 +177,7 @@ class EditCampaign extends Page
         $senderDescriptions = [];
         $senderIconsProviders = [
             'php_mail' => 'newsletter-php',
+            'gmail' => 'newsletter-smtp',
             'smtp' => 'newsletter-smtp',
             'mailchimp' => 'newsletter-mailchimp',
             'mailgun' => 'newsletter-mailgun',
@@ -602,10 +603,17 @@ class EditCampaign extends Page
                                             $newsletterMailSender->setSender($sender->toArray());
                                             $newsletterMailSender->setTemplate($templateArray);
                                             $sendMailResponse = $newsletterMailSender->sendMail();
-                                            if (isset($sendMailResponse['success'])) {
+                                            if (isset($sendMailResponse['success']) and $sendMailResponse['success'] == true) {
                                                 Notification::make()
                                                     ->title('Test campaign sent successfully')
                                                     ->success()
+                                                    ->send();
+                                            } else if (isset($sendMailResponse['success']) and $sendMailResponse['success'] == false) {
+                                                $error = $sendMailResponse['message'] ?? 'Error sending test campaign';
+                                                Notification::make()
+                                                    ->title('Error sending test campaign')
+                                                    ->body($error)
+                                                    ->danger()
                                                     ->send();
                                             }
                                         } catch (\Exception $e) {

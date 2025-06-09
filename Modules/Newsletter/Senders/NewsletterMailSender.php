@@ -15,6 +15,10 @@ use Modules\Newsletter\EmailProviders\MandrillProvider;
 use Modules\Newsletter\EmailProviders\PHPMailProvider;
 use Modules\Newsletter\EmailProviders\SMTPProvider;
 use Modules\Newsletter\EmailProviders\SparkpostProvider;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\CramMd5Authenticator;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\LoginAuthenticator;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\PlainAuthenticator;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\XOAuth2Authenticator;
 
 class NewsletterMailSender
 {
@@ -95,6 +99,30 @@ class NewsletterMailSender
 
             switch ($this->getSender()['account_type']) {
 
+
+                case "gmail":
+
+//                    $authenticators = [
+//                        new  CramMd5Authenticator(),
+//                        new  LoginAuthenticator(),
+//                        new  PlainAuthenticator(),
+//                        new  XOAuth2Authenticator(),
+//                    ];
+
+
+
+                    $mailProvider = new SMTPProvider();
+                    $mailProvider->setSmtpHost('smtp.gmail.com');
+                    $mailProvider->setSmtpPort(465);
+                    $mailProvider->setEnableTLS(true);
+                    //$mailProvider->setAuthenticators($authenticators);
+                    $mailProvider->setSmtpUsername($this->sender['smtp_username']);
+                    $mailProvider->setSmtpPassword($this->sender['smtp_password']);
+
+                    break;
+
+
+
                 case "smtp":
 
                     $mailProvider = new SMTPProvider();
@@ -164,6 +192,7 @@ class NewsletterMailSender
 
             $result = $mailProvider->send();
 
+
             $success = true;
 
         } catch (\Exception $e) {
@@ -171,6 +200,8 @@ class NewsletterMailSender
 
             $success = false;
         }
+
+
 
         return array("success" => $success, "message" => $result);
 

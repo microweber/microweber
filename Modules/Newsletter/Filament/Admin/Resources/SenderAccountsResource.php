@@ -45,6 +45,7 @@ class SenderAccountsResource extends Resource
                             ->options([
                                 'php_mail' => 'PHP Mail',
                                 'smtp' => 'SMTP Server',
+                                'gmail' => 'Gmail',
                                 'mailchimp' => 'Mailchimp',
                                 'mailgun' => 'Mailgun',
                                 'mandrill' => 'Mandrill',
@@ -54,6 +55,7 @@ class SenderAccountsResource extends Resource
                             ->icons([
                                 'php_mail' => 'newsletter-php',
                                 'smtp' => 'newsletter-smtp',
+                                'gmail' => 'newsletter-smtp',
                                 'mailchimp' => 'newsletter-mailchimp',
                                 'mailgun' => 'newsletter-mailgun',
                                 'mandrill' => 'newsletter-mandrill',
@@ -90,6 +92,23 @@ class SenderAccountsResource extends Resource
                                 ->helperText('Enter the SMTP port'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'smtp') {
+                                return false;
+                            }
+                            return true;
+                        }),
+
+                        Group::make([
+                            TextInput::make('smtp_username')
+                                ->label('Gmail Email Address')
+                                ->required()
+                                ->helperText('Enter your Gmail email address'),
+                            TextInput::make('smtp_password')
+                                ->label('Gmail App Password')
+                                ->required()
+                                ->password()
+                                ->helperText('Enter your Gmail app password (create one at myaccount.google.com/apppasswords)'),
+                        ])->hidden(function(Get $get) {
+                            if ($get('account_type') == 'gmail') {
                                 return false;
                             }
                             return true;
@@ -216,6 +235,7 @@ class SenderAccountsResource extends Resource
                     ->label('Type')
                     ->icon(fn (string $state): string => match ($state) {
                         'php_mail' => 'newsletter-php',
+                        'gmail' => 'newsletter-smtp',
                         'smtp' => 'newsletter-smtp',
                         'mailchimp' => 'newsletter-mailchimp',
                         'mailgun' => 'newsletter-mailgun',

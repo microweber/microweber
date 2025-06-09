@@ -13,82 +13,109 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
 
-class SMTPProvider extends DefaultProvider {
+class SMTPProvider extends DefaultProvider
+{
 
-	// SMTP Settings
-	protected $smtpHost;
-	protected $smtpPort = 587; // 587 or 995, 465, 110, 25
-	protected $smtpUsername;
-	protected $smtpPassword;
+    // SMTP Settings
+    protected $smtpHost;
+    protected $smtpPort = 587; // 587 or 995, 465, 110, 25
+    protected $smtpUsername;
+    protected $smtpPassword;
+    protected $tls = null;
+    protected $authenticators = null;
 
-	/**
-	 * @return mixed
-	 */
-	private function getSmtpHost() {
-		return $this->smtpHost;
-	}
+    /**
+     * @return mixed
+     */
+    private function getSmtpHost()
+    {
+        return $this->smtpHost;
+    }
 
-	/**
-	 * @param mixed $smtpHost
-	 */
-	public function setSmtpHost($smtpHost) {
-		$this->smtpHost = $smtpHost;
-	}
+    /**
+     * @param mixed $smtpHost
+     */
+    public function setSmtpHost($smtpHost)
+    {
+        $this->smtpHost = $smtpHost;
+    }
 
-	/**
-	 * @return number
-	 */
-	private function getSmtpPort() {
-		return $this->smtpPort;
-	}
+    /**
+     * @return number
+     */
+    private function getSmtpPort()
+    {
+        return $this->smtpPort;
+    }
 
-	/**
-	 * @param number $smtpPort
-	 */
-	public function setSmtpPort($smtpPort) {
-		$this->smtpPort = $smtpPort;
-	}
+    /**
+     * @param number $smtpPort
+     */
+    public function setSmtpPort($smtpPort)
+    {
+        $this->smtpPort = $smtpPort;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	private function getSmtpUsername() {
-		return $this->smtpUsername;
-	}
 
-	/**
-	 * @param mixed $smtpUsername
-	 */
-	public function setSmtpUsername($smtpUsername) {
-		$this->smtpUsername = $smtpUsername;
-	}
+    /**
+     * @return mixed
+     */
+    private function getSmtpUsername()
+    {
+        return $this->smtpUsername;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	private function getSmtpPassword() {
-		return $this->smtpPassword;
-	}
+    /**
+     * @param mixed $smtpUsername
+     */
+    public function setSmtpUsername($smtpUsername)
+    {
+        $this->smtpUsername = $smtpUsername;
+    }
 
-	/**
-	 * @param mixed $smtpPassword
-	 */
-	public function setSmtpPassword($smtpPassword) {
-		$this->smtpPassword = $smtpPassword;
-	}
+    /**
+     * @return mixed
+     */
+    private function getSmtpPassword()
+    {
+        return $this->smtpPassword;
+    }
+
+    /**
+     * @param mixed $smtpPassword
+     */
+    public function setSmtpPassword($smtpPassword)
+    {
+        $this->smtpPassword = $smtpPassword;
+    }
 
     public function addAttachment($path)
     {
         $this->attachments[] = $path;
     }
 
-	public function send() {
+    public function setEnableTLS($enableTLS)
+    {
+        $this->tls = $enableTLS;
+    }
+    public function setAuthenticators($authenticators)
+    {
+        $this->authenticators = $authenticators;
+    }
+
+    public function send()
+    {
+
+
 
 
         $transport = new Transport\Smtp\EsmtpTransport(
             host: $this->getSmtpHost(),
             port: $this->getSmtpPort(),
+            tls: $this->tls,
+            authenticators: $this->authenticators
         );
+       // $transport->setAutoTls(true);
         $transport->setUsername($this->getSmtpUsername());
         $transport->setPassword($this->getSmtpPassword());
 
@@ -110,6 +137,6 @@ class SMTPProvider extends DefaultProvider {
 
         return $mailer->send($email);
 
-	}
+    }
 
 }
