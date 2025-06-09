@@ -59,29 +59,27 @@ class NewsletterSubscriberImporter extends Importer
                 })
                 ->label('Restore subscribers to list')
                 ->options(NewsletterList::all()->pluck('name', 'id')->toArray()),
+
+            Checkbox::make('skip_existing')
+                ->label('Skip if email exists in any other list')
+                ->default(false),
         ];
     }
 
     public function resolveRecord(): ?NewsletterSubscriber
     {
-
         if (!isset($this->data['email']) || empty($this->data['email'])) {
             return null;
         }
 
         $listIds = [];
 
-
-
         if (isset($this->options['select_list'])) {
-
             if(array_key_exists('new_list_name', $this->options)) {
                 if(!($this->options['new_list_name'])) {
                     $this->options['new_list_name'] = 'New List ' . date('Y-m-d') . ' ' . uniqid();
                 }
             }
-
-
 
             if (isset($this->options['new_list_name']) && $this->options['select_list'] == 'import_to_new_list') {
                 $findList = NewsletterList::where('name', $this->options['new_list_name'])->first();
@@ -99,6 +97,21 @@ class NewsletterSubscriberImporter extends Importer
         }
 
         $findSubscriber = NewsletterSubscriber::where('email', $this->data['email'])->first();
+
+        // Check if subscriber exists and skip_existing is enabled
+        if ($findSubscriber && isset($this->options['skip_existing']) && $this->options['skip_existing']) {
+            // Get all lists where this email exists
+            $existingListIds = NewsletterSubscriberList::where('subscriber_id', $findSubscriber->id)
+                ->pluck('list_id')
+                ->toArray();
+
+            // If email exists in any list other than the selected ones, skip it
+            $existingInOtherLists = array_diff($existingListIds, is_array($listIds) ? $listIds : [$listIds]);
+            if (!empty($existingInOtherLists)) {
+                return null;
+            }
+        }
+
         if (!$findSubscriber) {
             $findSubscriber = new NewsletterSubscriber();
             $findSubscriber->email = $this->data['email'];
