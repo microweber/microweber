@@ -569,17 +569,27 @@ class EditCampaign extends Page
                                     ->form([
                                         TextInput::make('testName')
                                                 ->label('Test name')
+                                                ->default(function() {
+                                                    return session('newsletter_test_name', '');
+                                                })
                                                 ->live(),
                                         TextInput::make('testEmail')
                                             ->label('Test email')
                                             ->email()
                                             ->required()
+                                            ->default(function() {
+                                                return session('newsletter_test_email', '');
+                                            })
                                             ->live(),
                                     ])
                                     ->action(function (array $data) {
 
                                         $testName = $data['testName'];
                                         $testEmail = $data['testEmail'];
+
+                                        // Save to session
+                                        session(['newsletter_test_name' => $testName]);
+                                        session(['newsletter_test_email' => $testEmail]);
 
                                         try {
                                             $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
