@@ -11,10 +11,34 @@ export class LiveEditWidgetsService extends BaseComponent{
     }
 
     quickEditor(options) {
+
+        const handleTargetChange = target => {
+            const field = mw.app.liveEditWidgets.quickEditComponent.editorNodes.find(node => node.$$ref.node === target);
+            if(field) {
+                const input = field.querySelector('input,select,textarea');
+                if(input && input.ownerDocument.activeElement !== input) {
+                    field.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
+                    input.style.outline = '8px solid #008B8B';
+                    input.style.transition = '.5s';
+                    setTimeout(() => {
+                        input.style.outline ='0px solid #008B8B';
+
+                    }, 1200);
+                }
+
+            }
+        }
+
         if(this.quickEditComponent) {
             this.quickEditComponent.destroyEditor();
+             mw.top().app.liveEdit.elementHandle.off('targetChange', handleTargetChange)
         }
         this.quickEditComponent = new QuickEditComponent(options);
+
+        mw.top().app.liveEdit.elementHandle.on('targetChange', handleTargetChange)
+
+        //dir(mw.app.liveEditWidgets.quickEditComponent.editorNodes[0])
+
 
     }
 
