@@ -95,6 +95,9 @@ class NewsletterMailSender
     public function sendMail()
     {
 
+
+
+
         try {
 
             switch ($this->getSender()['account_type']) {
@@ -181,6 +184,15 @@ class NewsletterMailSender
 
             $mailProvider->setToEmail($this->subscriber['email']);
             $mailProvider->setToName($this->subscriber['name']);
+
+
+            $unsubscribeLink = route('modules.newsletter.unsubscribe') . '?email=' . $this->subscriber['email'];
+
+            $mailProvider->setListUnsubscribeLink($unsubscribeLink);
+
+
+
+
 
             if (isset($this->campaign['email_attached_files'])
                 && !empty($this->campaign['email_attached_files'])) {

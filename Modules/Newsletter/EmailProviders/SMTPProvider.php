@@ -24,6 +24,7 @@ class SMTPProvider extends DefaultProvider
     protected $tls = null;
     protected $authenticators = null;
 
+
     /**
      * @return mixed
      */
@@ -127,6 +128,13 @@ class SMTPProvider extends DefaultProvider
             ->replyTo($this->getFromReplyEmail())
             ->subject($this->getSubject())
             ->html($this->getBody());
+
+
+        $listUnsubscribeLink = $this->getListUnsubscribeLink();
+        if ($listUnsubscribeLink) {
+            $email->getHeaders()->addTextHeader('List-Unsubscribe', '<' . $listUnsubscribeLink . '>');
+        }
+
 
         if (!empty($this->attachments)) {
             foreach ($this->attachments as $attachment) {
