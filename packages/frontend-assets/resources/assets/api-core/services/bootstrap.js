@@ -70,8 +70,9 @@ mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 
 
+
 mw.app.templateSettingsWidget = new mw.controlBox({
-    content: `<div id="template-settings-teleport-widget-conten"></div>`,
+    content: `<div id="template-settings-teleport-widget-content"></div>`,
     position:  'right',
     id: `template-settings-teleport-widget`,
     closeButton: true,

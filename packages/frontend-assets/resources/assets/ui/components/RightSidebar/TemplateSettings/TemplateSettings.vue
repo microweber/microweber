@@ -1,5 +1,5 @@
 <template>
-    <Teleport defer to="#template-settings-teleport-widget">
+    <Teleport defer to="#template-settings-teleport-widget-content">
     <div class="p-3">
         <div v-if="isLoading" class="text-center">
             <div class="spinner-border" role="status">
