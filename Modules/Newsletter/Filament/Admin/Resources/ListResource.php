@@ -25,6 +25,7 @@ use Modules\Newsletter\Models\NewsletterTemplate;
 use Illuminate\Support\Arr;
 use Filament\Forms\Components\Checkbox;
 
+
 class ListResource extends Resource
 {
     protected static ?string $model = NewsletterList::class;

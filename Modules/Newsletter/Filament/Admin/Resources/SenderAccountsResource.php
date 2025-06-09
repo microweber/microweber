@@ -45,7 +45,7 @@ class SenderAccountsResource extends Resource
                             ->options([
                                 'php_mail' => 'PHP Mail',
                                 'smtp' => 'SMTP Server',
-                                'gmail' => 'Gmail',
+                              //  'gmail' => 'Gmail',
                                 'mailchimp' => 'Mailchimp',
                                 'mailgun' => 'Mailgun',
                                 'mandrill' => 'Mandrill',
