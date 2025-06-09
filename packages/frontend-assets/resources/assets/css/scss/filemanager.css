@@ -252,7 +252,7 @@ html.dark {
 .mw-file-manager-root[data-view="grid"] tr{
     border: 1px solid transparent;
     border-top-width: 0;
-    width: 130px !important;
+    width: 100px !important;
 }
 
 
