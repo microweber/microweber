@@ -15,9 +15,12 @@
 }
 
 .mw-native-select option{
-    padding: 5px 0;
+    padding: 5px 10px;
 }
 
+.mw-native-select option::checkmark {
+    content: "";
+}
 .mw-native-select{
     height: 35px;
     display: flex;
