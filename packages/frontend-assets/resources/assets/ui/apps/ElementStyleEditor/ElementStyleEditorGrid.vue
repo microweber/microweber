@@ -2,7 +2,7 @@
     <div v-if="hasGrid">
 
 
-        <div class="mb-4 d-flex">
+        <div class="d-flex">
             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                  version="1.1" width="24" height="24" viewBox="0 0 24 24">
                 <path

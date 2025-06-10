@@ -49,8 +49,6 @@
             <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
                 <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
             </div>
-
-
             <!--
             <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
@@ -59,7 +57,6 @@
             <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
-
 
             <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
@@ -71,7 +68,6 @@
             <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings">
                 <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
             </div>
-
 
         </div>
     </div>
