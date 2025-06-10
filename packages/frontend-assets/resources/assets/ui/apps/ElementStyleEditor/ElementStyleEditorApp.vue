@@ -22,7 +22,7 @@
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
                 <ElementStyleEditorContainer></ElementStyleEditorContainer>
             </div>
 
@@ -38,7 +38,7 @@
                 <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
                 <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
             </div>
 
