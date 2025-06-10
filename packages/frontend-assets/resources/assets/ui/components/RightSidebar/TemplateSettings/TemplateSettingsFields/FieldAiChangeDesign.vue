@@ -13,12 +13,12 @@
             </button>
         </div>
 
-        <div v-show="showAIChatForm" class="mt-2">
+        <div v-show="showAIChatForm" class="mt-2 position-relative">
 
             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Close Change Design with AI" class="tn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
+                    title="Close Change Design with AI" class="close-btn"
                     @click="toggleAIChatForm">
-                Close
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </button>
 
 
@@ -365,6 +365,7 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
 
                 if (res.success && res.data) {
                     // Collect updates in a batch
+
                     const updates = [];
 
                     // Process each selector and property in the AI response
@@ -441,3 +442,23 @@ You must respond ONLY with the JSON schema with the following structure. Do not 
     }
 };
 </script>
+
+<style scoped>
+.position-relative {
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: -31px;
+    right: -8px;
+    padding: 5px;
+    margin: 0;
+    line-height: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+</style>
