@@ -18,7 +18,7 @@
                 <ElementStyleEditorBackground></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
@@ -38,7 +38,7 @@
                 <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
                 <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
             </div>
 
@@ -63,7 +63,7 @@
 
 
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
             <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier">
