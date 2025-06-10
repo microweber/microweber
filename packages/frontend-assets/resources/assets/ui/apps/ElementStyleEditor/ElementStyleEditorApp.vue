@@ -10,67 +10,67 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showTypography}" v-show="showTypography">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography">
                 <ElementStyleEditorTypography></ElementStyleEditorTypography>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showBackground}" v-show="showBackground">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground">
                 <ElementStyleEditorBackground></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showSpacing}" v-show="showSpacing">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showContainer}" v-show="showContainer">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
                 <ElementStyleEditorContainer></ElementStyleEditorContainer>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showGrid}" v-show="showGrid">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid">
                 <ElementStyleEditorGrid></ElementStyleEditorGrid>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showBorder}" v-show="showBorder">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder">
                 <ElementStyleEditorBorder></ElementStyleEditorBorder>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showRoundedCorners}" v-show="showRoundedCorners">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners">
                 <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showAnimations}" v-show="showAnimations">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
                 <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showClassApplier}" v-show="showClassApplier">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow">
                 <ElementStyleEditorShadow></ElementStyleEditorShadow>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showClassApplier}" v-show="showClassApplier">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
                 <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
             </div>
 
 
             <!--
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showPosition}" v-show="showPosition">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showListStyleEditor}" v-show="showListStyleEditor">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
 
 
 
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showLayoutSettings}" v-show="showLayoutSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showPredefinedStylesApplierSettings}" v-show="showPredefinedStylesApplierSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier">
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showAiChatSettings}" v-show="showAiChatSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings">
                 <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
             </div>
 
@@ -141,10 +141,87 @@ export default {
             showImageSettings: true,
             showPredefinedStylesApplierSettings: true,
             showAiChatSettings: true,
+
+            // Active states for when the user has clicked to open
+            isTypographyActive: false,
+            isBackgroundActive: false,
+            isSpacingActive: false,
+            isBorderActive: false,
+            isContainerActive: false,
+            isGridActive: false,
+            isAnimationsActive: false,
+            isClassApplierActive: false,
+            isShadowActive: false,
+            isRoundedCornersActive: false,
+            isPositionActive: false,
+            isListStyleEditorActive: false,
+            isLayoutSettingsActive: false,
+            isPredefinedStylesApplierSettingsActive: false,
+            isAiChatSettingsActive: false,
         }
     },
 
     methods: {
+        // Methods to toggle active states
+        toggleTypography() {
+            this.isTypographyActive = !this.isTypographyActive;
+        },
+
+        toggleBackground() {
+            this.isBackgroundActive = !this.isBackgroundActive;
+        },
+
+        toggleSpacing() {
+            this.isSpacingActive = !this.isSpacingActive;
+        },
+
+        toggleContainer() {
+            this.isContainerActive = !this.isContainerActive;
+        },
+
+        toggleGrid() {
+            this.isGridActive = !this.isGridActive;
+        },
+
+        toggleBorder() {
+            this.isBorderActive = !this.isBorderActive;
+        },
+
+        toggleRoundedCorners() {
+            this.isRoundedCornersActive = !this.isRoundedCornersActive;
+        },
+
+        toggleAnimations() {
+            this.isAnimationsActive = !this.isAnimationsActive;
+        },
+
+        toggleShadow() {
+            this.isShadowActive = !this.isShadowActive;
+        },
+
+        toggleClassApplier() {
+            this.isClassApplierActive = !this.isClassApplierActive;
+        },
+
+        togglePosition() {
+            this.isPositionActive = !this.isPositionActive;
+        },
+
+        toggleListStyleEditor() {
+            this.isListStyleEditorActive = !this.isListStyleEditorActive;
+        },
+
+        toggleLayoutSettings() {
+            this.isLayoutSettingsActive = !this.isLayoutSettingsActive;
+        },
+
+        togglePredefinedStylesApplier() {
+            this.isPredefinedStylesApplierSettingsActive = !this.isPredefinedStylesApplierSettingsActive;
+        },
+
+        toggleAiChatSettings() {
+            this.isAiChatSettingsActive = !this.isAiChatSettingsActive;
+        },
 
         applyPropertyToActiveNode(activeNode, prop, val) {
 
