@@ -11,7 +11,7 @@
 
     <div v-if="showModal"
          class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
-         style="inset:20px; transform:none; animation-duration: .3s;"
+         style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
     >
 
         <!-- Close Button -->
