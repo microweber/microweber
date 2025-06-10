@@ -13,6 +13,9 @@ export class LiveEditWidgetsService extends BaseComponent{
     quickEditor(options) {
 
         const handleTargetChange = target => {
+            if(!mw.app.liveEditWidgets.quickEditComponent.editorNodes) {
+                return;
+            }
             const field = mw.app.liveEditWidgets.quickEditComponent.editorNodes.find(node => node.$$ref.node === target);
             if(field) {
                 const input = field.querySelector('input,select,textarea');
