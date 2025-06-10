@@ -10,67 +10,67 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showTypography">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showTypography}" v-show="showTypography">
                 <ElementStyleEditorTypography></ElementStyleEditorTypography>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showBackground">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showBackground}" v-show="showBackground">
                 <ElementStyleEditorBackground></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showSpacing">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showSpacing}" v-show="showSpacing">
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showContainer">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showContainer}" v-show="showContainer">
                 <ElementStyleEditorContainer></ElementStyleEditorContainer>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showGrid">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showGrid}" v-show="showGrid">
                 <ElementStyleEditorGrid></ElementStyleEditorGrid>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showBorder">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showBorder}" v-show="showBorder">
                 <ElementStyleEditorBorder></ElementStyleEditorBorder>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showRoundedCorners">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showRoundedCorners}" v-show="showRoundedCorners">
                 <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showAnimations">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showAnimations}" v-show="showAnimations">
                 <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showClassApplier">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showClassApplier}" v-show="showClassApplier">
                 <ElementStyleEditorShadow></ElementStyleEditorShadow>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showClassApplier">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showClassApplier}" v-show="showClassApplier">
                 <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
             </div>
 
 
             <!--
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showPosition">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showPosition}" v-show="showPosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showListStyleEditor">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showListStyleEditor}" v-show="showListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
 
 
 
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showLayoutSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showLayoutSettings}" v-show="showLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showPredefinedStylesApplierSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showPredefinedStylesApplierSettings}" v-show="showPredefinedStylesApplierSettings">
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" v-show="showAiChatSettings">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': showAiChatSettings}" v-show="showAiChatSettings">
                 <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
             </div>
 
@@ -418,5 +418,3 @@ export default {
 
 }
 </script>
-
-
