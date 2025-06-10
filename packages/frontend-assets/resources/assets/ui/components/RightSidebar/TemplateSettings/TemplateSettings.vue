@@ -13,7 +13,7 @@
         <div v-else>
             <!-- Navigation path -->
 
-            <div class="mw-template-settings-back-button-sticky">
+            <div class="mw-template-settings-back-button-sticky" v-if="currentPath && currentPath !== '/'">
                 <FieldBackButton
                     v-if="!hasActiveStylePackOpener"
                     :current-path="currentPath"
@@ -123,7 +123,7 @@
             <!-- Style Editor iframe holder -->
             <div v-if="showStyleSettings === 'styleEditor'" class="mt-3">
 
-                <div class="mw-template-settings-back-button-sticky">
+                <div class="mw-template-settings-back-button-sticky" >
 
                     <FieldBackButton
                         :current-path="currentPath"
