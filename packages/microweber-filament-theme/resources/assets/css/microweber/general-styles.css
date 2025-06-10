@@ -1119,3 +1119,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 #preview-content, .style-pack-item {
     @apply dark:bg-gray-900 dark:text-white pt-2;
 }
+
+.element-style-editor-toggle-wrapper {
+
+}
