@@ -438,6 +438,11 @@ h1,h2,h3,h4,h5,h6 {
 /* v3ti component styles */
 .v3ti {
     @apply mt-4 ml-1 mr-1 border-white overflow-hidden rounded-[7px];
+
+    &:focus, &:focus-visible {
+        @apply outline-none;
+    }
+
 }
 
 .v3ti-tag {
@@ -450,6 +455,10 @@ h1,h2,h3,h4,h5,h6 {
 
 .v3ti-content {
     @apply bg-white border-none;
+
+    &:focus, &:focus-visible {
+        @apply outline-none;
+    }
 }
 
 /* Rounded corners */
