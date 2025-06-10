@@ -1,0 +1,10 @@
+.mw-notification{
+    @apply p-4 fixed z-20 pointer-events-auto visible  w-full overflow-hidden transition duration-300 max-w-sm rounded-xl shadow-lg ring-1;
+}
+
+html.dark{
+    .mw-notification{
+        @apply dark:bg-gray-900 ring-gray-950/5 dark:ring-white/10;
+    }
+}
+
