@@ -565,8 +565,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 .mw-notification, .fi-no-notification {
-    @apply !rounded-sm !bottom-[20px] min-w-[300px] !max-h-[200px] right-[30px]  !z-[999999] dark:bg-gray-900 dark:text-white !text-sm !p-3 !shadow-lg;
-
+    @apply !rounded-sm !bottom-[20px] min-w-[300px] !max-h-[100px] right-[30px]  !z-[999999] dark:bg-gray-900 dark:text-white !text-sm !p-3 !shadow-lg;
+    top: unset !important;
 }
 
 
