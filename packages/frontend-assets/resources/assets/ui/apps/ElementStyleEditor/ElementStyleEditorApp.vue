@@ -162,65 +162,99 @@ export default {
     },
 
     methods: {
+        // Reset all active states
+        resetActiveStates() {
+            this.isTypographyActive = false;
+            this.isBackgroundActive = false;
+            this.isSpacingActive = false;
+            this.isBorderActive = false;
+            this.isContainerActive = false;
+            this.isGridActive = false;
+            this.isAnimationsActive = false;
+            this.isClassApplierActive = false;
+            this.isShadowActive = false;
+            this.isRoundedCornersActive = false;
+            this.isPositionActive = false;
+            this.isListStyleEditorActive = false;
+            this.isLayoutSettingsActive = false;
+            this.isPredefinedStylesApplierSettingsActive = false;
+            this.isAiChatSettingsActive = false;
+        },
+
         // Methods to toggle active states
         toggleTypography() {
-            this.isTypographyActive = !this.isTypographyActive;
+            this.resetActiveStates();
+            this.isTypographyActive = true;
         },
 
         toggleBackground() {
-            this.isBackgroundActive = !this.isBackgroundActive;
+            this.resetActiveStates();
+            this.isBackgroundActive = true;
         },
 
         toggleSpacing() {
-            this.isSpacingActive = !this.isSpacingActive;
+            this.resetActiveStates();
+            this.isSpacingActive = true;
         },
 
         toggleContainer() {
-            this.isContainerActive = !this.isContainerActive;
+            this.resetActiveStates();
+            this.isContainerActive = true;
         },
 
         toggleGrid() {
-            this.isGridActive = !this.isGridActive;
+            this.resetActiveStates();
+            this.isGridActive = true;
         },
 
         toggleBorder() {
-            this.isBorderActive = !this.isBorderActive;
+            this.resetActiveStates();
+            this.isBorderActive = true;
         },
 
         toggleRoundedCorners() {
-            this.isRoundedCornersActive = !this.isRoundedCornersActive;
+            this.resetActiveStates();
+            this.isRoundedCornersActive = true;
         },
 
         toggleAnimations() {
-            this.isAnimationsActive = !this.isAnimationsActive;
+            this.resetActiveStates();
+            this.isAnimationsActive = true;
         },
 
         toggleShadow() {
-            this.isShadowActive = !this.isShadowActive;
+            this.resetActiveStates();
+            this.isShadowActive = true;
         },
 
         toggleClassApplier() {
-            this.isClassApplierActive = !this.isClassApplierActive;
+            this.resetActiveStates();
+            this.isClassApplierActive = true;
         },
 
         togglePosition() {
-            this.isPositionActive = !this.isPositionActive;
+            this.resetActiveStates();
+            this.isPositionActive = true;
         },
 
         toggleListStyleEditor() {
-            this.isListStyleEditorActive = !this.isListStyleEditorActive;
+            this.resetActiveStates();
+            this.isListStyleEditorActive = true;
         },
 
         toggleLayoutSettings() {
-            this.isLayoutSettingsActive = !this.isLayoutSettingsActive;
+            this.resetActiveStates();
+            this.isLayoutSettingsActive = true;
         },
 
         togglePredefinedStylesApplier() {
-            this.isPredefinedStylesApplierSettingsActive = !this.isPredefinedStylesApplierSettingsActive;
+            this.resetActiveStates();
+            this.isPredefinedStylesApplierSettingsActive = true;
         },
 
         toggleAiChatSettings() {
-            this.isAiChatSettingsActive = !this.isAiChatSettingsActive;
+            this.resetActiveStates();
+            this.isAiChatSettingsActive = true;
         },
 
         applyPropertyToActiveNode(activeNode, prop, val) {
