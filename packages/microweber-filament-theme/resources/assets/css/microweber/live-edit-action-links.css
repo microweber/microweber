@@ -62,7 +62,7 @@
 .fi-tabs .fi-tabs-item.active,
 .fi-tabs .fi-tabs-item:hover
 {
-    @apply font-bold bg-gray-50 dark:!bg-transparent;
+    @apply font-bold;
 }
 
 .mw-admin-action-links.mw-adm-liveedit-tabs.text-danger,

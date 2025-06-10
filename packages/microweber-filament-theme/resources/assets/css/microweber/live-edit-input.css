@@ -26,6 +26,10 @@
 
 .form-control-live-edit-label-wrapper .text-align .active {
     @apply !bg-[#f0f0f0] !border-[#f0f0f0];
+
+    svg {
+        @apply fill-black dark:fill-white;
+    }
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
