@@ -440,7 +440,11 @@ h1,h2,h3,h4,h5,h6 {
     @apply mt-4 ml-1 mr-1 border-white overflow-hidden rounded-[7px];
 
     &:focus, &:focus-visible {
-        @apply outline-none;
+        @apply !outline-none;
+    }
+
+    input:focus {
+        @apply !outline-none !shadow-none;
     }
 
 }
@@ -453,11 +457,15 @@ h1,h2,h3,h4,h5,h6 {
     @apply text-black;
 }
 
+div:focus-visible {
+    @apply !outline-none;
+}
+
 .v3ti-content {
     @apply bg-white border-none;
 
     &:focus, &:focus-visible {
-        @apply outline-none;
+        @apply !outline-none;
     }
 }
 
