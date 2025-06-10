@@ -17,10 +17,10 @@
 
       <div v-if="showClasses">
 
-        <div>
+        <div class="form-control-live-edit-label-wrapper my-4">
           <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
 
-          <vue3-tags-input :tags="classes"
+          <vue3-tags-input :tags="classes" class="form-control-live-edit-input"
                            placeholder="Enter classes separated by commas"
                            :validate="customValidateClasses"
 
