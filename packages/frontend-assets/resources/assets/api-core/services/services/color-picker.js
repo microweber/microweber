@@ -25,7 +25,7 @@ export class ColorPicker extends MicroweberBaseClass {
             content: '<div id="color-picker-'+randId+'" style="width:232px;min-height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
-            width: 240,
+            width: 260,
             overlayClose: true,
         });
 
@@ -87,7 +87,7 @@ export class ColorPicker extends MicroweberBaseClass {
             content: '<div id="color-picker-'+randId+'" style="width:232px;min-height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
-            width: 240,
+            width: 260,
             overlayClose: true,
         });
        colorPickerDialog.positionToElement(this.positionToElement);

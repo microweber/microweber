@@ -793,7 +793,7 @@ div:focus-visible {
 
 
 .mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
-    @apply !overflow-hidden !p-0;
+    @apply !p-0;
 }
 
 .mw-live-edit-page-wrapper {

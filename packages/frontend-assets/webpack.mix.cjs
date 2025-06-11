@@ -20,7 +20,7 @@ mix.webpackConfig({
         ],
 
         fullySpecified: false,
-        extensions: [".*", ".webpack.js", ".web.js", ".js", ".json", ".less"]
+        extensions: [".*", ".webpack.js", ".web.js", "*.js", ".json", ".less"]
     },
     // stats: {
     //     children: true

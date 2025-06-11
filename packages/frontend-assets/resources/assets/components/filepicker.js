@@ -175,7 +175,7 @@ mw.filePicker = function (options) {
     var defaults = {
         components: [
             {type: 'desktop', label: mw.lang('My computer')},
-            {type: 'ai', label: mw.lang('AI')},
+            {type: 'ai', label: mw.lang('Enter prompt')},
             {type: 'url', label: mw.lang('URL')},
             {type: 'server', label: mw.lang('Uploaded')},
             {type: 'library', label: mw.lang('Media library')}
@@ -260,10 +260,11 @@ mw.filePicker = function (options) {
 
 
             const html = `
-                <div class="mw-image-picker-ai">
-                <div class="form-control-live-edit-label-wrapper" id="${id}">
 
-                </div>
+                <div class="mw-image-picker-ai max-w-sm mx-auto">
+                <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+
+                <div class="form-control-live-edit-label-wrapper empty:hidden" id="${id}"></div>
                 <div class="form-control-live-edit-label-wrapper" style="max-width: 400px;margin: auto">
                 <div class="form-control-live-edit-label-wrapper">
                     <label>${scope._getComponentObject('ai').label}</label>
@@ -293,7 +294,7 @@ mw.filePicker = function (options) {
                         <input class="form-control-live-edit-input" name="height" type="number" min="1">
                     </div>
                 </div>
-                <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                <div class="form-control-live-edit-label-wrapper" style="width: 200px;display: none">
                     <label>${mw.lang('Number of images')}</label>
                     <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="${scope.settings.multiple ? 6 : 1}" value="1">
                 </div>
@@ -315,6 +316,7 @@ mw.filePicker = function (options) {
 
                     <br>
                     <span class="btn btn-pill " data-action="generate">Generate</span>
+                </div>
                 </div>
                 </div>
             `;

@@ -212,7 +212,7 @@ class LiveEditServiceProvider extends ServiceProvider
                 'attributes' => [
                     'id' => 'js-live-edit-admin-settings-link',
                     //'route' => 'admin.settings.index',
-                    'url' => admin_url('settiings'),
+                    'url' => admin_url('settings'),
                     'target' => '_blank',
                     'icon' => '<svg viewBox="0 0 40 40">
                                                         <path

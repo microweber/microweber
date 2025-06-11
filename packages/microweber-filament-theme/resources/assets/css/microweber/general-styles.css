@@ -1123,6 +1123,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .element-style-editor-toggle-wrapper {
     @apply border-l-2 border-transparent  pl-[12px];
 
+    &:empty {
+        display: none;
+    }
     &.active {
         @apply border-blue-700
     }

@@ -110,10 +110,11 @@
 .mw-live-edit-spacing-wrapper {
 
     a {
-        @apply dark:text-white;
+        @apply dark:text-white text-sm;
 
         svg {
             @apply dark:fill-white;
+            width: 20px;
         }
     }
 }

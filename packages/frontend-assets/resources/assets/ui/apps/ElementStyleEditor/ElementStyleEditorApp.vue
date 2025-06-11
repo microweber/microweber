@@ -18,11 +18,11 @@
                 <ElementStyleEditorBackground></ElementStyleEditorBackground>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
+            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
                 <ElementStyleEditorContainer></ElementStyleEditorContainer>
             </div>
 

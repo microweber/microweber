@@ -59,11 +59,11 @@
 .mw-image-picker-ai {
 
 
-    max-height: calc(100vh - 370px);
+    max-height: min(calc(100vh - 370px), 600px);
     overflow: auto;
 }
 .mw-image-picker-ai .form-control-live-edit-label-wrapper, .mw-image-picker-ai .flex{
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
 /* .refference-image-picker */

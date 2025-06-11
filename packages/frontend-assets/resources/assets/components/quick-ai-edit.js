@@ -90,6 +90,7 @@ class QuickEditGUI {
         const frag = document.createElement("div");
 
         frag.$$ref = obj;
+        frag.className = `relative`;
         frag.innerHTML = `
 
             <img src="${obj.node.src}">
@@ -101,13 +102,15 @@ class QuickEditGUI {
         `;
 
         const changeBTN = document.createElement('button');
-        changeBTN.innerHTML = mw.lang('Change image');
-        const img = frag.querySelector('img')
+        changeBTN.className =  'btn btn-dark btn-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2';
+        changeBTN.title = mw.lang('Change image');
+        changeBTN.innerHTML =  mw.top().app.iconService.icon('image-change');
+        const img = frag.querySelector('img');
 
         const nav = frag.querySelector('nav');
         nav.appendChild(changeBTN);
         img.addEventListener('click', e => {
-            obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+            obj.node.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
 
             mw.top().app.liveEdit.handles.get('element').set(obj.node)
 
@@ -172,7 +175,7 @@ class QuickEditGUI {
         });
 
         inp.addEventListener('focus', e => {
-            obj.node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+            obj.node.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
             mw.top().app.liveEdit.handles.get('element').set(obj.node);
             mw.top().app.liveEdit.handles.get('module').hide();
             mw.top().app.liveEdit.handles.get('layout').hide();
