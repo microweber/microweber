@@ -253,7 +253,7 @@ body {
 }
 
 .fi-layout .fi-main-ctn {
-    @apply !bg-white dark:!bg-gray-800;
+    @apply !bg-white dark:!bg-gray-900;
 }
 
 
