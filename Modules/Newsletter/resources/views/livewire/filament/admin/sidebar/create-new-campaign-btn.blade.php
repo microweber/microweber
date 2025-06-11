@@ -5,7 +5,7 @@
         tag="a"
     >
         <div class="flex gap-2 items-center w-full">
-            @svg("mw-add-plus", "h-4 w-4 text-white fill-white") Create campaign
+            @svg("mw-add-plus", "h-4 w-4") Create campaign
         </div>
 
     </x-filament::button>
