@@ -1127,3 +1127,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply border-blue-700
     }
 }
+
+.create-campaign-button {
+    svg {
+        @apply fill-white dark:fill-black;
+
+    }
+        &:hover {
+            svg {
+                @apply  dark:fill-white;
+            }
+        }
+}
