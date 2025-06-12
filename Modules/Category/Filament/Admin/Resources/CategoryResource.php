@@ -31,112 +31,122 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Website';
     protected static ?int $navigationSort = 3;
-    public static function form(Form $form): Form
+
+    public static function formArray($params = [])
     {
         $selectedPage = 0;
         $selectedCategories = [];
-        $livewire = $form->getLivewire();
-        $record = $form->getRecord();
+        $id = null;
 
-        if ($record) {
+        if (isset($params['record'])) {
+            $record = $params['record'];
             if ($record->parent_id) {
                 $selectedCategories[] = $record->parent_id;
             } elseif ($record->rel_id) {
                 $selectedPage = $record->rel_id;
             }
+            $id = $record->id;
         }
 
-        return $form
-            ->schema([
-                Forms\Components\Tabs::make('Category Details')
-                    ->columnSpanFull()
-                    ->tabs([
-                        // General Tab
-                        Forms\Components\Tabs\Tab::make('Category Details')
-                            ->schema([
+        return [
+            Forms\Components\Tabs::make('Category Details')
+                ->columnSpanFull()
+                ->tabs([
+                    // General Tab
+                    Forms\Components\Tabs\Tab::make('Category Details')
+                        ->schema([
 
-                                Forms\Components\Hidden::make('id'),
-                                Forms\Components\Hidden::make('parent_id')->default(0),
-                                Forms\Components\Hidden::make('rel_type'),
-                                Forms\Components\Hidden::make('rel_id'),
+                            Forms\Components\Hidden::make('id')->default($id),
+                            Forms\Components\Hidden::make('parent_id')->default(0),
+                            Forms\Components\Hidden::make('rel_type'),
+                            Forms\Components\Hidden::make('rel_id'),
 
-                                Forms\Components\TextInput::make('title')
-                                    ->label('Title')
-                                    ->required(),
+                            Forms\Components\TextInput::make('title')
+                                ->label('Title')
+                                ->required(),
 
-                                Forms\Components\Textarea::make('description')
-                                    ->label('Description'),
+                            Forms\Components\Textarea::make('description')
+                                ->label('Description'),
 
+                            MwTree::make('mw_parent_page_and_category_state')
+                                ->live()
+                                ->extraFieldWrapperAttributes([
+                                    'class' => 'mw-tree-wrapper',
+                                ])->columnSpan([
+                                    'default' => 1,
+                                    'sm' => 1,
+                                    'xl' => 1,
+                                    '2xl' => 1,
+                                ])
+                                ->required(function (Forms\Get $get) {
+                                    $required = true;
 
+                                    if ($get('parent_id')) {
+                                        $required = false;
+                                    }
+                                    if ($get('rel_id')) {
+                                        $required = false;
+                                    }
 
-                                MwTree::make('mw_parent_page_and_category_state')
-                                    ->live()
-                                    ->extraFieldWrapperAttributes([
-                                        'class' => 'mw-tree-wrapper',
-                                    ])->columnSpan([
-                                        'default' => 1,
-                                        'sm' => 1,
-                                        'xl' => 1,
-                                        '2xl' => 1,
-                                    ])
-                                    ->required(function (Forms\Get $get) {
-                                        $required = true;
-
-                                        if ($get('parent_id')) {
-                                            $required = false;
-                                        }
-                                        if ($get('rel_id')) {
-                                            $required = false;
-                                        }
-
-                                        return $required;
-
-                                    })
-                                    ->label('Choose Parent Page or Category')
-                                    ->viewData([
-                                        'singleSelect' => true,
-                                        'selectedPage' => $selectedPage,
-                                        'selectedCategories' => $selectedCategories,
-                                    ])
-                                    ->default([])
-                                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-                                        if (!$state) {
-                                            $set('parent_id', '');
-                                            $set('rel_type', '');
-                                            $set('rel_id', '');
-                                        }
-                                        if ($state) {
-                                            foreach ($state as $item) {
-                                                if (isset($item['type']) && $item['type'] === 'page') {
-                                                    $set('rel_type', morph_name(Content::class));
-                                                    $set('rel_id', $item['id']);
-                                                    $set('parent_id', '');
-                                                }
-                                                if (isset($item['type']) && $item['type'] === 'category') {
-                                                    $set('parent_id', $item['id']);
-                                                    $set('rel_type', '');
-                                                    $set('rel_id', '');
-                                                }
+                                    return $required;
+                                })
+                                ->label('Choose Parent Page or Category')
+                                ->viewData([
+                                    'singleSelect' => true,
+                                    'selectedPage' => $selectedPage,
+                                    'selectedCategories' => $selectedCategories,
+                                ])
+                                ->default([])
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                                    if (!$state) {
+                                        $set('parent_id', '');
+                                        $set('rel_type', '');
+                                        $set('rel_id', '');
+                                    }
+                                    if ($state) {
+                                        foreach ($state as $item) {
+                                            if (isset($item['type']) && $item['type'] === 'page') {
+                                                $set('rel_type', morph_name(Content::class));
+                                                $set('rel_id', $item['id']);
+                                                $set('parent_id', '');
+                                            }
+                                            if (isset($item['type']) && $item['type'] === 'category') {
+                                                $set('parent_id', $item['id']);
+                                                $set('rel_type', '');
+                                                $set('rel_id', '');
                                             }
                                         }
-                                    }),
+                                    }
+                                }),
 
-                            ]),
+                        ]),
 
-                        // Advanced Tab
-                        Forms\Components\Tabs\Tab::make('Advanced')
-                            ->schema([
-                                Forms\Components\TextInput::make('url')
-                                    ->label('Url'),
-                                MwMediaBrowser::make('mediaIds')
-                                    ->label('Category Images'),
-                                Forms\Components\TextInput::make('category_meta_title')
-                                    ->label('Meta Title'),
-                                Forms\Components\Textarea::make('category_meta_description')
-                                    ->label('Meta Description'),
-                            ]),
-                    ]),
-            ]);
+                    // Advanced Tab
+                    Forms\Components\Tabs\Tab::make('Advanced')
+                        ->schema([
+                            Forms\Components\TextInput::make('url')
+                                ->label('Url'),
+                            MwMediaBrowser::make('mediaIds')
+                                ->label('Category Images'),
+                            Forms\Components\TextInput::make('category_meta_title')
+                                ->label('Meta Title'),
+                            Forms\Components\Textarea::make('category_meta_description')
+                                ->label('Meta Description'),
+                        ]),
+                ]),
+        ];
+    }
+
+    public static function form(Form $form): Form
+    {
+        $params = [];
+        $record = $form->getRecord();
+
+        if ($record) {
+            $params['record'] = $record;
+        }
+
+        return $form->schema(static::formArray($params));
     }
 
 

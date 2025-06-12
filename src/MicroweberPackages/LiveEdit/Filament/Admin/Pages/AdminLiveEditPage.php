@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use MicroweberPackages\LiveEdit\Filament\Actions\CustomViewAction;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
+use Modules\Category\Filament\Admin\Resources\CategoryResource;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
 use function Clue\StreamFilter\fun;
@@ -65,7 +66,7 @@ class AdminLiveEditPage extends Page
         $actions[] = [
             'title' => 'New Category',
             'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
-            'action' => 'addPageAction',
+            'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',
         ];
         $actions[] = [
@@ -85,7 +86,7 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->modalWidth(MaxWidth::Medium)
-        ->slideOver() ;
+            ->slideOver();
     }
 
     public function addPageAction(): Action
@@ -100,7 +101,12 @@ class AdminLiveEditPage extends Page
 
     public function addProductAction(): Action
     {
-        return $this->generateAction('addPostAction', 'post');
+        return $this->generateAction('addProductAction', 'product');
+    }
+
+    public function addCategoryAction(): Action
+    {
+        return $this->generateAction('addCategoryAction', 'category');
     }
 
     public function openModuleSettingsAction(): Action
@@ -205,15 +211,24 @@ class AdminLiveEditPage extends Page
 
     public function generateAction($actionName, $contentType)
     {
+
+
+        if ($contentType == 'category') {
+            $formArray = CategoryResource::formArray();
+        } else {
+            $formArray = ContentResource::formArray([
+                'contentType' => $contentType
+            ]);
+        }
+
+
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
 //            ->modalContent(view('microweber-live-edit::modal.generate-action', [
 //                'contentType' => $contentType
 //            ]))
-            ->form(ContentResource::formArray([
-                'contentType' => $contentType
-            ]))
+            ->form($formArray)
             ->action(function ($data) use ($contentType) {
 
                 $data['content_type'] = $contentType;
@@ -240,6 +255,6 @@ class AdminLiveEditPage extends Page
 
             })
             ->modalSubmitActionLabel('Save')
-         ->slideOver();
+            ->slideOver();
     }
 }
