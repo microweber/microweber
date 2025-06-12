@@ -256,6 +256,9 @@ body {
     @apply !bg-white dark:!bg-gray-900;
 }
 
+.border-white {
+    @apply dark:!border-gray-100;
+}
 
 .mw_modal_live_edit_settings .modal-title {
     @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-blue-600 text-white;
