@@ -462,9 +462,19 @@ export class QuickEditComponent extends MicroweberBaseClass {
     applyImages(images = []) {
         const canvasNodes = this.canvasNodes.filter(node => node.nodeName === 'IMG')
         const editorNodes = this.editorNodes.filter(node => node.$$ref.tag === 'IMG')
+
+
         images.forEach((img, i) => {
-            canvasNodes[i].src = img;
-            editorNodes[i].querySelector('img').src = img;
+            let url;
+            if (img.url) {
+                url = img.url
+            } else if(img.data && img.data.url) {
+                url = img.data.url
+            } else {
+                url = img;
+            }
+            canvasNodes[i].src = url;
+            editorNodes[i].querySelector('img').src = url;
             mw.top().app.registerChangedState(canvasNodes[i]);
         })
     }
@@ -731,7 +741,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
     #aiPending = false
 
     async ai(about) {
-        console.log(this.collectTexts());
+
         if (this.#aiPending) {
             return;
         }

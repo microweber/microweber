@@ -27,7 +27,16 @@ export default {
                     title: '',
                     placeholder: 'All'
                 }
-            ]
+            ],
+            listItemDecorate: function(data, node) {
+                node.classList.add(`content-type-${data.content_type}`);
+                const icon = mw.top().app.iconService.icon(data.content_type);
+                if(icon) {
+                    const frag = document.createElement('span');
+                    frag.innerHTML = icon;
+                    node.prepend(frag)
+                }
+            }
         });
 
         $(this.liveEditSearchContentField).on("change", function (e, val) {
