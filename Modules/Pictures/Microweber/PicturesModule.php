@@ -60,6 +60,8 @@ class PicturesModule extends BaseModule
     {
         $params = $this->getParams();
         $relType = $params['rel'] ?? $params['data-rel'] ?? 'module';
+
+
         $relId = $this->getModuleId();
         $contentId = content_id();
 
@@ -83,6 +85,11 @@ class PicturesModule extends BaseModule
      */
     private function shouldUseContentRelation(array $params, ?int $contentId): bool
     {
+        if (isset($params['rel']) && $params['rel'] === 'content') {
+            return true;
+        }
+
+
         if (isset($params['content_id'])) {
             return true;
         }

@@ -30,6 +30,7 @@ use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\Install\MicroweberMigrator;
+use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -212,7 +213,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-      //  $this->app->register(ConfigExtendedServiceProvider::class);
+       //$this->app->register(ConfigExtendedServiceProvider::class);
 
         //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         if (app()->bound('debugbar')) {
