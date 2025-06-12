@@ -31,6 +31,15 @@
     }
 }
 
+.fi-btn-color-success {
+    --tw-ring-color: green !important;
+
+    @apply !bg-green-500 !text-white dark:!text-white dark:bg-green-500;
+
+    &:hover {
+        background-color: rgb(0 128 0 / 10%) !important;
+    }
+}
 
 .fi-btn-color-danger {
     --tw-ring-color: red !important;
