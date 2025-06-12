@@ -938,7 +938,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-resource-list-records-page .fi-header, .fi-resource-create-record-page .fi-header, .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px] bg-white py-[30px] z-[19];
+    @apply sticky top-[60px]  py-[30px] z-[19];
 }
 
 .fi-select-input {
