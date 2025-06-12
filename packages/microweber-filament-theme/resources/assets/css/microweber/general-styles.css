@@ -23,11 +23,11 @@
 
 .fi-dropdown-list-item-color-danger.fi-color-danger {
     svg {
-        @apply text-red-500;
+        @apply !text-red-500;
     }
 
     span {
-        @apply !text-red-500;
+        @apply text-red-500;
     }
 }
 
@@ -752,7 +752,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-dropdown-list {
 
-    @apply p-3;
+    @apply !p-3;
     svg {
 
         @apply text-black dark:text-white;
