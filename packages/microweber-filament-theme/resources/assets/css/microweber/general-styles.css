@@ -67,7 +67,7 @@
 /*}*/
 .fi .fi-body.fi-panel-admin .fi-layout:not(.rounded-full, .noUi-touch-area, .noUi-handle-lower),
 button, a, /* Buttons & Links */
-input:not(.fi-checkbox-input), textarea, select, /* Form elements */
+input:not(.fi-checkbox-input, .form-check-input), textarea, select, /* Form elements */
 .fi-btn, .fi-input, .fi-select, .fi-textarea, .fi-toggle, /* Filament form elements */
 .fi-input-wrp, .fi-select-wrp, .fi-textarea-wrp, .fi-toggle-wrp, /* Input wrappers */
 .fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-table, /* Containers */
@@ -84,6 +84,9 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
     @apply !rounded-[7px];
 }
 
+.form-check-input {
+    @apply m-0;
+}
 
 .fi-panel-admin .rounded-full, .picker-button {
     @apply !rounded-full;
