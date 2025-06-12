@@ -39,6 +39,10 @@
     &:hover {
         background-color: rgb(0 128 0 / 10%) !important;
     }
+
+    svg {
+        @apply !text-white;
+    }
 }
 
 .fi-btn-color-danger {
