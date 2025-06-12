@@ -38,6 +38,10 @@
     &:hover {
         background-color: rgb(255 69 69 / 10%) !important;
     }
+
+    svg {
+        @apply !text-red-500;
+    }
 }
 
 .fi-radio-input {
