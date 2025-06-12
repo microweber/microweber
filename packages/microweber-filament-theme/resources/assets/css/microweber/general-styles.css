@@ -37,7 +37,7 @@
     @apply !bg-green-500 !text-white dark:!text-white dark:bg-green-500;
 
     &:hover {
-        background-color: rgb(0 128 0 / 10%) !important;
+        background-color: rgba(0, 255, 0, 0.44) !important;
     }
 
     svg {
