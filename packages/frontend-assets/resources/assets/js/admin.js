@@ -151,6 +151,7 @@ import {CategoriesAdminListComponent} from "./categories-admin-list.component.js
 import { IconPicker } from "../widgets/icon-picker.js";
 import { AdminPackageManager } from "./admin-package-manager.js";
 import { ColorPicker } from "../api-core/services/services/color-picker.js";
+import { HandleIcons } from "../api-core/core/handle-icons.js";
 
 
 
@@ -169,7 +170,7 @@ mw.admin.admin_package_manager = new AdminPackageManager();
 mw.admin.filament = new AdminFilament();
 mw.admin.categoriesTree = (target, opt) => new CategoriesAdminListComponent(target, opt);
 
-
+mw.app.register('iconService', HandleIcons);
 
 
 

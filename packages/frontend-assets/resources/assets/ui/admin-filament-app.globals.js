@@ -9,6 +9,7 @@ window.AColorPicker = AColorPicker;
 
 
 import $ from "jquery";
+import { HandleIcons } from "../api-core/core/handle-icons.js";
 window.$ = $;
 window.jQuery = $;
 globalThis.$ = $;
@@ -23,4 +24,5 @@ $.ajaxSetup({
 
 mw.admin = new MWUniversalContainer();
 mw.app = mw.admin;
+mw.app.register('iconService', HandleIcons);
 mw.widget = {};
