@@ -33,8 +33,10 @@ export default {
                 const icon = mw.top().app.iconService.icon(data.content_type);
                 if(icon) {
                     const frag = document.createElement('span');
+                    frag.className = 'form-select-item-icon';
                     frag.innerHTML = icon;
-                    node.prepend(frag)
+                    frag.title = mw.lang(data.content_type.charAt(0).toUpperCase() + data.content_type.slice(1));
+                    node.querySelector('a').prepend(frag)
                 }
             }
         });

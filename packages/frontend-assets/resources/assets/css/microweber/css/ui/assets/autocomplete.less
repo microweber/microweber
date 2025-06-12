@@ -18,6 +18,20 @@
         max-height: 60vh;
         height: auto;
         overflow: auto;
+        .form-select-item-icon{
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+
+            svg{
+                max-width: var(--size);
+                max-height: var(--size);
+            }
+        }
     }
     .mw-autocomplete-img{
         display: inline-block;
@@ -38,7 +52,7 @@
             width: 100%;
         }
         .mw-autocomplete-value + input.mw-autocomplete-field{
-             
+
             width:  100% ;
         }
     }

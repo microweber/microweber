@@ -925,3 +925,22 @@ div:focus-visible {
     @apply dark:bg-gray-800;
 }
 
+
+.form-select-item-icon{
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-inline-end: 5px;
+
+
+}
+
+
+.form-select-item-icon svg{
+    max-width: var(--size);
+    max-height: var(--size);
+}
