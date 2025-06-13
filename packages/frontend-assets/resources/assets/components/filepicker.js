@@ -307,7 +307,7 @@ mw.filePicker = function (options) {
                              ${mw.top().app.iconService.icon('delete')}
                             </span>
                         </span>
-                        <span class="btn btn-primary refference-image-pick">
+                        <span class="btn  refference-image-pick">
                             ${mw.lang('Select image')}
                             <input type="file">
                         </span>
@@ -315,14 +315,16 @@ mw.filePicker = function (options) {
                 </div>
 
                     <br>
-                    <span class="btn btn-pill " data-action="generate">Generate</span>
+                    <button type="button" disabled class="btn btn-primary btn-pill w-100 " data-action="generate">Generate</button>
                 </div>
                 </div>
                 </div>
             `;
 
             var $wrap = this._$inputWrapper();
-            $wrap.html(html);
+            $wrap.html(html).find('[name="prompt"]').on('input', e => {
+                $wrap.find('[data-action="generate"]').attr('disabled', !e.target.value.trim())
+            });
 
             const refPickerNode = $wrap[0].querySelector('.refference-image-pick');
             const refPickerNodepreview = $wrap[0].querySelector('.refference-image-pick-preview');
