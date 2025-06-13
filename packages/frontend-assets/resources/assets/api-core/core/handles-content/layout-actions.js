@@ -58,8 +58,7 @@ export class LayoutActions extends MicroweberBaseClass {
     }
 
     cloneLayout(target) {
-
-        mw.top().app.registerChangedState(target, true);
+        mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
         var el = document.createElement('div');
         el.innerHTML = target.outerHTML;
         ElementManager('[id]', el).each(function () {
@@ -70,14 +69,7 @@ export class LayoutActions extends MicroweberBaseClass {
         var newEl = target.nextElementSibling;
 
         mw.reload_module(newEl, function () {
-            mw.top().app.state.record({
-                target: mw.tools.firstParentWithClass(target, 'edit'),
-                value: parent.innerHTML
-            });
-
-
             mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
-
             newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
             mw.app.dispatch('layoutCloned', newEl);
         });
