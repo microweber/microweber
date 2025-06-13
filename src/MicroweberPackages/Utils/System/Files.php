@@ -1100,6 +1100,7 @@ class Files
             'stm',
             'fcgi',
             'itpc',
+            'xml',
             'cfml'
         );
 
