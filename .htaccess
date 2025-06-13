@@ -60,8 +60,8 @@ ForceType 'text/css; charset=UTF-8'
 
 
     # redirect to public folder
-    RewriteCond %{REQUEST_URI} ^/public/.*\.php$ [NC]
-    RewriteRule ^ - [F]
+#    RewriteCond %{REQUEST_URI} ^/public/.*\.php$ [NC]
+#    RewriteRule ^ - [F]
 
 
 
