@@ -50,7 +50,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root'   => storage_path().'/app/public',
+            'root'   => is_link(public_path().'/storage') ? public_path().'/storage' : storage_path('app/public'),
             'url' => site_url().'storage',
             'visibility' => 'public',
         ],
