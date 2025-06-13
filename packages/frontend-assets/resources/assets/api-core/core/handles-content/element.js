@@ -545,6 +545,10 @@ export class ElementHandleContent {
 
                 },
                 onTarget: (target, selfBtn) => {
+
+                    this.setMenuVisible(false, selfBtn);
+                    return false;
+                    // todo: fix for next release
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);

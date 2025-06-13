@@ -23,20 +23,37 @@
 
 .fi-dropdown-list-item-color-danger.fi-color-danger {
     svg {
-        @apply text-red-500;
+        @apply !text-red-500;
     }
 
     span {
-        @apply !text-red-500;
+        @apply text-red-500;
     }
 }
 
+.fi-btn-color-success {
+    --tw-ring-color: green !important;
+
+    @apply !bg-green-500 !text-white dark:!text-white dark:bg-green-500;
+
+    &:hover {
+        background-color: rgba(0, 255, 0, 0.44) !important;
+    }
+
+    svg {
+        @apply !text-white;
+    }
+}
 
 .fi-btn-color-danger {
     --tw-ring-color: red !important;
 
     &:hover {
         background-color: rgb(255 69 69 / 10%) !important;
+    }
+
+    svg {
+        @apply !text-red-500;
     }
 }
 
@@ -50,7 +67,7 @@
 /*}*/
 .fi .fi-body.fi-panel-admin .fi-layout:not(.rounded-full, .noUi-touch-area, .noUi-handle-lower),
 button, a, /* Buttons & Links */
-input:not(.fi-checkbox-input), textarea, select, /* Form elements */
+input:not(.fi-checkbox-input, .form-check-input), textarea, select, /* Form elements */
 .fi-btn, .fi-input, .fi-select, .fi-textarea, .fi-toggle, /* Filament form elements */
 .fi-input-wrp, .fi-select-wrp, .fi-textarea-wrp, .fi-toggle-wrp, /* Input wrappers */
 .fi-badge, .fi-card, .fi-modal, .fi-panel, .fi-box, .fi-table, /* Containers */
@@ -67,6 +84,9 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
     @apply !rounded-[7px];
 }
 
+.form-check-input {
+    @apply !m-0;
+}
 
 .fi-panel-admin .rounded-full, .picker-button {
     @apply !rounded-full;
@@ -752,7 +772,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-dropdown-list {
 
-    @apply p-3;
+    @apply !p-3;
     svg {
 
         @apply text-black dark:text-white;
@@ -821,8 +841,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-section-content, .fi-section-content-ctn, .fi-section-header, .fi-wi-stats-overview-stat {
-    @apply dark:!bg-gray-900 dark:!border-slate-900 rounded-none;
+    @apply dark:!bg-gray-900 dark:!border-gray-700 rounded-none;
 
+}
+
+.fi-section-header {
+    @apply dark:!bg-gray-800;
 }
 
 .rounded-corners .angle{

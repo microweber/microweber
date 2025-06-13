@@ -68,6 +68,12 @@ mw.autoComplete = function(options){
     };
 
     this.createListItem = function(data){
+
+
+        if(this.options.createListItem) {
+            return this.options.createListItem.call(this, data);
+        }
+
         var li = document.createElement('li');
         li.value = this.dataValue(data);
         var img = this.dataImage(data);
@@ -86,6 +92,11 @@ mw.autoComplete = function(options){
         if(img){
             mw.$('a',li).prepend(img);
         }
+
+        if(this.options.listItemDecorate) {
+            this.options.listItemDecorate.call(this, data, li);
+        }
+
         return li;
     };
 

@@ -27,7 +27,18 @@ export default {
                     title: '',
                     placeholder: 'All'
                 }
-            ]
+            ],
+            listItemDecorate: function(data, node) {
+                node.classList.add(`content-type-${data.content_type}`);
+                const icon = mw.top().app.iconService.icon(data.content_type);
+                if(icon) {
+                    const frag = document.createElement('span');
+                    frag.className = 'form-select-item-icon';
+                    frag.innerHTML = icon;
+                    frag.title = mw.lang(data.content_type.charAt(0).toUpperCase() + data.content_type.slice(1));
+                    node.querySelector('a').prepend(frag)
+                }
+            }
         });
 
         $(this.liveEditSearchContentField).on("change", function (e, val) {

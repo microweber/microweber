@@ -256,6 +256,9 @@ body {
     @apply !bg-white dark:!bg-gray-900;
 }
 
+.border-white {
+    @apply dark:!border-gray-100;
+}
 
 .mw_modal_live_edit_settings .modal-title {
     @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-blue-600 text-white;
@@ -922,3 +925,22 @@ div:focus-visible {
     @apply dark:bg-gray-800;
 }
 
+
+.form-select-item-icon{
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-inline-end: 5px;
+
+
+}
+
+
+.form-select-item-icon svg{
+    max-width: var(--size);
+    max-height: var(--size);
+}

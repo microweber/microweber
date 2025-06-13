@@ -955,7 +955,7 @@ html.dark .mw-le-layouts-dialog {
     z-index: 10;
     right: 0;
     left: auto;
-    background: #eee;
+
     pointer-events: none;
 
 }
