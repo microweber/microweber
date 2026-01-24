@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Providers;
 
+use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use BladeUI\Icons\Factory;
@@ -15,6 +16,21 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     {
         $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower . '.php')], 'config');
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), 'modules.' . $this->moduleNameLower);
+    }
+
+    protected function mergeConfigFrom($path, $key)
+    {
+        if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
+            $config = $this->app->make('config');
+            $configOfModule = require $path;
+            if (!is_array($configOfModule)) {
+                $configOfModule = [];
+            }
+
+            $config->set($key, array_merge(
+                $configOfModule, $config->get($key, [])
+            ));
+        }
     }
 
     /**
@@ -78,7 +94,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
 
         return $paths;
     }
-
 
 
 }
