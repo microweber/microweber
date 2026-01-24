@@ -68,6 +68,9 @@ class UserLoginControllerTest extends TestCase
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
+
+
+
         $this->assertEquals($email, $user->data->email);
 
 
