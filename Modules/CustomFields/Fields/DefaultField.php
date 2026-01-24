@@ -121,7 +121,19 @@ class DefaultField
             $renderData = array_merge($renderData, $this->data);
         }
 
-        // Set default data if not exists
+        if(!isset($renderData['value'])){
+            $renderData['value'] = '';
+        }
+
+        if(isset($renderData['values']) and is_array($renderData['values']) && count($renderData['values']) > 0){
+            $renderData['value'] = end($renderData['values']);
+
+        } elseif (isset($renderData['values']) and !is_array($renderData['values'])){
+            $renderData['value'] = $renderData['values'];
+        }
+
+
+            // Set default data if not exists
         foreach ($this->defaultData as $defaultDataKey => $defaultDataValue) {
             if (!isset($renderData[$defaultDataKey])) {
                 $renderData[$defaultDataKey] = $defaultDataValue;
