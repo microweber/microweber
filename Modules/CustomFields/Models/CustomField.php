@@ -231,6 +231,9 @@ class CustomField extends Model
         if ($this->rel_id == 0 and !isset($this->session_id)) {
             $this->session_id = app()->user_manager->session_id();
         }
+        if (isset($this->values)) {
+            unset($this->values);
+        }
 
         $saved = parent::save($options);
 
