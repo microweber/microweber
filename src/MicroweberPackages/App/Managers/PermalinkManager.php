@@ -109,7 +109,7 @@ class PermalinkManager
                     if ($type == 'post') {
                         // $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
 
-                        $findPostsBySlug = Content::where('url', $findSlugByType)->first();
+                        $findPostsBySlug = Post::where('url', $findSlugByType)->first();
 
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
