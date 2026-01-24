@@ -75,7 +75,7 @@
         "laravel/tinker": "^2.9",
         "lcobucci/jwt": "*",
         "league/omnipay": "^3.2",
-        "livewire/livewire": "*",
+        "livewire/livewire": "v3.6.4",
         "mtrajano/laravel-swagger": "0.6.4",
         "nunomaduro/collision": "^8.0",
         "nwidart/laravel-modules": "v11.1.4",
