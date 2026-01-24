@@ -12,7 +12,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 class CustomField extends Model
 {
     use MaxPositionTrait;
-   use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
     use HasMultilanguageTrait;
 
@@ -149,11 +149,10 @@ class CustomField extends Model
         if (isset($this->value) and $this->value) {
 
 
-
-           $customFieldValueToSaveMultiple = [$this->value];
-           // $customFieldValueToSaveMultiple = $this->value ?? null;
+            $customFieldValueToSaveMultiple = [$this->value];
+            // $customFieldValueToSaveMultiple = $this->value ?? null;
             $this->values = $this->value;
-            unset($this->value );
+            unset($this->value);
         } else {
             $customFieldValueToSaveMultiple = $this->values ?? null;
 
@@ -195,8 +194,14 @@ class CustomField extends Model
 //            }
 //
 //        }
-        if (isset($this->value)) {
+        if (isset($this->value) and empty($this->values)) {
 
+            $customFieldValueToSaveMultiple = [$this->value];
+            $setBackValueAttrbuteAfterSave = $this->value;
+            $this->values = [$this->value];
+            unset($this->value);
+        }
+        if (isset($this->value)) {
             unset($this->value);
         }
 
@@ -226,10 +231,7 @@ class CustomField extends Model
         if ($this->rel_id == 0 and !isset($this->session_id)) {
             $this->session_id = app()->user_manager->session_id();
         }
-        if (isset($this->values)) {
 
-            unset($this->values);
-        }
         $saved = parent::save($options);
 
         if (isset($customFieldValueToSave)) {
