@@ -14,7 +14,7 @@ class SubscriptionCustomer extends Customer
 
     public $table = 'customers';
 
-    public function subscriptions()
+    public function subscriptions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\Modules\Billing\Models\Subscription::class, 'customer_id');
     }
