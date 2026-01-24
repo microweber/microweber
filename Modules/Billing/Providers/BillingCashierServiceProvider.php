@@ -12,7 +12,7 @@ use Modules\Payment\Models\PaymentProvider;
 
 class BillingCashierServiceProvider extends CashierServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         //  Cashier::ignoreMigrations();
         Cashier::ignoreRoutes();
@@ -24,7 +24,7 @@ class BillingCashierServiceProvider extends CashierServiceProvider
         parent::register();
     }
 
-    public function boot()
+    public function boot(): void
     {
         if (mw_is_installed()) {
             $cashier_billing_payment_provider_id = get_option('cashier_billing_payment_provider_id', 'payments');
@@ -78,7 +78,7 @@ class BillingCashierServiceProvider extends CashierServiceProvider
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
 
         $this->mergeConfigFrom(
