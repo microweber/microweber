@@ -10,6 +10,8 @@
                 <div class="col-md-12 ps-md-0">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox my-2">
+                            <input type="hidden" class="form-check-input"
+                                   name="content_data[physical_product]" value="0">
                             <input x-model="physicalProduct" type="checkbox" class="form-check-input" id="customCheck4"
                                    name="content_data[physical_product]" value="1">
                             <label class="custom-control-label" for="customCheck4"><?php _e("This is a physical product"); ?></label>
@@ -115,6 +117,10 @@
                     </div>
 
                 </div>
+            </div>
+
+            <div x-show="!physicalProduct">
+                <?php include_once __DIR__ .'/digital.php'; ?>
             </div>
         </div>
     </div>
