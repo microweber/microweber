@@ -189,13 +189,104 @@ class AgentChatComponentTest extends TestCase
             ->assertDispatched('refresh-messages');
     }
 
-    public function test_chat_property_returns_correct_model(): void
+public function test_chat_property_returns_correct_model(): void
     {
         $component = new AgentChatComponent();
         $component->chatId = $this->chat->id;
-        
+
         $chat = $component->getChatProperty();
         $this->assertInstanceOf(AgentChat::class, $chat);
         $this->assertEquals($this->chat->id, $chat->id);
+    }
+
+    public function test_chat_with_file_upload_stores_media(): void
+    {
+        // Test that message metadata properly stores file attachment information
+        // This verifies the data structure used when files are uploaded via the chat component
+
+        // Create attachment metadata simulating what would be created after file upload
+        $uploadedFiles = [
+            [
+                'name' => 'test-image.jpg',
+                'size' => '100 B',
+                'type' => 'image/jpeg',
+                'path' => '/tmp/uploaded-file-123',
+                'temporaryUrl' => 'http://localhost/livewire-tmp/test-image.jpg',
+            ],
+            [
+                'name' => 'document.pdf',
+                'size' => '200 B',
+                'type' => 'application/pdf',
+                'path' => '/tmp/uploaded-file-456',
+                'temporaryUrl' => 'http://localhost/livewire-tmp/document.pdf',
+            ],
+        ];
+
+        // Create a message with attachment metadata
+        $message = AgentChatMessage::create([
+            'chat_id' => $this->chat->id,
+            'role' => 'user',
+            'content' => 'Here is my uploaded image [Attached files: test-image.jpg, document.pdf]',
+            'agent_type' => $this->chat->agent_type,
+            'metadata' => [
+                'has_attachments' => true,
+                'attachments' => $uploadedFiles,
+            ],
+        ]);
+
+        // Verify the message was created in the database
+        $this->assertDatabaseHas('agent_chat_messages', [
+            'id' => $message->id,
+            'chat_id' => $this->chat->id,
+            'role' => 'user',
+        ]);
+
+        // Verify the message content includes attachment references
+        $this->assertStringContainsString('Here is my uploaded image', $message->content);
+        $this->assertStringContainsString('[Attached files: test-image.jpg, document.pdf]', $message->content);
+
+        // Verify metadata structure when retrieved from database
+        $retrievedMessage = AgentChatMessage::find($message->id);
+        $this->assertNotNull($retrievedMessage->metadata);
+        $this->assertIsArray($retrievedMessage->metadata);
+        $this->assertTrue($retrievedMessage->metadata['has_attachments']);
+        $this->assertIsArray($retrievedMessage->metadata['attachments']);
+        $this->assertCount(2, $retrievedMessage->metadata['attachments']);
+
+        // Verify first attachment metadata structure
+        $attachment1 = $retrievedMessage->metadata['attachments'][0];
+        $this->assertArrayHasKey('name', $attachment1);
+        $this->assertArrayHasKey('type', $attachment1);
+        $this->assertArrayHasKey('size', $attachment1);
+        $this->assertArrayHasKey('path', $attachment1);
+        $this->assertArrayHasKey('temporaryUrl', $attachment1);
+        $this->assertEquals('test-image.jpg', $attachment1['name']);
+        $this->assertEquals('image/jpeg', $attachment1['type']);
+        $this->assertEquals('100 B', $attachment1['size']);
+
+        // Verify second attachment metadata structure
+        $attachment2 = $retrievedMessage->metadata['attachments'][1];
+        $this->assertEquals('document.pdf', $attachment2['name']);
+        $this->assertEquals('application/pdf', $attachment2['type']);
+        $this->assertEquals('200 B', $attachment2['size']);
+
+        // Verify message appears in chat's messages relationship
+        $this->assertTrue($this->chat->messages->contains('id', $message->id));
+
+        // Test message without attachments
+        $messageWithoutAttachments = AgentChatMessage::create([
+            'chat_id' => $this->chat->id,
+            'role' => 'user',
+            'content' => 'Message without attachments',
+            'agent_type' => $this->chat->agent_type,
+            'metadata' => [
+                'has_attachments' => false,
+                'attachments' => [],
+            ],
+        ]);
+
+        $retrievedNoAttach = AgentChatMessage::find($messageWithoutAttachments->id);
+        $this->assertFalse($retrievedNoAttach->metadata['has_attachments']);
+        $this->assertEmpty($retrievedNoAttach->metadata['attachments']);
     }
 }

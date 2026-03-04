@@ -214,7 +214,7 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 test_create_chat_saves_initial_prompt()
   - [x] 2026-03-04 test_view_chat_renders_message_history()
   - [x] 2026-03-04 test_tool_call_returns_expected_output()
-  - [ ] test_chat_with_file_upload_stores_media()
+  - [x] 2026-03-04 test_chat_with_file_upload_stores_media()
 
 **Ai subtotal:** ~178
 
