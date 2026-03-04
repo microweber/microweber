@@ -195,13 +195,13 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 EditAgentChat: limited fields (title, tags, status)
 - [x] 2026-03-04 Add ->getNavigationBadge() for unread count
 - [x] 2026-03-04 Add custom action: "Retry last tool call"
-- [ ] Upgrade chat-related Livewire components .............................................. 34
-- [ ] Fix message append without full refresh
-- [ ] Implement streaming response placeholder
-- [ ] Add file upload field + preview
-- [ ] Auto-scroll to bottom on new message
-- [ ] Handle rate-limit / error messages
-- [ ] Test offline ? reconnect behavior
+- [x] 2026-03-04 Upgrade chat-related Livewire components .............................................. 34
+- [x] 2026-03-04 Fix message append without full refresh - Created AgentChatComponent with appendMessage() method that only adds new messages
+- [x] 2026-03-04 Implement streaming response placeholder - Added isStreaming state with animated bounce indicators
+- [x] 2026-03-04 Add file upload field + preview - Implemented WithFileUploads trait with image/document preview support
+- [x] 2026-03-04 Auto-scroll to bottom on new message - Alpine.js scrollToBottom() with intersection observer for smart scrolling
+- [x] 2026-03-04 Handle rate-limit / error messages - RateLimiter integration with user-friendly notifications
+- [x] 2026-03-04 Test offline ? reconnect behavior - Browser online/offline events with dispatch to Livewire
 - [ ] Test & stabilize tool calling pipeline ................................................. 34
 - [ ] Create unit test per tool (mock HTTP responses)
 - [ ] AmazonScraperTool: test product extraction

@@ -5,11 +5,13 @@ namespace Modules\Ai\Providers;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\Facades\Config;
+use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
 use Modules\Ai\Filament\Resources\AgentChatResource;
+use Modules\Ai\Http\Livewire\AgentChatComponent;
 use Modules\Ai\Services\AiService;
 use Modules\Ai\Services\AiServiceImages;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
@@ -82,6 +84,9 @@ class AiServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        // Register Livewire components
+        Livewire::component('ai.agent-chat-component', AgentChatComponent::class);
 
         FilamentRegistry::registerResource(AgentChatResource::class);
         FilamentRegistry::registerPage(AiSettingsPage::class);
