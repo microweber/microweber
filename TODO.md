@@ -83,12 +83,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Register middleware: auth, verified, etc.
 - [x] 2026-03-04 Add ->viteTheme('resources/css/filament/admin/theme.css') if custom
 - [x] 2026-03-04 Test /admin route loads dashboard - Panel configured correctly, route testing blocked by Phase 2 Profile module Login class issue (see BLOCKER note below)
-- [ ] Clean up deprecated Filament registrations .............................................. 8
-  - [ ] Search codebase for FilamentServiceProvider
-  - [ ] Remove from config/app.php providers array
-  - [ ] Delete legacy config/filament.php if exists
-  - [ ] Remove old bootFilament() / registerFilament() methods
-  - [ ] Verify no old Filament facades used
+- [x] 2026-03-04 Clean up deprecated Filament registrations .............................................. 8
+- [x] 2026-03-04 Searched codebase for FilamentServiceProvider - found deprecated provider at src/MicroweberPackages/Filament/Providers/FilamentServiceProvider.php
+- [x] 2026-03-04 Removed FilamentServiceProvider registration from MicroweberFilamentServiceProvider (not in config/app.php directly)
+- [x] 2026-03-04 Deleted legacy config/filament.php from src/MicroweberPackages/Filament/config/
+- [x] 2026-03-04 Verified no old bootFilament() / registerFilament() methods exist in codebase
+- [x] 2026-03-04 Verified no old Filament facades used - only v5 facades present
 - [ ] Run full test suite & fix initial breakage .............................................. 55
   - [ ] Run php artisan test --parallel --coverage > tests-initial-report.txt
   - [ ] Group failures: unit, feature, browser

@@ -28,7 +28,7 @@
         </div>
 
     @else
-        <div class="space-y-8">
+        <div class="gap-y-8">
             @foreach($groupedSubscriptions as $groupName => $subscriptions)
                 <div>
                     <h3 class="text-md font-semibold mb-4">{{ $groupName }}</h3>

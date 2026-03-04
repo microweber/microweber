@@ -1,8 +1,8 @@
-<div class="space-y-4">
+<div class="gap-y-4">
 
     @if(isset($cartItems) and $cartItems)
         @foreach($cartItems as $item)
-            <div class="flex items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow transition-colors space-x-4">
+            <div class="flex items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow transition-colors gap-x-4">
                 <div>
                     <a href="{{ $item['url'] ?? '#' }}" target="_blank" rel="noopener">
                         @if(isset($item['picture']) and $item['picture'])
@@ -55,7 +55,7 @@
             <!-- Cart Totals Section -->
             <div class="mt-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow transition-colors">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Cart Totals</h3>
-                <div class="space-y-2">
+                <div class="gap-y-2">
                     @foreach($cartTotals as $key => $total)
                         <div
                             class="flex justify-between {{ $key === 'total' ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : '' }}">

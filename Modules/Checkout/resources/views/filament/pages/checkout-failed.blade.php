@@ -32,7 +32,7 @@
                 We apologize, but there was an issue processing your order. Please review the error details above and try again.
             </p>
 
-            <div class="mt-6 space-x-4">
+            <div class="mt-6 gap-x-4">
                 <x-filament::button
                     color="primary"
                     tag="a"

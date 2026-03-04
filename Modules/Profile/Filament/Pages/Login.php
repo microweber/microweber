@@ -4,8 +4,8 @@ namespace Modules\Profile\Filament\Pages;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Schemas\Schema;
-use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use Filament\Pages\Auth\Login as BaseLogin;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse;
+use Filament\Auth\Pages\Login as BaseLogin;
 use Illuminate\Validation\ValidationException;
 
 class Login extends BaseLogin

@@ -5,7 +5,7 @@
     :valid="! $errors->has('captcha')"
 >
     <div class="fi-input-wrapper" wire:ignore>
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center gap-x-4">
             <div class="w-32">
                 <module type="captcha" id="captcha-{{ uniqid() }}" data-callback="captchaCallbackProfilePage"/>
             </div>

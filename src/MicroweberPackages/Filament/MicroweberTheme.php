@@ -18,7 +18,6 @@ use Illuminate\Support\HtmlString;
 use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
 use MicroweberPackages\MetaTags\AdminMetaTagsRenderer;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
-use MicroweberPackages\User\Providers\UserFilamentServiceProvider;
 
 class MicroweberTheme implements Plugin
 {

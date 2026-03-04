@@ -4,7 +4,7 @@
         <div class="chat-info-header mb-4">
             <div class="bg-white rounded-lg border p-4">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center gap-x-3">
                         <div class="agent-icon">
                             @switch($record->agent_type)
                                 @case('customer')
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="space-y-4" id="messages-container">
+                    <div class="gap-y-4" id="messages-container">
                         @foreach($chatMessages as $message)
                             <div class="message-item {{ $message['role'] === 'user' ? 'flex justify-end' : 'flex justify-start' }}">
                                 <div class="max-w-3xl {{ $message['role'] === 'user' ? 'order-2' : 'order-1' }}">
@@ -104,7 +104,7 @@
                                                             <i class="fas fa-robot me-1"></i>AI Assistant
                                                     @endswitch
                                                 </span>
-                                                <div class="text-xs text-gray-500 flex items-center space-x-2">
+                                                <div class="text-xs text-gray-500 flex items-center gap-x-2">
                                                     <span>{{ $message['created_at'] }}</span>
                                                     @if($message['processing_time'])
                                                         <span>• {{ number_format($message['processing_time'], 2) }}s</span>
@@ -135,8 +135,8 @@
                             <div class="message-item flex justify-start">
                                 <div class="max-w-3xl">
                                     <div class="bg-gray-100 rounded-lg px-4 py-3">
-                                        <div class="flex items-center space-x-2">
-                                            <div class="flex space-x-1">
+                                        <div class="flex items-center gap-x-2">
+                                            <div class="flex gap-x-1">
                                                 <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                                                 <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
                                                 <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
@@ -156,7 +156,7 @@
         <div class="message-input">
             <div class="bg-white rounded-lg border p-4">
                 @if($record->is_active)
-                    <form wire:submit="sendMessage" class="space-y-3">
+                    <form wire:submit="sendMessage" class="gap-y-3">
                         <div class="form-group">
                             <label for="userMessage" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
                             <textarea
@@ -175,14 +175,14 @@
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2 text-sm text-gray-500">
+                            <div class="flex items-center gap-x-2 text-sm text-gray-500">
                                 <i class="fas fa-info-circle"></i>
                                 <span>Messages are processed by {{ ucfirst($record->agent_type) }} Assistant</span>
                             </div>
 
                             <button
                                 type="submit"
-                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-x-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 wire:loading.attr="disabled"
                                 wire:target="sendMessage"
                                 @disabled($isProcessing)

@@ -174,7 +174,7 @@
 
                 <div
                     x-show="editing"
-                    class="flex space-x-2 gap-2"
+                    class="flex gap-x-2 gap-2"
                     style="display: none;"
                 >
 
@@ -217,7 +217,7 @@
 
                 <span
                     x-show="context === 'edit'"
-                    class="flex items-center space-x-2"
+                    class="flex items-center gap-x-2"
                 >
 
                     @if($getSlugInputUrlVisitLinkVisible())

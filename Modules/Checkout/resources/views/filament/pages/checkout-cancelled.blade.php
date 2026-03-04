@@ -10,7 +10,7 @@
             <p class="mt-2 text-gray-600 dark:text-gray-400">
                 Your checkout process has been cancelled. Your cart items have been saved if you'd like to complete your purchase later.
             </p>
-            <div class="mt-6 space-x-4">
+            <div class="mt-6 gap-x-4">
                 <x-filament::button
                     color="primary"
                     tag="a"

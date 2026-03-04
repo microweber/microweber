@@ -2,11 +2,10 @@
 
 namespace Modules\Profile\Filament\Pages;
 
-use Filament\Forms\Components\Component;
+use Filament\Schemas\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
 use Filament\Schemas\Schema;
-use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
+use Filament\Auth\Pages\PasswordReset\RequestPasswordReset;
 use Illuminate\Validation\ValidationException;
 use Modules\Profile\Actions\ResetPasswordAction;
 

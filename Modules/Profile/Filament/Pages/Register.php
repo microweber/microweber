@@ -7,7 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
-use Filament\Pages\Auth\Register as BaseRegister;
+use Filament\Auth\Pages\Register as BaseRegister;
 use Illuminate\Validation\ValidationException;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Services\UserManager;

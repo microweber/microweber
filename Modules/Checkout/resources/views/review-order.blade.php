@@ -6,14 +6,14 @@
 <div class="bg-white rounded-lg shadow p-6" wire:key="review-order">
     <h3 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h3>
 
-    <div class="space-y-4">
+    <div class="gap-y-4">
 
         @if(count($cartItems) == 0)
             <div class="text-sm text-gray-600">No items in cart</div>
         @else
             @foreach($cartItems as $item)
                 <div class="flex justify-between items-center" wire:key="item-{{ $item['id'] }}">
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center gap-x-3">
                         <span class="text-sm text-gray-600">{{ $item['qty'] }}x</span>
                         <span class="text-sm text-gray-900">{{ $item['title'] }}</span>
                     </div>

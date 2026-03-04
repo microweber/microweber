@@ -7,7 +7,7 @@
       </div>
 
 
-        <div class="space-y-4">
+        <div class="gap-y-4">
             @if(!$cartItems)
                 <div class="text-sm text-gray-600">No items in cart</div>
             @else
@@ -16,7 +16,7 @@
 
                 @foreach($cartItems as $item)
                     <div class="flex justify-between items-center" >
-                        <div class="flex items-center space-x-3">
+                        <div class="flex items-center gap-x-3">
                             <span class="text-sm text-gray-600">{{ $item['qty'] }}x</span>
                             <span class="text-sm text-gray-900">{{ $item['title'] }}</span>
                         </div>

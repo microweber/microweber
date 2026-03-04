@@ -1,5 +1,5 @@
 <div>
-    <div class="space-y-6">
+    <div class="gap-y-6">
         <!-- Overall Progress -->
         <div class="bg-white rounded-lg p-4 shadow">
             <div class="flex items-center justify-between mb-2">
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Layouts -->
-        <div class="space-y-4">
+        <div class="gap-y-4">
             @foreach($layouts as $index => $layout)
                 <div class="bg-white rounded-lg shadow p-4">
                     <div class="flex items-center justify-between mb-4">
@@ -31,7 +31,7 @@
                             <h4 class="text-lg font-medium">{{ $layout['name'] }}</h4>
                             <p class="text-sm text-gray-500">Category: {{ $layout['category'] }}</p>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center gap-x-2">
                             @switch($layout['status'])
                                 @case('pending')
                                     <x-filament::badge color="gray">Pending</x-filament::badge>
@@ -73,7 +73,7 @@
                     @endif
 
                     <!-- Content Preview -->
-                    <div class="space-y-4">
+                    <div class="gap-y-4">
                         <div>
                             <h5 class="text-sm font-medium text-gray-500 mb-2">Original Content</h5>
                             <div class="bg-gray-50 rounded p-3 text-sm">

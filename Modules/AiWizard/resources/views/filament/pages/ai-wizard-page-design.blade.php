@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <div class="space-y-6">
+    <div class="gap-y-6">
         <div class="prose max-w-none">
             <h2>Page Design</h2>
         </div>

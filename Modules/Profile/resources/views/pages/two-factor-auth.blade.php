@@ -73,7 +73,7 @@
                         </div>
                     @endif
 
-                    <div class="mt-5 space-y-2">
+                    <div class="mt-5 gap-y-2">
                         @if(! $showingRecoveryCodes)
                             <x-filament::button
                                 wire:click="showRecoveryCodes"
@@ -109,7 +109,7 @@
                 :description="__('For your security, please confirm your password to continue.')"
             >
                 <form wire:submit.prevent="confirmPassword">
-                    <div class="space-y-4">
+                    <div class="gap-y-4">
                         <x-filament::input.wrapper>
                             <x-filament::input
                                 type="password"

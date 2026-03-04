@@ -30,7 +30,7 @@
         <div id="form-loading-overlay"
              class="hidden fixed inset-0   bg-opacity-50 flex items-center justify-center z-50"
              style="background-color: rgb(149 187 221);">
-            <div class="bg-white rounded-lg p-8 flex items-center space-x-4 shadow-xl">
+            <div class="bg-white rounded-lg p-8 flex items-center gap-x-4 shadow-xl">
                 <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                      viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"

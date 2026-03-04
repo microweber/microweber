@@ -1,13 +1,12 @@
 <?php
 /*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber CMS LTD
- *
- * For full license information see
- * https://github.com/microweber/microweber/blob/master/LICENSE
- *
- */
+* This file is part of the Microweber framework.
+*
+* (c) Microweber CMS LTD
+*
+* For full license information see
+* https://github.com/microweber/microweber/blob/master/LICENSE
+*/
 
 namespace MicroweberPackages\Filament\Providers;
 
@@ -17,20 +16,10 @@ use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
 class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
-
     public function register()
     {
-        //if (mw_is_installed()) {
-        $this->app->register(FilamentServiceProvider::class);
+        // Register core Filament v5 panel providers (no deprecated FilamentServiceProvider)
         $this->app->register(MicroweberFilamentThemeServiceProvider::class);
-       // if (mw_is_installed()) {
-            $this->app->register(FilamentAdminPanelProvider::class);
-            // $this->app->register(FilamentLiveEditPanelProvider::class);
-
-     //   }
-
-        //   }
-
+        $this->app->register(FilamentAdminPanelProvider::class);
     }
 }

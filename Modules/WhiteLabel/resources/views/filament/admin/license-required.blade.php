@@ -1,11 +1,11 @@
-<div class="flex flex-col items-center justify-center space-y-6 py-12">
+<div class="flex flex-col items-center justify-center gap-y-6 py-12">
     <div class="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center">
         <svg class="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
     </div>
     
-    <div class="text-center space-y-2">
+    <div class="text-center gap-y-2">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
             White Label License Required
         </h3>
