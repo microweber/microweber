@@ -87,7 +87,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
         $haveLicense = $this->checkLicense();
 
         if (!$haveLicense) {
-            return $form->schema([
+            return $schema->schema([
                 Section::make('White Label License Required')
                     ->description('To access White Label features, you need a valid license.')
                     ->schema([

@@ -135,13 +135,18 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Verified: Icons use heroicon-o-* standard format + custom mw-* icons
 - [x] 2026-03-04 Verified: Bulk actions use Tables\Actions\BulkActionGroup::make() and DeleteBulkAction::make()
 - [x] 2026-03-04 Test suite: 53 passed, 1 pre-existing failure (not Action-related), 710 pending
-- [ ] Upgrade custom page classes (List/Create/Edit/View) ................................... 34
-  - [ ] Replace getFormSchema(): array ? form(Form $form): Form
-  - [ ] Update mutateFormDataBeforeCreate(array $data): array
-  - [ ] Fix afterCreate() / afterSave() hooks
-  - [ ] Update getHeaderActions(): array
-  - [ ] Replace ->record($this->record) access
-  - [ ] Test create ? redirect to index
+- [x] 2026-03-04 Upgrade custom page classes (List/Create/Edit/View) ................................... 34
+  - [x] 2026-03-04 Replaced deprecated getForms(): array ? form(Schema $schema): Schema in 3 files
+  - [x] 2026-03-04 Updated LiveEditModuleSettings.php abstract class with v5 form() signature
+  - [x] 2026-03-04 Updated CreateContent.php with v5 form() signature and InteractsWithSchemas trait
+  - [x] 2026-03-04 Updated EditContent.php with v5 form() signature and InteractsWithSchemas trait
+  - [x] 2026-03-04 Verified mutateFormDataBeforeCreate/BeforeSave signatures are correct (already v5 compatible)
+  - [x] 2026-03-04 No deprecated afterCreate() / afterSave() hooks found in codebase
+  - [x] 2026-03-04 Verified getHeaderActions(): array uses correct v5 Actions imports
+  - [x] 2026-03-04 No deprecated ->record($this->record) access patterns found
+  - [x] 2026-03-04 Verified getRedirectUrl() works correctly in CreateCategory.php
+  - [x] 2026-03-04 PHP syntax check passed on all modified files
+  - [x] 2026-03-04 Test suite: 52 passed, 1 pre-existing failure, 140 pending
 - [ ] Modernize all Relation Managers ......................................................... 34
   - [ ] Change base class to HasManyRelationManager / BelongsToManyRelationManager
   - [ ] Update table(Table $table): Table

@@ -56,12 +56,10 @@ abstract class LiveEditModuleSettings extends Page
     protected string $view = 'filament-panels::components.layout.simple-form';
 
 
-    protected function getForms(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            'form',
-            'templatesForm',
-        ];
+        return $schema
+            ->schema([]);
     }
 
 

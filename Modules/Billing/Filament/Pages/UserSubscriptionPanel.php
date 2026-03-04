@@ -6,6 +6,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Modules\Billing\Http\Controllers\SubscribeToPlanController;
 use Modules\Billing\Models\Subscription;
@@ -34,7 +35,7 @@ class UserSubscriptionPanel extends Page
         }
     }
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
         $plans = SubscriptionPlan::with('group')->get();
 
@@ -52,7 +53,7 @@ class UserSubscriptionPanel extends Page
             }
         }
 
-        $schema = [];
+        $formSchema = [];
 
         foreach ($groupedPlans as $groupName => $plansInGroup) {
             $options = [];
@@ -65,7 +66,7 @@ class UserSubscriptionPanel extends Page
                 $icons[$plan->sku] = 'heroicon-m-currency-dollar';
             }
 
-            $schema[] = Forms\Components\Section::make($groupName)
+            $formSchema[] = Forms\Components\Section::make($groupName)
                 ->schema([
                     RadioDeck::make('plan')
                         ->label(function () use ($groupName) {
@@ -84,7 +85,7 @@ class UserSubscriptionPanel extends Page
                 ]);
         }
 
-        return $schema;
+        return $schema->schema($formSchema);
     }
 
     public function submit()

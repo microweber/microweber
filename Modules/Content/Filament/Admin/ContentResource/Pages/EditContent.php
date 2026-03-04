@@ -58,9 +58,12 @@ class EditContent extends EditRecord
         return $record;
     }
 
-    protected function getForms(): array
+    use \Filament\Schemas\Concerns\InteractsWithSchemas;
+
+    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return $this->getEditContentForms();
+        return $schema
+            ->schema($this->getEditContentForms());
     }
 
 

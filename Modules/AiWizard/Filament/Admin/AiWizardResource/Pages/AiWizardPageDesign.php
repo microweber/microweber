@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Content\Models\Content;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Schema;
 
 class AiWizardPageDesign extends Page implements HasForms
 {
@@ -22,21 +23,20 @@ class AiWizardPageDesign extends Page implements HasForms
 
     protected string $view = 'modules.aiwizard::filament.pages.ai-wizard-page-design';
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
+        $content_link = content_link($this->getRecord()->id);
 
-        $content_link = content_link($this->record->id);
-
-        return [
+        return $schema->schema([
             View::make('filament-forms::components.mw-render-template-preview-iframe')
                 ->viewData([
                     'url' => $content_link,
 
                 ])
-                //  ->live()
-                //   ->key('dynamicPreviewLayout')
+                // ->live()
+                // ->key('dynamicPreviewLayout')
                 ->columnSpanFull()
-        ];
+        ]);
     }
 
     public function mount(int|string $record): void
@@ -49,7 +49,7 @@ class AiWizardPageDesign extends Page implements HasForms
         return [
             Action::make('back')
                 ->label('Back to Edit')
-                ->url(fn() => $this->getResource()::getUrl('edit', ['record' => $this->record]))
+                ->url(fn() => $this->getResource()::getUrl('edit', ['record' => $this->getRecord()]))
                 ->color('gray'),
         ];
     }
