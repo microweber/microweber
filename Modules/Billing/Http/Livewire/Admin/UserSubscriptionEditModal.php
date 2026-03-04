@@ -80,7 +80,7 @@ class UserSubscriptionEditModal extends ModalComponent
             }
         }
 
-        $this->emit('userSubscriptionUpdated');
+        $this->dispatch('userSubscriptionUpdated');
         $this->closeModal();
     }
 

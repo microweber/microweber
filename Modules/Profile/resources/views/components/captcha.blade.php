@@ -19,10 +19,10 @@
     @endif
 
 
-    <script>
-        window.captchaCallbackProfilePage = function (value) {
-        @this.set('captcha', value)
-        }
-    </script>
+<script>
+    window.captchaCallbackProfilePage = function (value) {
+        $wire.$set('captcha', value)
+    }
+</script>
 
 </x-dynamic-component>

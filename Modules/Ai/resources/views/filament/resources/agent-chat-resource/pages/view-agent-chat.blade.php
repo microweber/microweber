@@ -271,12 +271,12 @@
             }
         }
 
-        // Auto-refresh messages every 30 seconds
-        setInterval(() => {
-            if (!@this.isProcessing) {
-                @this.dispatch('refresh-messages');
-            }
-        }, 30000);
+    // Auto-refresh messages every 30 seconds
+    setInterval(() => {
+        if (!$wire.isProcessing) {
+            $wire.dispatch('refresh-messages');
+        }
+    }, 30000);
     </script>
 
     <!-- Custom styles -->

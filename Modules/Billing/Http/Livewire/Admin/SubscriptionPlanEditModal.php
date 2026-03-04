@@ -67,7 +67,7 @@ class SubscriptionPlanEditModal extends ModalComponent
             $this->subscriptionPlanId = $subscriptionPlan->id;
         }
 
-        $this->emit('refreshSubscriptionPlans');
+        $this->dispatch('refreshSubscriptionPlans');
         $this->closeModal();
     }
 }

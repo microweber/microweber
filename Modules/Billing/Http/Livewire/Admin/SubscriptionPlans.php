@@ -72,7 +72,7 @@ class SubscriptionPlans extends Component
         $subscriptionPlan = SubscriptionPlan::find($id);
         $subscriptionPlan->delete();
 
-        $this->emit('refreshSubscriptionPlans');
+        $this->dispatch('refreshSubscriptionPlans');
     }
 
 }
