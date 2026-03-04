@@ -13,8 +13,6 @@ use Modules\Content\Models\Content;
 
 class CreateContent extends CreateRecord
 {
-
-    use CreateRecord\Concerns\Translatable;
     use HasEditContentForms;
     use ModifyComponentData;
 

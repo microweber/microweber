@@ -15,7 +15,6 @@ use Modules\Content\Models\Content;
 
 class EditContent extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
     use HasEditContentForms;
     use ModifyComponentData;
 

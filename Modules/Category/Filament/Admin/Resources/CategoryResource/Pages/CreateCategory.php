@@ -10,7 +10,6 @@ use Modules\Category\Filament\Admin\Resources\CategoryResource;
 
 class CreateCategory extends CreateRecord
 {
-    use CreateRecord\Concerns\Translatable;
     protected static bool $canCreateAnother = false;
 
     protected static string $resource = CategoryResource::class;

@@ -1,0 +1,118 @@
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                                        0.01s  
+
+   PASS  MicroweberPackages\Admin\tests\AdminLivewireComponentsTest
+  ✓ if can view component as admin                                                           1.81s  
+  ✓ if cannot view component as user                                                         0.82s  
+
+   PASS  MicroweberPackages\Admin\tests\AdminTest
+  ✓ admin                                                                                    0.62s  
+  ✓ admin manager facade                                                                     0.42s  
+
+   PASS  CacheTest
+  ✓ cache                                                                                    0.51s  
+
+   PASS  TaggableFileCacheServiceProviderTest
+  ✓ cache is taggable file cache when using                                                  0.41s  
+
+   PASS  TaggableFileStoreTest
+  ✓ simple                                                                                   0.46s  
+  ✓ put without tags                                                                         0.41s  
+  ✓ get without tags                                                                         0.42s  
+  ✓ put with tags                                                                            0.49s  
+  ✓ flush by tag                                                                             0.42s  
+  ✓ flush all                                                                                0.51s  
+  ✓ inc dec                                                                                  0.53s  
+
+   PASS  MicroweberPackages\Console\tests\BasicTest
+  ✓ basic                                                                                    0.41s  
+
+   PASS  MicroweberPackages\Core\tests\ConfigFileTest
+  ✓ something is true                                                                        0.47s  
+  ✓ config read                                                                              0.40s  
+  ✓ version txt new line                                                                     0.42s  
+
+   PASS  MicroweberPackages\Core\tests\MailSenderTest
+  ✓ send                                                                                     0.43s  
+
+   PASS  MicroweberPackages\Core\tests\RequestTypeTest
+  ✓ request response code                                                                    1.95s  
+  ✓ json post request                                                                        0.47s  
+  ✓ post request                                                                             0.48s  
+  ✓ patch json request                                                                       0.43s  
+
+   PASS  MicroweberPackages\Core\tests\SessionsTest
+  ✓ sessions                                                                                 0.49s  
+
+   PASS  MicroweberPackages\Core\tests\TemplateTest
+  ✓ get template name                                                                        0.51s  
+  ✓ get all templates                                                                        0.54s  
+
+   PASS  MicroweberPackages\Database\tests\DatabaseManagerTest
+  ✓ build table                                                                              0.55s  
+  ✓ build tablse                                                                             0.48s  
+  ✓ insert table                                                                             0.56s  
+  ✓ delete table data                                                                        0.71s  
+
+   PASS  MicroweberPackages\Database\tests\DbTest
+  ✓ db save json field custom field value                                                    1.36s  
+  ✓ db save json field option                                                                1.43s  
+  ✓ save is shop                                                                             1.51s  
+  ✓ simple save                                                                              2.26s  
+  ✓ simple get                                                                               1.29s  
+  ✓ simple count                                                                             1.14s  
+  ✓ page count                                                                               1.20s  
+  ✓ order by                                                                                 1.29s  
+  ✓ limit and paging                                                                         2.02s  
+  ✓ include exclude ids                                                                      1.27s  
+  ✓ min max avg                                                                              1.14s  
+  ✓ shorthand filters                                                                        1.27s  
+  ✓ select only fields                                                                       1.18s  
+  ✓ get fields                                                                               1.16s  
+
+   PASS  MicroweberPackages\Event\tests\EventManagerServiceProviderTest
+  ✓ if is event when using                                                                   0.56s  
+
+   PASS  MicroweberPackages\Event\tests\EventManagerTest
+  ✓ bind                                                                                     0.44s  
+
+   PASS  MicroweberPackages\Event\tests\EventTest
+  ✓ bind                                                                                     0.40s  
+
+   PASS  MicroweberPackages\Helper\tests\HelpersServiceProviderTest
+  ✓ format when using                                                                        0.42s  
+  ✓ x s s security when using                                                                0.29s  
+
+   PASS  MicroweberPackages\Helper\tests\SecurityTest
+  ✓ comments                                                                                 0.23s  
+  ✓ xss list                                                                               104.95s  
+  ✓ x s s clean arrtibutes new events                                                        0.43s  
+
+   PASS  MicroweberPackages\Install\tests\BasicTest
+  ✓ basic                                                                                    0.48s  
+
+   FAIL  MicroweberPackages\LiveEdit\tests\LiveEditLivewireComponentsAccessTest
+  ⨯ if can view component as admin                                                           0.59s  
+  ────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  MicroweberPackages\LiveEdit\tests\LiveEditLivewireComponentsAccessTest > if can view…    
+  Component access error MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent Unable to find component: [microweber-live-edit::module-select-template]
+Failed asserting that false is true.
+
+  at src/MicroweberPackages/User/tests/UserLivewireComponentsAccessTest.php:60
+     56▕                 $this->assertTrue(true, 'Component access success ' . $component);
+     57▕ 
+     58▕             } catch (\Exception $e) {
+     59▕ 
+  ➜  60▕                 $this->assertTrue(false, 'Component access error ' . $component . ' ' . $e->getMessage());
+     61▕             }
+     62▕         }
+     63▕ 
+     64▕     }
+
+  1   src/MicroweberPackages/User/tests/UserLivewireComponentsAccessTest.php:60
+
+
+  Tests:    1 failed, 53 passed, [2m710 pending[22m (9108 assertions)
+  Duration: 147.87s
+
