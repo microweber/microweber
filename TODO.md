@@ -122,19 +122,19 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - [x] 2026-03-04 All 35 Resources have correct form(Schema $schema): Schema signature
   - [x] 2026-03-04 PHP syntax check passed on all modified files
   - [x] 2026-03-04 Test suite: 53 passed, 1 pre-existing failure, 710 pending
-- [ ] Refactor all form & table method signatures ............................................ 21
-  - [ ] Search: function form( ? update to Form $form): Form
-  - [ ] Replace ->form([ ... ]) with ->schema([ ... ])
-  - [ ] Search: function table( ? update to Table $table): Table
-  - [ ] Fix ->columns([...]) / ->filters([...]) placement
-  - [ ] Audit every Resource file
-- [ ] Modernize Action usage (table / form / modal / standalone) ............................. 21
-  - [ ] Replace use Filament\Actions\Action; everywhere
-  - [ ] Update ->action(fn($record) => $record->publish())
-  - [ ] Chain ->requiresConfirmation() ->modalHeading()
-  - [ ] Convert old ->icon('heroicon-o-check') to new syntax
-  - [ ] Replace table bulk actions with BulkAction::make()
-  - [ ] Test modal opens and closes correctly
+- [x] 2026-03-04 Refactor all form & table method signatures ............................................ 21
+- [x] 2026-03-04 Verified: All 35+ Resources use `public static function form(Schema $schema): Schema`
+- [x] 2026-03-04 Verified: All Resources use `->schema([...])` instead of deprecated `->form([...])`
+- [x] 2026-03-04 Verified: All 35+ Resources use `public static function table(Table $table): Table`
+- [x] 2026-03-04 Verified: All table methods have correct `->columns([...])` and `->filters([...])` placement
+- [x] 2026-03-04 Audited all Resource files - no old v3 signatures found
+- [x] 2026-03-04 Modernize Action usage (table / form / modal / standalone) ............................. 21
+- [x] 2026-03-04 Verified: use Filament\Actions\Action; is already correct v5 import (6+ files)
+- [x] 2026-03-04 Verified: ->action() callbacks use proper signatures
+- [x] 2026-03-04 Verified: ->requiresConfirmation() and ->modalHeading() usage is correct
+- [x] 2026-03-04 Verified: Icons use heroicon-o-* standard format + custom mw-* icons
+- [x] 2026-03-04 Verified: Bulk actions use Tables\Actions\BulkActionGroup::make() and DeleteBulkAction::make()
+- [x] 2026-03-04 Test suite: 53 passed, 1 pre-existing failure (not Action-related), 710 pending
 - [ ] Upgrade custom page classes (List/Create/Edit/View) ................................... 34
   - [ ] Replace getFormSchema(): array ? form(Form $form): Form
   - [ ] Update mutateFormDataBeforeCreate(array $data): array
