@@ -60,7 +60,7 @@ class MwTitleWithSlugInput
         $textInput = TextInput::make($fieldTitle)
             ->disabled($titleIsReadonly)
             ->autofocus($titleAutofocus)
-            ->live(true)
+            ->live(onBlur: true)
             ->autocomplete(false)
             ->rules($titleRules)
             ->extraInputAttributes($titleExtraInputAttributes ?? ['class' => 'text-xl font-semibold'])
@@ -136,7 +136,7 @@ class MwTitleWithSlugInput
 
             // Default TextInput methods
             ->readOnly($slugIsReadonly)
-            ->live(true)
+            ->live(onBlur: true)
             ->autocomplete(false)
             ->hiddenLabel()
             ->regex($slugRuleRegex)

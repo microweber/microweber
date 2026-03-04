@@ -169,12 +169,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - [x] 2026-03-04 Verified createOptionForm() already implemented where needed (CustomerResource, OrderResource, InvoiceResource, SubscriptionPlanResource)
   - [x] 2026-03-04 All getOptionLabelFromRecordUsing() calls are using correct v5 syntax
   - [x] 2026-03-04 PHP syntax check passed on all 6 modified files
-- [ ] Review & standardize reactivity patterns ............................................... 21
-  - [ ] Standardize slug generation: ->live(onBlur: true) ->afterStateUpdated(...)
-  - [ ] Replace old updated('data.slug') methods
-  - [ ] Use ->dependsOn(['type'], fn(Get $get, Set $set) => ...)
-  - [ ] Test conditional visibility / required
-  - [ ] Test debounce on search inputs
+- [x] 2026-03-04 Review & standardize reactivity patterns ............................................... 21
+- [x] 2026-03-04 Standardized slug generation: MwTitleWithSlugInput.php now uses ->live(onBlur: true) with afterStateUpdated(...)
+- [x] 2026-03-04 Verified no old updated('data.slug') methods exist - all use modern afterStateUpdated pattern
+- [x] 2026-03-04 Confirmed no dependsOn usage - v5 uses ->live() + afterStateUpdated instead (no changes needed)
+- [x] 2026-03-04 Verified conditional visibility uses correct fn(Get $get) pattern in 15+ resources
+- [x] 2026-03-04 Verified debounce patterns are correct: ->live(debounce:300) in Multilanguage plugin
 
 **Phase 1 total estimate:** ~199
 
