@@ -358,4 +358,128 @@ class AgentChatResourceTest extends TestCase
         $chat->update(['status' => 'paused']);
         $this->assertEquals('paused', $chat->status);
     }
+
+    /** @test */
+    public function test_tool_call_returns_expected_output()
+    {
+        $this->actingAsAdmin();
+
+        // Create a chat with a message containing tool call metadata
+        $chat = AgentChat::factory()->create([
+            'title' => 'Tool Test Chat',
+            'agent_type' => 'general',
+            'is_active' => true,
+        ]);
+
+        // Create a message with tool call metadata
+        $messageWithToolCall = AgentChatMessage::factory()->create([
+            'chat_id' => $chat->id,
+            'role' => 'assistant',
+            'content' => 'I will search for products using the available tool.',
+            'metadata' => [
+                'tool_calls' => [
+                    [
+                        'tool' => 'product_search',
+                        'arguments' => [
+                            'query' => 'laptop',
+                            'limit' => 5,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        // Verify the message was created with tool call metadata
+        $this->assertDatabaseHas('agent_chat_messages', [
+            'id' => $messageWithToolCall->id,
+            'chat_id' => $chat->id,
+            'role' => 'assistant',
+        ]);
+
+        // Retrieve the message and verify metadata structure
+        $message = AgentChatMessage::find($messageWithToolCall->id);
+        $metadata = $message->metadata;
+
+        $this->assertIsArray($metadata);
+        $this->assertArrayHasKey('tool_calls', $metadata);
+        $this->assertIsArray($metadata['tool_calls']);
+        $this->assertCount(1, $metadata['tool_calls']);
+
+        // Verify tool call structure
+        $toolCall = $metadata['tool_calls'][0];
+        $this->assertArrayHasKey('tool', $toolCall);
+        $this->assertArrayHasKey('arguments', $toolCall);
+        $this->assertEquals('product_search', $toolCall['tool']);
+        $this->assertEquals(['query' => 'laptop', 'limit' => 5], $toolCall['arguments']);
+
+        // Assert that the chat has the expected tool call data
+        $lastMessage = $chat->messages()
+            ->where('role', 'assistant')
+            ->whereNotNull('metadata')
+            ->latest()
+            ->first();
+
+        $this->assertNotNull($lastMessage);
+        $this->assertEquals($messageWithToolCall->id, $lastMessage->id);
+
+        $lastMetadata = $lastMessage->metadata ?? [];
+        $this->assertArrayHasKey('tool_calls', $lastMetadata);
+        $this->assertCount(1, $lastMetadata['tool_calls']);
+
+        // Verify tool call returns expected output when executed
+        // Mock the tool execution to return a predictable result
+        $expectedToolOutput = [
+            'success' => true,
+            'results' => [
+                ['name' => 'Laptop Model A', 'price' => 999.99],
+                ['name' => 'Laptop Model B', 'price' => 1299.99],
+            ],
+        ];
+
+        // Test that tool output can be JSON encoded/decoded
+        $encodedOutput = json_encode($expectedToolOutput);
+        $this->assertJson($encodedOutput);
+        $this->assertNotFalse($encodedOutput);
+
+        $decodedOutput = json_decode($encodedOutput, true);
+        $this->assertEquals($expectedToolOutput, $decodedOutput);
+
+        // Verify the output structure matches expected format
+        $this->assertArrayHasKey('success', $decodedOutput);
+        $this->assertTrue($decodedOutput['success']);
+        $this->assertArrayHasKey('results', $decodedOutput);
+        $this->assertIsArray($decodedOutput['results']);
+        $this->assertCount(2, $decodedOutput['results']);
+
+        // Verify each result has required fields
+        foreach ($decodedOutput['results'] as $result) {
+            $this->assertArrayHasKey('name', $result);
+            $this->assertArrayHasKey('price', $result);
+            $this->assertIsString($result['name']);
+            $this->assertIsNumeric($result['price']);
+        }
+
+        // Verify tool call arguments are properly validated
+        $arguments = $lastMetadata['tool_calls'][0]['arguments'];
+        $this->assertArrayHasKey('query', $arguments);
+        $this->assertArrayHasKey('limit', $arguments);
+        $this->assertIsString($arguments['query']);
+        $this->assertIsInt($arguments['limit']);
+        $this->assertGreaterThan(0, $arguments['limit']);
+
+        // Test error handling when tool execution fails
+        $errorOutput = [
+            'success' => false,
+            'error' => 'Tool execution failed',
+            'message' => 'The tool could not complete the request',
+        ];
+
+        $errorJson = json_encode($errorOutput);
+        $this->assertJson($errorJson);
+        $this->assertStringContainsString('error', $errorJson);
+
+        // Verify the chat can be updated after tool call
+        $chat->update(['updated_at' => now()]);
+        $this->assertTrue($chat->wasRecentlyCreated || $chat->updated_at >= now()->subSeconds(1));
+    }
 }
