@@ -3,12 +3,41 @@
 namespace Modules\Ai\Filament\Resources\AgentChatResource\Pages;
 
 use Filament\Actions;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Schemas\Schema;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 
 class EditAgentChat extends EditRecord
 {
     protected static string $resource = AgentChatResource::class;
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->schema([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+
+                TagsInput::make('tags')
+                    ->label('Tags')
+                    ->placeholder('Add tags...')
+                    ->separator(',')
+                    ->helperText('Add tags to categorize this chat'),
+
+                Select::make('status')
+                    ->required()
+                    ->options([
+                        'active' => 'Active',
+                        'archived' => 'Archived',
+                        'paused' => 'Paused',
+                    ])
+                    ->default('active'),
+            ]);
+    }
 
     protected function getHeaderActions(): array
     {

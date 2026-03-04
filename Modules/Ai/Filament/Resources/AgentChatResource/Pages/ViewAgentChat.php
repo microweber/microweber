@@ -69,6 +69,32 @@ class ViewAgentChat extends ViewRecord
                         ->info()
                         ->send();
                 }),
+
+            Actions\Action::make('retryLastToolCall')
+                ->label('Retry Last Tool Call')
+                ->icon('heroicon-o-arrow-path')
+                ->color('warning')
+                ->visible(function () {
+                    // Show only if there's a failed tool call in recent messages
+                    $lastMessage = $this->record->messages()
+                        ->where('role', 'assistant')
+                        ->whereNotNull('metadata')
+                        ->latest()
+                        ->first();
+
+                    if (!$lastMessage) {
+                        return false;
+                    }
+
+                    $metadata = $lastMessage->metadata ?? [];
+                    return isset($metadata['tool_calls']) || isset($metadata['error']);
+                })
+                ->requiresConfirmation()
+                ->modalHeading('Retry Last Tool Call')
+                ->modalDescription('This will attempt to retry the last failed tool call. Continue?')
+                ->action(function () {
+                    $this->retryLastToolCall();
+                }),
         ];
     }
 
@@ -181,5 +207,100 @@ class ViewAgentChat extends ViewRecord
     public function getTitle(): string
     {
         return $this->record->title . ' - AI Chat';
+    }
+
+    public function retryLastToolCall(): void
+    {
+        $lastMessage = $this->record->messages()
+            ->where('role', 'assistant')
+            ->whereNotNull('metadata')
+            ->latest()
+            ->first();
+
+        if (!$lastMessage) {
+            Notification::make()
+                ->title('No Tool Call Found')
+                ->body('No recent tool calls to retry.')
+                ->warning()
+                ->send();
+            return;
+        }
+
+        $metadata = $lastMessage->metadata ?? [];
+        $toolCalls = $metadata['tool_calls'] ?? [];
+
+        if (empty($toolCalls)) {
+            Notification::make()
+                ->title('No Tool Calls')
+                ->body('The last message does not contain any tool calls.')
+                ->warning()
+                ->send();
+            return;
+        }
+
+        $this->isProcessing = true;
+
+        try {
+            // Get the agent with chat history
+            $agentFactory = app(AgentFactory::class);
+            $agent = $agentFactory->agentWithChat($this->record);
+
+            // Retry the tool calls
+            foreach ($toolCalls as $toolCall) {
+                if (isset($toolCall['tool'])) {
+                    // Find and execute the tool
+                    $tools = $agent->getTools() ?? [];
+                    foreach ($tools as $tool) {
+                        if ($tool->getName() === $toolCall['tool']) {
+                            $result = $tool->execute($toolCall['arguments'] ?? []);
+
+                            // Add system message with retry result
+                            AgentChatMessage::create([
+                                'chat_id' => $this->record->id,
+                                'role' => 'system',
+                                'content' => "Tool '{$toolCall['tool']}' retried successfully. Result: " . json_encode($result),
+                                'agent_type' => $this->record->agent_type,
+                                'metadata' => [
+                                    'tool_retry' => true,
+                                    'original_tool' => $toolCall['tool'],
+                                    'result' => $result,
+                                ],
+                            ]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            $this->loadChatMessages();
+
+            Notification::make()
+                ->title('Tool Call Retried')
+                ->body('The last tool call has been successfully retried.')
+                ->success()
+                ->send();
+
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Retry Failed')
+                ->body('Failed to retry tool call: ' . $e->getMessage())
+                ->danger()
+                ->send();
+
+            // Log the error
+            AgentChatMessage::create([
+                'chat_id' => $this->record->id,
+                'role' => 'system',
+                'content' => 'Error retrying tool call: ' . $e->getMessage(),
+                'agent_type' => $this->record->agent_type,
+                'metadata' => [
+                    'error' => $e->getMessage(),
+                    'tool_retry_failed' => true,
+                ],
+            ]);
+        } finally {
+            $this->isProcessing = false;
+            $this->loadChatMessages();
+        }
     }
 }

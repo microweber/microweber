@@ -187,4 +187,19 @@ class AgentChatResource extends Resource
     {
         return config('modules.ai.enabled', false);
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_active', true)
+            ->whereHas('messages', function ($query) {
+                $query->where('role', 'user')
+                    ->whereNull('processed_at');
+            })
+            ->count() ?: null;
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'warning';
+    }
 }

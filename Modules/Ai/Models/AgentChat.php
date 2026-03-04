@@ -2,13 +2,22 @@
 
 namespace Modules\Ai\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MicroweberPackages\User\Models\User;
+use Modules\Ai\Database\Factories\AgentChatFactory;
 
 class AgentChat extends Model
 {
+    use HasFactory;
+
+    protected static function newFactory(): AgentChatFactory
+    {
+        return AgentChatFactory::new();
+    }
+
     protected $fillable = [
         'title',
         'description',
@@ -16,11 +25,14 @@ class AgentChat extends Model
         'user_id',
         'metadata',
         'is_active',
+        'status',
+        'tags',
     ];
 
     protected $casts = [
         'metadata' => 'array',
         'is_active' => 'boolean',
+        'tags' => 'array',
     ];
 
     public function messages(): HasMany

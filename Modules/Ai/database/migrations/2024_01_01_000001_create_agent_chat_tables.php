@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        if (!Schema::hasTable('agent_chats')) {
+        if (Schema::hasTable('agent_chats')) {
             return;
         }
 

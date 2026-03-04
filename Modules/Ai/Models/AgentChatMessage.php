@@ -2,12 +2,21 @@
 
 namespace Modules\Ai\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Ai\Database\Factories\AgentChatMessageFactory;
 
 class AgentChatMessage extends Model
 {
+    use HasFactory;
+
+    protected static function newFactory(): AgentChatMessageFactory
+    {
+        return AgentChatMessageFactory::new();
+    }
+
     protected $fillable = [
         'chat_id',
         'role',

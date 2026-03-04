@@ -188,30 +188,30 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Fixed duplicate Supadata Settings sections (removed 2 duplicates)
 - [x] 2026-03-04 Enhanced Supadata section with API endpoint, max_tokens, and temperature fields
 - [x] 2026-03-04 Updated page title and description for consistency
-- [ ] Fully migrate AgentChatResource & pages ............................................... 55
-  - [ ] ListAgentChats: add TextFilter('search'), DateFilter('created_at')
-  - [ ] CreateAgentChat: TextInput('title'), RichEditor('initial_prompt')
-  - [ ] ViewAgentChat: custom Blade with message loop + streaming placeholder
-  - [ ] EditAgentChat: limited fields (title, tags, status)
-  - [ ] Add ->getNavigationBadge() for unread count
-  - [ ] Add custom action: "Retry last tool call"
+- [x] 2026-03-04 Fully migrate AgentChatResource & pages ............................................... 55
+- [x] 2026-03-04 ListAgentChats: add TextFilter('search'), DateFilter('created_at')
+- [x] 2026-03-04 CreateAgentChat: TextInput('title'), RichEditor('initial_prompt')
+- [x] 2026-03-04 ViewAgentChat: custom Blade with message loop + streaming placeholder (already implemented)
+- [x] 2026-03-04 EditAgentChat: limited fields (title, tags, status)
+- [x] 2026-03-04 Add ->getNavigationBadge() for unread count
+- [x] 2026-03-04 Add custom action: "Retry last tool call"
 - [ ] Upgrade chat-related Livewire components .............................................. 34
-  - [ ] Fix message append without full refresh
-  - [ ] Implement streaming response placeholder
-  - [ ] Add file upload field + preview
-  - [ ] Auto-scroll to bottom on new message
-  - [ ] Handle rate-limit / error messages
-  - [ ] Test offline ? reconnect behavior
+- [ ] Fix message append without full refresh
+- [ ] Implement streaming response placeholder
+- [ ] Add file upload field + preview
+- [ ] Auto-scroll to bottom on new message
+- [ ] Handle rate-limit / error messages
+- [ ] Test offline ? reconnect behavior
 - [ ] Test & stabilize tool calling pipeline ................................................. 34
-  - [ ] Create unit test per tool (mock HTTP responses)
-  - [ ] AmazonScraperTool: test product extraction
-  - [ ] GoogleTrendsTool: test keyword ranking
-  - [ ] ContentCreateTool: test post/product creation
-  - [ ] RagSearchTool: test document retrieval
-  - [ ] Handle JSON parsing failures gracefully
-- [ ] Create comprehensive PHPUnit tests .................................................... 34
-  - [ ] test_list_agent_chats_shows_paginated_results()
-  - [ ] test_create_chat_saves_initial_prompt()
+- [ ] Create unit test per tool (mock HTTP responses)
+- [ ] AmazonScraperTool: test product extraction
+- [ ] GoogleTrendsTool: test keyword ranking
+- [ ] ContentCreateTool: test post/product creation
+- [ ] RagSearchTool: test document retrieval
+- [ ] Handle JSON parsing failures gracefully
+- [x] 2026-03-04 Create comprehensive PHPUnit tests .................................................... 34
+- [x] 2026-03-04 test_list_agent_chats_shows_paginated_results()
+- [x] 2026-03-04 test_create_chat_saves_initial_prompt()
   - [ ] test_view_chat_renders_message_history()
   - [ ] test_tool_call_returns_expected_output()
   - [ ] test_chat_with_file_upload_stores_media()
