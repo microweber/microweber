@@ -8,37 +8,53 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AiSettingsPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
-    protected static bool $shouldRegisterNavigation = true;
+protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+protected static bool $shouldRegisterNavigation = true;
 
-    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
+protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
-    protected static ?string $title = 'Ai Settings';
+protected static ?string $title = 'AI Settings';
 
-    protected static string $description = 'Configure your ai settings';
+protected static string $description = 'Configure your AI provider settings and API keys';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
-    protected static ?int $navigationSort = 3000;
+protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
+protected static ?int $navigationSort = 3000;
 
-    public array $optionGroups = [
-        'ai'
-    ];
+public array $optionGroups = [
+'ai'
+];
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        $isDisabled = config('modules.ai.disable_settings', false);
+public static function shouldRegisterNavigation(): bool
+{
+$isDisabled = config('modules.ai.disable_settings', false);
 
-        if ($isDisabled) {
-            return false;
-        }
+if ($isDisabled) {
+return false;
+}
 
-        return static::$shouldRegisterNavigation;
-    }
+return static::$shouldRegisterNavigation;
+}
+
+public static function canAccess(): bool
+{
+return auth()->user()->can('manage_ai_settings');
+}
+
+public function updated($propertyName, $value): void
+{
+parent::updated($propertyName, $value);
+
+// Clear config cache when AI settings are updated
+if (str_starts_with($propertyName, 'options.ai.')) {
+Artisan::call('config:clear');
+}
+}
 
 
 
@@ -68,41 +84,49 @@ class AiSettingsPage extends AdminSettingsPage
 
         return $schema
             ->schema([
-                Section::make('General AI Settings')
-                    ->view('filament-forms::sections.section')
-                    ->schema([
-                        Toggle::make('options.ai.enabled')
-                            ->label('Enable AI Functionality')
-                            ->live()
-                            ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-x-mark')
-                            ->helperText('Enable or disable all AI features globally'),
+Section::make('General AI Settings')
+->view('filament-forms::sections.section')
+->schema([
+Toggle::make('options.ai.enabled')
+->label('Enable AI Functionality')
+->live()
+->onIcon('heroicon-m-check')
+->offIcon('heroicon-m-x-mark')
+->helperText('Enable or disable all AI features globally'),
 
-                        Select::make('options.ai.default_driver')
-                            ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                            ->label('Set default AI provider for text generation')
-                            ->live()
-                            ->options([
-                                'openai' => 'OpenAI',
-                                'gemini' => 'Google Gemini',
-                                'openrouter' => 'OpenRouter',
-                                'ollama' => 'Ollama',
-                                'supadata' => 'Supadata',
-                            ])
-                            ->helperText('Select the provider to use for AI text generation tasks'),
+Toggle::make('options.ai.debug_mode')
+->visible(fn(callable $get) => $get('options.ai.enabled'))
+->label('Debug Mode')
+->live()
+->onIcon('heroicon-m-check')
+->offIcon('heroicon-m-x-mark')
+->helperText('Enable debug mode to log AI requests and responses for troubleshooting'),
 
-                        Select::make('options.ai.default_driver_images')
-                            ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                            ->label('Set default AI provider for image generation')
-                            ->live()
-                            ->options([
-                                //   'gemini' => 'Google Gemini',
-                                //   'openai' => 'OpenAI (DALL-E)',
-                                'replicate' => 'Replicate',
-                                'fal' => 'FAL AI',
-                            ])
-                            ->helperText('Select the provider to use for AI image generation tasks')
-                    ]),
+Select::make('options.ai.default_driver')
+->visible(fn(callable $get) => $get('options.ai.enabled'))
+->label('Set default AI provider for text generation')
+->live()
+->options([
+'openai' => 'OpenAI',
+'gemini' => 'Google Gemini',
+'openrouter' => 'OpenRouter',
+'ollama' => 'Ollama',
+'supadata' => 'Supadata',
+])
+->helperText('Select the provider to use for AI text generation tasks'),
+
+Select::make('options.ai.default_driver_images')
+->visible(fn(callable $get) => $get('options.ai.enabled'))
+->label('Set default AI provider for image generation')
+->live()
+->options([
+// 'gemini' => 'Google Gemini',
+// 'openai' => 'OpenAI (DALL-E)',
+'replicate' => 'Replicate',
+'fal' => 'FAL AI',
+])
+->helperText('Select the provider to use for AI image generation tasks')
+]),
 
                 Section::make('OpenAI Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
@@ -277,36 +301,63 @@ class AiSettingsPage extends AdminSettingsPage
 
                     ]),
 
-                Section::make('Supadata Settings')
-                    ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
-                    ->schema([
-                        Toggle::make('options.ai.supadata_enabled')
-                            ->label('Enable Supadata')
-                            ->live()
-                            ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-x-mark'),
+Section::make('Supadata Settings')
+->visible(fn(callable $get) => $get('options.ai.enabled'))
+->view('filament-forms::sections.section')
+->schema([
+Toggle::make('options.ai.supadata_enabled')
+->label('Enable Supadata')
+->live()
+->onIcon('heroicon-m-check')
+->offIcon('heroicon-m-x-mark')
+->helperText('Enable Supadata AI service for text generation'),
 
-                        Select::make('options.ai.supadata_model')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Supadata Model')
-                            ->options(config('modules.ai.drivers.supadata.models', [
-                                'supadata-default' => 'Supadata Default',
-                                'supadata-pro' => 'Supadata Pro',
-                                'supadata-turbo' => 'Supadata Turbo',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/" target="_blank">Learn more</a> about the models.</small>')),
+Select::make('options.ai.supadata_model')
+->live()
+->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
+->label('Supadata Model')
+->options(config('modules.ai.drivers.supadata.models', [
+'supadata-default' => 'Supadata Default',
+'supadata-pro' => 'Supadata Pro',
+'supadata-turbo' => 'Supadata Turbo',
+]))
+->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/" target="_blank">Learn more</a> about available models.</small>')),
 
-                        TextInput::make('options.ai.supadata_api_key')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Supadata API Key')
-                            ->placeholder('Enter your Supadata API key')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/dashboard/api-keys" target="_blank">Get your API key</a> from Supadata dashboard.</small>')),
-                    ]),
+TextInput::make('options.ai.supadata_api_key')
+->live()
+->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
+->label('Supadata API Key')
+->placeholder('Enter your Supadata API key')
+->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/api-keys" target="_blank">Get your API key</a> from Supadata dashboard.</small>')),
 
-                Section::make('TAVILY Search Settings')
+TextInput::make('options.ai.supadata_api_endpoint')
+->live()
+->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
+->label('API Endpoint')
+->placeholder('https://api.supadata.com')
+->helperText('Enter the Supadata API endpoint URL'),
+
+TextInput::make('options.ai.supadata_max_tokens')
+->live()
+->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
+->label('Max Tokens')
+->numeric()
+->placeholder('Leave empty for default')
+->helperText('Maximum number of tokens to generate'),
+
+TextInput::make('options.ai.supadata_temperature')
+->live()
+->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
+->label('Temperature')
+->numeric()
+->step(0.1)
+->minValue(0)
+->maxValue(2)
+->placeholder('0.7')
+->helperText('Controls randomness: 0 is deterministic, higher values are more random'),
+]),
+
+Section::make('TAVILY Search Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('filament-forms::sections.section')
                     ->schema([
@@ -344,84 +395,9 @@ class AiSettingsPage extends AdminSettingsPage
                             ->maxValue(20)
                             ->default(5)
                             ->helperText('Maximum number of search results to return (1-20)'),
-                    ]),
+]),
 
-                Section::make('Supadata Settings')
-                    ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
-                    ->schema([
-                        Toggle::make('options.ai.supadata_enabled')
-                            ->label('Enable Supadata')
-                            ->live()
-                            ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-x-mark')
-                            ->helperText('Enable Supadata for AI functionality'),
-
-                        TextInput::make('options.ai.supadata_api_key')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Supadata API Key')
-                            ->placeholder('Enter your Supadata API key')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter your Supadata API key for authentication.</small>')),
-                    ]),
-
-                Section::make('Supadata Settings')
-                    ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
-                    ->schema([
-                        Toggle::make('options.ai.supadata_enabled')
-                            ->label('Enable Supadata')
-                            ->live()
-                            ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-x-mark')
-                            ->helperText('Enable Supadata AI service for text generation'),
-
-                        Select::make('options.ai.supadata_model')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Supadata Model')
-                            ->options(config('modules.ai.drivers.supadata.models', [
-                                'supadata-default' => 'Supadata Default',
-                                'supadata-pro' => 'Supadata Pro',
-                                'supadata-turbo' => 'Supadata Turbo',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/" target="_blank">Learn more</a> about available models.</small>')),
-
-                        TextInput::make('options.ai.supadata_api_key')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Supadata API Key')
-                            ->placeholder('Enter your Supadata API key')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/api-keys" target="_blank">Get your API key</a> from Supadata dashboard.</small>')),
-
-                        TextInput::make('options.ai.supadata_api_endpoint')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('API Endpoint')
-                            ->placeholder('https://api.supadata.com')
-                            ->helperText('Enter the Supadata API endpoint URL'),
-
-                        TextInput::make('options.ai.supadata_max_tokens')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Max Tokens')
-                            ->numeric()
-                            ->placeholder('Leave empty for default')
-                            ->helperText('Maximum number of tokens to generate'),
-
-                        TextInput::make('options.ai.supadata_temperature')
-                            ->live()
-                            ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
-                            ->label('Temperature')
-                            ->numeric()
-                            ->step(0.1)
-                            ->minValue(0)
-                            ->maxValue(2)
-                            ->placeholder('0.7')
-                            ->helperText('Controls randomness: 0 is deterministic, higher values are more random'),
-                    ]),
-
-                Section::make('FAL AI Settings')
+Section::make('FAL AI Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('filament-forms::sections.section')
                     ->schema([
