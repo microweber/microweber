@@ -6,7 +6,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminUpdatesPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-updates';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-path';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

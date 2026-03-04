@@ -14,7 +14,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminPrivacyPolicyPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-privacy';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shield-check';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

@@ -6,7 +6,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminShopOtherPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-general';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

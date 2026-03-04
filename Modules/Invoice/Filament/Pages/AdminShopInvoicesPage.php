@@ -15,7 +15,7 @@ use Modules\Invoice\Filament\Resources\InvoiceResource;
 
 class AdminShopInvoicesPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-invoices';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

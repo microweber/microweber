@@ -21,7 +21,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
 
     protected static bool $shouldRegisterNavigation = true;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'modules.white_label-icon';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-eye-slash';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 

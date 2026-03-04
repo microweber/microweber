@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Multilanguage\Filament\Resources\Concerns;
 
 use Exception;
-use Filament\Resources\Concerns\Translatable;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Spatie\Translatable\HasTranslations;
 
 trait TranslatableResource

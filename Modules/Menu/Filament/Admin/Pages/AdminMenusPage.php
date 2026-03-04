@@ -7,7 +7,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminMenusPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-menu';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-3';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 

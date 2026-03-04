@@ -29,7 +29,7 @@ class CustomerResource extends Resource
 
         return static::$description;
     }
-    public static function form(Schema $schema): Schemas\Form
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([

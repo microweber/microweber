@@ -22,7 +22,7 @@ class AdminGeneralPage extends AdminSettingsPage
     protected static ?string $slug = 'settings/general';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-general';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
 
     protected static ?string $title = 'General';

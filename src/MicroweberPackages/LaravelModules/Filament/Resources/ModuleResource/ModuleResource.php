@@ -20,7 +20,7 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = SystemModulesSushi::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-modules';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 

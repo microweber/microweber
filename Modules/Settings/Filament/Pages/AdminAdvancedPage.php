@@ -17,7 +17,7 @@ use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 
 class AdminAdvancedPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-advanced';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

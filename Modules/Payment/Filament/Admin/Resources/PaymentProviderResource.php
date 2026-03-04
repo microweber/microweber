@@ -18,7 +18,7 @@ class PaymentProviderResource extends Resource
 {
     protected static ?string $model = PaymentProvider::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-payments';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 14;

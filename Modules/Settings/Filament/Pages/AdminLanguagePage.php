@@ -24,7 +24,7 @@ use Modules\Multilanguage\Filament\Pages\MultilanguageSettingsAdmin;
 
 class AdminLanguagePage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-language';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

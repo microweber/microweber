@@ -19,7 +19,7 @@ use Modules\Tax\Models\TaxType;
 class TaxResource extends Resource
 {
     protected static ?string $model = TaxType::class;
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-taxes';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-calculator';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax';

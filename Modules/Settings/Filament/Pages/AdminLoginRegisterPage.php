@@ -12,7 +12,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminLoginRegisterPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-login';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-on-rectangle';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

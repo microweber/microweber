@@ -1,0 +1,10 @@
+PHP Fatal error:  Could not check compatibility between Modules\Profile\Filament\Pages\Register::register(): ?Filament\Http\Responses\Auth\Contracts\RegistrationResponse and Filament\Auth\Pages\Register::register(): ?Filament\Auth\Http\Responses\Contracts\RegistrationResponse, because class Filament\Http\Responses\Auth\Contracts\RegistrationResponse is not available in /home/headless/Documents/GitHub/microweber/Modules/Profile/Filament/Pages/Register.php on line 91
+
+In Register.php line 91:
+                                                                                                   
+  Could not check compatibility between Modules\Profile\Filament\Pages\Register::register(): ?Fil  
+  ament\Http\Responses\Auth\Contracts\RegistrationResponse and Filament\Auth\Pages\Register::regi  
+  ster(): ?Filament\Auth\Http\Responses\Contracts\RegistrationResponse, because class Filament\Ht  
+  tp\Responses\Auth\Contracts\RegistrationResponse is not available                                
+                                                                                                   
+

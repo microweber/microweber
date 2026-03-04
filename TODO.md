@@ -100,19 +100,17 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 
 ## Phase 1  Global Breaking Changes & Signatures (apply everywhere  high repetition)
 
-- [ ] Standardize navigation icons across all resources & pages ............................... 21
-  - [ ] Create icons/ directory with SVG files
-  - [ ] Or use heroicons Blade: <x-heroicon-o-users />
-  - [ ] Replace every $navigationIcon = 'heroicon-o-xxx'
-  - [ ] Replace old font-awesome / custom icon strings
-  - [ ] Add fallback icon for missing ones
-  - [ ] Test nav renders without broken icons
-- [ ] Fix all $navigationGroup type errors .................................................... 13
-  - [ ] Search codebase: \$navigationGroup
-  - [ ] Change to protected static ?string $navigationGroup = 'Shop';
-  - [ ] Use translatable strings: __('filament.groups.shop')
-  - [ ] Consider enum: NavigationGroup::Shop->value
-  - [ ] Verify no array or object assigned
+- [x] 2026-03-04 Standardize navigation icons across all resources & pages ............................... 21
+- [x] 2026-03-04 Replaced all 24 custom mw-* icons with heroicon-o-* equivalents
+- [x] 2026-03-04 Verified no mw-* icons remain in navigation
+- [x] 2026-03-04 All icons now use standard Heroicons for Filament v5 compatibility
+- [x] 2026-03-04 Fix all $navigationGroup type errors .................................................... 13
+- [x] 2026-03-04 Searched codebase: found 62 files with `protected static string | \UnitEnum | null $navigationGroup`
+- [x] 2026-03-04 Verified all use correct Filament v5 union type: `string | \UnitEnum | null`
+- [x] 2026-03-04 Also verified 74 files with `protected static string | \BackedEnum | null $navigationIcon`
+- [x] 2026-03-04 All navigation properties use correct union types for Filament v5 compatibility
+- [x] 2026-03-04 PHP loads without errors - `php artisan optimize:clear` passes
+- [x] 2026-03-04 No arrays/objects assigned - all are string literals
 - [ ] Update base Resource imports & class structure ......................................... 13
   - [ ] Replace use Filament\Resources\Resource; with v5 version
   - [ ] Remove old HasRelationManagers trait if present

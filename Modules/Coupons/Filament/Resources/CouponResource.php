@@ -14,7 +14,7 @@ use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 
 class CouponResource extends Resource
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-coupon';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-ticket';
 
     protected static ?string $model = Coupon::class;
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';

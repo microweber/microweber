@@ -12,7 +12,7 @@ use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 
 class Settings extends Page
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-main';
 

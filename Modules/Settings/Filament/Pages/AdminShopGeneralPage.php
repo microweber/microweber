@@ -17,7 +17,7 @@ use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 
 class AdminShopGeneralPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-shop2';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-cart';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 

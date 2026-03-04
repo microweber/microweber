@@ -24,7 +24,7 @@ class Dashboard extends \Filament\Pages\Dashboard
     use HasFiltersAction;
 
 
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-dashboard';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?int $navigationSort = 1;
 

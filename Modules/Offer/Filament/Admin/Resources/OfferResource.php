@@ -18,7 +18,7 @@ class OfferResource extends Resource
     protected static ?string $model = Offer::class;
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-offers';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $modelLabel = 'Offer';
     protected static ?int $navigationSort = 8;

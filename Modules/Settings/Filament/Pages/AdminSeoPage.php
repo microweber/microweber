@@ -18,7 +18,7 @@ use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 class AdminSeoPage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-seo';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-magnifying-glass';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 

@@ -6,7 +6,7 @@ namespace Modules\Marketplace\Filament\Admin;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Forms\Get;
-use Filament\Infolists\Infolist;
+
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
@@ -21,7 +21,7 @@ use Modules\Marketplace\Models\MarketplaceItem;
 class MarketplaceResource extends Resource
 {
     protected static ?string $model = MarketplaceItem::class;
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-marketplace';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-bag';
     protected static string | null $navigationLabel = 'Marketplace';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
@@ -268,12 +268,12 @@ class MarketplaceResource extends Resource
             ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+        ->components([
 
-            ]);
+        ]);
     }
 
     public static function getRelations(): array

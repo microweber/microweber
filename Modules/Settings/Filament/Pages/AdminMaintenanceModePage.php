@@ -11,7 +11,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminMaintenanceModePage extends AdminSettingsPage
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
     protected static ?string $title = 'System Settings';
     protected static string $description = 'Configure website maintenance mode settings';

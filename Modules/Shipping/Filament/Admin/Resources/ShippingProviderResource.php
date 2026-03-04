@@ -15,7 +15,7 @@ class ShippingProviderResource extends Resource
     protected static ?string $model = \Modules\Shipping\Models\ShippingProvider::class;
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-shipping';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
     protected static string | null $navigationLabel = 'Shipping Providers';
     protected static ?int $navigationSort = 15;
 

@@ -2,11 +2,11 @@
 
 namespace Modules\Profile\Filament\Pages;
 
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
-use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
+use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
 use Filament\Auth\Pages\Register as BaseRegister;
 use Illuminate\Validation\ValidationException;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;

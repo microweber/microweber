@@ -18,7 +18,7 @@ class AdminTemplatePage extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'mw-template';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
