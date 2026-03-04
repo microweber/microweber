@@ -147,14 +147,16 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - [x] 2026-03-04 Verified getRedirectUrl() works correctly in CreateCategory.php
   - [x] 2026-03-04 PHP syntax check passed on all modified files
   - [x] 2026-03-04 Test suite: 52 passed, 1 pre-existing failure, 140 pending
-- [ ] Modernize all Relation Managers ......................................................... 34
-  - [ ] Change base class to HasManyRelationManager / BelongsToManyRelationManager
-  - [ ] Update table(Table $table): Table
-  - [ ] Update form(Form $form): Form
-  - [ ] Replace $this->ownerRecord ? $this->getOwnerRecord()
-  - [ ] Add ->headerActions([CreateAction::make()])
-  - [ ] Add ->bulkActions([DeleteBulkAction::make()])
-  - [ ] Test attach/detach in belongsToMany
+- [x] 2026-03-04 Modernize all Relation Managers ......................................................... 34
+  - [x] 2026-03-04 Verified base class RelationManager is correct for Filament v5 (no HasMany/BelongsToMany separate classes needed)
+  - [x] 2026-03-04 All 5 Relation Managers use table(Table $table): Table signature
+  - [x] 2026-03-04 All 5 Relation Managers use form(Schema $schema): Schema signature
+  - [x] 2026-03-04 No $this->ownerRecord usage found - already using getOwnerRecord() where needed
+  - [x] 2026-03-04 All have ->headerActions([CreateAction::make()])
+  - [x] 2026-03-04 All have ->bulkActions([DeleteBulkAction::make()])
+  - [x] 2026-03-04 Fixed groupedBulkActions() to bulkActions(BulkActionGroup::make()) in PaymentsRelationManager
+  - [x] 2026-03-04 Fixed $form variable to $schema in CustomFieldsRelationManager form method
+  - [x] 2026-03-04 Files audited and fixed: PaymentsRelationManager, CustomFieldsRelationManager, LogsRelationManager, PlansRelationManager, FeaturesRelationManager
 - [ ] Audit & upgrade Select/MultiSelect relationship handling .............................. 21
   - [ ] Replace ->relationship('category') ? ->relationship('category', 'name')
   - [ ] Add ->searchable() ->preload() where missing

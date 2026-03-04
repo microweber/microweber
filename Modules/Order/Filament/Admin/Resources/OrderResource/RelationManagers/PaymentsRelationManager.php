@@ -87,8 +87,10 @@ class PaymentsRelationManager extends RelationManager
                 Tables\Actions\DeleteAction::make(),
             ])
 
-            ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }

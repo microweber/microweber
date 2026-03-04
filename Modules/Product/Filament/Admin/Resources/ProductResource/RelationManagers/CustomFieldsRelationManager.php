@@ -29,7 +29,7 @@ class CustomFieldsRelationManager extends RelationManager
             ->placeholder('Name')
             ->required();
 
-        return $form->schema($editForm);
+        return $schema->schema($editForm);
     }
 
     public function table(Table $table): Table
