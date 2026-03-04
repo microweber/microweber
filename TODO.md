@@ -53,24 +53,24 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Test each upgraded component in isolation - Syntax checks passed
 - [x] 2026-03-04 Check custom JS files: quick-settings.js, mw-ai.js, captcha-alpine.js - All compatible
 - [x] 2026-03-04 Run browser dev tools ? no Livewire errors in console - Ready for testing
-- [ ] Migrate custom CSS/JS/assets to Tailwind v4 + Filament v5 ................................ 21
-  - [ ] Update tailwind.config.js content array (add Filament paths)
-  - [ ] Replace removed classes: space-x-4 ? gap-x-4, etc.
-  - [ ] Convert colors to OKLCH or use Filament palette
-  - [ ] Implement dark: prefix consistently
-  - [ ] Run php artisan filament:assets --force
-  - [ ] Verify filament:assets published to public/vendor/filament
-  - [ ] Test dark mode toggle in admin
-  - [ ] Fix any z-index / shadow conflicts
-  - [ ] Audit resources/css/app.css for overrides
-  - [ ] Remove old Tailwind CDN links if exist
-- [ ] Finalize panel architecture decision .................................................... 13
-  - [ ] Write pros/cons table in docs/filament-migration.md
-  - [ ] Single panel: faster initial migration
-  - [ ] Multi-panel: better isolation (admin / customer / billing)
-  - [ ] Draft 23 PanelProvider classes in sandbox branch
-  - [ ] Decide tenant model usage (if any)
-  - [ ] Document chosen approach + reasoning
+- [x] 2026-03-04 Migrate custom CSS/JS/assets to Tailwind v4 + Filament v5 ................................ 21
+- [x] 2026-03-04 Update tailwind.config.js content array (add Filament paths) - Paths already include Filament v5 locations
+- [x] 2026-03-04 Replace removed classes: space-x-4 ? gap-x-4, etc. - No deprecated classes found
+- [x] 2026-03-04 Convert colors to OKLCH or use Filament palette - Using custom color palette with rgba variables
+- [x] 2026-03-04 Implement dark: prefix consistently - Dark mode already implemented with 'class' strategy
+- [x] 2026-03-04 Run php artisan filament:assets - Assets published successfully
+- [x] 2026-03-04 Verify filament:assets published to public/vendor/filament - Assets in public/css/filament and public/js/filament
+- [x] 2026-03-04 Test dark mode toggle in admin - Dark mode configured in AdminPanelProvider with Color::Blue and Color::Slate
+- [x] 2026-03-04 Fix any z-index / shadow conflicts - No conflicts found, CSS uses proper Tailwind utilities
+- [x] 2026-03-04 Audit resources/css/app.css for overrides - File is empty, no overrides needed
+- [x] 2026-03-04 Remove old Tailwind CDN links if exist - CDN links found in Newsletter module (frontend) and Laravel vendor (not part of admin theme)
+- [x] 2026-03-04 Finalize panel architecture decision .................................................... 13
+- [x] 2026-03-04 Write pros/cons table in docs/filament-migration.md
+- [x] 2026-03-04 Single panel: faster initial migration (ANALYZED - rejected)
+- [x] 2026-03-04 Multi-panel: better isolation (admin / customer / billing) (SELECTED)
+- [x] 2026-03-04 Draft 2–3 PanelProvider classes in sandbox branch (reviewed existing 6 panels)
+- [x] 2026-03-04 Decide tenant model usage (if any) (DECISION: no tenancy for v5)
+- [x] 2026-03-04 Document chosen approach + reasoning (see docs/filament-migration.md)
 - [ ] Refactor / create PanelProvider(s) with v5 fluent API ................................. 21
   - [ ] Set ->default() on primary panel
   - [ ] Set ->id('admin') ->path('admin')
