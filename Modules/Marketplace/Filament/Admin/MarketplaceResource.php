@@ -4,7 +4,7 @@ namespace Modules\Marketplace\Filament\Admin;
 
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -21,10 +21,10 @@ use Modules\Marketplace\Models\MarketplaceItem;
 class MarketplaceResource extends Resource
 {
     protected static ?string $model = MarketplaceItem::class;
-    protected static ?string $navigationIcon = 'mw-marketplace';
-    protected static ?string $navigationLabel = 'Marketplace';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-marketplace';
+    protected static string | null $navigationLabel = 'Marketplace';
 
-    protected static ?string $navigationGroup = 'Customization Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 
     protected static ?string $breadcrumb = 'Marketplace';
 
@@ -38,9 +38,9 @@ class MarketplaceResource extends Resource
         return static::$description;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 //
             ]);

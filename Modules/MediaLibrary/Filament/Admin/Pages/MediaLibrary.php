@@ -16,7 +16,7 @@ class MediaLibrary extends SimplePage
 
     protected bool $hasTopbar = false;
 
-    protected static string $view = 'modules.media_library::filament.admin.pages.media-library-page';
+    protected string $view = 'modules.media_library::filament.admin.pages.media-library-page';
 
     public static function canAccess(): bool
     {

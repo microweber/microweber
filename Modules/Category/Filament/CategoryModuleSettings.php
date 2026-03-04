@@ -7,7 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Modules\Content\Filament\ContentTableList;
 use Modules\Page\Models\Page;
 use Modules\Category\Models\Category;
@@ -18,9 +18,9 @@ class CategoryModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'categories';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Categories Settings')
                     ->tabs([

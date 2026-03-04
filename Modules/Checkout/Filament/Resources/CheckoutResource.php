@@ -6,7 +6,7 @@ namespace Modules\Checkout\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\TextInput;
@@ -23,16 +23,16 @@ use Modules\Checkout\Filament\Resources\Pages;
 
 class CheckoutResource extends Resource
 {
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
-    protected static ?string $navigationLabel = 'Checkout';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static string | null $navigationLabel = 'Checkout';
     protected static ?string $modelLabel = 'Checkout';
     protected static ?string $slug = 'checkout';
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
 
-        return $form
+        return $schema
             ->schema([
                 Grid::make(2)
                     ->schema([
@@ -159,7 +159,7 @@ class CheckoutResource extends Resource
                                             $providerForm = app()->shipping_method_manager->getForm($selectedId);
                                         }
 
-                                        $formSchema = [
+                                        $schemaSchema = [
                                             Radio::make('shipping_provider_id')
                                                 ->label('Shipping Method')
                                                 ->options($options)
@@ -174,10 +174,10 @@ class CheckoutResource extends Resource
                                                 ->columnSpanFull(),
                                         ];
                                         if ($providerForm) {
-                                            $formSchema = array_merge($formSchema, $providerForm);
+                                            $schemaSchema = array_merge($schemaSchema, $providerForm);
                                         }
 
-                                        return $formSchema;
+                                        return $schemaSchema;
                                     }),
 
                             ])
@@ -280,7 +280,7 @@ class CheckoutResource extends Resource
                                         if ($hasDriver) {
                                             $providerForm = app()->payment_method_manager->getForm($selectedId);
                                         }
-                                        $formSchema = [
+                                        $schemaSchema = [
                                             Radio::make('payment_method_id')
                                                 ->label('Payment Method')
                                                 ->options($options)
@@ -294,10 +294,10 @@ class CheckoutResource extends Resource
                                                 ->columnSpanFull(),
                                         ];
                                         if ($providerForm) {
-                                            $formSchema = array_merge($formSchema, $providerForm);
+                                            $schemaSchema = array_merge($schemaSchema, $providerForm);
                                         }
 
-                                        return $formSchema;
+                                        return $schemaSchema;
                                     }),
 
 

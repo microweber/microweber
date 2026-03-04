@@ -14,7 +14,7 @@ class TemplateEditor extends Page
 
     protected static ?string $slug = 'newsletter/template-editor';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.template-editor';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.template-editor';
 
     public function getLayout(): string
     {

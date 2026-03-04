@@ -4,7 +4,7 @@ namespace Modules\Faq\Filament;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Livewire;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Faq\Models\Faq;
 
@@ -24,9 +24,9 @@ class FaqModuleSettings extends LiveEditModuleSettingsTable
 
     public string $tableComponentName = FaqTableList::class;
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Faq')
                     ->tabs([

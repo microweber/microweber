@@ -4,21 +4,21 @@ namespace Modules\Settings\Filament\Pages;
 
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminExperimentalPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-settings';
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-settings';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
     protected static ?string $title = 'Experimental';
     protected static string $description = 'Configure experimental features and settings';
-    protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Cache Settings')
                     ->description('Configure caching options for better performance')

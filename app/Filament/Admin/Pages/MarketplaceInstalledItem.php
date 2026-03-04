@@ -7,9 +7,9 @@ use Modules\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceInstalledItem extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.admin.pages.marketplace-installed-item';
+    protected string $view = 'filament.admin.pages.marketplace-installed-item';
 
     protected static ?string $slug = 'marketplace/installed-item';
 

@@ -5,7 +5,7 @@ namespace Modules\Breadcrumb\Filament;
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Rating\Filament\RatingTableList;
 
@@ -13,9 +13,9 @@ class BreadcrumbModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'breadcrumb';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Select::make('options.data-start-from')
                     ->label('Root level')

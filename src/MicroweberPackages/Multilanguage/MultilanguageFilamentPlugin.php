@@ -8,7 +8,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
-use Filament\SpatieLaravelTranslatablePlugin;
+// use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +57,7 @@ class MultilanguageFilamentPlugin implements Plugin
             $defaultLocales = ['en_US'];
         }
 
-        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
+        // $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
 

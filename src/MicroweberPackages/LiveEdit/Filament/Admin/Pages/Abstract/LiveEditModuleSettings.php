@@ -53,7 +53,7 @@ abstract class LiveEditModuleSettings extends Page
         return static::$layout ?? 'filament-panels::components.layout.live-edit-module-settings';
     }
 
-    protected static string $view = 'filament-panels::components.layout.simple-form';
+    protected string $view = 'filament-panels::components.layout.simple-form';
 
 
     protected function getForms(): array

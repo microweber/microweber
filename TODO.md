@@ -25,14 +25,14 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Livewire v4.2.1 confirmed - no dependency conflicts
 - [x] 2026-03-04 Verified all filament/* packages at v5.3.1
 - [x] 2026-03-04 No composer cache issues encountered
-- [ ] Execute official panel installer ........................................................ 8
-  - [ ] Run php artisan filament:install --panels
-  - [ ] Answer prompts: panel ID = 'admin'?
-  - [ ] Answer: enable login page? ? yes
-  - [ ] Answer: enable registration? ? no (or yes if needed)
-  - [ ] Answer: enable password reset? ? yes
-  - [ ] Inspect generated app/Providers/Filament/AdminPanelProvider.php
-  - [ ] Verify route /admin exists and redirects to login
+- [x] 2026-03-04 Execute official panel installer ........................................................ 8
+- [x] 2026-03-04 Run php artisan filament:install --panels
+- [x] 2026-03-04 Answer prompts: panel ID = 'admin'?
+- [x] 2026-03-04 Answer: enable login page? ? yes
+- [x] 2026-03-04 Answer: enable registration? ? no
+- [x] 2026-03-04 Answer: enable password reset? ? yes
+- [x] 2026-03-04 Inspect generated app/Providers/Filament/AdminPanelProvider.php
+- [x] 2026-03-04 Verify route /admin exists and redirects to login
 - [ ] Run Filament v5 upgrade helper script .................................................... 8
   - [ ] composer require filament/upgrade:"^5.0" --dev
   - [ ] Execute vendor/bin/filament-v5

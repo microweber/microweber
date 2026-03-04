@@ -5,16 +5,16 @@ namespace Modules\FacebookLike\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class FacebookLikeModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'facebook_like';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Select::make('options.layout')
                     ->label('Layout')

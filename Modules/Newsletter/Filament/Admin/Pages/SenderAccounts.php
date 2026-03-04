@@ -30,7 +30,7 @@ class SenderAccounts extends Page implements HasTable
 
     protected static ?string $slug = 'newsletter/sender-accounts';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';
 
     public static function table(Table $table): Table
     {

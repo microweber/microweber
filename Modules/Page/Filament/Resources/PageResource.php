@@ -11,9 +11,9 @@ class PageResource extends ContentResource
 {
     protected static ?string $model = Page::class;
 
- //   protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+ //   protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website';
     protected static bool $shouldRegisterNavigation = true;
     protected static ?int $navigationSort = 1;
 

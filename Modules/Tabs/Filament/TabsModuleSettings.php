@@ -4,16 +4,16 @@ namespace Modules\Tabs\Filament;
 
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class TabsModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'tabs';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Tabs')
                     ->tabs([

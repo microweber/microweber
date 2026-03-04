@@ -7,7 +7,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Support\Components\ViewComponent;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -17,7 +17,7 @@ class MenuModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'menu';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $optionGroup = $this->getOptionGroup();
@@ -39,7 +39,7 @@ class MenuModuleSettings extends LiveEditModuleSettings
         $livewireParams['option_group'] = $optionGroup;
         $livewireParams['option_key'] = 'menu_name';
 
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Layout Settings')
                     ->tabs([

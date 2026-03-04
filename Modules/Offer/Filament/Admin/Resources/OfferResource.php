@@ -6,7 +6,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,8 +17,8 @@ class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
 
-    protected static ?string $navigationGroup = 'Shop Settings';
-    protected static ?string $navigationIcon = 'mw-offers';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-offers';
 
     protected static ?string $modelLabel = 'Offer';
     protected static ?int $navigationSort = 8;
@@ -31,9 +31,9 @@ class OfferResource extends Resource
 
         return static::$description;
     }
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Select::make('product_id')
                     ->relationship('product', 'title', function ($query) {

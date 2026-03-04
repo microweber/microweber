@@ -5,7 +5,7 @@ namespace Modules\Background\Filament;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -14,7 +14,7 @@ class BackgroundModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'background';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
 
@@ -30,7 +30,7 @@ class BackgroundModuleSettings extends LiveEditModuleSettings
             $optionGroup = $this->getOptionGroup();
         }
 
-        return $form
+        return $schema
             ->schema([
 
                 View::make('modules.layouts::admin.settings')->viewData([

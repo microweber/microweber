@@ -5,7 +5,7 @@ namespace Modules\Category\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\CategoryResource\Pages;
 use App\Filament\Admin\Resources\CategoryResource\RelationManagers;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\GlobalSearch\Actions\Action;
@@ -27,9 +27,9 @@ class CategoryResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    //protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website';
     protected static ?int $navigationSort = 3;
 
     public static function formArray($params = [])
@@ -137,7 +137,7 @@ class CategoryResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $params = [];
         $record = $form->getRecord();

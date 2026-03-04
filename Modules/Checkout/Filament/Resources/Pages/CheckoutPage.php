@@ -12,7 +12,7 @@ class CheckoutPage extends CreateRecord
 {
     protected static string $resource = CheckoutResource::class;
 
-    protected static string $view = 'modules.checkout::filament.pages.checkout';
+    protected string $view = 'modules.checkout::filament.pages.checkout';
 
     public function getBreadcrumb(): string
     {

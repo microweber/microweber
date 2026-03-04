@@ -7,7 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\User\Filament\Resources\UsersResource\Pages;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,57 +26,41 @@ class UsersResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'username';
 
-    public static function form(Form $form): Form
+public static function form(Schema $schema): Schema
     {
-        $rows = [
-
-            TextInput::make('first_name'),
-            TextInput::make('last_name'),
-
-
-            TextInput::make('username')->unique(
-                ignoreRecord: true,
-            ),
-            TextInput::make('email')->email()->required()->unique(
-                ignoreRecord: true,
-            ),
-            TextInput::make('password')
-                ->password()
-                ->dehydrateStateUsing(static function ($state) use ($form) {
-                    if (!empty($state)) {
-                        return Hash::make($state);
-                    }
-
-                    $user = User::find($form->getColumns());
-                    if ($user) {
-                        return $user->password;
-                    }
-                }),
-            TextInput::make('password_confirmation')
-                ->password()
-               ,
-
-            Select::make('is_admin')
-                ->label('Is Admin')
-                ->options([
-                    '0' => 'No',
-                    '1' => 'Yes',
-                ]),
-
-            Select::make('is_active')
-                ->label('Is Active')
-                ->options([
-                    '0' => 'No',
-                    '1' => 'Yes',
-                ]),
-
-
-
-        ];
-
-        $form->schema($rows);
-
-        return $form;
+        return $schema
+            ->schema([
+                TextInput::make('first_name'),
+                TextInput::make('last_name'),
+                TextInput::make('username')->unique(
+                    ignoreRecord: true,
+                ),
+                TextInput::make('email')->email()->required()->unique(
+                    ignoreRecord: true,
+                ),
+                TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(static function ($state) {
+                        if (!empty($state)) {
+                            return Hash::make($state);
+                        }
+                        return null;
+                    }),
+                TextInput::make('password_confirmation')
+                    ->password(),
+                Select::make('is_admin')
+                    ->label('Is Admin')
+                    ->options([
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ]),
+                Select::make('is_active')
+                    ->label('Is Active')
+                    ->options([
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

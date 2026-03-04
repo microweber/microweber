@@ -5,7 +5,7 @@ namespace Modules\Skills\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -21,9 +21,9 @@ class SkillsModuleSettings extends LiveEditModuleSettings
         $this->skills = @json_decode($this->getOption('skills'), true) ?? [];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Repeater::make('skills')
                     ->deleteAction(

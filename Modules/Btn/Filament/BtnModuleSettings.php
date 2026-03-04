@@ -10,7 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
@@ -23,10 +23,10 @@ class BtnModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'btn';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Settings')
                     ->tabs([

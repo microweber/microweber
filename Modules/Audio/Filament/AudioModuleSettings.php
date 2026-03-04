@@ -9,7 +9,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -18,10 +18,10 @@ class AudioModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'audio';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
-        return $form
+        return $schema
             ->schema([
                 Section::make('Audio settings')->schema([
 

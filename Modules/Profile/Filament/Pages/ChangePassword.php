@@ -4,7 +4,7 @@ namespace Modules\Profile\Filament\Pages;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +13,13 @@ use Illuminate\Validation\ValidationException;
 
 class ChangePassword extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-key';
-    protected static string $view = 'modules.profile::pages.change-password';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-key';
+    protected string $view = 'modules.profile::pages.change-password';
     public ?array $data = [];
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->getCurrentPasswordFormComponent(),
                 $this->getNewPasswordFormComponent(),

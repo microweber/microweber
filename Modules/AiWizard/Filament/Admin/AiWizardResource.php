@@ -3,7 +3,7 @@
 namespace Modules\AiWizard\Filament\Admin;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,22 +18,22 @@ class AiWizardResource extends Resource
 {
     protected static ?string $model = Content::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    // protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
 
     protected static bool $shouldRegisterNavigation = false;
 
 
 
-    protected static ?string $navigationLabel = 'AI Page Wizard';
+    protected static string | null $navigationLabel = 'AI Page Wizard';
 
     protected static ?string $modelLabel = 'AI Page';
 
     protected static ?string $pluralModelLabel = 'AI Pages';
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
 
         $layouts = module_templates('layouts');
@@ -52,7 +52,7 @@ class AiWizardResource extends Resource
             });
         })->toArray();
 
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Page Details')
                     ->description('Enter the basic details for your page')

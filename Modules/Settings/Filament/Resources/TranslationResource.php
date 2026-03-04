@@ -3,7 +3,7 @@
 namespace Modules\Settings\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -28,20 +28,20 @@ class TranslationResource extends Resource
 {
     protected static ?string $model = TranslationKey::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-language';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
-    protected static ?string $navigationGroup = 'Language Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Language Settings';
 
-    protected static ?string $navigationLabel = 'Translations';
+    protected static string | null $navigationLabel = 'Translations';
 
     protected static ?string $pluralModelLabel = 'Translations';
 
     protected static ?int $navigationSort = 10;
     protected static bool $shouldRegisterNavigation = false;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('translation_key')
                     ->label('Translation Key')

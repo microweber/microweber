@@ -23,7 +23,7 @@ class Lists extends Page implements HasTable
 
     protected static ?string $slug = 'newsletter/lists';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';
 
     public static function table(Table $table): Table
     {

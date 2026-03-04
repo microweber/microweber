@@ -6,7 +6,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
@@ -24,7 +24,7 @@ class TemplatesResource extends Resource
 {
     protected static ?string $model = NewsletterTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-paint-brush';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-paint-brush';
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
 
@@ -32,13 +32,13 @@ class TemplatesResource extends Resource
 
     protected static ?string $label = 'Designs';
 
-    protected static ?string $navigationGroup = 'Mail';
+    protected static string | \UnitEnum | null $navigationGroup = 'Mail';
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
             ]);

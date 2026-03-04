@@ -26,7 +26,7 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\Alignment;
@@ -48,11 +48,11 @@ use Rupadana\FilamentSlider\Components\InputSliderGroup;
 
 class KitchenSink extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.admin.pages.kitchen-sink';
+    protected string $view = 'filament.admin.pages.kitchen-sink';
 
-    protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 99;
 
     public int $star = 0;
@@ -81,11 +81,11 @@ class KitchenSink extends Page
         return $allIcons;
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
 
-        return $form
+        return $schema
             ->schema([
 
                 MwInputSliderGroup::make()

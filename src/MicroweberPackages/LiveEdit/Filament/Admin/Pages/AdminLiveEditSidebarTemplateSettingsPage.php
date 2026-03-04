@@ -9,11 +9,11 @@ use Illuminate\Contracts\View\View;
 class AdminLiveEditSidebarTemplateSettingsPage extends Page
 {
     protected static bool $shouldRegisterNavigation = false;
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $slug = 'live-edit-template-settings-page';
 
 
-    protected static string $view = 'template::template-settings-sidebar-render-component';
+    protected string $view = 'template::template-settings-sidebar-render-component';
     protected static string $layout = 'filament-panels::components.layout.live-edit';
 
 

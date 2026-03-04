@@ -13,7 +13,7 @@ use Modules\Billing\Models\SubscriptionPlan;
 
 class UserSubscriptionPanel extends Page
 {
-    protected static string $view = 'modules.billing::filament.pages.user-subscription-panel';
+    protected string $view = 'modules.billing::filament.pages.user-subscription-panel';
 
     protected static ?string $title = 'New Subscription';
 

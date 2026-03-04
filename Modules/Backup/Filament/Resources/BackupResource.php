@@ -10,7 +10,7 @@ use Modules\Backup\Filament\Resources\BackupResource\Pages;
 use Modules\Backup\Filament\Resources\BackupResource\RelationManagers;
 use Modules\Backup\Models\Backup;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,11 +20,11 @@ use Modules\Backup\SessionStepper;
 
 class BackupResource extends Resource
 {
-    protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?string $model = Backup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-uturn-left';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-uturn-left';
 
     protected static ?int $navigationSort = 9999;
 
@@ -41,9 +41,9 @@ class BackupResource extends Resource
     }
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 //
             ]);

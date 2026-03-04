@@ -3,7 +3,7 @@
 namespace Modules\Payment\Filament\Admin\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Actions\ButtonAction;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
@@ -18,9 +18,9 @@ class PaymentProviderResource extends Resource
 {
     protected static ?string $model = PaymentProvider::class;
 
-    protected static ?string $navigationIcon = 'mw-payments';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-payments';
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 14;
 
     protected static bool $shouldRegisterNavigation = false;
@@ -36,7 +36,7 @@ class PaymentProviderResource extends Resource
     // protected static ?string $navigationParentItem = 'Shop';
 
     //protected static ?string $label = 'Configure your shop payments settings';
-   // protected static ?string $navigationLabel = 'Configure your shop payments settings';
+   // protected static string | null $navigationLabel = 'Configure your shop payments settings';
 
     public static function getAvailableToSetup()
     {
@@ -66,7 +66,7 @@ class PaymentProviderResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $getAvailableToSetup = self::getAvailableToSetup();
         $paymentDrivers = $getAvailableToSetup['paymentDrivers'];
@@ -120,7 +120,7 @@ class PaymentProviderResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Wizard\Step::make('Settings')
-                    ->schema(function (Forms\Get $get) use ($form) {
+                    ->schema(function (Forms\Get $get) use ($schema) {
 
                         $paymentDriver = $get('provider');
 

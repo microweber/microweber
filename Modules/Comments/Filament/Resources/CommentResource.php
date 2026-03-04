@@ -3,7 +3,7 @@
 namespace Modules\Comments\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,16 +16,16 @@ use Filament\Actions\Action;
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static ?string $navigationGroup = 'Other';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
     protected static ?string $recordTitleAttribute = 'comment_subject';
     protected static bool $shouldRegisterNavigation = false;
 
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\TextInput::make('comment_name')
                     ->label('Name')

@@ -9,7 +9,7 @@ class CheckoutCancelledPage extends Page
 {
     protected static string $resource = CheckoutResource::class;
 
-    protected static string $view = 'modules.checkout::filament.pages.checkout-cancelled';
+    protected string $view = 'modules.checkout::filament.pages.checkout-cancelled';
     public function getBreadcrumb(): string
     {
         return '';

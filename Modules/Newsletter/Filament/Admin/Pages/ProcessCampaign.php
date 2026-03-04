@@ -17,7 +17,7 @@ class ProcessCampaign extends Page
 {
     protected static ?string $slug = 'process-campaign/{id}';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.process-campaign';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.process-campaign';
 
     protected static bool $shouldRegisterNavigation = false;
 

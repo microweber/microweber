@@ -16,7 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Contracts\View\View;
@@ -40,7 +40,7 @@ class MenusList extends Component implements HasForms, HasActions
     public string $option_group = ''; //if this is set it will save as module option on change
     public string $option_key = ''; //if this is set it will save as module option on change
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
 
@@ -78,7 +78,7 @@ class MenusList extends Component implements HasForms, HasActions
         return CreateAction::make('addMenuItemAction')
 //            ->modalWidth('md')
             ->createAnother(false)
-            ->mountUsing(function (Form $form, array $arguments) {
+            ->mountUsing(function (Form $schema, array $arguments) {
                 $form->fill($arguments);
             })
             ->label('Add menu item')
@@ -326,7 +326,7 @@ class MenusList extends Component implements HasForms, HasActions
 
         return Action::make('edit')
             ->icon('heroicon-m-pencil')
-            ->mountUsing(function (Form $form, array $arguments) {
+            ->mountUsing(function (Form $schema, array $arguments) {
                 $record = Menu::find($arguments['id']);
 
 

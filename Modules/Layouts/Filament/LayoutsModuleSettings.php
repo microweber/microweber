@@ -9,7 +9,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -18,11 +18,11 @@ class LayoutsModuleSettings extends LiveEditModuleSettings
     public string $module = 'layouts';
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $optionGroup = $this->getOptionGroup();
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Layout Settings')
                     ->tabs([

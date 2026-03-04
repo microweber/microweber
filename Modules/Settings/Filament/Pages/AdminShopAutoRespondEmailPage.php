@@ -10,7 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
@@ -18,15 +18,15 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminShopAutoRespondEmailPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-autorespondEmail';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-autorespondEmail';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Auto Respond Email';
 
     protected static string $description = 'Configure your shop auto respond email settings';
 
-    protected static ?string $navigationGroup = 'Email Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Email Settings';
 
     public array $optionGroups = [
         'orders',
@@ -171,9 +171,9 @@ class AdminShopAutoRespondEmailPage extends AdminSettingsPage
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('New Order Notifications')
                     ->description('Configure email notifications for new orders')

@@ -5,7 +5,7 @@ namespace Modules\Slider\Filament;
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Slider\Models\Slider;
@@ -16,13 +16,13 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
     public string $modelName = Slider::class;
     public string $tableComponentName = SliderTableList::class;
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $module_id = $this->params['id'] ?? null;
         $rel_id = $this->getOption('rel_id') ?? $this->params['rel_id'] ?? $this->params['id'] ?? null;
         $rel_type = $this->getOption('rel_type') ?? $this->params['rel_type'] ?? 'module';
 
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Slider')
                     ->tabs([

@@ -4,16 +4,16 @@ namespace Modules\Embed\Filament;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class EmbedModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'embed';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Textarea::make('options.source_code')
                     ->label('Embed Code')

@@ -3,7 +3,7 @@
 namespace Modules\Ai\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -13,15 +13,15 @@ use Modules\Ai\Models\AgentChat;
 class AgentChatResource extends Resource
 {
     protected static ?string $model = AgentChat::class;
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-      protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+      protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 1100;
     protected static bool $shouldRegisterNavigation = false;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Chat Information')
                     ->schema([

@@ -12,7 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
@@ -21,15 +21,15 @@ use Modules\Multilanguage\Livewire\LanguagesTable;
 
 class MultilanguageSettingsAdmin extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-language';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
-    protected static string $view = 'modules.multilanguage::filament.pages.multilanguage-settings-admin';
+    protected string $view = 'modules.multilanguage::filament.pages.multilanguage-settings-admin';
 
     protected static ?string $title = 'Multilanguage';
 
     protected static string $description = 'Configure multilanguage settings for your website';
 
-    protected static ?string $navigationGroup = 'Language Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Language Settings';
 
     protected static ?int $navigationSort = 2000;
 
@@ -55,7 +55,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $langs = ['none' => 'None'];
         $availableLanguages= [];
@@ -67,7 +67,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
 
 
 
-        return $form
+        return $schema
             ->schema([
 
 

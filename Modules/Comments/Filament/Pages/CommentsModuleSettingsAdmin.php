@@ -9,7 +9,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use Modules\Comments\Filament\Resources\CommentResource;
 use Modules\Settings\Filament\Pages\Settings;
@@ -19,11 +19,11 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
     protected static ?string $title = 'Comments Settings';
-    protected static ?string $navigationLabel = 'Comments';
+    protected static string | null $navigationLabel = 'Comments';
     protected static ?int $navigationSort = 10;
     public array $optionGroups = [
         'comments'
@@ -38,9 +38,9 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
              ,
         ];
     }
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('General Settings')
                     ->schema([

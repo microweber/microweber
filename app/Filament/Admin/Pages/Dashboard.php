@@ -24,13 +24,13 @@ class Dashboard extends \Filament\Pages\Dashboard
     use HasFiltersAction;
 
 
-    protected static ?string $navigationIcon = 'mw-dashboard';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-dashboard';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationGroup = 'Dashboard';
+    protected static string | \UnitEnum | null $navigationGroup = 'Dashboard';
 
-    protected static string $view = 'filament.admin.pages.dashboard';
+    protected string $view = 'filament.admin.pages.dashboard';
 
 
     protected function getHeaderActions(): array

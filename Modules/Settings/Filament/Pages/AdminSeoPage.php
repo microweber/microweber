@@ -7,7 +7,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -18,11 +18,11 @@ use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 class AdminSeoPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-seo';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-seo';
 
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'SEO settings';
 
@@ -31,7 +31,7 @@ class AdminSeoPage extends AdminSettingsPage
     protected static ?string $slug = 'settings/seo-page';
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $googleAnalyticsExists = false;
@@ -40,7 +40,7 @@ class AdminSeoPage extends AdminSettingsPage
         }
 
 
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('SEO Settings')

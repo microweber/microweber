@@ -5,7 +5,7 @@ namespace Modules\Profile\Filament\Pages;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
 use Filament\Pages\Auth\Register as BaseRegister;
 use Illuminate\Validation\ValidationException;
@@ -15,7 +15,7 @@ use MicroweberPackages\User\Services\UserManager;
 class Register extends BaseRegister
 {
     public ?string $captcha = null;
-    public $form_id;
+    public $schema_id;
 
     public function mount(): void
     {
@@ -23,9 +23,9 @@ class Register extends BaseRegister
         $this->form_id = uniqid('register_');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->getFirstNameFormComponent(),
                 $this->getLastNameFormComponent(),

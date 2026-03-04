@@ -10,7 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Page;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -21,11 +21,11 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
 
     protected static bool $shouldRegisterNavigation = true;
 
-    protected static ?string $navigationIcon = 'modules.white_label-icon';
+    protected static string | \BackedEnum | null $navigationIcon = 'modules.white_label-icon';
 
-    protected static ?string $navigationGroup = 'Customization Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'White Label';
 
@@ -82,7 +82,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
         return $haveLicense;
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $haveLicense = $this->checkLicense();
 
@@ -96,7 +96,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
             ]);
         }
 
-        return $form
+        return $schema
             ->schema($this->getFormSchema());
     }
 

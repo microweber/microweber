@@ -6,14 +6,14 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class CartAddModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'shop/cart_add';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         return $form->schema([
             Tabs::make('Cart Add Settings')

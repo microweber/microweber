@@ -6,7 +6,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -18,14 +18,14 @@ class AdminTemplatePage extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $navigationIcon = 'mw-template';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-template';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Template';
 
 
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
 
     protected static string $description = 'Configure your template settings';
@@ -50,7 +50,7 @@ class AdminTemplatePage extends Page
         }
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
 
@@ -65,7 +65,7 @@ class AdminTemplatePage extends Page
 //        $layout_options['no_folder_sort'] = true;
 //
 //        $layouts = mw()->layouts_manager->get_all($layout_options);
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Website template')

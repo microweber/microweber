@@ -10,7 +10,7 @@ use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Filament\Actions\Action;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
@@ -22,8 +22,8 @@ class TwoFactorAuth extends Page
 {
     use InteractsWithFormActions;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
-    protected static string $view = 'modules.profile::pages.two-factor-auth';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shield-check';
+    protected string $view = 'modules.profile::pages.two-factor-auth';
     protected static ?string $slug = 'two-factor-auth';
     protected static bool $shouldRegisterNavigation = true;
     
@@ -50,9 +50,9 @@ class TwoFactorAuth extends Page
         }
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('code')
                     ->label(__('Confirmation Code'))

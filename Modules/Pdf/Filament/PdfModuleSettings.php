@@ -6,16 +6,16 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class PdfModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'pdf';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('PDF settings')->schema([
                     ToggleButtons::make('options.data-pdf-source')

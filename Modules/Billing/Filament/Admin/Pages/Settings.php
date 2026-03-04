@@ -7,7 +7,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Option\Models\Option;
@@ -17,9 +17,9 @@ class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'modules.billing::filament.pages.settings';
+    protected string $view = 'modules.billing::filament.pages.settings';
 
     protected static ?int $navigationSort = 6;
 
@@ -30,7 +30,7 @@ class Settings extends Page implements HasForms
         $this->data = $this->getFormDefaults();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $providers = PaymentProvider::where('is_active', 1)
             ->where('provider', 'stripe')
@@ -92,7 +92,7 @@ class Settings extends Page implements HasForms
             ->placeholder('en_US')
             ->default('en_US')
             ->columnSpan('full');
-        return $form
+        return $schema
             ->statePath('data')
             ->schema($schema);
     }

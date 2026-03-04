@@ -4,7 +4,7 @@ namespace Modules\Customer\Filament;
 
 use Filament\Actions\Action;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,7 +17,7 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     protected static ?int $navigationSort = 3;
 
@@ -29,9 +29,9 @@ class CustomerResource extends Resource
 
         return static::$description;
     }
-    public static function form(Form $form): Forms\Form
+    public static function form(Schema $schema): Schemas\Form
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()

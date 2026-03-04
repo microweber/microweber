@@ -4,7 +4,7 @@ namespace MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource;
 
 use Filament\Actions\Action;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -20,9 +20,9 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = SystemModulesSushi::class;
 
-    protected static ?string $navigationIcon = 'mw-modules';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-modules';
 
-    protected static ?string $navigationGroup = 'Customization Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 
     protected static ?string $label = 'Modules';
 
@@ -36,9 +36,9 @@ class ModuleResource extends Resource
         return static::$description;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 //
             ]);

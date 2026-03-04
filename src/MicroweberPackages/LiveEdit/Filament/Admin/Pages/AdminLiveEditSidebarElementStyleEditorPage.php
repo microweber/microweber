@@ -9,11 +9,11 @@ use Illuminate\Contracts\View\View;
 class AdminLiveEditSidebarElementStyleEditorPage extends Page
 {
     protected static bool $shouldRegisterNavigation = false;
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $slug = 'live-edit-element-style-editor';
 
 
-    protected static string $view = 'microweber-live-edit::element-style-editor.element-style-editor-main';
+    protected string $view = 'microweber-live-edit::element-style-editor.element-style-editor-main';
     protected static string $layout = 'filament-panels::components.layout.live-edit';
 
 

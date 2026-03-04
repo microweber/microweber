@@ -3,7 +3,7 @@
 namespace Modules\Profile\Filament\Pages;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Pages\Auth\Login as BaseLogin;
 use Illuminate\Validation\ValidationException;
@@ -13,7 +13,7 @@ class Login extends BaseLogin
     public ?string $captcha = null;
 
 
-    public $form_id;
+    public $schema_id;
 
     public function mount(): void
     {
@@ -21,9 +21,9 @@ class Login extends BaseLogin
         $this->form_id = uniqid('login_');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),

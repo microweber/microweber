@@ -18,7 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -42,7 +42,7 @@ class EditCampaign extends Page
 {
     protected static ?string $slug = 'edit-campaign/{id}';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.edit-campaign';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.edit-campaign';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -147,7 +147,7 @@ class EditCampaign extends Page
         return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $newTemplate->id . '&campaignId=' . $findCampaign->id);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $lists = [];
         $listDescriptions = [];
@@ -194,7 +194,7 @@ class EditCampaign extends Page
             }
         }
 
-        return $form
+        return $schema
             ->fill($this->state)
             ->schema([
 

@@ -6,11 +6,11 @@ use Filament\Pages\Page;
 
 class PurchaseSuccessPage extends Page
 {
-    protected static string $view = 'modules.billing::filament.pages.purchase-success';
+    protected string $view = 'modules.billing::filament.pages.purchase-success';
 
-    protected static ?string $navigationIcon = 'heroicon-o-check-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-check-circle';
 
-    protected static ?string $navigationLabel = 'Purchase Success';
+    protected static string | null $navigationLabel = 'Purchase Success';
 
     protected static ?string $title = 'Purchase Successful';
 

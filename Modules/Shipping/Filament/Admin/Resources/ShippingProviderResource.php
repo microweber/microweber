@@ -3,7 +3,7 @@
 namespace Modules\Shipping\Filament\Admin\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
@@ -14,9 +14,9 @@ class ShippingProviderResource extends Resource
 {
     protected static ?string $model = \Modules\Shipping\Models\ShippingProvider::class;
 
-    protected static ?string $navigationGroup = 'Shop Settings';
-    protected static ?string $navigationIcon = 'mw-shipping';
-    protected static ?string $navigationLabel = 'Shipping Providers';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-shipping';
+    protected static string | null $navigationLabel = 'Shipping Providers';
     protected static ?int $navigationSort = 15;
 
 
@@ -56,7 +56,7 @@ class ShippingProviderResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $getAvailableToSetup = self::getAvailableToSetup();
         $shippingDrivers = $getAvailableToSetup['shippingDrivers'];
@@ -121,7 +121,7 @@ class ShippingProviderResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Wizard\Step::make('Settings')
-                    ->schema(function (Forms\Get $get) use ($form) {
+                    ->schema(function (Forms\Get $get) use ($schema) {
                         $shippingDriver = $get('provider');
 
                         if (!$shippingDriver) {

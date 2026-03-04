@@ -3,7 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -17,15 +17,15 @@ use Modules\Billing\Filament\Admin\Resources\SubscriptionResource\Pages;
 class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
 
-    protected static ?string $navigationLabel = 'Subscriptions';
+    protected static string | null $navigationLabel = 'Subscriptions';
     protected static ?string $slug = 'subscriptions';
     protected static ?int $navigationSort = 310;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 // No create/edit form for now
             ]);

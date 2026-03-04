@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Multilanguage\Filament\Pages\ListRecords\Concerns;
 
 use Filament\Resources\Concerns\HasActiveLocaleSwitcher;
-use Filament\SpatieLaravelTranslatablePlugin;
+// use Filament\SpatieLaravelTranslatablePlugin;
 use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableHasActiveLocaleSwitcher;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 

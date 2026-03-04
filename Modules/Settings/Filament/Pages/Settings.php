@@ -12,11 +12,11 @@ use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 
 class Settings extends Page
 {
-    protected static ?string $navigationIcon = 'mw-settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-settings';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-main';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-main';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 97;
 

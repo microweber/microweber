@@ -3,7 +3,7 @@
 namespace Modules\Invoice\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,10 +15,10 @@ use Filament\Tables\Actions\Action;
 
 class InvoiceResource extends Resource
 {
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $model = Invoice::class;
 
-    protected static ?string $navigationLabel = 'Invoices';
+    protected static string | null $navigationLabel = 'Invoices';
     protected static ?string $modelLabel = 'Invoice';
     protected static ?string $slug = 'invoices';
     protected static ?int $navigationSort = 120;
@@ -32,9 +32,9 @@ class InvoiceResource extends Resource
         return static::$description;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Grid::make(2)
                     ->schema([

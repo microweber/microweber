@@ -6,7 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Resource;
 use Modules\Coupons\Models\Coupon;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Coupons\Filament\Resources\CouponResource\Pages;
@@ -14,10 +14,10 @@ use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 
 class CouponResource extends Resource
 {
-    protected static ?string $navigationIcon = 'mw-coupon';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-coupon';
 
     protected static ?string $model = Coupon::class;
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 12;
 
     protected static string $description = 'Configure your shop coupons settings';
@@ -28,7 +28,7 @@ class CouponResource extends Resource
         return static::$description;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         return $form->schema([
             Forms\Components\Section::make()->schema([

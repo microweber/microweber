@@ -6,7 +6,7 @@ use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\GlobalSearch\Actions\Action;
 use Filament\Support\Colors\Color;
@@ -38,7 +38,7 @@ class ContentResource extends Resource
 
     protected static ?string $model = \Modules\Content\Models\Content::class;
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -534,7 +534,7 @@ class ContentResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $params = [];
         $record = $form->getRecord();
@@ -772,9 +772,9 @@ class ContentResource extends Resource
         ];
     }
 
-    public static function seoForm(Form $form): Form
+    public static function seoForm(Form $schema): Form
     {
-        return $form
+        return $schema
             ->schema(static::seoFormArray());
     }
 
@@ -933,9 +933,9 @@ class ContentResource extends Resource
         ];
     }
 
-    public static function advancedSettingsForm(Form $form): Form
+    public static function advancedSettingsForm(Form $schema): Form
     {
-        return $form
+        return $schema
             ->schema(static::advancedSettingsFormArray());
     }
 

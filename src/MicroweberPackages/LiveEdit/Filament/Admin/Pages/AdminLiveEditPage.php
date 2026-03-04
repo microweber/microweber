@@ -25,13 +25,13 @@ use function Clue\StreamFilter\fun;
 class AdminLiveEditPage extends Page
 {
     //   protected static bool $shouldRegisterNavigation = true;
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'Live Edit';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+    protected static string | null $navigationLabel = 'Live Edit';
     protected static string $description = '';
     protected static ?string $slug = 'live-edit';
 
     protected static ?int $navigationSort = 10;
-    protected static string $view = 'microweber-live-edit::iframe-page';
+    protected string $view = 'microweber-live-edit::iframe-page';
     protected static string $layout = 'filament-panels::components.layout.live-edit';
 
     use InteractsWithActions;

@@ -13,7 +13,7 @@ class ListCategories extends ListRecords
 {
     use  TranslatableRecordsList;
 
-    protected static string $view = 'modules.category::admin.filament.mw-categories-list';
+    protected string $view = 'modules.category::admin.filament.mw-categories-list';
 
     protected static string $resource = CategoryResource::class;
 

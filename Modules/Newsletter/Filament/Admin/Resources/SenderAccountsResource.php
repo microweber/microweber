@@ -5,7 +5,7 @@ namespace Modules\Newsletter\Filament\Admin\Resources;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
@@ -20,7 +20,7 @@ class SenderAccountsResource extends Resource
 {
     protected static ?string $model = NewsletterSenderAccount::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-trending-up';
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
 
@@ -28,7 +28,7 @@ class SenderAccountsResource extends Resource
 
     protected static ?string $label = 'Senders';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 4;
 
@@ -221,9 +221,9 @@ class SenderAccountsResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema(self::getEditFormArray());
     }
 

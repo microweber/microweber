@@ -13,7 +13,7 @@ use MicroweberPackages\Option\Models\Option;
 abstract class AdminSettingsPage extends Page
 {
     protected static bool $shouldRegisterNavigation = false;
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
     protected static string $description = '';
 
     public function getDescription(): string

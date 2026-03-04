@@ -8,22 +8,22 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Invoice\Filament\Resources\InvoiceResource;
 
 class AdminShopInvoicesPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-invoices';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-invoices';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Invoices';
 
     protected static string $description = 'Configure your shop invoices settings';
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     protected static bool $shouldRegisterNavigation = true;
 
@@ -40,9 +40,9 @@ class AdminShopInvoicesPage extends AdminSettingsPage
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Invoices')
                     ->view('filament-forms::sections.section')

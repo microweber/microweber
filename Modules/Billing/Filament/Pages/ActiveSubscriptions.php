@@ -7,7 +7,7 @@ use Modules\Billing\Models\Subscription;
 
 class ActiveSubscriptions extends Page
 {
-    protected static string $view = 'modules.billing::filament.pages.active-subscriptions';
+    protected string $view = 'modules.billing::filament.pages.active-subscriptions';
 
     protected static ?string $title = 'Active Subscriptions';
 

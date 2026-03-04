@@ -7,22 +7,22 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AiSettingsPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static bool $shouldRegisterNavigation = true;
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Ai Settings';
 
     protected static string $description = 'Configure your ai settings';
 
-    protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 3000;
 
     public array $optionGroups = [
@@ -42,13 +42,13 @@ class AiSettingsPage extends AdminSettingsPage
 
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $isDisabled = config('modules.ai.disable_settings', false);
 
         if($isDisabled){
-            return $form
+            return $schema
                 ->schema([
                     Section::make('AI settings are disabled')
                         ->view('filament-forms::sections.section')
@@ -66,7 +66,7 @@ class AiSettingsPage extends AdminSettingsPage
 
 
 
-        return $form
+        return $schema
             ->schema([
                 Section::make('General AI Settings')
                     ->view('filament-forms::sections.section')

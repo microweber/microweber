@@ -8,7 +8,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Content\Concerns\HasContentFilterModuleSettings;
@@ -22,9 +22,9 @@ class ContentModuleSettings extends LiveEditModuleSettings
 
     public string $module = 'content';
     public string $contentModelClass = Content::class;
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Product Settings')
                     ->tabs([

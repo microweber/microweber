@@ -4,7 +4,7 @@ namespace Modules\MailTemplate\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Modules\MailTemplate\Models\MailTemplate;
@@ -25,15 +25,15 @@ class MailTemplateResource extends Resource
 
     protected static ?string $model = MailTemplate::class;
 
-     protected static ?string $navigationGroup = 'Email Settings';
+     protected static string | \UnitEnum | null $navigationGroup = 'Email Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $service = app(MailTemplateService::class);
 
-        return $form
+        return $schema
             ->schema([
                 Section::make('Template Details')
                     ->schema([

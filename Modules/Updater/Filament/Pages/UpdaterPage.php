@@ -11,13 +11,13 @@ use Modules\Updater\Services\UpdaterHelper;
 
 class UpdaterPage extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
-    protected static ?string $navigationLabel = 'Updater';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-path';
+    protected static string | null $navigationLabel = 'Updater';
     protected static ?string $title = 'Updater';
-    protected static ?string $navigationGroup = 'System Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 100;
     protected static ?string $slug = 'updater';
-    protected static string $view = 'modules.updater::filament.pages.updater';
+    protected string $view = 'modules.updater::filament.pages.updater';
 
     protected static bool $shouldRegisterNavigation = false;
 

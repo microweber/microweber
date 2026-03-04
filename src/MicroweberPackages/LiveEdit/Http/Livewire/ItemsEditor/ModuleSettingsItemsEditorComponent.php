@@ -25,7 +25,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
     public string $module = '';
     public array $editorSettings = [];
 
-    protected static string $view = 'microweber-live-edit::module-items-editor';
+    protected string $view = 'microweber-live-edit::module-items-editor';
 
 
     public function getEditorSettings(): array

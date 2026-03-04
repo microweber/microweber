@@ -5,7 +5,7 @@ namespace Modules\Settings\Filament\Pages;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
@@ -17,15 +17,15 @@ use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 
 class AdminShopGeneralPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-shop2';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-shop2';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Main Shop Settings';
 
     protected static string $description = 'Configure your shop general settings';
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     public array $optionGroups = [
         'website',
@@ -33,9 +33,9 @@ class AdminShopGeneralPage extends AdminSettingsPage
     ];
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
 

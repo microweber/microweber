@@ -10,13 +10,13 @@ use Modules\Newsletter\Models\NewsletterSubscriber;
 
 class Homepage extends BaseDashboard
 {
-    protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-home';
 
-//    protected static ?string $navigationGroup = 'Email Marketing';
+//    protected static string | \UnitEnum | null $navigationGroup = 'Email Marketing';
 
 //    protected static ?string $slug = 'newsletter/homepage';
 
-   // protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage-new';
+   // protected string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage-new';
 
 //    protected static bool $shouldRegisterNavigation = false;
 

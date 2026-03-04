@@ -6,21 +6,21 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminLoginRegisterPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-login';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-login';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Login & Register';
 
     protected static string $description = 'Configure your login and registration settings';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
 
 
 
@@ -29,9 +29,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
         'users'
     ];
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Register options')

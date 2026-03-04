@@ -5,7 +5,7 @@ namespace Modules\Newsletter\Filament\Admin\Resources;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
@@ -30,7 +30,7 @@ class ListResource extends Resource
 {
     protected static ?string $model = NewsletterList::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-list-bullet';
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
 
@@ -38,13 +38,13 @@ class ListResource extends Resource
 
     protected static ?string $label = 'Lists';
 
-    protected static ?string $navigationGroup = 'Campaigns';
+    protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 TextInput::make('name')
@@ -69,15 +69,15 @@ class ListResource extends Resource
                      ->icon('heroicon-m-cloud-arrow-down')
                      ->form(function (Tables\Actions\ExportAction $action): array {
                          $exportColumns = NewsletterListExporter::getColumns();
-                         $formSchema = [];
+                         $schemaSchema = [];
                          foreach ($exportColumns as $column) {
-                             $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                             $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                  ->label($column->getLabel())
                                  ->default(true);
                          }
-                         $formSchema[] = Checkbox::make('export_multiple')
+                         $schemaSchema[] = Checkbox::make('export_multiple')
                              ->label('Export to multiple files (ZIP)');
-                         return $formSchema;
+                         return $schemaSchema;
                      })
                      ->action(function (array $data) {
                          $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
@@ -96,16 +96,16 @@ class ListResource extends Resource
                     Tables\Actions\ExportBulkAction::make() // Added bulk export action
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterListExporter::getColumns();
-                            $formSchema = [];
+                            $schemaSchema = [];
                             foreach ($exportColumns as $column) {
-                                $formSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                     ->label($column->getLabel())
                                     ->default(true);
                             }
-                            $formSchema[] = Checkbox::make('export_multiple')
+                            $schemaSchema[] = Checkbox::make('export_multiple')
                                 ->label('Export to multiple files (ZIP)')
                                 ->default(false);
-                            return $formSchema;
+                            return $schemaSchema;
                         })
                         ->action(function (array $data, Tables\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));

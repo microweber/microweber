@@ -4,7 +4,7 @@ namespace Modules\Rating\Filament;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Livewire;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Rating\Models\Rating;
 
@@ -14,9 +14,9 @@ class RatingModuleSettings extends LiveEditModuleSettingsTable
     public string $modelName = Rating::class;
     public string $tableComponentName = RatingTableList::class;
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-         return $form
+         return $schema
             ->schema([
                 Tabs::make('Rating')
                     ->tabs([

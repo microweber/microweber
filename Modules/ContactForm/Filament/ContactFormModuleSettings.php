@@ -8,7 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class ContactFormModuleSettings extends LiveEditModuleSettings
@@ -17,11 +17,11 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
     public string $name = '';
     public string $email = '';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $relId = $this->params['id'] ?? null;
-        return $form
+        return $schema
 //            ->model()
 
             ->schema([

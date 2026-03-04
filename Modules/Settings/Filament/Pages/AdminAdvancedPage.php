@@ -9,7 +9,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
@@ -17,24 +17,24 @@ use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 
 class AdminAdvancedPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-advanced';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-advanced';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static string $description = 'Configure your advanced settings';
 
     protected static ?string $title = 'Advanced';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
 
     public function getView(): string
     {
         return static::$view;
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Custom tags')

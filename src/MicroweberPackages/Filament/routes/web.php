@@ -2,8 +2,8 @@
 
 
 use Filament\Facades\Filament;
-use Filament\Http\Controllers\Auth\EmailVerificationController;
-use Filament\Http\Controllers\Auth\LogoutController;
+use Filament\Auth\Http\Controllers\EmailVerificationController;
+use Filament\Auth\Http\Controllers\LogoutController;
 use Filament\Http\Controllers\RedirectToHomeController;
 use Filament\Http\Controllers\RedirectToTenantController;
 use Filament\Panel;

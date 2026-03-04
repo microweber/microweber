@@ -7,11 +7,11 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminMenusPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-menu';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-menu';
 
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
-    protected static string $view = 'modules.menu::filament.admin.pages.menus-list-page';
+    protected string $view = 'modules.menu::filament.admin.pages.menus-list-page';
 
     protected static ?string $title = 'Menu';
 

@@ -10,7 +10,7 @@ use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Post\Filament\Admin\Resources\PostResource;
@@ -21,18 +21,18 @@ class AdminGeneralPage extends AdminSettingsPage
 
     protected static ?string $slug = 'settings/general';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static ?string $navigationIcon = 'mw-general';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-general';
 
 
     protected static ?string $title = 'General';
 
     protected static string $description = 'Make basic settings for your website.';
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Seo Settings')

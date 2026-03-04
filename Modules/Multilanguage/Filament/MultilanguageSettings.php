@@ -7,7 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
@@ -27,14 +27,14 @@ class MultilanguageSettings extends LiveEditModuleSettings
         'website'
     ];
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $langs = [];
         foreach (get_supported_languages(1) as $supported_language) {
             $langs[$supported_language['locale']] = $supported_language['language'] . ' [' . $supported_language['locale'] . ']';
         }
 
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Settings')
                     ->tabs([

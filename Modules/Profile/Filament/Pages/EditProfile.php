@@ -5,7 +5,7 @@ namespace Modules\Profile\Filament\Pages;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +13,8 @@ use Illuminate\Validation\ValidationException;
 
 class EditProfile extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static string $view = 'modules.profile::pages.edit-profile';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user';
+    protected string $view = 'modules.profile::pages.edit-profile';
     public ?array $data = [];
 
     public function mount(): void
@@ -29,9 +29,9 @@ class EditProfile extends Page
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->getAvatarFormComponent(),
                 $this->getFirstNameFormComponent(),

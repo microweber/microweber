@@ -4,7 +4,7 @@ namespace Modules\Product\Filament\Admin\Resources\ProductResource\RelationManag
 
 use App\Filament\Resources\Shop\OrderResource;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -21,7 +21,7 @@ class CustomFieldsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'reference';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $editForm = [];
         $editForm[] = TextInput::make('name')

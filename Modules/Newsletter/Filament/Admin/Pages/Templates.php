@@ -32,7 +32,7 @@ class Templates extends Page implements HasTable
 
     protected static ?string $slug = 'newsletter/templates';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.templates';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.templates';
 
     public static function table(Table $table): Table
     {

@@ -9,7 +9,7 @@ class CheckoutSuccessPage extends Page
 {
     protected static string $resource = CheckoutResource::class;
 
-    protected static string $view = 'modules.checkout::filament.pages.checkout-success';
+    protected string $view = 'modules.checkout::filament.pages.checkout-success';
     public function getBreadcrumb(): string
     {
         return '';

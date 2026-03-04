@@ -3,7 +3,7 @@
 namespace Modules\BeforeAfter\Filament;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -11,9 +11,9 @@ class BeforeAfterModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'before_after';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 MwFileUpload::make('options.before')
                     ->label('Before Image URL')

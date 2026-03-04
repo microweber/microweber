@@ -4,19 +4,19 @@ namespace Modules\Settings\Filament\Pages;
 
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminCustomTagsPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-settings';
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-settings';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
     protected static ?string $title = 'Custom Tags';
     protected static string $description = 'Configure custom HTML tags for head and footer';
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
         $defaultRobotsTxt = "User-agent: *\n" .
@@ -27,7 +27,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
             "Sitemap: " . url('sitemap.xml');
 
 
-        return $form
+        return $schema
             ->schema([
                 Section::make('Custom Head Tags')
                     ->description('Add custom HTML tags to the <head> section of your website')

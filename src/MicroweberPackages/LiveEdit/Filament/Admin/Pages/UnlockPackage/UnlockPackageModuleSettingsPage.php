@@ -3,16 +3,16 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage;
 
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class UnlockPackageModuleSettingsPage extends LiveEditModuleSettings
 {
     public string $module = 'editor/unlock_package';
 
-    protected static string $view = 'filament-panels::components.layout.simple-form';
+    protected string $view = 'filament-panels::components.layout.simple-form';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
 
@@ -24,7 +24,7 @@ class UnlockPackageModuleSettingsPage extends LiveEditModuleSettings
 
 
 
-        return $form
+        return $schema
             ->schema([
                 View::make('microweber-live-edit::unlock-package.unlock-package-modal')
                     ->viewData(['params' => $params])

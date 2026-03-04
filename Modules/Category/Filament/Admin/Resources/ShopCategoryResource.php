@@ -6,7 +6,7 @@ namespace Modules\Category\Filament\Admin\Resources;
 
 class ShopCategoryResource extends CategoryResource
 {
-    protected static ?string $navigationGroup = 'Shop';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop';
 
     public static function getPages(): array
     {

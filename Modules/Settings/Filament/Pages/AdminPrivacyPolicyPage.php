@@ -7,22 +7,22 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminPrivacyPolicyPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'mw-privacy';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-privacy';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Privacy Policy';
 
     protected static string $description = 'Configure your privacy policy settings';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
 
 
     public array $optionGroups = [
@@ -34,9 +34,9 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
     ];
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Privacy policy settings')

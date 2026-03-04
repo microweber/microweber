@@ -6,7 +6,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -19,9 +19,9 @@ use Modules\Tax\Models\TaxType;
 class TaxResource extends Resource
 {
     protected static ?string $model = TaxType::class;
-    protected static ?string $navigationIcon = 'mw-taxes';
+    protected static string | \BackedEnum | null $navigationIcon = 'mw-taxes';
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax';
     protected static ?int $navigationSort = 7;
 
@@ -37,9 +37,9 @@ class TaxResource extends Resource
 
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('name')
                     ->label('Name')

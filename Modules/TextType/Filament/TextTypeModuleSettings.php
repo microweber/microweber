@@ -4,7 +4,7 @@ namespace Modules\TextType\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -12,9 +12,9 @@ class TextTypeModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'text_type';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('options.text')
                     ->label('Text')

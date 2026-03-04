@@ -8,7 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Modules\Multilanguage\Filament\Pages\MultilanguageSettingsAdmin;
 use Modules\Page\Models\Page;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -18,9 +18,9 @@ class ShopModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'shop';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Tabs::make('Shop Settings')
                     ->tabs([

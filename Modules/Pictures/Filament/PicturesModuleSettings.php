@@ -4,7 +4,7 @@ namespace Modules\Pictures\Filament;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Media\Models\Media;
@@ -14,7 +14,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
     public string $module = 'pictures';
     public array $mediaIds = [];
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $relType = 'module';
         $relId = $this->params['id'];
@@ -33,7 +33,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
 
 
 
-         return $form
+         return $schema
             ->schema([
                 Tabs::make('Pictures')
                     ->tabs([

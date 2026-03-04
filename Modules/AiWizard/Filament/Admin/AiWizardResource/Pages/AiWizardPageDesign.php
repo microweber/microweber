@@ -20,7 +20,7 @@ class AiWizardPageDesign extends Page implements HasForms
 
     protected static string $resource = AiWizardResource::class;
 
-    protected static string $view = 'modules.aiwizard::filament.pages.ai-wizard-page-design';
+    protected string $view = 'modules.aiwizard::filament.pages.ai-wizard-page-design';
 
     protected function getFormSchema(): array
     {

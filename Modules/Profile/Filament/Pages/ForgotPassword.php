@@ -5,7 +5,7 @@ namespace Modules\Profile\Filament\Pages;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Illuminate\Validation\ValidationException;
 use Modules\Profile\Actions\ResetPasswordAction;
@@ -13,7 +13,7 @@ use Modules\Profile\Actions\ResetPasswordAction;
 class ForgotPassword extends RequestPasswordReset
 {
     public ?string $captcha = null;
-    public $form_id;
+    public $schema_id;
 
     public function mount(): void
     {
@@ -21,9 +21,9 @@ class ForgotPassword extends RequestPasswordReset
         $this->form_id = uniqid('forgot_');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->getEmailFormComponent(),
             ])

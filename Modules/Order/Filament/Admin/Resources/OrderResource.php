@@ -6,7 +6,7 @@ use Filament\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,7 +26,7 @@ class OrderResource extends Resource
     protected static ?string $model = Order::class;
 
 
-    protected static ?string $navigationGroup = 'Shop';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 12;
 
     protected static ?string $recordTitleAttribute = 'order_reference_id';
@@ -41,9 +41,9 @@ class OrderResource extends Resource
             return static::getModel()::where('order_status', OrderStatus::New)->count();
         }*/
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([

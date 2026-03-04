@@ -4,7 +4,7 @@ namespace Modules\ImageRollover\Filament;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
@@ -12,9 +12,9 @@ class ImageRolloverModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'image_rollover';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 MwFileUpload::make('options.default_image')
                     ->label('Default Image')

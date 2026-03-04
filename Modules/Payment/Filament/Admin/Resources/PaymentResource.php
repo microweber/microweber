@@ -5,7 +5,7 @@ namespace Modules\Payment\Filament\Admin\Resources;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,7 +23,7 @@ class PaymentResource extends Resource
     protected static ?string $model = Payment::class;
 
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 4;
 
 
@@ -33,9 +33,9 @@ class PaymentResource extends Resource
 
         return static::$description;
     }
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('rel_id')
                     ->label('Related ID')

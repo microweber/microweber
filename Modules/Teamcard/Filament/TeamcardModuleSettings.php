@@ -7,7 +7,7 @@ use Filament\Forms\Components\{
     Select,
     Tabs
 };
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Teamcard\Models\Teamcard;
 
@@ -28,9 +28,9 @@ class TeamcardModuleSettings extends LiveEditModuleSettingsTable
     /**
      * Build the form schema for the module settings
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 $this->buildMainTabs()
             ]);

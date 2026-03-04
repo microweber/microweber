@@ -8,26 +8,26 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
 {
     protected static bool $shouldRegisterNavigation = false;
-    //protected static ?string $navigationIcon = 'heroicon-o-cookie';
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static ?string $navigationGroup = 'Other';
+    //protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cookie';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected static string | \UnitEnum | null $navigationGroup = 'Other';
     protected static ?string $title = 'Cookie Notice';
-    protected static ?string $navigationLabel = 'Cookie Notice';
+    protected static string | null $navigationLabel = 'Cookie Notice';
     protected static ?int $navigationSort = 11;
 
     public array $optionGroups = [
         'cookie_notice'
     ];
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('General Settings')
                     ->schema([

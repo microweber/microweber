@@ -187,7 +187,8 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@publish-assets"
+            "@publish-assets",
+            "@php artisan filament:upgrade"
         ],
         "post-install-cmd": [
             "php artisan vendor:publish --tag=public --force --ansi",
@@ -198,8 +199,7 @@
             "@php artisan livewire:publish --assets",
             "@php artisan vendor:publish --tag=public --force --ansi"
         ],
-        "post-root-package-install": [
-        ],
+        "post-root-package-install": [],
         "post-create-project-cmd": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi",

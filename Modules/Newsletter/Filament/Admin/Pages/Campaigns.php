@@ -23,7 +23,7 @@ class Campaigns extends Page implements HasTable
 
     protected static ?string $slug = 'newsletter/campaigns';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.campaigns';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.campaigns';
 
 
     public function table(Table $table): Table

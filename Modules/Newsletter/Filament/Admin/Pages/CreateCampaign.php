@@ -17,7 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
 use Filament\Support\Colors\Color;
@@ -42,7 +42,7 @@ class CreateCampaign extends Page
 {
 //    protected static ?string $slug = 'newsletter/create-campaign';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.create-campaign';
+    protected string $view = 'microweber-module-newsletter::livewire.filament.admin.create-campaign';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -64,9 +64,9 @@ class CreateCampaign extends Page
         return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->model(NewsletterCampaign::class)
             ->schema([
 

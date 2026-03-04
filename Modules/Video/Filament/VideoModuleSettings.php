@@ -11,7 +11,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
@@ -21,14 +21,14 @@ class VideoModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'video';
 
-    protected static ?string $navigationLabel = 'Video';
-    protected static ?string $navigationIcon = 'heroicon-o-video-camera';
+    protected static string | null $navigationLabel = 'Video';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-video-camera';
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
 
-        return $form
+        return $schema
             ->schema([
 
                 Tabs::make('Settings')

@@ -5,7 +5,7 @@ namespace Modules\GoogleAnalytics\Filament\Pages;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
@@ -13,9 +13,9 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
 {
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
-    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
+    protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Google Analytics';
 
@@ -26,9 +26,9 @@ class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
     protected static ?int $navigationSort = 999;
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Section::make('Google analytics Settings')

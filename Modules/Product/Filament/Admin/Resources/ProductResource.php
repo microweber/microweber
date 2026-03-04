@@ -11,7 +11,7 @@ class ProductResource extends ContentResource
 
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationGroup = 'Shop';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop';
 
     protected static bool $shouldRegisterNavigation = true;
     protected static ?int $navigationSort = 1;
