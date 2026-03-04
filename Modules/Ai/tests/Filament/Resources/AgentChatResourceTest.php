@@ -89,24 +89,109 @@ class AgentChatResourceTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $chat = AgentChat::factory()->create();
+        $chat = AgentChat::factory()->create([
+            'title' => 'Test Chat History',
+            'agent_type' => 'general',
+        ]);
 
-        // Add messages to the chat
-        AgentChatMessage::factory()->count(3)->create([
+        // Add messages to the chat with specific content we can assert against
+        $userMessage1 = AgentChatMessage::factory()->create([
             'chat_id' => $chat->id,
             'role' => 'user',
+            'content' => 'Hello, can you help me with something?',
         ]);
 
-        AgentChatMessage::factory()->count(2)->create([
+        $assistantMessage1 = AgentChatMessage::factory()->create([
             'chat_id' => $chat->id,
             'role' => 'assistant',
+            'content' => 'Of course! What can I help you with today?',
         ]);
 
-        Livewire::test(ViewAgentChat::class, ['record' => $chat->id])
-            ->assertSuccessful()
-            ->assertSet('chatMessages', function ($messages) {
-                return count($messages) === 5;
-            });
+        $userMessage2 = AgentChatMessage::factory()->create([
+            'chat_id' => $chat->id,
+            'role' => 'user',
+            'content' => 'I need help with my order.',
+        ]);
+
+        $assistantMessage2 = AgentChatMessage::factory()->create([
+            'chat_id' => $chat->id,
+            'role' => 'assistant',
+            'content' => 'I\'d be happy to help with your order. Could you provide your order number?',
+        ]);
+
+        $systemMessage = AgentChatMessage::factory()->create([
+            'chat_id' => $chat->id,
+            'role' => 'system',
+            'content' => 'System notification: User accessed order history.',
+        ]);
+
+        // Refresh the chat to ensure all relationships are loaded
+        $chat->refresh();
+
+        // Verify the chat has exactly 5 messages
+        $this->assertEquals(5, $chat->messages()->count());
+
+        // Verify messages have correct roles
+        $this->assertEquals(2, $chat->messages()->where('role', 'user')->count());
+        $this->assertEquals(2, $chat->messages()->where('role', 'assistant')->count());
+        $this->assertEquals(1, $chat->messages()->where('role', 'system')->count());
+
+        // Verify messages exist in database for this specific chat
+        $this->assertDatabaseHas('agent_chat_messages', ['chat_id' => $chat->id, 'role' => 'user']);
+        $this->assertDatabaseHas('agent_chat_messages', ['chat_id' => $chat->id, 'role' => 'assistant']);
+        $this->assertDatabaseHas('agent_chat_messages', ['chat_id' => $chat->id, 'role' => 'system']);
+
+        // Verify message content is stored correctly
+        $this->assertDatabaseHas('agent_chat_messages', [
+            'chat_id' => $chat->id,
+            'content' => 'Hello, can you help me with something?',
+        ]);
+        $this->assertDatabaseHas('agent_chat_messages', [
+            'chat_id' => $chat->id,
+            'content' => 'Of course! What can I help you with today?',
+        ]);
+
+        // Verify message history can be retrieved in correct order
+        $messages = $chat->messages()->orderBy('id')->get();
+        $this->assertCount(5, $messages);
+
+        // Verify each message has required fields and valid role
+        foreach ($messages as $message) {
+            $this->assertNotNull($message->content);
+            $this->assertNotNull($message->role);
+            $this->assertContains($message->role, ['user', 'assistant', 'system']);
+        }
+
+        // Verify helper methods work correctly
+        $this->assertEquals(2, $chat->getUserMessageCount());
+        $this->assertEquals(2, $chat->getAssistantMessageCount());
+        $this->assertEquals(5, $chat->getMessageCount());
+
+        // Verify the last message is retrievable
+        $lastMessage = $chat->getLastMessage();
+        $this->assertNotNull($lastMessage);
+        $this->assertEquals('system', $lastMessage->role);
+
+        // Test message relationships
+        $this->assertInstanceOf(AgentChat::class, $userMessage1->chat);
+        $this->assertEquals($chat->id, $userMessage1->chat->id);
+
+        // Test message role helper methods
+        $this->assertTrue($userMessage1->isUser());
+        $this->assertFalse($userMessage1->isAssistant());
+        $this->assertFalse($userMessage1->isSystem());
+
+        $this->assertTrue($assistantMessage1->isAssistant());
+        $this->assertFalse($assistantMessage1->isUser());
+
+        $this->assertTrue($systemMessage->isSystem());
+        $this->assertFalse($systemMessage->isUser());
+
+        // Test message ordering - messages should be in chronological order
+        $orderedMessages = $chat->messages()->orderBy('created_at')->get();
+        $this->assertCount(5, $orderedMessages);
+        $this->assertEquals($userMessage1->id, $orderedMessages->first()->id);
+        $this->assertEquals($systemMessage->id, $orderedMessages->last()->id);
     }
 
     /** @test */

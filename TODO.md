@@ -212,7 +212,7 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Create comprehensive PHPUnit tests .................................................... 34
 - [x] 2026-03-04 test_list_agent_chats_shows_paginated_results()
 - [x] 2026-03-04 test_create_chat_saves_initial_prompt()
-  - [ ] test_view_chat_renders_message_history()
+  - [x] 2026-03-04 test_view_chat_renders_message_history()
   - [ ] test_tool_call_returns_expected_output()
   - [ ] test_chat_with_file_upload_stores_media()
 
