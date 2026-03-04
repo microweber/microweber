@@ -8,58 +8,45 @@ related: [laravel-developer, livewire-v4, tailwind-v4]
 level: advanced
 ---
 
-
 # SKILL.md – Filament v5 Development Mastery
 
-Current date reference: March 2026  
-Filament version focus: **v5.x** (stable series v5.3.x, released Jan 2026 onward)  
-Built on **Livewire v4**, Tailwind v4, Alpine.js  
-Official docs (always check latest): https://filamentphp.com/docs/5.x
+**Current reference:** March 2026  
+**Primary version:** Filament **v5.3.x** series (stable, Livewire v4 foundation, Tailwind v4 compatible)  
+**Official docs:** https://filamentphp.com/docs/5.x
 
-Filament = powerful PHP-based admin panel / CRUD / form / dashboard framework for Laravel.  
-Server-rendered UI with minimal custom JS.
+Filament = full-featured, server-rendered admin panel framework for Laravel — forms, tables, actions, panels, resources, widgets — all in pure PHP.
 
-## 1. Core Mindset & Philosophy
+## 1. Core Philosophy & Mental Model
 
-- Pure PHP fluent builders → chain everything
-- Three pillars: **Forms**, **Tables**, **Actions**
-- Panels = isolated contexts (admin, app, customer, partner…)
-- Resources = model + CRUD + relations
-- Livewire v4 foundation → stricter lifecycle, better .live / .debounce reactivity, no more wire:model shorthand in many cases
+- Fluent builder pattern everywhere (`->method()->chain()`)
+- Three fundamental building blocks: **Forms**, **Tables**, **Actions**
+- **Panels** = isolated application contexts (admin / app / customer / partner …)
+- **Resources** = Eloquent model + full CRUD + relation managers
+- Live under **Livewire v4** → stricter lifecycle, `.live`, `.debounce`, no legacy `wire:model` sugar in many cases
 
-## 2. Installation & Project Setup (v5)
+## 2. Project Setup & Installation (2026 best practice)
 
 ```bash
-# Fresh Laravel 11/12 project
+# Laravel 11 / 12
 composer create-project laravel/laravel filament-app
 cd filament-app
 
-# Install latest Filament v5
 composer require filament/filament:"^5.0" -W
 
-# Install panel(s)
 php artisan filament:install --panels
 
-# Publish assets (CSS/JS) – run after theme changes too
+# Always run after theme changes or plugin installs
 php artisan filament:assets
-
-# Optional: install support for dark mode, etc. (usually automatic now)
 ```
 
-Upgrading from v4 → v5:
+**Upgrade v4 → v5 checklist**
+- Update to Livewire ^4.0 first if you have custom components
+- `composer require filament/filament:"^5.0" -W`
+- Usually minimal manual changes — check breaking changes in upgrade guide
 
-```bash
-composer require filament/filament:"^5.0" -W
-# Usually low-risk – mostly Livewire v4 compatibility
-# Run upgrade command if needed (check docs for any manual steps)
-```
-
-Key requirements: PHP 8.2+, Laravel 11.28+, Tailwind 4.1+
-
-## 3. Panels – Core Configuration
+## 3. Panel Configuration (app/Providers/Filament/AdminPanelProvider.php)
 
 ```php
-// app/Providers/Filament/AdminPanelProvider.php
 use Filament\Panel;
 
 public function panel(Panel $panel): Panel
@@ -69,183 +56,275 @@ public function panel(Panel $panel): Panel
         ->id('admin')
         ->path('admin')
         ->login()
+        ->registration()           // optional
+        ->passwordReset()          // optional
         ->colors([
-            'primary' => '#2563eb', // or use ->primary() helper
+            'primary' => '#2563eb',
         ])
         ->font('Inter')
         ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
         ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-        ->pages([
-            \Filament\Pages\Dashboard::class,
-        ])
+        ->pages([ \Filament\Pages\Dashboard::class ])
         ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-        ->widgets([
-            // StatsOverview::class,
-        ])
-        ->middleware([
-            // EncryptCookies::class, ...
-        ])
-        ->authMiddleware([
-            \App\Http\Middleware\Authenticate::class,
-        ]);
+        ->middleware([/* … */])
+        ->authMiddleware([/* … */]);
 }
 ```
 
-Multi-panel setups: duplicate provider class → change id/path → register in config/filament.php or boot method.
-
-## 4. Resources – Advanced CRUD Patterns
+## 4. Resource – Modern CRUD Example (2026 style)
 
 ```php
-// app/Filament/Resources/PostResource.php
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Resources\Resource;
-
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Content')
+                Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('title')
+                        TextInput::make('title')
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn (Set $set, $state) => $set('slug', Str::slug($state))),
-                        Forms\Components\TextInput::make('slug')
+
+                        TextInput::make('slug')
                             ->required()
                             ->unique(ignoreRecord: true),
-                        Forms\Components\RichEditor::make('body')
+
+                        RichEditor::make('body')
                             ->required()
                             ->fileAttachmentsDisk('s3')
-                            ->fileAttachmentsDirectory('posts'),
-                        Forms\Components\Select::make('category_id')
+                            ->fileAttachmentsDirectory('posts/ bodies'),
+
+                        Select::make('category_id')
                             ->relationship('category', 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm([...]),
+                            ->createOptionForm([/* mini form */]),
                     ])
                     ->columns(2),
 
-                Forms\Components\Toggle::make('is_published'),
-                Forms\Components\DateTimePicker::make('published_at'),
+                Toggle::make('is_published'),
+                DateTimePicker::make('published_at')->nullable(),
             ]);
     }
 
-    public static function table(Tables\Table $table): Tables\Table
+    public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->badge()
-                    ->color('success'),
-                Tables\Columns\IconColumn::make('is_published')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
-                    ->sortable(),
+                TextColumn::make('title')->searchable()->sortable(),
+                TextColumn::make('category.name')->badge()->color('success'),
+                IconColumn::make('is_published')->boolean(),
+                TextColumn::make('published_at')->dateTime()->sortable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_published'),
-                Tables\Filters\SelectFilter::make('category_id')
-                    ->relationship('category', 'name'),
+                TernaryFilter::make('is_published'),
+                SelectFilter::make('category_id')->relationship('category', 'name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ExportBulkAction::make(),
+                DeleteBulkAction::make(),
+                ExportBulkAction::make(),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            CommentsRelationManager::class,
-            // TagsRelationManager::class,
-        ];
     }
 }
 ```
 
-Pro tips:
+## 5. Quick Reference – Most Used Patterns
 
-- Scoped queries: `->modifyQueryUsing(fn ($q) => $q->whereBelongsTo(auth()->user()->currentTeam))`
-- Custom pages: override `getPages()` method
-- Reusable form schemas: `protected static function getMainContentSchema(): array { … }`
+| Goal                              | Component / Technique                                 | Key v5 Tip / Syntax                                 |
+|-----------------------------------|-------------------------------------------------------|-----------------------------------------------------|
+| Auto-slug from title              | `TextInput::make('title')->live(onBlur: true)`        | `afterStateUpdated(fn (Set $set, $state) => …)`     |
+| Rich text + uploads               | `RichEditor::make()->fileAttachmentsDisk('s3')`       | Supports mentions, resize, toolbar config           |
+| Conditional field visibility      | `->hidden(fn (Get $get) => $get('type') !== 'paid')`  | Or `->visible()` / `->hiddenOn(['mobile'])`         |
+| Nested repeatable blocks          | `Builder::make()` or `Repeater::make()`               | Collapsible, orderable, addable blocks              |
+| Relation badges in table          | `TextColumn::make('tags.name')->badge()`              | `->formatStateUsing()` for custom display           |
+| Scoped records per tenant/team    | `->modifyQueryUsing(fn($q)=> $q->where('team_id', …))`| Common in multi-tenant apps                         |
+| Export                            | `ExportBulkAction::make()`                            | Built-in CSV/XLSX                                   |
 
-## 5. Forms – Reactivity & Advanced Components
+## 6. Testing – Comprehensive Filament v5 Testing Guide
 
-- `->live()` / `->live(onBlur: true)` / `->debounce(500)`
-- `->afterStateUpdated()` / `->afterStateHydrated()`
-- `->dependsOn(['other_field'], fn (callable $set) => …)`
-- RichEditor: mentions, attachments, toolbar config
-- FileUpload: `->image()` `->imageEditor()` `->multiple()` `->preserveFilenames()`
-- Builder / Repeater: nested blocks, collapsible, orderable
-- Layout: `Grid`, `Split`, `Section`, `Tabs`, `Wizard`
+Filament v5 components are Livewire v4 components under the hood → test with **Livewire::test()** (PHPUnit) or **livewire()** helper (Pest + Livewire plugin).
 
-## 6. Tables – Power User Features
+**Recommended setup (Pest + Livewire plugin):**
+```bash
+composer require pestphp/pest pestphp/pest-plugin-livewire --dev
+php artisan pest:install
+```
 
-- Custom sorting: `->sortable(query: fn ($q, $dir) => …)`
-- Summaries: `->summarize(Sum::make())`
-- Grouping: `->groups(['category.name', 'published_at'])`
-- Polling: `->poll('10s')`
-- Stacked layout (mobile-friendly, new in v5)
-- Deferred filters (chart widgets)
+Always **act as** an authorized user:
+```php
+actingAs(User::factory()->admin()->create());
+```
 
-## 7. Actions – Versatile & Modal
+### 6.1 Testing Resource Pages (List / Create / Edit / View)
 
-- `->requiresConfirmation()` `->modalDescription()` `->modalSubmitActionLabel()`
-- Wizard actions, bulk actions, standalone actions
-- `->after()` hooks + notifications
+```php
+it('can list records', function () {
+    $posts = Post::factory()->count(5)->create();
 
-## 8. Widgets & Dashboards
+    livewire(PostResource\Pages\ListPosts::class)
+        ->assertOk()
+        ->assertCanSeeTableRecords($posts);
+});
+```
 
-- StatsOverviewWidget, ChartWidget (ApexCharts)
-- TableWidget
-- Official **Custom Dashboards** plugin (drag & drop, released ~early 2026)
+Search + filter + sort:
+```php
+livewire(ListPosts::class)
+    ->searchTable('Laravel')
+    ->assertCanSeeTableRecords($matchingPosts)
+    ->assertCanNotSeeTableRecords($nonMatching)
+    ->sortTable('title', 'desc')
+    ->assertCanSeeTableRecords($sortedPosts, inOrder: true);
+```
 
-## 9. Advanced / Production-Grade Skills
+Create page:
+```php
+livewire(CreatePost::class)
+    ->fillForm([
+        'title' => 'New Post',
+        'slug' => 'new-post',
+        'body' => '<p>Content</p>',
+    ])
+    ->call('create')
+    ->assertHasNoFormErrors()
+    ->assertRedirect(PostResource::getUrl('index'));
 
-- Custom themes (Tailwind v4 config)
-- Authorization: `canAccessPanel()` `->tenant()` multi-tenancy
-- Plugins: Shield, Spatie Media Library, Impersonate, etc.
-- Relation managers: HasMany, MorphToMany, BelongsToMany
-- Custom fields: `ViewField`, inline Livewire components
-- Testing: Filament test helpers (`->get('/admin')`, form filling, table assertions)
-- Performance: lazy widgets, query eager loading, `->hiddenOn(['mobile'])`
+// Assert database
+expect(Post::latest()->first())
+    ->title->toBe('New Post')
+    ->is_published->toBeFalse();
+```
 
-## 10. Common Gotchas (March 2026)
+Edit page:
+```php
+$post = Post::factory()->create(['title' => 'Old']);
 
-- Livewire v4: use `wire:model.live` / `wire:model.debounce.500ms`
-- Asset publishing required after theme/JS changes
-- Dark mode: ensure Tailwind dark classes don't conflict
-- Plugin compatibility: check v5.x support tag
-- Upgrade path: usually smooth, but test custom Livewire/JS
+livewire(EditPost::class, ['record' => $post])
+    ->assertFormSet(['title' => 'Old'])
+    ->fillForm(['title' => 'Updated'])
+    ->call('save')
+    ->assertHasNoFormErrors()
+    ->assertRedirect();
+```
 
-## Quick Component Cheat Sheet
+### 6.2 Testing Forms & Schemas
 
-| Goal                          | Best Approach / Component                     | Notes / v5 Notes                     |
-|-------------------------------|-----------------------------------------------|--------------------------------------|
-| Rich text + attachments       | RichEditor::make()->fileAttachmentsDisk('s3') | Mentions & toolbar config improved   |
-| Dynamic slug              | TextInput::make('title')->live()->afterStateUpdated(...) | Classic pattern                      |
-| Nested repeatable blocks      | Builder::make() or Repeater with schema       | Collapsible & orderable              |
-| Conditional fields            | ->hidden(fn (Get $get): bool => …)            | Or ->visibleOn() helpers             |
-| Relation badges in table      | TextColumn::make('tags.name')->badge()        | Works with ->formatStateUsing()      |
-| Export CSV/Excel              | ExportBulkAction::make()                      | Built-in                             |
-| Callout / alert in form       | Callout::make() (new in v5.2+)                | Great for notices                    |
+```php
+livewire(CreatePost::class)
+    ->assertFormExists()
+    ->assertFormFieldExists('title')
+    ->assertFormFieldIsRequired('title')
+    ->assertFormFieldIsHidden('published_at') // conditional
+    ->set('data.title', 'Test')
+    ->assertFormSet(['slug' => 'test']); // reactivity test
+```
 
-Update this file as you master new features (e.g. Custom Dashboards plugin, upcoming v5.x releases).
+Validation:
+```php
+->fillForm(['title' => ''])
+->call('create')
+->assertHasFormErrors(['title' => 'required']);
+```
 
+### 6.3 Testing Tables
+
+```php
+livewire(ListPosts::class)
+    ->assertCanSeeTableRecords(Post::all())
+    ->filterTable('is_published', true)
+    ->assertCanSeeTableRecords($publishedOnly)
+    ->assertSee('No records found...') // empty state
+    ->assertSee('Create post'); // empty action
+```
+
+Bulk actions:
+```php
+->selectTableRecords($postsToDelete)
+->callTableBulkAction('delete')
+->assertHasNoTableBulkActionErrors()
+->assertDatabaseMissing('posts', ['id' => $postsToDelete->first()->id]);
+```
+
+### 6.4 Testing Actions (including modals)
+
+```php
+livewire(EditPost::class, ['record' => $post])
+    ->mountAction('publish')
+    ->assertActionMounted('publish')
+    ->assertSee('Are you sure?') // modal content
+    ->callMountedAction()
+    ->assertActionUnmounted()
+    ->assertHasNoActionErrors()
+    ->assertNotificationSent('success', 'Post published!');
+```
+
+Bulk action example:
+```php
+->callTableBulkAction('approve', $selectedPosts)
+->assertHasNoTableBulkActionErrors();
+```
+
+### 6.5 Testing Notifications
+
+```php
+// After action
+->callMountedAction()
+->assertNotificationSent('success', 'Saved successfully');
+
+// Or custom
+->assertSee('Post created successfully');
+```
+
+### 6.6 Testing Relation Managers
+
+```php
+livewire(PostResource\RelationManagers\CommentsRelationManager::class, [
+    'ownerRecord' => $post,
+])
+    ->assertCanSeeTableRecords($post->comments)
+    ->fillForm(['content' => 'Great post!'])
+    ->call('create')
+    ->assertHasNoFormErrors();
+```
+
+### 6.7 Testing Custom Pages & Widgets
+
+Custom page = plain Livewire component:
+```php
+livewire(DashboardStats::class)
+    ->assertSee('Total Posts: 42')
+    ->assertSee('Active Users');
+```
+
+Widget:
+```php
+livewire(StatsOverview::class)
+    ->assertSee('$12,345 revenue');
+```
+
+### 6.8 Best Practices & Gotchas
+
+- Use factories + actingAs() for auth/tenancy
+- Prefer Pest + `livewire()` helper
+- Chain assertions fluently
+- Test reactivity with `->set()` / `->assertFormSet()`
+- For complex reactivity → test after `->call('updatedDataFieldName')`
+- Use `assertDatabaseHas()` / `assertDatabaseCount()` after mutations
+- Coverage goal: 80–100% on resource pages, actions, and custom logic
+- Run `php artisan test --coverage` regularly
+
+Update this section as new assertions or plugins emerge (e.g. better mocking for file uploads or relation managers).
+
+Happy building & testing! 
