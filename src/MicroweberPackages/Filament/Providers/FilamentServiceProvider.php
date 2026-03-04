@@ -37,6 +37,16 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             ->hasTranslations()
             ->hasViews();
     }
+
+    /**
+     * @return array<class-string>
+     */
+    protected function getCommands(): array
+    {
+        return [
+
+        ];
+    }
     protected function bootPackageRoutes(): self
     {
         if (empty($this->package->routeFileNames)) {

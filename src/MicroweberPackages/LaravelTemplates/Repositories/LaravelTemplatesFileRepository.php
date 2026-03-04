@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\LaravelTemplates\Repositories;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
@@ -149,10 +149,10 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         if ($allCached) {
             return $this->cacheRepository->all();
         }
-        start_measure('all_templates', 'all_templates');
+        \Fruitcake\LaravelDebugbar\Facades\Debugbar::startMeasure('all_templates', 'all_templates');
         $hasCached = $this->getCached();
 
-        stop_measure('all_templates');
+        \Fruitcake\LaravelDebugbar\Facades\Debugbar::stopMeasure('all_templates');
 
         return $this->formatCached($hasCached);
     }

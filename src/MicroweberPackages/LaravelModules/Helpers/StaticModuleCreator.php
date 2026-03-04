@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Helpers;
 
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
 use MicroweberPackages\Utils\System\ClassLoader;
@@ -35,7 +36,7 @@ class StaticModuleCreator
 //         }
 
 
-        start_measure('module_create_' . $name, 'Create module ' . $name);
+        Debugbar::startMeasure('module_create_' . $name, 'Create module ' . $name);
 
 
         $manifest = $path . DS . 'module.json';
@@ -63,7 +64,7 @@ class StaticModuleCreator
 
         }
 
-        stop_measure('module_create_' . $name);
+        Debugbar::stopMeasure('module_create_' . $name);
 
         return $module;
     }

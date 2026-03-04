@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Traits;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
@@ -179,12 +179,12 @@ trait ModulesRepositoryTrait
         if (!empty(self::$cachedModules)) {
             //    return self::$cachedModules;
         }
-        start_measure('all', 'all');
+        Debugbar::startMeasure('all', 'all');
 
         $cachedJsonFileForAllModules = [];
         $hasCached = $this->getCached();
 
-        stop_measure('all');
+        Debugbar::stopMeasure('all');
         return $this->formatCached($hasCached);
     }
 
@@ -201,7 +201,7 @@ trait ModulesRepositoryTrait
         }
 
 
-        start_measure('creating_modules', 'creating_modules');
+        Debugbar::startMeasure('creating_modules', 'creating_modules');
         $modules = [];
         foreach ($cached as $name => $module) {
 
@@ -244,7 +244,7 @@ trait ModulesRepositoryTrait
 
         }
         //    self::$cachedModules = $modules;
-        stop_measure('creating_modules');
+        Debugbar::stopMeasure('creating_modules');
         return $modules;
     }
 

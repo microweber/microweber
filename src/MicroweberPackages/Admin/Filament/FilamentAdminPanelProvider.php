@@ -9,7 +9,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
-use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
@@ -115,7 +114,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
-            ->maxContentWidth(MaxWidth::ScreenTwoExtraLarge)
+            ->maxContentWidth(Width::ScreenTwoExtraLarge)
             ->unsavedChangesAlerts();
 
         return $panel;

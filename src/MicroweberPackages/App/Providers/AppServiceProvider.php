@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Providers;
 
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\UrlGenerator;
@@ -224,9 +225,9 @@ class AppServiceProvider extends ServiceProvider
 
             if (config('debugbar.enabled')) {
                 $this->loadRoutesFrom(dirname(__DIR__) . '/routes/debugbar-routes.php');
-                \Barryvdh\Debugbar\Facades\Debugbar::enable();
+                \Fruitcake\LaravelDebugbar\Facades\Debugbar::enable();
             } else {
-                \Barryvdh\Debugbar\Facades\Debugbar::disable();
+                \Fruitcake\LaravelDebugbar\Facades\Debugbar::disable();
             }
         }
 
