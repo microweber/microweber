@@ -111,12 +111,17 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 All navigation properties use correct union types for Filament v5 compatibility
 - [x] 2026-03-04 PHP loads without errors - `php artisan optimize:clear` passes
 - [x] 2026-03-04 No arrays/objects assigned - all are string literals
-- [ ] Update base Resource imports & class structure ......................................... 13
-  - [ ] Replace use Filament\Resources\Resource; with v5 version
-  - [ ] Remove old HasRelationManagers trait if present
-  - [ ] Verify protected static ?string $model = Model::class;
-  - [ ] Check getNavigationSort(), getNavigationBadge()
-  - [ ] Remove old ->navigation() method overrides
+- [x] 2026-03-04 Update base Resource imports & class structure ......................................... 13
+  - [x] 2026-03-04 Verified: use Filament\Resources\Resource; is correct v5 import (35 files checked)
+  - [x] 2026-03-04 Verified: No HasRelationManagers trait found in codebase
+  - [x] 2026-03-04 Verified: All resources have protected static ?string $model (41 resources)
+  - [x] 2026-03-04 Verified: getNavigationSort(), getNavigationBadge() use v5 signatures
+  - [x] 2026-03-04 Verified: No old ->navigation() method overrides in resources
+  - [x] 2026-03-04 Fixed: $form variable renamed to $schema in CategoryResource.php:143,150
+  - [x] 2026-03-04 Fixed: $form variable renamed to $schema in ContentResource.php:540,547
+  - [x] 2026-03-04 All 35 Resources have correct form(Schema $schema): Schema signature
+  - [x] 2026-03-04 PHP syntax check passed on all modified files
+  - [x] 2026-03-04 Test suite: 53 passed, 1 pre-existing failure, 710 pending
 - [ ] Refactor all form & table method signatures ............................................ 21
   - [ ] Search: function form( ? update to Form $form): Form
   - [ ] Replace ->form([ ... ]) with ->schema([ ... ])

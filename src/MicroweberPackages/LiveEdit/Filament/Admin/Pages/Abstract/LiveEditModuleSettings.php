@@ -10,7 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
 use Filament\Support\Commands\Concerns\CanReadModelSchemas;
@@ -68,7 +68,7 @@ abstract class LiveEditModuleSettings extends Page
     public function mount()
     {
 
-        $formInstance = $this->form(new Form($this));
+        $formInstance = $this->form(new Schema($this));
         $formFields = $formInstance->getFlatFields(true);
         if (!empty($formFields)) {
             foreach ($formFields as $field) {
@@ -378,9 +378,9 @@ abstract class LiveEditModuleSettings extends Page
     }
 
 
-    public function templatesForm(Form $form)
+    public function templatesForm(Schema $schema)
     {
-        return $form->schema($this->getTemplatesFormSchema());
+        return $schema->schema($this->getTemplatesFormSchema());
     }
 
     public function getTemplatesFormSchema()

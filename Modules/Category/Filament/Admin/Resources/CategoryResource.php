@@ -140,13 +140,13 @@ class CategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         $params = [];
-        $record = $form->getRecord();
+        $record = $schema->getRecord();
 
         if ($record) {
             $params['record'] = $record;
         }
 
-        return $form->schema(static::formArray($params));
+        return $schema->schema(static::formArray($params));
     }
 
 

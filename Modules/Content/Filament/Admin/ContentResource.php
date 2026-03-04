@@ -537,13 +537,13 @@ class ContentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         $params = [];
-        $record = $form->getRecord();
+        $record = $schema->getRecord();
 
         if ($record && $record->id) {
             $params['id'] = $record->id;
         }
 
-        return $form->schema(static::formArray($params));
+        return $schema->schema(static::formArray($params));
     }
 
     public static function productDetailsFormArray()
