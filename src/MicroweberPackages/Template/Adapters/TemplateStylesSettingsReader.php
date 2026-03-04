@@ -546,7 +546,7 @@ class TemplateStylesSettingsReader
             foreach ($settingsFromFile['settings'] as $fileSetting) {
                 // Process style properties for the loaded setting first
                 $this->processStyleProperties($fileSetting);
-                
+
                 // If we find fieldSettings in the loaded file, merge them into the current setting
                 if (isset($fileSetting['fieldSettings'])) {
                     if (!isset($setting['fieldSettings'])) {
@@ -643,7 +643,7 @@ class TemplateStylesSettingsReader
                 foreach ($settingsToProcess as $fileSetting) {
                     // Process style properties for the loaded setting first
                     $this->processStyleProperties($fileSetting);
-                    
+
                     // If we find fieldSettings in the loaded file, merge them into the current setting
                     if (isset($fileSetting['fieldSettings'])) {
                         if (!isset($setting['fieldSettings'])) {

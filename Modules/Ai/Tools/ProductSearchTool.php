@@ -158,26 +158,26 @@ class ProductSearchTool extends BaseTool
         foreach ($products as $product) {
             $html .= '<div class="col-md-6 col-lg-4 mb-4">';
             $html .= '<div class="card h-100">';
-            
+
             // Product image placeholder
             $html .= '<div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">';
             $html .= '<i class="fas fa-image fa-3x text-muted"></i>';
             $html .= '</div>';
-            
+
             $html .= '<div class="card-body d-flex flex-column">';
-            
+
             // Product title
             $html .= '<h5 class="card-title">' . htmlspecialchars($product->title) . '</h5>';
-            
+
             // Product description
             if (!empty($product->description)) {
                 $description = strip_tags($product->description);
                 $html .= '<p class="card-text">' . htmlspecialchars(substr($description, 0, 100)) . (strlen($description) > 100 ? '...' : '') . '</p>';
             }
-            
+
             // Product details
             $html .= '<div class="mt-auto">';
-            
+
             // Price
             $price = $this->getProductPrice($product);
             if ($price > 0) {
@@ -185,13 +185,13 @@ class ProductSearchTool extends BaseTool
                 $html .= '<span class="h5 text-primary">' . $this->formatMoney($price) . '</span>';
                 $html .= '</div>';
             }
-            
+
             // SKU
             $sku = $this->getProductSku($product);
             if (!empty($sku)) {
                 $html .= '<small class="text-muted">SKU: ' . htmlspecialchars($sku) . '</small><br>';
             }
-            
+
             // Stock/Quantity
             $qty = $this->getProductQty($product);
             if ($qty !== null && $qty !== 'nolimit') {
@@ -199,7 +199,7 @@ class ProductSearchTool extends BaseTool
             } elseif ($qty === 'nolimit') {
                 $html .= '<small class="text-success">In Stock</small><br>';
             }
-            
+
             // Categories
             if ($product->categories && $product->categories->count() > 0) {
                 $html .= '<small class="text-muted">Categories: ';
@@ -210,14 +210,14 @@ class ProductSearchTool extends BaseTool
                 }
                 $html .= '</small>';
             }
-            
+
             $html .= '</div>'; // mt-auto
             $html .= '</div>'; // card-body
-            
+
             $html .= '<div class="card-footer">';
             $html .= '<small class="text-muted">Product ID: ' . $product->id . '</small>';
             $html .= '</div>';
-            
+
             $html .= '</div>'; // card
             $html .= '</div>'; // col
         }

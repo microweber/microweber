@@ -33,13 +33,13 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Answer: enable password reset? ? yes
 - [x] 2026-03-04 Inspect generated app/Providers/Filament/AdminPanelProvider.php
 - [x] 2026-03-04 Verify route /admin exists and redirects to login
-- [ ] Run Filament v5 upgrade helper script .................................................... 8
-  - [ ] composer require filament/upgrade:"^5.0" --dev
-  - [ ] Execute vendor/bin/filament-v5
-  - [ ] Read every line of output carefully
-  - [ ] Apply file renames / replacements manually
-  - [ ] Re-run script after fixing conflicts
-  - [ ] Commit upgrade changes separately
+- [x] 2026-03-04 Run Filament v5 upgrade helper script .................................................... 8
+- [x] 2026-03-04 composer require filament/upgrade:"^5.0" --dev
+- [x] 2026-03-04 Execute vendor/bin/filament-v5
+- [x] 2026-03-04 Read every line of output carefully
+- [x] 2026-03-04 Apply file renames / replacements manually
+- [x] 2026-03-04 Re-run script after fixing conflicts
+- [x] 2026-03-04 Commit upgrade changes separately
 - [ ] Upgrade **all** custom Livewire components to v4 syntax .................................. 34
   - [ ] Global search: replace wire:model="..." ? wire:model.live="..."
   - [ ] Global search: replace wire:model.debounce ? wire:model.debounce.500ms

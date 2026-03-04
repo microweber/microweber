@@ -341,7 +341,7 @@ class AgentChatHistory implements ChatHistoryInterface, JsonSerializable
         // If we trimmed messages, update the database to reflect this
         if (count($messagesToKeep) < count($this->messagesCache)) {
             $this->messagesCache = $messagesToKeep;
-            
+
             // Optional: Remove old messages from database that exceed context window
             // This is commented out to preserve full chat history in database
             // You can enable this if you want to permanently trim old messages
