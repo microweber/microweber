@@ -62,12 +62,16 @@ class OrderResource extends Resource
                                     ->collapsible()
                                     ->schema([
 
-                                        Forms\Components\Select::make('country')
-                                            ->searchable()
-                                            ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
-                                            ->getOptionLabelUsing(fn($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
+Forms\Components\Select::make('country')
+->searchable()
+->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+->formatStateUsing(fn($state): ?string => $state ? Country::firstWhere('id', $state)?->getAttribute('name') : null)
+->options(function () {
+return Country::all()->pluck('name', 'id');
+})
+->preload(),
 
-                                        Forms\Components\Group::make()
+Forms\Components\Group::make()
                                             ->schema([
                                                 Forms\Components\TextInput::make('city'),
                                                 Forms\Components\TextInput::make('state')->label('State / Province'),

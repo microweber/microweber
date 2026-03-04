@@ -71,10 +71,12 @@ class CampaignResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Select::make('list_id')
-                    ->label('List')
-                    ->relationship('list', 'name')
-                    ->required(),
+Select::make('list_id')
+->label('List')
+->relationship('list', 'name')
+->searchable()
+->preload()
+->required(),
 
                 Select::make('status')
                     ->options([

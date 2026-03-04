@@ -53,18 +53,20 @@ class CustomerResource extends Resource
                     ->reactive()
                     ->searchable()
                     ->required(),
-                Forms\Components\Select::make('currency_id')
-                    ->label('Currency')
-                    ->options(collect(\Modules\Currency\Models\Currency::all())->pluck('name', 'id'))
-                    ->searchable()
-                    ->default('USD')
-                    ->required(),
-                Forms\Components\Select::make('company_id')
-                    ->label('Company')
-                    ->relationship('company', 'name')
-                    ->searchable()
-                    ->reactive()
-                    ->createOptionForm([
+Forms\Components\Select::make('currency_id')
+->label('Currency')
+->options(collect(\Modules\Currency\Models\Currency::all())->pluck('name', 'id'))
+->searchable()
+->preload()
+->default('USD')
+->required(),
+Forms\Components\Select::make('company_id')
+->label('Company')
+->relationship('company', 'name')
+->searchable()
+->preload()
+->reactive()
+->createOptionForm([
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),

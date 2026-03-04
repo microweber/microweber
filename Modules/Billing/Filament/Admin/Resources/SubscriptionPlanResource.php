@@ -42,10 +42,12 @@ class SubscriptionPlanResource extends Resource
                             ->columnSpanFull()
                             ->helperText('A unique identifier for this plan')
                             ->placeholder('e.g., PRO-PLAN-MONTHLY'),
-                        Forms\Components\Select::make('subscription_plan_group_id')
-                            ->relationship('group', 'name')
-                            //   ->required()
-                            ->createOptionForm([
+Forms\Components\Select::make('subscription_plan_group_id')
+->relationship('group', 'name')
+->searchable()
+->preload()
+// ->required()
+->createOptionForm([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
                                     ->helperText('Name of the plan group (e.g., Business Plans)'),

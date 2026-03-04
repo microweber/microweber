@@ -59,9 +59,11 @@ class InvoiceResource extends Resource
                                     ->relationship('customer', 'name')
                                     ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->id}] {$record->getFullName()} ({$record->getEmail()})")                                    ->createOptionForm([
 
-                                        Forms\Components\Select::make('user_id')
-                                            ->relationship('user', 'email')
-                                            ->required(),
+Forms\Components\Select::make('user_id')
+->relationship('user', 'email')
+->searchable()
+->preload()
+->required(),
 
 
                                         Forms\Components\TextInput::make('name')

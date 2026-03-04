@@ -801,20 +801,20 @@ class ContentResource extends Resource
                         ->columnSpanFull(),
 
 
-                    Forms\Components\Select::make('created_by')
-                        ->visible(function (Forms\Get $get) {
-                            return $get('id');
-                        })
-                        ->label('Author')
-                        ->placeholder('Select author')
-                        // ->options(User::all()->pluck('email', 'id'))
-                        ->getSearchResultsUsing(fn(string $search) => User::where('email', 'like', "%{$search}%")->limit(50)->pluck('email', 'id'))
-                        ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->email)
-                        ->getSelectedRecordUsing(fn($value) => User::find($value))
-                        ->searchable(),
+Forms\Components\Select::make('created_by')
+->visible(function (Forms\Get $get) {
+return $get('id');
+})
+->label('Author')
+->placeholder('Select author')
+->options(function () {
+return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email', 'id');
+})
+->searchable()
+->preload(),
 
 
-                    //change conten type select
+//change conten type select
                     Forms\Components\Select::make('content_type')
                         ->label('Content Type')
                         ->options([
