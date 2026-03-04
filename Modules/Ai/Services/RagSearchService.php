@@ -164,11 +164,12 @@ class RagSearchService
                         ->get();
         
         return $content->map(function ($item) {
+            $contentText = $item->content ?? $item->description ?? '';
             return [
                 'type' => 'content',
                 'source' => 'Content Pages',
                 'title' => $item->title,
-                'content' => "Page: {$item->title}\nContent: " . strip_tags(substr($item->content ?: $item->description, 0, 300)),
+                'content' => "Page: {$item->title}\nContent: " . strip_tags(substr($contentText, 0, 300)),
                 'relevance' => 0.7,
                 'metadata' => [
                     'content_id' => $item->id,

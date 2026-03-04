@@ -66,13 +66,14 @@ class GoogleTrendsTool extends BaseTool
 
     public function __invoke(...$args): string
     {
-        // Extract parameters from args array using keys
-        $action = $args['action'] ?? '';
-        $keyword = $args['keyword'] ?? '';
-        $geo = $args['geo'] ?? 'US';
-        $time_range = $args['time_range'] ?? 'today 12-m';
-        $limit = $args['limit'] ?? 20;
-        $product_categories = $args['product_categories'] ?? '';
+        // Extract parameters - args could be passed as an associative array
+        $params = is_array($args[0] ?? null) ? $args[0] : $args;
+        $action = $params['action'] ?? '';
+        $keyword = $params['keyword'] ?? '';
+        $geo = $params['geo'] ?? 'US';
+        $time_range = $params['time_range'] ?? 'today 12-m';
+        $limit = $params['limit'] ?? 20;
+        $product_categories = $params['product_categories'] ?? '';
 
         if (!$this->authorize()) {
             return $this->handleError('You do not have permission to access Google Trends data.');

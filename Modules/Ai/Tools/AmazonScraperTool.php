@@ -69,12 +69,14 @@ class AmazonScraperTool extends BaseTool
             return $this->handleError('You do not have permission to access Amazon scraper.');
         }
 
-        $action = $args['action'] ?? '';
-        $query = $args['query'] ?? '';
-        $asin = $args['asin'] ?? '';
-        $limit = max(1, min(20, (int)($args['limit'] ?? 10)));
-        $country = $args['country'] ?? 'US';
-        $includeReviews = $args['include_reviews'] ?? false;
+        // Extract parameters - args could be passed as an associative array
+        $params = is_array($args[0] ?? null) ? $args[0] : $args;
+        $action = $params['action'] ?? '';
+        $query = $params['query'] ?? '';
+        $asin = $params['asin'] ?? '';
+        $limit = max(1, min(20, (int)($params['limit'] ?? 10)));
+        $country = $params['country'] ?? 'US';
+        $includeReviews = $params['include_reviews'] ?? false;
 
         try {
             switch ($action) {
@@ -166,7 +168,7 @@ class AmazonScraperTool extends BaseTool
             $image = $product['image'] ?? '';
             $url = $product['url'] ?? '';
 
-            $imageHtml = $image ? "<img src='{$image}' class='card-img-top product-image' style='height: 200px; object-fit: contain;' alt='Product image'>" : '';
+            $imageHtml = $image ? "<img src='" . htmlspecialchars($image, ENT_QUOTES, 'UTF-8') . "' class='card-img-top product-image' style='height: 200px; object-fit: contain;' alt='Product image'>" : '';
 
             $cards .= "
             <div class='col-md-6 col-lg-4 mb-3'>
@@ -181,7 +183,7 @@ class AmazonScraperTool extends BaseTool
                         <div class='product-stats'>
                             <p class='mb-1'><strong>Price:</strong> {$price}</p>
                             <p class='mb-1'><strong>Rating:</strong> {$rating} ({$reviewCount} reviews)</p>
-                            " . ($url ? "<p class='mb-0'><a href='{$url}' target='_blank' class='btn btn-sm btn-outline-primary'>View on Amazon</a></p>" : '') . "
+                            " . ($url ? "<p class='mb-0'><a href='" . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . "' target='_blank' class='btn btn-sm btn-outline-primary'>View on Amazon</a></p>" : '') . "
                         </div>
                     </div>
                 </div>

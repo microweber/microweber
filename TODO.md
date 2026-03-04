@@ -202,13 +202,13 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Auto-scroll to bottom on new message - Alpine.js scrollToBottom() with intersection observer for smart scrolling
 - [x] 2026-03-04 Handle rate-limit / error messages - RateLimiter integration with user-friendly notifications
 - [x] 2026-03-04 Test offline ? reconnect behavior - Browser online/offline events with dispatch to Livewire
-- [ ] Test & stabilize tool calling pipeline ................................................. 34
-- [ ] Create unit test per tool (mock HTTP responses)
-- [ ] AmazonScraperTool: test product extraction
-- [ ] GoogleTrendsTool: test keyword ranking
-- [ ] ContentCreateTool: test post/product creation
-- [ ] RagSearchTool: test document retrieval
-- [ ] Handle JSON parsing failures gracefully
+ - [x] 2026-03-04 Test & stabilize tool calling pipeline ................................................. 34
+ - [x] 2026-03-04 Create unit test per tool (mock HTTP responses)
+ - [x] 2026-03-04 AmazonScraperTool: test product extraction (15 tests passing)
+ - [x] 2026-03-04 GoogleTrendsTool: test keyword ranking (16 tests passing)
+ - [x] 2026-03-04 CreateContentTool: test post/product creation (17 tests passing)
+ - [x] 2026-03-04 RagSearchTool: test document retrieval (15 tests passing)
+ - [x] 2026-03-04 Handle JSON parsing failures gracefully (service returns empty results on malformed JSON)
 - [x] 2026-03-04 Create comprehensive PHPUnit tests .................................................... 34
 - [x] 2026-03-04 test_list_agent_chats_shows_paginated_results()
 - [x] 2026-03-04 test_create_chat_saves_initial_prompt()

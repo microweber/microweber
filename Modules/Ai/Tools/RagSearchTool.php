@@ -49,10 +49,11 @@ class RagSearchTool extends BaseTool
 
     public function __invoke(...$args): string
     {
-        // Extract parameters from args array using keys
-        $query = $args['query'] ?? '';
-        $search_type = $args['search_type'] ?? 'all';
-        $limit = $args['limit'] ?? 10;
+        // Extract parameters - args could be passed as an associative array
+        $params = is_array($args[0] ?? null) ? $args[0] : $args;
+        $query = $params['query'] ?? '';
+        $search_type = $params['search_type'] ?? 'all';
+        $limit = $params['limit'] ?? 10;
         
         if (empty($query)) {
             return $this->handleError('Search query cannot be empty.');

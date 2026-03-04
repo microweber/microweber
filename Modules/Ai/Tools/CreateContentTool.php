@@ -71,14 +71,15 @@ class CreateContentTool extends BaseTool
 
     public function __invoke(...$args): string
     {
-        // Extract parameters from args array using keys
-        $title = $args['title'] ?? null;
-        $content = $args['content'] ?? null;
-        $content_body = $args['content_body'] ?? null;
-        $url = $args['url'] ?? null;
-        $content_type = $args['content_type'] ?? 'page';
-        $is_active = $args['is_active'] ?? true;
-        $media_urls = $args['media_urls'] ?? '';
+        // Extract parameters - args could be passed as an associative array
+        $params = is_array($args[0] ?? null) ? $args[0] : $args;
+        $title = $params['title'] ?? null;
+        $content = $params['content'] ?? null;
+        $content_body = $params['content_body'] ?? null;
+        $url = $params['url'] ?? null;
+        $content_type = $params['content_type'] ?? 'page';
+        $is_active = $params['is_active'] ?? true;
+        $media_urls = $params['media_urls'] ?? '';
 
         // Convert comma-separated string to array
         $media_urls_array = [];

@@ -141,7 +141,13 @@ class AmazonScraperService
             throw new \Exception('Failed to fetch page: HTTP ' . $response->status());
         }
 
-        return $response->body();
+        $body = $response->body();
+
+        if (empty($body)) {
+            throw new \Exception('Failed to fetch page: Empty response body');
+        }
+
+        return $body;
     }
 
     /**
@@ -150,6 +156,11 @@ class AmazonScraperService
     protected function parseSearchResults($html, $config)
     {
         $products = [];
+
+        // Handle empty or invalid HTML
+        if (empty($html) || !is_string($html)) {
+            return $products;
+        }
 
         $dom = new DOMDocument();
         @$dom->loadHTML($html);
@@ -225,6 +236,21 @@ class AmazonScraperService
      */
     protected function parseProductDetails($html, $asin, $config)
     {
+        // Handle empty or invalid HTML
+        if (empty($html) || !is_string($html)) {
+            return [
+                'title' => '',
+                'price' => null,
+                'images' => [],
+                'description' => '',
+                'brand' => '',
+                'availability' => '',
+                'rating' => null,
+                'review_count' => 0,
+                'reviews' => [],
+            ];
+        }
+
         $dom = new DOMDocument();
         @$dom->loadHTML($html);
         $xpath = new DOMXPath($dom);

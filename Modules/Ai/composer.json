@@ -22,9 +22,9 @@
             "Modules\\Ai\\Database\\Seeders\\": "database/seeders/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Modules\\Ai\\Tests\\": "Tests/"
-        }
+"autoload-dev": {
+    "psr-4": {
+      "Modules\\Ai\\Tests\\": "tests/"
     }
+  }
 }
