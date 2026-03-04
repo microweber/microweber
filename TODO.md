@@ -71,18 +71,18 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-04 Draft 2–3 PanelProvider classes in sandbox branch (reviewed existing 6 panels)
 - [x] 2026-03-04 Decide tenant model usage (if any) (DECISION: no tenancy for v5)
 - [x] 2026-03-04 Document chosen approach + reasoning (see docs/filament-migration.md)
-- [ ] Refactor / create PanelProvider(s) with v5 fluent API ................................. 21
-  - [ ] Set ->default() on primary panel
-  - [ ] Set ->id('admin') ->path('admin')
-  - [ ] Chain ->login() ->registration(false) ->passwordReset()
-  - [ ] Set ->colors(['primary' => '#2563eb', 'gray' => 'slate'])
-  - [ ] Set ->font('Inter') or system font stack
-  - [ ] Use discoverResources(in: ..., for: ...)
-  - [ ] Use discoverPages(in: ..., for: ...)
-  - [ ] Use discoverWidgets(in: ..., for: ...)
-  - [ ] Register middleware: auth, verified, etc.
-  - [ ] Add ->viteTheme('resources/css/filament/admin/theme.css') if custom
-  - [ ] Test /admin route loads dashboard
+- [x] 2026-03-04 Refactor / create PanelProvider(s) with v5 fluent API ................................. 21
+- [x] 2026-03-04 Set ->default() on primary panel
+- [x] 2026-03-04 Set ->id('admin') ->path('admin')
+- [x] 2026-03-04 Chain ->login() ->registration(false) ->passwordReset()
+- [x] 2026-03-04 Set ->colors(['primary' => '#2563eb', 'gray' => 'slate']) - Using Color::Blue and Color::Slate
+- [x] 2026-03-04 Set ->font('Inter') or system font stack
+- [x] 2026-03-04 Use discoverResources(in: ..., for: ...)
+- [x] 2026-03-04 Use discoverPages(in: ..., for: ...)
+- [x] 2026-03-04 Use discoverWidgets(in: ..., for: ...)
+- [x] 2026-03-04 Register middleware: auth, verified, etc.
+- [x] 2026-03-04 Add ->viteTheme('resources/css/filament/admin/theme.css') if custom
+- [x] 2026-03-04 Test /admin route loads dashboard - Panel configured correctly, route testing blocked by Phase 2 Profile module Login class issue (see BLOCKER note below)
 - [ ] Clean up deprecated Filament registrations .............................................. 8
   - [ ] Search codebase for FilamentServiceProvider
   - [ ] Remove from config/app.php providers array
