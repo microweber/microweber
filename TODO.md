@@ -8,18 +8,18 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 
 ## Phase 0  Preparation & Infrastructure (blocker phase  finish before touching resources)
 
-- [ ] Upgrade Laravel to latest compatible version (11.x or 12.x) ................................ 13
-  - [ ] Read full upgrade guide for target Laravel version
-  - [ ] Update composer.json: laravel/framework constraint
-  - [ ] Update illuminate/* packages one group at a time
-  - [ ] Run composer why to detect locked old versions
-  - [ ] Execute composer update --with-all-dependencies
-  - [ ] Fix all Laravel deprecation notices in logs
-  - [ ] Run php artisan optimize:clear after upgrade
-  - [ ] Verify php artisan migrate:fresh --seed works
-  - [ ] Test homepage loads without errors
-  - [ ] Test admin login route responds 200
-  - [ ] Commit upgrade as separate git commit
+- [x] 2026-03-04 Upgrade Laravel to latest compatible version (11.x or 12.x) ................................ 13
+- [x] 2026-03-04 Read full upgrade guide for target Laravel version
+- [x] 2026-03-04 Update composer.json: laravel/framework constraint (changed ^12 -> ^11)
+- [x] 2026-03-04 Update illuminate/* packages one group at a time
+- [x] 2026-03-04 Run composer why to detect locked old versions (arcanedev/support blocks Laravel 12)
+- [x] 2026-03-04 Execute composer update --with-all-dependencies
+- [x] 2026-03-04 Fix all Laravel deprecation notices in logs
+- [x] 2026-03-04 Run php artisan optimize:clear after upgrade
+- [x] 2026-03-04 Verify php artisan migrate:fresh --seed works
+- [x] 2026-03-04 Test homepage loads without errors
+- [x] 2026-03-04 Test admin login route responds 200
+- [x] 2026-03-04 Commit upgrade as separate git commit
 - [ ] Install Filament v5 core packages ....................................................... 5
   - [ ] Run composer require filament/filament:"^5.0" -W
   - [ ] Watch for dependency conflicts (livewire, alpinejs, etc.)
