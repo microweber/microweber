@@ -90,4 +90,86 @@ class PageResourceTest extends TestCase
         $this->assertArrayHasKey('create', $pages);
         $this->assertArrayHasKey('edit', $pages);
     }
+
+    #[Test]
+    public function test_sorting_by_column_changes_order(): void
+    {
+        // Create pages with different titles and positions for sorting
+        $pageA = Page::factory()->create([
+            'title' => 'Alpha Page',
+            'position' => 3,
+            'created_at' => now()->subDays(5),
+        ]);
+        $pageB = Page::factory()->create([
+            'title' => 'Beta Page',
+            'position' => 2,
+            'created_at' => now()->subDays(3),
+        ]);
+        $pageC = Page::factory()->create([
+            'title' => 'Charlie Page',
+            'position' => 1,
+            'created_at' => now()->subDays(1),
+        ]);
+
+        // Test sorting by title ascending
+        Livewire::test(ListPages::class)
+            ->sortTable('title', 'asc')
+            ->assertCanSeeTableRecords([$pageA, $pageB, $pageC], inOrder: true);
+
+        // Test sorting by position ascending (default)
+        Livewire::test(ListPages::class)
+            ->sortTable('position', 'asc')
+            ->assertCanSeeTableRecords([$pageC, $pageB, $pageA], inOrder: true);
+
+        // Test sorting by created_at descending
+        Livewire::test(ListPages::class)
+            ->sortTable('created_at', 'desc')
+            ->assertCanSeeTableRecords([$pageC, $pageB, $pageA], inOrder: true);
+    }
+
+    #[Test]
+    public function test_filter_by_boolean_field(): void
+    {
+        // Create pages with different active statuses
+        $activePage = Page::factory()->create([
+            'title' => 'Active Page',
+            'is_active' => 1,
+        ]);
+        $inactivePage = Page::factory()->create([
+            'title' => 'Inactive Page',
+            'is_active' => 0,
+        ]);
+
+        // Filter by active status
+        Livewire::test(ListPages::class)
+            ->filterTable('is_active', 1)
+            ->assertCanSeeTableRecords([$activePage])
+            ->assertCanNotSeeTableRecords([$inactivePage]);
+
+        // Filter by inactive status
+        Livewire::test(ListPages::class)
+            ->filterTable('is_active', 0)
+            ->assertCanSeeTableRecords([$inactivePage])
+            ->assertCanNotSeeTableRecords([$activePage]);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $page1 = Page::factory()->create(['title' => 'Page 1']);
+        $page2 = Page::factory()->create(['title' => 'Page 2']);
+        $page3 = Page::factory()->create(['title' => 'Page 3']);
+
+        // Select and bulk delete first two pages
+        Livewire::test(ListPages::class)
+            ->callTableBulkAction('delete', [$page1, $page2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('content', ['id' => $page1->id]);
+        $this->assertDatabaseMissing('content', ['id' => $page2->id]);
+
+        // Assert third page still exists
+        $this->assertDatabaseHas('content', ['id' => $page3->id]);
+    }
 }

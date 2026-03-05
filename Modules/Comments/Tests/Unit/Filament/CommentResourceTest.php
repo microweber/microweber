@@ -139,6 +139,49 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
+    public function test_sorting_by_column_changes_order(): void
+    {
+        // Create comments with different dates
+        $commentA = Comment::factory()->create([
+            'comment_name' => 'Alice',
+            'created_at' => now()->subDays(5),
+        ]);
+        $commentB = Comment::factory()->create([
+            'comment_name' => 'Bob',
+            'created_at' => now()->subDays(3),
+        ]);
+        $commentC = Comment::factory()->create([
+            'comment_name' => 'Charlie',
+            'created_at' => now()->subDays(1),
+        ]);
+
+        // Test sorting by created_at descending
+        Livewire::test(ListComments::class)
+            ->sortTable('created_at', 'desc')
+            ->assertCanSeeTableRecords([$commentC, $commentB, $commentA], inOrder: true);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $comment1 = Comment::factory()->create(['comment_name' => 'Delete 1']);
+        $comment2 = Comment::factory()->create(['comment_name' => 'Delete 2']);
+        $comment3 = Comment::factory()->create(['comment_name' => 'Keep']);
+
+        // Select and bulk delete first two comments
+        Livewire::test(ListComments::class)
+            ->callTableBulkAction('delete', [$comment1, $comment2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('comments', ['id' => $comment1->id]);
+        $this->assertDatabaseMissing('comments', ['id' => $comment2->id]);
+
+        // Assert third comment still exists
+        $this->assertDatabaseHas('comments', ['id' => $comment3->id]);
+    }
+
+    #[Test]
     public function test_bulk_approve_action_exists(): void
     {
         Livewire::test(ListComments::class)->assertTableBulkActionExists('approve');

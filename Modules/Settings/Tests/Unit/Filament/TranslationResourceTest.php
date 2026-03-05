@@ -97,4 +97,60 @@ class TranslationResourceTest extends TestCase
     {
         Livewire::test(ListTranslations::class)->assertTableBulkActionExists('add_translation');
     }
+
+    #[Test]
+    public function test_sorting_by_column_changes_order(): void
+    {
+        // Create translations with different keys for sorting
+        $translationA = TranslationKey::factory()->create([
+            'translation_key' => 'alpha.key',
+            'translation_namespace' => 'test',
+            'translation_group' => 'default',
+        ]);
+        $translationB = TranslationKey::factory()->create([
+            'translation_key' => 'beta.key',
+            'translation_namespace' => 'test',
+            'translation_group' => 'default',
+        ]);
+        $translationC = TranslationKey::factory()->create([
+            'translation_key' => 'charlie.key',
+            'translation_namespace' => 'test',
+            'translation_group' => 'default',
+        ]);
+
+        // Test sorting by translation_key ascending
+        Livewire::test(ListTranslations::class)
+            ->sortTable('translation_key', 'asc')
+            ->assertCanSeeTableRecords([$translationA, $translationB, $translationC], inOrder: true);
+
+        // Test sorting by translation_key descending
+        Livewire::test(ListTranslations::class)
+            ->sortTable('translation_key', 'desc')
+            ->assertCanSeeTableRecords([$translationC, $translationB, $translationA], inOrder: true);
+
+        // Test sorting by translation_namespace ascending
+        Livewire::test(ListTranslations::class)
+            ->sortTable('translation_namespace', 'asc')
+            ->assertCanSeeTableRecords([$translationA, $translationB, $translationC], inOrder: true);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $translation1 = TranslationKey::factory()->create(['translation_key' => 'key.1']);
+        $translation2 = TranslationKey::factory()->create(['translation_key' => 'key.2']);
+        $translation3 = TranslationKey::factory()->create(['translation_key' => 'key.3']);
+
+        // Select and bulk delete first two translations
+        Livewire::test(ListTranslations::class)
+            ->callTableBulkAction('delete', [$translation1, $translation2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('translation_keys', ['id' => $translation1->id]);
+        $this->assertDatabaseMissing('translation_keys', ['id' => $translation2->id]);
+
+        // Assert third translation still exists
+        $this->assertDatabaseHas('translation_keys', ['id' => $translation3->id]);
+    }
 }

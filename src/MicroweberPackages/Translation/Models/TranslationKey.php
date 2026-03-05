@@ -2,12 +2,20 @@
 
 namespace MicroweberPackages\Translation\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
+use MicroweberPackages\Translation\Database\Factories\TranslationKeyFactory;
 
 class TranslationKey extends Model
 {
+    use HasFactory;
+
+    protected static function newFactory(): TranslationKeyFactory
+    {
+        return new TranslationKeyFactory();
+    }
     use HasSearchableTrait;
 
     public $timestamps = false;

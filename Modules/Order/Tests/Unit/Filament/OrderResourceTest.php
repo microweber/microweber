@@ -264,6 +264,57 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
+    public function test_sorting_by_column_changes_order(): void
+    {
+        // Create orders with different reference IDs and amounts
+        $orderA = Order::factory()->create([
+            'order_reference_id' => 'ORDER-001',
+            'amount' => 100.00,
+            'created_at' => now()->subDays(5),
+        ]);
+        $orderB = Order::factory()->create([
+            'order_reference_id' => 'ORDER-002',
+            'amount' => 200.00,
+            'created_at' => now()->subDays(3),
+        ]);
+        $orderC = Order::factory()->create([
+            'order_reference_id' => 'ORDER-003',
+            'amount' => 300.00,
+            'created_at' => now()->subDays(1),
+        ]);
+
+        // Test sorting by id descending (default)
+        Livewire::test(ListOrders::class)
+            ->sortTable('id', 'desc')
+            ->assertCanSeeTableRecords([$orderC, $orderB, $orderA], inOrder: true);
+
+        // Test sorting by order_reference_id ascending
+        Livewire::test(ListOrders::class)
+            ->sortTable('order_reference_id', 'asc')
+            ->assertCanSeeTableRecords([$orderA, $orderB, $orderC], inOrder: true);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $order1 = Order::factory()->create(['order_reference_id' => 'ORDER-BULK-001']);
+        $order2 = Order::factory()->create(['order_reference_id' => 'ORDER-BULK-002']);
+        $order3 = Order::factory()->create(['order_reference_id' => 'ORDER-BULK-003']);
+
+        // Select and bulk delete first two orders
+        Livewire::test(ListOrders::class)
+            ->callTableBulkAction('delete', [$order1, $order2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('orders', ['id' => $order1->id]);
+        $this->assertDatabaseMissing('orders', ['id' => $order2->id]);
+
+        // Assert third order still exists
+        $this->assertDatabaseHas('orders', ['id' => $order3->id]);
+    }
+
+    #[Test]
     public function test_payments_relation_manager_exists(): void
     {
         $order = Order::factory()->create();

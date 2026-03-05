@@ -310,6 +310,130 @@ class AgentChatResourceTest extends TestCase
     }
 
     /** @test */
+    public function test_sorting_by_column_changes_order()
+    {
+        $this->actingAsAdmin();
+
+        // Create chats with different attributes for sorting
+        $chatA = AgentChat::factory()->create([
+            'title' => 'Alpha Chat',
+            'agent_type' => 'general',
+            'is_active' => true,
+            'created_at' => now()->subDays(5),
+        ]);
+        $chatB = AgentChat::factory()->create([
+            'title' => 'Beta Chat',
+            'agent_type' => 'customer',
+            'is_active' => false,
+            'created_at' => now()->subDays(3),
+        ]);
+        $chatC = AgentChat::factory()->create([
+            'title' => 'Charlie Chat',
+            'agent_type' => 'shop',
+            'is_active' => true,
+            'created_at' => now()->subDays(1),
+        ]);
+
+        // Test sorting by title ascending
+        Livewire::test(ListAgentChats::class)
+            ->sortTable('title', 'asc')
+            ->assertCanSeeTableRecords([$chatA, $chatB, $chatC], inOrder: true);
+
+        // Test sorting by created_at descending (default)
+        Livewire::test(ListAgentChats::class)
+            ->sortTable('created_at', 'desc')
+            ->assertCanSeeTableRecords([$chatC, $chatB, $chatA], inOrder: true);
+    }
+
+    /** @test */
+    public function test_filter_by_boolean_field()
+    {
+        $this->actingAsAdmin();
+
+        // Create chats with different active statuses
+        $activeChat = AgentChat::factory()->create([
+            'title' => 'Active Chat',
+            'is_active' => true,
+        ]);
+        $inactiveChat = AgentChat::factory()->create([
+            'title' => 'Inactive Chat',
+            'is_active' => false,
+        ]);
+
+        // Filter by active status
+        Livewire::test(ListAgentChats::class)
+            ->filterTable('is_active', true)
+            ->assertCanSeeTableRecords([$activeChat])
+            ->assertCanNotSeeTableRecords([$inactiveChat]);
+
+        // Filter by inactive status
+        Livewire::test(ListAgentChats::class)
+            ->filterTable('is_active', false)
+            ->assertCanSeeTableRecords([$inactiveChat])
+            ->assertCanNotSeeTableRecords([$activeChat]);
+    }
+
+    /** @test */
+    public function test_filter_by_select_relationship()
+    {
+        $this->actingAsAdmin();
+
+        $userA = \MicroweberPackages\User\Models\User::factory()->create();
+        $userB = \MicroweberPackages\User\Models\User::factory()->create();
+
+        // Create chats assigned to different users
+        $chatA = AgentChat::factory()->create([
+            'title' => 'Chat A',
+            'user_id' => $userA->id,
+            'agent_type' => 'general',
+        ]);
+        $chatB = AgentChat::factory()->create([
+            'title' => 'Chat B',
+            'user_id' => $userB->id,
+            'agent_type' => 'customer',
+        ]);
+        $chatC = AgentChat::factory()->create([
+            'title' => 'Chat C',
+            'user_id' => $userA->id,
+            'agent_type' => 'shop',
+        ]);
+
+        // Filter by user relationship
+        Livewire::test(ListAgentChats::class)
+            ->filterTable('user_id', $userA->id)
+            ->assertCanSeeTableRecords([$chatA, $chatC])
+            ->assertCanNotSeeTableRecords([$chatB]);
+
+        // Filter by agent_type
+        Livewire::test(ListAgentChats::class)
+            ->filterTable('agent_type', 'general')
+            ->assertCanSeeTableRecords([$chatA])
+            ->assertCanNotSeeTableRecords([$chatB, $chatC]);
+    }
+
+    /** @test */
+    public function test_bulk_delete_removes_selected_records()
+    {
+        $this->actingAsAdmin();
+
+        $chat1 = AgentChat::factory()->create(['title' => 'Chat 1']);
+        $chat2 = AgentChat::factory()->create(['title' => 'Chat 2']);
+        $chat3 = AgentChat::factory()->create(['title' => 'Chat 3']);
+
+        // Select and bulk delete first two chats
+        Livewire::test(ListAgentChats::class)
+            ->callTableBulkAction('delete', [$chat1, $chat2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('agent_chats', ['id' => $chat1->id]);
+        $this->assertDatabaseMissing('agent_chats', ['id' => $chat2->id]);
+
+        // Assert third chat still exists
+        $this->assertDatabaseHas('agent_chats', ['id' => $chat3->id]);
+    }
+
+    /** @test */
     public function test_list_filters_work_correctly()
     {
         $this->actingAsAdmin();

@@ -303,6 +303,78 @@ class SubscriptionResourceTest extends BillingTestCase
     }
 
     #[Test]
+    public function it_can_sort_subscriptions_by_column()
+    {
+        $this->loginAsAdmin();
+
+        // Create subscriptions with different dates
+        $subscriptionA = $this->createTestSubscription([
+            'name' => 'Alpha Subscription',
+            'stripe_id' => 'sub_a_' . Str::random(5),
+            'created_at' => now()->subDays(5),
+        ]);
+        $subscriptionB = $this->createTestSubscription([
+            'name' => 'Beta Subscription',
+            'stripe_id' => 'sub_b_' . Str::random(5),
+            'created_at' => now()->subDays(3),
+        ]);
+        $subscriptionC = $this->createTestSubscription([
+            'name' => 'Charlie Subscription',
+            'stripe_id' => 'sub_c_' . Str::random(5),
+            'created_at' => now()->subDays(1),
+        ]);
+
+        Filament::setCurrentPanel(
+            Filament::getPanel('admin-billing'),
+        );
+
+        // Test sorting by name ascending
+        Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
+            ->sortTable('name', 'asc')
+            ->assertCanSeeTableRecords([$subscriptionA, $subscriptionB, $subscriptionC], inOrder: true);
+
+        // Test sorting by created_at descending (default)
+        Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
+            ->sortTable('created_at', 'desc')
+            ->assertCanSeeTableRecords([$subscriptionC, $subscriptionB, $subscriptionA], inOrder: true);
+    }
+
+    #[Test]
+    public function it_can_bulk_delete_subscriptions()
+    {
+        $this->loginAsAdmin();
+
+        $subscription1 = $this->createTestSubscription([
+            'name' => 'Delete Me 1',
+            'stripe_id' => 'sub_del_1_' . Str::random(5),
+        ]);
+        $subscription2 = $this->createTestSubscription([
+            'name' => 'Delete Me 2',
+            'stripe_id' => 'sub_del_2_' . Str::random(5),
+        ]);
+        $subscription3 = $this->createTestSubscription([
+            'name' => 'Keep Me',
+            'stripe_id' => 'sub_keep_' . Str::random(5),
+        ]);
+
+        Filament::setCurrentPanel(
+            Filament::getPanel('admin-billing'),
+        );
+
+        // Bulk delete first two subscriptions
+        Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
+            ->callTableBulkAction('delete', [$subscription1, $subscription2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('subscriptions', ['id' => $subscription1->id]);
+        $this->assertDatabaseMissing('subscriptions', ['id' => $subscription2->id]);
+
+        // Assert third subscription still exists
+        $this->assertDatabaseHas('subscriptions', ['id' => $subscription3->id]);
+    }
+
+    #[Test]
     public function it_includes_trialing_in_active_navigation_badge()
     {
         $this->loginAsAdmin();

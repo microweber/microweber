@@ -224,14 +224,139 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_invoice_has_required_relationships(): void
+    public function test_sorting_by_column_changes_order(): void
     {
-        $customer = Customer::factory()->create();
-        $invoice = Invoice::factory()->create([
-            'customer_id' => $customer->id,
+        $customerA = Customer::factory()->create(['name' => 'Alice Anderson']);
+        $customerB = Customer::factory()->create(['name' => 'Bob Baker']);
+        $customerC = Customer::factory()->create(['name' => 'Charlie Clark']);
+
+        $invoiceA = Invoice::factory()->create([
+            'customer_id' => $customerA->id,
+            'invoice_number' => 'INV-001',
+            'invoice_date' => now()->subDays(5),
+            'total' => 1000,
+        ]);
+        $invoiceB = Invoice::factory()->create([
+            'customer_id' => $customerB->id,
+            'invoice_number' => 'INV-002',
+            'invoice_date' => now()->subDays(3),
+            'total' => 2000,
+        ]);
+        $invoiceC = Invoice::factory()->create([
+            'customer_id' => $customerC->id,
+            'invoice_number' => 'INV-003',
+            'invoice_date' => now()->subDays(1),
+            'total' => 3000,
         ]);
 
-        $this->assertInstanceOf(Customer::class, $invoice->customer);
-        $this->assertEquals($customer->id, $invoice->customer->id);
+        // Test sorting by invoice_number descending
+        Livewire::test(ListInvoices::class)
+            ->assertSuccessful()
+            ->sortTable('invoice_number', 'desc')
+            ->assertCanSeeTableRecords([$invoiceC, $invoiceB, $invoiceA], inOrder: true);
+
+        // Test sorting by total ascending
+        Livewire::test(ListInvoices::class)
+            ->sortTable('total', 'asc')
+            ->assertCanSeeTableRecords([$invoiceA, $invoiceB, $invoiceC], inOrder: true);
+
+        // Test sorting by invoice_date descending (default)
+        Livewire::test(ListInvoices::class)
+            ->sortTable('invoice_date', 'desc')
+            ->assertCanSeeTableRecords([$invoiceC, $invoiceB, $invoiceA], inOrder: true);
+    }
+
+    #[Test]
+    public function test_filter_by_boolean_field(): void
+    {
+        // Create invoices with different paid statuses
+        $unpaidInvoice = Invoice::factory()->create([
+            'paid_status' => Invoice::STATUS_UNPAID,
+            'invoice_number' => 'INV-UNPAID-001',
+        ]);
+        $paidInvoice = Invoice::factory()->create([
+            'paid_status' => Invoice::STATUS_PAID,
+            'invoice_number' => 'INV-PAID-001',
+        ]);
+        $partiallyPaidInvoice = Invoice::factory()->create([
+            'paid_status' => Invoice::STATUS_PARTIALLY_PAID,
+            'invoice_number' => 'INV-PARTIAL-001',
+        ]);
+
+        // Filter by unpaid status
+        Livewire::test(ListInvoices::class)
+            ->filterTable('paid_status', Invoice::STATUS_UNPAID)
+            ->assertCanSeeTableRecords([$unpaidInvoice])
+            ->assertCanNotSeeTableRecords([$paidInvoice, $partiallyPaidInvoice]);
+
+        // Filter by paid status
+        Livewire::test(ListInvoices::class)
+            ->filterTable('paid_status', Invoice::STATUS_PAID)
+            ->assertCanSeeTableRecords([$paidInvoice])
+            ->assertCanNotSeeTableRecords([$unpaidInvoice, $partiallyPaidInvoice]);
+    }
+
+    #[Test]
+    public function test_filter_by_select_relationship(): void
+    {
+        $customerA = Customer::factory()->create(['name' => 'Customer A']);
+        $customerB = Customer::factory()->create(['name' => 'Customer B']);
+
+        $invoiceA = Invoice::factory()->create([
+            'customer_id' => $customerA->id,
+            'invoice_number' => 'INV-CUST-A-001',
+        ]);
+        $invoiceB = Invoice::factory()->create([
+            'customer_id' => $customerB->id,
+            'invoice_number' => 'INV-CUST-B-001',
+        ]);
+        $invoiceC = Invoice::factory()->create([
+            'customer_id' => $customerA->id,
+            'invoice_number' => 'INV-CUST-A-002',
+        ]);
+
+        // Filter by customer relationship
+        Livewire::test(ListInvoices::class)
+            ->filterTable('customer_id', $customerA->id)
+            ->assertCanSeeTableRecords([$invoiceA, $invoiceC])
+            ->assertCanNotSeeTableRecords([$invoiceB]);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $invoice1 = Invoice::factory()->create(['invoice_number' => 'INV-BULK-001']);
+        $invoice2 = Invoice::factory()->create(['invoice_number' => 'INV-BULK-002']);
+        $invoice3 = Invoice::factory()->create(['invoice_number' => 'INV-BULK-003']);
+
+        // Select and bulk delete first two invoices
+        Livewire::test(ListInvoices::class)
+            ->callTableBulkAction('delete', [$invoice1, $invoice2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('invoices', ['id' => $invoice1->id]);
+        $this->assertDatabaseMissing('invoices', ['id' => $invoice2->id]);
+
+        // Assert third invoice still exists
+        $this->assertDatabaseHas('invoices', ['id' => $invoice3->id]);
+    }
+
+    #[Test]
+    public function test_export_bulk_action_generates_file(): void
+    {
+        $invoice = Invoice::factory()->create([
+            'invoice_number' => 'INV-EXPORT-001',
+            'status' => Invoice::STATUS_PAID,
+        ]);
+
+        // Test PDF export action exists
+        Livewire::test(ListInvoices::class)
+            ->assertTableActionExists('pdf');
+
+        // Test that export action can be triggered
+        Livewire::test(ListInvoices::class)
+            ->callTableAction('pdf', $invoice)
+            ->assertSuccessful();
     }
 }

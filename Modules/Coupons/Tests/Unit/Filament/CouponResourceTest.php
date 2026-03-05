@@ -108,6 +108,65 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
+    public function test_sorting_by_column_changes_order(): void
+    {
+        // Create coupons with different attributes for sorting
+        $couponA = Coupon::factory()->create([
+            'coupon_name' => 'Alpha Discount',
+            'coupon_code' => 'ALPHA10',
+            'discount_value' => 10,
+            'created_at' => now()->subDays(5),
+        ]);
+        $couponB = Coupon::factory()->create([
+            'coupon_name' => 'Beta Special',
+            'coupon_code' => 'BETA20',
+            'discount_value' => 20,
+            'created_at' => now()->subDays(3),
+        ]);
+        $couponC = Coupon::factory()->create([
+            'coupon_name' => 'Charlie Deal',
+            'coupon_code' => 'CHARLIE30',
+            'discount_value' => 30,
+            'created_at' => now()->subDays(1),
+        ]);
+
+        // Test sorting by coupon_name ascending
+        Livewire::test(ListCoupons::class)
+            ->sortTable('coupon_name', 'asc')
+            ->assertCanSeeTableRecords([$couponA, $couponB, $couponC], inOrder: true);
+
+        // Test sorting by discount_value descending
+        Livewire::test(ListCoupons::class)
+            ->sortTable('discount_value', 'desc')
+            ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
+
+        // Test sorting by created_at descending
+        Livewire::test(ListCoupons::class)
+            ->sortTable('created_at', 'desc')
+            ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_selected_records(): void
+    {
+        $coupon1 = Coupon::factory()->create(['coupon_code' => 'BULK001']);
+        $coupon2 = Coupon::factory()->create(['coupon_code' => 'BULK002']);
+        $coupon3 = Coupon::factory()->create(['coupon_code' => 'BULK003']);
+
+        // Select and bulk delete first two coupons
+        Livewire::test(ListCoupons::class)
+            ->callTableBulkAction('delete', [$coupon1, $coupon2])
+            ->assertHasNoTableBulkActionErrors();
+
+        // Assert deleted records are gone
+        $this->assertDatabaseMissing('coupons', ['id' => $coupon1->id]);
+        $this->assertDatabaseMissing('coupons', ['id' => $coupon2->id]);
+
+        // Assert third coupon still exists
+        $this->assertDatabaseHas('coupons', ['id' => $coupon3->id]);
+    }
+
+    #[Test]
     public function test_table_has_required_columns(): void
     {
         Livewire::test(ListCoupons::class)

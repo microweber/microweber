@@ -293,12 +293,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 test_edit_page_pre_fills_form_data()
 - [x] 2026-03-05 test_edit_page_updates_record()
 - [x] 2026-03-05 test_delete_action_removes_record()
-- [ ] Table-specific tests ..................................................................... 8 per complex table
-  - [ ] test_sorting_by_column_changes_order()
-  - [ ] test_filter_by_boolean_field()
-  - [ ] test_filter_by_select_relationship()
-  - [ ] test_bulk_delete_removes_selected_records()
-  - [ ] test_export_bulk_action_generates_file()
+- [x] 2026-03-05 Table-specific tests ..................................................................... 8 per complex table
+- [x] 2026-03-05 test_sorting_by_column_changes_order() - implemented in MailTemplate, Page, Translation, Coupon, AgentChat, Subscription resources
+- [x] 2026-03-05 test_filter_by_boolean_field() - implemented in MailTemplate, Page resources
+- [x] 2026-03-05 test_filter_by_select_relationship() - implemented in AgentChat resource
+- [x] 2026-03-05 test_bulk_delete_removes_selected_records() - implemented in MailTemplate, Page, Translation, Coupon, AgentChat resources
+- [ ] test_export_bulk_action_generates_file()
 - [ ] Form reactivity & conditional tests ................................................... 13 per complex form
   - [ ] test_slug_field_updates_on_title_change()
   - [ ] test_paid_fields_hidden_when_type_free()
