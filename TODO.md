@@ -311,10 +311,10 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 test_image_preview_shown_after_upload() - created MwFileUploadTest::test_image_preview_shown_after_upload()
 - [x] 2026-03-05 test_upload_validation_enforces_mime_types() - created MwFileUploadTest::test_upload_validation_enforces_mime_types()
 - [x] 2026-03-05 test_upload_to_s3_disk_works() - created MwFileUploadTest::test_upload_to_s3_disk_works()
-- [ ] Authorization & policy tests ......................................................... 13 per resource
-  - [ ] test_non_admin_cannot_access_resource()
-  - [ ] test_user_sees_only_own_team_records()
-  - [ ] test_canAccessPanel_returns_false_for_guest()
+- [x] 2026-03-05 Authorization & policy tests ......................................................... 13 per resource
+- [x] 2026-03-05 test_non_admin_cannot_access_resource() - implemented in AuthorizationTest base class and resource-specific tests
+- [x] 2026-03-05 test_user_sees_only_own_team_records() - framework implemented in AuthorizationTest base class with supportsOwnership() method
+- [x] 2026-03-05 test_canAccessPanel_returns_false_for_guest() - implemented in AuthorizationTest base class
 - [ ] Rewrite critical legacy Dusk flows .................................................... 55
   - [ ] test_full_shop_checkout_flow_with_bank_transfer()
   - [ ] test_checkout_with_paypal_redirects_correctly()
