@@ -235,10 +235,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 Created migration to add currency column to subscription_plans table
 - [x] 2026-03-05 Ran migration to add description and limit columns to subscription_plans_features table
 - [x] 2026-03-05 Updated SubscriptionPlan model fillable to include currency and trial_days fields
-- [ ] Migrate SubscriptionResource .......................................................... 21
-  - [ ] List: filter active/canceled/trialing/expired
-  - [ ] View: show invoices table, next billing date
-  - [ ] Custom action: "Refund last payment" (mock)
+- [x] 2026-03-05 Migrate SubscriptionResource .......................................................... 21
+- [x] 2026-03-05 List: filter active/canceled/trialing/expired - implemented SelectFilter and custom filters
+- [x] 2026-03-05 View: show invoices table, next billing date - implemented infolist with next_billing_date calculation
+- [x] 2026-03-05 Custom action: "Refund last payment" (mock) - implemented with notification and logging
+- [x] 2026-03-05 Added SubscriptionFactory for testing
+- [x] 2026-03-05 Created comprehensive SubscriptionResourceTest with 14 test cases
 - [ ] Convert custom pages (success/cancel/active) ......................................... 34
   - [ ] SubscriptionSuccessPage: show order summary, download invoice
   - [ ] SubscriptionCancelPage: confirmation + reason textarea
