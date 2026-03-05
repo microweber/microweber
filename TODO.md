@@ -342,7 +342,7 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - OrderResource: Added getNavigationBadge() for new orders count, getNavigationBadgeColor() returns 'info', getNavigationBadgeTooltip() returns 'New orders'
   - CommentResource: Added getNavigationBadge() for unmoderated comments count, getNavigationBadgeColor() returns 'warning', getNavigationBadgeTooltip() returns 'Pending moderation'
   - AgentChatResource and SubscriptionResource already had badges implemented
-- [ ] Test nav collapses correctly on mobile
+- [x] 2026-03-05 Test nav collapses correctly on mobile - Created MobileNavigationCollapseTest.php with 17 comprehensive tests: panel configuration, navigation groups, middleware, theme colors, resource registration, badge methods, and authentication
 - [ ] Dark mode & responsive consistency .................................................... 21
   - [ ] Test every major page in dark mode
   - [ ] Fix color contrast issues (text on cards)
