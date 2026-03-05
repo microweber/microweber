@@ -251,12 +251,13 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 Created SubscriptionCancelReason model and migration for storing cancellation feedback
 - [x] 2026-03-05 Created OrderCancelReason model and migration for purchase cancellation feedback
 - [x] 2026-03-05 All Blade views updated with Filament v5 panel layout and dark mode support
-- [ ] Fix webhook handling ................................................................. 21
-  - [ ] Update WebhookController signature for v5
-  - [ ] Add signature verification middleware
-  - [ ] Handle 'invoice.paid', 'customer.subscription.updated'
-  - [ ] Log webhook payload to database
-  - [ ] Add retry queue job on failure
+- [x] 2026-03-05 Fix webhook handling ................................................................. 21
+  - [x] 2026-03-05 Update WebhookController signature for v5 - added constructor with middleware
+  - [x] 2026-03-05 Add signature verification middleware - VerifyWebhookSignature
+  - [x] 2026-03-05 Handle 'invoice.paid', 'customer.subscription.updated' - added handlers
+  - [x] 2026-03-05 Log webhook payload to database - created WebhookLog model and migration
+  - [x] 2026-03-05 Add retry queue job on failure - created ProcessWebhookJob with retry logic
+  - [x] 2026-03-05 Created comprehensive webhook controller tests (15 test cases)
 - [ ] Migrate widgets ......................................................................... 13
   - [ ] LatestSubscriptionsWidget: table of 5 latest
   - [ ] StatsOverviewWidget: cards for MRR, active count, churn
