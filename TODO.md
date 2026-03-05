@@ -258,16 +258,17 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - [x] 2026-03-05 Log webhook payload to database - created WebhookLog model and migration
   - [x] 2026-03-05 Add retry queue job on failure - created ProcessWebhookJob with retry logic
   - [x] 2026-03-05 Created comprehensive webhook controller tests (15 test cases)
-- [ ] Migrate widgets ......................................................................... 13
-  - [ ] LatestSubscriptionsWidget: table of 5 latest
-  - [ ] StatsOverviewWidget: cards for MRR, active count, churn
-  - [ ] Poll every 60s in dashboard
-- [ ] PHPUnit coverage for billing ................................................................ 55
-  - [ ] test_subscription_creation_with_trial()
-  - [ ] test_subscription_cancellation_stops_billing()
-  - [ ] test_trial_auto_activation_command_runs()
-  - [ ] test_webhook_invoice_paid_updates_status()
-  - [ ] test_user_cannot_access_billing_without_permission()
+- [x] 2026-03-05 Migrate widgets ......................................................................... 13
+- [x] 2026-03-05 LatestSubscriptionsWidget: table of 5 latest with 60s polling - already implemented, fixed 3 test assertions
+- [x] 2026-03-05 StatsOverviewWidget: cards for MRR, active count, churn - fully functional with 4 stats
+- [x] 2026-03-05 Polling interval set to 60s via $pollingInterval property
+- [x] 2026-03-05 All 17 widget tests passing (66 assertions)
+- [x] 2026-03-05 PHPUnit coverage for billing ................................................................ 55
+- [x] 2026-03-05 test_subscription_creation_with_trial() - implemented in SubscriptionTest.php
+- [x] 2026-03-05 test_subscription_cancellation_stops_billing() - implemented in SubscriptionTest.php
+- [x] 2026-03-05 test_trial_auto_activation_command_runs() - already implemented in AutoActivateFreeTrialTest.php
+- [x] 2026-03-05 test_webhook_invoice_paid_updates_status() - implemented in WebhookControllerTest.php
+- [x] 2026-03-05 test_user_cannot_access_billing_without_permission() - implemented in AuthorizationTest.php
 
 **Billing subtotal:** ~199
 

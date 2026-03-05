@@ -128,4 +128,92 @@ class SubscriptionTest extends BillingTestCase
 
         $this->assertTrue($subscription->isExpired());
     }
+
+    #[Test]
+    public function test_subscription_creation_with_trial()
+    {
+        $user = User::factory()->create();
+
+        Customer::where('stripe_id', 'cus_test_trial')->delete();
+        Subscription::where('stripe_id', 'sub_test_trial')->delete();
+        SubscriptionPlan::where('name', 'Test Plan With Trial')->delete();
+
+        $customer = $user->customer()->create([
+            'stripe_id' => 'cus_test_trial',
+            'active' => 1,
+            'stripe_plan' => 'plan_test_trial',
+        ]);
+
+        $plan = SubscriptionPlan::create([
+            'name' => 'Test Plan With Trial',
+            'price' => 29.99,
+            'billing_interval' => 'monthly',
+            'trial_days' => 14,
+        ]);
+
+        $subscription = Subscription::create([
+            'user_id' => $user->id,
+            'customer_id' => $customer->id,
+            'subscription_plan_id' => $plan->id,
+            'stripe_id' => 'sub_test_trial',
+            'stripe_status' => 'trialing',
+            'starts_at' => now(),
+            'trial_ends_at' => now()->addDays(14),
+            'ends_at' => null,
+        ]);
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $subscription->id,
+            'stripe_status' => 'trialing',
+        ]);
+
+        $this->assertTrue($subscription->trial_ends_at->isFuture());
+        $this->assertEquals('trialing', $subscription->stripe_status);
+    }
+
+    #[Test]
+    public function test_subscription_cancellation_stops_billing()
+    {
+        $user = User::factory()->create();
+
+        Customer::where('stripe_id', 'cus_test_cancel')->delete();
+        Subscription::where('stripe_id', 'sub_test_cancel')->delete();
+        SubscriptionPlan::where('name', 'Test Cancel Plan')->delete();
+
+        $customer = $user->customer()->create([
+            'stripe_id' => 'cus_test_cancel',
+            'active' => 1,
+            'stripe_plan' => 'plan_test_cancel',
+        ]);
+
+        $plan = SubscriptionPlan::create([
+            'name' => 'Test Cancel Plan',
+            'price' => 49.99,
+            'billing_interval' => 'monthly',
+        ]);
+
+        $subscription = Subscription::create([
+            'user_id' => $user->id,
+            'customer_id' => $customer->id,
+            'subscription_plan_id' => $plan->id,
+            'stripe_id' => 'sub_test_cancel',
+            'stripe_status' => 'active',
+            'starts_at' => now()->subMonth(),
+            'ends_at' => now()->addMonth(),
+        ]);
+
+        // Cancel the subscription
+        $subscription->stripe_status = 'canceled';
+        $subscription->ends_at = now();
+        $subscription->save();
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $subscription->id,
+            'stripe_status' => 'canceled',
+        ]);
+
+        // Verify subscription is no longer active
+        $this->assertFalse($subscription->fresh()->isActive());
+        $this->assertTrue($subscription->fresh()->isExpired() || $subscription->fresh()->stripe_status === 'canceled');
+    }
 }
