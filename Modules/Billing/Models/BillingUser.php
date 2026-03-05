@@ -35,4 +35,21 @@ class BillingUser extends User
     {
         return $this->hasOne(SubscriptionManual::class, 'user_id');
     }
+
+    public function subscriptions()
+    {
+        return $this->hasManyThrough(
+            Subscription::class,
+            SubscriptionCustomer::class,
+            'user_id',
+            'customer_id',
+            'id',
+            'id'
+        );
+    }
+
+    public function subscriptionCustomer()
+    {
+        return $this->hasOne(SubscriptionCustomer::class, 'user_id');
+    }
 }

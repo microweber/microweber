@@ -8,8 +8,11 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\Billing\Filament\Resources\BillingUserResource\Pages;
-use Modules\Billing\Filament\Resources\BillingUserResource\RelationManagers;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages;
+use Modules\Billing\Filament\Admin\Resources\BillingUserResource\RelationManagers;
 use Modules\Billing\Models\BillingUser;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Services\StripeService;
@@ -71,9 +74,58 @@ class BillingUserResource extends Resource
                     ->sortable()
                     ->searchable(),
             ])
-            ->filters([
-                //
-            ])
+->filters([
+            SelectFilter::make('subscription_status')
+                ->label('Subscription Status')
+                ->options([
+                    'active' => 'Active Subscription',
+                    'inactive' => 'No Active Subscription',
+                ])
+                ->query(function (Builder $query, array $data) {
+                    if (empty($data['value'])) {
+                        return $query;
+                    }
+                    if ($data['value'] === 'active') {
+                        return $query->whereHas('subscriptionManual');
+                    }
+                    if ($data['value'] === 'inactive') {
+                        return $query->whereDoesntHave('subscriptionManual');
+                    }
+                }),
+            Filter::make('trial_status')
+                ->label('Trial Status')
+                ->form([
+                    Forms\Components\Select::make('trial_status')
+                        ->options([
+                            'scheduled' => 'Trial Scheduled',
+                            'active' => 'Trial Active',
+                            'expired' => 'Trial Expired',
+                            'none' => 'No Trial',
+                        ])
+                        ->placeholder('All Users'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    if (empty($data['trial_status'])) {
+                        return $query;
+                    }
+                    $status = $data['trial_status'];
+                    if ($status === 'scheduled') {
+                        return $query->whereHas('subscriptionManual', function ($q) {
+                            $q->where('auto_activate_free_trial_after_date', true);
+                        });
+                    }
+                    if ($status === 'active') {
+                        return $query->whereNotNull('demo_started_at')
+                            ->whereNull('demo_expired_at');
+                    }
+                    if ($status === 'expired') {
+                        return $query->whereNotNull('demo_expired_at');
+                    }
+                    if ($status === 'none') {
+                        return $query->whereNull('demo_started_at');
+                    }
+                }),
+        ])
             ->headerActions([
                 Tables\Actions\Action::make('sync_customers')
                     ->label('Sync Customers')
@@ -88,9 +140,26 @@ class BillingUserResource extends Resource
                             ->send();
                     }),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\Action::make('impersonate')
+                ->label('Impersonate')
+                ->icon('heroicon-o-user-circle')
+                ->color('warning')
+                ->requiresConfirmation()
+                ->modalHeading('Impersonate User')
+                ->modalDescription('You will be logged in as this user. Continue?')
+                ->modalSubmitActionLabel('Yes, Impersonate')
+                ->action(function (BillingUser $record) {
+                    session()->put('impersonate_user_id', $record->id);
+                    Notification::make()
+                        ->title('Now impersonating ' . $record->email)
+                        ->success()
+                        ->send();
+                    return redirect()->to('/');
+                })
+                ->visible(fn () => auth()->user()->can('impersonate_users')),
+        ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -101,7 +170,7 @@ class BillingUserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\SubscriptionsRelationManager::class,
         ];
     }
 

@@ -11,7 +11,11 @@ class SubscriptionPlanFeature extends Model
     protected $table = 'subscription_plans_features';
 
     protected $fillable = [
-      'key',
-      'value',
+        'subscription_plan_id',
+        'key',
+        'value',
+        'description',
+        'limit',
+        'position',
     ];
 }

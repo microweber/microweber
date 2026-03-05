@@ -22,15 +22,15 @@ class SubscriptionPlanGroup extends Model
 
     protected $fillable = [
         'name',
-        'slug',
         'description',
-        'is_active',
-        'sort_order'
+        'sku',
+        'type',
+        'position',
+        'icon',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'sort_order' => 'integer'
+        'position' => 'integer',
     ];
 
     public function features()

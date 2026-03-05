@@ -4,9 +4,13 @@ namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages;
 
 use App\Models\User;
 use Filament\Actions;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Billing\Filament\Admin\Resources\BillingUserResource;
 use Modules\Billing\Filament\Resources\BillingUserResource\Pages\UserDemo;
+use Modules\Billing\Models\BillingUser;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Models\SubscriptionPlan;
 
@@ -18,7 +22,63 @@ class EditUser extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make('impersonate')
+                ->label('Impersonate')
+                ->icon('heroicon-o-user-circle')
+                ->color('warning')
+                ->requiresConfirmation()
+                ->modalHeading('Impersonate User')
+                ->modalDescription('You will be logged in as this user. Continue?')
+                ->modalSubmitActionLabel('Yes, Impersonate')
+                ->action(function () {
+                    $record = $this->record;
+                    session()->put('impersonate_user_id', $record->id);
+                    return redirect()->to('/');
+                })
+                ->visible(fn () => auth()->user()->can('impersonate_users')),
         ];
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Current Subscription Summary')
+                    ->description('Overview of user subscription status')
+                    ->schema([
+                        TextEntry::make('subscription_name')
+                            ->label('Active Subscription')
+                            ->state(function (BillingUser $record): string {
+                                return $record->getSubscriptionName();
+                            })
+                            ->color(function (BillingUser $record): string {
+                                return $record->hasActiveSubscription() ? 'success' : 'danger';
+                            }),
+                        TextEntry::make('subscription_status')
+                            ->label('Status')
+                            ->state(function (BillingUser $record): string {
+                                return $record->hasActiveSubscription() ? 'Active' : 'Inactive';
+                            })
+                            ->badge()
+                            ->color(function (BillingUser $record): string {
+                                return $record->hasActiveSubscription() ? 'success' : 'danger';
+                            }),
+                        TextEntry::make('trial_info')
+                            ->label('Trial Information')
+                            ->state(function (BillingUser $record): string {
+                                if ($record->demo_started_at && !$record->demo_expired_at) {
+                                    return 'Trial Active (started: ' . $record->demo_started_at->format('Y-m-d') . ')';
+                                }
+                                if ($record->demo_expired_at) {
+                                    return 'Trial Expired (' . $record->demo_expired_at->format('Y-m-d') . ')';
+                                }
+                                return 'No Trial';
+                            })
+                            ->visible(fn (BillingUser $record) => $record->demo_started_at || $record->demo_expired_at),
+                    ])
+                    ->collapsible()
+                    ->persistCollapsed(),
+            ]);
     }
 
     public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true): void

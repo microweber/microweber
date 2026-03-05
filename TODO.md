@@ -241,11 +241,16 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 Custom action: "Refund last payment" (mock) - implemented with notification and logging
 - [x] 2026-03-05 Added SubscriptionFactory for testing
 - [x] 2026-03-05 Created comprehensive SubscriptionResourceTest with 14 test cases
-- [ ] Convert custom pages (success/cancel/active) ......................................... 34
-  - [ ] SubscriptionSuccessPage: show order summary, download invoice
-  - [ ] SubscriptionCancelPage: confirmation + reason textarea
-  - [ ] ActiveSubscriptionsPage: stats + table of subs
-  - [ ] Handle Stripe session ID from query string
+- [x] 2026-03-05 Convert custom pages (success/cancel/active) ......................................... 34
+- [x] 2026-03-05 SubscriptionSuccessPage: show order summary, download invoice - handles Stripe session_id, displays plan details, payment status, and invoice download button
+- [x] 2026-03-05 SubscriptionCancelPage: confirmation + reason textarea - displays cancelled plan info, includes feedback form with database storage
+- [x] 2026-03-05 ActiveSubscriptionsPage: stats + table of subs - added 4 stats cards (active count, trialing count, monthly spend, next billing), grouped subscription display with cancel/manage actions
+- [x] 2026-03-05 Handle Stripe session ID from query string - implemented in all success/cancel pages via mount() method
+- [x] 2026-03-05 PurchaseSuccessPage: updated with Stripe session_id handling and order summary
+- [x] 2026-03-05 PurchaseCancelPage: updated with feedback form and order info display
+- [x] 2026-03-05 Created SubscriptionCancelReason model and migration for storing cancellation feedback
+- [x] 2026-03-05 Created OrderCancelReason model and migration for purchase cancellation feedback
+- [x] 2026-03-05 All Blade views updated with Filament v5 panel layout and dark mode support
 - [ ] Fix webhook handling ................................................................. 21
   - [ ] Update WebhookController signature for v5
   - [ ] Add signature verification middleware
