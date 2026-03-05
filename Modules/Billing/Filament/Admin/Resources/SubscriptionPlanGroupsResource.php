@@ -7,19 +7,25 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\Pages;
-use Modules\Billing\Filament\Resources\SubscriptionPlanGroupsResource\RelationManagers;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 use Modules\Billing\Models\SubscriptionPlanGroup;
 
 class SubscriptionPlanGroupsResource extends Resource
 {
     protected static ?string $model = SubscriptionPlanGroup::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
 
-    protected static ?int $navigationSort =4;
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static string | null $navigationLabel = 'Plan Groups';
+    protected static ?int $navigationSort = 4;
+
+    protected static ?string $navigationLabel = 'Plan Groups';
 
     protected static ?string $modelLabel = 'Plan Group';
 
@@ -30,29 +36,51 @@ class SubscriptionPlanGroupsResource extends Resource
         return $schema
             ->schema([
                 Forms\Components\Section::make('Basic Information')
+                    ->description('Enter the basic details of the plan group')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Name')
-                            ->maxLength(255),
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('e.g., Professional Plans')
+                            ->helperText('Display name for this plan group'),
 
                         Forms\Components\TextInput::make('sku')
                             ->label('SKU')
-                            ->maxLength(255),
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->placeholder('e.g., PRO-PLANS')
+                            ->helperText('Unique identifier for this group'),
 
                         Forms\Components\TextInput::make('type')
                             ->label('Type')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->placeholder('e.g., premium')
+                            ->helperText('Category or type of plans in this group'),
 
-                        Forms\Components\TextInput::make('icon')
-                            ->label('Icon')
-                            ->maxLength(255),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->maxLength(65535)
+                            ->columnSpanFull()
+                            ->placeholder('Describe what plans in this group include...')
+                            ->helperText('Detailed description of this plan group'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Settings')
+                Forms\Components\Section::make('Display Settings')
+                    ->description('Configure display and ordering')
                     ->schema([
                         Forms\Components\TextInput::make('position')
                             ->label('Position')
-                            ->numeric(),
+                            ->numeric()
+                            ->default(0)
+                            ->helperText('Display order (lower numbers first)'),
+
+                        Forms\Components\TextInput::make('icon')
+                            ->label('Icon')
+                            ->maxLength(255)
+                            ->placeholder('e.g., star')
+                            ->helperText('Icon identifier for visual representation'),
                     ])->columns(2),
             ]);
     }
@@ -69,55 +97,62 @@ class SubscriptionPlanGroupsResource extends Resource
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color('gray'),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->badge(),
 
                 Tables\Columns\TextColumn::make('position')
                     ->label('Position')
                     ->numeric()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('icon')
+                    ->label('Icon')
+                    ->badge()
+                    ->color('info'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
                     ->label('Type')
                     ->options([
-                        'monthly' => 'Monthly',
-                        'yearly' => 'Yearly',
+                        'basic' => 'Basic',
+                        'standard' => 'Standard',
+                        'premium' => 'Premium',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Delete'),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Delete Selected'),
-                ]),
-            ])
+->actions([
+            EditAction::make(),
+            DeleteAction::make(),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ])
             ->defaultSort('position', 'asc');
     }
 
     public static function getRelations(): array
     {
         return [
-            \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers\PlansRelationManager::make(),
-            \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers\FeaturesRelationManager::make(),
+            RelationManagers\PlansRelationManager::class,
+            RelationManagers\FeaturesRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\ListSubscriptionPlanGroups::route('/'),
-            'create' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\CreateSubscriptionPlanGroups::route('/create'),
-            'edit' => \Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\Pages\EditSubscriptionPlanGroups::route('/{record}/edit'),
+            'index' => Pages\ListSubscriptionPlanGroups::route('/'),
+            'create' => Pages\CreateSubscriptionPlanGroups::route('/create'),
+            'edit' => Pages\EditSubscriptionPlanGroups::route('/{record}/edit'),
+            'view' => Pages\ViewSubscriptionPlanGroups::route('/{record}'),
         ];
     }
 }

@@ -220,17 +220,21 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 
 ### Billing Module (critical business logic  highest granularity)
 
-- [ ] Migrate BillingUserResource ........................................................... 21
-  - [ ] List: add filters (active subs, trial status)
-  - [ ] Edit: show subscription summary
-  - [ ] RelationManager: HasMany(SubscriptionResource)
-  - [ ] Add custom action: "Impersonate user"
-- [ ] Migrate SubscriptionPlanResource & Groups ............................................. 34
-  - [ ] Plan form: price, interval, trial_days, currency
-  - [ ] Features Repeater: name, description, limit
-  - [ ] Group form: name, description, sort_order
-  - [ ] RelationManager: Plans in Group
-  - [ ] RelationManager: Features in Group
+- [x] 2026-03-05 Migrate BillingUserResource ........................................................... 21
+- [x] 2026-03-05 List: add filters (active subs, trial status) - Added SelectFilter for subscription_status and Filter for trial_status
+- [x] 2026-03-05 Edit: show subscription summary - Added infolist with Section showing subscription name, status, and trial info
+- [x] 2026-03-05 RelationManager: HasMany(SubscriptionResource) - Created SubscriptionsRelationManager with table view
+- [x] 2026-03-05 Add custom action: "Impersonate user" - Added action to table with confirmation modal and session-based impersonation
+- [x] 2026-03-05 Migrate SubscriptionPlanResource & Groups ............................................. 34
+- [x] 2026-03-05 Plan form: price, interval, trial_days, currency - Added currency Select field with common currencies (USD, EUR, GBP, CAD, AUD, JPY)
+- [x] 2026-03-05 Features Repeater: name, description, limit - Enhanced repeater with key (name), description (textarea), value, and limit fields
+- [x] 2026-03-05 Group form: name, description, sort_order - Already implemented with name, description, position (sort_order), sku, type, icon
+- [x] 2026-03-05 RelationManager: Plans in Group - Fixed action imports for Filament v5 compatibility
+- [x] 2026-03-05 RelationManager: Features in Group - Fixed action imports for Filament v5 compatibility
+- [x] 2026-03-05 Fixed all Filament v5 table actions imports (Tables\Actions -> Filament\Actions)
+- [x] 2026-03-05 Created migration to add currency column to subscription_plans table
+- [x] 2026-03-05 Ran migration to add description and limit columns to subscription_plans_features table
+- [x] 2026-03-05 Updated SubscriptionPlan model fillable to include currency and trial_days fields
 - [ ] Migrate SubscriptionResource .......................................................... 21
   - [ ] List: filter active/canceled/trialing/expired
   - [ ] View: show invoices table, next billing date

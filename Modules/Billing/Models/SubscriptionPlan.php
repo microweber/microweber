@@ -31,15 +31,16 @@ class SubscriptionPlan extends Model
         'remote_provider_id',
         'remote_provider_price_id',
         'price',
+        'currency',
         'discount_price',
         'save_price',
         'save_price_badge',
         'auto_apply_coupon_code',
         'billing_interval',
+        'trial_days',
         'alternative_annual_plan_id',
         'description',
         'sort_order',
-
     ];
 
     public function features()

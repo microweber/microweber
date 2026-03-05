@@ -8,8 +8,13 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource\Pages;
-use Modules\Billing\Filament\Resources\SubscriptionPlanResource\RelationManagers;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkActionGroup;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\Pages;
+use Modules\Billing\Filament\Admin\Resources\SubscriptionPlanResource\RelationManagers;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Services\StripeService;
 use Modules\Payment\Models\PaymentProvider;
@@ -17,6 +22,8 @@ use Modules\Payment\Models\PaymentProvider;
 class SubscriptionPlanResource extends Resource
 {
     protected static ?string $model = SubscriptionPlan::class;
+
+    protected static string | \UnitEnum | null $navigationGroup = 'Billing';
 
     protected static ?int $navigationSort = 2;
 
@@ -63,14 +70,27 @@ Forms\Components\Select::make('subscription_plan_group_id')
                 Forms\Components\Section::make('Pricing')
                     ->description('Configure the pricing details for this plan')
                     ->schema([
-                        Forms\Components\TextInput::make('price')
-                            ->required()
-                            ->numeric()
-                            ->prefix('$')
-                            ->columnSpanFull()
-                            ->helperText('The regular price shown to customers')
-                            ->minValue(0),
-                        Forms\Components\TextInput::make('discount_price')
+Forms\Components\TextInput::make('price')
+                                ->required()
+                                ->numeric()
+                                ->prefix('$')
+                                ->columnSpanFull()
+                                ->helperText('The regular price shown to customers')
+                                ->minValue(0),
+                            Forms\Components\Select::make('currency')
+                                ->options([
+                                    'USD' => 'USD - US Dollar',
+                                    'EUR' => 'EUR - Euro',
+                                    'GBP' => 'GBP - British Pound',
+                                    'CAD' => 'CAD - Canadian Dollar',
+                                    'AUD' => 'AUD - Australian Dollar',
+                                    'JPY' => 'JPY - Japanese Yen',
+                                ])
+                                ->default('USD')
+                                ->required()
+                                ->columnSpanFull()
+                                ->helperText('Currency for this plan'),
+                            Forms\Components\TextInput::make('discount_price')
                             ->numeric()
                             ->prefix('$')
                             ->columnSpanFull()
@@ -93,10 +113,17 @@ Forms\Components\Select::make('subscription_plan_group_id')
                             ->options([
                                 'month' => 'Month',
                                 'year' => 'Year',
-                             ])
+                            ])
                             ->required()
                             ->columnSpanFull()
                             ->helperText('How often customers will be billed'),
+                        Forms\Components\TextInput::make('trial_days')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(365)
+                            ->suffix('days')
+                            ->columnSpanFull()
+                            ->helperText('Number of days for free trial (0 for no trial)'),
                         Forms\Components\TextInput::make('alternative_annual_plan_id')
                             ->numeric()
                             ->columnSpanFull()
@@ -140,6 +167,44 @@ Forms\Components\Select::make('subscription_plan_group_id')
                             ->visible(fn ($get) => filled($get('remote_provider_id'))),
 
                     ])->columns(1),
+
+Forms\Components\Section::make('Features')
+                ->description('Define features included in this plan')
+                ->schema([
+                    Forms\Components\Repeater::make('features')
+                        ->relationship('features')
+                        ->schema([
+                            Forms\Components\TextInput::make('key')
+                                ->label('Name')
+                                ->required()
+                                ->maxLength(255)
+                                ->placeholder('e.g., storage_limit')
+                                ->helperText('Feature identifier key'),
+                            Forms\Components\Textarea::make('description')
+                                ->label('Description')
+                                ->maxLength(65535)
+                                ->placeholder('e.g., Storage space for files and documents')
+                                ->helperText('Detailed description of this feature')
+                                ->columnSpanFull(),
+                            Forms\Components\TextInput::make('value')
+                                ->label('Value')
+                                ->required()
+                                ->maxLength(255)
+                                ->placeholder('e.g., 10GB')
+                                ->helperText('Feature value or limit'),
+                            Forms\Components\TextInput::make('limit')
+                                ->label('Limit')
+                                ->maxLength(255)
+                                ->placeholder('e.g., 100')
+                                ->helperText('Numeric limit for this feature (if applicable)'),
+                        ])
+                        ->columns(2)
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['key'] ?? null)
+                        ->addActionLabel('Add Feature')
+                        ->reorderable()
+                        ->defaultItems(0),
+                ])->columns(1),
             ]);
     }
 
@@ -207,12 +272,12 @@ Forms\Components\Select::make('subscription_plan_group_id')
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('Sync from Stripe')
+                \Filament\Actions\Action::make('Sync from Stripe')
                     ->label('Sync from Stripe')
                     ->color('primary')
                     ->action(function () {
@@ -232,8 +297,8 @@ Forms\Components\Select::make('subscription_plan_group_id')
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

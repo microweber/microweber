@@ -7,6 +7,11 @@ use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkActionGroup;
 
 class FeaturesRelationManager extends RelationManager
 {
@@ -61,22 +66,22 @@ class FeaturesRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label('Add Feature'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Delete'),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Delete Selected'),
-                ]),
-            ])
+->headerActions([
+            CreateAction::make()
+                ->label('Add Feature'),
+        ])
+        ->actions([
+            EditAction::make()
+                ->label('Edit'),
+            DeleteAction::make()
+                ->label('Delete'),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make()
+                    ->label('Delete Selected'),
+            ]),
+        ])
             ->defaultSort('position', 'asc');
     }
 }

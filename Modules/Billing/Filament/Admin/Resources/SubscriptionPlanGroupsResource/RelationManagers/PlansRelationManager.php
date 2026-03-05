@@ -7,6 +7,11 @@ use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkActionGroup;
 
 class PlansRelationManager extends RelationManager
 {
@@ -147,21 +152,21 @@ class PlansRelationManager extends RelationManager
                         'yearly' => 'Yearly',
                     ]),
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label('Add Plan'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Delete'),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Delete Selected'),
-                ]),
-            ]);
+->headerActions([
+            CreateAction::make()
+                ->label('Add Plan'),
+        ])
+        ->actions([
+            EditAction::make()
+                ->label('Edit'),
+            DeleteAction::make()
+                ->label('Delete'),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make()
+                    ->label('Delete Selected'),
+            ]),
+        ]);
     }
 }
