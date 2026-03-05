@@ -1,0 +1,116 @@
+<?php
+
+namespace Modules\Payment\Tests\Unit\Filament;
+
+use Filament\Facades\Filament;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Modules\Payment\Filament\Admin\Resources\PaymentResource;
+use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\ListPayments;
+use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\CreatePayment;
+use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\EditPayment;
+use Modules\Payment\Models\Payment;
+use Modules\Payment\Enums\PaymentStatus;
+use MicroweberPackages\User\Models\User;
+use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+
+class PaymentResourceTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAsAdmin();
+        Filament::setCurrentPanel(Filament::getPanel('admin'));
+    }
+
+    protected function actingAsAdmin(): User
+    {
+        $user = User::factory()->create(['is_admin' => 1]);
+        $this->actingAs($user);
+        return $user;
+    }
+
+    #[Test]
+    public function test_index_page_loads_without_errors(): void
+    {
+        Livewire::test(ListPayments::class)->assertSuccessful();
+    }
+
+    #[Test]
+    public function test_index_page_shows_all_records(): void
+    {
+        $payments = Payment::factory()->count(3)->create();
+        Livewire::test(ListPayments::class)->assertCanSeeTableRecords($payments);
+    }
+
+    #[Test]
+    public function test_create_page_saves_new_record(): void
+    {
+        Livewire::test(CreatePayment::class)
+            ->fillForm([
+                'rel_id' => 1,
+                'rel_type' => 'order',
+                'amount' => 100.00,
+                'currency' => 'USD',
+                'status' => PaymentStatus::Pending,
+                'payment_provider' => 'stripe',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors()
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('payments', ['amount' => 100.00]);
+    }
+
+    #[Test]
+    public function test_edit_page_updates_record(): void
+    {
+        $payment = Payment::factory()->create(['status' => PaymentStatus::Pending]);
+        Livewire::test(EditPayment::class, ['record' => $payment->id])
+            ->fillForm(['status' => PaymentStatus::Completed])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('payments', ['id' => $payment->id, 'status' => PaymentStatus::Completed]);
+    }
+
+    #[Test]
+    public function test_delete_action_removes_record(): void
+    {
+        $payment = Payment::factory()->create();
+        Livewire::test(ListPayments::class)->callTableAction('delete', $payment);
+        $this->assertDatabaseMissing('payments', ['id' => $payment->id]);
+    }
+
+    #[Test]
+    public function test_can_filter_by_status(): void
+    {
+        $pending = Payment::factory()->create(['status' => PaymentStatus::Pending]);
+        $completed = Payment::factory()->create(['status' => PaymentStatus::Completed]);
+
+        Livewire::test(ListPayments::class)
+            ->filterTable('status', PaymentStatus::Pending)
+            ->assertCanSeeTableRecords([$pending])
+            ->assertCanNotSeeTableRecords([$completed]);
+    }
+
+    #[Test]
+    public function test_table_has_required_columns(): void
+    {
+        Livewire::test(ListPayments::class)
+            ->assertTableColumnExists('id')
+            ->assertTableColumnExists('amount')
+            ->assertTableColumnExists('status')
+            ->assertTableColumnExists('payment_provider');
+    }
+
+    #[Test]
+    public function test_status_badge_displays_correctly(): void
+    {
+        $payment = Payment::factory()->create(['status' => PaymentStatus::Completed]);
+        Livewire::test(ListPayments::class)->assertSuccessful();
+    }
+}

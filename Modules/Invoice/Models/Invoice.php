@@ -2,12 +2,16 @@
 
 namespace Modules\Invoice\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Customer\Models\Customer;
 
 class Invoice extends Model
 {
+    use HasFactory;
+
+    protected static string $factory = \Modules\Invoice\Database\Factories\InvoiceFactory::class;
     const STATUS_DRAFT = 'draft';
     const STATUS_SENT = 'sent';
     const STATUS_VIEWED = 'viewed';

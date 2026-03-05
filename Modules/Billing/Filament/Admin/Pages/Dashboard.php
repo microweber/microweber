@@ -3,6 +3,8 @@
 namespace Modules\Billing\Filament\Admin\Pages;
 
 use Filament\Pages\Dashboard as BaseDashboard;
+use Modules\Billing\Filament\Admin\Widgets\LatestSubscriptionsWidget;
+use Modules\Billing\Filament\Admin\Widgets\StatsOverviewWidget;
 
 class Dashboard extends BaseDashboard
 {
@@ -10,4 +12,11 @@ class Dashboard extends BaseDashboard
 
     protected static ?int $navigationSort = 1;
 
+    public function getWidgets(): array
+    {
+        return [
+            StatsOverviewWidget::class,
+            LatestSubscriptionsWidget::class,
+        ];
+    }
 }

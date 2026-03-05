@@ -3,6 +3,7 @@
 namespace Modules\Customer\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -15,13 +16,15 @@ use Modules\Order\Models\Order;
 
 class Customer extends Model
 {
-
-    protected $table = 'customers';
-
+    use HasFactory;
     use Filterable;
     use CacheableQueryBuilderTrait;
     use Billable;
     use Notifiable;
+
+    protected $table = 'customers';
+
+    protected static string $factory = \Modules\Customer\Database\Factories\CustomerFactory::class;
 
     public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users', 'companies'];
 

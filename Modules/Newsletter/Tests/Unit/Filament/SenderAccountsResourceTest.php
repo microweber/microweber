@@ -1,0 +1,190 @@
+<?php
+
+namespace Modules\Newsletter\Tests\Unit\Filament;
+
+use Filament\Facades\Filament;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
+use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
+use Modules\Newsletter\Models\NewsletterSenderAccount;
+use MicroweberPackages\User\Models\User;
+use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+
+class SenderAccountsResourceTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAsAdmin();
+        Filament::setCurrentPanel(Filament::getPanel('admin'));
+    }
+
+    protected function actingAsAdmin(): User
+    {
+        $user = User::factory()->create([
+            'is_admin' => 1,
+        ]);
+
+        $this->actingAs($user);
+
+        return $user;
+    }
+
+    protected function getResourceClass(): string
+    {
+        return SenderAccountsResource::class;
+    }
+
+    #[Test]
+    public function test_index_page_loads_without_errors(): void
+    {
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function test_index_page_shows_all_records(): void
+    {
+        $accounts = NewsletterSenderAccount::factory()->count(3)->create();
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertCanSeeTableRecords($accounts);
+    }
+
+    #[Test]
+    public function test_index_page_supports_pagination(): void
+    {
+        NewsletterSenderAccount::factory()->count(15)->create();
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function test_create_page_renders_wizard_form(): void
+    {
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertSuccessful()
+            ->assertFormExists();
+    }
+
+    #[Test]
+    public function test_create_page_saves_smtp_account(): void
+    {
+        Livewire::test(ManageSenderAccounts::class)
+            ->fillForm([
+                'account_type' => 'smtp',
+                'smtp_username' => 'test@example.com',
+                'smtp_password' => 'password123',
+                'smtp_host' => 'smtp.example.com',
+                'smtp_port' => '587',
+                'from_name' => 'Test Sender',
+                'from_email' => 'from@example.com',
+                'reply_email' => 'reply@example.com',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors()
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('newsletter_sender_accounts', [
+            'account_type' => 'smtp',
+            'smtp_username' => 'test@example.com',
+            'from_email' => 'from@example.com',
+        ]);
+    }
+
+    #[Test]
+    public function test_edit_page_updates_record(): void
+    {
+        $account = NewsletterSenderAccount::factory()->create([
+            'account_type' => 'php_mail',
+            'from_name' => 'Original Name',
+        ]);
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->fillForm([
+                'from_name' => 'Updated Name',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('newsletter_sender_accounts', [
+            'id' => $account->id,
+            'from_name' => 'Updated Name',
+        ]);
+    }
+
+    #[Test]
+    public function test_delete_action_removes_record(): void
+    {
+        $account = NewsletterSenderAccount::factory()->create();
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->callTableAction('delete', $account);
+
+        $this->assertDatabaseMissing('newsletter_sender_accounts', [
+            'id' => $account->id,
+        ]);
+    }
+
+    #[Test]
+    public function test_table_shows_account_type_icon(): void
+    {
+        NewsletterSenderAccount::factory()->create([
+            'account_type' => 'smtp',
+        ]);
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertSuccessful()
+            ->assertTableColumnExists('account_type');
+    }
+
+    #[Test]
+    public function test_table_has_required_columns(): void
+    {
+        Livewire::test(ManageSenderAccounts::class)
+            ->assertTableColumnExists('account_type')
+            ->assertTableColumnExists('from_name')
+            ->assertTableColumnExists('from_email')
+            ->assertTableColumnExists('reply_email');
+    }
+
+    #[Test]
+    public function test_can_create_php_mail_account(): void
+    {
+        Livewire::test(ManageSenderAccounts::class)
+            ->fillForm([
+                'account_type' => 'php_mail',
+                'from_name' => 'PHP Mail Sender',
+                'from_email' => 'php@example.com',
+                'reply_email' => 'reply@example.com',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('newsletter_sender_accounts', [
+            'account_type' => 'php_mail',
+            'from_email' => 'php@example.com',
+        ]);
+    }
+
+    #[Test]
+    public function test_bulk_delete_removes_records(): void
+    {
+        $accounts = NewsletterSenderAccount::factory()->count(3)->create();
+
+        Livewire::test(ManageSenderAccounts::class)
+            ->selectTableRecords($accounts)
+            ->callTableBulkAction('delete');
+
+        foreach ($accounts as $account) {
+            $this->assertDatabaseMissing('newsletter_sender_accounts', [
+                'id' => $account->id,
+            ]);
+        }
+    }
+}
