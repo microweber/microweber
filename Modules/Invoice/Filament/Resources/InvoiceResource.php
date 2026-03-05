@@ -9,9 +9,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Filament\Resources\InvoiceResource\Pages;
+use Modules\Invoice\Filament\Exports\InvoiceExporter;
 use Illuminate\Database\Eloquent\Builder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Checkbox;
+use Illuminate\Support\Arr;
 
 class InvoiceResource extends Resource
 {
@@ -217,31 +220,74 @@ Forms\Components\Select::make('user_id')
                         Invoice::STATUS_VOID => 'Void',
                     ]),
 
-                Tables\Filters\SelectFilter::make('paid_status')
-                    ->options([
-                        Invoice::STATUS_UNPAID => 'Unpaid',
-                        Invoice::STATUS_PARTIALLY_PAID => 'Partially Paid',
-                        Invoice::STATUS_PAID => 'Paid',
-                        Invoice::STATUS_REFUNDED => 'Refunded',
-                    ]),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Action::make('pdf')
-                    ->label('Export PDF')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->action(function (Invoice $record) {
-                        $pdf = Pdf::loadView('invoice::pdf', ['invoice' => $record]);
-                        return response()->streamDownload(function () use ($pdf) {
-                            echo $pdf->output();
-                        }, $record->invoice_number . '.pdf');
+Tables\Filters\SelectFilter::make('paid_status')
+            ->options([
+                Invoice::STATUS_UNPAID => 'Unpaid',
+                Invoice::STATUS_PARTIALLY_PAID => 'Partially Paid',
+                Invoice::STATUS_PAID => 'Paid',
+                Invoice::STATUS_REFUNDED => 'Refunded',
+            ]),
+        ])
+        ->headerActions([
+            Tables\Actions\ExportAction::make()
+                ->icon('heroicon-m-cloud-arrow-down')
+                ->form(function (Tables\Actions\ExportAction $action): array {
+                    $exportColumns = InvoiceExporter::getColumns();
+                    $schemaSchema = [];
+                    foreach ($exportColumns as $column) {
+                        $schemaSchema[] = Checkbox::make($column->getName())
+                            ->label($column->getLabel())
+                            ->default(true);
+                    }
+                    $schemaSchema[] = Checkbox::make('export_multiple')
+                        ->label('Export to multiple files (ZIP)');
+                    return $schemaSchema;
+                })
+                ->action(function (array $data) {
+                    $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
+                    $exportMultiple = $data['export_multiple'] ?? false;
+                    $url = route('filament.admin.export.invoices', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
+                    return redirect()->to($url);
+                }),
+            Tables\Actions\CreateAction::make(),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+            Action::make('pdf')
+                ->label('Export PDF')
+                ->icon('heroicon-o-document-arrow-down')
+                ->action(function (Invoice $record) {
+                    $pdf = Pdf::loadView('invoice::pdf', ['invoice' => $record]);
+                    return response()->streamDownload(function () use ($pdf) {
+                        echo $pdf->output();
+                    }, $record->invoice_number . '.pdf');
+                }),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\ExportBulkAction::make()
+                    ->form(function (Tables\Actions\BulkAction $action): array {
+                        $exportColumns = InvoiceExporter::getColumns();
+                        $schemaSchema = [];
+                        foreach ($exportColumns as $column) {
+                            $schemaSchema[] = Checkbox::make($column->getName())
+                                ->label($column->getLabel())
+                                ->default(true);
+                        }
+                        $schemaSchema[] = Checkbox::make('export_multiple')
+                            ->label('Export to multiple files (ZIP)')
+                            ->default(false);
+                        return $schemaSchema;
+                    })
+                    ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                        $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
+                        $selectedRecordIds = $action->getRecords()->pluck('id')->toArray();
+                        $route = route('filament.admin.export.invoices', ['columns' => $selectedColumns, 'selected_ids' => implode(',', $selectedRecordIds), 'export_multiple' => $data['export_multiple'] ?? false]);
+                        return redirect()->to($route);
                     }),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array

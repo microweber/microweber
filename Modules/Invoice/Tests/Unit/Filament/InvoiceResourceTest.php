@@ -345,8 +345,50 @@ class InvoiceResourceTest extends TestCase
     #[Test]
     public function test_export_bulk_action_generates_file(): void
     {
-        $invoice = Invoice::factory()->create([
+        // Create multiple invoices for bulk export
+        $invoice1 = Invoice::factory()->create([
             'invoice_number' => 'INV-EXPORT-001',
+            'status' => Invoice::STATUS_PAID,
+        ]);
+        $invoice2 = Invoice::factory()->create([
+            'invoice_number' => 'INV-EXPORT-002',
+            'status' => Invoice::STATUS_SENT,
+        ]);
+        $invoice3 = Invoice::factory()->create([
+            'invoice_number' => 'INV-EXPORT-003',
+            'status' => Invoice::STATUS_DRAFT,
+        ]);
+
+        // Test that export bulk action exists
+        Livewire::test(ListInvoices::class)
+            ->assertTableBulkActionExists('export');
+
+        // Test that export bulk action can be triggered on selected records
+        Livewire::test(ListInvoices::class)
+            ->callTableBulkAction('export', [$invoice1->id, $invoice2->id, $invoice3->id], data: [
+                'id' => true,
+                'invoice_number' => true,
+                'customer.name' => true,
+                'invoice_date' => true,
+                'status' => true,
+                'total' => true,
+            ])
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function test_export_header_action_exists(): void
+    {
+        // Test that export header action exists
+        Livewire::test(ListInvoices::class)
+            ->assertTableHeaderActionExists('export');
+    }
+
+    #[Test]
+    public function test_pdf_export_action_exists(): void
+    {
+        $invoice = Invoice::factory()->create([
+            'invoice_number' => 'INV-PDF-001',
             'status' => Invoice::STATUS_PAID,
         ]);
 
@@ -354,7 +396,7 @@ class InvoiceResourceTest extends TestCase
         Livewire::test(ListInvoices::class)
             ->assertTableActionExists('pdf');
 
-        // Test that export action can be triggered
+        // Test that PDF export action can be triggered
         Livewire::test(ListInvoices::class)
             ->callTableAction('pdf', $invoice)
             ->assertSuccessful();

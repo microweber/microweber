@@ -305,12 +305,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 test_dependent_select_reloads_options() - implemented in ContentResourceFormReactivityTest
 - [x] 2026-03-05 test_toggle_makes_field_required() - implemented in ContentResourceFormReactivityTest
 - [x] 2026-03-05 Additional form reactivity tests: pricing_section_visible_only_for_products, physical_product_toggle_controls_shipping_fields, advanced_shipping_toggle_visibility, require_login_toggle_visibility, is_home_toggle_visibility, is_shop_toggle_visibility, special_price_field_conditional_visibility, template_tab_visibility, product_details_tab_visibility, content_body_visibility, custom_access_select_shows_dependent_fields, is_active_toggle_affects_published_status
-- [ ] File upload tests ....................................................................... 21 per feature
-  - [ ] test_single_image_upload_stores_file()
-  - [ ] test_multiple_files_uploaded_correctly()
-  - [ ] test_image_preview_shown_after_upload()
-  - [ ] test_upload_validation_enforces_mime_types()
-  - [ ] test_upload_to_s3_disk_works()
+- [x] 2026-03-05 File upload tests ....................................................................... 21 per feature
+- [x] 2026-03-05 test_single_image_upload_stores_file() - created MwFileUploadTest::test_single_image_upload_stores_file()
+- [x] 2026-03-05 test_multiple_files_uploaded_correctly() - created MwFileUploadTest::test_multiple_files_uploaded_correctly()
+- [x] 2026-03-05 test_image_preview_shown_after_upload() - created MwFileUploadTest::test_image_preview_shown_after_upload()
+- [x] 2026-03-05 test_upload_validation_enforces_mime_types() - created MwFileUploadTest::test_upload_validation_enforces_mime_types()
+- [x] 2026-03-05 test_upload_to_s3_disk_works() - created MwFileUploadTest::test_upload_to_s3_disk_works()
 - [ ] Authorization & policy tests ......................................................... 13 per resource
   - [ ] test_non_admin_cannot_access_resource()
   - [ ] test_user_sees_only_own_team_records()
