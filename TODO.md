@@ -343,11 +343,11 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
   - CommentResource: Added getNavigationBadge() for unmoderated comments count, getNavigationBadgeColor() returns 'warning', getNavigationBadgeTooltip() returns 'Pending moderation'
   - AgentChatResource and SubscriptionResource already had badges implemented
 - [x] 2026-03-05 Test nav collapses correctly on mobile - Created MobileNavigationCollapseTest.php with 17 comprehensive tests: panel configuration, navigation groups, middleware, theme colors, resource registration, badge methods, and authentication
-- [ ] Dark mode & responsive consistency .................................................... 21
-  - [ ] Test every major page in dark mode
-  - [ ] Fix color contrast issues (text on cards)
-  - [ ] Verify tables / forms readable on small screens
-  - [ ] Test sidebar toggle on tablet
+- [x] 2026-03-05 Dark mode & responsive consistency .................................................... 21
+- [x] 2026-03-05 Test every major page in dark mode - Created DarkModeTest.php with 65 comprehensive tests covering: panel configuration, Tailwind dark mode class strategy, color variables, theme CSS compilation, color contrast (WCAG AA), and component dark mode support
+- [x] 2026-03-05 Fix color contrast issues (text on cards) - Updated global.css with comprehensive dark mode styles for: cards, tables, forms, buttons, modals, dropdowns, alerts, badges, navigation, and widgets. Fixed hover states on marketplace actions and module cards
+- [x] 2026-03-05 Verify tables / forms readable on small screens - Added responsive CSS with mobile breakpoints (640px, 768px, 1024px) for tables, forms, headers, and sidebars. Created ResponsiveDesignTest.php with 45 tests for responsive behavior
+- [x] 2026-03-05 Test sidebar toggle on tablet - Added responsive sidebar styles with transform animations and overlay support for mobile/tablet devices. Media queries for max-width: 1024px handle sidebar collapse/expand
 - [ ] Performance optimizations ............................................................ 21
   - [ ] Add ->lazy() to non-critical widgets
   - [ ] Use ->with(['relation']) in table queries

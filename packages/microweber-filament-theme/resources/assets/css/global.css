@@ -2,6 +2,250 @@
     @apply lg:px-[5rem] md:px-[3rem] sm:px-[1rem];
 }
 
+/* Dark mode support for main content area */
+.dark .fi-main {
+    @apply bg-gray-950;
+}
+
+/* Ensure proper text contrast on cards in dark mode */
+.dark .fi-ta-record {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark .fi-ta-record:hover {
+    @apply bg-gray-800;
+}
+
+/* Table header dark mode */
+.dark .fi-ta-header {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-ta-header-cell {
+    @apply text-gray-200;
+}
+
+/* Form inputs dark mode */
+.dark .fi-input {
+    @apply bg-gray-900 border-gray-700 text-gray-100;
+}
+
+.dark .fi-input:focus {
+    @apply border-primary-500 ring-primary-500;
+}
+
+/* Form labels dark mode */
+.dark .fi-label {
+    @apply text-gray-200;
+}
+
+/* Cards dark mode */
+.dark .fi-card {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-card-header {
+    @apply border-gray-800;
+}
+
+.dark .fi-card-content {
+    @apply text-gray-200;
+}
+
+/* Breadcrumbs dark mode */
+.dark .fi-breadcrumbs {
+    @apply text-gray-400;
+}
+
+.dark .fi-breadcrumbs-item {
+    @apply text-gray-300;
+}
+
+.dark .fi-breadcrumbs-item-current {
+    @apply text-gray-100;
+}
+
+/* Pagination dark mode */
+.dark .fi-pagination {
+    @apply border-gray-800;
+}
+
+.dark .fi-pagination-item {
+    @apply text-gray-300;
+}
+
+.dark .fi-pagination-item-active {
+    @apply bg-primary-600 text-white;
+}
+
+.dark .fi-pagination-item:hover:not(.fi-pagination-item-active) {
+    @apply bg-gray-800 text-gray-100;
+}
+
+/* Modal dark mode */
+.dark .fi-modal-content {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark .fi-modal-header {
+    @apply border-gray-800;
+}
+
+.dark .fi-modal-footer {
+    @apply border-gray-800;
+}
+
+/* Dropdown dark mode */
+.dark .fi-dropdown-panel {
+    @apply bg-gray-900 border-gray-800 text-gray-100;
+}
+
+.dark .fi-dropdown-item {
+    @apply text-gray-300;
+}
+
+.dark .fi-dropdown-item:hover {
+    @apply bg-gray-800 text-white;
+}
+
+/* Alert dark mode */
+.dark .fi-alert {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-alert-title {
+    @apply text-gray-100;
+}
+
+.dark .fi-alert-description {
+    @apply text-gray-300;
+}
+
+/* Badge dark mode */
+.dark .fi-badge {
+    @apply text-gray-100;
+}
+
+/* Empty state dark mode */
+.dark .fi-empty-state-title {
+    @apply text-gray-100;
+}
+
+.dark .fi-empty-state-description {
+    @apply text-gray-400;
+}
+
+/* Loading state dark mode */
+.dark .fi-loading {
+    @apply text-gray-300;
+}
+
+/* Filter indicators dark mode */
+.dark .fi-ta-filter-indicators {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-ta-filter-indicator {
+    @apply bg-gray-800 text-gray-200 border-gray-700;
+}
+
+.dark .fi-ta-filter-indicator:hover {
+    @apply bg-gray-700;
+}
+
+/* Action buttons dark mode */
+.dark .fi-ta-action-button {
+    @apply text-gray-300 hover:text-white hover:bg-gray-800;
+}
+
+/* Stats overview dark mode */
+.dark .fi-so-card {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-so-label {
+    @apply text-gray-400;
+}
+
+.dark .fi-so-value {
+    @apply text-gray-100;
+}
+
+/* Chart widget dark mode */
+.dark .fi-wi-chart {
+    @apply bg-gray-900 border-gray-800;
+}
+
+/* Table widget dark mode */
+.dark .fi-wi-table {
+    @apply bg-gray-900 border-gray-800;
+}
+
+.dark .fi-wi-table-header {
+    @apply border-gray-800;
+}
+
+.dark .fi-wi-table-row {
+    @apply border-gray-800;
+}
+
+.dark .fi-wi-table-cell {
+    @apply text-gray-300;
+}
+
+/* Responsive table improvements */
+@media (max-width: 768px) {
+    .fi-ta-content {
+        @apply overflow-x-auto;
+    }
+
+    .fi-ta-record {
+        @apply min-w-full;
+    }
+
+    .fi-ta-cell {
+        @apply whitespace-nowrap;
+    }
+}
+
+/* Sidebar responsive improvements */
+@media (max-width: 1024px) {
+    .fi-sidebar {
+        @apply transform -translate-x-full transition-transform duration-300;
+    }
+
+    .fi-sidebar-open {
+        @apply translate-x-0;
+    }
+
+    .fi-sidebar-overlay {
+        @apply fixed inset-0 bg-black/50 z-40 lg:hidden;
+    }
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 640px) {
+    .fi-main {
+        @apply px-4;
+    }
+
+    .fi-ta-content {
+        @apply -mx-4 px-4;
+    }
+
+    .fi-header-heading {
+        @apply text-lg;
+    }
+
+    .fi-ta-header-toolbar {
+        @apply flex-wrap gap-2;
+    }
+
+    .fi-ta-header-toolbar > * {
+        @apply w-full sm:w-auto;
+    }
+}
+
 /*GLOBAL RESOURCE STYLES*/
 /*.fi-resource-list-records-page {
     @apply !px-0 !py-0 !mt-0;
@@ -45,7 +289,15 @@
     @apply hover:bg-gray-500/5;
 }
 .fi-resource-modules .fi-ta-content-grid {
-    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-white/5 !rounded !p-8;
+    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-gray-800/50 !rounded !p-8;
+}
+
+.fi-resource-modules .fi-ta-record {
+    @apply dark:bg-gray-900 dark:text-white;
+}
+
+.fi-resource-modules .fi-ta-text {
+    @apply dark:text-gray-200;
 }
 
 .fi-resource-modules section.flex {
@@ -68,8 +320,16 @@
 .fi-resource-marketplace .fi-ta-filter-indicators  {
     @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
 }
-.fi-resource-marketplace .fi-ta-record  {
-    @apply p-0 hover:shadow-md rounded-md;
+.fi-resource-marketplace .fi-ta-record {
+    @apply p-0 hover:shadow-md rounded-md dark:bg-gray-900 dark:text-white;
+}
+
+.fi-resource-marketplace .fi-ta-record .fi-ta-text {
+    @apply dark:text-gray-200;
+}
+
+.fi-resource-marketplace .fi-ta-badges-column {
+    @apply dark:text-gray-300;
 }
 .fi-resource-marketplace .fi-ta-record .flex .flex  {
     @apply p-0;
@@ -80,8 +340,8 @@
 .fi-resource-marketplace .fi-ta-record .image-column-cropped  {
     @apply rounded-t-md;
 }
-.fi-resource-marketplace .fi-ta-record .fi-ta-actions  {
-    @apply transition opacity-0 hover:opacity-100 hover:backdrop-blur-sm hover:bg-black/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions {
+    @apply transition opacity-0 hover:opacity-100 hover:backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
 }
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link  {
     @apply w-full h-full;
@@ -116,7 +376,19 @@
 }
 
 .fi-sidebar-group-icon {
+    @apply dark:text-gray-300;
+}
 
+.fi-sidebar-item-button {
+    @apply dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white;
+}
+
+.fi-sidebar-item-button .fi-sidebar-item-label {
+    @apply dark:text-gray-200;
+}
+
+.fi-sidebar-item-button:hover .fi-sidebar-item-label {
+    @apply dark:text-white;
 }
 .fi-sidebar-nav-groups {
     @apply !gap-y-2 !-mx-0 !divide-y-0;
@@ -138,7 +410,7 @@
 }
 
 .mw-ui-btn {
-    @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle;
+    @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle dark:text-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;
 }
 
 
