@@ -299,11 +299,12 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 test_filter_by_select_relationship() - implemented in AgentChat resource
 - [x] 2026-03-05 test_bulk_delete_removes_selected_records() - implemented in MailTemplate, Page, Translation, Coupon, AgentChat resources
 - [x] 2026-03-05 test_export_bulk_action_generates_file() - implemented in InvoiceResourceTest.php with ExportBulkAction testing
-- [ ] Form reactivity & conditional tests ................................................... 13 per complex form
-  - [ ] test_slug_field_updates_on_title_change()
-  - [ ] test_paid_fields_hidden_when_type_free()
-  - [ ] test_dependent_select_reloads_options()
-  - [ ] test_toggle_makes_field_required()
+- [x] 2026-03-05 Form reactivity & conditional tests ................................................... 13 per complex form
+- [x] 2026-03-05 test_slug_field_updates_on_title_change() - implemented in ContentResourceFormReactivityTest
+- [x] 2026-03-05 test_paid_fields_hidden_when_type_free() - implemented in ContentResourceFormReactivityTest
+- [x] 2026-03-05 test_dependent_select_reloads_options() - implemented in ContentResourceFormReactivityTest
+- [x] 2026-03-05 test_toggle_makes_field_required() - implemented in ContentResourceFormReactivityTest
+- [x] 2026-03-05 Additional form reactivity tests: pricing_section_visible_only_for_products, physical_product_toggle_controls_shipping_fields, advanced_shipping_toggle_visibility, require_login_toggle_visibility, is_home_toggle_visibility, is_shop_toggle_visibility, special_price_field_conditional_visibility, template_tab_visibility, product_details_tab_visibility, content_body_visibility, custom_access_select_shows_dependent_fields, is_active_toggle_affects_published_status
 - [ ] File upload tests ....................................................................... 21 per feature
   - [ ] test_single_image_upload_stores_file()
   - [ ] test_multiple_files_uploaded_correctly()
