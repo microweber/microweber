@@ -31,15 +31,22 @@ class OrderResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'order_reference_id';
 
-    public static function getNavigationBadgeTooltip(): ?string
+public static function getNavigationBadgeTooltip(): ?string
     {
         return 'New orders';
     }
 
-    /*    public static function getNavigationBadge(): ?string
-        {
-            return static::getModel()::where('order_status', OrderStatus::New)->count();
-        }*/
+    public static function getNavigationBadge(): ?string
+    {
+        $count = static::getModel()::where('order_status', OrderStatus::New->value)->count();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'info';
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -325,4 +325,21 @@ class OrderResourceTest extends TestCase
             $relations
         );
     }
+
+    #[Test]
+    public function test_navigation_badge_methods_exist(): void
+    {
+        // Test that getNavigationBadge method exists and returns correct type
+        $this->assertTrue(method_exists(OrderResource::class, 'getNavigationBadge'));
+        $this->assertTrue(method_exists(OrderResource::class, 'getNavigationBadgeTooltip'));
+        $this->assertTrue(method_exists(OrderResource::class, 'getNavigationBadgeColor'));
+
+        // Test badge tooltip
+        $tooltip = OrderResource::getNavigationBadgeTooltip();
+        $this->assertEquals('New orders', $tooltip);
+
+        // Test badge color
+        $color = OrderResource::getNavigationBadgeColor();
+        $this->assertEquals('info', $color);
+    }
 }

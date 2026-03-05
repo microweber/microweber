@@ -16,7 +16,7 @@ class ListModules extends ListRecords
     {
         return [
             Actions\Action::make('reload_modules')
-                ->icon('mw-reload')
+                ->icon('heroicon-o-arrow-path')
                 ->link()
                 ->color('secondary')
                 ->action(function () {

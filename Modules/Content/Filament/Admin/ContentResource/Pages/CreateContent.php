@@ -106,7 +106,7 @@ class CreateContent extends CreateRecord
 
         $actions[] = Actions\EditAction::make()
             ->action('saveContent')
-            ->icon('mw-save')
+            ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
             ->color('success');

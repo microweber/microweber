@@ -28,42 +28,42 @@ class ListOrders extends ListRecords
 
             Actions\ActionGroup::make([
 
-                Actions\Action::make('payments_list')
-                    ->label('Payment transactions')
-                    ->url(PaymentResource::getUrl('index'))
-                    ->icon('mw-cash'),
+Actions\Action::make('payments_list')
+                ->label('Payment transactions')
+                ->url(PaymentResource::getUrl('index'))
+                ->icon('heroicon-o-banknotes'),
 
-                Actions\Action::make('payment_provider_settings')
-                    ->label('Payment Settings')
-                    ->url(PaymentProviderResource::getUrl('index'))
-                    ->icon('mw-payments'),
-
-
-                Actions\Action::make('shipping_provider_settings')
-                    ->label('Shipping Settings')
-                    ->url(ShippingProviderResource::getUrl('index'))
-                    ->icon('mw-shipping'),
+Actions\Action::make('payment_provider_settings')
+                ->label('Payment Settings')
+                ->url(PaymentProviderResource::getUrl('index'))
+                ->icon('heroicon-o-credit-card'),
 
 
-                Actions\Action::make('shop_general_settings')
-                    ->label('Shop Settings')
-                    ->url(AdminShopGeneralPage::getUrl())
-                    ->icon('mw-settings'),
+Actions\Action::make('shipping_provider_settings')
+                ->label('Shipping Settings')
+                ->url(ShippingProviderResource::getUrl('index'))
+                ->icon('heroicon-o-truck'),
 
 
-                Actions\Action::make('coupons')
-                    ->label('Coupons')
-                    ->url(CouponResource::getUrl('index'))
-                    ->icon('mw-coupon'),
+Actions\Action::make('shop_general_settings')
+                ->label('Shop Settings')
+                ->url(AdminShopGeneralPage::getUrl())
+                ->icon('heroicon-o-cog-6-tooth'),
 
 
-                Actions\Action::make('discount_prices')
-                    ->label('Discount Prices')
-                    ->url(OfferResource::getUrl('index'))
-                    ->icon('mw-offers'),
+Actions\Action::make('coupons')
+                ->label('Coupons')
+                ->url(CouponResource::getUrl('index'))
+                ->icon('heroicon-o-ticket'),
 
 
-            ])->icon('mw-settings')->tooltip('Settings'),
+Actions\Action::make('discount_prices')
+                ->label('Discount Prices')
+                ->url(OfferResource::getUrl('index'))
+                ->icon('heroicon-o-tag'),
+
+
+            ])->icon('heroicon-o-cog-6-tooth')->tooltip('Settings'),
         ];
     }
 

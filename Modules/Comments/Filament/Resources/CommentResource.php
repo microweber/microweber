@@ -21,7 +21,22 @@ class CommentResource extends Resource
     protected static ?string $recordTitleAttribute = 'comment_subject';
     protected static bool $shouldRegisterNavigation = false;
 
+    public static function getNavigationBadge(): ?string
+    {
+        $count = static::getModel()::where('is_moderated', false)->where('is_spam', false)->count();
 
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'warning';
+    }
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'Pending moderation';
+    }
 
     public static function form(Schema $schema): Schema
     {

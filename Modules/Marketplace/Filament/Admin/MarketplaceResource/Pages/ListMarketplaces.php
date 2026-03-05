@@ -20,7 +20,7 @@ class ListMarketplaces extends ListRecords
             Actions\Action::make('Reload Packages')
                 ->link()
                 ->color('secondary')
-                ->icon('mw-reload'),
+                ->icon('heroicon-o-arrow-path'),
             Actions\Action::make('Licenses')
                 ->modal('licenses')
                 ->modalSubmitAction(false)
@@ -29,7 +29,7 @@ class ListMarketplaces extends ListRecords
                 ->modalContent(view('modules.marketplace::filament.admin.show-list-licenses'))
                 ->link()
                 ->color('secondary')
-                ->icon('mw-licenses'),
+                ->icon('heroicon-o-key'),
         ];
     }
 

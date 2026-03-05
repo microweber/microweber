@@ -54,7 +54,7 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                     ->url(admin_url())
                     ->group('Other')
                     ->sort(20000)
-                    ->icon('mw-login'),
+                    ->icon('heroicon-o-arrow-right-end-on-rectangle'),
 
             ])
             ->middleware($this->getPanelMiddlewares())

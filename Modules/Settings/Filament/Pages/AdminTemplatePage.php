@@ -73,8 +73,8 @@ class AdminTemplatePage extends Page
                     ->description('The website template is the design of your website. You can choose from a variety of templates.')
                     ->schema([
                         Actions::make([
-                            Action::make('applyTemplate')
-                                ->icon('mw-save')
+Action::make('applyTemplate')
+                        ->icon('heroicon-o-check-circle')
                                 ->visible(function (Get $get) {
                                     $defaultTemplate = template_name();
                                     $selectedTemplate = $get('selectedTemplate');

@@ -142,10 +142,10 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->label('')
                     ->collapsible(false),
                 'Website' => NavigationGroup::make()
-                    ->icon('mw-website')
+                    ->icon('heroicon-o-globe-alt')
                     ->label('Website'),
                 'Shop' => NavigationGroup::make()
-                    ->icon('mw-shop')
+                    ->icon('heroicon-o-shopping-bag')
                     ->label('Shop'),
                 'Other' => NavigationGroup::make()
                     ->label('Other')

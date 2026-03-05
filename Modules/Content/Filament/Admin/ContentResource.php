@@ -1192,9 +1192,9 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                     Tables\Actions\DeleteAction::make('delete')
                         ->icon('heroicon-o-trash'),
 
-                ])->icon('mw-dots-menu')
-                    ->color(Color::Gray)
-                    ->iconSize('lg')
+])->icon('heroicon-o-ellipsis-vertical')
+            ->color(Color::Gray)
+            ->iconSize('lg')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

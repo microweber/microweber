@@ -128,35 +128,35 @@ class AdminShopGeneralPage extends AdminSettingsPage
 
                         Actions::make([
 
-                            Actions\Action::make('payments_list')
-                                ->label('Payment transactions')
-                                ->url(PaymentResource::getUrl('index'))
-                                ->icon('mw-cash'),
+Actions\Action::make('payments_list')
+                ->label('Payment transactions')
+                ->url(PaymentResource::getUrl('index'))
+                ->icon('heroicon-o-banknotes'),
 
-                            Actions\Action::make('payment_provider_settings')
-                                ->label('Payment Settings')
-                                ->url(PaymentProviderResource::getUrl('index'))
-                                ->icon('mw-payments'),
-
-
-                            Actions\Action::make('shipping_provider_settings')
-                                ->label('Shipping Settings')
-                                ->url(ShippingProviderResource::getUrl('index'))
-                                ->icon('mw-shipping'),
+Actions\Action::make('payment_provider_settings')
+                ->label('Payment Settings')
+                ->url(PaymentProviderResource::getUrl('index'))
+                ->icon('heroicon-o-credit-card'),
 
 
+Actions\Action::make('shipping_provider_settings')
+                ->label('Shipping Settings')
+                ->url(ShippingProviderResource::getUrl('index'))
+                ->icon('heroicon-o-truck'),
 
 
-                            Actions\Action::make('coupons')
-                                ->label('Coupons')
-                                ->url(CouponResource::getUrl('index'))
-                                ->icon('mw-coupon'),
 
 
-                            Actions\Action::make('discount_prices')
-                                ->label('Discount Prices')
-                                ->url(OfferResource::getUrl('index'))
-                                ->icon('mw-offers'),
+Actions\Action::make('coupons')
+                ->label('Coupons')
+                ->url(CouponResource::getUrl('index'))
+                ->icon('heroicon-o-ticket'),
+
+
+Actions\Action::make('discount_prices')
+                ->label('Discount Prices')
+                ->url(OfferResource::getUrl('index'))
+                ->icon('heroicon-o-tag'),
 
 
                         ]),

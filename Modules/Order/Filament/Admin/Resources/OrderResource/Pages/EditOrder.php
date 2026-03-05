@@ -20,12 +20,12 @@ class EditOrder extends EditRecord
                 ->size('xl')
                 ->onlyIconAndTooltip()
                 ->outlined(),
-            Actions\EditAction::make()
-                ->action('save')
-                ->icon('mw-save')
-                ->size('xl')
-                ->label('Save')
-                ->color('success'),
+Actions\EditAction::make()
+            ->action('save')
+            ->icon('heroicon-o-check-circle')
+            ->size('xl')
+            ->label('Save')
+            ->color('success'),
         ];
     }
 

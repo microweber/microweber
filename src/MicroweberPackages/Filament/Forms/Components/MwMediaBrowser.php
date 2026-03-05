@@ -83,7 +83,7 @@ class MwMediaBrowser extends Field
     public function editAction(): Action
     {
         return Action::make('edit')
-            ->icon('mw-media-item-edit-small')
+            ->icon('heroicon-o-pencil')
             ->mountUsing(function (Form $form, array $arguments) {
                 $record = Media::find($arguments['id']);
                 $form->fill($record->toArray());
@@ -227,7 +227,7 @@ class MwMediaBrowser extends Field
     public function deleteAction(): Action
     {
         return Action::make('delete')
-            ->icon('mw-media-item-delete-small')
+            ->icon('heroicon-o-trash')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 Media::where('id', $arguments['id'])->delete();

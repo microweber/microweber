@@ -132,7 +132,7 @@ class AdminLiveEditPage extends Page
                     }
                 }
 
-                return 'mw-settings';
+                return 'heroicon-o-cog-6-tooth';
             })
             ->label(function (array $arguments) {
                 $data = $arguments['data'];

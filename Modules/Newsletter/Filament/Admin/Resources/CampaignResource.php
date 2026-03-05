@@ -327,11 +327,11 @@ Select::make('list_id')
                         })
                         ->icon('heroicon-o-cursor-arrow-rays'),
 
-                    Tables\Actions\DeleteAction::make(),
+Tables\Actions\DeleteAction::make(),
                 ])
-                    ->icon('mw-dots-menu')
-                    ->color(Color::Gray)
-                    ->iconSize('lg'),
+                ->icon('heroicon-o-ellipsis-vertical')
+                ->color(Color::Gray)
+                ->iconSize('lg'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([ // Added bulk actions
