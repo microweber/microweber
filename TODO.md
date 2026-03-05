@@ -276,11 +276,11 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 
 ## Phase 3  Testing Strategy (PHPUnit  very granular)
 
-- [ ] Create base Filament test case ........................................................ 8
-  - [ ] Abstract class FilamentResourceTestCase extends TestCase
-  - [ ] protected function actingAsAdmin()
-  - [ ] protected function getResourceClass(): string
-  - [ ] Common assertions: assertSee, assertDontSee, assertDatabaseHas
+- [x] 2026-03-05 Create base Filament test case ........................................................ 8
+- [x] 2026-03-05 Abstract class FilamentResourceTestCase extends TestCase
+- [x] 2026-03-05 protected function actingAsAdmin()
+- [x] 2026-03-05 protected function getResourceClass(): string
+- [x] 2026-03-05 Common assertions: assertSee, assertDontSee, assertDatabaseHas (renamed to assertComponentSee, assertComponentDontSee, assertRecordExists)
 - [ ] For every Resource: create dedicated test file ........................................ 8 per resource
   - [ ] test_index_page_loads_without_errors()
   - [ ] test_index_page_shows_all_records()

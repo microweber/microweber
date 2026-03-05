@@ -1,0 +1,47 @@
+<?php
+
+namespace Tests\Feature\Filament;
+
+/**
+ * Example test demonstrating the FilamentResourceTestCase base class.
+ *
+ * This test verifies the base test case can be extended and used
+ * for testing Filament resources.
+ */
+class FilamentResourceTestCaseExampleTest extends FilamentResourceTestCase
+{
+    /**
+     * A simple resource class for demonstration.
+     * In real usage, this would be an actual Filament Resource class.
+     *
+     * @return string
+     */
+    protected function getResourceClass(): string
+    {
+        return \stdClass::class;
+    }
+
+    /** @test */
+    public function test_base_test_case_can_be_extended()
+    {
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function test_acting_as_admin_creates_admin_user()
+    {
+        $user = $this->actingAsAdmin();
+
+        $this->assertEquals(1, $user->is_admin);
+        $this->assertAuthenticatedAs($user);
+    }
+
+    /** @test */
+    public function test_acting_as_user_creates_non_admin_user()
+    {
+        $user = $this->actingAsUser();
+
+        $this->assertEquals(0, $user->is_admin);
+        $this->assertAuthenticatedAs($user);
+    }
+}
