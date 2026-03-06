@@ -4,12 +4,12 @@ namespace MicroweberPackages\Filament\Forms\Components;
 
 
 use Error;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\Concerns\CanBeValidated;
-use Filament\Forms\Components\Concerns\HasChildComponents;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Concerns\HasChildComponents;
+use Filament\Schemas\Components\Concerns\HasLabel;
+use Filament\Schemas\Concerns\CanBeValidated;
 use Filament\Forms\Components\Concerns\HasHelperText;
 use Filament\Forms\Components\Concerns\HasHint;
-use Filament\Forms\Components\Concerns\HasLabel;
 
 class MwInputSliderGroup extends Component
 {

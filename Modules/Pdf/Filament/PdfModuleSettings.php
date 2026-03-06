@@ -2,7 +2,7 @@
 
 namespace Modules\Pdf\Filament;
 
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;

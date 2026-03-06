@@ -76,7 +76,15 @@ Modules with known heavy Filament usage (prioritize these):
   - Fixed table action imports: `Filament\Tables\Actions\*` → `Filament\Actions\*`
   - Updated EditAction, DeleteAction, Action, BulkActionGroup, DeleteBulkAction
   - Tests: 1/6 passing (route issues are environment setup, not code issues)
-- [ ] All `...ModuleSettings.php` files that extend `Page` or use forms heavily
+- [x] 2026-03-06 All `...ModuleSettings.php` files that extend `Page` or use forms heavily
+  - Updated 29 ModuleSettings files: Changed `Filament\Forms\Components\Tabs` → `Filament\Schemas\Components\Tabs`
+  - Updated 12 ModuleSettings files: Changed `Filament\Forms\Components\Section` → `Filament\Schemas\Components\Section`
+  - Updated 5 additional files in src/MicroweberPackages with Tabs import changes
+  - Updated base classes: `LiveEditModuleSettings.php` and `LiveEditModuleSettingsTable.php`
+  - Fixed custom components: `MwInputSliderGroup` (updated Component base class and trait imports) and `MwInputSlider` (fixed make() signature)
+  - Updated test file: `CommentsModuleSettingsTest.php` to use correct Section import
+  - All 47 ModuleSettings files now use Filament v5 compatible imports
+  - Tests passing: CommentsModuleSettingsTest (3/3)
 
 ## 2. Testing  Fix deprecations & modernize
 

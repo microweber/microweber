@@ -9,7 +9,7 @@ class MwInputSlider extends TextInput
 {
     protected string $view = 'mw-filament::components.mw-hidden-input';
 
-    public static function make(string $name): static
+    public static function make(?string $name = null): static
     {
         $static = parent::make($name);
 

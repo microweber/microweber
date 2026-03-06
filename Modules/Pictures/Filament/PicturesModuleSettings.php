@@ -2,7 +2,7 @@
 
 namespace Modules\Pictures\Filament;
 
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;

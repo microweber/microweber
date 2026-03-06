@@ -6,7 +6,7 @@ use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;

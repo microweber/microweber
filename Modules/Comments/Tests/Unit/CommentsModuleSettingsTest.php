@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Comments\Filament\CommentsModuleSettings;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Toggle;
 
 class CommentsModuleSettingsTest extends TestCase

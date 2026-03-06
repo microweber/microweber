@@ -3,8 +3,8 @@
 namespace Modules\Menu\Filament;
 
 use Filament\Forms\Components\Livewire;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Schemas\Schema;

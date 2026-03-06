@@ -4,7 +4,7 @@ namespace Modules\Breadcrumb\Filament;
 
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Modules\Rating\Filament\RatingTableList;
