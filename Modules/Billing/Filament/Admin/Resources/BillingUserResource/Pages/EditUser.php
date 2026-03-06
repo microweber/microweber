@@ -9,10 +9,10 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Billing\Filament\Admin\Resources\BillingUserResource;
-use Modules\Billing\Filament\Resources\BillingUserResource\Pages\UserDemo;
 use Modules\Billing\Models\BillingUser;
 use Modules\Billing\Models\SubscriptionManual;
 use Modules\Billing\Models\SubscriptionPlan;
+use Modules\SaasPanel\UserDemo;
 
 class EditUser extends EditRecord
 {

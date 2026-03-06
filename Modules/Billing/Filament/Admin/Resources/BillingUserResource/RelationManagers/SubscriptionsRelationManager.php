@@ -2,11 +2,11 @@
 
 namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\RelationManagers;
 
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Modules\Billing\Models\Subscription;
 
@@ -39,15 +39,16 @@ class SubscriptionsRelationManager extends RelationManager
                     ->label('Plan')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('stripe_status')
-                    ->label('Status')
-                    ->colors([
-                        'success' => 'active',
-                        'danger' => 'canceled',
-                        'warning' => 'incomplete',
-                        'secondary' => 'past_due',
-                    ])
-                    ->sortable(),
+            Tables\Columns\TextColumn::make('stripe_status')
+                ->label('Status')
+                ->badge()
+                ->colors([
+                    'success' => 'active',
+                    'danger' => 'canceled',
+                    'warning' => 'incomplete',
+                    'secondary' => 'past_due',
+                ])
+                ->sortable(),
                 Tables\Columns\TextColumn::make('stripe_price')
                     ->label('Price ID')
                     ->copyable()

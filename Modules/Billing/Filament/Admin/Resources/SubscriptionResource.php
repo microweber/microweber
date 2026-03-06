@@ -120,7 +120,7 @@ class SubscriptionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->with(['plan'])
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['plan']))
             ->columns([
                 TextColumn::make('id')
                     ->sortable()
@@ -148,46 +148,48 @@ class SubscriptionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                BadgeColumn::make('stripe_status')
-                    ->label('Status')
-                    ->colors([
-                        'success' => ['active', 'trialing'],
-                        'danger' => ['canceled', 'unpaid', 'incomplete_expired'],
-                        'warning' => ['incomplete', 'past_due'],
-                        'secondary' => ['paused'],
-                    ])
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'active' => 'Active',
-                        'canceled' => 'Canceled',
-                        'incomplete' => 'Incomplete',
-                        'incomplete_expired' => 'Expired',
-                        'past_due' => 'Past Due',
-                        'paused' => 'Paused',
-                        'trialing' => 'Trialing',
-                        'unpaid' => 'Unpaid',
-                        default => ucfirst($state),
-                    })
-                    ->sortable(),
+            Tables\Columns\TextColumn::make('stripe_status')
+                ->label('Status')
+                ->badge()
+                ->colors([
+                    'success' => ['active', 'trialing'],
+                    'danger' => ['canceled', 'unpaid', 'incomplete_expired'],
+                    'warning' => ['incomplete', 'past_due'],
+                    'secondary' => ['paused'],
+                ])
+                ->formatStateUsing(fn (string $state): string => match ($state) {
+                    'active' => 'Active',
+                    'canceled' => 'Canceled',
+                    'incomplete' => 'Incomplete',
+                    'incomplete_expired' => 'Expired',
+                    'past_due' => 'Past Due',
+                    'paused' => 'Paused',
+                    'trialing' => 'Trialing',
+                    'unpaid' => 'Unpaid',
+                    default => ucfirst($state),
+                })
+                ->sortable(),
 
-                BadgeColumn::make('trial_status')
-                    ->label('Trial')
-                    ->getStateUsing(function (Subscription $record): string {
-                        if ($record->onTrial()) {
-                            return 'Active';
-                        }
-                        if ($record->trial_ends_at && $record->trial_ends_at->isPast()) {
-                            return 'Expired';
-                        }
-                        return 'None';
-                    })
-                    ->colors([
-                        'success' => 'Active',
-                        'danger' => 'Expired',
-                        'secondary' => 'None',
-                    ])
-                    ->sortable(query: function (Builder $query, string $direction) {
-                        return $query->orderBy('trial_ends_at', $direction);
-                    }),
+            Tables\Columns\TextColumn::make('trial_status')
+                ->label('Trial')
+                ->badge()
+                ->getStateUsing(function (Subscription $record): string {
+                    if ($record->onTrial()) {
+                        return 'Active';
+                    }
+                    if ($record->trial_ends_at && $record->trial_ends_at->isPast()) {
+                        return 'Expired';
+                    }
+                    return 'None';
+                })
+                ->colors([
+                    'success' => 'Active',
+                    'danger' => 'Expired',
+                    'secondary' => 'None',
+                ])
+                ->sortable(query: function (Builder $query, string $direction) {
+                    return $query->orderBy('trial_ends_at', $direction);
+                }),
 
                 TextColumn::make('starts_at')
                     ->dateTime('M d, Y')

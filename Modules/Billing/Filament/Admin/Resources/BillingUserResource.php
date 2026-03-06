@@ -127,7 +127,7 @@ class BillingUserResource extends Resource
                 }),
         ])
             ->headerActions([
-                Tables\Actions\Action::make('sync_customers')
+                \Filament\Actions\Action::make('sync_customers')
                     ->label('Sync Customers')
                     ->color('primary')
                     ->action(function () {
@@ -140,29 +140,29 @@ class BillingUserResource extends Resource
                             ->send();
                     }),
             ])
-->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\Action::make('impersonate')
-                ->label('Impersonate')
-                ->icon('heroicon-o-user-circle')
-                ->color('warning')
-                ->requiresConfirmation()
-                ->modalHeading('Impersonate User')
-                ->modalDescription('You will be logged in as this user. Continue?')
-                ->modalSubmitActionLabel('Yes, Impersonate')
-                ->action(function (BillingUser $record) {
-                    session()->put('impersonate_user_id', $record->id);
-                    Notification::make()
-                        ->title('Now impersonating ' . $record->email)
-                        ->success()
-                        ->send();
-                    return redirect()->to('/');
-                })
-                ->visible(fn () => auth()->user()->can('impersonate_users')),
-        ])
+            ->actions([
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\Action::make('impersonate')
+                    ->label('Impersonate')
+                    ->icon('heroicon-o-user-circle')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Impersonate User')
+                    ->modalDescription('You will be logged in as this user. Continue?')
+                    ->modalSubmitActionLabel('Yes, Impersonate')
+                    ->action(function (BillingUser $record) {
+                        session()->put('impersonate_user_id', $record->id);
+                        Notification::make()
+                            ->title('Now impersonating ' . $record->email)
+                            ->success()
+                            ->send();
+                        return redirect()->to('/');
+                    })
+                    ->visible(fn () => auth()->user()->can('impersonate_users')),
+            ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
