@@ -4,10 +4,13 @@ namespace Modules\Newsletter\Filament\Widgets;
 
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Filament\Support\Concerns\CanBeLazy;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 
 class SubscribersChart extends ChartWidget
 {
+    use CanBeLazy;
+
     protected static ?string $heading = 'Subscribers';
 
     protected static ?int $sort = 2;

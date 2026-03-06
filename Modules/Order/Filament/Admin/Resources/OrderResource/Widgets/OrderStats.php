@@ -2,6 +2,7 @@
 namespace Modules\Order\Filament\Admin\Resources\OrderResource\Widgets;
 
 
+use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -12,6 +13,7 @@ use Modules\Order\Models\Order;
 
 class OrderStats extends BaseWidget
 {
+    use CanBeLazy;
     use InteractsWithPageTable;
 
     protected static ?string $pollingInterval = null;

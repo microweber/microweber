@@ -4,11 +4,13 @@ namespace Modules\SiteStats\Filament;
 
 
 use Filament\Widgets\ChartWidget;
+use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 
 class SiteStatsDashboardChart extends ChartWidget
 {
+    use CanBeLazy;
     use InteractsWithPageFilters;
     use SiteStatsDataTrait;
 

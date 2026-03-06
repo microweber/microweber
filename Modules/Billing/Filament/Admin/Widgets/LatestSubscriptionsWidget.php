@@ -5,10 +5,13 @@ namespace Modules\Billing\Filament\Admin\Widgets;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Filament\Support\Concerns\CanBeLazy;
 use Modules\Billing\Models\Subscription;
 
 class LatestSubscriptionsWidget extends BaseWidget
 {
+use CanBeLazy;
+
     protected static ?int $sort = 2;
 
     protected int|string|array $columnSpan = 'full';

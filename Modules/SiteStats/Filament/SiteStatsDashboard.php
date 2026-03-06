@@ -3,6 +3,7 @@
 namespace Modules\SiteStats\Filament;
 
 
+use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -10,9 +11,9 @@ use Modules\SiteStats\Repositories\SiteStatsRepository;
 
 class SiteStatsDashboard extends BaseWidget
 {
+    use CanBeLazy;
     use InteractsWithPageFilters;
     use SiteStatsDataTrait;
-
 
     protected function getStats(): array
     {

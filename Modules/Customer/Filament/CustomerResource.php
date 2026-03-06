@@ -119,6 +119,7 @@ Forms\Components\Select::make('company_id')
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
+            ->with(['user', 'currency', 'company'])
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),

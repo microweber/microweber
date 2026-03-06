@@ -163,6 +163,12 @@ Forms\Components\Select::make('user_id')
             ]);
     }
 
+public static function getEloquentQuery(): Builder
+{
+return parent::getEloquentQuery()
+->with(['customer', 'items']);
+}
+
     public static function table(Table $table): Table
     {
         return $table
@@ -171,6 +177,7 @@ Forms\Components\Select::make('user_id')
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
+            ->with(['customer'])
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')
                     ->searchable()

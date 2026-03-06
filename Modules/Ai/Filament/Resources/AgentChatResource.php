@@ -78,6 +78,7 @@ class AgentChatResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->with(['user', 'messages'])
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()

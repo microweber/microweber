@@ -7,6 +7,7 @@ use App\Filament\Admin\Pages\Concerns\HasOptions;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 
@@ -63,7 +64,10 @@ abstract class AdminSettingsPage extends Page
             $this->options = $formState['options'];
         }
 
-        $getOptions = Option::whereIn('option_group', $this->getOptionGroups())->get();
+        $cacheKey = 'admin_settings_options_' . implode('_', $this->getOptionGroups());
+        $getOptions = Cache::remember($cacheKey, 300, function () {
+            return Option::whereIn('option_group', $this->getOptionGroups())->get();
+        });
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
@@ -80,7 +84,10 @@ abstract class AdminSettingsPage extends Page
             }
         }
 
-        $getTranslatableOptions = ModuleOption::whereIn('option_group', $this->getOptionGroups())->get();
+        $translatableCacheKey = 'admin_settings_translatable_options_' . implode('_', $this->getOptionGroups());
+        $getTranslatableOptions = Cache::remember($translatableCacheKey, 300, function () {
+            return ModuleOption::whereIn('option_group', $this->getOptionGroups())->get();
+        });
         if ($getTranslatableOptions) {
             foreach ($getTranslatableOptions as $option) {
                 if (!empty($option->multilanguage_translations)) {
@@ -125,17 +132,21 @@ abstract class AdminSettingsPage extends Page
                 }
 
 
-                save_option($optionToSave);
+            save_option($optionToSave);
 
-                //$moduleNameForOption
+            // Clear settings cache when options are updated
+            $cacheKey = 'admin_settings_options_' . implode('_', $this->getOptionGroups());
+            Cache::forget($cacheKey);
 
-                //get the minute of the hour and add it to the notification id to make it unique
-                $notificationId = 'settings_updated' . crc32(date('i') . $optionKey . $optionGroup);
+            //$moduleNameForOption
 
-                Notification::make($notificationId)
-                    ->title('Settings Updated')
-                    ->success()
-                    ->send();
+            //get the minute of the hour and add it to the notification id to make it unique
+            $notificationId = 'settings_updated' . crc32(date('i') . $optionKey . $optionGroup);
+
+            Notification::make($notificationId)
+                ->title('Settings Updated')
+                ->success()
+                ->send();
             }
         }
         if (isset($changedField['translatableOptions'])) {
@@ -154,21 +165,25 @@ abstract class AdminSettingsPage extends Page
                     if ($this->moduleNameForOption) {
                         $optionToSave['module'] = $this->moduleNameForOption;
                     }
-                    save_option($optionToSave);
+                save_option($optionToSave);
 
-//                    save_option([
-//                        'optionValueLanguages' => $optionValueLanguages,
-//                        'option_key' => $optionKey,
-//                        'option_value' => $value,
-//                        'option_group' => $optionGroup,
-//                        'lang' => $optionValueLang,
-//                        'module' => 'settings/group/website'
-//                    ]);
+                // Clear translatable settings cache when options are updated
+                $translatableCacheKey = 'admin_settings_translatable_options_' . implode('_', $this->getOptionGroups());
+                Cache::forget($translatableCacheKey);
 
-                    Notification::make()
-                        ->title('Settings Updated')
-                        ->success()
-                        ->send();
+                // save_option([
+                //     'optionValueLanguages' => $optionValueLanguages,
+                //     'option_key' => $optionKey,
+                //     'option_value' => $value,
+                //     'option_group' => $optionGroup,
+                //     'lang' => $optionValueLang,
+                //     'module' => 'settings/group/website'
+                // ]);
+
+                Notification::make()
+                    ->title('Settings Updated')
+                    ->success()
+                    ->send();
                 }
             }
         }

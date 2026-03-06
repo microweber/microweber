@@ -4,11 +4,14 @@ namespace Modules\Newsletter\Filament\Widgets;
 
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Filament\Support\Concerns\CanBeLazy;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 
 class CampaignsChart extends ChartWidget
 {
+    use CanBeLazy;
+
     protected static ?string $heading = 'Campaigns';
 
     protected static ?int $sort = 2;

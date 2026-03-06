@@ -3,6 +3,7 @@
 namespace Modules\Newsletter\Filament\Widgets;
 
 use Carbon\Carbon;
+use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -16,7 +17,8 @@ use Modules\Newsletter\Models\NewsletterSubscriber;
 
 class MailsOverviewWidget extends BaseWidget
 {
-    use InteractsWithPageFilters;
+use InteractsWithPageFilters;
+use CanBeLazy;
 
     protected static ?int $sort = 0;
 

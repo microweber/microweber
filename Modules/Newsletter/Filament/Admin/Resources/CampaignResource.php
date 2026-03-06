@@ -110,6 +110,7 @@ Select::make('list_id')
     {
         return $table
             ->poll('10s')
+            ->with(['list'])
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),

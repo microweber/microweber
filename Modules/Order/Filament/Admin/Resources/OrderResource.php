@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use Modules\Content\Models\Content;
@@ -162,6 +163,7 @@ Forms\Components\Group::make()
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
+            ->with(['customer', 'cart.products'])
             ->columns([
 
 
@@ -508,11 +510,12 @@ Forms\Components\Group::make()
             ->required();
     }
 
-//    /** @return Builder<Order> */
-//    public static function getEloquentQuery(): Builder
-//    {
-//        return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
-//    }
+/** @return Builder<Order> */
+public static function getEloquentQuery(): Builder
+{
+return parent::getEloquentQuery()
+->with(['customer', 'items', 'payments']);
+}
 
     /**
      * Get the attributes that should be searchable globally.

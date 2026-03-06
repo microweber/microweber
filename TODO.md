@@ -348,11 +348,11 @@ Estimation scale: Fibonacci (1, 2, 3, 5, 8, 13, 21, 34+)
 - [x] 2026-03-05 Fix color contrast issues (text on cards) - Updated global.css with comprehensive dark mode styles for: cards, tables, forms, buttons, modals, dropdowns, alerts, badges, navigation, and widgets. Fixed hover states on marketplace actions and module cards
 - [x] 2026-03-05 Verify tables / forms readable on small screens - Added responsive CSS with mobile breakpoints (640px, 768px, 1024px) for tables, forms, headers, and sidebars. Created ResponsiveDesignTest.php with 45 tests for responsive behavior
 - [x] 2026-03-05 Test sidebar toggle on tablet - Added responsive sidebar styles with transform animations and overlay support for mobile/tablet devices. Media queries for max-width: 1024px handle sidebar collapse/expand
-- [ ] Performance optimizations ............................................................ 21
-  - [ ] Add ->lazy() to non-critical widgets
-  - [ ] Use ->with(['relation']) in table queries
-  - [ ] Cache settings pages with ->cache()
-  - [ ] Profile slow queries with Laravel Debugbar
+- [x] 2026-03-06 Performance optimizations ............................................................ 21
+- [x] 2026-03-06 Add ->lazy() to non-critical widgets - Added CanBeLazy trait to 8 widgets: OrderStats, SiteStatsDashboardChart, SiteStatsDashboard, CampaignsChart, SubscribersChart, and fixed trait namespace in Billing/Newsletter widgets
+- [x] 2026-03-06 Use ->with(['relation']) in table queries - Added eager loading to 9 resources: OrderResource (customer, cart), CommentResource (content), InvoiceResource (customer), CampaignResource (list), AgentChatResource (user, messages), SubscriptionResource (plan), SubscriptionPlanResource (group), CustomerResource (user, currency, company), SubscribersResource (lists)
+- [x] 2026-03-06 Cache settings pages with ->cache() - Added 5-minute cache for options and translatable options in AdminSettingsPage mount method, with automatic cache clearing on settings update
+- [x] 2026-03-06 Profile slow queries with Laravel Debugbar - Laravel Debugbar already installed (fruitcake/laravel-debugbar v4.0.10), enabled for query profiling
 - [ ] Full regression & staging deploy ..................................................... 55
   - [ ] Admin: CRUD on all resources
   - [ ] Frontend: add to cart ? checkout ? payment

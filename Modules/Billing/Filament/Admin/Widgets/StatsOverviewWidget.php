@@ -4,6 +4,7 @@ namespace Modules\Billing\Filament\Admin\Widgets;
 
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
 use Modules\Billing\Models\Subscription;
@@ -11,6 +12,8 @@ use Modules\Billing\Models\SubscriptionPlan;
 
 class StatsOverviewWidget extends BaseWidget
 {
+use CanBeLazy;
+
     protected static ?int $sort = 0;
 
     protected function getStats(): array

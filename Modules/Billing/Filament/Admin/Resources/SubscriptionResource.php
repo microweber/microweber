@@ -120,6 +120,7 @@ class SubscriptionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->with(['plan'])
             ->columns([
                 TextColumn::make('id')
                     ->sortable()

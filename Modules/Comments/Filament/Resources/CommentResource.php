@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Comments\Models\Comment;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -15,11 +16,17 @@ use Filament\Actions\Action;
 
 class CommentResource extends Resource
 {
-    protected static ?string $model = Comment::class;
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
-    protected static ?string $recordTitleAttribute = 'comment_subject';
-    protected static bool $shouldRegisterNavigation = false;
+protected static ?string $model = Comment::class;
+protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+protected static string | \UnitEnum | null $navigationGroup = 'Other';
+protected static ?string $recordTitleAttribute = 'comment_subject';
+protected static bool $shouldRegisterNavigation = false;
+
+public static function getEloquentQuery(): Builder
+{
+return parent::getEloquentQuery()
+->with(['content']);
+}
 
     public static function getNavigationBadge(): ?string
     {
@@ -92,6 +99,7 @@ class CommentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->with(['content'])
             ->columns([
                 Tables\Columns\TextColumn::make('comment_name')
                     ->label('Name')
