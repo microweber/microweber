@@ -5,7 +5,7 @@ namespace Modules\Shop\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Cart\Models\Cart;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\MailTemplate\Models\MailTemplate;

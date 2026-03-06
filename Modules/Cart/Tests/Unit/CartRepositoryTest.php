@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Cart\Repositories\CartRepository;
 
 class CartRepositoryTest extends TestCase

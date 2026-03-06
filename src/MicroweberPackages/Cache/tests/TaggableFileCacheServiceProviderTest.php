@@ -3,7 +3,9 @@
 
 
 use PHPUnit\Framework\Attributes\Test;
-class TaggableFileCacheServiceProviderTest extends \MicroweberPackages\Core\tests\TestCase
+use Tests\TestCase;
+
+class TaggableFileCacheServiceProviderTest extends TestCase
 {
 	#[Test]
 	public function it_cache_is_taggable_file_cache_when_using(): void {

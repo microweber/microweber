@@ -4,7 +4,7 @@ namespace Modules\Customer\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 

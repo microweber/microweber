@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;

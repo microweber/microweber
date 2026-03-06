@@ -5,7 +5,7 @@ namespace Modules\Content\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Str;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 

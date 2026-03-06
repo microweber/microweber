@@ -5,7 +5,7 @@ namespace Modules\Shop\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\App;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Blog\Livewire\BlogComponent;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;

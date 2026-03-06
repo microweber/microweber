@@ -5,7 +5,7 @@ namespace MicroweberPackages\Template\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use MicroweberPackages\Template\Facades\TemplateMetaTags;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 class TemplateMetaTagsTest extends TestCase
 {

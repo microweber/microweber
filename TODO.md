@@ -125,7 +125,15 @@ Modules with known heavy Filament usage (prioritize these):
   - AiChatRegressionTest.php already uses correct chained style for JSON array responses: `Http::response([...])->withStatus(200)` (arrays auto-encode to JSON)
 - **Conclusion:** No migration needed - files already use correct Laravel 11+ syntax for their use cases
 - [x] 2026-03-06 Add trait `Tests\CreatesApplication` if missing in some test classes - Audit complete: 131 test files verified - All test files inherit CreatesApplication through base TestCase hierarchy - 0 files require changes
-- [ ] Migrate old `TestCase` ? `Tests\TestCase` everywhere
+- [x] 2026-03-06 Migrate old `TestCase` ? `Tests\TestCase` everywhere
+  - Updated 121 test files: replaced `use MicroweberPackages\Core\tests\TestCase;` with `use Tests\TestCase;`
+  - Updated 6 additional files with direct extends: replaced `extends \MicroweberPackages\Core\tests\TestCase` with `use Tests\TestCase;` + `extends TestCase`
+  - Files updated:
+    - Modules/* (82 files across Comments, Shipping, Page, Media, Profile, MailTemplate, Invoice, Settings, etc.)
+    - src/MicroweberPackages/* (39 files across Module, Translation, Queue, Template, Event, etc.)
+    - Tests/* (6 files: TemplateMetaTagsSeoTagsTest, TemplateMetaTagsFunctionsTest, PackageManagerTest, TaggableFileStoreTest, TaggableFileCacheServiceProviderTest, CacheTest)
+  - Also fixed: Duplicate `#[Test]` attribute in ContentOriginalLinkTest.php
+  - Verified: PHPUnit can now list tests without errors, sample tests pass
 
 ## 3. Incomplete / suspicious migrations to Filament 5
 

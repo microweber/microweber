@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\Category\Models\Category;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Page\Models\Page;
 use MicroweberPackages\User\Models\User;

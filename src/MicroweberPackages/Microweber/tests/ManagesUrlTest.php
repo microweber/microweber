@@ -4,7 +4,7 @@ namespace MicroweberPackages\Microweber\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 /**
  * @deprecated

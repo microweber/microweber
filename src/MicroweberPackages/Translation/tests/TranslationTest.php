@@ -11,7 +11,7 @@ namespace MicroweberPackages\Translation\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;

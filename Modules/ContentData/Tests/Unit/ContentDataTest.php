@@ -4,7 +4,7 @@ namespace Modules\ContentData\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Product\Models\Product;
 
 class ContentDataTest extends TestCase

@@ -5,7 +5,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Config\ConfigSave;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Install\TemplateInstaller;
 
 class TemplateInstallerTest extends TestCase

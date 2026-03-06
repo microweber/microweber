@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\App\Http\RequestRoute;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;

@@ -4,7 +4,7 @@ namespace Modules\Backup\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 use MicroweberPackages\User\Models\User;
 use Modules\Backup\Backup;

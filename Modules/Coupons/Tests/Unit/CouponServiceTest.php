@@ -8,7 +8,7 @@ use Modules\Coupons\Services\CouponService;
 use Modules\Coupons\Models\Coupon;
 use Modules\Coupons\Models\CouponLog;
 use Illuminate\Support\Facades\Session;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 class CouponServiceTest extends TestCase
 {

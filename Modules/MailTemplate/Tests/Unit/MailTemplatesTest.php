@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\MailTemplate\Models\MailTemplate;
 use Modules\MailTemplate\Services\MailTemplateService;
 

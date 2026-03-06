@@ -4,7 +4,7 @@ namespace Modules\Backup\Tests;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Content\Models\Content;

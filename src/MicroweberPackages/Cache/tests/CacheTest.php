@@ -5,7 +5,9 @@
 use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Cache;
 
-class CacheTest extends \MicroweberPackages\Core\tests\TestCase
+use Tests\TestCase;
+
+class CacheTest extends TestCase
 {
     #[Test]
     public function it_cache(): void {

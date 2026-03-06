@@ -5,7 +5,7 @@ namespace Modules\Coupons\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Coupons\Models\Coupon;
 use Modules\Shop\Tests\Unit\ShopTestHelperTrait;
 

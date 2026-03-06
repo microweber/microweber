@@ -6,7 +6,7 @@ namespace Modules\Menu\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
 use Modules\Menu\Models\MenuItem;

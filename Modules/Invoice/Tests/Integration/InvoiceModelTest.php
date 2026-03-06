@@ -4,7 +4,7 @@ namespace Modules\Invoice\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Models\InvoiceItem;
 

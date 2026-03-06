@@ -4,7 +4,7 @@ namespace MicroweberPackages\Admin\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 class AdminTest extends TestCase
 {

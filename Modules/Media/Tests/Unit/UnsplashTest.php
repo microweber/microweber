@@ -4,7 +4,7 @@ namespace Modules\Media\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\MediaLibrary\Support\Unsplash;
 
 class UnsplashTest extends TestCase

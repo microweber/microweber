@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Coupons\Models\CartCouponLog;
 use Modules\Shop\Tests\Unit\ShopTestHelperTrait;

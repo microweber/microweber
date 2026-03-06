@@ -7,7 +7,7 @@ use Modules\Post\Models\Post;
 use Modules\Export\Models\Import;
 
 use Faker\Factory;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Backup\SessionStepper;
 use Modules\Export\Services\Export;
 

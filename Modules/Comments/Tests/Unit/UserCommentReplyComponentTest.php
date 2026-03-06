@@ -4,7 +4,7 @@ namespace Modules\Comments\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 use Livewire\Livewire;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Comments\Livewire\UserCommentReplyComponent;
 use Modules\Comments\Models\Comment;
 use Modules\Content\Models\Content;

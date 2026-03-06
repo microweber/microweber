@@ -4,7 +4,7 @@ namespace Modules\Cart\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Http\Request;
 use Modules\Cart\Http\Controllers\CartApiController;
 

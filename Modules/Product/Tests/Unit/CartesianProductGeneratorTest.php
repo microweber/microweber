@@ -3,7 +3,7 @@ namespace Modules\Product\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Product\Support\CartesianProduct;
 
 class CartesianProductGeneratorTest extends TestCase

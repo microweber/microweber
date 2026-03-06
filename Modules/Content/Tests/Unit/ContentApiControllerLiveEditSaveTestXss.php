@@ -3,7 +3,7 @@
 namespace Modules\Content\Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Page\Models\Page;

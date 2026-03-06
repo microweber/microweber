@@ -3,7 +3,7 @@
 namespace Modules\Comments\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Comments\Filament\CommentsModuleSettings;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;

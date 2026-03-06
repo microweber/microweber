@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;

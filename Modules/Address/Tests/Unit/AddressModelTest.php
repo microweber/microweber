@@ -5,7 +5,7 @@ namespace Modules\Address\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 

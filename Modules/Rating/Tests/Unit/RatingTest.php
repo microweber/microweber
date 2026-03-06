@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Modules\Content\Models\Content;
 use Modules\Rating\Models\Rating;
-use MicroweberPackages\Core\tests\TestCase ;
+use Tests\TestCase;
 
 class RatingTest extends TestCase
 {

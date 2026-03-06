@@ -4,7 +4,9 @@
 
 
 use PHPUnit\Framework\Attributes\Test;
-class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
+use Tests\TestCase;
+
+class PackageManagerTest extends TestCase
 {
     public $skip = false;
 

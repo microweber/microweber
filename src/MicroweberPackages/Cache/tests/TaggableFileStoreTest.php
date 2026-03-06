@@ -5,7 +5,9 @@
 use PHPUnit\Framework\Attributes\Test;
 use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 
-class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
+use Tests\TestCase;
+
+class TaggableFileStoreTest extends TestCase
 {
 
     #[Test]

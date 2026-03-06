@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;

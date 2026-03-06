@@ -5,7 +5,7 @@ namespace Modules\Backup\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Faker\Factory;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Post\Models\Post;

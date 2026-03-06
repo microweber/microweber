@@ -3,7 +3,7 @@ namespace Modules\Shop\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 
 

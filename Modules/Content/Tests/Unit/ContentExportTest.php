@@ -3,7 +3,7 @@ namespace Modules\Content\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Utils\Misc\ContentExport;
 
 class ContentExportTest extends TestCase

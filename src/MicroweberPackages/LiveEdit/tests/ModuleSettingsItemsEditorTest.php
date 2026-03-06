@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\User\Models\User;

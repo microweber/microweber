@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\MetaTags\tests;
 
-class TemplateMetaTagsFunctionsTest extends \MicroweberPackages\Core\tests\TestCase
+use Tests\TestCase;
+
+class TemplateMetaTagsFunctionsTest extends TestCase
 {
 
 

@@ -4,7 +4,7 @@ namespace Modules\Restore\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Restore\Formats\ZipReader;
 use Modules\Restore\Loggers\RestoreLogger;
 

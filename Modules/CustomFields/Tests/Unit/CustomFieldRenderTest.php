@@ -4,7 +4,7 @@ namespace Modules\CustomFields\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\CustomFields\Models\CustomField;
 use Modules\Product\Models\Product;
 

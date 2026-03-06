@@ -3,7 +3,7 @@ namespace Modules\Content\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Content\Models\Content;
 
 class ContentManagerTest extends TestCase

@@ -4,7 +4,7 @@ namespace Modules\Content\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -16,9 +16,6 @@ class ContentOriginalLinkTest extends TestCase
 {
 
     #[Test, RunInSeparateProcess]
-
-    #[Test]
-
     public function it_content_original_link_redirect(): void {
         $this->loginAsAdmin();
         mw()->database_manager->extended_save_set_permission(true);

@@ -3,7 +3,7 @@ namespace Modules\Restore\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
 use Modules\Restore\Formats\ZipReader;

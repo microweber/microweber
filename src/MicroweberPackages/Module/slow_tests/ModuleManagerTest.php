@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 
 class ModuleManagerTest extends TestCase

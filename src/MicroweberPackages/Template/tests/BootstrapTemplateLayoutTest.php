@@ -5,7 +5,7 @@ namespace MicroweberPackages\Template\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Content\Tests\Unit\TestHelpers;
 
 class BootstrapTemplateLayoutTest extends TestCase

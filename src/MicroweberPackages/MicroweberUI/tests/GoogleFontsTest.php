@@ -4,7 +4,7 @@ namespace MicroweberPackages\MicroweberUI\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Template\Adapters\GoogleFontDownloader;
 
 class GoogleFontsTest extends TestCase

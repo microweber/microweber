@@ -4,7 +4,7 @@ namespace Modules\Blog\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\App;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Blog\Livewire\BlogComponent;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;

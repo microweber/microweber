@@ -3,7 +3,7 @@
 namespace MicroweberPackages\User\tests;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;

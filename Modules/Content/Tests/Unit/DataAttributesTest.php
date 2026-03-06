@@ -4,7 +4,7 @@ namespace Modules\Content\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 class DataAttributesTest extends TestCase
 {

@@ -5,7 +5,7 @@ namespace MicroweberPackages\User\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Livewire\Livewire;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
 use MicroweberPackages\User\Http\Livewire\Admin\DeleteUserForm;
 use MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm;

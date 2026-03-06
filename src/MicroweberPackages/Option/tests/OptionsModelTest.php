@@ -5,7 +5,7 @@ namespace MicroweberPackages\Option\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Support\Facades\Event;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Option\Events\OptionWasCreated;
 use MicroweberPackages\Option\Events\OptionIsCreating;
 use MicroweberPackages\Option\Events\OptionIsUpdating;

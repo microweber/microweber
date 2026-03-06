@@ -4,7 +4,7 @@ namespace MicroweberPackages\Database\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 class DatabaseManagerTest extends TestCase
 {

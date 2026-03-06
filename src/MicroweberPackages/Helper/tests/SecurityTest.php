@@ -4,7 +4,7 @@ namespace MicroweberPackages\Helper\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 
 class SecurityTest extends TestCase

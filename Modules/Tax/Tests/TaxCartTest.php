@@ -3,7 +3,7 @@ namespace Modules\Tax\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Coupons\Models\Coupon;
 use Modules\Shop\Tests\Unit\ShopTestHelperTrait;

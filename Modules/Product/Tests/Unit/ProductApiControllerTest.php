@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Modules\Category\Models\Category;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Events\ContentWasCreated;
 use Modules\Offer\Listeners\AddSpecialPriceProductListener;

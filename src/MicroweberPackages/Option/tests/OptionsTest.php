@@ -4,7 +4,7 @@ namespace MicroweberPackages\Option\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\Models\Option;
 

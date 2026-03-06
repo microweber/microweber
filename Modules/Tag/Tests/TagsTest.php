@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 use Modules\Content\Models\Content;
 
 class TagsTest extends TestCase

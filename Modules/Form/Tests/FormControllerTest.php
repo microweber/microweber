@@ -4,7 +4,7 @@ namespace Modules\Form\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use MicroweberPackages\Core\tests\TestCase;
+use Tests\TestCase;
 
 
 class FormControllerTest extends TestCase
