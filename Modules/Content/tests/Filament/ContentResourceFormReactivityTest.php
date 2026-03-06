@@ -9,6 +9,7 @@ use Modules\Content\Filament\Admin\ContentResource\Pages\CreateContent;
 use Modules\Content\Filament\Admin\ContentResource\Pages\EditContent;
 use Modules\Content\Models\Content;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ContentResourceFormReactivityTest extends TestCase
 {
@@ -23,11 +24,7 @@ class ContentResourceFormReactivityTest extends TestCase
         return $user;
     }
 
-    /**
-     * Test that slug field auto-updates when title changes
-     *
-     * @test
-     */
+    #[Test]
     public function test_slug_field_updates_on_title_change()
     {
         $this->actingAsAdmin();
@@ -62,11 +59,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertStringContainsString(strtolower(str_replace(' ', '-', $title)), strtolower($content->url));
     }
 
-    /**
-     * Test that pricing fields are hidden when content type is not 'product'
-     *
-     * @test
-     */
+    #[Test]
     public function test_paid_fields_hidden_when_type_free()
     {
         $this->actingAsAdmin();
@@ -97,11 +90,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals(99.99, $productData['price']);
     }
 
-    /**
-     * Test that pricing section is only visible for products
-     *
-     * @test
-     */
+    #[Test]
     public function test_pricing_section_visible_only_for_products()
     {
         $this->actingAsAdmin();
@@ -132,11 +121,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals(49.99, $productData['price']);
     }
 
-    /**
-     * Test that dependent select fields reload options based on parent value
-     *
-     * @test
-     */
+    #[Test]
     public function test_dependent_select_reloads_options()
     {
         $this->actingAsAdmin();
@@ -165,11 +150,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $component->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that toggle fields control visibility of related fields
-     *
-     * @test
-     */
+    #[Test]
     public function test_toggle_makes_field_visible()
     {
         $this->actingAsAdmin();
@@ -203,11 +184,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $component->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that physical product toggle controls shipping fields visibility
-     *
-     * @test
-     */
+    #[Test]
     public function test_physical_product_toggle_controls_shipping_fields()
     {
         $this->actingAsAdmin();
@@ -241,11 +218,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $component->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that advanced shipping settings toggle works
-     *
-     * @test
-     */
+    #[Test]
     public function test_advanced_shipping_toggle_visibility()
     {
         $this->actingAsAdmin();
@@ -283,11 +256,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $component->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that require_login toggle is only visible for existing records
-     *
-     * @test
-     */
+    #[Test]
     public function test_require_login_toggle_visibility_based_on_record_existence()
     {
         $this->actingAsAdmin();
@@ -322,11 +291,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertTrue($content->require_login);
     }
 
-    /**
-     * Test that is_home toggle is only visible for pages
-     *
-     * @test
-     */
+    #[Test]
     public function test_is_home_toggle_visibility_for_pages()
     {
         $this->actingAsAdmin();
@@ -357,11 +322,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals('product', $productData['content_type']);
     }
 
-    /**
-     * Test that is_shop toggle is only visible for pages
-     *
-     * @test
-     */
+    #[Test]
     public function test_is_shop_toggle_visibility_for_pages()
     {
         $this->actingAsAdmin();
@@ -382,11 +343,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertTrue($page->is_shop);
     }
 
-    /**
-     * Test that special_price field visibility depends on offers function
-     *
-     * @test
-     */
+    #[Test]
     public function test_special_price_field_conditional_visibility()
     {
         $this->actingAsAdmin();
@@ -407,11 +364,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $component->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that template tab is only visible for pages
-     *
-     * @test
-     */
+    #[Test]
     public function test_template_tab_visibility_for_pages()
     {
         $this->actingAsAdmin();
@@ -440,11 +393,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals('product', $productData['content_type']);
     }
 
-    /**
-     * Test that product details tab is only visible for products
-     *
-     * @test
-     */
+    #[Test]
     public function test_product_details_tab_visibility()
     {
         $this->actingAsAdmin();
@@ -478,11 +427,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals('page', $pageData['content_type']);
     }
 
-    /**
-     * Test that content_body is hidden for pages but visible for posts/products
-     *
-     * @test
-     */
+    #[Test]
     public function test_content_body_visibility_by_content_type()
     {
         $this->actingAsAdmin();
@@ -515,11 +460,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $this->assertEquals('<p>Product description here.</p>', $productData['content_body']);
     }
 
-    /**
-     * Test that custom access select shows dependent fields
-     *
-     * @test
-     */
+    #[Test]
     public function test_custom_access_select_shows_dependent_fields()
     {
         $this->actingAsAdmin();
@@ -559,11 +500,7 @@ class ContentResourceFormReactivityTest extends TestCase
         $editComponent->assertHasNoFormErrors();
     }
 
-    /**
-     * Test that is_active toggle affects published status
-     *
-     * @test
-     */
+    #[Test]
     public function test_is_active_toggle_affects_published_status()
     {
         $this->actingAsAdmin();

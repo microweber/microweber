@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Filament;
 
+use PHPUnit\Framework\Attributes\Test;
+
 /**
  * Example test demonstrating the FilamentResourceTestCase base class.
  *
@@ -21,13 +23,13 @@ class FilamentResourceTestCaseExampleTest extends FilamentResourceTestCase
         return \stdClass::class;
     }
 
-    /** @test */
+    #[Test]
     public function test_base_test_case_can_be_extended()
     {
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function test_acting_as_admin_creates_admin_user()
     {
         $user = $this->actingAsAdmin();
@@ -36,7 +38,7 @@ class FilamentResourceTestCaseExampleTest extends FilamentResourceTestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test */
+    #[Test]
     public function test_acting_as_user_creates_non_admin_user()
     {
         $user = $this->actingAsUser();

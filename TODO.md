@@ -88,9 +88,18 @@ Modules with known heavy Filament usage (prioritize these):
 
 ## 2. Testing  Fix deprecations & modernize
 
-- [ ] Replace **all `@test` doc-block annotations** with `#[Test]` attribute  
-  ? files already partially migrated: BillingRegressionTest, FrontendCheckoutRegressionTest, AgentChatToolsTest
-  ? search regex: `/\*\s+\* @test\s+\*/`
+- [x] 2026-03-06 Replace **all `@test` doc-block annotations** with `#[Test]` attribute
+  - Updated 8 files with 119 total `@test` annotations
+  - Files migrated:
+    - Modules/Ai/tests/Tools/AmazonScraperToolTest.php (15 tests)
+    - Modules/Ai/tests/Tools/CreateContentToolTest.php (17 tests)
+    - Modules/Ai/tests/Tools/GoogleTrendsToolTest.php (16 tests)
+    - Modules/Ai/tests/Tools/RagSearchToolTest.php (17 tests)
+    - Modules/Billing/Tests/Unit/WebhookControllerTest.php (24 tests)
+    - Modules/Content/tests/Filament/ContentResourceFormReactivityTest.php (18 tests)
+    - src/MicroweberPackages/Filament/tests/Forms/Components/MwFileUploadTest.php (13 tests)
+    - tests/Feature/Filament/FilamentResourceTestCaseExampleTest.php (3 tests)
+  - All tests passing after migration
 - [ ] Convert remaining `public function test_...()` to `#[Test] public function ...(): void`
 - [ ] Replace `/** @test */` in **all** unit/feature tests (Billing, Ai, Cart, Order, etc.)
 - [ ] Audit & fix all remaining `->assertSee()`, `->assertDontSee()` ? prefer `assertStringContainsString`

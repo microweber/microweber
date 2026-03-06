@@ -8,6 +8,7 @@ use Modules\Ai\Tools\CreateContentTool;
 use Modules\Content\Models\Content;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 
 class CreateContentToolTest extends ToolTestCase
 {
@@ -28,7 +29,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->actingAs($user);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_when_title_is_missing(): void
     {
         $result = $this->tool->__invoke([
@@ -39,7 +40,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_content_with_minimal_data(): void
     {
         $result = $this->tool->__invoke([
@@ -56,7 +57,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_content_with_full_data(): void
     {
         $result = $this->tool->__invoke([
@@ -79,7 +80,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_slug_from_title_when_url_not_provided(): void
     {
         $result = $this->tool->__invoke([
@@ -95,7 +96,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_unique_slug_when_duplicate_exists(): void
     {
         // Use a unique title to avoid interference from other tests
@@ -120,7 +121,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertNotEquals($contents[0]->url, $contents[1]->url);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_inactive_content(): void
     {
         $result = $this->tool->__invoke([
@@ -134,7 +135,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_sanitizes_title_in_output(): void
     {
         $result = $this->tool->__invoke([
@@ -146,7 +147,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('&lt;script&gt;', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_special_characters_in_title(): void
     {
         $result = $this->tool->__invoke([
@@ -160,7 +161,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_content_with_media_urls(): void
     {
         $result = $this->tool->__invoke([
@@ -176,7 +177,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_media_urls(): void
     {
         $result = $this->tool->__invoke([
@@ -188,7 +189,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('Content created successfully', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_empty_media_urls(): void
     {
         $result = $this->tool->__invoke([
@@ -199,7 +200,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('Content created successfully', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_trims_whitespace_from_media_urls(): void
     {
         $result = $this->tool->__invoke([
@@ -210,7 +211,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('Content created successfully', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_content_details_in_response(): void
     {
         $result = $this->tool->__invoke([
@@ -223,7 +224,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('post', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_very_long_titles(): void
     {
         $longTitle = str_repeat('A', 200);
@@ -235,7 +236,7 @@ class CreateContentToolTest extends ToolTestCase
         $this->assertStringContainsString('Content created successfully', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_unicode_characters_in_title(): void
     {
         $result = $this->tool->__invoke([
@@ -249,7 +250,7 @@ class CreateContentToolTest extends ToolTestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_created_by_to_current_user(): void
     {
         $user = \MicroweberPackages\User\Models\User::factory()->create();

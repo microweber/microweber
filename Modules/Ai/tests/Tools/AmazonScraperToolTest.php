@@ -7,6 +7,7 @@ namespace Modules\Ai\Tests\Tools;
 use Illuminate\Support\Facades\Http;
 use Modules\Ai\Tools\AmazonScraperTool;
 use Modules\Ai\Services\AmazonScraperService;
+use PHPUnit\Framework\Attributes\Test;
 
 class AmazonScraperToolTest extends ToolTestCase
 {
@@ -18,7 +19,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->tool = new AmazonScraperTool();
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_missing_action_parameter(): void
     {
         $result = $this->tool->__invoke([]);
@@ -27,7 +28,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_invalid_action(): void
     {
         $result = $this->tool->__invoke(['action' => 'invalid_action']);
@@ -36,7 +37,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_search_without_query(): void
     {
         $result = $this->tool->__invoke([
@@ -48,7 +49,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_for_products_successfully(): void
     {
         $html = $this->getSampleSearchHtml();
@@ -72,7 +73,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('product-card', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_empty_search_results(): void
     {
         Http::fake([
@@ -90,7 +91,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_product_details_without_asin(): void
     {
         $result = $this->tool->__invoke([
@@ -102,7 +103,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_product_details_successfully(): void
     {
         $html = $this->getSampleProductHtml();
@@ -123,7 +124,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('B08N5WRWNW', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_marketplaces_list(): void
     {
         $result = $this->tool->__invoke([
@@ -136,7 +137,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('Germany', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_respects_limit_parameter(): void
     {
         $html = $this->getSampleSearchHtml(20);
@@ -167,7 +168,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('Amazon Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_http_errors_gracefully(): void
     {
         Http::fake([
@@ -184,7 +185,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_network_exceptions(): void
     {
         Http::fake([
@@ -205,7 +206,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_country_parameter(): void
     {
         $html = $this->getSampleSearchHtml();
@@ -225,7 +226,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('Amazon Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_includes_reviews_when_requested(): void
     {
         $searchHtml = $this->getSampleSearchHtml(1);
@@ -249,7 +250,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('Amazon Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_escapes_html_in_output(): void
     {
         $html = $this->getSampleSearchHtmlWithSpecialChars();
@@ -270,7 +271,7 @@ class AmazonScraperToolTest extends ToolTestCase
         $this->assertStringContainsString('&lt;script&gt;', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_malformed_html(): void
     {
         Http::fake([

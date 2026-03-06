@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\User\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Tests for MwFileUpload Filament component
@@ -35,11 +36,7 @@ class MwFileUploadTest extends TestCase
         return $user;
     }
 
-    /**
-     * Test that single image upload stores file correctly
-     * 
-     * @test
-     */
+    #[Test]
     public function test_single_image_upload_stores_file(): void
     {
         $this->actingAsAdmin();
@@ -57,11 +54,7 @@ class MwFileUploadTest extends TestCase
         $this->assertEquals('image/jpeg', Storage::disk('public')->mimeType($path));
     }
 
-    /**
-     * Test that multiple files upload correctly
-     * 
-     * @test
-     */
+    #[Test]
     public function test_multiple_files_uploaded_correctly(): void
     {
         $this->actingAsAdmin();
@@ -87,11 +80,7 @@ class MwFileUploadTest extends TestCase
         $this->assertCount(3, $paths);
     }
 
-    /**
-     * Test that image preview is shown after upload
-     * 
-     * @test
-     */
+    #[Test]
     public function test_image_preview_shown_after_upload(): void
     {
         $this->actingAsAdmin();
@@ -113,11 +102,7 @@ class MwFileUploadTest extends TestCase
         $this->assertStringContainsString('/storage/', $url);
     }
 
-    /**
-     * Test that upload validation enforces mime types
-     * 
-     * @test
-     */
+    #[Test]
     public function test_upload_validation_enforces_mime_types(): void
     {
         $this->actingAsAdmin();
@@ -141,11 +126,7 @@ class MwFileUploadTest extends TestCase
         $this->assertContains('image/*', $fileTypes);
     }
 
-    /**
-     * Test that upload to S3 disk works correctly
-     * 
-     * @test
-     */
+    #[Test]
     public function test_upload_to_s3_disk_works(): void
     {
         $this->actingAsAdmin();
@@ -164,11 +145,7 @@ class MwFileUploadTest extends TestCase
         $this->assertGreaterThan(0, Storage::disk('s3')->size($path));
     }
 
-    /**
-     * Test MwFileUpload component configuration
-     * 
-     * @test
-     */
+    #[Test]
     public function test_component_configures_file_types(): void
     {
         $this->actingAsAdmin();
@@ -204,11 +181,7 @@ class MwFileUploadTest extends TestCase
         $this->assertContains('text/plain', $fileTypes);
     }
 
-    /**
-     * Test MwFileUpload component multiple mode
-     * 
-     * @test
-     */
+    #[Test]
     public function test_component_supports_multiple_uploads(): void
     {
         $this->actingAsAdmin();
@@ -227,11 +200,7 @@ class MwFileUploadTest extends TestCase
         $this->assertFalse($component->isMultiple());
     }
 
-    /**
-     * Test file size validation
-     * 
-     * @test
-     */
+    #[Test]
     public function test_file_size_validation_works(): void
     {
         $this->actingAsAdmin();
@@ -245,11 +214,7 @@ class MwFileUploadTest extends TestCase
         $this->assertGreaterThan(1024 * 1024 * 5, $largeFile->getSize()); // Greater than 5MB
     }
 
-    /**
-     * Test file extension validation
-     * 
-     * @test
-     */
+    #[Test]
     public function test_file_extension_validation(): void
     {
         $this->actingAsAdmin();
@@ -267,11 +232,7 @@ class MwFileUploadTest extends TestCase
         }
     }
 
-    /**
-     * Test file cleanup on disk
-     * 
-     * @test
-     */
+    #[Test]
     public function test_file_cleanup_on_disk(): void
     {
         $this->actingAsAdmin();
@@ -290,11 +251,7 @@ class MwFileUploadTest extends TestCase
         Storage::disk('public')->assertMissing($path);
     }
 
-    /**
-     * Test component state binding
-     * 
-     * @test
-     */
+    #[Test]
     public function test_component_state_binding(): void
     {
         $this->actingAsAdmin();
@@ -315,11 +272,7 @@ class MwFileUploadTest extends TestCase
         $this->assertCount(2, $multipleState);
     }
 
-    /**
-     * Test file type detection from extension
-     * 
-     * @test
-     */
+    #[Test]
     public function test_file_type_detection_from_extension(): void
     {
         $this->actingAsAdmin();
@@ -342,11 +295,7 @@ class MwFileUploadTest extends TestCase
         }
     }
 
-    /**
-     * Test component view selection
-     * 
-     * @test
-     */
+    #[Test]
     public function test_component_view_selection(): void
     {
         $this->actingAsAdmin();

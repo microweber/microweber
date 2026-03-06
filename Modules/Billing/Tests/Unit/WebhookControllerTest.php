@@ -12,6 +12,7 @@ use Modules\Billing\Models\WebhookLog;
 use Modules\Billing\Models\SubscriptionCustomer;
 use MicroweberPackages\User\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class WebhookControllerTest extends TestCase
 {
@@ -23,7 +24,7 @@ class WebhookControllerTest extends TestCase
         Queue::fake();
     }
 
-    /** @test */
+    #[Test]
     public function webhook_endpoint_accepts_post_request()
     {
         $payload = [
@@ -41,7 +42,7 @@ class WebhookControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_logs_payload_to_database()
     {
         $payload = [
@@ -66,7 +67,7 @@ class WebhookControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_dispatches_job_to_queue()
     {
         Queue::fake();
@@ -90,7 +91,7 @@ class WebhookControllerTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function webhook_prevents_duplicate_processing()
     {
         $payload = [
@@ -116,7 +117,7 @@ class WebhookControllerTest extends TestCase
         $this->assertEquals(1, WebhookLog::where('event_id', 'evt_test_duplicate')->count());
     }
 
-    /** @test */
+    #[Test]
     public function webhook_requires_signature_when_configured()
     {
         config(['cashier.webhook.secret' => 'test_secret']);
@@ -140,7 +141,7 @@ class WebhookControllerTest extends TestCase
         $response->assertStatus(403);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_handles_missing_customer_id()
     {
         $payload = [
@@ -159,7 +160,7 @@ class WebhookControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_processes_invoice_paid_event()
     {
         $user = User::factory()->create();
@@ -194,7 +195,7 @@ class WebhookControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_processes_customer_subscription_updated_event()
     {
         $user = User::factory()->create();
@@ -221,7 +222,7 @@ class WebhookControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_log_tracks_processing_status()
     {
         $payload = [
@@ -246,7 +247,7 @@ class WebhookControllerTest extends TestCase
         $this->assertEquals(0, $webhookLog->attempts);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_logs_invalid_json_gracefully()
     {
         $response = $this->postJson(
@@ -259,7 +260,7 @@ class WebhookControllerTest extends TestCase
         $this->assertTrue(in_array($response->getStatusCode(), [200, 400]));
     }
 
-    /** @test */
+    #[Test]
     public function webhook_implements_idempotency()
     {
         $payload = [
@@ -283,7 +284,7 @@ class WebhookControllerTest extends TestCase
         $this->assertEquals(1, WebhookLog::where('event_id', 'evt_test_idempotent')->count());
     }
 
-    /** @test */
+    #[Test]
     public function process_webhook_job_handles_successful_processing()
     {
         $webhookLog = WebhookLog::factory()->create([
@@ -308,7 +309,7 @@ class WebhookControllerTest extends TestCase
         $this->assertEquals(WebhookLog::STATUS_COMPLETED, $webhookLog->status);
     }
 
-    /** @test */
+    #[Test]
     public function process_webhook_job_handles_failed_processing()
     {
         $webhookLog = WebhookLog::factory()->create([
@@ -333,7 +334,7 @@ class WebhookControllerTest extends TestCase
         $this->assertEquals(1, $webhookLog->attempts);
     }
 
-    /** @test */
+    #[Test]
     public function webhook_log_can_be_retried()
     {
         $webhookLog = WebhookLog::factory()->create([
@@ -347,7 +348,7 @@ class WebhookControllerTest extends TestCase
         $this->assertFalse($webhookLog->canRetry(3));
     }
 
-    /** @test */
+    #[Test]
     public function webhook_log_factory_creates_valid_record()
     {
         $webhookLog = WebhookLog::factory()->create([
@@ -364,7 +365,7 @@ class WebhookControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function test_webhook_invoice_paid_updates_status()
     {
         // Create user and customer

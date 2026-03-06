@@ -7,6 +7,7 @@ namespace Modules\Ai\Tests\Tools;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Modules\Ai\Tools\GoogleTrendsTool;
+use PHPUnit\Framework\Attributes\Test;
 
 class GoogleTrendsToolTest extends ToolTestCase
 {
@@ -21,7 +22,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         Cache::flush();
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_missing_action(): void
     {
         $result = $this->tool->__invoke([]);
@@ -30,7 +31,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_invalid_action(): void
     {
         $result = $this->tool->__invoke(['action' => 'invalid_action']);
@@ -39,7 +40,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_for_trending_queries_without_keyword(): void
     {
         $result = $this->tool->__invoke([
@@ -51,7 +52,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_trending_queries_successfully(): void
     {
         $this->mockGoogleTrendsResponses();
@@ -67,7 +68,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('AI', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_daily_trends_successfully(): void
     {
         $this->mockDailyTrendsResponse();
@@ -81,7 +82,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('Daily Search Trends', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_realtime_trends_successfully(): void
     {
         $this->mockRealtimeTrendsResponse();
@@ -96,7 +97,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('Live', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_product_queries(): void
     {
         $this->mockGoogleTrendsResponses();
@@ -113,7 +114,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('laptop', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_limit_parameter(): void
     {
         $this->mockGoogleTrendsResponses();
@@ -139,7 +140,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('Trending Queries', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_http_errors(): void
     {
         Http::fake([
@@ -162,7 +163,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_empty_results(): void
     {
         Http::fake([
@@ -180,7 +181,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('No trending queries data found', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_malformed_json_response(): void
     {
         Http::fake([
@@ -199,7 +200,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_network_exceptions(): void
     {
         Http::fake([
@@ -219,7 +220,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_supports_different_geographic_regions(): void
     {
         $this->mockGoogleTrendsResponses();
@@ -238,7 +239,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_supports_different_time_ranges(): void
     {
         $this->mockGoogleTrendsResponses();
@@ -256,7 +257,7 @@ class GoogleTrendsToolTest extends ToolTestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_results(): void
     {
         $this->mockGoogleTrendsResponses();

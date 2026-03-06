@@ -10,6 +10,7 @@ use Modules\Ai\Models\AgentChatSearch;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
 use Modules\Customer\Models\Customer;
+use PHPUnit\Framework\Attributes\Test;
 
 class RagSearchToolTest extends ToolTestCase
 {
@@ -23,7 +24,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->tool = new RagSearchTool($this->ragService);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_error_when_query_is_empty(): void
     {
         $result = $this->tool->__invoke([
@@ -34,7 +35,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_with_default_parameters(): void
     {
         // Create test content using direct create instead of factory
@@ -54,7 +55,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('technology', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_specific_content_types(): void
     {
         // Create test product using direct create
@@ -74,7 +75,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_limit_parameter(): void
     {
         // Create test content using direct create
@@ -104,7 +105,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_no_results_message_when_empty(): void
     {
         $result = $this->tool->__invoke([
@@ -115,7 +116,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('alert-danger', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_customers(): void
     {
         // Create test customer
@@ -133,7 +134,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_content(): void
     {
         // Create test content using direct create
@@ -153,7 +154,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_orders(): void
     {
         // Order search is basic, just test it doesn't crash
@@ -166,7 +167,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertNotEmpty($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_searches_all_types(): void
     {
         // Create test data using direct create
@@ -194,7 +195,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('tech', strtolower($result));
     }
 
-    /** @test */
+    #[Test]
     public function it_escapes_html_in_results(): void
     {
         // Create test content using direct create
@@ -215,7 +216,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('&lt;script&gt;', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_displays_relevance_scores(): void
     {
         // Create test content using direct create
@@ -235,7 +236,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('%', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_groups_results_by_type(): void
     {
         // Create test content using direct create
@@ -255,7 +256,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_limits_results_correctly(): void
     {
         // Create test content using direct create
@@ -276,7 +277,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_special_characters_in_query(): void
     {
         // Create test content using direct create
@@ -296,7 +297,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertNotEmpty($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_saves_search_results_to_history(): void
     {
         $chat = \Modules\Ai\Models\AgentChat::factory()->create();
@@ -322,7 +323,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertStringContainsString('Search Results', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_database_exceptions_gracefully(): void
     {
         // This test ensures the tool handles DB errors gracefully
@@ -335,7 +336,7 @@ class RagSearchToolTest extends ToolTestCase
         $this->assertNotEmpty($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_trims_long_content_in_results(): void
     {
         // Create test content using direct create
