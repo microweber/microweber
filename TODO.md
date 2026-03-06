@@ -17,7 +17,15 @@
 - [x] 2026-03-06 Replace all `Table::schema([...])` / `->columns()` / `->filters()` → new `table(Table $table)` pattern
   - Confirmed all 60+ files already using `public static function table(Table $table): Table` pattern
   - Migrated 1 file using old v3 pattern: `ListAgentChats.php` (removed `getTableFilters()`, moved filters to Resource)
-- [ ] Convert custom `RelationManagers` to new relation manager syntax (if still using old style)
+- [x] 2026-03-06 Convert custom `RelationManagers` to new relation manager syntax (if still using old style)
+  - Migrated 7 files:
+    - FeaturesRelationManager.php (already v5 compatible)
+    - PlansRelationManager.php (already v5 compatible)
+    - SubscriptionsRelationManager.php (updated: Tables\Actions\ViewAction → Filament\Actions\ViewAction)
+    - PaymentsRelationManager.php (updated: Tables\Actions\* → Filament\Actions\*)
+    - CustomFieldsRelationManager.php (updated: Tables\Actions\* → Filament\Actions\*, changed groupedBulkActions → bulkActions)
+    - LogsRelationManager.php (updated: Tables\Actions\* → Filament\Actions\*)
+  - Removed empty file: SeoRelationManager.php
 - [ ] Audit & update every custom Filament **Page** (`Dashboard.php`, `AiSettingsPage.php`, etc.)
 - [ ] Replace `Filament::serving(...)` / `Filament::registerRenderHook(...)` ? new `panel()->renderHook()`
 - [ ] Search & replace old icons: `HeroiconS*` ? `HeroiconO*` or Blade Heroicons package

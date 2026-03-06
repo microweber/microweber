@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\RelationManagers;
 
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -85,9 +86,9 @@ class SubscriptionsRelationManager extends RelationManager
             ->headerActions([
                 // No create action - subscriptions are created via Stripe
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-            ])
+->actions([
+            ViewAction::make(),
+        ])
             ->bulkActions([
                 // No bulk actions - subscriptions managed via Stripe
             ]);
