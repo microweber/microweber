@@ -72,7 +72,10 @@ Modules with known heavy Filament usage (prioritize these):
   - No deprecated `filament-forms::` Blade components
   - Test file already uses `#[Test]` attributes
   - Test failures are environment setup issues (routes), not code issues
-- [ ] Modules/AiWizard/Filament/AiWizardResource
+- [x] 2026-03-06 Modules/AiWizard/Filament/AiWizardResource
+  - Fixed table action imports: `Filament\Tables\Actions\*` → `Filament\Actions\*`
+  - Updated EditAction, DeleteAction, Action, BulkActionGroup, DeleteBulkAction
+  - Tests: 1/6 passing (route issues are environment setup, not code issues)
 - [ ] All `...ModuleSettings.php` files that extend `Page` or use forms heavily
 
 ## 2. Testing  Fix deprecations & modernize

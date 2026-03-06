@@ -2,6 +2,11 @@
 
 namespace Modules\AiWizard\Filament\Admin;
 
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -124,16 +129,16 @@ class AiWizardResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('view')
+                EditAction::make(),
+                DeleteAction::make(),
+                Action::make('view')
                     ->url(fn(Content $record) => $record->link())
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-eye'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
