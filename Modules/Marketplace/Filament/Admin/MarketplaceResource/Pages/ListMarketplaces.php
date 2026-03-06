@@ -4,7 +4,7 @@ namespace Modules\Marketplace\Filament\Admin\MarketplaceResource\Pages;
 
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Marketplace\Filament\Admin\MarketplaceResource;
 

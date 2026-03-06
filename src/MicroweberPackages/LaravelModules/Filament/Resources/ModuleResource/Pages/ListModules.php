@@ -4,7 +4,7 @@ namespace MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\Pa
 
 use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 
