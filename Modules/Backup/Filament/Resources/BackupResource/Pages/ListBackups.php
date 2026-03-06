@@ -5,15 +5,15 @@ namespace Modules\Backup\Filament\Resources\BackupResource\Pages;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\View;
-use Filament\Forms\Components\Wizard;
+use Filament\Schemas\Components\View;
+use Filament\Schemas\Components\Wizard;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Storage;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Livewire;
@@ -69,7 +69,7 @@ class ListBackups extends ListRecords
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
                 ->icon('heroicon-o-inbox-arrow-down')
-                ->modalWidth(MaxWidth::MaxContent)
+                ->modalWidth(Width::MaxContent)
                 ->form($this->backupFormArray())
         ];
     }

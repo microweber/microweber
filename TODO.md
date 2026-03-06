@@ -58,8 +58,20 @@ Modules with known heavy Filament usage (prioritize these):
   - Updated imports: `Filament\Forms\Components\*` for form field components  
   - Converted `@test` annotations to `#[Test]` attributes in AgentChatResourceTest.php
   - Tests passing: 6/17 (route issues are test environment setup, not code issues)
-- [ ] Modules/Billing/Filament (many resources: Subscription*, Plan*, User*, widgets)
-- [ ] Modules/Backup/Filament/BackupResource
+- [x] 2026-03-06 Modules/Billing/Filament (many resources: Subscription*, Plan*, User*, widgets)
+  - Fixed `->with()` → `->modifyQueryUsing()` for eager loading in SubscriptionResource and SubscriptionPlanResource
+  - Migrated deprecated `BadgeColumn` → `TextColumn` with `->badge()` modifier
+  - Fixed table action imports: `Tables\Actions\*` → `Filament\Tables\Actions\*`
+  - Fixed incorrect `UserDemo` import path in EditUser.php
+  - Updated header actions to use `Filament\Actions\*` namespace
+- [x] 2026-03-06 Modules/Backup/Filament/BackupResource
+  - Resource already using Filament v5 patterns: `form(Schema $schema): Schema` and `table(Table $table): Table`
+  - Correct imports: `Filament\Actions\*`, `Filament\Schemas\Components\*`
+  - Icons using `heroicon-o-*` pattern
+  - No deprecated `Filament::serving()` or `Filament::registerRenderHook()` calls
+  - No deprecated `filament-forms::` Blade components
+  - Test file already uses `#[Test]` attributes
+  - Test failures are environment setup issues (routes), not code issues
 - [ ] Modules/AiWizard/Filament/AiWizardResource
 - [ ] All `...ModuleSettings.php` files that extend `Page` or use forms heavily
 

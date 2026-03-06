@@ -2,8 +2,12 @@
 
 namespace Modules\Backup\Filament\Resources;
 
-use Filament\Forms\Components\View;
-use Filament\Forms\Components\Wizard;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Schemas\Components\View;
+use Filament\Schemas\Components\Wizard;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Livewire;
 use Modules\Backup\Filament\Resources\BackupResource\Pages;
@@ -75,9 +79,9 @@ class BackupResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('restore')
+                Action::make('restore')
                     ->label('Restore')
-                  //  ->modalCancelAction(false)
+                    // ->modalCancelAction(false)
                     ->modalSubmitAction(false)
                     ->closeModalByClickingAway(false)
                     ->form([
@@ -104,6 +108,7 @@ class BackupResource extends Resource
                                             'overwriteByTitles' => 'Overwrite by Names & Titles',
                                         ])
                                         ->required()
+
                                 ])->afterValidation(function ($livewire, $record, Forms\Get $get) {
 
                                     self::$sessionId = SessionStepper::generateSessionId(20, [
@@ -125,25 +130,25 @@ class BackupResource extends Resource
                                             'sessionId' => self::$sessionId,
                                         ]),
                                 ]),
-                            ]),
+                        ]),
                     ])
                     ->icon('heroicon-o-arrow-uturn-left'),
 
-                Tables\Actions\Action::make('download')
+                Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn ($record) => route('admin.backup.download', ['file' => $record->filename]))
                     ->openUrlInNewTab(),
 
-                Tables\Actions\Action::make('delete')
+                DeleteAction::make()
                     ->label('Delete')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
                     ->action(fn ($record) => unlink(backup_location() . $record->filename)),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->action(function ($records) {
                             foreach ($records as $record) {
                                 unlink(backup_location() . $record->filename);
