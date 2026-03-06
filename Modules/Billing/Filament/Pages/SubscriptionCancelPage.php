@@ -4,9 +4,8 @@ namespace Modules\Billing\Filament\Pages;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
-use Filament\Forms\Schema;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Modules\Billing\Models\Subscription;
@@ -84,9 +83,9 @@ class SubscriptionCancelPage extends Page
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Textarea::make('reason')
                     ->label('Please tell us why you\'re cancelling (optional)')

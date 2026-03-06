@@ -6,9 +6,12 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages;
 use Modules\Ai\Models\AgentChat;
@@ -138,25 +141,60 @@ class AgentChatResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('agent_type')
-                    ->options([
-                        'general' => 'General Assistant',
-                        'customer' => 'Customer Service',
-                        'shop' => 'Shop Assistant',
-                        'content' => 'Content Manager',
-                        'media' => 'Media Manager',
-                    ]),
+->filters([
+            Tables\Filters\SelectFilter::make('agent_type')
+                ->options([
+                    'general' => 'General Assistant',
+                    'customer' => 'Customer Service',
+                    'shop' => 'Shop Assistant',
+                    'content' => 'Content Manager',
+                    'media' => 'Media Manager',
+                ]),
 
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
+            Tables\Filters\TernaryFilter::make('is_active')
+                ->label('Active Status'),
 
-                Tables\Filters\SelectFilter::make('user_id')
-                    ->relationship('user', 'name')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name ?: 'Unnamed User (#' . $record->id . ')')
-                    ->searchable()
-                    ->preload(),
-            ])
+            Tables\Filters\SelectFilter::make('user_id')
+                ->relationship('user', 'name')
+                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name ?: 'Unnamed User (#' . $record->id . ')')
+                ->searchable()
+                ->preload(),
+
+            Filter::make('search')
+                ->form([
+                    TextInput::make('search')
+                        ->label('Search')
+                        ->placeholder('Search by title or description...'),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query
+                        ->when(
+                            $data['search'] ?? null,
+                            fn ($query, $search) => $query
+                                ->where('title', 'like', "%{$search}%")
+                                ->orWhere('description', 'like', "%{$search}%")
+                        );
+                }),
+
+            Filter::make('created_at')
+                ->form([
+                    DatePicker::make('created_from')
+                        ->label('Created From'),
+                    DatePicker::make('created_until')
+                        ->label('Created Until'),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query
+                        ->when(
+                            $data['created_from'] ?? null,
+                            fn ($query, $date) => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['created_until'] ?? null,
+                            fn ($query, $date) => $query->whereDate('created_at', '<=', $date),
+                        );
+                }),
+        ])
 ->actions([
             EditAction::make(),
         ])

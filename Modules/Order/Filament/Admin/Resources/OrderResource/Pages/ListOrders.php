@@ -67,12 +67,12 @@ Actions\Action::make('discount_prices')
         ];
     }
 
-    protected function getHeaderWidgets(): array
+    public function getHeaderWidgets(): array
     {
         return OrderResource::getWidgets();
     }
 
-    protected function getHeaderWidgetsColumns(): int | array
+    public function getHeaderWidgetsColumns(): int | array
     {
         return 4;
     }

@@ -14,7 +14,9 @@
   - All other pages using ExposesTableToWidgets, getTabs(), getFormActions() are v5 compatible
   - No old Form::schema or Table::columns patterns found
 - [x] 2026-03-06 Replace all `Form::schema([...])` → new `form(Form $form)` method with `->schema()` - No files found using old pattern; all 35+ Resources already using `form(Schema $schema): Schema`
-- [ ] Replace all `Table::schema([...])` / `->columns()` / `->filters()` ? new `table(Table $table)` pattern
+- [x] 2026-03-06 Replace all `Table::schema([...])` / `->columns()` / `->filters()` → new `table(Table $table)` pattern
+  - Confirmed all 60+ files already using `public static function table(Table $table): Table` pattern
+  - Migrated 1 file using old v3 pattern: `ListAgentChats.php` (removed `getTableFilters()`, moved filters to Resource)
 - [ ] Convert custom `RelationManagers` to new relation manager syntax (if still using old style)
 - [ ] Audit & update every custom Filament **Page** (`Dashboard.php`, `AiSettingsPage.php`, etc.)
 - [ ] Replace `Filament::serving(...)` / `Filament::registerRenderHook(...)` ? new `panel()->renderHook()`

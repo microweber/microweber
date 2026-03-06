@@ -7,7 +7,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Modules\Media\Models\Media;
 
 class MwMediaBrowser extends Field
@@ -84,9 +84,9 @@ class MwMediaBrowser extends Field
     {
         return Action::make('edit')
             ->icon('heroicon-o-pencil')
-            ->mountUsing(function (Form $form, array $arguments) {
+            ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = Media::find($arguments['id']);
-                $form->fill($record->toArray());
+                $schema->fill($record->toArray());
             })
             ->form([
                 Hidden::make('id')
