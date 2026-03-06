@@ -30,10 +30,10 @@ class SubscriptionPlanResourceTest extends BillingTestCase
        }
 
 
-        $this->get(SubscriptionPlanResource::getUrl('index', [], false, 'admin-billing'))
-            ->assertSuccessful()
-            ->assertSee($plans[0]->name)
-            ->assertSee($group->name);
+        $response = $this->get(SubscriptionPlanResource::getUrl('index', [], false, 'admin-billing'))
+        ->assertSuccessful();
+        $this->assertStringContainsString($plans[0]->name, $response->getContent());
+        $this->assertStringContainsString($group->name, $response->getContent());
     }
 
     #[Test]
@@ -86,10 +86,10 @@ class SubscriptionPlanResourceTest extends BillingTestCase
         $this->loginAsAdmin();
         $plan = SubscriptionPlan::factory()->create();
 
-        $this->get(SubscriptionPlanResource::getUrl('edit', [
+        $response = $this->get(SubscriptionPlanResource::getUrl('edit', [
             'record' => $plan
-        ], false, 'admin-billing'))->assertSuccessful()
-            ->assertSee($plan->name);
+        ], false, 'admin-billing'))->assertSuccessful();
+        $this->assertStringContainsString($plan->name, $response->getContent());
     }
 
     #[Test]

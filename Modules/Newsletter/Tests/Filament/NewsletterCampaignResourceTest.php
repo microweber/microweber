@@ -28,10 +28,10 @@ class NewsletterCampaignResourceTest extends NewsletterTestCase
             $campaign->save();
         }
 
-        $this->get(CampaignResource::getUrl('index', [], false, 'admin-newsletter'))
-            ->assertSuccessful()
-            ->assertSee($campaigns[0]->name)
-            ->assertSee($list->name);
+        $response = $this->get(CampaignResource::getUrl('index', [], false, 'admin-newsletter'));
+        $response->assertSuccessful();
+        $this->assertStringContainsString($campaigns[0]->name, $response->getContent());
+        $this->assertStringContainsString($list->name, $response->getContent());
     }
 
     #[Test]
@@ -76,10 +76,10 @@ class NewsletterCampaignResourceTest extends NewsletterTestCase
         $this->loginAsAdmin();
         $campaign = NewsletterCampaign::factory()->create();
 
-        $this->get(CampaignResource::getUrl('edit', [
+        $response = $this->get(CampaignResource::getUrl('edit', [
             'record' => $campaign
-        ], false, 'admin-newsletter'))->assertSuccessful()
-            ->assertSee($campaign->name);
+        ], false, 'admin-newsletter'))->assertSuccessful();
+        $this->assertStringContainsString($campaign->name, $response->getContent());
     }
 
 

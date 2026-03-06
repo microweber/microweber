@@ -78,7 +78,7 @@ class AuthenticationTest extends TestCase
         // Verify login page loads
         $response = $this->get('/profile/login');
         $response->assertOk();
-        $response->assertSee('Login');
+        $this->assertStringContainsString('Login', $response->getContent());
 
         // Test basic authentication
         $this->assertTrue(

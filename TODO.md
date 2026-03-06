@@ -106,8 +106,11 @@ Modules with known heavy Filament usage (prioritize these):
   - Converted 11 remaining files with mixed patterns
   - Total: 328 test files updated with proper `#[Test]` attributes and `void` return types
   - All test methods now follow modern PHPUnit attribute-based syntax
-- [ ] Replace `/** @test */` in **all** unit/feature tests (Billing, Ai, Cart, Order, etc.)
-- [ ] Audit & fix all remaining `->assertSee()`, `->assertDontSee()` ? prefer `assertStringContainsString`
+- [x] 2026-03-06 Replace `/** @test */` in **all** unit/feature tests (Billing, Ai, Cart, Order, etc.)
+  - Verified: No remaining `/** @test */` annotations found in test files
+  - Fixed: Duplicate `#[Test]` attribute in ContentOriginalLinkTest.php
+  - All test files now use modern `#[Test]` attribute syntax
+- [x] 2026-03-06 Audit & fix all remaining `->assertSee()`, `->assertDontSee()` ? prefer `assertStringContainsString`
 - [ ] Replace `Http::fake([...])` ? new `Http::response()->with...` style where possible (Laravel 11+)
 - [ ] Add trait `Tests\CreatesApplication` if missing in some test classes
 - [ ] Migrate old `TestCase` ? `Tests\TestCase` everywhere
