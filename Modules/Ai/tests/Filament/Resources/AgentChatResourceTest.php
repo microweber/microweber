@@ -11,6 +11,7 @@ use Modules\Ai\Filament\Resources\AgentChatResource\Pages\ListAgentChats;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages\ViewAgentChat;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AgentChatResourceTest extends TestCase
@@ -39,8 +40,8 @@ class AgentChatResourceTest extends TestCase
         return AgentChatResource::class;
     }
 
-    /** @test */
-    public function test_list_agent_chats_shows_paginated_results()
+    #[Test]
+    public function list_agent_chats_shows_paginated_results(): void
     {
         $this->actingAsAdmin();
 
@@ -55,8 +56,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_create_chat_saves_initial_prompt()
+    #[Test]
+    public function create_chat_saves_initial_prompt(): void
     {
         $this->actingAsAdmin();
 
@@ -84,8 +85,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertEquals($initialPrompt, $message->content);
     }
 
-    /** @test */
-    public function test_view_chat_renders_message_history()
+    #[Test]
+    public function view_chat_renders_message_history(): void
     {
         $this->actingAsAdmin();
 
@@ -194,8 +195,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertEquals($systemMessage->id, $orderedMessages->last()->id);
     }
 
-    /** @test */
-    public function test_edit_chat_updates_limited_fields()
+    #[Test]
+    public function edit_chat_updates_limited_fields(): void
     {
         $this->actingAsAdmin();
 
@@ -226,8 +227,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertEquals(['tag1', 'tag3'], $chat->tags);
     }
 
-    /** @test */
-    public function test_navigation_badge_shows_unread_count()
+    #[Test]
+    public function navigation_badge_shows_unread_count(): void
     {
         $this->actingAsAdmin();
 
@@ -245,8 +246,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertGreaterThan(0, (int) $badge);
     }
 
-    /** @test */
-    public function test_list_page_has_custom_filters()
+    #[Test]
+    public function list_page_has_custom_filters(): void
     {
         $this->actingAsAdmin();
 
@@ -257,8 +258,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_retry_tool_call_action_exists()
+    #[Test]
+    public function retry_tool_call_action_exists(): void
     {
         $this->actingAsAdmin();
 
@@ -282,8 +283,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_chat_creation_validates_required_fields()
+    #[Test]
+    public function chat_creation_validates_required_fields(): void
     {
         $this->actingAsAdmin();
 
@@ -295,8 +296,8 @@ class AgentChatResourceTest extends TestCase
             ->assertHasFormErrors(['title']);
     }
 
-    /** @test */
-    public function test_chat_can_be_deleted()
+    #[Test]
+    public function chat_can_be_deleted(): void
     {
         $this->actingAsAdmin();
 
@@ -309,8 +310,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertDatabaseMissing('agent_chats', ['id' => $chat->id]);
     }
 
-    /** @test */
-    public function test_sorting_by_column_changes_order()
+    #[Test]
+    public function sorting_by_column_changes_order(): void
     {
         $this->actingAsAdmin();
 
@@ -345,8 +346,8 @@ class AgentChatResourceTest extends TestCase
             ->assertCanSeeTableRecords([$chatC, $chatB, $chatA], inOrder: true);
     }
 
-    /** @test */
-    public function test_filter_by_boolean_field()
+    #[Test]
+    public function filter_by_boolean_field(): void
     {
         $this->actingAsAdmin();
 
@@ -373,8 +374,8 @@ class AgentChatResourceTest extends TestCase
             ->assertCanNotSeeTableRecords([$activeChat]);
     }
 
-    /** @test */
-    public function test_filter_by_select_relationship()
+    #[Test]
+    public function filter_by_select_relationship(): void
     {
         $this->actingAsAdmin();
 
@@ -411,8 +412,8 @@ class AgentChatResourceTest extends TestCase
             ->assertCanNotSeeTableRecords([$chatB, $chatC]);
     }
 
-    /** @test */
-    public function test_bulk_delete_removes_selected_records()
+    #[Test]
+    public function bulk_delete_removes_selected_records(): void
     {
         $this->actingAsAdmin();
 
@@ -433,8 +434,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertDatabaseHas('agent_chats', ['id' => $chat3->id]);
     }
 
-    /** @test */
-    public function test_list_filters_work_correctly()
+    #[Test]
+    public function list_filters_work_correctly(): void
     {
         $this->actingAsAdmin();
 
@@ -454,8 +455,8 @@ class AgentChatResourceTest extends TestCase
             ->assertCanSeeTableRecords([$oldChat, $newChat]);
     }
 
-    /** @test */
-    public function test_tags_are_saved_as_array()
+    #[Test]
+    public function tags_are_saved_as_array(): void
     {
         $this->actingAsAdmin();
 
@@ -468,8 +469,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertContains('customer', $chat->tags);
     }
 
-    /** @test */
-    public function test_status_field_has_valid_options()
+    #[Test]
+    public function status_field_has_valid_options(): void
     {
         $this->actingAsAdmin();
 
@@ -483,8 +484,8 @@ class AgentChatResourceTest extends TestCase
         $this->assertEquals('paused', $chat->status);
     }
 
-    /** @test */
-    public function test_tool_call_returns_expected_output()
+    #[Test]
+    public function tool_call_returns_expected_output(): void
     {
         $this->actingAsAdmin();
 

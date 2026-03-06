@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 

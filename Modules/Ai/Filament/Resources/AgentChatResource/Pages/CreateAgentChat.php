@@ -5,6 +5,7 @@ namespace Modules\Ai\Filament\Resources\AgentChatResource\Pages;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 use Modules\Ai\Models\AgentChatMessage;

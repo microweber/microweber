@@ -5,9 +5,13 @@ namespace Modules\Ai\Filament\Resources;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,19 +33,19 @@ class AgentChatResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Chat Information')
+                Section::make('Chat Information')
                     ->schema([
-                        Forms\Components\TextInput::make('title')
+                        TextInput::make('title')
                             ->required()
                             ->maxLength(255)
                             ->placeholder('Enter chat title'),
 
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->maxLength(1000)
                             ->placeholder('Optional description for this chat')
                             ->rows(3),
 
-                        Forms\Components\Select::make('agent_type')
+                        Select::make('agent_type')
                             ->required()
                             ->options([
                                 'general' => '🤖 General Assistant',
@@ -53,7 +57,7 @@ class AgentChatResource extends Resource
                             ->default('general')
                             ->helperText('Select the type of AI assistant for this chat'),
 
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->relationship('user', 'name')
                             ->getOptionLabelFromRecordUsing(fn ($record) => $record->name ?: 'Unnamed User (#' . $record->id . ')')
                             ->searchable()
@@ -61,14 +65,14 @@ class AgentChatResource extends Resource
                             ->nullable()
                             ->helperText('Assign this chat to a specific user (optional)'),
 
-                        Forms\Components\Toggle::make('is_active')
+                        Toggle::make('is_active')
                             ->default(true)
                             ->helperText('Active chats can receive new messages'),
                     ]),
 
-                Forms\Components\Section::make('Metadata')
+                Section::make('Metadata')
                     ->schema([
-                        Forms\Components\KeyValue::make('metadata')
+                        KeyValue::make('metadata')
                             ->keyLabel('Setting')
                             ->valueLabel('Value')
                             ->helperText('Additional settings for this chat'),
@@ -81,7 +85,7 @@ class AgentChatResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->with(['user', 'messages'])
+            ->modifyQueryUsing(fn ($query) => $query->with(['user', 'messages']))
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
