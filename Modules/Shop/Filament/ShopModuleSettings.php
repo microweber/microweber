@@ -23,7 +23,7 @@ class ShopModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Shop Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Items list')
                             ->schema(
                                 [

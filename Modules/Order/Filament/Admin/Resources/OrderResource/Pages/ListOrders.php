@@ -72,6 +72,11 @@ Actions\Action::make('discount_prices')
         return OrderResource::getWidgets();
     }
 
+    protected function getHeaderWidgetsColumns(): int | array
+    {
+        return 4;
+    }
+
     public function getTabs(): array
     {
         return [

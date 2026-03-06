@@ -37,7 +37,7 @@ class MultilanguageSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Languages')
                             ->schema([
                                 Actions::make([

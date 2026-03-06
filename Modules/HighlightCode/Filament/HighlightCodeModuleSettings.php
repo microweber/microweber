@@ -17,7 +17,7 @@ class HighlightCodeModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Options')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Highlight Code')
                             ->schema([
 

@@ -29,7 +29,7 @@ class BreadcrumbModuleSettings extends LiveEditModuleSettings
 
                 ,
                 Tabs::make('Breadcrumb settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
 

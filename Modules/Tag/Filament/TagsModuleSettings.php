@@ -20,7 +20,7 @@ class TagsModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Tags settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Select::make('options.data-root-page-id')

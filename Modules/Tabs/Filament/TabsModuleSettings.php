@@ -16,7 +16,7 @@ class TabsModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Tabs')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(TabsTableList::class, [

@@ -17,7 +17,7 @@ class SharerModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Content')
                             ->schema([
                                 Toggle::make('options.facebook_enabled')

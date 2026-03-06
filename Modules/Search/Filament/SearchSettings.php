@@ -19,7 +19,7 @@ class SearchSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         // Content Tab
                         Tabs\Tab::make('Content')
                             ->schema([

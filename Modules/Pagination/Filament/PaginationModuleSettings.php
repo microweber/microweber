@@ -20,7 +20,7 @@ class PaginationModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Pagination settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 TextInput::make('options.paging_param')

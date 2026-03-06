@@ -104,7 +104,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
     {
         return [
             Tabs::make('Settings')
-                ->tabs([
+                ->schema([
                     // Branding Tab
                     Tabs\Tab::make('Branding')
                         ->schema([

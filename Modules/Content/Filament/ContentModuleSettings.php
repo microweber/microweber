@@ -27,7 +27,7 @@ class ContentModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Product Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Items list')
                             ->schema(
                                 [

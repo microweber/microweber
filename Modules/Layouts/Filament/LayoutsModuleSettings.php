@@ -25,7 +25,7 @@ class LayoutsModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Layout Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Layout Settings')
                             ->schema([
                                 View::make('modules.layouts::admin.settings')->viewData([

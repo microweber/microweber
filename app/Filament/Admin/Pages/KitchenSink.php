@@ -341,7 +341,7 @@ class KitchenSink extends Page
                     ->disableOptionWhen(fn (string $value): bool => $value === 'livewire'),
 
                 Tabs::make('Test')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Image')
                             ->schema([
 
@@ -369,7 +369,7 @@ class KitchenSink extends Page
 
                     ]),
                 Tabs::make('Components')
-                    ->tabs([
+                    ->schema([
                         // Text Inputs Tab
                         Tabs\Tab::make('Inputs')
                             ->schema([

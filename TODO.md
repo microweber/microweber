@@ -6,9 +6,13 @@
 
 - [x] 2026-03-06 Fix / Update all `Filament\Resources\Components\Tab` usages  
   ? most common error right now ? search: `use Filament\Resources\Components\Tab;` or `Tab::make(`
-- [ ] Convert **all** remaining `->tabs([...])` ? new `getTabs()` method pattern
-- [ ] Audit every `ListRecords`, `ManageRecords`, `EditRecord`, `CreateRecord` page  
-  ? replace `protected function getHeaderWidgets()` ? `protected function getHeaderWidgetsColumns()` / new layout methods if needed
+- [x] 2026-03-06 Convert **all** remaining `->tabs([...])` ? new `getTabs()` method pattern (replaced with `->schema([...])` in 35 files)
+- [x] 2026-03-06 Audit every `ListRecords`, `ManageRecords`, `EditRecord`, `CreateRecord` page
+  - Audited 86 record pages total (28 ListRecords, 26 CreateRecord, 26 EditRecord, 6 ManageRecords)
+  - Found 1 file with getHeaderWidgets(): ListOrders.php
+  - Added getHeaderWidgetsColumns() returning 4 columns for proper widget layout
+  - All other pages using ExposesTableToWidgets, getTabs(), getFormActions() are v5 compatible
+  - No old Form::schema or Table::columns patterns found
 - [ ] Replace all `Form::schema([...])` ? new `form(Form $form)` method with `->schema()`
 - [ ] Replace all `Table::schema([...])` / `->columns()` / `->filters()` ? new `table(Table $table)` pattern
 - [ ] Convert custom `RelationManagers` to new relation manager syntax (if still using old style)

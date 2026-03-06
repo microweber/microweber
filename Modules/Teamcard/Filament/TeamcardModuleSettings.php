@@ -42,7 +42,7 @@ class TeamcardModuleSettings extends LiveEditModuleSettingsTable
     protected function buildMainTabs(): Tabs
     {
         return Tabs::make('Teamcard')
-            ->tabs([
+            ->schema([
                 $this->buildMainSettingsTab(),
                 $this->buildDesignTab(),
                 $this->buildAdvancedTab(),

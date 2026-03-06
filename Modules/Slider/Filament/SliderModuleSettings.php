@@ -25,7 +25,7 @@ class SliderModuleSettings extends LiveEditModuleSettingsTable
         return $schema
             ->schema([
                 Tabs::make('Slider')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make($this->tableComponentName, [

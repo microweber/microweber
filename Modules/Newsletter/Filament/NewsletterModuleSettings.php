@@ -19,7 +19,7 @@ class NewsletterModuleSettings extends LiveEditModuleSettings
             ->schema([
 
                 Tabs::make('Newsletter settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 TextInput::make('options.title')

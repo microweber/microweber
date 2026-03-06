@@ -23,7 +23,7 @@ class CategoryModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Categories Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Items list')
                             ->schema(
                                 [

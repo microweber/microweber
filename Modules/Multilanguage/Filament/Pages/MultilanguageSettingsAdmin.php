@@ -72,7 +72,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
 
 
                 Tabs::make('Multilanguage Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Languages')
                             ->schema([
 

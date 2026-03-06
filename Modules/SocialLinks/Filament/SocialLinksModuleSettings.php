@@ -20,7 +20,7 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
 
 
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Content')
                             ->schema([
 

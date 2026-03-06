@@ -470,7 +470,7 @@ class ContentResource extends Resource
 
         return [
             Tabs::make('ContentTabs')
-                ->tabs([
+                ->schema([
                     Tabs\Tab::make('Content')
                         ->schema(
                             $mainForm

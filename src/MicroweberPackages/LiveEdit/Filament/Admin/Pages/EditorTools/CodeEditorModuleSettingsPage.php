@@ -19,7 +19,7 @@ class CodeEditorModuleSettingsPage extends LiveEditModuleSettings
             ->schema([
                 Tabs::make('Code editor')
                     ->extraAttributes(['class' => 'mw-live-edit-settings-tabs-code-editor'])
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('HTML Editor')
                             ->extraAttributes(['class' => 'mw-live-edit-settings-tab-html-editor'])
                             ->schema([

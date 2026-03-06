@@ -23,7 +23,7 @@ class LogoModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Options')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Image')
                             ->schema([
                                 MwFileUpload::make('options.logoimage')

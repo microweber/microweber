@@ -32,7 +32,7 @@ class VideoModuleSettings extends LiveEditModuleSettings
             ->schema([
 
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Video')
                             ->columnSpanFull()
                             ->schema([

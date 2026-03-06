@@ -17,7 +17,7 @@ class CartAddModuleSettings extends LiveEditModuleSettings
     {
         return $form->schema([
             Tabs::make('Cart Add Settings')
-                ->tabs([
+                ->schema([
                     Tabs\Tab::make('Settings')
                         ->schema([
                             TextInput::make('options.button_text')

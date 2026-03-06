@@ -16,7 +16,7 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Options')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Location')
                             ->schema([
                                 TextInput::make('options.data-country')

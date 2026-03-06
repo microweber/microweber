@@ -18,7 +18,7 @@ class FacebookPageModuleSettings extends LiveEditModuleSettings
         return $schema
             ->schema([
                 Tabs::make('Settings')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('General')
                             ->schema([
                                 TextInput::make('options.fbPage')

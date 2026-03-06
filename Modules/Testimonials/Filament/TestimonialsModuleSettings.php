@@ -26,7 +26,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
         return $schema
             ->schema([
                 Tabs::make('Testimonials')
-                    ->tabs([
+                    ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                     Livewire::make($this->tableComponentName, [
