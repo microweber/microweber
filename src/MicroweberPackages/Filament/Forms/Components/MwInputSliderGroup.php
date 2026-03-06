@@ -19,7 +19,7 @@ class MwInputSliderGroup extends Component
     use HasHint;
     use HasLabel;
 
-    protected string $view = 'filament-forms::components.mw-input-slider';
+    protected string $view = 'mw-filament::components.mw-input-slider';
 
     protected int $max = 10;
 

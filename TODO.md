@@ -43,7 +43,12 @@
     - `Modules/Payment/Providers/PaymentServiceProvider.php` - removed commented code and unused imports
     - `src/MicroweberPackages/Package/MicroweberPackageServiceProvider.php` - removed commented code and unused imports
 - [x] 2026-03-06 Search & replace old icons: `HeroiconS*` ? `HeroiconO*` or Blade Heroicons package
-- [ ] Remove any remaining `filament-forms::components.` Blade components ? use native Filament ones
+- [x] 2026-03-06 Remove any remaining `filament-forms::components.` Blade components ? use native Filament ones
+  - Replaced `filament-forms::components.placeholder-image-cropped` with `mw-filament::components.placeholder-image-cropped` (1 file)
+  - Replaced `filament-forms::admin.mw-tree` with `mw-filament::admin.mw-tree` (1 file)
+  - Replaced `filament-forms::sections.section` with `mw-filament::sections.section` (13 files, 35 occurrences)
+  - Fixed `</x-filament-forms::field-wrapper.index>` closing tag to `</x-filament::field-wrapper>` (1 file)
+  - Total: 51 references migrated from `filament-forms::` to `mw-filament::` namespace
 
 Modules with known heavy Filament usage (prioritize these):
 

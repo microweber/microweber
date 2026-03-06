@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class MwIconPicker extends TextInput
 {
-    protected string $view = 'filament-forms::components.mw-icon-picker';
+    protected string $view = 'mw-filament::components.mw-icon-picker';
 
 
     /**

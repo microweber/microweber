@@ -38,7 +38,7 @@ class AdminAdvancedPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Custom tags')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Allows you to insert custom code in the website header and footer. For e.g. Live chat, Google Ads and others.')
                     ->schema([
 
@@ -85,7 +85,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
                 Section::make('Other settings')
                     ->description('Other settings for your website.')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
 
                         Section::make('Internal Settings')
@@ -142,7 +142,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
                 Section::make('Web manifest App icons')
                     ->description('Web manifest and app icons settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
 
 
@@ -181,7 +181,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
                 Section::make('Trust Proxies Settings')
                     ->description('Configure trusted proxies for your website')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
 
 

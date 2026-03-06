@@ -14,7 +14,7 @@ class MwTree extends Field
     use HasPlaceholder;
     use HasExtraFieldWrapperAttributes;
 
-    protected string $view = 'filament-forms::components.mw-tree';
+    protected string $view = 'mw-filament::components.mw-tree';
 
 //    protected function setUp(): void
 //    {

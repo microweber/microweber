@@ -45,7 +45,7 @@ class AdminShopInvoicesPage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('Invoices')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure your shop invoices settings.')
                     ->schema([
                         Checkbox::make('options.shop.enable_invoices')

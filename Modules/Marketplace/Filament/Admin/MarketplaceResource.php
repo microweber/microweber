@@ -131,7 +131,7 @@ class MarketplaceResource extends Resource
                                 Forms\Components\Placeholder::make('Package Screenshot')
                                     ->label(false)
                                     ->content(function (MarketplaceItem $marketplaceItem) {
-                                        return view('filament-forms::components.placeholder-image-cropped',[
+                                        return view('mw-filament::components.placeholder-image-cropped',[
                                             'image' => $marketplaceItem->screenshot_link
                                         ]);
                                     }),
@@ -231,7 +231,7 @@ class MarketplaceResource extends Resource
                                                     Forms\Components\Placeholder::make('screenshot')
                                                         ->label(false)
                                                         ->content(function (MarketplaceItem $marketplaceItem) {
-                                                            $screenshotHtml = view('filament-forms::components.placeholder-image-cropped',[
+                                                            $screenshotHtml = view('mw-filament::components.placeholder-image-cropped',[
                                                                 'image' => $marketplaceItem->screenshot_link,
                                                                 'height' => '20rem'
                                                             ])->render();

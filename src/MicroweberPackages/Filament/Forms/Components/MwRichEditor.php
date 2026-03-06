@@ -12,7 +12,7 @@ class MwRichEditor extends Field implements Contracts\CanBeLengthConstrained, Co
     use Concerns\HasFileAttachments;
     use Concerns\HasPlaceholder;
 
-    protected string $view = 'filament-forms::components.mw-rich-editor';
+    protected string $view = 'mw-filament::components.mw-rich-editor';
 
     protected bool $isSimple = false;
 

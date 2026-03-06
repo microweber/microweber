@@ -7,7 +7,7 @@ use Filament\Forms\Concerns\HasStateBindingModifiers;
 
 class MwInputSlider extends TextInput
 {
-    protected string $view = 'filament-forms::components.mw-hidden-input';
+    protected string $view = 'mw-filament::components.mw-hidden-input';
 
     public static function make(string $name): static
     {

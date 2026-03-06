@@ -28,7 +28,7 @@ class AiWizardPageDesign extends Page implements HasForms
         $content_link = content_link($this->getRecord()->id);
 
         return $schema->schema([
-            View::make('filament-forms::components.mw-render-template-preview-iframe')
+            View::make('mw-filament::components.mw-render-template-preview-iframe')
                 ->viewData([
                     'url' => $content_link,
 

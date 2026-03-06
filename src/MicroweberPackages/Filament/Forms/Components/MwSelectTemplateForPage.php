@@ -207,7 +207,7 @@ class MwSelectTemplateForPage
             ->columnSpanFull();
 
 
-        $templatePreviewBlock = Forms\Components\View::make('filament-forms::components.mw-render-template-preview-iframe')
+        $templatePreviewBlock = Forms\Components\View::make('mw-filament::components.mw-render-template-preview-iframe')
             ->viewData([
                 'url' => '',
                 'layoutFileInputName' => $layoutFileInputName,

@@ -19,7 +19,7 @@ class MwMediaBrowser extends Field
     public $mediaItems = [];
     public $mediaIds = [];
 
-    protected string $view = 'filament-forms::components.mw-media-browser';
+    protected string $view = 'mw-filament::components.mw-media-browser';
 
     protected function setUp(): void
     {

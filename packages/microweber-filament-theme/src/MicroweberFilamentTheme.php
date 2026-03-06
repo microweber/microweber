@@ -3,7 +3,6 @@
 namespace MicroweberPackages\MicroweberFilamentTheme;
 
 use Filament\Contracts\Plugin;
-use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Theme;
@@ -11,7 +10,6 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
@@ -44,15 +42,26 @@ class MicroweberFilamentTheme implements Plugin
         static::configureColorShades();
         static::configureComponents();
         static::configureAssets();
+
+        $head = new AdminFilamentMetaTagsRenderer();
+        $headTags = $head->getHeadMetaTags();
+        $footerTags = $head->getFooterMetaTags();
+
+        $panel->renderHook(
+            name: PanelsRenderHook::HEAD_START,
+            hook: fn(): string => $headTags
+        );
+        $panel->renderHook(
+            name: PanelsRenderHook::BODY_END,
+            hook: fn(): string => $footerTags
+        );
     }
 
     public static function configureAssets(): void
     {
-
         // Register filament assets
-
         FilamentAsset::register([
-            //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
+            // Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
             Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css')),
             Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.js')),
 
@@ -60,33 +69,6 @@ class MicroweberFilamentTheme implements Plugin
             AlpineComponent::make('mw-tree-component-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js')),
 
         ]);
-
-
-        $head = new AdminFilamentMetaTagsRenderer();
-
-        $headTags = $head->getHeadMetaTags();
-        $footerTags = $head->getFooterMetaTags();
-
-        Filament::serving(function () use ($headTags, $footerTags) {
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::HEAD_START,
-                fn(): string => $headTags
-            );
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::BODY_END,
-                fn(): string => $footerTags
-            );
-//                    FilamentAsset::register([
-//                        //Js::make('example-external-script', 'external.js'),
-//                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-//                    ]);
-//
-//          //            FilamentAsset::register([
-//                        //Js::make('example-external-script', 'external.js'),
-//                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-//                    ]);
-        });
-
     }
 
     public static function configure(): void

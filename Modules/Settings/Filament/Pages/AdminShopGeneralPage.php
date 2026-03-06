@@ -40,7 +40,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
 
 
                 Section::make('Currency settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Set the default currency and symbol for your shop.')
                     ->schema([
 
@@ -97,7 +97,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Terms and conditions settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure TOS shop settings.')
                     ->schema([
 
@@ -121,7 +121,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
 
 
                 Section::make('Other settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure additional shop settings.')
                     ->schema([
 

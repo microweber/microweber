@@ -35,7 +35,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Register options')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([
 
@@ -66,7 +66,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
 
 
                 Section::make('Login options')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([
                         Toggle::make('options.users.disable_login')

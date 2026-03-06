@@ -1,14 +1,14 @@
-<x-filament-forms::field-wrapper.index
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
-    class="-mt-3 filament-seo-slug-input-wrapper"
->
+<x-filament::field-wrapper
+ :id="$getId()"
+ :label="$getLabel()"
+ :label-sr-only="$isLabelHidden()"
+ :helper-text="$getHelperText()"
+ :hint="$getHint()"
+ :hint-icon="$getHintIcon()"
+ :required="$isRequired()"
+ :state-path="$getStatePath()"
+ class="-mt-3 filament-seo-slug-input-wrapper"
+ >
     <div
         x-data="{
             context: '{{ $getContext() }}', // edit or create
@@ -242,4 +242,4 @@
 
     </div>
 
-</x-filament-forms::field-wrapper.index>
+</x-filament::field-wrapper>

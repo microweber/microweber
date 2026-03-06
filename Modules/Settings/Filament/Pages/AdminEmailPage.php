@@ -34,7 +34,7 @@ class AdminEmailPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('System e-mail website settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Deliver messages related with new registration, password resets and others system functionalities.')
                     ->schema([
 
@@ -58,7 +58,7 @@ class AdminEmailPage extends AdminSettingsPage
                     ]),
 
                 Section::make('General e-mail provider settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([
 

@@ -50,6 +50,11 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 for: 'Modules\\Billing\\Filament\\Admin\\Widgets'
             )
             ->navigationItems([
+                NavigationItem::make('Billing')
+                    ->url(admin_url('billing'))
+                    ->icon('heroicon-o-currency-dollar')
+                    ->group('Shop Settings')
+                    ->sort(300),
                 NavigationItem::make('Back to admin')
                     ->url(admin_url())
                     ->group('Other')

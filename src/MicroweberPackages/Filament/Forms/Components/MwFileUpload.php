@@ -10,7 +10,7 @@ class MwFileUpload extends Field
 {
     use HasPlaceholder;
 
-    protected string $view = 'filament-forms::components.mw-file-upload';
+    protected string $view = 'mw-filament::components.mw-file-upload';
 
     protected array $fileTypes = [];
 
@@ -67,7 +67,7 @@ class MwFileUpload extends Field
 
     public function multiple(bool|Closure $condition = true): static
     {
-        $this->view = 'filament-forms::components.mw-file-upload-multiple';
+        $this->view = 'mw-filament::components.mw-file-upload-multiple';
 
         $this->isMultiple = $condition;
 

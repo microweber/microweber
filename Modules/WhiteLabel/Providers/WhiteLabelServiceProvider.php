@@ -2,7 +2,8 @@
 
 namespace Modules\WhiteLabel\Providers;
 
-use Filament\Facades\Filament;
+use Filament\Events\ServingFilament;
+use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
@@ -49,16 +50,13 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
             });
 
 
-          Filament::serving(function () {
-
-              app(WhiteLabelService::class)->applyWhiteLabelSettings();
-              $panelId = Filament::getCurrentPanel()->getId();
-              if ($panelId == 'admin') {
-                  ModuleAdmin::registerLiveEditSettingsUrl('white_label/admin', WhiteLabelSettingsAdminSettingsPage::getUrl());
-
-
-              }
-          });
+            Event::listen(ServingFilament::class, function () {
+                app(WhiteLabelService::class)->applyWhiteLabelSettings();
+                $panelId = \Filament\Facades\Filament::getCurrentPanel()->getId();
+                if ($panelId == 'admin') {
+                    ModuleAdmin::registerLiveEditSettingsUrl('white_label/admin', WhiteLabelSettingsAdminSettingsPage::getUrl());
+                }
+            });
 
 
       }

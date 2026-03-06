@@ -44,7 +44,7 @@ class AdminSeoPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('SEO Settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Make these settings to get the best results when finding your website.')
                     ->schema([
 

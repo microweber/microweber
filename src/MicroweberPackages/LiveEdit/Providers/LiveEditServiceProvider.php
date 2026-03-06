@@ -11,7 +11,7 @@
 
 namespace MicroweberPackages\LiveEdit\Providers;
 
-use Filament\Facades\Filament;
+use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -114,15 +114,15 @@ class LiveEditServiceProvider extends ServiceProvider
         $this->registerMenu();
 
 
-        Filament::serving(function () {
-            $panelId = Filament::getCurrentPanel()->getId();
+        Event::listen(ServingFilament::class, function () {
+            $panelId = \Filament\Facades\Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/module_presets', ModulePresetsModuleSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/unlock_package', UnlockPackageModuleSettingsPage::getUrl());
 
-               // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
-               // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
-               // ModuleAdmin::registerSettingsComponent('editor/module_presets','microweber-live-edit::module-presets-manager');
+                // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
+                // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
+                // ModuleAdmin::registerSettingsComponent('editor/module_presets','microweber-live-edit::module-presets-manager');
                 // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsModuleSettingsPage::class);
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());

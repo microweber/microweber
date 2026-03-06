@@ -67,7 +67,7 @@ Artisan::call('config:clear');
             return $schema
                 ->schema([
                     Section::make('AI settings are disabled')
-                        ->view('filament-forms::sections.section')
+                        ->view('mw-filament::sections.section')
                         ->schema([
                             Placeholder::make('options.ai.disabled_message')
                                 ->label('AI settings are currently disabled')
@@ -85,7 +85,7 @@ Artisan::call('config:clear');
         return $schema
             ->schema([
 Section::make('General AI Settings')
-->view('filament-forms::sections.section')
+->view('mw-filament::sections.section')
 ->schema([
 Toggle::make('options.ai.enabled')
 ->label('Enable AI Functionality')
@@ -130,7 +130,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('OpenAI Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.openai_enabled')
                             ->label('Enable OpenAI')
@@ -160,7 +160,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('Google Gemini Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.gemini_enabled')
                             ->label('Enable Google Gemini')
@@ -190,7 +190,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('OpenRouter Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.openrouter_enabled')
                             ->label('Enable OpenRouter')
@@ -220,7 +220,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('Ollama Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.ollama_enabled')
                             ->label('Enable Ollama')
@@ -249,7 +249,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('Anthropic/Claude Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.anthropic_enabled')
                             ->label('Enable Anthropic/Claude')
@@ -274,7 +274,7 @@ Select::make('options.ai.default_driver_images')
 
                 Section::make('Replicate Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.replicate_enabled')
                             ->label('Enable Replicate')
@@ -303,7 +303,7 @@ Select::make('options.ai.default_driver_images')
 
 Section::make('Supadata Settings')
 ->visible(fn(callable $get) => $get('options.ai.enabled'))
-->view('filament-forms::sections.section')
+->view('mw-filament::sections.section')
 ->schema([
 Toggle::make('options.ai.supadata_enabled')
 ->label('Enable Supadata')
@@ -359,7 +359,7 @@ TextInput::make('options.ai.supadata_temperature')
 
 Section::make('TAVILY Search Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.tavily_enabled')
                             ->label('Enable TAVILY Search')
@@ -399,7 +399,7 @@ Section::make('TAVILY Search Settings')
 
 Section::make('FAL AI Settings')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->schema([
                         Toggle::make('options.ai.fal_enabled')
                             ->label('Enable FAL AI')

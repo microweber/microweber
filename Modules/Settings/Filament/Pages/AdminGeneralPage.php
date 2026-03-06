@@ -36,7 +36,7 @@ class AdminGeneralPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Seo Settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Fill in the fields for maximum results when finding your website in search engines.')
                     ->schema([
 
@@ -91,7 +91,7 @@ class AdminGeneralPage extends AdminSettingsPage
 
 
                 Section::make('General Settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Set regional settings for your website or online store They will also affect the language you use and the fees for the orders.')
                     ->schema([
 
@@ -142,7 +142,7 @@ class AdminGeneralPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Online Shop')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Enable or disable your online shop')
                     ->schema([
 
@@ -154,7 +154,7 @@ class AdminGeneralPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Maintenance mode')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Enable or disable maintenance mode on your site')
                     ->schema([
 
@@ -166,7 +166,7 @@ class AdminGeneralPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Powered by Microweber')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Control whether or not "Powered by Microweber" links display in the footer of your site and products.')
                     ->schema([
 

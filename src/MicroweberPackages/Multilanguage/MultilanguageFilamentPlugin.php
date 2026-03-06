@@ -86,7 +86,7 @@ class MultilanguageFilamentPlugin implements Plugin
                         ->live(debounce:300)
                         ->helperText($this->getHelperText())
                         ->placeholder($this->getPlaceholder())
-                        ->view('filament-forms::components.text-input-option-translatable', [
+                        ->view('mw-filament::components.text-input-option-translatable', [
                             'supportedLanguages' => $supportedLanguages,
                         ]);
 
@@ -97,7 +97,7 @@ class MultilanguageFilamentPlugin implements Plugin
                         ->helperText($this->getHelperText())
                         ->placeholder($this->getPlaceholder())
                         ->live(debounce:300)
-                        ->view('filament-forms::components.textarea-option-translatable', [
+                        ->view('mw-filament::components.textarea-option-translatable', [
                             'supportedLanguages' => $supportedLanguages
                         ]);
 

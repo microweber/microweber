@@ -427,7 +427,7 @@ class ContentResource extends Resource
                                 ];
 
                                 return [
-                                    Forms\Components\View::make('filament-forms::admin.mw-tree')
+                                    Forms\Components\View::make('mw-filament::admin.mw-tree')
                                         ->viewData($viewData)
                                 ];
                             }),

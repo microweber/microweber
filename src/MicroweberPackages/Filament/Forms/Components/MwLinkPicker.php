@@ -9,7 +9,7 @@ use Closure;
 class MwLinkPicker extends TextInput
 {
 
-    protected string $view = 'filament-forms::components.mw-link-picker';
+    protected string $view = 'mw-filament::components.mw-link-picker';
 
 
     protected string|Closure|null $selectedData = null;

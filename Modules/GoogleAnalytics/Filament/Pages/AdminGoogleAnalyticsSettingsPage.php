@@ -32,7 +32,7 @@ class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Google analytics Settings')
-                    ->view('filament-forms::sections.section')
+                    ->view('mw-filament::sections.section')
                     ->description('Make these settings to get the best results when finding your website.')
                     ->schema([
 
