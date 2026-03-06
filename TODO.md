@@ -137,7 +137,15 @@ Modules with known heavy Filament usage (prioritize these):
 
 ## 3. Incomplete / suspicious migrations to Filament 5
 
-- [ ] Modules/Shop (if exists)  check if product/category resources are migrated
+- [x] 2026-03-06 Modules/Shop - check if product/category resources are migrated
+  - **AUDIT COMPLETE:** Shop module exists but has no dedicated Product/Category Resources
+  - Products managed via `Modules/Product/Filament/Admin/Resources/ProductResource.php` (extends ContentResource)
+  - Categories managed via `Modules/Category/Filament/Admin/Resources/ShopCategoryResource.php` (extends CategoryResource)
+  - Both parent resources (ContentResource, CategoryResource) already migrated to v5:
+    - Using `form(Schema $schema): Schema` pattern
+    - Using `table(Table $table): Table` pattern
+    - All Pages extend v5-compatible ListRecords/CreateRecord/EditRecord
+  - `ShopModuleSettings.php` extends LiveEditModuleSettings (already v5 compatible)
 - [ ] Modules/Order  any admin Filament resources?
 - [ ] Modules/Coupons  admin list & edit pages
 - [ ] Modules/CustomFields / Attributes  likely still old style
