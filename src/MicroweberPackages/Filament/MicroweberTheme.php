@@ -4,15 +4,11 @@ namespace MicroweberPackages\Filament;
 
 
 use Filament\Contracts\Plugin;
-use Filament\Facades\Filament;
 use Filament\Forms\Components\Wizard;
 use Filament\Panel;
-use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
@@ -36,6 +32,19 @@ class MicroweberTheme implements Plugin
         static::configureColorShades();
         static::configureComponents();
         static::configureAssets();
+
+        $head = new AdminFilamentMetaTagsRenderer();
+        $headTags = $head->getHeadMetaTags();
+        $footerTags = $head->getFooterMetaTags();
+
+        $panel->renderHook(
+            name: PanelsRenderHook::HEAD_START,
+            hook: fn(): string => $headTags
+        );
+        $panel->renderHook(
+            name: PanelsRenderHook::BODY_END,
+            hook: fn(): string => $footerTags
+        );
     }
 
     public static function configure(): void
@@ -54,30 +63,7 @@ class MicroweberTheme implements Plugin
 
     public static function configureAssets(): void
     {
-        $head = new AdminFilamentMetaTagsRenderer();
-
-        $headTags = $head->getHeadMetaTags();
-        $footerTags = $head->getFooterMetaTags();
-
-        Filament::serving(function () use ($headTags, $footerTags) {
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::HEAD_START,
-                fn(): string => $headTags
-            );
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::BODY_END,
-                fn(): string => $footerTags
-            );
-//            FilamentAsset::register([
-//                //Js::make('example-external-script', 'external.js'),
-//                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-//            ]);
-//
-/// //            FilamentAsset::register([
-//                //Js::make('example-external-script', 'external.js'),
-//                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-//            ]);
-        });
+        // Assets are now registered via $panel->renderHook() in the boot() method
     }
 
     public static function configureColorShades(): void
@@ -119,37 +105,37 @@ class MicroweberTheme implements Plugin
         return [
             'breadcrumbs.separator' => new HtmlString('/'),
             'breadcrumbs.separator.rtl' => new HtmlString('\\'),
-            'modal.close-button' => 'heroicon-s-x-mark',
+            'modal.close-button' => 'heroicon-o-x-mark',
 
-            'actions::delete-action.modal' => 'heroicon-s-trash',
-            'actions::detach-action.modal' => 'heroicon-s-x-mark',
-            'actions::dissociate-action.modal' => 'heroicon-s-x-mark',
-            'actions::force-delete-action.modal' => 'heroicon-s-trash',
-            'actions::restore-action.modal' => 'heroicon-s-arrow-uturn-left',
+            'actions::delete-action.modal' => 'heroicon-o-trash',
+            'actions::detach-action.modal' => 'heroicon-o-x-mark',
+            'actions::dissociate-action.modal' => 'heroicon-o-x-mark',
+            'actions::force-delete-action.modal' => 'heroicon-o-trash',
+            'actions::restore-action.modal' => 'heroicon-o-arrow-uturn-left',
 
             'forms::components.wizard.completed-step' => 'heroicon-m-check',
 
-            'infolists::components.icon-entry.false' => 'heroicon-s-x-circle',
-            'infolists::components.icon-entry.true' => 'heroicon-s-check-circle',
+            'infolists::components.icon-entry.false' => 'heroicon-o-x-circle',
+            'infolists::components.icon-entry.true' => 'heroicon-o-check-circle',
 
-            'notifications::database.modal.empty-state' => 'heroicon-s-bell-slash',
-            'notifications::database.modal.empty-state' => 'heroicon-s-bell-slash',
+            'notifications::database.modal.empty-state' => 'heroicon-o-bell-slash',
+            'notifications::database.modal.empty-state' => 'heroicon-o-bell-slash',
 
             'panels::pages.dashboard.navigation-item' => 'heroicon-m-home',
             'panels::resources.pages.edit-record.navigation-item' => 'heroicon-m-pencil-square',
             'panels::resources.pages.manage-related-records.navigation-item' => 'heroicon-m-rectangle-stack',
             'panels::resources.pages.view-record.navigation-item' => 'heroicon-m-eye',
-            'panels::sidebar.collapse-button' => 'heroicon-s-chevron-left',
-            'panels::sidebar.collapse-button.rtl' => 'heroicon-s-chevron-right',
-            'panels::sidebar.expand-button' => 'heroicon-s-chevron-right',
-            'panels::sidebar.expand-button.rtl' => 'heroicon-s-chevron-left',
-            'panels::topbar.open-database-notifications-button' => 'heroicon-s-bell',
-            'panels::topbar.open-sidebar-button' => 'heroicon-s-bars-3',
-            'panels::topbar.close-sidebar-button' => 'heroicon-s-x-mark',
+            'panels::sidebar.collapse-button' => 'heroicon-o-chevron-left',
+            'panels::sidebar.collapse-button.rtl' => 'heroicon-o-chevron-right',
+            'panels::sidebar.expand-button' => 'heroicon-o-chevron-right',
+            'panels::sidebar.expand-button.rtl' => 'heroicon-o-chevron-left',
+            'panels::topbar.open-database-notifications-button' => 'heroicon-o-bell',
+            'panels::topbar.open-sidebar-button' => 'heroicon-o-bars-3',
+            'panels::topbar.close-sidebar-button' => 'heroicon-o-x-mark',
 
-            'tables::columns.icon-column.false' => 'heroicon-s-x-circle',
-            'tables::columns.icon-column.true' => 'heroicon-s-check-circle',
-            'tables::empty-state' => 'heroicon-s-x-mark',
+            'tables::columns.icon-column.false' => 'heroicon-o-x-circle',
+            'tables::columns.icon-column.true' => 'heroicon-o-check-circle',
+            'tables::empty-state' => 'heroicon-o-x-mark',
         ];
     }
 }

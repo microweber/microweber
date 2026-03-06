@@ -224,7 +224,7 @@ class TestimonialsTableList extends LiveEditModuleTable
 
                 Action::make('copy')
                     ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
+                    ->icon('heroicon-o-document-duplicate')
                     ->action(function (Testimonial $record) {
                         $newTestimonial = $record->replicate();
                         $newTestimonial->push();

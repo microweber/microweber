@@ -234,10 +234,10 @@ class PicturesTableList extends LiveEditModuleTable
                     ->slideOver()
                     ->form($this->editFormArray()),
 
-                Action::make('copy')
-                    ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
-                    ->action(function (Media $record) {
+        Action::make('copy')
+            ->label('Copy')
+            ->icon('heroicon-o-document-duplicate')
+            ->action(function (Media $record) {
                         $newMedia = $record->replicate();
                         $newMedia->push();
 

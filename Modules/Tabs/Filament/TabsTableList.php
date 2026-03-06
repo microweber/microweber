@@ -144,7 +144,7 @@ class TabsTableList extends Component implements HasForms, HasTable
                 DeleteAction::make('delete'),
                 Action::make('copy')
                     ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
+                    ->icon('heroicon-o-document-duplicate')
                     ->action(function (Tab $record) {
                         $newTab = $record->replicate();
                         $newTab->push();

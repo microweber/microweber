@@ -228,7 +228,7 @@ class TeamcardTableList extends LiveEditModuleTable implements HasForms, HasTabl
 
                 Action::make('copy')
                     ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
+                    ->icon('heroicon-o-document-duplicate')
                     ->action(function (Teamcard $record) {
                         $newTeamcard = $record->replicate();
                         $newTeamcard->push();

@@ -139,7 +139,7 @@ class FaqTableList extends Component implements HasForms, HasTable
                 DeleteAction::make('delete'),
                 Action::make('copy')
                     ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
+                    ->icon('heroicon-o-document-duplicate')
                     ->action(function (Faq $record) {
                         $newFaq = $record->replicate();
                         $newFaq->push();

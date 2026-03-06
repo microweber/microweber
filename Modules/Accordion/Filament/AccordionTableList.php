@@ -141,7 +141,7 @@ class AccordionTableList extends Component implements HasForms, HasTable
                     ->form($this->editFormArray()),
                 Action::make('copy')
                     ->label('Copy')
-                    ->icon('heroicon-s-document-duplicate')
+                    ->icon('heroicon-o-document-duplicate')
                     ->action(function (Accordion $record) {
                         $newAccordion = $record->replicate();
                         $newAccordion->push();

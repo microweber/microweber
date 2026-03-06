@@ -42,7 +42,7 @@
     - `Modules/Ai/Providers/AiServiceProvider.php` - removed commented code and unused imports
     - `Modules/Payment/Providers/PaymentServiceProvider.php` - removed commented code and unused imports
     - `src/MicroweberPackages/Package/MicroweberPackageServiceProvider.php` - removed commented code and unused imports
-- [ ] Search & replace old icons: `HeroiconS*` ? `HeroiconO*` or Blade Heroicons package
+- [x] 2026-03-06 Search & replace old icons: `HeroiconS*` ? `HeroiconO*` or Blade Heroicons package
 - [ ] Remove any remaining `filament-forms::components.` Blade components ? use native Filament ones
 
 Modules with known heavy Filament usage (prioritize these):
