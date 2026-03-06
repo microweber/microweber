@@ -57,7 +57,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that non-admin users cannot access AgentChat resource.
      */
     #[Test]
-    public function test_non_admin_cannot_access_resource(): void
+    public function it_non_admin_cannot_access_resource(): void
     {
         // Arrange: Create a non-admin user
         $this->actingAsUser();
@@ -76,7 +76,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that non-admin users cannot create chats.
      */
     #[Test]
-    public function test_non_admin_cannot_create_chat(): void
+    public function it_non_admin_cannot_create_chat(): void
     {
         // Arrange: Create a non-admin user
         $this->actingAsUser();
@@ -95,7 +95,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that non-admin users cannot edit chats.
      */
     #[Test]
-    public function test_non_admin_cannot_edit_chat(): void
+    public function it_non_admin_cannot_edit_chat(): void
     {
         // Arrange: Create a non-admin user and a chat
         $user = $this->actingAsUser();
@@ -117,7 +117,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that guests cannot access the admin panel.
      */
     #[Test]
-    public function test_canAccessPanel_returns_false_for_guest(): void
+    public function it_canaccesspanel_returns_false_for_guest(): void
     {
         // Arrange: Ensure no user is logged in
         $this->assertGuest();
@@ -133,7 +133,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that admin users can access the resource list.
      */
     #[Test]
-    public function test_admin_can_access_resource_list(): void
+    public function it_admin_can_access_resource_list(): void
     {
         // Arrange: Create an admin user
         $this->actingAsAdmin();
@@ -147,7 +147,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that admin users can create chats.
      */
     #[Test]
-    public function test_admin_can_create_chat(): void
+    public function it_admin_can_create_chat(): void
     {
         // Arrange: Create an admin user
         $this->actingAsAdmin();
@@ -161,7 +161,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that admin users can edit any chat.
      */
     #[Test]
-    public function test_admin_can_edit_any_chat(): void
+    public function it_admin_can_edit_any_chat(): void
     {
         // Arrange: Create an admin user and a chat owned by another user
         $this->actingAsAdmin();
@@ -179,7 +179,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that admin users can view any chat.
      */
     #[Test]
-    public function test_admin_can_view_any_chat(): void
+    public function it_admin_can_view_any_chat(): void
     {
         // Arrange: Create an admin user and a chat owned by another user
         $this->actingAsAdmin();
@@ -197,7 +197,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that guests are redirected from all resource pages.
      */
     #[Test]
-    public function test_guest_is_redirected_from_resource_pages(): void
+    public function it_guest_is_redirected_from_resource_pages(): void
     {
         // Arrange: Ensure guest
         $this->assertGuest();
@@ -215,7 +215,7 @@ class AgentChatResourceAuthorizationTest extends TestCase
      * Test that canAccessPanel returns correct values for different user types.
      */
     #[Test]
-    public function test_canAccessPanel_behavior(): void
+    public function it_canaccesspanel_behavior(): void
     {
         // Arrange
         $panel = Filament::getPanel('admin');

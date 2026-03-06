@@ -2,6 +2,8 @@
 
 namespace Modules\Payment\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Payment\Models\PaymentProvider;
@@ -13,8 +15,10 @@ class PaymentProviderDriversTest extends TestCase
 {
 
 
-    public function testPaymentProviderResourceDriversRenderMethod()
-    {
+    #[Test]
+
+
+    public function it_payment_provider_resource_drivers_render_method(): void {
         PaymentProvider::truncate();
 
         // Test PayPal driver

@@ -2,14 +2,17 @@
 
 namespace Modules\Components\Tests\Unit\Components;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
 
 class RowTest extends TestCase
 {
 
-    public function testRendersARow()
-    {
+    #[Test]
+
+    public function it_renders_a_row(): void {
         $bladeString ='<x-row></x-row>';
 
         $output = Blade::render($bladeString);
@@ -17,24 +20,29 @@ class RowTest extends TestCase
         $this->assertStringContainsString('class="row', $output);
     }
 
-    public function testRendersAFlexRow()
-    {
+    #[Test]
+
+    public function it_renders_a_flex_row(): void {
         $bladeString = '<x-row flex></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('d-flex', $output);
     }
 
 
-    public function testRendersAFlexWrapRow()
-    {
+    #[Test]
+
+
+    public function it_renders_a_flex_wrap_row(): void {
         $bladeString = '<x-row flex-wrap></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('flex-wrap', $output);
     }
 
 
-    public function testRendersAFlexNoWrapRow()
-    {
+    #[Test]
+
+
+    public function it_renders_a_flex_no_wrap_row(): void {
         $bladeString = '<x-row flex-no-wrap></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('flex-nowrap', $output);

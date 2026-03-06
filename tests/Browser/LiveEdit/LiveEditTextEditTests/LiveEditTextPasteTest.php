@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
@@ -15,8 +17,10 @@ class LiveEditTextPasteTest extends DuskTestCase
 {
 
 
-    public function testLiveEditPasteInHeading()
-    {
+    #[Test]
+
+
+    public function it_live_edit_paste_in_heading(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {

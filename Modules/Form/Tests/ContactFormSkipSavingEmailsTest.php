@@ -2,6 +2,8 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 
 use Tests\TestCase;
@@ -11,8 +13,11 @@ class ContactFormSkipSavingEmailsTest extends TestCase
 
 
 
-    public function testSkipSavingEmails()
-    {
+    #[Test]
+
+
+
+    public function it_skip_saving_emails(): void {
         $params = array();
         $params['for_id'] = '1234567-skip-saving';
         $params['for'] = '1234567-test-skip-saving';

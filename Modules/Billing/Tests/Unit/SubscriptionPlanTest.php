@@ -2,6 +2,8 @@
 
 namespace Modules\Billing\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Models\SubscriptionPlanGroup;
@@ -9,8 +11,9 @@ use Modules\Billing\Models\SubscriptionPlanGroup;
 class SubscriptionPlanTest extends BillingTestCase
 {
 
-    public function test_it_can_create_subscription_plan()
-    {
+    #[Test]
+
+    public function it_it_can_create_subscription_plan(): void {
         $group = SubscriptionPlanGroup::create([
             'name' => 'Test Group',
             'description' => 'Test description'
@@ -40,8 +43,9 @@ class SubscriptionPlanTest extends BillingTestCase
         $this->assertEquals(2, count($plan->features));
     }
 
-    public function test_it_can_calculate_yearly_price()
-    {
+    #[Test]
+
+    public function it_it_can_calculate_yearly_price(): void {
         $plan = SubscriptionPlan::create([
             'name' => 'Yearly Test',
             'price' => 100,
@@ -52,8 +56,10 @@ class SubscriptionPlanTest extends BillingTestCase
     }
 
 
-    public function test_it_can_convert_monthly_to_yearly()
-    {
+    #[Test]
+
+
+    public function it_it_can_convert_monthly_to_yearly(): void {
         $plan = SubscriptionPlan::create([
             'name' => 'Monthly Test',
             'price' => 10,

@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\SlowTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\AdminMakeInstall;
@@ -10,8 +12,9 @@ use Tests\DuskTestCase;
 class AdminViewDashboardTest extends DuskTestCase
 {
 
-    public function testViewDashboard()
-    {
+    #[Test]
+
+    public function it_view_dashboard(): void {
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminMakeInstall(), function ($browser) {

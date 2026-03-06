@@ -1,13 +1,15 @@
 <?php
 namespace MicroweberPackages\Database\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use MicroweberPackages\Core\tests\TestCase;
 
 class DatabaseManagerTest extends TestCase
 {
-    public function testBuildTable()
-    {
+    #[Test]
+    public function it_build_table(): void {
         app()->database_manager->build_table('peoples', [
             'firstName' => 'text',
             'secondName' => 'text',
@@ -21,8 +23,9 @@ class DatabaseManagerTest extends TestCase
 
     }
 
-    public function testBuildTablse()
-    {
+    #[Test]
+
+    public function it_build_tablse(): void {
         app()->database_manager->build_tables([
             'posts'=>[
                 'name'=>'string',
@@ -46,8 +49,9 @@ class DatabaseManagerTest extends TestCase
         $this->assertTrue($isTable);
     }
 
-    public function testInsertTable()
-    {
+    #[Test]
+
+    public function it_insert_table(): void {
         $this->testBuildTable();
 
         $insert = array();
@@ -65,8 +69,9 @@ class DatabaseManagerTest extends TestCase
 
     }
 
-    public function testDeleteTableData()
-    {
+    #[Test]
+
+    public function it_delete_table_data(): void {
         $this->testBuildTable();
 
         $insert = array();

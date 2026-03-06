@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\User\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
@@ -36,8 +38,9 @@ class UserLivewireComponentsAccessTest extends TestCase
         CreateProfileInformationForm::class,
     ];
 
-    public function testIfCanViewComponentAsAdmin()
-    {
+    #[Test]
+
+    public function it_if_can_view_component_as_admin(): void {
         $option = array();
         $option['option_value'] = 'n';
         $option['option_key'] = 'is_active';
@@ -63,8 +66,9 @@ class UserLivewireComponentsAccessTest extends TestCase
 
     }
 
-    public function testIfCannotViewComponentAsUser()
-    {
+    #[Test]
+
+    public function it_if_cannot_view_component_as_user(): void {
         $option = array();
         $option['option_value'] = 'n';
         $option['option_key'] = 'is_active';

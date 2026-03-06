@@ -9,8 +9,7 @@ use Modules\ImageRollover\Microweber\ImageRolloverModule;
 class ImageRolloverFrontendTest extends TestCase
 {
     #[Test]
-    public function test_module_has_correct_template_namespace()
-    {
+    public function it_module_has_correct_template_namespace(): void {
         $this->assertEquals(
             'modules.image_rollover::templates',
             ImageRolloverModule::$templatesNamespace
@@ -18,8 +17,7 @@ class ImageRolloverFrontendTest extends TestCase
     }
 
     #[Test]
-    public function test_module_accepts_parameters()
-    {
+    public function it_module_accepts_parameters(): void {
         $module = new ImageRolloverModule();
         $module->params = [
             'default_image' => 'test.jpg',

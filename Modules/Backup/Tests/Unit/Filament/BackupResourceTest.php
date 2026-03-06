@@ -31,20 +31,20 @@ class BackupResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListBackups::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $backups = Backup::factory()->count(3)->create();
         Livewire::test(ListBackups::class)->assertCanSeeTableRecords($backups);
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListBackups::class)
             ->assertTableColumnExists('filename')
@@ -53,21 +53,21 @@ class BackupResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_restore_action_exists(): void
+    public function it_restore_action_exists(): void
     {
         $backup = Backup::factory()->create();
         Livewire::test(ListBackups::class)->assertTableActionExists('restore');
     }
 
     #[Test]
-    public function test_download_action_exists(): void
+    public function it_download_action_exists(): void
     {
         $backup = Backup::factory()->create();
         Livewire::test(ListBackups::class)->assertTableActionExists('download');
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $backup = Backup::factory()->create();
         Livewire::test(ListBackups::class)->callTableAction('delete', $backup);

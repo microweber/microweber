@@ -2,6 +2,8 @@
 
 namespace Modules\Accordion\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Accordion\Filament\AccordionModuleSettings;
@@ -12,8 +14,9 @@ use Tests\TestCase;
 class AccordionModuleFrontendTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-rel-id',
             'module' => 'accordion',

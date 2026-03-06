@@ -1,12 +1,14 @@
 <?php
 namespace MicroweberPackages\Option\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class OptionManagerTest extends TestCase
 {
-    public function testOption()
-    {
+    #[Test]
+    public function it_option(): void {
         $option = array();
         $option['option_value'] = '6 tochki';
         $option['option_key'] = 'BobiBobi';

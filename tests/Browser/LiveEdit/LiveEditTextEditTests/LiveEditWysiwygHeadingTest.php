@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
@@ -13,63 +15,71 @@ use Tests\DuskTestCase;
 
 class LiveEditWysiwygHeadingTest extends DuskTestCase
 {
-    public function testLiveEditTypingMakeH1()
-    {
+    #[Test]
+    public function it_live_edit_typing_make_h1(): void {
 
         $this->performFormatOnElements('h1');
         $this->performFormatOnElements('h1' , true);
     }
 
-    public function testLiveEditTypingMakeH2()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_h2(): void {
 
         $this->performFormatOnElements('h2');
         $this->performFormatOnElements('h2' , true);
     }
 
-    public function testLiveEditTypingMakeH3()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_h3(): void {
 
         $this->performFormatOnElements('h3');
         $this->performFormatOnElements('h3' , true);
     }
 
-    public function testLiveEditTypingMakeH4()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_h4(): void {
 
         $this->performFormatOnElements('h4');
         $this->performFormatOnElements('h4' , true);
     }
 
-    public function testLiveEditTypingMakeH5()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_h5(): void {
 
         $this->performFormatOnElements('h5');
         $this->performFormatOnElements('h5' , true);
     }
 
-    public function testLiveEditTypingMakeH6()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_h6(): void {
 
         $this->performFormatOnElements('h6');
         $this->performFormatOnElements('h6' , true);
     }
 
 
-    public function testLiveEditTypingMakeParagraph()
-    {
+    #[Test]
+
+
+    public function it_live_edit_typing_make_paragraph(): void {
         $this->performFormatOnElements('p');
         $this->performFormatOnElements('p' , true);
     }
 
-    public function testLiveEditTypingMakePreformatted()
-    {
+    #[Test]
+
+    public function it_live_edit_typing_make_preformatted(): void {
         $this->performFormatOnElements('pre');
         $this->performFormatOnElements('pre' , true);
 
     }
-    public function testLiveEditTypingMakeDiv()
-    {
+    #[Test]
+    public function it_live_edit_typing_make_div(): void {
         $this->performFormatOnElements('div');
         $this->performFormatOnElements('div',true);
     }

@@ -2,6 +2,8 @@
 
 namespace Modules\Offer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Offer\Models\Offer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,8 +18,9 @@ class OfferModelTest extends TestCase
         $this->artisan('migrate', ['--database' => 'sqlite']);
     }
 
-    public function test_offer_creation()
-    {
+    #[Test]
+
+    public function it_offer_creation(): void {
         $offer = Offer::add([
             'product_id' => 1,
             'price_id' => 1,
@@ -31,8 +34,9 @@ class OfferModelTest extends TestCase
         ]);
     }
 
-    public function test_offer_price_formatting()
-    {
+    #[Test]
+
+    public function it_offer_price_formatting(): void {
         $offer = Offer::add([
             'product_id' => 1,
             'price_id' => 1,
@@ -43,8 +47,9 @@ class OfferModelTest extends TestCase
         $this->assertEquals(19.99, $offer->offer_price);
     }
 
-    public function test_expiry_date_handling()
-    {
+    #[Test]
+
+    public function it_expiry_date_handling(): void {
         $offer = Offer::add([
             'product_id' => 1,
             'price_id' => 1,
@@ -59,8 +64,9 @@ class OfferModelTest extends TestCase
         ]);
     }
 
-    public function test_get_price_method()
-    {
+    #[Test]
+
+    public function it_get_price_method(): void {
         $offer = Offer::add([
             'product_id' => 1,
             'price_id' => 1,
@@ -72,8 +78,9 @@ class OfferModelTest extends TestCase
         $this->assertEquals(9.99, $price['offer_price']);
     }
 
-    public function test_offer_deletion()
-    {
+    #[Test]
+
+    public function it_offer_deletion(): void {
         $offer = Offer::add([
             'product_id' => 1,
             'price_id' => 1,

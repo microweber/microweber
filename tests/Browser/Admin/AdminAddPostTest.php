@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Modules\Content\Tests\Unit\TestHelpers;
@@ -19,8 +21,9 @@ class AdminAddPostTest extends DuskTestCase
 
     use TestHelpers;
 
-    public function testAddPost()
-    {
+    #[Test]
+
+    public function it_add_post(): void {
 
         $title = 'Blog ' . uniqid();
         $pageId = $this->_generatePage($title, $title);

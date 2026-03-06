@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\App\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Core\tests\TestCase;
@@ -8,8 +10,8 @@ use MicroweberPackages\Install\TemplateInstaller;
 
 class TemplateInstallerTest extends TestCase
 {
-    public function testInstall()
-    {
+    #[Test]
+    public function it_install(): void {
         $logger = new MyCustomLogger();
 
         Config::set('microweber.install_default_template', 'Bootstrap5');

@@ -12,7 +12,7 @@ use Filament\Forms\Components\Toggle;
 class CommentsModuleSettingsTest extends TestCase
 {
     #[Test]
-    public function testFormSchema(): void
+    public function it_formschema(): void
     {
         $settings = new CommentsModuleSettings();
         $schema = $settings->form(Schema::make());
@@ -28,7 +28,7 @@ class CommentsModuleSettingsTest extends TestCase
     }
 
     #[Test]
-    public function testDefaultSettings(): void
+    public function it_defaultsettings(): void
     {
         $settings = new CommentsModuleSettings();
         $schema = $settings->form(Schema::make());
@@ -42,8 +42,7 @@ class CommentsModuleSettingsTest extends TestCase
     }
 
     #[Test]
-    public function testSettingsSaving()
-    {
+    public function it_settingssaving(): void {
         $settings = new CommentsModuleSettings();
         
         // Test saving settings

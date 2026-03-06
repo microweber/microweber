@@ -31,20 +31,20 @@ class MarketplaceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListMarketplaces::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $items = MarketplaceItem::factory()->count(3)->create();
         Livewire::test(ListMarketplaces::class)->assertCanSeeTableRecords($items);
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListMarketplaces::class)
             ->assertTableColumnExists('screenshot_link')
@@ -53,13 +53,13 @@ class MarketplaceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_displays_as_grid(): void
+    public function it_table_displays_as_grid(): void
     {
         Livewire::test(ListMarketplaces::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_view_details_action_exists(): void
+    public function it_view_details_action_exists(): void
     {
         Livewire::test(ListMarketplaces::class)->assertTableActionExists('view-details');
     }

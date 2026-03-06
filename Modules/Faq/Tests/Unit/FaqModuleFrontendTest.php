@@ -2,6 +2,8 @@
 
 namespace Modules\Faq\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use Modules\Faq\Models\Faq;
@@ -12,8 +14,9 @@ class FaqModuleFrontendTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         // Create a test FAQ in the database
      $id = 'test-faq-id-' . uniqid();
 
@@ -36,8 +39,9 @@ class FaqModuleFrontendTest extends TestCase
         $this->assertStringContainsString('This is a test answer.', $viewOutput);
     }
 
-    public function testRelationBasedViewRendering()
-    {
+    #[Test]
+
+    public function it_relation_based_view_rendering(): void {
         $id = 'test-faq-id-' . uniqid();
         // Create FAQs with different relations
         $generalFaq = Faq::create([

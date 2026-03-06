@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Template\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +22,10 @@ class TemplateServiceProviderBootTest extends TestCase
     public $template_name = 'Bootstrap5';
 
 
-    public function testTemplateServiceProviderIsLoaded()
-    {
+    #[Test]
+
+
+    public function it_template_service_provider_is_loaded(): void {
 
 
         $is_dir = templates_dir() . $this->template_name;

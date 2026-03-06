@@ -2,6 +2,8 @@
 
 namespace Modules\Category\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Category\Models\Category;
 use Modules\Category\Models\CategoryItem;
@@ -13,8 +15,9 @@ use Modules\Product\Models\Product;
 class CategoryManagerTest extends TestCase
 {
 
-    public function testSelectOnlyFieldsWithCategoryFilter()
-    {
+    #[Test]
+
+    public function it_select_only_fields_with_category_filter(): void {
 
         $category = new Category();
         $category->title = 'New cat for my content to test filter';
@@ -82,8 +85,10 @@ class CategoryManagerTest extends TestCase
     }*/
 
 
-    public function testCategoryInStockFilter()
-    {
+    #[Test]
+
+
+    public function it_category_in_stock_filter(): void {
 
         $clean = Content::truncate();
         $clean = Product::truncate();
@@ -196,8 +201,9 @@ class CategoryManagerTest extends TestCase
 
     }
 
-    public function testCategorySearchByKeyword()
-    {
+    #[Test]
+
+    public function it_category_search_by_keyword(): void {
         $clean = Category::truncate();
 
         $category = new Category();
@@ -230,8 +236,9 @@ class CategoryManagerTest extends TestCase
 
     }
 
-    public function testCategoryJsonTreeAdmin()
-    {
+    #[Test]
+
+    public function it_category_json_tree_admin(): void {
 
         $clean = Content::truncate();
         $clean = Category::truncate();
@@ -355,8 +362,9 @@ class CategoryManagerTest extends TestCase
 
     }
 
-    public function testCategorySavedFromModelSetCategories()
-    {
+    #[Test]
+
+    public function it_category_saved_from_model_set_categories(): void {
         $title = 'category from model attributes' . uniqid();
         $category = new Category();
         $category->title = $title;
@@ -382,8 +390,9 @@ class CategoryManagerTest extends TestCase
 
     }
 
-    public function testCategorySavedFromModelAttrbutes()
-    {
+    #[Test]
+
+    public function it_category_saved_from_model_attrbutes(): void {
         $title = 'category from model attributes' . uniqid();
         $category = new Category();
         $category->title = $title;

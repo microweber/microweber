@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Multilanguage;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Faker\Factory;
 use Laravel\Dusk\Browser;
 use Modules\Category\Models\Category;
@@ -21,8 +23,9 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
     public $template_name = 'big';
 
-    public function testMultilanguageAddCategory()
-    {
+    #[Test]
+
+    public function it_multilanguage_add_category(): void {
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {

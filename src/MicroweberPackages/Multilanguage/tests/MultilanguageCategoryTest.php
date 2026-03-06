@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -10,8 +12,9 @@ use Modules\Category\Models\Category;
 class MultilanguageCategoryTest extends MultilanguageTestBase
 {
 
-    public function testSaveCategoryFromApiController()
-    {
+    #[Test]
+
+    public function it_save_category_from_api_controller(): void {
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
         $params = [
@@ -127,8 +130,10 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
     }
 
 
-    public function testCategoriesSameSlugMultilang()
-    {
+    #[Test]
+
+
+    public function it_categories_same_slug_multilang(): void {
 
 
 

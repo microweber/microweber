@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
@@ -15,8 +17,9 @@ class LiveEditLinkScrollTest extends DuskTestCase
 
     public $template_name = 'big';
 
-    public function testLiveEditLinkScroll()
-    {
+    #[Test]
+
+    public function it_live_edit_link_scroll(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {

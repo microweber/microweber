@@ -34,20 +34,20 @@ class RatingModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListRatings::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $ratings = Rating::factory()->count(3)->create();
         Livewire::test(ListRatings::class)->assertCanSeeTableRecords($ratings);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $content = Content::factory()->create();
 
@@ -66,7 +66,7 @@ class RatingModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $rating = Rating::factory()->create(['rating' => 3]);
         Livewire::test(EditRating::class, ['record' => $rating->id])
@@ -78,7 +78,7 @@ class RatingModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $rating = Rating::factory()->create();
         Livewire::test(ListRatings::class)->callTableAction('delete', $rating);
@@ -86,7 +86,7 @@ class RatingModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListRatings::class)
             ->assertTableColumnExists('rel_type')
@@ -96,7 +96,7 @@ class RatingModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_rating_value_is_validated(): void
+    public function it_rating_value_is_validated(): void
     {
         Livewire::test(CreateRating::class)
             ->fillForm([

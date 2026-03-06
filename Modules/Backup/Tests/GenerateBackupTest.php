@@ -2,6 +2,8 @@
 
 namespace Modules\Backup\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
@@ -17,8 +19,8 @@ use Modules\Post\Models\Post;
  */
 class GenerateBackupTest extends TestCase
 {
-    public function testSingleModuleBackup()
-    {
+    #[Test]
+    public function it_single_module_backup(): void {
         Config::set('microweber.allow_php_files_upload', true);
         $stepsNum = 1115; // very large number on purpose
         $sessionId = SessionStepper::generateSessionId($stepsNum);
@@ -85,8 +87,9 @@ class GenerateBackupTest extends TestCase
 
     }
 
-    public function testSingleTableBackup()
-    {
+    #[Test]
+
+    public function it_single_table_backup(): void {
 
         $getAllContent = Content::all();
         $getAllContent->each(function ($content) {
@@ -130,8 +133,13 @@ class GenerateBackupTest extends TestCase
 
 
 
-    public function testUserfilesOneStepTest()
-    {
+    #[Test]
+
+
+
+
+
+    public function it_userfiles_one_step_test(): void {
         Config::set('microweber.allow_php_files_upload', true);
         // Use a single step for the backup
         $stepsNum = 1;
@@ -194,8 +202,9 @@ class GenerateBackupTest extends TestCase
 
     }
 
-    public function testMediaBackupThreeStepTest()
-    {
+    #[Test]
+
+    public function it_media_backup_three_step_test(): void {
         Config::set('microweber.allow_php_files_upload', true);
         // Use three steps for the backup
         $stepsNum = 3;
@@ -258,8 +267,9 @@ class GenerateBackupTest extends TestCase
 
     }
 
-    public function testBackupOnAllTablesTest()
-    {
+    #[Test]
+
+    public function it_backup_on_all_tables_test(): void {
         Config::set('microweber.allow_php_files_upload', true);
         $stepsNum = 5; // Use multiple steps to ensure complete backup
         $sessionId = SessionStepper::generateSessionId($stepsNum);

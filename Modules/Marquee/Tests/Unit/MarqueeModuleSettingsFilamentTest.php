@@ -2,6 +2,8 @@
 
 namespace Modules\Marquee\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -10,8 +12,8 @@ use Tests\TestCase;
 
 class MarqueeModuleSettingsFilamentTest extends TestCase
 {
-    public function testMarqueeModuleSettingsForm()
-    {
+    #[Test]
+    public function it_marquee_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'marquee';
 

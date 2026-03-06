@@ -2,6 +2,8 @@
 
 namespace Modules\Btn\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -13,8 +15,10 @@ class BtnModuleFrontendTest extends TestCase
 {
 
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-btn-id' . uniqid(),
             'style' => 'btn-primary',
@@ -57,8 +61,9 @@ class BtnModuleFrontendTest extends TestCase
 
     }
 
-    public function testPopupViewRendering()
-    {
+    #[Test]
+
+    public function it_popup_view_rendering(): void {
 
         $params = [
             'id' => 'test-btn-id',

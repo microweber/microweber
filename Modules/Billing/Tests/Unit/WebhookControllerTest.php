@@ -366,8 +366,7 @@ class WebhookControllerTest extends TestCase
     }
 
     #[Test]
-    public function test_webhook_invoice_paid_updates_status()
-    {
+    public function it_webhook_invoice_paid_updates_status(): void {
         // Create user and customer
         $user = User::factory()->create();
 

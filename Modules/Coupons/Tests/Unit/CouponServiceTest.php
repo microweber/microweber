@@ -2,6 +2,8 @@
 
 namespace Modules\Coupons\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Modules\Coupons\Services\CouponService;
 use Modules\Coupons\Models\Coupon;
 use Modules\Coupons\Models\CouponLog;
@@ -19,8 +21,9 @@ class CouponServiceTest extends TestCase
         Session::flush();
     }
 
-    public function testGenerateUniqueCouponCode()
-    {
+    #[Test]
+
+    public function it_generate_unique_coupon_code(): void {
         $code1 = $this->couponService->generateCouponCode();
         $code2 = $this->couponService->generateCouponCode();
 
@@ -28,8 +31,9 @@ class CouponServiceTest extends TestCase
         $this->assertEquals(8, strlen($code1));
     }
 
-    public function testSessionManagement()
-    {
+    #[Test]
+
+    public function it_session_management(): void {
         Coupon::truncate();
         CouponLog::truncate();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()->create([
@@ -55,8 +59,9 @@ class CouponServiceTest extends TestCase
 ], $this->couponService->getCouponSession());
     }
 
-    public function testExpiredCoupon()
-    {
+    #[Test]
+
+    public function it_expired_coupon(): void {
         Coupon::truncate();
         CouponLog::truncate();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()
@@ -69,8 +74,9 @@ class CouponServiceTest extends TestCase
         $this->assertStringContainsString('not valid', $result['message']);
     }
 
-    public function testCustomerUsageLimits()
-    {
+    #[Test]
+
+    public function it_customer_usage_limits(): void {
         Coupon::truncate();
         CouponLog::truncate();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()->create([

@@ -31,8 +31,7 @@ class UserCommentReplyComponentTest extends TestCase
     }
 
     #[Test]
-    public function testCanSubmitReply()
-    {
+    public function it_cansubmitreply(): void {
         
         $user = User::factory()->create();
         $content = Content::create(['title' => 'Test', 'content_type' => 'page']);
@@ -61,8 +60,7 @@ class UserCommentReplyComponentTest extends TestCase
     }
 
     #[Test]
-    public function testValidatesReplyContent()
-    {
+    public function it_validatesreplycontent(): void {
         config(['modules.comments.enable_comments' => true]);
         
         $user = User::factory()->create();
@@ -84,8 +82,7 @@ class UserCommentReplyComponentTest extends TestCase
     }
 
     #[Test]
-    public function testNotifiesParentAuthor()
-    {
+    public function it_notifiesparentauthor(): void {
         Mail::fake();
         
         config([

@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
@@ -15,21 +17,25 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
 {
 
 
-    public function testLiveEditAlignCenter()
-    {
+    #[Test]
+
+
+    public function it_live_edit_align_center(): void {
 
         $this->performAlignOnElements('center');
         $this->performAlignOnElements('center',true);
     }
 
-    public function testLiveEditAlignLeft()
-    {
+    #[Test]
+
+    public function it_live_edit_align_left(): void {
         $this->performAlignOnElements('left');
         $this->performAlignOnElements('left',true);
     }
 
-    public function testLiveEditAlignRight()
-    {
+    #[Test]
+
+    public function it_live_edit_align_right(): void {
         $this->performAlignOnElements('right');
         $this->performAlignOnElements('right',true);
     }

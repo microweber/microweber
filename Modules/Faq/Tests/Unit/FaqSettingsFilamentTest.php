@@ -2,6 +2,8 @@
 
 namespace Modules\Faq\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -13,8 +15,10 @@ class FaqSettingsFilamentTest extends TestCase
 {
 
 
-    public function testFaqModuleResourceForm()
-    {
+    #[Test]
+
+
+    public function it_faq_module_resource_form(): void {
         Faq::where('rel_type', 'some_rel_for_faq')->delete();
 
         // Test creating a FAQ
@@ -50,8 +54,9 @@ class FaqSettingsFilamentTest extends TestCase
         $this->assertDatabaseMissing('faqs', $updatedData);
     }
 
-    public function testFaqModuleResourceRelations()
-    {
+    #[Test]
+
+    public function it_faq_module_resource_relations(): void {
         //cleanup
         Faq::where('rel_type', 'some_rel_for_faq')->delete();
 

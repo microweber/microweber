@@ -11,8 +11,7 @@ use Modules\Comments\Policies\CommentPolicy;
 class CommentPolicyTest extends TestCase
 {
     #[Test]
-    public function testAdminCanManageAllComments()
-    {
+    public function it_admincanmanageallcomments(): void {
         $admin = User::factory()->create(['is_admin' => 1]);
         $user = User::factory()->create();
         $comment = Comment::create([
@@ -25,8 +24,7 @@ class CommentPolicyTest extends TestCase
     }
 
     #[Test]
-    public function testUserCanOnlyManageOwnComments()
-    {
+    public function it_usercanonlymanageowncomments(): void {
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         // Create comment with mismatched session/IP first

@@ -42,7 +42,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the admin panel has navigation configuration.
      */
     #[Test]
-    public function test_admin_panel_has_navigation_configuration(): void
+    public function it_admin_panel_has_navigation_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -56,7 +56,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that navigation items are configured.
      */
     #[Test]
-    public function test_navigation_items_are_configured(): void
+    public function it_navigation_items_are_configured(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -74,7 +74,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has the correct ID and path for mobile routing.
      */
     #[Test]
-    public function test_panel_has_correct_mobile_configuration(): void
+    public function it_panel_has_correct_mobile_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -93,7 +93,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel middleware includes necessary session handling for mobile.
      */
     #[Test]
-    public function test_panel_middleware_includes_session_handling(): void
+    public function it_panel_middleware_includes_session_handling(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -119,7 +119,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has theme configuration for responsive design.
      */
     #[Test]
-    public function test_panel_has_responsive_theme_configuration(): void
+    public function it_panel_has_responsive_theme_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -137,7 +137,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that resources are registered via FilamentRegistry.
      */
     #[Test]
-    public function test_resources_are_registered_via_registry(): void
+    public function it_resources_are_registered_via_registry(): void
     {
         // Arrange: Get resources from FilamentRegistry
         $resources = FilamentRegistry::getResources(
@@ -155,7 +155,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that pages are registered via FilamentRegistry.
      */
     #[Test]
-    public function test_pages_are_registered_via_registry(): void
+    public function it_pages_are_registered_via_registry(): void
     {
         // Arrange: Get pages from FilamentRegistry
         $pages = FilamentRegistry::getPages(
@@ -171,7 +171,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that widgets are registered via FilamentRegistry.
      */
     #[Test]
-    public function test_widgets_are_registered_via_registry(): void
+    public function it_widgets_are_registered_via_registry(): void
     {
         // Arrange: Get widgets from FilamentRegistry
         $widgets = FilamentRegistry::getWidgets(
@@ -187,7 +187,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel provider is properly configured.
      */
     #[Test]
-    public function test_panel_provider_configuration(): void
+    public function it_panel_provider_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -210,7 +210,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has navigation enabled.
      */
     #[Test]
-    public function test_panel_has_navigation_enabled(): void
+    public function it_panel_has_navigation_enabled(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -223,7 +223,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has proper authentication configuration for mobile access.
      */
     #[Test]
-    public function test_panel_mobile_authentication_configuration(): void
+    public function it_panel_mobile_authentication_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -237,7 +237,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that navigation badge methods work correctly.
      */
     #[Test]
-    public function test_navigation_badge_methods_work(): void
+    public function it_navigation_badge_methods_work(): void
     {
         // Arrange: Get resources from FilamentRegistry
         $resources = FilamentRegistry::getResources(
@@ -285,7 +285,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that registered resources have proper navigation configuration.
      */
     #[Test]
-    public function test_registered_resources_have_navigation_configuration(): void
+    public function it_registered_resources_have_navigation_configuration(): void
     {
         // Arrange: Get resources from FilamentRegistry
         $resources = FilamentRegistry::getResources(
@@ -333,7 +333,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has global search configuration.
      */
     #[Test]
-    public function test_panel_has_global_search_configuration(): void
+    public function it_panel_has_global_search_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -350,7 +350,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has brand configuration.
      */
     #[Test]
-    public function test_panel_has_brand_configuration(): void
+    public function it_panel_has_brand_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -363,7 +363,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has unsaved changes alerts configured.
      */
     #[Test]
-    public function test_panel_has_unsaved_changes_alerts(): void
+    public function it_panel_has_unsaved_changes_alerts(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -380,7 +380,7 @@ class MobileNavigationCollapseTest extends TestCase
      * Test that the panel has database notifications configured.
      */
     #[Test]
-    public function test_panel_has_database_notifications(): void
+    public function it_panel_has_database_notifications(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');

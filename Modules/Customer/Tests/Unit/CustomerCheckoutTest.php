@@ -2,6 +2,8 @@
 
 namespace Modules\Customer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use MicroweberPackages\Core\tests\TestCase;
@@ -99,8 +101,9 @@ class CustomerCheckoutTest extends TestCase
         $this->assertEquals($cart_add['product']['price'], $productPrice);
     }
 
-    public function testCheckout()
-    {
+    #[Test]
+
+    public function it_checkout(): void {
 
 
         $this->_addProductToCart('Product 1');
@@ -155,8 +158,9 @@ class CustomerCheckoutTest extends TestCase
 
     }
 
-    public function testCheckoutCustomerWithXss()
-    {
+    #[Test]
+
+    public function it_checkout_customer_with_xss(): void {
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');

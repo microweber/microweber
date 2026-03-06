@@ -2,14 +2,17 @@
 
 namespace MicroweberPackages\MicroweberUI\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Template\Adapters\GoogleFontDownloader;
 
 class GoogleFontsTest extends TestCase
 {
 
-    public function testGoogleFontsDownloader()
-    {
+    #[Test]
+
+    public function it_google_fonts_downloader(): void {
 
         if (getenv('CI') !== false && getenv('CI') === 'true') {
             // Skip in GitHub Actions

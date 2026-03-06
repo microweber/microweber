@@ -2,6 +2,8 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Tests\TestCase;
 
@@ -10,8 +12,11 @@ class ContactFormQuickEmailsTest extends TestCase
 
 
 
-    public function testQuickEmail()
-    {
+    #[Test]
+
+
+
+    public function it_quick_email(): void {
 
         $params = array();
         $params['for_id'] = '1234-skip-saving';

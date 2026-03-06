@@ -2,6 +2,8 @@
 
 namespace Modules\TextType\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -12,8 +14,10 @@ class TextTypeModuleSettingsFilamentTest extends TestCase
 {
 
 
-    public function testTextTypeModuleSettingsForm()
-    {
+    #[Test]
+
+
+    public function it_text_type_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'text_type';
 

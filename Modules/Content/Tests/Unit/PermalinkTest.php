@@ -8,6 +8,8 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 
 use Tests\TestCase;
@@ -29,8 +31,9 @@ class PermalinkTest extends TestCase
     public static $categorySlug;
     public static $subCategorySlug;
 
-    public function testPageCategoryPost()
-    {
+    #[Test]
+
+    public function it_page_category_post(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         // Set format
@@ -141,8 +144,9 @@ class PermalinkTest extends TestCase
         self::$postWithoutCategorySlug = $postWithoutCategorySlug;
     }
 
-    public function testCategoryPost()
-    {
+    #[Test]
+
+    public function it_category_post(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         // Set format
@@ -226,8 +230,9 @@ class PermalinkTest extends TestCase
 
     }
 
-    public function testPostWithoutCategory()
-    {
+    #[Test]
+
+    public function it_post_without_category(): void {
         // Set format
         $option = array();
         $option['option_value'] = 'category_post';
@@ -248,8 +253,9 @@ class PermalinkTest extends TestCase
 
     }
 
-    public function testPost()
-    {
+    #[Test]
+
+    public function it_post(): void {
         // Set format
         $option = array();
         $option['option_value'] = 'post';
@@ -269,8 +275,7 @@ class PermalinkTest extends TestCase
 
     }
 
-    /*  public function testFrontControllerPage()
-      {
+    /*  #[Test]  public function it_front_controller_page(): void {
           $pageUrl = page_link(self::$pageId);
 
           // Set Current url for font controller
@@ -285,8 +290,7 @@ class PermalinkTest extends TestCase
           $this->assertEquals(false, POST_ID);
       }*/
 
-   /* public function testFrontControllerPost()
-    {
+   /* #[Test] public function it_front_controller_post(): void {
         $postUrl = content_link(self::$postId);
 
         // Set Current url for font controller

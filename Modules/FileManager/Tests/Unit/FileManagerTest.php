@@ -2,6 +2,8 @@
 
 namespace Modules\FileManager\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -9,8 +11,9 @@ use MicroweberPackages\User\Models\User;
 class FileManagerTest extends TestCase
 {
 
-    public function testList()
-    {
+    #[Test]
+
+    public function it_list(): void {
         $this->loginAsAdmin();
 
         // Create new folder
@@ -44,8 +47,9 @@ class FileManagerTest extends TestCase
 
     }
 
-    public function testListWithManyFolderCreations()
-    {
+    #[Test]
+
+    public function it_list_with_many_folder_creations(): void {
         $this->loginAsAdmin();
 
         // Create new folder
@@ -87,8 +91,9 @@ class FileManagerTest extends TestCase
 
     }
 
-    public function testListWithPagination()
-    {
+    #[Test]
+
+    public function it_list_with_pagination(): void {
         $this->loginAsAdmin();
         $path = media_uploads_path();
         if (!is_dir($path)) {
@@ -127,8 +132,9 @@ class FileManagerTest extends TestCase
 
     }
 
-    public function testDeleteFile()
-    {
+    #[Test]
+
+    public function it_delete_file(): void {
         $this->loginAsAdmin();
 
         // Create new file
@@ -197,8 +203,9 @@ class FileManagerTest extends TestCase
 
     }
 
-    public function testDeleteAllTestingFiles()
-    {
+    #[Test]
+
+    public function it_delete_all_testing_files(): void {
         $this->loginAsAdmin();
 
         $path = media_uploads_path();

@@ -2,14 +2,16 @@
 
 namespace Modules\Cloudflare\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Cache;
 use Modules\Cloudflare\Helpers\CloudflareHelpers;
 use Tests\TestCase;
 
 class CloudflareHelpersTest extends TestCase
 {
-    public function testFetchCloudFlareIps()
-    {
+    #[Test]
+    public function it_fetch_cloud_flare_ips(): void {
         $cachedIps = ['192.0.2.0/24', '2001:db8::/32'];
         Cache::put('cloudflare_ips', $cachedIps, 60 * 60 * 24);
 

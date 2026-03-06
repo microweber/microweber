@@ -2,13 +2,15 @@
 
 namespace Modules\Components\Tests\Unit\Components;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
 
 class NavbarTest extends TestCase
 {
-    public function testRendersANavbar()
-    {
+    #[Test]
+    public function it_renders_a_navbar(): void {
         $bladeString = '<x-navbar></x-navbar>';
 
         $output = Blade::render($bladeString);
@@ -16,43 +18,49 @@ class NavbarTest extends TestCase
         $this->assertStringContainsString('class="navbar', $output);
     }
 
-    public function testRendersANavbarWithBrand()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_brand(): void {
         $bladeString = '<x-navbar brand="My App"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('My App', $output);
     }
 
-    public function testRendersANavbarWithBrandUrl()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_brand_url(): void {
         $bladeString = '<x-navbar brand="My App" brandUrl="/"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('href="/"', $output);
     }
 
-    public function testRendersANavbarWithExpand()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_expand(): void {
         $bladeString = '<x-navbar expand="lg"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('navbar-expand-lg', $output);
     }
 
-    public function testRendersANavbarWithDarkTheme()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_dark_theme(): void {
         $bladeString = '<x-navbar dark="true"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('navbar-dark', $output);
     }
 
-    public function testRendersANavbarWithFixedPosition()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_fixed_position(): void {
         $bladeString = '<x-navbar fixed="top"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('fixed-top', $output);
     }
 
-    public function testRendersANavbarWithCustomClasses()
-    {
+    #[Test]
+
+    public function it_renders_a_navbar_with_custom_classes(): void {
         $bladeString = '<x-navbar class="custom-class"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);

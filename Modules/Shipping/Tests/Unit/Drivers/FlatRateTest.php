@@ -11,16 +11,13 @@ use Tests\TestCase;
 class FlatRateTest extends TestCase
 {
     #[Test]
-
-    public function testFlatRateInitialization()
-    {
+    public function it_flatrateinitialization(): void {
         $flatRate = new FlatRate();
         $this->assertEquals('Flat Rate', $flatRate->title());
     }
 
     #[Test]
-    public function testDefaultShippingCost()
-    {
+    public function it_defaultshippingcost(): void {
         $flatRate = new FlatRate();
         $model = new ShippingProvider();
         $model->settings = [];
@@ -29,8 +26,7 @@ class FlatRateTest extends TestCase
     }
 
     #[Test]
-    public function testCustomShippingCost()
-    {
+    public function it_customshippingcost(): void {
         $flatRate = new FlatRate();
         $model = new ShippingProvider();
         $model->settings = ['shipping_cost' => 15];
@@ -39,8 +35,7 @@ class FlatRateTest extends TestCase
     }
 
     #[Test]
-    public function testSettingsHandling()
-    {
+    public function it_settingshandling(): void {
         $flatRate = new FlatRate();
         $model = new ShippingProvider();
         $model->settings = [

@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Country\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Country\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,8 +11,9 @@ class CountryModelTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCountryModelCanBeCreated()
-    {
+    #[Test]
+
+    public function it_country_model_can_be_created(): void {
         $country = Country::create([
             'code' => 'US',
             'name' => 'United States',
@@ -24,8 +27,9 @@ class CountryModelTest extends TestCase
         ]);
     }
 
-    public function testCountriesTableMigration()
-    {
+    #[Test]
+
+    public function it_countries_table_migration(): void {
         $this->artisan('migrate');
 
         $this->assertTrue(\Schema::hasTable('countries'));

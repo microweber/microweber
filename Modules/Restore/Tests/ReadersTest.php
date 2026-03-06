@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Restore\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Restore\Formats\ZipReader;
@@ -15,7 +17,8 @@ use Modules\Restore\Loggers\RestoreLogger;
 
 class ReadersTest extends TestCase
 {
-	public function testZipReader() {
+	#[Test]
+	public function it_zip_reader(): void {
 
         RestoreLogger::clearLog();
         $zip = new ZipReader(__DIR__ . DS. 'strange-file.zip');

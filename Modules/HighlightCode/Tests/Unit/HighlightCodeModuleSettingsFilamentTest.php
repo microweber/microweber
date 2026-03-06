@@ -2,6 +2,8 @@
 
 namespace Modules\HighlightCode\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -10,8 +12,8 @@ use Tests\TestCase;
 
 class HighlightCodeModuleSettingsFilamentTest extends TestCase
 {
-    public function testHighlightCodeModuleSettingsForm()
-    {
+    #[Test]
+    public function it_highlight_code_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'highlight_code';
 

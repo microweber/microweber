@@ -2,6 +2,8 @@
 
 namespace Modules\Components\Tests\Unit\Components;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
@@ -9,8 +11,9 @@ use Tests\TestCase;
 class AlertTest extends TestCase
 {
  
-    public function testRendersAlertComponentWithDefaultProperties()
-    {
+    #[Test]
+ 
+    public function it_renders_alert_component_with_default_properties(): void {
         $view = Blade::render('<x-alert>Your alert message!</x-alert>');
 
         $this->assertStringContainsString('alert alert-primary', $view);
@@ -18,8 +21,9 @@ class AlertTest extends TestCase
         $this->assertStringNotContainsString('alert-dismissible', $view);
     }
 
-    public function testRendersAlertComponentWithDismissibleProperty()
-    {
+    #[Test]
+
+    public function it_renders_alert_component_with_dismissible_property(): void {
         $view = Blade::render('<x-alert dismissible>Your alert message!</x-alert>');
 
         $this->assertStringContainsString('alert alert-primary alert-dismissible fade show', $view);
@@ -27,16 +31,18 @@ class AlertTest extends TestCase
         $this->assertStringContainsString('btn-close', $view);
     }
 
-    public function testRendersAlertComponentWithCustomType()
-    {
+    #[Test]
+
+    public function it_renders_alert_component_with_custom_type(): void {
         $view = Blade::render('<x-alert type="danger">Danger alert!</x-alert>');
 
         $this->assertStringContainsString('alert alert-danger', $view);
         $this->assertStringContainsString('Danger alert!', $view);
     }
 
-    public function testRendersACardWithDarkTheme()
-    {
+    #[Test]
+
+    public function it_renders_a_card_with_dark_theme(): void {
         $bladeString = '<x-card theme="dark"></x-card>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('bg-dark text-white', $output);

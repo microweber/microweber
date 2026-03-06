@@ -39,14 +39,14 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListUsers::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $users = User::factory()->count(3)->create();
 
@@ -55,7 +55,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         User::factory()->count(15)->create();
 
@@ -64,7 +64,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $user = User::factory()->create([
             'username' => 'testuser',
@@ -77,7 +77,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(ListUsers::class)
             ->assertSuccessful()
@@ -85,7 +85,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(ListUsers::class)
             ->fillForm([
@@ -98,7 +98,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(ListUsers::class)
             ->fillForm([
@@ -120,7 +120,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $user = User::factory()->create([
             'first_name' => 'Original',
@@ -142,7 +142,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $user = User::factory()->create();
 
@@ -155,7 +155,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListUsers::class)
             ->assertTableColumnExists('id')
@@ -166,7 +166,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_email_must_be_unique(): void
+    public function it_email_must_be_unique(): void
     {
         $existingUser = User::factory()->create([
             'email' => 'existing@example.com',
@@ -184,7 +184,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_password_is_hashed_on_save(): void
+    public function it_password_is_hashed_on_save(): void
     {
         Livewire::test(ListUsers::class)
             ->fillForm([
@@ -200,7 +200,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $user = User::factory()->create([
             'username' => 'searchuser',
@@ -212,7 +212,7 @@ class UsersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_records(): void
+    public function it_bulk_delete_removes_records(): void
     {
         $users = User::factory()->count(3)->create();
 

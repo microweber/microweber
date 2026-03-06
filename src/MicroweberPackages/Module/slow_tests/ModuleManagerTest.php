@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Module\slow_tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
@@ -10,15 +12,17 @@ use MicroweberPackages\Core\tests\TestCase;
 class ModuleManagerTest extends TestCase
 {
 
-    public function testModuleCssClass()
-    {
+    #[Test]
+
+    public function it_module_css_class(): void {
         $mod = 'shop/admin';
         $test = app()->module_manager->css_class($mod);
         $this->assertEquals($test, 'module-shop-admin');
     }
 
-    public function testModuleUrlAndPath()
-    {
+    #[Test]
+
+    public function it_module_url_and_path(): void {
         $mod = 'Shop';
         $test = app()->module_manager->url($mod);
         $result = Str::endsWith($test, 'shop');
@@ -31,8 +35,10 @@ class ModuleManagerTest extends TestCase
     }
 
 
-    public function testModuleIsInstalled()
-    {
+    #[Test]
+
+
+    public function it_module_is_installed(): void {
         $mod = 'Shop';
         $params = [
             'for_module' => $mod
@@ -54,8 +60,9 @@ class ModuleManagerTest extends TestCase
 
     }
 
-    public function testIfModulesAreInstalledOnlyOnce()
-    {
+    #[Test]
+
+    public function it_if_modules_are_installed_only_once(): void {
 
         $db = DB::table('modules')
             ->select('module',  \DB::raw('count(module) as total'))

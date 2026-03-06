@@ -2,6 +2,8 @@
 
 namespace Modules\Pictures\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\View;
 use Modules\Media\Models\Media;
 use Modules\Pictures\Microweber\PicturesModule;
@@ -10,8 +12,9 @@ use Tests\TestCase;
 class PicturesModuleFrontendTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-pictures-id' . uniqid(),
         ];

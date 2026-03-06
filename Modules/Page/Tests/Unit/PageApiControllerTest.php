@@ -2,6 +2,8 @@
 
 namespace Modules\Page\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -11,8 +13,9 @@ use Modules\Menu\Models\Menu;
 class PageApiControllerTest extends TestCase
 {
 
-    public function testAddPageFull()
-    {
+    #[Test]
+
+    public function it_add_page_full(): void {
         $categoryIds = [];
 
         $user = User::where('is_admin','=', '1')->first();
@@ -75,8 +78,9 @@ class PageApiControllerTest extends TestCase
 
     }
 
-    public function testSavePageFromController()
-    {
+    #[Test]
+
+    public function it_save_page_from_controller(): void {
 
 
         $menu = new Menu();
@@ -151,8 +155,8 @@ class PageApiControllerTest extends TestCase
         $this->assertEquals($pageData->data->title, 'maiko maiko');
 
     }
-    public function testDestroyContentFromController()
-    {
+    #[Test]
+    public function it_destroy_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\FlakyTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +16,9 @@ use Tests\DuskTestCase;
 class AdminEditProfileTest extends DuskTestCase
 {
 
-    public function testEditProfile()
-    {
+    #[Test]
+
+    public function it_edit_profile(): void {
 
         $this->browse(function (Browser $browser) {
 
@@ -83,8 +86,9 @@ class AdminEditProfileTest extends DuskTestCase
         });
     }
 
-    public function testEditProfileOnlyPhoneChange()
-    {
+    #[Test]
+
+    public function it_edit_profile_only_phone_change(): void {
 
         $this->browse(function (Browser $browser) {
 
@@ -130,8 +134,9 @@ class AdminEditProfileTest extends DuskTestCase
         });
     }
 
-    public function testAddNewAdminProfile()
-    {
+    #[Test]
+
+    public function it_add_new_admin_profile(): void {
         $this->browse(function (Browser $browser) {
 
 

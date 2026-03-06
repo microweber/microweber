@@ -33,20 +33,20 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListCoupons::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $coupons = Coupon::factory()->count(3)->create();
         Livewire::test(ListCoupons::class)->assertCanSeeTableRecords($coupons);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateCoupon::class)
             ->fillForm([
@@ -64,7 +64,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $coupon = Coupon::factory()->create(['coupon_name' => 'Original']);
         Livewire::test(EditCoupon::class, ['record' => $coupon->id])
@@ -76,7 +76,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $coupon = Coupon::factory()->create();
         Livewire::test(ListCoupons::class)->callTableAction('delete', $coupon);
@@ -84,7 +84,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_discount_type(): void
+    public function it_can_filter_by_discount_type(): void
     {
         $percentage = Coupon::factory()->create(['discount_type' => 'percentage']);
         $fixed = Coupon::factory()->create(['discount_type' => 'fixed_amount']);
@@ -96,7 +96,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_is_active(): void
+    public function it_can_filter_by_is_active(): void
     {
         $active = Coupon::factory()->create(['is_active' => true]);
         $inactive = Coupon::factory()->create(['is_active' => false]);
@@ -108,7 +108,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create coupons with different attributes for sorting
         $couponA = Coupon::factory()->create([
@@ -147,7 +147,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $coupon1 = Coupon::factory()->create(['coupon_code' => 'BULK001']);
         $coupon2 = Coupon::factory()->create(['coupon_code' => 'BULK002']);
@@ -167,7 +167,7 @@ class CouponResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListCoupons::class)
             ->assertTableColumnExists('coupon_name')

@@ -33,20 +33,20 @@ class TaggedResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListTagged::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $tagged = Tagged::factory()->count(3)->create();
         Livewire::test(ListTagged::class)->assertCanSeeTableRecords($tagged);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $content = Content::factory()->create();
         $tag = Tag::factory()->create();
@@ -64,7 +64,7 @@ class TaggedResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $tagged = Tagged::factory()->create();
         Livewire::test(ListTagged::class)->callTableAction('delete', $tagged);

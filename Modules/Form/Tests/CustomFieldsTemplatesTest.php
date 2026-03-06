@@ -2,6 +2,8 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class CustomFieldsTemplatesTest extends TestCase
@@ -23,8 +25,9 @@ class CustomFieldsTemplatesTest extends TestCase
         app()->database_manager->extended_save_set_permission(true);
     }
 
-    public function testCustomTemplate()
-    {
+    #[Test]
+
+    public function it_custom_template(): void {
 
         app()->content_manager->define_constants(['active_site_template' => $this->template_name]);
 
@@ -109,8 +112,9 @@ class CustomFieldsTemplatesTest extends TestCase
 
     }
 
-    public function testBootstrapTempalte()
-    {
+    #[Test]
+
+    public function it_bootstrap_tempalte(): void {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
@@ -164,8 +168,9 @@ class CustomFieldsTemplatesTest extends TestCase
         }
     }
 
-    public function testBootstrapNewTempalte()
-    {
+    #[Test]
+
+    public function it_bootstrap_new_tempalte(): void {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
@@ -214,8 +219,9 @@ class CustomFieldsTemplatesTest extends TestCase
         }
     }
 
-    public function testMwUiTempalte()
-    {
+    #[Test]
+
+    public function it_mw_ui_tempalte(): void {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';

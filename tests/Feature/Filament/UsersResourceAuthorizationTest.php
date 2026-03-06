@@ -32,7 +32,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that regular users cannot list other users.
      */
     #[Test]
-    public function test_non_admin_cannot_list_users(): void
+    public function it_non_admin_cannot_list_users(): void
     {
         // Arrange: Create non-admin user
         $this->actingAsUser();
@@ -53,7 +53,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that regular users cannot edit other users.
      */
     #[Test]
-    public function test_non_admin_cannot_edit_other_users(): void
+    public function it_non_admin_cannot_edit_other_users(): void
     {
         // Arrange: Create non-admin user and another user
         $user = $this->actingAsUser();
@@ -75,7 +75,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that admin users can list all users.
      */
     #[Test]
-    public function test_admin_can_list_all_users(): void
+    public function it_admin_can_list_all_users(): void
     {
         // Arrange: Create admin and some users
         $this->actingAsAdmin();
@@ -93,7 +93,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that admin users can edit any user.
      */
     #[Test]
-    public function test_admin_can_edit_any_user(): void
+    public function it_admin_can_edit_any_user(): void
     {
         // Arrange: Create admin and another user
         $this->actingAsAdmin();
@@ -112,7 +112,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that guests cannot access user management.
      */
     #[Test]
-    public function test_guest_cannot_access_user_management(): void
+    public function it_guest_cannot_access_user_management(): void
     {
         // Arrange: Ensure guest
         $this->assertGuest();
@@ -128,7 +128,7 @@ class UsersResourceAuthorizationTest extends AuthorizationTest
      * Test that canAccessPanel returns correct values.
      */
     #[Test]
-    public function test_user_canAccessPanel_behavior(): void
+    public function it_user_canaccesspanel_behavior(): void
     {
         // Arrange
         $panel = Filament::getPanel('admin');

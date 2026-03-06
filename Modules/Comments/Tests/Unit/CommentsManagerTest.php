@@ -23,8 +23,7 @@ class CommentsManagerTest extends TestCase
     }
 
     #[Test]
-    public function testCreateComment()
-    {
+    public function it_createcomment(): void {
         $content = Content::create([
             'title' => 'Test Content',
             'content_type' => 'page'
@@ -57,8 +56,7 @@ class CommentsManagerTest extends TestCase
     }
 
     #[Test]
-    public function testGetCommentsForContent()
-    {
+    public function it_getcommentsforcontent(): void {
         $content = Content::create([
             'title' => 'Test Content',
             'content_type' => 'page'

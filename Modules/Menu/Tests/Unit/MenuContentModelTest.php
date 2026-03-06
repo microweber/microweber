@@ -3,6 +3,8 @@
 
 namespace Modules\Menu\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
@@ -11,8 +13,10 @@ class MenuContentModelTest extends TestCase
 {
 
 
-    public function testIfContentModelIsAttachedToMenu()
-    {
+    #[Test]
+
+
+    public function it_if_content_model_is_attached_to_menu(): void {
 
         $menu = new Menu();
         $menu->title = 'test menu';
@@ -30,8 +34,10 @@ class MenuContentModelTest extends TestCase
     }
 
 
-    public function testIfMenuIdsAttrbuteIsSavedFromSetMenuIdsMethod()
-    {
+    #[Test]
+
+
+    public function it_if_menu_ids_attrbute_is_saved_from_set_menu_ids_method(): void {
 
         $menu = new Menu();
         $menu->title = 'test menu';

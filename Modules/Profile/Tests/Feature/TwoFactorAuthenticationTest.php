@@ -26,8 +26,7 @@ class TwoFactorAuthenticationTest extends TestCase
     }
 
     #[Test]
-    public function test_two_factor_setup_flow()
-    {
+    public function it_two_factor_setup_flow(): void {
         $user = $this->createUser();
         $this->actingAs($user);
 
@@ -56,8 +55,7 @@ class TwoFactorAuthenticationTest extends TestCase
     }
     /*
         #[Test]
-        public function test_two_factor_recovery_codes()
-        {
+    public function it_two_factor_recovery_codes(): void {
             $user = $this->createUser();
             $this->actingAs($user);
 
@@ -79,8 +77,7 @@ class TwoFactorAuthenticationTest extends TestCase
         }
 
         #[Test]
-        public function test_two_factor_disable_flow()
-        {
+    public function it_two_factor_disable_flow(): void {
             $user = $this->createUser();
             $this->actingAs($user);
 

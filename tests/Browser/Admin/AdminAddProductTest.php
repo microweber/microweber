@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Content\Tests\Unit\TestHelpers;
 use Modules\Product\Models\Product;
@@ -18,8 +20,9 @@ class AdminAddProductTest extends DuskTestCase
 
     use TestHelpers;
 
-    public function testAddProduct()
-    {
+    #[Test]
+
+    public function it_add_product(): void {
 
         $title='Shop '.uniqid();
         $pageId = $this->_generateShopPage($title, $title);

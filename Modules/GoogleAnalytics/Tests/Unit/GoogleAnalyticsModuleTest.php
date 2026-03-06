@@ -2,6 +2,8 @@
 
 namespace Modules\GoogleAnalytics\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule;
 use Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs;
@@ -12,8 +14,9 @@ class GoogleAnalyticsModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_tracking_code_is_not_rendered_when_disabled()
-    {
+    #[Test]
+
+    public function it_tracking_code_is_not_rendered_when_disabled(): void {
         // Arrange
         save_option('google-measurement-enabled', 'n', 'website');
         $checkOption = get_option('google-measurement-enabled', 'website');
@@ -26,8 +29,9 @@ class GoogleAnalyticsModuleTest extends TestCase
         $this->assertEmpty($output);
     }
 
-    public function test_tracking_code_is_rendered_when_enabled()
-    {
+    #[Test]
+
+    public function it_tracking_code_is_rendered_when_enabled(): void {
         // Arrange
         save_option('google-measurement-enabled', 'y', 'website');
         save_option('google-measurement-id', 'G-TEST123', 'website');
@@ -44,8 +48,9 @@ class GoogleAnalyticsModuleTest extends TestCase
         $this->assertStringContainsString('googletagmanager.com/gtag/js', $output);
     }
 
-    public function test_events_are_converted_correctly()
-    {
+    #[Test]
+
+    public function it_events_are_converted_correctly(): void {
         // Arrange
         save_option('google-measurement-enabled', 'y', 'website');
         save_option('google-measurement-id', 'G-TEST123', 'website');
@@ -67,8 +72,9 @@ class GoogleAnalyticsModuleTest extends TestCase
         $this->assertEquals(1, $freshEvent->is_sent, 'Event should be marked as sent (1)');
     }
 
-    public function test_enhanced_conversions_are_handled_correctly()
-    {
+    #[Test]
+
+    public function it_enhanced_conversions_are_handled_correctly(): void {
         // Arrange
         save_option('google-measurement-enabled', 'y', 'website');
         save_option('google-enhanced-conversions-enabled', 'y', 'website');

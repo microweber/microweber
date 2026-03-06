@@ -2,6 +2,8 @@
 
 namespace Modules\SiteStats\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -14,8 +16,10 @@ class StatsControllerTest extends TestCase
 {
 
 
-    public function testPingStatsTracksValidRequest()
-    {
+    #[Test]
+
+
+    public function it_ping_stats_tracks_valid_request(): void {
    Event::fake();
 
         $response = $this->post('api/pingstats', [], [
@@ -36,8 +40,9 @@ class StatsControllerTest extends TestCase
         Event::assertDispatched(PingStatsEvent::class);
     }
 
-    public function testPingStatsSetsUtmCookies()
-    {
+    #[Test]
+
+    public function it_ping_stats_sets_utm_cookies(): void {
         $utmParams = [
             'utm_source' => 'test_source',
             'utm_medium' => 'test_medium',
@@ -69,8 +74,9 @@ class StatsControllerTest extends TestCase
         }
     }
 
-    public function testPingStatsSetsVisitorDataCookie()
-    {
+    #[Test]
+
+    public function it_ping_stats_sets_visitor_data_cookie(): void {
 
 
         $response = $this->postJson('api/pingstats', [], [
@@ -94,8 +100,9 @@ class StatsControllerTest extends TestCase
         $this->assertTrue($cookieExists || isset($_COOKIE['_mw_stats_visitor_data']));
     }
 
-    public function testPingStatsResponseHeaders()
-    {
+    #[Test]
+
+    public function it_ping_stats_response_headers(): void {
 
 
         $response = $this->postJson('api/pingstats', [], [
@@ -116,8 +123,9 @@ class StatsControllerTest extends TestCase
 
     }
 
-    public function testPingStatsHandlesBufferedTracking()
-    {
+    #[Test]
+
+    public function it_ping_stats_handles_buffered_tracking(): void {
 
 
         // Mock the get_option helper

@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Modules\Content\Tests\Unit\TestHelpers;
@@ -17,8 +19,10 @@ class MetaTagsFrontendTest extends DuskTestCase
     use TestHelpers;
 
 
-    public function testCustomHeadTagsDisplayedInFrontend()
-    {
+    #[Test]
+
+
+    public function it_custom_head_tags_displayed_in_frontend(): void {
         if (app()->environment() !== 'testing') {
             $this->markTestSkipped('This test can be run only in testing environment');
             return;

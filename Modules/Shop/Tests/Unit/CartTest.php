@@ -2,6 +2,8 @@
 
 namespace Modules\Shop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Payment\Models\PaymentProvider;
 
@@ -24,8 +26,9 @@ class CartTest extends TestCase
         return save_content($params);
     }
 
-    public function testAddToCart()
-    {
+    #[Test]
+
+    public function it_add_to_cart(): void {
         empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
@@ -56,8 +59,9 @@ class CartTest extends TestCase
         $this->assertEquals($cart_items[0]['qty'], 2);
     }
 
-    public function testAddToCartNotAProduct()
-    {
+    #[Test]
+
+    public function it_add_to_cart_not_a_product(): void {
         app()->database_manager->extended_save_set_permission(true);
 
         $params = array(
@@ -79,8 +83,9 @@ class CartTest extends TestCase
         $this->assertEquals(isset($cart_add['error']), true);
     }
 
-    public function testGetCart()
-    {
+    #[Test]
+
+    public function it_get_cart(): void {
         empty_cart();
         $saved_id = $this->_createProduct(350);
 
@@ -96,8 +101,9 @@ class CartTest extends TestCase
         $this->assertEquals(!empty($cart_items), true);
     }
 
-    public function testSumCart()
-    {
+    #[Test]
+
+    public function it_sum_cart(): void {
         empty_cart();
         $saved_id = $this->_createProduct(30);
 
@@ -116,8 +122,9 @@ class CartTest extends TestCase
         $this->assertEquals(!empty($cart_items), true);
     }
 
-    public function testPaymentMethodsGet()
-    {
+    #[Test]
+
+    public function it_payment_methods_get(): void {
         $provider = PaymentProvider::where('provider', 'paypal')->where('name', 'Test Provider')->first();
         if (!$provider) {
             $provider = PaymentProvider::create([

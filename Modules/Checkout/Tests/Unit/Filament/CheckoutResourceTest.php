@@ -30,13 +30,13 @@ class CheckoutResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_checkout_page_loads_without_errors(): void
+    public function it_checkout_page_loads_without_errors(): void
     {
         Livewire::test(CheckoutPage::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_form_contains_personal_info_section(): void
+    public function it_form_contains_personal_info_section(): void
     {
         Livewire::test(CheckoutPage::class)
             ->assertSuccessful()
@@ -44,21 +44,21 @@ class CheckoutResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_form_contains_shipping_address_section(): void
+    public function it_form_contains_shipping_address_section(): void
     {
         Livewire::test(CheckoutPage::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_form_contains_payment_method_section(): void
+    public function it_form_contains_payment_method_section(): void
     {
         Livewire::test(CheckoutPage::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = CheckoutResource::getPages();
         $this->assertArrayHasKey('index', $pages);

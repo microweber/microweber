@@ -2,14 +2,17 @@
 
 namespace Modules\Cart\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class CartTest extends TestCase
 {
     public static $content_id = 1;
 
-    public function testAddToCart()
-    {
+    #[Test]
+
+    public function it_add_to_cart(): void {
         empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
@@ -54,8 +57,9 @@ class CartTest extends TestCase
 
     }
 
-    public function testAddToCartNotAProduct()
-    {
+    #[Test]
+
+    public function it_add_to_cart_not_a_product(): void {
         //  empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
@@ -81,8 +85,9 @@ class CartTest extends TestCase
 
     }
 
-    public function testGetCart()
-    {
+    #[Test]
+
+    public function it_get_cart(): void {
         empty_cart();
         $add_to_cart = array(
             'content_id' => self::$content_id,
@@ -96,8 +101,9 @@ class CartTest extends TestCase
         $this->assertEquals(!empty($cart_items), true);
     }
 
-    public function testSumCart()
-    {
+    #[Test]
+
+    public function it_sum_cart(): void {
         empty_cart();
         $add_to_cart = array(
             'content_id' => self::$content_id,

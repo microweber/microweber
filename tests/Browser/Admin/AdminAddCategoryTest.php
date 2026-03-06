@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Category\Models\Category;
 use Modules\Content\Tests\Unit\TestHelpers;
@@ -16,8 +18,9 @@ class AdminAddCategoryTest extends DuskTestCase
 
     use TestHelpers;
 
-    public function testAddCategory()
-    {
+    #[Test]
+
+    public function it_add_category(): void {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
         $environment = app()->environment();

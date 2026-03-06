@@ -2,6 +2,8 @@
 
 namespace Modules\Coupons\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
@@ -29,8 +31,9 @@ class CouponApplyTest extends TestCase
         DB::table('cart_coupon_logs')->truncate();
     }
 
-    public function testValidCouponCode()
-    {
+    #[Test]
+
+    public function it_valid_coupon_code(): void {
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
             'coupon_code' => $code,
@@ -93,8 +96,10 @@ class CouponApplyTest extends TestCase
     }
 
 
-    public function testValidCouponCodeWithTooBigDiscount()
-    {
+    #[Test]
+
+
+    public function it_valid_coupon_code_with_too_big_discount(): void {
 
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
@@ -155,8 +160,10 @@ class CouponApplyTest extends TestCase
     }
 
 
-    public function testValidCouponCodeWithPercent()
-    {
+    #[Test]
+
+
+    public function it_valid_coupon_code_with_percent(): void {
 
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
@@ -211,8 +218,9 @@ class CouponApplyTest extends TestCase
 
     }
 
-    public function testValidCouponCodeWithPercentTooBig()
-    {
+    #[Test]
+
+    public function it_valid_coupon_code_with_percent_too_big(): void {
         empty_cart();
         CartCouponLog::truncate();
         save_option('enable_coupons', 1, 'shop');
@@ -268,8 +276,9 @@ class CouponApplyTest extends TestCase
 
     }
 
-    public function testInvalidCouponCode()
-    {
+    #[Test]
+
+    public function it_invalid_coupon_code(): void {
 
         $params = [
             'coupon_code' => 'INVALID_COUPON_CODE',
@@ -281,8 +290,9 @@ class CouponApplyTest extends TestCase
         $this->assertArrayHasKey('error', $result);
     }
 
-    public function testDisabledCouponUsage()
-    {
+    #[Test]
+
+    public function it_disabled_coupon_usage(): void {
         save_option('enable_coupons', 0, 'shop');
         $params = [
             'coupon_code' => 'VALID_COUPON_CODE',

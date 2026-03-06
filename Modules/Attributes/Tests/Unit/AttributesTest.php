@@ -2,6 +2,8 @@
 
 namespace Modules\Attributes\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Modules\Attributes\Models\Attribute;
 use Modules\Attributes\Concerns\HasAttributes;
 use Tests\TestCase;
@@ -27,8 +29,9 @@ class AttributesTest extends TestCase
         };
     }
 
-    public function testSetAttribute()
-    {
+    #[Test]
+
+    public function it_set_attribute(): void {
         $this->testModel->setAttribute('color', 'blue');
 
         $attribute = Attribute::where('rel_type', get_class($this->testModel))
@@ -40,8 +43,9 @@ class AttributesTest extends TestCase
         $this->assertEquals('blue', $attribute->attribute_value);
     }
 
-    public function testGetAttribute()
-    {
+    #[Test]
+
+    public function it_get_attribute(): void {
         $this->testModel->setAttribute('size', 'large');
 
         $value = $this->testModel->getAttribute('size');
@@ -49,8 +53,9 @@ class AttributesTest extends TestCase
         $this->assertEquals('large', $value);
     }
 
-    public function testGetAttributesList()
-    {
+    #[Test]
+
+    public function it_get_attributes_list(): void {
         $this->testModel->setAttribute('height', 'tall');
         $this->testModel->setAttribute('width', 'wide');
 

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Microweber\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Tests\Unit\TestHelpers;
 
@@ -13,8 +15,9 @@ class ManagesContentTest extends TestCase
 
     use TestHelpers;
 
-    public function testContentGetById()
-    {
+    #[Test]
+
+    public function it_content_get_by_id(): void {
         $title = 'testContentGetById' . uniqid();
         $url = 'testContentGetById' . uniqid();
         $url = str_slug($url);
@@ -29,8 +32,10 @@ class ManagesContentTest extends TestCase
     }
 
 
-    public function testContentGet()
-    {
+    #[Test]
+
+
+    public function it_content_get(): void {
         $params = ['limit' => 5];
 
 
@@ -47,8 +52,9 @@ class ManagesContentTest extends TestCase
         $this->assertCount(5, $get);
     }
 
-    public function testContentGetByURL()
-    {
+    #[Test]
+
+    public function it_content_get_by_u_r_l(): void {
         $url = 'test-url' . uniqid();
         $title = 'Test Title' . uniqid();
         $pageId = $this->_generatePage($url, $title);
@@ -59,8 +65,9 @@ class ManagesContentTest extends TestCase
         $this->assertEquals($url, $get['url']);
     }
 
-    public function testContentGetByTitle()
-    {
+    #[Test]
+
+    public function it_content_get_by_title(): void {
         $url = 'test-url' . uniqid();
         $title = 'Test Title' . uniqid();
         $pageId = $this->_generatePage($url, $title);
@@ -70,8 +77,9 @@ class ManagesContentTest extends TestCase
         $this->assertEquals($title, $get['title']);
     }
 
-    public function testContentSave()
-    {
+    #[Test]
+
+    public function it_content_save(): void {
 
 
         $data = ['title' => 'Test Title' . uniqid(), 'url' => 'test-url' . uniqid(), 'content_type' => 'page', 'subtype' => 'dynamic', 'is_active' => 1];
@@ -83,8 +91,9 @@ class ManagesContentTest extends TestCase
         $this->assertEquals($data['url'], $save['url']);
     }
 
-    public function testContentUnpublish()
-    {
+    #[Test]
+
+    public function it_content_unpublish(): void {
         $url = 'test-url' . uniqid();
         $title = 'Test Title' . uniqid();
         $pageId = $this->_generatePage($url, $title);
@@ -93,8 +102,9 @@ class ManagesContentTest extends TestCase
         $this->assertEquals($pageId,$unpublish);
     }
 
-    public function testContentPublish()
-    {
+    #[Test]
+
+    public function it_content_publish(): void {
         $url = 'test-url' . uniqid();
         $title = 'Test Title' . uniqid();
         $pageId = $this->_generatePage($url, $title);

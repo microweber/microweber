@@ -2,6 +2,8 @@
 
 namespace Modules\Log\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 
 class LogTest extends TestCase
@@ -21,8 +23,9 @@ class LogTest extends TestCase
         );
     }
 
-    public function testLogWrite()
-    {
+    #[Test]
+
+    public function it_log_write(): void {
         $this->set_values();
         $data = array();
         $data['value'] = $this->value;
@@ -33,8 +36,9 @@ class LogTest extends TestCase
         $this->assertEquals(true, $save > 0);
     }
 
-    public function testLogRead()
-    {
+    #[Test]
+
+    public function it_log_read(): void {
         $this->set_values();
         app()->log_manager->save($this->data);
 
@@ -47,8 +51,9 @@ class LogTest extends TestCase
         }
     }
 
-    public function testDelete()
-    {
+    #[Test]
+
+    public function it_delete(): void {
         $this->set_values();
         app()->log_manager->save($this->data);
 

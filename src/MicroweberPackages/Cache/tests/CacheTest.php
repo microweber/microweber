@@ -1,11 +1,14 @@
 <?php
 
+
+
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Cache;
 
 class CacheTest extends \MicroweberPackages\Core\tests\TestCase
 {
-    public function testCache()
-    {
+    #[Test]
+    public function it_cache(): void {
         $tags = array('phpunit', 'phpunit_second_tag');
 
         $now = date('Ymdhis');

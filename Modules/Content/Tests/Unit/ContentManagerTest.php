@@ -1,13 +1,15 @@
 <?php
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
 
 class ContentManagerTest extends TestCase
 {
-    public function testPosts()
-    {
+    #[Test]
+    public function it_posts(): void {
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
@@ -33,8 +35,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($get_post));
     }
 
-    public function testPages()
-    {
+    #[Test]
+
+    public function it_pages(): void {
         $clean = Content::truncate();
 
         $params = array(
@@ -157,8 +160,9 @@ class ContentManagerTest extends TestCase
 
     }
 
-    public function testGetPages()
-    {
+    #[Test]
+
+    public function it_get_pages(): void {
         $params = array(
             'title' => 'My test page is here',
             'content_type' => 'page',
@@ -187,8 +191,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testGetProducts()
-    {
+    #[Test]
+
+    public function it_get_products(): void {
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'product',
@@ -219,8 +224,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testGetPosts()
-    {
+    #[Test]
+
+    public function it_get_posts(): void {
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'post',
@@ -250,8 +256,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testContentCategories()
-    {
+    #[Test]
+
+    public function it_content_categories(): void {
         app()->database_manager->extended_save_set_permission(true);
 
 
@@ -299,8 +306,10 @@ class ContentManagerTest extends TestCase
     }
 
 
-    public function testContentCategories2()
-    {
+    #[Test]
+
+
+    public function it_content_categories2(): void {
         app()->database_manager->extended_save_set_permission(true);
 
         $params = array(
@@ -344,8 +353,11 @@ class ContentManagerTest extends TestCase
 
 
 
-    public function testNextPrev()
-    {
+    #[Test]
+
+
+
+    public function it_next_prev(): void {
 
         $clean = Content::truncate();
 
@@ -379,8 +391,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($next));
     }
 
-    public function testCrudFilter()
-    {
+    #[Test]
+
+    public function it_crud_filter(): void {
         $phpunit = $this;
         $params = array(
             'title' => 'Test override',
@@ -424,8 +437,9 @@ class ContentManagerTest extends TestCase
         $this->assertEquals($saved_id, $cont['id']);
     }
 
-    public function testContentSearch()
-    {
+    #[Test]
+
+    public function it_content_search(): void {
         $title = 'Search By title '. uniqid('kw');
         app()->database_manager->extended_save_set_permission(true);
         $params = array(
@@ -443,8 +457,9 @@ class ContentManagerTest extends TestCase
 
     }
 
-    public function testContentLimitPaging()
-    {
+    #[Test]
+
+    public function it_content_limit_paging(): void {
 
         $title = 'New '. uniqid('New');
         app()->database_manager->extended_save_set_permission(true);
@@ -483,15 +498,16 @@ class ContentManagerTest extends TestCase
 
     }
 
-    public function testContentOrderBy()
-    {
+    #[Test]
+
+    public function it_content_order_by(): void {
         $get = get_content('limit=1&order_by=id desc');
         $get2 = get_content('limit=1');
         $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
 
     }
-    public function testContentGroupBy()
-    {
+    #[Test]
+    public function it_content_group_by(): void {
         $title = 'New '. uniqid('ParentGroupBy');
         $parent = rand(1000,9999);
         app()->database_manager->extended_save_set_permission(true);
@@ -510,8 +526,9 @@ class ContentManagerTest extends TestCase
 
     }
 
-    public function testContentSaveItselfAsParent()
-    {
+    #[Test]
+
+    public function it_content_save_itself_as_parent(): void {
         $title = 'New ' . uniqid('testContentSaveItselfAsParent');
         app()->database_manager->extended_save_set_permission(true);
         $params = array(

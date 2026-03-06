@@ -2,6 +2,8 @@
 
 namespace Modules\Payment\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Payment\Models\PaymentProvider;
@@ -13,8 +15,10 @@ class PaymentProviderResourceTest extends TestCase
 {
 
 
-    public function testPaymentProviderResourcePaypal()
-    {
+    #[Test]
+
+
+    public function it_payment_provider_resource_paypal(): void {
         PaymentProvider::where('name', 'Paypal')->delete();
         // Test form rendering
         Livewire::test(CreatePaymentProvider::class)
@@ -44,8 +48,10 @@ class PaymentProviderResourceTest extends TestCase
     }
 
 
-    public function testPaymentProviderResourceStripe()
-    {
+    #[Test]
+
+
+    public function it_payment_provider_resource_stripe(): void {
         PaymentProvider::where('name', 'Stripe Provider')->delete();
         // Test form rendering
         Livewire::test(CreatePaymentProvider::class)

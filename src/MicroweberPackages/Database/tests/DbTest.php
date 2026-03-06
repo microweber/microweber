@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Database\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
@@ -36,8 +38,9 @@ class DbTest extends TestCase
         $this->content5 = db_save('content', $this->save_post);
     }
 
-    public function testDbSaveJsonFieldCustomFieldValue()
-    {
+    #[Test]
+
+    public function it_db_save_json_field_custom_field_value(): void {
 
         $customFieldValueId = db_save('custom_fields_values', [
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
@@ -51,8 +54,9 @@ class DbTest extends TestCase
         $this->assertEquals($findCustomFieldValue->value, json_encode(['test' => 'test']));
     }
 
-    public function testDbSaveJsonFieldOption()
-    {
+    #[Test]
+
+    public function it_db_save_json_field_option(): void {
         $option = [
             'option_group' => 'test',
             'option_key' => 'test',
@@ -64,8 +68,9 @@ class DbTest extends TestCase
         $this->assertEquals($findOption->option_value, json_encode(['test' => 'test']));
     }
 
-    public function testSaveIsShop()
-    {
+    #[Test]
+
+    public function it_save_is_shop(): void {
 
         $id = db_save('content', array(
             "content_type" => "page",
@@ -82,8 +87,9 @@ class DbTest extends TestCase
         $this->assertEquals($saved[0]['is_shop'], '1');
     }
 
-    public function testSimpleSave()
-    {
+    #[Test]
+
+    public function it_simple_save(): void {
         $save = $this->save;
         $save_post = $this->save_post;
         $content = $this->content;
@@ -106,22 +112,25 @@ class DbTest extends TestCase
         $this->assertTrue($content5 != $content6);
     }
 
-    public function testSimpleGet()
-    {
+    #[Test]
+
+    public function it_simple_get(): void {
         $content = db_get('content', 'limit=2');
         $this->assertTrue(!empty($content));
         $this->assertEquals(2, count($content));
     }
 
-    public function testSimpleCount()
-    {
+    #[Test]
+
+    public function it_simple_count(): void {
         $content_count = db_get('content', 'count=true');
         $this->assertTrue($content_count > 0);
         $this->assertTrue(is_int($content_count));
     }
 
-    public function testPageCount()
-    {
+    #[Test]
+
+    public function it_page_count(): void {
         $content_count = db_get('content', 'count=true');
         $pages_count = db_get('content', 'limit=2&count_paging=1');
 
@@ -129,8 +138,9 @@ class DbTest extends TestCase
         $this->assertEquals($pages_count, $must_be);
     }
 
-    public function testOrderBy()
-    {
+    #[Test]
+
+    public function it_order_by(): void {
         $content = db_get('content', 'limit=1&single=1&order_by=id desc');
         $content2 = db_get('content', 'limit=1&single=1&order_by=id asc');
 
@@ -140,8 +150,9 @@ class DbTest extends TestCase
         $this->assertTrue(($content['id'] > $content2['id']));
     }
 
-    public function testLimitAndPaging()
-    {
+    #[Test]
+
+    public function it_limit_and_paging(): void {
         $add_page = db_save('content', $this->save);
         $add_page = db_save('content', $this->save);
         $add_page = db_save('content', $this->save);
@@ -172,8 +183,9 @@ class DbTest extends TestCase
         // @todo: fix  the count_paging param to return integer    $this->assertTrue(is_int($pages_count));
     }
 
-    public function testIncludeExcludeIds()
-    {
+    #[Test]
+
+    public function it_include_exclude_ids(): void {
         $content = db_get('content', 'limit=10');
         $this->assertTrue(is_array($content));
         $some_ids = array();
@@ -200,8 +212,9 @@ class DbTest extends TestCase
         $this->assertTrue(is_array($content_ids));
     }
 
-    public function testMinMaxAvg()
-    {
+    #[Test]
+
+    public function it_min_max_avg(): void {
         $content = db_get('content', 'content_type=page&min=id');
         $content_max = db_get('content', 'content_type=page&max=id');
         $content_avg = db_get('content', 'content_type=page&avg=id');
@@ -217,8 +230,9 @@ class DbTest extends TestCase
         $this->assertTrue(($content <= $content_avg), "Content: " . $content . ", Content_avg: " . $content_avg);
     }
 
-    public function testShorthandFilters()
-    {
+    #[Test]
+
+    public function it_shorthand_filters(): void {
         $content = db_get('content', 'limit=1&content_type=[eq]page');
         foreach ($content as $item) {
             $this->assertTrue(($item['content_type'] == 'page'));
@@ -238,8 +252,9 @@ class DbTest extends TestCase
         }
     }
 
-    public function testSelectOnlyFields()
-    {
+    #[Test]
+
+    public function it_select_only_fields(): void {
         $content = db_get('content', 'limit=2&fields=id,position&order_by=id desc');
 
         foreach ($content as $item) {
@@ -249,8 +264,9 @@ class DbTest extends TestCase
         }
     }
 
-    public function testGetFields()
-    {
+    #[Test]
+
+    public function it_get_fields(): void {
         $table = 'content';
         $tableFields = app()->database_manager->get_fields($table, false, true);
 

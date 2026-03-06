@@ -3,6 +3,8 @@
 
 namespace Modules\Product\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Modules\Cart\Models\Cart;
 use Modules\CustomFields\Models\CustomField;
@@ -24,8 +26,9 @@ class ProductFilterTest extends TestCase
         $clean = CustomFieldValue::truncate();
     }
 
-    public function testProductFilter()
-    {
+    #[Test]
+
+    public function it_product_filter(): void {
 
         $this->cleanUp();
 
@@ -168,8 +171,9 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct3->id, $results[0]->id);
     }
 
-    public function testProductFilterBySalesCount()
-    {
+    #[Test]
+
+    public function it_product_filter_by_sales_count(): void {
         $this->cleanUp();
 
 

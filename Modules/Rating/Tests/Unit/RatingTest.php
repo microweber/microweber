@@ -2,14 +2,16 @@
 
 namespace Modules\Rating\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Modules\Content\Models\Content;
 use Modules\Rating\Models\Rating;
 use MicroweberPackages\Core\tests\TestCase ;
 
 class RatingTest extends TestCase
 {
-    public function testAddRatingToContent()
-    {
+    #[Test]
+    public function it_add_rating_to_content(): void {
 
         //cleanup
         Rating::where('rel_type', morph_name(\Modules\Content\Models\Content::class))->delete();
@@ -42,8 +44,9 @@ class RatingTest extends TestCase
         $this->assertEquals($rating->id, $savedRating->id);
     }
 
-    public function testUpdateRating()
-    {
+    #[Test]
+
+    public function it_update_rating(): void {
         //cleanup
 
 
@@ -68,8 +71,9 @@ class RatingTest extends TestCase
         $this->assertEquals('Updated comment', $updatedRating->comment);
     }
 
-    public function testDeleteRating()
-    {
+    #[Test]
+
+    public function it_delete_rating(): void {
         // Create a rating
         $rating = new Rating();
         $rating->rel_type = morph_name(\Modules\Content\Models\Content::class);
@@ -88,8 +92,9 @@ class RatingTest extends TestCase
         $this->assertNull($deletedRating);
     }
 
-    public function testAverageRating()
-    {
+    #[Test]
+
+    public function it_average_rating(): void {
         // Create a test content
         $content = new Content();
         $content->title = 'Test Product';
@@ -120,8 +125,10 @@ class RatingTest extends TestCase
     }
 
 
-    public function testRatingCaching()
-    {
+    #[Test]
+
+
+    public function it_rating_caching(): void {
         $content = new Content();
         $content->title = 'Cache Test Article';
         $content->save();

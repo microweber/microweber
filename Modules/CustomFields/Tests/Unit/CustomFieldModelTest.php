@@ -2,14 +2,16 @@
 
 namespace Modules\CustomFields\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\CustomFields\Models\CustomField;
 use Modules\Product\Models\Product;
 
 class CustomFieldModelTest extends TestCase
 {
-    public function testAddCustomFieldToModel()
-    {
+    #[Test]
+    public function it_add_custom_field_to_model(): void {
         Product::where('title', 'Samo Levski3')->delete();
         CustomField::truncate();
 
@@ -40,8 +42,9 @@ class CustomFieldModelTest extends TestCase
         $this->assertEquals($newProduct->customField[1]->name, 'цена 2');
     }
 
-    public function testSetCustomFieldToModel()
-    {
+    #[Test]
+
+    public function it_set_custom_field_to_model(): void {
         $newProduct = new Product();
         $newProduct->title = 'Samo Levski2';
 
@@ -59,8 +62,9 @@ class CustomFieldModelTest extends TestCase
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
     }
 
-    public function testCustomFieldModelValueAttribute()
-    {
+    #[Test]
+
+    public function it_custom_field_model_value_attribute(): void {
         $customField = new CustomField();
         $customField->type = 'text';
         $customField->name = 'Test Text Field';
@@ -73,8 +77,9 @@ class CustomFieldModelTest extends TestCase
 
     }
 
-    public function testCustomFieldModelValuesAttribute()
-    {
+    #[Test]
+
+    public function it_custom_field_model_values_attribute(): void {
         $customField = new CustomField();
         $customField->type = 'dropdown';
         $customField->name = 'Test dropdown Field';
@@ -92,8 +97,9 @@ class CustomFieldModelTest extends TestCase
 
     }
 
-    public function testGetCustomFieldModel()
-    {
+    #[Test]
+
+    public function it_get_custom_field_model(): void {
         $title = 'Samo Levski3' . uniqid();
 
         $newProduct = new Product();

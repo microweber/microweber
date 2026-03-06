@@ -2,6 +2,8 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
@@ -11,8 +13,8 @@ use Modules\Page\Models\Page;
 
 class ContentApiControllerLiveEditSaveTest extends TestCase
 {
-    public function testSaveContentOnPageLiveEditSingle()
-    {
+    #[Test]
+    public function it_save_content_on_page_live_edit_single(): void {
         $this->cleanupAndPrepare();
 
         $unique = uniqid('testSaveContentOnPage');
@@ -111,8 +113,10 @@ HTML;
     }
 
 
-    public function testSaveContentOnPageLiveEditFromBootstrapExamples()
-    {
+    #[Test]
+
+
+    public function it_save_content_on_page_live_edit_from_bootstrap_examples(): void {
         $this->cleanupAndPrepare();
         $unique = uniqid('testSaveContentOnPage');
         $newCleanMlPage = save_content([
@@ -236,8 +240,11 @@ HTML;
 
 
 
-    public function testSaveContentOnPageLiveEditFromOtherExamples()
-    {
+    #[Test]
+
+
+
+    public function it_save_content_on_page_live_edit_from_other_examples(): void {
         $this->cleanupAndPrepare();
 
 

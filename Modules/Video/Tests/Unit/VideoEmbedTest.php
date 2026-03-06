@@ -2,13 +2,15 @@
 
 namespace Modules\Video\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Video\Support\VideoEmbed;
 
 class VideoEmbedTest extends TestCase
 {
-   public function test_youtube_embed()
-   {
+   #[Test]
+   public function it_youtube_embed(): void {
        $embed = new VideoEmbed();
        $embed->setEmbedCode('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
        $embed->setPlayEmbedVideo(true);
@@ -18,8 +20,9 @@ class VideoEmbedTest extends TestCase
        $this->assertStringContainsString('iframe', $result);
    }
 
-   public function test_vimeo_embed()
-   {
+   #[Test]
+
+   public function it_vimeo_embed(): void {
        $embed = new VideoEmbed();
        $embed->setEmbedCode('https://vimeo.com/123456789');
        $embed->setPlayEmbedVideo(true);
@@ -29,8 +32,9 @@ class VideoEmbedTest extends TestCase
        $this->assertStringContainsString('iframe', $result);
    }
 
-   public function test_invalid_url_handling()
-   {
+   #[Test]
+
+   public function it_invalid_url_handling(): void {
        $embed = new VideoEmbed();
        $embed->setEmbedCode('invalid-url');
        $embed->setPlayEmbedVideo(true);
@@ -39,8 +43,9 @@ class VideoEmbedTest extends TestCase
        $this->assertStringContainsString('Can\'t read video from this source url', $result);
    }
 
-   public function test_embed_options()
-   {
+   #[Test]
+
+   public function it_embed_options(): void {
        $embed = new VideoEmbed();
        $embed->setEmbedCode('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
        $embed->setPlayEmbedVideo(true);

@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -13,8 +15,9 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
  class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
 
-    public function testSaveContentOnPage()
-    {
+    #[Test]
+
+    public function it_save_content_on_page(): void {
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
         $params = [

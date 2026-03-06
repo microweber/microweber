@@ -33,27 +33,27 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListTags::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $tags = Tag::factory()->count(3)->create();
         Livewire::test(ListTags::class)->assertCanSeeTableRecords($tags);
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Tag::factory()->count(15)->create();
         Livewire::test(ListTags::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $tag = Tag::factory()->create(['name' => 'Test Tag']);
         Livewire::test(ListTags::class)
@@ -62,13 +62,13 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateTag::class)->assertSuccessful()->assertFormExists();
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(CreateTag::class)
             ->fillForm(['name' => ''])
@@ -77,7 +77,7 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateTag::class)
             ->fillForm(['name' => 'New Tag', 'slug' => 'new-tag', 'suggest' => true])
@@ -89,7 +89,7 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $tag = Tag::factory()->create(['name' => 'Edit Tag']);
         Livewire::test(EditTag::class, ['record' => $tag->id])
@@ -98,7 +98,7 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $tag = Tag::factory()->create(['name' => 'Original']);
         Livewire::test(EditTag::class, ['record' => $tag->id])
@@ -111,7 +111,7 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $tag = Tag::factory()->create();
         Livewire::test(ListTags::class)->callTableAction('delete', $tag);
@@ -119,7 +119,7 @@ class TagResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListTags::class)
             ->assertTableColumnExists('name')

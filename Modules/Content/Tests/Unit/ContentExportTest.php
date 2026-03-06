@@ -1,14 +1,17 @@
 <?php
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Misc\ContentExport;
 
 class ContentExportTest extends TestCase
 {
 
-	public function testExport()
-	{
+	#[Test]
+
+	public function it_export(): void {
 		$export = new ContentExport();
 		$export->setExportFormatType('json');
 		$exportStatus = $export->start();
@@ -17,8 +20,9 @@ class ContentExportTest extends TestCase
 		$this->assertArrayHasKey('success', $exportStatus);
 	}
 
-	public function testExportWithWrongFormat()
-	{
+	#[Test]
+
+	public function it_export_with_wrong_format(): void {
 		$export = new ContentExport();
 		$export->setExportFormatType('xmla');
 		$exportStatus = $export->start();
@@ -26,8 +30,9 @@ class ContentExportTest extends TestCase
 		$this->assertArrayHasKey('error', $exportStatus);
 	}
 
-	public function testExportWithWrongFileDownload()
-	{
+	#[Test]
+
+	public function it_export_with_wrong_file_download(): void {
 		$export = new ContentExport();
 
 		$download = $export->download('wfafwa');

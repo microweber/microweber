@@ -2,6 +2,8 @@
 
 namespace Modules\BeforeAfter\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class BeforeAfterModuleFrontendTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-before_after-id' . uniqid(),
             'before' => 'https://www.example.com/before.jpg',

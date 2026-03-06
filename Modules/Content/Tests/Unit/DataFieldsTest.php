@@ -2,12 +2,14 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class DataFieldsTest extends TestCase
 {
-    public function testSave()
-    {
+    #[Test]
+    public function it_save(): void {
         mw()->database_manager->extended_save_set_permission(true);
         $has_permission = mw()->database_manager->extended_save_has_permission();
         $params = array(
@@ -24,8 +26,9 @@ class DataFieldsTest extends TestCase
         $this->assertEquals(true, $has_permission);
     }
 
-    public function testSaveDataFields()
-    {
+    #[Test]
+
+    public function it_save_data_fields(): void {
         mw()->database_manager->extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();
@@ -45,8 +48,10 @@ class DataFieldsTest extends TestCase
     }
 
 
-    public function testDataFieldsDeletedOnContentDelete()
-    {
+    #[Test]
+
+
+    public function it_data_fields_deleted_on_content_delete(): void {
         mw()->database_manager->extended_save_set_permission(true);
         $val = 'hello there custom 1-'.rand();
         $val2 = 'hello there custom 2-'.rand();

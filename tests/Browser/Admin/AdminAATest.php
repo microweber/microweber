@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Dusk\Browser;
@@ -12,8 +14,9 @@ use Tests\DuskTestCase;
 class AdminAATest extends DuskTestCase
 {
 
-    public function testAdminInstall()
-    {
+    #[Test]
+
+    public function it_admin_install(): void {
         $this->browse(function (Browser $browser)  {
 
             if (!mw_is_installed()) {
@@ -31,8 +34,9 @@ class AdminAATest extends DuskTestCase
 
     }
 
-    public function testAdminInstallAfter()
-    {
+    #[Test]
+
+    public function it_admin_install_after(): void {
         $this->browse(function (Browser $browser)  {
 
             $user = User::where('is_admin', 1)->first();

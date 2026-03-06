@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Module\slow_tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -15,8 +17,10 @@ class ModuleListTest extends TestCase
 {
 
 
-    public function testLoadFromModuleManager()
-    {
+    #[Test]
+
+
+    public function it_load_from_module_manager(): void {
 
         $getModules = app()->module_repository->getAllModules();
 

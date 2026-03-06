@@ -15,7 +15,7 @@ class AudioModuleSettingsFilamentTest extends TestCase
 {
 
     #[Test]
-    public function testAudioModuleSettingsForm(): void
+    public function it_audiomodulesettingsform(): void
     {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'audio';

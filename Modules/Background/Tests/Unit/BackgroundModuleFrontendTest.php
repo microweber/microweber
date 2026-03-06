@@ -2,6 +2,8 @@
 
 namespace Modules\Background\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class BackgroundModuleFrontendTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $params = array(
             'id' => 'test-background-id-testDefaultViewRendering' . uniqid(),
             'data-background-image' => 'https://example.com/background.jpg',
@@ -51,8 +54,9 @@ class BackgroundModuleFrontendTest extends TestCase
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
     }
 
-    public function testDefaultViewRenderingInBlock()
-    {
+    #[Test]
+
+    public function it_default_view_rendering_in_block(): void {
         $params = array(
             'id' => 'test-background-id-testDefaultViewRenderingInBlock' . uniqid(),
             'data-background-image' => 'https://example.com/background.jpg',

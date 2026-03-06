@@ -2,6 +2,8 @@
 
 namespace Modules\RssFeed\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,8 +22,9 @@ class RssControllerTest extends TestCase
         $this->rssController = new RssController();
     }
 
-    public function testIndexReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_index_returns_xml_response(): void {
 
         $request = Request::create('/rss', 'GET', ['format' => 'atom']);
         $response = $this->rssController->index($request);
@@ -33,8 +36,9 @@ class RssControllerTest extends TestCase
 
     }
 
-    public function testPostsReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_posts_returns_xml_response(): void {
         $title  = 'Rss Feed Content' . uniqid();
         $content = [];
         $content['title'] = $title;
@@ -55,8 +59,9 @@ class RssControllerTest extends TestCase
         $this->assertStringContainsString($title, $xml->asXML());
     }
 
-    public function testProductsReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_products_returns_xml_response(): void {
 
         $title  = 'Rss Feed Content' . uniqid();
         $content = [];

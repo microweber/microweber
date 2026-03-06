@@ -33,20 +33,20 @@ class CategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListCategories::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $categories = Category::factory()->count(3)->create();
         Livewire::test(ListCategories::class)->assertCanSeeTableRecords($categories);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateCategory::class)
             ->fillForm([
@@ -62,7 +62,7 @@ class CategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $category = Category::factory()->create(['title' => 'Original']);
         Livewire::test(EditCategory::class, ['record' => $category->id])
@@ -74,7 +74,7 @@ class CategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $category = Category::factory()->create();
         Livewire::test(ListCategories::class)->callTableAction('delete', $category);
@@ -82,7 +82,7 @@ class CategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListCategories::class)
             ->assertTableColumnExists('title')
@@ -90,7 +90,7 @@ class CategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $category = Category::factory()->create(['title' => 'Searchable Category']);
         $results = CategoryResource::getGlobalSearchResults('Searchable');

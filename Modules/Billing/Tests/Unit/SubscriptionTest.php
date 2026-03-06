@@ -130,8 +130,7 @@ class SubscriptionTest extends BillingTestCase
     }
 
     #[Test]
-    public function test_subscription_creation_with_trial()
-    {
+    public function it_subscription_creation_with_trial(): void {
         $user = User::factory()->create();
 
         Customer::where('stripe_id', 'cus_test_trial')->delete();
@@ -172,8 +171,7 @@ class SubscriptionTest extends BillingTestCase
     }
 
     #[Test]
-    public function test_subscription_cancellation_stops_billing()
-    {
+    public function it_subscription_cancellation_stops_billing(): void {
         $user = User::factory()->create();
 
         Customer::where('stripe_id', 'cus_test_cancel')->delete();

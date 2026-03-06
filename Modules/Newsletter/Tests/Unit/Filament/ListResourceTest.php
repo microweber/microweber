@@ -41,14 +41,14 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageLists::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $lists = NewsletterList::factory()->count(3)->create();
 
@@ -57,7 +57,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         NewsletterList::factory()->count(15)->create();
 
@@ -66,7 +66,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $list = NewsletterList::factory()->create([
             'name' => 'Test List Search',
@@ -78,7 +78,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(ManageLists::class)
             ->assertSuccessful()
@@ -86,7 +86,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(ManageLists::class)
             ->fillForm([
@@ -102,7 +102,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $list = NewsletterList::factory()->create([
             'name' => 'Original Name',
@@ -122,7 +122,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $list = NewsletterList::factory()->create();
 
@@ -135,7 +135,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_shows_subscribers_count(): void
+    public function it_table_shows_subscribers_count(): void
     {
         $list = NewsletterList::factory()->create();
         NewsletterSubscriber::factory()->count(5)->create()->each(function ($subscriber) use ($list) {
@@ -148,7 +148,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ManageLists::class)
             ->assertTableColumnExists('name')
@@ -156,21 +156,21 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_action_exists(): void
+    public function it_export_action_exists(): void
     {
         Livewire::test(ManageLists::class)
             ->assertTableHeaderActionExists('export');
     }
 
     #[Test]
-    public function test_bulk_export_action_exists(): void
+    public function it_bulk_export_action_exists(): void
     {
         Livewire::test(ManageLists::class)
             ->assertTableBulkActionExists('export');
     }
 
     #[Test]
-    public function test_bulk_delete_removes_records(): void
+    public function it_bulk_delete_removes_records(): void
     {
         $lists = NewsletterList::factory()->count(3)->create();
 
@@ -186,7 +186,7 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_list_has_subscribers_relationship(): void
+    public function it_list_has_subscribers_relationship(): void
     {
         $list = NewsletterList::factory()->create();
         $subscriber = NewsletterSubscriber::factory()->create();

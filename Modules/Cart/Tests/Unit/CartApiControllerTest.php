@@ -2,6 +2,8 @@
 
 namespace Modules\Cart\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Illuminate\Http\Request;
 use Modules\Cart\Http\Controllers\CartApiController;
@@ -33,8 +35,9 @@ class CartApiControllerTest extends TestCase
         self::$content_id = $saved_id;
     }
 
-    public function testUpdateCart()
-    {
+    #[Test]
+
+    public function it_update_cart(): void {
         empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
@@ -73,8 +76,9 @@ class CartApiControllerTest extends TestCase
         $this->assertEquals($response['product']['custom_fields_data']['color'], 'Red');
     }
 
-    public function testRemoveCartItem()
-    {
+    #[Test]
+
+    public function it_remove_cart_item(): void {
         empty_cart();
 
         // First add an item to cart
@@ -102,8 +106,9 @@ class CartApiControllerTest extends TestCase
         $this->assertTrue(empty($cart_items));
     }
 
-    public function testUpdateCartItemQty()
-    {
+    #[Test]
+
+    public function it_update_cart_item_qty(): void {
         empty_cart();
 
         // First add an item to cart
@@ -131,8 +136,9 @@ class CartApiControllerTest extends TestCase
         $this->assertEquals($cart_items[0]['qty'], 3);
     }
 
-    public function testUpdateCartWithInvalidProduct()
-    {
+    #[Test]
+
+    public function it_update_cart_with_invalid_product(): void {
         empty_cart();
 
         // Test with non-existent product
@@ -149,8 +155,9 @@ class CartApiControllerTest extends TestCase
         $this->assertTrue(isset($response['error']));
     }
 
-    public function testRemoveNonExistentCartItem()
-    {
+    #[Test]
+
+    public function it_remove_non_existent_cart_item(): void {
         empty_cart();
 
         $requestData = [
@@ -165,8 +172,9 @@ class CartApiControllerTest extends TestCase
         $this->assertTrue(isset($response['error']));
     }
 
-    public function testUpdateCartItemWithInvalidQty()
-    {
+    #[Test]
+
+    public function it_update_cart_item_with_invalid_qty(): void {
         empty_cart();
 
         // First add an item to cart

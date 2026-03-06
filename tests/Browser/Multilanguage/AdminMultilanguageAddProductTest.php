@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Multilanguage;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Faker\Factory;
 use Laravel\Dusk\Browser;
 use Modules\Content\Tests\Unit\TestHelpers;
@@ -22,8 +24,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 
     use TestHelpers;
 
-    public function testAddProduct()
-    {
+    #[Test]
+
+    public function it_add_product(): void {
 
         $title = 'Shop ML ' . uniqid();
         $pageId = $this->_generateShopPage($title, $title);

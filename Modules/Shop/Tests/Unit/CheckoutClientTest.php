@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Shop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 
@@ -44,8 +46,9 @@ class CheckoutClientTest extends TestCase
         $this->assertEquals($cart_add['product']['price'], $productPrice);
     }
 
-    public function testCheckoutClientNames()
-    {
+    #[Test]
+
+    public function it_checkout_client_names(): void {
         empty_cart();
 
 

@@ -2,14 +2,17 @@
 
 namespace Modules\Checkout\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class CheckoutControllerTest extends TestCase
 {
     public static $content_id;
 
-    public function testProcess()
-    {
+    #[Test]
+
+    public function it_process(): void {
         app()->database_manager->extended_save_set_permission(true);
 
         $params = array(

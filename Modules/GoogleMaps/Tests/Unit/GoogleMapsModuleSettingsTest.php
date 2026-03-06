@@ -2,6 +2,8 @@
 
 namespace Modules\GoogleMaps\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\Option;
 use Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
@@ -9,8 +11,8 @@ use Tests\TestCase;
 
 class GoogleMapsModuleSettingsTest extends TestCase
 {
-    public function testGoogleMapsModuleSettingsForm()
-    {
+    #[Test]
+    public function it_google_maps_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'google_maps';
 

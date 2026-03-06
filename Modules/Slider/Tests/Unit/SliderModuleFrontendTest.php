@@ -2,6 +2,8 @@
 
 namespace Modules\Slider\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use Modules\Slider\Models\Slider;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class SliderModuleFrontendTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $moduleId = 'test-slider-id-' . uniqid();
 
         // Create a slider in the database

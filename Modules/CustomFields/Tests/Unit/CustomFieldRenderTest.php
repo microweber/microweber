@@ -2,14 +2,16 @@
 
 namespace Modules\CustomFields\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\CustomFields\Models\CustomField;
 use Modules\Product\Models\Product;
 
 class CustomFieldRenderTest extends TestCase
 {
-    public function testRenderingTextField()
-    {
+    #[Test]
+    public function it_rendering_text_field(): void {
         $customField = new CustomField();
         $customField->type = 'text';
         $customField->name = 'Test Text Field';
@@ -29,8 +31,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('value="Test Value"', $output);
     }
 
-    public function testRenderingTextAreaField()
-    {
+    #[Test]
+
+    public function it_rendering_text_area_field(): void {
         $customField = new CustomField();
         $customField->type = 'text';
         $customField->name = 'Test TextArea';
@@ -51,8 +54,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('Test TextArea Value', $output);
     }
 
-    public function testRenderingEmailField()
-    {
+    #[Test]
+
+    public function it_rendering_email_field(): void {
         $customField = new CustomField();
         $customField->type = 'email';
         $customField->name = 'Test Email';
@@ -69,8 +73,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('value="test@email.com"', $output);
     }
 
-    public function testRenderingNumberField()
-    {
+    #[Test]
+
+    public function it_rendering_number_field(): void {
         $customField = new CustomField();
         $customField->type = 'number';
         $customField->name = 'Test Number';
@@ -87,8 +92,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('value="42"', $output);
     }
 
-    public function testRenderingCheckboxField()
-    {
+    #[Test]
+
+    public function it_rendering_checkbox_field(): void {
         $customField = new CustomField();
         $customField->type = 'checkbox';
         $customField->name = 'Test Checkbox';
@@ -108,8 +114,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('value="Yes"', $output);
     }
 
-    public function testRenderingDropdownField()
-    {
+    #[Test]
+
+    public function it_rendering_dropdown_field(): void {
         $customField = new CustomField();
         $customField->type = 'dropdown';
         $customField->name = 'Test Dropdown';
@@ -133,8 +140,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('Option 2', $output);
     }
 
-    public function testRenderingDateField()
-    {
+    #[Test]
+
+    public function it_rendering_date_field(): void {
         $customField = new CustomField();
         $customField->type = 'date';
         $customField->name = 'Test Date';
@@ -152,8 +160,9 @@ class CustomFieldRenderTest extends TestCase
         $this->assertStringContainsString('value="2024-03-20"', $output);
     }
 
-    public function testRenderingColorField()
-    {
+    #[Test]
+
+    public function it_rendering_color_field(): void {
         $customField = new CustomField();
         $customField->type = 'color';
         $customField->name = 'Test Color';

@@ -2,6 +2,8 @@
 
 namespace Modules\Pdf\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Pdf\Filament\PdfModuleSettings;
@@ -11,8 +13,9 @@ class PdfModuleSettingsTest extends TestCase
 {
     // use RefreshDatabase;
 
-    public function testPdfModuleSettingsForm()
-    {
+    #[Test]
+
+    public function it_pdf_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'pdf';
 

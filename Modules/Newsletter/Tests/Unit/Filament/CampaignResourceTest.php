@@ -44,14 +44,14 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageCampaigns::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $list = NewsletterList::factory()->create();
         $campaigns = NewsletterCampaign::factory()->count(3)->create([
@@ -63,7 +63,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         $list = NewsletterList::factory()->create();
         NewsletterCampaign::factory()->count(15)->create([
@@ -75,7 +75,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -89,7 +89,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateCampaign::class)
             ->assertSuccessful()
@@ -97,7 +97,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(CreateCampaign::class)
             ->fillForm([
@@ -114,7 +114,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $list = NewsletterList::factory()->create();
 
@@ -137,7 +137,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -155,7 +155,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -179,7 +179,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -195,7 +195,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_status(): void
+    public function it_can_filter_by_status(): void
     {
         $list = NewsletterList::factory()->create();
         $draftCampaign = NewsletterCampaign::factory()->create([
@@ -214,7 +214,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_campaign_belongs_to_list(): void
+    public function it_campaign_belongs_to_list(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -226,7 +226,7 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_cancel_queued_campaign(): void
+    public function it_can_cancel_queued_campaign(): void
     {
         $list = NewsletterList::factory()->create();
         $campaign = NewsletterCampaign::factory()->create([
@@ -244,14 +244,14 @@ class CampaignResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_action_exists(): void
+    public function it_export_action_exists(): void
     {
         Livewire::test(ManageCampaigns::class)
             ->assertTableHeaderActionExists('export');
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ManageCampaigns::class)
             ->assertTableColumnExists('name')

@@ -33,20 +33,20 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListMailTemplates::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $templates = MailTemplate::factory()->count(3)->create();
         Livewire::test(ListMailTemplates::class)->assertCanSeeTableRecords($templates);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateMailTemplate::class)
             ->fillForm([
@@ -66,7 +66,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $template = MailTemplate::factory()->create(['name' => 'Original']);
         Livewire::test(EditMailTemplate::class, ['record' => $template->id])
@@ -78,7 +78,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $template = MailTemplate::factory()->create();
         Livewire::test(ListMailTemplates::class)->callTableAction('delete', $template);
@@ -86,7 +86,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListMailTemplates::class)
             ->assertTableColumnExists('name')
@@ -96,7 +96,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create templates with different attributes for sorting
         $templateA = MailTemplate::factory()->create([
@@ -135,7 +135,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_boolean_field(): void
+    public function it_filter_by_boolean_field(): void
     {
         // Create templates with different active statuses
         $activeTemplate = MailTemplate::factory()->create([
@@ -161,7 +161,7 @@ class MailTemplateResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $template1 = MailTemplate::factory()->create(['name' => 'Template 1']);
         $template2 = MailTemplate::factory()->create(['name' => 'Template 2']);

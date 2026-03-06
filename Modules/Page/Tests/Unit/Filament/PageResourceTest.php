@@ -33,20 +33,20 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListPages::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $pages = Page::factory()->count(3)->create();
         Livewire::test(ListPages::class)->assertCanSeeTableRecords($pages);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreatePage::class)
             ->fillForm([
@@ -63,7 +63,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $page = Page::factory()->create(['title' => 'Original']);
         Livewire::test(EditPage::class, ['record' => $page->id])
@@ -75,7 +75,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $page = Page::factory()->create();
         Livewire::test(ListPages::class)->callTableAction('delete', $page);
@@ -83,7 +83,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = PageResource::getPages();
         $this->assertArrayHasKey('index', $pages);
@@ -92,7 +92,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create pages with different titles and positions for sorting
         $pageA = Page::factory()->create([
@@ -128,7 +128,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_boolean_field(): void
+    public function it_filter_by_boolean_field(): void
     {
         // Create pages with different active statuses
         $activePage = Page::factory()->create([
@@ -154,7 +154,7 @@ class PageResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $page1 = Page::factory()->create(['title' => 'Page 1']);
         $page2 = Page::factory()->create(['title' => 'Page 2']);

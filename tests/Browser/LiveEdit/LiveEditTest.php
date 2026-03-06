@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -111,8 +113,9 @@ class LiveEditTest extends DuskTestCase
 //        });
 //    }
 
-    public function testLiveEditNewPageSave()
-    {
+    #[Test]
+
+    public function it_live_edit_new_page_save(): void {
 
         $siteUrl = site_url();
 
@@ -203,8 +206,13 @@ class LiveEditTest extends DuskTestCase
 
 
 
-    public function testLiveEditProductSave()
-    {
+    #[Test]
+
+
+
+
+
+    public function it_live_edit_product_save(): void {
         $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -306,8 +314,8 @@ class LiveEditTest extends DuskTestCase
 
 
 /*
-    public function testLiveEditSearchinSidebarForModules()
-    {
+    #[Test]
+    public function it_live_edit_searchin_sidebar_for_modules(): void {
 
         $siteUrl = site_url();
 
@@ -363,8 +371,9 @@ class LiveEditTest extends DuskTestCase
         });
     }
 
-    public function testLiveEditSearchinSidebarForLayouts()
-    {
+    #[Test]
+
+    public function it_live_edit_searchin_sidebar_for_layouts(): void {
 
         $siteUrl = site_url();
 

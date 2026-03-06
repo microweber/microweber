@@ -2,6 +2,8 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class DataAttributesTest extends TestCase
@@ -15,8 +17,9 @@ class DataAttributesTest extends TestCase
         mw()->database_manager->extended_save_set_permission(true);
     }
 
-    public function testSave()
-    {
+    #[Test]
+
+    public function it_save(): void {
         $params = array(
             'title' => 'My post with data attributes test',
             'content_type' => 'post',

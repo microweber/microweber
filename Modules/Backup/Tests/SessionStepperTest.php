@@ -2,13 +2,15 @@
 
 namespace Modules\Backup\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\SessionStepper;
 
 class SessionStepperTest extends TestCase
 {
-    public function testSteps()
-    {
+    #[Test]
+    public function it_steps(): void {
 
         // First generate session id
         $sessionId = SessionStepper::generateSessionId(3);

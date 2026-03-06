@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Microweber\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 /**
@@ -10,14 +12,16 @@ use MicroweberPackages\Core\tests\TestCase;
 class ManagesUrlTest extends TestCase
 {
 
-    public function testSiteUrl()
-    {
+    #[Test]
+
+    public function it_site_url(): void {
         $url = app()->microweber->siteUrl();
         $this->assertEquals($url, app()->url_manager->site());
     }
 
-    public function testSiteHostname()
-    {
+    #[Test]
+
+    public function it_site_hostname(): void {
         $hostname = app()->microweber->siteHostname();
         $this->assertEquals($hostname, app()->url_manager->hostname());
     }

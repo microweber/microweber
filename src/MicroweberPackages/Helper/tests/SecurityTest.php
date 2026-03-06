@@ -2,13 +2,15 @@
 
 namespace MicroweberPackages\Helper\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 
 class SecurityTest extends TestCase
 {
-    public function testComments()
-    {
+    #[Test]
+    public function it_comments(): void {
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();
 
         $string = '<a href="https://example.com">test</a>';
@@ -34,8 +36,10 @@ class SecurityTest extends TestCase
 //    }
 
 
-    public function testXssList()
-    {
+    #[Test]
+
+
+    public function it_xss_list(): void {
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/misc/xss-test-files.zip');
@@ -59,8 +63,9 @@ class SecurityTest extends TestCase
         }
     }
 
-    public function testXSSCleanArrtibutesNewEvents()
-    {
+    #[Test]
+
+    public function it_x_s_s_clean_arrtibutes_new_events(): void {
         $xssClean = new XSSClean();
         $str = "class='x module module-'ontransitionrun=alert(1) '";
         $clean = $xssClean->clean($str);

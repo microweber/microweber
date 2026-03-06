@@ -2,6 +2,8 @@
 
 namespace Modules\Skills\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class SkillsModuleTest extends TestCase
 {
 
-    public function testDefaultSkillsRendering()
-    {
+    #[Test]
+
+    public function it_default_skills_rendering(): void {
         $params = [
             'id' => 'test-skills-id' . uniqid(),
             'skills' => json_encode([

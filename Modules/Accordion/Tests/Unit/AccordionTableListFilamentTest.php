@@ -2,6 +2,8 @@
 
 namespace Modules\Accordion\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\EditAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,8 +16,9 @@ use Tests\TestCase;
 class AccordionTableListFilamentTest extends TestCase
 {
 
-    public function testAccordionModuleSettingsForm()
-    {
+    #[Test]
+
+    public function it_accordion_module_settings_form(): void {
         $moduleId = 'accordion-module-id-test-' . uniqid();
         $moduleType = 'accordion';
 

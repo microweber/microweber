@@ -2,6 +2,8 @@
 
 namespace Modules\Backup\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\Backup;
@@ -21,7 +23,9 @@ class ZExportTest extends TestCase
 	private static $_titles = array();
 	private static $_exportedFile = '';
 
-	public function testEncoding() {
+	#[Test]
+
+	public function it_encoding(): void {
 
 		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
 
@@ -52,7 +56,13 @@ class ZExportTest extends TestCase
 
 
 
-	public function testImportedEncoding() {
+	#[Test]
+
+
+
+
+
+	public function it_imported_encoding(): void {
 
 		$urls = array();
 		foreach (self::$_titles as $title) {

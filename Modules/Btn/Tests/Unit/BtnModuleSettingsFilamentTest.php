@@ -2,6 +2,8 @@
 
 namespace Modules\Btn\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -13,8 +15,10 @@ class BtnModuleSettingsFilamentTest extends TestCase
 {
 
 
-    public function testBtnModuleSettingsForm()
-    {
+    #[Test]
+
+
+    public function it_btn_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'btn';
 

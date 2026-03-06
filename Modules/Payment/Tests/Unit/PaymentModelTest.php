@@ -2,6 +2,8 @@
 
 namespace Modules\Payment\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
@@ -16,8 +18,9 @@ use Modules\Payment\Events\PaymentWasUpdated;
 class PaymentModelTest extends TestCase
 {
 
-    public function testPaymentProviderModel()
-    {
+    #[Test]
+
+    public function it_payment_provider_model(): void {
         PaymentProvider::where('name', 'Test Provider')->delete();
         Payment::where('transaction_id', '12345')->delete();
 

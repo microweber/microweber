@@ -1,12 +1,14 @@
 <?php
 namespace MicroweberPackages\Security\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class HtmlCleanTest extends TestCase
 {
-    public function testHtmlClean()
-    {
+    #[Test]
+    public function it_html_clean(): void {
 
 
         $clean = new \MicroweberPackages\Helper\HTMLClean();

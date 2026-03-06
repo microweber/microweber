@@ -40,14 +40,14 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageTemplates::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $templates = NewsletterTemplate::factory()->count(3)->create();
 
@@ -56,7 +56,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         NewsletterTemplate::factory()->count(15)->create();
 
@@ -65,7 +65,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $template = NewsletterTemplate::factory()->create([
             'title' => 'Test Template Search',
@@ -77,7 +77,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(ManageTemplates::class)
             ->assertSuccessful()
@@ -85,7 +85,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_action_navigates_to_template_editor(): void
+    public function it_edit_action_navigates_to_template_editor(): void
     {
         $template = NewsletterTemplate::factory()->create([
             'title' => 'Test Template',
@@ -97,7 +97,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $template = NewsletterTemplate::factory()->create();
 
@@ -110,7 +110,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ManageTemplates::class)
             ->assertTableColumnExists('title')
@@ -118,7 +118,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_sort_by_title(): void
+    public function it_can_sort_by_title(): void
     {
         NewsletterTemplate::factory()->create(['title' => 'Alpha Template']);
         NewsletterTemplate::factory()->create(['title' => 'Beta Template']);
@@ -129,7 +129,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_sort_by_created_at(): void
+    public function it_can_sort_by_created_at(): void
     {
         NewsletterTemplate::factory()->create();
         NewsletterTemplate::factory()->create();
@@ -140,7 +140,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_records(): void
+    public function it_bulk_delete_removes_records(): void
     {
         $templates = NewsletterTemplate::factory()->count(3)->create();
 
@@ -156,7 +156,7 @@ class TemplatesResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_template_has_required_attributes(): void
+    public function it_template_has_required_attributes(): void
     {
         $template = NewsletterTemplate::factory()->create([
             'title' => 'Test Template',

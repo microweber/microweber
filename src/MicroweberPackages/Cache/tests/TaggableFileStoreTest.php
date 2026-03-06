@@ -1,18 +1,23 @@
 <?php
 
+
+
+use PHPUnit\Framework\Attributes\Test;
 use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 
 class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 {
 
-    public function testSimple()
-    {
+    #[Test]
+
+    public function it_simple(): void {
         Cache::put('coffe', '3v1', now()->addMinutes(6));
         $this->assertEquals('3v1', Cache::get('coffe'));
     }
 
-    public function testPutWithoutTags()
-    {
+    #[Test]
+
+    public function it_put_without_tags(): void {
         Cache::put('firstName', 'Bozhidar', now()->addMinutes(6));
         $this->assertEquals('Bozhidar', Cache::get('firstName'));
 
@@ -22,14 +27,16 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 
     }
 
-    public function testGetWithoutTags()
-    {
+    #[Test]
+
+    public function it_get_without_tags(): void {
         $this->assertEquals('Bozhidar', Cache::get('firstName'));
         $this->assertEquals('Slaveykov', Cache::get('lastName'));
     }
 
-    public function testPutWithTags()
-    {
+    #[Test]
+
+    public function it_put_with_tags(): void {
         Cache::tags(['people', 'artists'])->put('firstName', 'Peter', now()->addMinutes(9));
 
         $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
@@ -65,8 +72,10 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 //    }
 
 
-    public function testFlushByTag()
-    {
+    #[Test]
+
+
+    public function it_flush_by_tag(): void {
         // Flush people tag
         Cache::tags(['people', 'artists'])->flush(); // This will be delete all asociated files with tag people
 
@@ -82,8 +91,10 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
     }
 
 
-    public function testFlushAll()
-    {
+    #[Test]
+
+
+    public function it_flush_all(): void {
         Cache::flush(); // This will be delete all asociated files with tag people
 
         $this->assertEquals(NULL, Cache::get('firstName'));
@@ -95,8 +106,9 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
         $this->assertEquals(NULL, Cache::tags('artists')->get('firstName'));
     }
 
-    public function testIncDec()
-    {
+    #[Test]
+
+    public function it_inc_dec(): void {
         Cache::put('someinc', 1, now()->addMinutes(6));
         $this->assertEquals(1, Cache::get('someinc'));
         Cache::increment('someinc');

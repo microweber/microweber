@@ -2,6 +2,8 @@
 
 namespace Modules\Tag\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -13,8 +15,9 @@ class TagsTest extends TestCase
 
     use RefreshDatabase;
 
-    public function testModel()
-    {
+    #[Test]
+
+    public function it_model(): void {
 
         //legacy save
         mw()->database_manager->extended_save_set_permission(true);
@@ -74,8 +77,9 @@ class TagsTest extends TestCase
 
     }
 
-    public function testPosts()
-    {
+    #[Test]
+
+    public function it_posts(): void {
         mw()->database_manager->extended_save_set_permission(true);
         $has_permission = mw()->database_manager->extended_save_has_permission();
         $this->assertTrue($has_permission);
@@ -168,8 +172,10 @@ class TagsTest extends TestCase
     }
 
 
-    public function testTagContentModel()
-    {
+    #[Test]
+
+
+    public function it_tag_content_model(): void {
         $unique = 'tag-' . uniqid();
 
         $content = new Content();
@@ -188,8 +194,9 @@ class TagsTest extends TestCase
 
     }
 
-    public function testTagContentModelWithArray()
-    {
+    #[Test]
+
+    public function it_tag_content_model_with_array(): void {
         $unique = 'tag-' . uniqid();
 
         $content = new Content();

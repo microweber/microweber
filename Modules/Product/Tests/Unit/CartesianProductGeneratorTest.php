@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Product\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Product\Support\CartesianProduct;
 
@@ -8,16 +10,19 @@ class CartesianProductGeneratorTest extends TestCase
 {
 
 
-    public function testEmptySet(): void
-    {
+    #[Test]
+
+
+    public function it_empty_set(): void {
         $set = [];
         $result = new CartesianProduct($set);
         $this->assertCount(0, $result);
         $this->assertEquals([], $result->asArray());
     }
 
-    public function testSetWithEmptyArraySubset(): void
-    {
+    #[Test]
+
+    public function it_set_with_empty_array_subset(): void {
         $this->expectException(\InvalidArgumentException::class);
         $set = [
             'fruits' => ['strawberry', 'raspberry', 'blueberry'],
@@ -28,8 +33,9 @@ class CartesianProductGeneratorTest extends TestCase
         iterator_to_array($result);
     }
 
-    public function testSetWithIteratorSubset(): void
-    {
+    #[Test]
+
+    public function it_set_with_iterator_subset(): void {
         $set = [
             'fruit' => ['strawberry', 'raspberry'],
             'vegetable' => new \ArrayIterator(['potato', function () { return 'carrot'; }])
@@ -46,8 +52,9 @@ class CartesianProductGeneratorTest extends TestCase
         $this->assertEquals($expected, $result->asArray());
     }
 
-    public function testSetWithInvalidSubset(): void
-    {
+    #[Test]
+
+    public function it_set_with_invalid_subset(): void {
         $this->expectException(\InvalidArgumentException::class);
         $set = [
             'fruits' => ['strawberry', 'raspberry', 'blueberry'],
@@ -58,8 +65,9 @@ class CartesianProductGeneratorTest extends TestCase
         iterator_to_array($result);
     }
 
-    public function testCount(): void
-    {
+    #[Test]
+
+    public function it_count(): void {
         $set = [
             ['a', 'b', 'c', 'd', 'e', 'f'],
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -68,8 +76,9 @@ class CartesianProductGeneratorTest extends TestCase
         $this->assertCount(60, $result);
     }
 
-    public function testRetrieveCurrentCombination(): void
-    {
+    #[Test]
+
+    public function it_retrieve_current_combination(): void {
         $current = null;
         $set = [
             'hair' => ['blond', 'dark'],

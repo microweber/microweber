@@ -2,6 +2,8 @@
 
 namespace Modules\Video\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -12,8 +14,10 @@ class VideoModuleSettingsFilamentTest extends TestCase
 {
 
 
-    public function testVideoModuleSettingsForm()
-    {
+    #[Test]
+
+
+    public function it_video_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'video';
 

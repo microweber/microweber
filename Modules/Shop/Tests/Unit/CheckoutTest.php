@@ -2,6 +2,8 @@
 
 namespace Modules\Shop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Cart\Models\Cart;
@@ -65,8 +67,9 @@ class CheckoutTest extends TestCase
 
     }
 
-    public function testCheckout()
-    {
+    #[Test]
+
+    public function it_checkout(): void {
 
 
         empty_cart();
@@ -168,8 +171,9 @@ class CheckoutTest extends TestCase
 
     }
 
-    public function testCheckoutQtyUpdate()
-    {
+    #[Test]
+
+    public function it_checkout_qty_update(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
@@ -251,8 +255,10 @@ class CheckoutTest extends TestCase
     }
 
 
-    public function testCheckoutDeletedProduct()
-    {
+    #[Test]
+
+
+    public function it_checkout_deleted_product(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);
@@ -304,8 +310,10 @@ class CheckoutTest extends TestCase
     }
 
 
-    public function testCheckoutUnpublishedProduct()
-    {
+    #[Test]
+
+
+    public function it_checkout_unpublished_product(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 9999);

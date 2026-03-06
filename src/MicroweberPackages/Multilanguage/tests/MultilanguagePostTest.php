@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\User\Models\User;
@@ -9,8 +11,9 @@ use Modules\Post\Models\Post;
 class MultilanguagePostTest extends MultilanguageTestBase
 {
 
-    public function testSavePostFromApiController()
-    {
+    #[Test]
+
+    public function it_save_post_from_api_controller(): void {
 
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
 

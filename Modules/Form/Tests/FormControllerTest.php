@@ -2,13 +2,15 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 
 class FormControllerTest extends TestCase
 {
-    public function testFormPostController()
-    {
+    #[Test]
+    public function it_form_post_controller(): void {
 
         $rel = 'module';
         $rel_id = 'layouts-testCustomContactFormSettingsRequiredSubmit' . rand(1111, 9999) . '-contact-form';
@@ -42,8 +44,9 @@ class FormControllerTest extends TestCase
 
     }
 
-    public function testFormPostControllerWithoutRelId()
-    {
+    #[Test]
+
+    public function it_form_post_controller_without_rel_id(): void {
         $response = $this->call('POST', route('api.post.form'), [
             'name' => 'John Doe',
             'email' => 'example@email.com',

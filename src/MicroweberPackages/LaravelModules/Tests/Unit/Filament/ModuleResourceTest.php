@@ -40,14 +40,14 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListModules::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         SystemModulesSushi::factory()->count(3)->create();
 
@@ -56,7 +56,7 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         SystemModulesSushi::factory()->count(15)->create();
 
@@ -65,7 +65,7 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         SystemModulesSushi::factory()->create([
             'name' => 'Test Module Search',
@@ -77,7 +77,7 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListModules::class)
             ->assertTableColumnExists('icon')
@@ -85,14 +85,14 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_displays_as_grid(): void
+    public function it_table_displays_as_grid(): void
     {
         Livewire::test(ListModules::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         SystemModulesSushi::factory()->create([
             'name' => 'Searchable Module',
@@ -104,7 +104,7 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_type(): void
+    public function it_can_filter_by_type(): void
     {
         Livewire::test(ListModules::class)
             ->filterTable('type', 'all')
@@ -112,7 +112,7 @@ class ModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_uses_custom_columns(): void
+    public function it_table_uses_custom_columns(): void
     {
         Livewire::test(ListModules::class)
             ->assertSuccessful();

@@ -32,26 +32,26 @@ class AiWizardResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListAiWizardPages::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $pages = Content::factory()->count(3)->create(['content_type' => 'page']);
         Livewire::test(ListAiWizardPages::class)->assertCanSeeTableRecords($pages);
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateAiWizardPage::class)->assertSuccessful()->assertFormExists();
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateAiWizardPage::class)
             ->fillForm([
@@ -68,7 +68,7 @@ class AiWizardResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListAiWizardPages::class)
             ->assertTableColumnExists('title')
@@ -76,7 +76,7 @@ class AiWizardResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = AiWizardResource::getPages();
         $this->assertArrayHasKey('index', $pages);

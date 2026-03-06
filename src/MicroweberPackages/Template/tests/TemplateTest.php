@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Template\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +26,9 @@ class TemplateTest extends TestCase
 
     }
 
-    public function testGetTemplates()
-    {
+    #[Test]
+
+    public function it_get_templates(): void {
         $get = app()->template_manager->site_templates();
         $this->assertTrue(!empty($get));
 
@@ -40,8 +43,9 @@ class TemplateTest extends TestCase
 
     }
 
-    public function testGetTemplateConfig()
-    {
+    #[Test]
+
+    public function it_get_template_config(): void {
         $template_name = $this->template_name;
         if (!is_dir(templates_dir() . $template_name)) {
             $this->markTestSkipped('Template not found: ' . $template_name);
@@ -112,8 +116,9 @@ class TemplateTest extends TestCase
 //    }
 //
 
-    public function testTemplateEditFieldsAreSavedFieldContent()
-    {
+    #[Test]
+
+    public function it_template_edit_fields_are_saved_field_content(): void {
 
         $count = DB::table('content_fields')->where('field', 'content')->where('rel_type', morph_name(\Modules\Content\Models\Content::class))->count();
         $this->assertEquals(0, 0);
@@ -125,8 +130,8 @@ class TemplateTest extends TestCase
 
     #[PreserveGlobalState(false)]
     #[RunInSeparateProcess]
-    public function testTemplateNameAndDirVars()
-    {
+    #[Test]
+    public function it_template_name_and_dir_vars(): void {
         $template_name = $this->template_name;
         app()->content_manager->define_constants(['active_site_template' => 'custom-template']);
 
@@ -145,8 +150,8 @@ class TemplateTest extends TestCase
 
     #[PreserveGlobalState(false)]
     #[RunInSeparateProcess]
-    public function testTemplateNameAndDirVarsForContent()
-    {
+    #[Test]
+    public function it_template_name_and_dir_vars_for_content(): void {
         $templateName = 'my-test-template';
 
         $user = User::where('is_admin', '=', '1')->first();
@@ -273,8 +278,8 @@ class TemplateTest extends TestCase
 
     #[PreserveGlobalState(false)]
     #[RunInSeparateProcess]
-    public function testTemplateGetLayoutFile()
-    {
+    #[Test]
+    public function it_template_get_layout_file(): void {
         $templateName = $this->template_name;
 
         $user = User::where('is_admin', '=', '1')->first();

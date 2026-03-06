@@ -37,7 +37,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_single_image_upload_stores_file(): void
+    public function it_single_image_upload_stores_file(): void
     {
         $this->actingAsAdmin();
 
@@ -55,7 +55,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_multiple_files_uploaded_correctly(): void
+    public function it_multiple_files_uploaded_correctly(): void
     {
         $this->actingAsAdmin();
 
@@ -81,7 +81,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_image_preview_shown_after_upload(): void
+    public function it_image_preview_shown_after_upload(): void
     {
         $this->actingAsAdmin();
 
@@ -103,7 +103,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_upload_validation_enforces_mime_types(): void
+    public function it_upload_validation_enforces_mime_types(): void
     {
         $this->actingAsAdmin();
 
@@ -127,7 +127,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_upload_to_s3_disk_works(): void
+    public function it_upload_to_s3_disk_works(): void
     {
         $this->actingAsAdmin();
 
@@ -146,7 +146,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_component_configures_file_types(): void
+    public function it_component_configures_file_types(): void
     {
         $this->actingAsAdmin();
 
@@ -182,7 +182,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_component_supports_multiple_uploads(): void
+    public function it_component_supports_multiple_uploads(): void
     {
         $this->actingAsAdmin();
 
@@ -201,7 +201,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_file_size_validation_works(): void
+    public function it_file_size_validation_works(): void
     {
         $this->actingAsAdmin();
 
@@ -215,7 +215,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_file_extension_validation(): void
+    public function it_file_extension_validation(): void
     {
         $this->actingAsAdmin();
 
@@ -233,7 +233,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_file_cleanup_on_disk(): void
+    public function it_file_cleanup_on_disk(): void
     {
         $this->actingAsAdmin();
 
@@ -252,7 +252,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_component_state_binding(): void
+    public function it_component_state_binding(): void
     {
         $this->actingAsAdmin();
 
@@ -273,7 +273,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_file_type_detection_from_extension(): void
+    public function it_file_type_detection_from_extension(): void
     {
         $this->actingAsAdmin();
 
@@ -296,7 +296,7 @@ class MwFileUploadTest extends TestCase
     }
 
     #[Test]
-    public function test_component_view_selection(): void
+    public function it_component_view_selection(): void
     {
         $this->actingAsAdmin();
 

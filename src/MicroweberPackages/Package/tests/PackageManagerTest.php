@@ -1,6 +1,9 @@
 <?php
 
 
+
+
+use PHPUnit\Framework\Attributes\Test;
 class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 {
     public $skip = false;
@@ -13,8 +16,9 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         }
     }
 
-    public function testSearchPackage()
-    {
+    #[Test]
+
+    public function it_search_package(): void {
         if ($this->skip) {
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }
@@ -29,8 +33,9 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         $this->assertNotEmpty($results);
     }
 
-    public function testInstallPackage()
-    {
+    #[Test]
+
+    public function it_install_package(): void {
         if ($this->skip) {
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }

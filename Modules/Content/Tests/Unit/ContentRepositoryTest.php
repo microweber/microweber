@@ -2,14 +2,16 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
 
 class ContentRepositoryTest extends TestCase
 {
-    public function testGetBlogsFromRepository()
-    {
+    #[Test]
+    public function it_get_blogs_from_repository(): void {
          Content::where('subtype', 'dynamic')->delete();
 
         //saving
@@ -51,8 +53,9 @@ class ContentRepositoryTest extends TestCase
 
     }
 
-    public function testGetShopsFromRepository()
-    {
+    #[Test]
+
+    public function it_get_shops_from_repository(): void {
         Content::where('is_shop',1)->delete();
 
         //saving
@@ -93,8 +96,8 @@ class ContentRepositoryTest extends TestCase
 
 
     }
-    public function testContentRepository()
-    {
+    #[Test]
+    public function it_content_repository(): void {
 
         // add data
 

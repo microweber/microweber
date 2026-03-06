@@ -2,6 +2,8 @@
 
 namespace Modules\Backup\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\User\Models\User;
@@ -21,8 +23,9 @@ use Modules\Restore\Restore;
 class RestoreBackupTest extends TestCase
 {
 
-    public function testRestoreDataBackup()
-    {
+    #[Test]
+
+    public function it_restore_data_backup(): void {
 
 //        $getUsers = User::all();
 //        $getUsers->each(function ($user) {

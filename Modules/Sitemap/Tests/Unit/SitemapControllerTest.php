@@ -2,6 +2,8 @@
 
 namespace Modules\Sitemap\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Sitemap\Http\Controllers\SitemapController;
 use Illuminate\Http\Request;
@@ -16,48 +18,54 @@ class SitemapControllerTest extends TestCase
         $this->sitemapController = new SitemapController();
     }
 
-    public function testIndexReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_index_returns_xml_response(): void {
         $response = $this->sitemapController->index();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('text/xml', $response->headers->get('Content-Type'));
     }
 
-    public function testCategoriesReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_categories_returns_xml_response(): void {
         $response = $this->sitemapController->categories();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('text/xml', $response->headers->get('Content-Type'));
     }
 
-    public function testTagsReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_tags_returns_xml_response(): void {
         $response = $this->sitemapController->tags();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('text/xml', $response->headers->get('Content-Type'));
     }
 
-    public function testProductsReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_products_returns_xml_response(): void {
         $response = $this->sitemapController->products();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('text/xml', $response->headers->get('Content-Type'));
     }
 
-    public function testPostsReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_posts_returns_xml_response(): void {
         $response = $this->sitemapController->posts();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('text/xml', $response->headers->get('Content-Type'));
     }
 
-    public function testPagesReturnsXmlResponse()
-    {
+    #[Test]
+
+    public function it_pages_returns_xml_response(): void {
         $response = $this->sitemapController->pages();
 
         $this->assertEquals(200, $response->getStatusCode());

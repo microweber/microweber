@@ -2,14 +2,16 @@
 
 namespace Modules\Cart\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Cart\Models\UserCart;
 use Modules\Cart\Scopes\UserCartScope;
 
 class UserCartTest extends TestCase
 {
-    public function testUserCartHasGlobalScope()
-    {
+    #[Test]
+    public function it_user_cart_has_global_scope(): void {
         $userCart = new UserCart();
 
         $globalScopes = $userCart->getGlobalScopes();
@@ -18,15 +20,17 @@ class UserCartTest extends TestCase
         $this->assertInstanceOf(UserCartScope::class, $globalScopes[UserCartScope::class]);
     }
 
-    public function testUserCartInheritsFromCart()
-    {
+    #[Test]
+
+    public function it_user_cart_inherits_from_cart(): void {
         $userCart = new UserCart();
 
         $this->assertInstanceOf(\Modules\Cart\Models\Cart::class, $userCart);
     }
 
-    public function testUserCartHasSameAttributesAsCart()
-    {
+    #[Test]
+
+    public function it_user_cart_has_same_attributes_as_cart(): void {
         $userCart = new UserCart();
 
         $expectedFillable = [

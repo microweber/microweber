@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\FlakyTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
@@ -22,8 +24,9 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
     public $tempContentId = 0;
 
-    public function testLiveEditNewPageSaveMiltilanguage()
-    {
+    #[Test]
+
+    public function it_live_edit_new_page_save_miltilanguage(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {

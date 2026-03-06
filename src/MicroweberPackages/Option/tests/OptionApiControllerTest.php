@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Option\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -10,8 +12,8 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[RunTestsInSeparateProcesses]
 class OptionApiControllerTest extends TestCase
 {
-    public function testSaveOption()
-    {
+    #[Test]
+    public function it_save_option(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -34,8 +36,9 @@ class OptionApiControllerTest extends TestCase
 
     }
 
-    public function testSaveOptionWithHtml()
-    {
+    #[Test]
+
+    public function it_save_option_with_html(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -76,8 +79,9 @@ class OptionApiControllerTest extends TestCase
 
     }
 
-    public function testSaveOptionWithModuleHtml()
-    {
+    #[Test]
+
+    public function it_save_option_with_module_html(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -101,8 +105,9 @@ class OptionApiControllerTest extends TestCase
 
     }
 
-    public function testSaveOptionWithJsonValue()
-    {
+    #[Test]
+
+    public function it_save_option_with_json_value(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         $json = '[{"selector":"#mw-element-1700735216825","id":"animation1702634924706","animation":"rollIn","speed":1,"when":"onAppear"}]';

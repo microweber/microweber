@@ -2,21 +2,27 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 
 class RequestTypeTest extends TestCase
 {
 
 
-    public function testRequestResponseCode()
-    {
+    #[Test]
+
+
+    public function it_request_response_code(): void {
         $this->get('/example-route-testRequestResponseCode')
             ->assertStatus(123);
     }
 
 
-    public function testJsonPostRequest()
-    {
+    #[Test]
+
+
+    public function it_json_post_request(): void {
         $testJsonRequest_a = 'testJsonRequest_a' . rand();
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
 
@@ -28,8 +34,9 @@ class RequestTypeTest extends TestCase
 
     }
 
-    public function testPostRequest()
-    {
+    #[Test]
+
+    public function it_post_request(): void {
         $testJsonRequest_a = 'testJsonRequest_a' . rand();
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
 
@@ -41,8 +48,10 @@ class RequestTypeTest extends TestCase
     }
 
 
-    public function testPatchJsonRequest()
-    {
+    #[Test]
+
+
+    public function it_patch_json_request(): void {
         $testJsonRequest_a = 'testJsonRequest_a' . rand();
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
 

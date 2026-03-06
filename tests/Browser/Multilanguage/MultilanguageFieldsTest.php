@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Multilanguage;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
@@ -12,8 +14,9 @@ class MultilanguageFieldsTest extends DuskTestCaseMultilanguage
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
-    public function testSwitchLanguageFields()
-    {
+    #[Test]
+
+    public function it_switch_language_fields(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {

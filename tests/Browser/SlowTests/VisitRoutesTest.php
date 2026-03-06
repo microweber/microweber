@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\SlowTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\EnvCheck;
@@ -18,7 +20,8 @@ class VisitRoutesTest extends DuskTestCase
      * @return $this
      * @see https://medium.com/@deleugpn/testing-if-dusk-environment-matches-browser-environment-5edfe9d75ff6
      */
-    public function testBrowserEnvironment() {
+    #[Test]
+    public function it_browser_environment(): void {
 
 
 //        Route::getRoutes()->refreshNameLookups();
@@ -42,8 +45,7 @@ class VisitRoutesTest extends DuskTestCase
         return $this;
     }
 
-   /* public function testContentLinksAndRoutesUrls()
-    {
+   /* #[Test] public function it_content_links_and_routes_urls(): void {
 
         $newBlogPage = new Page();
         $newBlogPage->url = 'testme-testContentLinksAndRoutesUrls-'.uniqid();

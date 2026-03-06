@@ -2,13 +2,16 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 class TemplateTest extends TestCase
 {
     public $template_name = 'Bootstrap';
 
-    public function testGetTemplateName()
-    {
+    #[Test]
+
+    public function it_get_template_name(): void {
         if (!defined('TEMPLATE_NAME')) {
             define('TEMPLATE_NAME', $this->template_name);
         }
@@ -18,8 +21,9 @@ class TemplateTest extends TestCase
         $this->assertEquals($this->template_name, $current_template);
     }
 
-    public function testGetAllTemplates()
-    {
+    #[Test]
+
+    public function it_get_all_templates(): void {
         $templates = site_templates();
         $this->assertTrue(!empty($templates), true);
         $this->assertTrue(!empty($templates[0]), true);

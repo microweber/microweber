@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\User\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -12,8 +14,10 @@ class UserRegisterControllerTest extends TestCase
     use UserTestHelperTrait;
 
 
-    public function testUserRegisterWithUsername()
-    {
+    #[Test]
+
+
+    public function it_user_register_with_username(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
@@ -39,8 +43,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testUserRegisterWithEmail()
-    {
+    #[Test]
+
+    public function it_user_register_with_email(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
@@ -67,8 +72,10 @@ class UserRegisterControllerTest extends TestCase
     }
 
 
-    public function testUserRegisterWithUserAndEmail()
-    {
+    #[Test]
+
+
+    public function it_user_register_with_user_and_email(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
@@ -97,8 +104,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testUserRegisterWithMissingRequiredParams()
-    {
+    #[Test]
+
+    public function it_user_register_with_missing_required_params(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
@@ -116,8 +124,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testUserRegisteWhenDisabled()
-    {
+    #[Test]
+
+    public function it_user_registe_when_disabled(): void {
         $this->_disableUserRegistration();
         $this->_disableCaptcha();
 
@@ -140,8 +149,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testUserRegisterWithCaptcha()
-    {
+    #[Test]
+
+    public function it_user_register_with_captcha(): void {
         $this->_enableCaptcha();
         $username = 'testuser_' . uniqid();
         $email = 'testuser_' . uniqid() . '@mail.test';
@@ -192,8 +202,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testUserRegisterEmailSend()
-    {
+    #[Test]
+
+    public function it_user_register_email_send(): void {
         \Config::set('mail.transport', 'array');
 
 
@@ -234,8 +245,9 @@ class UserRegisterControllerTest extends TestCase
         $this->assertEquals(true, $findEmail);
     }
 
-    public function testUserRegisterValidationMessages()
-    {
+    #[Test]
+
+    public function it_user_register_validation_messages(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -260,8 +272,8 @@ class UserRegisterControllerTest extends TestCase
         $this->assertEquals('The email must be a valid email address.', $userData['errors']['email'][0]);
 
     }
-    public function testUserAdminCreateAndUpdate()
-    {
+    #[Test]
+    public function it_user_admin_create_and_update(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -401,7 +413,9 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
-    public function testIfLoginRouteIsDefined(){
+    #[Test]
+
+    public function it_if_login_route_is_defined(): void {
         $route =  route('login');
         $this->assertEquals(true,!empty($route));
     }

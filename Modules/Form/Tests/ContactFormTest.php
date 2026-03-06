@@ -2,6 +2,8 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Form\Models\FormData;
 use Modules\Form\Notifications\NewFormEntryAutoRespond;
@@ -11,8 +13,9 @@ use Symfony\Component\Mime\Part\TextPart;
 class ContactFormTest extends TestCase
 {
 
-    public function testFormSubmit()
-    {
+    #[Test]
+
+    public function it_form_submit(): void {
 
         $params = array();
         $params['for_id'] = '1234';
@@ -33,8 +36,9 @@ class ContactFormTest extends TestCase
 
     }
 
-  public function testContactFormWithGlobalSettingsSubmit()
-  {
+  #[Test]
+
+  public function it_contact_form_with_global_settings_submit(): void {
       $this->loginAsAdmin();
 
       $optionGroup = md5(time().'mw'.rand(1111,9999));
@@ -200,8 +204,9 @@ class ContactFormTest extends TestCase
       $this->assertTrue(isset($export['download']));
   }
 
-    public function testCustomContactFormSettingsRequiredSubmit()
-    {
+    #[Test]
+
+    public function it_custom_contact_form_settings_required_submit(): void {
         $rel = 'module';
         $rel_id = 'layouts-testCustomContactFormSettingsRequiredSubmit'.rand(1111,9999).'-contact-form';
         $fields_csv_str = 'PersonNameRequired[type=text,field_size=6,show_placeholder=true,required=true],';
@@ -271,8 +276,8 @@ class ContactFormTest extends TestCase
 
 
     }
-    public function testCustomContactFormSettingsSubmit()
-    {
+    #[Test]
+    public function it_custom_contact_form_settings_submit(): void {
 
         $optionGroup = md5(time().'mw'.rand(1111,9999));
         $formName = md5(time().'mw'.rand(1111,9999));

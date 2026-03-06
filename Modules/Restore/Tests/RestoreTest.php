@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Restore\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
@@ -18,7 +20,9 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 class RestoreTest extends TestCase
 {
 
-    public function testImportSampleCsvFile() {
+    #[Test]
+
+    public function it_import_sample_csv_file(): void {
 
         $sample = __DIR__.'/../resources/samples/sample.csv';
         $sample = normalize_path($sample, false);
@@ -38,7 +42,9 @@ class RestoreTest extends TestCase
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
-    public function testImportSampleJsonFile() {
+    #[Test]
+
+    public function it_import_sample_json_file(): void {
 
         $sample = __DIR__.'/../resources/samples/sample.json';
         $sample = normalize_path($sample, false);
@@ -58,7 +64,9 @@ class RestoreTest extends TestCase
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
-    public function testImportSampleXlsxFile() {
+    #[Test]
+
+    public function it_import_sample_xlsx_file(): void {
 
         $sample = __DIR__.'/../resources/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
@@ -77,7 +85,9 @@ class RestoreTest extends TestCase
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
-    public function testImportWrongFile() {
+    #[Test]
+
+    public function it_import_wrong_file(): void {
 
         $sessionId = SessionStepper::generateSessionId(1);
 
@@ -94,7 +104,8 @@ class RestoreTest extends TestCase
         }
     }
 /*
-    public function testImportZipFile() {
+    #[Test]
+    public function it_import_zip_file(): void {
 
 
         $template_folder = 'Bootstrap';

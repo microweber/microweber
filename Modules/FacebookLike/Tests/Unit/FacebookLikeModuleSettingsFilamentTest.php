@@ -2,6 +2,8 @@
 
 namespace Modules\FacebookLike\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -12,8 +14,10 @@ class FacebookLikeModuleSettingsFilamentTest extends TestCase
 {
 
 
-    public function testFacebookLikeModuleSettingsForm()
-    {
+    #[Test]
+
+
+    public function it_facebook_like_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'facebook_like';
 

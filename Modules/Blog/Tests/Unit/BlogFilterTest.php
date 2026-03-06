@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Blog\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Blog\Livewire\BlogComponent;
@@ -9,8 +11,8 @@ use Modules\Post\Models\Post;
 
 class BlogFilterTest extends TestCase
 {
-    public function testGetPosts()
-    {
+    #[Test]
+    public function it_get_posts(): void {
 
         // Create dynamic page
         $newBlogPage = new Page();

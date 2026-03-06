@@ -2,6 +2,8 @@
 
 namespace Modules\Slider\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Slider\Models\Slider;
@@ -12,8 +14,10 @@ class SliderSettingsFilamentTest extends TestCase
 {
 
 
-    public function testSliderModuleSettingsForm()
-    {
+    #[Test]
+
+
+    public function it_slider_module_settings_form(): void {
         Slider::truncate();
 
         $moduleId = 'module-id-test-' . uniqid();

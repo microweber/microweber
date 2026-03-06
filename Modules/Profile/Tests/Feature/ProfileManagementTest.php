@@ -26,8 +26,7 @@ class ProfileManagementTest extends TestCase
     }
 
     #[Test]
-    public function test_user_can_edit_profile()
-    {
+    public function it_user_can_edit_profile(): void {
         $user = $this->createUser();
         $this->actingAs($user);
 
@@ -49,8 +48,7 @@ class ProfileManagementTest extends TestCase
     }
 
     #[Test]
-    public function test_user_can_change_password()
-    {
+    public function it_user_can_change_password(): void {
         $user = $this->createUser();
         $this->actingAs($user);
 
@@ -73,8 +71,7 @@ class ProfileManagementTest extends TestCase
     }
 
     #[Test]
-    public function test_password_change_requires_current_password()
-    {
+    public function it_password_change_requires_current_password(): void {
         $user = $this->createUser();
         $this->actingAs($user);
 

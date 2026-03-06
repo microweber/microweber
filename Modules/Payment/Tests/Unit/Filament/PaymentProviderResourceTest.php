@@ -31,20 +31,20 @@ class PaymentProviderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListPaymentProviders::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $providers = PaymentProvider::factory()->count(3)->create();
         Livewire::test(ListPaymentProviders::class)->assertCanSeeTableRecords($providers);
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListPaymentProviders::class)
             ->assertTableColumnExists('name')
@@ -53,7 +53,7 @@ class PaymentProviderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $provider = PaymentProvider::factory()->create();
         Livewire::test(ListPaymentProviders::class)->callTableAction('delete', $provider);

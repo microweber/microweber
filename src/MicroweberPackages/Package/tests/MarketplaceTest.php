@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Package\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Package\MicroweberComposerClient;
@@ -9,8 +11,8 @@ use MicroweberPackages\User\Models\User;
 
 class MarketplaceTest extends TestCase
 {
-    public function testMarketplaceIndex()
-    {
+    #[Test]
+    public function it_marketplace_index(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

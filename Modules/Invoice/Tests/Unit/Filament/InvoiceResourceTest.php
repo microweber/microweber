@@ -43,14 +43,14 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListInvoices::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $invoices = Invoice::factory()->count(3)->create();
 
@@ -59,7 +59,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Invoice::factory()->count(15)->create();
 
@@ -68,7 +68,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $invoice = Invoice::factory()->create([
             'invoice_number' => 'INV-SEARCH-TEST',
@@ -80,7 +80,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateInvoice::class)
             ->assertSuccessful()
@@ -88,7 +88,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(CreateInvoice::class)
             ->fillForm([
@@ -109,7 +109,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $customer = Customer::factory()->create();
 
@@ -137,7 +137,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $customer = Customer::factory()->create();
         $invoice = Invoice::factory()->create([
@@ -154,7 +154,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $invoice = Invoice::factory()->create([
             'status' => Invoice::STATUS_DRAFT,
@@ -178,7 +178,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $invoice = Invoice::factory()->create();
 
@@ -191,7 +191,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_status(): void
+    public function it_filter_by_status(): void
     {
         $draftInvoice = Invoice::factory()->create(['status' => Invoice::STATUS_DRAFT]);
         $paidInvoice = Invoice::factory()->create(['status' => Invoice::STATUS_PAID]);
@@ -203,7 +203,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_paid_status(): void
+    public function it_filter_by_paid_status(): void
     {
         $unpaidInvoice = Invoice::factory()->create(['paid_status' => Invoice::STATUS_UNPAID]);
         $paidInvoice = Invoice::factory()->create(['paid_status' => Invoice::STATUS_PAID]);
@@ -215,7 +215,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_pdf_action_exists(): void
+    public function it_export_pdf_action_exists(): void
     {
         $invoice = Invoice::factory()->create();
 
@@ -224,7 +224,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         $customerA = Customer::factory()->create(['name' => 'Alice Anderson']);
         $customerB = Customer::factory()->create(['name' => 'Bob Baker']);
@@ -267,7 +267,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_boolean_field(): void
+    public function it_filter_by_boolean_field(): void
     {
         // Create invoices with different paid statuses
         $unpaidInvoice = Invoice::factory()->create([
@@ -297,7 +297,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_filter_by_select_relationship(): void
+    public function it_filter_by_select_relationship(): void
     {
         $customerA = Customer::factory()->create(['name' => 'Customer A']);
         $customerB = Customer::factory()->create(['name' => 'Customer B']);
@@ -323,7 +323,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $invoice1 = Invoice::factory()->create(['invoice_number' => 'INV-BULK-001']);
         $invoice2 = Invoice::factory()->create(['invoice_number' => 'INV-BULK-002']);
@@ -343,7 +343,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_bulk_action_generates_file(): void
+    public function it_export_bulk_action_generates_file(): void
     {
         // Create multiple invoices for bulk export
         $invoice1 = Invoice::factory()->create([
@@ -377,7 +377,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_header_action_exists(): void
+    public function it_export_header_action_exists(): void
     {
         // Test that export header action exists
         Livewire::test(ListInvoices::class)
@@ -385,7 +385,7 @@ class InvoiceResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_pdf_export_action_exists(): void
+    public function it_pdf_export_action_exists(): void
     {
         $invoice = Invoice::factory()->create([
             'invoice_number' => 'INV-PDF-001',

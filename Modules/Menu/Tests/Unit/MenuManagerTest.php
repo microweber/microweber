@@ -3,6 +3,8 @@
 
 namespace Modules\Menu\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
@@ -60,8 +62,10 @@ class MenuManagerTest extends TestCase
     }
 
 
-    public function testMenuManager()
-    {
+    #[Test]
+
+
+    public function it_menu_manager(): void {
 
         $menu = get_menus('single=1&title=' . $this->menu_title);
         $page_title = $this->page_title;
@@ -92,8 +96,10 @@ class MenuManagerTest extends TestCase
     }
 
 
-    public function testMenuManagerSubpage()
-    {
+    #[Test]
+
+
+    public function it_menu_manager_subpage(): void {
         // Create a subpage
         $params = [
             'title' => $this->page_title . ' subpage',
@@ -146,8 +152,10 @@ class MenuManagerTest extends TestCase
     }
 
 
-    public function testMenuManagerAddContentToMenuTwice()
-    {
+    #[Test]
+
+
+    public function it_menu_manager_add_content_to_menu_twice(): void {
         MenuItem::where('parent_id', $this->menu_id)->delete();
         $newCleanPageId = save_content([
             'subtype' => 'static',
@@ -183,8 +191,10 @@ class MenuManagerTest extends TestCase
     }
 
 
-    public function testMenuContentAddedFromRelation()
-    {
+    #[Test]
+
+
+    public function it_menu_content_added_from_relation(): void {
 
         $newCleanPageId = save_content([
             'subtype' => 'static',
@@ -204,8 +214,9 @@ class MenuManagerTest extends TestCase
         $this->assertTrue($testIsInMenu);
     }
 
-    public function testMenuIdsArrtbuteOnModel()
-    {
+    #[Test]
+
+    public function it_menu_ids_arrtbute_on_model(): void {
         $newCleanPageId = save_content([
             'subtype' => 'static',
             'title' => 'testMenuIdsArrtbuteOnModel',

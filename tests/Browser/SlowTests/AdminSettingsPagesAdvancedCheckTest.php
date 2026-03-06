@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\SlowTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Arcanedev\SeoHelper\Entities\Analytics;
 use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
 use Arcanedev\SeoHelper\Entities\Twitter\Card;
@@ -14,8 +16,8 @@ use function save_option;
 
 class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
 {
-    public function testHeadTagsTextAreaValue()
-    {
+    #[Test]
+    public function it_head_tags_text_area_value(): void {
 
         $seoTags = [];
 

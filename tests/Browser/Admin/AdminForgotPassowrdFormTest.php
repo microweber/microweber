@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
@@ -14,8 +16,9 @@ use Tests\DuskTestCase;
 class AdminForgotPassowrdFormTest extends DuskTestCase
 {
 
-    public function testSubmitEmail()
-    {
+    #[Test]
+
+    public function it_submit_email(): void {
 
 
         $data = [];
@@ -97,8 +100,9 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
         });
     }
 
-    public function testSubmitWrongEmail()
-    {
+    #[Test]
+
+    public function it_submit_wrong_email(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
@@ -127,8 +131,10 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
     }
 
 
-    public function testCaptchaValidation()
-    {
+    #[Test]
+
+
+    public function it_captcha_validation(): void {
 
         $siteUrl = $this->siteUrl;
 

@@ -40,14 +40,14 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $accounts = NewsletterSenderAccount::factory()->count(3)->create();
 
@@ -56,7 +56,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         NewsletterSenderAccount::factory()->count(15)->create();
 
@@ -65,7 +65,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_wizard_form(): void
+    public function it_create_page_renders_wizard_form(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->assertSuccessful()
@@ -73,7 +73,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_smtp_account(): void
+    public function it_create_page_saves_smtp_account(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->fillForm([
@@ -98,7 +98,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $account = NewsletterSenderAccount::factory()->create([
             'account_type' => 'php_mail',
@@ -119,7 +119,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $account = NewsletterSenderAccount::factory()->create();
 
@@ -132,7 +132,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_shows_account_type_icon(): void
+    public function it_table_shows_account_type_icon(): void
     {
         NewsletterSenderAccount::factory()->create([
             'account_type' => 'smtp',
@@ -144,7 +144,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->assertTableColumnExists('account_type')
@@ -154,7 +154,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_create_php_mail_account(): void
+    public function it_can_create_php_mail_account(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->fillForm([
@@ -173,7 +173,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_records(): void
+    public function it_bulk_delete_removes_records(): void
     {
         $accounts = NewsletterSenderAccount::factory()->count(3)->create();
 

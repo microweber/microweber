@@ -2,14 +2,16 @@
 
 namespace MicroweberPackages\Option\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\Models\Option;
 
 class OptionsTest extends TestCase
 {
-    public function testOptions()
-    {
+    #[Test]
+    public function it_options(): void {
         $data = array();
         $now = date('YmdHis');
         $data['option_value'] = $now;
@@ -29,8 +31,9 @@ class OptionsTest extends TestCase
         $this->assertEquals($now, $options);
     }
 
-    public function testOptionsWithNumericKey()
-    {
+    #[Test]
+
+    public function it_options_with_numeric_key(): void {
         $data = array();
         $now = rand(1, 9999999);
         $option_group = rand(1, 9999999);
@@ -53,8 +56,9 @@ class OptionsTest extends TestCase
 
     }
 
-    public function testOptionsSaveWithParseString()
-    {
+    #[Test]
+
+    public function it_options_save_with_parse_string(): void {
         $now = date('YmdHis');
         $str = "option_key=" . $now . "&option_group=test&option_value=test2";
         $save = save_option($str);
@@ -71,8 +75,10 @@ class OptionsTest extends TestCase
     }
 
 
-    public function testOptionsManagerClass()
-    {
+    #[Test]
+
+
+    public function it_options_manager_class(): void {
 
 
         $data = array();
@@ -112,8 +118,10 @@ class OptionsTest extends TestCase
     }
 
 
-    public function testModuleOptionDefaultReturn()
-    {
+    #[Test]
+
+
+    public function it_module_option_default_return(): void {
 
         $optionKey = 'test_option_website_group_testModuleOptionDefaultReturn';
         $optionGroup = 'website';

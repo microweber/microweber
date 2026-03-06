@@ -2,6 +2,8 @@
 
 namespace Modules\Category\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
@@ -10,8 +12,8 @@ use Modules\Category\Models\Category;
 
 class CategoryApiControllerTest extends TestCase
 {
-    public function testAddCategoriesFromController()
-    {
+    #[Test]
+    public function it_add_categories_from_controller(): void {
 
       $this->loginAsAdmin();
 

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
@@ -16,8 +18,10 @@ class AdminLiveEditTest extends TestCase
     protected $preserveGlobalState = FALSE;
 
 
-    public function testSaveCustomFieldOnPage()
-    {
+    #[Test]
+
+
+    public function it_save_custom_field_on_page(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -90,8 +94,10 @@ class AdminLiveEditTest extends TestCase
     }
 
 
-    public function testSaveContentOnPage()
-    {
+    #[Test]
+
+
+    public function it_save_content_on_page(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         Content::where('url', 'liveedit-url')->delete();

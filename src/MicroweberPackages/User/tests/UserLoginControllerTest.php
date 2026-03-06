@@ -14,8 +14,9 @@ class UserLoginControllerTest extends TestCase
 {
     use UserTestHelperTrait;
 
-    public function testUserLoginWithUsername()
-    {
+    #[Test]
+
+    public function it_user_login_with_username(): void {
         $this->loginAsAdmin();
         $data['option_value'] = 'y';
         $data['option_key'] = 'enable_user_microweber_registration';
@@ -58,8 +59,9 @@ class UserLoginControllerTest extends TestCase
 
     }
 
-    public function testUserLoginWithEmail()
-    {
+    #[Test]
+
+    public function it_user_login_with_email(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -94,8 +96,9 @@ class UserLoginControllerTest extends TestCase
 
     }
 
-    public function testUserLoginWithEmailInUsernameField()
-    {
+    #[Test]
+
+    public function it_user_login_with_email_in_username_field(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -127,8 +130,10 @@ class UserLoginControllerTest extends TestCase
     }
 
 
-    public function testUserLoginWithRedirect()
-    {
+    #[Test]
+
+
+    public function it_user_login_with_redirect(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -158,8 +163,9 @@ class UserLoginControllerTest extends TestCase
 
     }
 
-    public function testUserLoginRequiresCaptcha()
-    {
+    #[Test]
+
+    public function it_user_login_requires_captcha(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -189,8 +195,9 @@ class UserLoginControllerTest extends TestCase
 
     }
 
-    public function testUserIsLoggedAfterChangeOfIsActive()
-    {
+    #[Test]
+
+    public function it_user_is_logged_after_change_of_is_active(): void {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();

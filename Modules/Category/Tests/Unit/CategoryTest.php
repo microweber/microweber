@@ -2,6 +2,8 @@
 
 namespace Modules\Category\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -30,8 +32,9 @@ class CategoryTest extends TestCase
         }
     }
 
-    public function testRecusriveRender()
-    {
+    #[Test]
+
+    public function it_recusrive_render(): void {
         $uniqid = uniqid();
         $pageTitle = 'blog-' . $uniqid;
         $mainCategoryTitle = 'Categories-' . $uniqid;
@@ -104,8 +107,9 @@ class CategoryTest extends TestCase
         $category->delete();
     }
 
-    public function testRender()
-    {
+    #[Test]
+
+    public function it_render(): void {
         $pageTitle = 'my-new-page-' . uniqid();
         $mainCategoryTitle = 'Category level 1' . uniqid();
         $subCategoryTitle = 'Category level 2' . uniqid();
@@ -201,8 +205,9 @@ class CategoryTest extends TestCase
         $post->delete();
     }
 
-    public function testAddcategoriesToModel()
-    {
+    #[Test]
+
+    public function it_addcategories_to_model(): void {
         $title = 'New cat for my custom model' . uniqid();
 
         $category = new Category();
@@ -221,8 +226,9 @@ class CategoryTest extends TestCase
 
     }
 
-    public function testCategoriesSameSlug()
-    {
+    #[Test]
+
+    public function it_categories_same_slug(): void {
          $this->loginAsAdmin();
 
 
@@ -288,8 +294,9 @@ class CategoryTest extends TestCase
 
     }
 
-    public function testCategoriesSlugToAcceptIdnChars()
-    {
+    #[Test]
+
+    public function it_categories_slug_to_accept_idn_chars(): void {
         $this->loginAsAdmin();
         $uidRoot = 'Root' . uniqid();
         $slugs = [
@@ -327,8 +334,9 @@ class CategoryTest extends TestCase
         }
     }
 
-    public function testCategoriesSameItemsIfSamePostIsSavedTwice()
-    {
+    #[Test]
+
+    public function it_categories_same_items_if_same_post_is_saved_twice(): void {
         $this->loginAsAdmin();
 
 

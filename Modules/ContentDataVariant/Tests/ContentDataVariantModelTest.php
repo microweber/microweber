@@ -2,6 +2,8 @@
 
 namespace Modules\ContentDataVariant\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\ContentDataVariant\Models\ContentDataVariant;
 use Modules\Currency\Models\Currency;
@@ -11,8 +13,10 @@ class ContentDataVariantModelTest extends TestCase
 {
 
 
-    public function testCreateContentDataVariant()
-    {
+    #[Test]
+
+
+    public function it_create_content_data_variant(): void {
         $data = [
             'rel_type' => 'example_type_' . uniqid(),
             'rel_id' => 1,

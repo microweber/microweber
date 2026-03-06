@@ -144,7 +144,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that non-admin users cannot access the resource.
      */
     #[Test]
-    public function test_non_admin_cannot_access_resource(): void
+    public function it_non_admin_cannot_access_resource(): void
     {
         // Arrange: Create a non-admin user
         $user = $this->actingAsUser();
@@ -165,7 +165,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that guests cannot access the admin panel.
      */
     #[Test]
-    public function test_canAccessPanel_returns_false_for_guest(): void
+    public function it_canaccesspanel_returns_false_for_guest(): void
     {
         // Arrange: Ensure no user is logged in
         $this->assertGuest();
@@ -181,7 +181,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that admin users can access the resource.
      */
     #[Test]
-    public function test_admin_can_access_resource(): void
+    public function it_admin_can_access_resource(): void
     {
         // Arrange: Create an admin user
         $this->actingAsAdmin();
@@ -195,7 +195,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that users can only see their own records (if resource supports ownership).
      */
     #[Test]
-    public function test_user_sees_only_own_team_records(): void
+    public function it_user_sees_only_own_team_records(): void
     {
         // Skip if resource doesn't support ownership
         if (!$this->supportsOwnership()) {
@@ -227,7 +227,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that guests are redirected from resource pages.
      */
     #[Test]
-    public function test_guest_is_redirected_from_resource_pages(): void
+    public function it_guest_is_redirected_from_resource_pages(): void
     {
         // Arrange: Ensure guest
         $this->assertGuest();
@@ -243,7 +243,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that canAccessPanel returns true for admin users.
      */
     #[Test]
-    public function test_canAccessPanel_returns_true_for_admin(): void
+    public function it_canaccesspanel_returns_true_for_admin(): void
     {
         // Arrange: Create admin user
         $admin = User::factory()->create(['is_admin' => 1]);
@@ -257,7 +257,7 @@ abstract class AuthorizationTest extends TestCase
      * Test that canAccessPanel returns false for non-admin users.
      */
     #[Test]
-    public function test_canAccessPanel_returns_false_for_non_admin(): void
+    public function it_canaccesspanel_returns_false_for_non_admin(): void
     {
         // Arrange: Create non-admin user
         $user = User::factory()->create(['is_admin' => 0]);

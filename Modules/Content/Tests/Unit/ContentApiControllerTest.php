@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\Category\Models\Category;
@@ -11,8 +13,8 @@ use MicroweberPackages\User\Models\User;
 
 class ContentApiControllerTest extends TestCase
 {
-    public function testAddContentFull()
-    {
+    #[Test]
+    public function it_add_content_full(): void {
         $categoryIds = [];
 
         $user = User::where('is_admin','=', '1')->first();
@@ -105,8 +107,9 @@ class ContentApiControllerTest extends TestCase
         $contentDataSaved = $response->getData()->data;
     }
 
-    public function testSaveContentFromController()
-    {
+    #[Test]
+
+    public function it_save_content_from_controller(): void {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -183,8 +186,9 @@ class ContentApiControllerTest extends TestCase
 
     }
 
-    public function testDeleteContentFromController()
-    {
+    #[Test]
+
+    public function it_delete_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

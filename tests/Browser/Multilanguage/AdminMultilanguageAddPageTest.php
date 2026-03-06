@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Multilanguage;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -17,8 +19,8 @@ use Tests\DuskTestCaseMultilanguage;
 class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
     #[RunInSeparateProcess]
-    public function testAddPost()
-    {
+    #[Test]
+    public function it_add_post(): void {
         $this->browse(function (Browser $browser) {
 
           $browser->within(new AdminLogin, function ($browser) {

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\MetaTags\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Tests\Unit\TestHelpers;
 
@@ -24,8 +26,9 @@ class TemplateMetaTagsSeoTagsTest extends \MicroweberPackages\Core\tests\TestCas
 
     }
 
-    public function testGetLayoutBootrapSeoMetaTagsTemplate()
-    {
+    #[Test]
+
+    public function it_get_layout_bootrap_seo_meta_tags_template(): void {
         $templateName = $this->template_name;
 
         $author = User::where('is_admin', '=', '1')->first();

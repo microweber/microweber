@@ -31,13 +31,13 @@ class ShopCategoryResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListShopCategories::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = ShopCategoryResource::getPages();
         $this->assertArrayHasKey('index', $pages);

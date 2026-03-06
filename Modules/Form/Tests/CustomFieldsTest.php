@@ -2,6 +2,8 @@
 
 namespace Modules\Form\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Cart\Models\Cart;
 use Modules\CustomFields\Models\CustomField;
@@ -40,8 +42,9 @@ class CustomFieldsTest extends TestCase
 
     }
 
-    public function testMakeDefaultFields()
-    {
+    #[Test]
+
+    public function it_make_default_fields(): void {
         $this->cleanUp();
 
         for ($i = 1; $i <= 10; $i++) {
@@ -104,8 +107,9 @@ class CustomFieldsTest extends TestCase
         }
     }
 
-    public function testCustomFieldsPost()
-    {
+    #[Test]
+
+    public function it_custom_fields_post(): void {
         $this->cleanUp();
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
@@ -152,8 +156,9 @@ class CustomFieldsTest extends TestCase
 
     }
 
-    public function testCustomFieldHtmlOutput()
-    {
+    #[Test]
+
+    public function it_custom_field_html_output(): void {
         $this->cleanUp();
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
@@ -299,8 +304,9 @@ class CustomFieldsTest extends TestCase
         }
     }
 
-    public function testSaveCustomFields()
-    {
+    #[Test]
+
+    public function it_save_custom_fields(): void {
         $this->cleanUp();
         $my_product_id = 3;
 
@@ -334,8 +340,9 @@ class CustomFieldsTest extends TestCase
         $this->assertEquals(is_array($are_values_gone), false);
     }
 
-    public function testSaveCustomFieldsArray()
-    {
+    #[Test]
+
+    public function it_save_custom_fields_array(): void {
         $this->cleanUp();
         $my_product_id = 21;
         $vals = array('Red', 'Blue', 'Green');
@@ -361,8 +368,10 @@ class CustomFieldsTest extends TestCase
     }
 
 
-    public function testProductWithCustomFields()
-    {
+    #[Test]
+
+
+    public function it_product_with_custom_fields(): void {
         $this->cleanUp();
         $params = array(
             'title' => 'My new product',

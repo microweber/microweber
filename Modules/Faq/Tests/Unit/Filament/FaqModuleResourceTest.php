@@ -33,20 +33,20 @@ class FaqModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListFaqs::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $faqs = Faq::factory()->count(3)->create();
         Livewire::test(ListFaqs::class)->assertCanSeeTableRecords($faqs);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateFaq::class)
             ->fillForm([
@@ -63,7 +63,7 @@ class FaqModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $faq = Faq::factory()->create(['question' => 'Original?']);
         Livewire::test(EditFaq::class, ['record' => $faq->id])
@@ -76,7 +76,7 @@ class FaqModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $faq = Faq::factory()->create();
         Livewire::test(ListFaqs::class)->callTableAction('delete', $faq);
@@ -84,7 +84,7 @@ class FaqModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListFaqs::class)
             ->assertTableColumnExists('question')
@@ -93,7 +93,7 @@ class FaqModuleResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_sort_by_position(): void
+    public function it_can_sort_by_position(): void
     {
         Faq::factory()->create(['position' => 1]);
         Faq::factory()->create(['position' => 2]);

@@ -2,6 +2,8 @@
 
 namespace Modules\Tabs\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
@@ -10,8 +12,9 @@ use Tests\TestCase;
 class TabsModuleSettingsTest extends TestCase
 {
 
-    public function testSettingsPageRenders()
-    {
+    #[Test]
+
+    public function it_settings_page_renders(): void {
         Livewire::test(TabsModuleSettings::class)
             ->assertStatus(200);
     }

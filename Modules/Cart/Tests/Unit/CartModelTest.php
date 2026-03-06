@@ -2,13 +2,15 @@
 
 namespace Modules\Cart\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Cart\Models\Cart;
 
 class CartModelTest extends TestCase
 {
-    public function testCartFillableFields()
-    {
+    #[Test]
+    public function it_cart_fillable_fields(): void {
         $cart = new Cart();
 
         $expectedFillable = [
@@ -31,8 +33,9 @@ class CartModelTest extends TestCase
         $this->assertEquals($expectedFillable, $cart->getFillable());
     }
 
-    public function testCustomFieldsJsonCasting()
-    {
+    #[Test]
+
+    public function it_custom_fields_json_casting(): void {
         $cart = new Cart();
         $cart->fill(['custom_fields_data' => ['color' => 'red', 'size' => 'large']]);
         $cart->save();
@@ -44,8 +47,9 @@ class CartModelTest extends TestCase
         $this->assertEquals('large', $find->custom_fields_data['size']);
     }
 
-    public function testOrderRelationship()
-    {
+    #[Test]
+
+    public function it_order_relationship(): void {
         $cart = new Cart();
 
         $this->assertTrue(method_exists($cart, 'order'));
@@ -58,8 +62,9 @@ class CartModelTest extends TestCase
         $this->assertEquals('id', $relation->getForeignKeyName()); // The key on the Order model
     }
 
-    public function testProductsRelationship()
-    {
+    #[Test]
+
+    public function it_products_relationship(): void {
         $cart = new Cart();
 
         $this->assertTrue(method_exists($cart, 'products'));

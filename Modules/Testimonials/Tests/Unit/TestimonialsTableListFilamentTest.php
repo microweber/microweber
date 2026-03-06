@@ -2,6 +2,8 @@
 
 namespace Modules\Testimonials\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\EditAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,8 +14,8 @@ use Tests\TestCase;
 
 class TestimonialsTableListFilamentTest extends TestCase
 {
-    public function testTestimonialsTableListForm()
-    {
+    #[Test]
+    public function it_testimonials_table_list_form(): void {
         $moduleId = 'testimonials-module-id-test-' . uniqid();
         $moduleType = 'testimonials';
 

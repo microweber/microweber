@@ -33,20 +33,20 @@ class PostResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListPosts::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $posts = Post::factory()->count(3)->create();
         Livewire::test(ListPosts::class)->assertCanSeeTableRecords($posts);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreatePost::class)
             ->fillForm([
@@ -64,7 +64,7 @@ class PostResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $post = Post::factory()->create(['title' => 'Original']);
         Livewire::test(EditPost::class, ['record' => $post->id])
@@ -76,7 +76,7 @@ class PostResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $post = Post::factory()->create();
         Livewire::test(ListPosts::class)->callTableAction('delete', $post);
@@ -84,7 +84,7 @@ class PostResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = PostResource::getPages();
         $this->assertArrayHasKey('index', $pages);

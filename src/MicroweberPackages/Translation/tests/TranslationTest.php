@@ -8,6 +8,8 @@
 
 namespace MicroweberPackages\Translation\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Translation\Models\TranslationKey;
@@ -18,8 +20,9 @@ use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 class TranslationTest extends TestCase
 {
 
-    public function testTheLangFunctionsTranslate()
-    {
+    #[Test]
+
+    public function it_the_lang_functions_translate(): void {
         // Clear old
         app()->translator->clearNewKeys();
 
@@ -64,8 +67,9 @@ class TranslationTest extends TestCase
 
     }
 
-    public function testTheLangFunctionsTranslateEmptyKeys()
-    {
+    #[Test]
+
+    public function it_the_lang_functions_translate_empty_keys(): void {
 
         // Clear old
         app()->translator->clearNewKeys();
@@ -86,8 +90,9 @@ class TranslationTest extends TestCase
         $this->assertTrue(count($getNewKeys) == 0);
     }
 
-    public function testImportLanguage()
-    {
+    #[Test]
+
+    public function it_import_language(): void {
 
         // Truncate translation texts
         TranslationKey::truncate();
@@ -119,8 +124,9 @@ class TranslationTest extends TestCase
 
     }
 
-    public function testAddNewTranslationsToLocale()
-    {
+    #[Test]
+
+    public function it_add_new_translations_to_locale(): void {
 $this->loginAsAdmin();
         $newLocale = 'bg_BG';
 
@@ -185,8 +191,9 @@ $this->loginAsAdmin();
 
     }
 
-    public function testImportSomeLanguages()
-    {
+    #[Test]
+
+    public function it_import_some_languages(): void {
 
         $availableTranslations = TranslationPackageInstallHelper::getAvailableTranslations();
 

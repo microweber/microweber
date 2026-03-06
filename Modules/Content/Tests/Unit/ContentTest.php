@@ -2,14 +2,16 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
 
 
 class ContentTest extends TestCase
 {
-    public function testPosts()
-    {
+    #[Test]
+    public function it_posts(): void {
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
@@ -35,8 +37,9 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($get_post));
     }
 
-    public function testPages()
-    {
+    #[Test]
+
+    public function it_pages(): void {
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
@@ -104,8 +107,9 @@ class ContentTest extends TestCase
 
     }
 
-    public function testGetPages()
-    {
+    #[Test]
+
+    public function it_get_pages(): void {
         $params = array(
             'title' => 'My test page is here',
             'content_type' => 'page',
@@ -134,8 +138,9 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testGetProducts()
-    {
+    #[Test]
+
+    public function it_get_products(): void {
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'product',
@@ -166,8 +171,9 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testGetPosts()
-    {
+    #[Test]
+
+    public function it_get_posts(): void {
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'post',
@@ -197,8 +203,9 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
     }
 
-    public function testContentCategories()
-    {
+    #[Test]
+
+    public function it_content_categories(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
 
@@ -245,8 +252,10 @@ class ContentTest extends TestCase
     }
 
 
-    public function testContentCategories2()
-    {
+    #[Test]
+
+
+    public function it_content_categories2(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
         $params = array(
@@ -288,8 +297,11 @@ class ContentTest extends TestCase
 
 
 
-    public function testNextPrev()
-    {
+    #[Test]
+
+
+
+    public function it_next_prev(): void {
         $params = array(
             'title' => 'this is my test next prev post',
             'content_type' => 'post',
@@ -322,8 +334,9 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($next));
     }
 
-    public function testSaveContentUpdateTime()
-    {
+    #[Test]
+
+    public function it_save_content_update_time(): void {
         $params = array(
             'title' => 'some timestamp post',
             'content_type' => 'post',
@@ -343,8 +356,9 @@ class ContentTest extends TestCase
 
     }
 
-    public function testSaveWithSameSlug()
-    {
+    #[Test]
+
+    public function it_save_with_same_slug(): void {
         $params = array(
             'title' => 'some post test slug',
             'content_type' => 'post',
@@ -362,8 +376,9 @@ class ContentTest extends TestCase
 
     }
 
-    public function testContentDescription()
-    {
+    #[Test]
+
+    public function it_content_description(): void {
         $title = 'title for testContentDesctiprton' . uniqid();
         $description = 'description for testContentDesctiprton' . uniqid() . '';
         $params = array(
@@ -443,8 +458,7 @@ class ContentTest extends TestCase
 
 
 
-   /* public function testCrudFilter()
-    {
+   /* #[Test] public function it_crud_filter(): void {
 
         return;
 

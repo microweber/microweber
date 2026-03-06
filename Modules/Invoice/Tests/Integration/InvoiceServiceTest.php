@@ -2,6 +2,8 @@
 
 namespace Modules\Invoice\Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Services\InvoiceService;
@@ -17,8 +19,9 @@ class InvoiceServiceTest extends TestCase
         $this->invoiceService = app(InvoiceService::class);
     }
 
-    public function testGenerateInvoice()
-    {
+    #[Test]
+
+    public function it_generate_invoice(): void {
         $invoiceData = [
             'customer_id' => 1,
             'status' => Invoice::STATUS_DRAFT,
@@ -33,8 +36,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals(200.00, $invoice->total);
     }
 
-    public function testUpdateInvoicePaidStatus()
-    {
+    #[Test]
+
+    public function it_update_invoice_paid_status(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'SVC-002',
             'status' => Invoice::STATUS_DRAFT,
@@ -48,8 +52,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_PAID, $updatedInvoice->paid_status);
     }
 
-    public function testUpdateInvoiceStatus()
-    {
+    #[Test]
+
+    public function it_update_invoice_status(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'SVC-003',
             'status' => Invoice::STATUS_DRAFT
@@ -62,8 +67,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_SENT, $updatedInvoice->status);
     }
 
-    public function testGenerateInvoiceWithZeroTotal()
-    {
+    #[Test]
+
+    public function it_generate_invoice_with_zero_total(): void {
         $invoiceData = [
             'customer_id' => 1,
             'status' => Invoice::STATUS_DRAFT,
@@ -78,8 +84,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals(0, $invoice->total);
     }
 
-    public function testGenerateInvoiceWithMaxDiscount()
-    {
+    #[Test]
+
+    public function it_generate_invoice_with_max_discount(): void {
         $invoiceData = [
             'customer_id' => 1,
             'status' => Invoice::STATUS_DRAFT,
@@ -96,8 +103,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals(0, $invoice->total);
     }
 
-    public function testUpdateInvalidInvoiceStatus()
-    {
+    #[Test]
+
+    public function it_update_invalid_invoice_status(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'SVC-004',
             'status' => Invoice::STATUS_DRAFT
@@ -109,8 +117,9 @@ class InvoiceServiceTest extends TestCase
         $this->assertEquals('Invalid status', $result['message']);
     }
 
-    public function testBulkInvoiceGeneration()
-    {
+    #[Test]
+
+    public function it_bulk_invoice_generation(): void {
         // Generate 50 test invoices
         $batchCount = 50;
         $invoiceData = [

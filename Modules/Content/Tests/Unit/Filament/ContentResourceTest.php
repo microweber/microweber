@@ -43,14 +43,14 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListContents::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $contents = Content::factory()->count(3)->create();
 
@@ -59,7 +59,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Content::factory()->count(15)->create();
 
@@ -68,7 +68,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $content = Content::factory()->create([
             'title' => 'Test Content Search',
@@ -80,7 +80,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateContent::class)
             ->assertSuccessful()
@@ -88,7 +88,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(CreateContent::class)
             ->fillForm([
@@ -102,7 +102,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateContent::class)
             ->fillForm([
@@ -123,7 +123,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $content = Content::factory()->create([
             'title' => 'Edit Test Content',
@@ -138,7 +138,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $content = Content::factory()->create([
             'title' => 'Original Title',
@@ -160,7 +160,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $content = Content::factory()->create();
 
@@ -173,7 +173,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_content_type(): void
+    public function it_can_filter_by_content_type(): void
     {
         $page = Content::factory()->create(['content_type' => 'page']);
         $post = Content::factory()->create(['content_type' => 'post']);
@@ -185,7 +185,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_is_active(): void
+    public function it_can_filter_by_is_active(): void
     {
         $published = Content::factory()->create(['is_active' => 1]);
         $unpublished = Content::factory()->create(['is_active' => 0]);
@@ -197,7 +197,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListContents::class)
             ->assertTableColumnExists('title')
@@ -206,7 +206,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_create_product_content(): void
+    public function it_can_create_product_content(): void
     {
         Livewire::test(CreateContent::class)
             ->fillForm([
@@ -224,7 +224,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $content = Content::factory()->create([
             'title' => 'Global Search Test',
@@ -235,7 +235,7 @@ class ContentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_category(): void
+    public function it_can_filter_by_category(): void
     {
         $category = Category::factory()->create();
         $content = Content::factory()->create();

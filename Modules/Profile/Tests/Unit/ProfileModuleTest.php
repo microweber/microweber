@@ -10,8 +10,7 @@ use Modules\Profile\Traits\HasTwoFactorAuthentication;
 class ProfileModuleTest extends TestCase
 {
   /*  #[Test]
-    public function testUserModelUsesTwoFactorTrait()
-    {
+    public function it_usermodelusestwofactortrait(): void {
         $user = new User();
         $this->assertContains(
             HasTwoFactorAuthentication::class,
@@ -20,8 +19,7 @@ class ProfileModuleTest extends TestCase
     }*/
 
     #[Test]
-    public function testUserModelHasFillableFields()
-    {
+    public function it_usermodelhasfillablefields(): void {
         $expected = [
 
             'email',
@@ -40,8 +38,7 @@ $fillable = (new User())->getFillable();
     }
 
     /*#[Test]
-    public function testTwoFactorConfigExists()
-    {
+    public function it_twofactorconfigexists(): void {
         $configPath = base_path('Modules/Profile/config/twofactor.php');
         $this->assertFileExists($configPath);
     }*/

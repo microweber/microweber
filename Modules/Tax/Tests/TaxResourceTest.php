@@ -2,6 +2,8 @@
 
 namespace Modules\Tax\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tax\Models\TaxType;
@@ -13,8 +15,9 @@ class TaxResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testRendersTheTaxFilamentResourceFormCorrectly()
-    {
+    #[Test]
+
+    public function it_renders_the_tax_filament_resource_form_correctly(): void {
         Livewire::test(CreateTax::class)
             ->assertFormFieldExists('name')
             ->assertFormFieldExists('type')
@@ -22,8 +25,9 @@ class TaxResourceTest extends TestCase
             ->assertFormFieldExists('description');
     }
 
-    public function testSubmitsTheTaxForm()
-    {
+    #[Test]
+
+    public function it_submits_the_tax_form(): void {
         $data = ['name' => 'TESTVAT', 'type' => 'percentage', 'rate' => 15, 'description' => 'Value-added tax'];
         Livewire::test(CreateTax::class)
             ->fillForm($data)
@@ -39,8 +43,9 @@ class TaxResourceTest extends TestCase
         $this->assertFalse(TaxType::where('name', 'TESTVAT')->exists());
     }
 
-    public function testCanDeleteATax()
-    {
+    #[Test]
+
+    public function it_can_delete_a_tax(): void {
         // Create a tax entry in the database
         $tax = TaxType::create([
             'name' => 'Test Tax',

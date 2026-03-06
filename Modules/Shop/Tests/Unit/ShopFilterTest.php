@@ -2,6 +2,8 @@
 
 namespace Modules\Shop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Blog\Livewire\BlogComponent;
@@ -13,8 +15,8 @@ use Modules\Shop\Livewire\ShopComponent;
 
 class ShopFilterTest extends TestCase
 {
-    public function testGetProductsInShop()
-    {
+    #[Test]
+    public function it_get_products_in_shop(): void {
         Page::truncate();
         Product::truncate();
         CustomField::truncate();

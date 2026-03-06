@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\LiveEdit\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -10,8 +12,10 @@ class LiveEditTopRightMenuTest extends TestCase
 {
 
 
-    public function testLiveEditTopRightMenu()
-    {
+    #[Test]
+
+
+    public function it_live_edit_top_right_menu(): void {
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);

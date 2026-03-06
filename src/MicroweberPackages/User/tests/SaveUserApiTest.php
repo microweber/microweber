@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\User\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -12,8 +14,9 @@ class SaveUserApiTest extends TestCase
 {
     use UserTestHelperTrait;
 
-    public function testSaveUserFunction()
-    {
+    #[Test]
+
+    public function it_save_user_function(): void {
 
 
         $data['option_value'] = 'y';

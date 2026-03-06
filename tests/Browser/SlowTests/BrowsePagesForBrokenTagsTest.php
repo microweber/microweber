@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\SlowTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use MicroweberPackages\App\Http\Controllers\SitemapController;
 use Tests\Browser\Components\AdminLogin;
@@ -14,8 +16,11 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
 
 
 
-    public function testHomepageScreenshot()
-    {
+    #[Test]
+
+
+
+    public function it_homepage_screenshot(): void {
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
@@ -37,8 +42,10 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
     }
 
 
-    public function testPages()
-    {
+    #[Test]
+
+
+    public function it_pages(): void {
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin(), function ($browser) {

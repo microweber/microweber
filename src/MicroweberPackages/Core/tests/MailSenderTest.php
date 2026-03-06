@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Utils\Mail\MailSender;
 
 /**
@@ -11,8 +13,8 @@ use MicroweberPackages\Utils\Mail\MailSender;
  */
 class MailSenderTest extends TestCase
 {
-    public function testSend()
-    {
+    #[Test]
+    public function it_send(): void {
         $to = 'bobi@microweber.com';
         $subject = 'Email subject';
         $replyTo = 'Reply to';

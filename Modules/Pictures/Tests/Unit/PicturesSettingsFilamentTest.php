@@ -2,6 +2,8 @@
 
 namespace Modules\Pictures\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class PicturesSettingsFilamentTest extends TestCase
 {
 
-    public function testPicturesModuleSettingsForm()
-    {
+    #[Test]
+
+    public function it_pictures_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'pictures';
 

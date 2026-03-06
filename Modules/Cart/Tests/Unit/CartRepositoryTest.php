@@ -2,6 +2,8 @@
 
 namespace Modules\Cart\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Core\tests\TestCase;
@@ -22,8 +24,9 @@ class CartRepositoryTest extends TestCase
         }
     }
 
-    public function testGetCartItems()
-    {
+    #[Test]
+
+    public function it_get_cart_items(): void {
         // Create test cart items
         $sessionId = app()->user_manager->session_id();
 
@@ -61,8 +64,9 @@ class CartRepositoryTest extends TestCase
         $this->assertEquals(150, $cartItems[1]['price']);
     }
 
-    public function testGetCartAmount()
-    {
+    #[Test]
+
+    public function it_get_cart_amount(): void {
         // Create test cart items
         $sessionId = app()->user_manager->session_id();
 
@@ -96,8 +100,9 @@ class CartRepositoryTest extends TestCase
         $this->assertEquals(350, $amount);
     }
 
-    public function testGetCartItemsCount()
-    {
+    #[Test]
+
+    public function it_get_cart_items_count(): void {
         // Create test cart items
         $sessionId = app()->user_manager->session_id();
 

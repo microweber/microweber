@@ -2,6 +2,8 @@
 
 namespace Tests\Browser;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Modules\Billing\Models\Subscription;
@@ -28,8 +30,8 @@ class CriticalFlowsTest extends DuskTestCase
      * Test the full shop checkout flow using bank transfer payment method.
      * This verifies end-to-end cart, checkout, and order completion functionality.
      */
-    public function test_full_shop_checkout_flow_with_bank_transfer(): void
-    {
+    #[Test]
+    public function it_full_shop_checkout_flow_with_bank_transfer(): void {
         $this->browse(function (Browser $browser) {
             $uniqueId = time();
             $siteUrl = $this->siteUrl;
@@ -102,8 +104,8 @@ class CriticalFlowsTest extends DuskTestCase
      * Test that PayPal checkout properly redirects to PayPal sandbox.
      * Note: This test validates the redirect flow only, not the actual payment.
      */
-    public function test_checkout_with_paypal_redirects_correctly(): void
-    {
+    #[Test]
+    public function it_checkout_with_paypal_redirects_correctly(): void {
         $this->browse(function (Browser $browser) {
             $uniqueId = time();
             $siteUrl = $this->siteUrl;
@@ -189,8 +191,8 @@ class CriticalFlowsTest extends DuskTestCase
      * Test that admin dashboard loads and displays all widgets correctly.
      * This verifies Filament v5 widget rendering and data loading.
      */
-    public function test_admin_dashboard_loads_all_widgets(): void
-    {
+    #[Test]
+    public function it_admin_dashboard_loads_all_widgets(): void {
         $this->browse(function (Browser $browser) {
             // Login as admin
             $browser->within(new AdminLogin(), function ($browser) {
@@ -247,8 +249,8 @@ class CriticalFlowsTest extends DuskTestCase
      * Test that XSS payloads are properly sanitized and not executed.
      * This is a critical security test for all input fields.
      */
-    public function test_xss_payloads_not_executed_in_inputs(): void
-    {
+    #[Test]
+    public function it_xss_payloads_not_executed_in_inputs(): void {
         $this->browse(function (Browser $browser) {
             $uniqueId = time();
             $siteUrl = $this->siteUrl;

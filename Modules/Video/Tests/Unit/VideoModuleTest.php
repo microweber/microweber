@@ -2,14 +2,16 @@
 
 namespace Modules\Video\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Video\Microweber\VideoModule;
 use Modules\Video\Filament\VideoModuleSettings;
 
 class VideoModuleTest extends TestCase
 {
-    public function test_module_initialization()
-    {
+    #[Test]
+    public function it_module_initialization(): void {
         $module = new VideoModule();
 
         $this->assertEquals('Video', VideoModule::$name);

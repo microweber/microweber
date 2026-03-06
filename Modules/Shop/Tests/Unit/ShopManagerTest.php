@@ -2,14 +2,17 @@
 
 namespace Modules\Shop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Shipping\Models\ShippingProvider;
 
 class ShopManagerTest extends TestCase
 {
 
-    public function testGetShippingModules()
-    {
+    #[Test]
+
+    public function it_get_shipping_modules(): void {
         $check_module = 'flat_rate';
         if (is_module('shipping')) {
 

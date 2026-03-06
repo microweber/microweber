@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
@@ -17,8 +19,9 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 {
     public $template_name = 'big';
 
-    public function testBackgroundImageChange()
-    {
+    #[Test]
+
+    public function it_background_image_change(): void {
 
 
         $siteUrl = $this->siteUrl;
@@ -150,8 +153,8 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
 
     }
-    public function testBackgroundVideoChange()
-    {
+    #[Test]
+    public function it_background_video_change(): void {
 
 
         $siteUrl = $this->siteUrl;
@@ -289,8 +292,10 @@ class LiveEditBackgroundImageTest extends DuskTestCase
     }
 
 
-    public function testBackgroundOverlayChange()
-    {
+    #[Test]
+
+
+    public function it_background_overlay_change(): void {
 
 
         $siteUrl = $this->siteUrl;

@@ -2,14 +2,16 @@
 
 namespace Modules\Media\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
 class LegacyMediaTest extends TestCase
 {
-    public function testSaveMedia()
-    {
+    #[Test]
+    public function it_save_media(): void {
 
         $this->loginAsAdmin();
 
@@ -33,8 +35,9 @@ class LegacyMediaTest extends TestCase
         $this->assertEquals($src, 'http://lorempixel.com/400/200/');
     }
 
-    public function testDeleteMedia()
-    {
+    #[Test]
+
+    public function it_delete_media(): void {
         $this->loginAsAdmin();
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
@@ -56,8 +59,9 @@ class LegacyMediaTest extends TestCase
         $this->assertEquals(!($delete), false);
     }
 
-    public function testSaveMediaArrayInFilename()
-    {
+    #[Test]
+
+    public function it_save_media_array_in_filename(): void {
         $this->loginAsAdmin();
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
@@ -71,8 +75,9 @@ class LegacyMediaTest extends TestCase
         $this->assertFalse($saved_pic_id);
     }
 
-    public function testSaveMediaXssFilename()
-    {
+    #[Test]
+
+    public function it_save_media_xss_filename(): void {
         $this->loginAsAdmin();
         $xss = '<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(document.cookie)"></xss>';
 

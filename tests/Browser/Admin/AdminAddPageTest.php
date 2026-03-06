@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Page\Models\Page;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -12,8 +14,8 @@ use Tests\DuskTestCase;
 
 class AdminAddPageTest extends DuskTestCase
 {
-    public function testAddPage()
-    {
+    #[Test]
+    public function it_add_page(): void {
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {

@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\ShopTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Cart\Models\Cart;
 use Modules\Order\Models\Order;
@@ -13,8 +15,10 @@ class CheckoutCartTest extends ShopDuskTestCase
 {
 
 
-    public function testSubmit()
-    {
+    #[Test]
+
+
+    public function it_submit(): void {
         $siteUrl = $this->siteUrl;
 
 
@@ -78,8 +82,9 @@ class CheckoutCartTest extends ShopDuskTestCase
         });
     }
 
-    public function testCheckoutWithPaypal()
-    {
+    #[Test]
+
+    public function it_checkout_with_paypal(): void {
         $this->markTestSkipped('Paypal test is not available at the moment');
         $siteUrl = $this->siteUrl;
 

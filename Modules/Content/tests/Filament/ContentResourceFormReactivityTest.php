@@ -25,8 +25,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_slug_field_updates_on_title_change()
-    {
+    public function it_slug_field_updates_on_title_change(): void {
         $this->actingAsAdmin();
 
         // Create a new content and test slug generation
@@ -60,8 +59,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_paid_fields_hidden_when_type_free()
-    {
+    public function it_paid_fields_hidden_when_type_free(): void {
         $this->actingAsAdmin();
 
         // Test with 'page' content type - pricing should not be visible
@@ -91,8 +89,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_pricing_section_visible_only_for_products()
-    {
+    public function it_pricing_section_visible_only_for_products(): void {
         $this->actingAsAdmin();
 
         // Create a page - pricing should not be in data
@@ -122,8 +119,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_dependent_select_reloads_options()
-    {
+    public function it_dependent_select_reloads_options(): void {
         $this->actingAsAdmin();
 
         // Test content type change affects available fields
@@ -151,8 +147,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_toggle_makes_field_visible()
-    {
+    public function it_toggle_makes_field_visible(): void {
         $this->actingAsAdmin();
 
         // Create a product to test toggle behavior
@@ -185,8 +180,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_physical_product_toggle_controls_shipping_fields()
-    {
+    public function it_physical_product_toggle_controls_shipping_fields(): void {
         $this->actingAsAdmin();
 
         // Test with physical product enabled
@@ -219,8 +213,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_advanced_shipping_toggle_visibility()
-    {
+    public function it_advanced_shipping_toggle_visibility(): void {
         $this->actingAsAdmin();
 
         $component = Livewire::test(CreateContent::class)
@@ -257,8 +250,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_require_login_toggle_visibility_based_on_record_existence()
-    {
+    public function it_require_login_toggle_visibility_based_on_record_existence(): void {
         $this->actingAsAdmin();
 
         // For new content, require_login should not be visible (no ID)
@@ -292,8 +284,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_is_home_toggle_visibility_for_pages()
-    {
+    public function it_is_home_toggle_visibility_for_pages(): void {
         $this->actingAsAdmin();
 
         // Test page can have is_home
@@ -323,8 +314,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_is_shop_toggle_visibility_for_pages()
-    {
+    public function it_is_shop_toggle_visibility_for_pages(): void {
         $this->actingAsAdmin();
 
         // Test page can have is_shop
@@ -344,8 +334,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_special_price_field_conditional_visibility()
-    {
+    public function it_special_price_field_conditional_visibility(): void {
         $this->actingAsAdmin();
 
         // Create product with special price
@@ -365,8 +354,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_template_tab_visibility_for_pages()
-    {
+    public function it_template_tab_visibility_for_pages(): void {
         $this->actingAsAdmin();
 
         // Create a page - template tab should be accessible
@@ -394,8 +382,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_product_details_tab_visibility()
-    {
+    public function it_product_details_tab_visibility(): void {
         $this->actingAsAdmin();
 
         // Product should have product details tab
@@ -428,8 +415,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_content_body_visibility_by_content_type()
-    {
+    public function it_content_body_visibility_by_content_type(): void {
         $this->actingAsAdmin();
 
         // Post should have content_body visible
@@ -461,8 +447,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_custom_access_select_shows_dependent_fields()
-    {
+    public function it_custom_access_select_shows_dependent_fields(): void {
         $this->actingAsAdmin();
 
         // Create content with custom access settings
@@ -501,8 +486,7 @@ class ContentResourceFormReactivityTest extends TestCase
     }
 
     #[Test]
-    public function test_is_active_toggle_affects_published_status()
-    {
+    public function it_is_active_toggle_affects_published_status(): void {
         $this->actingAsAdmin();
 
         // Create published content

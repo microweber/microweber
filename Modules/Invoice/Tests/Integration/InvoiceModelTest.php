@@ -2,6 +2,8 @@
 
 namespace Modules\Invoice\Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Models\InvoiceItem;
@@ -15,8 +17,9 @@ class InvoiceModelTest extends TestCase
         InvoiceItem::truncate();
     }
 
-    public function testInvoiceCreation()
-    {
+    #[Test]
+
+    public function it_invoice_creation(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'INV-001',
             'status' => 'draft',
@@ -30,8 +33,9 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals('draft', $invoice->status);
     }
 
-    public function testInvoiceItemsRelationship()
-    {
+    #[Test]
+
+    public function it_invoice_items_relationship(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'INV-002',
             'status' => 'draft'
@@ -48,8 +52,9 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals('Test Item', $invoice->items->first()->description);
     }
 
-    public function testInvoiceStatusScopes()
-    {
+    #[Test]
+
+    public function it_invoice_status_scopes(): void {
         Invoice::create(['invoice_number' => 'INV-003', 'status' => 'draft']);
         Invoice::create(['invoice_number' => 'INV-004', 'status' => 'paid']);
         Invoice::create(['invoice_number' => 'INV-005', 'status' => 'cancelled']);
@@ -59,8 +64,9 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals(1, Invoice::cancelled()->count());
     }
 
-    public function testInvoiceWithZeroTotal()
-    {
+    #[Test]
+
+    public function it_invoice_with_zero_total(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'INV-006',
             'status' => 'draft',
@@ -72,8 +78,9 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals('draft', $invoice->status);
     }
 
-    public function testInvoiceWithMaxDiscount()
-    {
+    #[Test]
+
+    public function it_invoice_with_max_discount(): void {
         $invoice = Invoice::create([
             'invoice_number' => 'INV-007',
             'status' => 'draft',
@@ -86,8 +93,9 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals(0, $invoice->total);
     }
 
-    public function testInvoiceWithFutureDueDate()
-    {
+    #[Test]
+
+    public function it_invoice_with_future_due_date(): void {
         $futureDate = now()->addYear();
         $invoice = Invoice::create([
             'invoice_number' => 'INV-008',

@@ -2,14 +2,16 @@
 
 namespace Modules\Video\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Video\Microweber\VideoModule;
 use Illuminate\View\View;
 
 class VideoTemplatesTest extends TestCase
 {
-    public function test_default_template_rendering()
-    {
+    #[Test]
+    public function it_default_template_rendering(): void {
         $module = new VideoModule();
         $module->setParams([
             'id' => 'video12345',
@@ -22,8 +24,9 @@ class VideoTemplatesTest extends TestCase
         $this->assertStringContainsString('video-player-container', $view->render());
     }
 
-    public function test_dialog_template_rendering()
-    {
+    #[Test]
+
+    public function it_dialog_template_rendering(): void {
         $module = new VideoModule();
         $module->setParams([
             'id' => 'video12345',
@@ -35,8 +38,9 @@ class VideoTemplatesTest extends TestCase
         $this->assertStringContainsString('video-dialog-container', $view->render());
     }
 
-    public function test_template_with_custom_options()
-    {
+    #[Test]
+
+    public function it_template_with_custom_options(): void {
         $module = new VideoModule();
 
         $module->setParams([
@@ -54,8 +58,9 @@ class VideoTemplatesTest extends TestCase
         $this->assertStringContainsString('height:500px', $content);
     }
 
-    public function test_invalid_template_fallback()
-    {
+    #[Test]
+
+    public function it_invalid_template_fallback(): void {
         $module = new VideoModule();
         $module->setParams([
             'id' => 'video12345',

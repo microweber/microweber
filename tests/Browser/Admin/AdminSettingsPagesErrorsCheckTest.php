@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -9,8 +11,8 @@ use Tests\DuskTestCase;
 
 class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
 {
-    public function testPages()
-    {
+    #[Test]
+    public function it_pages(): void {
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {

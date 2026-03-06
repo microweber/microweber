@@ -33,20 +33,20 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListTranslations::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $translations = TranslationKey::factory()->count(3)->create();
         Livewire::test(ListTranslations::class)->assertCanSeeTableRecords($translations);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateTranslation::class)
             ->fillForm([
@@ -63,7 +63,7 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $key = TranslationKey::factory()->create(['translation_key' => 'original.key']);
         Livewire::test(EditTranslation::class, ['record' => $key->id])
@@ -75,7 +75,7 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $key = TranslationKey::factory()->create();
         Livewire::test(ListTranslations::class)->callTableAction('delete', $key);
@@ -83,7 +83,7 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListTranslations::class)
             ->assertTableColumnExists('translation_key')
@@ -93,13 +93,13 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_add_translation_exists(): void
+    public function it_bulk_add_translation_exists(): void
     {
         Livewire::test(ListTranslations::class)->assertTableBulkActionExists('add_translation');
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create translations with different keys for sorting
         $translationA = TranslationKey::factory()->create([
@@ -135,7 +135,7 @@ class TranslationResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $translation1 = TranslationKey::factory()->create(['translation_key' => 'key.1']);
         $translation2 = TranslationKey::factory()->create(['translation_key' => 'key.2']);

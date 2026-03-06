@@ -24,14 +24,12 @@ class FilamentResourceTestCaseExampleTest extends FilamentResourceTestCase
     }
 
     #[Test]
-    public function test_base_test_case_can_be_extended()
-    {
+    public function it_base_test_case_can_be_extended(): void {
         $this->assertTrue(true);
     }
 
     #[Test]
-    public function test_acting_as_admin_creates_admin_user()
-    {
+    public function it_acting_as_admin_creates_admin_user(): void {
         $user = $this->actingAsAdmin();
 
         $this->assertEquals(1, $user->is_admin);
@@ -39,8 +37,7 @@ class FilamentResourceTestCaseExampleTest extends FilamentResourceTestCase
     }
 
     #[Test]
-    public function test_acting_as_user_creates_non_admin_user()
-    {
+    public function it_acting_as_user_creates_non_admin_user(): void {
         $user = $this->actingAsUser();
 
         $this->assertEquals(0, $user->is_admin);

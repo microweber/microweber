@@ -2,14 +2,16 @@
 
 namespace Modules\Media\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
 
 
 class MediaTest extends TestCase
 {
-    public function testAddMediaToModel()
-    {
+    #[Test]
+    public function it_add_media_to_model(): void {
         $newPage = new Content();
         $newPage->title = 'Pictures from Sofia';
 
@@ -41,8 +43,9 @@ class MediaTest extends TestCase
 
     }
 
-    public function testDeleteMediaToModel()
-    {
+    #[Test]
+
+    public function it_delete_media_to_model(): void {
         $newPage = new Content();
 
         $newPage->title = 'Pictures from Sofia';

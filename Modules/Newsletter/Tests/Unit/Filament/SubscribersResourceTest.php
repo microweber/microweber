@@ -41,14 +41,14 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $subscribers = NewsletterSubscriber::factory()->count(3)->create();
 
@@ -57,7 +57,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         NewsletterSubscriber::factory()->count(15)->create();
 
@@ -66,7 +66,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $subscriber = NewsletterSubscriber::factory()->create([
             'email' => 'test.subscriber@example.com',
@@ -79,7 +79,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertSuccessful()
@@ -87,7 +87,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->fillForm([
@@ -100,7 +100,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_email_format(): void
+    public function it_create_page_validates_email_format(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->fillForm([
@@ -114,7 +114,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->fillForm([
@@ -132,7 +132,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $subscriber = NewsletterSubscriber::factory()->create([
             'email' => 'original@example.com',
@@ -153,7 +153,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $subscriber = NewsletterSubscriber::factory()->create();
 
@@ -166,7 +166,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertTableColumnExists('name')
@@ -175,7 +175,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_subscribe_to_lists(): void
+    public function it_can_subscribe_to_lists(): void
     {
         $list = NewsletterList::factory()->create();
 
@@ -194,28 +194,28 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_export_action_exists(): void
+    public function it_export_action_exists(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertTableHeaderActionExists('export');
     }
 
     #[Test]
-    public function test_import_action_exists(): void
+    public function it_import_action_exists(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertTableHeaderActionExists('importProducts');
     }
 
     #[Test]
-    public function test_bulk_export_action_exists(): void
+    public function it_bulk_export_action_exists(): void
     {
         Livewire::test(ManageSubscribers::class)
             ->assertTableBulkActionExists('export');
     }
 
     #[Test]
-    public function test_bulk_delete_removes_records(): void
+    public function it_bulk_delete_removes_records(): void
     {
         $subscribers = NewsletterSubscriber::factory()->count(3)->create();
 

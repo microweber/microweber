@@ -34,33 +34,33 @@ class OfferResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListOffers::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $offers = Offer::factory()->count(3)->create();
         Livewire::test(ListOffers::class)->assertCanSeeTableRecords($offers);
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Offer::factory()->count(15)->create();
         Livewire::test(ListOffers::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateOffer::class)->assertSuccessful()->assertFormExists();
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $product = Product::factory()->create();
 
@@ -79,7 +79,7 @@ class OfferResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $offer = Offer::factory()->create(['offer_price' => 100.00]);
 
@@ -93,7 +93,7 @@ class OfferResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $offer = Offer::factory()->create();
         Livewire::test(ListOffers::class)->callTableAction('delete', $offer);
@@ -101,7 +101,7 @@ class OfferResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListOffers::class)
             ->assertTableColumnExists('product_id')
@@ -110,7 +110,7 @@ class OfferResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_active(): void
+    public function it_can_filter_by_active(): void
     {
         $active = Offer::factory()->create(['is_active' => true]);
         $inactive = Offer::factory()->create(['is_active' => false]);

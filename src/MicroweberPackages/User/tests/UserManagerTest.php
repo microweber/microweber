@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\User\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +29,9 @@ class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
 
-    public function testExportMyData()
-    {
+    #[Test]
+
+    public function it_export_my_data(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -43,8 +46,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testExportAllUsersData()
-    {
+    #[Test]
+
+    public function it_export_all_users_data(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -59,8 +63,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testRegistration()
-    {
+    #[Test]
+
+    public function it_registration(): void {
         Event::fake();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -90,8 +95,8 @@ class UserManagerTest extends TestCase
     }
 
     /*
-        public function testEmailWrongRegistration()
-        {
+        #[Test]
+        public function it_email_wrong_registration(): void {
             $data['option_value'] = 'y';
             $data['option_key'] = 'captcha_disabled';
             $data['option_group'] = 'users';
@@ -114,8 +119,9 @@ class UserManagerTest extends TestCase
         }
     */
 
-    public function testLogin()
-    {
+    #[Test]
+
+    public function it_login(): void {
         Event::fake();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -136,8 +142,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testWrongPasswordLogin()
-    {
+    #[Test]
+
+    public function it_wrong_password_login(): void {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
@@ -153,8 +160,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testWrongUsernameLogin()
-    {
+    #[Test]
+
+    public function it_wrong_username_login(): void {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
@@ -170,8 +178,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testWrongEmailLogin()
-    {
+    #[Test]
+
+    public function it_wrong_email_login(): void {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
@@ -187,8 +196,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testForgotPassword()
-    {
+    #[Test]
+
+    public function it_forgot_password(): void {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
@@ -222,8 +232,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testResetPassword()
-    {
+    #[Test]
+
+    public function it_reset_password(): void {
         $password_reset_hash = '[like]';
 
         $check = mw()->user_manager->get_all('exclude_shorthand=password_reset_hash&single=true&password_reset_hash=[not_null]&password_reset_hash=' . $password_reset_hash . '&username=' . self::$_username);
@@ -233,8 +244,10 @@ class UserManagerTest extends TestCase
     }
 
 
-    public function testDisableUserRegistration()
-    {
+    #[Test]
+
+
+    public function it_disable_user_registration(): void {
         $this->_disableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
 
@@ -255,8 +268,10 @@ class UserManagerTest extends TestCase
     }
 
 
-    public function testDisableUserRegistrationWithDisposableEmail()
-    {
+    #[Test]
+
+
+    public function it_disable_user_registration_with_disposable_email(): void {
         $this->_disableUserRegistrationWithDisposableEmail();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -279,8 +294,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testUserApprovalRegistration()
-    {
+    #[Test]
+
+    public function it_user_approval_registration(): void {
 
         $fakeNotify = Notification::fake();
 
@@ -341,8 +357,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testUserRegistrationWithXSS()
-    {
+    #[Test]
+
+    public function it_user_registration_with_x_s_s(): void {
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
@@ -371,8 +388,10 @@ class UserManagerTest extends TestCase
     }
 
 
-    public function testUserRegistrationForgotPasswordEmail()
-    {
+    #[Test]
+
+
+    public function it_user_registration_forgot_password_email(): void {
         $this->_enableUserRegistration();
         $this->_disableEmailVerify();
         $this->_disableRegistrationApprovalByAdmin();
@@ -454,8 +473,9 @@ class UserManagerTest extends TestCase
 
     }
 
-    public function testUserRegistrationForgotPasswordCustomEmailTemplate()
-    {
+    #[Test]
+
+    public function it_user_registration_forgot_password_custom_email_template(): void {
         \Config::set('mail.transport', 'array');
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
@@ -515,8 +535,10 @@ class UserManagerTest extends TestCase
     }
 
 
-    public function testUserRegistrationWelcomeCustomEmailTemplate()
-    {
+    #[Test]
+
+
+    public function it_user_registration_welcome_custom_email_template(): void {
         \Config::set('mail.transport', 'array');
         \Config::set('queue.default', 'sync');
         $this->_enableUserRegistration();
@@ -585,8 +607,10 @@ class UserManagerTest extends TestCase
     }
 
 
-    public function testUserAddressIsCachedAfterSave()
-    {
+    #[Test]
+
+
+    public function it_user_address_is_cached_after_save(): void {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();

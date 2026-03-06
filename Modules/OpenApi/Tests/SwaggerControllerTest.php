@@ -2,20 +2,23 @@
 
 namespace Modules\OpenApi\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 
 class SwaggerControllerTest extends TestCase
 {
-    public function testIfSwaggerDocsJsonIsNotGivingError()
-    {
+    #[Test]
+    public function it_if_swagger_docs_json_is_not_giving_error(): void {
         $swagger = app()->make(\Modules\OpenApi\Http\Controllers\SwaggerController::class);
         $resp = $swagger->docs(request());
         $this->assertEquals(true, is_object($resp));
         $this->assertEquals(true, !empty($resp));
     }
 
-    public function testIfRssModuleSwaggerHasApiSwagger()
-    {
+    #[Test]
+
+    public function it_if_rss_module_swagger_has_api_swagger(): void {
         if (app()->modules->find('RssFeed') == null) {
             $this->markTestSkipped('RssFeed module is not installed');
         }

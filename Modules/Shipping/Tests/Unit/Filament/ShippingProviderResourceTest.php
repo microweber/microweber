@@ -31,20 +31,20 @@ class ShippingProviderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListShippingProviders::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $providers = ShippingProvider::factory()->count(3)->create();
         Livewire::test(ListShippingProviders::class)->assertCanSeeTableRecords($providers);
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListShippingProviders::class)
             ->assertTableColumnExists('name')
@@ -53,7 +53,7 @@ class ShippingProviderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $provider = ShippingProvider::factory()->create();
         Livewire::test(ListShippingProviders::class)->callTableAction('delete', $provider);

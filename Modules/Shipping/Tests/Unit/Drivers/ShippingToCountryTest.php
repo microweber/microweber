@@ -10,23 +10,19 @@ use Tests\TestCase;
 class ShippingToCountryTest extends TestCase
 {
     #[Test]
-
-    public function testDriverInitialization()
-    {
+    public function it_driverinitialization(): void {
         $driver = new ShippingToCountry();
         $this->assertEquals('Shipping to Country', $driver->title());
     }
 
     #[Test]
-    public function testDefaultCountryRates()
-    {
+    public function it_defaultcountryrates(): void {
         $driver = new ShippingToCountry();
         $this->assertEmpty($driver->settings['country_rates'] ?? []);
     }
 
     #[Test]
-    public function testSettingCountryRates()
-    {
+    public function it_settingcountryrates(): void {
         $driver = new ShippingToCountry();
         $driver->settings = [
             'country_rates' => [
@@ -40,8 +36,7 @@ class ShippingToCountryTest extends TestCase
     }
 
     #[Test]
-    public function testCountryRatesConfiguration()
-    {
+    public function it_countryratesconfiguration(): void {
         $driver = new ShippingToCountry();
         $driver->settings = [
             'country_rates' => [

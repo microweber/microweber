@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\LiveEdit\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
@@ -12,8 +14,9 @@ use Modules\Page\Models\Page;
 class LiveEditSaveContentApiTest extends TestCase
 {
 
-    public function testIndex()
-    {
+    #[Test]
+
+    public function it_index(): void {
         $user = User::where('is_admin', '=', '1')->first();
         if (!$user) {
             // mak user
@@ -44,8 +47,9 @@ class LiveEditSaveContentApiTest extends TestCase
 
     }
 
-    public function testSaveContentOnPage()
-    {
+    #[Test]
+
+    public function it_save_content_on_page(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         Page::where('title', 'LiveEditPage')->delete();

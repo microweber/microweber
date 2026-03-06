@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Option\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Option\Events\OptionWasCreated;
@@ -15,8 +17,8 @@ use MicroweberPackages\Option\Models\Option;
 
 class OptionsModelTest extends TestCase
 {
-    public function testOptionsEvents()
-    {
+    #[Test]
+    public function it_options_events(): void {
         Event::fake();
         $model = new Option();
         $model->option_key = 'test';

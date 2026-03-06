@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use Modules\Product\Models\Product;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
@@ -11,8 +13,9 @@ use MicroweberPackages\Multilanguage\MultilanguageApi;
 class MultilanguageProductTest extends MultilanguageTestBase
 {
 
-    public function testSaveProductFromApiController()
-    {
+    #[Test]
+
+    public function it_save_product_from_api_controller(): void {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
 
         $params = [

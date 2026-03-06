@@ -2,6 +2,8 @@
 
 namespace Modules\Attributes\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Modules\Attributes\Models\Attribute;
 use Modules\Attributes\Repositories\AttributesManager;
 use Tests\TestCase;
@@ -18,8 +20,9 @@ class AttributesManagerTest extends TestCase
         $this->attributesManager = new AttributesManager();
     }
 
-    public function testGetValues()
-    {
+    #[Test]
+
+    public function it_get_values(): void {
         Attribute::where('rel_type', 'TestModel')->delete();
 
         Attribute::create([
@@ -36,8 +39,9 @@ class AttributesManagerTest extends TestCase
         $this->assertEquals('blue', $values['color']);
     }
 
-    public function testGet()
-    {
+    #[Test]
+
+    public function it_get(): void {
         // cleanup
         Attribute::where('rel_type', 'TestModel')->delete();
 
@@ -56,8 +60,9 @@ class AttributesManagerTest extends TestCase
         $this->assertEquals('large', $attributes[0]['attribute_value']);
     }
 
-    public function testSave()
-    {
+    #[Test]
+
+    public function it_save(): void {
         $data = [
             'attribute_name' => 'height',
             'attribute_value' => 'tall',

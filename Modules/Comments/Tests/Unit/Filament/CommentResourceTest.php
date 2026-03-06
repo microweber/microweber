@@ -34,20 +34,20 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListComments::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $comments = Comment::factory()->count(3)->create();
         Livewire::test(ListComments::class)->assertCanSeeTableRecords($comments);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $content = Content::factory()->create();
 
@@ -70,7 +70,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $comment = Comment::factory()->create(['comment_name' => 'Original']);
         Livewire::test(EditComment::class, ['record' => $comment->id])
@@ -82,7 +82,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $comment = Comment::factory()->create();
         Livewire::test(ListComments::class)->callTableAction('delete', $comment);
@@ -90,7 +90,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_is_moderated(): void
+    public function it_can_filter_by_is_moderated(): void
     {
         $approved = Comment::factory()->create(['is_moderated' => true]);
         $pending = Comment::factory()->create(['is_moderated' => false]);
@@ -102,7 +102,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_is_spam(): void
+    public function it_can_filter_by_is_spam(): void
     {
         $spam = Comment::factory()->create(['is_spam' => true]);
         $notSpam = Comment::factory()->create(['is_spam' => false]);
@@ -114,21 +114,21 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_approve_action_exists(): void
+    public function it_approve_action_exists(): void
     {
         $comment = Comment::factory()->create(['is_moderated' => false]);
         Livewire::test(ListComments::class)->assertTableActionExists('approve');
     }
 
     #[Test]
-    public function test_spam_action_exists(): void
+    public function it_spam_action_exists(): void
     {
         $comment = Comment::factory()->create();
         Livewire::test(ListComments::class)->assertTableActionExists('spam');
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListComments::class)
             ->assertTableColumnExists('comment_name')
@@ -139,7 +139,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create comments with different dates
         $commentA = Comment::factory()->create([
@@ -162,7 +162,7 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $comment1 = Comment::factory()->create(['comment_name' => 'Delete 1']);
         $comment2 = Comment::factory()->create(['comment_name' => 'Delete 2']);
@@ -182,19 +182,19 @@ class CommentResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_approve_action_exists(): void
+    public function it_bulk_approve_action_exists(): void
     {
         Livewire::test(ListComments::class)->assertTableBulkActionExists('approve');
     }
 
     #[Test]
-    public function test_bulk_mark_as_spam_action_exists(): void
+    public function it_bulk_mark_as_spam_action_exists(): void
     {
         Livewire::test(ListComments::class)->assertTableBulkActionExists('mark_as_spam');
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $comment = Comment::factory()->create(['comment_name' => 'Searchable Comment']);
         $results = CommentResource::getGlobalSearchResults('Searchable');

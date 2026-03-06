@@ -16,9 +16,7 @@ class PickupFromAddressFilamentResourceTest extends TestCase
 {
 
     #[Test]
-
-    public function testPickupFromAddressShippingProviderLifecycle()
-    {
+    public function it_pickupfromaddressshippingproviderlifecycle(): void {
         ShippingProvider::truncate();
         // Create Pickup From Address Shipping Provider
         Livewire::test(CreateShippingProvider::class)

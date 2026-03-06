@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Tax\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Coupons\Models\Coupon;
@@ -10,8 +12,8 @@ use Modules\Tax\Models\TaxType;
 class TaxCartTest extends TestCase
 {
      use ShopTestHelperTrait;
-    public function testTaxAppliedOnCheckout()
-    {
+    #[Test]
+    public function it_tax_applied_on_checkout(): void {
         TaxType::truncate();
         Coupon::truncate();
         empty_cart();

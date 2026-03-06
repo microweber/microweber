@@ -3,6 +3,8 @@
 
 namespace Modules\Product\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -15,8 +17,9 @@ use Modules\Offer\Listeners\AddSpecialPriceProductListener;
 class ProductApiControllerTest extends TestCase
 {
 
-    public function testAddProductFull()
-    {
+    #[Test]
+
+    public function it_add_product_full(): void {
 
         $this->loginAsAdmin();
         $categoryIds = [];
@@ -142,8 +145,9 @@ class ProductApiControllerTest extends TestCase
         $this->assertEquals($productDataSaved->price, $price);
     }
 
-    public function testSaveProductFromController()
-    {
+    #[Test]
+
+    public function it_save_product_from_controller(): void {
         $this->loginAsAdmin();
 
         $title = 'Test add product from api ' . rand();
@@ -228,8 +232,9 @@ class ProductApiControllerTest extends TestCase
 
     }
 
-    public function testDestroyContentFromController()
-    {
+    #[Test]
+
+    public function it_destroy_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -258,8 +263,10 @@ class ProductApiControllerTest extends TestCase
     }
 
 
-    public function testProductDiscountLabelValues()
-    {
+    #[Test]
+
+
+    public function it_product_discount_label_values(): void {
         $this->loginAsAdmin();
 
         $title = 'Product with labels';

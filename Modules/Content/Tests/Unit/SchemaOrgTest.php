@@ -2,6 +2,8 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Page\Models\Page;
@@ -9,8 +11,8 @@ use Modules\Post\Models\Post;
 
 class SchemaOrgTest extends TestCase
 {
-    public function testModule()
-    {
+    #[Test]
+    public function it_module(): void {
 
 
         // TEST PAGE

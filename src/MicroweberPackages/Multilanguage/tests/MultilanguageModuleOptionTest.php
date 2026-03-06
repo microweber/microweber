@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Translation\Models\Translation;
@@ -9,8 +11,9 @@ use MicroweberPackages\Translation\Models\Translation;
 class MultilanguageModuleOptionTest extends MultilanguageTestBase
 {
 
-    public function testSaveModuleOptionApi()
-    {
+    #[Test]
+
+    public function it_save_module_option_api(): void {
 
         $defaultLang = app()->lang_helper->default_lang();
         $currentLang = app()->lang_helper->current_lang();

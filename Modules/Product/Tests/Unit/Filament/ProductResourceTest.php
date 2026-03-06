@@ -33,20 +33,20 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListProducts::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $products = Product::factory()->count(3)->create();
         Livewire::test(ListProducts::class)->assertCanSeeTableRecords($products);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(CreateProduct::class)
             ->fillForm([
@@ -64,7 +64,7 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $product = Product::factory()->create(['title' => 'Original']);
         Livewire::test(EditProduct::class, ['record' => $product->id])
@@ -76,7 +76,7 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $product = Product::factory()->create();
         Livewire::test(ListProducts::class)->callTableAction('delete', $product);
@@ -84,7 +84,7 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_pages_exist(): void
+    public function it_pages_exist(): void
     {
         $pages = ProductResource::getPages();
         $this->assertArrayHasKey('index', $pages);
@@ -93,7 +93,7 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_set_product_inventory_fields(): void
+    public function it_can_set_product_inventory_fields(): void
     {
         Livewire::test(CreateProduct::class)
             ->fillForm([
@@ -111,7 +111,7 @@ class ProductResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_set_product_shipping_fields(): void
+    public function it_can_set_product_shipping_fields(): void
     {
         Livewire::test(CreateProduct::class)
             ->fillForm([

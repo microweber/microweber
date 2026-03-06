@@ -2,6 +2,8 @@
 
 namespace Modules\Customer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
@@ -10,8 +12,10 @@ class CustomerFilterTest extends TestCase
 {
 
 
-    public function testCustomerFilters()
-    {
+    #[Test]
+
+
+    public function it_customer_filters(): void {
         // Ensure complete test isolation
         Customer::query()->delete();
         $this->assertEquals(0, Customer::count(), 'Database should be empty before test');

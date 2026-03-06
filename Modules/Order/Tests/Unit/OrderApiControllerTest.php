@@ -1,14 +1,16 @@
 <?php
 namespace Modules\Order\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
 class OrderApiControllerTest extends TestCase
 {
-    public function testStore()
-    {
+    #[Test]
+    public function it_store(): void {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -81,8 +83,9 @@ class OrderApiControllerTest extends TestCase
 
     }
 
-    public function testUpdate()
-    {
+    #[Test]
+
+    public function it_update(): void {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -156,8 +159,9 @@ class OrderApiControllerTest extends TestCase
 
     }
 
-    public function testDelete()
-    {
+    #[Test]
+
+    public function it_delete(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

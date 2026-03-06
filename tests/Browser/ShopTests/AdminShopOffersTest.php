@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\ShopTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Offer\Models\Offer;
 use Modules\Product\Models\Product;
@@ -12,8 +14,9 @@ use Tests\DuskTestCase;
 class AdminShopOffersTest extends DuskTestCase
 {
 
-    public function testAddAddOffer()
-    {
+    #[Test]
+
+    public function it_add_add_offer(): void {
         $siteUrl = site_url();
 
 

@@ -2,6 +2,8 @@
 
 namespace Modules\Post\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use Modules\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
@@ -9,8 +11,8 @@ use MicroweberPackages\User\Models\User;
 
 class PostApiControllerTest extends TestCase
 {
-    public function testAddContentFull()
-    {
+    #[Test]
+    public function it_add_content_full(): void {
         $categoryIds = [];
 
         $user = User::where('is_admin', '=', '1')->first();
@@ -100,8 +102,9 @@ class PostApiControllerTest extends TestCase
 
     }
 
-    public function testSaveContentFromController()
-    {
+    #[Test]
+
+    public function it_save_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
@@ -176,8 +179,9 @@ class PostApiControllerTest extends TestCase
 
     }
 
-    public function testDestroyContentFromController()
-    {
+    #[Test]
+
+    public function it_destroy_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

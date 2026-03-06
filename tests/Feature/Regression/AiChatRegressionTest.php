@@ -71,7 +71,7 @@ class AiChatRegressionTest extends TestCase
      * Test complete AI chat flow
      */
     #[Test]
-    public function test_complete_ai_chat_flow(): void
+    public function it_complete_ai_chat_flow(): void
     {
         $this->actingAs($this->admin);
 
@@ -114,7 +114,7 @@ class AiChatRegressionTest extends TestCase
      * Test chat with CreateContentTool
      */
     #[Test]
-    public function test_chat_with_create_content_tool(): void
+    public function it_chat_with_create_content_tool(): void
     {
         $this->actingAs($this->admin);
 
@@ -174,7 +174,7 @@ class AiChatRegressionTest extends TestCase
      * Test AmazonScraperTool execution
      */
     #[Test]
-    public function test_amazon_scraper_tool_execution(): void
+    public function it_amazon_scraper_tool_execution(): void
     {
         $this->actingAs($this->admin);
 
@@ -209,7 +209,7 @@ class AiChatRegressionTest extends TestCase
      * Test GoogleTrendsTool execution
      */
     #[Test]
-    public function test_google_trends_tool_execution(): void
+    public function it_google_trends_tool_execution(): void
     {
         $this->actingAs($this->admin);
 
@@ -241,7 +241,7 @@ class AiChatRegressionTest extends TestCase
      * Test RAG search tool
      */
     #[Test]
-    public function test_rag_search_tool_execution(): void
+    public function it_rag_search_tool_execution(): void
     {
         $this->actingAs($this->admin);
 
@@ -272,7 +272,7 @@ class AiChatRegressionTest extends TestCase
      * Test chat message streaming
      */
     #[Test]
-    public function test_chat_message_streaming(): void
+    public function it_chat_message_streaming(): void
     {
         $this->actingAs($this->admin);
 
@@ -297,7 +297,7 @@ class AiChatRegressionTest extends TestCase
      * Test file upload in chat
      */
     #[Test]
-    public function test_chat_file_upload(): void
+    public function it_chat_file_upload(): void
     {
         $this->actingAs($this->admin);
 
@@ -325,7 +325,7 @@ class AiChatRegressionTest extends TestCase
      * Test chat history is maintained
      */
     #[Test]
-    public function test_chat_history_is_maintained(): void
+    public function it_chat_history_is_maintained(): void
     {
         $this->actingAs($this->admin);
 
@@ -356,7 +356,7 @@ class AiChatRegressionTest extends TestCase
      * Test tool error handling
      */
     #[Test]
-    public function test_tool_error_handling(): void
+    public function it_tool_error_handling(): void
     {
         $this->actingAs($this->admin);
 
@@ -383,7 +383,7 @@ class AiChatRegressionTest extends TestCase
      * Test chat list pagination
      */
     #[Test]
-    public function test_chat_list_pagination(): void
+    public function it_chat_list_pagination(): void
     {
         $this->actingAs($this->admin);
 
@@ -400,7 +400,7 @@ class AiChatRegressionTest extends TestCase
      * Test chat deletion
      */
     #[Test]
-    public function test_chat_deletion(): void
+    public function it_chat_deletion(): void
     {
         $this->actingAs($this->admin);
 
@@ -423,7 +423,7 @@ class AiChatRegressionTest extends TestCase
      * Test unauthorized access to chat
      */
     #[Test]
-    public function test_unauthorized_user_cannot_access_others_chats(): void
+    public function it_unauthorized_user_cannot_access_others_chats(): void
     {
         $otherUser = User::factory()->create(['is_admin' => false]);
         $chat = AgentChat::factory()->create([

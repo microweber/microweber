@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Template\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Tests\Unit\TestHelpers;
@@ -24,8 +26,10 @@ class BootstrapTemplateLayoutTest extends TestCase
     }
 
 
-    public function testGetLayoutBootrapTemplate()
-    {
+    #[Test]
+
+
+    public function it_get_layout_bootrap_template(): void {
         $templateName = $this->template_name;
         $newCleanPageId = save_content([
             'content_type' => 'page',
@@ -50,8 +54,9 @@ class BootstrapTemplateLayoutTest extends TestCase
 
     }
 
-    public function testGetLayoutBootstrapTemplateHomePage()
-    {
+    #[Test]
+
+    public function it_get_layout_bootstrap_template_home_page(): void {
         $templateName = $this->template_name;
         $newCleanPageId = save_content([
             'content_type' => 'page',
@@ -72,8 +77,9 @@ class BootstrapTemplateLayoutTest extends TestCase
         $this->assertTrue(str_ends_with($template_render_file, 'index.blade.php'));
     }
 
-    public function testGetLayoutBootstrapTemplateCleanPage()
-    {
+    #[Test]
+
+    public function it_get_layout_bootstrap_template_clean_page(): void {
         $templateName = $this->template_name;
         $newCleanPageId = save_content([
             'content_type' => 'page',
@@ -87,8 +93,9 @@ class BootstrapTemplateLayoutTest extends TestCase
         $this->assertTrue(str_ends_with($template_render_file, 'clean.blade.php'));
     }
 
-    public function testGetLayoutBootstrapTemplateBlogPage()
-    {
+    #[Test]
+
+    public function it_get_layout_bootstrap_template_blog_page(): void {
         $templateName = $this->template_name;
         $newCleanPageId = save_content([
             'content_type' => 'page',
@@ -109,8 +116,9 @@ class BootstrapTemplateLayoutTest extends TestCase
 
     }
 
-    public function testGetLayoutBootstrapTemplateShopPage()
-    {
+    #[Test]
+
+    public function it_get_layout_bootstrap_template_shop_page(): void {
 
         $templateName = $this->template_name;
         $newCleanPageId = save_content([
@@ -132,8 +140,9 @@ class BootstrapTemplateLayoutTest extends TestCase
 
     }
 
-    public function testGetLayoutBootstrapTemplateProductInner()
-    {
+    #[Test]
+
+    public function it_get_layout_bootstrap_template_product_inner(): void {
 
         $templateName = $this->template_name;
         $newCleanPageId = save_content([

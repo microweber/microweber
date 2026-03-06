@@ -32,7 +32,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that all registered Filament resources are accessible
      */
     #[Test]
-    public function test_all_filament_resources_are_accessible(): void
+    public function it_all_filament_resources_are_accessible(): void
     {
         $this->actingAs($this->admin);
 
@@ -48,7 +48,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test Content resource CRUD operations
      */
     #[Test]
-    public function test_content_resource_full_crud(): void
+    public function it_content_resource_full_crud(): void
     {
         $this->actingAs($this->admin);
 
@@ -89,7 +89,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test User resource CRUD operations
      */
     #[Test]
-    public function test_user_resource_full_crud(): void
+    public function it_user_resource_full_crud(): void
     {
         $this->actingAs($this->admin);
 
@@ -130,7 +130,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test Category resource CRUD operations
      */
     #[Test]
-    public function test_category_resource_full_crud(): void
+    public function it_category_resource_full_crud(): void
     {
         $this->actingAs($this->admin);
 
@@ -168,7 +168,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test Order resource CRUD operations
      */
     #[Test]
-    public function test_order_resource_full_crud(): void
+    public function it_order_resource_full_crud(): void
     {
         $this->actingAs($this->admin);
 
@@ -210,7 +210,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test Product resource CRUD operations
      */
     #[Test]
-    public function test_product_resource_full_crud(): void
+    public function it_product_resource_full_crud(): void
     {
         $this->actingAs($this->admin);
 
@@ -251,7 +251,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that bulk actions work on list pages
      */
     #[Test]
-    public function test_bulk_delete_action_works(): void
+    public function it_bulk_delete_action_works(): void
     {
         $this->actingAs($this->admin);
 
@@ -273,7 +273,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that pagination works correctly
      */
     #[Test]
-    public function test_pagination_works_on_resource_list_pages(): void
+    public function it_pagination_works_on_resource_list_pages(): void
     {
         $this->actingAs($this->admin);
 
@@ -288,7 +288,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that search functionality works
      */
     #[Test]
-    public function test_search_functionality_works_on_resources(): void
+    public function it_search_functionality_works_on_resources(): void
     {
         $this->actingAs($this->admin);
 
@@ -304,7 +304,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that filtering works correctly
      */
     #[Test]
-    public function test_filtering_works_on_resource_list_pages(): void
+    public function it_filtering_works_on_resource_list_pages(): void
     {
         $this->actingAs($this->admin);
 
@@ -320,7 +320,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that form validation works correctly
      */
     #[Test]
-    public function test_form_validation_works_on_resource_create(): void
+    public function it_form_validation_works_on_resource_create(): void
     {
         $this->actingAs($this->admin);
 
@@ -335,7 +335,7 @@ class AdminCrudRegressionTest extends TestCase
      * Test that relations are displayed correctly
      */
     #[Test]
-    public function test_relations_are_displayed_on_resource_edit(): void
+    public function it_relations_are_displayed_on_resource_edit(): void
     {
         $this->actingAs($this->admin);
 

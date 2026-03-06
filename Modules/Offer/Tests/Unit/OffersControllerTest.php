@@ -2,6 +2,8 @@
 
 namespace Modules\Offer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -11,8 +13,10 @@ class OffersControllerTest extends TestCase
 {
 
 
-    public function testSaveOfferFromController()
-    {
+    #[Test]
+
+
+    public function it_save_offer_from_controller(): void {
         $this->loginAsAdmin();
         $categoryIds = [];
 

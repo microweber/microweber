@@ -42,7 +42,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that tailwind config has responsive breakpoints.
      */
     #[Test]
-    public function test_tailwind_has_responsive_breakpoints(): void
+    public function it_tailwind_has_responsive_breakpoints(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -65,7 +65,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that safelist includes responsive utilities.
      */
     #[Test]
-    public function test_safelist_includes_responsive_utilities(): void
+    public function it_safelist_includes_responsive_utilities(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -84,7 +84,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that global CSS has responsive padding classes.
      */
     #[Test]
-    public function test_global_css_has_responsive_padding(): void
+    public function it_global_css_has_responsive_padding(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -105,7 +105,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that tables have responsive styling.
      */
     #[Test]
-    public function test_tables_have_responsive_styling(): void
+    public function it_tables_have_responsive_styling(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -125,7 +125,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that mobile media queries exist.
      */
     #[Test]
-    public function test_mobile_media_queries_exist(): void
+    public function it_mobile_media_queries_exist(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -147,7 +147,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that sidebar has responsive toggle configuration.
      */
     #[Test]
-    public function test_sidebar_has_responsive_toggle(): void
+    public function it_sidebar_has_responsive_toggle(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -168,7 +168,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that forms have responsive input sizing.
      */
     #[Test]
-    public function test_forms_have_responsive_sizing(): void
+    public function it_forms_have_responsive_sizing(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -187,7 +187,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that the admin panel route loads on mobile.
      */
     #[Test]
-    public function test_admin_route_loads_on_mobile(): void
+    public function it_admin_route_loads_on_mobile(): void
     {
         // Act: Visit admin page with mobile user agent
         $response = $this->withHeaders([
@@ -202,7 +202,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that viewport meta tag is present.
      */
     #[Test]
-    public function test_viewport_meta_tag_present(): void
+    public function it_viewport_meta_tag_present(): void
     {
         // Act: Get login page
         $response = $this->get('/admin/login');
@@ -218,7 +218,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that responsive font sizes are configured.
      */
     #[Test]
-    public function test_responsive_font_sizes_configured(): void
+    public function it_responsive_font_sizes_configured(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -237,7 +237,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that card layouts are responsive.
      */
     #[Test]
-    public function test_card_layouts_are_responsive(): void
+    public function it_card_layouts_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -256,7 +256,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that button sizes are responsive.
      */
     #[Test]
-    public function test_button_sizes_are_responsive(): void
+    public function it_button_sizes_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -275,7 +275,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that header layouts are responsive.
      */
     #[Test]
-    public function test_header_layouts_are_responsive(): void
+    public function it_header_layouts_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -295,7 +295,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that toolbar layouts are responsive.
      */
     #[Test]
-    public function test_toolbar_layouts_are_responsive(): void
+    public function it_toolbar_layouts_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -315,7 +315,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that grid layouts are responsive.
      */
     #[Test]
-    public function test_grid_layouts_are_responsive(): void
+    public function it_grid_layouts_are_responsive(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -329,7 +329,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that spacing utilities are responsive.
      */
     #[Test]
-    public function test_spacing_utilities_are_responsive(): void
+    public function it_spacing_utilities_are_responsive(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -343,7 +343,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that overflow utilities are responsive.
      */
     #[Test]
-    public function test_overflow_utilities_are_responsive(): void
+    public function it_overflow_utilities_are_responsive(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -357,7 +357,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that the content area is responsive.
      */
     #[Test]
-    public function test_content_area_is_responsive(): void
+    public function it_content_area_is_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -376,7 +376,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that navigation items are accessible on small screens.
      */
     #[Test]
-    public function test_navigation_items_accessible_on_small_screens(): void
+    public function it_navigation_items_accessible_on_small_screens(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -392,7 +392,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that modals are responsive.
      */
     #[Test]
-    public function test_modals_are_responsive(): void
+    public function it_modals_are_responsive(): void
     {
         // Modals are responsive by default in Filament v5
         // We verify the theme supports them
@@ -411,7 +411,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that dropdowns are responsive.
      */
     #[Test]
-    public function test_dropdowns_are_responsive(): void
+    public function it_dropdowns_are_responsive(): void
     {
         // Dropdowns are responsive by default in Filament v5
         // We verify the theme supports them
@@ -430,7 +430,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that alerts are responsive.
      */
     #[Test]
-    public function test_alerts_are_responsive(): void
+    public function it_alerts_are_responsive(): void
     {
         // Alerts are responsive by default in Filament v5
         // We verify the theme supports them
@@ -449,7 +449,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that badges are responsive.
      */
     #[Test]
-    public function test_badges_are_responsive(): void
+    public function it_badges_are_responsive(): void
     {
         // Badges are responsive by default in Filament v5
         // We verify the theme supports them
@@ -468,7 +468,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that empty states are responsive.
      */
     #[Test]
-    public function test_empty_states_are_responsive(): void
+    public function it_empty_states_are_responsive(): void
     {
         // Empty states are responsive by default in Filament v5
         // We verify the theme supports them
@@ -487,7 +487,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that loading states are responsive.
      */
     #[Test]
-    public function test_loading_states_are_responsive(): void
+    public function it_loading_states_are_responsive(): void
     {
         // Loading states are responsive by default in Filament v5
         // We verify the theme supports them
@@ -506,7 +506,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that pagination is responsive.
      */
     #[Test]
-    public function test_pagination_is_responsive(): void
+    public function it_pagination_is_responsive(): void
     {
         // Arrange: Get pagination CSS
         $paginationCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/pagination.css');
@@ -525,7 +525,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that breadcrumbs are responsive.
      */
     #[Test]
-    public function test_breadcrumbs_are_responsive(): void
+    public function it_breadcrumbs_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -544,7 +544,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that filter indicators are responsive.
      */
     #[Test]
-    public function test_filter_indicators_are_responsive(): void
+    public function it_filter_indicators_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -563,7 +563,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that action buttons are responsive.
      */
     #[Test]
-    public function test_action_buttons_are_responsive(): void
+    public function it_action_buttons_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -582,7 +582,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that widgets are responsive.
      */
     #[Test]
-    public function test_widgets_are_responsive(): void
+    public function it_widgets_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -601,7 +601,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that stats overview is responsive.
      */
     #[Test]
-    public function test_stats_overview_is_responsive(): void
+    public function it_stats_overview_is_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -620,7 +620,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that charts are responsive.
      */
     #[Test]
-    public function test_charts_are_responsive(): void
+    public function it_charts_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -639,7 +639,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that table widgets are responsive.
      */
     #[Test]
-    public function test_table_widgets_are_responsive(): void
+    public function it_table_widgets_are_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -658,7 +658,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that the sidebar brand is responsive.
      */
     #[Test]
-    public function test_sidebar_brand_is_responsive(): void
+    public function it_sidebar_brand_is_responsive(): void
     {
         // Sidebar brand is responsive by default in Filament v5
         // We verify the panel is configured
@@ -674,7 +674,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that user menu is responsive.
      */
     #[Test]
-    public function test_user_menu_is_responsive(): void
+    public function it_user_menu_is_responsive(): void
     {
         // User menu is responsive by default in Filament v5
         // We verify the panel is configured
@@ -690,7 +690,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that global search is responsive.
      */
     #[Test]
-    public function test_global_search_is_responsive(): void
+    public function it_global_search_is_responsive(): void
     {
         // Global search is responsive by default in Filament v5
         // We verify the panel is configured
@@ -706,7 +706,7 @@ class ResponsiveDesignTest extends TestCase
      * Test that the footer is responsive.
      */
     #[Test]
-    public function test_footer_is_responsive(): void
+    public function it_footer_is_responsive(): void
     {
         // Footer is responsive by default in Filament v5
         // We verify the theme is configured

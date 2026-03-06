@@ -2,6 +2,8 @@
 
 namespace Modules\Billing\Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Billing\Models\SubscriptionCustomer;
@@ -13,8 +15,9 @@ class SubscriptionManagerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_get_subscription_customer_returns_error_when_not_authenticated()
-    {
+    #[Test]
+
+    public function it_get_subscription_customer_returns_error_when_not_authenticated(): void {
         $manager = new SubscriptionManager();
         $result = $manager->getSubscriptionCustomer();
 
@@ -23,8 +26,9 @@ class SubscriptionManagerTest extends TestCase
         $this->assertEquals('User not found', $result['error']);
     }
 
-    public function test_get_subscription_customer_creates_customer_for_authenticated_user()
-    {
+    #[Test]
+
+    public function it_get_subscription_customer_creates_customer_for_authenticated_user(): void {
         $user = User::factory()->create();
         $this->actingAs($user);
 
@@ -35,8 +39,9 @@ class SubscriptionManagerTest extends TestCase
         $this->assertEquals($user->id, $customer->user_id);
     }
 
-    public function test_subscribe_to_plan_returns_error_for_invalid_sku()
-    {
+    #[Test]
+
+    public function it_subscribe_to_plan_returns_error_for_invalid_sku(): void {
         $user = User::factory()->create();
         $this->actingAs($user);
 

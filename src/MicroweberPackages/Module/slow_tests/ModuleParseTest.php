@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Module\slow_tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
@@ -11,8 +13,10 @@ class ModuleParseTest extends TestCase
 {
 
 
-    public function testIfModulesIdsAreAssignedOnParser()
-    {
+    #[Test]
+
+
+    public function it_if_modules_ids_are_assigned_on_parser(): void {
         $layout = '<!DOCTYPE html>
         <html>
         <head>
@@ -48,8 +52,9 @@ class ModuleParseTest extends TestCase
         }
     }
 
-    public function testIfModulesIdsAreAssignedOnParser2()
-    {
+    #[Test]
+
+    public function it_if_modules_ids_are_assigned_on_parser2(): void {
 
 
         $layout = '<!DOCTYPE html>
@@ -96,8 +101,9 @@ class ModuleParseTest extends TestCase
         }
     }
 
-    public function testIfModulesIdsAreAssignedOnParser3()
-    {
+    #[Test]
+
+    public function it_if_modules_ids_are_assigned_on_parser3(): void {
 
         $layout = <<<HTML
         <!DOCTYPE html>
@@ -145,8 +151,11 @@ HTML;
 
 
 
-    public function testParsingModuleTags()
-    {
+    #[Test]
+
+
+
+    public function it_parsing_module_tags(): void {
 
 
         $user = User::where('is_admin', '=', '1')->first();

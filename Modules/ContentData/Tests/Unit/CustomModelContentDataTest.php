@@ -2,14 +2,16 @@
 
 namespace Modules\ContentData\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\ContentData\Models\ContentData;
 
 
 class CustomModelContentDataTest extends TestCase
 {
-    public function testContentDataToCustomModel()
-    {
+    #[Test]
+    public function it_content_data_to_custom_model(): void {
 
         ContentData::truncate();
 

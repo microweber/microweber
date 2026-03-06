@@ -2,13 +2,16 @@
 
 namespace Modules\Content\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class LangTest extends TestCase
 {
 
-    public function testLang()
-    {
+    #[Test]
+
+    public function it_lang(): void {
 
         $lang_string_test1 = _e('Product', true);
         $this->assertEquals('Product', $lang_string_test1);
@@ -29,8 +32,9 @@ class LangTest extends TestCase
         $this->assertEquals('Продукт', $lang_string_test);
     }
 
-    public function testLangData()
-    {
+    #[Test]
+
+    public function it_lang_data(): void {
 
         $loc_en = \MicroweberPackages\Translation\LanguageHelper::getLangData('en');
         $loc_en2 = \MicroweberPackages\Translation\LanguageHelper::getLangData('en_US');

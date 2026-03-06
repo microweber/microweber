@@ -2,6 +2,8 @@
 
 namespace Modules\Customer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Address\Models\Address;
@@ -9,8 +11,8 @@ use Modules\Customer\Models\Customer;
 
 class CustomerModelTest extends TestCase
 {
-    public function testCustomerCreation()
-    {
+    #[Test]
+    public function it_customer_creation(): void {
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();
         // Create a new customer
@@ -62,8 +64,9 @@ class CustomerModelTest extends TestCase
         $this->assertNull($customer);
     }
 
-    public function testAddressRelationships()
-    {
+    #[Test]
+
+    public function it_address_relationships(): void {
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();
         $customer = Customer::create([
@@ -81,8 +84,10 @@ class CustomerModelTest extends TestCase
     }
 
 
-    public function testGetFullName()
-    {
+    #[Test]
+
+
+    public function it_get_full_name(): void {
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();
         $customer = Customer::create([
@@ -95,8 +100,9 @@ class CustomerModelTest extends TestCase
         $this->assertEquals('John Doe', $customer->getFullName());
     }
 
-    public function testCompanyRelationship()
-    {
+    #[Test]
+
+    public function it_company_relationship(): void {
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();
         $customer = Customer::create([
@@ -109,8 +115,10 @@ class CustomerModelTest extends TestCase
     }
 
 
-    public function testJsonFieldOperations()
-    {
+    #[Test]
+
+
+    public function it_json_field_operations(): void {
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();
         // Test empty/null customer_data

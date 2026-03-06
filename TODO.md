@@ -100,7 +100,12 @@ Modules with known heavy Filament usage (prioritize these):
     - src/MicroweberPackages/Filament/tests/Forms/Components/MwFileUploadTest.php (13 tests)
     - tests/Feature/Filament/FilamentResourceTestCaseExampleTest.php (3 tests)
   - All tests passing after migration
-- [ ] Convert remaining `public function test_...()` to `#[Test] public function ...(): void`
+- [x] 2026-03-06 Convert remaining `public function test_...()` to `#[Test] public function ...(): void`
+  - Converted 249 test files from `public function testCamelCase()` to `#[Test] public function it_camel_case(): void`
+  - Converted 68 files from `#[Test] public function test_...` to `#[Test] public function it_...`
+  - Converted 11 remaining files with mixed patterns
+  - Total: 328 test files updated with proper `#[Test]` attributes and `void` return types
+  - All test methods now follow modern PHPUnit attribute-based syntax
 - [ ] Replace `/** @test */` in **all** unit/feature tests (Billing, Ai, Cart, Order, etc.)
 - [ ] Audit & fix all remaining `->assertSee()`, `->assertDontSee()` ? prefer `assertStringContainsString`
 - [ ] Replace `Http::fake([...])` ? new `Http::response()->with...` style where possible (Laravel 11+)

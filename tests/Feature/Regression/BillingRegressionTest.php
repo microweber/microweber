@@ -63,7 +63,7 @@ class BillingRegressionTest extends TestCase
      * Test complete subscription flow: create → webhook → cancel
      */
     #[Test]
-    public function test_complete_subscription_lifecycle(): void
+    public function it_complete_subscription_lifecycle(): void
     {
         $this->actingAs($this->customer);
 
@@ -112,7 +112,7 @@ class BillingRegressionTest extends TestCase
      * Test subscription with trial period
      */
     #[Test]
-    public function test_subscription_with_trial_period(): void
+    public function it_subscription_with_trial_period(): void
     {
         $this->actingAs($this->customer);
 
@@ -135,7 +135,7 @@ class BillingRegressionTest extends TestCase
     * Test webhook signature verification
      */
     #[Test]
-    public function test_webhook_signature_verification(): void
+    public function it_webhook_signature_verification(): void
     {
         $payload = [
             'id' => 'evt_test_' . uniqid(),
@@ -165,7 +165,7 @@ class BillingRegressionTest extends TestCase
      * Test subscription upgrade/downgrade
      */
     #[Test]
-    public function test_subscription_plan_change(): void
+    public function it_subscription_plan_change(): void
     {
         $this->actingAs($this->customer);
 
@@ -199,7 +199,7 @@ class BillingRegressionTest extends TestCase
      * Test failed payment webhook handling
      */
     #[Test]
-    public function test_failed_payment_webhook_handling(): void
+    public function it_failed_payment_webhook_handling(): void
     {
         $this->actingAs($this->customer);
 
@@ -231,7 +231,7 @@ class BillingRegressionTest extends TestCase
      * Test subscription renewal
      */
     #[Test]
-    public function test_subscription_renewal(): void
+    public function it_subscription_renewal(): void
     {
         $this->actingAs($this->customer);
 
@@ -260,7 +260,7 @@ class BillingRegressionTest extends TestCase
      * Test admin can view all subscriptions
      */
     #[Test]
-    public function test_admin_can_manage_all_subscriptions(): void
+    public function it_admin_can_manage_all_subscriptions(): void
     {
         $this->actingAs($this->admin);
 
@@ -283,7 +283,7 @@ class BillingRegressionTest extends TestCase
      * Test subscription stats calculation
      */
     #[Test]
-    public function test_subscription_stats_calculation(): void
+    public function it_subscription_stats_calculation(): void
     {
         $this->actingAs($this->admin);
 

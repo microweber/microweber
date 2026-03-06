@@ -2,6 +2,8 @@
 
 namespace Modules\Components\Tests\Unit\Components;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
@@ -10,8 +12,9 @@ class RadioTest extends TestCase
 {
     use InteractsWithViews;
 
-    public function testRendersARadio()
-    {
+    #[Test]
+
+    public function it_renders_a_radio(): void {
         $bladeString = '<x-radio name="options"></x-radio>';
 
         $output = Blade::render($bladeString);
@@ -19,29 +22,33 @@ class RadioTest extends TestCase
         $this->assertStringContainsString('class="form-check-input"', $output);
     }
 
-    public function testRendersARadioWithLabel()
-    {
+    #[Test]
+
+    public function it_renders_a_radio_with_label(): void {
         $bladeString = '<x-radio name="options" label="Option 1"></x-radio>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('for="option-1">Option 1</label>', $output);
     }
 
-    public function testRendersARadioAsChecked()
-    {
+    #[Test]
+
+    public function it_renders_a_radio_as_checked(): void {
         $bladeString = '<x-radio name="options" checked></x-radio>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('checked', $output);
     }
 
-    public function testRendersARadioAsDisabled()
-    {
+    #[Test]
+
+    public function it_renders_a_radio_as_disabled(): void {
         $bladeString = '<x-radio name="options" disabled></x-radio>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('disabled', $output);
     }
 
-    public function testRendersARadioWithError()
-    {
+    #[Test]
+
+    public function it_renders_a_radio_with_error(): void {
         $bladeString = '<x-radio name="options" :errors="$errors"></x-radio>';
 
         $view = $this->withViewErrors(['options' => 'The options field is required'])
@@ -51,8 +58,9 @@ class RadioTest extends TestCase
         $view->assertSee('invalid-feedback');
     }
 
-    public function testRendersARadioWithValue()
-    {
+    #[Test]
+
+    public function it_renders_a_radio_with_value(): void {
         $bladeString = '<x-radio name="options" value="1"></x-radio>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('value="1"', $output);

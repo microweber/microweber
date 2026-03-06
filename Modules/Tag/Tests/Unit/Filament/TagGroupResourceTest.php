@@ -31,20 +31,20 @@ class TagGroupResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListTagGroups::class)->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $groups = TagGroup::factory()->count(3)->create();
         Livewire::test(ListTagGroups::class)->assertCanSeeTableRecords($groups);
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         Livewire::test(ListTagGroups::class)
             ->fillForm(['name' => 'New Group', 'slug' => 'new-group'])
@@ -55,7 +55,7 @@ class TagGroupResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $group = TagGroup::factory()->create();
         Livewire::test(ListTagGroups::class)->callTableAction('delete', $group);

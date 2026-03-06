@@ -43,7 +43,7 @@ class DarkModeTest extends TestCase
      * Test that dark mode is enabled in the panel configuration.
      */
     #[Test]
-    public function test_dark_mode_is_enabled_in_panel(): void
+    public function it_dark_mode_is_enabled_in_panel(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -60,7 +60,7 @@ class DarkModeTest extends TestCase
      * Test that the panel has theme CSS configured for dark mode.
      */
     #[Test]
-    public function test_panel_has_theme_css_for_dark_mode(): void
+    public function it_panel_has_theme_css_for_dark_mode(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -78,7 +78,7 @@ class DarkModeTest extends TestCase
      * Test that Tailwind config has dark mode class strategy.
      */
     #[Test]
-    public function test_tailwind_config_has_dark_mode_class_strategy(): void
+    public function it_tailwind_config_has_dark_mode_class_strategy(): void
     {
         // Arrange: Get tailwind config path
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -97,7 +97,7 @@ class DarkModeTest extends TestCase
      * Test that dark mode color variables are defined in CSS.
      */
     #[Test]
-    public function test_dark_mode_color_variables_exist(): void
+    public function it_dark_mode_color_variables_exist(): void
     {
         // Arrange: Get global CSS path
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -122,7 +122,7 @@ class DarkModeTest extends TestCase
      * Test that the main theme CSS imports dark mode styles.
      */
     #[Test]
-    public function test_theme_css_imports_dark_mode_styles(): void
+    public function it_theme_css_imports_dark_mode_styles(): void
     {
         // Arrange: Get theme CSS path
         $themeCssPath = resource_path('css/filament/admin/theme.css');
@@ -141,7 +141,7 @@ class DarkModeTest extends TestCase
      * Test that primary and gray colors are configured for accessibility.
      */
     #[Test]
-    public function test_panel_colors_are_configured_for_accessibility(): void
+    public function it_panel_colors_are_configured_for_accessibility(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -162,7 +162,7 @@ class DarkModeTest extends TestCase
      * Test that dark mode classes are used in the microweber theme files.
      */
     #[Test]
-    public function test_microweber_theme_uses_dark_mode_classes(): void
+    public function it_microweber_theme_uses_dark_mode_classes(): void
     {
         // Arrange: Get theme directory
         $themeDir = base_path('packages/microweber-filament-theme/resources/assets/css');
@@ -191,7 +191,7 @@ class DarkModeTest extends TestCase
      * Test that responsive breakpoints are configured.
      */
     #[Test]
-    public function test_responsive_breakpoints_configured(): void
+    public function it_responsive_breakpoints_configured(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -208,7 +208,7 @@ class DarkModeTest extends TestCase
      * Test that the panel has proper font configuration for readability.
      */
     #[Test]
-    public function test_panel_has_font_configuration(): void
+    public function it_panel_has_font_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -222,7 +222,7 @@ class DarkModeTest extends TestCase
      * Test that sidebar configuration exists for mobile toggle.
      */
     #[Test]
-    public function test_sidebar_configuration_for_mobile(): void
+    public function it_sidebar_configuration_for_mobile(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -238,7 +238,7 @@ class DarkModeTest extends TestCase
      * Test that form inputs have proper dark mode styling.
      */
     #[Test]
-    public function test_form_inputs_have_dark_mode_styling(): void
+    public function it_form_inputs_have_dark_mode_styling(): void
     {
         // Arrange: Get form styles path
         $formsCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-input.css');
@@ -257,7 +257,7 @@ class DarkModeTest extends TestCase
      * Test that table components have dark mode support.
      */
     #[Test]
-    public function test_table_components_have_dark_mode_support(): void
+    public function it_table_components_have_dark_mode_support(): void
     {
         // Arrange: Check global CSS for table styles
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -277,7 +277,7 @@ class DarkModeTest extends TestCase
      * This is a configuration test - actual visual testing requires browser.
      */
     #[Test]
-    public function test_color_contrast_configuration(): void
+    public function it_color_contrast_configuration(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -301,7 +301,7 @@ class DarkModeTest extends TestCase
      * Test that the panel layout is responsive.
      */
     #[Test]
-    public function test_panel_layout_is_responsive(): void
+    public function it_panel_layout_is_responsive(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -322,7 +322,7 @@ class DarkModeTest extends TestCase
      * Test that authentication pages are styled for dark mode.
      */
     #[Test]
-    public function test_authentication_pages_support_dark_mode(): void
+    public function it_authentication_pages_support_dark_mode(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -338,7 +338,7 @@ class DarkModeTest extends TestCase
      * Test that widget components have dark mode support.
      */
     #[Test]
-    public function test_widgets_have_dark_mode_support(): void
+    public function it_widgets_have_dark_mode_support(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -357,7 +357,7 @@ class DarkModeTest extends TestCase
      * Test that the theme CSS compiles without errors.
      */
     #[Test]
-    public function test_theme_css_compiles_without_errors(): void
+    public function it_theme_css_compiles_without_errors(): void
     {
         // Arrange: Get theme CSS
         $themePath = resource_path('css/filament/admin/theme.css');
@@ -377,7 +377,7 @@ class DarkModeTest extends TestCase
      * Test that all major color scales have dark mode variants.
      */
     #[Test]
-    public function test_color_scales_have_dark_mode_variants(): void
+    public function it_color_scales_have_dark_mode_variants(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -397,7 +397,7 @@ class DarkModeTest extends TestCase
      * Test that the dark mode toggle is accessible.
      */
     #[Test]
-    public function test_dark_mode_toggle_is_accessible(): void
+    public function it_dark_mode_toggle_is_accessible(): void
     {
         // Dark mode toggle is handled via Filament's built-in dark mode support
         // The 'class' strategy allows JavaScript to toggle dark mode by adding/removing
@@ -414,7 +414,7 @@ class DarkModeTest extends TestCase
      * Test responsive design for tables on small screens.
      */
     #[Test]
-    public function test_tables_are_responsive_on_small_screens(): void
+    public function it_tables_are_responsive_on_small_screens(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -430,7 +430,7 @@ class DarkModeTest extends TestCase
      * Test that card components have proper dark mode backgrounds.
      */
     #[Test]
-    public function test_cards_have_proper_dark_mode_backgrounds(): void
+    public function it_cards_have_proper_dark_mode_backgrounds(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -449,7 +449,7 @@ class DarkModeTest extends TestCase
      * Test that text colors have sufficient contrast in dark mode.
      */
     #[Test]
-    public function test_text_colors_have_sufficient_contrast(): void
+    public function it_text_colors_have_sufficient_contrast(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -469,7 +469,7 @@ class DarkModeTest extends TestCase
      * Test that the sidebar toggle button exists on mobile.
      */
     #[Test]
-    public function test_sidebar_toggle_button_exists_on_mobile(): void
+    public function it_sidebar_toggle_button_exists_on_mobile(): void
     {
         // Arrange: Get the admin panel
         $panel = Filament::getPanel('admin');
@@ -485,7 +485,7 @@ class DarkModeTest extends TestCase
      * Test that form labels are readable in dark mode.
      */
     #[Test]
-    public function test_form_labels_are_readable_in_dark_mode(): void
+    public function it_form_labels_are_readable_in_dark_mode(): void
     {
         // Arrange: Check theme CSS files
         $themeFiles = [
@@ -512,7 +512,7 @@ class DarkModeTest extends TestCase
      * Test that button components are visible in dark mode.
      */
     #[Test]
-    public function test_buttons_are_visible_in_dark_mode(): void
+    public function it_buttons_are_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -531,7 +531,7 @@ class DarkModeTest extends TestCase
      * Test that the admin panel route responds correctly.
      */
     #[Test]
-    public function test_admin_panel_route_responds_correctly(): void
+    public function it_admin_panel_route_responds_correctly(): void
     {
         // Act: Visit admin login page (accessible without auth)
         $response = $this->get('/admin/login');
@@ -544,7 +544,7 @@ class DarkModeTest extends TestCase
      * Test that CSS files use consistent dark mode patterns.
      */
     #[Test]
-    public function test_css_uses_consistent_dark_mode_patterns(): void
+    public function it_css_uses_consistent_dark_mode_patterns(): void
     {
         // Arrange: Get all CSS files in theme
         $themeDir = base_path('packages/microweber-filament-theme/resources/assets/css');
@@ -589,7 +589,7 @@ class DarkModeTest extends TestCase
      * Test that the safelist includes dark mode responsive utilities.
      */
     #[Test]
-    public function test_safelist_includes_dark_mode_utilities(): void
+    public function it_safelist_includes_dark_mode_utilities(): void
     {
         // Arrange: Get tailwind config
         $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
@@ -606,7 +606,7 @@ class DarkModeTest extends TestCase
      * Test that custom Microweber components have dark mode support.
      */
     #[Test]
-    public function test_custom_components_have_dark_mode_support(): void
+    public function it_custom_components_have_dark_mode_support(): void
     {
         // Arrange: Check live-edit classes CSS
         $liveEditCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css');
@@ -625,7 +625,7 @@ class DarkModeTest extends TestCase
      * Test that the theme has proper z-index layering for dark mode.
      */
     #[Test]
-    public function test_theme_has_proper_z_index_layering(): void
+    public function it_theme_has_proper_z_index_layering(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -644,7 +644,7 @@ class DarkModeTest extends TestCase
      * Test that navigation items are visible in dark mode.
      */
     #[Test]
-    public function test_navigation_items_visible_in_dark_mode(): void
+    public function it_navigation_items_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -663,7 +663,7 @@ class DarkModeTest extends TestCase
      * Test that badge components have proper dark mode contrast.
      */
     #[Test]
-    public function test_badges_have_proper_dark_mode_contrast(): void
+    public function it_badges_have_proper_dark_mode_contrast(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -685,7 +685,7 @@ class DarkModeTest extends TestCase
      * Test that input placeholders are visible in dark mode.
      */
     #[Test]
-    public function test_input_placeholders_visible_in_dark_mode(): void
+    public function it_input_placeholders_visible_in_dark_mode(): void
     {
         // This test verifies that form inputs have proper styling
         // Actual visual verification requires browser testing
@@ -706,7 +706,7 @@ class DarkModeTest extends TestCase
      * Test that modal dialogs have proper dark mode backgrounds.
      */
     #[Test]
-    public function test_modals_have_proper_dark_mode_backgrounds(): void
+    public function it_modals_have_proper_dark_mode_backgrounds(): void
     {
         // Modals are styled by Filament's default theme
         // We verify that the theme is properly configured
@@ -727,7 +727,7 @@ class DarkModeTest extends TestCase
      * Test that dropdown menus are readable in dark mode.
      */
     #[Test]
-    public function test_dropdowns_readable_in_dark_mode(): void
+    public function it_dropdowns_readable_in_dark_mode(): void
     {
         // Dropdowns inherit styles from the theme
         // We verify the theme has proper dark mode support
@@ -749,7 +749,7 @@ class DarkModeTest extends TestCase
      * Test that tooltip components have proper dark mode styling.
      */
     #[Test]
-    public function test_tooltips_have_proper_dark_mode_styling(): void
+    public function it_tooltips_have_proper_dark_mode_styling(): void
     {
         // Tooltips are handled by Filament's default components
         // We verify dark mode is configured
@@ -766,7 +766,7 @@ class DarkModeTest extends TestCase
      * Test that alert/notification components have dark mode support.
      */
     #[Test]
-    public function test_alerts_have_dark_mode_support(): void
+    public function it_alerts_have_dark_mode_support(): void
     {
         // Alerts are styled by Filament's notification system
         // We verify the theme supports dark mode
@@ -787,7 +787,7 @@ class DarkModeTest extends TestCase
      * Test that the theme has proper focus indicators for accessibility.
      */
     #[Test]
-    public function test_theme_has_proper_focus_indicators(): void
+    public function it_theme_has_proper_focus_indicators(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -807,7 +807,7 @@ class DarkModeTest extends TestCase
      * Test that disabled states are visible in dark mode.
      */
     #[Test]
-    public function test_disabled_states_visible_in_dark_mode(): void
+    public function it_disabled_states_visible_in_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -827,7 +827,7 @@ class DarkModeTest extends TestCase
      * Test that link colors are distinguishable in dark mode.
      */
     #[Test]
-    public function test_link_colors_distinguishable_in_dark_mode(): void
+    public function it_link_colors_distinguishable_in_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -846,7 +846,7 @@ class DarkModeTest extends TestCase
      * Test that hover states are visible in dark mode.
      */
     #[Test]
-    public function test_hover_states_visible_in_dark_mode(): void
+    public function it_hover_states_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -865,7 +865,7 @@ class DarkModeTest extends TestCase
      * Test that active/selected states are visible in dark mode.
      */
     #[Test]
-    public function test_active_states_visible_in_dark_mode(): void
+    public function it_active_states_visible_in_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -884,7 +884,7 @@ class DarkModeTest extends TestCase
      * Test that the theme has no hardcoded colors that break dark mode.
      */
     #[Test]
-    public function test_no_hardcoded_colors_breaking_dark_mode(): void
+    public function it_no_hardcoded_colors_breaking_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -908,7 +908,7 @@ class DarkModeTest extends TestCase
      * Test that border colors have proper dark mode contrast.
      */
     #[Test]
-    public function test_border_colors_have_proper_dark_mode_contrast(): void
+    public function it_border_colors_have_proper_dark_mode_contrast(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -927,7 +927,7 @@ class DarkModeTest extends TestCase
      * Test that shadow colors work in dark mode.
      */
     #[Test]
-    public function test_shadow_colors_work_in_dark_mode(): void
+    public function it_shadow_colors_work_in_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -946,7 +946,7 @@ class DarkModeTest extends TestCase
      * Test that icon colors adapt to dark mode.
      */
     #[Test]
-    public function test_icon_colors_adapt_to_dark_mode(): void
+    public function it_icon_colors_adapt_to_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -965,7 +965,7 @@ class DarkModeTest extends TestCase
      * Test that scrollbar styles work in dark mode.
      */
     #[Test]
-    public function test_scrollbar_styles_work_in_dark_mode(): void
+    public function it_scrollbar_styles_work_in_dark_mode(): void
     {
         // Scrollbar styles are typically browser-dependent
         // We verify the theme is properly configured
@@ -984,7 +984,7 @@ class DarkModeTest extends TestCase
      * Test that code/syntax highlighting works in dark mode.
      */
     #[Test]
-    public function test_code_syntax_highlighting_works_in_dark_mode(): void
+    public function it_code_syntax_highlighting_works_in_dark_mode(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -1004,7 +1004,7 @@ class DarkModeTest extends TestCase
      * Test that form validation errors are visible in dark mode.
      */
     #[Test]
-    public function test_form_validation_errors_visible_in_dark_mode(): void
+    public function it_form_validation_errors_visible_in_dark_mode(): void
     {
         // Validation errors use danger/warning colors
         // We verify these are defined
@@ -1026,7 +1026,7 @@ class DarkModeTest extends TestCase
      * Test that loading/spinner states are visible in dark mode.
      */
     #[Test]
-    public function test_loading_states_visible_in_dark_mode(): void
+    public function it_loading_states_visible_in_dark_mode(): void
     {
         // Loading states are typically handled by Filament's default components
         // We verify the theme is configured
@@ -1045,7 +1045,7 @@ class DarkModeTest extends TestCase
      * Test that empty states are visible in dark mode.
      */
     #[Test]
-    public function test_empty_states_visible_in_dark_mode(): void
+    public function it_empty_states_visible_in_dark_mode(): void
     {
         // Empty states are typically handled by Filament's table components
         // We verify the theme is configured
@@ -1064,7 +1064,7 @@ class DarkModeTest extends TestCase
      * Test that breadcrumb navigation is visible in dark mode.
      */
     #[Test]
-    public function test_breadcrumbs_visible_in_dark_mode(): void
+    public function it_breadcrumbs_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -1083,7 +1083,7 @@ class DarkModeTest extends TestCase
      * Test that pagination controls are visible in dark mode.
      */
     #[Test]
-    public function test_pagination_visible_in_dark_mode(): void
+    public function it_pagination_visible_in_dark_mode(): void
     {
         // Arrange: Get pagination CSS
         $paginationCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/microweber/pagination.css');
@@ -1102,7 +1102,7 @@ class DarkModeTest extends TestCase
      * Test that filter indicators are visible in dark mode.
      */
     #[Test]
-    public function test_filter_indicators_visible_in_dark_mode(): void
+    public function it_filter_indicators_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -1121,7 +1121,7 @@ class DarkModeTest extends TestCase
      * Test that action buttons have proper dark mode contrast.
      */
     #[Test]
-    public function test_action_buttons_have_proper_dark_mode_contrast(): void
+    public function it_action_buttons_have_proper_dark_mode_contrast(): void
     {
         // Arrange: Get tabler variables
         $tablerVarsPath = base_path('packages/microweber-filament-theme/resources/assets/css/tabler-vars.scss');
@@ -1140,7 +1140,7 @@ class DarkModeTest extends TestCase
      * Test that table headers are distinct from rows in dark mode.
      */
     #[Test]
-    public function test_table_headers_distinct_in_dark_mode(): void
+    public function it_table_headers_distinct_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -1159,7 +1159,7 @@ class DarkModeTest extends TestCase
      * Test that sort indicators are visible in dark mode.
      */
     #[Test]
-    public function test_sort_indicators_visible_in_dark_mode(): void
+    public function it_sort_indicators_visible_in_dark_mode(): void
     {
         // Sort indicators are part of Filament's table component
         // We verify the theme supports them
@@ -1178,7 +1178,7 @@ class DarkModeTest extends TestCase
      * Test that bulk action selectors are visible in dark mode.
      */
     #[Test]
-    public function test_bulk_action_selectors_visible_in_dark_mode(): void
+    public function it_bulk_action_selectors_visible_in_dark_mode(): void
     {
         // Bulk actions are part of Filament's table component
         // We verify the theme supports them
@@ -1197,7 +1197,7 @@ class DarkModeTest extends TestCase
      * Test that record action buttons are visible in dark mode.
      */
     #[Test]
-    public function test_record_action_buttons_visible_in_dark_mode(): void
+    public function it_record_action_buttons_visible_in_dark_mode(): void
     {
         // Arrange: Get global CSS
         $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
@@ -1216,7 +1216,7 @@ class DarkModeTest extends TestCase
      * Test that the sidebar brand/header is visible in dark mode.
      */
     #[Test]
-    public function test_sidebar_brand_visible_in_dark_mode(): void
+    public function it_sidebar_brand_visible_in_dark_mode(): void
     {
         // Sidebar brand uses the panel's brand configuration
         // We verify the panel is configured
@@ -1232,7 +1232,7 @@ class DarkModeTest extends TestCase
      * Test that the sidebar user menu is visible in dark mode.
      */
     #[Test]
-    public function test_sidebar_user_menu_visible_in_dark_mode(): void
+    public function it_sidebar_user_menu_visible_in_dark_mode(): void
     {
         // User menu is part of Filament's default components
         // We verify the theme supports it
@@ -1251,7 +1251,7 @@ class DarkModeTest extends TestCase
      * Test that the global search is visible in dark mode.
      */
     #[Test]
-    public function test_global_search_visible_in_dark_mode(): void
+    public function it_global_search_visible_in_dark_mode(): void
     {
         // Global search is part of Filament's default components
         // We verify the panel configuration
@@ -1270,7 +1270,7 @@ class DarkModeTest extends TestCase
      * Test that the footer is visible in dark mode.
      */
     #[Test]
-    public function test_footer_visible_in_dark_mode(): void
+    public function it_footer_visible_in_dark_mode(): void
     {
         // Footer is part of Filament's default layout
         // We verify the theme is configured

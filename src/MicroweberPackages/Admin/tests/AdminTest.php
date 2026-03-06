@@ -2,17 +2,20 @@
 
 namespace MicroweberPackages\Admin\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class AdminTest extends TestCase
 {
-    public function testAdmin()
-    {
+    #[Test]
+    public function it_admin(): void {
         $this->assertTrue(true);
     }
 
-    public function testAdminManagerFacade()
-    {
+    #[Test]
+
+    public function it_admin_manager_facade(): void {
 
         \MicroweberPackages\Admin\Facades\AdminManager::addScript('test-my-module-admin-js', 'test.js', ['test' => 1]);
         \MicroweberPackages\Admin\Facades\AdminManager::addStyle('test-module-admin-css', 'test.css', ['test' => 2]);

@@ -2,6 +2,8 @@
 
 namespace Modules\Coupons\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Coupons\Models\Coupon;
@@ -18,8 +20,9 @@ class CouponValidationTest extends TestCase
         save_option('enable_coupons', 1, 'shop');
     }
 
-    public function testMinimumCartAmountRequirement()
-    {
+    #[Test]
+
+    public function it_minimum_cart_amount_requirement(): void {
         // Create coupon with $50 minimum cart amount
         $coupon = Coupon::create([
             'coupon_code' => 'MIN50TEST',
@@ -41,8 +44,9 @@ class CouponValidationTest extends TestCase
         $this->assertArrayHasKey('success', $result);
     }
 
-    public function testCouponDateValidity()
-    {
+    #[Test]
+
+    public function it_coupon_date_validity(): void {
         // First verify the Coupon model has date fields
         $this->assertTrue(Schema::hasColumn('cart_coupons', 'valid_from'));
         $this->assertTrue(Schema::hasColumn('cart_coupons', 'valid_to'));
@@ -112,8 +116,9 @@ class CouponValidationTest extends TestCase
         $this->travelBack();
     }
 
-    public function testProductSpecificRestrictions()
-    {
+    #[Test]
+
+    public function it_product_specific_restrictions(): void {
         // Clean up any existing coupons
         Coupon::where('coupon_code', 'PRODUCTTEST')->delete();
 

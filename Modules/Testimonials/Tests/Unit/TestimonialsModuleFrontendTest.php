@@ -2,6 +2,8 @@
 
 namespace Modules\Testimonials\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Testimonials\Filament\TestimonialsModuleSettings;
@@ -11,8 +13,8 @@ use Tests\TestCase;
 
 class TestimonialsModuleFrontendTest extends TestCase
 {
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-rel-id',
             'module' => 'testimonials',

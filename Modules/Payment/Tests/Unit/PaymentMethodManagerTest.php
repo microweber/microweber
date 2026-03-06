@@ -2,6 +2,8 @@
 
 namespace Modules\Payment\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Payment\Services\PaymentMethodManager;
 use Modules\Payment\Drivers\AbstractPaymentMethod;
@@ -40,14 +42,16 @@ class PaymentMethodManagerTest extends TestCase
         };
     }
 
-    public function testDriverRegistration()
-    {
+    #[Test]
+
+    public function it_driver_registration(): void {
         $this->assertArrayHasKey('test1', $this->manager->customDrivers);
         $this->assertArrayHasKey('test2', $this->manager->customDrivers);
     }
     
-    public function testDriverResolution()
-    {
+    #[Test]
+    
+    public function it_driver_resolution(): void {
         $driver1 = $this->manager->customDrivers['test1'];
         $driver2 = $this->manager->customDrivers['test2'];
         

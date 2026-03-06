@@ -2,6 +2,8 @@
 
 namespace Modules\Skills\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class SkillsModuleSettingsFilamentTest extends TestCase
 {
 
-    public function testSkillsModuleSettingsForm()
-    {
+    #[Test]
+
+    public function it_skills_module_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'skills';
 

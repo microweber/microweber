@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\LiveEdit\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
@@ -14,8 +16,8 @@ use MicroweberPackages\User\Models\User;
 
 class ModuleSettingsItemsEditorTest extends TestCase
 {
-    public function testItemsEditor()
-    {
+    #[Test]
+    public function it_items_editor(): void {
         Option::truncate();
 
         $user = User::where('is_admin', '=', '1')->first();

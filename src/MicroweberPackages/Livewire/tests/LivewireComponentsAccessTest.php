@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Livewire\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Facade;
@@ -13,8 +15,9 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
     public $template_name = 'big';
 
-    public function testIfCanAccessAllComponents()
-    {
+    #[Test]
+
+    public function it_if_can_access_all_components(): void {
 
         $this->assertTrue(mw_is_installed());
 

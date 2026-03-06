@@ -1,6 +1,8 @@
 <?php
 namespace Tests\Browser\ShopTests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Laravel\Dusk\Browser;
 use Modules\Content\Tests\Unit\TestHelpers;
 use Modules\Product\Models\Product;
@@ -18,8 +20,9 @@ class ShopModuleTest extends DuskTestCase
 
     use TestHelpers;
 
-    public function testProductsModuleIsDidplayingLatestsProducts()
-    {
+    #[Test]
+
+    public function it_products_module_is_didplaying_latests_products(): void {
         $siteUrl = $this->siteUrl;
 
         $productsAll = Product::all();

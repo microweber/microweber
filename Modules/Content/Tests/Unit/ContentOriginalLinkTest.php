@@ -17,8 +17,9 @@ class ContentOriginalLinkTest extends TestCase
 
     #[Test, RunInSeparateProcess]
 
-    public function testContentOriginalLinkRedirect()
-    {
+    #[Test]
+
+    public function it_content_original_link_redirect(): void {
         $this->loginAsAdmin();
         mw()->database_manager->extended_save_set_permission(true);
 

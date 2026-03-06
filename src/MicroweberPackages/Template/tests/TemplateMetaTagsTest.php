@@ -2,59 +2,67 @@
 
 namespace MicroweberPackages\Template\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Template\Facades\TemplateMetaTags;
 use MicroweberPackages\Core\tests\TestCase;
 
 class TemplateMetaTagsTest extends TestCase
 {
-    public function testAddScript()
-    {
+    #[Test]
+    public function it_add_script(): void {
         TemplateMetaTags::addScript('test-script', 'test.js', ['async' => true], 'head');
         $scripts = TemplateMetaTags::scripts('head');
         $this->assertStringContainsString('test.js', $scripts);
         $this->assertStringContainsString('async="1"', $scripts);
     }
 
-    public function testRemoveScript()
-    {
+    #[Test]
+
+    public function it_remove_script(): void {
         TemplateMetaTags::addScript('test-script', 'test.js', ['async' => true], 'head');
         TemplateMetaTags::removeScript('test-script');
         $scripts = TemplateMetaTags::scripts('head');
         $this->assertStringNotContainsString('test.js', $scripts);
     }
 
-    public function testAddStyle()
-    {
+    #[Test]
+
+    public function it_add_style(): void {
         TemplateMetaTags::addStyle('test-style', 'test.css', ['media' => 'all'], 'head');
         $styles = TemplateMetaTags::styles('head');
         $this->assertStringContainsString('test.css', $styles);
         $this->assertStringContainsString('media="all"', $styles);
     }
 
-    public function testRemoveStyle()
-    {
+    #[Test]
+
+    public function it_remove_style(): void {
         TemplateMetaTags::addStyle('test-style', 'test.css', ['media' => 'all'], 'head');
         TemplateMetaTags::removeStyle('test-style');
         $styles = TemplateMetaTags::styles('head');
         $this->assertStringNotContainsString('test.css', $styles);
     }
 
-    public function testAddCustomHeadTag()
-    {
+    #[Test]
+
+    public function it_add_custom_head_tag(): void {
         TemplateMetaTags::addCustomHeadTag('<meta name="description" content="Example">');
         $headTags = TemplateMetaTags::customHeadTags();
         $this->assertStringContainsString('meta name="description"', $headTags);
     }
 
-    public function testAddCustomFooterTag()
-    {
+    #[Test]
+
+    public function it_add_custom_footer_tag(): void {
         TemplateMetaTags::addCustomFooterTag('<script src="footer.js"></script>');
         $footerTags = TemplateMetaTags::customFooterTags();
         $this->assertStringContainsString('footer.js', $footerTags);
     }
 
-    public function testHeadTags()
-    {
+    #[Test]
+
+    public function it_head_tags(): void {
         TemplateMetaTags::addStyle('test-style', 'test.css', ['media' => 'all'], 'head');
         TemplateMetaTags::addScript('test-script', 'test.js', ['async' => true], 'head');
         TemplateMetaTags::addCustomHeadTag('<meta name="description" content="Example">');
@@ -64,8 +72,9 @@ class TemplateMetaTagsTest extends TestCase
         $this->assertStringContainsString('meta name="description"', $headTags);
     }
 
-    public function testFooterTags()
-    {
+    #[Test]
+
+    public function it_footer_tags(): void {
         TemplateMetaTags::addStyle('test-style', 'test.css', ['media' => 'all'], 'footer');
         TemplateMetaTags::addScript('test-script', 'test.js', ['async' => true], 'footer');
         TemplateMetaTags::addCustomFooterTag('<script src="footer.js"></script>');

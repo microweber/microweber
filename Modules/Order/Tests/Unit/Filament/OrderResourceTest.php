@@ -45,14 +45,14 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ListOrders::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $orders = Order::factory()->count(3)->create();
 
@@ -61,7 +61,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Order::factory()->count(15)->create();
 
@@ -70,7 +70,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $order = Order::factory()->create([
             'order_reference_id' => 'ORDER-SEARCH-001',
@@ -82,7 +82,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(CreateOrder::class)
             ->assertSuccessful()
@@ -90,7 +90,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(CreateOrder::class)
             ->fillForm([
@@ -107,7 +107,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $customer = Customer::factory()->create();
 
@@ -133,7 +133,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $customer = Customer::factory()->create();
         $order = Order::factory()->create([
@@ -151,7 +151,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $order = Order::factory()->create([
             'order_status' => OrderStatus::New,
@@ -175,7 +175,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $order = Order::factory()->create();
 
@@ -188,7 +188,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_table_has_required_columns(): void
+    public function it_table_has_required_columns(): void
     {
         Livewire::test(ListOrders::class)
             ->assertTableColumnExists('id')
@@ -201,7 +201,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_order_has_customer_relationship(): void
+    public function it_order_has_customer_relationship(): void
     {
         $customer = Customer::factory()->create();
         $order = Order::factory()->create([
@@ -213,7 +213,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_order_status_badge_displays_correctly(): void
+    public function it_order_status_badge_displays_correctly(): void
     {
         $order = Order::factory()->create([
             'order_status' => OrderStatus::New,
@@ -225,7 +225,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $order = Order::factory()->create([
             'order_reference_id' => 'ORDER-SEARCH-123',
@@ -236,7 +236,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_add_order_items_via_repeater(): void
+    public function it_can_add_order_items_via_repeater(): void
     {
         $customer = Customer::factory()->create();
         $product = Product::factory()->create(['price' => 50.00]);
@@ -264,7 +264,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_sorting_by_column_changes_order(): void
+    public function it_sorting_by_column_changes_order(): void
     {
         // Create orders with different reference IDs and amounts
         $orderA = Order::factory()->create([
@@ -295,7 +295,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_bulk_delete_removes_selected_records(): void
+    public function it_bulk_delete_removes_selected_records(): void
     {
         $order1 = Order::factory()->create(['order_reference_id' => 'ORDER-BULK-001']);
         $order2 = Order::factory()->create(['order_reference_id' => 'ORDER-BULK-002']);
@@ -315,7 +315,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_payments_relation_manager_exists(): void
+    public function it_payments_relation_manager_exists(): void
     {
         $order = Order::factory()->create();
         $relations = OrderResource::getRelations();
@@ -327,7 +327,7 @@ class OrderResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_navigation_badge_methods_exist(): void
+    public function it_navigation_badge_methods_exist(): void
     {
         // Test that getNavigationBadge method exists and returns correct type
         $this->assertTrue(method_exists(OrderResource::class, 'getNavigationBadge'));

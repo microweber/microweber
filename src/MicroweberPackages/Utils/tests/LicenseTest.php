@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Utils\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Utils\tests\mockery\UpdateManagerMockery;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Misc\License;
@@ -9,8 +11,9 @@ use MicroweberPackages\Utils\Misc\License;
 class LicenseTest extends TestCase
 {
 
-    public function testLicenseClass()
-    {
+    #[Test]
+
+    public function it_license_class(): void {
         app()->singleton('update', function () {
             return new UpdateManagerMockery();
         });

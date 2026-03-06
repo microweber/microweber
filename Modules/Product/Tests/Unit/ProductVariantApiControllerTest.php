@@ -3,6 +3,8 @@
 
 namespace Modules\Product\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use Modules\Category\Models\Category;
@@ -12,8 +14,9 @@ use MicroweberPackages\User\Models\User;
 class ProductVariantApiControllerTest extends TestCase
 {
 
-    public function testAddProductFull()
-    {
+    #[Test]
+
+    public function it_add_product_full(): void {
         $categoryIds = [];
 
         $user = User::where('is_admin','=', '1')->first();
@@ -129,8 +132,9 @@ class ProductVariantApiControllerTest extends TestCase
         $this->assertEquals($productDataSaved->price, $price);
     }
 
-    public function testSaveProductFromController()
-    {
+    #[Test]
+
+    public function it_save_product_from_controller(): void {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -204,8 +208,9 @@ class ProductVariantApiControllerTest extends TestCase
 
     }
 
-    public function testDestroyContentFromController()
-    {
+    #[Test]
+
+    public function it_destroy_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 

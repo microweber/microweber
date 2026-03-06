@@ -2,13 +2,15 @@
 
 namespace Modules\Components\Tests\Unit\Components;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
 
 class NavItemTest extends TestCase
 {
-    public function testRendersANavItem()
-    {
+    #[Test]
+    public function it_renders_a_nav_item(): void {
         $bladeString = '<x-nav-item></x-nav-item>';
 
         $output = Blade::render($bladeString);
@@ -16,22 +18,25 @@ class NavItemTest extends TestCase
         $this->assertStringContainsString('class="nav-item"', $output);
     }
 
-    public function testRendersANavItemWithActiveState()
-    {
+    #[Test]
+
+    public function it_renders_a_nav_item_with_active_state(): void {
         $bladeString = '<x-nav-item href="/" active></x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('class="nav-link active"', $output);
     }
 
-    public function testRendersANavItemWithHref()
-    {
+    #[Test]
+
+    public function it_renders_a_nav_item_with_href(): void {
         $bladeString = '<x-nav-item href="/about">About</x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('href="/about"', $output);
     }
 
-    public function testRendersANavItemWithCustomClasses()
-    {
+    #[Test]
+
+    public function it_renders_a_nav_item_with_custom_classes(): void {
         $bladeString = '<x-nav-item class="custom-class"></x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);

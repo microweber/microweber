@@ -2,6 +2,8 @@
 
 namespace Modules\MailTemplate\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
@@ -24,8 +26,9 @@ class MailTemplatesTest extends TestCase
         $this->service = app(MailTemplateService::class);
     }
 
-    public function testMailTemplateTypes()
-    {
+    #[Test]
+
+    public function it_mail_template_types(): void {
         // Test getting template types from config
         $types = $this->service->getTemplateTypes();
         $this->assertIsArray($types);
@@ -38,8 +41,9 @@ class MailTemplatesTest extends TestCase
         }
     }
 
-    public function testDefaultEmailSettings()
-    {
+    #[Test]
+
+    public function it_default_email_settings(): void {
         // Test default from name and email
         $this->assertEquals(
             config('modules.mail_template.defaults.from_name'),
@@ -52,8 +56,9 @@ class MailTemplatesTest extends TestCase
         );
     }
 
-    public function testTemplateVariables()
-    {
+    #[Test]
+
+    public function it_template_variables(): void {
         // Test variables for each template type
         $configuredTypes = array_keys(config('modules.mail_template.template_types'));
 
@@ -70,8 +75,9 @@ class MailTemplatesTest extends TestCase
         }
     }
 
-    public function testTemplateCreationWithDefaults()
-    {
+    #[Test]
+
+    public function it_template_creation_with_defaults(): void {
         // Test creating template with default values
         $template = MailTemplate::create([
             'name' => 'Default Test Template',
@@ -87,8 +93,9 @@ class MailTemplatesTest extends TestCase
         $this->assertEquals($this->service->getDefaultFromEmail(), $template->from_email);
     }
 
-    public function testTemplateCreationAndRetrieval()
-    {
+    #[Test]
+
+    public function it_template_creation_and_retrieval(): void {
         // Create a test template
         $template = MailTemplate::create([
             'name' => 'Test Order Template',
@@ -107,8 +114,9 @@ class MailTemplatesTest extends TestCase
         $this->assertEquals('new_order', $retrieved->type);
     }
 
-    public function testTemplateVariableParsing()
-    {
+    #[Test]
+
+    public function it_template_variable_parsing(): void {
         // Create a template with variables
         $template = MailTemplate::create([
             'name' => 'Variable Test',
@@ -133,8 +141,9 @@ class MailTemplatesTest extends TestCase
         );
     }
 
-    public function testEmailSendingWithCc()
-    {
+    #[Test]
+
+    public function it_email_sending_with_cc(): void {
         Mail::fake();
 
         $template = MailTemplate::create([
@@ -160,8 +169,9 @@ class MailTemplatesTest extends TestCase
         });
     }
 
-    public function testFileTemplateManagement()
-    {
+    #[Test]
+
+    public function it_file_template_management(): void {
         // Test getting template files
         $files = $this->service->getMailTemplateFiles();
         $this->assertIsArray($files);
@@ -177,8 +187,9 @@ class MailTemplatesTest extends TestCase
         }
     }
 
-    public function testHelperFunctions()
-    {
+    #[Test]
+
+    public function it_helper_functions(): void {
         // Test mail_template_service helper
         $service = mail_template_service();
         $this->assertInstanceOf(MailTemplateService::class, $service);

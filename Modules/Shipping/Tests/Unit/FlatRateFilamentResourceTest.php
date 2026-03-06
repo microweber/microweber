@@ -16,9 +16,7 @@ class FlatRateFilamentResourceTest extends TestCase
 {
 
     #[Test]
-
-    public function testFlatRateShippingProviderLifecycle()
-    {
+    public function it_flatrateshippingproviderlifecycle(): void {
         ShippingProvider::truncate();
         // Create Flat Rate Shipping Provider
         Livewire::test(CreateShippingProvider::class)

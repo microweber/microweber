@@ -10,8 +10,7 @@ use Modules\Content\Models\Content;
 class CommentModelTest extends TestCase
 {
     #[Test]
-    public function testContentTitleRelationship()
-    {
+    public function it_contenttitlerelationship(): void {
         $content = Content::create([
             'title' => 'Test Content Title',
             'content' => 'Test Content Body',
@@ -31,8 +30,7 @@ class CommentModelTest extends TestCase
     }
 
     #[Test]
-    public function testCommentApprovalScopes()
-    {
+    public function it_commentapprovalscopes(): void {
         // Clear existing comments
         Comment::query()->delete();
 
@@ -73,8 +71,7 @@ class CommentModelTest extends TestCase
     }
 
     #[Test]
-    public function testCommentSpamDetection()
-    {
+    public function it_commentspamdetection(): void {
         $comment = new Comment([
             'comment_body' => 'Buy cheap viagra'
         ]);
@@ -83,8 +80,7 @@ class CommentModelTest extends TestCase
     }
 
     #[Test]
-    public function testCommentReplyRelationship()
-    {
+    public function it_commentreplyrelationship(): void {
         $parent = Comment::create([
             'comment_name' => 'Parent',
             'comment_body' => 'Test'

@@ -2,6 +2,8 @@
 
 namespace Modules\Sharer\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -10,8 +12,8 @@ use Tests\TestCase;
 
 class SharerModuleFrontendTest extends TestCase
 {
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-sharer-id' . uniqid(),
             'facebook_enabled' => true,

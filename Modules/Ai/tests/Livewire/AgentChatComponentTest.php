@@ -2,6 +2,8 @@
 
 namespace Modules\Ai\Tests\Livewire;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Livewire;
@@ -28,8 +30,9 @@ class AgentChatComponentTest extends TestCase
         ]);
     }
 
-    public function test_component_mounts_successfully(): void
-    {
+    #[Test]
+
+    public function it_component_mounts_successfully(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->assertOk()
@@ -37,8 +40,9 @@ class AgentChatComponentTest extends TestCase
             ->assertSet('isProcessing', false);
     }
 
-    public function test_chat_messages_load_on_mount(): void
-    {
+    #[Test]
+
+    public function it_chat_messages_load_on_mount(): void {
         AgentChatMessage::factory()->count(3)->create([
             'chat_id' => $this->chat->id,
             'role' => 'user',
@@ -50,8 +54,9 @@ class AgentChatComponentTest extends TestCase
         $this->assertCount(3, $component->get('chatMessages'));
     }
 
-    public function test_message_validation_works(): void
-    {
+    #[Test]
+
+    public function it_message_validation_works(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->set('userMessage', '')
@@ -59,8 +64,9 @@ class AgentChatComponentTest extends TestCase
             ->assertHasErrors(['userMessage']);
     }
 
-    public function test_rate_limiting_works(): void
-    {
+    #[Test]
+
+    public function it_rate_limiting_works(): void {
         RateLimiter::clear();
 
         $component = Livewire::actingAs($this->user)
@@ -75,16 +81,18 @@ class AgentChatComponentTest extends TestCase
             ->assertSet('rateLimitMessage', fn($value) => str_contains($value, 'Rate limit'));
     }
 
-    public function test_offline_detection(): void
-    {
+    #[Test]
+
+    public function it_offline_detection(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->dispatch('connection-lost')
             ->assertSet('isOffline', true);
     }
 
-    public function test_connection_restored(): void
-    {
+    #[Test]
+
+    public function it_connection_restored(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->set('isOffline', true)
@@ -92,8 +100,9 @@ class AgentChatComponentTest extends TestCase
             ->assertSet('isOffline', false);
     }
 
-    public function test_file_upload_preview(): void
-    {
+    #[Test]
+
+    public function it_file_upload_preview(): void {
         $file = UploadedFile::fake()->image('test-image.jpg', 100, 100)->size(100);
 
         $component = Livewire::actingAs($this->user)
@@ -107,8 +116,9 @@ class AgentChatComponentTest extends TestCase
         $this->assertEquals('test-image.jpg', $uploadedFiles[0]['name']);
     }
 
-    public function test_file_size_formatting(): void
-    {
+    #[Test]
+
+    public function it_file_size_formatting(): void {
         $component = new AgentChatComponent();
         
         $this->assertEquals('500 B', $component->formatFileSize(500));
@@ -116,8 +126,9 @@ class AgentChatComponentTest extends TestCase
         $this->assertEquals('2.5 MB', $component->formatFileSize(2621440));
     }
 
-    public function test_attachment_removal(): void
-    {
+    #[Test]
+
+    public function it_attachment_removal(): void {
         $component = Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->set('uploadedFiles', [
@@ -132,24 +143,27 @@ class AgentChatComponentTest extends TestCase
         $this->assertEquals('file2.pdf', $uploadedFiles[0]['name']);
     }
 
-    public function test_streaming_state_tracks_correctly(): void
-    {
+    #[Test]
+
+    public function it_streaming_state_tracks_correctly(): void {
         $component = Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id]);
 
         $this->assertFalse($component->get('isStreaming'));
     }
 
-    public function test_error_handling_works(): void
-    {
+    #[Test]
+
+    public function it_error_handling_works(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->set('errorMessage', 'Test error')
             ->assertSet('errorMessage', 'Test error');
     }
 
-    public function test_inactive_chat_cannot_send_messages(): void
-    {
+    #[Test]
+
+    public function it_inactive_chat_cannot_send_messages(): void {
         $this->chat->update(['is_active' => false]);
 
         Livewire::actingAs($this->user)
@@ -159,16 +173,18 @@ class AgentChatComponentTest extends TestCase
             ->assertSet('isProcessing', false);
     }
 
-    public function test_retry_last_message_with_no_messages(): void
-    {
+    #[Test]
+
+    public function it_retry_last_message_with_no_messages(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->call('retryLastMessage')
             ->assertSet('userMessage', '');
     }
 
-    public function test_retry_last_message_with_user_messages(): void
-    {
+    #[Test]
+
+    public function it_retry_last_message_with_user_messages(): void {
         AgentChatMessage::factory()->create([
             'chat_id' => $this->chat->id,
             'role' => 'user',
@@ -181,16 +197,18 @@ class AgentChatComponentTest extends TestCase
             ->assertSet('userMessage', 'Previous message');
     }
 
-    public function test_refresh_messages_dispatches_event(): void
-    {
+    #[Test]
+
+    public function it_refresh_messages_dispatches_event(): void {
         Livewire::actingAs($this->user)
             ->test(AgentChatComponent::class, ['chatId' => $this->chat->id])
             ->dispatch('refresh-messages')
             ->assertDispatched('refresh-messages');
     }
 
-public function test_chat_property_returns_correct_model(): void
-    {
+#[Test]
+
+public function it_chat_property_returns_correct_model(): void {
         $component = new AgentChatComponent();
         $component->chatId = $this->chat->id;
 
@@ -199,8 +217,9 @@ public function test_chat_property_returns_correct_model(): void
         $this->assertEquals($this->chat->id, $chat->id);
     }
 
-    public function test_chat_with_file_upload_stores_media(): void
-    {
+    #[Test]
+
+    public function it_chat_with_file_upload_stores_media(): void {
         // Test that message metadata properly stores file attachment information
         // This verifies the data structure used when files are uploaded via the chat component
 

@@ -2,6 +2,8 @@
 
 namespace Modules\TweetEmbed\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -11,8 +13,9 @@ use Tests\TestCase;
 class TweetEmbedSettingsFilamentTest extends TestCase
 {
 
-    public function testTweetEmbedSettingsForm()
-    {
+    #[Test]
+
+    public function it_tweet_embed_settings_form(): void {
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'tweet_embed';
 

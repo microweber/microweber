@@ -40,7 +40,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test complete checkout flow with bank transfer
      */
     #[Test]
-    public function test_complete_checkout_flow_with_bank_transfer(): void
+    public function it_complete_checkout_flow_with_bank_transfer(): void
     {
         // Step 1: Create a product
         $product = $this->createTestProduct([
@@ -96,7 +96,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test PayPal checkout flow
      */
     #[Test]
-    public function test_checkout_flow_with_paypal(): void
+    public function it_checkout_flow_with_paypal(): void
     {
         $product = $this->createTestProduct([
             'title' => 'PayPal Test Product',
@@ -136,7 +136,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test cart persistence across sessions
      */
     #[Test]
-    public function test_cart_persists_across_sessions(): void
+    public function it_cart_persists_across_sessions(): void
     {
         $product = $this->createTestProduct();
 
@@ -162,7 +162,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test cart item quantity update
      */
     #[Test]
-    public function test_cart_quantity_update(): void
+    public function it_cart_quantity_update(): void
     {
         $product = $this->createTestProduct();
 
@@ -191,7 +191,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test cart item removal
      */
     #[Test]
-    public function test_cart_item_removal(): void
+    public function it_cart_item_removal(): void
     {
         $product1 = $this->createTestProduct(['sku' => 'PROD-001']);
         $product2 = $this->createTestProduct(['sku' => 'PROD-002']);
@@ -224,7 +224,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test checkout validation
      */
     #[Test]
-    public function test_checkout_validates_required_fields(): void
+    public function it_checkout_validates_required_fields(): void
     {
         $product = $this->createTestProduct();
 
@@ -248,7 +248,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test checkout with empty cart
      */
     #[Test]
-    public function test_checkout_fails_with_empty_cart(): void
+    public function it_checkout_fails_with_empty_cart(): void
     {
         $response = $this->post('/checkout/process', [
             'first_name' => 'John',
@@ -266,7 +266,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test stock validation during checkout
      */
     #[Test]
-    public function test_checkout_validates_stock(): void
+    public function it_checkout_validates_stock(): void
     {
         $product = $this->createTestProduct([
             'qty' => 5,
@@ -288,7 +288,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test coupon code application
      */
     #[Test]
-    public function test_coupon_code_application(): void
+    public function it_coupon_code_application(): void
     {
         $product = $this->createTestProduct(['price' => 100]);
 
@@ -321,7 +321,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test shipping calculation
      */
     #[Test]
-    public function test_shipping_calculation(): void
+    public function it_shipping_calculation(): void
     {
         $product = $this->createTestProduct([
             'price' => 50,
@@ -350,7 +350,7 @@ class FrontendCheckoutRegressionTest extends TestCase
      * Test order confirmation email
      */
     #[Test]
-    public function test_order_confirmation_email_sent(): void
+    public function it_order_confirmation_email_sent(): void
     {
         \Illuminate\Support\Facades\Mail::fake();
 

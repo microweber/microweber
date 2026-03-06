@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
@@ -9,8 +11,9 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 class MultilanguageTest extends MultilanguageTestBase
 {
 
-    public function testSupportedLanguages()
-    {
+    #[Test]
+
+    public function it_supported_languages(): void {
       \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
         $lang = app()->getLocale();
 
@@ -47,8 +50,9 @@ class MultilanguageTest extends MultilanguageTestBase
 
     }
 
-    public function testAddNewLanguage()
-    {
+    #[Test]
+
+    public function it_add_new_language(): void {
 
         $locale = 'bg_BG';
         $language = 'Bulgarian';
@@ -67,14 +71,16 @@ class MultilanguageTest extends MultilanguageTestBase
 
     }
 
-    public function testSwitchLanguage()
-    {
+    #[Test]
+
+    public function it_switch_language(): void {
         mw()->lang_helper->set_current_lang('bg_BG');
         $this->assertEquals('bg_BG', mw()->lang_helper->current_lang());
     }
 
-    public function testTranslateNewOption()
-    {
+    #[Test]
+
+    public function it_translate_new_option(): void {
         $this->_addNewMultilanguageOption('bozhidar', 'Bozhidar', 'Божидар');
         $this->_addNewMultilanguageOption('slaveykov', 'Slaveykov', 'Славейков');
         $this->_addNewMultilanguageOption('health', 'Health', 'Здраве');
@@ -119,8 +125,9 @@ class MultilanguageTest extends MultilanguageTestBase
 
     }
 
-    public function testTranslateNewMenu()
-    {
+    #[Test]
+
+    public function it_translate_new_menu(): void {
 
         // Switch to english language
         mw()->lang_helper->set_current_lang('en_US');
@@ -163,8 +170,9 @@ class MultilanguageTest extends MultilanguageTestBase
 
     }
 
-    public function testDetectLangFromUrl()
-    {
+    #[Test]
+
+    public function it_detect_lang_from_url(): void {
         $url = 'bg_BG/tova-e-strahotniq-post.html';
         $detect = detect_lang_from_url($url);
 
@@ -185,8 +193,9 @@ class MultilanguageTest extends MultilanguageTestBase
 
     }
 
-    public function testCheckLanguageIsCorrect()
-    {
+    #[Test]
+
+    public function it_check_language_is_correct(): void {
         $check = is_lang_correct('en_US');
         $this->assertEquals(true, $check);
 
@@ -197,8 +206,9 @@ class MultilanguageTest extends MultilanguageTestBase
         $this->assertEquals(false, $check);
     }
 
-    public function testMultilanguageApi()
-    {
+    #[Test]
+
+    public function it_multilanguage_api(): void {
         // Ad Greek
         $api = new MultilanguageApi();
         $output = $api->addLanguage([
@@ -232,8 +242,9 @@ class MultilanguageTest extends MultilanguageTestBase
         $this->assertEquals(false, in_array('el_GR', $locales));
     }
 
-    public function testChangeLanguageApi()
-    {
+    #[Test]
+
+    public function it_change_language_api(): void {
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'bobi-money'

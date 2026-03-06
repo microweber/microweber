@@ -21,8 +21,7 @@ class UserCommentListComponentTest extends TestCase
     }
 
     #[Test]
-    public function testRendersCommentsForContent()
-    {
+    public function it_renderscommentsforcontent(): void {
         $content = Content::create([
             'title' => $this->faker->sentence,
             'content_type' => $this->faker->randomElement(['page', 'post', 'product'])
@@ -47,9 +46,8 @@ $component->assertSee($testUserName);
 $component->assertSee($testComment);
     }
 
-    #[Test] 
-    public function testPaginatesComments()
-    {
+    #[Test]
+    public function it_paginatescomments(): void {
         $content = Content::create([
             'title' => $this->faker->sentence,
             'content_type' => $this->faker->randomElement(['page','post','product'])

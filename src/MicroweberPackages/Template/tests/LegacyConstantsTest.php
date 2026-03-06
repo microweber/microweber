@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Template\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
@@ -17,8 +19,8 @@ class LegacyConstantsTest extends TestCase
 
     #[PreserveGlobalState(false)]
     #[RunInSeparateProcess]
-    public function testConstantsAreDefined()
-    {
+    #[Test]
+    public function it_constants_are_defined(): void {
         $this->setPreserveGlobalState(false);
         $templateName = 'my-test-template-for-constants';
 

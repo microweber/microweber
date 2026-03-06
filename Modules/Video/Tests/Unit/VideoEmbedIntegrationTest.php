@@ -2,13 +2,15 @@
 
 namespace Modules\Video\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Tests\TestCase;
 use Modules\Video\Support\VideoEmbed;
 
 class VideoEmbedIntegrationTest extends TestCase
 {
-    public function test_youtube_embed_rendering()
-    {
+    #[Test]
+    public function it_youtube_embed_rendering(): void {
         $embed = new VideoEmbed();
         $embed->setEmbedCode('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         $embed->setPlayEmbedVideo(true);
@@ -18,8 +20,9 @@ class VideoEmbedIntegrationTest extends TestCase
         $this->assertStringContainsString('iframe', $result);
     }
 
-    public function test_vimeo_embed_rendering()
-    {
+    #[Test]
+
+    public function it_vimeo_embed_rendering(): void {
         $embed = new VideoEmbed();
         $embed->setEmbedCode('https://vimeo.com/123456789');
         $embed->setPlayEmbedVideo(true);
@@ -29,8 +32,9 @@ class VideoEmbedIntegrationTest extends TestCase
         $this->assertStringContainsString('iframe', $result);
     }
 
-    public function test_embed_options_handling()
-    {
+    #[Test]
+
+    public function it_embed_options_handling(): void {
         $embed = new VideoEmbed();
         $embed->setEmbedCode('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         $embed->setPlayEmbedVideo(true);
@@ -42,8 +46,9 @@ class VideoEmbedIntegrationTest extends TestCase
         $this->assertStringContainsString('controls=0', $result);
     }
 
-    public function test_uploaded_video_rendering()
-    {
+    #[Test]
+
+    public function it_uploaded_video_rendering(): void {
         $embed = new VideoEmbed();
         $embed->setUploadedVideoUrl('https://example.com/video.mp4');
         $embed->setPlayUploadedVideo(true);
@@ -53,8 +58,9 @@ class VideoEmbedIntegrationTest extends TestCase
         $this->assertStringContainsString('<video', $result);
     }
 
-    public function test_invalid_url_handling()
-    {
+    #[Test]
+
+    public function it_invalid_url_handling(): void {
         $embed = new VideoEmbed();
         $embed->setEmbedCode('invalid-url');
         $embed->setPlayEmbedVideo(true);

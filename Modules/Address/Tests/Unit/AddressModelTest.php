@@ -2,6 +2,8 @@
 
 namespace Modules\Address\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Address\Models\Address;
@@ -9,8 +11,8 @@ use Modules\Customer\Models\Customer;
 
 class AddressModelTest extends TestCase
 {
-    public function testAddressTypesAndRelationships()
-    {
+    #[Test]
+    public function it_address_types_and_relationships(): void {
         // Ensure clean test environment
         DB::table('addresses')->truncate();
         DB::table('customers')->truncate();

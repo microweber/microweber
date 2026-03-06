@@ -2,13 +2,15 @@
 
 namespace Modules\ContentData\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Product\Models\Product;
 
 class ContentDataTest extends TestCase
 {
-    public function testContentDataOnNewProduct()
-    {
+    #[Test]
+    public function it_content_data_on_new_product(): void {
         $newProduct3 = new Product();
         $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
         $newProduct3->content_type = 'product';
@@ -51,8 +53,9 @@ class ContentDataTest extends TestCase
         $this->assertEquals('newsku', $contentData['sku']);
     }
 
-    public function testContentData()
-    {
+    #[Test]
+
+    public function it_content_data(): void {
         $product = new Product();
         $product->title = 'Test product with content data';
         $product->save();
@@ -90,8 +93,9 @@ class ContentDataTest extends TestCase
 
     }
 
-    public function testContentDataSaveFromSaveContentWithPrefix()
-    {
+    #[Test]
+
+    public function it_content_data_save_from_save_content_with_prefix(): void {
         mw()->database_manager->extended_save_set_permission(true);
 
 

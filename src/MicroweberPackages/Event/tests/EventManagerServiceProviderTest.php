@@ -1,11 +1,14 @@
 <?php
 namespace MicroweberPackages\Event\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 class EventManagerServiceProviderTest extends TestCase
 {
-	public function testIfIsEventWhenUsing(){
+	#[Test]
+	public function it_if_is_event_when_using(): void {
 		$this->assertInstanceOf(\MicroweberPackages\Event\Event::class, app('event_manager'));
 	}
 }

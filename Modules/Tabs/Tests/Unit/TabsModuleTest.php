@@ -2,6 +2,8 @@
 
 namespace Modules\Tabs\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
@@ -12,8 +14,9 @@ use Tests\TestCase;
 class TabsModuleTest extends TestCase
 {
 
-    public function testDefaultViewRendering()
-    {
+    #[Test]
+
+    public function it_default_view_rendering(): void {
         $params = [
             'id' => 'test-rel-id',
             'module' => 'tabs',

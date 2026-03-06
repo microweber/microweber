@@ -10,31 +10,26 @@ use Tests\TestCase;
 class PickupFromAddressTest extends TestCase
 {
     #[Test]
-
-    public function testPickupInitialization()
-    {
+    public function it_pickupinitialization(): void {
         $pickup = new PickupFromAddress();
         $this->assertEquals('Pickup From Address', $pickup->title());
     }
 
     #[Test]
-    public function testDefaultAddress()
-    {
+    public function it_defaultaddress(): void {
         $pickup = new PickupFromAddress();
         $this->assertEmpty($pickup->settings['address'] ?? '');
     }
 
     #[Test]
-    public function testCustomAddress()
-    {
+    public function it_customaddress(): void {
         $pickup = new PickupFromAddress();
         $pickup->settings = ['address' => '123 Main St, City'];
         $this->assertEquals('123 Main St, City', $pickup->settings['address']);
     }
 
     #[Test]
-    public function testSettingsHandling()
-    {
+    public function it_settingshandling(): void {
         $pickup = new PickupFromAddress();
         $pickup->settings = [
             'address' => '456 Commerce Ave',
@@ -45,8 +40,7 @@ class PickupFromAddressTest extends TestCase
     }
 
     #[Test]
-    public function testCalculateCostIsAlwaysZero()
-    {
+    public function it_calculatecostisalwayszero(): void {
         $pickup = new PickupFromAddress();
         $this->assertEquals(0, $pickup->getShippingCost());
 

@@ -2,6 +2,8 @@
 
 namespace Modules\Currency\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Currency\Models\Currency;
 use Tests\TestCase;
@@ -10,8 +12,9 @@ class CurrencyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCreateCurrency()
-    {
+    #[Test]
+
+    public function it_create_currency(): void {
         $currency = Currency::create([
             'name' => 'US Dollar',
             'code' => 'USD',

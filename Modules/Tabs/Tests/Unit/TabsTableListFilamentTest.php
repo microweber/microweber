@@ -2,6 +2,8 @@
 
 namespace Modules\Tabs\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\EditAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,8 +16,9 @@ use Tests\TestCase;
 class TabsTableListFilamentTest extends TestCase
 {
 
-    public function testTabsModuleSettingsForm()
-    {
+    #[Test]
+
+    public function it_tabs_module_settings_form(): void {
         $moduleId = 'tabs-module-id-test-' . uniqid();
         $moduleType = 'tabs';
 

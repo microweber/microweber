@@ -42,14 +42,14 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_loads_without_errors(): void
+    public function it_index_page_loads_without_errors(): void
     {
         Livewire::test(ManageCustomers::class)
             ->assertSuccessful();
     }
 
     #[Test]
-    public function test_index_page_shows_all_records(): void
+    public function it_index_page_shows_all_records(): void
     {
         $customers = Customer::factory()->count(3)->create();
 
@@ -58,7 +58,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_pagination(): void
+    public function it_index_page_supports_pagination(): void
     {
         Customer::factory()->count(15)->create();
 
@@ -67,7 +67,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_index_page_supports_search(): void
+    public function it_index_page_supports_search(): void
     {
         $customer = Customer::factory()->create([
             'name' => 'Test Search Customer',
@@ -80,7 +80,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_renders_form(): void
+    public function it_create_page_renders_form(): void
     {
         Livewire::test(ManageCustomers::class)
             ->assertSuccessful()
@@ -88,7 +88,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_validates_required_fields(): void
+    public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(ManageCustomers::class)
             ->fillForm([
@@ -106,7 +106,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_create_page_saves_new_record(): void
+    public function it_create_page_saves_new_record(): void
     {
         $user = User::factory()->create();
         $currency = Currency::factory()->create();
@@ -134,7 +134,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_pre_fills_form_data(): void
+    public function it_edit_page_pre_fills_form_data(): void
     {
         $customer = Customer::factory()->create([
             'name' => 'Edit Test Customer',
@@ -150,7 +150,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_edit_page_updates_record(): void
+    public function it_edit_page_updates_record(): void
     {
         $customer = Customer::factory()->create([
             'name' => 'Original Name',
@@ -174,7 +174,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_delete_action_removes_record(): void
+    public function it_delete_action_removes_record(): void
     {
         $customer = Customer::factory()->create();
 
@@ -187,7 +187,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_can_filter_by_active(): void
+    public function it_can_filter_by_active(): void
     {
         $activeCustomer = Customer::factory()->create(['active' => true]);
         $inactiveCustomer = Customer::factory()->create(['active' => false]);
@@ -199,7 +199,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_customer_has_company_relationship(): void
+    public function it_customer_has_company_relationship(): void
     {
         $company = Company::factory()->create();
         $customer = Customer::factory()->create([
@@ -211,7 +211,7 @@ class CustomerResourceTest extends TestCase
     }
 
     #[Test]
-    public function test_global_search_returns_results(): void
+    public function it_global_search_returns_results(): void
     {
         $customer = Customer::factory()->create([
             'name' => 'Global Search Test',

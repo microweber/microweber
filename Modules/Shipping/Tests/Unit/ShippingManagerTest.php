@@ -11,9 +11,7 @@ class ShippingManagerTest extends TestCase
 {
 
     #[Test]
-
-    public function testGetShippingModules()
-    {
+    public function it_getshippingmodules(): void {
         ShippingProvider::truncate();
         // Create Flat Rate Shipping Provider
         Livewire::test(CreateShippingProvider::class)

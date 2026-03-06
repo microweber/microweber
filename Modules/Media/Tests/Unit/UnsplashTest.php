@@ -2,13 +2,15 @@
 
 namespace Modules\Media\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\MediaLibrary\Support\Unsplash;
 
 class UnsplashTest extends TestCase
 {
-    public function testSearch()
-    {
+    #[Test]
+    public function it_search(): void {
         $unsplash = new Unsplash();
         $search = $unsplash->search('apple');
         if (!is_array($search)) {

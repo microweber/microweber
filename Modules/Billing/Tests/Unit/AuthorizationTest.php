@@ -12,8 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 class AuthorizationTest extends BillingTestCase
 {
     #[Test]
-    public function test_user_cannot_access_billing_without_permission()
-    {
+    public function it_user_cannot_access_billing_without_permission(): void {
         // Create a regular user without admin permissions
         $user = User::factory()->create([
             'is_admin' => 0,
@@ -37,8 +36,7 @@ class AuthorizationTest extends BillingTestCase
     }
 
     #[Test]
-    public function test_admin_user_can_access_billing_resources()
-    {
+    public function it_admin_user_can_access_billing_resources(): void {
         // Create an admin user
         $user = User::factory()->create([
             'is_admin' => 1,
@@ -58,8 +56,7 @@ class AuthorizationTest extends BillingTestCase
     }
 
     #[Test]
-    public function test_guest_user_is_redirected_from_billing()
-    {
+    public function it_guest_user_is_redirected_from_billing(): void {
         // Ensure user is logged out
         $this->assertGuest();
 

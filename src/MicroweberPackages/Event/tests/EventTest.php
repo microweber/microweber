@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Event\tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use MicroweberPackages\Core\tests\TestCase;
 
 /**
@@ -11,8 +13,8 @@ use MicroweberPackages\Core\tests\TestCase;
  */
 class EventTest extends TestCase
 {
-    public function testBind()
-    {
+    #[Test]
+    public function it_bind(): void {
         $unitTest = $this;
 
         event_bind('some_event', function($params) use ($unitTest) {
