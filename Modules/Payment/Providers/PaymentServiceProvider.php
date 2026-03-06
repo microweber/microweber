@@ -2,15 +2,11 @@
 
 namespace Modules\Payment\Providers;
 
-use Filament\Facades\Filament;
-use Filament\Navigation\NavigationItem;
 use Illuminate\Contracts\Container\Container;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource;
-use Modules\Payment\Microweber\PaymentModule;
 use Modules\Payment\Services\PaymentMethodManager;
 
 class PaymentServiceProvider extends BaseModuleServiceProvider
@@ -24,20 +20,8 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-      /*  Filament::serving(function () {
-            $panelId = Filament::getCurrentPanel()->getId();
-
-            if($panelId == 'admin') {
-                Filament::registerNavigationItems([
-                    NavigationItem::make('Payment providers')
-                        ->url(PaymentProviderResource::getUrl())
-                        ->group('Shop Settings')
-                     //   ->parentItem('Shop Settings')
-                        ->icon('mw-payments')
-                 ]);
-            }
-
-        });*/
+        // Navigation items are registered via FilamentRegistry in register() method.
+        // Do not use Filament::serving() as it's deprecated in v5.
     }
 
     /**
@@ -82,6 +66,6 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerResource(PaymentProviderResource::class);
         FilamentRegistry::registerResource(PaymentResource::class);
 
-       // Microweber::module(PaymentModule::class);
+        // Microweber::module(PaymentModule::class);
     }
 }

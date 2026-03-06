@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Package;
 
-use Filament\Facades\Filament;
-
 abstract class MicroweberPackageServiceProvider extends \Spatie\LaravelPackageTools\PackageServiceProvider
 {
 
@@ -35,11 +33,5 @@ abstract class MicroweberPackageServiceProvider extends \Spatie\LaravelPackageTo
     public function boot()
     {
         parent::boot();
-//        Filament::serving(function () {
-//            $panelId = Filament::getCurrentPanel()->getId();
-//            if ($panelId == 'admin') {
-//
-//            }
-//        });
     }
 }

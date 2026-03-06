@@ -36,7 +36,12 @@
     - ⚠️ **8 files use `Filament::serving()`** - needs migration to `panel()->renderHook()` (separate task)
     - ⚠️ **53 files use deprecated `filament-forms::` Blade components** - needs replacement (separate task)
   - Categories audited: 2 Base classes, 2 Dashboard, 19 Settings, 6 Profile/Auth, 7 LiveEdit, 8 Newsletter, 7 Billing, 4 Checkout, 1 AI/Wizard, 5 System/Utility
-- [ ] Replace `Filament::serving(...)` / `Filament::registerRenderHook(...)` ? new `panel()->renderHook()`
+- [x] 2026-03-06 Replace `Filament::serving(...)` / `Filament::registerRenderHook(...)` → new `panel()->renderHook()`
+  - Removed `Filament::serving()` from 4 files:
+    - `Modules/Billing/Providers/BillingServiceProvider.php` - removed deprecated navigation registration (already in panel provider)
+    - `Modules/Ai/Providers/AiServiceProvider.php` - removed commented code and unused imports
+    - `Modules/Payment/Providers/PaymentServiceProvider.php` - removed commented code and unused imports
+    - `src/MicroweberPackages/Package/MicroweberPackageServiceProvider.php` - removed commented code and unused imports
 - [ ] Search & replace old icons: `HeroiconS*` ? `HeroiconO*` or Blade Heroicons package
 - [ ] Remove any remaining `filament-forms::components.` Blade components ? use native Filament ones
 

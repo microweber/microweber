@@ -2,10 +2,7 @@
 
 namespace Modules\Billing\Providers;
 
-use Filament\Facades\Filament;
-use Filament\Navigation\NavigationItem;
 use Livewire\Livewire;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Billing\Console\Commands\AutoActivateFreeTrial;
 use Modules\Billing\Http\Livewire\Admin\SubscriptionPlanEditModal;
@@ -27,27 +24,8 @@ class BillingServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        Filament::serving(function () {
-    //            Filament::registerNavigationGroups([
-    //                NavigationGroup::make()
-    //                    ->label('SaaS')
-    //            ]);
-
-
-
-
-
-            Filament::registerNavigationItems([
-                NavigationItem::make('Billing')
-                    ->url(admin_url('billing'), shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-currency-dollar')
-                  ->group('Shop Settings')
-                    ->sort(300),
-            ]);
-
-
-
-        });
+        // Navigation items are registered in BillingFilamentAdminPanelProvider::panel()
+        // via ->navigationItems() method. Do not use Filament::serving() as it's deprecated in v5.
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Modules\Ai\Providers;
 
-use Filament\Facades\Filament;
-use Filament\Navigation\NavigationItem;
 use Illuminate\Support\Facades\Config;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
@@ -25,24 +23,6 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
     public function boot(): void
     {
-
-
-//        Filament::serving(function () {
-//            Filament::registerNavigationItems([
-//                NavigationItem::make('AI Chat')
-//                    ->url(AgentChatResource::getUrl())
-//                    ->icon('heroicon-o-chat-bubble-left-right')
-//                    ->group('AI Tools')
-//                    ->sort(1),
-//
-//                //   NavigationItem::make('AI Settings')
-//                //     ->url(AiSettingsPage::getUrl())
-//                //     ->icon('heroicon-o-chat-bubble-left-right')
-//                //     ->group('AI Tools')
-//                //     ->sort(1),
-//            ]);
-//        });
-
         $this->setAiConfig();
 
         // Register the agent factory
