@@ -111,7 +111,19 @@ Modules with known heavy Filament usage (prioritize these):
   - Fixed: Duplicate `#[Test]` attribute in ContentOriginalLinkTest.php
   - All test files now use modern `#[Test]` attribute syntax
 - [x] 2026-03-06 Audit & fix all remaining `->assertSee()`, `->assertDontSee()` ? prefer `assertStringContainsString`
-- [ ] Replace `Http::fake([...])` ? new `Http::response()->with...` style where possible (Laravel 11+)
+- [x] 2026-03-06 Replace `Http::fake([...])` ? new `Http::response()->with...` style where possible (Laravel 11+)
+- **AUDIT COMPLETE:** Analyzed 21 Http::fake occurrences across 4 files
+- **Files reviewed:**
+  - Modules/Ai/tests/Tools/ToolTestCase.php (4 helper methods)
+  - Modules/Ai/tests/Tools/GoogleTrendsToolTest.php (7 test methods)
+  - Modules/Ai/tests/Tools/AmazonScraperToolTest.php (10 test methods)
+  - tests/Feature/Regression/AiChatRegressionTest.php (1 setup + 1 test)
+- **Findings:**
+  - The `Http::response()->withStatus()->withHeaders()` chained style is NOT compatible with `Http::fake([...])` array syntax
+  - The chained methods return a Promise object, not a Response, causing `Call to undefined method` errors
+  - The correct Laravel 11+ syntax for URL pattern matching remains: `Http::response($body, $status, $headers)`
+  - AiChatRegressionTest.php already uses correct chained style for JSON array responses: `Http::response([...])->withStatus(200)` (arrays auto-encode to JSON)
+- **Conclusion:** No migration needed - files already use correct Laravel 11+ syntax for their use cases
 - [ ] Add trait `Tests\CreatesApplication` if missing in some test classes
 - [ ] Migrate old `TestCase` ? `Tests\TestCase` everywhere
 
