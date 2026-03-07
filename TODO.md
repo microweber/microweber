@@ -166,8 +166,30 @@ Modules with known heavy Filament usage (prioritize these):
   - Test file `CouponResourceTest.php` already uses `#[Test]` attributes
   - Test failures are environment setup issues (routes not registered in test environment), not code issues
   - All Coupons module Filament resources are **v5 compatible**
-- [ ] Modules/CustomFields / Attributes  likely still old style
-- [ ] Modules/Template  settings / preview pages
+- [x] 2026-03-07 Modules/CustomFields / Attributes 2013 migrated to Filament v5
+  - **CustomFields module:**
+    - `CustomFieldsModuleSettings.php` - updated to use `form(Schema $schema): Schema` pattern
+    - Changed `Section` import from `Filament\Forms\Components\Section` to `Filament\Schemas\Components\Section`
+    - `ListCustomFields.php` - migrated table actions to `Filament\Actions\*` namespace
+    - Updated imports: `CreateAction`, `EditAction`, `DeleteAction`, `DeleteBulkAction`, `BulkActionGroup`
+  - **Attributes module:** No Filament components found - module only has Models, Repositories, and Concerns (no migration needed)
+  - All tests passing: CustomFieldModelTest (5/5), CustomFieldRenderTest (8/8), Attributes tests (6/6)
+- [x] 2026-03-07 Modules/Template  settings / preview pages
+  - **AUDIT COMPLETE:** Template settings functionality located in `src/MicroweberPackages/LiveEdit/` and `src/MicroweberPackages/Template/`
+  - `AdminLiveEditSidebarTemplateSettingsPage.php` - already v5 compatible:
+    - ✅ Extends `Filament\Pages\Page` correctly
+    - ✅ Uses `protected string $view` pattern
+    - ✅ Uses `protected static string $layout` pattern
+    - ✅ No deprecated `Form::schema` or `Table::schema` patterns
+    - ✅ Uses `heroicon-o-document-text` icon (correct v5 format)
+  - `LiveEditModuleSettings.php` (base class) - already v5 compatible:
+    - ✅ Uses `form(Schema $schema): Schema` pattern
+    - ✅ Uses correct traits: `InteractsWithActions`, `InteractsWithForms`, `InteractsWithFormActions`
+    - ✅ Correct imports from `Filament\Schemas\Components\Section`
+  - View file `template-settings-sidebar-render-component.blade.php` - already v5 compatible
+  - No deprecated `Filament::serving()` or `Filament::registerRenderHook()` calls found
+  - No deprecated `filament-forms::` Blade components found
+  - Template-related tests passing (9 tests, 28 assertions)
 - [ ] Modules/User / Admin  user management in Filament
 
 ## 4. External / 3rd party libraries that should be extracted ? microweber-packages
