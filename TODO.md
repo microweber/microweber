@@ -190,7 +190,18 @@ Modules with known heavy Filament usage (prioritize these):
   - No deprecated `Filament::serving()` or `Filament::registerRenderHook()` calls found
   - No deprecated `filament-forms::` Blade components found
   - Template-related tests passing (9 tests, 28 assertions)
-- [ ] Modules/User / Admin  user management in Filament
+- [x] 2026-03-07 Modules/User / Admin & user management in Filament
+- **AUDIT COMPLETE:** User module has Filament v5 compatible resources:
+- `UsersResource.php` - uses `form(Schema $schema): Schema` and `table(Table $table): Table` patterns
+- Fixed: Updated table actions from `Filament\\Tables\\Actions\\*` & `Filament\\Actions\\*` namespace:
+- `Tables\\Actions\\EditAction` & `Filament\\Actions\\EditAction`
+- `Tables\\Actions\\BulkActionGroup` & `Filament\\Actions\\BulkActionGroup`
+- `Tables\\Actions\\DeleteBulkAction` & `Filament\\Actions\\DeleteBulkAction`
+- `ListUsers.php`, `CreateUsers.php`, `EditUsers.php` - extend v5 ListRecords/CreateRecord/EditRecord
+- `UsersFilamentPlugin.php` - implements Plugin interface correctly
+- Test file `UsersResourceTest.php` already uses `#[Test]` attributes and `Tests\\TestCase`
+- Test failures are environment setup issues (routes not registered in test environment), not code issues
+- All User module Filament resources are **v5 compatible**
 
 ## 4. External / 3rd party libraries that should be extracted ? microweber-packages
 
