@@ -1,8 +1,6 @@
 <?php
 
 return [
-    'name' => 'MailTemplate',
-    'description' => 'Manage email templates for various system notifications and communications',
     
     /*
     |--------------------------------------------------------------------------

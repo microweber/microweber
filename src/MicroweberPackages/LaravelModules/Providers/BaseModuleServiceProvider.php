@@ -14,8 +14,13 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
      */
     public function registerConfig(): void
     {
-        $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower . '.php')], 'config');
-        $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), 'modules.' . $this->moduleNameLower);
+        $configPath = module_path($this->moduleName, 'config/config.php');
+
+        // Only register config if the file exists
+        if (file_exists($configPath)) {
+            $this->publishes([$configPath => config_path($this->moduleNameLower . '.php')], 'config');
+            $this->mergeConfigFrom($configPath, 'modules.' . $this->moduleNameLower);
+        }
     }
 
     protected function mergeConfigFrom($path, $key)

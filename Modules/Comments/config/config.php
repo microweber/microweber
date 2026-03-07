@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'name' => 'Comments',
 
     // Comment Functionality
     'enable_comments' => false,
