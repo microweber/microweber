@@ -207,8 +207,21 @@ Modules with known heavy Filament usage (prioritize these):
 
 External-looking or non-standard packages located inside `Modules/`:
 
-- [ ] Evaluate `Modules/Ai/Services/Drivers/*` (OpenAI, Gemini, Ollama, Replicate, Fal.ai, OpenRouter)  
+- [x] 2026-03-07 Evaluate `Modules/Ai/Services/Drivers/*` (OpenAI, Gemini, Ollama, Replicate, Fal.ai, OpenRouter)
   ? Plan: extract ? `microweber-packages/ai-drivers` (multi-driver AI abstraction)
+  - **AUDIT COMPLETE:** See `EVALUATION_AI_DRIVERS.md` for full report
+  - **RECOMMENDATION:** PROCEED with extraction - 11 files ready
+  - **Architecture:** Well-designed Strategy pattern with clear interfaces
+  - **Files Found:** 11 driver files (4 chat drivers, 2 image drivers, 3 interfaces, base class, trait)
+  - **Issues Identified:**
+    1. HTTP client inconsistency (OpenAI uses SDK, others use cURL) - Medium priority
+    2. Dead code: `SupadataAiDriver` reference in AiService.php doesn't exist - Low priority
+    3. SSL verification disabled in some drivers (security concern) - Medium priority
+    4. No HTTP timeout configuration - Low priority
+    5. Limited test coverage - Low priority
+  - **Dependencies:** `openai-php/client`, `neuron-ai/neuron-ai` (optional)
+  - **Estimated Effort:** 5-7 days for full extraction + testing
+  - **Risk Level:** Medium-Low - Clean architecture minimizes breaking changes
 - [ ] `Modules/Ai/Tools/*` ? consider `microweber-packages/ai-tools` (tool calling ecosystem)
 - [ ] `SupadataTool`, `AmazonScraperService`, `GoogleTrendsService` ? very external ? move out
 - [ ] `Rdkit`, `PySCF` (from chemistry libs in code interpreter description)  not used ? remove if dead code
