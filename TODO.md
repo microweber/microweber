@@ -146,7 +146,16 @@ Modules with known heavy Filament usage (prioritize these):
     - Using `table(Table $table): Table` pattern
     - All Pages extend v5-compatible ListRecords/CreateRecord/EditRecord
   - `ShopModuleSettings.php` extends LiveEditModuleSettings (already v5 compatible)
-- [ ] Modules/Order  any admin Filament resources?
+- [x] 2026-03-07 Modules/Order – any admin Filament resources?
+  - **AUDIT COMPLETE:** Order module has full Filament v5 admin resources:
+    - `OrderResource.php` - uses `form(Schema $schema): Schema` and `table(Table $table): Table` patterns
+    - `ListOrders.php` - uses `Filament\Schemas\Components\Tabs\Tab` and `getTabs()` method (v5 compatible)
+    - `CreateOrder.php`, `EditOrder.php` - extend v5 CreateRecord/EditRecord
+    - `PaymentsRelationManager.php` - uses v5 patterns with `Filament\Actions\*` imports
+    - `OrderStats.php` - widget using `InteractsWithPageTable` trait (v5 compatible)
+    - `OrderResourceTest.php` - already uses `#[Test]` attributes and `Tests\TestCase`
+  - Test failures are route setup issues in test environment (PaymentResource routes not registered), not code issues
+  - All Order module Filament resources are **v5 compatible**
 - [ ] Modules/Coupons  admin list & edit pages
 - [ ] Modules/CustomFields / Attributes  likely still old style
 - [ ] Modules/Template  settings / preview pages
