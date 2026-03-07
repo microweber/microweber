@@ -55,7 +55,6 @@ node_modules/
 /bootstrap/cache/*
 /webpack/dist/*
 /.rnd
-bootstrap/cache/*
 userfiles/modules/standalone-updater/
 /standalone-update
 /userfiles/standalone-update

@@ -293,7 +293,12 @@ External-looking or non-standard packages located inside `Modules/`:
   - **Final count:** 39 config.php files remain (down from 94)
   - **Fix:** Updated `BaseModuleServiceProvider::registerConfig()` to gracefully handle missing config files
   - **Tests:** All tests pass (10 tests, 39 assertions)
-- [ ] Audit `bootstrap/cache/` files committed to git ? add to `.gitignore`
+- [x] 2026-03-07 Audit `bootstrap/cache/` files committed to git ? add to `.gitignore`
+  - **AUDIT COMPLETE:** `bootstrap/cache/` is properly configured in `.gitignore`
+  - Found: `/bootstrap/cache/*` already present at line 55
+  - Removed: Duplicate entry `bootstrap/cache/*` at line 58
+  - Status: 0 files currently tracked in git, directory properly ignored
+  - Cleaned: Removed 3 runtime cache files from working directory
 - [ ] Run full static analysis (`phpstan`, `rector`, `insights`) after Filament upgrade
 - [ ] Replace old `config('microweber.')` ? new module config system if exists
 - [ ] Normalize license year in all LICENSE / composer.json files ? 2026
