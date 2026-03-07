@@ -36,12 +36,12 @@ return [
         // \MicroweberPackages\AiTools\Tools\Commerce\SearchOrderTool::class,
         // \MicroweberPackages\AiTools\Tools\Commerce\LookupCustomerTool::class,
 
-        // External tools
-        // \MicroweberPackages\AiTools\Tools\External\AmazonScraperTool::class,
-        // \MicroweberPackages\AiTools\Tools\External\GoogleTrendsTool::class,
-        // \MicroweberPackages\AiTools\Tools\External\SupadataTool::class,
-        // \MicroweberPackages\AiTools\Tools\External\YouTubeTranscriptionTool::class,
-        // \MicroweberPackages\AiTools\Tools\External\GenerateImageTool::class,
+    // External tools
+    \MicroweberPackages\AiTools\Tools\External\AmazonScraperTool::class,
+    \MicroweberPackages\AiTools\Tools\External\GoogleTrendsTool::class,
+    \MicroweberPackages\AiTools\Tools\External\SupadataTool::class,
+    // \MicroweberPackages\AiTools\Tools\External\YouTubeTranscriptionTool::class,
+    // \MicroweberPackages\AiTools\Tools\External\GenerateImageTool::class,
     ],
 
     /**

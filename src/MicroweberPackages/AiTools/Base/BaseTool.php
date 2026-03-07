@@ -43,17 +43,6 @@ abstract class BaseTool extends Tool implements ToolInterface
      */
     abstract public function __invoke(...$args): string;
 
-    /**
-     * Execute method (alias for __invoke for interface compliance).
-     *
-     * @param mixed ...$args
-     * @return string
-     */
-    public function execute(...$args): string
-    {
-        return $this->__invoke(...$args);
-    }
-
     public function setState(WorkflowState $state): void
     {
         $this->state = $state;

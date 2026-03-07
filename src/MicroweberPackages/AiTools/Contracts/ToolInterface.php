@@ -60,7 +60,7 @@ interface ToolInterface
      * @param mixed ...$args
      * @return string
      */
-    public function execute(...$args): string;
+    public function __invoke(...$args): string;
 
     /**
      * Get the maximum number of retry attempts.

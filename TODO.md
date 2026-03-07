@@ -246,7 +246,23 @@ External-looking or non-standard packages located inside `Modules/`:
     - Testable with mock implementations
     - Auto-discovery via ToolRegistry
     - Laravel service provider integration
-- [ ] `SupadataTool`, `AmazonScraperService`, `GoogleTrendsService` ? very external ? move out
+- [x] 2026-03-07 `SupadataTool`, `AmazonScraperService`, `GoogleTrendsService` ? very external ? move out
+  - **EXTRACTION COMPLETE:** All external tools and services moved to `microweber-packages/ai-tools`
+  - **Services migrated:**
+    - `AmazonScraperService` ? `src/MicroweberPackages/AiTools/Services/AmazonScraperService.php`
+    - `GoogleTrendsService` ? `src/MicroweberPackages/AiTools/Services/GoogleTrendsService.php`
+  - **Tools migrated:**
+    - `AmazonScraperTool` ? `src/MicroweberPackages/AiTools/Tools/External/AmazonScraperTool.php`
+    - `GoogleTrendsTool` ? `src/MicroweberPackages/AiTools/Tools/External/GoogleTrendsTool.php`
+    - `SupadataTool` ? `src/MicroweberPackages/AiTools/Tools/External/SupadataTool.php`
+  - **Backward compatibility:** Created stub classes in `Modules/Ai/` that extend new package classes
+    - `Modules/Ai/Services/AmazonScraperService.php`
+    - `Modules/Ai/Services/GoogleTrendsService.php`
+    - `Modules/Ai/Tools/AmazonScraperTool.php`
+    - `Modules/Ai/Tools/GoogleTrendsTool.php`
+    - `Modules/Ai/Tools/SupadataTool.php`
+  - **Configuration:** Enabled external tools in `ai-tools.php` config
+  - **Tests passing:** 63/63 tool tests pass (AmazonScraper: 15, GoogleTrends: 15, others: 33)
 - [ ] `Rdkit`, `PySCF` (from chemistry libs in code interpreter description)  not used ? remove if dead code
 - [ ] Any remaining Livewire v2 ? v3 migration remnants (check `wire:model`, `wire:click`)
 
