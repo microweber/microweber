@@ -263,7 +263,7 @@ External-looking or non-standard packages located inside `Modules/`:
     - `Modules/Ai/Tools/SupadataTool.php`
   - **Configuration:** Enabled external tools in `ai-tools.php` config
   - **Tests passing:** 63/63 tool tests pass (AmazonScraper: 15, GoogleTrends: 15, others: 33)
-- [ ] `Rdkit`, `PySCF` (from chemistry libs in code interpreter description)  not used ? remove if dead code
+- [x] 2026-03-07 `Rdkit`, `PySCF` (from chemistry libs in code interpreter description) - **AUDIT COMPLETE:** Libraries never implemented, no code to remove  not used ? remove if dead code
 - [ ] Any remaining Livewire v2 ? v3 migration remnants (check `wire:model`, `wire:click`)
 
 ## 5. General code health & cleanup
