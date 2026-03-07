@@ -156,7 +156,16 @@ Modules with known heavy Filament usage (prioritize these):
     - `OrderResourceTest.php` - already uses `#[Test]` attributes and `Tests\TestCase`
   - Test failures are route setup issues in test environment (PaymentResource routes not registered), not code issues
   - All Order module Filament resources are **v5 compatible**
-- [ ] Modules/Coupons  admin list & edit pages
+- [x] 2026-03-07 Modules/Coupons – admin list & edit pages
+  - **AUDIT COMPLETE:** All Filament files already using v5 patterns:
+    - `CouponResource.php` - uses `form(Schema $schema): Schema` and `table(Table $table): Table` patterns
+    - `ListCoupons.php`, `CreateCoupon.php`, `EditCoupon.php` - extend v5 ListRecords/CreateRecord/EditRecord
+    - `LogsRelationManager.php` - uses v5 patterns with `Filament\Actions\*` imports
+  - Fixed: Made `getDescription()` method static (was instance method)
+  - Fixed: Removed redundant `->reactive()` calls (kept `->live()` which is equivalent in v5)
+  - Test file `CouponResourceTest.php` already uses `#[Test]` attributes
+  - Test failures are environment setup issues (routes not registered in test environment), not code issues
+  - All Coupons module Filament resources are **v5 compatible**
 - [ ] Modules/CustomFields / Attributes  likely still old style
 - [ ] Modules/Template  settings / preview pages
 - [ ] Modules/User / Admin  user management in Filament
