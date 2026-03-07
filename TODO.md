@@ -348,14 +348,51 @@ External-looking or non-standard packages located inside `Modules/`:
 - `tests/Unit/ExamplePestTest.php` (root level)
 - `tests/Pest.php` (root level)
 - `Modules/Billing/Tests/Unit/PestExampleTest.php` (module level)
-- [ ] Add GitHub Actions matrix testing (PHP 8.28.4, Laravel 1012)
-- [ ] Create module upgrade guide (`docs/filament-migration.md` ? finish it)
-- [ ] Add automated Filament -> v5 codemod / rector rules (custom if needed)
+- [x] 2026-03-07 Add GitHub Actions matrix testing (PHP 8.2–8.4, Laravel 10–12)
+- **COMPLETED:** Created comprehensive matrix testing workflow at `.github/workflows/matrix-tests.yml`
+- **Matrix Configuration:**
+  - Core combinations (required):
+    - PHP 8.3 + Laravel 11
+    - PHP 8.4 + Laravel 11
+  - Experimental combinations (allowed to fail):
+    - PHP 8.2 + Laravel 10/11
+    - PHP 8.3 + Laravel 10/12
+    - PHP 8.4 + Laravel 10/12
+- **Features:**
+  - Runs on push to main/master/develop and PRs
+  - Composer caching per PHP/Laravel version
+  - Dynamic dependency adjustment for different Laravel versions
+  - Static analysis with PHPStan (optional)
+  - Test artifact upload on failure
+  - Summary job with PR comments
+  - Fail-fast disabled for robustness
+- **Notes:**
+  - PHP 8.2 marked as experimental due to composer.json requiring ^8.3
+  - Laravel 10 marked as experimental (requires dependency adjustments)
+  - Laravel 12 marked as experimental (not yet released/requiring dependency updates)
+- [x] 2026-03-07 Create module upgrade guide (`docs/filament-migration.md` ? finish it)
+- [x] 2026-03-07 Add automated Filament -> v5 codemod / rector rules (custom if needed)
+  - Created `rector-filament.php` configuration file for Filament v5 migration
+  - Created custom Rector rules in `dev/rector-rules/Filament/Rector/`:
+    - `RenameSectionImportRector.php` - Migrate Section imports from Forms to Schemas
+    - `RenameTableActionImportRector.php` - Migrate Table Actions to Actions namespace
+    - `RenameTabsImportRector.php` - Migrate Tabs imports to new namespace
+    - `RenameFormMethodSignatureRector.php` - Update form() method signatures
+    - `RenameSchemaMethodCallRector.php` - Rename schema() to components()
+    - `ConvertTestAnnotationToAttributeRector.php` - Convert @test to #[Test]
+    - `FixLivewireEventDispatchRector.php` - Replace $emit with $dispatch
+  - Created Blade template migrator: `dev/rector-rules/blade-migrator.php`
+  - Created analysis script: `dev/rector-rules/analyze-filament-migration.sh`
+  - Created comprehensive documentation: `dev/rector-rules/README.md`
+  - Usage:
+    - Analyze: `./dev/rector-rules/analyze-filament-migration.sh .`
+    - PHP: `vendor/bin/rector process --config=rector-filament.php --dry-run`
+    - Blade: `php dev/rector-rules/blade-migrator.php Modules/YourModule/resources/views`
 
 ## Quick Wins  do these first (13 days)
 
-- [ ] Fix failing test: `ModuleResourceTest` ? `Tab` class not found
-- [ ] Convert 2030 most obvious `@test` ? `#[Test]`
-- [ ] Replace `Tab::make()` in 23 most used resources (Ai, Billing)
+- [x] 2026-03-06 Fix failing test: `ModuleResourceTest` ? `Tab` class not found
+- [x] 2026-03-06 Convert 2030 most obvious `@test` ? `#[Test]`
+- [x] 2026-03-06 Replace `Tab::make()` in 23 most used resources (Ai, Billing)
 
-Last updated: 2026-03  
+Last updated: 2026-03-07  

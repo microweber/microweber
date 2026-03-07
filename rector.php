@@ -7,6 +7,13 @@ use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRect
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
+/**
+ * Main Rector configuration for Microweber.
+ * 
+ * For Filament v5 migration, use rector-filament.php instead:
+ *   vendor/bin/rector process --config=rector-filament.php
+ */
+
 return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/app',
@@ -21,6 +28,7 @@ return RectorConfig::configure()
         __DIR__ . '/storage',
         __DIR__ . '/packages/*/vendor',
         __DIR__ . '/packages/*/node_modules',
+        __DIR__ . '/dev',
     ])
     ->withPhpSets(php83: true)
     ->withSets([

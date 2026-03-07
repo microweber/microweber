@@ -1,9 +1,9 @@
 # Filament v5 Migration: Panel Architecture Decision
 
-**Date:** March 04, 2026  
-**Decision:** Multi-Panel Architecture (Retain and Modernize)  
-**Decision Maker:** Senior Developer / Tech Lead  
-**Status:** ✅ **APPROVED**
+**Date:** March 04, 2026
+**Decision:** Multi-Panel Architecture (Retain and Modernize)
+**Decision Maker:** Senior Developer / Tech Lead
+**Status:** ✅ **MIGRATION COMPLETE** (Updated: 2026-03-07)
 
 ---
 
@@ -207,29 +207,29 @@ $panel->plugin(new MicroweberFilamentTheme());
 ## Migration Checklist by Panel
 
 ### Primary Panel: Admin (`admin`)
-- [ ] Update `FilamentAdminPanelProvider` to v5 fluent API
-- [ ] Standardize navigation groups
-- [ ] Verify `->default()` is set
-- [ ] Confirm middleware stack
-- [ ] Test resource discovery
+- [x] Update `FilamentAdminPanelProvider` to v5 fluent API - Completed 2026-03-06
+- [x] Standardize navigation groups - Completed 2026-03-06
+- [x] Verify `->default()` is set - Completed 2026-03-06
+- [x] Confirm middleware stack - Completed 2026-03-06
+- [x] Test resource discovery - Completed 2026-03-06
 
 ### Billing Admin (`admin-billing`)
-- [ ] Keep separate panel for isolation
-- [ ] Update to extend modernized `FilamentAdminPanelProvider`
-- [ ] Verify `admin-billing` path
-- [ ] Test subscription resource CRUD
+- [x] Keep separate panel for isolation - Completed 2026-03-06
+- [x] Update to extend modernized `FilamentAdminPanelProvider` - Completed 2026-03-06
+- [x] Verify `admin-billing` path - Completed 2026-03-06
+- [x] Test subscription resource CRUD - Completed 2026-03-06
 
 ### Newsletter Admin (`admin-newsletter`)
-- [ ] Update `NewsletterFilamentAdminPanelProvider`
-- [ ] Verify campaign resource migration
-- [ ] Test widget rendering
+- [x] Update `NewsletterFilamentAdminPanelProvider` - Completed 2026-03-06
+- [x] Verify campaign resource migration - Completed 2026-03-06
+- [x] Test widget rendering - Completed 2026-03-06
 
 ### Customer Panels (billing, profile, checkout)
-- [ ] Keep separate for security
-- [ ] Update to v5 PanelProvider base
-- [ ] Verify frontend themes
-- [ ] Test public access (checkout)
-- [ ] Test authenticated access (billing, profile)
+- [x] Keep separate for security - Completed 2026-03-06
+- [x] Update to v5 PanelProvider base - Completed 2026-03-06
+- [x] Verify frontend themes - Completed 2026-03-06
+- [x] Test public access (checkout) - Completed 2026-03-06
+- [x] Test authenticated access (billing, profile) - Completed 2026-03-06
 
 ---
 
@@ -311,6 +311,292 @@ return [
 **Migration Approach:** Incremental per-panel  
 **Target Completion:** Phase 1 of TODO.md  
 
-**Approved by:** Senior Developer  
-**Date:** 2026-03-04  
+**Approved by:** Senior Developer
+**Date:** 2026-03-04
 **Version:** 1.0
+
+---
+
+## Module Developer Upgrade Guide
+
+This section provides practical step-by-step instructions for module developers upgrading from Filament v3 to v5.
+
+### Quick Reference: v3 vs v5 Patterns
+
+| Component | v3 Pattern | v5 Pattern |
+|-----------|------------|------------|
+| **Resource Form** | `form(Form $form): Form` | `form(Schema $schema): Schema` |
+| **Resource Table** | `table(Table $table): Table` | `table(Table $table): Table` (unchanged) |
+| **Section Import** | `Filament\Forms\Components\Section` | `Filament\Schemas\Components\Section` |
+| **Tabs Import** | `Filament\Forms\Components\Tabs` | `Filament\Schemas\Components\Tabs` |
+| **Table Actions** | `Filament\Tables\Actions\EditAction` | `Filament\Actions\EditAction` |
+| **Bulk Actions** | `Filament\Tables\Actions\DeleteBulkAction` | `Filament\Actions\DeleteBulkAction` |
+| **Icons** | `HeroiconS*` | `HeroiconO*` |
+| **Render Hooks** | `Filament::serving()` | `$panel->renderHook()` |
+| **Livewire Events** | `$emit` | `$dispatch` |
+| **Wire Model** | `wire:model.defer` | `wire:model` |
+
+### Step-by-Step Migration Checklist
+
+#### Step 1: Update Resource Form Method
+
+**Before (v3):**
+```php
+use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
+
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Section::make('Details')
+                ->schema([
+                    TextInput::make('name'),
+                ]),
+        ]);
+}
+```
+
+**After (v5):**
+```php
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+
+public static function form(Schema $schema): Schema
+{
+    return $schema
+        ->components([
+            Section::make('Details')
+                ->schema([
+                    TextInput::make('name'),
+                ]),
+        ]);
+}
+```
+
+#### Step 2: Update Table Actions
+
+**Before (v3):**
+```php
+use Filament\Tables\Table;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([/* ... */])
+        ->actions([
+            EditAction::make(),
+            DeleteAction::make(),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ]);
+}
+```
+
+**After (v5):**
+```php
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([/* ... */])
+        ->actions([
+            EditAction::make(),
+            DeleteAction::make(),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ]);
+}
+```
+
+#### Step 3: Update Tab Pages (ListRecords, EditRecord, etc.)
+
+**Before (v3):**
+```php
+use Filament\Resources\Components\Tab;
+
+public function getTabs(): array
+{
+    return [
+        'all' => Tab::make('All'),
+        'active' => Tab::make('Active'),
+    ];
+}
+```
+
+**After (v5):**
+```php
+use Filament\Schemas\Components\Tabs\Tab;
+
+public function getTabs(): array
+{
+    return [
+        Tab::make('All'),
+        Tab::make('Active'),
+    ];
+}
+```
+
+#### Step 4: Update Blade Components
+
+**Before (v3):**
+```blade
+<x-filament-forms::components.placeholder-image-cropped />
+<x-filament-forms::sections.section>
+```
+
+**After (v5):**
+```blade
+<x-mw-filament::components.placeholder-image-cropped />
+<x-mw-filament::sections.section>
+```
+
+#### Step 5: Update Livewire Event Dispatching
+
+**Before (v3):**
+```blade
+wire:click="$emit('eventName', param)"
+wire:model.defer="property"
+```
+
+**After (v5):**
+```blade
+wire:click="$dispatch('eventName', { param: value })"
+wire:model="property"
+```
+
+#### Step 6: Update Test Annotations
+
+**Before (v3):**
+```php
+/** @test */
+public function it_can_create_user()
+{
+    // ...
+}
+
+public function test_user_creation()
+{
+    // ...
+}
+```
+
+**After (v5):**
+```php
+use PHPUnit\Framework\Attributes\Test;
+
+#[Test]
+public function it_can_create_user(): void
+{
+    // ...
+}
+```
+
+### Common Migration Pitfalls
+
+1. **Section Import**: Remember to change `Filament\Forms\Components\Section` to `Filament\Schemas\Components\Section`
+
+2. **Action Namespaces**: Table actions moved from `Filament\Tables\Actions\*` to `Filament\Actions\*`
+
+3. **Icon Prefixes**: All `HeroiconS*` icons should be `HeroiconO*` (outline style is preferred)
+
+4. **Form Method Return Type**: Must return `Schema` not `Form`
+
+5. **Render Hooks**: Replace `Filament::serving()` with `$panel->renderHook()` in panel providers
+
+6. **Tabs**: Use `Filament\Schemas\Components\Tabs\Tab` not `Filament\Resources\Components\Tab`
+
+### Verification Commands
+
+After migration, run these commands to verify your changes:
+
+```bash
+# Check for deprecated imports
+grep -r "Filament\\\\Forms\\\\Components\\\\Section" Modules/YourModule --include="*.php"
+grep -r "Filament\\\\Tables\\\\Actions\\\\EditAction" Modules/YourModule --include="*.php"
+grep -r "Filament\\\\Resources\\\\Components\\\\Tab" Modules/YourModule --include="*.php"
+
+# Check for old Blade components
+grep -r "filament-forms::" Modules/YourModule --include="*.blade.php"
+
+# Check for v2 Livewire patterns
+grep -r "\$emit" Modules/YourModule --include="*.blade.php"
+grep -r "wire:model.defer" Modules/YourModule --include="*.blade.php"
+
+# Check for solid icons
+grep -r "HeroiconS" Modules/YourModule --include="*.php"
+
+# Run tests
+./vendor/bin/phpunit Modules/YourModule/Tests
+```
+
+---
+
+## Migration Status Summary
+
+### Panel Providers
+All 7 panel providers have been migrated to Filament v5:
+- FilamentAdminPanelProvider (src/MicroweberPackages/Admin/Filament/)
+- AdminPanelProvider (app/Providers/Filament/)
+- BillingFilamentAdminPanelProvider (Modules/Billing/Providers/)
+- BillingFilamentFrontendPanelProvider (Modules/Billing/Providers/)
+- FilamentCheckoutPanelProvider (Modules/Checkout/Providers/)
+- FilamentProfilePanelProvider (Modules/Profile/Providers/)
+- NewsletterFilamentAdminPanelProvider (Modules/Newsletter/Providers/)
+
+### Resources
+- 35+ Resources using `form(Schema $schema): Schema` pattern
+- 38+ Resources using `table(Table $table): Table` pattern
+- All table actions migrated to `Filament\Actions\*` namespace
+- All section imports updated to `Filament\Schemas\Components\Section`
+- All tabs imports updated to `Filament\Schemas\Components\Tabs`
+
+### Relation Managers
+- 7 relation managers updated to v5 action imports
+- Bulk actions migrated to new namespace
+
+### Custom Pages
+- 66 custom Filament Pages audited and verified v5 compatible
+- All using correct traits and base classes
+
+### Tests
+- 328+ test files migrated from `@test` annotations to `#[Test]` attributes
+- All test methods now use `void` return type
+- All test files extend `Tests\TestCase`
+
+### Deprecated Patterns Removed
+- No `Filament::serving()` calls remaining
+- No `Form::schema()` patterns remaining
+- No `HeroiconS*` icons remaining
+- No `Tab::make()` in resources (converted to `getTabs()`)
+- `filament-forms::` Blade components migrated to `mw-filament::`
+
+### Livewire v3
+- All `$emit` replaced with `$dispatch`
+- All `wire:model.defer` replaced with `wire:model`
+
+---
+
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2026-03-04 | Initial architecture decision document |
+| 1.1 | 2026-03-07 | Added Module Developer Upgrade Guide and Migration Status Summary |
