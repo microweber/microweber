@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use Coolsam\Modules\Concerns\ModuleFilamentPlugin;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
+
+class {{ class }} implements Plugin
+{
+    use ModuleFilamentPlugin;
+
+    public function getModuleName(): string
+    {
+        return '{{ moduleStudlyName }}';
+    }
+
+    public function getId(): string
+    {
+        return '{{ pluginId }}';
+    }
+
+    public function boot(Panel $panel): void
+    {
+        // TODO: Implement boot() method.
+    }
+}

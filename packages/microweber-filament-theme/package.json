@@ -4,55 +4,57 @@
 
     "scripts": {
 
-        "build": "npx mix",
+        "build": "node build.cjs",
 
-        "dev": "npx mix watch"
+        "dev": "node build.cjs"
 
     },
 
-"devDependencies": {
+    "devDependencies": {
 
-"@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
 
-"@tailwindcss/container-queries": "^0.1.1",
+        "@tailwindcss/container-queries": "^0.1.1",
 
-"@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/forms": "^0.5.10",
 
-"@tailwindcss/postcss": "^4.0.12",
+        "@tailwindcss/postcss": "^4.0.12",
 
-"@tailwindcss/typography": "^0.5.16",
+        "@tailwindcss/typography": "^0.5.16",
 
-"autoprefixer": "^10.4.21",
+        "autoprefixer": "^10.4.21",
 
-"copy-webpack-plugin": "^12.0.2",
+        "copy-webpack-plugin": "^12.0.2",
 
-"css-loader": "^5.2.7",
+        "css-loader": "^5.2.7",
 
-"gulp": "^5.0.0",
+        "gulp": "^5.0.0",
 
-"gulp-watch": "^5.0.1",
+        "gulp-watch": "^5.0.1",
 
-"laravel-mix": "^6.0.49",
+        "laravel-mix": "^6.0.49",
 
-"mini-css-extract-plugin": "^2.9.2",
+        "mini-css-extract-plugin": "^2.9.2",
 
-"postcss": "^8.5.3",
+        "postcss": "^8.5.3",
 
-"postcss-import": "^15.1.0",
+        "postcss-import": "^15.1.0",
 
-"postcss-nested": "^7.0.2",
+        "postcss-nested": "^7.0.2",
 
-"tailwind-variants": "^0.3.1",
+        "sass": "^1.97.3",
 
-"tailwindcss": "^4.0.12",
+        "tailwind-variants": "^0.3.1",
 
-"vue-loader": "^16.8.3",
+        "tailwindcss": "^4.0.12",
 
-"webpack": "5.94.0",
+        "vue-loader": "^16.8.3",
 
-"webpack-cli": "^5.1.4"
+        "webpack": "5.94.0",
 
-},
+        "webpack-cli": "^5.1.4"
+
+    },
 
     "dependencies": {
 

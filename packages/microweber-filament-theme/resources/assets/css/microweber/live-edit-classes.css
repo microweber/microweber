@@ -199,7 +199,7 @@ body {
 }
 
 #mw-dialog-holder-mw-add-content-editor-front {
-    @apply w-[800px] !important;
+    @apply !w-[800px];
 }
 
 .mw-btn-icon-delete {
@@ -393,7 +393,7 @@ h1,h2,h3,h4,h5,h6 {
 .mw-field.mw-field-flat input,
 .mw-field.mw-field-flat select,
 .mw-field.mw-field-flat textarea {
-    @apply rounded-none border-t-0 border-l-0 border-r-0 shadow-none !important;
+    @apply !rounded-none !border-t-0 !border-l-0 !border-r-0 !shadow-none;
 }
 
 /* mw-field input, select, textarea */

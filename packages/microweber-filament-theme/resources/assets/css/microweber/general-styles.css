@@ -951,7 +951,7 @@ select option,
 }
 
 #save-toolbar {
-    @apply fixed bottom-0 w-100 d-flex justify-center py-5 z-10 bg-white dark:bg-gray-800 dark:text-white;
+    @apply fixed bottom-0 w-full flex justify-center py-5 z-10 bg-white dark:bg-gray-800 dark:text-white;
 }
 
 .mw-control-box-bottom.mw-control-box-default {

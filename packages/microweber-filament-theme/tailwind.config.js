@@ -270,7 +270,7 @@ module.exports = {
             './../frontend-assets/resources/assets/**/*.vue',
             './../frontend-assets/resources/assets/**/*.js',
             './resources/assets/css/*.css',
-            './resources/assets/css/**/*.scss',
+            './resources/assets/css/**/*.css',
             './../../Modules/**/*.blade.php',
             './../../Modules/**/resources/views/**/*.blade.php',
             './../../src/MicroweberPackages/**/*.blade.php',

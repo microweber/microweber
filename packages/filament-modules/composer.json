@@ -1,0 +1,84 @@
+{
+  "name": "microweber-deps/filament-modules",
+  "version": "v1.0",
+  "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
+  "keywords": [
+    "coolsam",
+    "laravel",
+    "FilamentModules",
+    "filament"
+  ],
+  "homepage": "https://github.com/savannabits/filament-modules",
+  "support": {
+    "issues": "https://github.com/savannabits/filament-modules/issues",
+    "source": "https://github.com/savannabits/filament-modules"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sam Maosa",
+      "email": "maosa.sam@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+   
+  },
+  "require-dev": {
+     
+  },
+  "autoload": {
+    "psr-4": {
+      "Coolsam\\Modules\\": "src/",
+      "Coolsam\\Modules\\Database\\Factories\\": "database/factories/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Coolsam\\Modules\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare",
+      "@php ./vendor/bin/testbench package:discover --ansi"
+    ],
+    "analyse": "vendor/bin/phpstan analyse",
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage",
+    "format": "vendor/bin/pint",
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve"
+    ],
+    "lint": [
+      "@php vendor/bin/pint",
+      "@php vendor/bin/phpstan analyse"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "phpstan/extension-installer": true,
+      "wikimedia/composer-merge-plugin": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Coolsam\\Modules\\ModulesServiceProvider"
+      ],
+      "aliases": {
+        "FilamentModules": "FilamentModules"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

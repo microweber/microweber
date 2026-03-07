@@ -281,6 +281,14 @@
         },
         {
             "type": "path",
+            "url": "packages/filament-modules",
+            "options": {
+                "reference": "config",
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "packages/microweber-filament-theme",
             "options": {
                 "reference": "config",

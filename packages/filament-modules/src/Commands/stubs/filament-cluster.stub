@@ -1,0 +1,29 @@
+<?php
+
+namespace {{ namespace }};
+
+use Filament\Clusters\Cluster;
+use Nwidart\Modules\Facades\Module;
+
+class {{ class }} extends Cluster
+{
+    public static function getModuleName(): string
+    {
+        return '{{ moduleStudlyName }}';
+    }
+
+    public static function getModule(): \Nwidart\Modules\Module
+    {
+        return Module::findOrFail(static::getModuleName());
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('{{ navigationLabel }}');
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return '{{ navigationIcon }}';
+    }
+}
