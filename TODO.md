@@ -264,7 +264,19 @@ External-looking or non-standard packages located inside `Modules/`:
   - **Configuration:** Enabled external tools in `ai-tools.php` config
   - **Tests passing:** 63/63 tool tests pass (AmazonScraper: 15, GoogleTrends: 15, others: 33)
 - [x] 2026-03-07 `Rdkit`, `PySCF` (from chemistry libs in code interpreter description) - **AUDIT COMPLETE:** Libraries never implemented, no code to remove  not used ? remove if dead code
-- [ ] Any remaining Livewire v2 ? v3 migration remnants (check `wire:model`, `wire:click`)
+- [x] 2026-03-07 Any remaining Livewire v2 ? v3 migration remnants (check `wire:model`, `wire:click`)
+  - **MIGRATION COMPLETE:** Fixed all Livewire v2 → v3 patterns:
+  - Replaced `$emit` with `$dispatch` in 7 Blade files (Billing and Marketplace modules)
+  - Replaced `wire:model.defer` with `wire:model` in 16+ Blade files (v3 has deferred by default)
+  - `wire:model.lazy` remains unchanged (still valid in v3)
+  - Files updated:
+    - `Modules/Billing/resources/views/admin/livewire/*.blade.php` (6 files)
+    - `Modules/Marketplace/resources/views/admin/livewire/modals/*.blade.php` (1 file)
+    - `Modules/Captcha/resources/views/livewire/modals/*.blade.php` (1 file)
+    - `Modules/Comments/resources/views/components/editors/*.blade.php` (1 file)
+    - `Modules/Newsletter/resources/views/livewire/admin/*.blade.php` (1 file)
+    - `Modules/Profile/resources/views/pages/*.blade.php` (1 file)
+    - `src/MicroweberPackages/**/resources/views/**/*.blade.php` (10+ files)
 
 ## 5. General code health & cleanup
 

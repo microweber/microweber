@@ -32,7 +32,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @else
 
 <!--                    <x-microweber-ml::input-text label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />-->
-                   <x-microweber-ui::input wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                   <x-microweber-ui::input wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'textarea' )
@@ -43,7 +43,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                     <x-microweber-ui::textarea wire:model.live.debounce.1500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                   {{--  <x-microweber-ml::input-textarea label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />--}}
-                    <x-microweber-ui::textarea wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::textarea wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'simple-text-editor' )
@@ -53,7 +53,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::simple-text-editor wire:model.live.debounce.2500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::simple-text-editor wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::simple-text-editor wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'image' )
@@ -63,7 +63,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::media-picker wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::media-picker wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::media-picker wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'file' )
@@ -73,7 +73,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::file-picker wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::file-picker wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::file-picker wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'select' )
@@ -86,7 +86,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::select :options="$fieldOptions" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::select  :options="$fieldOptions" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::select  :options="$fieldOptions" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'toggle' )
@@ -96,7 +96,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::toggle wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::toggle wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::toggle wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'checkbox' )
@@ -106,7 +106,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::checkbox wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::checkbox wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::checkbox wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'radio' )
@@ -116,7 +116,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::radio wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::radio wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::radio wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'color' )
@@ -124,7 +124,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::color-picker label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::color-picker label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::color-picker label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'icon' )
@@ -134,7 +134,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::icon-picker label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::icon-picker addUnsavedClass="true" label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::icon-picker addUnsavedClass="true" label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'date' )
@@ -144,7 +144,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::date label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::date label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::date label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'datetime' )
@@ -154,7 +154,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::datetime label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::datetime label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::datetime label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'range' )
@@ -162,7 +162,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::range-slider label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::range-slider label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::range-slider label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'time' )
@@ -172,7 +172,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::time label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::time label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::time label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'url' )
@@ -182,7 +182,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.live.debounce.2500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
 
@@ -193,7 +193,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::link-picker label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::link-picker label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::link-picker label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'info' )
@@ -207,7 +207,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::input label="{{$field['label']}}" wire:model.live.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::input label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::input label="{{$field['label']}}" wire:model="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @endif

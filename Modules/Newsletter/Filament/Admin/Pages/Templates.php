@@ -11,10 +11,8 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\CreateAction;
+use Filament\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -67,11 +65,7 @@ class Templates extends Page implements HasTable
                     ->url(fn(NewsletterTemplate $template) => route('filament.admin.pages.newsletter.template-editor').'?id='.$template->id),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                ]),
-            ]);
+->bulkActions([]);
     }
 
 }

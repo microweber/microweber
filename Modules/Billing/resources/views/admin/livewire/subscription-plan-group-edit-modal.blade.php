@@ -2,7 +2,7 @@
     <form>
         <div class="modal-header">
             <h5 class="modal-title">Edit Subscription Plan Group</h5>
-            <button type="button" class="btn-close mw-process-close-modal-button" wire:click="$emit('closeModal')"></button>
+            <button type="button" class="btn-close mw-process-close-modal-button" wire:click="$dispatch('closeModal')"></button>
         </div>
         <div class="modal-body">
 

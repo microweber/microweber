@@ -32,7 +32,7 @@
                                 data-callback="captchaResponse"
                         />
                     </div>
-                    <input type="hidden" id="js-captcha-value" wire:model.defer="captcha"/>
+                    <input type="hidden" id="js-captcha-value" wire:model="captcha"/>
                 </div>
             </div>
 

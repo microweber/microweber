@@ -57,7 +57,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <button class="dropdown-item" wire:click="$emit('openModal', 'billing::user-subscription-edit-modal', {{ json_encode(["userId" => $user->id]) }})">
+                                        <button class="dropdown-item" wire:click="$dispatch('openModal', { component: 'billing::user-subscription-edit-modal', userId: {{ $user->id }} })">
                                             <i class="fa fa-edit"></i> Edit Subscription
                                         </button>
                                     </li>

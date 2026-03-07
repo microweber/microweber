@@ -18,7 +18,7 @@
 
 
     <div class="mt-2 mb-2">
-        <button class="btn btn-outline-success btn-sm" wire:click="$emit('openModal', 'billing::subscription-plan-edit-modal')">
+        <button class="btn btn-outline-success btn-sm" wire:click="$dispatch('openModal', { component: 'billing::subscription-plan-edit-modal' })">
             Add new Plan
         </button>
         <button class="btn btn-outline-success btn-sm" wire:click="syncPricesFromStripe">
@@ -62,7 +62,7 @@
                             </div>
                         </div>--}}
 
-                        <button class="btn btn-outline-success btn-sm" wire:click="$emit('openModal', 'billing::subscription-plan-edit-modal', {{ json_encode(["subscriptionPlanId" => $subscriptionPlan->id]) }})">
+                        <button class="btn btn-outline-success btn-sm" wire:click="$dispatch('openModal', { component: 'billing::subscription-plan-edit-modal', subscriptionPlanId: {{ $subscriptionPlan->id }} })">
                             <i class="fa fa-edit"></i> Edit Plan
                         </button>
 

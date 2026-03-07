@@ -113,7 +113,7 @@
                         </div>
                         <div>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" wire:model.defer="importSubscribers.sourceUrl"
+                                <input type="text" class="form-control" wire:model="importSubscribers.sourceUrl"
                                        id="source_file" placeholder="https://site.com/subscriber-list.xlsx">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="source_file"

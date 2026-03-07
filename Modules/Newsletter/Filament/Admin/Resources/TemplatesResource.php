@@ -54,20 +54,19 @@ class TemplatesResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\Action::make('Edit')
-                    ->icon('heroicon-o-pencil')
-                    ->url(function ($record) {
-                        return route('filament.admin.pages.newsletter.template-editor') . '?id=' . $record->id;
-                    }),
-                //Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+->actions([
+            Action::make('Edit')
+                ->icon('heroicon-o-pencil')
+                ->url(function ($record) {
+                    return route('filament.admin.pages.newsletter.template-editor') . '?id=' . $record->id;
+                }),
+            DeleteAction::make(),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getPages(): array

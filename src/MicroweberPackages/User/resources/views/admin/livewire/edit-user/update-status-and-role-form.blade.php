@@ -14,7 +14,7 @@
             <div class="col-span-6 sm:col-span-4 my-3">
                 <x-microweber-ui::label for="role" value="Role of the user" />
                 <div class="text-muted mb-2"><?php _e('Choose the current role of the user');?>. </div>
-                <select id="role" class="form-select" wire:model.defer="state.is_admin">
+                <select id="role" class="form-select" wire:model="state.is_admin">
                     <option value="0"><?php _e('User');?></option>
                     <option value="1"><?php _e('Admin');?></option>
                 </select>
@@ -25,7 +25,7 @@
             <div class="col-span-6 sm:col-span-4 my-3">
                 <x-microweber-ui::label for="is_active" value="Is Active?" />
                 <div class="text-muted mb-2"><?php _e('Choose the current status of this user');?></div>
-                <select id="is_active" class="form-select" wire:model.defer="state.is_active">
+                <select id="is_active" class="form-select" wire:model="state.is_active">
                     <option value="1"><?php _e('Active');?></option>
                     <option value="0"><?php _e('Disabled');?></option>
                 </select>

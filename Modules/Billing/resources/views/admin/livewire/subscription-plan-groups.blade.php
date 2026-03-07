@@ -18,7 +18,7 @@
 
 
     <div class="mt-2 mb-2">
-        <button class="btn btn-outline-success btn-sm" wire:click="$emit('openModal', 'billing::subscription-plan-group-edit-modal')">
+        <button class="btn btn-outline-success btn-sm" wire:click="$dispatch('openModal', { component: 'billing::subscription-plan-group-edit-modal' })">
             Add new Plan Group
         </button>
     </div>
@@ -51,7 +51,7 @@
                             </button>
                         @endif
 
-                        <button class="btn btn-outline-success btn-sm" wire:click="$emit('openModal', 'billing::subscription-plan-group-edit-modal', {{ json_encode(["subscriptionPlanGroupId" => $subscriptionPlanGroup->id]) }})">
+                        <button class="btn btn-outline-success btn-sm" wire:click="$dispatch('openModal', { component: 'billing::subscription-plan-group-edit-modal', subscriptionPlanGroupId: {{ $subscriptionPlanGroup->id }} })">
                             <i class="fa fa-edit"></i> Edit Plan Group
                         </button>
 

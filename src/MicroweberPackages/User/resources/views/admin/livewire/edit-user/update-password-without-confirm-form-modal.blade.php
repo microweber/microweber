@@ -19,7 +19,7 @@
                     <x-microweber-ui::label for="password" value="Password" />
 
                     <div class="input-group input-group-flat">
-                        <input class="form-control" id="password" x-model="password" :type="revealPassword ? 'text' : 'password'" wire:model.defer="state.password" />
+                        <input class="form-control" id="password" x-model="password" :type="revealPassword ? 'text' : 'password'" wire:model="state.password" />
                         <span class="input-group-text" x-show="password">
                             <a href="javascript:void(0)" class="input-group-link" x-on:click="revealPassword =! revealPassword">
                                 <span x-show="!revealPassword">
@@ -39,7 +39,7 @@
                     <x-microweber-ui::label for="password_confirm" value="Confirm Password" />
 
                     <div class="input-group input-group-flat">
-                    <input class="form-control" id="password_confirm"  x-model="passwordConfirm" :type="revealPasswordConfirm ? 'text' : 'password'" wire:model.defer="state.password_confirm" />
+                    <input class="form-control" id="password_confirm"  x-model="passwordConfirm" :type="revealPasswordConfirm ? 'text' : 'password'" wire:model="state.password_confirm" />
                         <span class="input-group-text" x-show="passwordConfirm">
                             <a href="javascript:void(0)" class="input-group-link" x-on:click="revealPasswordConfirm =! revealPasswordConfirm">
                                 <span x-show="!revealPasswordConfirm">

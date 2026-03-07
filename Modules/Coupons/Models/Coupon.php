@@ -2,11 +2,15 @@
 
 namespace Modules\Coupons\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Coupons\Database\Factories\CouponFactory;
 
 class Coupon extends Model
 {
+    use HasFactory;
+
     protected $table = 'cart_coupons';
 
     protected $fillable = [
@@ -91,5 +95,10 @@ class Coupon extends Model
         }
 
         return min($this->discount_value, $amount);
+    }
+
+    protected static function newFactory(): CouponFactory
+    {
+        return new CouponFactory();
     }
 }

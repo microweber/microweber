@@ -34,7 +34,7 @@
 <!--        <div class="mt-4" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
             <x-microweber-ui::input type="password" class="mt-1 block w-3/4" placeholder="Password"
                                     x-ref="password"
-                                    wire:model.defer="password"
+                                    wire:model="password"
                                     wire:keydown.enter="deleteUser" />
 
             <x-microweber-ui::input-error for="password" class="mt-2" />

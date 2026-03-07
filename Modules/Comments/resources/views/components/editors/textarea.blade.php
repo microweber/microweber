@@ -1,6 +1,6 @@
 <div>
     <textarea 
-        wire:model.defer="{{ $model }}" 
+        wire:model="{{ $model }}" 
         @isset($autofocus) autofocus @endisset 
         class="form-control"
         placeholder="{{ $placeholder }}"

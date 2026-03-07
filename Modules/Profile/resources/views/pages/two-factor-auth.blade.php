@@ -113,7 +113,7 @@
                         <x-filament::input.wrapper>
                             <x-filament::input
                                 type="password"
-                                wire:model.defer="data.confirmablePassword"
+                                wire:model="data.confirmablePassword"
                                 required
                                 autocomplete="current-password"
                                 placeholder="{{ __('Password') }}"

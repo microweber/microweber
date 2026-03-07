@@ -2,10 +2,12 @@
 
 namespace Modules\Order\Filament\Admin\Resources;
 
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -53,19 +55,19 @@ public static function getNavigationBadgeTooltip(): ?string
     {
         return $schema
             ->schema([
-                Forms\Components\Group::make()
+                Group::make()
                     ->schema([
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->schema([
 
-                                Forms\Components\Section::make()
+                                Section::make()
                                     ->heading('Order Details')
                                     ->schema(static::getDetailsFormSchema())
                                     ->collapsible()
                                     ->columnSpanFull(),
 
-                                Forms\Components\Section::make()
+                                Section::make()
                                     ->heading('Shipping details')
                                     ->collapsible()
                                     ->schema([
@@ -79,7 +81,7 @@ return Country::all()->pluck('name', 'id');
 })
 ->preload(),
 
-Forms\Components\Group::make()
+Group::make()
                                             ->schema([
                                                 Forms\Components\TextInput::make('city'),
                                                 Forms\Components\TextInput::make('state')->label('State / Province'),
@@ -96,7 +98,7 @@ Forms\Components\Group::make()
 
                             ])->columns(2),
 
-                        Forms\Components\Section::make('Order items')
+                        Section::make('Order items')
                             ->headerActions([
                                 Action::make('reset')
                                     ->modalHeading('Are you sure?')
@@ -112,9 +114,9 @@ Forms\Components\Group::make()
                     ->columnSpan(['lg' => 2]),
 
 
-                Forms\Components\Group::make([
+                Group::make([
 
-                    Forms\Components\Section::make()
+                    Section::make()
                         ->schema([
                             Forms\Components\Select::make('order_status')
                                 ->columnSpanFull()
@@ -134,7 +136,7 @@ Forms\Components\Group::make()
                                 ->required(),
                         ]),
 
-                    Forms\Components\Section::make()
+                    Section::make()
                         ->schema([
 
                             Forms\Components\Placeholder::make('created_at')
@@ -163,7 +165,7 @@ Forms\Components\Group::make()
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
-            ->with(['customer', 'cart.products'])
+            ->modifyQueryUsing(fn ($query) => $query->with(['customer', 'cart.products']))
             ->columns([
 
 

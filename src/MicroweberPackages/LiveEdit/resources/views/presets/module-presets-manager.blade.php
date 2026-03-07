@@ -194,15 +194,15 @@
                 <form wire:submit.prevent="submit">
                     <div class="mb-3">
                         <label for="preset-name mb-2" class="form-label d-block mb-2">Preset Name</label>
-                        <input type="text" class="form-control w-100" @style(['border-color: #cdcdcd']) id="preset-name" wire:model.defer="itemState.name"
+                        <input type="text" class="form-control w-100" @style(['border-color: #cdcdcd']) id="preset-name" wire:model="itemState.name"
                                required>
                         @error('itemState.name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Hidden fields -->
-                    <input type="hidden" wire:model.defer="itemState.module">
-                    <input type="hidden" wire:model.defer="itemState.module_id">
-                    <input type="hidden" wire:model.defer="itemState.position">
+                    <input type="hidden" wire:model="itemState.module">
+                    <input type="hidden" wire:model="itemState.module_id">
+                    <input type="hidden" wire:model="itemState.position">
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Save Changes</button>

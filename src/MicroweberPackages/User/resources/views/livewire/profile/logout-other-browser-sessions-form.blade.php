@@ -81,7 +81,7 @@
                     <x-user::input type="password" placeholder="{{ __('Password') }}"
                                  x-ref="password"
                                  class="{{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                 wire:model.defer="password"
+                                 wire:model="password"
                                  wire:keydown.enter="logoutOtherBrowserSessions" />
 
                     <x-user::input-error for="password" class="mt-2" />

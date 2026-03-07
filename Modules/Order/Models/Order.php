@@ -12,12 +12,14 @@
 namespace Modules\Order\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\User\Models\User;
 use Modules\Cart\Traits\HasCartItems;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Database\Factories\OrderFactory;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\ModelFilters\OrderFilter;
 use Modules\Payment\Enums\PaymentStatus;
@@ -26,11 +28,17 @@ class Order extends Model
 {
     use Notifiable;
     use Filterable;
+    use HasFactory;
 
     // use PowerJoins;
     use SoftDeletes;
 
     use HasCartItems;
+
+    public static function newFactory()
+    {
+        return OrderFactory::new();
+    }
 
     public $table = 'cart_orders';
     public $fillable = [
