@@ -2,18 +2,19 @@
 
 namespace Modules\CustomFields\Filament;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class CustomFieldsModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'custom_fields';
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            //todo
-        ];
+        return $schema
+            ->schema([
+                // Module settings will be added here
+            ]);
     }
 }
