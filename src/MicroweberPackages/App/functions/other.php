@@ -14,13 +14,13 @@ if (!function_exists('str_random')) {
 }
 function mw_admin_prefix_url()
 {
-    return config('microweber.admin_url', 'admin');
+    return config('modules.settings.admin_url', config('microweber.admin_url', 'admin'));
 }
 
 
 function mw_admin_prefix_url_legacy()
 {
-    return config('microweber.admin_url_legacy', mw_admin_prefix_url() . '/legacy');
+    return config('modules.settings.admin_url_legacy', config('microweber.admin_url_legacy', mw_admin_prefix_url() . '/legacy'));
 }
 
 function mw_is_multisite(): bool

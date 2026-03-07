@@ -306,7 +306,21 @@ External-looking or non-standard packages located inside `Modules/`:
   - Generated analysis report at `build/phpstan-report.txt`
   - Created summary report at `build/static-analysis-summary.md`
   - PHP Insights not installed (optional tool)
-- [ ] Replace old `config('microweber.')` ? new module config system if exists
+- [x] 2026-03-07 Replace old `config('microweber.')` → new module config system if exists
+  - **Migrated to module configs:**
+    - `allow_php_files_upload` → `Modules/Restore/config/config.php` → `config('modules.restore.allow_php_files_upload')`
+      - Updated: `Modules/Restore/Formats/ZipReader.php`
+      - Updated: `src/MicroweberPackages/Module/routes/api.php` (commented)
+    - `admin_url` → `Modules/Settings/config/config.php` → `config('modules.settings.admin_url')`
+      - Updated: `src/MicroweberPackages/App/functions/other.php` (with fallback)
+    - `admin_url_legacy` → `Modules/Settings/config/config.php` → `config('modules.settings.admin_url_legacy')`
+      - Updated: `src/MicroweberPackages/App/functions/other.php` (with fallback)
+    - `admin_allowed_ips` → `Modules/Settings/config/config.php` → `config('modules.settings.admin_allowed_ips')`
+      - Updated: `src/MicroweberPackages/App/Http/Middleware/AllowedIps.php` (with fallback)
+  - **Remaining in global config (no suitable module):**
+    - `developer_mode` - TemplateCssParser.php (no Template module)
+    - `install_default_template` - MicroweberTemplate.php (no Template module)
+    - `is_installed` - TestCase.php (commented debug line)
 - [ ] Normalize license year in all LICENSE / composer.json files ? 2026
 - [ ] Remove or update very outdated docs: `docs-for-ai.php`, `markdown-examples.md`
 

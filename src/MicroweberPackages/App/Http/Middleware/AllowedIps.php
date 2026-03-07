@@ -17,7 +17,7 @@ class AllowedIps
      */
     public function handle(Request $request, Closure $next, $guard = null)
     {
-        $allowedIps = config('microweber.admin_allowed_ips');
+        $allowedIps = config('modules.settings.admin_allowed_ips', config('microweber.admin_allowed_ips'));
         if ($allowedIps) {
             $allowedIps = explode(',', $allowedIps);
             $allowedIps = array_trim($allowedIps);

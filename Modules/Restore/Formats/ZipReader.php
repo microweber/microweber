@@ -51,7 +51,7 @@ class ZipReader extends DefaultReader
 
 
             $zipExtract = new ZipArchiveExtractor($this->file);
-            if (config('microweber.allow_php_files_upload')) {
+            if (config('modules.restore.allow_php_files_upload')) {
                 $zipExtract->setAllowedFilesCheck(false);
             } else {
                 $zipExtract->setAllowedFilesCheck(true);
