@@ -1,0 +1,19 @@
+<?php declare(strict_types = 1);
+
+// osfsl-/home/headless/Documents/GitHub/microweber/vendor/composer/../spatie/schema-org/src/Contracts/TripContract.php-presentSymbols
+return \PHPStan\Cache\CacheItem::__set_state(array(
+   'variableKey' => 'v2-8e1fee0ae2cafa1a8dd0be54d7781502c67cb016e09794440b724016930afdc4-8.4.18',
+   'data' => 
+  array (
+    'classes' => 
+    array (
+      'spatie\\schemaorg\\contracts\\tripcontract' => true,
+    ),
+    'functions' => 
+    array (
+    ),
+    'constants' => 
+    array (
+    ),
+  ),
+));

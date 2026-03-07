@@ -1,0 +1,20 @@
+parameters:
+    level: 5
+    paths:
+        - app
+        - src
+        - Modules
+        - tests
+    excludePaths:
+        - vendor(?)
+        - node_modules(?)
+        - bootstrap/cache(?)
+        - storage(?)
+        - packages/*/vendor(?)
+        - packages/*/node_modules(?)
+        - resources/views(?)
+    tmpDir: build/phpstan
+    ignoreErrors:
+        # Filament v5 migration allowances
+        - '#Call to deprecated method#'
+        - '#Access to deprecated property#'

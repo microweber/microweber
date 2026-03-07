@@ -299,7 +299,13 @@ External-looking or non-standard packages located inside `Modules/`:
   - Removed: Duplicate entry `bootstrap/cache/*` at line 58
   - Status: 0 files currently tracked in git, directory properly ignored
   - Cleaned: Removed 3 runtime cache files from working directory
-- [ ] Run full static analysis (`phpstan`, `rector`, `insights`) after Filament upgrade
+- [x] 2026-03-07 Run full static analysis (`phpstan`, `rector`, `insights`) after Filament upgrade
+  - Created `phpstan.neon.dist` configuration for root project
+  - Ran PHPStan analysis: 11,473 errors found (mostly Laravel Eloquent magic methods)
+  - Created `rector.php` configuration for automated refactoring
+  - Generated analysis report at `build/phpstan-report.txt`
+  - Created summary report at `build/static-analysis-summary.md`
+  - PHP Insights not installed (optional tool)
 - [ ] Replace old `config('microweber.')` ? new module config system if exists
 - [ ] Normalize license year in all LICENSE / composer.json files ? 2026
 - [ ] Remove or update very outdated docs: `docs-for-ai.php`, `markdown-examples.md`
