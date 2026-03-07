@@ -281,7 +281,7 @@ External-looking or non-standard packages located inside `Modules/`:
 ## 5. General code health & cleanup
 
 - [x] 2026-03-07 Remove / archive very old files: `xdebug_server.php`, `install.cmd`, `Web.config`, `delete_node_modules.sh`
-- [ ] Delete obsolete reports: `phpunit-coverage.xml`, `tests-initial-report.txt`, `tests-unit-report.txt`
+- [x] 2026-03-07 Delete obsolete reports: `phpunit-coverage.xml`, `tests-initial-report.txt`, `tests-unit-report.txt`
 - [ ] Remove duplicate / confusing configs: multiple `config.php` in modules
 - [ ] Audit `bootstrap/cache/` files committed to git ? add to `.gitignore`
 - [ ] Run full static analysis (`phpstan`, `rector`, `insights`) after Filament upgrade
