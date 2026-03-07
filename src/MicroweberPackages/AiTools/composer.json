@@ -11,10 +11,10 @@
     ],
     "require": {
         "php": "^8.2",
-        "neuron-ai/neuron-ai": "^2.0",
-        "illuminate/support": "^10.0|^11.0",
-        "illuminate/database": "^10.0|^11.0",
-        "illuminate/contracts": "^10.0|^11.0"
+        "inspector-apm/neuron-ai": "^2.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0"
     },
     "suggest": {
         "microweber/microweber": "For full CMS integration with content and product models",

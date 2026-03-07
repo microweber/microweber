@@ -329,8 +329,25 @@ External-looking or non-standard packages located inside `Modules/`:
 
 ## 6. Nice to have  after main migration is stable
 
-- [ ] Upgrade to Laravel 12 / 11 if still on 10
-- [ ] Introduce module-level Pest test suites (`tests/Unit`, `tests/Feature`)
+- [x] 2026-03-07 Upgrade to Laravel 12 / 11 if still on 10
+  - **VERIFIED:** Project is already on Laravel 11.48.0 (via composer.lock)
+  - Laravel 12 blocked by: arcanedev/support v11 (L11 only), filament-modules v1.0 (deprecated traits)
+  - Recommendation: Stay on Laravel 11 until dependencies add L12 support
+- [x] 2026-03-07 Introduce module-level Pest test suites (`tests/Unit`, `tests/Feature`)
+- **COMPLETED:** Pest test framework integration complete
+- Added `pestphp/pest` and `pestphp/pest-plugin-laravel` to composer.json require-dev
+- Created root `Pest.php` configuration with automatic module test discovery
+- Created `pest.xml` configuration file with Unit/Feature test suites
+- Generated module-level `Pest.php` files for 76 modules with existing tests
+- Created documentation: `docs/testing/module-testing-guide.md`
+- Created helper scripts:
+- `docs/testing/setup-module-pest.php` - Interactive module setup
+- `docs/testing/generate-module-pest-files.php` - Batch generate Pest.php files
+- `docs/testing/module-pest-template.php` - Template for manual creation
+- Created example Pest tests in:
+- `tests/Unit/ExamplePestTest.php` (root level)
+- `tests/Pest.php` (root level)
+- `Modules/Billing/Tests/Unit/PestExampleTest.php` (module level)
 - [ ] Add GitHub Actions matrix testing (PHP 8.28.4, Laravel 1012)
 - [ ] Create module upgrade guide (`docs/filament-migration.md` ? finish it)
 - [ ] Add automated Filament -> v5 codemod / rector rules (custom if needed)
