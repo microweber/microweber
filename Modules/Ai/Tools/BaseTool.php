@@ -4,141 +4,77 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tools;
 
-use NeuronAI\Tools\PropertyType;
-use NeuronAI\Tools\Tool;
-use NeuronAI\Tools\ToolProperty;
-use NeuronAI\Workflow\WorkflowState;
+use MicroweberPackages\AiTools\Base\BaseTool as BasePackageTool;
 
-abstract class BaseTool extends Tool
+/**
+ * Base Tool class - Backward Compatibility Layer
+ *
+ * This class extends the new microweber-packages/ai-tools BaseTool
+ * to maintain backward compatibility with existing code.
+ *
+ * @deprecated Use MicroweberPackages\AiTools\Base\BaseTool instead
+ */
+abstract class BaseTool extends BasePackageTool
 {
-    protected string $domain;
-    protected array $requiredPermissions = [];
-    protected WorkflowState $state;
-    protected ?int $maxTries = 500;
-
+    /**
+     * Legacy constructor for backward compatibility.
+     *
+     * @param string $name
+     * @param string $description
+     * @param array $dependencies
+     */
     public function __construct(
-        string $name,
-        string $description,
+        string $name = '',
+        string $description = '',
         protected array $dependencies = []
     ) {
-        parent::__construct($name, $description);
-    }
-
-    abstract public function __invoke(...$args): string;
-
-    public function setState(WorkflowState $state): void
-    {
-        $this->state = $state;
-    }
-
-    protected function authorize(): bool
-    {
-        // For now, return true. In the future, implement proper permission checking
-        foreach ($this->requiredPermissions as $permission) {
-            // Check if user has permission - this would integrate with Microweber's permission system
-            // return user_can($permission);
-        }
-        return true;
-    }
-
-    protected function validateInput(array $input): bool
-    {
-        // Common validation logic
-        return true;
-    }
-
-    protected function formatAsHtmlTable(array $data, array $headers = []): string
-    {
-        if (empty($data)) {
-            return '<div class="alert alert-info">No data found.</div>';
+        // If name is empty, use class name (for subclasses that don't pass name)
+        if (empty($name)) {
+            $name = $this->getToolNameFromClass();
         }
 
-        $html = '<div class="table-responsive mb-4">';
-        $html .= '<table class="table table-striped table-bordered table-sm">';
-
-        // Add headers if provided
-        if (!empty($headers)) {
-            $html .= '<thead class="table-light"><tr>';
-            foreach ($headers as $header) {
-                $html .= '<th>' . htmlspecialchars($header) . '</th>';
-            }
-            $html .= '</tr></thead>';
+        // If description is empty, use default
+        if (empty($description)) {
+            $description = $this->getDefaultDescription();
         }
 
-        $html .= '<tbody>';
+        parent::__construct($name, $description, $dependencies);
+    }
 
-        foreach ($data as $row) {
-            $html .= '<tr>';
-            if (is_array($row)) {
-                foreach ($row as $cell) {
-                    $html .= '<td>' . htmlspecialchars((string) $cell) . '</td>';
+    /**
+     * Get tool name from class name.
+     *
+     * @return string
+     */
+    protected function getToolNameFromClass(): string
+    {
+        $className = class_basename(static::class);
+        // Remove "Tool" suffix and convert to snake_case
+        $name = preg_replace('/Tool$/', '', $className);
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name));
+    }
+
+    /**
+     * Get default description from class docblock.
+     *
+     * @return string
+     */
+    protected function getDefaultDescription(): string
+    {
+        $reflection = new \ReflectionClass(static::class);
+        $docComment = $reflection->getDocComment();
+
+        if ($docComment) {
+            // Extract first line of docblock
+            $lines = explode("\n", $docComment);
+            foreach ($lines as $line) {
+                $line = trim($line, "\t /*\r\n");
+                if (!empty($line) && !str_starts_with($line, '@')) {
+                    return $line;
                 }
-            } else {
-                $html .= '<td>' . htmlspecialchars((string) $row) . '</td>';
             }
-            $html .= '</tr>';
         }
 
-        $html .= '</tbody></table></div>';
-
-        return $html;
-    }
-
-    protected function formatAsCardGrid(array $data, array $fields = []): string
-    {
-        if (empty($data)) {
-            return '<div class="alert alert-info">No data found.</div>';
-        }
-
-        $html = '<div class="row">';
-
-        foreach ($data as $item) {
-            $html .= '<div class="col-md-6 col-lg-4 mb-3">';
-            $html .= '<div class="card">';
-            $html .= '<div class="card-body">';
-
-            if (is_array($item) || is_object($item)) {
-                foreach ($fields as $field => $label) {
-                    $value = is_array($item) ? ($item[$field] ?? '') : ($item->$field ?? '');
-                    $html .= '<p><strong>' . htmlspecialchars($label) . ':</strong> ' . htmlspecialchars((string) $value) . '</p>';
-                }
-            } else {
-                $html .= '<p>' . htmlspecialchars((string) $item) . '</p>';
-            }
-
-            $html .= '</div></div></div>';
-        }
-
-        $html .= '</div>';
-
-        return $html;
-    }
-
-    protected function handleError(string $message, bool $shouldFinish = false): string
-    {
-        if (isset($this->state)) {
-            $this->state->set(static::class . '_finished', $shouldFinish);
-        }
-
-        return '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
-    }
-
-    protected function handleSuccess(string $message): string
-    {
-        if (isset($this->state)) {
-            $this->state->set(static::class . '_finished', true);
-        }
-
-        return '<div class="alert alert-success">' . htmlspecialchars($message) . '</div>';
-    }
-
-    protected function formatMoney(float $amount, string $currency = 'EUR'): string
-    {
-        return number_format($amount, 2) . ' ' . $currency;
-    }
-
-    protected function formatDate(\DateTime $date, string $format = 'Y-m-d H:i:s'): string
-    {
-        return $date->format($format);
+        return 'AI Tool';
     }
 }

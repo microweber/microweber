@@ -222,7 +222,30 @@ External-looking or non-standard packages located inside `Modules/`:
   - **Dependencies:** `openai-php/client`, `neuron-ai/neuron-ai` (optional)
   - **Estimated Effort:** 5-7 days for full extraction + testing
   - **Risk Level:** Medium-Low - Clean architecture minimizes breaking changes
-- [ ] `Modules/Ai/Tools/*` ? consider `microweber-packages/ai-tools` (tool calling ecosystem)
+- [x] 2026-03-07 `Modules/Ai/Tools/*` ? consider `microweber-packages/ai-tools` (tool calling ecosystem)
+  - **AUDIT COMPLETE:** See `EVALUATION_AI_TOOLS.md` for full report
+  - **RECOMMENDATION:** PROCEED with extraction - Package foundation created
+  - **Architecture:** Well-designed Template Method pattern with NeuronAI integration
+  - **Files Found:** 24 tool files (2 base classes, 22 concrete tools)
+  - **Categories:** Content (7), Commerce (6), External (5), Media (1), RAG (1)
+  - **Package Created:** `src/MicroweberPackages/AiTools/` with full structure:
+    - Contracts: ToolInterface, ToolRegistryInterface, ContentRepositoryInterface
+    - Base: BaseTool, AbstractContentTool (with dependency injection support)
+    - Registry: ToolRegistry with discovery and filtering
+    - Provider: AiToolsServiceProvider with Laravel integration
+    - Facade: AiTools facade for convenient access
+    - Config: ai-tools.php with tool registration and external services
+    - README.md: Comprehensive documentation
+  - **Backward Compatibility:** Updated `Modules/Ai/Tools/` base classes to extend new package
+    - BaseTool.php now extends `MicroweberPackages\AiTools\Base\BaseTool`
+    - AbstractContentTool.php extends `MicroweberPackages\AiTools\Base\AbstractContentTool`
+    - All concrete tools remain functional without changes
+  - **Benefits:**
+    - Decoupled from Microweber models via repository interfaces
+    - Reusable in other projects
+    - Testable with mock implementations
+    - Auto-discovery via ToolRegistry
+    - Laravel service provider integration
 - [ ] `SupadataTool`, `AmazonScraperService`, `GoogleTrendsService` ? very external ? move out
 - [ ] `Rdkit`, `PySCF` (from chemistry libs in code interpreter description)  not used ? remove if dead code
 - [ ] Any remaining Livewire v2 ? v3 migration remnants (check `wire:model`, `wire:click`)

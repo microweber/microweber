@@ -4,64 +4,28 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tools;
 
+use MicroweberPackages\AiTools\Base\AbstractContentTool as BaseAbstractContentTool;
 use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomField;
-use NeuronAI\Tools\PropertyType;
-use NeuronAI\Tools\ToolProperty;
 
-abstract class AbstractContentTool extends BaseTool
+/**
+ * Abstract Content Tool - Backward Compatibility Layer
+ *
+ * This class extends the new microweber-packages/ai-tools AbstractContentTool
+ * while maintaining backward compatibility with Microweber-specific models.
+ *
+ * @deprecated Use MicroweberPackages\AiTools\Base\AbstractContentTool with ContentRepositoryInterface
+ */
+abstract class AbstractContentTool extends BaseAbstractContentTool
 {
     protected string $contentType = 'content';
     protected array $requiredPermissions = ['view content'];
 
-    protected function getBaseProperties(): array
-    {
-        return [
-            new ToolProperty(
-                name: 'search_term',
-                type: PropertyType::STRING,
-                description: 'Search term to find in title, content, or description.',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'is_active',
-                type: PropertyType::STRING,
-                description: 'Filter by publication status. Options: "1" for published, "0" for unpublished, or "all" for both.',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'parent_id',
-                type: PropertyType::INTEGER,
-                description: 'Filter by parent page ID. Use 0 for top-level content.',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'category_id',
-                type: PropertyType::INTEGER,
-                description: 'Filter by category ID.',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'custom_fields',
-                type: PropertyType::STRING,
-                description: 'Filter by custom fields in format "field_name:value,field_name2:value2".',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'limit',
-                type: PropertyType::INTEGER,
-                description: 'Maximum number of results to return (1-100). Default is 20.',
-                required: false,
-            ),
-            new ToolProperty(
-                name: 'sort_by',
-                type: PropertyType::STRING,
-                description: 'Sort results by field. Options: "title", "created_at", "updated_at", "position". Default is "position".',
-                required: false,
-            ),
-        ];
-    }
-
+    /**
+     * Build content query with Microweber models.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     protected function buildContentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         $query = Content::query()
@@ -71,6 +35,13 @@ abstract class AbstractContentTool extends BaseTool
         return $query;
     }
 
+    /**
+     * Apply filters to query.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $params
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     protected function applyFilters(\Illuminate\Database\Eloquent\Builder $query, array $params): \Illuminate\Database\Eloquent\Builder
     {
         // Extract parameters
@@ -81,11 +52,9 @@ abstract class AbstractContentTool extends BaseTool
         $custom_fields = $params['custom_fields'] ?? '';
         $sort_by = $params['sort_by'] ?? 'position';
 
-        // Apply content type filter (already applied in buildContentQuery)
-
         // Filter by active status
         if ($is_active !== 'all') {
-            $query->where('is_active', (int)$is_active);
+            $query->where('is_active', (int) $is_active);
         }
 
         // Filter by parent ID
@@ -124,96 +93,12 @@ abstract class AbstractContentTool extends BaseTool
         return $query;
     }
 
-    protected function parseCustomFields(string $customFields): array
-    {
-        $result = [];
-        $pairs = explode(',', $customFields);
-
-        foreach ($pairs as $pair) {
-            $pair = trim($pair);
-            if (strpos($pair, ':') !== false) {
-                [$field, $value] = explode(':', $pair, 2);
-                $result[trim($field)] = trim($value);
-            }
-        }
-
-        return $result;
-    }
-
-    protected function formatContentAsHtml($content, string $contentType, array $params, int $limit): string
-    {
-        $totalFound = $content->count();
-
-        $searchInfo = !empty($params['search_term']) ? "Search: \"{$params['search_term']}\" " : '';
-        $statusInfo = isset($params['is_active']) && $params['is_active'] !== 'all' ?
-            "Status: " . ($params['is_active'] ? 'Published' : 'Unpublished') . " " : '';
-
-        $header = "
-        <div class='content-list-header mb-3'>
-            <h4><i class='fas fa-file-alt text-primary me-2'></i>" . ucfirst($contentType) . " List</h4>
-            <p class='mb-2'>
-                {$searchInfo}{$statusInfo}
-                <strong>Found:</strong> {$totalFound} item(s)" .
-                ($totalFound >= $limit ? " (showing first {$limit})" : '') . "
-            </p>
-        </div>";
-
-        $tableData = [];
-        foreach ($content as $item) {
-            $statusBadge = $this->getContentStatusBadge($item->is_active ?? 0);
-            $typeBadge = $this->getContentTypeBadge($item->content_type ?? 'content');
-
-            $title = $item->title ?: 'Untitled';
-            $excerpt = $item->description ?:
-                       ($item->content_body ? \Str::limit(strip_tags($item->content_body), 100) : 'No description');
-
-            $createdAt = $item->created_at ?
-                $item->created_at->format('M j, Y H:i') :
-                'Unknown';
-
-            $url = $item->url ?
-                "<small class='text-muted'>{$item->url}</small>" :
-                '<small class="text-muted">No URL</small>';
-
-            $categories = $item->categories->pluck('title')->implode(', ');
-            $categoryInfo = $categories ?
-                "<small class='text-muted'>Categories: {$categories}</small>" :
-                '<small class="text-muted">No categories</small>';
-
-            // Show custom fields if any
-            $customFieldsInfo = $this->formatCustomFields($item);
-
-            $tableData[] = [
-                'id' => "{$item->id}",
-                'title' => "{$title}</strong><br>{$url}",
-                'type' => $typeBadge,
-                'status' => $statusBadge,
-                'excerpt' => $excerpt,
-                'categories' => $categoryInfo,
-                'custom_fields' => $customFieldsInfo,
-                'created' => $createdAt,
-            ];
-        }
-
-        $table = $this->formatAsHtmlTable(
-            $tableData,
-            [
-                'id' => 'ID',
-                'title' => 'Title & URL',
-                'type' => 'Type',
-                'status' => 'Status',
-                'excerpt' => 'Description',
-                'categories' => 'Categories',
-                'custom_fields' => 'Custom Fields',
-                'created' => 'Created',
-            ],
-            '',
-            'content-list-results'
-        );
-
-        return $header . $table;
-    }
-
+    /**
+     * Format custom fields for display.
+     *
+     * @param Content $item
+     * @return string
+     */
     protected function formatCustomFields($item): string
     {
         $customFields = [];
@@ -233,31 +118,24 @@ abstract class AbstractContentTool extends BaseTool
         return $customFields ? implode('<br>', $customFields) : '<small class="text-muted">No custom fields</small>';
     }
 
-    protected function getContentStatusBadge($isActive): string
-    {
-        return $isActive ?
-            "<span class='badge bg-success'>Published</span>" :
-            "<span class='badge bg-warning'>Unpublished</span>";
-    }
-
-    protected function getContentTypeBadge(string $contentType): string
-    {
-        $badgeClass = match($contentType) {
-            'page' => 'bg-primary',
-            'post' => 'bg-info',
-            'product' => 'bg-success',
-            default => 'bg-secondary'
-        };
-
-        return "<span class='badge {$badgeClass}'>" . ucfirst($contentType) . "</span>";
-    }
-
+    /**
+     * Get content by ID.
+     *
+     * @param int $id
+     * @return Content|null
+     */
     protected function getContentById(int $id): ?Content
     {
-        return Content::where('id', $id)
-            ->first();
+        return Content::where('id', $id)->first();
     }
 
+    /**
+     * Update content.
+     *
+     * @param Content $content
+     * @param array $data
+     * @return bool
+     */
     protected function updateContent(Content $content, array $data): bool
     {
         try {
@@ -287,6 +165,12 @@ abstract class AbstractContentTool extends BaseTool
         }
     }
 
+    /**
+     * Create new content.
+     *
+     * @param array $data
+     * @return Content|null
+     */
     protected function createContent(array $data): ?Content
     {
         try {
@@ -325,7 +209,11 @@ abstract class AbstractContentTool extends BaseTool
     }
 
     /**
-     * Attach media URLs to content
+     * Attach media URLs to content.
+     *
+     * @param int $contentId
+     * @param array $mediaUrls
+     * @return void
      */
     protected function attachMediaUrls(int $contentId, array $mediaUrls): void
     {
