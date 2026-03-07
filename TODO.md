@@ -322,7 +322,10 @@ External-looking or non-standard packages located inside `Modules/`:
     - `install_default_template` - MicroweberTemplate.php (no Template module)
     - `is_installed` - TestCase.php (commented debug line)
 - [x] 2026-03-07 Normalize license year in all LICENSE / composer.json files ? 2026
-- [ ] Remove or update very outdated docs: `docs-for-ai.php`, `markdown-examples.md`
+- [x] 2026-03-07 Remove or update very outdated docs: `docs-for-ai.php`, `markdown-examples.md`
+  - Deleted: `docs/docs-for-ai.php` - outdated documentation generator script
+  - Deleted: `docs/docs-for-ai.md` - generated documentation output
+  - Deleted: `docs/markdown-examples.md` - VitePress markdown examples file
 
 ## 6. Nice to have  after main migration is stable
 

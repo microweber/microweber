@@ -129,3 +129,8 @@ Templates/ProteinStore2/
 Templates/Fitpower2/
 /Templates
 /photographer2
+
+# Static analysis build artifacts
+/build/phpstan/cache/
+/build/*.txt
+phpunit-coverage.xml
