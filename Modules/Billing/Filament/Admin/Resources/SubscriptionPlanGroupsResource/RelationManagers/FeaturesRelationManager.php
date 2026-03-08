@@ -3,6 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -25,7 +26,7 @@ class FeaturesRelationManager extends RelationManager
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Basic Information')
+                Section::make('Basic Information')
                     ->schema([
                         Forms\Components\TextInput::make('key')
                             ->label('Key')

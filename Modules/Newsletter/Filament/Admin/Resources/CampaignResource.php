@@ -14,7 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Schemas\Schema;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;

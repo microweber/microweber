@@ -59,10 +59,13 @@ class SubscriptionResourceTest extends BillingTestCase
             'stripe_status' => 'active',
         ]);
 
-        $this->get(SubscriptionResource::getUrl('index', [], false, 'admin-billing'))
+        Filament::setCurrentPanel(
+            Filament::getPanel('admin-billing'),
+        );
+
+        Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
             ->assertSuccessful()
-            ->assertSee('Test Subscription')
-            ->assertSee('active');
+            ->assertCanSeeTableRecords([$subscription]);
     }
 
     #[Test]

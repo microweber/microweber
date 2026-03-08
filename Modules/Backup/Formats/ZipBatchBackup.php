@@ -235,7 +235,7 @@ class ZipBatchBackup extends DefaultBackup
             foreach ($filesBatch[0] as $file) {
                 $ext = get_file_extension($file['filepath']);
                 $file['filename'] = str_replace('\\', '/', $file['filename']);
-                $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+                // Do NOT str_replace('\\', '/', filepath) on POSIX — backslash is a valid filename char on Linux
 
                 if ($ext == 'css') {
                     $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
@@ -243,6 +243,10 @@ class ZipBatchBackup extends DefaultBackup
                     $csscont = app()->url_manager->replace_site_url($csscont);
                     $zip->addFromString($file['filename'], $csscont);
                 } else {
+                    if (!file_exists($file['filepath'])) {
+                        $this->logger->setLogInfo('Skipping missing file: ' . $file['filepath']);
+                        continue;
+                    }
                     $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
                     $zip->addFile($file['filepath'], $file['filename']);
                 }
@@ -251,9 +255,6 @@ class ZipBatchBackup extends DefaultBackup
             $this->logger->setLogInfo('Finishing single-step backup');
             $this->_finishUp();
 
-            if (method_exists($zip, 'setCompressionIndex')) {
-                $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
-            }
 
             $zip->close();
 
@@ -302,11 +303,7 @@ class ZipBatchBackup extends DefaultBackup
             if ($pendingCount > 0) {
                 $this->logger->setLogInfo('Found ' . $pendingCount . ' remaining files to process before finalizing');
 
-                // Reopen the zip to add remaining files
-                if (!$zip->open($zipFileName['filepath'])) {
-                    $zip = new \ZipArchive();
-                    $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
-                }
+                // $zip is already open from the start of this start() call — do NOT reopen it
 
                 foreach ($allCachedFiles as $file) {
                     // Check if this file has already been processed
@@ -328,7 +325,7 @@ class ZipBatchBackup extends DefaultBackup
                     try {
                         $ext = get_file_extension($file['filepath']);
                         $file['filename'] = str_replace('\\', '/', $file['filename']);
-                        $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+                        // Do NOT str_replace('\\', '/', filepath) on POSIX
 
                         if ($ext == 'css') {
                             $this->logger->setLogInfo('Finalizing: Archiving CSS file <b>' . $file['filename'] . '</b>');
@@ -336,6 +333,10 @@ class ZipBatchBackup extends DefaultBackup
                             $csscont = app()->url_manager->replace_site_url($csscont);
                             $zip->addFromString($file['filename'], $csscont);
                         } else {
+                            if (!file_exists($file['filepath'])) {
+                                $this->logger->setLogInfo('Skipping missing file: ' . $file['filepath']);
+                                continue;
+                            }
                             $this->logger->setLogInfo('Finalizing: Archiving file <b>' . $file['filename'] . '</b>');
                             $zip->addFile($file['filepath'], $file['filename']);
                         }
@@ -348,9 +349,6 @@ class ZipBatchBackup extends DefaultBackup
             // Close the zip file properly
             $this->_finishUp();
 
-            if (method_exists($zip, 'setCompressionIndex')) {
-                $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
-            }
 
             $zip->close();
 
@@ -411,7 +409,7 @@ class ZipBatchBackup extends DefaultBackup
         foreach ($filesBatch[$selectBatch] as $file) {
             $ext = get_file_extension($file['filepath']);
             $file['filename'] = str_replace('\\', '/', $file['filename']);
-            $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+            // Do NOT str_replace('\\', '/', filepath) on POSIX
 
             try {
                 if ($ext == 'css') {
@@ -420,6 +418,10 @@ class ZipBatchBackup extends DefaultBackup
                     $csscont = app()->url_manager->replace_site_url($csscont);
                     $zip->addFromString($file['filename'], $csscont);
                 } else {
+                    if (!file_exists($file['filepath'])) {
+                        $this->logger->setLogInfo('Skipping missing file: ' . $file['filepath']);
+                        continue;
+                    }
                     $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
                     $zip->addFile($file['filepath'], $file['filename']);
                 }
@@ -435,9 +437,6 @@ class ZipBatchBackup extends DefaultBackup
         cache_save($processedFiles, $processedFilesCacheKey, $this->_cacheGroupName);
         $this->logger->setLogInfo('Total processed files so far: ' . count($processedFiles) . ' of ' . $totalFilesForZip);
 
-        if (method_exists($zip, 'setCompressionIndex')) {
-            $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
-        }
 
         $zip->close();
 

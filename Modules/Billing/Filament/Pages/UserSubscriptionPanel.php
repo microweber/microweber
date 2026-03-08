@@ -4,6 +4,7 @@ namespace Modules\Billing\Filament\Pages;
 
 use Filament\Actions\ActionGroup;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
@@ -66,7 +67,7 @@ class UserSubscriptionPanel extends Page
                 $icons[$plan->sku] = 'heroicon-m-currency-dollar';
             }
 
-            $formSchema[] = Forms\Components\Section::make($groupName)
+            $formSchema[] = Section::make($groupName)
                 ->schema([
                     RadioDeck::make('plan')
                         ->label(function () use ($groupName) {

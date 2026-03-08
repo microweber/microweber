@@ -144,14 +144,24 @@ class BackupResource extends Resource
                     ->label('Delete')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->action(fn ($record) => unlink(backup_location() . $record->filename)),
+                    ->action(function ($record) {
+                        $filepath = backup_location() . $record->filename;
+                        if (file_exists($filepath)) {
+                            unlink($filepath);
+                        }
+                        $record->delete();
+                    }),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
                         ->action(function ($records) {
                             foreach ($records as $record) {
-                                unlink(backup_location() . $record->filename);
+                                $filepath = backup_location() . $record->filename;
+                                if (file_exists($filepath)) {
+                                    unlink($filepath);
+                                }
+                                $record->delete();
                             }
                         }),
                 ]),

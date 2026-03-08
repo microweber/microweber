@@ -4,16 +4,17 @@ namespace Modules\Backup\Models;
 
 use Sushi\Sushi;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Backup extends Model
 {
+    use HasFactory;
     use Sushi;
 
     protected array $schema = [
-        'id' => 'string',
         'filename' => 'string',
-        'date' => 'string',
-        'time' => 'string',
-        'size' => 'string',
+        'date'     => 'string',
+        'time'     => 'string',
+        'size'     => 'string',
     ];
 
     public function getRows()

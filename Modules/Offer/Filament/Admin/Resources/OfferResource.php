@@ -11,7 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Modules\Offer\Models\Offer;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 
 class OfferResource extends Resource
 {

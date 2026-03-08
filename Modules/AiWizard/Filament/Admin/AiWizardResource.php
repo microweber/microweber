@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -59,7 +60,7 @@ class AiWizardResource extends Resource
 
         return $schema
             ->schema([
-                Forms\Components\Section::make('Page Details')
+                Section::make('Page Details')
                     ->description('Enter the basic details for your page')
                     ->schema([
                         Forms\Components\TextInput::make('title')
@@ -80,7 +81,7 @@ class AiWizardResource extends Resource
                     ])
                     ->columns(1),
 
-                Forms\Components\Section::make('Select Layouts')
+                Section::make('Select Layouts')
                     ->description('Choose the layouts you want to use for your page')
                     ->schema(
                         collect($groupedLayouts)->map(function ($layouts, $category) {

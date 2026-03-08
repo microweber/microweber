@@ -11,7 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;

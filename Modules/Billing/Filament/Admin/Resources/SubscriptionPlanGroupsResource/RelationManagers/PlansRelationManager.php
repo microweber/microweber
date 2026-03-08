@@ -3,6 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources\SubscriptionPlanGroupsResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -25,7 +26,7 @@ class PlansRelationManager extends RelationManager
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Basic Information')
+                Section::make('Basic Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Name')
@@ -46,7 +47,7 @@ class PlansRelationManager extends RelationManager
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Prices')
+                Section::make('Prices')
                     ->schema([
                         Forms\Components\TextInput::make('price')
                             ->label('Displayed Price')
@@ -65,7 +66,7 @@ class PlansRelationManager extends RelationManager
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Subscription Settings')
+                Section::make('Subscription Settings')
                     ->schema([
                         Forms\Components\TextInput::make('billing_interval')
                             ->label('Billing Interval')
@@ -84,7 +85,7 @@ class PlansRelationManager extends RelationManager
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('External Settings')
+                Section::make('External Settings')
                     ->schema([
                         Forms\Components\TextInput::make('remote_provider')
                             ->label('External Provider')

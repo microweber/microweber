@@ -3,7 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -123,6 +123,11 @@ class SubscriptionResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['plan']))
             ->columns([
                 TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('name')
+                    ->label('Name')
                     ->sortable()
                     ->searchable(),
 
@@ -374,7 +379,7 @@ class SubscriptionResource extends Resource
     {
         return $schema
             ->components([
-                \Filament\Infolists\Components\Section::make('Subscription Information')
+                \Filament\Schemas\Components\Section::make('Subscription Information')
                     ->schema([
                         \Filament\Infolists\Components\TextEntry::make('id')
                             ->label('Subscription ID'),
@@ -405,7 +410,7 @@ class SubscriptionResource extends Resource
                     ])
                     ->columns(3),
 
-                \Filament\Infolists\Components\Section::make('Billing Details')
+                \Filament\Schemas\Components\Section::make('Billing Details')
                     ->schema([
                         \Filament\Infolists\Components\TextEntry::make('stripe_price')
                             ->label('Stripe Price ID'),
@@ -428,10 +433,13 @@ class SubscriptionResource extends Resource
                                 // For active subscriptions, estimate next billing based on current period
                                 if ($record->starts_at) {
                                     $interval = $record->plan?->billing_interval ?? 'monthly';
+                                    $startsAt = $record->starts_at instanceof \Carbon\Carbon
+                                        ? $record->starts_at
+                                        : \Carbon\Carbon::parse($record->starts_at);
                                     $nextDate = match ($interval) {
-                                        'yearly' => $record->starts_at->copy()->addYear(),
-                                        'monthly' => $record->starts_at->copy()->addMonth(),
-                                        default => $record->starts_at->copy()->addMonth(),
+                                        'yearly' => $startsAt->copy()->addYear(),
+                                        'monthly' => $startsAt->copy()->addMonth(),
+                                        default => $startsAt->copy()->addMonth(),
                                     };
                                     return $nextDate->format('F j, Y') . ' (estimated)';
                                 }
@@ -442,7 +450,7 @@ class SubscriptionResource extends Resource
                     ])
                     ->columns(3),
 
-                \Filament\Infolists\Components\Section::make('Timeline')
+                \Filament\Schemas\Components\Section::make('Timeline')
                     ->schema([
                         \Filament\Infolists\Components\TextEntry::make('starts_at')
                             ->label('Started At')

@@ -3,6 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources;
 
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -35,7 +36,7 @@ class SubscriptionPlanGroupsResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Basic Information')
+                Section::make('Basic Information')
                     ->description('Enter the basic details of the plan group')
                     ->schema([
                         Forms\Components\TextInput::make('name')
@@ -67,7 +68,7 @@ class SubscriptionPlanGroupsResource extends Resource
                             ->helperText('Detailed description of this plan group'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Display Settings')
+                Section::make('Display Settings')
                     ->description('Configure display and ordering')
                     ->schema([
                         Forms\Components\TextInput::make('position')

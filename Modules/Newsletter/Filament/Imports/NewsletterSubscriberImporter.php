@@ -9,7 +9,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSubscriber;

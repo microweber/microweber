@@ -19,6 +19,22 @@ class BackupResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Clean up backup files and Sushi cache to ensure test isolation
+        // (GenerateBackupTest may have created backup files that pollute the Sushi table)
+        $sushiCachePath = storage_path('framework/cache/sushi-modules-backup-models-backup.sqlite');
+        if (file_exists($sushiCachePath)) {
+            unlink($sushiCachePath);
+        }
+
+        // Clear actual backup files from disk
+        $backupLocation = backup_location();
+        if (is_dir($backupLocation)) {
+            foreach (glob($backupLocation . '*.{sql,zip,json,xml,xlsx,csv,xls}', GLOB_BRACE) as $file) {
+                @unlink($file);
+            }
+        }
+
         $this->actingAsAdmin();
         Filament::setCurrentPanel(Filament::getPanel('admin'));
     }
@@ -71,6 +87,6 @@ class BackupResourceTest extends TestCase
     {
         $backup = Backup::factory()->create();
         Livewire::test(ListBackups::class)->callTableAction('delete', $backup);
-        $this->assertDatabaseMissing('backups', ['id' => $backup->id]);
+        $this->assertNull(Backup::find($backup->id));
     }
 }

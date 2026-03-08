@@ -137,3 +137,4 @@ Templates/Fitpower2/
 /build/phpstan/cache/
 /build/*.txt
 phpunit-coverage.xml
+127.0.0.1-journal

@@ -11,7 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Schema;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;

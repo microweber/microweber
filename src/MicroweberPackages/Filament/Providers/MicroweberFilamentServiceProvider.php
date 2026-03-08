@@ -43,6 +43,19 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
          }
      }
 
+     // Filament v5 moved Forms\Get and Forms\Set to Schemas\Components\Utilities
+     $formsUtilitiesAliases = [
+         'Filament\\Forms\\Get' => 'Filament\\Schemas\\Components\\Utilities\\Get',
+         'Filament\\Forms\\Set' => 'Filament\\Schemas\\Components\\Utilities\\Set',
+         'Filament\\Forms\\Components\\Section' => 'Filament\\Schemas\\Components\\Section',
+         'Filament\\Infolists\\Components\\Section' => 'Filament\\Schemas\\Components\\Section',
+     ];
+     foreach ($formsUtilitiesAliases as $alias => $original) {
+         if (!class_exists($alias) && class_exists($original)) {
+             class_alias($original, $alias);
+         }
+     }
+
  // Register core Filament v5 panel providers (no deprecated FilamentServiceProvider)
  $this->app->register(MicroweberFilamentThemeServiceProvider::class);
  $this->app->register(FilamentAdminPanelProvider::class);

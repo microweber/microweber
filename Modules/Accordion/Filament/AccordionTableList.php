@@ -3,17 +3,18 @@
 namespace Modules\Accordion\Filament;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Filament\Actions\Action;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -30,7 +31,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Accordion\Models\Accordion;
 use NeuronAI\Chat\Messages\UserMessage;
 
-class AccordionTableList extends Component implements HasForms, HasTable
+class AccordionTableList extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;

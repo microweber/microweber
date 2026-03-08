@@ -4,6 +4,7 @@ namespace Modules\Content\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -37,6 +38,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Content extends Model
 {
+    use HasFactory;
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;

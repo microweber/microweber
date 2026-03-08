@@ -5,7 +5,7 @@ namespace Modules\Marketplace\Filament\Admin;
 
 use Filament\Forms;
 use Filament\Schemas\Schema;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;

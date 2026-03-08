@@ -4,7 +4,7 @@ namespace Modules\Billing\Filament\Admin\Resources\BillingUserResource\Pages;
 
 use App\Models\User;
 use Filament\Actions;
-use Filament\Infolists\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\EditRecord;

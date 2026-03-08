@@ -3,6 +3,7 @@
 namespace Modules\Billing\Filament\Admin\Resources;
 
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -33,7 +34,7 @@ class SubscriptionPlanResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Basic Information')
+                Section::make('Basic Information')
                     ->description('Enter the basic details of your subscription plan')
                     ->schema([
                         Forms\Components\TextInput::make('name')
@@ -67,7 +68,7 @@ Forms\Components\Select::make('subscription_plan_group_id')
                             ->placeholder('Describe the features and benefits of this plan...'),
                     ])->columns(1),
 
-                Forms\Components\Section::make('Pricing')
+                Section::make('Pricing')
                     ->description('Configure the pricing details for this plan')
                     ->schema([
 Forms\Components\TextInput::make('price')
@@ -111,8 +112,8 @@ Forms\Components\TextInput::make('price')
                             ->visible(fn(Forms\Get $get) => $get('price') > 0 && $get('discount_price') > 0),
                         Forms\Components\Select::make('billing_interval')
                             ->options([
-                                'month' => 'Month',
-                                'year' => 'Year',
+                                'monthly' => 'Monthly',
+                                'yearly'  => 'Yearly',
                             ])
                             ->required()
                             ->columnSpanFull()
@@ -131,7 +132,7 @@ Forms\Components\TextInput::make('price')
                             ->visible(fn(Forms\Get $get) => in_array($get('billing_interval'), ['monthly', 'yearly'])),
                     ])->columns(1),
 
-                Forms\Components\Section::make('Integration')
+                Section::make('Integration')
                     ->description('Configure external service integration details')
                     ->schema([
                         Forms\Components\Select::make('remote_provider')
@@ -168,7 +169,7 @@ Forms\Components\TextInput::make('price')
 
                     ])->columns(1),
 
-Forms\Components\Section::make('Features')
+Section::make('Features')
                 ->description('Define features included in this plan')
                 ->schema([
                     Forms\Components\Repeater::make('features')
