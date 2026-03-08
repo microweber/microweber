@@ -58,7 +58,8 @@ class LiveEditSaveContentApiTest extends TestCase
             'content_type' => 'page',
             'title' => 'LiveEditPage',
             'url' => 'liveedittestsavetest',
-
+            'active_site_template' => 'Bootstrap',
+            'layout_file' => 'clean.blade.php',
             'is_active' => 1,
         ]);
 

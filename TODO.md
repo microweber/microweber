@@ -134,6 +134,11 @@ Modules with known heavy Filament usage (prioritize these):
     - Tests/* (6 files: TemplateMetaTagsSeoTagsTest, TemplateMetaTagsFunctionsTest, PackageManagerTest, TaggableFileStoreTest, TaggableFileCacheServiceProviderTest, CacheTest)
   - Also fixed: Duplicate `#[Test]` attribute in ContentOriginalLinkTest.php
   - Verified: PHPUnit can now list tests without errors, sample tests pass
+- [x] 2026-03-08 Fix failing test: `LiveEditSaveContentApiTest::it_save_content_on_page`
+  - Root cause: Page created without `active_site_template` and `layout_file` fields
+  - Fix: Added `'active_site_template' => 'Bootstrap'` and `'layout_file' => 'clean.blade.php'` to page creation
+  - File: `src/MicroweberPackages/LiveEdit/tests/LiveEditSaveContentApiTest.php`
+  - Result: Test now passes (2 tests, 9 assertions)
 
 ## 3. Incomplete / suspicious migrations to Filament 5
 
