@@ -46,6 +46,8 @@ class LoginAsUserForm extends AdminComponent
 
     public function mount($userId = false)
     {
+        parent::mount();
+
         if ($userId) {
             $this->userId = $userId;
         }

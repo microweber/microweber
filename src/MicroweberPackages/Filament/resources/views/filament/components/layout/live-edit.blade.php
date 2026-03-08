@@ -1,5 +1,5 @@
 @php
-    use Filament\Support\Enums\MaxWidth;
+    use Filament\Support\Enums\Width as MaxWidth;
 
     $navigation = filament()->getNavigation();
 @endphp

@@ -11,7 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width as MaxWidth;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\LiveEdit\Filament\Actions\CustomViewAction;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;

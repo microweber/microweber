@@ -533,7 +533,7 @@ abstract class AbstractRepository implements Repository
      *
      * @return array
      */
-    public function pluck(string $value, string $key = null): array
+    public function pluck(string $value, ?string $key = null): array
     {
         $this->newQuery();
 
@@ -783,7 +783,7 @@ abstract class AbstractRepository implements Repository
     /**
      * {@inheritDoc}
      */
-    public function getMessage(string $key = null, string $format = null, string $default = ''): string
+    public function getMessage(?string $key = null, ?string $format = null, string $default = ''): string
     {
         return $this->getMessageBag()->first($key, $format) ?: $default;
     }

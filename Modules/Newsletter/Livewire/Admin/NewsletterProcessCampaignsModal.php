@@ -28,6 +28,7 @@ class NewsletterProcessCampaignsModal extends AdminModalComponent
 
     public function mount()
     {
+        parent::mount();
         $this->setupLogger();
     }
 

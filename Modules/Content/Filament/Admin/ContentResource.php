@@ -11,8 +11,9 @@ use Filament\Resources\Resource;
 use Filament\GlobalSearch\Actions\Action;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width as MaxWidth;
 use Filament\Tables;
+use Filament\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -1174,7 +1175,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
             ])
             ->filtersFormWidth(MaxWidth::Medium)
             ->actions([
-                Tables\Actions\ActionGroup::make([
+                ActionGroup::make([
                     Tables\Actions\Action::make('live_edit')
                         ->label('Edit')
                         ->url(function (Content $record) {

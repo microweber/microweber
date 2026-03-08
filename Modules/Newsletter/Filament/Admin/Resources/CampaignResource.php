@@ -19,10 +19,11 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width as MaxWidth;
 use Filament\Support\Exceptions\Halt;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
@@ -192,7 +193,7 @@ Select::make('list_id')
                         $campaign->save();
                     }),
 
-                Tables\Actions\ActionGroup::make([
+                ActionGroup::make([
 
                     Tables\Actions\Action::make('expand-opened')
                         ->label(function (NewsletterCampaign $campaign) {

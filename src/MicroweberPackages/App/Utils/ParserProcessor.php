@@ -4,7 +4,6 @@
 namespace MicroweberPackages\App\Utils;
 
 
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Doctrine\DBAL\Connection;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserLayoutItem;
@@ -217,7 +216,9 @@ class ParserProcessor
 
             $layout = $this->_replace_editable_fields($layout, false, $layout, $coming_from_parent_id);
             //  $layout = $this->_replace_tags_with_placeholders_back($layout);
-            Debugbar::info($layout);
+            if ($this->debugbarEnabled && class_exists('Barryvdh\Debugbar\Facades\Debugbar')) {
+                \Barryvdh\Debugbar\Facades\Debugbar::info($layout);
+            }
 
 
 

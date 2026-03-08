@@ -59,6 +59,7 @@ class OptionElement extends AdminComponent
 
     public function mount()
     {
+        parent::mount();
         $this->newModelInstance();
 
         if ($this->optionKey) {

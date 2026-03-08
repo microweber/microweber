@@ -109,7 +109,7 @@ class ModuleResource extends Resource
 
             ], layout: Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
-                fn(Tables\Actions\Action $action) => $action
+                fn($action) => $action
                     ->slideOver()
             )
             ->actions([

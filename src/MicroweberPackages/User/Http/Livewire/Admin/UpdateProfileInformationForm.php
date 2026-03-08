@@ -39,6 +39,8 @@ class UpdateProfileInformationForm extends AdminComponent
      */
     public function mount($userId = false)
     {
+        parent::mount();
+
         if ($userId) {
             $this->userId = $userId;
             $this->state = User::where('id', $userId)->first()->withoutRelations()->toArray();

@@ -5,7 +5,7 @@
     ])
 >
     <div class="flex flex-col gap-y-6">
-        <x-filament-panels::resources.tabs/>
+        {{-- <x-filament-panels::resources.tabs/> removed: component does not exist in Filament v5 --}}
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE, scopes: $this->getRenderHookScopes()) }}
 

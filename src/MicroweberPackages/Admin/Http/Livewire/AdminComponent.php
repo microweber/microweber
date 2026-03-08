@@ -11,17 +11,13 @@ class AdminComponent extends Component
 
     public $globalListeners = [];
 
-
-    public function __construct($id = null)
+    public function mount()
     {
         try {
             $this->authorize('isAdmin');
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
             abort(401, 'Unauthorized action, you are not an admin');
         }
-
-        //  parent::__construct($id);
-
     }
 
 //    public function dispatchGlobalBrowserEvent($event, $data = null)

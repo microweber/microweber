@@ -14,14 +14,12 @@ class AdminModalComponent extends ModalComponent
         'overlayClose' => true,
     ];
 
-    public function __construct($id = null)
+    public function mount()
     {
         try {
             $this->authorize('isAdmin');
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
             abort(401, 'Unauthorized action.');
         }
-
-
     }
 }

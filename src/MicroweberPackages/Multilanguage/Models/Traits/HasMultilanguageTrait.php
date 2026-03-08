@@ -441,7 +441,7 @@ trait HasMultilanguageTrait
     }
 
 //
-    public function getTranslations(string $key = null, array $allowedLocales = null): array
+    public function getTranslations(?string $key = null, ?array $allowedLocales = null): array
 
     {
 

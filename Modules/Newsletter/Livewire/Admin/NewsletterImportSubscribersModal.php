@@ -38,6 +38,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
     public function mount()
     {
+        parent::mount();
         $this->importDone = [];
     }
 

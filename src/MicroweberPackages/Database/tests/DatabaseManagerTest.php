@@ -52,7 +52,7 @@ class DatabaseManagerTest extends TestCase
     #[Test]
 
     public function it_insert_table(): void {
-        $this->testBuildTable();
+        $this->it_build_table();
 
         $insert = array();
         $insert['firstName'] = 'Bozhidar';
@@ -72,7 +72,7 @@ class DatabaseManagerTest extends TestCase
     #[Test]
 
     public function it_delete_table_data(): void {
-        $this->testBuildTable();
+        $this->it_build_table();
 
         $insert = array();
         $insert['firstName'] = 'Peter';

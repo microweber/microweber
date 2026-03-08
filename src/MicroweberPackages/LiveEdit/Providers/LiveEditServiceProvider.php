@@ -115,23 +115,28 @@ class LiveEditServiceProvider extends ServiceProvider
 
 
         Event::listen(ServingFilament::class, function () {
-            $panelId = \Filament\Facades\Filament::getCurrentPanel()->getId();
-            if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/module_presets', ModulePresetsModuleSettingsPage::getUrl());
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/unlock_package', UnlockPackageModuleSettingsPage::getUrl());
+            try {
+                $panelId = \Filament\Facades\Filament::getCurrentPanel()->getId();
+                if ($panelId == 'admin') {
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/module_presets', ModulePresetsModuleSettingsPage::getUrl());
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/unlock_package', UnlockPackageModuleSettingsPage::getUrl());
 
-                // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
-                // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
-                // ModuleAdmin::registerSettingsComponent('editor/module_presets','microweber-live-edit::module-presets-manager');
-                // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsModuleSettingsPage::class);
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
-                //ModuleAdmin::registerLiveEditSettingsUrl('editor/fonts/font-manager-modal', FontsManagerModuleSettingsPage::getUrl());
+                    // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
+                    // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
+                    // ModuleAdmin::registerSettingsComponent('editor/module_presets','microweber-live-edit::module-presets-manager');
+                    // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsModuleSettingsPage::class);
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
+                    //ModuleAdmin::registerLiveEditSettingsUrl('editor/fonts/font-manager-modal', FontsManagerModuleSettingsPage::getUrl());
 
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
-                ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/add_content_modal', AddContentModalPage::getUrl());
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
+                    ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());
+                    ModuleAdmin::registerLiveEditSettingsUrl('editor/add_content_modal', AddContentModalPage::getUrl());
 
+                }
+            } catch (\Throwable $e) {
+                // Filament routes may not be available on every request (e.g. frontend requests)
+                \Illuminate\Support\Facades\Log::debug('LiveEdit Filament route registration skipped: ' . $e->getMessage());
             }
         });
 

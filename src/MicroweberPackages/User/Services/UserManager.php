@@ -58,8 +58,10 @@ class UserManager
 
 
         if (Auth::check()) {
-            return Auth::user()->is_admin;
+            return (bool) Auth::user()->is_admin;
         }
+
+        return false;
     }
 
     public function id()

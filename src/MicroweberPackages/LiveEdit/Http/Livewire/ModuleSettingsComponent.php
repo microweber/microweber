@@ -22,6 +22,7 @@ class ModuleSettingsComponent extends AdminComponent
 
     public function mount()
     {
+        parent::mount();
 
         if ($this->settings) {
             foreach ($this->settings as $key => $setting) {

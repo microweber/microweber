@@ -11,6 +11,8 @@ class UserTosLogModal extends AdminModalComponent
 
     public function mount($userId = 0)
     {
+        parent::mount();
+
         $this->userId = $userId;
 
         $terms = false;

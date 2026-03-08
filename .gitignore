@@ -19,12 +19,15 @@ userfiles/templates/shopmag
 userfiles/templates/new-world
 storage/cache/*
 tests/coverages/*
+.playwright-mcp/*
+.ruff_cache/*
 cache/.htaccess
 cache/*
 old_mw/
 phpinfo.php
 .idea
 .settings
+.vscode
 .env
 .env.testing
 dwsync.xml

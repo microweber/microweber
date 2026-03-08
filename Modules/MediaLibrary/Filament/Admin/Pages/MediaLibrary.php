@@ -3,18 +3,11 @@
 namespace Modules\MediaLibrary\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
-use Filament\Pages\SimplePage;
-use Filament\Pages\Concerns;
 
-class MediaLibrary extends SimplePage
+class MediaLibrary extends Page
 {
 
-    use Concerns\CanAuthorizeAccess;
-    use Concerns\HasRoutes;
-
     protected static bool $shouldRegisterNavigation = false;
-
-    protected bool $hasTopbar = false;
 
     protected string $view = 'modules.media_library::filament.admin.pages.media-library-page';
 

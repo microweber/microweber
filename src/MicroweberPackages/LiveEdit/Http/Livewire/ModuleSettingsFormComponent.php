@@ -40,6 +40,7 @@ class ModuleSettingsFormComponent extends ModuleSettingsComponent
 
     public function mount()
     {
+        parent::mount();
 
         $form = $this->getSettingsForm();
         if ($form) {

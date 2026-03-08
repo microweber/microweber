@@ -23,6 +23,7 @@ class UpdatePasswordWithoutConfirmFormModal extends AdminModalComponent
     public $userId;
 
     public function mount($userId = false) {
+        parent::mount();
 
         if ($userId) {
             $this->userId = $userId;

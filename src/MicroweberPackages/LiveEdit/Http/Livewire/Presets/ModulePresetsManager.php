@@ -30,6 +30,7 @@ class ModulePresetsManager extends AdminComponent
 
     public function mount()
     {
+        parent::mount();
         $this->resetItemState();
     }
 

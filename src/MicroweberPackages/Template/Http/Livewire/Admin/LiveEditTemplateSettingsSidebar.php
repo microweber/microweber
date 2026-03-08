@@ -112,6 +112,7 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
     public function mount()
     {
+        parent::mount();
 
         $this->getSettings();
 

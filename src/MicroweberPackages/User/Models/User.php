@@ -6,6 +6,7 @@ namespace MicroweberPackages\User\Models;
 use DutchCodingCompany\FilamentSocialite\Models\Contracts\FilamentSocialiteUser as FilamentSocialiteUserContract;
 use EloquentFilter\Filterable;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -38,7 +39,7 @@ use \Illuminate\Support\Facades\Auth;
 
 use carbon\carbon;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, FilamentSocialiteUserContract
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract
 {
     use HasFactory,
         Notifiable,
@@ -342,34 +343,22 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Fil
     }
 
 
+    public function getFilamentName(): string
+    {
+        return $this->email ?? (string) $this->id;
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
-
-        // todo
-
-        $isAdmin = is_admin();
         $panelId = $panel->getId();
 
-        if ($isAdmin) {
-            return true;
+        if ($panelId === 'admin') {
+            return (bool) $this->is_admin;
         }
 
-
-        //check if name start with admin
-
-        if ($panelId == 'admin') {
-            return is_admin();
+        if ($panelId === 'profile') {
+            return (bool) $this->id;
         }
-        if ($panelId == 'profile') {
-            return is_logged();
-        }
-
-//        if(is_admin()){
-//            return true;
-//        }
-
-        // return is_logged();
-
 
         return false;
     }

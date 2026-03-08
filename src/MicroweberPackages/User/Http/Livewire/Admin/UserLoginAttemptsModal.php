@@ -13,6 +13,8 @@ class UserLoginAttemptsModal extends AdminModalComponent
 
     public function mount($userId = 0)
     {
+        parent::mount();
+
         $this->userId = $userId;
 
         $this->loginAttempts = \MicroweberPackages\App\LoginAttempt::where('user_id', $userId)

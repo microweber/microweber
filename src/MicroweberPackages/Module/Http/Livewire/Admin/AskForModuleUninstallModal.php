@@ -32,6 +32,7 @@ class AskForModuleUninstallModal extends AdminModalComponent
 
     public function mount($moduleId = false)
     {
+        parent::mount();
         if ($moduleId) {
             $this->moduleId = $moduleId;
             $this->moduleData = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first()->toArray();

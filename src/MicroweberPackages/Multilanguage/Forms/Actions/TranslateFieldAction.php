@@ -10,7 +10,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width as MaxWidth;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use SolutionForest\FilamentTranslateField\Facades\FilamentTranslateField;

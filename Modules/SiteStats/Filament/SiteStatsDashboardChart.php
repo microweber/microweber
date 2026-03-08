@@ -17,7 +17,7 @@ class SiteStatsDashboardChart extends ChartWidget
     protected int|string|array $columnSpan = 'full';
 
 
-    protected static ?string $maxHeight = '200px';
+    protected ?string $maxHeight = '200px';
     protected static ?int $sort = 2;
 
     protected function getType(): string

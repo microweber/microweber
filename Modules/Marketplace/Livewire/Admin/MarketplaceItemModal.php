@@ -24,6 +24,7 @@ class MarketplaceItemModal extends AdminModalComponent
 
     public function mount()
     {
+        parent::mount();
         $foundedPackage = [];
         $foundedPackageVersions = [];
         $packageName = $this->name;
