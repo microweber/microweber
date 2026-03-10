@@ -394,10 +394,64 @@ External-looking or non-standard packages located inside `Modules/`:
     - PHP: `vendor/bin/rector process --config=rector-filament.php --dry-run`
     - Blade: `php dev/rector-rules/blade-migrator.php Modules/YourModule/resources/views`
 
-## Quick Wins  do these first (13 days)
+## Quick Wins – do these first (1–3 days)
 
 - [x] 2026-03-06 Fix failing test: `ModuleResourceTest` ? `Tab` class not found
-- [x] 2026-03-06 Convert 2030 most obvious `@test` ? `#[Test]`
-- [x] 2026-03-06 Replace `Tab::make()` in 23 most used resources (Ai, Billing)
+- [x] 2026-03-06 Convert 20–30 most obvious `@test` ? `#[Test]`
+- [x] 2026-03-06 Replace `Tab::make()` in 2–3 most used resources (Ai, Billing)
 
-Last updated: 2026-03-07  
+## Next Task Batch – March 2026
+
+Based on comprehensive codebase analysis, the following tasks are ready for implementation:
+
+### 1. Security & Correctness (highest priority)
+
+- [ ] fix: enable SSL verification in HTTP adapters (Guzzle.php:60, Curl.php:208,314)
+- [ ] fix: enable SSL verification in AI drivers (FalAiDriver.php, ReplicateAiDriver.php)
+- [ ] fix: remove remaining 29 test methods using `public function testCamelCase()` pattern → `#[Test] public function itCamelCase(): void`
+- [ ] fix: address critical PHPStan errors for undefined classes (Accordion, Address models)
+
+### 2. Developer Experience & CI/CD
+
+- [ ] chore: update GitHub Actions CI workflow to use `$GITHUB_OUTPUT` instead of deprecated `::set-output` syntax
+- [ ] chore: add Pest test runner to CI workflow alongside PHPUnit
+- [ ] chore: optimize Rector configuration to prevent timeout on large codebase
+- [ ] feat: add test route auto-registration for module tests to fix route failures
+
+### 3. Documentation
+
+- [ ] docs: update README.md to reflect Laravel 11 (currently says Laravel 10)
+- [ ] docs: document Pest testing workflow in docs/testing/module-testing-guide.md
+- [ ] docs: add troubleshooting section for common Filament v5 migration issues
+- [ ] docs: update CONTRIBUTING.md with new testing standards
+
+### 4. Code Quality & Static Analysis
+
+- [ ] chore: install Larastan for better Laravel Eloquent support in PHPStan
+- [ ] test: add unit tests for SSL-verified HTTP client requests
+- [ ] test: add tests for module route registration in test environment
+- [ ] chore: configure PHPStan to ignore Eloquent magic methods via Larastan
+
+### 5. Performance & Optimization
+
+- [ ] perf: optimize Rector rules to run in parallel mode with memory limits
+- [ ] perf: add file caching to PHPStan analysis for faster subsequent runs
+- [ ] refactor: extract duplicated SSL configuration into shared HTTP client factory
+- [ ] perf: cache composer dependencies more aggressively in CI workflow
+
+### 6. Monitoring & Reporting
+
+- [ ] chore: integrate code coverage reporting with codecov.io in CI
+- [ ] feat: add test failure summary artifact upload in matrix-tests.yml
+- [ ] chore: add PHP Insights to dev dependencies for code quality metrics
+- [ ] docs: generate and publish API documentation from Filament Resources
+
+---
+
+## Task Status Legend
+
+- `[ ]` - Pending (ready for implementation)
+- `[x]` - Completed
+- `[-]` - Blocked/Won't do
+
+Last updated: 2026-03-10  
