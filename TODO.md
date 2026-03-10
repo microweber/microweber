@@ -406,7 +406,7 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 ### 1. Security & Correctness (highest priority)
 
-- [ ] fix: enable SSL verification in HTTP adapters (Guzzle.php:60, Curl.php:208,314)
+- [x] 2026-03-10 fix: enable SSL verification in HTTP adapters (Guzzle.php:60, Curl.php:208,314)
 - [ ] fix: enable SSL verification in AI drivers (FalAiDriver.php, ReplicateAiDriver.php)
 - [ ] fix: remove remaining 29 test methods using `public function testCamelCase()` pattern → `#[Test] public function itCamelCase(): void`
 - [ ] fix: address critical PHPStan errors for undefined classes (Accordion, Address models)

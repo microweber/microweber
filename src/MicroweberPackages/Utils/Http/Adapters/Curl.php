@@ -202,11 +202,11 @@ class Curl
             if (is_array($this->headers) != false) {
             }
 
-            curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
-            curl_setopt($ch, CURLOPT_URL, $this->url);
-            curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
+        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
             curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
             curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
 
@@ -311,7 +311,8 @@ class Curl
             $this->headers = array(
                 CURLOPT_URL => $this->url,
                 CURLOPT_VERBOSE => 1,
-                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
                 //CURLOPT_TIMEOUT => 30,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_CAINFO => __DIR__.DS.'cacert.pem.txt',
@@ -327,7 +328,7 @@ class Curl
                 $this->headers[CURLOPT_HTTPHEADER] = $this->http_headers;
                 //$this->headers[CURLINFO_HEADER_OUT] = TRUE;
                 //$this->headers[CURLOPT_HEADER] = 1;
-                $this->headers[CURLOPT_SSL_VERIFYHOST] = false;
+                $this->headers[CURLOPT_SSL_VERIFYHOST] = 2;
             }
         }
 
