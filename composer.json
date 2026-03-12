@@ -157,7 +157,8 @@
 "mockery/mockery": "^1.6",
 "staudenmeir/dusk-updater": "^1.5",
 "filament/upgrade": "^5.0",
-        "larastan/larastan": "^3.9"
+        "larastan/larastan": "^3.9",
+        "nunomaduro/phpinsights": "^2.0"
 },
     "autoload": {
         "psr-4": {
@@ -223,6 +224,14 @@
         "test-dusk": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan dusk"
+        ],
+        "insights": [
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan insights --no-interaction --ansi"
+        ],
+        "insights-summary": [
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan insights --no-interaction --ansi --summary"
         ]
     },
     "extra": {
@@ -263,7 +272,8 @@
             "pestphp/pest-plugin": true,
             "composer/installers": true,
             "php-http/discovery": true,
-            "wikimedia/composer-merge-plugin": true
+            "wikimedia/composer-merge-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "audit": {
             "abandoned": "report"

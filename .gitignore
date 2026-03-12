@@ -1,4 +1,5 @@
 config/*
+!config/insights.php
 vendor/*
 clover.xml
 public/vendor/*

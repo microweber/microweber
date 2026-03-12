@@ -537,7 +537,14 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Summary job downloads per-matrix failure summaries, aggregates into single report, writes to `$GITHUB_STEP_SUMMARY`
   - Aggregated report uploaded as separate artifact (14-day retention)
   - Added `build/test-results/` to `.gitignore`
-- [ ] chore: add PHP Insights to dev dependencies for code quality metrics
+- [x] 2026-03-12 chore: add PHP Insights to dev dependencies for code quality metrics
+  - Installed `nunomaduro/phpinsights` v2.14.0 as dev dependency
+  - Published and customized `config/insights.php` with Laravel preset
+  - Configured exclusions: vendor, node_modules, bootstrap/cache, storage, packages, views, build, public, migrations, seeders
+  - Increased timeout to 300s for large codebase (1946 files analyzed)
+  - Added composer scripts: `composer insights` (full report) and `composer insights-summary` (summary only)
+  - Allowed `dealerdirect/phpcodesniffer-composer-installer` plugin required by PHP Insights
+  - Baseline scores: Code 30%, Complexity 69.3%, Architecture 25%, Style 23.2%, 0 security issues
 - [ ] docs: generate and publish API documentation from Filament Resources
 
 ---
