@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Dusk\Browser;
 use SapientPro\ImageComparator\ImageComparator;
 use Tests\DuskTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class DuskModuleScreenshots extends DuskTestCase
 {
@@ -20,9 +21,10 @@ abstract class DuskModuleScreenshots extends DuskTestCase
         app()->template_manager->boot_template();
 
         save_option('current_template', $this->template_name, 'template');
-    }
+}
 
-    public function testCreateFullScreenshot()
+#[Test]
+public function it_creates_full_screenshot(): void
     {
         $this->bootTemplate();
 
@@ -115,9 +117,10 @@ abstract class DuskModuleScreenshots extends DuskTestCase
 //        });
 
 
-    }
+}
 
-    public function testCreateModulesScreenshots()
+#[Test]
+public function it_creates_modules_screenshots(): void
     {
 
 
@@ -276,7 +279,8 @@ abstract class DuskModuleScreenshots extends DuskTestCase
 
     }
 
-    public function testCreateScreenshots()
+    #[Test]
+public function it_creates_screenshots(): void
     {
         $this->bootTemplate();
         $layouts = module_templates('layouts');

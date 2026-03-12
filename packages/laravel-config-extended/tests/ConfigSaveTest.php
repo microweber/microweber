@@ -3,12 +3,14 @@
 namespace MicroweberPackages\LaravelConfigExtended\Tests;
 
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Test;
 
 
 class ConfigSaveTest extends \MicroweberPackages\LaravelConfigExtended\Tests\TestCase
 {
 
-    public function testSimple()
+#[Test]
+public function it_saves_simple_config(): void
     {
 
         Config::set('microweber.firstName', 'Bozhidar');
@@ -45,9 +47,10 @@ class ConfigSaveTest extends \MicroweberPackages\LaravelConfigExtended\Tests\Tes
         $this->assertEquals('Slaveykov', $configFileContent['lastName']);
         $this->assertEquals($time, $configFileContent['time']);
 
-    }
+}
 
-    public function testWithConfigFromEnvDirectorty()
+#[Test]
+public function it_saves_config_from_env_directory(): void
     {
         $defaultDir = $this->app->configPath();
 
