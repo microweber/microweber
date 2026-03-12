@@ -408,7 +408,10 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 - [x] 2026-03-10 fix: enable SSL verification in HTTP adapters (Guzzle.php:60, Curl.php:208,314)
 - [x] 2026-03-10 fix: enable SSL verification in AI drivers (FalAiDriver.php, ReplicateAiDriver.php)
-- [ ] fix: remove remaining 29 test methods using `public function testCamelCase()` pattern → `#[Test] public function itCamelCase(): void`
+- [x] 2026-03-12 fix: remove remaining test methods using `public function test_snake_case()` pattern → `#[Test] public function it_snake_case(): void`
+  - Only 1 file remained: `tests/Feature/AdminAuthenticationTest.php` (7 methods)
+  - Renamed `test_*` → `it_*` (all already had `#[Test]` attribute)
+  - Verified: zero `public function test[_A-Z]` methods remain in codebase (excluding commented-out code)
 - [ ] fix: address critical PHPStan errors for undefined classes (Accordion, Address models)
 
 ### 2. Developer Experience & CI/CD

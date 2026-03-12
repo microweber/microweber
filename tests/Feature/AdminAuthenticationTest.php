@@ -38,7 +38,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that the admin login page exists and is accessible.
      */
     #[Test]
-    public function test_admin_login_page_exists(): void
+    public function it_admin_login_page_exists(): void
     {
         $response = $this->get('/admin/login');
         $response->assertStatus(200);
@@ -49,7 +49,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that an admin can login via the admin login form.
      */
     #[Test]
-    public function test_admin_can_login(): void
+    public function it_admin_can_login(): void
     {
         $response = $this->post('/admin/login', [
             'email' => $this->admin->email,
@@ -64,7 +64,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that a non-admin user cannot access the admin panel.
      */
     #[Test]
-    public function test_non_admin_blocked_from_admin(): void
+    public function it_non_admin_blocked_from_admin(): void
     {
         $response = $this->actingAs($this->regularUser)->get('/admin');
         $response->assertStatus(403);
@@ -74,7 +74,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that an authenticated admin can access the admin dashboard.
      */
     #[Test]
-    public function test_admin_dashboard_renders(): void
+    public function it_admin_dashboard_renders(): void
     {
         $response = $this->actingAs($this->admin)->get('/admin');
         $response->assertStatus(200);
@@ -85,7 +85,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that guests are redirected to login when accessing admin.
      */
     #[Test]
-    public function test_guest_redirected_to_login(): void
+    public function it_guest_redirected_to_login(): void
     {
         $response = $this->get('/admin');
         $response->assertRedirect('/admin/login');
@@ -95,7 +95,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that login fails with invalid credentials.
      */
     #[Test]
-    public function test_login_fails_with_invalid_credentials(): void
+    public function it_login_fails_with_invalid_credentials(): void
     {
         $response = $this->post('/admin/login', [
             'email' => $this->admin->email,
@@ -110,7 +110,7 @@ class AdminAuthenticationTest extends TestCase
      * Test that login page has the expected form fields.
      */
     #[Test]
-    public function test_login_page_has_form_fields(): void
+    public function it_login_page_has_form_fields(): void
     {
         $response = $this->get('/admin/login');
         $response->assertStatus(200);
