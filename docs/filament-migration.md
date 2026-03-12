@@ -594,9 +594,472 @@ All 7 panel providers have been migrated to Filament v5:
 
 ---
 
+## Troubleshooting Common Filament v5 Migration Issues
+
+This section documents real errors encountered during the Microweber Filament v3 → v5 migration, with root causes and fixes.
+
+---
+
+### 1. `Class "Filament\Resources\Components\Tab" not found`
+
+**Error:**
+```
+Class "Filament\Resources\Components\Tab" not found
+```
+
+**Root Cause:** The `Tab` class moved from `Filament\Resources\Components\Tab` to `Filament\Schemas\Components\Tabs\Tab` in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+use Filament\Resources\Components\Tab;
+
+// AFTER (v5)
+use Filament\Schemas\Components\Tabs\Tab;
+```
+
+**Automated fix:**
+```bash
+vendor/bin/rector process --config=rector-filament.php --dry-run
+```
+
+---
+
+### 2. `Class "Filament\Forms\Components\Section" not found`
+
+**Error:**
+```
+Class "Filament\Forms\Components\Section" not found
+```
+
+**Root Cause:** Layout components (`Section`, `Tabs`, `Fieldset`, `Grid`) moved from `Filament\Forms\Components\` to `Filament\Schemas\Components\` in v5. Form *field* components like `TextInput`, `Select`, `Toggle` remain in `Filament\Forms\Components\`.
+
+**Fix:**
+```php
+// Layout components → Schemas namespace
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+
+// Form fields stay in Forms namespace
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+```
+
+**Key rule:** If it's a *container* (Section, Tabs, Grid, Fieldset), use `Filament\Schemas\Components\`. If it's a *field* (TextInput, Select, Toggle, FileUpload), use `Filament\Forms\Components\`.
+
+---
+
+### 3. `Class "Filament\Forms\Components\Livewire" not found`
+
+**Error:**
+```
+Class "Filament\Forms\Components\Livewire" not found
+```
+
+**Root Cause:** The `Livewire` component moved to the Schemas namespace in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+use Filament\Forms\Components\Livewire;
+
+// AFTER (v5)
+use Filament\Schemas\Components\Livewire;
+```
+
+---
+
+### 4. Table actions not rendering or wrong namespace
+
+**Error:**
+```
+Class "Filament\Tables\Actions\EditAction" not found
+```
+
+**Root Cause:** Table actions moved from `Filament\Tables\Actions\*` to `Filament\Actions\*` in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+
+// AFTER (v5)
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+```
+
+**Note:** This also applies to relation managers — their table actions use the same `Filament\Actions\*` namespace.
+
+---
+
+### 5. `form()` method signature type error
+
+**Error:**
+```
+Declaration of SomeResource::form(Filament\Forms\Form $form): Filament\Forms\Form
+must be compatible with Filament\Resources\Resource::form(Filament\Schemas\Schema $schema): Filament\Schemas\Schema
+```
+
+**Root Cause:** The `form()` method signature changed from `Form` to `Schema` in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+use Filament\Forms\Form;
+
+public static function form(Form $form): Form
+{
+    return $form->schema([...]);
+}
+
+// AFTER (v5)
+use Filament\Schemas\Schema;
+
+public static function form(Schema $schema): Schema
+{
+    return $schema->components([...]);
+}
+```
+
+**Note:** Inside the `form()` method, `->schema([...])` on the top-level `$schema` object becomes `->components([...])`. However, `->schema([...])` on nested components (Section, Tabs, etc.) remains the same.
+
+---
+
+### 6. `BadgeColumn` class not found
+
+**Error:**
+```
+Class "Filament\Tables\Columns\BadgeColumn" not found
+```
+
+**Root Cause:** `BadgeColumn` was removed in v5. Use `TextColumn` with the `->badge()` modifier instead.
+
+**Fix:**
+```php
+// BEFORE (v3)
+use Filament\Tables\Columns\BadgeColumn;
+
+BadgeColumn::make('status')
+    ->colors(['success' => 'active', 'danger' => 'inactive']);
+
+// AFTER (v5)
+use Filament\Tables\Columns\TextColumn;
+
+TextColumn::make('status')
+    ->badge()
+    ->color(fn (string $state): string => match ($state) {
+        'active' => 'success',
+        'inactive' => 'danger',
+        default => 'gray',
+    });
+```
+
+---
+
+### 7. `Table::with()` / eager loading not working
+
+**Error:**
+```
+Method Filament\Tables\Table::with() does not exist.
+```
+
+**Root Cause:** `Table::with()` for eager loading was replaced with `modifyQueryUsing()` in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+$table->with(['author', 'category']);
+
+// AFTER (v5)
+$table->modifyQueryUsing(fn ($query) => $query->with(['author', 'category']));
+```
+
+---
+
+### 8. `groupedBulkActions()` method not found
+
+**Error:**
+```
+Method Filament\Tables\Table::groupedBulkActions() does not exist.
+```
+
+**Root Cause:** `groupedBulkActions()` was renamed to `bulkActions()` with `BulkActionGroup` in v5.
+
+**Fix:**
+```php
+// BEFORE (v3)
+$table->groupedBulkActions([
+    DeleteBulkAction::make(),
+]);
+
+// AFTER (v5)
+$table->bulkActions([
+    BulkActionGroup::make([
+        DeleteBulkAction::make(),
+    ]),
+]);
+```
+
+---
+
+### 9. `Filament::serving()` deprecated
+
+**Error:** No runtime error, but the callback registered via `Filament::serving()` is never called.
+
+**Root Cause:** `Filament::serving()` was removed in v5. Navigation registration and render hooks must be configured in the panel provider.
+
+**Fix:**
+```php
+// BEFORE (v3) — in a ServiceProvider
+use Filament\Facades\Filament;
+
+public function boot(): void
+{
+    Filament::serving(function () {
+        Filament::registerNavigationItems([...]);
+    });
+}
+
+// AFTER (v5) — in a PanelProvider or Plugin
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->navigationItems([...])
+        ->renderHook('panels::head.start', fn () => '<meta ...>');
+}
+```
+
+If you need to register resources/pages from a module, use `FilamentRegistry`:
+```php
+FilamentRegistry::registerResource(self::class, MyResource::class);
+```
+
+---
+
+### 10. `->reactive()` method deprecated
+
+**Error:** No runtime error, but `->reactive()` is deprecated and will be removed in a future version.
+
+**Root Cause:** `->reactive()` was renamed to `->live()` in Filament v3.1+ and is deprecated in v5.
+
+**Fix:**
+```php
+// BEFORE
+Select::make('type')->reactive();
+
+// AFTER
+Select::make('type')->live();
+```
+
+---
+
+### 11. Filament routes not registered in test environment
+
+**Error:**
+```
+InvalidArgumentException: Route [filament.admin.resources.orders.index] not defined.
+```
+
+**Root Cause:** Filament panel routes are registered during the panel boot process, which may not happen automatically in test environments. The panel must be set as "current" for routes to resolve.
+
+**Fix:** Use the `InteractsWithFilamentPanel` trait in your test class:
+
+```php
+use Tests\TestCase;
+use MicroweberPackages\Filament\Tests\Traits\InteractsWithFilamentPanel;
+use PHPUnit\Framework\Attributes\Test;
+
+class MyResourceTest extends TestCase
+{
+    use InteractsWithFilamentPanel;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->setupFilamentPanel('admin');
+    }
+
+    #[Test]
+    public function it_can_list_records(): void
+    {
+        $this->actingAsAdmin();
+        // Routes are now available
+    }
+}
+```
+
+Or extend `FilamentResourceTestCase` which handles this automatically:
+
+```php
+use MicroweberPackages\Filament\Tests\FilamentResourceTestCase;
+
+class MyResourceTest extends FilamentResourceTestCase
+{
+    protected string $resourceClass = MyResource::class;
+    // setUp() and panel routing handled automatically
+}
+```
+
+---
+
+### 12. Blade component `filament-forms::*` not found
+
+**Error:**
+```
+Unable to locate a class or view for component [filament-forms::components.placeholder-image-cropped]
+```
+
+**Root Cause:** Custom Blade components that previously lived under the `filament-forms::` namespace must be migrated to the `mw-filament::` namespace.
+
+**Fix:**
+```blade
+{{-- BEFORE (v3) --}}
+<x-filament-forms::sections.section>
+<x-filament-forms::components.placeholder-image-cropped />
+
+{{-- AFTER (v5) --}}
+<x-mw-filament::sections.section>
+<x-mw-filament::components.placeholder-image-cropped />
+```
+
+**Automated fix for Blade templates:**
+```bash
+php dev/rector-rules/blade-migrator.php Modules/YourModule/resources/views
+```
+
+---
+
+### 13. Livewire `$emit` not dispatching events
+
+**Error:** JavaScript events are not received by Livewire components after upgrading.
+
+**Root Cause:** Livewire v3 (used with Filament v5) replaced `$emit` with `$dispatch`.
+
+**Fix:**
+```blade
+{{-- BEFORE (Livewire v2) --}}
+wire:click="$emit('openModal', { id: {{ $id }} })"
+wire:model.defer="name"
+
+{{-- AFTER (Livewire v3) --}}
+wire:click="$dispatch('openModal', { id: {{ $id }} })"
+wire:model="name"
+```
+
+**Note:** `wire:model` in Livewire v3 is deferred by default (equivalent to `wire:model.defer` in v2). Use `wire:model.live` if you need real-time updates (equivalent to `wire:model` in v2).
+
+---
+
+### 14. `getDescription()` must be static
+
+**Error:**
+```
+Cannot make non static method SomeResource::getDescription() static
+```
+
+**Root Cause:** In Filament v5, certain resource metadata methods (`getDescription()`, `getNavigationLabel()`, etc.) must be declared `static`.
+
+**Fix:**
+```php
+// BEFORE (v3)
+public function getDescription(): string
+{
+    return 'Manage coupons';
+}
+
+// AFTER (v5)
+public static function getDescription(): string
+{
+    return 'Manage coupons';
+}
+```
+
+---
+
+### 15. PHPStan errors for Eloquent model properties
+
+**Error:**
+```
+Access to an undefined property App\Models\Accordion::$title.
+```
+
+**Root Cause:** PHPStan cannot detect Eloquent magic properties without proper type hints. This isn't a Filament issue per se, but surfaces frequently during migration when adding static analysis.
+
+**Fix:** Add `@property` annotations to your models:
+```php
+/**
+ * @property int $id
+ * @property string $title
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon $created_at
+ */
+class Accordion extends Model
+{
+    // ...
+}
+```
+
+Or install Larastan for automatic Eloquent method/property recognition:
+```bash
+composer require --dev larastan/larastan
+```
+
+---
+
+### Quick Diagnostic Commands
+
+Run these to find remaining migration issues in your module:
+
+```bash
+# Find ALL deprecated v3 patterns in one command
+./dev/rector-rules/analyze-filament-migration.sh Modules/YourModule
+
+# Check deprecated imports
+grep -rn "Filament\\\\Forms\\\\Components\\\\Section" Modules/YourModule --include="*.php"
+grep -rn "Filament\\\\Forms\\\\Components\\\\Tabs" Modules/YourModule --include="*.php"
+grep -rn "Filament\\\\Forms\\\\Components\\\\Livewire" Modules/YourModule --include="*.php"
+grep -rn "Filament\\\\Resources\\\\Components\\\\Tab" Modules/YourModule --include="*.php"
+grep -rn "Filament\\\\Tables\\\\Actions\\\\" Modules/YourModule --include="*.php"
+
+# Check deprecated Blade patterns
+grep -rn "filament-forms::" Modules/YourModule --include="*.blade.php"
+grep -rn "\\\$emit" Modules/YourModule --include="*.blade.php"
+grep -rn "wire:model.defer" Modules/YourModule --include="*.blade.php"
+
+# Check deprecated PHP patterns
+grep -rn "BadgeColumn" Modules/YourModule --include="*.php"
+grep -rn "::serving(" Modules/YourModule --include="*.php"
+grep -rn "->reactive()" Modules/YourModule --include="*.php"
+grep -rn "->with(\[" Modules/YourModule --include="*.php" | grep -i table
+grep -rn "groupedBulkActions" Modules/YourModule --include="*.php"
+
+# Run automated PHP migration (dry run first!)
+vendor/bin/rector process Modules/YourModule --config=rector-filament.php --dry-run
+```
+
+---
+
+### Getting Help
+
+- **Filament v5 Upgrade Guide:** [filamentphp.com/docs/5.x/upgrade-guide](https://filamentphp.com/docs/5.x/upgrade-guide)
+- **Rector Rules:** See `dev/rector-rules/README.md` for automated migration tools
+- **Module Testing Guide:** See `docs/testing/module-testing-guide.md` for test setup
+- **Filament Discord:** [filamentphp.com/discord](https://filamentphp.com/discord)
+
+---
+
 ## Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-03-04 | Initial architecture decision document |
 | 1.1 | 2026-03-07 | Added Module Developer Upgrade Guide and Migration Status Summary |
+| 1.2 | 2026-03-12 | Added Troubleshooting section for common v5 migration issues |
