@@ -131,11 +131,14 @@ jobs:
           php artisan key:generate --ansi
           touch database/database.sqlite
 
+      - name: Create test results directory
+        run: mkdir -p build/test-results
+
       - name: Run Tests (Pest + PHPUnit) with Coverage
-        run: vendor/bin/pest --configuration phpunit.xml --coverage-clover clover.xml
+        run: vendor/bin/pest --configuration phpunit.xml --coverage-clover clover.xml --log-junit build/test-results/phpunit.xml 2>&1 | tee build/test-results/pest-output.txt
 
       - name: Run Pest Module Suites
-        run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0
+        run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0 --log-junit build/test-results/pest-modules.xml 2>&1 | tee build/test-results/pest-modules-output.txt
 
       - name: Upload coverage to Codecov
         if: always() && matrix.php == '8.3' && matrix.laravel == '11'
@@ -162,6 +165,64 @@ jobs:
             vendor/bin/phpstan analyse --no-progress --memory-limit=1G || true
           fi
 
+      - name: Generate Test Failure Summary
+        if: failure()
+        run: |
+          mkdir -p build/test-results
+          echo "# Test Failure Summary" > build/test-results/summary.md
+          echo "" >> build/test-results/summary.md
+          echo "**PHP:** ${{ matrix.php }} | **Laravel:** ${{ matrix.laravel }}" >> build/test-results/summary.md
+          echo "**Run:** ${{ github.run_id }} | **SHA:** ${{ github.sha }}" >> build/test-results/summary.md
+          echo "" >> build/test-results/summary.md
+
+          # Extract failures from JUnit XML if available
+          for xml in build/test-results/phpunit.xml build/test-results/pest-modules.xml; do
+            if [ -f "$xml" ]; then
+              failures=$(grep -c '<failure' "$xml" 2>/dev/null || echo "0")
+              errors=$(grep -c '<error' "$xml" 2>/dev/null || echo "0")
+              tests=$(grep -oP 'tests="\K[0-9]+' "$xml" | head -1 || echo "?")
+              echo "## $(basename "$xml")" >> build/test-results/summary.md
+              echo "Tests: $tests | Failures: $failures | Errors: $errors" >> build/test-results/summary.md
+              echo "" >> build/test-results/summary.md
+
+              # List failing test names
+              if [ "$failures" -gt 0 ] || [ "$errors" -gt 0 ]; then
+                echo "### Failed Tests" >> build/test-results/summary.md
+                echo '```' >> build/test-results/summary.md
+                grep -oP 'name="\K[^"]+' "$xml" | head -50 >> build/test-results/summary.md 2>/dev/null || true
+                echo '```' >> build/test-results/summary.md
+                echo "" >> build/test-results/summary.md
+
+                echo "### Failure Messages" >> build/test-results/summary.md
+                echo '```' >> build/test-results/summary.md
+                grep -A2 '<failure\|<error' "$xml" | head -100 >> build/test-results/summary.md 2>/dev/null || true
+                echo '```' >> build/test-results/summary.md
+              fi
+            fi
+          done
+
+          # Append Laravel log tail if present
+          if [ -f storage/logs/laravel.log ]; then
+            echo "" >> build/test-results/summary.md
+            echo "## Laravel Log (last 100 lines)" >> build/test-results/summary.md
+            echo '```' >> build/test-results/summary.md
+            tail -100 storage/logs/laravel.log >> build/test-results/summary.md
+            echo '```' >> build/test-results/summary.md
+          fi
+
+      - name: Upload Test Failure Summary
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-failure-summary-php${{ matrix.php }}-laravel${{ matrix.laravel }}
+          path: |
+            build/test-results/summary.md
+            build/test-results/phpunit.xml
+            build/test-results/pest-modules.xml
+            build/test-results/pest-output.txt
+            build/test-results/pest-modules-output.txt
+          retention-days: 7
+
       - name: Upload Test Artifacts
         if: failure()
         uses: actions/upload-artifact@v4
@@ -180,9 +241,50 @@ jobs:
     needs: matrix-tests
     if: always()
     steps:
+      - name: Download all failure summaries
+        if: needs.matrix-tests.result == 'failure'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-failure-summary-*
+          path: failure-summaries
+          merge-multiple: false
+
+      - name: Aggregate failure summaries
+        if: needs.matrix-tests.result == 'failure'
+        run: |
+          echo "# Aggregated Test Failure Report" > aggregated-summary.md
+          echo "" >> aggregated-summary.md
+          echo "**Workflow:** ${{ github.workflow }}" >> aggregated-summary.md
+          echo "**Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> aggregated-summary.md
+          echo "" >> aggregated-summary.md
+
+          if [ -d "failure-summaries" ]; then
+            for dir in failure-summaries/test-failure-summary-*/; do
+              if [ -f "$dir/summary.md" ]; then
+                combo=$(basename "$dir" | sed 's/test-failure-summary-//')
+                echo "---" >> aggregated-summary.md
+                echo "## $combo" >> aggregated-summary.md
+                cat "$dir/summary.md" >> aggregated-summary.md
+                echo "" >> aggregated-summary.md
+              fi
+            done
+          else
+            echo "No failure summaries found." >> aggregated-summary.md
+          fi
+
+          cat aggregated-summary.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload aggregated failure report
+        if: needs.matrix-tests.result == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aggregated-test-failure-report
+          path: aggregated-summary.md
+          retention-days: 14
+
       - name: Check Matrix Results
         run: |
-          echo "Matrix test results:"
+          echo "Matrix test results: ${{ needs.matrix-tests.result }}"
           echo "Note: Some combinations may be marked as experimental"
 
       - name: Comment on PR

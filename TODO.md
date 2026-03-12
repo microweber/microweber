@@ -530,7 +530,13 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Added `clover.xml` to `.gitignore`
   - All coverage uploads use `fail_ci_if_error: false` to prevent blocking on codecov outages
   - Codecov workflow now triggers on push to main/master/develop and PRs
-- [ ] feat: add test failure summary artifact upload in matrix-tests.yml
+- [x] 2026-03-12 feat: add test failure summary artifact upload in matrix-tests.yml
+  - Test steps now output JUnit XML (`--log-junit`) and console logs (`tee`) to `build/test-results/`
+  - Added "Generate Test Failure Summary" step: parses JUnit XML for failure counts, test names, error messages, and Laravel log tail
+  - Added "Upload Test Failure Summary" artifact: includes `summary.md`, JUnit XML, and raw test output (7-day retention)
+  - Summary job downloads per-matrix failure summaries, aggregates into single report, writes to `$GITHUB_STEP_SUMMARY`
+  - Aggregated report uploaded as separate artifact (14-day retention)
+  - Added `build/test-results/` to `.gitignore`
 - [ ] chore: add PHP Insights to dev dependencies for code quality metrics
 - [ ] docs: generate and publish API documentation from Filament Resources
 
