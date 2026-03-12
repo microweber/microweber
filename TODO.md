@@ -488,7 +488,13 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 ### 5. Performance & Optimization
 
-- [ ] perf: optimize Rector rules to run in parallel mode with memory limits
+- [x] 2026-03-12 perf: optimize Rector rules to run in parallel mode with memory limits
+  - Added `withMemoryLimit('1G')` to both `rector.php` and `rector-filament.php`
+  - Increased timeout from 300s to 600s for large codebase processing
+  - Increased job size from 20 to 40 files per worker (reduces IPC overhead with 2514 files)
+  - Worker count auto-detects available cores via `nproc`, overridable with `RECTOR_WORKERS` env var
+  - Added additional skip patterns: `resources/dist/*`, `public/build/*` (compiled assets)
+  - Both configs verified working with dry-run
 - [ ] perf: add file caching to PHPStan analysis for faster subsequent runs
 - [ ] refactor: extract duplicated SSL configuration into shared HTTP client factory
 - [ ] perf: cache composer dependencies more aggressively in CI workflow

@@ -38,12 +38,17 @@ return RectorConfig::configure()
         '*/resources/views/*',
         '*/database/migrations/*',
         '*/database/seeders/*',
+        // Skip generated/compiled assets
+        '*/resources/dist/*',
+        '*/public/build/*',
+        '*/node_modules/*',
     ])
+    ->withMemoryLimit('1G')
     ->withCache(__DIR__ . '/build/rector-cache')
     ->withParallel(
-        timeoutSeconds: 300,
-        maxNumberOfProcess: 4,
-        jobSize: 20,
+        timeoutSeconds: 600,
+        maxNumberOfProcess: max(1, (int) (getenv('RECTOR_WORKERS') ?: min(4, (int) @shell_exec('nproc 2>/dev/null') ?: 2))),
+        jobSize: 40,
     )
     ->withPhpSets(php83: true)
     ->withSets([
