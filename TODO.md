@@ -472,7 +472,15 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
     - Verifies ReplicateAiDriver fetchImageContent/makeRequest use SSL verification
     - Verifies both drivers default to HTTPS endpoints
     - Verifies endpoint trailing slash stripping
-- [ ] test: add tests for module route registration in test environment
+- [x] 2026-03-12 test: add tests for module route registration in test environment
+  - Created `tests/Feature/Filament/ModuleRouteRegistrationTest.php` (23 tests, 65 assertions)
+  - Tests FilamentRegistryManager: resource/page/widget/plugin/cluster registration, panel scoping, provider scoping
+  - Tests facade resolution and consistency
+  - Tests module resources are registered during boot (Backup, Content, Category, Order, Page)
+  - Tests admin panel availability, current panel context, panel resource loading
+  - Tests route accessibility: admin login redirect, resource URL generation, Livewire page loading
+  - Tests InteractsWithFilamentPanel trait: auth setup, admin/user acting, URL helper
+  - Tests guest access denied and multiple resources generate distinct URLs
 - [x] 2026-03-12 chore: configure PHPStan to ignore Eloquent magic methods via Larastan
   - Larastan extension auto-handles Eloquent magic properties/methods/scopes
   - Additional ignores: deprecated methods, Blade template variables, module view-string types
