@@ -34,6 +34,11 @@ class ModuleAdminManager
         $livewireComponentName = 'microweber-module-' . $moduleName . '::settings';
 
         Livewire::component($livewireComponentName, $componentName);
+
+        // Livewire v4 can't resolve '::' names via the Finder, add fallback
+        Livewire::resolveMissingComponent(function (string $name) use ($livewireComponentName, $componentName) {
+            return $name === $livewireComponentName ? $componentName : null;
+        });
     }
 
     public function getSettingsComponent(string $moduleName)

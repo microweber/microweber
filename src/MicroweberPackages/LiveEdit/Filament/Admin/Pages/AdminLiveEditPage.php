@@ -82,7 +82,7 @@ class AdminLiveEditPage extends Page
 
         return Action::make('addContentAction')
             ->form([
-                \Filament\Forms\Components\View::make('microweber-live-edit::add-content-modal')
+                \Filament\Schemas\Components\View::make('microweber-live-edit::add-content-modal')
                     ->viewData([
                         'actions' => $actions
                     ])
@@ -169,7 +169,7 @@ class AdminLiveEditPage extends Page
                                     $url = $resourceClass::getUrl();
                                     if ($url) {
                                         return [
-                                            \Filament\Forms\Components\View::make('microweber-live-edit::module-settings-iframe')
+                                            \Filament\Schemas\Components\View::make('microweber-live-edit::module-settings-iframe')
                                                 ->viewData([
                                                     'iframeUrl' => $url,
                                                     'resourceClass' => $resourceClass,

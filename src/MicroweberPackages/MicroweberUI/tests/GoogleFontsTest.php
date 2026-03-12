@@ -42,7 +42,8 @@ class GoogleFontsTest extends TestCase
         $downloader->addFontUrl("https://{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic");
         $downloader->download();
 
-        $this->assertTrue(is_dir($fontsPath . '/' . $fontFamily));
-        $this->assertTrue(is_file($fontsPath . '/' . $fontFamily . '/font.css'));
+        $fontFamilySlug = str_slug($fontFamily);
+        $this->assertTrue(is_dir($fontsPath . '/' . $fontFamilySlug));
+        $this->assertTrue(is_file($fontsPath . '/' . $fontFamilySlug . '/font.css'));
     }
 }

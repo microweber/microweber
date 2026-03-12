@@ -42,9 +42,9 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
         $migrator = app()->mw_migrator->run(app()->migrator->paths());
 
         $this->actingAsAdmin();
-       // $componentsList = Livewire::getComponentAliases();
-        $componentsList = app(\Livewire\Mechanisms\ComponentRegistry::class);
-        $componentsList = get_class_protected_property_value($componentsList, 'aliases');
+        // Livewire v4 uses Finder instead of ComponentRegistry
+        $finder = app('livewire.finder');
+        $componentsList = get_class_protected_property_value($finder, 'classComponents');
 
 
         $skip = [

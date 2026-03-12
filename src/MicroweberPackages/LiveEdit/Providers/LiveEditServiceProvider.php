@@ -55,13 +55,28 @@ class LiveEditServiceProvider extends ServiceProvider
             return new LiveEditManagerService();
         });
         parent::register();
-        Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
-        Livewire::component('microweber-live-edit::module-items-editor', ModuleSettingsItemsEditorComponent::class);
-        Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
-        Livewire::component('microweber-live-edit::module-items-editor-edit-item', ModuleSettingsItemsEditorEditItemComponent::class);
-        Livewire::component('microweber-live-edit::sidebar-admin', LiveEditSidebarAdminComponent::class);
-        Livewire::component('microweber-live-edit::sidebar-admin-modules-list', LiveEditSidebarAdminModulesListComponent::class);
-        Livewire::component('microweber-live-edit::module-presets-manager', ModulePresetsManager::class);
+
+        // Livewire v4 treats '::' in component names as namespace separators,
+        // so explicitly registered components with '::' names aren't found
+        // during resolution. We register them normally AND add a fallback
+        // resolver so the Finder can locate them.
+        $liveEditComponents = [
+            'microweber-live-edit::module-select-template' => ModuleTemplateSelectComponent::class,
+            'microweber-live-edit::module-items-editor' => ModuleSettingsItemsEditorComponent::class,
+            'microweber-live-edit::module-items-editor-list' => ModuleSettingsItemsEditorListComponent::class,
+            'microweber-live-edit::module-items-editor-edit-item' => ModuleSettingsItemsEditorEditItemComponent::class,
+            'microweber-live-edit::sidebar-admin' => LiveEditSidebarAdminComponent::class,
+            'microweber-live-edit::sidebar-admin-modules-list' => LiveEditSidebarAdminModulesListComponent::class,
+            'microweber-live-edit::module-presets-manager' => ModulePresetsManager::class,
+        ];
+
+        foreach ($liveEditComponents as $name => $class) {
+            Livewire::component($name, $class);
+        }
+
+        Livewire::resolveMissingComponent(function (string $name) use ($liveEditComponents) {
+            return $liveEditComponents[$name] ?? null;
+        });
 
       //  Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
 

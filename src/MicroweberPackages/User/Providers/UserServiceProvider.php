@@ -57,22 +57,32 @@ class UserServiceProvider extends AuthServiceProvider
         View::addNamespace('user', __DIR__ . '/../resources/views');
         View::addNamespace('admin', __DIR__ . '/../resources/views/admin');
 
-        Livewire::component('admin::users-list', UsersList::class);
-        Livewire::component('admin::users.create-profile-information-form', CreateProfileInformationForm::class);
-        Livewire::component('admin::edit-user.update-profile-form', UpdateProfileInformationForm::class);
-        Livewire::component('admin::edit-user.update-status-and-role-form', UpdateStatusAndRoleForm::class);
-        Livewire::component('admin::edit-user.update-password-form', UpdatePasswordForm::class);
-        Livewire::component('admin::edit-user.update-password-without-confirm-form-modal', UpdatePasswordWithoutConfirmFormModal::class);
-        Livewire::component('admin::edit-user.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
-        Livewire::component('admin::edit-user.logout-other-browser-sessions-form', \MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm::class);
-        Livewire::component('admin::edit-user.delete-user-form', DeleteUserForm::class);
-        Livewire::component('admin::edit-user.login-as-user-form', LoginAsUserForm::class);
+        // Livewire v4 treats '::' as namespace separators in the Finder,
+        // so we register a fallback resolver for components with '::' names.
+        $userComponents = [
+            'admin::users-list' => UsersList::class,
+            'admin::users.create-profile-information-form' => CreateProfileInformationForm::class,
+            'admin::edit-user.update-profile-form' => UpdateProfileInformationForm::class,
+            'admin::edit-user.update-status-and-role-form' => UpdateStatusAndRoleForm::class,
+            'admin::edit-user.update-password-form' => UpdatePasswordForm::class,
+            'admin::edit-user.update-password-without-confirm-form-modal' => UpdatePasswordWithoutConfirmFormModal::class,
+            'admin::edit-user.two-factor-authentication-form' => \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class,
+            'admin::edit-user.logout-other-browser-sessions-form' => \MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm::class,
+            'admin::edit-user.delete-user-form' => DeleteUserForm::class,
+            'admin::edit-user.login-as-user-form' => LoginAsUserForm::class,
+            'admin::user-tos-log' => UserTosLogModal::class,
+            'admin::user-login-attempts' => UserLoginAttemptsModal::class,
+            'user::profile.two-factor-authentication-form' => TwoFactorAuthenticationForm::class,
+            'user::profile.logout-other-browser-sessions-form' => LogoutOtherBrowserSessionsForm::class,
+        ];
 
-        Livewire::component('admin::user-tos-log', UserTosLogModal::class);
-        Livewire::component('admin::user-login-attempts', UserLoginAttemptsModal::class);
+        foreach ($userComponents as $name => $class) {
+            Livewire::component($name, $class);
+        }
 
-        Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
-        Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
+        Livewire::resolveMissingComponent(function (string $name) use ($userComponents) {
+            return $userComponents[$name] ?? null;
+        });
 
 
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);

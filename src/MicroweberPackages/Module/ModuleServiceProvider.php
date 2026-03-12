@@ -112,28 +112,39 @@ class ModuleServiceProvider extends ServiceProvider
 
     public function registerLivewireComponents()
     {
-        Livewire::component('microweber-option::text', TextOption::class);
-        Livewire::component('microweber-option::hidden', HiddenOption::class);
-        Livewire::component('microweber-option::numeric', NumericOption::class);
-        Livewire::component('microweber-option::textarea', TextareaOption::class);
-        Livewire::component('microweber-option::simple-text-editor', SimpleTextEditorOption::class);
-        Livewire::component('microweber-option::file-picker', FilePickerOption::class);
-        Livewire::component('microweber-option::font-picker', FontPickerOption::class);
-        Livewire::component('microweber-option::media-picker', MediaPickerOption::class);
-        Livewire::component('microweber-option::icon-picker', IconPickerOption::class);
-        Livewire::component('microweber-option::link-picker', LinkPickerOption::class);
-        Livewire::component('microweber-option::range-slider', RangeSliderOption::class);
-        Livewire::component('microweber-option::dropdown', DropdownOption::class);
-        Livewire::component('microweber-option::color-picker', ColorPickerOption::class);
-        Livewire::component('microweber-option::radio', RadioOption::class);
-        Livewire::component('microweber-option::toggle', ToggleOption::class);
-        Livewire::component('microweber-option::toggle-reversed', ToggleReversedOption::class);
-        Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
-        Livewire::component('microweber-option::checkbox', CheckboxOption::class);
-        Livewire::component('microweber-option::checkbox-single', CheckboxSingleOption::class);
+        // Livewire v4 treats '::' as namespace separators in the Finder,
+        // so we register a fallback resolver for components with '::' names.
+        $optionComponents = [
+            'microweber-option::text' => TextOption::class,
+            'microweber-option::hidden' => HiddenOption::class,
+            'microweber-option::numeric' => NumericOption::class,
+            'microweber-option::textarea' => TextareaOption::class,
+            'microweber-option::simple-text-editor' => SimpleTextEditorOption::class,
+            'microweber-option::file-picker' => FilePickerOption::class,
+            'microweber-option::font-picker' => FontPickerOption::class,
+            'microweber-option::media-picker' => MediaPickerOption::class,
+            'microweber-option::icon-picker' => IconPickerOption::class,
+            'microweber-option::link-picker' => LinkPickerOption::class,
+            'microweber-option::range-slider' => RangeSliderOption::class,
+            'microweber-option::dropdown' => DropdownOption::class,
+            'microweber-option::color-picker' => ColorPickerOption::class,
+            'microweber-option::radio' => RadioOption::class,
+            'microweber-option::toggle' => ToggleOption::class,
+            'microweber-option::toggle-reversed' => ToggleReversedOption::class,
+            'microweber-option::radio-modern' => RadioModernOption::class,
+            'microweber-option::checkbox' => CheckboxOption::class,
+            'microweber-option::checkbox-single' => CheckboxSingleOption::class,
+            'microweber-option::select-page' => SelectPageOption::class,
+            'microweber-option::select-tags' => SelectTagsOption::class,
+        ];
 
-        Livewire::component('microweber-option::select-page', SelectPageOption::class);
-        Livewire::component('microweber-option::select-tags', SelectTagsOption::class);
+        foreach ($optionComponents as $name => $class) {
+            Livewire::component($name, $class);
+        }
+
+        Livewire::resolveMissingComponent(function (string $name) use ($optionComponents) {
+            return $optionComponents[$name] ?? null;
+        });
     }
 
     public function registerMenu(){

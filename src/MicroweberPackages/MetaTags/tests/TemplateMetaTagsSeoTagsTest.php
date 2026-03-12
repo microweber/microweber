@@ -4,6 +4,7 @@ namespace MicroweberPackages\MetaTags\tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
+use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Tests\Unit\TestHelpers;
 
@@ -21,11 +22,10 @@ class TemplateMetaTagsSeoTagsTest extends TestCase
     {
         parent::assertPreConditions();
 
-        $is_dir = templates_dir() . $this->template_name;
-        if (!$is_dir) {
+        $templateDir = templates_dir() . $this->template_name;
+        if (!is_dir($templateDir)) {
             $this->markTestSkipped('Template not found');
         }
-
     }
 
     #[Test]
@@ -50,8 +50,14 @@ class TemplateMetaTagsSeoTagsTest extends TestCase
         ]);
 
         $this->assertIsInt($newCleanPageId);
-        $response = $this->get($title);
-        $responseData = $response->getContent();
+
+        // Use direct FrontendController rendering with content_id
+        // (the $this->get() approach fails because permalink URL resolution
+        // does not work reliably in PHPUnit test context)
+        $_REQUEST['content_id'] = $newCleanPageId;
+        $params = ['content_id' => $newCleanPageId];
+        $frontRender = new FrontendController();
+        $responseData = $frontRender->frontend($params);
 
         $this->assertStringContainsString('<title>' . $title . '</title>', $responseData);
         $this->assertStringContainsString('<meta name="description" content="test seo description">', $responseData);

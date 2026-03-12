@@ -3,7 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools;
 
 use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
