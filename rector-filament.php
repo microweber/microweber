@@ -23,15 +23,14 @@ use Dev\Rector\Filament\Rector\FixLivewireEventDispatchRector;
 
 /**
  * Rector configuration for Filament v3 to v5 migration.
- * 
+ *
  * This configuration file includes custom Rector rules specifically designed
  * for migrating Microweber modules from Filament v3 to Filament v5.
- * 
+ *
  * Usage:
- *   vendor/bin/rector process --config=rector-filament.php
- * 
- * Or with dry-run:
  *   vendor/bin/rector process --config=rector-filament.php --dry-run
+ *   vendor/bin/rector process --config=rector-filament.php
+ *   vendor/bin/rector process --config=rector-filament.php Modules/Billing
  */
 
 return RectorConfig::configure()
@@ -45,8 +44,19 @@ return RectorConfig::configure()
         __DIR__ . '/node_modules',
         __DIR__ . '/bootstrap/cache',
         __DIR__ . '/storage',
+        __DIR__ . '/build',
         __DIR__ . '/dev',
+        // Skip non-Filament files for faster targeted processing
+        '*/resources/views/*',
+        '*/database/migrations/*',
+        '*/database/seeders/*',
     ])
+    ->withCache(__DIR__ . '/build/rector-cache')
+    ->withParallel(
+        timeoutSeconds: 300,
+        maxNumberOfProcess: 4,
+        jobSize: 20,
+    )
     ->withPhpSets(php83: true)
     ->withRules([
         // Filament v5 specific rules

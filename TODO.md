@@ -432,7 +432,12 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Updated `matrix-tests.yml`: added separate Pest test step with pest.xml config for Unit/Feature suites
   - Added `composer test-pest` script for running Pest locally
   - Pest 3.8.5 discovers 1164 tests via phpunit.xml and 1063 tests via pest.xml Unit/Feature suites
-- [ ] chore: optimize Rector configuration to prevent timeout on large codebase
+- [x] 2026-03-12 chore: optimize Rector configuration to prevent timeout on large codebase
+  - Enabled parallel processing (4 workers, 300s timeout, 20 files/job) in both `rector.php` and `rector-filament.php`
+  - Added file-based caching at `build/rector-cache/` for faster subsequent runs
+  - Excluded non-PHP directories from processing: Blade views, migrations, seeders, build/
+  - Added `build/rector-cache/` to `.gitignore`
+  - Both configs verified working with dry-run
 - [ ] feat: add test route auto-registration for module tests to fix route failures
 
 ### 3. Documentation

@@ -133,8 +133,9 @@ Templates/Fitpower2/
 /Templates
 /photographer2
 
-# Static analysis build artifacts
+# Static analysis and refactoring build artifacts
 /build/phpstan/cache/
+/build/rector-cache/
 /build/*.txt
 phpunit-coverage.xml
 127.0.0.1-journal
