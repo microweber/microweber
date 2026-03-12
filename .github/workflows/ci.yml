@@ -1,4 +1,4 @@
-name: PHP Unit Tests
+name: PHP Tests (Pest + PHPUnit)
 on:
   push:
 
@@ -59,8 +59,10 @@ jobs:
 
     - name: List all artisan commands
       run: php artisan list
-    - name: Run PHPUnit
-      run: php artisan test
+    - name: Run Tests (Pest + PHPUnit)
+      run: vendor/bin/pest --configuration phpunit.xml
+    - name: Run Pest Module Suites
+      run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v4

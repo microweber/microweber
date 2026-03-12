@@ -118,8 +118,11 @@ jobs:
           php artisan key:generate --ansi
           touch database/database.sqlite
 
-      - name: Run PHPUnit Tests
-        run: php artisan test --parallel --coverage-text --min-coverage=0
+      - name: Run Tests (Pest + PHPUnit)
+        run: vendor/bin/pest --configuration phpunit.xml
+
+      - name: Run Pest Module Suites
+        run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0
 
       - name: Run Static Analysis (PHPStan)
         run: |

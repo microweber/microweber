@@ -427,7 +427,11 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Active workflows: setup-php action, coveralls.yml (2 jobs), codecov.yml, dusk.yml, ci.yml, build-and-upload-unstable.yml
   - Disabled workflows: coveralls_phpunit.yml.disabled, ci_symlink.yml.disabled, visual-tests.yml.disabled
   - matrix-tests.yml already used the correct syntax
-- [ ] chore: add Pest test runner to CI workflow alongside PHPUnit
+- [x] 2026-03-12 chore: add Pest test runner to CI workflow alongside PHPUnit
+  - Updated `ci.yml`: replaced `php artisan test` with explicit `vendor/bin/pest` using both phpunit.xml and pest.xml configs
+  - Updated `matrix-tests.yml`: added separate Pest test step with pest.xml config for Unit/Feature suites
+  - Added `composer test-pest` script for running Pest locally
+  - Pest 3.8.5 discovers 1164 tests via phpunit.xml and 1063 tests via pest.xml Unit/Feature suites
 - [ ] chore: optimize Rector configuration to prevent timeout on large codebase
 - [ ] feat: add test route auto-registration for module tests to fix route failures
 
