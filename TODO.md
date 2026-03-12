@@ -456,10 +456,27 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 ### 4. Code Quality & Static Analysis
 
-- [ ] chore: install Larastan for better Laravel Eloquent support in PHPStan
-- [ ] test: add unit tests for SSL-verified HTTP client requests
+- [x] 2026-03-12 chore: install Larastan for better Laravel Eloquent support in PHPStan
+  - Already installed as part of "fix: address critical PHPStan errors" task
+  - Larastan v3.9.3 in require-dev, extension.neon included in phpstan.neon.dist
+  - Level 5 analysis configured with paths: app, src, Modules, tests
+  - Eloquent magic methods now recognized; ignores configured for deprecated methods, Blade variables, view-strings
+- [x] 2026-03-12 test: add unit tests for SSL-verified HTTP client requests
+  - Created `src/MicroweberPackages/Utils/Http/Tests/SslVerificationTest.php` (11 tests, 40 assertions)
+    - Verifies Guzzle GET/POST/download use `verify => true`
+    - Verifies Curl execute/setHeaders use `CURLOPT_SSL_VERIFYPEER = true` and `CURLOPT_SSL_VERIFYHOST = 2`
+    - Verifies CA certificate bundle exists and is referenced
+    - Verifies protocol restrictions (HTTP/HTTPS only)
+  - Created `Modules/Ai/tests/Drivers/SslVerificationTest.php` (10 tests, 31 assertions)
+    - Verifies FalAiDriver fetchImageContent/makeRequest use SSL verification
+    - Verifies ReplicateAiDriver fetchImageContent/makeRequest use SSL verification
+    - Verifies both drivers default to HTTPS endpoints
+    - Verifies endpoint trailing slash stripping
 - [ ] test: add tests for module route registration in test environment
-- [ ] chore: configure PHPStan to ignore Eloquent magic methods via Larastan
+- [x] 2026-03-12 chore: configure PHPStan to ignore Eloquent magic methods via Larastan
+  - Larastan extension auto-handles Eloquent magic properties/methods/scopes
+  - Additional ignores: deprecated methods, Blade template variables, module view-string types
+  - reportUnmatchedIgnoredErrors set to false for flexibility
 
 ### 5. Performance & Optimization
 
