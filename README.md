@@ -2,7 +2,7 @@
 
 ![Microweber Logo](https://microweber.com/cdn/images/microweber-logo.png)
 
-**Current version: 2.0 running on Laravel 10!**
+**Current version: 2.0 running on Laravel 11!**
 
 [Download Microweber](https://microweber.com/download.php) | [What is Microweber?](#what-is-microweber) | [Core Features](#core-features) | [System Requirements](#system-requirements) | [Installation](#installation) | [Getting Started](#getting-started) | [Contribute](#contribute)
 
@@ -64,7 +64,7 @@ To run Microweber, you need the following components:
 
 - HTTP server
 - Database server
-- PHP >= 8.2
+- PHP >= 8.3
     - `lib-xml` with DOM support
     - `GD` PHP extension
     - `intl` PHP extension
@@ -75,8 +75,6 @@ To run Microweber, you need the following components:
     - `mbstring` PHP extension
     - `bcmath` PHP extension
     - `zip` PHP extension
-    - `openssl` PHP extension
-    - `bcmath` PHP extension
     - `fileinfo` PHP extension
     - `pdo_sqlite` PHP extension
     - `pdo_mysql` PHP extension
@@ -84,7 +82,7 @@ To run Microweber, you need the following components:
 ### PHP installation command
 
 ```bash
-sudo apt install php8.2-{bcmath,bz2,curl,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
+sudo apt install php8.3-{bcmath,bz2,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
 ```
 
 
