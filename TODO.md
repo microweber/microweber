@@ -452,7 +452,7 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 - [x] 2026-03-12 docs: update README.md to reflect Laravel 11 (currently says Laravel 10)
 - [x] 2026-03-12 docs: document Pest testing workflow in docs/testing/module-testing-guide.md
 - [x] 2026-03-12 docs: add troubleshooting section for common Filament v5 migration issues
-- [ ] docs: update CONTRIBUTING.md with new testing standards
+- [x] 2026-03-12 docs: update CONTRIBUTING.md with new testing standards
 
 ### 4. Code Quality & Static Analysis
 
