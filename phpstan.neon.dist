@@ -18,6 +18,10 @@ parameters:
         - resources/views(?)
         - '**/Pest.php'
     tmpDir: build/phpstan
+    resultCachePath: build/phpstan/resultCache.php
+    parallel:
+        maximumNumberOfProcesses: 4
+        processTimeout: 300.0
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Filament v5 migration allowances

@@ -495,7 +495,11 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Worker count auto-detects available cores via `nproc`, overridable with `RECTOR_WORKERS` env var
   - Added additional skip patterns: `resources/dist/*`, `public/build/*` (compiled assets)
   - Both configs verified working with dry-run
-- [ ] perf: add file caching to PHPStan analysis for faster subsequent runs
+- [x] 2026-03-12 perf: add file caching to PHPStan analysis for faster subsequent runs
+  - Added explicit `resultCachePath` in `phpstan.neon.dist` pointing to `build/phpstan/resultCache.php`
+  - Enabled parallel processing (4 workers, 300s timeout) for faster analysis
+  - Added PHPStan cache step in `matrix-tests.yml` CI workflow (keyed by PHP version + config hash)
+  - Updated `.gitignore` to cover entire `build/phpstan/` directory (was only `build/phpstan/cache/`)
 - [ ] refactor: extract duplicated SSL configuration into shared HTTP client factory
 - [ ] perf: cache composer dependencies more aggressively in CI workflow
 

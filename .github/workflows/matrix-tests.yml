@@ -124,6 +124,14 @@ jobs:
       - name: Run Pest Module Suites
         run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0
 
+      - name: Cache PHPStan results
+        uses: actions/cache@v4
+        with:
+          path: build/phpstan
+          key: phpstan-php${{ matrix.php }}-${{ hashFiles('phpstan.neon.dist', 'composer.lock') }}
+          restore-keys: |
+            phpstan-php${{ matrix.php }}-
+
       - name: Run Static Analysis (PHPStan)
         run: |
           if [ -f "phpstan.neon.dist" ] || [ -f "phpstan.neon" ]; then
