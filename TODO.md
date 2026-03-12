@@ -438,7 +438,14 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Excluded non-PHP directories from processing: Blade views, migrations, seeders, build/
   - Added `build/rector-cache/` to `.gitignore`
   - Both configs verified working with dry-run
-- [ ] feat: add test route auto-registration for module tests to fix route failures
+- [x] 2026-03-12 feat: add test route auto-registration for module tests to fix route failures
+  - Enhanced `InteractsWithFilamentPanel` trait with `actingAsAdmin()` and `actingAsUser()` convenience methods
+  - These methods ensure the Filament panel is set as current after authentication, making routes available
+  - Added `$filamentPanelId` property to track panel across method calls
+  - Removed duplicate `actingAsAdmin()`/`actingAsUser()` from `FilamentResourceTestCase` and `AuthorizationTest` (now provided by trait)
+  - Fixed `AgentChatResourceAuthorizationTest` — removed auto-login in setUp to allow guest/non-admin tests
+  - All 68+ module Filament test files now use `InteractsWithFilamentPanel` trait for consistent route setup
+  - Tests verified: BackupResourceTest (6/6), AuthorizationTests (10/10), FilamentResourceTestCaseExample (3/3), BillingWidgets (16/17)
 
 ### 3. Documentation
 

@@ -11,6 +11,7 @@ use Modules\Ai\Filament\Resources\AgentChatResource\Pages\CreateAgentChat;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages\EditAgentChat;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages\ViewAgentChat;
 use Modules\Ai\Models\AgentChat;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -19,39 +20,7 @@ use PHPUnit\Framework\Attributes\Test;
  */
 class AgentChatResourceAuthorizationTest extends TestCase
 {
-    /**
-     * Authenticate as an admin user.
-     *
-     * @return User
-     */
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        return $user;
-    }
-
-    /**
-     * Authenticate as a non-admin user.
-     *
-     * @return User
-     */
-    protected function actingAsUser(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 0,
-        ]);
-
-        $this->actingAs($user);
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        return $user;
-    }
+    use InteractsWithFilamentPanel;
 
     /**
      * Test that non-admin users cannot access AgentChat resource.

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
 /**
@@ -11,10 +11,14 @@ use Tests\TestCase;
  *
  * Provides common assertions and helper methods for testing Filament resources
  * including authentication, form interactions, and table operations.
+ *
+ * The InteractsWithFilamentPanel trait ensures the Filament admin panel is
+ * properly configured with all module routes registered during tests.
  */
 abstract class FilamentResourceTestCase extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     /**
      * The resource class being tested.
@@ -24,36 +28,10 @@ abstract class FilamentResourceTestCase extends TestCase
      */
     abstract protected function getResourceClass(): string;
 
-    /**
-     * Authenticate as an admin user.
-     *
-     * @return User
-     */
-    protected function actingAsAdmin(): User
+    protected function setUp(): void
     {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
-    }
-
-    /**
-     * Authenticate as a non-admin user.
-     *
-     * @return User
-     */
-    protected function actingAsUser(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 0,
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
+        parent::setUp();
+        $this->setUpFilamentPanel();
     }
 
     /**

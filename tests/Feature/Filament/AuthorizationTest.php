@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -20,6 +21,7 @@ use PHPUnit\Framework\Attributes\Test;
 abstract class AuthorizationTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     /**
      * Get the resource class being tested.
@@ -103,41 +105,6 @@ abstract class AuthorizationTest extends TestCase
     protected function getUserForeignKey(): string
     {
         return 'user_id';
-    }
-
-    /**
-     * Authenticate as an admin user.
-     *
-     * @return User
-     */
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        return $user;
-    }
-
-    /**
-     * Authenticate as a non-admin user.
-     *
-     * @param array $attributes
-     * @return User
-     */
-    protected function actingAsUser(array $attributes = []): User
-    {
-        $user = User::factory()->create(array_merge([
-            'is_admin' => 0,
-        ], $attributes));
-
-        $this->actingAs($user);
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        return $user;
     }
 
     /**
