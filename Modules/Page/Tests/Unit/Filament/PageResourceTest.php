@@ -2,7 +2,6 @@
 
 namespace Modules\Page\Tests\Unit\Filament;
 
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Page\Filament\Resources\PageResource;
@@ -10,26 +9,19 @@ use Modules\Page\Filament\Resources\PageResource\Pages\ListPages;
 use Modules\Page\Filament\Resources\PageResource\Pages\CreatePage;
 use Modules\Page\Filament\Resources\PageResource\Pages\EditPage;
 use Modules\Page\Models\Page;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class PageResourceTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAsAdmin();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create(['is_admin' => 1]);
-        $this->actingAs($user);
-        return $user;
+        $this->setUpFilamentPanel();
     }
 
     #[Test]

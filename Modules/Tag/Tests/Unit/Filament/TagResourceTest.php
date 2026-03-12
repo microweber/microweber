@@ -2,7 +2,6 @@
 
 namespace Modules\Tag\Tests\Unit\Filament;
 
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tag\Filament\Resources\TagResource;
@@ -10,26 +9,19 @@ use Modules\Tag\Filament\Resources\TagResource\Pages\ListTags;
 use Modules\Tag\Filament\Resources\TagResource\Pages\CreateTag;
 use Modules\Tag\Filament\Resources\TagResource\Pages\EditTag;
 use Modules\Tag\Models\Tag;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class TagResourceTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAsAdmin();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create(['is_admin' => 1]);
-        $this->actingAs($user);
-        return $user;
+        $this->setUpFilamentPanel();
     }
 
     #[Test]

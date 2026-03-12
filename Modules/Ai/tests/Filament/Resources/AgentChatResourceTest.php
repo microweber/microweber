@@ -3,7 +3,6 @@
 namespace Modules\Ai\Tests\Filament\Resources;
 
 use Livewire\Livewire;
-use MicroweberPackages\User\Models\User;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages\CreateAgentChat;
 use Modules\Ai\Filament\Resources\AgentChatResource\Pages\EditAgentChat;
@@ -12,27 +11,20 @@ use Modules\Ai\Filament\Resources\AgentChatResource\Pages\ViewAgentChat;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
 class AgentChatResourceTest extends TestCase
 {
+    use InteractsWithFilamentPanel;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->setUpFilamentPanel();
 
         // Ensure AI module is enabled for tests
         config(['modules.ai.enabled' => true]);
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
     }
 
     protected function getResourceClass(): string

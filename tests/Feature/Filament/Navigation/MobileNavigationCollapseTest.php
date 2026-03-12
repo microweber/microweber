@@ -5,8 +5,8 @@ namespace Tests\Feature\Filament\Navigation;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
 /**
@@ -20,23 +20,7 @@ use Tests\TestCase;
 class MobileNavigationCollapseTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Create and authenticate as admin user.
-     *
-     * @return User
-     */
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        return $user;
-    }
+    use InteractsWithFilamentPanel;
 
     /**
      * Test that the admin panel has navigation configuration.

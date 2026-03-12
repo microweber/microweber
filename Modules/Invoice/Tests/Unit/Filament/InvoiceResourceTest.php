@@ -2,7 +2,6 @@
 
 namespace Modules\Invoice\Tests\Unit\Filament;
 
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Invoice\Filament\Resources\InvoiceResource;
@@ -11,30 +10,19 @@ use Modules\Invoice\Filament\Resources\InvoiceResource\Pages\EditInvoice;
 use Modules\Invoice\Filament\Resources\InvoiceResource\Pages\ListInvoices;
 use Modules\Invoice\Models\Invoice;
 use Modules\Customer\Models\Customer;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class InvoiceResourceTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAsAdmin();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
+        $this->setUpFilamentPanel();
     }
 
     protected function getResourceClass(): string

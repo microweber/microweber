@@ -516,7 +516,7 @@ Group::make()
 public static function getEloquentQuery(): Builder
 {
 return parent::getEloquentQuery()
-->with(['customer', 'items', 'payments']);
+->with(['customer', 'cart', 'payments']);
 }
 
     /**

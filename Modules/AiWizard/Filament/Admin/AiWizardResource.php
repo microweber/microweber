@@ -85,8 +85,8 @@ class AiWizardResource extends Resource
                     ->description('Choose the layouts you want to use for your page')
                     ->schema(
                         collect($groupedLayouts)->map(function ($layouts, $category) {
-                            return Forms\Components\Group::make()
-                                ->label(ucfirst($category))
+                            return Section::make(ucfirst($category))
+                                ->compact()
                                 ->schema([
                                     Forms\Components\CheckboxList::make("layouts.{$category}")
                                         ->label('')

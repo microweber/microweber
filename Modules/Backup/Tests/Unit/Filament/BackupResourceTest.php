@@ -2,19 +2,19 @@
 
 namespace Modules\Backup\Tests\Unit\Filament;
 
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Modules\Backup\Filament\Resources\BackupResource\Pages\ListBackups;
 use Modules\Backup\Models\Backup;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class BackupResourceTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
@@ -35,15 +35,7 @@ class BackupResourceTest extends TestCase
             }
         }
 
-        $this->actingAsAdmin();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create(['is_admin' => 1]);
-        $this->actingAs($user);
-        return $user;
+        $this->setUpFilamentPanel();
     }
 
     #[Test]

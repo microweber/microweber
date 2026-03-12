@@ -3,6 +3,7 @@ config/*
 vendor/*
 clover.xml
 public/vendor/*
+build/*
 config/database.php
 config/app.php
 config/debugbar.php
@@ -145,3 +146,5 @@ phpunit-coverage.xml
 /.vscode
 /.vscode
 /.vscode
+/build/phpstan
+/build

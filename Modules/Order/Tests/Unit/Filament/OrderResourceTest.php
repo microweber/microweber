@@ -2,7 +2,6 @@
 
 namespace Modules\Order\Tests\Unit\Filament;
 
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
@@ -12,31 +11,19 @@ use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\EditOrder;
 use Modules\Order\Models\Order;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Customer\Models\Customer;
-use Modules\Product\Models\Product;
-use MicroweberPackages\User\Models\User;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class OrderResourceTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAsAdmin();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-    }
-
-    protected function actingAsAdmin(): User
-    {
-        $user = User::factory()->create([
-            'is_admin' => 1,
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
+        $this->setUpFilamentPanel();
     }
 
     protected function getResourceClass(): string
@@ -239,7 +226,10 @@ class OrderResourceTest extends TestCase
     public function it_can_add_order_items_via_repeater(): void
     {
         $customer = Customer::factory()->create();
-        $product = Product::factory()->create(['price' => 50.00]);
+        $product = \Modules\Content\Models\Content::factory()->create([
+            'content_type' => 'product',
+            'price' => 50.00,
+        ]);
 
         Livewire::test(CreateOrder::class)
             ->fillForm([
@@ -249,7 +239,7 @@ class OrderResourceTest extends TestCase
                 'cart' => [
                     [
                         'rel_id' => $product->id,
-                        'rel_type' => 'Modules\Product\Models\Product',
+                        'rel_type' => morph_name(\Modules\Product\Models\Product::class),
                         'qty' => 2,
                         'price' => 50.00,
                     ],
