@@ -3,7 +3,7 @@
 namespace Modules\Faq\Filament;
 
 use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Faq\Models\Faq;

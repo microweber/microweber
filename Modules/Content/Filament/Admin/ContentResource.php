@@ -4,7 +4,7 @@ namespace Modules\Content\Filament\Admin;
 
 use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;

@@ -9,6 +9,18 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
+/**
+ * @property int $id
+ * @property string|null $title
+ * @property string|null $icon
+ * @property string|null $content
+ * @property int|null $position
+ * @property string|null $rel_id
+ * @property string|null $rel_type
+ * @property array|null $settings
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class Accordion extends Model
 {
     use HasMultilanguageTrait;

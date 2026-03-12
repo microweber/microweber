@@ -2,7 +2,7 @@
 
 namespace Modules\ContactForm\Filament;
 
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;

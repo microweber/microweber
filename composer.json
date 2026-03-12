@@ -156,7 +156,8 @@
 "spatie/ignition": "1.15.0",
 "mockery/mockery": "^1.6",
 "staudenmeir/dusk-updater": "^1.5",
-"filament/upgrade": "^5.0"
+"filament/upgrade": "^5.0",
+        "larastan/larastan": "^3.9"
 },
     "autoload": {
         "psr-4": {

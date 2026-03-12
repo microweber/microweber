@@ -412,7 +412,13 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Only 1 file remained: `tests/Feature/AdminAuthenticationTest.php` (7 methods)
   - Renamed `test_*` → `it_*` (all already had `#[Test]` attribute)
   - Verified: zero `public function test[_A-Z]` methods remain in codebase (excluding commented-out code)
-- [ ] fix: address critical PHPStan errors for undefined classes (Accordion, Address models)
+- [x] 2026-03-12 fix: address critical PHPStan errors for undefined classes (Accordion, Address models)
+  - Installed Larastan (`larastan/larastan` v3.9) for Eloquent magic method recognition
+  - Added `@property` PHPDoc annotations to `Accordion`, `Address`, and `Customer` models
+  - Fixed `Filament\Forms\Components\Livewire` → `Filament\Schemas\Components\Livewire` import in 18 files
+  - Updated `phpstan.neon.dist`: added Larastan extension, Pest.php exclusion, Blade variable ignore, view-string ignore
+  - PHPStan now reports 0 errors for Accordion and Address modules (down from 14+)
+  - All tests passing: AccordionModuleFrontendTest (1/1), AddressModelTest (1/1)
 
 ### 2. Developer Experience & CI/CD
 

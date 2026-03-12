@@ -2,7 +2,7 @@
 
 namespace Modules\Menu\Filament;
 
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;

@@ -2,7 +2,7 @@
 
 namespace Modules\Breadcrumb\Filament;
 
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;

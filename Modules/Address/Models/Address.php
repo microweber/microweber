@@ -6,6 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Customer\Models\Customer;
 
+/**
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $address_street_1
+ * @property string|null $address_street_2
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $country
+ * @property int|null $country_id
+ * @property string|null $zip
+ * @property string|null $phone
+ * @property string|null $type
+ * @property string|null $rel_type
+ * @property string|null $rel_id
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Modules\Customer\Models\Customer|null $customer
+ * @property-read \Modules\Country\Models\Country|null $country
+ */
 class Address extends Model
 {
     use CacheableQueryBuilderTrait;

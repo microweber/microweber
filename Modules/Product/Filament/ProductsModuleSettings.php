@@ -3,7 +3,7 @@
 namespace Modules\Product\Filament;
 
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Livewire;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;

@@ -14,6 +14,33 @@ use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 use Modules\Order\Models\Order;
 
+/**
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $phone
+ * @property string|null $email
+ * @property string $status
+ * @property array|null $customer_data
+ * @property int|null $user_id
+ * @property int|null $currency_id
+ * @property string|null $currency
+ * @property int|null $company_id
+ * @property string|null $stripe_id
+ * @property string|null $pm_type
+ * @property string|null $pm_last_four
+ * @property \Illuminate\Support\Carbon|null $trial_ends_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Address\Models\Address> $addresses
+ * @property-read \Modules\Address\Models\Address|null $billingAddress
+ * @property-read \Modules\Address\Models\Address|null $shippingAddress
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Order\Models\Order> $orders
+ * @property-read \MicroweberPackages\User\Models\User|null $user
+ * @property-read \Modules\Company\Models\Company|null $company
+ * @property-read \Modules\Currency\Models\Currency|null $currency_relation
+ */
 class Customer extends Model
 {
     use HasFactory;
