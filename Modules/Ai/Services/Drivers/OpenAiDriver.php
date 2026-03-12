@@ -2,9 +2,10 @@
 
 namespace Modules\Ai\Services\Drivers;
 
+use Illuminate\Support\Facades\Cache;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 use OpenAI\Client;
 use OpenAI\Factory;
-use Illuminate\Support\Facades\Cache;
 
 class OpenAiDriver extends BaseDriver
 {
@@ -54,7 +55,7 @@ class OpenAiDriver extends BaseDriver
         $this->client = (new Factory)->withApiKey(
             $config['api_key'] ?? env('OPENAI_API_KEY')
         )
-            ->withHttpClient($client = new \GuzzleHttp\Client(['timeout' => 600]))
+            ->withHttpClient(HttpClientFactory::guzzle(['timeout' => 600]))
             ->make();
     }
 

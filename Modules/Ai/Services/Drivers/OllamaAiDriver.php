@@ -4,6 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 
 class OllamaAiDriver extends BaseDriver
 {
@@ -179,33 +180,11 @@ class OllamaAiDriver extends BaseDriver
      */
     protected function makeRequest(array $data): array
     {
-        $ch = curl_init($this->apiUrl);
-
-        $headers = [
-            'Content-Type: application/json',
-        ];
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $ch = HttpClientFactory::curl($this->apiUrl, 300);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_TIMEOUT, 300);
 
-        $result = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($ch)) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            throw new \Exception("cURL Error: $error");
-        }
-
-        curl_close($ch);
-
-        if ($httpCode >= 400) {
-            throw new \Exception("Ollama API returned error code: $httpCode, Response: $result");
-        }
-
-        return json_decode($result, true);
+        return HttpClientFactory::executeCurlJson($ch, 'Ollama API');
     }
 }

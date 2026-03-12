@@ -500,7 +500,15 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Enabled parallel processing (4 workers, 300s timeout) for faster analysis
   - Added PHPStan cache step in `matrix-tests.yml` CI workflow (keyed by PHP version + config hash)
   - Updated `.gitignore` to cover entire `build/phpstan/` directory (was only `build/phpstan/cache/`)
-- [ ] refactor: extract duplicated SSL configuration into shared HTTP client factory
+- [x] 2026-03-12 refactor: extract duplicated SSL configuration into shared HTTP client factory
+  - Created `HttpClientFactory` class at `src/MicroweberPackages/Utils/Http/HttpClientFactory.php`
+  - Methods: `guzzle()`, `curl()`, `applySslOptions()`, `executeCurl()`, `executeCurlJson()`, `fetchContent()`, `caCertPath()`
+  - Updated 6 AI drivers: FalAi, Replicate, Gemini, Ollama, OpenRouter, OpenAi
+  - Updated 2 HTTP adapters: Guzzle, Curl
+  - Fixed GoogleFontDownloader: changed `verify => false` to use factory (security fix)
+  - Updated MicroweberProvider: replaced hardcoded CA cert path with `HttpClientFactory::caCertPath()`
+  - Added 10 unit tests for HttpClientFactory, updated 23 existing SSL verification tests
+  - All 33 SSL/factory tests passing (107 assertions)
 - [ ] perf: cache composer dependencies more aggressively in CI workflow
 
 ### 6. Monitoring & Reporting

@@ -6,94 +6,71 @@ namespace MicroweberPackages\Utils\Http\Tests;
 
 use MicroweberPackages\Utils\Http\Adapters\Curl;
 use MicroweberPackages\Utils\Http\Adapters\Guzzle;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class SslVerificationTest extends TestCase
 {
     #[Test]
-    public function it_guzzle_get_uses_ssl_verification(): void
+    public function it_guzzle_get_uses_factory(): void
     {
         $guzzle = new Guzzle();
 
-        // Use reflection to inspect the get() method source code
         $reflection = new \ReflectionMethod($guzzle, 'get');
-        $filename = $reflection->getFileName();
-        $startLine = $reflection->getStartLine();
-        $endLine = $reflection->getEndLine();
+        $source = $this->getMethodSource($reflection);
 
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
-
-        $this->assertStringContainsString("'verify' => true", $source, 'Guzzle GET must use SSL verification (verify => true)');
+        $this->assertStringContainsString('HttpClientFactory::guzzle', $source, 'Guzzle GET must use HttpClientFactory');
         $this->assertStringNotContainsString("'verify' => false", $source, 'Guzzle GET must not disable SSL verification');
     }
 
     #[Test]
-    public function it_guzzle_post_uses_ssl_verification(): void
+    public function it_guzzle_post_uses_factory(): void
     {
         $guzzle = new Guzzle();
 
         $reflection = new \ReflectionMethod($guzzle, 'post');
-        $filename = $reflection->getFileName();
-        $startLine = $reflection->getStartLine();
-        $endLine = $reflection->getEndLine();
+        $source = $this->getMethodSource($reflection);
 
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
-
-        $this->assertStringContainsString("'verify' => true", $source, 'Guzzle POST must use SSL verification (verify => true)');
+        $this->assertStringContainsString('HttpClientFactory::guzzle', $source, 'Guzzle POST must use HttpClientFactory');
         $this->assertStringNotContainsString("'verify' => false", $source, 'Guzzle POST must not disable SSL verification');
     }
 
     #[Test]
-    public function it_guzzle_download_uses_ssl_verification(): void
+    public function it_guzzle_download_uses_factory_ssl(): void
     {
         $guzzle = new Guzzle();
 
         $reflection = new \ReflectionMethod($guzzle, 'download');
-        $filename = $reflection->getFileName();
-        $startLine = $reflection->getStartLine();
-        $endLine = $reflection->getEndLine();
+        $source = $this->getMethodSource($reflection);
 
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
-
-        $this->assertStringContainsString('CURLOPT_SSL_VERIFYPEER, true', $source, 'Guzzle download must enable CURLOPT_SSL_VERIFYPEER');
+        $this->assertStringContainsString('HttpClientFactory::applySslOptions', $source, 'Guzzle download must use HttpClientFactory::applySslOptions');
         $this->assertStringNotContainsString('CURLOPT_SSL_VERIFYPEER, false', $source, 'Guzzle download must not disable CURLOPT_SSL_VERIFYPEER');
-        $this->assertStringContainsString('CURLOPT_CAINFO', $source, 'Guzzle download must specify a CA certificate bundle');
     }
 
     #[Test]
-    public function it_curl_execute_uses_ssl_verification(): void
+    public function it_curl_execute_uses_factory_ssl(): void
     {
         $curl = new Curl();
 
         $reflection = new \ReflectionMethod($curl, 'execute');
-        $filename = $reflection->getFileName();
-        $startLine = $reflection->getStartLine();
-        $endLine = $reflection->getEndLine();
+        $source = $this->getMethodSource($reflection);
 
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
-
-        $this->assertStringContainsString('CURLOPT_SSL_VERIFYPEER, true', $source, 'Curl execute must enable CURLOPT_SSL_VERIFYPEER');
+        $this->assertStringContainsString('HttpClientFactory::applySslOptions', $source, 'Curl execute must use HttpClientFactory::applySslOptions');
         $this->assertStringNotContainsString('CURLOPT_SSL_VERIFYPEER, false', $source, 'Curl execute must not disable CURLOPT_SSL_VERIFYPEER');
-        $this->assertStringContainsString('CURLOPT_CAINFO', $source, 'Curl execute must specify a CA certificate bundle');
     }
 
     #[Test]
-    public function it_curl_set_headers_uses_ssl_verification(): void
+    public function it_curl_set_headers_uses_factory_ca_cert(): void
     {
         $curl = new Curl();
 
         $reflection = new \ReflectionMethod($curl, 'setHeaders');
-        $filename = $reflection->getFileName();
-        $startLine = $reflection->getStartLine();
-        $endLine = $reflection->getEndLine();
-
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
+        $source = $this->getMethodSource($reflection);
 
         $this->assertStringContainsString('CURLOPT_SSL_VERIFYPEER => true', $source, 'Curl setHeaders must enable CURLOPT_SSL_VERIFYPEER');
-        $this->assertStringNotContainsString('CURLOPT_SSL_VERIFYPEER => false', $source, 'Curl setHeaders must not disable CURLOPT_SSL_VERIFYPEER');
         $this->assertStringContainsString('CURLOPT_SSL_VERIFYHOST => 2', $source, 'Curl setHeaders must set CURLOPT_SSL_VERIFYHOST to 2');
-        $this->assertStringContainsString('CURLOPT_CAINFO', $source, 'Curl setHeaders must specify a CA certificate bundle');
+        $this->assertStringContainsString('HttpClientFactory::caCertPath()', $source, 'Curl setHeaders must use HttpClientFactory for CA cert path');
     }
 
     #[Test]
@@ -102,12 +79,10 @@ class SslVerificationTest extends TestCase
         $curl = new Curl();
         $curl->setUrl('https://example.com');
 
-        // Call setHeaders via reflection to populate the headers array
         $method = new \ReflectionMethod($curl, 'setHeaders');
         $method->setAccessible(true);
         $method->invoke($curl);
 
-        // Read the headers property
         $prop = new \ReflectionProperty($curl, 'headers');
         $prop->setAccessible(true);
         $headers = $prop->getValue($curl);
@@ -137,7 +112,6 @@ class SslVerificationTest extends TestCase
         $prop->setAccessible(true);
         $headers = $prop->getValue($curl);
 
-        // When custom HTTP headers are set, CURLOPT_SSL_VERIFYHOST should still be 2
         $this->assertSame(2, $headers[CURLOPT_SSL_VERIFYHOST], 'CURLOPT_SSL_VERIFYHOST must remain 2 even with custom headers');
         $this->assertTrue($headers[CURLOPT_SSL_VERIFYPEER], 'CURLOPT_SSL_VERIFYPEER must remain true with custom headers');
     }
@@ -145,9 +119,9 @@ class SslVerificationTest extends TestCase
     #[Test]
     public function it_ca_certificate_bundle_exists(): void
     {
-        $certPath = dirname((new \ReflectionClass(Curl::class))->getFileName()) . DIRECTORY_SEPARATOR . 'cacert.pem.txt';
+        $certPath = HttpClientFactory::caCertPath();
 
-        $this->assertFileExists($certPath, 'CA certificate bundle (cacert.pem.txt) must exist in the Adapters directory');
+        $this->assertFileExists($certPath, 'CA certificate bundle must exist');
         $this->assertGreaterThan(0, filesize($certPath), 'CA certificate bundle must not be empty');
     }
 
@@ -166,19 +140,23 @@ class SslVerificationTest extends TestCase
     }
 
     #[Test]
-    public function it_curl_restricts_protocols_to_http_and_https(): void
+    public function it_curl_restricts_protocols_via_factory(): void
     {
-        $curl = new Curl();
+        // Protocol restrictions are now enforced in HttpClientFactory::applySslOptions
+        $reflection = new \ReflectionMethod(HttpClientFactory::class, 'applySslOptions');
+        $source = $this->getMethodSource($reflection);
 
-        $reflection = new \ReflectionMethod($curl, 'execute');
+        $this->assertStringContainsString('CURLOPT_PROTOCOLS', $source, 'Factory must restrict allowed protocols');
+        $this->assertStringContainsString('CURLPROTO_HTTPS', $source, 'Factory must allow HTTPS protocol');
+        $this->assertStringContainsString('CURLPROTO_HTTP', $source, 'Factory must allow HTTP protocol');
+    }
+
+    private function getMethodSource(\ReflectionMethod $reflection): string
+    {
         $filename = $reflection->getFileName();
         $startLine = $reflection->getStartLine();
         $endLine = $reflection->getEndLine();
 
-        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
-
-        $this->assertStringContainsString('CURLOPT_PROTOCOLS', $source, 'Curl must restrict allowed protocols');
-        $this->assertStringContainsString('CURLPROTO_HTTPS', $source, 'Curl must allow HTTPS protocol');
-        $this->assertStringContainsString('CURLPROTO_HTTP', $source, 'Curl must allow HTTP protocol');
+        return implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
     }
 }

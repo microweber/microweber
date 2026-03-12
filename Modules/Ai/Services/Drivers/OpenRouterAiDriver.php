@@ -4,6 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 
 class OpenRouterAiDriver extends BaseDriver
 {
@@ -120,38 +121,19 @@ class OpenRouterAiDriver extends BaseDriver
     {
         $url = $this->apiEndpoint . $endpoint;
 
-        $headers = [
+        $ch = HttpClientFactory::curl($url, 10000);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: Bearer ' . $this->apiKey,
             'HTTP-Referer: ' . config('services.openrouter.referer', 'https://github.com/microweber/microweber'),
             'X-Title: ' . config('services.openrouter.title', 'Microweber'),
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10000);
+        ]);
 
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
 
-        $result = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($ch)) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            throw new \Exception("cURL Error: $error");
-        }
-
-        curl_close($ch);
-        $result = trim($result);
-        if ($httpCode >= 400) {
-            throw new \Exception("API returned error code: $httpCode, Response: $result");
-        }
-
-        return json_decode($result, true);
+        return HttpClientFactory::executeCurlJson($ch, 'OpenRouter API');
     }
 }

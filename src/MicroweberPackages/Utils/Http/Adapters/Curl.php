@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Utils\Http\Adapters;
 
+use MicroweberPackages\Utils\Http\HttpClientFactory;
+
 /**
  * @original_author    Jason Michels https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
  */
@@ -72,7 +74,6 @@ class Curl
 
     public function __construct()
     {
-        //$this->log = new \Logging\Log();
     }
 
     public function setUrl($url)
@@ -199,16 +200,11 @@ class Curl
     {
         if (function_exists('curl_init')) {
             $ch = curl_init();
-            if (is_array($this->headers) != false) {
-            }
 
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
-        curl_setopt($ch, CURLOPT_URL, $this->url);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
-            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
-            curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
+            curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
+            curl_setopt($ch, CURLOPT_URL, $this->url);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+            HttpClientFactory::applySslOptions($ch);
 
             if ($this->timeout != false) {
                 if (function_exists('set_time_limit')) {
@@ -232,7 +228,7 @@ class Curl
                     $fp = fopen($save_to, 'a');
                 } elseif ($save_to != false) {
                     $dl = true;
-                    $fp = fopen($save_to, 'w+'); //This is the file where we save the    information
+                    $fp = fopen($save_to, 'w+');
                 }
 
                 if (isset($fp) and $fp != false) {
@@ -242,10 +238,8 @@ class Curl
                     }
 
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-                    curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+                    curl_setopt($ch, CURLOPT_FILE, $fp);
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
-                    curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
                 }
             }
             if ($dl == false) {
@@ -266,8 +260,7 @@ class Curl
                         $str = array_merge($this->post_data, $this->uploads);
                     }
                     if (is_array($str)) {
-                        // //$str = http_build_query($str);
-                    $str = $this->buildPostString($str);
+                        $str = $this->buildPostString($str);
                     }
 
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
@@ -313,10 +306,8 @@ class Curl
                 CURLOPT_VERBOSE => 1,
                 CURLOPT_SSL_VERIFYPEER => true,
                 CURLOPT_SSL_VERIFYHOST => 2,
-                //CURLOPT_TIMEOUT => 30,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_CAINFO => __DIR__.DS.'cacert.pem.txt',
-
+                CURLOPT_CAINFO => HttpClientFactory::caCertPath(),
             );
 
             if ($type == 'post') {
@@ -326,8 +317,6 @@ class Curl
 
             if (is_array($this->http_headers)) {
                 $this->headers[CURLOPT_HTTPHEADER] = $this->http_headers;
-                //$this->headers[CURLINFO_HEADER_OUT] = TRUE;
-                //$this->headers[CURLOPT_HEADER] = 1;
                 $this->headers[CURLOPT_SSL_VERIFYHOST] = 2;
             }
         }

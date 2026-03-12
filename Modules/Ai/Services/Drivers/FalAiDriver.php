@@ -5,6 +5,7 @@ namespace Modules\Ai\Services\Drivers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 
 class FalAiDriver extends BaseDriver implements AiImageServiceInterface
 {
@@ -311,28 +312,7 @@ class FalAiDriver extends BaseDriver implements AiImageServiceInterface
     protected function fetchImageContent(string $url): string
     {
         try {
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-
-            $imageData = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $error = curl_error($ch);
-
-            curl_close($ch);
-
-            if ($error) {
-                throw new \Exception("cURL Error when downloading image: $error");
-            }
-
-            if ($httpCode >= 400) {
-                throw new \Exception("Error downloading image, HTTP code: $httpCode");
-            }
-
-            return $imageData;
+            return HttpClientFactory::fetchContent($url, 60);
         } catch (\Exception $e) {
             throw new \Exception("Failed to download image: " . $e->getMessage());
         }
@@ -350,51 +330,15 @@ class FalAiDriver extends BaseDriver implements AiImageServiceInterface
     {
         $url = $this->apiEndpoint . '/' . ltrim($endpoint, '/');
 
-        $headers = [
+        $ch = HttpClientFactory::curl($url, $this->timeout);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Key ' . $this->apiKey,
             'Content-Type: application/json',
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        ]);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
-        // Add SSL options for better compatibility
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-
-        $result = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-
-        curl_close($ch);
-
-        if ($error) {
-            throw new \Exception("cURL Error: $error");
-        }
-
-        if ($httpCode >= 400) {
-            $errorMessage = "FAL API returned error code: $httpCode";
-            if ($result) {
-                $errorData = json_decode($result, true);
-                if (isset($errorData['detail'])) {
-                    $errorMessage .= ", Error: " . $errorData['detail'];
-                } else {
-                    $errorMessage .= ", Response: $result";
-                }
-            }
-            throw new \Exception($errorMessage);
-        }
-
-        $decodedResult = json_decode($result, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Failed to decode JSON response: " . json_last_error_msg());
-        }
-
-        return $decodedResult;
+        return HttpClientFactory::executeCurlJson($ch, 'FAL API');
     }
 
     /**

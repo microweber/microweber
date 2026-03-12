@@ -4,6 +4,7 @@ namespace Modules\Ai\Services\Drivers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 use NeuronAI\Chat\Messages\Message;
 
 class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface
@@ -260,41 +261,15 @@ class GeminiAiDriver extends BaseDriver implements AiChatServiceInterface
     {
         $url = $this->apiEndpoint . $endpoint . '?key=' . $this->apiKey;
 
-        $headers = [
-            'Content-Type: application/json'
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        $ch = HttpClientFactory::curl($url, 300);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
 
-        $result = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-
-        curl_close($ch);
-
-        if ($error) {
-            throw new \Exception("cURL Error: $error");
-        }
-
-        if ($httpCode >= 400) {
-            throw new \Exception("Gemini API returned error code: $httpCode, Response: $result");
-        }
-
-        $decodedResult = json_decode($result, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Failed to decode JSON response: " . json_last_error_msg() . ", Raw response: $result");
-        }
-
-        return $decodedResult;
+        return HttpClientFactory::executeCurlJson($ch, 'Gemini API');
     }
 }
 

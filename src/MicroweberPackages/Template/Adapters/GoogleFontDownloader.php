@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Template\Adapters;
 
+use MicroweberPackages\Utils\Http\HttpClientFactory;
+
 class GoogleFontDownloader {
 
     public $outputPath = '';
@@ -84,25 +86,16 @@ class GoogleFontDownloader {
 
     protected function _downloadFile($url) {
 
-        // Set User Agent
-        $userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0';
-        $headers = [
-            'User-Agent' => $userAgent,
-        ];
-
-        $options = [
-            'headers' => $headers,
+        $client = HttpClientFactory::guzzle([
             'timeout' => 30,
-            'verify' => false,
-        ];
-
-        $client = new \GuzzleHttp\Client($options);
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0',
+            ],
+        ]);
 
         $response = $client->request('GET', $url);
-        $getContent = $response->getBody()->getContents();
 
-        return $getContent;
-
+        return $response->getBody()->getContents();
     }
 
 }

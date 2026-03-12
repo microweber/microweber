@@ -4,6 +4,7 @@ namespace MicroweberPackages\User\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use MicroweberPackages\User\Models\SocialiteUser;
+use MicroweberPackages\Utils\Http\HttpClientFactory;
 
 class MicroweberProvider extends AbstractProvider implements ProviderInterface
 {
@@ -67,7 +68,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
             'headers' => ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token],
 
 
-            'verify' => MW_PATH . 'Utils' . DS . 'Adapters' . DS . 'Http' . DS . 'cacert.pem.txt'
+            'verify' => HttpClientFactory::caCertPath()
         ]);
 
 
@@ -159,7 +160,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
                  ],
                'content-type' => 'application/json',
                  'timeout' => 30,
-                 'verify' => MW_PATH . 'Utils' . DS . 'Adapters' . DS . 'Http' . DS . 'cacert.pem.txt'
+                 'verify' => HttpClientFactory::caCertPath()
              ]);
 
              return json_decode((string)$response->getBody(), true);
@@ -206,7 +207,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
                  'api_token' => $token['access_token'],
 
              ],
-             'verify' => MW_PATH . 'Utils' . DS . 'Adapters' . DS . 'Http' . DS . 'cacert.pem.txt'
+             'verify' => HttpClientFactory::caCertPath()
          ]);
          $body = $response->getBody();
 
