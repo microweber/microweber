@@ -509,7 +509,16 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Updated MicroweberProvider: replaced hardcoded CA cert path with `HttpClientFactory::caCertPath()`
   - Added 10 unit tests for HttpClientFactory, updated 23 existing SSL verification tests
   - All 33 SSL/factory tests passing (107 assertions)
-- [ ] perf: cache composer dependencies more aggressively in CI workflow
+- [x] 2026-03-12 perf: cache composer dependencies more aggressively in CI workflow
+  - Added vendor/ directory caching to all 7 active CI workflows (ci, matrix-tests, coveralls, codecov, dusk, build-and-upload, build-and-upload-unstable)
+  - Conditional composer install: skips entirely on vendor cache hit, only runs `dump-autoload` instead
+  - Upgraded `actions/cache@v3` → `actions/cache@v4` in 6 workflows (matrix-tests already had v4)
+  - Upgraded `actions/checkout@v2`/`v3` → `actions/checkout@v4` in 6 workflows
+  - Upgraded `actions/setup-node@v3` → `actions/setup-node@v4` in 6 workflows
+  - Added PHP-version-scoped cache keys to prevent cross-version cache corruption
+  - Added separate `vendor-nodev` cache key for production build jobs (`--no-dev`)
+  - Added composer caching to build-and-upload.yml (3 jobs had zero caching before)
+  - Replaced `npm install` with `npm ci` for deterministic installs
 
 ### 6. Monitoring & Reporting
 

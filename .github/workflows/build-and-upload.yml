@@ -17,27 +17,49 @@ jobs:
       matrix:
         php-versions: [ '8.2' ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
 
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
           coverage: xdebug
 
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-
+      - name: Cache vendor directory
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-
       - name: Install Dependencies
-        run: composer install
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
 
-      - name: Npm install
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - name: Copy env
         run: |
@@ -67,23 +89,49 @@ jobs:
     runs-on: ubuntu-latest
     needs: microweber-test-before-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-      - name: Npm install
-        uses: actions/setup-node@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-composer-downloads-
+      - name: Cache vendor directory (no-dev)
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php8.3-vendor-nodev-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-vendor-nodev-
+      - name: Install Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader --no-interaction
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize --no-dev
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
-      - run: npm install
+      - run: npm ci
       - run: npm run build
-
-      - name: Install Dependencies
-        run: composer install --no-dev
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
 
 
       - name: Inject slug/short variables
@@ -139,23 +187,49 @@ jobs:
     runs-on: ubuntu-latest
     needs: microweber-build-and-upload
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-      - name: Npm install
-        uses: actions/setup-node@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-composer-downloads-
+      - name: Cache vendor directory (no-dev)
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php8.3-vendor-nodev-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-vendor-nodev-
+      - name: Install Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader --no-interaction
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize --no-dev
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
-      - run: npm install
+      - run: npm ci
       - run: npm run build
-
-      - name: Install Dependencies
-        run: composer install --no-dev
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
 
 
       - name: Inject slug/short variables

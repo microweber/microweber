@@ -17,34 +17,44 @@ jobs:
         php-versions: [ '8.3' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
           coverage: xdebug
-          # tools: phpunit #optional
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - name: Cache composer dependencies
-        uses: actions/cache@v3
+      - name: Cache composer downloads
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-
+      - name: Cache vendor directory
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-
       - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-      - name: Npm install
-        uses: actions/setup-node@v3
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - name: List all artisan commands
         run: php artisan list

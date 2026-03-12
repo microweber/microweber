@@ -64,13 +64,22 @@ jobs:
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Cache composer dependencies
+      - name: Cache composer downloads
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-composer-downloads-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-
+            ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-composer-downloads-
+
+      - name: Cache vendor directory
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-vendor-
 
       - name: Setup Laravel ${{ matrix.laravel }} Dependencies
         run: |
@@ -87,8 +96,12 @@ jobs:
           fi
 
       - name: Install Composer dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: |
           composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
 
       - name: Show Laravel Version
         run: php artisan --version
