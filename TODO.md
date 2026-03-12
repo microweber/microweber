@@ -422,7 +422,11 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 ### 2. Developer Experience & CI/CD
 
-- [ ] chore: update GitHub Actions CI workflow to use `$GITHUB_OUTPUT` instead of deprecated `::set-output` syntax
+- [x] 2026-03-12 chore: update GitHub Actions CI workflow to use `$GITHUB_OUTPUT` instead of deprecated `::set-output` syntax
+  - Updated 9 files: replaced `echo "::set-output name=dir::..."` with `echo "dir=..." >> $GITHUB_OUTPUT`
+  - Active workflows: setup-php action, coveralls.yml (2 jobs), codecov.yml, dusk.yml, ci.yml, build-and-upload-unstable.yml
+  - Disabled workflows: coveralls_phpunit.yml.disabled, ci_symlink.yml.disabled, visual-tests.yml.disabled
+  - matrix-tests.yml already used the correct syntax
 - [ ] chore: add Pest test runner to CI workflow alongside PHPUnit
 - [ ] chore: optimize Rector configuration to prevent timeout on large codebase
 - [ ] feat: add test route auto-registration for module tests to fix route failures
