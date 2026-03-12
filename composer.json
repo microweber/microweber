@@ -214,7 +214,7 @@
         ],
         "test-coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
+            "vendor/bin/pest --configuration phpunit.xml --coverage --coverage-clover clover.xml"
         ],
         "test-pest": [
             "Composer\\Config::disableProcessTimeout",

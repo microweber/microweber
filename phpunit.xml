@@ -53,7 +53,16 @@
         <include>
             <directory>app</directory>
             <directory>src</directory>
+            <directory>Modules</directory>
         </include>
+        <exclude>
+            <directory>vendor</directory>
+            <directory>storage</directory>
+            <directory>config</directory>
+            <directory>database</directory>
+            <directory>resources</directory>
+            <directory>routes</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>

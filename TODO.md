@@ -522,7 +522,14 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
 
 ### 6. Monitoring & Reporting
 
-- [ ] chore: integrate code coverage reporting with codecov.io in CI
+- [x] 2026-03-12 chore: integrate code coverage reporting with codecov.io in CI
+  - Upgraded `codecov/codecov-action@v2` → `codecov/codecov-action@v5` in codecov.yml
+  - Fixed broken `composer test-coverage` script: replaced deleted `phpunit-coverage.xml` with Pest + `--coverage-clover clover.xml`
+  - Added coverage upload to `ci.yml` (flags: ci-tests) and `matrix-tests.yml` (flags: matrix-tests, PHP 8.3 + Laravel 11 only)
+  - Added `Modules` directory to phpunit.xml `<source>` for complete coverage instrumentation
+  - Added `clover.xml` to `.gitignore`
+  - All coverage uploads use `fail_ci_if_error: false` to prevent blocking on codecov outages
+  - Codecov workflow now triggers on push to main/master/develop and PRs
 - [ ] feat: add test failure summary artifact upload in matrix-tests.yml
 - [ ] chore: add PHP Insights to dev dependencies for code quality metrics
 - [ ] docs: generate and publish API documentation from Filament Resources

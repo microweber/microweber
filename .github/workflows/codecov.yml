@@ -2,14 +2,17 @@ name: PHP Code Coverage Tests
 
 on:
   push:
-
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  main-codecov:
+  codecov:
+    name: Code Coverage (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
       COMPOSER_ALLOW_SUPERUSER: 1
@@ -17,7 +20,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.3']
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -26,11 +29,13 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml
+        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
         coverage: xdebug
+
     - name: Get composer cache directory
       id: composer-cache
       run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
     - name: Cache composer downloads
       uses: actions/cache@v4
       with:
@@ -38,6 +43,7 @@ jobs:
         key: ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php${{ matrix.php-versions }}-composer-downloads-
+
     - name: Cache vendor directory
       id: vendor-cache
       uses: actions/cache@v4
@@ -46,12 +52,15 @@ jobs:
         key: ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php${{ matrix.php-versions }}-vendor-
+
     - name: Install Composer dependencies
       if: steps.vendor-cache.outputs.cache-hit != 'true'
       run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
     - name: Regenerate autoload (on cache hit)
       if: steps.vendor-cache.outputs.cache-hit == 'true'
       run: composer dump-autoload --optimize
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -70,13 +79,16 @@ jobs:
         sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
         sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
 
-    - name: Run PHPUnit
+    - name: Run Tests with Coverage
       run: composer test-coverage
-    - name: Code Cov
-      uses: codecov/codecov-action@v2
+
+    - name: Upload coverage to Codecov
+      if: always()
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: clover.xml
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
-
+        flags: unit-tests
+        name: php-${{ matrix.php-versions }}
+        fail_ci_if_error: false
+        verbose: true

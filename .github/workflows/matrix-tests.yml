@@ -131,11 +131,21 @@ jobs:
           php artisan key:generate --ansi
           touch database/database.sqlite
 
-      - name: Run Tests (Pest + PHPUnit)
-        run: vendor/bin/pest --configuration phpunit.xml
+      - name: Run Tests (Pest + PHPUnit) with Coverage
+        run: vendor/bin/pest --configuration phpunit.xml --coverage-clover clover.xml
 
       - name: Run Pest Module Suites
         run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0
+
+      - name: Upload coverage to Codecov
+        if: always() && matrix.php == '8.3' && matrix.laravel == '11'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: clover.xml
+          flags: matrix-tests
+          name: php-${{ matrix.php }}-laravel-${{ matrix.laravel }}
+          fail_ci_if_error: false
 
       - name: Cache PHPStan results
         uses: actions/cache@v4
