@@ -232,6 +232,9 @@
         "insights-summary": [
             "Composer\\Config::disableProcessTimeout",
             "php artisan insights --no-interaction --ansi --summary"
+        ],
+        "docs:filament": [
+            "php dev/generate-filament-docs.php"
         ]
     },
     "extra": {

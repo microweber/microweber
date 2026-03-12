@@ -545,7 +545,13 @@ Based on comprehensive codebase analysis, the following tasks are ready for impl
   - Added composer scripts: `composer insights` (full report) and `composer insights-summary` (summary only)
   - Allowed `dealerdirect/phpcodesniffer-composer-installer` plugin required by PHP Insights
   - Baseline scores: Code 30%, Complexity 69.3%, Architecture 25%, Style 23.2%, 0 security issues
-- [ ] docs: generate and publish API documentation from Filament Resources
+- [x] 2026-03-12 docs: generate and publish API documentation from Filament Resources
+  - Created `dev/generate-filament-docs.php` — PHP script that parses all 39 Filament Resource files
+  - Extracts: model binding, navigation config, form fields, table columns, filters, actions, relations, pages, global search
+  - Generates `docs/api/filament-resources.md` — 2380-line structured Markdown reference
+  - Added `composer docs:filament` script for easy regeneration
+  - Updated `docs/index.md` to link to the new API reference
+  - Summary: 39 resources, 298 form fields, 198 table columns, 7 global search, 4 navigation badges documented
 
 ---
 

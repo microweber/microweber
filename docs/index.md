@@ -8,8 +8,8 @@ hero:
   tagline: No code website builder
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Filament Resources API
+      link: /api/filament-resources
     - theme: alt
       text: API Examples
       link: /api-examples
