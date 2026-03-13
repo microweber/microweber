@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class TemplateTest extends TestCase
 {
@@ -24,6 +22,20 @@ class TemplateTest extends TestCase
 
         $this->template_name = $templateName;
 
+    }
+
+    protected function loginAsAdminUser(): void
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        if (!$user) {
+            $user = new User();
+            $user->username = 'test' . uniqid();
+            $user->password = 'test';
+            $user->email = 'testtemplate' . uniqid() . '@example.com';
+            $user->is_admin = 1;
+            $user->save();
+        }
+        Auth::login($user);
     }
 
     #[Test]
@@ -128,8 +140,6 @@ class TemplateTest extends TestCase
 
     }
 
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
     #[Test]
     public function it_template_name_and_dir_vars(): void {
         $template_name = $this->template_name;
@@ -148,14 +158,11 @@ class TemplateTest extends TestCase
 
     }
 
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
     #[Test]
     public function it_template_name_and_dir_vars_for_content(): void {
         $templateName = 'my-test-template';
 
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdminUser();
 
         $newCleanPageId = save_content([
             'subtype' => 'dynamic',
@@ -276,14 +283,11 @@ class TemplateTest extends TestCase
     }
 
 
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
     #[Test]
     public function it_template_get_layout_file(): void {
         $templateName = $this->template_name;
 
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdminUser();
 
         $newCleanPageId = save_content([
             'subtype' => 'static',

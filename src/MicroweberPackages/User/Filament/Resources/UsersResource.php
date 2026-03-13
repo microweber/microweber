@@ -71,11 +71,11 @@ public static function form(Schema $schema): Schema
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('username'),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('last_name'),
+                Tables\Columns\TextColumn::make('username')->searchable(),
+                Tables\Columns\TextColumn::make('phone')->searchable(),
+                Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\TextColumn::make('first_name')->searchable(),
+                Tables\Columns\TextColumn::make('last_name')->searchable(),
                 Tables\Columns\TextColumn::make('created_at'),
 
             ])
