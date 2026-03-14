@@ -199,7 +199,7 @@ class WidgetsTest extends BillingTestCase
         $reflection = new \ReflectionClass(LatestSubscriptionsWidget::class);
         $property = $reflection->getProperty('pollingInterval');
         $property->setAccessible(true);
-        $this->assertEquals('60s', $property->getValue());
+        $this->assertEquals('60s', $property->getDefaultValue());
     }
 
     #[Test]

@@ -33,7 +33,11 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
     public function handleWebhook(Request $request)
     {
         $payload = json_decode($request->getContent(), true);
-        
+
+        if (empty($payload) || !isset($payload['type'])) {
+            return new Response('Invalid payload', 400);
+        }
+
         // Log webhook to database
         $webhookLog = $this->logWebhook($payload);
 
@@ -101,7 +105,12 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
      */
     protected function handleInvoicePaid(array $payload)
     {
-        $user = $this->getUserByStripeId($payload['data']['object']['customer']);
+        $customerId = $payload['data']['object']['customer'] ?? null;
+        if (!$customerId) {
+            return $this->successMethod();
+        }
+
+        $user = $this->getUserByStripeId($customerId);
         
         if ($user) {
             Log::info('Invoice paid webhook received', [
@@ -134,11 +143,15 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
      */
     protected function handleCustomerSubscriptionUpdated(array $payload)
     {
-        // Call parent method for standard handling
-        $response = parent::handleCustomerSubscriptionUpdated($payload);
-        
+        // Call parent method for standard handling (requires items key)
+        $response = null;
+        if (isset($payload['data']['object']['items'])) {
+            $response = parent::handleCustomerSubscriptionUpdated($payload);
+        }
+
         // Additional custom handling
-        $user = $this->getUserByStripeId($payload['data']['object']['customer']);
+        $customerId = $payload['data']['object']['customer'] ?? null;
+        $user = $customerId ? $this->getUserByStripeId($customerId) : null;
         
         if ($user) {
             Log::info('Customer subscription updated webhook received', [

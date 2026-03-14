@@ -3,11 +3,12 @@
 namespace MicroweberPackages\Filament\Forms\Components;
 
 use Closure;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\View as SchemaView;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -39,7 +40,7 @@ class MwSelectTemplateForPage
             ->label('Template')
             ->reactive()
              ->afterStateHydrated(
-                function (Forms\Get $get, Forms\Set $set) use ($activeSiteTemplateInputName, $layoutFileInputName) {
+                function (Get $get, Set $set) use ($activeSiteTemplateInputName, $layoutFileInputName) {
                     $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
                     if (!$activeSiteTemplate) {
@@ -61,7 +62,7 @@ class MwSelectTemplateForPage
 
                 }
             )
-            ->default(function (Forms\Get $get) use ($activeSiteTemplateInputName) {
+            ->default(function (Get $get) use ($activeSiteTemplateInputName) {
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
@@ -76,12 +77,12 @@ class MwSelectTemplateForPage
                 }
 
             })
-            ->options(function (Forms\Get $get, Forms\Set $set) use ($templates) {
+            ->options(function (Get $get, Set $set) use ($templates) {
                 return collect($templates)->mapWithKeys(function ($template) {
                     return [$template['dir_name'] => $template['name']];
                 });
             })
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+            ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
                 // Only trigger preview update when template changes
                 $activeSiteTemplate = $state;
@@ -109,7 +110,7 @@ class MwSelectTemplateForPage
 
         $selectLayoutInputInput = Forms\Components\Select::make($layoutFileInputName)
             ->label('Layout')
-            ->default(function (Forms\Get $get) use ($activeSiteTemplateInputName) {
+            ->default(function (Get $get) use ($activeSiteTemplateInputName) {
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
@@ -133,7 +134,7 @@ class MwSelectTemplateForPage
 
             })
             ->reactive()
-             ->options(function (Forms\Get $get, Forms\Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+             ->options(function (Get $get, Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName) {
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
                 if (!$activeSiteTemplate) {
@@ -157,7 +158,7 @@ class MwSelectTemplateForPage
                 });
 
             })
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+            ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
                 $data = $livewire->data ?? [];
 
@@ -207,7 +208,7 @@ class MwSelectTemplateForPage
             ->columnSpanFull();
 
 
-        $templatePreviewBlock = Forms\Components\View::make('mw-filament::components.mw-render-template-preview-iframe')
+        $templatePreviewBlock = SchemaView::make('mw-filament::components.mw-render-template-preview-iframe')
             ->viewData([
                 'url' => '',
                 'layoutFileInputName' => $layoutFileInputName,

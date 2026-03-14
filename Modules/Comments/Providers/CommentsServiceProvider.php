@@ -77,6 +77,24 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         Livewire::component('comments::modals.edit-modal', EditModal::class);
         Livewire::component('comments::modals.delete-modal', DeleteModal::class);
 
+        // In Livewire v4, namespaced component names (with ::) are resolved via
+        // classNamespaces only, skipping classComponents. Register a missing
+        // component resolver to bridge this gap for explicitly registered components.
+        Livewire::resolveMissingComponent(function (string $name) {
+            $map = [
+                'comments::user-comment-reply' => UserCommentReplyComponent::class,
+                'comments::user-comment-list' => UserCommentListComponent::class,
+                'comments::user-comment-preview' => UserCommentPreviewComponent::class,
+                'comments::editors.textarea' => TextareaComponent::class,
+                'comments::editors.easy-mde' => EasyMdeComponent::class,
+                'comments::modals.reply-modal' => ReplyModal::class,
+                'comments::modals.edit-modal' => EditModal::class,
+                'comments::modals.delete-modal' => DeleteModal::class,
+            ];
+
+            return $map[$name] ?? null;
+        });
+
         // Register Microweber module
         Microweber::module(\Modules\Comments\Microweber\CommentsModule::class);
     }

@@ -79,6 +79,21 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
+
+        // Also check if the database actually has tables (handles case where
+        // MW_IS_INSTALLED=1 but the database is empty or freshly created)
+        if ($installed && !defined('MW_UNIT_TEST_DB_VERIFIED')) {
+            try {
+                $hasTable = \Illuminate\Support\Facades\Schema::hasTable('options');
+                if (!$hasTable) {
+                    $installed = false;
+                }
+            } catch (\Exception $e) {
+                $installed = false;
+            }
+            define('MW_UNIT_TEST_DB_VERIFIED', true);
+        }
+
         if (!$installed) {
             $this->install();
         }

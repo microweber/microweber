@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Filament\Forms\Components;
 
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
@@ -24,55 +24,9 @@ class MwMediaBrowser extends Field
     protected function setUp(): void
     {
         parent::setUp();
-        $this->registerListeners([
-            'mwMediaBrowser::addMediaItem' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['data'])) {
-                        return $this->addMediaItem($params['data']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::addMediaItemMultiple' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['data']) && isset($params['data']['urls'])) {
-                        return $this->addMediaItemMultiple($params['data']['urls']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::deleteMediaItemById' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['id'])) {
-                        return $this->deleteMediaItemById($params['id']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::deleteMediaItemsByIds' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['ids'])) {
-                        return $this->deleteMediaItemsByIds($params['ids']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::updateImageFilename' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['id']) && isset($params['data'])) {
-                        return $this->updateImageFilename($params['id'],$params['data']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::mediaItemsSort' => [
-                function ($component, $statePath, $params) {
-                    if (isset($params['itemsSortedIds'])) {
-                        return $this->mediaItemsSort($params['itemsSortedIds']);
-                    }
-                },
-            ],
-            'mwMediaBrowser::getMediaItemsArray' => [
-                function ($component, $statePath, $params) {
-                    return $this->getMediaItemsArray();
-                },
-            ],
-        ]);
+        // Note: registerListeners was removed in Filament v5.
+        // Media browser events are now handled via Livewire's native
+        // event dispatching from the component's Blade view.
 
         $this->registerActions([
             fn (MwMediaBrowser $component): Action => $component->editAction(),

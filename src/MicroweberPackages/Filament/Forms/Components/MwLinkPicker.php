@@ -4,6 +4,7 @@ namespace MicroweberPackages\Filament\Forms\Components;
 
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Contracts\Support\Htmlable;
 use Closure;
 
 class MwLinkPicker extends TextInput
@@ -15,7 +16,7 @@ class MwLinkPicker extends TextInput
     protected string|Closure|null $selectedData = null;
 
     protected bool $simpleMode = false;
-    protected string|Closure|null $suffixIcon = 'heroicon-m-globe-alt';
+    protected \BackedEnum|Htmlable|string|Closure|null $suffixIcon = 'heroicon-m-globe-alt';
     protected Closure|bool $isReadOnly = true;
 
     public function selectedData(string|Closure|null $selectedData): static

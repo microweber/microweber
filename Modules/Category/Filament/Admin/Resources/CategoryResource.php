@@ -5,10 +5,11 @@ namespace Modules\Category\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\CategoryResource\Pages;
 use App\Filament\Admin\Resources\CategoryResource\RelationManagers;
 use Filament\Forms;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
-use Filament\GlobalSearch\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -49,11 +50,11 @@ class CategoryResource extends Resource
         }
 
         return [
-            Forms\Components\Tabs::make('Category Details')
+            Tabs::make('Category Details')
                 ->columnSpanFull()
                 ->schema([
                     // General Tab
-                    Forms\Components\Tabs\Tab::make('Category Details')
+                    Tabs\Tab::make('Category Details')
                         ->schema([
 
                             Forms\Components\Hidden::make('id')->default($id),
@@ -122,7 +123,7 @@ class CategoryResource extends Resource
                         ]),
 
                     // Advanced Tab
-                    Forms\Components\Tabs\Tab::make('Advanced')
+                    Tabs\Tab::make('Advanced')
                         ->schema([
                             Forms\Components\TextInput::make('url')
                                 ->label('Url'),

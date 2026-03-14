@@ -99,7 +99,7 @@ return parent::getEloquentQuery()
     public static function table(Table $table): Table
     {
         return $table
-            ->with(['content'])
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['content']))
             ->columns([
                 Tables\Columns\TextColumn::make('comment_name')
                     ->label('Name')

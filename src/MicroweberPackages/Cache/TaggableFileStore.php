@@ -354,7 +354,7 @@ class TaggableFileStore implements Store
     {
         $prepareTags = array();
         if (is_string($tags)) {
-            $prepareTags = explode(',', $prepareTags);
+            $prepareTags = explode(',', $tags);
         } elseif (is_array($tags)) {
             $prepareTags = $tags;
             array_walk($prepareTags, 'trim');
@@ -462,7 +462,7 @@ class TaggableFileStore implements Store
 
     private function _getTagMapPathByName($tagName)
     {
-        $cacheFile = $this->directoryTags . '\\' . $tagName . '.json';
+        $cacheFile = $this->directoryTags . DIRECTORY_SEPARATOR . $tagName . '.json';
         $cacheFile = $this->normalizePath($cacheFile, false);
 
         return $cacheFile;

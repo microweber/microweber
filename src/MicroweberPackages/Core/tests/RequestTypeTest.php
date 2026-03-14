@@ -28,9 +28,9 @@ class RequestTypeTest extends TestCase
 
         $response = $this->postJson('/example-route-testJsonPost', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
 
-        $userData = $response->getData();
-        $this->assertEquals($testJsonRequest_a, $userData->test);
-        $this->assertEquals($testJsonRequest_b, $userData->test2);
+        $userData = $response->json();
+        $this->assertEquals($testJsonRequest_a, $userData['test']);
+        $this->assertEquals($testJsonRequest_b, $userData['test2']);
 
     }
 
@@ -41,9 +41,9 @@ class RequestTypeTest extends TestCase
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
 
         $response = $this->post('/example-route-testJsonPost', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
-        $userData = $response->getData();
-        $this->assertEquals($testJsonRequest_a, $userData->test);
-        $this->assertEquals($testJsonRequest_b, $userData->test2);
+        $userData = $response->json();
+        $this->assertEquals($testJsonRequest_a, $userData['test']);
+        $this->assertEquals($testJsonRequest_b, $userData['test2']);
 
     }
 
@@ -56,9 +56,9 @@ class RequestTypeTest extends TestCase
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
 
         $response = $this->patchJson('/example-route-testJsonPatch', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
-        $userData = $response->getData();
-        $this->assertEquals($testJsonRequest_a, $userData->test);
-        $this->assertEquals($testJsonRequest_b, $userData->test2);
+        $userData = $response->json();
+        $this->assertEquals($testJsonRequest_a, $userData['test']);
+        $this->assertEquals($testJsonRequest_b, $userData['test2']);
 
     }
 }

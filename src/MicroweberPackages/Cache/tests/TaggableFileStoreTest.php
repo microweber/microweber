@@ -32,6 +32,9 @@ class TaggableFileStoreTest extends TestCase
     #[Test]
 
     public function it_get_without_tags(): void {
+        Cache::put('firstName', 'Bozhidar', now()->addMinutes(6));
+        Cache::put('lastName', 'Slaveykov', now()->addMinutes(6));
+
         $this->assertEquals('Bozhidar', Cache::get('firstName'));
         $this->assertEquals('Slaveykov', Cache::get('lastName'));
     }

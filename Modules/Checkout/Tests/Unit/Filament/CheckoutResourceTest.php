@@ -18,7 +18,7 @@ class CheckoutResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFilamentPanel();
+        $this->setUpFilamentPanel('checkout');
     }
 
     #[Test]

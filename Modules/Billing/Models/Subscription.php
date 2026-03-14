@@ -2,9 +2,19 @@
 
 namespace Modules\Billing\Models;
 
+use Modules\Billing\Database\Factories\SubscriptionFactory;
+
 class Subscription extends \Laravel\Cashier\Subscription
 {
     protected $table = 'subscriptions';
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): SubscriptionFactory
+    {
+        return new SubscriptionFactory();
+    }
 
 
     public function getNameAttribute()

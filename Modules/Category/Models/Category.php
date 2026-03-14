@@ -3,6 +3,7 @@
 namespace Modules\Category\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
@@ -21,6 +22,7 @@ class Category extends Model
 {
     // use HasAttributes;
 
+    use HasFactory;
     use HasContentFieldTrait;
     use CacheableQueryBuilderTrait;
     use Filterable;

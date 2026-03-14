@@ -97,6 +97,7 @@ class SubscriptionResource extends Resource
                         Toggle::make('is_trial')
                             ->label('In Trial Period')
                             ->live()
+                            ->dehydrated(false)
                             ->afterStateHydrated(function (Toggle $component, ?Model $record) {
                                 if ($record) {
                                     $component->state($record->trial_ends_at && $record->trial_ends_at->isFuture());

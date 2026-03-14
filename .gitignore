@@ -148,3 +148,4 @@ phpunit-coverage.xml
 /.vscode
 /build/phpstan
 /build
+*.sqlite-journal

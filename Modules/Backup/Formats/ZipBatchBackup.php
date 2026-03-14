@@ -338,7 +338,7 @@ class ZipBatchBackup extends DefaultBackup
                                 continue;
                             }
                             $this->logger->setLogInfo('Finalizing: Archiving file <b>' . $file['filename'] . '</b>');
-                            $zip->addFile($file['filepath'], $file['filename']);
+                            $zip->addFromString($file['filename'], file_get_contents($file['filepath']));
                         }
                     } catch (\Exception $e) {
                         $this->logger->setLogInfo('Error processing final file: ' . $file['filename'] . ' - ' . $e->getMessage());

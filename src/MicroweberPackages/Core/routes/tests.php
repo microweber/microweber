@@ -9,14 +9,14 @@ Route::get('/example-route-testRequestResponseCode', function () {
 
 });
 
-Route::post('/example-route-testJsonPost', function () {
+Route::post('/example-route-testJsonPost', function (\Illuminate\Http\Request $request) {
 
-    return response()->json(request()->all());
+    return response()->json($request->all());
 
 });
-Route::patch('/example-route-testJsonPatch', function () {
+Route::patch('/example-route-testJsonPatch', function (\Illuminate\Http\Request $request) {
 
-    return response()->json(request()->all());
+    return response()->json($request->all());
 
 });
 

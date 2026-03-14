@@ -86,27 +86,27 @@ trait HasEditContentForms
 
         return [
             'form' => $this->form(static::getResource()::form(
-                $this->makeForm()
+                $this->makeSchema()
                     ->operation('edit')
                     ->model($this->getRecord())
-                    ->statePath($this->getFormStatePath())
+                    ->statePath('data')
                     ->columns($this->hasInlineLabels() ? 1 : 2)
                     ->inlineLabel($this->hasInlineLabels()),
             )),
             'seoForm' => $this->form(static::getResource()::seoForm(
-                $this->makeForm()
+                $this->makeSchema()
                     ->operation('edit')
                     ->model($this->getRecord())
-                    ->statePath($this->getFormStatePath())
+                    ->statePath('data')
                     ->columns($this->hasInlineLabels() ? 1 : 2)
                     ->inlineLabel($this->hasInlineLabels()),
             )),
 
             'advancedSettingsForm' => $this->form(static::getResource()::advancedSettingsForm(
-                $this->makeForm()
+                $this->makeSchema()
                     ->operation('edit')
                     ->model($this->getRecord())
-                    ->statePath($this->getFormStatePath())
+                    ->statePath('data')
                     ->columns($this->hasInlineLabels() ? 1 : 2)
                     ->inlineLabel($this->hasInlineLabels()),
             )),

@@ -14,11 +14,11 @@ trait HasOnlyIcon
 
     protected bool $isOnlyIconAndTooltip = false;
 
-    protected string|Closure|null $originTooltip = null;
+    protected Htmlable|string|Closure|null $originTooltip = null;
 
     protected string|Closure|null $originLabel = null;
 
-    public function tooltip(string|Closure|null $tooltip): static
+    public function tooltip(Htmlable|string|Closure|null $tooltip): static
     {
         $this->tooltip = $tooltip;
         $this->originTooltip = $tooltip;

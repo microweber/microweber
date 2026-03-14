@@ -36,7 +36,7 @@ class StripeEventListener
         ]);
 
         // Extract customer ID if available
-        $stripeId = $payload['data']['object']['customer'] ?? ($payload['data']['object']['object'] === 'customer' ? $payload['data']['object']['id'] : null);
+        $stripeId = $payload['data']['object']['customer'] ?? (($payload['data']['object']['object'] ?? null) === 'customer' ? $payload['data']['object']['id'] : null);
 
         if (!$stripeId) {
             Log::warning('Stripe webhook missing customer ID', [

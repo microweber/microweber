@@ -286,6 +286,8 @@ class SubscriptionResourceTest extends BillingTestCase
     {
         $this->loginAsAdmin();
 
+        DB::table('subscriptions')->truncate();
+
         // Create active subscriptions
         $this->createTestSubscription([
             'stripe_status' => 'active',
@@ -381,6 +383,8 @@ class SubscriptionResourceTest extends BillingTestCase
     public function it_includes_trialing_in_active_navigation_badge()
     {
         $this->loginAsAdmin();
+
+        DB::table('subscriptions')->truncate();
 
         $this->createTestSubscription([
             'stripe_status' => 'active',

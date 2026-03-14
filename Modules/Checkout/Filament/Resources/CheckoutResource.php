@@ -4,16 +4,18 @@ namespace Modules\Checkout\Filament\Resources;
 
 
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\View;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Radio;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Livewire;
 use Illuminate\Support\Facades\Event;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
@@ -187,7 +189,7 @@ class CheckoutResource extends Resource
                             ->schema([
                                 Section::make('Order Items')
                                     ->schema([
-                                        Forms\Components\Livewire::make(CartItems::class)
+                                        Livewire::make(CartItems::class)
                                             ->columnSpanFull(),
                                     ]),
 
@@ -208,7 +210,7 @@ class CheckoutResource extends Resource
                                                 return '';
                                             }),
 
-                                        Forms\Components\Actions::make([
+                                        Actions::make([
                                             Action::make('apply_coupon')
                                                 ->label('Enter discount code')
                                                 ->tooltip('Apply Coupon to get discount')

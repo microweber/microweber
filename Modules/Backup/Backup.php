@@ -386,14 +386,12 @@ class Backup
 
         $exportTablesReady['__table_structures'] = $tablesStructures;
 
-        // Show only requried content ids
-        if (isset($exportTablesReady['content'])) {
+        // Show only required content ids (skip when backing up all data)
+        if (!$this->backupAllData && !empty($this->backupData['contentIds']) && isset($exportTablesReady['content'])) {
             $contentTableData = [];
             foreach ($exportTablesReady['content'] as $tableData) {
                 if (in_array($tableData['id'], $this->backupData['contentIds'])) {
                     $contentTableData[] = $tableData;
-                } else {
-                    $contentTableData = $this->_getTableContent('content');
                 }
             }
             $exportTablesReady['content'] = $contentTableData;

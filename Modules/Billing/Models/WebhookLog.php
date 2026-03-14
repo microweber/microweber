@@ -75,7 +75,6 @@ class WebhookLog extends Model
         $this->update([
             'status' => self::STATUS_FAILED,
             'error_message' => $errorMessage,
-            'attempts' => $this->attempts + 1,
         ]);
     }
 

@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Filament\Forms\Components;
 use Closure;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;

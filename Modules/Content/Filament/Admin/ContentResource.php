@@ -4,8 +4,9 @@ namespace Modules\Content\Filament\Admin;
 
 use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Schemas\Components\Livewire;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\GlobalSearch\Actions\Action;
@@ -137,9 +138,9 @@ class ContentResource extends Resource
 
         $mainForm = [
 
-            Forms\Components\Group::make([
+            Schemas\Components\Group::make([
 
-                Forms\Components\Group::make()
+                Schemas\Components\Group::make()
                     ->schema([
 
                         Forms\Components\Hidden::make('id')
@@ -161,10 +162,10 @@ class ContentResource extends Resource
 
                         Forms\Components\Hidden::make('active_site_template')
                             ->default($active_site_template_default)
-                            ->visible(function (Forms\Get $get) {
+                            ->visible(function (Schemas\Components\Utilities\Get $get) {
                                 return $get('content_type') == 'page';
                             }),
-                        Forms\Components\Hidden::make('layout_file')->visible(function (Forms\Get $get) {
+                        Forms\Components\Hidden::make('layout_file')->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'page';
                         }),
                         Forms\Components\Hidden::make('tags')
@@ -174,7 +175,7 @@ class ContentResource extends Resource
                                     return $record->getTagNamesAttribute();
                                 }
                                 return [];
-                            })->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set) {
+                            })->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
 
                                 if ($record) {
                                     $categoryIds = $record->getTagNamesAttribute();
@@ -193,7 +194,7 @@ class ContentResource extends Resource
                                 }
                                 return [];
                             })
-                            ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
+                            ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state) {
 
                                 if ($record) {
                                     $categoryIds = $record->getCategoryIdsAttribute();
@@ -214,7 +215,7 @@ class ContentResource extends Resource
                                 }
                                 return [];
                             })
-                            ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state, ?Model $record) {
+                            ->afterStateHydrated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state, ?Model $record) {
 
                                 if ($record) {
                                     $set('menuIds', $record->menuIds);
@@ -229,18 +230,18 @@ class ContentResource extends Resource
 
                         Forms\Components\Hidden::make('is_shop')
                             ->default(0)
-                            ->visible(function (Forms\Get $get) {
+                            ->visible(function (Schemas\Components\Utilities\Get $get) {
                                 return $get('content_type') === 'page';
                             }),
                         Forms\Components\Hidden::make('is_home')
                             ->default(0)
-                            ->visible(function (Forms\Get $get) {
+                            ->visible(function (Schemas\Components\Utilities\Get $get) {
                                 return $get('content_type') === 'page';
                             }),
 
 
-                        Forms\Components\Section::make('General Information')
-                            ->heading(function (Forms\Get $get) {
+                        Schemas\Components\Section::make('General Information')
+                            ->heading(function (Schemas\Components\Utilities\Get $get) {
                                 if ($get('content_type') === 'page') {
                                     if ($get('id')) {
                                         return 'Edit Page';
@@ -299,14 +300,14 @@ class ContentResource extends Resource
                                     ->hintAction(
                                         TranslateFieldAction::make('content_body')->label('')
                                     )
-                                    ->visible(function (Forms\Get $get) {
+                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
                                         return $get('content_type') !== 'page';
                                     }),
 
 
 //                    MwRichEditor::make('content_body')
 //                        ->columnSpan('full')
-//                        ->visible(function (Forms\Get $get) {
+//                        ->visible(function (Schemas\Components\Utilities\Get $get) {
 //                            return $get('content_type') !== 'page';
 //                        }),
                             ])
@@ -314,7 +315,7 @@ class ContentResource extends Resource
                             ->columns(2),
 
 
-                        Forms\Components\Section::make('Media')
+                        Schemas\Components\Section::make('Media')
                             ->schema([
                                 MwMediaBrowser::make('mediaIds')
                                     ->label('Add images')
@@ -325,7 +326,7 @@ class ContentResource extends Resource
                                     })
                             ]),
 
-                        Forms\Components\Section::make('Pricing')
+                        Schemas\Components\Section::make('Pricing')
                             ->schema([
 
                                 Forms\Components\TextInput::make('price')
@@ -336,7 +337,7 @@ class ContentResource extends Resource
 
 
                                 Forms\Components\TextInput::make('special_price')
-                                    ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set) {
+                                    ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
 
                                         if ($record) {
                                             $getSpecialPrice = $record->getSpecialPriceAttribute();
@@ -353,30 +354,30 @@ class ContentResource extends Resource
                                 ,
 
 
-                            ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                            ])->columnSpanFull()->visible(function (Schemas\Components\Utilities\Get $get) {
                                 return $get('content_type') == 'product';
                             }),
 
                     ])->columnSpan(['lg' => 2]),
 
 
-                Forms\Components\Group::make()
+                Schemas\Components\Group::make()
                     ->schema([
 
 
-                        Forms\Components\Section::make('Published')
+                        Schemas\Components\Section::make('Published')
                             ->schema([
                                 Forms\Components\Toggle::make('is_active')
                                     ->label('Published')
-                                    ->default(function (Forms\Get $get) {
+                                    ->default(function (Schemas\Components\Utilities\Get $get) {
                                         return $get('id') ? 0 : 1;
                                     })
 
                             ]),
 
 
-                        Forms\Components\Section::make('Parent page')
-                            ->schema(function (?Model $record, Forms\Get $get) use ($firstBlogId, $firstShopId) {
+                        Schemas\Components\Section::make('Parent page')
+                            ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
                                 $parent = null;
                                 $isShopFilter = null;
                                 $categoryIds = [];
@@ -428,13 +429,13 @@ class ContentResource extends Resource
                                 ];
 
                                 return [
-                                    Forms\Components\View::make('mw-filament::admin.mw-tree')
+                                    Schemas\Components\View::make('mw-filament::admin.mw-tree')
                                         ->viewData($viewData)
                                 ];
                             }),
 
 
-                        Forms\Components\Section::make('Tags')
+                        Schemas\Components\Section::make('Tags')
                             ->schema([
                                 Forms\Components\TagsInput::make('tags')
                                     ->label(false)
@@ -443,7 +444,7 @@ class ContentResource extends Resource
                                     ->placeholder('Add a tag'),
                             ]),
 
-                        Forms\Components\Section::make('Menus')
+                        Schemas\Components\Section::make('Menus')
                             ->schema([
 
                                 Forms\Components\CheckboxList::make('menuIds')
@@ -478,7 +479,7 @@ class ContentResource extends Resource
                         ),
                     Tabs\Tab::make('Template')
                         ->schema([
-                            Forms\Components\Section::make('Select Template')
+                            Schemas\Components\Section::make('Select Template')
                                 ->schema([
                                     MwSelectTemplateForPage::make(
                                         'active_site_template',
@@ -487,14 +488,14 @@ class ContentResource extends Resource
                                 ])
                                 ->columnSpanFull()
                         ])
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'page';
                         }),
                     Tabs\Tab::make('Product Details')
                         ->schema(
                             self::productDetailsFormArray()
                         )
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'product';
                         }),
                     Tabs\Tab::make('Custom Fields')
@@ -550,7 +551,7 @@ class ContentResource extends Resource
     public static function productDetailsFormArray()
     {
         return [
-            Forms\Components\Section::make('Pricing')
+            Schemas\Components\Section::make('Pricing')
                 ->schema([
 
                     Forms\Components\TextInput::make('price')
@@ -561,7 +562,7 @@ class ContentResource extends Resource
 
 
                     Forms\Components\TextInput::make('special_price')
-                        ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set) {
+                        ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
 
                             if ($record) {
                                 $getSpecialPrice = $record->getSpecialPriceAttribute();
@@ -580,7 +581,7 @@ class ContentResource extends Resource
 
                 ])->columnSpanFull(),
 
-            Forms\Components\Section::make('Inventory')
+            Schemas\Components\Section::make('Inventory')
                 ->schema([
 
 
@@ -596,7 +597,7 @@ class ContentResource extends Resource
                         ->default(false),
 
 
-                    Forms\Components\Group::make([
+                    Schemas\Components\Group::make([
                         Forms\Components\TextInput::make('content_data.quantity')
                             ->numeric()
                             ->rules(['regex:/^\d{1,6}$/'])
@@ -611,14 +612,14 @@ class ContentResource extends Resource
                             ->rules(['regex:/^\d{1,6}$/'])
                             ->label('Max quantity per order')
                             ->default(0),
-                    ])->hidden(function (Forms\Get $get) {
+                    ])->hidden(function (Schemas\Components\Utilities\Get $get) {
                         return !$get('content_data.track_quantity');
                     }),
 
 
                 ])->columnSpanFull(),
 
-            Forms\Components\Section::make('Shipping')
+            Schemas\Components\Section::make('Shipping')
                 ->schema([
 
                     // This is a physical product
@@ -627,7 +628,7 @@ class ContentResource extends Resource
                         ->default(true)
                         ->live(),
 
-                    Forms\Components\Group::make([
+                    Schemas\Components\Group::make([
                         Forms\Components\TextInput::make('content_data.shipping_fixed_cost')
                             ->numeric()
                             ->helperText('Used to set your shipping price at checkout and label prices during fulfillment.')
@@ -646,12 +647,12 @@ class ContentResource extends Resource
                             ->live()
                             ->columnSpanFull(),
 
-                    ])->columns(2)->hidden(function (Forms\Get $get) {
+                    ])->columns(2)->hidden(function (Schemas\Components\Utilities\Get $get) {
                         return !$get('content_data.physical_product');
                     }),
 
 
-                    Forms\Components\Section::make('Shipping Advanced')
+                    Schemas\Components\Section::make('Shipping Advanced')
                         ->heading('Advanced')
                         ->description('Advanced product shipping settings.')
                         ->schema([
@@ -687,7 +688,7 @@ class ContentResource extends Resource
 
                         ])
                         ->columns(4)
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_data.shipping_advanced_settings');
                         }),
 
@@ -698,19 +699,19 @@ class ContentResource extends Resource
     public static function seoFormArray()
     {
         return [
-            Forms\Components\Section::make('Search engine optimisation (SEO)')
+            Schemas\Components\Section::make('Search engine optimisation (SEO)')
                 ->description('Add a title and description to see how this product might appear in a search engine listing')
                 ->schema([
-                    Forms\Components\Grid::make()
+                    Schemas\Components\Grid::make()
                         ->schema([
                             // Replace Button with Actions\Action which is the correct component in Filament v3
-                            Forms\Components\Actions::make([
-                                Forms\Components\Actions\Action::make('generateSeoContent')
+                            Schemas\Components\Actions::make([
+                                \Filament\Actions\Action::make('generateSeoContent')
                                     ->label('Generate SEO Content')
                                     ->visible(app()->has('ai'))
                                     ->icon('heroicon-o-sparkles')
                                     ->color('primary')
-                                    ->action(function (Forms\Get $get, Forms\Set $set) {
+                                    ->action(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
                                         // Get content details to generate better SEO
                                         $title = $get('title');
                                         $description = $get('description');
@@ -783,7 +784,7 @@ class ContentResource extends Resource
     public static function advancedSettingsFormArray()
     {
         return [
-            Forms\Components\Section::make('Advanced Settings')
+            Schemas\Components\Section::make('Advanced Settings')
                 ->description('You can configure advanced settings for this content')
                 ->schema([
 
@@ -795,7 +796,7 @@ class ContentResource extends Resource
 
                     Forms\Components\Toggle::make('require_login')
                         ->label('Require login')
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('id');
                         })
                         ->helperText('Require user to be logged in to view this content')
@@ -803,7 +804,7 @@ class ContentResource extends Resource
 
 
 Forms\Components\Select::make('created_by')
-->visible(function (Forms\Get $get) {
+->visible(function (Schemas\Components\Utilities\Get $get) {
 return $get('id');
 })
 ->label('Author')
@@ -839,7 +840,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->label('Is Shop')
                         ->default(0)
                         ->helperText('This page will accept products to be added to it.')
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') === 'page';
                         })
                         ->columnSpanFull(),
@@ -847,7 +848,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->label('Is Homepage')
                         ->default(0)
                         ->helperText('This will be the first page of your website.')
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') === 'page';
                         })
                         ->columnSpanFull(),
@@ -858,7 +859,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->format('Y-m-d H:i:s')
                         ->native(false)
                         ->displayFormat('Y-m-d H:i:s')
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('id');
                         })
                         ->columnSpanFull(),
@@ -868,7 +869,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->format('Y-m-d H:i:s')
                         ->native(false)
                         ->displayFormat('Y-m-d H:i:s')
-                        ->visible(function (Forms\Get $get) {
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('id');
                         })
                         ->columnSpanFull(),
@@ -878,12 +879,12 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->inlineLabel(true)
                         ->content(function ($record) {
                             return $record->id;
-                        })->visible(function (Forms\Get $get) {
+                        })->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('id');
                         }),
 
 
-                    Forms\Components\Section::make('Access Settings')
+                    Schemas\Components\Section::make('Access Settings')
                         ->description('You can configure advanced settings for this content')
                         ->collapsed(true)
                         ->collapsible(true)
@@ -902,7 +903,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
 
                             Forms\Components\Select::make('content_data.custom_access_product_id')
                                 ->reactive()
-                                ->visible(function (Forms\Get $get) {
+                                ->visible(function (Schemas\Components\Utilities\Get $get) {
                                     return $get('content_data.custom_access') === 'require_product_purchase';
                                 })
                                 ->label('Product ID')
@@ -916,7 +917,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
 
                             Forms\Components\Select::make('content_data.custom_access_require_subscription_plan_group_id')
                                 ->reactive()
-                                ->visible(function (Forms\Get $get) {
+                                ->visible(function (Schemas\Components\Utilities\Get $get) {
                                     return $get('content_data.custom_access') === 'require_subscription_plan_group';
                                 })
                                 ->label('Subscription Plan ID')
