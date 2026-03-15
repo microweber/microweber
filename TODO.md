@@ -35,7 +35,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Critical: FrontendCheckoutRegressionTest — all 10 tests error (Cart/Checkout model issues)
 
-- [ ] fix: FrontendCheckoutRegressionTest errors — likely missing table columns or model method issues in Cart/Checkout flow
+- [x] 2026-03-15  fix: FrontendCheckoutRegressionTest errors — rewritten to use actual cart/checkout APIs (update_cart, CheckoutManager)
 
 ### Critical: AdminCrudRegressionTest failures (10 tests)
 

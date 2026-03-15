@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\Regression;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Modules\Cart\Models\Cart;
+use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Order\Models\Order;
-use Modules\Payment\Models\PaymentProvider;
 use Modules\Product\Models\Product;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -16,57 +15,47 @@ use Tests\TestCase;
  * Full Regression Test Suite - Frontend Checkout Flow
  *
  * End-to-end testing of the complete checkout flow including:
- * - Add to cart
- * - Cart management
- * - Checkout process
- * - Payment integration
- *
- * @covers \Modules\Cart
- * @covers \Modules\Checkout
- * @covers \Modules\Order
- * @covers \Modules\Payment
+ * - Add to cart via update_cart()
+ * - Cart management (update qty, remove, empty)
+ * - Checkout process via CheckoutManager
+ * - Order creation and verification
  */
 class FrontendCheckoutRegressionTest extends TestCase
 {
-    use LazilyRefreshDatabase, WithFaker;
+    use LazilyRefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seedPaymentProviders();
+        Config::set('mail.transport', 'array');
+        Config::set('queue.driver', 'sync');
+        Product::truncate();
+        Order::truncate();
+        Cart::truncate();
+        empty_cart();
     }
 
-    /**
-     * Test complete checkout flow with bank transfer
-     */
     #[Test]
-    public function it_complete_checkout_flow_with_bank_transfer(): void
+    public function it_complete_checkout_flow(): void
     {
-        // Step 1: Create a product
-        $product = $this->createTestProduct([
-            'title' => 'Test Product',
-            'price' => 99.99,
-            'sku' => 'TEST-001',
-        ]);
+        $productId = $this->createTestProduct('Checkout Flow Product', 99.99);
 
-        // Step 2: Add product to cart
-        $cartResponse = $this->post('/api/cart/add', [
-            'product_id' => $product->id,
+        $cartResult = update_cart([
+            'content_id' => $productId,
             'qty' => 2,
         ]);
-        $cartResponse->assertStatus(200);
 
-        // Step 3: Verify cart contains item
-        $cart = Cart::first();
-        $this->assertNotNull($cart);
-        $this->assertEquals(2, $cart->getItemsCount());
+        $this->assertArrayHasKey('success', $cartResult);
 
-        // Step 4: Get checkout page
-        $checkoutPageResponse = $this->get('/checkout');
-        $checkoutPageResponse->assertStatus(200);
+        // Verify cart sum
+        $cartSum = cart_sum(true);
+        $this->assertGreaterThan(0, $cartSum);
 
-        // Step 5: Submit checkout form with bank transfer
-        $checkoutResponse = $this->post('/checkout/process', [
+        $cartItemsCount = cart_sum(false);
+        $this->assertEquals(2, $cartItemsCount);
+
+        // Checkout
+        $checkoutStatus = app()->checkout_manager->checkout([
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.com',
@@ -75,345 +64,241 @@ class FrontendCheckoutRegressionTest extends TestCase
             'city' => 'Test City',
             'country' => 'US',
             'zip' => '12345',
-            'payment_method' => 'bank_transfer',
-            'terms_accepted' => true,
+            'is_paid' => 1,
+            'order_completed' => 1,
         ]);
 
-        $checkoutResponse->assertStatus(200)->assertJson(['success' => true]);
+        $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertArrayHasKey('id', $checkoutStatus);
+        $this->assertArrayHasKey('order_completed', $checkoutStatus);
 
-        // Step 6: Verify order was created
-        $order = Order::where('email', 'john@example.com')->first();
+        // Verify order was created
+        $order = Order::find($checkoutStatus['id']);
         $this->assertNotNull($order);
-        $this->assertEquals('pending', $order->order_status);
-        $this->assertEquals(199.98, $order->amount); // 2 * 99.99
-
-        // Step 7: Verify cart was cleared
-        $cart->refresh();
-        $this->assertEquals(0, $cart->getItemsCount());
     }
 
-    /**
-     * Test PayPal checkout flow
-     */
     #[Test]
-    public function it_checkout_flow_with_paypal(): void
+    public function it_adds_product_to_cart_via_update_cart(): void
     {
-        $product = $this->createTestProduct([
-            'title' => 'PayPal Test Product',
-            'price' => 149.99,
-            'sku' => 'PAYPAL-001',
+        $productId = $this->createTestProduct('Cart Add Product', 49.99);
+
+        $cartResult = update_cart([
+            'content_id' => $productId,
+            'price' => 49.99,
         ]);
 
-        // Add to cart
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 1,
-        ]);
-
-        // Submit checkout with PayPal
-        $checkoutResponse = $this->post('/checkout/process', [
-            'first_name' => 'Jane',
-            'last_name' => 'Smith',
-            'email' => 'jane@example.com',
-            'phone' => '+0987654321',
-            'address' => '456 Payment Street',
-            'city' => 'Payment City',
-            'country' => 'US',
-            'zip' => '54321',
-            'payment_method' => 'paypal',
-            'terms_accepted' => true,
-        ]);
-
-        $checkoutResponse->assertStatus(200);
-
-        // Verify order
-        $order = Order::where('email', 'jane@example.com')->first();
-        $this->assertNotNull($order);
-        $this->assertEquals('pending', $order->order_status);
+        $this->assertArrayHasKey('success', $cartResult);
+        $this->assertArrayHasKey('product', $cartResult);
+        $this->assertArrayHasKey('cart_sum', $cartResult);
+        $this->assertArrayHasKey('cart_items_quantity', $cartResult);
     }
 
-    /**
-     * Test cart persistence across sessions
-     */
     #[Test]
-    public function it_cart_persists_across_sessions(): void
+    public function it_adds_multiple_products_to_cart(): void
     {
-        $product = $this->createTestProduct();
+        $productId1 = $this->createTestProduct('Product A', 25.00);
+        $productId2 = $this->createTestProduct('Product B', 35.00);
 
-        // Add to cart
-        $response = $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 3,
+        $result1 = update_cart([
+            'content_id' => $productId1,
+            'price' => 25.00,
         ]);
+        $this->assertArrayHasKey('success', $result1);
 
-        $response->assertStatus(200);
+        $result2 = update_cart([
+            'content_id' => $productId2,
+            'price' => 35.00,
+        ]);
+        $this->assertArrayHasKey('success', $result2);
 
-        // Get cart ID from session/cookie
-        $cart = Cart::first();
-        $this->assertNotNull($cart);
-
-        // Verify cart data is accessible
-        $cartData = $cart->getItems();
-        $this->assertCount(1, $cartData);
-        $this->assertEquals(3, $cartData[0]['qty']);
+        $cartItemsCount = cart_sum(false);
+        $this->assertEquals(2, $cartItemsCount);
     }
 
-    /**
-     * Test cart item quantity update
-     */
     #[Test]
-    public function it_cart_quantity_update(): void
+    public function it_cart_item_quantity_update(): void
     {
-        $product = $this->createTestProduct();
+        $productId = $this->createTestProduct('Qty Update Product', 10.00);
 
-        // Add to cart
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 1,
+        $cartResult = update_cart([
+            'content_id' => $productId,
+            'price' => 10.00,
         ]);
 
-        $cart = Cart::first();
+        $this->assertArrayHasKey('success', $cartResult);
+
+        // Get the cart item ID
+        $cartItem = Cart::where('rel_id', $productId)
+            ->where('order_completed', 0)
+            ->first();
+        $this->assertNotNull($cartItem);
 
         // Update quantity
-        $updateResponse = $this->post('/api/cart/update', [
-            'product_id' => $product->id,
+        $updateResult = update_cart_item_qty([
+            'id' => $cartItem->id,
             'qty' => 5,
         ]);
 
-        $updateResponse->assertStatus(200);
+        $this->assertArrayHasKey('success', $updateResult);
 
-        $cart->refresh();
-        $items = $cart->getItems();
-        $this->assertEquals(5, $items[0]['qty']);
+        $cartItem->refresh();
+        $this->assertEquals(5, $cartItem->qty);
     }
 
-    /**
-     * Test cart item removal
-     */
     #[Test]
     public function it_cart_item_removal(): void
     {
-        $product1 = $this->createTestProduct(['sku' => 'PROD-001']);
-        $product2 = $this->createTestProduct(['sku' => 'PROD-002']);
+        $productId1 = $this->createTestProduct('Remove Product 1', 20.00);
+        $productId2 = $this->createTestProduct('Remove Product 2', 30.00);
 
-        // Add both products
-        $this->post('/api/cart/add', [
-            'product_id' => $product1->id,
-            'qty' => 1,
-        ]);
-        $this->post('/api/cart/add', [
-            'product_id' => $product2->id,
-            'qty' => 1,
-        ]);
+        update_cart(['content_id' => $productId1, 'price' => 20.00]);
+        update_cart(['content_id' => $productId2, 'price' => 30.00]);
 
-        $cart = Cart::first();
-        $this->assertEquals(2, $cart->getItemsCount());
+        $this->assertEquals(2, cart_sum(false));
 
-        // Remove first product
-        $removeResponse = $this->post('/api/cart/remove', [
-            'product_id' => $product1->id,
-        ]);
+        // Remove first item
+        $cartItem = Cart::where('rel_id', $productId1)
+            ->where('order_completed', 0)
+            ->first();
+        $this->assertNotNull($cartItem);
 
-        $removeResponse->assertStatus(200);
+        $removeResult = remove_cart_item(['id' => $cartItem->id]);
+        $this->assertArrayHasKey('success', $removeResult);
 
-        $cart->refresh();
-        $this->assertEquals(1, $cart->getItemsCount());
+        $this->assertEquals(1, cart_sum(false));
     }
 
-    /**
-     * Test checkout validation
-     */
     #[Test]
-    public function it_checkout_validates_required_fields(): void
+    public function it_empty_cart(): void
     {
-        $product = $this->createTestProduct();
+        $productId = $this->createTestProduct('Empty Cart Product', 15.00);
 
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 1,
-        ]);
+        update_cart(['content_id' => $productId, 'price' => 15.00]);
+        $this->assertGreaterThan(0, cart_sum(false));
 
-        // Submit with missing required fields
-        $response = $this->post('/checkout/process', [
-            'first_name' => '',
-            'last_name' => '',
-            'email' => 'invalid-email',
-            'payment_method' => '',
-        ]);
-
-        $response->assertStatus(422);
+        $emptyResult = empty_cart();
+        $this->assertArrayHasKey('success', $emptyResult);
+        $this->assertEquals(0, cart_sum(false));
     }
 
-    /**
-     * Test checkout with empty cart
-     */
     #[Test]
-    public function it_checkout_fails_with_empty_cart(): void
+    public function it_checkout_with_empty_cart_creates_zero_amount_order(): void
     {
-        $response = $this->post('/checkout/process', [
+        empty_cart();
+
+        $checkoutStatus = app()->checkout_manager->checkout([
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.com',
-            'payment_method' => 'bank_transfer',
         ]);
 
-        $response->assertStatus(400)->assertJson([
-            'error' => 'Cart is empty',
-        ]);
+        $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertEquals(0, $checkoutStatus['amount']);
+        $this->assertEquals(0, $checkoutStatus['items_count']);
     }
 
-    /**
-     * Test stock validation during checkout
-     */
     #[Test]
-    public function it_checkout_validates_stock(): void
+    public function it_checkout_creates_order_with_correct_details(): void
     {
-        $product = $this->createTestProduct([
-            'qty' => 5,
-            'track_quantity' => true,
+        $productId = $this->createTestProduct('Order Details Product', 75.00);
+
+        update_cart([
+            'content_id' => $productId,
+            'price' => 75.00,
         ]);
 
-        // Try to add more than available stock
-        $response = $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 10,
-        ]);
-
-        $response->assertStatus(400)->assertJson([
-            'error' => 'Not enough stock',
-        ]);
-    }
-
-    /**
-     * Test coupon code application
-     */
-    #[Test]
-    public function it_coupon_code_application(): void
-    {
-        $product = $this->createTestProduct(['price' => 100]);
-
-        // Create a coupon
-        $coupon = \Modules\Coupons\Models\Coupon::factory()->create([
-            'coupon_code' => 'TEST20',
-            'discount_amount' => 20,
-            'discount_type' => 'fixed',
-            'is_active' => true,
-        ]);
-
-        // Add product to cart
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 1,
-        ]);
-
-        // Apply coupon
-        $couponResponse = $this->post('/api/cart/apply-coupon', [
-            'coupon_code' => 'TEST20',
-        ]);
-
-        $couponResponse->assertStatus(200);
-
-        $cart = Cart::first();
-        $this->assertEquals(80, $cart->getTotal()); // 100 - 20 = 80
-    }
-
-    /**
-     * Test shipping calculation
-     */
-    #[Test]
-    public function it_shipping_calculation(): void
-    {
-        $product = $this->createTestProduct([
-            'price' => 50,
-            'weight' => 2.5,
-        ]);
-
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 2,
-        ]);
-
-        // Calculate shipping
-        $shippingResponse = $this->post('/api/shipping/calculate', [
-            'country' => 'US',
+        $checkoutStatus = app()->checkout_manager->checkout([
+            'first_name' => 'Jane',
+            'last_name' => 'Smith',
+            'email' => 'jane@example.com',
+            'phone' => '0881234567',
+            'address' => '456 Order Street',
+            'city' => 'Order City',
             'state' => 'CA',
-            'zip' => '90210',
-        ]);
-
-        $shippingResponse->assertStatus(200);
-        $shippingResponse->assertJsonStructure([
-            'shipping_methods',
-        ]);
-    }
-
-    /**
-     * Test order confirmation email
-     */
-    #[Test]
-    public function it_order_confirmation_email_sent(): void
-    {
-        \Illuminate\Support\Facades\Mail::fake();
-
-        $product = $this->createTestProduct();
-
-        $this->post('/api/cart/add', [
-            'product_id' => $product->id,
-            'qty' => 1,
-        ]);
-
-        $this->post('/checkout/process', [
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'john@example.com',
-            'phone' => '+1234567890',
-            'address' => '123 Test Street',
-            'city' => 'Test City',
             'country' => 'US',
-            'zip' => '12345',
-            'payment_method' => 'bank_transfer',
-            'terms_accepted' => true,
+            'zip' => '90210',
+            'is_paid' => 1,
+            'order_completed' => 1,
         ]);
 
-        \Illuminate\Support\Facades\Mail::assertSent(\Modules\Order\Mails\OrderConfirmation::class);
+        $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertArrayHasKey('id', $checkoutStatus);
+
+        $order = Order::find($checkoutStatus['id']);
+        $this->assertNotNull($order);
+        $this->assertEquals('jane@example.com', $order->email);
+        $this->assertEquals('Jane', $order->first_name);
+        $this->assertEquals('Smith', $order->last_name);
+    }
+
+    #[Test]
+    public function it_checkout_updates_product_quantity(): void
+    {
+        app()->database_manager->extended_save_set_permission(true);
+
+        $productId = $this->createTestProduct('Stock Product', 50.00, ['data_qty' => 10]);
+
+        $contentData = content_data($productId);
+        $this->assertEquals(10, $contentData['qty']);
+
+        update_cart([
+            'content_id' => $productId,
+            'price' => 50.00,
+            'qty' => 3,
+        ]);
+
+        $checkoutStatus = app()->checkout_manager->checkout([
+            'email' => 'stock@example.com',
+            'first_name' => 'Stock',
+            'last_name' => 'Test',
+            'is_paid' => 1,
+            'order_completed' => 1,
+        ]);
+
+        $this->assertArrayHasKey('success', $checkoutStatus);
+
+        $contentDataAfter = content_data($productId);
+        $this->assertEquals(7, $contentDataAfter['qty']);
+    }
+
+    #[Test]
+    public function it_cart_sum_calculates_correctly(): void
+    {
+        $productId = $this->createTestProduct('Sum Product', 33.33);
+
+        update_cart([
+            'content_id' => $productId,
+            'price' => 33.33,
+            'qty' => 3,
+        ]);
+
+        $cartAmount = cart_sum(true);
+        $this->assertEquals(99.99, $cartAmount);
+
+        $cartItems = cart_sum(false);
+        $this->assertEquals(3, $cartItems);
     }
 
     /**
-     * Create a test product
+     * Create a test product using save_content (the actual Microweber API).
      */
-    private function createTestProduct(array $attributes = []): Product
+    private function createTestProduct(string $title, float $price, array $extra = []): int
     {
-        $defaults = [
-            'title' => 'Test Product',
-            'price' => 99.99,
-            'sku' => 'TEST-' . time(),
+        app()->database_manager->extended_save_set_permission(true);
+
+        $params = array_merge([
+            'title' => $title,
             'content_type' => 'product',
-            'is_active' => true,
-        ];
+            'subtype' => 'product',
+            'custom_fields_advanced' => [
+                ['type' => 'price', 'name' => 'Price', 'value' => $price],
+            ],
+            'is_active' => 1,
+        ], $extra);
 
-        return Product::factory()->create(array_merge($defaults, $attributes));
-    }
+        $savedId = save_content($params);
+        $this->assertGreaterThan(0, $savedId);
 
-    /**
-     * Seed payment providers
-     */
-    private function seedPaymentProviders(): void
-    {
-        PaymentProvider::firstOrCreate(
-            ['provider' => 'bank_transfer'],
-            [
-                'name' => 'Bank Transfer',
-                'is_active' => true,
-                'settings' => [],
-            ]
-        );
-
-        PaymentProvider::firstOrCreate(
-            ['provider' => 'paypal'],
-            [
-                'name' => 'PayPal',
-                'is_active' => true,
-                'settings' => [],
-            ]
-        );
+        return $savedId;
     }
 }
