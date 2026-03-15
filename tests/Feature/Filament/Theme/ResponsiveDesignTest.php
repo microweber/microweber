@@ -317,12 +317,12 @@ class ResponsiveDesignTest extends TestCase
     #[Test]
     public function it_grid_layouts_are_responsive(): void
     {
-        // Arrange: Get tailwind config
-        $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
-        $config = file_get_contents($tailwindConfigPath);
+        // Arrange: Get global CSS where grid utilities are used
+        $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
+        $content = file_get_contents($globalCssPath);
 
-        // Assert: Grid utilities are safelisted
-        $this->assertStringContainsString('grid', $config, 'Should have grid utilities');
+        // Assert: Grid utilities are used in theme CSS (built-in Tailwind, no safelisting needed)
+        $this->assertStringContainsString('grid', $content, 'Should use grid utilities');
     }
 
     /**
@@ -331,12 +331,12 @@ class ResponsiveDesignTest extends TestCase
     #[Test]
     public function it_spacing_utilities_are_responsive(): void
     {
-        // Arrange: Get tailwind config
-        $tailwindConfigPath = base_path('packages/microweber-filament-theme/tailwind.config.js');
-        $config = file_get_contents($tailwindConfigPath);
+        // Arrange: Get global CSS where gap utilities are used
+        $globalCssPath = base_path('packages/microweber-filament-theme/resources/assets/css/global.css');
+        $content = file_get_contents($globalCssPath);
 
-        // Assert: Gap utilities are safelisted
-        $this->assertStringContainsString('gap-', $config, 'Should have gap utilities');
+        // Assert: Gap utilities are used in theme CSS (built-in Tailwind, no safelisting needed)
+        $this->assertStringContainsString('gap-', $content, 'Should use gap utilities');
     }
 
     /**
