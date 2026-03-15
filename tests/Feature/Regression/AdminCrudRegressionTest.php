@@ -341,7 +341,13 @@ class AdminCrudRegressionTest extends TestCase
 
         $category = \Modules\Category\Models\Category::factory()->create();
         $content = \Modules\Content\Models\Content::factory()->create();
-        $content->categories()->attach($category->id);
+
+        // Link content to category via CategoryItem (the project's category association mechanism)
+        $categoryItem = new \Modules\Category\Models\CategoryItem();
+        $categoryItem->rel_id = $content->id;
+        $categoryItem->rel_type = $content->getMorphClass();
+        $categoryItem->parent_id = $category->id;
+        $categoryItem->save();
 
         $response = $this->get('/admin/contents/' . $content->id . '/edit');
         $response->assertStatus(200);
