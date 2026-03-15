@@ -32,8 +32,8 @@ class DbTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Content::truncate();
-        Category::truncate();
+        Content::query()->delete();
+        Category::query()->delete();
         $this->content = db_save('content', $this->save);
         $this->content5 = db_save('content', $this->save_post);
     }

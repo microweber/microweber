@@ -20,10 +20,13 @@ class SubscriptionPlanResourceTest extends BillingTestCase
 
 
         $this->loginAsAdmin();
-        $group = SubscriptionPlanGroup::factory()->create();
+        $group = SubscriptionPlanGroup::factory()->create(['name' => 'Test Plan Group']);
         $plans = SubscriptionPlan::factory()
             ->count(3)
-            ->create(['subscription_plan_group_id' => $group->id]);
+            ->create([
+                'subscription_plan_group_id' => $group->id,
+                'name' => 'Test Subscription Plan',
+            ]);
         $group->save();
        foreach ($plans as $plan) {
            $plan->save();

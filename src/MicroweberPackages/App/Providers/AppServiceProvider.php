@@ -543,6 +543,7 @@ class AppServiceProvider extends ServiceProvider
                 $this->commands(PackageInstallCommand::class);
                 $this->commands(AddLicenseKeyCommand::class);
                 $this->commands(VendorAssetsSymlinkCommand::class);
+                $this->commands(InstallCommand::class);
 
             }
         } else {

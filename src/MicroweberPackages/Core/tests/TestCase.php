@@ -254,6 +254,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             //  $is_installed = mw_is_installed();
 
             //if (!$is_installed) {
+            // Temporarily mark as not installed so the installer will proceed
+            Config::set('microweber.is_installed', 0);
+
             $output = new BufferedOutput();
             $output->setDecorated(false);
             $install = Artisan::call('microweber:install', $install_params, $output);
@@ -376,9 +379,15 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->install();
         }
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
-        DB::table('options')
-            ->where('option_group', 'multilanguage_settings')
-            ->delete();
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('options')) {
+                DB::table('options')
+                    ->where('option_group', 'multilanguage_settings')
+                    ->delete();
+            }
+        } catch (\Exception $e) {
+            // Table may not exist yet during initial setup
+        }
 
         app()->bind('permalink_manager', function () {
             return new PermalinkManager();
