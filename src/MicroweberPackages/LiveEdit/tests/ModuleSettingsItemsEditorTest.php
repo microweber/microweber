@@ -19,6 +19,10 @@ class ModuleSettingsItemsEditorTest extends TestCase
 {
     #[Test]
     public function it_items_editor(): void {
+        if (!defined('MW_SITE_URL')) {
+            define('MW_SITE_URL', 'http://localhost/');
+        }
+
         Option::truncate();
 
         $user = User::where('is_admin', '=', '1')->first();

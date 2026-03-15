@@ -74,7 +74,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 - [x] 2026-03-15  fix: MultilanguageTest::it_multilanguage_api error (already resolved by prior fixes)
 - [x] 2026-03-15  fix: TaggableFileCacheServiceProviderTest and TaggableFileStoreTest failures
-- [ ] fix: LiveEdit ModuleSettingsItemsEditorTest failure
+- [x] 2026-03-15  fix: LiveEdit ModuleSettingsItemsEditorTest failure
 
 ### Low: BillingRegressionTest (5 failures beyond is_active issue)
 
