@@ -10,6 +10,13 @@ use Tests\TestCase;
 class TaggableFileStoreTest extends TestCase
 {
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['cache.default' => 'file']);
+        app('cache')->forgetDriver('file');
+    }
+
     #[Test]
 
     public function it_simple(): void {
