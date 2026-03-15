@@ -4,12 +4,12 @@ namespace Modules\Slider\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Slider\Models\Slider;
 use Modules\Slider\Filament\SliderTableList;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SliderSettingsFilamentTest extends TestCase
 {
 

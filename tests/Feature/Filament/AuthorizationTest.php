@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\User\Models\User;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\Test;
  */
 abstract class AuthorizationTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     /**

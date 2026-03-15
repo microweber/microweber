@@ -4,7 +4,6 @@ namespace Modules\Testimonials\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Testimonials\Filament\TestimonialsModuleSettings;
 use Modules\Testimonials\Microweber\TestimonialsModule;

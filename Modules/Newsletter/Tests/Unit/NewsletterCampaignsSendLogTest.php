@@ -2,7 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use PHPUnit\Framework\Attributes\Test;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class NewsletterCampaignsSendLogTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
     public function it_can_create_a_campaigns_send_log()

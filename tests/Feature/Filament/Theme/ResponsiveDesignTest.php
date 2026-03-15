@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament\Theme;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ use Tests\TestCase;
  */
 class ResponsiveDesignTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     /**
      * Create and authenticate as admin user.

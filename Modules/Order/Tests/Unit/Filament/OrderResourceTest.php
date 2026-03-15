@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
@@ -15,9 +15,10 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class OrderResourceTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

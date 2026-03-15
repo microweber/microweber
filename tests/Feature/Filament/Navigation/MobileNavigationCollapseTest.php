@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament\Navigation;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
@@ -19,7 +19,7 @@ use Tests\TestCase;
  */
 class MobileNavigationCollapseTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     /**

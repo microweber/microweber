@@ -6,13 +6,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\EditAction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
 use Modules\Tabs\Filament\TabsTableList;
 use Modules\Tabs\Models\Tab;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TabsTableListFilamentTest extends TestCase
 {
 

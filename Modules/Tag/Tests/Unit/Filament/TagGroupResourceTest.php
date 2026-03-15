@@ -2,7 +2,7 @@
 
 namespace Modules\Tag\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tag\Filament\Resources\TagGroupResource;
 use Modules\Tag\Filament\Resources\TagGroupResource\Pages\ListTagGroups;
@@ -11,9 +11,10 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TagGroupResourceTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

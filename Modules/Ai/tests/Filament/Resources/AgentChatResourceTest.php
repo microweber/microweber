@@ -14,6 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AgentChatResourceTest extends TestCase
 {
     use InteractsWithFilamentPanel;

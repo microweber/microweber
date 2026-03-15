@@ -4,7 +4,6 @@ namespace Modules\Background\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Background\Microweber\BackgroundModule;

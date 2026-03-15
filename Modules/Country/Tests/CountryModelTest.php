@@ -5,11 +5,11 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Country\Models\Country;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
 class CountryModelTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
 

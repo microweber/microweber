@@ -4,12 +4,12 @@ namespace Modules\HighlightCode\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class HighlightCodeModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

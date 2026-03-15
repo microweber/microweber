@@ -4,12 +4,12 @@ namespace Modules\Video\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Video\Filament\VideoModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class VideoModuleSettingsFilamentTest extends TestCase
 {
 

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\URL;
 use Modules\SiteStats\Support\Tracker;
 use Modules\SiteStats\Events\PingStatsEvent;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StatsControllerTest extends TestCase
 {

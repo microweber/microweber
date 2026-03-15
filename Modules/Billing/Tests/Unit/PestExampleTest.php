@@ -1,43 +1,58 @@
 <?php
 
+namespace Modules\Billing\Tests\Unit;
+
 use Modules\Billing\Models\Subscription;
 
-beforeEach(function () {
-    // Ensure Faker Generator has providers loaded. The container may
-    // auto-resolve a bare Generator without providers in Pest context.
-    app()->forgetInstance(\Faker\Generator::class);
-    app()->instance(\Faker\Generator::class, \Faker\Factory::create('en_US'));
-});
+class PestExampleTest extends BillingTestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-test('subscription can be created with factory', function () {
+        // Ensure Faker Generator has providers loaded
+        app()->forgetInstance(\Faker\Generator::class);
+        app()->instance(\Faker\Generator::class, \Faker\Factory::create('en_US'));
+    }
 
-    // Provide explicit IDs to avoid nested factory resolution which
-    // triggers Faker providers that may not be available in Pest context
-    $subscription = Subscription::factory()->make([
-        'customer_id' => 1,
-        'subscription_plan_id' => 1,
-    ]);
+    public function test_subscription_can_be_created_with_factory(): void
+    {
+        $subscription = Subscription::factory()->make([
+            'customer_id' => 1,
+            'subscription_plan_id' => 1,
+        ]);
 
-    expect($subscription)->toBeInstanceOf(Subscription::class)
-        ->and($subscription->stripe_status)->toBeIn(['active', 'inactive', 'cancelled']);
-});
+        $this->assertInstanceOf(Subscription::class, $subscription);
+        $this->assertContains($subscription->stripe_status, ['active', 'inactive', 'cancelled']);
+    }
 
-test('subscription has required attributes', function () {
-    $subscription = Subscription::factory()->make([
-        'customer_id' => 1,
-        'subscription_plan_id' => 1,
-        'stripe_price' => 'price_test',
-    ]);
+    public function test_subscription_has_required_attributes(): void
+    {
+        $subscription = Subscription::factory()->make([
+            'customer_id' => 1,
+            'subscription_plan_id' => 1,
+            'stripe_price' => 'price_test',
+        ]);
 
-    expect($subscription)->toBeInstanceOf(Subscription::class)
-        ->and($subscription->stripe_status)->toBe('active');
-});
+        $this->assertInstanceOf(Subscription::class, $subscription);
+        $this->assertEquals('active', $subscription->stripe_status);
+    }
 
-test('can validate subscription data', function ($status) {
-    expect(in_array($status, ['active', 'inactive', 'cancelled', 'trialing']))->toBeTrue();
-})->with([
-    'active',
-    'inactive',
-    'cancelled',
-    'trialing',
-]);
+    public static function statusProvider(): array
+    {
+        return [
+            'active' => ['active'],
+            'inactive' => ['inactive'],
+            'cancelled' => ['cancelled'],
+            'trialing' => ['trialing'],
+        ];
+    }
+
+    /**
+     * @dataProvider statusProvider
+     */
+    public function test_can_validate_subscription_data(string $status): void
+    {
+        $this->assertTrue(in_array($status, ['active', 'inactive', 'cancelled', 'trialing']));
+    }
+}

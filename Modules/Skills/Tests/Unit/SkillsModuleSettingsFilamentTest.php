@@ -4,12 +4,12 @@ namespace Modules\Skills\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Skills\Filament\SkillsModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SkillsModuleSettingsFilamentTest extends TestCase
 {
 

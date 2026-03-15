@@ -1,5 +1,0 @@
-<?php
-
-use MicroweberPackages\MicroweberFilamentTheme\Tests\TestCase;
-
-uses(TestCase::class)->in(__DIR__);

@@ -4,12 +4,12 @@ namespace Modules\FacebookPage\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\FacebookPage\Filament\FacebookPageModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class FacebookPageModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

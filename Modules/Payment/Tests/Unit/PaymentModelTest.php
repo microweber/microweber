@@ -4,7 +4,6 @@ namespace Modules\Payment\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 use Tests\TestCase;

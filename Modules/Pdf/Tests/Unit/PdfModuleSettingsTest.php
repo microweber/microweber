@@ -9,9 +9,10 @@ use MicroweberPackages\Option\Models\Option;
 use Modules\Pdf\Filament\PdfModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PdfModuleSettingsTest extends TestCase
 {
-    // use RefreshDatabase;
+    // use LazilyRefreshDatabase;
 
     #[Test]
 

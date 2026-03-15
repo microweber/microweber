@@ -10,6 +10,7 @@ use Modules\Comments\Livewire\UserCommentListComponent;
 use Modules\Comments\Models\Comment;
 use Modules\Content\Models\Content;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class UserCommentListComponentTest extends TestCase
 {
     protected $faker;

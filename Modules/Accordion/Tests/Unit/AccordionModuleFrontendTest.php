@@ -4,7 +4,6 @@ namespace Modules\Accordion\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Accordion\Filament\AccordionModuleSettings;
 use Modules\Accordion\Microweber\AccordionModule;

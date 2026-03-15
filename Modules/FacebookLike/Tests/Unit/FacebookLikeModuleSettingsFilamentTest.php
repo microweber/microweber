@@ -4,12 +4,13 @@ namespace Modules\FacebookLike\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\FacebookLike\Filament\FacebookLikeModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class FacebookLikeModuleSettingsFilamentTest extends TestCase
 {
 

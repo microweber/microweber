@@ -2,7 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
 use Modules\Newsletter\Models\NewsletterCampaign;
@@ -15,7 +15,7 @@ use Tests\TestCase;
 
 class ProcessCampaignSubscriberTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     protected function setUp(): void
     {

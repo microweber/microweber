@@ -10,6 +10,7 @@ use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Tests\NewsletterTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class NewsletterCampaignResourceTest extends NewsletterTestCase
 {
     #[Test]

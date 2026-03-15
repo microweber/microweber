@@ -6,11 +6,11 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 use Modules\Offer\Models\Offer;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
 class OfferModelTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     protected function setUp(): void
     {

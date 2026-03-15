@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
 use Modules\Product\Filament\Admin\Resources\ProductResource\Pages\ListProducts;
@@ -13,9 +13,10 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ProductResourceTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

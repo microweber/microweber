@@ -4,16 +4,17 @@ namespace Modules\Tax\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tax\Models\TaxType;
 use Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\CreateTax;
 use Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\ListTaxes;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TaxResourceTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
 

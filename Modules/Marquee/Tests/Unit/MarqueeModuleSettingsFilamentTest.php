@@ -4,12 +4,12 @@ namespace Modules\Marquee\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Marquee\Filament\MarqueeModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class MarqueeModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

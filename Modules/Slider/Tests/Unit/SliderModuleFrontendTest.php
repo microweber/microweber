@@ -4,7 +4,6 @@ namespace Modules\Slider\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use Modules\Slider\Models\Slider;
 use Modules\Slider\Microweber\SliderModule;

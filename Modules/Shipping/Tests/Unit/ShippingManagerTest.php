@@ -7,6 +7,7 @@ use Modules\Shipping\Models\ShippingProvider;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ShippingManagerTest extends TestCase
 {
 

@@ -4,7 +4,6 @@ namespace Modules\Teamcard\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 use Modules\Teamcard\Models\Teamcard;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TeamcardModelTest extends TestCase

@@ -9,6 +9,7 @@ use MicroweberPackages\Option\Models\Option;
 use Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class GoogleMapsModuleSettingsTest extends TestCase
 {
     #[Test]

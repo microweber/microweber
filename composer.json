@@ -151,8 +151,6 @@
 "require-dev": {
 "fakerphp/faker": "^1.24",
 "phpunit/phpunit": "^11.0.1",
-"pestphp/pest": "^3.0",
-"pestphp/pest-plugin-laravel": "^3.0",
 "spatie/ignition": "1.15.0",
 "mockery/mockery": "^1.6",
 "staudenmeir/dusk-updater": "^1.5",
@@ -215,11 +213,7 @@
         ],
         "test-coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/pest --configuration phpunit.xml --coverage --coverage-clover clover.xml"
-        ],
-        "test-pest": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/pest --configuration pest.xml"
+            "vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml"
         ],
         "test-dusk": [
             "Composer\\Config::disableProcessTimeout",
@@ -272,8 +266,7 @@
         "preferred-install": "dist",
         "sort-packages": false,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "composer/installers": true,
+"composer/installers": true,
             "php-http/discovery": true,
             "wikimedia/composer-merge-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true

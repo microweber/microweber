@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Str;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class WidgetsTest extends BillingTestCase
 {
     use InteractsWithFilamentPanel;

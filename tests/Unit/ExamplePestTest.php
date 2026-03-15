@@ -1,13 +1,23 @@
 <?php
 
-test('basic pest assertion', function () {
-    expect(true)->toBeTrue();
-});
+namespace Tests\Unit;
 
-test('basic arithmetic', function () {
-    expect(2 + 2)->toBe(4);
-});
+use PHPUnit\Framework\TestCase;
 
-test('string contains', function () {
-    expect('microweber')->toContain('weber');
-});
+class ExamplePestTest extends TestCase
+{
+    public function test_basic_assertion(): void
+    {
+        $this->assertTrue(true);
+    }
+
+    public function test_basic_arithmetic(): void
+    {
+        $this->assertEquals(4, 2 + 2);
+    }
+
+    public function test_string_contains(): void
+    {
+        $this->assertStringContainsString('weber', 'microweber');
+    }
+}

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Regression;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
@@ -31,7 +31,7 @@ use Tests\TestCase;
  */
 class AiChatRegressionTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use LazilyRefreshDatabase, WithFaker;
 
     protected User $admin;
     protected AiService $agentService;

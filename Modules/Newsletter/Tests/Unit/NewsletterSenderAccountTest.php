@@ -2,14 +2,14 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class NewsletterSenderAccountTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
     public function it_can_create_a_sender_account()

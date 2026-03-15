@@ -4,13 +4,13 @@ namespace Modules\Currency\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Modules\Currency\Models\Currency;
 use Tests\TestCase;
 
 class CurrencyTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
 

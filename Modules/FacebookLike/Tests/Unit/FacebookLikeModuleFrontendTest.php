@@ -4,7 +4,7 @@ namespace Modules\FacebookLike\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\FacebookLike\Microweber\FacebookLikeModule;

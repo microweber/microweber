@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         stopOnFailure="true"
+         stopOnFailure="false"
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
@@ -18,36 +18,149 @@
          failOnRisky="false"
          failOnSkipped="false"
          failOnWarning="false"
-
-
 >
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
 
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
 
         <testsuite name="Core">
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
             <exclude>src/MicroweberPackages/*/tests/Browser</exclude>
             <directory>./src/MicroweberPackages/*/</directory>
-
         </testsuite>
 
-        <testsuite name="Modules">
-            <exclude>Modules/*/Tests/Browser</exclude>
-            <directory>Modules/*/Tests</directory>
+        <!--
+            Module tests are split into groups to prevent OOM errors.
+            PHP leaks ~6MB/test from internal memory fragmentation that
+            cannot be GC'd. Filament/Livewire tests use
+            RunTestsInSeparateProcesses to run each test method in its
+            own PHP process, preventing memory accumulation.
+            Use ./run-tests.sh to run all groups in separate processes.
+        -->
 
+        <!-- Newsletter -->
+        <testsuite name="Modules-Newsletter">
+            <directory>Modules/Newsletter/Tests</directory>
+        </testsuite>
+
+        <!-- Content + ContentData -->
+        <testsuite name="Modules-Content">
+            <directory>Modules/Content/Tests</directory>
+            <directory>Modules/ContentData/Tests</directory>
+            <directory>Modules/ContentDataVariant/Tests</directory>
+        </testsuite>
+
+        <!-- Billing -->
+        <testsuite name="Modules-Billing">
+            <directory>Modules/Billing/Tests</directory>
+        </testsuite>
+
+        <!-- Group 3: Components + Comments + Cart + Category + Coupons -->
+        <testsuite name="Modules-Group3">
+            <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/Components/Tests</directory>
+            <directory>Modules/Comments/Tests</directory>
+            <directory>Modules/Cart/Tests</directory>
+            <directory>Modules/Category/Tests</directory>
+            <directory>Modules/Coupons/Tests</directory>
+        </testsuite>
+
+        <!-- Group 4: Product + Order + Customer + Tag + Payment + Shipping -->
+        <testsuite name="Modules-Group4">
+            <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/Product/Tests</directory>
+            <directory>Modules/Order/Tests</directory>
+            <directory>Modules/Customer/Tests</directory>
+            <directory>Modules/Tag/Tests</directory>
+            <directory>Modules/Payment/Tests</directory>
+            <directory>Modules/Shipping/Tests</directory>
+        </testsuite>
+
+        <!-- Group 5: Invoice + Form + Offer + Backup + CustomFields + Shop + Rating + Page + Faq + Profile + Post + Settings -->
+        <testsuite name="Modules-Group5">
+            <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/Invoice/Tests</directory>
+            <directory>Modules/Form/Tests</directory>
+            <directory>Modules/Offer/Tests</directory>
+            <directory>Modules/Backup/Tests</directory>
+            <directory>Modules/CustomFields/Tests</directory>
+            <directory>Modules/Shop/Tests</directory>
+            <directory>Modules/Rating/Tests</directory>
+            <directory>Modules/Page/Tests</directory>
+            <directory>Modules/Faq/Tests</directory>
+            <directory>Modules/Profile/Tests</directory>
+            <directory>Modules/Post/Tests</directory>
+            <directory>Modules/Settings/Tests</directory>
+        </testsuite>
+
+        <!-- Group 6A: Larger small modules -->
+        <testsuite name="Modules-Group6A">
+            <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/Video/Tests</directory>
+            <directory>Modules/MailTemplate/Tests</directory>
+            <directory>Modules/Sitemap/Tests</directory>
+            <directory>Modules/Menu/Tests</directory>
+            <directory>Modules/Media/Tests</directory>
+            <directory>Modules/Teamcard/Tests</directory>
+            <directory>Modules/Restore/Tests</directory>
+            <directory>Modules/ImageRollover/Tests</directory>
+            <directory>Modules/Checkout/Tests</directory>
+            <directory>Modules/Attributes/Tests</directory>
+            <directory>Modules/AiWizard/Tests</directory>
+            <directory>Modules/SiteStats/Tests</directory>
+            <directory>Modules/Marketplace/Tests</directory>
+            <directory>Modules/FileManager/Tests</directory>
+        </testsuite>
+
+        <!-- Group 6B: Smaller modules -->
+        <testsuite name="Modules-Group6B">
+            <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/Tax/Tests</directory>
+            <directory>Modules/Tabs/Tests</directory>
+            <directory>Modules/GoogleAnalytics/Tests</directory>
+            <directory>Modules/Country/Tests</directory>
+            <directory>Modules/RssFeed/tests</directory>
+            <directory>Modules/Log/Tests</directory>
+            <directory>Modules/Export/Tests</directory>
+            <directory>Modules/Btn/Tests</directory>
+            <directory>Modules/Accordion/Tests</directory>
+            <directory>Modules/Address/Tests</directory>
+            <directory>Modules/Audio/Tests</directory>
+            <directory>Modules/Background/Tests</directory>
+            <directory>Modules/BeforeAfter/Tests</directory>
+            <directory>Modules/Blog/Tests</directory>
+            <directory>Modules/Captcha/Tests</directory>
+            <directory>Modules/Cloudflare/Tests</directory>
+            <directory>Modules/CookieNotice/Tests</directory>
+            <directory>Modules/Currency/Tests</directory>
+            <directory>Modules/Embed/Tests</directory>
+            <directory>Modules/FacebookLike/Tests</directory>
+            <directory>Modules/FacebookPage/Tests</directory>
+            <directory>Modules/GoogleMaps/Tests</directory>
+            <directory>Modules/HighlightCode/Tests</directory>
+            <directory>Modules/Logo/Tests</directory>
+            <directory>Modules/Marquee/Tests</directory>
+            <directory>Modules/OpenApi/Tests</directory>
+            <directory>Modules/Pdf/Tests</directory>
+            <directory>Modules/Pictures/Tests</directory>
+            <directory>Modules/Sharer/Tests</directory>
+            <directory>Modules/Skills/Tests</directory>
+            <directory>Modules/Slider/Tests</directory>
+            <directory>Modules/SocialLinks/Tests</directory>
+            <directory>Modules/Testimonials/Tests</directory>
+            <directory>Modules/TextType/Tests</directory>
+            <directory>Modules/TweetEmbed/Tests</directory>
         </testsuite>
 
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
             <directory>Templates/*/Tests</directory>
-
         </testsuite>
-
-
-
     </testsuites>
     <source>
         <include>
@@ -68,19 +181,17 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <ini name="memory_limit" value="-1"/>
+        <ini name="memory_limit" value="4096M"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="CACHE_STORE" value="array"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value="database/database.sqlite"/>
         <env name="MW_IS_INSTALLED" value="1" force="true"/>
         <ini name="display_errors" value="On"/>
         <ini name="display_startup_errors" value="On"/>
-
     </php>
-
-
 </phpunit>

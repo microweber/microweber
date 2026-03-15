@@ -10,6 +10,7 @@ use Modules\Billing\Models\SubscriptionPlan;
 use Modules\Billing\Tests\Unit\BillingTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SubscriptionPlanGroupsResourceTest extends BillingTestCase
 {
     #[Test]

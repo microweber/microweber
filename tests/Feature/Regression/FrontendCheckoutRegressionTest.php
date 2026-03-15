@@ -3,7 +3,7 @@
 namespace Tests\Feature\Regression;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Cart\Models\Cart;
 use Modules\Order\Models\Order;
@@ -28,7 +28,7 @@ use Tests\TestCase;
  */
 class FrontendCheckoutRegressionTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use LazilyRefreshDatabase, WithFaker;
 
     protected function setUp(): void
     {

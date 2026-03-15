@@ -3,7 +3,7 @@
 namespace Tests\Feature\Regression;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ use Tests\TestCase;
  */
 class AdminCrudRegressionTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use LazilyRefreshDatabase, WithFaker;
 
     protected User $admin;
 

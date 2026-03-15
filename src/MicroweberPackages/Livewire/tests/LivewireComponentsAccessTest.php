@@ -11,6 +11,7 @@ use Livewire\Livewire;
 use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
     public $template_name = 'big';

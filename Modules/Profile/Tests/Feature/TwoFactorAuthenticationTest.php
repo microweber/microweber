@@ -10,6 +10,7 @@ use Tests\TestCase;
 use PragmaRX\Google2FA\Google2FA;
 use MicroweberPackages\User\Models\User;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TwoFactorAuthenticationTest extends TestCase
 {
     use UserTestHelperTrait;

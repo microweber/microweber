@@ -2,7 +2,6 @@
 
 namespace Modules\Shipping\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\CreateShippingProvider;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\EditShippingProvider;
@@ -12,6 +11,7 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PickupFromAddressFilamentResourceTest extends TestCase
 {
 

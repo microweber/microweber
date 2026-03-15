@@ -6,13 +6,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\EditAction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Accordion\Filament\AccordionModuleSettings;
 use Modules\Accordion\Filament\AccordionTableList;
 use Modules\Accordion\Models\Accordion;
 use Tests\TestCase;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AccordionTableListFilamentTest extends TestCase
 {
 

@@ -2,7 +2,6 @@
 
 namespace Modules\Audio\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -11,6 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AudioModuleSettingsFilamentTest extends TestCase
 {
 

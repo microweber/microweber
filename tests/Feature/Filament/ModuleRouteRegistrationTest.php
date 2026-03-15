@@ -3,7 +3,7 @@
 namespace Tests\Feature\Filament;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
@@ -16,9 +16,10 @@ use Tests\TestCase;
  * Tests that module routes are properly registered and accessible
  * in the test environment via the FilamentRegistry and panel system.
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ModuleRouteRegistrationTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

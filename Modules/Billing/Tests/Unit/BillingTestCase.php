@@ -3,14 +3,14 @@
 namespace Modules\Billing\Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Modules\Billing\Providers\BillingServiceProvider;
 use Modules\Billing\Providers\BillingFilamentAdminPanelProvider;
 use Filament\FilamentServiceProvider;
 
 class BillingTestCase extends TestCase
 {
-   //use RefreshDatabase;
+   //use LazilyRefreshDatabase;
 
 
 }

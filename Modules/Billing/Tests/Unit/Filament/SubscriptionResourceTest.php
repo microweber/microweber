@@ -12,6 +12,7 @@ use Modules\Billing\Tests\Unit\BillingTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Str;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SubscriptionResourceTest extends BillingTestCase
 {
     private function createTestSubscription(array $overrides = []): Subscription

@@ -18,6 +18,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * Authorization tests for AgentChatResource.
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AgentChatResourceAuthorizationTest extends TestCase
 {
     use InteractsWithFilamentPanel;

@@ -5,7 +5,7 @@ namespace Modules\Billing\Tests\Feature;
 use PHPUnit\Framework\Attributes\Test;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\Billing\Services\SubscriptionManager;
 use Tests\TestCase;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class SubscriptionManagerTest extends TestCase
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
 
     #[Test]
 

@@ -4,7 +4,6 @@ namespace Modules\Tabs\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
 use Modules\Tabs\Microweber\TabsModule;
