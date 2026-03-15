@@ -22,14 +22,14 @@ class AdminAuthenticationTest extends TestCase
         // Create admin user
         $this->admin = User::factory()->create([
             'is_admin' => 1,
-            'email' => 'admin@example.com',
+            'email' => 'test-admin-' . uniqid() . '@example.com',
             'password' => Hash::make('password'),
         ]);
 
         // Create regular non-admin user
         $this->regularUser = User::factory()->create([
             'is_admin' => 0,
-            'email' => 'user@example.com',
+            'email' => 'test-user-' . uniqid() . '@example.com',
             'password' => Hash::make('password'),
         ]);
     }

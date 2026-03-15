@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Textarea;
