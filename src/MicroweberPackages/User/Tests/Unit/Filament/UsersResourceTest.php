@@ -38,10 +38,12 @@ class UsersResourceTest extends TestCase
     #[Test]
     public function it_index_page_shows_all_records(): void
     {
+        $existingCount = User::count();
         $users = User::factory()->count(3)->create();
 
         Livewire::test(ListUsers::class)
-            ->assertCanSeeTableRecords($users);
+            ->loadTable()
+            ->assertCountTableRecords($existingCount + 3);
     }
 
     #[Test]

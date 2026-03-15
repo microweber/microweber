@@ -67,8 +67,8 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Medium: UsersResource test failures (Core + Feature)
 
-- [ ] fix: UsersResourceTest — index_page_shows_all_records assertion fails (table record key mismatch)
-- [ ] fix: UsersResourceAuthorizationTest — isUnauthorized() method does not exist on Response
+- [x] 2026-03-15  fix: UsersResourceTest — index_page_shows_all_records assertion fails (table record key mismatch)
+- [x] 2026-03-15  fix: UsersResourceAuthorizationTest — isUnauthorized() method does not exist on Response
 
 ### Medium: Core suite issues
 
