@@ -23,7 +23,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Critical: AiSettingsPage null user check (affects navigation tests)
 
-- [ ] fix: AiSettingsPage::canAccess() calls `->can()` on null user — add null guard in Modules/Ai/Filament/Pages/AiSettingsPage.php:46
+- [x] 2026-03-15  fix: AiSettingsPage::canAccess() calls `->can()` on null user — add null guard in Modules/Ai/Filament/Pages/AiSettingsPage.php:46
 
 ### Critical: AiService unresolvable dependency (12 tests)
 

@@ -43,7 +43,7 @@ return static::$shouldRegisterNavigation;
 
 public static function canAccess(): bool
 {
-return auth()->user()->can('manage_ai_settings');
+return auth()->user()?->can('manage_ai_settings') ?? false;
 }
 
 public function updated($propertyName, $value): void
