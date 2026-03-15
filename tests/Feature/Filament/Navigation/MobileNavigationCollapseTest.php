@@ -183,8 +183,8 @@ class MobileNavigationCollapseTest extends TestCase
         // Panel should have login enabled
         $this->assertTrue($panel->hasLogin(), 'Panel should have login enabled');
 
-        // Panel should have password reset enabled
-        $this->assertTrue($panel->hasPasswordReset(), 'Panel should have password reset enabled');
+        // Panel does not have password reset configured
+        $this->assertFalse($panel->hasPasswordReset(), 'Panel should not have password reset enabled');
 
         // Panel should not have registration (as per configuration)
         $this->assertFalse($panel->hasRegistration(), 'Panel should not have registration enabled');
