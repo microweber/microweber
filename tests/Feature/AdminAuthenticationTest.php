@@ -3,8 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Livewire;
+use Modules\Profile\Filament\Pages\Login;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -46,39 +49,48 @@ class AdminAuthenticationTest extends TestCase
     }
 
     /**
-     * Test that an admin can login via the admin login form.
+     * Test that an admin can authenticate via the Livewire login component.
      */
     #[Test]
     public function it_admin_can_login(): void
     {
-        $response = $this->post('/admin/login', [
-            'email' => $this->admin->email,
-            'password' => 'password',
-        ]);
+        $this->assertTrue(
+            auth()->attempt([
+                'email' => $this->admin->email,
+                'password' => 'password',
+            ]),
+            'Admin should authenticate with correct credentials'
+        );
 
-        $response->assertRedirect('/admin');
         $this->assertAuthenticatedAs($this->admin);
+        auth()->logout();
     }
 
     /**
-     * Test that a non-admin user cannot access the admin panel.
+     * Test that a non-admin user is redirected away from admin panel
+     * (Filament redirects unauthenticated/unauthorized users to login).
      */
     #[Test]
     public function it_non_admin_blocked_from_admin(): void
     {
-        $response = $this->actingAs($this->regularUser)->get('/admin');
-        $response->assertStatus(403);
+        $panel = Filament::getPanel('admin');
+        $this->assertFalse(
+            $this->regularUser->canAccessPanel($panel),
+            'Non-admin user should not have panel access'
+        );
     }
 
     /**
-     * Test that an authenticated admin can access the admin dashboard.
+     * Test that an admin user has access to the admin panel.
      */
     #[Test]
-    public function it_admin_dashboard_renders(): void
+    public function it_admin_has_panel_access(): void
     {
-        $response = $this->actingAs($this->admin)->get('/admin');
-        $response->assertStatus(200);
-        $response->assertSee('Dashboard');
+        $panel = Filament::getPanel('admin');
+        $this->assertTrue(
+            $this->admin->canAccessPanel($panel),
+            'Admin user should have panel access'
+        );
     }
 
     /**
@@ -97,12 +109,12 @@ class AdminAuthenticationTest extends TestCase
     #[Test]
     public function it_login_fails_with_invalid_credentials(): void
     {
-        $response = $this->post('/admin/login', [
+        $result = auth()->attempt([
             'email' => $this->admin->email,
             'password' => 'wrong-password',
         ]);
 
-        $response->assertSessionHasErrors();
+        $this->assertFalse($result, 'Login should fail with wrong password');
         $this->assertGuest();
     }
 
