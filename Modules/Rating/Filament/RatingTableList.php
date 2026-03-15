@@ -3,6 +3,7 @@
 namespace Modules\Rating\Filament;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -19,7 +20,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Modules\Rating\Models\Rating;
 
-class RatingTableList extends Component implements HasForms, HasTable
+class RatingTableList extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;

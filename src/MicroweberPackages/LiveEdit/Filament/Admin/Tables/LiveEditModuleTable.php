@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Tables;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -20,7 +21,7 @@ use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Testimonials\Models\Testimonial;
 
-abstract class LiveEditModuleTable extends Component implements HasForms, HasTable
+abstract class LiveEditModuleTable extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;

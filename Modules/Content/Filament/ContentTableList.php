@@ -3,6 +3,7 @@
 namespace Modules\Content\Filament;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
@@ -28,7 +29,7 @@ use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
 
-class ContentTableList extends Component implements HasForms, HasTable
+class ContentTableList extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;

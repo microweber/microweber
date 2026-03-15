@@ -3,6 +3,7 @@
 namespace Modules\Faq\Filament;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -24,7 +25,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Faq\Models\Faq;
 use NeuronAI\Chat\Messages\UserMessage;
 
-class FaqTableList extends Component implements HasForms, HasTable
+class FaqTableList extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;

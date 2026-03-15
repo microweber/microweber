@@ -3,6 +3,7 @@
 namespace Modules\Tabs\Filament;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
@@ -31,7 +32,7 @@ use Modules\Tabs\Models\Tab;
 use NeuronAI\Chat\Messages\UserMessage;
 
 
-class TabsTableList extends Component implements HasForms, HasTable
+class TabsTableList extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;
