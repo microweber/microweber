@@ -31,7 +31,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Critical: SubscriptionPlan factory uses non-existent `is_active` column (5+ tests)
 
-- [ ] fix: SubscriptionPlan factory references `is_active` column that doesn't exist in subscription_plans table — add migration or fix factory
+- [x] 2026-03-15  fix: SubscriptionPlan factory references `is_active` column that doesn't exist in subscription_plans table — add migration or fix factory
 
 ### Critical: FrontendCheckoutRegressionTest — all 10 tests error (Cart/Checkout model issues)
 

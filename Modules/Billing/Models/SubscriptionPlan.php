@@ -21,6 +21,7 @@ class SubscriptionPlan extends Model
 
     protected $casts = [
         'plan_data' => 'array',
+        'is_active' => 'boolean',
     ];
 
     protected $fillable = [
@@ -41,6 +42,7 @@ class SubscriptionPlan extends Model
         'alternative_annual_plan_id',
         'description',
         'sort_order',
+        'is_active',
     ];
 
     public function features()
