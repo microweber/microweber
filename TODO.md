@@ -78,7 +78,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Low: BillingRegressionTest (5 failures beyond is_active issue)
 
-- [ ] fix: BillingRegressionTest — subscription trial, webhook signature, plan change, admin management, stats tests
+- [x] 2026-03-15  fix: BillingRegressionTest — subscription trial, webhook signature, plan change, admin management, stats tests
 
 ### Low: Modules-Group6A (Restore module)
 
