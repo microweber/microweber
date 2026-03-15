@@ -43,10 +43,13 @@ class AiServiceProvider extends BaseModuleServiceProvider
         // Register the AI service as a singleton
         $this->app->singleton('ai', function ($app) {
             return new AiService(
-                config('modules.ai.default_driver'),
-                config('modules.ai.drivers')
+                config('modules.ai.default_driver', 'openai'),
+                config('modules.ai.drivers', [])
             );
         });
+
+        // Alias so AiService::class resolves to the 'ai' singleton
+        $this->app->alias('ai', AiService::class);
 
         // Register the AI image service as a singleton
         $this->app->singleton('ai.images', function ($app) {
@@ -55,6 +58,9 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 config('modules.ai.drivers')
             );
         });
+
+        // Alias so AiServiceImages::class resolves to the 'ai.images' singleton
+        $this->app->alias('ai.images', AiServiceImages::class);
     }
 
     public function register(): void

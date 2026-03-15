@@ -27,7 +27,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Critical: AiService unresolvable dependency (12 tests)
 
-- [ ] fix: AiService requires `$defaultDriver` string param but is not bound in container — register proper binding in AiServiceProvider or add default value
+- [x] 2026-03-15  fix: AiService requires `$defaultDriver` string param but is not bound in container — register proper binding in AiServiceProvider or add default value
 
 ### Critical: SubscriptionPlan factory uses non-existent `is_active` column (5+ tests)
 
