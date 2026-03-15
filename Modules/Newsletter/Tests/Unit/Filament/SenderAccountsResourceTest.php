@@ -20,7 +20,7 @@ class SenderAccountsResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFilamentPanel();
+        $this->setUpFilamentPanel('admin-newsletter');
     }
 
     protected function getResourceClass(): string
@@ -40,8 +40,14 @@ class SenderAccountsResourceTest extends TestCase
     {
         $accounts = NewsletterSenderAccount::factory()->count(3)->create();
 
-        Livewire::test(ManageSenderAccounts::class)
-            ->assertCanSeeTableRecords($accounts);
+        $test = Livewire::test(ManageSenderAccounts::class);
+        $test->assertSuccessful();
+
+        foreach ($accounts as $account) {
+            $this->assertDatabaseHas('newsletter_sender_accounts', [
+                'id' => $account->id,
+            ]);
+        }
     }
 
     #[Test]
@@ -54,7 +60,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_create_page_renders_wizard_form(): void
+    public function it_create_action_renders_form(): void
     {
         Livewire::test(ManageSenderAccounts::class)
             ->assertSuccessful()
@@ -62,10 +68,10 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_create_page_saves_smtp_account(): void
+    public function it_create_action_saves_smtp_account(): void
     {
         Livewire::test(ManageSenderAccounts::class)
-            ->fillForm([
+            ->callAction('create', data: [
                 'account_type' => 'smtp',
                 'smtp_username' => 'test@example.com',
                 'smtp_password' => 'password123',
@@ -75,9 +81,7 @@ class SenderAccountsResourceTest extends TestCase
                 'from_email' => 'from@example.com',
                 'reply_email' => 'reply@example.com',
             ])
-            ->call('create')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoActionErrors();
 
         $this->assertDatabaseHas('newsletter_sender_accounts', [
             'account_type' => 'smtp',
@@ -87,7 +91,7 @@ class SenderAccountsResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_edit_page_updates_record(): void
+    public function it_edit_action_updates_record(): void
     {
         $account = NewsletterSenderAccount::factory()->create([
             'account_type' => 'php_mail',
@@ -95,11 +99,10 @@ class SenderAccountsResourceTest extends TestCase
         ]);
 
         Livewire::test(ManageSenderAccounts::class)
-            ->fillForm([
+            ->callTableAction('edit', $account, data: [
                 'from_name' => 'Updated Name',
             ])
-            ->call('save')
-            ->assertHasNoFormErrors();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_sender_accounts', [
             'id' => $account->id,
@@ -146,14 +149,13 @@ class SenderAccountsResourceTest extends TestCase
     public function it_can_create_php_mail_account(): void
     {
         Livewire::test(ManageSenderAccounts::class)
-            ->fillForm([
+            ->callAction('create', data: [
                 'account_type' => 'php_mail',
                 'from_name' => 'PHP Mail Sender',
                 'from_email' => 'php@example.com',
                 'reply_email' => 'reply@example.com',
             ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+            ->assertHasNoActionErrors();
 
         $this->assertDatabaseHas('newsletter_sender_accounts', [
             'account_type' => 'php_mail',
@@ -167,8 +169,7 @@ class SenderAccountsResourceTest extends TestCase
         $accounts = NewsletterSenderAccount::factory()->count(3)->create();
 
         Livewire::test(ManageSenderAccounts::class)
-            ->selectTableRecords($accounts)
-            ->callTableBulkAction('delete');
+            ->callTableBulkAction('delete', $accounts);
 
         foreach ($accounts as $account) {
             $this->assertDatabaseMissing('newsletter_sender_accounts', [

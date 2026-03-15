@@ -74,7 +74,7 @@ class CampaignResource extends Resource
                     ->maxLength(255),
 Select::make('list_id')
 ->label('List')
-->relationship('list', 'name')
+->options(fn () => NewsletterList::pluck('name', 'id'))
 ->searchable()
 ->preload()
 ->required(),
@@ -111,7 +111,7 @@ Select::make('list_id')
     {
         return $table
             ->poll('10s')
-            ->with(['list'])
+            ->modifyQueryUsing(fn ($query) => $query->with('list'))
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
@@ -143,6 +143,7 @@ Select::make('list_id')
             ])
             ->headerActions([ // Added header actions
                 Tables\Actions\ExportAction::make()
+                    ->exporter(NewsletterCampaignExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
                     ->form(function (Tables\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterCampaignExporter::getColumns();
@@ -338,6 +339,7 @@ Tables\Actions\DeleteAction::make(),
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([ // Added bulk actions
                     Tables\Actions\ExportBulkAction::make()
+                        ->exporter(NewsletterCampaignExporter::class)
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterCampaignExporter::getColumns();
                             $schemaSchema = [];

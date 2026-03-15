@@ -15,17 +15,18 @@ class NewsletterSubscriberListTest extends TestCase
     #[Test]
     public function it_can_create_a_subscriber_list()
     {
-        $data = [
-            'subscriber_id' => 1,
-            'list_id' => 1,
-        ];
+        $subscriber = \Modules\Newsletter\Models\NewsletterSubscriber::factory()->create();
+        $list = \Modules\Newsletter\Models\NewsletterList::factory()->create();
 
-        $subscriberList = NewsletterSubscriberList::create($data);
+        $subscriberList = NewsletterSubscriberList::create([
+            'subscriber_id' => $subscriber->id,
+            'list_id' => $list->id,
+        ]);
 
         $this->assertDatabaseHas('newsletter_subscribers_lists', [
             'id' => $subscriberList->id,
-            'subscriber_id' => 1,
-            'list_id' => 1,
+            'subscriber_id' => $subscriber->id,
+            'list_id' => $list->id,
         ]);
     }
 

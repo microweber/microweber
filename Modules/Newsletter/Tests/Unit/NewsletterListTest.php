@@ -58,10 +58,11 @@ class NewsletterListTest extends TestCase
     public function it_returns_subscribers_count_attribute()
     {
         $list = NewsletterList::factory()->create();
+        $countBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
         NewsletterSubscriberList::factory()->count(3)->create([
             'list_id' => $list->id,
         ]);
 
-        $this->assertEquals(3, $list->subscribers_count);
+        $this->assertEquals(3 + $countBefore, $list->subscribers_count);
     }
 }

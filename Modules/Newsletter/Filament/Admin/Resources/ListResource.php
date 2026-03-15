@@ -66,6 +66,7 @@ class ListResource extends Resource
             ])
              ->headerActions([ // Added header actions
                  Tables\Actions\ExportAction::make()
+                     ->exporter(NewsletterListExporter::class)
                      ->icon('heroicon-m-cloud-arrow-down')
                      ->form(function (Tables\Actions\ExportAction $action): array {
                          $exportColumns = NewsletterListExporter::getColumns();
@@ -93,7 +94,8 @@ class ListResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\ExportBulkAction::make() // Added bulk export action
+                    Tables\Actions\ExportBulkAction::make()
+                        ->exporter(NewsletterListExporter::class)
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterListExporter::getColumns();
                             $schemaSchema = [];

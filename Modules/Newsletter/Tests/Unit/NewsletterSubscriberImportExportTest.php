@@ -151,13 +151,15 @@ class NewsletterSubscriberImportExportTest extends TestCase
     {
         $count = 10000;
         $list = NewsletterList::factory()->create(['name' => 'Bulk List']);
+        $subscriberCountBefore = NewsletterSubscriber::count();
+        $subscriberListCountBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
 
         // Generate 10,000 fake emails
         $data = [];
         for ($i = 1; $i <= $count; $i++) {
             $data[] = [
                 'name' => "User $i",
-                'email' => "user{$i}@example.com",
+                'email' => "bulkuser{$i}@example.com",
             ];
         }
         $options = [
@@ -181,16 +183,16 @@ class NewsletterSubscriberImportExportTest extends TestCase
             }
         }
 
-        $this->assertEquals($count, NewsletterSubscriber::count());
-        $this->assertEquals($count, NewsletterSubscriberList::where('list_id', $list->id)->count());
+        $this->assertEquals($count, NewsletterSubscriber::count() - $subscriberCountBefore);
+        $this->assertEquals($count, NewsletterSubscriberList::where('list_id', $list->id)->count() - $subscriberListCountBefore);
 
         // Export and verify
         $export = new FilamentExport();
         $export->exporter = NewsletterSubscriberExporter::class;
         $exporter = $export->getExporter(['email' => 'email'], []);
-        $records = NewsletterSubscriber::all();
+        $importedRecords = NewsletterSubscriber::where('email', 'like', 'bulkuser%@example.com')->get();
         $exported = [];
-        foreach ($records as $record) {
+        foreach ($importedRecords as $record) {
             $row = [];
             foreach ($exporter::getColumns() as $column) {
                 $row[$column->getName()] = $record->{$column->getName()};
@@ -199,19 +201,20 @@ class NewsletterSubscriberImportExportTest extends TestCase
         }
         $this->assertCount($count, $exported);
 
-        // Cleanup: delete all
+        // Cleanup: delete all imported data
         NewsletterSubscriberList::where('list_id', $list->id)->delete();
-        NewsletterSubscriber::query()->delete();
+        NewsletterSubscriber::where('email', 'like', 'bulkuser%@example.com')->delete();
         NewsletterList::where('id', $list->id)->delete();
 
-        $this->assertEquals(0, NewsletterSubscriberList::count());
-        $this->assertEquals(0, NewsletterSubscriber::count());
+        $this->assertEquals(0, NewsletterSubscriberList::where('list_id', $list->id)->count());
+        $this->assertEquals(0, NewsletterSubscriber::where('email', 'like', 'bulkuser%@example.com')->count());
         $this->assertEquals(0, NewsletterList::where('id', $list->id)->count());
     }
 
     #[Test]
     public function it_can_import_emails()
     {
+        $subscriberCountBefore = NewsletterSubscriber::count();
         $list = NewsletterList::factory()->create();
         $subscribers = NewsletterSubscriber::factory()->count(20000)->create();
 
@@ -230,7 +233,7 @@ class NewsletterSubscriberImportExportTest extends TestCase
             NewsletterSubscriberList::insert($batch);
         }
 
-        $this->assertEquals(20000, NewsletterSubscriber::count());
+        $this->assertEquals(20000, NewsletterSubscriber::count() - $subscriberCountBefore);
         $this->assertEquals(20000, NewsletterSubscriberList::where('list_id', $list->id)->count());
 
         // Step 2: Create a campaign
@@ -262,11 +265,10 @@ class NewsletterSubscriberImportExportTest extends TestCase
         NewsletterCampaign::where('id', $campaign->id)->delete();
         NewsletterList::where('id', $list->id)->delete();
 
-        $this->assertEquals(0, NewsletterCampaignsSendLog::count());
-        $this->assertEquals(0, NewsletterSubscriberList::count());
-        $this->assertEquals(0, NewsletterSubscriber::count());
-        $this->assertEquals(0, NewsletterCampaign::count());
-        $this->assertEquals(0, NewsletterList::where('id', $list->id)->count());
+        $this->assertEquals(0, NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count());
+        $this->assertEquals(0, NewsletterSubscriberList::where('list_id', $list->id)->count());
+        $this->assertDatabaseMissing('newsletter_campaigns', ['id' => $campaign->id]);
+        $this->assertDatabaseMissing('newsletter_lists', ['id' => $list->id]);
     }
 
 }

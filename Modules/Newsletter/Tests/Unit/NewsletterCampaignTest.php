@@ -65,45 +65,50 @@ class NewsletterCampaignTest extends TestCase
     public function it_counts_subscribers_for_specific_list()
     {
         $list = NewsletterList::factory()->create();
+        $countBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
         $campaign = NewsletterCampaign::factory()->create([
             'list_id' => $list->id,
             'recipients_from' => 'specific_list'
         ]);
         NewsletterSubscriberList::factory()->count(3)->create(['list_id' => $list->id]);
 
-        $this->assertEquals(3, $campaign->countSubscribers());
+        $this->assertEquals(3 + $countBefore, $campaign->countSubscribers());
     }
 
     #[Test]
     public function it_counts_all_subscribers_when_not_specific_list()
     {
+        $countBefore = NewsletterSubscriber::count();
         $campaign = NewsletterCampaign::factory()->create([
             'recipients_from' => 'all'
         ]);
         NewsletterSubscriber::factory()->count(5)->create();
 
-        $this->assertEquals(5, $campaign->countSubscribers());
+        $this->assertEquals(5 + $countBefore, $campaign->countSubscribers());
     }
 
     #[Test]
     public function it_returns_get_subscribers_attribute()
     {
         $list = NewsletterList::factory()->create();
+        $countBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
         $campaign = NewsletterCampaign::factory()->create(['list_id' => $list->id]);
         NewsletterSubscriberList::factory()->count(2)->create(['list_id' => $list->id]);
 
-        $this->assertEquals(2, $campaign->subscribers);
+        $this->assertEquals(2 + $countBefore, $campaign->subscribers);
     }
 
     #[Test]
     public function it_returns_opened_and_clicked_attributes()
     {
         $campaign = NewsletterCampaign::factory()->create();
+        $openedBefore = NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count();
+        $clickedBefore = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count();
         NewsletterCampaignPixel::factory()->count(4)->create(['campaign_id' => $campaign->id]);
         NewsletterCampaignClickedLink::factory()->count(2)->create(['campaign_id' => $campaign->id]);
 
-        $this->assertEquals(4, $campaign->opened);
-        $this->assertEquals(2, $campaign->clicked);
+        $this->assertEquals(4 + $openedBefore, $campaign->opened);
+        $this->assertEquals(2 + $clickedBefore, $campaign->clicked);
     }
 
     #[Test]

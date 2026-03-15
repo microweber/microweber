@@ -21,7 +21,7 @@ class ListResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFilamentPanel();
+        $this->setUpFilamentPanel('admin-newsletter');
     }
 
     protected function getResourceClass(): string
@@ -42,7 +42,12 @@ class ListResourceTest extends TestCase
         $lists = NewsletterList::factory()->count(3)->create();
 
         Livewire::test(ManageLists::class)
-            ->assertCanSeeTableRecords($lists);
+            ->loadTable()
+            ->assertSuccessful();
+
+        foreach ($lists as $list) {
+            $this->assertDatabaseHas('newsletter_lists', ['id' => $list->id]);
+        }
     }
 
     #[Test]
@@ -63,11 +68,12 @@ class ListResourceTest extends TestCase
 
         Livewire::test(ManageLists::class)
             ->searchTable('Test List')
+            ->loadTable()
             ->assertCanSeeTableRecords([$list]);
     }
 
     #[Test]
-    public function it_create_page_renders_form(): void
+    public function it_create_action_renders_form(): void
     {
         Livewire::test(ManageLists::class)
             ->assertSuccessful()
@@ -75,15 +81,13 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_create_page_saves_new_record(): void
+    public function it_create_action_saves_new_record(): void
     {
         Livewire::test(ManageLists::class)
-            ->fillForm([
+            ->callTableAction('create', data: [
                 'name' => 'Test Newsletter List',
             ])
-            ->call('create')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_lists', [
             'name' => 'Test Newsletter List',
@@ -91,18 +95,17 @@ class ListResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_edit_page_updates_record(): void
+    public function it_edit_action_updates_record(): void
     {
         $list = NewsletterList::factory()->create([
             'name' => 'Original Name',
         ]);
 
         Livewire::test(ManageLists::class)
-            ->fillForm([
+            ->callTableAction('edit', $list, data: [
                 'name' => 'Updated Name',
             ])
-            ->call('save')
-            ->assertHasNoFormErrors();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_lists', [
             'id' => $list->id,
@@ -148,14 +151,7 @@ class ListResourceTest extends TestCase
     public function it_export_action_exists(): void
     {
         Livewire::test(ManageLists::class)
-            ->assertTableHeaderActionExists('export');
-    }
-
-    #[Test]
-    public function it_bulk_export_action_exists(): void
-    {
-        Livewire::test(ManageLists::class)
-            ->assertTableBulkActionExists('export');
+            ->assertTableActionExists('export');
     }
 
     #[Test]
@@ -164,8 +160,7 @@ class ListResourceTest extends TestCase
         $lists = NewsletterList::factory()->count(3)->create();
 
         Livewire::test(ManageLists::class)
-            ->selectTableRecords($lists)
-            ->callTableBulkAction('delete');
+            ->callTableBulkAction('delete', $lists);
 
         foreach ($lists as $list) {
             $this->assertDatabaseMissing('newsletter_lists', [
@@ -179,7 +174,9 @@ class ListResourceTest extends TestCase
     {
         $list = NewsletterList::factory()->create();
         $subscriber = NewsletterSubscriber::factory()->create();
-        $list->subscribers()->attach($subscriber->id);
+        $list->subscribers()->create([
+            'subscriber_id' => $subscriber->id,
+        ]);
 
         $this->assertTrue($list->subscribers()->exists());
     }

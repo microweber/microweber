@@ -55,16 +55,16 @@ class TemplatesResource extends Resource
                 //
             ])
 ->actions([
-            Action::make('Edit')
+            Tables\Actions\Action::make('Edit')
                 ->icon('heroicon-o-pencil')
                 ->url(function ($record) {
                     return route('filament.admin.pages.newsletter.template-editor') . '?id=' . $record->id;
                 }),
-            DeleteAction::make(),
+            Tables\Actions\DeleteAction::make(),
         ])
         ->bulkActions([
-            BulkActionGroup::make([
-                DeleteBulkAction::make(),
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
             ]),
         ]);
     }

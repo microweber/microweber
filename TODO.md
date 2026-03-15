@@ -11,7 +11,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 | Unit               |     4 |    4 |      0 |        0 |
 | Feature            |   275 |  219 |     30 |       26 |
 | Core               |   243 |  237 |      2 |        4 |
-| Modules-Newsletter |   134 |   63 |     62 |        9 |
+| Modules-Newsletter |   133 |  133 |      0 |        0 |
 | Modules-Content    |    70 |   59 |      9 |        2 |
 | Modules-Billing    |    85 |   83 |      1 |        1 |
 | Modules-Group3     |   160 |  151 |      5 |        4 |
@@ -48,7 +48,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### High: Newsletter module errors (62 errors, 9 failures)
 
-- [ ] fix: Newsletter module — 62 errors across tests, likely model/migration issues
+- [x] 2026-03-15  fix: Newsletter module — 62 errors across tests, likely model/migration issues
 
 ### High: Modules-Group4 errors (53 errors — mostly Payment module)
 

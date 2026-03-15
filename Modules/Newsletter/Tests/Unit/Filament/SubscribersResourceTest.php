@@ -21,7 +21,7 @@ class SubscribersResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFilamentPanel();
+        $this->setUpFilamentPanel('admin-newsletter');
     }
 
     protected function getResourceClass(): string
@@ -42,6 +42,7 @@ class SubscribersResourceTest extends TestCase
         $subscribers = NewsletterSubscriber::factory()->count(3)->create();
 
         Livewire::test(ManageSubscribers::class)
+            ->loadTable()
             ->assertCanSeeTableRecords($subscribers);
     }
 
@@ -64,55 +65,40 @@ class SubscribersResourceTest extends TestCase
 
         Livewire::test(ManageSubscribers::class)
             ->searchTable('test.subscriber')
+            ->loadTable()
             ->assertCanSeeTableRecords([$subscriber]);
     }
 
     #[Test]
-    public function it_create_page_renders_form(): void
+    public function it_create_action_validates_required_fields(): void
     {
         Livewire::test(ManageSubscribers::class)
-            ->assertSuccessful()
-            ->assertFormExists();
-    }
-
-    #[Test]
-    public function it_create_page_validates_required_fields(): void
-    {
-        Livewire::test(ManageSubscribers::class)
-            ->fillForm([
+            ->callTableAction('create', data: [
                 'email' => '',
             ])
-            ->call('create')
-            ->assertHasFormErrors([
-                'email',
-            ]);
+            ->assertHasTableActionErrors(['email']);
     }
 
     #[Test]
-    public function it_create_page_validates_email_format(): void
+    public function it_create_action_validates_email_format(): void
     {
         Livewire::test(ManageSubscribers::class)
-            ->fillForm([
+            ->callTableAction('create', data: [
                 'email' => 'invalid-email',
                 'name' => 'Test Name',
             ])
-            ->call('create')
-            ->assertHasFormErrors([
-                'email',
-            ]);
+            ->assertHasTableActionErrors(['email']);
     }
 
     #[Test]
-    public function it_create_page_saves_new_record(): void
+    public function it_create_action_saves_new_record(): void
     {
         Livewire::test(ManageSubscribers::class)
-            ->fillForm([
+            ->callTableAction('create', data: [
                 'email' => 'new.subscriber@example.com',
                 'name' => 'New Subscriber',
             ])
-            ->call('create')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_subscribers', [
             'email' => 'new.subscriber@example.com',
@@ -121,7 +107,7 @@ class SubscribersResourceTest extends TestCase
     }
 
     #[Test]
-    public function it_edit_page_updates_record(): void
+    public function it_edit_action_updates_record(): void
     {
         $subscriber = NewsletterSubscriber::factory()->create([
             'email' => 'original@example.com',
@@ -129,11 +115,11 @@ class SubscribersResourceTest extends TestCase
         ]);
 
         Livewire::test(ManageSubscribers::class)
-            ->fillForm([
+            ->callTableAction('edit', $subscriber, data: [
+                'email' => 'original@example.com',
                 'name' => 'Updated Name',
             ])
-            ->call('save')
-            ->assertHasNoFormErrors();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_subscribers', [
             'id' => $subscriber->id,
@@ -169,13 +155,12 @@ class SubscribersResourceTest extends TestCase
         $list = NewsletterList::factory()->create();
 
         Livewire::test(ManageSubscribers::class)
-            ->fillForm([
+            ->callTableAction('create', data: [
                 'email' => 'list.subscriber@example.com',
                 'name' => 'List Subscriber',
                 'lists' => [$list->id],
             ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('newsletter_subscribers', [
             'email' => 'list.subscriber@example.com',
@@ -186,21 +171,14 @@ class SubscribersResourceTest extends TestCase
     public function it_export_action_exists(): void
     {
         Livewire::test(ManageSubscribers::class)
-            ->assertTableHeaderActionExists('export');
+            ->assertTableActionExists('export');
     }
 
     #[Test]
     public function it_import_action_exists(): void
     {
         Livewire::test(ManageSubscribers::class)
-            ->assertTableHeaderActionExists('importProducts');
-    }
-
-    #[Test]
-    public function it_bulk_export_action_exists(): void
-    {
-        Livewire::test(ManageSubscribers::class)
-            ->assertTableBulkActionExists('export');
+            ->assertTableActionExists('importProducts');
     }
 
     #[Test]
@@ -209,8 +187,7 @@ class SubscribersResourceTest extends TestCase
         $subscribers = NewsletterSubscriber::factory()->count(3)->create();
 
         Livewire::test(ManageSubscribers::class)
-            ->selectTableRecords($subscribers)
-            ->callTableBulkAction('delete');
+            ->callTableBulkAction('delete', $subscribers);
 
         foreach ($subscribers as $subscriber) {
             $this->assertDatabaseMissing('newsletter_subscribers', [

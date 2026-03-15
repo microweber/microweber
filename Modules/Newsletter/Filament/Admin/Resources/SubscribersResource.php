@@ -77,7 +77,7 @@ class SubscribersResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->with(['lists'])
+            ->modifyQueryUsing(fn ($query) => $query->with('lists'))
             ->columns([
 
                     Tables\Columns\TextColumn::make('name')
@@ -110,6 +110,7 @@ class SubscribersResource extends Resource
                     ->importer(NewsletterSubscriberImporter::class)
                     ->chunkSize(50),
                 Tables\Actions\ExportAction::make()
+                    ->exporter(NewsletterSubscriberExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
                     ->form(function (Tables\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterSubscriberExporter::getColumns();
@@ -138,6 +139,7 @@ class SubscribersResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\ExportBulkAction::make()
+                        ->exporter(NewsletterSubscriberExporter::class)
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterSubscriberExporter::getColumns();
                             $schemaSchema = [];
