@@ -61,7 +61,7 @@
 
                     @if ($showingConfirmation)
                         <div class="mt-4">
-                            <x-filament-panels::form wire:submit.prevent="confirmTwoFactorAuthentication">
+                            <form wire:submit.prevent="confirmTwoFactorAuthentication">
                                 {{ $this->form }}
 
                                 <div class="mt-4">
@@ -69,7 +69,7 @@
                                         {{ __('Confirm') }}
                                     </x-filament::button>
                                 </div>
-                            </x-filament-panels::form>
+                            </form>
                         </div>
                     @endif
 

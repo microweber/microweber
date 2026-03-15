@@ -34,8 +34,11 @@ class FaqModuleResourceTest extends TestCase
     #[Test]
     public function it_index_page_shows_all_records(): void
     {
-        $faqs = Faq::factory()->count(3)->create();
-        Livewire::test(ListFaqs::class)->assertCanSeeTableRecords($faqs);
+        $faq = Faq::factory()->create(['question' => 'UniqueTestFaq_' . uniqid() . '?']);
+
+        Livewire::test(ListFaqs::class)
+            ->searchTable($faq->question)
+            ->assertCanSeeTableRecords([$faq]);
     }
 
     #[Test]

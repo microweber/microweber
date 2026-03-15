@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Content\Database\Factories\ContentFactory;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -64,6 +65,11 @@ class Content extends Model
      */
 
     use CustomFieldPriceTrait;
+
+    protected static function newFactory()
+    {
+        return ContentFactory::new();
+    }
 
     protected $table = 'content';
     protected $content_type = 'content';

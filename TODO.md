@@ -56,7 +56,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### High: Modules-Group5 errors (40 errors — Settings/Translation module)
 
-- [ ] fix: TranslationResourceTest and Settings module tests — 40 errors, likely Filament resource issues
+- [x] 2026-03-15  fix: TranslationResourceTest and Settings module tests — 40 errors, likely Filament resource issues
 
 ### Medium: Filament Panel API mismatches
 

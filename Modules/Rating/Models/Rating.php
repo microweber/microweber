@@ -2,12 +2,20 @@
 
 namespace Modules\Rating\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use Modules\Rating\Database\Factories\RatingFactory;
 
 class Rating extends Model
 {
+    use HasFactory;
     use CacheableQueryBuilderTrait;
+
+    protected static function newFactory(): RatingFactory
+    {
+        return RatingFactory::new();
+    }
 
     protected $table = 'rating';
 

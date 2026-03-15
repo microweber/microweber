@@ -3,11 +3,17 @@ namespace Modules\Post\Models;
 
 use Modules\Blog\FrontendFilter\BlogFilter;
 use Modules\Content\Scopes\PostScope;
+use Modules\Post\Database\Factories\PostFactory;
 
 class Post extends \Modules\Content\Models\Content
 {
     protected $table = 'content';
     protected $primaryKey = 'id';
+
+    protected static function newFactory()
+    {
+        return PostFactory::new();
+    }
 
     protected $fillable = [
         "subtype",

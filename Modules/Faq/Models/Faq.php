@@ -8,12 +8,19 @@ use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use Modules\Faq\Database\Factories\FaqFactory;
 
 class Faq extends Model
 {
+    use HasFactory;
     use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;
     use MaxPositionTrait;
+
+    protected static function newFactory(): FaqFactory
+    {
+        return FaqFactory::new();
+    }
 
     protected $table = 'faqs';
 

@@ -2,6 +2,7 @@
 namespace Modules\Page\Models;
 
 use Modules\Content\Scopes\PageScope;
+use Modules\Page\Database\Factories\PageFactory;
 
 
 class Page extends \Modules\Content\Models\Content
@@ -10,6 +11,11 @@ class Page extends \Modules\Content\Models\Content
 
     protected $table = 'content';
     protected $primaryKey = 'id';
+
+    protected static function newFactory()
+    {
+        return PageFactory::new();
+    }
 //
 //    protected $fillable = [
 //        "subtype",

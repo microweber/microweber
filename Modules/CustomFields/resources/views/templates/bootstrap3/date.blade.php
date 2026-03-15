@@ -14,7 +14,7 @@
         @endif
 
         <div class="mw-custom-field-form-controls">
-            <input type="text"
+            <input type="date"
                 @if($settings['required']) required @endif
                 data-date-format="{{ $settings['date_format'] }}"
                 data-custom-field-id="{{ $data['id'] }}"

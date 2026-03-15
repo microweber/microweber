@@ -84,8 +84,7 @@ class Register extends BaseRegister
 
     protected function getCaptchaFormComponent(): Component
     {
-        return View::make('modules.profile::components.captcha')
-            ->label('Security Code');
+        return View::make('modules.profile::components.captcha');
     }
 
     public function register(): ?RegistrationResponse

@@ -2,13 +2,21 @@
 
 namespace Modules\Offer\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use Modules\Offer\Database\Factories\OfferFactory;
 
 class Offer extends Model
 {
+    use HasFactory;
     use CacheableQueryBuilderTrait;
+
+    protected static function newFactory(): OfferFactory
+    {
+        return OfferFactory::new();
+    }
 
     public $table = 'offers';
 
@@ -29,7 +37,7 @@ class Offer extends Model
      */
     public function product()
     {
-        return $this->hasOne(\Modules\Product\Models\Product::class);
+        return $this->belongsTo(\Modules\Product\Models\Product::class, 'product_id');
     }
 
     public static function add($offerData)

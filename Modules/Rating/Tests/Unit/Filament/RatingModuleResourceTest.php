@@ -55,7 +55,7 @@ class RatingModuleResourceTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas('ratings', ['rel_id' => $content->id, 'rating' => 5]);
+        $this->assertDatabaseHas('rating', ['rel_id' => $content->id, 'rating' => 5]);
     }
 
     #[Test]
@@ -67,7 +67,7 @@ class RatingModuleResourceTest extends TestCase
             ->call('save')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('ratings', ['id' => $rating->id, 'rating' => 4]);
+        $this->assertDatabaseHas('rating', ['id' => $rating->id, 'rating' => 4]);
     }
 
     #[Test]
@@ -75,7 +75,7 @@ class RatingModuleResourceTest extends TestCase
     {
         $rating = Rating::factory()->create();
         Livewire::test(ListRatings::class)->callTableAction('delete', $rating);
-        $this->assertDatabaseMissing('ratings', ['id' => $rating->id]);
+        $this->assertDatabaseMissing('rating', ['id' => $rating->id]);
     }
 
     #[Test]

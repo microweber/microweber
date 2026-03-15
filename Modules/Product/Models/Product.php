@@ -5,6 +5,7 @@ namespace Modules\Product\Models;
 use Modules\Cart\Models\Cart;
 use Modules\Content\Models\Content;
 use Modules\Content\Scopes\ProductScope;
+use Modules\Product\Database\Factories\ProductFactory;
 use Modules\ContentDataVariant\Models\ContentDataVariant;
 use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Offer\Models\Offer;
@@ -16,6 +17,10 @@ use Modules\Product\Traits\CustomFieldPriceTrait;
 
 class Product extends Content
 {
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
+    }
 
 //    protected $dispatchesEvents = [
 //        'updated' =>  ProductWasUpdated::class,

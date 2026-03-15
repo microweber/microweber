@@ -4,6 +4,7 @@ namespace Modules\Invoice\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,7 +40,7 @@ class InvoiceResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         Forms\Components\Section::make('Invoice Details')
                             ->schema([
@@ -264,7 +265,7 @@ Tables\Filters\SelectFilter::make('paid_status')
                 ->label('Export PDF')
                 ->icon('heroicon-o-document-arrow-down')
                 ->action(function (Invoice $record) {
-                    $pdf = Pdf::loadView('invoice::pdf', ['invoice' => $record]);
+                    $pdf = Pdf::loadView('modules.invoice::pdf', ['invoice' => $record]);
                     return response()->streamDownload(function () use ($pdf) {
                         echo $pdf->output();
                     }, $record->invoice_number . '.pdf');
