@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Payment\Enums\PaymentStatus;
 use Modules\Payment\Events\PaymentWasCreated;
@@ -10,6 +11,13 @@ use Modules\Payment\Events\PaymentWasUpdated;
 
 class Payment extends Model
 {
+    use HasFactory;
+
+    protected static function newFactory()
+    {
+        return \Modules\Payment\Database\Factories\PaymentFactory::new();
+    }
+
     protected $fillable = [
         'rel_id',
         'rel_type',
