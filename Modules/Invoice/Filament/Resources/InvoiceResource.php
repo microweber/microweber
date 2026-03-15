@@ -177,7 +177,6 @@ return parent::getEloquentQuery()
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
-            ->with(['customer'])
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')
                     ->searchable()
@@ -237,6 +236,7 @@ Tables\Filters\SelectFilter::make('paid_status')
         ])
         ->headerActions([
             Tables\Actions\ExportAction::make()
+                ->exporter(InvoiceExporter::class)
                 ->icon('heroicon-m-cloud-arrow-down')
                 ->form(function (Tables\Actions\ExportAction $action): array {
                     $exportColumns = InvoiceExporter::getColumns();

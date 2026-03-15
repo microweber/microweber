@@ -6,7 +6,7 @@ use Filament\Actions\ImportAction;
 use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Schemas\Schema;

@@ -3,12 +3,11 @@
 namespace Modules\Settings\Filament\Pages;
 
 use Filament\Actions\Action;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Livewire;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -374,7 +373,7 @@ class AdminLanguagePage extends AdminSettingsPage
                     ->description('Enable support for multiple languages on your website')
                     ->schema([
                         Actions::make([
-                            FormAction::make('manage_multilanguage')
+                            Action::make('manage_multilanguage')
                                 ->label($hasMultilanguageModule ? 'Manage Multilanguage Settings' : 'Install Multilanguage Module')
                                 ->icon($hasMultilanguageModule ? 'heroicon-o-cog-6-tooth' : 'heroicon-o-plus')
                                 ->color($hasMultilanguageModule ? 'primary' : 'success')
@@ -405,7 +404,7 @@ class AdminLanguagePage extends AdminSettingsPage
                     ->schema([
                         // Quick access to translation manager
                         Actions::make([
-                            FormAction::make('manage_translations')
+                            Action::make('manage_translations')
                                 ->label('Manage Translations')
                                 ->icon('heroicon-o-language')
                                 ->color('primary')
@@ -417,7 +416,7 @@ class AdminLanguagePage extends AdminSettingsPage
                                 }, shouldOpenInNewTab: false)
                                 ->visible(true),
 
-                            FormAction::make('import_missing_translations')
+                            Action::make('import_missing_translations')
                                 ->label('Import Missing Translations')
                                 ->icon('heroicon-o-arrow-down-tray')
                                 ->color('info')

@@ -3,13 +3,12 @@
 namespace Modules\Multilanguage\Filament\Pages;
 
 use Filament\Actions\Action;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Livewire;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -179,7 +178,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                     ->description('Advanced multilanguage configuration options')
                                     ->schema([
                                         Actions::make([
-                                            FormAction::make('test_geo_api')
+                                            Action::make('test_geo_api')
                                                 ->label('Test Geo API')
                                                 ->icon('heroicon-o-globe-alt')
                                                 ->color('info')
@@ -187,7 +186,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                                     $this->testGeoApi();
                                                 }),
 
-                                            FormAction::make('clear_cache')
+                                            Action::make('clear_cache')
                                                 ->label('Clear Language Cache')
                                                 ->icon('heroicon-o-trash')
                                                 ->color('warning')

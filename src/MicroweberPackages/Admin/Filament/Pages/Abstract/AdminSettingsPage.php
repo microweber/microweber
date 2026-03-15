@@ -4,9 +4,9 @@ namespace MicroweberPackages\Admin\Filament\Pages\Abstract;
 
 use App\Filament\Admin\Pages\Concerns\HasModuleOption;
 use App\Filament\Admin\Pages\Concerns\HasOptions;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -37,11 +37,13 @@ abstract class AdminSettingsPage extends Page
 
     public function mount()
     {
-
-        $formInstance = $this->form(new Form($this));
-
         $booleanFields = [];
-        $formFields = $formInstance->getFlatFields(true);
+        $formFields = [];
+
+        if (method_exists($this, 'form')) {
+            $formInstance = $this->form(new Schema($this));
+            $formFields = $formInstance->getFlatFields(true);
+        }
         if (!empty($formFields)) {
             foreach ($formFields as $field) {
                 $fieldStatePath = $field->getStatePath();

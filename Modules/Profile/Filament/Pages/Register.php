@@ -3,7 +3,7 @@
 namespace Modules\Profile\Filament\Pages;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;

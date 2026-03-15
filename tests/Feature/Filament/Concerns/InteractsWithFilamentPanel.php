@@ -52,6 +52,7 @@ trait InteractsWithFilamentPanel
     {
         $user = User::factory()->create(array_merge([
             'is_admin' => 1,
+            'email' => 'test-admin-' . uniqid() . '@example.com',
         ], $attributes));
 
         $this->actingAs($user);
@@ -83,6 +84,7 @@ trait InteractsWithFilamentPanel
     {
         $user = User::factory()->create(array_merge([
             'is_admin' => 0,
+            'email' => 'test-user-' . uniqid() . '@example.com',
         ], $attributes));
 
         $this->actingAs($user);

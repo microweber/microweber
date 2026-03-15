@@ -3,7 +3,7 @@
 namespace Modules\AiWizard\Filament\Admin\AiWizardResource\Pages;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Resources\Pages\Page;
 use Modules\AiWizard\Filament\Admin\AiWizardResource;
 use Filament\Actions\Action;

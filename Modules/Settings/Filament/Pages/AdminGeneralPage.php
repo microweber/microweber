@@ -2,11 +2,11 @@
 
 namespace Modules\Settings\Filament\Pages;
 
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Split;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -128,7 +128,7 @@ class AdminGeneralPage extends AdminSettingsPage
                                 return $postsPerPage;
                             }),
 
-                        Split::make([
+                        Grid::make(2)->schema([
                             MwFileUpload::make('options.website.logo')
                                 ->label('Website Logo')
                                 ->helperText('Select an logo for your website.')
@@ -137,7 +137,7 @@ class AdminGeneralPage extends AdminSettingsPage
                                 ->label('Website Favicon')
                                 ->helperText('Select an icon for your website.')
                                 ->live(),
-                        ])->columns(2)
+                        ])
 
                     ]),
 

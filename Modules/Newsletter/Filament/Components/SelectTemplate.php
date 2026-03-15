@@ -3,7 +3,7 @@
 namespace Modules\Newsletter\Filament\Components;
 
 use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Modules\Newsletter\Models\NewsletterTemplate;
 
 class SelectTemplate extends Field

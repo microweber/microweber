@@ -2,7 +2,7 @@
 
 namespace Modules\Newsletter\Filament\Admin\Pages;
 
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;

@@ -2,10 +2,10 @@
 
 namespace Modules\Settings\Filament\Pages;
 
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -29,7 +29,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
     public function getView(): string
     {
-        return static::$view;
+        return $this->view;
     }
 
     public function form(Schema $schema): Schema

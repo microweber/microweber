@@ -4,7 +4,7 @@ namespace Modules\Background\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;

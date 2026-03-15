@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
-use Filament\Forms\Components\Actions;
+use Filament\Schemas\Components\Actions;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
@@ -438,7 +438,7 @@ class KitchenSink extends Page
                                     ]),
 
                                 // Section Component
-                                \Filament\Forms\Components\Section::make('Section')
+                                \Filament\Schemas\Components\Section::make('Section')
                                     ->schema([
                                         TextInput::make('section_input')->label('Section Input'),
                                     ]),

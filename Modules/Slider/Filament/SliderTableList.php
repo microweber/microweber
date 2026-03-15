@@ -4,7 +4,7 @@ namespace Modules\Slider\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -32,7 +32,7 @@ use NeuronAI\Chat\Messages\UserMessage;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
 use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Grid;
 use MicroweberPackages\Multilanguage\Forms\Actions\TranslateFieldAction;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 

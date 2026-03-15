@@ -2,7 +2,7 @@
 
 namespace Modules\Settings\Filament\Pages;
 
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;

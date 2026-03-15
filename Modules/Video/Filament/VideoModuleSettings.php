@@ -3,7 +3,7 @@
 namespace Modules\Video\Filament;
 
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;

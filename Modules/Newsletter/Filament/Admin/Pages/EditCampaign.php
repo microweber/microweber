@@ -4,19 +4,19 @@ namespace Modules\Newsletter\Filament\Admin\Pages;
 
 
 use BobiMicroweber\FilamentFlatpickr\Forms\Components\Flatpickr;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;

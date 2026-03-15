@@ -8,7 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
