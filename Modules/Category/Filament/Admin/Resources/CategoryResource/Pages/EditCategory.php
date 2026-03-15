@@ -15,7 +15,7 @@ class EditCategory extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        if($this->activeLocale) {
+        if(property_exists($this, 'activeLocale') && $this->activeLocale) {
             $data['lang'] = $this->activeLocale;
         }
 

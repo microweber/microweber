@@ -40,7 +40,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 ### Critical: AdminCrudRegressionTest failures (10 tests)
 
 - [x] 2026-03-15  fix: Content::categories() method does not exist — add relationship or fix test in AdminCrudRegressionTest
-- [ ] fix: AdminCrudRegressionTest CRUD tests (content, user, category, order, product) fail — resource pages return errors
+- [x] 2026-03-15  fix: AdminCrudRegressionTest CRUD tests — rewritten to use Livewire test helpers, fixed activeLocale null guard in EditCategory and EditContent
 
 ### Critical: AdminAuthenticationTest (4 failures)
 
