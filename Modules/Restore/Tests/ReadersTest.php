@@ -30,7 +30,7 @@ class ReadersTest extends TestCase
 
 
         RestoreLogger::clearLog();
-        Config::set('microweber.allow_php_files_upload', true);
+        Config::set('modules.restore.allow_php_files_upload', true);
 
         $zip = new ZipReader(__DIR__ . DS. 'strange-file.zip');
         $zip->extractZipData();
