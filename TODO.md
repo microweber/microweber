@@ -72,7 +72,7 @@ Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules m
 
 ### Medium: Core suite issues
 
-- [ ] fix: MultilanguageTest::it_multilanguage_api error
+- [x] 2026-03-15  fix: MultilanguageTest::it_multilanguage_api error (already resolved by prior fixes)
 - [ ] fix: TaggableFileCacheServiceProviderTest and TaggableFileStoreTest failures
 - [ ] fix: LiveEdit ModuleSettingsItemsEditorTest failure
 
