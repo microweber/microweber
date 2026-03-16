@@ -150,3 +150,4 @@ phpunit-coverage.xml
 /build
 *.sqlite-journal
 /.vscode
+.workflow-state
