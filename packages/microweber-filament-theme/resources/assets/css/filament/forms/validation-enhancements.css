@@ -1,0 +1,297 @@
+/**
+ * Form Validation Error Visibility Enhancements
+ *
+ * Provides enhanced visual feedback for form validation errors
+ * across Filament v5, Livewire, and legacy Bootstrap forms.
+ */
+
+/* ==========================================================================
+   FILAMENT V5 FORM VALIDATION ENHANCEMENTS
+   ========================================================================== */
+
+/* Enhanced error field styling with stronger visual distinction */
+.fi-input-wrp.fi-invalid {
+    @apply ring-2 ring-danger-600 dark:ring-danger-400 shadow-sm;
+    background-color: rgba(var(--danger-50), 0.3);
+}
+
+.dark .fi-input-wrp.fi-invalid {
+    background-color: rgba(var(--danger-900), 0.15);
+}
+
+/* Focus state for invalid fields - maintain error visibility */
+.fi-input-wrp.fi-invalid:focus-within {
+    @apply ring-2 ring-danger-600 shadow-md;
+    box-shadow: 0 0 0 4px rgba(var(--danger-500), 0.15);
+}
+
+.dark .fi-input-wrp.fi-invalid:focus-within {
+    box-shadow: 0 0 0 4px rgba(var(--danger-400), 0.2);
+}
+
+/* Error message styling - enhanced visibility */
+.fi-fo-field-error-message {
+    @apply text-sm font-medium text-danger-600 dark:text-danger-400 mt-1.5 flex items-center gap-1.5;
+    animation: slideInError 0.2s ease-out;
+}
+
+/* Error icon indicator */
+.fi-fo-field-error-message::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23dc2626'%3E%3Cpath fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+
+.dark .fi-fo-field-error-message::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23f87171'%3E%3Cpath fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z' clip-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* Field label in error state */
+.fi-fo-field-wrp-label.fi-invalid {
+    @apply text-danger-600 dark:text-danger-400 font-semibold;
+}
+
+/* ==========================================================================
+   LIVEWIRE / BLADE COMPONENT FORM VALIDATION
+   ========================================================================== */
+
+/* Enhanced invalid feedback styling */
+.invalid-feedback {
+    @apply block mt-1.5 text-sm font-medium;
+    color: rgb(var(--danger-600));
+    animation: slideInError 0.2s ease-out;
+}
+
+.dark .invalid-feedback {
+    color: rgb(var(--danger-400));
+}
+
+/* Error icon for invalid-feedback */
+.mw-error-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23dc2626'%3E%3Cpath fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: text-bottom;
+    flex-shrink: 0;
+}
+
+.dark .mw-error-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23f87171'%3E%3Cpath fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z' clip-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* Error text container */
+.mw-error-text {
+    display: inline;
+}
+
+/* Form control with error state - enhanced visibility */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    @apply border-danger-500 ring-1 ring-danger-500;
+    background-color: rgba(var(--danger-50), 0.3);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23dc2626'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3E%3Ccircle cx='6' cy='8.2' r='.6' fill='%23dc2626' stroke='none'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    padding-right: 40px;
+}
+
+.dark .form-control.is-invalid,
+.dark .form-select.is-invalid {
+    background-color: rgba(var(--danger-900), 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23f87171'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3E%3Ccircle cx='6' cy='8.2' r='.6' fill='%23f87171' stroke='none'/%3E%3C/svg%3E");
+}
+
+/* Focus state for invalid form controls */
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+    @apply border-danger-500 ring-2 ring-danger-500;
+    box-shadow: 0 0 0 4px rgba(var(--danger-500), 0.15);
+}
+
+.dark .form-control.is-invalid:focus,
+.dark .form-select.is-invalid:focus {
+    box-shadow: 0 0 0 4px rgba(var(--danger-400), 0.2);
+}
+
+/* Legacy has-error class support */
+.has-error .form-control,
+.has-error .form-select {
+    @apply border-danger-500;
+}
+
+.has-error .control-label {
+    @apply text-danger-600 dark:text-danger-400 font-medium;
+}
+
+/* ==========================================================================
+   FORM VALIDATION ANIMATIONS
+   ========================================================================== */
+
+@keyframes slideInError {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+/* Shake animation for fields with errors */
+.form-control.is-invalid:focus,
+.fi-input-wrp.fi-invalid:focus-within {
+    animation: shake 0.4s ease-in-out;
+}
+
+/* ==========================================================================
+   LIVE-EDIT FORM VALIDATION
+   ========================================================================== */
+
+/* Live edit input error states */
+.form-control-live-edit-input.is-invalid {
+    @apply border-danger-500;
+    border-width: 2px;
+    background-color: rgba(var(--danger-50), 0.2);
+}
+
+.dark .form-control-live-edit-input.is-invalid {
+    background-color: rgba(var(--danger-900), 0.15);
+}
+
+.form-control-live-edit-input.is-invalid:focus {
+    @apply ring-2 ring-danger-500;
+    box-shadow: 0 0 0 3px rgba(var(--danger-500), 0.15);
+}
+
+/* Error indicator for live-edit bottom effect */
+.form-control-live-edit-bottom-effect.border-danger-500 {
+    background-color: rgb(var(--danger-500)) !important;
+}
+
+/* ==========================================================================
+   FORM LABEL ERROR STATES
+   ========================================================================== */
+
+/* Label with error state */
+label.live-edit-label.text-danger-600,
+label.live-edit-label.text-danger-400 {
+    @apply font-semibold;
+}
+
+/* Error indicator asterisk */
+.mw-field-error-indicator {
+    @apply ml-1 text-danger-600 dark:text-danger-400;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   CHECKBOX AND RADIO ERROR STATES
+   ========================================================================== */
+
+.form-check-input.is-invalid {
+    @apply border-danger-500;
+}
+
+.form-check-input.is-invalid:checked {
+    @apply bg-danger-600 border-danger-600;
+}
+
+/* ==========================================================================
+   FORM GROUP ERROR STATES
+   ========================================================================== */
+
+/* Add visual indicator to form groups with errors */
+.form-group:has(.is-invalid) {
+    position: relative;
+}
+
+.form-group:has(.is-invalid)::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: rgb(var(--danger-500));
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   VALIDATION SUMMARY / ALERT STYLES
+   ========================================================================== */
+
+/* Enhanced validation error alert */
+.alert-validation-errors {
+    @apply rounded-lg border p-4 mb-4;
+    border-color: rgb(var(--danger-200));
+    background-color: rgba(var(--danger-50), 0.5);
+}
+
+.dark .alert-validation-errors {
+    border-color: rgba(var(--danger-700), 0.5);
+    background-color: rgba(var(--danger-900), 0.2);
+}
+
+.alert-validation-errors .alert-heading {
+    @apply flex items-center gap-2 font-semibold text-danger-700 dark:text-danger-400 mb-2;
+}
+
+.alert-validation-errors ul {
+    @apply ml-5 list-disc space-y-1;
+    color: rgb(var(--danger-700));
+}
+
+.dark .alert-validation-errors ul {
+    color: rgb(var(--danger-400));
+}
+
+/* ==========================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ========================================================================== */
+
+/* Ensure error messages are visible to screen readers */
+.invalid-feedback,
+.fi-fo-field-error-message {
+    aria-live: assertive;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .form-control.is-invalid,
+    .form-select.is-invalid,
+    .fi-input-wrp.fi-invalid {
+        border-width: 3px;
+    }
+
+    .invalid-feedback,
+    .fi-fo-field-error-message {
+        font-weight: 700;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .invalid-feedback,
+    .fi-fo-field-error-message,
+    .form-control.is-invalid:focus,
+    .fi-input-wrp.fi-invalid:focus-within {
+        animation: none;
+    }
+}

@@ -136,9 +136,26 @@
   - Impact: Users now see clear visual feedback during dashboard and widget loading, preventing confusion about frozen UI
 
 #### Form Validation
-- [ ] **improve: Enhance form validation error visibility**
-  - Some forms lack clear error messaging
-  - Error states need better visual distinction
+- [x] 2026-03-21 **improve: Enhance form validation error visibility** - RESOLVED
+- Enhanced error field styling with visual distinction:
+  - Added red border, ring, and background tint to invalid fields (Filament v5 and Bootstrap)
+  - Implemented error icons in form controls using inline SVG
+  - Added shake animation on focus for invalid fields
+- Updated Blade components for better error handling:
+  - Modified `input.blade.php` to dynamically apply `is-invalid` class
+  - Updated `input-error.blade.php` with improved error message layout
+  - Enhanced `label.blade.php` to highlight labels when field has errors
+- Created comprehensive CSS file at `packages/microweber-filament-theme/resources/assets/css/filament/forms/validation-enhancements.css`:
+  - Filament v5 form validation enhancements
+  - Livewire/Blade component error states
+  - Live-edit form validation styles
+  - Checkbox and radio error states
+  - Form group error indicators
+  - Validation summary/alert styles
+  - Accessibility improvements (high contrast, reduced motion)
+- All Unit tests pass (4 tests)
+- Admin Authentication tests pass (7 tests)
+- Validation-related tests pass (2 tests)
 
 #### Mobile Experience
 - [ ] **improve: Mobile menu close on navigation**
