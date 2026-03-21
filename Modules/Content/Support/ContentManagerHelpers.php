@@ -34,8 +34,9 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
         $menus = 'menus';
-        if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
-            $add_to_menus = $_REQUEST['add_content_to_menu'];
+        $requestData = request()->all();
+        if (isset($requestData['add_content_to_menu']) and is_array($requestData['add_content_to_menu'])) {
+            $add_to_menus = $requestData['add_content_to_menu'];
             $add_to_menus_int = array();
             foreach ($add_to_menus as $value) {
                 if ($value == 'remove_from_all') {
@@ -52,7 +53,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $add_under_parent_page = false;
         $content_data = false;
 
-        if (isset($_REQUEST['add_content_to_menu_auto_parent']) and ($_REQUEST['add_content_to_menu_auto_parent']) != false) {
+        if (isset($requestData['add_content_to_menu_auto_parent']) and ($requestData['add_content_to_menu_auto_parent']) != false) {
             $add_under_parent_page = true;
             $content_data = $this->get_by_id($content_id);
             if ($content_data['is_active'] != 1) {
@@ -557,8 +558,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             return false;
         }
         $ref_page_url = false;
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page_url = $_SERVER['HTTP_REFERER'];
+        $httpReferer = request()->header('referer');
+        if ($httpReferer) {
+            $ref_page_url = $httpReferer;
             $ref_page_url = xss_clean($ref_page_url);
 
         }
@@ -751,7 +753,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {
                     $save_page = $pd;
-                    if (!isset($_GET['mw_quick_edit'])) {
+                    if (!request()->has('mw_quick_edit')) {
                         if (isset($ref_page_url) and $ref_page_url != false) {
                             $save_page['url'] = $ref_page_url;
                         } else {
@@ -1272,8 +1274,9 @@ class ContentManagerHelpers extends ContentManagerCrud
     public function get_edit_field_draft($data)
     {
         $page = false;
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $url = $_SERVER['HTTP_REFERER'];
+        $httpReferer = request()->header('referer');
+        if ($httpReferer) {
+            $url = $httpReferer;
             $url = explode('?', $url);
             $url = $url[0];
 

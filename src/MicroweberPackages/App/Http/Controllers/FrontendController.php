@@ -85,14 +85,14 @@ class FrontendController extends Controller
 
     public function frontend($request_params = [])
     {
-        if (isset($_GET['debug'])) {
+        if (request()->has('debug')) {
             if ($this->app->make('config')->get('app.debug')) {
                 DB::enableQueryLog();
             }
         }
 
-        if (empty($request_params) and (!empty($_REQUEST))) {
-            $request_params = $_REQUEST;
+        if (empty($request_params) and request()->hasAny(array_keys(request()->all()))) {
+            $request_params = request()->all();
         }
 
         event_trigger('mw.controller.index');
@@ -411,7 +411,7 @@ class FrontendController extends Controller
             ) {
 
 
-                if (!$back_to_editmode and !$is_editmode and empty($_GET)) {
+                if (!$back_to_editmode and !$is_editmode and empty(request()->query())) {
                     if ($enable_full_page_cache) {
                         $output_cache_timeout = 12000;
                     }
@@ -428,12 +428,13 @@ class FrontendController extends Controller
         if (isset($request_params['recart']) and $request_params['recart'] != false) {
             event_trigger('recover_shopping_cart', $request_params['recart']);
         }
-        if (!defined('MW_NO_OUTPUT_CACHE')) {
-            if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
-                $compile_assets = Config::get('microweber.compile_assets');
+    if (!defined('MW_NO_OUTPUT_CACHE')) {
+        $requestUri = request()->getRequestUri();
+        if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and $requestUri) {
+            $compile_assets = Config::get('microweber.compile_assets');
 
-                $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . intval(is_https()) . $_SERVER['REQUEST_URI'] . current_lang() . site_url());
+            $output_cache_content = false;
+            $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . intval(is_https()) . $requestUri . current_lang() . site_url());
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 

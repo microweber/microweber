@@ -73,45 +73,46 @@ class ModuleController extends Controller
 
         $page = false;
 
+$custom_display = false;
+    $requestData = request()->all();
+    if (isset($requestData['data-display']) && $requestData['data-display'] == 'custom') {
+        $custom_display = true;
+    }
+
+    if (isset($requestData['data-module-name'])) {
+        $requestData['module'] = $requestData['data-module-name'];
+        $requestData['data-type'] = $requestData['data-module-name'];
+
+        if (!isset($requestData['id'])) {
+            $requestData['id'] = $this->app->url_manager->slug($requestData['data-module-name'].'-'.date('YmdHis'));
+        }
+    }
+
+    if (isset($requestData['data-type'])) {
+        $requestData['module'] = $requestData['data-type'];
+    }
+
+    if (isset($requestData['display']) && $requestData['display'] == 'custom') {
+        $custom_display = true;
+    }
+    if (isset($requestData['view']) && $requestData['view'] == 'admin') {
         $custom_display = false;
-        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
-            $custom_display = true;
-        }
+    }
 
-        if (isset($_REQUEST['data-module-name'])) {
-            $_REQUEST['module'] = $_REQUEST['data-module-name'];
-            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
-
-            if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = $this->app->url_manager->slug($_REQUEST['data-module-name'].'-'.date('YmdHis'));
-            }
+    if ($custom_display == true) {
+        $custom_display_id = false;
+        if (isset($requestData['id'])) {
+            $custom_display_id = $requestData['id'];
         }
-
-        if (isset($_REQUEST['data-type'])) {
-            $_REQUEST['module'] = $_REQUEST['data-type'];
+        if (isset($requestData['data-id'])) {
+            $custom_display_id = $requestData['data-id'];
         }
-
-        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
-            $custom_display = true;
-        }
-        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
-            $custom_display = false;
-        }
-
-        if ($custom_display == true) {
-            $custom_display_id = false;
-            if (isset($_REQUEST['id'])) {
-                $custom_display_id = $_REQUEST['id'];
-            }
-            if (isset($_REQUEST['data-id'])) {
-                $custom_display_id = $_REQUEST['data-id'];
-            }
-        }
-        if (isset($_REQUEST['from_url'])) {
-            $from_url = $_REQUEST['from_url'];
-        } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $from_url = $_SERVER['HTTP_REFERER'];
-        }
+    }
+    if (isset($requestData['from_url'])) {
+        $from_url = $requestData['from_url'];
+    } else {
+        $from_url = request()->header('referer');
+    }
 
         if (isset($from_url) and $from_url != false) {
             if (stristr($from_url, 'editor_tools/wysiwyg')) {

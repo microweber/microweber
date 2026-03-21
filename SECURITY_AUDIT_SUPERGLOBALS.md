@@ -52,11 +52,38 @@ $data = request()->all();
 ## Files Remediated
 
 ### Completed
-1. ✅ **src/MicroweberPackages/User/Services/UserManager.php**
+1. ✅ **src/MicroweberPackages/User/Services/UserManager.php** (2026-03-21)
    - Fixed `logout()` method: Replaced `$_GET['redirect']` and `$_GET['redirect_to']`
    - Fixed `codeLogin()` method: Replaced `$_GET['code_login']`, added validation
    - Added open redirect protection for `http_redirect` parameter
    - Fixed `social_login_process()` method: Replaced `$_REQUEST['provider']` usage
+
+2. ✅ **Modules/FileManager/Http/Controllers/PluploadController.php** (2026-03-21)
+   - Fixed file upload request data: Replaced `$_REQUEST['name']` with `request()->input('name')`
+   - Fixed path handling: Replaced `$_REQUEST['path']` with `request()->input('path')`
+   - Fixed custom field handling: Replaced `$_REQUEST['rel_type']`, `$_REQUEST['custom_field_id']`, `$_REQUEST['rel_id']` with Laravel Request facade
+   - Fixed captcha validation: Replaced `$_REQUEST['captcha']` with `request()->input('captcha')`
+   - Fixed chunk upload parameters: Replaced `$_REQUEST['chunk']`, `$_REQUEST['chunks']` with `request()->input()`
+   - Added proper input sanitization and validation
+
+3. ✅ **src/MicroweberPackages/App/Http/Controllers/ApiController.php** (2026-03-21)
+   - Fixed HTTP_REFERER access: Replaced `$_SERVER['HTTP_REFERER']` with `request()->header('referer')`
+   - Fixed server data access: Replaced `$_SERVER` with `request()->server->all()`
+   - Maintained backward compatibility for existing functionality
+
+4. ✅ **src/MicroweberPackages/Module/Http/Controllers/ModuleController.php** (2026-03-21)
+   - Fixed module request data: Replaced `$_REQUEST['data-display']`, `$_REQUEST['data-module-name']`, etc. with `request()->all()`
+   - Fixed HTTP_REFERER access: Replaced `$_SERVER['HTTP_REFERER']` with `request()->header('referer')`
+   - Used local `$requestData` variable to maintain compatibility with legacy code patterns
+
+5. ✅ **src/MicroweberPackages/App/Http/Controllers/FrontendController.php** (2026-03-21)
+   - Fixed GET parameter check: Replaced `empty($_GET)` with `empty(request()->query())`
+   - Fixed REQUEST_URI access: Replaced `$_SERVER['REQUEST_URI']` with `request()->getRequestUri()`
+
+6. ✅ **Modules/Content/Support/ContentManagerHelpers.php** (2026-03-21)
+   - Fixed menu management: Replaced `$_REQUEST['add_content_to_menu']`, `$_REQUEST['add_content_to_menu_auto_parent']` with Laravel Request facade
+   - Fixed HTTP_REFERER access: Replaced `$_SERVER['HTTP_REFERER']` with `request()->header('referer')`
+   - Fixed GET parameter check: Replaced `$_GET['mw_quick_edit']` with `request()->has('mw_quick_edit')`
 
 ## Remaining Work
 

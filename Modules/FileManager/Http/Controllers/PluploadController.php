@@ -94,7 +94,7 @@ class PluploadController extends Controller
         }
 
 
-        $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+        $fileName_ext = request()->input('name', '');
 
         $is_ext = get_file_extension($fileName_ext);
         $is_ext = strtolower($is_ext);
@@ -120,39 +120,44 @@ class PluploadController extends Controller
                 $user = mw()->user_manager->get_by_id($uid);
                 if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
                     $are_allowed = 'img';
-                    $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
-                    if (isset($_REQUEST['autopath']) and $_REQUEST['autopath'] == 'user_hash') {
-                        $up_path = md5($user['id'] . $user['created_at']);
-                        $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
-                    }
+            $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
+            $autopath = request()->input('autopath');
+            if ($autopath == 'user_hash') {
+                $up_path = md5($user['id'] . $user['created_at']);
+                $requestPath = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
+            }
                     $allowed_to_upload = true;
                 }
             } else {
-                $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
-                $allowed_to_upload = true;
-            }
-
-
+            $requestPath = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
+            $allowed_to_upload = true;
         }
 
 
-        if ($allowed_to_upload == false) {
-            if (isset($_REQUEST['rel_type']) and isset($_REQUEST['custom_field_id']) and trim($_REQUEST['rel_type']) != '' and trim($_REQUEST['rel_type']) != 'false') {
-                $cfid = mw()->fields_manager->getById(intval($_REQUEST['custom_field_id']));
-                if ($cfid == false) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
-                } else {
-                    $rel_error = false;
-                    if (!isset($_REQUEST['rel_id'])) {
-                        $rel_error = true;
-                    }
-                    if (!isset($cfid['rel_id'])) {
-                        $rel_error = true;
-                    }
+    }
 
-                    if (($_REQUEST['rel_id']) != $cfid['rel_id']) {
-                        $rel_error = true;
-                    }
+
+    if ($allowed_to_upload == false) {
+        $rel_type = request()->input('rel_type');
+        $custom_field_id = request()->input('custom_field_id');
+        $rel_id = request()->input('rel_id');
+
+        if (!empty($rel_type) && !empty($custom_field_id) && trim($rel_type) != '' && trim($rel_type) != 'false') {
+            $cfid = mw()->fields_manager->getById(intval($custom_field_id));
+            if ($cfid == false) {
+                die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
+            } else {
+                $rel_error = false;
+                if (empty($rel_id)) {
+                    $rel_error = true;
+                }
+                if (!isset($cfid['rel_id'])) {
+                    $rel_error = true;
+                }
+
+                if ($rel_id != $cfid['rel_id']) {
+                    $rel_error = true;
+                }
 
 
                     if ($rel_error) {
@@ -183,10 +188,10 @@ class PluploadController extends Controller
                             header("HTTP/1.1 401 Unauthorized");
 
                             die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
-                        } else {
-                            $are_allowed = '';
-                            $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-                            foreach ($alloled_ft as $allowed_file_type_item) {
+                    } else {
+                        $are_allowed = '';
+                        $fileName_ext = request()->input('name', '');
+                        foreach ($alloled_ft as $allowed_file_type_item) {
                                 if (trim($allowed_file_type_item) != '' and $fileName_ext != '') {
                                     $is_ext = get_file_extension($fileName_ext);
                                     $is_ext = strtolower($is_ext);
@@ -253,28 +258,30 @@ class PluploadController extends Controller
                                         header("HTTP/1.1 401 Unauthorized");
 
                                         die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
-                                    } else {
-                                        if (!isset($_REQUEST['captcha'])) {
-                                            if (!$validate_token) {
-                                                header("HTTP/1.1 401 Unauthorized");
+                        } else {
+                            $captcha = request()->input('captcha');
+                            if (empty($captcha)) {
+                                if (!$validate_token) {
+                                    header("HTTP/1.1 401 Unauthorized");
 
-                                                die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
-                                            }
-                                        } else {
-                                            $cap = mw()->user_manager->session_get('captcha');
-                                            if ($cap == false) {
-                                                header("HTTP/1.1 401 Unauthorized");
+                                    die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
+                                }
+                            } else {
+                                $cap = mw()->user_manager->session_get('captcha');
+                                if ($cap == false) {
+                                    header("HTTP/1.1 401 Unauthorized");
 
-                                                die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
-                                            }
-                                            $validate_captcha = $this->app->captcha_manager->validate($_REQUEST['captcha']);
-                                            if (!$validate_captcha) {
-                                                header("HTTP/1.1 401 Unauthorized");
+                                    die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
+                                }
+                                $validate_captcha = $this->app->captcha_manager->validate($captcha);
+                                if (!$validate_captcha) {
+                                    header("HTTP/1.1 401 Unauthorized");
 
-                                                die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
-                                            } else {
-                                                if (!isset($_REQUEST['path'])) {
-                                                    $_REQUEST['path'] = 'media/' . $host_dir . '/user_uploads' . DS . $_REQUEST['rel_type'] . DS;
+                                    die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
+                                } else {
+                                    if (!request()->has('path')) {
+                                        $rel_type = request()->input('rel_type');
+                                        $_REQUEST['path'] = 'media/' . $host_dir . '/user_uploads' . DS . $rel_type . DS;
                                                 }
                                             }
                                         }
@@ -298,13 +305,15 @@ class PluploadController extends Controller
 
             die('{"jsonrpc" : "2.0", "error" : {"code": 111, "message": "Only admin can upload."}, "id" : "id"}');
 
-            return response(array(
-                'error' => _e('Please enter captcha answer!', true),
-                'captcha_error' => true,
-                'form_data_required' => 'captcha',
-                'form_data_required_params' => array('captcha_parent_for_id' => $_REQUEST['rel_id']),
-                'form_data_module' => 'captcha'
-            ));
+        $relId = request()->input('rel_id');
+        return response(array(
+            'error' => _e('Please enter captcha answer!', true),
+            'captcha_error' => true,
+            'form_data_required' => 'captcha',
+            'form_data_required_params' => array('captcha_parent_for_id' => $relId),
+            'form_data_module' => 'captcha'
+
+        ));
         }
 
 
@@ -314,9 +323,10 @@ class PluploadController extends Controller
 
         $target_path = $this->getUploadPath();
 
-        $path_restirct = userfiles_path(); // the path the script should access
-        if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUEST['path']) != 'false') {
-            $path = urldecode($_REQUEST['path']);
+$path_restirct = userfiles_path(); // the path the script should access
+    $requestPath = request()->input('path');
+    if (!empty($requestPath) && trim($requestPath) != '' && trim($requestPath) != 'false') {
+        $path = urldecode($requestPath);
 
             $path = html_entity_decode($path);
             $path = htmlspecialchars_decode($path, ENT_NOQUOTES);
@@ -349,10 +359,10 @@ class PluploadController extends Controller
 
 // Uncomment this one to fake upload time
 // usleep(5000);
-// Get parameters
-        $chunk = isset($_REQUEST['chunk']) ? intval($_REQUEST['chunk']) : 0;
-        $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
-        $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+    // Get parameters
+    $chunk = request()->input('chunk', 0);
+    $chunks = request()->input('chunks', 0);
+    $fileName = request()->input('name', '');
 
 
 // Clean the fileName for security reasons

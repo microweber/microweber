@@ -214,8 +214,8 @@ class ApiController  extends FrontendController
             if(!in_array($api_function, $api_skip_token_validation_items)) {
 
                 $request = request();
-                $request->merge($_GET);
-                $request->merge($_POST);
+                
+                
                 $ref = $request->headers->get('referer');
 
                 $same_site = app()->make(SameSiteRefererMiddleware::class);
@@ -247,7 +247,7 @@ class ApiController  extends FrontendController
 
                 if ($params != false) {
                     $data = $params;
-                } elseif (!$_POST and !$_REQUEST) {
+                } elseif (!request()->isMethod('post')) {
                     $data = app()->url_manager->params(true);
                     if (empty($data)) {
                         $data = app()->url_manager->segment(2);
@@ -255,7 +255,7 @@ class ApiController  extends FrontendController
                 } else {
 
                     //$data = $_REQUEST;
-                    $data = array_merge($_GET, $_POST);
+                    $data = request()->all();
                 }
 
                 static $loaded_classes = array();
@@ -302,7 +302,7 @@ class ApiController  extends FrontendController
             default:
                 $res = false;
                 if (isset($hooks[$api_function_full])) {
-                    $data = array_merge($_GET, $_POST);
+                    $data = request()->all();
 
                     $call = $hooks[$api_function_full];
 
@@ -376,13 +376,13 @@ class ApiController  extends FrontendController
                         if (class_exists($try_class, false)) {
                             if ($params != false) {
                                 $data = $params;
-                            } elseif (!$_POST and !$_REQUEST) {
+                            } elseif (!request()->isMethod('post')) {
                                 $data = app()->url_manager->params(true);
                                 if (empty($data)) {
                                     $data = app()->url_manager->segment(2);
                                 }
                             } else {
-                                $data = array_merge($_GET, $_POST);
+                                $data = request()->all();
                             }
 
                             $res = new $try_class($data);
@@ -446,7 +446,7 @@ class ApiController  extends FrontendController
 
         if ($err == false) {
             if ($mod_class_api_called == false) {
-                if (!$_POST and !$_REQUEST) {
+                if (!request()->isMethod('post')) {
 
                     //  $data = app()->url_manager->segment(2);
                     $data = app()->url_manager->params(true);
@@ -456,7 +456,7 @@ class ApiController  extends FrontendController
                 } else {
 
                     //$data = $_REQUEST;
-                    $data = array_merge($_GET, $_POST);
+                    $data = request()->all();
                 }
 
                 $api_function_full_2 = explode('/', $api_function_full);
@@ -606,14 +606,15 @@ class ApiController  extends FrontendController
         if(is_ajax()){
 
 
-            if(isset( $_SERVER['HTTP_REFERER'])){
-                $requestUri = $_SERVER['HTTP_REFERER'];
+        $httpReferer = request()->header('referer');
+        if ($httpReferer) {
+            $requestUri = $httpReferer;
               //  $requestUri = str_replace(site_url(), '', $requestUri);
 
 
-                $request = new \Illuminate\Http\Request();
-                $request->server->replace($_SERVER);
-                $request->server->set('REQUEST_URI', $requestUri);
+            $request = new \Illuminate\Http\Request();
+            $request->server->replace(request()->server->all());
+            $request->server->set('REQUEST_URI', $requestUri);
 
                 URL::setRequest($request);
                 $currentUrl = URL::current();
@@ -622,7 +623,7 @@ class ApiController  extends FrontendController
             }
         }
 
-         $request_data = array_merge($_GET, $_POST);
+         $request_data = request()->all();
 
         // sanitize attributes
         if($request_data){
@@ -700,8 +701,8 @@ class ApiController  extends FrontendController
         }
         if (isset($request_data['from_url'])) {
             $from_url = $request_data['from_url'];
-        } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $from_url = $_SERVER['HTTP_REFERER'];
+        } else {
+            $from_url = request()->header('referer');
             $from_url_p = @parse_url($from_url);
             if (is_array($from_url_p) and isset($from_url_p['query'])) {
                 $from_url_p = parse_query($from_url_p['query']);
@@ -939,8 +940,8 @@ class ApiController  extends FrontendController
 
         $data = $request_data;
 
-        if (($_POST)) {
-            $data = $_POST;
+        if ((request()->isMethod('post'))) {
+            $data = request()->all();
         } else {
             $url = app()->url_manager->segment();
 
@@ -1110,8 +1111,9 @@ class ApiController  extends FrontendController
             event_trigger('mw.front');
         }
 
-        if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
-            $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
+        $httpReferer = request()->header('referer');
+        if ($httpReferer) {
+            $get_arr_from_ref = $httpReferer;
             if (strstr($get_arr_from_ref, app()->url_manager->site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
