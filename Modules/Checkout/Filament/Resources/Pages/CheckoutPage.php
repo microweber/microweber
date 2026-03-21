@@ -2,17 +2,14 @@
 
 namespace Modules\Checkout\Filament\Resources\Pages;
 
-use Filament\Resources\Pages\CreateRecord;
+use Filament\Resources\Pages\Page;
 use Modules\Checkout\Filament\Resources\CheckoutResource;
-use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Session;
 
-class CheckoutPage extends CreateRecord
+class CheckoutPage extends Page
 {
     protected static string $resource = CheckoutResource::class;
 
-    protected string $view = 'modules.checkout::filament.pages.checkout';
+    protected string $view = 'modules.checkout::filament.pages.checkout-wizard-page';
 
     public function getBreadcrumb(): string
     {
@@ -26,88 +23,22 @@ class CheckoutPage extends CreateRecord
 
     public function mount(): void
     {
-        $order_id = app()->user_manager->session_get('order_id');
+        // Check if cart is empty
         $cart = get_cart();
-        if (!$cart and $order_id) {
+        $order_id = app()->user_manager->session_get('order_id');
+
+        if (!$cart && $order_id) {
             app()->cart_manager->recover_cart($order_id);
         }
 
-        $this->form->fill();
+        // Redirect to cart if still empty
+        if (!app()->cart_manager->get()) {
+            $this->redirect(route('shop.cart'));
+        }
     }
 
-    public function submit()
+    protected function getHeaderActions(): array
     {
-        $data = $this->form->getState();
-
-        if (!app()->cart_manager->get()) {
-            return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Cart is empty');
-        }
-
-        try {
-            // Save contact information
-            app()->user_manager->session_set('checkout_first_name', $data['first_name']);
-            app()->user_manager->session_set('checkout_last_name', $data['last_name']);
-            app()->user_manager->session_set('checkout_email', $data['email']);
-            app()->user_manager->session_set('checkout_phone', $data['phone']);
-
-            // Save shipping information
-            app()->user_manager->session_set('checkout_address', $data['address']);
-            app()->user_manager->session_set('checkout_city', $data['city']);
-            app()->user_manager->session_set('checkout_state', $data['state']);
-            app()->user_manager->session_set('checkout_postal_code', $data['postal_code']);
-            app()->user_manager->session_set('checkout_country', $data['country']);
-
-
-            // Consume coupon if one was applied
-            $couponCode = Session::get('coupon_code');
-            if ($couponCode) {
-                coupon_consume($couponCode, $data['email']);
-            }
-
-            // Create order
-            $order = app()->checkout_manager->checkout($data);
-
-            if (isset($order['redirect'])) {
-                return redirect()->to($order['redirect']);
-            }
-
-            $success = false;
-            if (isset($order['success'])) {
-                $success = $order['success'] ?? false;
-            }
-            $errorMessage = 'Error processing order';
-            if (isset($order['error']) and is_array($order['error'])) {
-                $errorMessage = implode(', ', $order['error']);
-            } elseif (isset($order['error']) and is_string($order['error'])) {
-                $errorMessage = $order['error'];
-            }
- 
-
-             if (!$success) {
-                Notification::make()
-                    ->title('Error processing order')
-                    ->body($errorMessage)
-                    ->danger()
-                    ->send();
-                return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', $errorMessage);
-            }
-
-
-
-            Notification::make()
-                ->title('Order placed successfully')
-                ->success()
-                ->send();
-
-            return redirect()->route('filament.checkout.resources.checkout.success')
-                ->with('success', 'Order placed successfully');
-
-        } catch (\Exception $e) {
-            Notification::make()
-                ->title('Error processing order')
-                ->body($e->getMessage())
-                ->danger()
-                ->send();
-        }
+        return [];
     }
 }
