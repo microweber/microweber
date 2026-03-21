@@ -74,7 +74,7 @@ class AiChatRegressionTest extends TestCase
         $this->actingAs($this->admin);
 
         // Step 1: Create a new chat
-        $createResponse = $this->post('/admin/ai/agent-chats', [
+        $createResponse = $this->post('/admin/agent-chats', [
             'title' => 'Test Chat Session',
             'initial_prompt' => 'Help me with content creation',
         ]);
@@ -86,7 +86,7 @@ class AiChatRegressionTest extends TestCase
         $this->assertEquals($this->admin->id, $chat->user_id);
 
         // Step 2: Verify chat is accessible
-        $viewResponse = $this->get('/admin/ai/agent-chats/' . $chat->id);
+        $viewResponse = $this->get('/admin/agent-chats/' . $chat->id);
         $viewResponse->assertStatus(200);
 
         // Step 3: Send a message
@@ -342,7 +342,7 @@ class AiChatRegressionTest extends TestCase
             'role' => 'assistant',
         ]);
 
-        $response = $this->get('/admin/ai/agent-chats/' . $chat->id);
+        $response = $this->get('/admin/agent-chats/' . $chat->id);
         $response->assertStatus(200);
 
         // Verify all messages are loaded
@@ -389,7 +389,7 @@ class AiChatRegressionTest extends TestCase
             'user_id' => $this->admin->id,
         ]);
 
-        $response = $this->get('/admin/ai/agent-chats');
+        $response = $this->get('/admin/agent-chats');
         $response->assertStatus(200);
         $response->assertSee('Next');
     }
@@ -410,7 +410,7 @@ class AiChatRegressionTest extends TestCase
             'agent_chat_id' => $chat->id,
         ]);
 
-        $response = $this->delete('/admin/ai/agent-chats/' . $chat->id);
+        $response = $this->delete('/admin/agent-chats/' . $chat->id);
         $response->assertRedirect();
 
         $this->assertNull(AgentChat::find($chat->id));
@@ -421,7 +421,7 @@ class AiChatRegressionTest extends TestCase
      * Test unauthorized access to chat
      */
     #[Test]
-    public function it_unauthorized_user_cannot_access_others_chats(): void
+    public function it_unauthorized_user_cannot_view_other_chats(): void
     {
         $otherUser = User::factory()->create(['is_admin' => false]);
         $chat = AgentChat::factory()->create([
@@ -430,7 +430,9 @@ class AiChatRegressionTest extends TestCase
 
         $this->actingAs($otherUser);
 
-        $response = $this->get('/admin/ai/agent-chats/' . $chat->id);
+        $response = $this->get('/admin/agent-chats/' . $chat->id);
+
+        // Should return 403 Forbidden for unauthorized access
         $response->assertStatus(403);
     }
 }

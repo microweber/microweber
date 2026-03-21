@@ -16,6 +16,7 @@
 @import './filament/support';
 @import './filament/tables';
 @import './filament/widgets';
+@import './filament/dashboard-loading.css';
 /*
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';

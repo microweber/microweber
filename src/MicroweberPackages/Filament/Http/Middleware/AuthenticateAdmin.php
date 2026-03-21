@@ -26,8 +26,8 @@ class AuthenticateAdmin extends Middleware
         }
 
         if (is_logged()) {
-            //logout the user if not admin and try to access admin
-            return redirect(site_url('profile'));
+            // Return 403 Forbidden for non-admin users trying to access admin routes
+            abort(403, 'Unauthorized action.');
         }
 
 

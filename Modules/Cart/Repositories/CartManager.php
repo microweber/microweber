@@ -1073,11 +1073,11 @@ class CartManager extends Crud
                 }
             }
 
-            if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit') {
-                if (intval($cont_data['qty']) < intval($cart['qty'])) {
-                    $cart['qty'] = $cont_data['qty'];
-                }
+        if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit' and intval($cont_data['qty']) > 0) {
+            if (intval($cont_data['qty']) < intval($cart['qty'])) {
+                $cart['qty'] = $cont_data['qty'];
             }
+        }
 
 
             if (isset($cont_data['max_qty_per_order']) and intval($cont_data['max_qty_per_order']) != 0) {

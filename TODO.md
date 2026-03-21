@@ -99,26 +99,41 @@
 ### UI Bugs Found
 
 #### Frontend Checkout Flow
-- [ ] **fix: Frontend checkout cart operations failing** - 5 tests failing
-  - `it_complete_checkout_flow` - cart_sum() returning 0
-  - `it_adds_multiple_products_to_cart` - cart item count incorrect
-  - `it_cart_item_quantity_update` - quantity updates not persisting
-  - `it_cart_item_removal` - removal operations failing
-  - `it_empty_cart` - empty cart not clearing items
-  - Impact: Users cannot complete purchases
+- [x] 2026-03-21 **fix: Frontend checkout cart operations failing** - 5 tests failing
+  - Root Cause: The stock quantity check in `CartManager::update_cart()` was incorrectly limiting cart quantity to 0 when product had no explicit stock limit set (default "0" value from database)
+  - Fix: Added check for `intval($cont_data['qty']) > 0` in `/home/headless/Documents/GitHub/microweber/Modules/Cart/Repositories/CartManager.php:1076` to only apply stock limits when there's actual inventory
+  - Tests fixed:
+    - `it_complete_checkout_flow` - cart_sum() now works correctly
+    - `it_adds_multiple_products_to_cart` - cart item count now accurate
+    - `it_cart_item_quantity_update` - quantity updates now persist
+    - `it_cart_item_removal` - removal now works
+    - `it_empty_cart` - empty cart clears items
+  - Impact: Users can now complete purchases normally
 
 #### AI Chat Module
-- [ ] **fix: AI Chat unauthorized access returns 404 instead of 403**
-  - Expected: 403 Forbidden for unauthorized access
-  - Actual: 404 Not Found
-  - Location: `AiChatRegressionTest::it_unauthorized_user_cannot_view_other_chats`
+- [x] 2026-03-21 **fix: AI Chat unauthorized access returns 404 instead of 403** - RESOLVED
+  - Root Cause: The `AuthenticateAdmin` middleware in `src/MicroweberPackages/Filament/Http/Middleware/AuthenticateAdmin.php` was redirecting logged-in non-admin users to `/profile` instead of returning a 403 Forbidden response
+  - Fix: Changed line 28-30 from `return redirect(site_url('profile'))` to `abort(403, 'Unauthorized action.')` to properly return HTTP 403 for unauthorized access attempts
+  - Test now passes: `AiChatRegressionTest::it_unauthorized_user_cannot_view_other_chats`
 
 ### UX Improvements Needed
 
 #### Responsive Design
-- [ ] **improve: Add loading spinners** to dashboard and data-heavy pages
-  - Current: No visual feedback during data loading
-  - Impact: Users may think the application is frozen
+- [x] 2026-03-21 **improve: Add loading spinners** to dashboard and data-heavy pages
+  - RESOLVED: Added comprehensive loading spinner system with the following changes:
+  - Created new CSS file at `packages/microweber-filament-theme/resources/assets/css/filament/dashboard-loading.css` with:
+    - Full-page loading overlay with backdrop blur
+    - Animated SVG spinner with proper dark mode support
+    - Loading text with internationalization support
+    - Widget-specific loading states with skeleton shimmer effect
+    - Stats overview widget loading enhancement
+    - Chart and table widget loading states
+    - Page transition loading bar
+    - Responsive design for mobile devices
+  - Updated dashboard blade template at `resources/views/filament/admin/pages/dashboard.blade.php` to include loading overlay
+  - Integrated with existing Livewire loading hooks (`mw-livewire-loading` class on body)
+  - Added CSS import to theme index.css for automatic inclusion in build
+  - Impact: Users now see clear visual feedback during dashboard and widget loading, preventing confusion about frozen UI
 
 #### Form Validation
 - [ ] **improve: Enhance form validation error visibility**

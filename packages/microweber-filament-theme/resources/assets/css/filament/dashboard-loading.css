@@ -1,0 +1,243 @@
+/* Dashboard Loading Spinner Styles */
+
+/* Global loading overlay for dashboard */
+.fi-dashboard-page {
+    position: relative;
+}
+
+/* Loading overlay that appears when widgets are loading */
+.mw-dashboard-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dark .mw-dashboard-loading-overlay {
+    background-color: rgba(17, 24, 39, 0.8);
+}
+
+/* Show loading overlay when body has loading class */
+body.mw-livewire-loading .mw-dashboard-loading-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Loading spinner container */
+.mw-dashboard-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .mw-dashboard-loading-spinner {
+    background-color: rgb(31, 41, 55);
+}
+
+/* Loading spinner icon */
+.mw-dashboard-loading-spinner-icon {
+    width: 40px;
+    height: 40px;
+    animation: mw-dashboard-spin 1s linear infinite;
+}
+
+.mw-dashboard-loading-spinner-icon circle {
+    stroke: currentColor;
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+    animation: mw-dashboard-spin-dash 1.5s ease-in-out infinite;
+}
+
+/* Loading text */
+.mw-dashboard-loading-spinner-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(75, 85, 99);
+}
+
+.dark .mw-dashboard-loading-spinner-text {
+    color: rgb(209, 213, 219);
+}
+
+/* Animations */
+@keyframes mw-dashboard-spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes mw-dashboard-spin-dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+/* Widget-specific loading states */
+.fi-widget {
+    position: relative;
+}
+
+/* Widget loading state with skeleton */
+.fi-widget.mw-widget-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: mw-skeleton-shimmer 1.5s infinite;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.dark .fi-widget.mw-widget-loading::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(55, 65, 81, 0.4) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+}
+
+@keyframes mw-skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Stats overview widget loading enhancement */
+.fi-wi-stats-overview .fi-wi-stats-overview-stat {
+    position: relative;
+}
+
+.fi-wi-stats-overview.mw-widget-loading .fi-wi-stats-overview-stat {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Chart widget loading state */
+.fi-wi-chart.mw-widget-loading canvas {
+    opacity: 0.4;
+    filter: grayscale(0.5);
+}
+
+/* Table widget loading state */
+.fi-wi-table.mw-widget-loading {
+    opacity: 0.7;
+}
+
+/* Data-heavy page loading states */
+.fi-resource-list-records-page .fi-ta-content,
+.fi-resource-create-record-page .fi-form,
+.fi-resource-edit-record-page .fi-form {
+    position: relative;
+}
+
+/* Loading indicator for data tables */
+.mw-table-loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    display: none;
+}
+
+.fi-ta-content.loading .mw-table-loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Inline loading spinner for buttons */
+.mw-btn-loading-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mw-btn-loading-spinner svg {
+    width: 16px;
+    height: 16px;
+    animation: mw-dashboard-spin 1s linear infinite;
+}
+
+/* Page transition loading state */
+.mw-page-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    z-index: 9999;
+    transform: translateX(-100%);
+    animation: mw-page-loading-bar 2s ease-in-out infinite;
+}
+
+body.mw-livewire-loading .mw-page-loading {
+    animation: mw-page-loading-bar 2s ease-in-out infinite;
+}
+
+@keyframes mw-page-loading-bar {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .mw-dashboard-loading-spinner {
+        padding: 1.5rem;
+    }
+    
+    .mw-dashboard-loading-spinner-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
