@@ -5,6 +5,8 @@ namespace Modules\Tax\Providers;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Tax\Filament\Admin\Resources\TaxResource;
+use Modules\Tax\Filament\Admin\Resources\TaxRateResource;
+use Modules\Tax\Services\TaxCalculator;
 use Modules\Tax\Services\TaxManager;
 
 class TaxServiceProvider extends BaseModuleServiceProvider
@@ -34,9 +36,17 @@ class TaxServiceProvider extends BaseModuleServiceProvider
             return new TaxManager();
         });
 
+        /**
+         * @property \Modules\Tax\Services\TaxCalculator $tax_calculator
+         */
+        app()->singleton('tax_calculator', function ($app) {
+            return new TaxCalculator();
+        });
+
 
 
         FilamentRegistry::registerResource(TaxResource::class);
+        FilamentRegistry::registerResource(TaxRateResource::class);
     }
 
 }

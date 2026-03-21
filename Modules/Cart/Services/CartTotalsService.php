@@ -3,6 +3,7 @@
 namespace Modules\Cart\Services;
 
 use Modules\Coupons\Services\CouponService;
+use Modules\Tax\Services\TaxCalculator;
 
 class CartTotalsService
 {
@@ -21,20 +22,27 @@ class CartTotalsService
      */
     protected $couponService;
 
+    /**
+     * @var TaxCalculator
+     */
+    protected ?TaxCalculator $taxCalculator = null;
+
     public function __construct($app = null)
     {
         $this->app = $app ?: app();
         $this->cartRepository = $this->app->cart_repository;
         $this->couponService = $this->app->coupon_service ?? null;
+        $this->taxCalculator = $this->app->tax_calculator ?? null;
     }
 
     /**
      * Calculate cart totals.
      *
      * @param string $return
+     * @param array $location Optional location data for tax calculation
      * @return array|mixed
      */
-    public function totals(string $return = 'all'): array
+    public function totals(string $return = 'all', array $location = []): array
     {
         $allTotals = ['subtotal', 'shipping', 'tax', 'discount', 'total'];
 
@@ -52,7 +60,7 @@ class CartTotalsService
         $total = $sum + $shippingCost;
 
         if ($total > 0) {
-            $tax = $this->app->tax_manager->calculate($sum);
+            $tax = $this->calculateTax($sum, $location);
             $total = $total + $tax;
         } else {
             $tax = 0;
@@ -98,12 +106,96 @@ class CartTotalsService
     /**
      * Get tax amount.
      *
+     * @param array $location Optional location data for tax calculation
      * @return float
      */
-    public function getTax(): float
+    public function getTax(array $location = []): float
     {
         $sum = $this->sum();
-        return (float) $this->app->tax_manager->calculate($sum);
+        return $this->calculateTax($sum, $location);
+    }
+
+    /**
+     * Calculate tax amount using the new tax calculator with location-based rules.
+     *
+     * @param float $amount The amount to calculate tax on
+     * @param array $location Optional location data (country_code, state_code, city, zip_code)
+     * @return float
+     */
+    protected function calculateTax(float $amount, array $location = []): float
+    {
+        if (!$this->taxCalculator || !$this->taxCalculator->isEnabled()) {
+            // Fall back to legacy tax_manager if tax_calculator not available or disabled
+            return (float) $this->app->tax_manager->calculate($amount);
+        }
+
+        // Get location from session/checkout if not provided
+        if (empty($location)) {
+            $location = $this->getLocationFromSession();
+        }
+
+        return $this->taxCalculator->calculateAmount($amount, $location);
+    }
+
+    /**
+     * Get tax calculation breakdown with detailed information.
+     *
+     * @param array $location Optional location data
+     * @return array
+     */
+    public function getTaxBreakdown(array $location = []): array
+    {
+        $sum = $this->sum();
+
+        if (!$this->taxCalculator || !$this->taxCalculator->isEnabled()) {
+            $amount = $this->calculateTax($sum, $location);
+            return [
+                'amount' => $amount,
+                'breakdown' => [],
+            ];
+        }
+
+        if (empty($location)) {
+            $location = $this->getLocationFromSession();
+        }
+
+        $calculation = $this->taxCalculator->calculate($sum, $location);
+
+        return [
+            'amount' => $calculation['amount'],
+            'breakdown' => $calculation['breakdown'],
+        ];
+    }
+
+    /**
+     * Get location data from session/checkout.
+     *
+     * @return array
+     */
+    protected function getLocationFromSession(): array
+    {
+        $location = [];
+
+        // Try to get location from checkout session
+        if (session()->has('checkout_address')) {
+            $checkoutAddress = session('checkout_address');
+            $location = [
+                'country_code' => $checkoutAddress['country'] ?? null,
+                'state_code' => $checkoutAddress['state'] ?? null,
+                'city' => $checkoutAddress['city'] ?? null,
+                'zip_code' => $checkoutAddress['zip'] ?? null,
+            ];
+        } elseif (session()->has('shipping_address')) {
+            $shippingAddress = session('shipping_address');
+            $location = [
+                'country_code' => $shippingAddress['country'] ?? null,
+                'state_code' => $shippingAddress['state'] ?? null,
+                'city' => $shippingAddress['city'] ?? null,
+                'zip_code' => $shippingAddress['zip'] ?? null,
+            ];
+        }
+
+        return $location;
     }
 
     /**

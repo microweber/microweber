@@ -118,7 +118,20 @@
   - Created unit tests for PayPal driver with 11 tests (1 skipped due to bccomp extension)
   - Added environment variables: PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PAYPAL_WEBHOOK_ID, PAYPAL_TEST_MODE
   - Created documentation at docs/PAYPAL_PAYMENT_INTEGRATION.md
-- [ ] feat: Implement tax calculation engine (M) - Location-based rules
+- [x] 2026-03-21 feat: Implement tax calculation engine (M) - Location-based rules
+  - Implemented TaxCalculator service with location-based tax rules
+  - Supports country, state, city, and ZIP code level taxes
+  - Supports percentage and fixed amount taxes
+  - Supports compound taxes (tax on tax)
+  - Supports date-based validity (valid_from, valid_until)
+  - Priority-based rate selection with specificity scoring
+  - ZIP code pattern matching with wildcards (e.g., "100*")
+  - Backward compatibility with legacy TaxType system
+  - Integrated with CartTotalsService for automatic cart tax calculation
+  - Location data retrieved from checkout session
+  - Tax rate caching for performance
+  - Created TaxRateResource Filament admin UI for managing tax rates
+  - All 26 core tests passing (TaxCalculatorTest + TaxRateModelTest)
 - [ ] feat: Add shipping method management (M) - Flat rate, weight-based options
 - [ ] feat: Create invoice generation system (M) - PDF generation, email delivery
 - [ ] test: End-to-end checkout flow tests (M) - Complete purchase flow
