@@ -12,7 +12,7 @@ class CampaignsChart extends ChartWidget
 {
     use CanBeLazy;
 
-    protected static ?string $heading = 'Campaigns';
+    protected ?string $heading = 'Campaigns';
 
     protected static ?int $sort = 2;
 

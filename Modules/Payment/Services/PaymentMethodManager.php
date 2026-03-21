@@ -126,6 +126,8 @@ class PaymentMethodManager extends Manager
         if ($driver) {
             return $driver->process($data);
         }
+
+        return null;
     }
 
     public function verifyPayment($providerId, $data): array|null

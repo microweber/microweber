@@ -132,13 +132,18 @@ abstract class AbstractContentTool extends BaseAbstractContentTool
     /**
      * Update content.
      *
-     * @param Content $content
+     * @param int $id
      * @param array $data
      * @return bool
      */
-    protected function updateContent(Content $content, array $data): bool
+    protected function updateContent(int $id, array $data): bool
     {
         try {
+            $content = $this->getContentById($id);
+            if (!$content) {
+                return false;
+            }
+
             // Update basic fields
             $fillableFields = ['title', 'content_body', 'description', 'url', 'is_active'];
             foreach ($fillableFields as $field) {

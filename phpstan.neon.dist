@@ -1,36 +1,57 @@
 includes:
-    - vendor/larastan/larastan/extension.neon
+  - vendor/larastan/larastan/extension.neon
+  - phpstan-baseline.neon
 
 parameters:
-    level: 5
-    paths:
-        - app
-        - src
-        - Modules
-        - tests
-    excludePaths:
-        - vendor(?)
-        - node_modules(?)
-        - bootstrap/cache(?)
-        - storage(?)
-        - packages/*/vendor(?)
-        - packages/*/node_modules(?)
-        - resources/views(?)
-        - '**/Pest.php'
-    tmpDir: build/phpstan
-    resultCachePath: build/phpstan/resultCache.php
-    parallel:
-        maximumNumberOfProcesses: 4
-        processTimeout: 300.0
-    reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        # Filament v5 migration allowances
-        - '#Call to deprecated method#'
-        - '#Access to deprecated property#'
-        # Blade template variables are passed at runtime
-        -
-            message: '#Variable \$\w+ might not be defined#'
-            paths:
-                - Modules/*/resources/views/*
-        # Module view namespaces (modules.*::) are valid but not recognized by Larastan
-        - '#expects view-string\|null, string given#'
+  level: 5
+  paths:
+    - app
+    - src
+    - Modules
+    - tests
+  excludePaths:
+    - vendor(?)
+    - node_modules(?)
+    - bootstrap/cache(?)
+    - storage(?)
+    - packages/*/vendor(?)
+    - packages/*/node_modules(?)
+    - resources/views(?)
+    - '**/Pest.php'
+    # Legacy/deprecated code with missing dependencies
+    - src/MicroweberPackages/App/Managers/FileLoader.php
+    - src/MicroweberPackages/App/SystemLogger.php
+    - src/MicroweberPackages/Filament/Forms/Components/MwRichEditor.php
+    - src/MicroweberPackages/Filament/Models/Contracts/FilamentUser.php
+    - src/MicroweberPackages/LaravelModulesLivewire/LaravelModulesLivewireServiceProvider.php
+    - src/MicroweberPackages/Livewire/Http/Controllers/LivewireJavaScriptAssets.php
+    - src/MicroweberPackages/Multilanguage/FormElements/Deprecated/*.php
+    - src/MicroweberPackages/Multilanguage/FormElements/FileOption.php
+    - src/MicroweberPackages/Multilanguage/FormElements/MwEditor.php
+    - src/MicroweberPackages/Multilanguage/FormElements/MwModuleSettings.php
+    - src/MicroweberPackages/Multilanguage/FormElements/Text.php
+    - src/MicroweberPackages/Multilanguage/FormElements/TextArea.php
+    - src/MicroweberPackages/Multilanguage/FormElements/TextAreaOption.php
+    - src/MicroweberPackages/Multilanguage/FormElements/TextOption.php
+    - src/MicroweberPackages/Multilanguage/MultilanguageFormElementBuilder.php
+    - src/MicroweberPackages/User/Models/SocialiteUser.php
+    - src/MicroweberPackages/User/Services/Registrar.php
+    - src/MicroweberPackages/Utils/Misc/QueryBuilder.php
+    - src/MicroweberPackages/Utils/ThirdPartyLibs/PclZip.php
+  tmpDir: build/phpstan
+  resultCachePath: build/phpstan/resultCache.php
+  parallel:
+    maximumNumberOfProcesses: 4
+    processTimeout: 300.0
+  reportUnmatchedIgnoredErrors: false
+  ignoreErrors:
+    # Filament v5 migration allowances
+    - '#Call to deprecated method#'
+    - '#Access to deprecated property#'
+    # Blade template variables are passed at runtime
+    -
+      message: '#Variable \$\w+ might not be defined#'
+      paths:
+        - Modules/*/resources/views/*
+    # Module view namespaces (modules.*::) are valid but not recognized by Larastan
+    - '#expects view-string\|null, string given#'

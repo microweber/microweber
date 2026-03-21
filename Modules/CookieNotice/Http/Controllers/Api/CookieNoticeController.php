@@ -22,6 +22,7 @@ class CookieNoticeController extends Controller
             return response()->json($response)->withCookie(Cookie::forever($cookieName, '1'));
         }
 
+        return response()->json(['success' => false, 'error' => 'Missing required parameter: id'], 400);
     }
 
 

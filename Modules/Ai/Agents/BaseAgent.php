@@ -212,6 +212,8 @@ class BaseAgent extends Agent
                 model: $this->model,
             );
         }
+
+        throw new \RuntimeException("Unknown AI provider: {$this->providerName}");
     }
 
     public function getDomain(): string

@@ -11,7 +11,7 @@ class SubscribersChart extends ChartWidget
 {
     use CanBeLazy;
 
-    protected static ?string $heading = 'Subscribers';
+    protected ?string $heading = 'Subscribers';
 
     protected static ?int $sort = 2;
 

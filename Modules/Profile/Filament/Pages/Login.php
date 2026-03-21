@@ -77,6 +77,8 @@ class Login extends BaseLogin
 
             }
 
+            return null;
+
         } catch (ValidationException $e) {
             throw $e;
         }
