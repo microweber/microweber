@@ -6,7 +6,7 @@ namespace Modules\Ai\Events;
 
 use NeuronAI\Workflow\Event;
 
-class AgentRoutingEvent extends Event
+class AgentRoutingEvent implements Event
 {
     public function __construct(
         public readonly string $userQuery,

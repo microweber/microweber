@@ -6,7 +6,7 @@ namespace Modules\Ai\Events;
 
 use NeuronAI\Workflow\Event;
 
-class SpecializedAgentExecutionEvent extends Event
+class SpecializedAgentExecutionEvent implements Event
 {
     public function __construct(
         public readonly string $agentType,

@@ -6,7 +6,7 @@ namespace Modules\Ai\Events;
 
 use NeuronAI\Workflow\Event;
 
-class ProgressEvent extends Event
+class ProgressEvent implements Event
 {
     public function __construct(
         public readonly string $message,

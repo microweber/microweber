@@ -2,8 +2,8 @@
 
 ### Critical Issues
 
-- [ ] fix: PHP Fatal error in Modules/Ai/Events/ProgressEvent.php:9 - Class cannot extend interface NeuronAI\Workflow\Event (PHPStan failure)
-- [ ] fix: Core test suite error - MwFileUploadTest::it_upload_to_s3_disk_works - UNIQUE constraint failed on users.email (database integrity issue)
+- [x] 2026-03-21 fix: PHP Fatal error in Modules/Ai/Events/ProgressEvent.php:9 - Class cannot extend interface NeuronAI\Workflow\Event (PHPStan failure)
+- [x] 2026-03-21 fix: Core test suite error - MwFileUploadTest::it_upload_to_s3_disk_works - UNIQUE constraint failed on users.email (database integrity issue)
 - [ ] fix: Modules/Billing test failure - SubscriptionPlanTest expects 2 features but finds 16 (test assertion mismatch at line 45)
 
 ### High Priority Issues
