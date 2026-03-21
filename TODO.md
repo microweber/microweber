@@ -2,7 +2,7 @@
 
 ### Database & Models
 - [x] 2026-03-21 feat: Create migration for media library metadata table (S) - Add JSON metadata column
-- [ ] feat: Add database indexes for frequently queried columns (S) - Orders, products optimization
+- [x] 2026-03-21 feat: Add database indexes for frequently queried columns (S) - Orders, products optimization
 - [ ] test: Verify all migrations rollback successfully (S) - Migration integrity check
 
 ### Authentication
