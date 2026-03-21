@@ -144,7 +144,22 @@
   - Updated ShippingServiceProvider to register weight_based driver
   - Created comprehensive test suite: WeightBasedTest.php
   - All 24 shipping driver tests passing
-- [ ] feat: Create invoice generation system (M) - PDF generation, email delivery
+- [x] 2026-03-21 feat: Create invoice generation system (M) - PDF generation, email delivery
+  - Added formatted accessors to Invoice model (formatted_sub_total, formatted_discount_val, formatted_total, formatted_due_amount)
+  - Added formatted accessors to InvoiceItem model (formatted_price, formatted_subtotal)
+  - Created InvoiceMail class for email delivery with PDF attachment support
+  - Added email sending methods to InvoiceService: generatePdf(), sendInvoiceEmail(), downloadPdf()
+  - Added generateFromOrder() method to create invoices from orders
+  - Created invoice email template (resources/views/emails/invoice.blade.php)
+  - Fixed PDF template to handle null dates gracefully with fallback values
+  - Added 'Send Email' action to Filament InvoiceResource with modal form
+  - Added 'Generate Invoice' action to OrderResource to create invoices from orders
+  - Added 'View Invoice' action to OrderResource to navigate to existing invoices
+  - Updated Order model to include invoice_id in fillable
+  - Created comprehensive test suite (InvoiceGenerationTest.php) with 12 tests covering:
+    - PDF generation, email sending, custom messages, order-to-invoice conversion
+    - Duplicate prevention, totals calculation, overdue status, formatted accessors
+  - All 40 Invoice module tests pass (167 assertions)
 - [ ] test: End-to-end checkout flow tests (M) - Complete purchase flow
 
 ### Content Management

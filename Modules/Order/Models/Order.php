@@ -42,7 +42,6 @@ class Order extends Model
 
     public $table = 'cart_orders';
     public $fillable = [
-
         'email',
         'first_name',
         'last_name',
@@ -62,6 +61,7 @@ class Order extends Model
         'shipping_provider_id',
         'shipping_provider',
         'order_reference_id',
+        'invoice_id',
     ];
 
     protected $searchable = [

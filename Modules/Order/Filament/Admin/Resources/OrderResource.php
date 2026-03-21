@@ -14,9 +14,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomField;
+use Modules\Invoice\Services\InvoiceService;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
@@ -225,9 +227,55 @@ Group::make()
                 200,
                 'all'
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\Action::make('generate_invoice')
+                ->label('Generate Invoice')
+                ->icon('heroicon-o-document-currency')
+                ->color('success')
+                ->modalHeading('Generate Invoice from Order')
+                ->modalDescription('This will create a new invoice based on this order data.')
+                ->requiresConfirmation()
+                ->modalButton('Generate Invoice')
+                ->visible(fn(Order $record): bool => !$record->invoice_id)
+                ->action(function (Order $record) {
+                    try {
+                        $invoiceService = app(InvoiceService::class);
+                        $result = $invoiceService->generateFromOrder($record->id, [
+                            'status' => \Modules\Invoice\Models\Invoice::STATUS_DRAFT,
+                            'due_date' => now()->addDays(14),
+                        ]);
+
+                        if ($result['success']) {
+                            // Update order with invoice_id
+                            $record->invoice_id = $result['invoice_id'];
+                            $record->save();
+
+                            Log::info('Invoice generated from order', [
+                                'order_id' => $record->id,
+                                'invoice_id' => $result['invoice_id'],
+                            ]);
+
+                            return redirect()->back()->with('success', $result['message']);
+                        } else {
+                            return redirect()->back()->with('error', $result['message']);
+                        }
+                    } catch (\Exception $e) {
+                        Log::error('Failed to generate invoice from order', [
+                            'order_id' => $record->id,
+                            'error' => $e->getMessage(),
+                        ]);
+
+                        return redirect()->back()->with('error', 'Failed to generate invoice: ' . $e->getMessage());
+                    }
+                }),
+            Tables\Actions\Action::make('view_invoice')
+                ->label('View Invoice')
+                ->icon('heroicon-o-document-text')
+                ->url(fn(Order $record): ?string => $record->invoice_id ? \Modules\Invoice\Filament\Resources\InvoiceResource::getUrl('edit', ['record' => $record->invoice_id]) : null)
+                ->visible(fn(Order $record): bool => (bool) $record->invoice_id)
+                ->openUrlInNewTab(),
+        ])
 //            ->headerActions([
 //                Tables\Actions\CreateAction::make()->label('Create order')
 //            ])

@@ -15,7 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Illuminate\Support\Arr;
+use Modules\Invoice\Services\InvoiceService;
 
 class InvoiceResource extends Resource
 {
@@ -270,6 +274,44 @@ Tables\Filters\SelectFilter::make('paid_status')
                         echo $pdf->output();
                     }, $record->invoice_number . '.pdf');
                 }),
+            Action::make('send_email')
+                ->label('Send Email')
+                ->icon('heroicon-o-envelope')
+                ->color('success')
+                ->modalHeading('Send Invoice Email')
+                ->modalDescription('Send this invoice to the customer via email with PDF attachment.')
+                ->form([
+                    Section::make('Email Details')
+                        ->schema([
+                            TextInput::make('to_email')
+                                ->label('To Email')
+                                ->email()
+                                ->required()
+                                ->default(fn(Invoice $record) => $record->customer?->email)
+                                ->placeholder('customer@example.com'),
+
+                            Textarea::make('custom_message')
+                                ->label('Custom Message')
+                                ->placeholder('Optional: Add a personal message to the invoice email.')
+                                ->rows(3),
+                        ]),
+                ])
+                ->action(function (array $data, Invoice $record) {
+                    $invoiceService = app(InvoiceService::class);
+                    $result = $invoiceService->sendInvoiceEmail(
+                        $record->id,
+                        $data['to_email'],
+                        $data['custom_message'] ?? null
+                    );
+
+                    if ($result['success']) {
+                        return redirect()->back()->with('success', $result['message']);
+                    } else {
+                        return redirect()->back()->with('error', $result['message']);
+                    }
+                })
+                ->requiresConfirmation()
+                ->modalButton('Send Invoice'),
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([

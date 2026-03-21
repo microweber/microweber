@@ -95,5 +95,91 @@ class Invoice extends Model
         return $query->where('status', 'cancelled');
     }
 
+    /**
+     * Get formatted subtotal attribute.
+     *
+     * @return string
+     */
+    public function getFormattedSubTotalAttribute(): string
+    {
+        return number_format($this->sub_total / 100, 2);
+    }
 
+    /**
+     * Get formatted discount value attribute.
+     *
+     * @return string
+     */
+    public function getFormattedDiscountValAttribute(): string
+    {
+        return number_format($this->discount_val / 100, 2);
+    }
+
+    /**
+     * Get formatted total attribute.
+     *
+     * @return string
+     */
+    public function getFormattedTotalAttribute(): string
+    {
+        return number_format($this->total / 100, 2);
+    }
+
+    /**
+     * Get formatted due amount attribute.
+     *
+     * @return string
+     */
+    public function getFormattedDueAmountAttribute(): string
+    {
+        return number_format($this->due_amount / 100, 2);
+    }
+
+    /**
+     * Generate a unique hash for the invoice.
+     *
+     * @return string
+     */
+    public static function generateUniqueHash(): string
+    {
+        return md5(uniqid(mt_rand(), true));
+    }
+
+    /**
+     * Mark invoice as sent.
+     *
+     * @return void
+     */
+    public function markAsSent(): void
+    {
+        $this->status = self::STATUS_SENT;
+        $this->save();
+    }
+
+    /**
+     * Check if invoice is overdue.
+     *
+     * @return bool
+     */
+    public function isOverdue(): bool
+    {
+        if ($this->status === self::STATUS_PAID || $this->status === self::STATUS_COMPLETED) {
+            return false;
+        }
+
+        return $this->due_date && $this->due_date->isPast();
+    }
+
+    /**
+     * Update status based on dates.
+     *
+     * @return void
+     */
+    public function updateStatusFromDates(): void
+    {
+        if ($this->isOverdue() && $this->status !== self::STATUS_OVERDUE) {
+            $this->status = self::STATUS_OVERDUE;
+            $this->save();
+        }
+    }
 }

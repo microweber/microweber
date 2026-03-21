@@ -93,13 +93,13 @@
                 <td><strong>Invoice Number:</strong></td>
                 <td>{{ $invoice->invoice_number }}</td>
                 <td><strong>Invoice Date:</strong></td>
-                <td>{{ $invoice->invoice_date->format('M d, Y') }}</td>
+                <td>{{ $invoice->invoice_date?->format('M d, Y') ?? now()->format('M d, Y') }}</td>
             </tr>
             <tr>
                 <td><strong>Reference:</strong></td>
                 <td>{{ $invoice->reference_number }}</td>
                 <td><strong>Due Date:</strong></td>
-                <td>{{ $invoice->due_date->format('M d, Y') }}</td>
+                <td>{{ $invoice->due_date?->format('M d, Y') ?? 'N/A' }}</td>
             </tr>
         </table>
     </div>
