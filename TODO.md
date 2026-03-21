@@ -37,9 +37,9 @@
 
 ### Core Infrastructure
 - [x] 2026-03-21 feat: Configure Redis caching for production (M) - Cache driver, fallback setup
-- [ ] feat: Configure queue workers (M) - Database queue, supervisor config
-- [ ] feat: Add health check endpoints (S) - Database, cache, storage checks
-- [ ] test: Add infrastructure monitoring tests (S) - Health check validation
+- [x] 2026-03-21 feat: Configure queue workers (M) - Database queue, supervisor config - Configured database/Redis drivers, created supervisor configs, added comprehensive docs and tests
+- [x] 2026-03-21 feat: Add health check endpoints (S) - Database, cache, storage checks
+- [x] 2026-03-21 test: Add infrastructure monitoring tests (S) - Health check validation
 
 ### Security & Quality
 - [ ] feat: Complete superglobal remediation (M) - Replace $_GET/$_POST with Request facade
