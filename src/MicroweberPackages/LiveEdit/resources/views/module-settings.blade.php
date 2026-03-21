@@ -9,7 +9,7 @@
 <div class="alert alert-danger">
 
 
-    <h1>This file is deprecated </h1>
+            <h2>This file is deprecated </h2>
     <h3>module-settings.blade.php</h3>
     <h4>please migrate this module to filament</h4>
 

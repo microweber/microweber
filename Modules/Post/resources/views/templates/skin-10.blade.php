@@ -33,7 +33,7 @@
                             <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
                                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
                                     <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                        <img loading="lazy" style="max-height: 750px; width: auto; position: relative !important;" src="{{ $item['image'] }}" itemprop="url"/>
+                                        <img loading="lazy" style="max-height: 750px; width: auto; position: relative !important;" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] ?? '' }}"/>
                                         <meta itemprop="width" content="750">
                                         <meta itemprop="height" content="750">
                                     </div>
@@ -66,7 +66,7 @@
                                     <div class="position-absolute">{!! $itemCats !!}</div>
                                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                         <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                            <img loading="lazy" height="150" width="250" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url"/>
+                                            <img loading="lazy" height="150" width="250" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] ?? '' }}"/>
                                             <meta itemprop="width" content="250">
                                             <meta itemprop="height" content="150">
                                         </div>

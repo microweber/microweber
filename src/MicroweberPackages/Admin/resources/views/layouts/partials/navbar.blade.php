@@ -4,7 +4,7 @@
     <div class="container-fluid" >
 
 
-        <h1 class="navbar-brand">
+        <div class="navbar-brand">
             <?php
             if (mw()->ui->admin_logo != false):
                 $logo = mw()->ui->admin_logo;
@@ -18,7 +18,7 @@
                 <img alt="" src="<?php print $logo; ?>">
             </a>
 
-        </h1>
+        </div>
 
 
         <div class="  navbar-collapse overflow-x-hidden" id="sidebar-menu">

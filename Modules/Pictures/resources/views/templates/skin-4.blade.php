@@ -78,9 +78,9 @@ description: Skin-4
 
                 <div class="px-3 text-center d-flex align-items-center justify-content-center slick-slide-item-x">
                     <div>
-                        <img data-large-image="{{ thumbnail($item['filename'] ?? '', 2000, 2000, false) }}"
-                             src="{{ thumbnail($item['filename'] ?? '', 1200, 1200, false) }}"
-                             class="m-auto"/>
+<img data-large-image="{{ thumbnail($item['filename'] ?? '', 2000, 2000, false) }}"
+                                 src="{{ thumbnail($item['filename'] ?? '', 1200, 1200, false) }}"
+                                 class="m-auto" alt="{{ __('Gallery image') }}"/>
                         @if($itemTitle)
                             <h5 class="pt-3">{{ $itemTitle }}</h5>
                         @endif

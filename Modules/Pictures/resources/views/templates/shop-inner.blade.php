@@ -10,10 +10,11 @@ description: Shop inner
             <div class="elevatezoom-holder">
                 @foreach($data as $key => $item)
                     @if($key == 0)
-                        <img id="elevatezoom"
-                             class="main-image"
-                             src="{{ thumbnail($item['filename'] ?? '', 500, 500) }}"
-                             data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}"/>
+<img id="elevatezoom"
+                         class="main-image"
+                         src="{{ thumbnail($item['filename'] ?? '', 500, 500) }}"
+                         data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}"
+                         alt="{{ __('Product image') }}"/>
                     @endif
                 @endforeach
             </div>

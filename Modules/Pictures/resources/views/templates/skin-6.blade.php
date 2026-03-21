@@ -54,8 +54,8 @@ description: Skin 6
                 @endif
             @endif
 
-            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
-                 id="{{ $pictureElementId }}" />
+<img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
+                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}" />
         </div>
     </div>
 

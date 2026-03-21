@@ -97,7 +97,7 @@ description: Skin-5
                         @endif
 
                         <div class="img-as-background mh-350 mb-3">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 350, 350, true) }}"/>
+                            <img src="{{ thumbnail($item['filename'] ?? '', 350, 350, true) }}" alt="{{ __('Image') }}"/>
                         </div>
                     </div>
                 </div>

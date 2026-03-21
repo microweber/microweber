@@ -101,13 +101,13 @@ description: Skin-18
                     <div class="mw-team-18-team-member">
                         <div class="photo-line-team">
                             @if ($member['file'])
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" style="    width: 100%;
-        height: 350px;
-        object-fit: cover;
-        background-position: center center;
-    }"/>
+<img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" style=" width: 100%;
+  height: 350px;
+  object-fit: cover;
+  background-position: center center;
+  }" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             @else
-                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             @endif
                         </div>
 

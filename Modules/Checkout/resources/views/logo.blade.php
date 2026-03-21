@@ -8,7 +8,7 @@
 @else
     <div class="checkout-v2-logo">
         <a href="{{ site_url() }}">
-         <img src="{{ $logo }}"/>
+         <img src="{{ $logo }}" alt="{{ get_option('website_title', 'website') }}"/>
         </a>
     </div>
 @endif

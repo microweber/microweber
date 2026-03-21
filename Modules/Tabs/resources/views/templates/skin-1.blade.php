@@ -483,7 +483,7 @@
                         @endphp
                         <div class="tabs-content w-tab-content mw-ui-box-tab-content" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
                             <div class="tab-box-contents edit" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
-                                <img loading="lazy" class="rounded-image tab-image" src="{{ template_url('resources/assets/img/layouts/gallery-1-6.jpg') }}" />
+                                <img loading="lazy" class="rounded-image tab-image" src="{{ template_url('resources/assets/img/layouts/gallery-1-6.jpg') }}" alt="{{ __('Gallery image') }}" />
                                 <div class="widget message tab-widget">
                                     <div class="widget-body">
                                         <div class="widget-chat-top">

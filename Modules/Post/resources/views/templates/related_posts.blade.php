@@ -75,7 +75,7 @@ description: Related Posts
             <a href="@php print $item['link'] @endphp" class="sidebar-related-posts mb-0 mx-0" itemscope itemtype="@php print $schema_org_item_type_tag @endphp">
                 <div class="d-flex py-3 gap-3" @php if ($index === 0) echo 'style="border-top: 3px solid rgb(35, 144, 193);"'; @endphp>
                     <div class="image-container">
-                        <img loading="lazy" src="@php print $item['image']; @endphp" itemprop="image"/>
+                        <img loading="lazy" src="@php print $item['image']; @endphp" itemprop="image" alt="@php print $item['title'] ?? ''; @endphp"/>
                     </div>
                     @php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): @endphp
                         <p class="font-weight-bold pro-post-title" itemprop="name">@php print $item['title'] @endphp</p>

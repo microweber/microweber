@@ -60,7 +60,7 @@ description: Skin-2
                             <div class="team-card-item-image" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
                         @else
                             <div class="rounded-circle">
-                                <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                                <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         @endif
                     </div>

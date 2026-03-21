@@ -96,7 +96,7 @@
                         </div>
                     </div>
 
-                    <img :src="state" class="min-h-[300px]" style="max-height: 300px;object-fit: cover" />
+                    <img :src="state" alt="{{ __('Preview image') }}" class="min-h-[300px]" style="max-height: 300px;object-fit: cover" />
                 </div>
             </div>
 

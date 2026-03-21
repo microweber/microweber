@@ -81,7 +81,7 @@
                                                 </div>
                                             @endif
                                         @endif
-                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" />
+                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" alt="{{ $item['title'] ?? '' }}" />
                                     </div>
                                 </a>
                             @endif

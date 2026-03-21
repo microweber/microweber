@@ -43,7 +43,7 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
        <div class="px-5">
 
             <div class="mb-3">
-               <h1 class="font-weight-bold">Unlock The power of <span class="text-orange">BIG Template</span></h1>
+               <h2 class="font-weight-bold">Unlock The power of <span class="text-orange">BIG Template</span></h2>
                <h4>Use all layouts to make an awesome websites!</h4>
                <h4>Buy license key "Big Template" and unlock 300 more layouts,</h4>
                <h4>only for $59 per year or $169 lifetime license</h4>
@@ -66,11 +66,11 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
 
     <div class="col-md-4 px-0 unlock-package-columns pt-0 mb-3" style="background-color: #f5f5f5;">
         <div class="unlock-package-right-side-img" style="background-image: url('{{ asset('vendor/microweber-packages/frontend-assets-libs/img/right-banner.jpg') }}')">
-            <div class="ps-5" style="padding-top: 200px;">
-                <h1 class="d-flex gap-2">
-                    <span class="font-weight-bold">350+</span>
-                    <span class="font-weight-normal">Layouts</span>
-                </h1>
+<div class="ps-5" style="padding-top: 200px;">
+            <h2 class="d-flex gap-2">
+                <span class="font-weight-bold">350+</span>
+                <span class="font-weight-normal">Layouts</span>
+            </h2>
                 <h2 class="d-flex gap-2">
                     <span class="font-weight-bold">20</span>
                     <span class="font-weight-normal">Categories</span>

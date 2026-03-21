@@ -21,13 +21,13 @@
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
                     @if ($this->user->profile_photo_path)
-                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
+                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;" alt="{{ $this->user->name ?? __('User photo') }}">
                      @endif
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview">
-                    <img x-bind:src="photoPreview" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
+                    <img x-bind:src="photoPreview" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;" alt="{{ __('New user photo') }}">
                 </div>
 
                 <x-user::primary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">

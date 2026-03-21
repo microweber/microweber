@@ -46,7 +46,7 @@
                 <div>
                     @if($state['thumbnail'])
                     <div class="mt-2">
-                        <img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
+<img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle" height="60px" width="60px" alt="{{ $state['username'] ?? __('Profile photo') }}">
                     </div>
 
                     <div class="mt-2" wire:ignore>
@@ -56,7 +56,7 @@
                     </div>
                     @else
                         <div class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
-                            <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
+                            <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg" alt="{{ __('No user photo') }}">
                         </div>
 
                         <div class="mt-2" wire:ignore>

@@ -345,7 +345,7 @@
                     $logo = get_option('favicon_image', 'website')
                 @endphp
                 @if (!empty($logo))
-                        <img src="{{$logo}}" style="max-width: 200px">
+                        <img src="{{$logo}}" alt="{{ get_option('website_title', 'website') }}" style="max-width: 200px">
                 @endif
                 </div>
 

@@ -27,7 +27,7 @@
 
 
                 @csrf
-                <h1>Resend email verification</h1>
+                <h2>Resend email verification</h2>
 
 
                 <button type="submit" class="btn btn-primary">Submit</button>

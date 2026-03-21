@@ -18,7 +18,7 @@
             border-radius: 50px;
         }
     </style>
-    <h1 class="main-pages-title"> <?php _e("Manage Users"); ?></h1>
+    <h2 class="main-pages-title"> <?php _e("Manage Users"); ?></h2>
 
     <div class="card mb-3" x-data="{showFilters: false}">
 

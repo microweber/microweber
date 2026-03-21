@@ -44,7 +44,7 @@
 
                         @endif
                         @if ($backButtonUrl)
-                            <h1 class="mb-3"><?php _e("Your order is complete"); ?></h1>
+                            <h2 class="mb-3"><?php _e("Your order is complete"); ?></h2>
 
 
                             <a href="{{ $backButtonUrl }}"

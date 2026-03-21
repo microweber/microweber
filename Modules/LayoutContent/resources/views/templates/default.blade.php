@@ -44,9 +44,9 @@ description: default
             ?>
         <div class="col-md-<?php echo $colMdCalculate; ?> py-md-0 py-3 text-<?php echo $align; ?>">
                 <?php if ($contentImage) { ?>
-            <img loading="lazy" src="<?php echo thumbnail($contentImage, 1000, 1000, true); ?>" />
+            <img loading="lazy" src="<?php echo thumbnail($contentImage, 1000, 1000, true); ?>" alt="<?php echo __('Content image'); ?>" />
             <?php } else { ?>
-            <img loading="lazy" src="<?php echo modules_url() ?>layout_content/templates/default-image.png" />
+            <img loading="lazy" src="<?php echo modules_url() ?>layout_content/templates/default-image.png" alt="<?php echo __('Default image'); ?>" />
             <?php } ?>
             <div class="mt-2">
                 <h5><?php echo $contentTitle; ?></h5>

@@ -45,7 +45,7 @@
         </div>
 
         <div class="text-center mb-6 p-10">
-            <h1 class="text-3xl font-thin text-gray-800 mb-3">Select template for your Website</h1>
+            <h2 class="text-3xl font-thin text-gray-800 mb-3">Select template for your Website</h2>
             <p>Choose template and customize it to fit your
                 style and ideas</p>
         </div>

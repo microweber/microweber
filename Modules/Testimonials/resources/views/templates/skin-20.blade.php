@@ -79,9 +79,9 @@ $limit = 40;
                         <div class="col-lg-6 col-11 pe-3 position-relative">
                             @if (isset($item['client_image']))
                                 <div class="img-as-background h-500">
-                                    <img loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" class="position-relative"/>
+                                    <img loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" class="position-relative" alt="{{ $item['client_name'] ?? '' }}"/>
                                 </div>
-                                <img loading="lazy" src="{{ asset('templates/big2/img/layouts/action/action-blog-quote.png') }}" class="position-absolute action-blog-quote"/>
+                                <img loading="lazy" src="{{ asset('templates/big2/img/layouts/action/action-blog-quote.png') }}" class="position-absolute action-blog-quote" alt="{{ __('Quote decoration') }}"/>
                             @endif
                         </div>
 

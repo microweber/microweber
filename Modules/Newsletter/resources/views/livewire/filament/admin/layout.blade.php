@@ -3,9 +3,9 @@
     <div class="mt-6 mb-4">
 
         <div class="mt-4 flex items-center justify-between">
-            <h1 class="text-2xl">
-                Newsletter PRO v3.0
-            </h1>
+        <h2 class="text-2xl">
+            Newsletter PRO v3.0
+        </h2>
         </div>
 
     </div>

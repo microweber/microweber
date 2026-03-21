@@ -11,7 +11,7 @@
         <div class="mw-admin-action-links" id="sidebar-admin-modules-list-tree-item-{{ $item['id'] }}">
             <span class="cursor-pointer" ondblclick="window.selectModule('{{ $item['id'] }}')" onclick="window.scrollToModule('{{ $item['id'] }}')">
                 <?php if (isset($moduleInfo['icon'])) { ?>
-            <img src="<?php print $moduleInfo['icon']; ?>"
+            <img src="<?php print $moduleInfo['icon']; ?>" alt="<?php print $moduleInfo['name'] ?? ''; ?>"
                  style="max-width: 20px; max-height: 20px; margin-right: 10px;"/>
             <?php } ?>
 

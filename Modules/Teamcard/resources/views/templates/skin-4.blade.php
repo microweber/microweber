@@ -30,11 +30,11 @@ description: Skin-4
                 <div class="d-block position-relative show-on-hover-root">
                     @if ($member['file'])
                         <div class="img-as-background square">
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                         </div>
                     @else
                         <div class="img-as-background square">
-                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                         </div>
                     @endif
 

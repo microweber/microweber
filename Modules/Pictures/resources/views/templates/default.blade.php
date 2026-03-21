@@ -27,7 +27,7 @@ description: Default Picture List
                     <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }}">
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
                            onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}"/>
+                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}"/>
                         </a>
                     </div>
                 @endforeach

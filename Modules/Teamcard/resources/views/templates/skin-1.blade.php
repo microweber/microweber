@@ -28,11 +28,11 @@ description: Skin-1
                     <div class="w-450 mx-auto js-member" data-id="{{ $key }}" style="{{ $key > 0 ? 'display: none;' : '' }}">
                         @if ($member['file'])
                             <div class="img-as-background square">
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 850) }}"/>
+                                <img loading="lazy" src="{{ thumbnail($member['file'], 850) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         @else
                             <div class="img-as-background square">
-                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         @endif
                     </div>
@@ -59,7 +59,7 @@ description: Skin-1
                     @foreach ($teamcard as $key => $member)
                         <div class="w-80 m-4 cursor-pointer js-show-team-member" data-id="{{ $key }}">
                             <div class="img-as-background rounded-circle square">
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 80) }}"/>
+                                <img loading="lazy" src="{{ thumbnail($member['file'], 80) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         </div>
                     @endforeach

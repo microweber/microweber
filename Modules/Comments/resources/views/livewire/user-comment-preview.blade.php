@@ -3,7 +3,7 @@
         <div class="d-flex align-items-start">
             @if($showUserAvatar)
                 <img src="{{ $comment->getAvatarUrl() }}"
-                     alt="{{ $comment->comment_name }}"
+                     alt="{{ __('Commenter avatar') }}"
                      class="rounded-circle me-3"
                      width="40"
                      height="40">

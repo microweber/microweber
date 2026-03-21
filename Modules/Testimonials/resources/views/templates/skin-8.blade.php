@@ -82,7 +82,7 @@ $limit = 40;
                                     <div class="me-3">
                                         <div class="w-40 mx-auto">
                                             <div class="img-as-background rounded-circle square">
-                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" class="d-block"/>
+                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" class="d-block" alt="{{ $item['client_name'] ?? '' }}"/>
                                             </div>
                                         </div>
                                     </div>

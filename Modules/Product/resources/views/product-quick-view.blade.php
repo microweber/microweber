@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-6">
-        <img src="{{$product->thumbnail(800,800, true)}}" />
+        <img src="{{$product->thumbnail(800,800, true)}}" alt="{{ $product->title ?? '' }}" />
     </div>
     <div class="col-md-6">
 

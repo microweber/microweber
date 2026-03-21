@@ -1,7 +1,7 @@
 <div {{ $attributes->merge(['class' => 'row align-items-center ' . $class]) }}>
     @if(isset($image) and $image)
         <div class="safe-mode col-12 col-md-5 col-lg-6 order-md-2">
-            <img src="{{ $image }}" class="img-fluid mw-md-150 mw-lg-130 mb-6 mb-md-0">
+            <img src="{{ $image }}" class="img-fluid mw-md-150 mw-lg-130 mb-6 mb-md-0" alt="{{ __('Hero image') }}">
         </div>
     @endif
 

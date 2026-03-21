@@ -29,10 +29,10 @@ description: Skin-15
             <div class="col-xl-3 col-md-6 col-sm-8 col-12 mx-auto d-flex justify-content-center align-items-center py-4">
                 <div class="flower-card card w-100 mx-2" style="border-radius: 0 20px 0 20px;">
                     @if ($member['file'])
-                        <img loading="lazy" class="flower-team-card-img card-img-top" style="height: 350px;
-    object-fit: cover;" src="{{ thumbnail($member['file'], 800) }}"/>
+<img loading="lazy" class="flower-team-card-img card-img-top" style="height: 350px;
+  object-fit: cover;" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                     @else
-                        <img loading="lazy" class="flower-team-card-img card-img-top" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                        <img loading="lazy" class="flower-team-card-img card-img-top" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                     @endif
 
                     <div class="card-body">

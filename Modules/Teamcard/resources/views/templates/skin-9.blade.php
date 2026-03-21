@@ -34,11 +34,11 @@ description: Skin-9
                         <div class="w-175 mx-auto">
                             @if ($member['file'])
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                                    <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                                 </div>
                             @else
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                                    <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                                 </div>
                             @endif
                         </div>

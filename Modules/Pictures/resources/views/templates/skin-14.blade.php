@@ -12,8 +12,8 @@ description: Skin 14
     <div class="new-skin-shop">
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
-                <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
-                     id="{{ $pictureElementId }}" />
+<img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
+                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}" />
             </div>
 
             @if(sizeof($data) > 1)

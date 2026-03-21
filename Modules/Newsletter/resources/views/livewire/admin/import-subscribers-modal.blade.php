@@ -198,11 +198,11 @@
                         <div style="width:100%" class="d-flex justify-content-end gap-3 js-supported-file-formats">
 
                             <a href="#">
-                                <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
+                                <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" alt="{{ __('CSV file format') }}" />
                             </a>
 
 <!--                            <a href="#">
-                                <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" />
+                                <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" alt="{{ __('Excel file format') }}" />
                             </a>-->
 
                         </div>

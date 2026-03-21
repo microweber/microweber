@@ -173,7 +173,7 @@
                                                     @endphp
                                                     <tr class="js-check-for-checked">
                                                         <td class="row-module-name">
-                                                            <img src="{{$permission['icon']}}" class="module-img"/>
+                                                            <img src="{{$permission['icon']}}" class="module-img" alt="{{ $permission['name'] ?? '' }}"/>
                                                             {{$permission['name']}}
                                                         </td>
 

@@ -39,7 +39,7 @@
 
             >
                 <div class="flex gap-2 items-center uppercase">
-                    <img width="14px" src="{{$supportedLanguage['iconUrl']}}" />
+                    <img width="14px" src="{{$supportedLanguage['iconUrl']}}" alt="{{ $supportedLanguage['name'] ?? $supportedLanguage['abr'] }}" />
                     {{ $supportedLanguage['abr'] }}
                 </div>
 

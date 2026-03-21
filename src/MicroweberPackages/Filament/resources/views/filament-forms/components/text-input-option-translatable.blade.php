@@ -82,7 +82,7 @@
                 <x-slot name="trigger">
                     <button type="button">
                         <div class="flex gap-2 items-center uppercase">
-                            <img width="14px" :src="$store.translationLocale.flagUrl" />
+                            <img width="14px" :src="$store.translationLocale.flagUrl" :alt="$store.translationLocale.locale" />
                             <span x-text="$store.translationLocale.shortLocale"></span>
                         </div>
                     </button>
@@ -98,7 +98,7 @@
 
                     }">
                         <div class="flex gap-2 items-center uppercase">
-                            <img width="24px" src="{{$supportedLanguage['iconUrl']}}" />
+                            <img width="24px" src="{{$supportedLanguage['iconUrl']}}" alt="{{ $supportedLanguage['name'] ?? $supportedLanguage['abr'] }}" />
                             {{ $supportedLanguage['abr'] }}
                         </div>
                     </x-filament::dropdown.list.item>

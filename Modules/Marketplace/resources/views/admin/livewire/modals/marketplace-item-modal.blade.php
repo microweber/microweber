@@ -21,9 +21,9 @@
 
         <div class="marketplace-template-img-wrapper" style="max-height: 250px; overflow:hidden">
             @if (isset($package['extra']['_meta']['screenshot_large']))
-                <img src="{{$package['extra']['_meta']['screenshot_large']}}"/>
+                <img src="{{$package['extra']['_meta']['screenshot_large']}}" alt="{{ $package['name'] ?? __('Package screenshot') }}"/>
             @elseif(isset($package['extra']['_meta']['screenshot']))
-                <img src="{{$package['extra']['_meta']['screenshot']}}"/>
+                <img src="{{$package['extra']['_meta']['screenshot']}}" alt="{{ $package['name'] ?? __('Package screenshot') }}"/>
             @else
                 <div class="card-img-top text-center">
                     <i class="mdi mdi-view-grid-plus text-muted"

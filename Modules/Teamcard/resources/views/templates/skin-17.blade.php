@@ -29,9 +29,9 @@ description: Skin-17
                 <div class="team-member">
                     <div class="main-content">
                         @if ($member['file'])
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" />
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}" />
                         @else
-                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                         @endif
                         <span class="category">{{ $member['role'] }}</span>
                         <h4>{{ $member['name'] }}</h4>

@@ -152,7 +152,7 @@
                         <div class="small-text">{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</div>
                         <div class="d-flex align-items-center mt-4">
                             <div class="avatar-group d-flex">
-                                <img loading="lazy" class="avatar-image" src="{{ asset('templates/big2/img/layouts/events/1.jpg') }}">
+                                <img loading="lazy" class="avatar-image" src="{{ asset('templates/big2/img/layouts/events/1.jpg') }}" alt="{{ __('Event image') }}">
                                 <div class="ms-3">
                                     Logan Wilson
                                     <p class="speakers-text mb-0">CEO / Founder</p>

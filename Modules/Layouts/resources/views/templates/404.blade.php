@@ -27,7 +27,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <div class="container">
         <div class="row">
             <div class="not_found_text col-4 align-self-center">
-                <h1><?php _lang("Oops", "templates/new-world"); ?>!</h1>
+                <h2><?php _lang("Oops", "templates/new-world"); ?>!</h2>
                 <p class="my-3"><?php _lang("A 404 error is a standard HTTP error
                  message code that means the website you
                   were trying to reach couldn't be found on the server", "templates/new-world"); ?>.
@@ -36,7 +36,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
 
             <div class="col-8 text-center not_found_img">
-                <img src="<?php print template_url(); ?>img/sections/404_graphic.png"/>
+                <img src="<?php print template_url(); ?>img/sections/404_graphic.png" alt="<?php echo __('404 error illustration'); ?>"/>
             </div>
         </div>
     </div>

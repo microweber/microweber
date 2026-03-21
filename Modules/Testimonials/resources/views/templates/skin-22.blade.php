@@ -143,7 +143,7 @@ $limit = 40;
                         </div>
                     </div>
                     @if (isset($item['client_image']))
-                        <img class="testimonial-image-two" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
+                        <img class="testimonial-image-two" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
                     @endif
                 </div>
             @endforeach

@@ -56,7 +56,7 @@ description: Posts 11
                                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                         <div class="w-40">
                                             <div class="img-as-background rounded-circle square" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="url" />
+                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="url" alt="{{ $user['username'] ?? '' }}" />
                                                 <meta itemprop="width" content="1200">
                                                 <meta itemprop="height" content="1200">
                                             </div>

@@ -37,7 +37,7 @@
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
                             <div class="img-as-background h-350 p-1">
-                                <img class="border" loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image"/>
+                                <img class="border" loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
                             </div>
                         </a>
                     @endif

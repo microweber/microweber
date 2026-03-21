@@ -32,9 +32,9 @@
     </script>
 
         <div class="mt-4">
-            <h1 class="text-2xl font-bold">
-                Setup your email marketing campaign
-            </h1>
+    <h2 class="text-2xl font-bold">
+        Setup your email marketing campaign
+    </h2>
             <p class="text-gray-600">
                 Continue with the wizard to create a new email marketing campaign
             </p>

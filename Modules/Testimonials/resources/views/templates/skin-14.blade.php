@@ -58,7 +58,7 @@ if (!window.SliderV2) {
                                     @if (isset($item['client_image']))
                                         <div class="mw-300 w-300 avatar-holder mx-auto me-md-5">
                                             <div class="img-as-background h-300">
-                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 300) }}" class="d-block"/>
+                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 300) }}" class="d-block" alt="{{ $item['client_name'] ?? '' }}"/>
                                             </div>
                                         </div>
                                     @endif

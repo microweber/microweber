@@ -37,16 +37,16 @@
 
         <div class="row text-center safe-mode mt-5">
             <div class=" col cloneable element mb-5">
-                <img loading="lazy" class="rounded-3 h-100 w-100"  src="{{ asset('templates/big2/img/layouts/gallery-1-1.jpg') }}"/>
+<img loading="lazy" class="rounded-3 h-100 w-100" src="{{ asset('templates/big2/img/layouts/gallery-1-1.jpg') }}" alt="{{ __('Gallery image') }}"/>
             </div>
             <div class=" col cloneable element mb-5">
-                <img loading="lazy" class="rounded-3 h-100 w-100"  src="{{ asset('templates/big2/img/layouts/gallery-1-6.jpg') }}"/>
+<img loading="lazy" class="rounded-3 h-100 w-100" src="{{ asset('templates/big2/img/layouts/gallery-1-6.jpg') }}" alt="{{ __('Gallery image') }}"/>
             </div>
             <div class=" col cloneable element mb-5">
-                <img loading="lazy" class="rounded-3 h-100 w-100"  src="{{ asset('templates/big2/img/layouts/gallery-1-3.jpg') }}"/>
+<img loading="lazy" class="rounded-3 h-100 w-100" src="{{ asset('templates/big2/img/layouts/gallery-1-3.jpg') }}" alt="{{ __('Gallery image') }}"/>
             </div>
             <div class=" col cloneable element mb-5">
-                <img loading="lazy" class="rounded-3 h-100 w-100"  src="{{ asset('templates/big2/img/layouts/gallery-1-4.jpg') }}"/>
+<img loading="lazy" class="rounded-3 h-100 w-100" src="{{ asset('templates/big2/img/layouts/gallery-1-4.jpg') }}" alt="{{ __('Gallery image') }}"/>
             </div>
         </div>
 

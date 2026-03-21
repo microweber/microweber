@@ -30,11 +30,11 @@ description: Skin-14
                     <div class="d-block">
                         @if ($member['file'])
                             <div class="img-as-background square mb-3">
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                                <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         @else
                             <div class="img-as-background square mb-3">
-                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                             </div>
                         @endif
                         <div>

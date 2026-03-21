@@ -43,7 +43,7 @@
                                         @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                             <div class="w-40 mx-auto">
                                                 <div class="img-as-background rounded-circle square">
-                                                    <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image"/>
+                                                    <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image" alt="{{ $user['username'] ?? '' }}"/>
                                                 </div>
                                             </div>
                                         @endif
@@ -92,7 +92,7 @@
                                     <div class="me-3">
                                         <div class="w-40">
                                             <div class="img-as-background rounded-circle square">
-                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 80, 80) }}" itemprop="image"/>
+                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 80, 80) }}" itemprop="image" alt="{{ $user['username'] ?? '' }}"/>
                                             </div>
                                         </div>
                                     </div>

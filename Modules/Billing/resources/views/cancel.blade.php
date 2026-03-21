@@ -28,7 +28,7 @@
 
                         @endif
                         @if ($backButtonUrl)
-                            <h1 class="mb-3"><?php _e("Your order is canceled"); ?></h1>
+                            <h2 class="mb-3"><?php _e("Your order is canceled"); ?></h2>
 
 
                             <a href="{{ $backButtonUrl }}"

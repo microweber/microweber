@@ -61,7 +61,7 @@ description: Posts Slider 4
                                                 <div class="me-2">
                                                     <div class="w-40">
                                                         <div class="img-as-background rounded-circle square">
-                                                            <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image"/>
+                                                            <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image" alt="{{ $user['username'] ?? '' }}"/>
                                                         </div>
                                                     </div>
                                                 </div>

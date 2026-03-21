@@ -8,7 +8,7 @@
 
         <div class="modal-body py-4">
 
-            <h1>{{$package['description']}}</h1>
+            <h2>{{$package['description']}}</h2>
             <div class="text-muted">
                 {{_e('You are not using the latest version - version')}} : {{$package['version']}}
             </div>
