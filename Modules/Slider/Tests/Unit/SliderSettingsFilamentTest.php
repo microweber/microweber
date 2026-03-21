@@ -51,9 +51,7 @@ class SliderSettingsFilamentTest extends TestCase
             'rel_type' => 'module',
             'module_id' => $moduleId
         ])
-        ->mountTableAction('create')
-        ->setTableActionData($data)
-        ->callTableAction('create')
+        ->callTableAction('create', data: $data)
         ->assertHasNoTableActionErrors();
 
         // Verify the slider was created in the database
