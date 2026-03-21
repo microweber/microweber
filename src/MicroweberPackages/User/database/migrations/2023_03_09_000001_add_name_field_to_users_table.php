@@ -24,5 +24,23 @@ return new class extends Migration
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        try {
+            if (Schema::hasColumn('users', 'name')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->dropColumn('name');
+                });
+            }
+        } catch (Exception $e) {
+            // Column may not exist
+        }
+    }
+
 
 };

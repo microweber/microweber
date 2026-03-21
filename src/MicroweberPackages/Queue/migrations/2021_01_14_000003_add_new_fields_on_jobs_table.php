@@ -35,4 +35,22 @@ return new class extends Migration {
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasTable('jobs')) {
+            Schema::table('jobs', function (Blueprint $table) {
+                $columns = ['reserved', 'mw_processed', 'job_hash', 'updated_at'];
+                foreach ($columns as $column) {
+                    if (Schema::hasColumn('jobs', $column)) {
+                        $table->dropColumn($column);
+                    }
+                }
+            });
+        }
+    }
 };

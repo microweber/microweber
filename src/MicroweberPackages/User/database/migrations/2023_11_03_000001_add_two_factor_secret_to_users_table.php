@@ -27,5 +27,28 @@ return new class extends Migration
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        try {
+            if (Schema::hasColumn('users', 'two_factor_secret')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->dropColumn('two_factor_secret');
+                });
+            }
+            if (Schema::hasColumn('users', 'two_factor_recovery_codes')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->dropColumn('two_factor_recovery_codes');
+                });
+            }
+        } catch (Exception $e) {
+            // Columns may not exist
+        }
+    }
+
 
 };

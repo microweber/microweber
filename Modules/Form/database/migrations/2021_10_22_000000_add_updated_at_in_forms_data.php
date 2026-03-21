@@ -21,4 +21,18 @@ return new class extends  Migration
 
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasColumn('forms_data', 'updated_at')) {
+            Schema::table('forms_data', function (Blueprint $table) {
+                $table->dropColumn('updated_at');
+            });
+        }
+    }
 };

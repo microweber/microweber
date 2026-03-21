@@ -25,4 +25,17 @@ return new class extends Migration {
 
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasTable('failed_jobs') && Schema::hasColumn('failed_jobs', 'created_at')) {
+            Schema::table('failed_jobs', function (Blueprint $table) {
+                $table->dropColumn('created_at');
+            });
+        }
+    }
 };

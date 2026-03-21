@@ -20,4 +20,18 @@ return new class extends Migration
             $table->longText('mega_menu_settings')->nullable();
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasTable('menus')) {
+            Schema::table('menus', function (Blueprint $table) {
+                $table->dropColumn(['enable_mega_menu', 'menu_item_template', 'mega_menu_settings']);
+            });
+        }
+    }
 };

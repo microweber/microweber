@@ -32,4 +32,16 @@ class MigrateTemplateOptionsForModules extends Migration
                 ->update(['option_key' => 'data-template']);
         }
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * Data migrations cannot be safely reversed.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        // Data migration - cannot be safely reversed
+    }
 }

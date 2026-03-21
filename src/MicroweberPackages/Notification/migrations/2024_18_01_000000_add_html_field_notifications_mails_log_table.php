@@ -22,9 +22,21 @@ class AddHtmlFieldNotificationsMailsLogTable extends Migration
                 });
             }
         }
-
-
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $notifications_mails_log_table = 'notifications_mails_log';
 
+        if (Schema::hasTable($notifications_mails_log_table) && Schema::hasColumn($notifications_mails_log_table, 'html')) {
+            Schema::table($notifications_mails_log_table, function (Blueprint $table) {
+                $table->dropColumn('html');
+            });
+        }
+    }
 }

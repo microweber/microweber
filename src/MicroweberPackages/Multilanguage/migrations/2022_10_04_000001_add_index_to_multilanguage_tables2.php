@@ -32,4 +32,27 @@ return new class extends Migration {
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        try {
+            Schema::table('multilanguage_translations', function (Blueprint $table) {
+                $table->dropFullText(['field_value']);
+            });
+        } catch (Exception $e) {
+            // Index may not exist
+        }
+
+        try {
+            Schema::table('multilanguage_supported_locales', function (Blueprint $table) {
+                $table->dropIndex(['display_locale']);
+            });
+        } catch (Exception $e) {
+            // Index may not exist
+        }
+    }
 };

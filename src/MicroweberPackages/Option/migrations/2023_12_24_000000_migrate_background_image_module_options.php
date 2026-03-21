@@ -32,7 +32,7 @@ class MigrateBackgroundImageModuleOptions extends Migration
                 foreach ($getAllOldOptions as $opt) {
                     foreach ($changeKeys as $changeKey => $newKey) {
                         if ($opt && $opt->option_key == $changeKey) {
-                           // db update where
+                            // db update where
                             DB::table('options')
                                 ->where('id', $opt->id)
                                 ->update([
@@ -47,4 +47,15 @@ class MigrateBackgroundImageModuleOptions extends Migration
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * Data migrations cannot be safely reversed.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        // Data migration - cannot be safely reversed
+    }
 }

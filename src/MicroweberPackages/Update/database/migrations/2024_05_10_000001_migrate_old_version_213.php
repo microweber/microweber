@@ -578,5 +578,17 @@ return new class extends Migration {
         }
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * Data migrations cannot be safely reversed.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        // Data migration - cannot be safely reversed
+    }
+
 };
 

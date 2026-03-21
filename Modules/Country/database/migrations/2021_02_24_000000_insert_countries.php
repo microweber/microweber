@@ -28,4 +28,16 @@ return new class extends Migration
             }
         }
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * Data seeding cannot be safely reversed.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        // Data seeding - cannot be safely reversed
+    }
 };

@@ -31,4 +31,12 @@ return new class extends Migration {
         }
     }
 
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('cart_coupon_logs');
+    }
+
 };

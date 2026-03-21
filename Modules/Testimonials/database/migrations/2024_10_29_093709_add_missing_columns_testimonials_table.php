@@ -43,5 +43,22 @@ return new class extends Migration
 
     }
 
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        if (Schema::hasTable('testimonials')) {
+            Schema::table('testimonials', function (Blueprint $table) {
+                $columns = ['client_image', 'rel_type', 'rel_id', 'settings', 'updated_at', 'created_at'];
+                foreach ($columns as $column) {
+                    if (Schema::hasColumn('testimonials', $column)) {
+                        $table->dropColumn($column);
+                    }
+                }
+            });
+        }
+    }
+
 
 };

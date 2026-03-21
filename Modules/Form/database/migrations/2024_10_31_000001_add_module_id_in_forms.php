@@ -27,4 +27,18 @@ return new class extends Migration
 
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasTable('forms') && Schema::hasColumn('forms', 'module_id')) {
+            Schema::table('forms', function (Blueprint $table) {
+                $table->dropColumn('module_id');
+            });
+        }
+    }
 };

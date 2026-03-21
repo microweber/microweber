@@ -48,5 +48,16 @@ return new class extends Migration {
         ];
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('content_fields');
+        Schema::dropIfExists('content_fields_drafts');
+    }
+
 
 };

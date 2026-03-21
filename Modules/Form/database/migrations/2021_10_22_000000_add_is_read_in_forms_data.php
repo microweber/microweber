@@ -21,4 +21,18 @@ return new class extends Migration
             $table->integer('is_read')->nullable();
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (Schema::hasColumn('forms_data', 'is_read')) {
+            Schema::table('forms_data', function (Blueprint $table) {
+                $table->dropColumn('is_read');
+            });
+        }
+    }
 };
