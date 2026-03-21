@@ -70,7 +70,13 @@
   - Added 18 environment variables for customization
   - Comprehensive test coverage: 30 tests, 207 assertions
   - Created documentation in docs/FILE_UPLOAD_VALIDATION.md
-- [ ] chore: Update remaining npm security vulnerabilities (M) - Fix elliptic/crypto-browserify
+- [x] 2026-03-21 chore: Update remaining npm security vulnerabilities (M) - Fix elliptic/crypto-browserify
+  - Applied npm overrides for all vulnerable packages
+  - Added overrides: elliptic ^6.6.1, browserify-sign ^4.2.5, create-ecdh ^4.0.4
+  - Added overrides: crypto-browserify ^3.12.1, node-libs-browser ^2.2.1
+  - 8 vulnerabilities remain (5 low elliptic, 3 moderate webpack-dev-server)
+  - All remaining issues have "no fix available" - upstream dependencies
+  - Documented security status in docs/NPM_SECURITY_STATUS.md
 
 ### Documentation
 - [ ] docs: Create Phase 1 completion checklist (S) - Foundation verification
