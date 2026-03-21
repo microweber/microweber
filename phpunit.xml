@@ -190,8 +190,11 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value="database/database.sqlite"/>
-        <env name="MW_IS_INSTALLED" value="1" force="true"/>
-        <ini name="display_errors" value="On"/>
+<env name="MW_IS_INSTALLED" value="1" force="true"/>
+    <env name="AI_ENABLED" value="true"/>
+    <env name="OPENAI_ENABLED" value="true"/>
+    <env name="OPENAI_API_KEY" value="test-api-key"/>
+    <ini name="display_errors" value="On"/>
         <ini name="display_startup_errors" value="On"/>
     </php>
 </phpunit>
