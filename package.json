@@ -17,13 +17,17 @@
         "mix-tailwindcss": "^1.3.0",
         "postcss-nesting": "^13.0.0"
     },
-    "devDependencies": {
-        "autoprefixer": "^10.4.27",
-        "gulp": "^5.0.0",
-        "postcss": "^8.5.8",
-        "tailwindcss": "^4.2.1",
-        "vitepress": "^1.2.3",
-        "webpack": "5.94.0",
-        "y18n": "^5.0.8"
-    }
+"devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "gulp": "^5.0.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1",
+    "vitepress": "^1.6.4",
+    "webpack": "^5.105.4",
+    "y18n": "^5.0.8"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0",
+    "vite": "^6.1.0"
+  }
 }
