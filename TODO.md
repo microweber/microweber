@@ -1,89 +1,54 @@
-GOAL: Make the test suite pass and make it very fast and avoid OOM errors
+## Todo - Project Test Results (2026-03-21)
 
-- [x] 2026-03-15  Make more tests for the Filament modules/components and make sure each is loading without error and fix them using the Livewire test helper
+### Critical Issues
 
-## Test Suite Results (2026-03-15)
+- [ ] fix: PHP Fatal error in Modules/Ai/Events/ProgressEvent.php:9 - Class cannot extend interface NeuronAI\Workflow\Event (PHPStan failure)
+- [ ] fix: Core test suite error - MwFileUploadTest::it_upload_to_s3_disk_works - UNIQUE constraint failed on users.email (database integrity issue)
+- [ ] fix: Modules/Billing test failure - SubscriptionPlanTest expects 2 features but finds 16 (test assertion mismatch at line 45)
 
-Summary: Unit (4/4 pass), Feature (219/275 pass), Core (237/243 pass), Modules mixed results.
+### High Priority Issues
 
-| Suite              | Tests | Pass | Errors | Failures |
-|--------------------|-------|------|--------|----------|
-| Unit               |     4 |    4 |      0 |        0 |
-| Feature            |   275 |  219 |     30 |       26 |
-| Core               |   243 |  237 |      2 |        4 |
-| Modules-Newsletter |   133 |  133 |      0 |        0 |
-| Modules-Content    |    70 |   59 |      9 |        2 |
-| Modules-Billing    |    85 |   83 |      1 |        1 |
-| Modules-Group3     |   160 |  151 |      5 |        4 |
-| Modules-Group4     |   127 |   71 |     53 |        3 |
-| Modules-Group5     |   166 |  117 |     40 |        9 |
-| Modules-Group6A    |   114 |  105 |      7 |        2 |
-| Modules-Group6B    |    75 |   72 |      3 |        0 |
-| Templates          |     0 |    0 |      0 |        0 |
+- [ ] fix: Modules/Group3 test failures - 4 failures in CouponResourceTest (table sorting and record visibility issues)
+- [ ] fix: Modules/Group3 errors - 5 errors in Cart and Coupons tests (Livewire rendering issues)
+- [ ] fix: Modules/Group6A test failures - MailTemplateResourceTest filter assertion failure (line 145)
+- [ ] fix: Modules/Group6A errors - 7 errors in Marketplace and MailTemplate tests
+- [ ] fix: Modules/Group6B failures - ExportTest::it_full_export expected 59 but got 64 (line 117)
+- [ ] fix: Modules/Group6B errors - 1 error in SliderSettingsFilamentTest
 
-### Critical: AiSettingsPage null user check (affects navigation tests)
+### Medium Priority Issues
 
-- [x] 2026-03-15  fix: AiSettingsPage::canAccess() calls `->can()` on null user — add null guard in Modules/Ai/Filament/Pages/AiSettingsPage.php:46
+- [ ] fix: Feature test warnings - PHPUnit warning about abstract AuthorizationTest class
+- [ ] fix: Feature test deprecations - 2 PHPUnit deprecation warnings
+- [ ] fix: Feature test skips - 13 tests are being skipped (investigate why)
+- [ ] security: npm audit vulnerabilities - ajv (ReDoS), elliptic (crypto), esbuild (CORS), mdast-util-to-hast (XSS)
 
-### Critical: AiService unresolvable dependency (12 tests)
+### Low Priority Issues
 
-- [x] 2026-03-15  fix: AiService requires `$defaultDriver` string param but is not bound in container — register proper binding in AiServiceProvider or add default value
+- [ ] update: Composer dependency constraints - Replace exact version constraints with semantic versioning
+- [ ] update: Unbound version constraints (*) in composer.json should use specific versions
+- [ ] verify: Templates test suite - No tests executed (check if tests exist)
 
-### Critical: SubscriptionPlan factory uses non-existent `is_active` column (5+ tests)
+### Summary
 
-- [x] 2026-03-15  fix: SubscriptionPlan factory references `is_active` column that doesn't exist in subscription_plans table — add migration or fix factory
+**Test Results:**
+- Unit: PASS (4 tests, 4 assertions)
+- Feature: PARTIAL (273 tests, 848 assertions, 1 warning, 2 deprecations, 13 skipped)
+- Core: FAIL (243 tests, 1 error)
+- Modules-Newsletter: PASS (128 tests, 517 assertions)
+- Modules-Content: Timeout (requires separate run)
+- Modules-Billing: FAIL (85 tests, 1 failure)
+- Modules-Group3: FAIL (160 tests, 5 errors, 4 failures)
+- Modules-Group4: Timeout (requires separate run)
+- Modules-Group5: Timeout (requires separate run)
+- Modules-Group6A: FAIL (114 tests, 7 errors, 1 failure)
+- Modules-Group6B: FAIL (75 tests, 1 error, 1 failure)
+- Templates: SKIP (0 tests executed)
 
-### Critical: FrontendCheckoutRegressionTest — all 10 tests error (Cart/Checkout model issues)
+**Build Status:**
+- PHPStan: FAIL (Fatal error in AI module)
+- Composer: VALID (with warnings)
+- NPM Audit: VULNERABILITIES FOUND (security issues)
 
-- [x] 2026-03-15  fix: FrontendCheckoutRegressionTest errors — rewritten to use actual cart/checkout APIs (update_cart, CheckoutManager)
-
-### Critical: AdminCrudRegressionTest failures (10 tests)
-
-- [x] 2026-03-15  fix: Content::categories() method does not exist — add relationship or fix test in AdminCrudRegressionTest
-- [x] 2026-03-15  fix: AdminCrudRegressionTest CRUD tests — rewritten to use Livewire test helpers, fixed activeLocale null guard in EditCategory and EditContent
-
-### Critical: AdminAuthenticationTest (4 failures)
-
-- [x] 2026-03-15  fix: AdminAuthenticationTest — rewritten to test Filament auth via canAccessPanel and direct auth, removed fragile HTTP-based assertions
-
-### High: Newsletter module errors (62 errors, 9 failures)
-
-- [x] 2026-03-15  fix: Newsletter module — 62 errors across tests, likely model/migration issues
-
-### High: Modules-Group4 errors (53 errors — mostly Payment module)
-
-- [x] 2026-03-15  fix: Payment module Filament tests — PaymentResourceTest form validation and many errors
-
-### High: Modules-Group5 errors (40 errors — Settings/Translation module)
-
-- [x] 2026-03-15  fix: TranslationResourceTest and Settings module tests — 40 errors, likely Filament resource issues
-
-### Medium: Filament Panel API mismatches
-
-- [x] 2026-03-15  fix: DarkModeTest — Panel::getFont() does not exist (Filament v5 API change)
-- [x] 2026-03-15  fix: DarkModeTest — safelist and z-index assertion failures
-- [x] 2026-03-15  fix: ResponsiveDesignTest — grid layout and spacing utility assertions fail
-- [x] 2026-03-15  fix: MobileNavigationCollapseTest — panel provider configuration test fails
-
-### Medium: UsersResource test failures (Core + Feature)
-
-- [x] 2026-03-15  fix: UsersResourceTest — index_page_shows_all_records assertion fails (table record key mismatch)
-- [x] 2026-03-15  fix: UsersResourceAuthorizationTest — isUnauthorized() method does not exist on Response
-
-### Medium: Core suite issues
-
-- [x] 2026-03-15  fix: MultilanguageTest::it_multilanguage_api error (already resolved by prior fixes)
-- [x] 2026-03-15  fix: TaggableFileCacheServiceProviderTest and TaggableFileStoreTest failures
-- [x] 2026-03-15  fix: LiveEdit ModuleSettingsItemsEditorTest failure
-
-### Low: BillingRegressionTest (5 failures beyond is_active issue)
-
-- [x] 2026-03-15  fix: BillingRegressionTest — subscription trial, webhook signature, plan change, admin management, stats tests
-
-### Low: Modules-Group6A (Restore module)
-
-- [x] 2026-03-15  fix: Restore module ReadersTest — config key mismatch
-
-### Low: Modules-Group6B (Testimonials module)
-
-- [x] 2026-03-15  fix: TestimonialsTableListFilamentTest — 3 errors
+**PHP Version:** 8.5.3
+**PHPUnit Version:** 11.5.50
+**Laravel Version:** 11.x
