@@ -13,13 +13,11 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Regression Test Suite - Billing & Subscriptions
- *
- * Tests billing models, factories, webhook handling, and subscription lifecycle
- * using actual module code paths.
- *
- * @covers \Modules\Billing
- */
+* Regression Test Suite - Billing & Subscriptions
+*
+* Tests billing models, factories, webhook handling, and subscription lifecycle
+* using actual module code paths.
+*/
 class BillingRegressionTest extends TestCase
 {
     use LazilyRefreshDatabase, WithFaker;

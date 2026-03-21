@@ -19,16 +19,14 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Full Regression Test Suite - AI Chat and Tools
- *
- * End-to-end testing of AI functionality including:
- * - Chat creation
- * - Tool execution
- * - Message handling
- * - Streaming responses
- *
- * @covers \Modules\Ai
- */
+* Full Regression Test Suite - AI Chat and Tools
+*
+* End-to-end testing of AI functionality including:
+* - Chat creation
+* - Tool execution
+* - Message handling
+* - Streaming responses
+*/
 class AiChatRegressionTest extends TestCase
 {
     use LazilyRefreshDatabase, WithFaker;

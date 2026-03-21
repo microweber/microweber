@@ -25,8 +25,8 @@
 
 ### Medium Priority Issues
 
-- [ ] fix: Feature test warnings - PHPUnit warning about abstract AuthorizationTest class
-- [ ] fix: Feature test deprecations - 2 PHPUnit deprecation warnings
+- [x] 2026-03-21 fix: Feature test warnings - PHPUnit warning about abstract AuthorizationTest class - RESOLVED: Added exclude for tests/Feature/Filament/AuthorizationTest.php in phpunit.xml Feature testsuite to prevent PHPUnit from trying to execute the abstract base class directly
+- [x] 2026-03-21 fix: Feature test deprecations - 2 PHPUnit deprecation warnings - RESOLVED: Removed deprecated `@covers` annotations from AiChatRegressionTest and BillingRegressionTest (PHPUnit 12 no longer supports metadata in doc-comments)
 - [ ] fix: Feature test skips - 13 tests are being skipped (investigate why)
 - [ ] security: npm audit vulnerabilities - ajv (ReDoS), elliptic (crypto), esbuild (CORS), mdast-util-to-hast (XSS)
 
