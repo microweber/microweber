@@ -42,9 +42,25 @@ return [
         'redirect' => env('LINKEDIN_REDIRECT_URI', '/oauth/callback/linkedin'),
     ],
 
-    'microweber' => [
-        'client_id' => env('MICROWEBER_CLIENT_ID'),
-        'client_secret' => env('MICROWEBER_CLIENT_SECRET'),
-        'redirect' => env('MICROWEBER_REDIRECT_URI', '/oauth/callback/microweber'),
-    ],
+'microweber' => [
+'client_id' => env('MICROWEBER_CLIENT_ID'),
+'client_secret' => env('MICROWEBER_CLIENT_SECRET'),
+'redirect' => env('MICROWEBER_REDIRECT_URI', '/oauth/callback/microweber'),
+],
+
+/*
+|--------------------------------------------------------------------------
+| Payment Service Configuration
+|--------------------------------------------------------------------------
+|
+| This section configures payment gateway services including
+| Stripe for payment processing and webhooks.
+|
+*/
+
+'stripe' => [
+'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
+'secret_key' => env('STRIPE_SECRET_KEY'),
+'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+],
 ];

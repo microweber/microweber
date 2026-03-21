@@ -18,11 +18,14 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
     /**
      * Boot the application events.
      */
-    public function boot(): void
-    {
-        // Navigation items are registered via FilamentRegistry in register() method.
-        // Do not use Filament::serving() as it's deprecated in v5.
-    }
+public function boot(): void
+{
+// Navigation items are registered via FilamentRegistry in register() method.
+// Do not use Filament::serving() as it's deprecated in v5.
+
+// Load webhook routes
+$this->loadRoutesFrom(module_path($this->moduleName, 'routes/webhooks.php'));
+}
 
     /**
      * Register the service provider.

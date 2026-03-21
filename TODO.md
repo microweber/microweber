@@ -96,7 +96,17 @@
   - Added session_forget() helper function for test cleanup
   - Added getCountryName() method to CountryManager
   - All 7 end-to-end tests passing (51 assertions)
-- [ ] feat: Integrate Stripe payment gateway (M) - Webhook handling, intents API
+- [x] 2026-03-21 feat: Integrate Stripe payment gateway (M) - Webhook handling, intents API
+  - Updated Stripe driver with Payment Intents API support
+  - Added Stripe Checkout (hosted) and Payment Intents (embedded) payment methods
+  - Created StripeWebhookController with comprehensive webhook event handling
+  - Implemented webhook signature verification for security
+  - Added webhook routes with CSRF protection disabled (stateless)
+  - Handled events: checkout.session.completed, payment_intent.succeeded,
+    payment_intent.payment_failed, payment_intent.canceled, charge.refunded
+  - Created comprehensive test suite with 10 tests and 33 assertions
+  - Added environment variables: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+  - Created documentation at docs/STRIPE_PAYMENT_INTEGRATION.md
 - [ ] feat: Integrate PayPal payment gateway (M) - Express checkout integration
 - [ ] feat: Implement tax calculation engine (M) - Location-based rules
 - [ ] feat: Add shipping method management (M) - Flat rate, weight-based options
