@@ -6,9 +6,9 @@
 - [x] 2026-03-21 test: Verify all migrations rollback successfully (S) - Migration integrity check
 
 ### Authentication
-- [ ] feat: Implement Google OAuth social login (M) - OAuth configuration, UI components
-- [ ] feat: Implement Facebook OAuth social login (M) - OAuth configuration, UI components
-- [ ] test: Add social authentication tests (M) - OAuth mock testing
+- [x] 2026-03-21 feat: Implement Google OAuth social login (M) - OAuth configuration, UI components - Configured services.php, existing plugin integrated
+- [x] 2026-03-21 feat: Implement Facebook OAuth social login (M) - OAuth configuration already complete in services.php, AdminLoginRegisterPage.php, and auth views. Added environment variables to .env.example
+- [x] 2026-03-21 test: Add social authentication tests (M) - OAuth mock testing - Created SocialAuthenticationTest.php
 
 ### Multi-Panel System
 - [ ] feat: Enhance Customer Profile panel with order history (M) - Order list, details view
