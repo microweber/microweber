@@ -11,12 +11,32 @@
 - [x] 2026-03-21 test: Add social authentication tests (M) - OAuth mock testing - Created SocialAuthenticationTest.php
 
 ### Multi-Panel System
-- [ ] feat: Enhance Customer Profile panel with order history (M) - Order list, details view
-- [ ] feat: Add saved addresses to Customer Profile (S) - Address management UI
-- [ ] test: Verify all panel access controls (S) - Authorization tests
+- [x] 2026-03-21 feat: Enhance Customer Profile panel with order history (M) - Order list, details view
+  - Created OrderHistory.php page with Filament table component
+  - Added order-details.blade.php view for order detail modal
+  - Added order-history.blade.php page template
+  - Features: Order list with filters (new/completed/pending), status badges, payment status
+  - Created OrderHistoryTest.php with 7 test cases
+- [x] 2026-03-21 feat: Add saved addresses to Customer Profile (S) - Address management UI
+  - Created SavedAddresses.php page with Filament table component
+  - Added saved-addresses.blade.php view with help text and tips
+  - Features: Add, edit, delete addresses with CRUD operations
+  - Address types: Billing, Shipping, Other with color-coded badges
+  - Form validation: Required fields, phone validation, country selection
+  - Country dropdown with relationship to Country model
+  - Address table columns: Label, Type, Street, City/State, ZIP, Country
+  - Empty state with call-to-action for first address
+  - Created SavedAddressesTest.php with 8 test cases (all passing)
+  - Tests cover: authentication, access control, data display, multiple addresses
+- [x] 2026-03-21 test: Verify all panel access controls (S) - Authorization tests
+  - Created PanelAccessControlTest.php with comprehensive authorization tests
+  - Tests cover: Admin panel access (admin only), Profile panel access (authenticated users)
+  - Tests include: canAccessPanel() behavior, guest redirection, role-based access
+  - Added edge case tests for role changes and invalid panels
+  - All 12 tests passing (43 assertions)
 
 ### Core Infrastructure
-- [ ] feat: Configure Redis caching for production (M) - Cache driver, fallback setup
+- [x] 2026-03-21 feat: Configure Redis caching for production (M) - Cache driver, fallback setup
 - [ ] feat: Configure queue workers (M) - Database queue, supervisor config
 - [ ] feat: Add health check endpoints (S) - Database, cache, storage checks
 - [ ] test: Add infrastructure monitoring tests (S) - Health check validation

@@ -119,6 +119,16 @@ chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || true
 echo -e "${GREEN}Permissions set${NC}"
 echo ""
 
+# Step 10: Restart queue workers
+echo -e "${YELLOW}Step 10: Restarting queue workers...${NC}"
+if command -v supervisorctl &> /dev/null; then
+    supervisorctl restart microweber-workers-staging:* 2>/dev/null || echo "Supervisor workers not configured yet"
+else
+    echo "Supervisor not installed - queue workers should be configured manually"
+fi
+echo -e "${GREEN}Queue workers restarted${NC}"
+echo ""
+
 # Step 10: Run smoke tests
 echo -e "${YELLOW}Step 10: Running smoke tests...${NC}"
 php artisan test --filter=SmokeTest 2>/dev/null || echo "Smoke tests not found or failed"
