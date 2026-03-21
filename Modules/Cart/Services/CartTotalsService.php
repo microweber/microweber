@@ -34,7 +34,7 @@ class CartTotalsService
      * @param string $return
      * @return array|mixed
      */
-    public function totals(string $return = 'all')
+    public function totals(string $return = 'all'): array
     {
         $allTotals = ['subtotal', 'shipping', 'tax', 'discount', 'total'];
 
@@ -87,7 +87,7 @@ class CartTotalsService
      * @param bool $returnAmount
      * @return float|int
      */
-    public function sum(bool $returnAmount = true)
+    public function sum(bool $returnAmount = true): float|int
     {
         if ($returnAmount) {
             return $this->cartRepository->getCartAmount();
@@ -103,7 +103,7 @@ class CartTotalsService
     public function getTax(): float
     {
         $sum = $this->sum();
-        return $this->app->tax_manager->calculate($sum);
+        return (float) $this->app->tax_manager->calculate($sum);
     }
 
     /**
@@ -111,7 +111,7 @@ class CartTotalsService
      *
      * @return float|false
      */
-    public function getDiscount()
+    public function getDiscount(): float|false
     {
         return $this->getDiscountValue();
     }
@@ -142,7 +142,7 @@ class CartTotalsService
      *
      * @return string|false
      */
-    public function getDiscountType()
+    public function getDiscountType(): string|false
     {
         $data = $this->couponService ? $this->couponService->getCouponSession() : [];
         if (empty($data) || !isset($data['coupon_data'])) {
@@ -156,7 +156,7 @@ class CartTotalsService
      *
      * @return float|false
      */
-    public function getDiscountValue()
+    public function getDiscountValue(): float|false
     {
         if (!$this->couponService) {
             return false;

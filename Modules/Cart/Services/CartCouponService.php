@@ -33,7 +33,7 @@ class CartCouponService
      *
      * @return float|false
      */
-    public function getDiscountValue()
+    public function getDiscountValue(): float|false
     {
         if (!$this->couponService) {
             return false;
@@ -69,7 +69,7 @@ class CartCouponService
      *
      * @return string|false
      */
-    public function getDiscountType()
+    public function getDiscountType(): string|false
     {
         if (!$this->couponService) {
             return false;
@@ -133,7 +133,7 @@ class CartCouponService
      *
      * @return array|false
      */
-    public function getCouponDataFromSession()
+    public function getCouponDataFromSession(): array|false
     {
         if (!$this->couponService) {
             return false;

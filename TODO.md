@@ -257,10 +257,20 @@
   - Tests: All Template tests pass (6 tests, multiple assertions)
 
 #### Medium Priority
-- [ ] **improve: Add return type hints to public methods**
-  - Location: `Modules/Cart/Repositories/CartManager.php`, `Modules/Content/Repositories/ContentRepository.php`
-  - Current: 0 return type hints in CartManager
-  - Recommendation: Add `: type` declarations for all public methods
+- [x] 2026-03-21 **improve: Add return type hints to public methods**
+  - Location: `Modules/Cart/Services/CartTotalsService.php`, `Modules/Cart/Services/CartCouponService.php`
+  - Changes: Added return type declarations to all public methods missing them:
+    - `CartTotalsService::totals()`: Added `: array` return type
+    - `CartTotalsService::sum()`: Added `: float|int` return type
+    - `CartTotalsService::getDiscount()`: Added `: float|false` return type
+    - `CartTotalsService::getDiscountType()`: Added `: string|false` return type
+    - `CartTotalsService::getDiscountValue()`: Added `: float|false` return type
+    - `CartTotalsService::getTax()`: Added cast to `(float)` for null safety
+    - `CartCouponService::getDiscountValue()`: Added `: float|false` return type
+    - `CartCouponService::getDiscountType()`: Added `: string|false` return type
+    - `CartCouponService::getCouponDataFromSession()`: Added `: array|false` return type
+  - Note: `ContentRepository.php` already has complete return type hints on all public methods
+  - All Cart module tests pass (13 passed)
 
 - [ ] **docs: Improve PHPDoc coverage**
   - Location: Manager and Repository classes
