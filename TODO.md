@@ -107,7 +107,17 @@
   - Created comprehensive test suite with 10 tests and 33 assertions
   - Added environment variables: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
   - Created documentation at docs/STRIPE_PAYMENT_INTEGRATION.md
-- [ ] feat: Integrate PayPal payment gateway (M) - Express checkout integration
+- [x] 2026-03-21 feat: Integrate PayPal payment gateway (M) - Express checkout integration
+  - Updated PayPal driver to support both REST API (Client ID/Secret) and Classic API (Username/Password/Signature)
+  - Added Express Checkout flow with redirect to PayPal
+  - Created PayPalWebhookController for handling PayPal webhook events
+  - Implemented webhook event handlers: PAYMENT.CAPTURE.COMPLETED, CHECKOUT.ORDER.COMPLETED,
+    CHECKOUT.ORDER.APPROVED, PAYMENT.CAPTURE.DENIED, PAYMENT.CAPTURE.REFUNDED, CUSTOMER.DISPUTE.CREATED
+  - Added webhook route with CSRF protection disabled
+  - Created comprehensive webhook test suite with 11 tests and 35 assertions
+  - Created unit tests for PayPal driver with 11 tests (1 skipped due to bccomp extension)
+  - Added environment variables: PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PAYPAL_WEBHOOK_ID, PAYPAL_TEST_MODE
+  - Created documentation at docs/PAYPAL_PAYMENT_INTEGRATION.md
 - [ ] feat: Implement tax calculation engine (M) - Location-based rules
 - [ ] feat: Add shipping method management (M) - Flat rate, weight-based options
 - [ ] feat: Create invoice generation system (M) - PDF generation, email delivery

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Payment\Http\Controllers\StripeWebhookController;
+use Modules\Payment\Http\Controllers\PayPalWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,8 @@ use Modules\Payment\Http\Controllers\StripeWebhookController;
 
 Route::post('payment/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])
     ->name('payment.stripe.webhook')
+    ->withoutMiddleware(['web', 'auth', 'csrf']);
+
+Route::post('payment/paypal/webhook', [PayPalWebhookController::class, 'handleWebhook'])
+    ->name('payment.paypal.webhook')
     ->withoutMiddleware(['web', 'auth', 'csrf']);
