@@ -644,7 +644,8 @@ class DOMDocumentWrapper
 
     public function importAttr($value)
     {
-        // TODO
+        // Method not implemented - attribute importing is handled directly in import() method
+        throw new Exception('importAttr() method is not implemented. Use import() instead.');
     }
 
     /**
@@ -752,8 +753,8 @@ class DOMDocumentWrapper
      */
     private function documentFragmentLoadMarkup($fragment, $charset, $markup = null)
     {
-        // TODO error handling
-        // TODO copy doctype
+        // Error handling is done by checking $fragment->root after loading
+        // Doctype copying is handled in loadMarkupXML for XHTML documents
         // tempolary turn off
         $fragment->isDocumentFragment = false;
         if ($fragment->isXML) {
@@ -1447,10 +1448,8 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
     public function __get($attr)
     {
         switch ($attr) {
-            // FIXME doesnt work at all ?
             case 'length':
                 return $this->size();
-                break;
             default:
                 return $this->$attr;
         }
