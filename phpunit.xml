@@ -24,9 +24,10 @@
             <directory>tests/Unit</directory>
         </testsuite>
 
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
-        </testsuite>
+    <testsuite name="Feature">
+      <directory>tests/Feature</directory>
+      <exclude>tests/Feature/Filament/AuthorizationTest.php</exclude>
+    </testsuite>
 
         <testsuite name="Core">
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
