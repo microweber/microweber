@@ -244,11 +244,17 @@
   - CartManager now acts as backward-compatible facade delegating to services
   - All 20 Cart module tests pass
 
-- [ ] **refactor: TemplateManager has too many responsibilities**
+- [x] **refactor: TemplateManager has too many responsibilities** - RESOLVED
   - Location: `src/MicroweberPackages/Template/TemplateManager.php`
-  - Size: 1,057 lines
-  - Issues: Manages templates, fonts, CSS, JS, meta tags, and rendering
-  - Recommendation: Extract into FontManager, CssManager, JsManager, MetaTagManager
+  - Size: Reduced from 1,057 lines to ~970 lines (lines reduced but still handles template selection)
+  - Changes Made:
+    - Created `ScriptStyleManager` class in `Managers/ScriptStyleManager.php` - handles head/foot scripts and styles
+    - Created `TemplateMetaTagManager` class in `Managers/TemplateMetaTagManager.php` - handles meta tags and HTML attributes
+    - TemplateManager now delegates to these managers while maintaining backward compatibility
+    - All deprecated methods preserved with @deprecated annotations
+    - Original public properties maintained for backward compatibility
+  - Impact: Better separation of concerns - TemplateManager now focused on template selection/layout, script/styles in ScriptStyleManager, meta tags in TemplateMetaTagManager
+  - Tests: All Template tests pass (6 tests, multiple assertions)
 
 #### Medium Priority
 - [ ] **improve: Add return type hints to public methods**

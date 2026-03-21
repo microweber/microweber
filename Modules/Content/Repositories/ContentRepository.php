@@ -31,7 +31,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getMedia($contentId)
+    public function getMedia($contentId): array
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId) {
             $item = $this->findById($contentId);
@@ -52,7 +52,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return array An array of categories associated with the content ID.
      */
-    public function getCategories($id)
+    public function getCategories($id): array
     {
         $categoryIds = $this->cacheCallback(__FUNCTION__ . 'categories_items', func_get_args(), function () use ($id) {
 
@@ -300,7 +300,7 @@ class ContentRepository extends AbstractRepository
      * @param bool $returnFullTagsData Whether to retrieve the full tag data or just the tag names.
      * @return array|false An array of tags associated with the content, or false if there are no tags.
      */
-    public function tags($contentId = false, $returnFullTagsData = false)
+    public function tags($contentId = false, $returnFullTagsData = false): array|false
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $returnFullTagsData) {
 
@@ -333,25 +333,25 @@ class ContentRepository extends AbstractRepository
      *
      * @return array|null Returns an array containing the first shop page data if found, or null if not found.
      */
-    public function getFirstShopPage()
+    public function getFirstShopPage(): array|null
     {
         return get_pages('content_type=page&is_shop=1&is_deleted=0&single=1');
 
     }
 
-    public function getAllShopPages()
+    public function getAllShopPages(): array|false
     {
         return get_pages('content_type=page&is_deleted=0&is_shop=1');
 
     }
 
-    public function getAllBlogPages()
+    public function getAllBlogPages(): array|false
     {
         return get_pages('content_type=page&subtype=dynamic&is_deleted=0&is_shop=0');
 
     }
 
-    public function getFirstBlogPage()
+    public function getFirstBlogPage(): array|null
     {
         return get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
     }
@@ -468,7 +468,7 @@ class ContentRepository extends AbstractRepository
      * @param int $id The ID of the node to get the children of.
      * @return array|false The IDs of the children of the node or false if no children were found.
      */
-    public function getChildren($id = 0)
+    public function getChildren($id = 0): array|false
     {
         if (!intval($id)) {
             return false;
@@ -495,7 +495,7 @@ class ContentRepository extends AbstractRepository
     }
 
 
-    public function createDefaultShopPage()
+    public function createDefaultShopPage(): Content|array
     {
         $shopPage = $this->getFirstShopPage();
         if (!$shopPage) {
@@ -508,7 +508,7 @@ class ContentRepository extends AbstractRepository
         return $shopPage;
     }
 
-    public function createDefaultBlogPage()
+    public function createDefaultBlogPage(): Content|array|null
     {
         $blogPage = $this->getFirstBlogPage();
         if (!$blogPage) {

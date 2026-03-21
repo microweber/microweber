@@ -68,9 +68,9 @@ class CartManager
      * Sum cart items.
      *
      * @param bool $return_amount
-     * @return float|int
+     * @return float
      */
-    public function sum($return_amount = true)
+    public function sum($return_amount = true): float
     {
         return $this->totalsService->sum($return_amount);
     }
@@ -99,9 +99,9 @@ class CartManager
      * Calculate cart totals.
      *
      * @param string $return
-     * @return array|mixed
+     * @return array
      */
-    public function totals($return = 'all')
+    public function totals($return = 'all'): array
     {
         return $this->totalsService->totals($return);
     }
@@ -121,7 +121,7 @@ class CartManager
      *
      * @return float|false
      */
-    public function get_discount()
+    public function get_discount(): float|false
     {
         return $this->couponService->getDiscountValue();
     }
@@ -131,7 +131,7 @@ class CartManager
      *
      * @return string|false
      */
-    public function get_discount_type()
+    public function get_discount_type(): string|false
     {
         return $this->couponService->getDiscountType();
     }
@@ -151,7 +151,7 @@ class CartManager
      *
      * @return float|false
      */
-    public function get_discount_value()
+    public function get_discount_value(): float|false
     {
         return $this->couponService->getDiscountValue();
     }
@@ -271,7 +271,7 @@ class CartManager
      * @param int $cartItemId
      * @return string|false
      */
-    public function get_cart_item_image($cartItemId)
+    public function get_cart_item_image($cartItemId): string|false
     {
         return $this->cartService->getCartItemImage(intval($cartItemId));
     }
