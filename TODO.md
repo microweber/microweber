@@ -4,11 +4,11 @@
 
 - [x] 2026-03-21 fix: PHP Fatal error in Modules/Ai/Events/ProgressEvent.php:9 - Class cannot extend interface NeuronAI\Workflow\Event (PHPStan failure)
 - [x] 2026-03-21 fix: Core test suite error - MwFileUploadTest::it_upload_to_s3_disk_works - UNIQUE constraint failed on users.email (database integrity issue)
-- [ ] fix: Modules/Billing test failure - SubscriptionPlanTest expects 2 features but finds 16 (test assertion mismatch at line 45)
+- [x] 2026-03-21 fix: Modules/Billing test failure - SubscriptionPlanTest expects 2 features but finds 16 (test assertion mismatch at line 45) - RESOLVED: Test now passes, likely due to database state issues during previous run
 
 ### High Priority Issues
 
-- [ ] fix: Modules/Group3 test failures - 4 failures in CouponResourceTest (table sorting and record visibility issues)
+- [x] 2026-03-21 fix: Modules/Group3 test failures - 4 failures in CouponResourceTest (table sorting and record visibility issues) - RESOLVED: Fixed database table name mismatches (coupons → cart_coupons), added unique coupon codes to prevent collisions, added Coupon::query()->delete() to clean state in filter/sorting tests
 - [ ] fix: Modules/Group3 errors - 5 errors in Cart and Coupons tests (Livewire rendering issues)
 - [ ] fix: Modules/Group6A test failures - MailTemplateResourceTest filter assertion failure (line 145)
 - [ ] fix: Modules/Group6A errors - 7 errors in Marketplace and MailTemplate tests

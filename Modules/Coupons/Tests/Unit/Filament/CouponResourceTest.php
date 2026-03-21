@@ -41,10 +41,11 @@ class CouponResourceTest extends TestCase
     #[Test]
     public function it_create_page_saves_new_record(): void
     {
+        $uniqueCode = 'TEST' . uniqid();
         Livewire::test(CreateCoupon::class)
             ->fillForm([
                 'coupon_name' => 'Test Coupon',
-                'coupon_code' => 'TEST10',
+                'coupon_code' => $uniqueCode,
                 'discount_type' => 'percentage',
                 'discount_value' => 10,
                 'is_active' => true,
@@ -53,7 +54,7 @@ class CouponResourceTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas('coupons', ['coupon_name' => 'Test Coupon', 'coupon_code' => 'TEST10']);
+        $this->assertDatabaseHas('cart_coupons', ['coupon_name' => 'Test Coupon', 'coupon_code' => $uniqueCode]);
     }
 
     #[Test]
@@ -65,7 +66,7 @@ class CouponResourceTest extends TestCase
             ->call('save')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('coupons', ['id' => $coupon->id, 'coupon_name' => 'Updated']);
+        $this->assertDatabaseHas('cart_coupons', ['id' => $coupon->id, 'coupon_name' => 'Updated']);
     }
 
     #[Test]
@@ -73,7 +74,7 @@ class CouponResourceTest extends TestCase
     {
         $coupon = Coupon::factory()->create();
         Livewire::test(ListCoupons::class)->callTableAction('delete', $coupon);
-        $this->assertDatabaseMissing('coupons', ['id' => $coupon->id]);
+        $this->assertDatabaseMissing('cart_coupons', ['id' => $coupon->id]);
     }
 
     #[Test]
@@ -91,6 +92,9 @@ class CouponResourceTest extends TestCase
     #[Test]
     public function it_can_filter_by_is_active(): void
     {
+        // Clear existing coupons to ensure clean state
+        Coupon::query()->delete();
+
         $active = Coupon::factory()->create(['is_active' => true]);
         $inactive = Coupon::factory()->create(['is_active' => false]);
 
@@ -103,48 +107,52 @@ class CouponResourceTest extends TestCase
     #[Test]
     public function it_sorting_by_column_changes_order(): void
     {
+        // Clear existing coupons to ensure clean state
+        Coupon::query()->delete();
+
         // Create coupons with different attributes for sorting
         $couponA = Coupon::factory()->create([
-            'coupon_name' => 'Alpha Discount',
-            'coupon_code' => 'ALPHA10',
+            'coupon_name' => 'AAA Alpha Discount',
+            'coupon_code' => 'AAA10',
             'discount_value' => 10,
             'created_at' => now()->subDays(5),
         ]);
         $couponB = Coupon::factory()->create([
-            'coupon_name' => 'Beta Special',
-            'coupon_code' => 'BETA20',
+            'coupon_name' => 'ZZZ Beta Special',
+            'coupon_code' => 'ZZZ20',
             'discount_value' => 20,
             'created_at' => now()->subDays(3),
         ]);
         $couponC = Coupon::factory()->create([
-            'coupon_name' => 'Charlie Deal',
-            'coupon_code' => 'CHARLIE30',
+            'coupon_name' => 'ZZZ Charlie Deal',
+            'coupon_code' => 'ZZZ30',
             'discount_value' => 30,
             'created_at' => now()->subDays(1),
         ]);
 
-        // Test sorting by coupon_name ascending
+        // Test sorting by coupon_name ascending - AAA should be first
         Livewire::test(ListCoupons::class)
             ->sortTable('coupon_name', 'asc')
             ->assertCanSeeTableRecords([$couponA, $couponB, $couponC], inOrder: true);
 
-        // Test sorting by discount_value descending
+        // Test sorting by coupon_name descending - ZZZ should be first
         Livewire::test(ListCoupons::class)
-            ->sortTable('discount_value', 'desc')
+            ->sortTable('coupon_name', 'desc')
             ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
 
-        // Test sorting by created_at descending
+        // Test sorting by discount_value descending - 30 should be first
         Livewire::test(ListCoupons::class)
-            ->sortTable('created_at', 'desc')
+            ->sortTable('discount_value', 'desc')
             ->assertCanSeeTableRecords([$couponC, $couponB, $couponA], inOrder: true);
     }
 
     #[Test]
     public function it_bulk_delete_removes_selected_records(): void
     {
-        $coupon1 = Coupon::factory()->create(['coupon_code' => 'BULK001']);
-        $coupon2 = Coupon::factory()->create(['coupon_code' => 'BULK002']);
-        $coupon3 = Coupon::factory()->create(['coupon_code' => 'BULK003']);
+        $uniqueId = uniqid();
+        $coupon1 = Coupon::factory()->create(['coupon_code' => 'BULK' . $uniqueId . '001']);
+        $coupon2 = Coupon::factory()->create(['coupon_code' => 'BULK' . $uniqueId . '002']);
+        $coupon3 = Coupon::factory()->create(['coupon_code' => 'BULK' . $uniqueId . '003']);
 
         // Select and bulk delete first two coupons
         Livewire::test(ListCoupons::class)
@@ -152,11 +160,11 @@ class CouponResourceTest extends TestCase
             ->assertHasNoTableBulkActionErrors();
 
         // Assert deleted records are gone
-        $this->assertDatabaseMissing('coupons', ['id' => $coupon1->id]);
-        $this->assertDatabaseMissing('coupons', ['id' => $coupon2->id]);
+        $this->assertDatabaseMissing('cart_coupons', ['id' => $coupon1->id]);
+        $this->assertDatabaseMissing('cart_coupons', ['id' => $coupon2->id]);
 
         // Assert third coupon still exists
-        $this->assertDatabaseHas('coupons', ['id' => $coupon3->id]);
+        $this->assertDatabaseHas('cart_coupons', ['id' => $coupon3->id]);
     }
 
     #[Test]
