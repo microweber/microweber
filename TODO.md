@@ -84,7 +84,7 @@
   - Documents all completed Phase 1 tasks with verification details
   - Includes test results summary, security audit results, and sign-off
   - Ready for Phase 2 commencement
-- [ ] docs: Update API authentication documentation (S) - Sanctum setup guide
+- [x] 2026-03-21 docs: Update API authentication documentation (S) - Sanctum setup guide
 
 ## Phase 2: Core Features (Pending - Week 3-4)
 

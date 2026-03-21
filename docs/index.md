@@ -6,13 +6,16 @@ hero:
   name: "Microweber"
   text: "Microweber Docs"
   tagline: No code website builder
-  actions:
-    - theme: brand
-      text: Filament Resources API
-      link: /api/filament-resources
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+actions:
+- theme: brand
+  text: Filament Resources API
+  link: /api/filament-resources
+- theme: alt
+  text: API Examples
+  link: /api-examples
+- theme: alt
+  text: API Authentication
+  link: /api-authentication
 
 features:
   - title: Feature A
