@@ -42,7 +42,15 @@
 - [x] 2026-03-21 test: Add infrastructure monitoring tests (S) - Health check validation
 
 ### Security & Quality
-- [ ] feat: Complete superglobal remediation (M) - Replace $_GET/$_POST with Request facade
+- [~] feat: Complete superglobal remediation (M) - Replace $_GET/$_POST with Request facade
+  - [x] 2026-03-21 Audit: Created SECURITY_AUDIT_SUPERGLOBALS.md with 174 total usages identified
+  - [x] 2026-03-21 UserManager.php: Remediated 11 superglobals (logout, codeLogin, social_login_process)
+  - [ ] ApiController.php: 14 usages remaining
+  - [ ] ModuleController.php: 45 usages remaining
+  - [ ] PluploadController.php: 21 usages remaining
+  - [ ] FrontendController.php: 5 usages remaining
+  - [ ] ContentManagerHelpers.php: 5 usages remaining
+  - [ ] 50+ additional files with 1-2 usages each
 - [ ] security: Audit CSRF token validation (S) - Verify all forms protected
 - [ ] security: Enhance file upload validation (S) - MIME type, size limits
 - [ ] chore: Update remaining npm security vulnerabilities (M) - Fix elliptic/crypto-browserify
