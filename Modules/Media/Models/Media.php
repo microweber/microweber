@@ -27,12 +27,14 @@ class Media extends Model
         'filename',
         'session_id',
         'image_options',
+        'metadata',
     ];
 
 
     protected $casts = [
         'image_options' => 'json',
-        'filename' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+        'metadata' => 'json',
+        'filename' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ => {SITE_URL}400/200/
     ];
 
     protected $attributes = [
