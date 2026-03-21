@@ -2,8 +2,13 @@
 
 namespace Modules\Content\Support;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Database\Crud;
+use Modules\Content\Exceptions\ContentException;
+use Modules\Content\Exceptions\ContentNotFoundException;
+use Modules\Content\Exceptions\InvalidContentException;
 use Modules\Content\Models\Content;
 use Modules\Content\Repositories\ContentRepository;
 
@@ -1053,7 +1058,17 @@ class ContentManagerCrud extends Crud
         $this->app->content_repository->clearCache();
         $this->app->permalink_manager->clearCache();
 
-        $save = $this->app->database_manager->extended_save($table, $data_to_save);
+        try {
+            $save = $this->app->database_manager->extended_save($table, $data_to_save);
+        } catch (QueryException $e) {
+            Log::error('Failed to save content', [
+                'exception' => $e->getMessage(),
+                'table' => $table,
+                'data' => $data_to_save,
+            ]);
+            throw ContentException::databaseOperationFailed('save', $table, $e);
+        }
+
         if (isset($data['add_content_to_menu']) && is_array($data['add_content_to_menu'])) {
             foreach ($data['add_content_to_menu'] as $menuId) {
                 if (!$this->app->menu_manager->is_in_menu($menuId, $save)) {

@@ -2,10 +2,15 @@
 
 namespace Modules\Cart\Services;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Cart\Events\AddToCartEvent;
 use Modules\Cart\Events\RemoveFromCartEvent;
+use Modules\Cart\Exceptions\CartException;
+use Modules\Cart\Exceptions\CartNotFoundException;
+use Modules\Cart\Exceptions\InvalidCartItemException;
 use Modules\Cart\Models\Cart;
 use Modules\Cart\Repositories\CartRepository;
 
@@ -60,7 +65,15 @@ class CartService
 
         $this->normalizeRelParams($params);
 
-        $get = $this->app->database_manager->get($params);
+        try {
+            $get = $this->app->database_manager->get($params);
+        } catch (QueryException $e) {
+            Log::error('Failed to retrieve cart items from database', [
+                'exception' => $e->getMessage(),
+                'params' => $params,
+            ]);
+            throw CartException::databaseOperationFailed('get', 'cart', $e);
+        }
 
         if (isset($params['count']) && $params['count']) {
             return is_array($get) ? $get : [$get];
@@ -86,7 +99,15 @@ class CartService
             'order_id' => $orderId,
         ];
 
-        $get = $this->app->database_manager->get($params);
+        try {
+            $get = $this->app->database_manager->get($params);
+        } catch (QueryException $e) {
+            Log::error('Failed to retrieve cart items by order ID', [
+                'exception' => $e->getMessage(),
+                'order_id' => $orderId,
+            ]);
+            throw CartException::databaseOperationFailed('get', 'cart', $e);
+        }
 
         if (!empty($get)) {
             foreach ($get as $k => $item) {
@@ -212,14 +233,22 @@ class CartService
         $cart['qty'] = $this->validateQty($data['qty'], $dataFields);
         $cartReturn = $checkCart;
 
-            $cartDataToSave = [
-                'qty' => $cart['qty'],
-                'id' => $cart['id'],
-            ];
+    $cartDataToSave = [
+            'qty' => $cart['qty'],
+            'id' => $cart['id'],
+        ];
 
+        try {
             $this->app->database_manager->save('cart', $cartDataToSave);
+        } catch (QueryException $e) {
+            Log::error('Failed to update cart item quantity', [
+                'exception' => $e->getMessage(),
+                'cart_data' => $cartDataToSave,
+            ]);
+            throw CartException::databaseOperationFailed('save', 'cart', $e);
+        }
 
-            $cartSum = $this->cartRepository->getCartAmount();
+        $cartSum = $this->cartRepository->getCartAmount();
             $cartQty = $this->cartRepository->getCartItemsCount();
 
             $this->clearCartCache();
@@ -393,7 +422,16 @@ class CartService
         }
 
         $willAdd = true;
-        $res = $this->app->database_manager->get($params);
+
+        try {
+            $res = $this->app->database_manager->get($params);
+        } catch (QueryException $e) {
+            Log::error('Failed to retrieve cart for recovery', [
+                'exception' => $e->getMessage(),
+                'order_id' => $orderId,
+            ]);
+            throw CartException::databaseOperationFailed('get', 'cart', $e);
+        }
 
         if (!empty($res)) {
             foreach ($res as $item) {
@@ -420,7 +458,15 @@ class CartService
                             'count' => 1,
                         ];
 
-                        $isEx = $this->app->database_manager->get($isExParams);
+                        try {
+                            $isEx = $this->app->database_manager->get($isExParams);
+                        } catch (QueryException $e) {
+                            Log::error('Failed to check existing cart item during recovery', [
+                                'exception' => $e->getMessage(),
+                                'params' => $isExParams,
+                            ]);
+                            throw CartException::databaseOperationFailed('get', 'cart', $e);
+                        }
                         if ($isEx !== false) {
                             $willAdd = false;
                         }
@@ -431,7 +477,15 @@ class CartService
 
                     if (isset($item['order_completed']) && intval($item['order_completed']) == 1) {
                         $data['id'] = $item['id'];
-                        $this->app->database_manager->save('cart', $data);
+                        try {
+                            $this->app->database_manager->save('cart', $data);
+                        } catch (QueryException $e) {
+                            Log::error('Failed to save cart item during recovery', [
+                                'exception' => $e->getMessage(),
+                                'cart_data' => $data,
+                            ]);
+                            throw CartException::databaseOperationFailed('save', 'cart', $e);
+                        }
                     }
                 }
             }
@@ -1058,7 +1112,16 @@ class CartService
         $findCart->price = $cart['price'];
         $findCart->session_id = $cart['session_id'];
         $findCart->order_completed = $cart['order_completed'];
-        $findCart->save();
+
+        try {
+            $findCart->save();
+        } catch (QueryException $e) {
+            Log::error('Failed to save cart item', [
+                'exception' => $e->getMessage(),
+                'cart_data' => $cart,
+            ]);
+            throw CartException::databaseOperationFailed('save', 'cart', $e);
+        }
 
         return $findCart->id;
     }
