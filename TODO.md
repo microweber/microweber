@@ -42,8 +42,17 @@
 
 ### Low Priority Issues
 
-- [ ] update: Composer dependency constraints - Replace exact version constraints with semantic versioning
-- [ ] update: Unbound version constraints (*) in composer.json should use specific versions
+- [x] 2026-03-21 update: Composer dependency constraints - Replace exact version constraints with semantic versioning - RESOLVED: Converted exact versions and unbound (*) constraints to semantic versioning:
+  - "3.0.4" → "^3.0", "dev-master" → "dev-master" (custom packages), "*" → specific version ranges
+  - Updated 40+ dependencies with proper ^ (caret) constraints for backward compatibility
+  - Added multiple version options (e.g., "^5.2|^6.0") for packages with major version flexibility
+  - Examples: "akaunting/laravel-money": "^5.2|^6.0", "laravel/cashier": "^15.0|^16.0", "predis/predis": "^2.0|^3.0"
+- [x] 2026-03-21 update: Unbound version constraints (*) in composer.json should use specific versions - RESOLVED: Replaced all "*" constraints with semantic versioning:
+  - "akaunting/laravel-money": "^5.2|^6.0"
+  - "ezyang/htmlpurifier": "^4.18"
+  - "graham-campbell/markdown": "^15.0|^16.0"
+  - "graham-campbell/security-core": "^2.0|^3.0|^4.0|^5.0"
+  - And 20+ other packages with specific version constraints
 - [ ] verify: Templates test suite - No tests executed (check if tests exist)
 
 ### Summary
