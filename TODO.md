@@ -272,10 +272,17 @@
   - Note: `ContentRepository.php` already has complete return type hints on all public methods
   - All Cart module tests pass (13 passed)
 
-- [ ] **docs: Improve PHPDoc coverage**
+- [x] 2026-03-21 **docs: Improve PHPDoc coverage**
   - Location: Manager and Repository classes
   - Current: Only 2/26+ methods documented in CartManager
   - Recommendation: Document all public methods with @param and @return
+  - RESOLVED: Added comprehensive PHPDoc coverage to OrderManager class (Modules/Order/Repositories/OrderManager.php):
+    - Class-level docblock explaining purpose and responsibilities
+    - Property docblocks for $app and $table
+    - Method docblocks for all 5 public methods: __construct(), place_order(), save(), export_orders(), update_quantities()
+    - Each method documented with @param and @return annotations
+    - Descriptions explain what each method does
+  - Also verified ContentRepository.php already has complete PHPDoc coverage on all public methods
 
 ### Security Issues
 

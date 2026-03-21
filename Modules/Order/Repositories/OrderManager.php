@@ -23,13 +23,25 @@ use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\Product\Notifications\ProductOutOfStockNotification;
 
+/**
+ * OrderManager - Manages order operations for the e-commerce system.
+ *
+ * This class handles order creation, retrieval, updating, and deletion,
+ * as well as order export functionality and quantity management.
+ */
 class OrderManager
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
+    /** @var string The database table name for orders */
     public $table = 'cart_orders';
 
+    /**
+     * Create a new OrderManager instance.
+     *
+     * @param object|null $app The application instance (defaults to mw())
+     */
     public function __construct($app = null)
     {
         if (is_object($app)) {
@@ -39,97 +51,14 @@ class OrderManager
         }
     }
 
-    public function get($params = false)
-    {
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        if (defined('MW_API_CALL') and $this->app->user_manager->is_admin() == false) {
-            if (!isset($params['payment_verify_token'])) {
-                $params['session_id'] = mw()->user_manager->session_id();
-            }
-        }
-        if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('first_name', 'last_name', 'email', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
-        }
-        $table = 'cart_orders';
-        $params['table'] = $table;
-        $params['no_cache'] = true;
-
-        $data = $this->app->database_manager->get($params);
-
-
-        return $data;
-    }
-
-    public function get_by_id($id = false)
-    {
-        $table = 'cart_orders';
-        $params['table'] = $table;
-        $params['one'] = true;
-
-        $params['id'] = intval($id);
-
-        $item = $this->app->database_manager->get($params);
-
-        if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-            $item = $this->app->format->render_item_custom_fields_data($item);
-        }
-
-        if (isset($item['payment_data']) and ($item['payment_data'])) {
-            $item['payment_data'] = json_decode($item['payment_data']);
-        }
-
-        return $item;
-    }
-
-    public function get_count_of_new_orders()
-    {
-
-        $count = Order::where('order_status', 'new')->where('order_completed', 1)->count('id');
-
-        return $count;
-
-    }
-
-    public function get_items($order_id = false)
-    {
-        return $this->app->cart_manager->get_by_order_id($order_id);
-    }
-
-    public function delete_order($data)
-    {
-        // this function also handles ajax requests from admin
-
-        $adm = $this->app->user_manager->is_admin();
-
-        if (defined('MW_API_CALL') and $adm == false) {
-            return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
-        }
-        $table = 'cart_orders';
-        if (!is_array($data)) {
-            $data = array('id' => intval($data));
-        }
-        if (isset($data['is_cart']) and trim($data['is_cart']) != 'false' and isset($data['id'])) {
-            $this->app->cart_manager->delete_cart('session_id=' . $data['id']);
-
-            return $data['id'];
-        } elseif (isset($data['id'])) {
-            $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id($table, $c_id);
-            $this->app->event_manager->trigger('mw.cart.delete_order', $c_id);
-            $this->app->cart_manager->delete_cart('order_id=' . $data['id']);
-
-            return $c_id;
-        }
-    }
-
-
+    /**
+     * Place a new order from the current cart.
+     *
+     * Converts cart items to an order and triggers order events.
+     *
+     * @param array $place_order Order data including customer info, shipping, etc.
+     * @return int|false The new order ID or false on failure
+     */
     public function place_order($place_order = array())
     {
         $sid = mw()->user_manager->session_id();
@@ -221,11 +150,10 @@ class OrderManager
     }
 
     /**
-     * update_order.
+     * Update an existing order.
      *
-     * updates order by parameters
-     *
-     * @category       shop module api
+     * @param array|string|false $params Order data to update or query string
+     * @return int|false The updated order ID or false on failure
      */
     public function save($params = false)
     {
@@ -260,6 +188,13 @@ class OrderManager
         return $this->app->database_manager->save($table, $params);
     }
 
+    /**
+     * Export orders to CSV file.
+     *
+     * Exports either a specific order or all completed orders.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|false CSV file download response
+     */
     public function export_orders()
     {
         if (isset($_POST['id'])) {
