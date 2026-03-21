@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
+use MicroweberPackages\Utils\System\FileUploadValidationService;
 
 class PluploadController extends Controller
 {
@@ -566,25 +567,68 @@ $path_restirct = userfiles_path(); // the path the script should access
             $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
             $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
 
-            if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
-                $ext = get_file_extension($filePath);
-                $ext = strtolower($ext);
-                if (function_exists('finfo_open') and function_exists('finfo_file')) {
-                    $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-                    $mime = @finfo_file($finfo, $filePath);
-                    if ($mime) {
-                        $upl_mime_ext = explode('/', $mime);
-                        $upl_mime_ext = end($upl_mime_ext);
-                        $upl_mime_ext = explode('-', $upl_mime_ext);
-                        $upl_mime_ext = end($upl_mime_ext);
-                        $upl_mime_ext = strtolower($upl_mime_ext);
+        if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
+        $ext = get_file_extension($filePath);
+        $ext = strtolower($ext);
 
-                        if (in_array($upl_mime_ext, $dangerous)) {
-                            die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
-                        }
-                    }
-                    finfo_close($finfo);
-                }
+        // Enhanced MIME type validation using FileUploadValidationService
+        $validationService = new FileUploadValidationService();
+
+        // Determine file category from extension
+        $fileCategory = 'files';
+        $imageExts = ['jpg', 'jpeg', 'jpe', 'png', 'gif', 'webp', 'svg', 'tiff', 'bmp', 'ico'];
+        $videoExts = ['mp4', 'm4v', 'avi', 'mpg', 'mpeg', 'webm', 'ogv', 'ogg', 'mov', 'wmv', '3gp', '3g2'];
+        $audioExts = ['mp3', 'ogg', 'wav', 'flac', 'm4a', 'aac'];
+        $documentExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'txt', 'xml', 'odt'];
+        $archiveExts = ['zip', 'rar', '7z', 'gz', 'gzip', 'tar', 'tgz', 'tar.gz'];
+
+        if (in_array($ext, $imageExts)) {
+            $fileCategory = 'images';
+        } elseif (in_array($ext, $videoExts)) {
+            $fileCategory = 'videos';
+        } elseif (in_array($ext, $audioExts)) {
+            $fileCategory = 'audios';
+        } elseif (in_array($ext, $documentExts)) {
+            $fileCategory = 'documents';
+        } elseif (in_array($ext, $archiveExts)) {
+            $fileCategory = 'archives';
+        }
+
+        // Validate MIME type
+        $mimeResult = $validationService->validateMimeType($filePath, [$fileCategory]);
+        if (!$mimeResult['valid']) {
+            @unlink($filePath);
+            header("HTTP/1.1 415 Unsupported Media Type");
+            die('{"jsonrpc" : "2.0", "error" : {"code": 108, "message": "' . addslashes($mimeResult['error']) . '"}, "id" : "id"}');
+        }
+
+        // Validate file size
+        $fileSize = filesize($filePath);
+        $sizeResult = $validationService->validateSizeByCategory($fileSize, $fileCategory);
+        if (!$sizeResult['valid']) {
+            @unlink($filePath);
+            header("HTTP/1.1 413 Payload Too Large");
+            die('{"jsonrpc" : "2.0", "error" : {"code": 109, "message": "' . addslashes($sizeResult['error']) . '"}, "id" : "id"}');
+        }
+
+        // Legacy dangerous MIME check (keeping for backward compatibility)
+        if (function_exists('finfo_open') and function_exists('finfo_file')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = @finfo_file($finfo, $filePath);
+        if ($mime) {
+        $upl_mime_ext = explode('/', $mime);
+        $upl_mime_ext = end($upl_mime_ext);
+        $upl_mime_ext = explode('-', $upl_mime_ext);
+        $upl_mime_ext = end($upl_mime_ext);
+        $upl_mime_ext = strtolower($upl_mime_ext);
+
+        if (in_array($upl_mime_ext, $dangerous)) {
+        @unlink($filePath);
+        die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
+        }
+        }
+        finfo_close($finfo);
+        }
 
                 if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png' || $ext == 'svg') {
 

@@ -60,7 +60,16 @@
   - Verified JavaScript properly retrieves and sends CSRF tokens via headers
   - Documented findings in SECURITY_AUDIT_CSRF.md
   - **Status:** COMPLIANT - All forms properly protected
-- [ ] security: Enhance file upload validation (S) - MIME type, size limits
+- [x] 2026-03-21 security: Enhance file upload validation (S) - MIME type, size limits
+  - Created FileUploadValidationService with comprehensive validation
+  - MIME type validation with mappings for all supported categories
+  - Category-based size limits (images: 10MB, videos: 100MB, etc.)
+  - Extension-to-MIME matching validation
+  - Integration with PluploadController for automatic validation
+  - Created config/media.php with environment-based configuration
+  - Added 18 environment variables for customization
+  - Comprehensive test coverage: 30 tests, 207 assertions
+  - Created documentation in docs/FILE_UPLOAD_VALIDATION.md
 - [ ] chore: Update remaining npm security vulnerabilities (M) - Fix elliptic/crypto-browserify
 
 ### Documentation
