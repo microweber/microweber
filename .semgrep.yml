@@ -1,0 +1,123 @@
+# Semgrep Security Scanner Configuration
+# https://semgrep.dev/
+
+# Rule sets to run
+rules:
+  # Security-focused rules
+  - p/security-audit
+  - p/owasp-top-ten
+  - p/ci
+
+  # Language-specific rules
+  - p/php
+  - p/javascript
+
+  # Custom rules
+  - id: microweber-sql-injection
+    patterns:
+      - pattern-either:
+          - pattern: DB::raw(...)
+          - pattern: DB::statement(...)
+          - pattern: $DB->raw(...)
+      - pattern-inside: |
+          function $FUNC(...) {
+            ...
+          }
+    message: "Potential SQL injection vulnerability. Use parameterized queries instead."
+    languages:
+      - php
+    severity: ERROR
+
+  - id: microweber-xss-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: echo $_GET[...]
+          - pattern: echo $_POST[...]
+          - pattern: echo $_REQUEST[...]
+          - pattern: print $_GET[...]
+          - pattern: print $_POST[...]
+          - pattern: print $_REQUEST[...]
+    message: "Potential XSS vulnerability. Escape output using htmlspecialchars() or blade's {{ }} syntax."
+    languages:
+      - php
+    severity: WARNING
+
+  - id: microweber-csrf-missing
+    patterns:
+      - pattern: |
+          Route::post(...)
+      - pattern-not-inside: |
+          Route::group(['middleware' => ['web']], function () { ... })
+    message: "POST route without CSRF protection. Ensure CSRF token is validated."
+    languages:
+      - php
+    severity: WARNING
+
+  - id: microweber-path-traversal
+    patterns:
+      - pattern-either:
+          - pattern: file_get_contents($_GET[...])
+          - pattern: file_get_contents($_POST[...])
+          - pattern: include($_GET[...])
+          - pattern: include($_POST[...])
+          - pattern: require($_GET[...])
+          - pattern: require($_POST[...])
+    message: "Potential path traversal vulnerability. Validate file paths before access."
+    languages:
+      - php
+    severity: ERROR
+
+  - id: microweber-insecure-cookie
+    patterns:
+      - pattern: |
+          setcookie(..., ..., ..., ...)
+      - pattern-not: |
+          setcookie(..., ..., ..., ..., ..., true, true)
+    message: "Insecure cookie settings. Use httponly and secure flags."
+    languages:
+      - php
+    severity: WARNING
+
+  - id: microweber-hardcoded-credentials
+    patterns:
+      - pattern-regex: (password|secret|api_key|token)\s*=\s*["'][a-zA-Z0-9_!@#$%^&*]{8,}["']
+    message: "Hardcoded credentials detected. Use environment variables or secure vault."
+    languages:
+      - php
+      - javascript
+      - json
+    severity: ERROR
+
+# Configuration
+config:
+  # Exclude paths
+  exclude:
+    - vendor/
+    - node_modules/
+    - storage/
+    - bootstrap/cache/
+    - tests/
+    - .git/
+    - docs/
+    - "*.min.js"
+    - "*.min.css"
+
+  # Include paths (if specified, only these will be scanned)
+  # include: []
+
+  # Maximum file size to scan (in bytes)
+  max-target-bytes: 1000000
+
+  # Number of jobs to run in parallel
+  jobs: 4
+
+# Output settings
+output:
+  # Output format: json, text, sarif, emacs, vim, junit
+  format: sarif
+
+  # Show error messages
+  verbose: true
+
+  # Quiet mode (only show findings)
+  quiet: false

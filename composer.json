@@ -227,10 +227,36 @@
             "Composer\\Config::disableProcessTimeout",
             "php artisan insights --no-interaction --ansi --summary"
         ],
-        "docs:filament": [
-            "php dev/generate-filament-docs.php"
-        ]
-    },
+    "docs:filament": [
+      "php dev/generate-filament-docs.php"
+    ],
+    "security:audit": [
+      "Composer\\Config::disableProcessTimeout",
+      "@composer audit --format=table --no-interaction"
+    ],
+    "security:audit-json": [
+      "Composer\\Config::disableProcessTimeout",
+      "@composer audit --format=json --no-interaction > security-audit-results.json || true"
+    ],
+    "security:check": [
+      "Composer\\Config::disableProcessTimeout",
+      "@security:audit",
+      "@security:npm-audit"
+    ],
+    "security:npm-audit": [
+      "npm audit --audit-level=moderate"
+    ],
+    "security:outdated": [
+      "Composer\\Config::disableProcessTimeout",
+      "@composer outdated --direct --strict"
+    ],
+    "security:full-scan": [
+      "Composer\\Config::disableProcessTimeout",
+      "@echo 'Running full security scan...'",
+      "@security:audit-json",
+      "@security:outdated"
+    ]
+  },
     "extra": {
         "laravel": {
             "dont-discover": [

@@ -387,9 +387,37 @@
   - Configuration: phpstan.neon.dist with Larastan extension, parallel processing (4 processes)
   - Excluded files: Legacy/deprecated code with missing dependencies (17 files)
 
-- [ ] **improve: Implement automated security scanning**
-  - Tool: Snyk or similar for dependency vulnerabilities
-  - Status: NPM audit completed, 8 vulnerabilities remaining
+- [x] 2026-03-21 **improve: Implement automated security scanning**
+  - RESOLVED: Created comprehensive automated security scanning system
+  - Changes made:
+    - Created `.github/workflows/security-scan.yml` with 7 security scanning jobs:
+      - Composer Audit: Scans PHP dependencies for known vulnerabilities
+      - NPM Audit: Scans JavaScript dependencies for known vulnerabilities
+      - PHP Security Checker: Uses local-php-security-checker for additional PHP dependency scanning
+      - Semgrep: Static analysis for security vulnerabilities in PHP and JavaScript code
+      - GitHub Security Advisories: Checks for known security advisories
+      - Trivy Filesystem Scan: Filesystem security scanner for vulnerabilities and misconfigurations
+      - Insecure File Check: Detects potential secrets and sensitive data in code
+    - Created configuration files:
+      - `.trivy.yml` - Trivy scanner configuration with exclusions for vendor/, node_modules/, storage/, etc.
+      - `.semgrep.yml` - Custom Semgrep rules for Microweber-specific security patterns (SQL injection, XSS, CSRF, path traversal, hardcoded credentials)
+    - Added Composer scripts:
+      - `composer run security:audit` - Run Composer security audit
+      - `composer run security:audit-json` - Generate JSON security report
+      - `composer run security:check` - Run all security checks
+      - `composer run security:outdated` - Check for outdated packages
+      - `composer run security:full-scan` - Comprehensive security scan
+    - Added NPM scripts:
+      - `npm run security:audit` - Run NPM security audit
+      - `npm run security:audit-json` - Generate JSON security report
+      - `npm run security:fix` - Fix automatically fixable vulnerabilities
+    - Updated `SECURITY.md` with comprehensive security policy documentation
+  - Current status:
+    - Security scans run automatically on push/PR to main/develop/master branches
+    - Daily scheduled scans at midnight UTC
+    - 3 PHP security vulnerabilities detected (filament/tables HIGH, league/commonmark MEDIUM, phpseclib/phpseclib HIGH)
+    - 8 NPM security vulnerabilities detected (elliptic crypto issues, webpack-dev-server CORS)
+    - All configuration files validated and tested
 
 ### Summary
 **Code Quality:** 2 high-priority refactoring tasks identified

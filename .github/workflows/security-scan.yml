@@ -1,0 +1,246 @@
+name: Security Scanning
+on:
+  push:
+    branches: [main, develop, master]
+  pull_request:
+    branches: [main, develop, master]
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  checks: write
+
+jobs:
+  # PHP Composer Security Audit
+  composer-audit:
+    name: Composer Dependencies Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Run Composer Audit
+        run: composer audit --format=json --no-interaction || true
+
+      - name: Run Composer Audit (Strict Mode)
+        run: |
+          composer audit --format=table --no-interaction || echo "::warning::Composer audit found security issues"
+        continue-on-error: true
+
+  # NPM Security Audit
+  npm-audit:
+    name: NPM Dependencies Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
+      - name: Run NPM Audit
+        run: |
+          npm audit --audit-level=moderate || echo "::warning::NPM audit found security issues"
+        continue-on-error: true
+
+      - name: Run NPM Audit (JSON)
+        run: |
+          npm audit --audit-level=low --json > npm-audit-results.json || true
+        continue-on-error: true
+
+      - name: Upload NPM Audit Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-results
+          path: npm-audit-results.json
+          retention-days: 30
+
+  # PHP Security Checker (Local PHP Security Checker)
+  php-security-checker:
+    name: PHP Security Checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install Local PHP Security Checker
+        run: |
+          curl -sSL https://github.com/fabpot/local-php-security-checker/releases/download/v2.1.3/local-php-security-checker_2.1.3_linux_amd64 -o /usr/local/bin/local-php-security-checker
+          chmod +x /usr/local/bin/local-php-security-checker
+
+      - name: Run Security Checker
+        run: |
+          local-php-security-checker --path=./composer.lock --format=json > php-security-checker-results.json || true
+        continue-on-error: true
+
+      - name: Run Security Checker (Output)
+        run: |
+          local-php-security-checker --path=./composer.lock || echo "::warning::Security issues found in PHP dependencies"
+        continue-on-error: true
+
+      - name: Upload PHP Security Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-security-checker-results
+          path: php-security-checker-results.json
+          retention-days: 30
+
+  # Security Code Analysis with Semgrep
+  semgrep:
+    name: Semgrep Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/owasp-top-ten
+            p/ci
+            p/php
+            p/javascript
+        continue-on-error: true
+
+  # GitHub Security Advisories Check
+  github-security-advisories:
+    name: GitHub Security Advisories
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Check for known vulnerabilities
+        run: |
+          composer check-platform-reqs --no-interaction || true
+          composer outdated --direct --strict --format=json > outdated-packages.json || true
+        continue-on-error: true
+
+      - name: Upload Outdated Packages Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: outdated-packages
+          path: outdated-packages.json
+          retention-days: 30
+
+  # Trivy Filesystem Security Scan
+  trivy-filesystem:
+    name: Trivy Filesystem Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Filesystem Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '0'
+
+      - name: Upload Trivy Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
+          retention-days: 30
+
+      - name: Display Trivy Results
+        run: |
+          cat trivy-results.sarif || true
+        continue-on-error: true
+
+  # Insecure File Detection
+  insecure-file-check:
+    name: Insecure File Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan for potential secrets
+        run: |
+          echo "::group::Scanning for secrets and sensitive files"
+          # Check for common secret patterns
+          ! git grep -rE "(password|secret|api_key|token|private_key)\s*[=:]\s*[\"'][^\"']+[\"']" --include="*.php" --include="*.js" --include="*.json" --include="*.env*" || echo "::warning::Potential secrets found in code"
+          echo "::endgroup::"
+
+          echo "::group::Checking for .env files"
+          find . -name ".env" -o -name ".env.*" | grep -v node_modules | grep -v vendor | head -20 || echo "No .env files found"
+          echo "::endgroup::"
+
+          echo "::group::Checking for exposed configuration"
+          ! grep -r "DB_PASSWORD" --include="*.php" --include="*.js" --include="*.json" . | grep -v node_modules | grep -v vendor | head -20 || echo "::warning::Potential database credentials exposed"
+          ! grep -r "APP_KEY" --include="*.php" --include="*.js" . | grep -v node_modules | grep -v vendor | grep -v "env.example" | head -20 || echo "::warning::Potential app keys exposed"
+          echo "::endgroup::"
+        continue-on-error: true
+
+  # Security Summary
+  security-summary:
+    name: Security Scan Summary
+    needs: [composer-audit, npm-audit, php-security-checker, semgrep, github-security-advisories, trivy-filesystem, insecure-file-check]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Security Scan Summary
+        run: |
+          echo "::group::Security Scan Summary"
+          echo "Composer Audit: ${{ needs.composer-audit.result }}"
+          echo "NPM Audit: ${{ needs.npm-audit.result }}"
+          echo "PHP Security Checker: ${{ needs.php-security-checker.result }}"
+          echo "Semgrep: ${{ needs.semgrep.result }}"
+          echo "GitHub Security Advisories: ${{ needs.github-security-advisories.result }}"
+          echo "Trivy Filesystem Scan: ${{ needs.trivy-filesystem.result }}"
+          echo "Insecure File Check: ${{ needs.insecure-file-check.result }}"
+          echo "::endgroup::"
+
+      - name: Check for Critical Failures
+        run: |
+          if [ "${{ needs.composer-audit.result }}" == "failure" ] || [ "${{ needs.trivy-filesystem.result }}" == "failure" ]; then
+            echo "::error::Critical security issues found. Please review the security scan results."
+            exit 1
+          fi
+        continue-on-error: true

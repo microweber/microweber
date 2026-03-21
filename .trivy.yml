@@ -1,0 +1,67 @@
+# Trivy Security Scanner Configuration
+# https://aquasecurity.github.io/trivy/
+
+# Scanner settings
+scan:
+  skip-dirs:
+    - vendor
+    - node_modules
+    - storage
+    - bootstrap/cache
+    - tests
+    - .git
+    - docs
+
+  skip-files:
+    - "*.min.js"
+    - "*.min.css"
+    - "*.map"
+    - composer.lock
+    - package-lock.json
+    - yarn.lock
+
+# Vulnerability database
+vulnerability:
+  # Severity levels to report
+  severity:
+    - CRITICAL
+    - HIGH
+    - MEDIUM
+    - LOW
+
+  # Ignore unfixed vulnerabilities
+  ignore-unfixed: false
+
+# Secret detection
+secret:
+  # Enable secret scanning
+  enabled: true
+
+  # Exclude paths for secret scanning
+  exclude-paths:
+    - tests/
+    - docs/
+
+# Misconfiguration detection
+misconfiguration:
+  # Enable misconfiguration scanning
+  enabled: true
+
+  # Check for Docker, Kubernetes, Terraform configs
+  include-non-failures: false
+
+# Report settings
+report:
+  # Output format (table, json, sarif, template)
+  format: sarif
+
+  # Show only the latest version
+  show-only-updates: false
+
+# Cache settings
+cache:
+  # Cache directory
+  dir: ~/.cache/trivy
+
+# Timeout
+timeout: 10m

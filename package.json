@@ -1,13 +1,17 @@
 {
     "private": true,
     "type": "module",
-    "scripts": {
-        "build": "node run-build.js",
-        "dev": "node run-dev.js",
-        "docs:dev": "vitepress dev docs",
-        "docs:build": "vitepress build docs",
-        "docs:preview": "vitepress preview docs"
-    },
+"scripts": {
+    "build": "node run-build.js",
+    "dev": "node run-dev.js",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:audit-json": "npm audit --json > npm-security-audit.json || true",
+    "security:fix": "npm audit fix",
+    "security:check": "npm run security:audit"
+  },
     "dependencies": {
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/container-queries": "^0.1.1",
