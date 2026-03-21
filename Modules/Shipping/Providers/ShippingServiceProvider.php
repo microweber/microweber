@@ -49,6 +49,9 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
             $shippingMethodManager->extend('shipping_to_country', function () {
                 return new \Modules\Shipping\Drivers\ShippingToCountry();
             });
+            $shippingMethodManager->extend('weight_based', function () {
+                return new \Modules\Shipping\Drivers\WeightBased();
+            });
         });
 
         FilamentRegistry::registerResource(ShippingProviderResource::class);

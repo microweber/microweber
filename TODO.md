@@ -132,7 +132,18 @@
   - Tax rate caching for performance
   - Created TaxRateResource Filament admin UI for managing tax rates
   - All 26 core tests passing (TaxCalculatorTest + TaxRateModelTest)
-- [ ] feat: Add shipping method management (M) - Flat rate, weight-based options
+- [x] 2026-03-21 feat: Add shipping method management (M) - Flat rate, weight-based options
+  - Created WeightBased shipping driver with comprehensive features
+  - Supports base cost + per-weight-unit pricing
+  - Weight tier system with min/max ranges
+  - Free shipping threshold
+  - Maximum cost cap
+  - Free shipping item exclusion
+  - Full Filament settings form integration
+  - Added migration for is_default, description, icon columns
+  - Updated ShippingServiceProvider to register weight_based driver
+  - Created comprehensive test suite: WeightBasedTest.php
+  - All 24 shipping driver tests passing
 - [ ] feat: Create invoice generation system (M) - PDF generation, email delivery
 - [ ] test: End-to-end checkout flow tests (M) - Complete purchase flow
 
