@@ -1,3 +1,8 @@
+## Todo - Project Scope Definition (2026-03-21)
+
+### Scope Phase Tasks
+- [x] 2026-03-21 verify: Product scope documented in SCOPE.md, ready to proceed to planning phase
+
 ## Todo - Project Test Results (2026-03-21)
 
 ### Critical Issues
