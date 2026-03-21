@@ -9,6 +9,9 @@ use Modules\Cart\Filament\CartAddModuleSettings;
 use Modules\Cart\Microweber\CartAddModule;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;
+use Modules\Cart\Services\CartService;
+use Modules\Cart\Services\CartTotalsService;
+use Modules\Cart\Services\CartCouponService;
 
 
 class CartServiceProvider extends BaseModuleServiceProvider
@@ -38,17 +41,27 @@ class CartServiceProvider extends BaseModuleServiceProvider
 
         $this->app->register(CartEventServiceProvider::class);
 
-        /**
-         * @property \Modules\Cart\Repositories\CartManager $cart_manager
-         */
-        $this->app->singleton('cart_manager', function ($app) {
-            return new CartManager();
-        });
-        /**
-         * @property \Modules\Cart\Repositories\CartRepository $cart_repository
-         */
-        $this->app->bind('cart_repository', function () {
+        // Register cart repository
+        $this->app->singleton('cart_repository', function ($app) {
             return new CartRepository();
+        });
+
+        // Register cart services
+        $this->app->singleton('cart_service', function ($app) {
+            return new CartService($app);
+        });
+
+        $this->app->singleton('cart_totals_service', function ($app) {
+            return new CartTotalsService($app);
+        });
+
+        $this->app->singleton('cart_coupon_service', function ($app) {
+            return new CartCouponService($app);
+        });
+
+        // Keep cart_manager for backward compatibility
+        $this->app->singleton('cart_manager', function ($app) {
+            return new CartManager($app);
         });
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(CartAddModuleSettings::class);
