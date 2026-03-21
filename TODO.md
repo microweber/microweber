@@ -168,7 +168,7 @@
   - All 7 tests passing (60 assertions)
 
 ### Content Management
-- [ ] feat: Integrate visual drag-and-drop editor (L) - Livewire editor components
+- [x] 2026-03-21 feat: Integrate visual drag-and-drop editor (L) - Livewire editor components
 - [ ] feat: Implement template live preview (M) - Template selector, customization UI
 - [ ] feat: Add multi-language content support (M) - Translation interface, locale switching
 - [ ] feat: Enhance media library with bulk upload (M) - Organization, CDN integration

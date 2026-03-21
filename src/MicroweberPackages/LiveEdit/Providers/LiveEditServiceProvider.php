@@ -27,6 +27,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\FontsManagerMod
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ModulePresetsModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage\UnlockPackageModuleSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\VisualEditorPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -34,6 +35,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin\LiveEditSideb
 use MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin\LiveEditSidebarAdminModulesListComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\Presets\ModulePresetsManager;
+use MicroweberPackages\LiveEdit\Http\Livewire\VisualEditor\VisualEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
 use MicroweberPackages\LiveEdit\Services\LiveEditManagerService;
@@ -68,6 +70,7 @@ class LiveEditServiceProvider extends ServiceProvider
             'microweber-live-edit::sidebar-admin' => LiveEditSidebarAdminComponent::class,
             'microweber-live-edit::sidebar-admin-modules-list' => LiveEditSidebarAdminModulesListComponent::class,
             'microweber-live-edit::module-presets-manager' => ModulePresetsManager::class,
+            'visual-editor' => VisualEditorComponent::class,
         ];
 
         foreach ($liveEditComponents as $name => $class) {
