@@ -265,9 +265,10 @@ class UserManager
         Auth::logout();
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
-        $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
+        $request = request();
+        $redirect_after = $request->input('redirect', false);
         if ($redirect_after == false) {
-            $redirect_after = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : false;
+            $redirect_after = $request->input('redirect_to', false);
         }
         if (isset($_COOKIE['editmode'])) {
             //     setcookie('editmode');
@@ -386,7 +387,12 @@ class UserManager
             return false;
         }
 
-        $code = $_GET['code_login'];
+        $request = request();
+        $code = $request->input('code_login');
+        if (empty($code)) {
+            return redirect(admin_url());
+        }
+
         $parse = parse_url(site_url());
         if (!isset($parse['host'])) {
             return redirect(admin_url());
@@ -411,8 +417,15 @@ class UserManager
             if ($user !== null) {
                 \Illuminate\Support\Facades\Auth::login($user);
 
-                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
-                    return redirect($_GET['http_redirect']);
+                $httpRedirect = $request->input('http_redirect');
+                if (!empty($httpRedirect)) {
+                    // Validate redirect URL to prevent open redirect vulnerability
+                    $redirectUrl = filter_var($httpRedirect, FILTER_SANITIZE_URL);
+                    $siteUrl = site_url();
+                    // Only allow redirects to same site
+                    if (strpos($redirectUrl, $siteUrl) === 0 || strpos($redirectUrl, '/') === 0) {
+                        return redirect($redirectUrl);
+                    }
                 }
             }
 
@@ -1297,9 +1310,10 @@ class UserManager
             $this->session_set('user_after_login', $return_after_login);
         }
 
+        $request = request();
         $provider = false;
-        if (isset($_REQUEST['provider'])) {
-            $provider = $_REQUEST['provider'];
+        if ($request->has('provider')) {
+            $provider = $request->input('provider');
             $provider = trim(strip_tags($provider));
         }
 
@@ -1419,18 +1433,21 @@ class UserManager
 
     public function social_login_process($params = false)
     {
+        $request = request();
         $user_after_login = $this->session_get('user_after_login');
 
-        if (!isset($_REQUEST['provider']) and isset($_REQUEST['hauth_done'])) {
-            $_REQUEST['provider'] = $_REQUEST['hauth_done'];
+        $provider = $request->input('provider');
+        $hauthDone = $request->input('hauth_done');
+
+        if (empty($provider) && !empty($hauthDone)) {
+            $provider = $hauthDone;
         }
 
-
-        if (!isset($_REQUEST['provider'])) {
+        if (empty($provider)) {
             return $this->app->url_manager->redirect(site_url());
         }
 
-        $auth_provider = $_REQUEST['provider'];
+        $auth_provider = $provider;
         $auth_provider = e($auth_provider);
         $this->socialite_config($auth_provider);
 

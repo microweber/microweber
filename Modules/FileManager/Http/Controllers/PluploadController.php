@@ -4,6 +4,7 @@ namespace Modules\FileManager\Http\Controllers;
 
 
 use Illuminate\Http\File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
