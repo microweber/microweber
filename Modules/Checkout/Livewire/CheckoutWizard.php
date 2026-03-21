@@ -15,7 +15,7 @@ use Filament\Schemas\Components\View;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
-use Filament\Schemas\Components\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
@@ -89,15 +89,8 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     ->startOnStep($this->step)
                     ->contained()
                     ->persistStepInQueryString('step')
-                    ->submitAction([
-                        $this,
-                        'submit',
-                    ])
-                    ->cancelAction([
-                        $this,
-                        'cancel',
-                    ])
-                    ->stepChangedEvent('wizardStepChanged'),
+            ->submitAction('submit')
+            ->cancelAction('cancel'),
             ])
             ->statePath('data');
     }
@@ -418,7 +411,7 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
         $this->saveStepData();
     }
 
-    protected function saveStepData(): void
+    public function saveStepData(): void
     {
         $data = $this->form->getState();
 

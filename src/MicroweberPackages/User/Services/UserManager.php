@@ -1909,14 +1909,57 @@ class UserManager
                     }
 
 
-                    return $shipping_address_from_profile;
-                }
-            }
-
+            return $shipping_address_from_profile;
         }
     }
 
-    private function __check_id_has_ability_to_edit_user($user_id)
+}
+}
+
+    public function save_shipping_address(array $data): bool
+    {
+        if (!$this->is_logged()) {
+            return false;
+        }
+
+        $userId = $this->id();
+        if (!$userId) {
+            return false;
+        }
+
+        // Find or create customer record
+        $customer = \Modules\Customer\Models\Customer::firstOrCreate(
+            ['user_id' => $userId],
+            [
+                'first_name' => $data['first_name'] ?? get_user()['first_name'] ?? '',
+                'last_name' => $data['last_name'] ?? get_user()['last_name'] ?? '',
+                'email' => $data['email'] ?? get_user()['email'] ?? '',
+            ]
+        );
+
+        // Find or create shipping address
+        $addressData = [
+            'rel_type' => \Modules\Customer\Models\Customer::class,
+            'rel_id' => $customer->id,
+            'type' => 'shipping',
+        ];
+
+        $shippingAddress = \Modules\Address\Models\Address::updateOrCreate(
+            $addressData,
+            [
+                'address_street_1' => $data['address'] ?? null,
+                'city' => $data['city'] ?? null,
+                'state' => $data['state'] ?? null,
+                'zip' => $data['zip'] ?? $data['postal_code'] ?? null,
+                'country' => $data['country'] ?? null,
+                'phone' => $data['phone'] ?? null,
+            ]
+        );
+
+        return (bool) $shippingAddress;
+    }
+
+private function __check_id_has_ability_to_edit_user($user_id)
     {
         if (!$user_id) {
             return true;

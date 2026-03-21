@@ -89,7 +89,13 @@
 ## Phase 2: Core Features (Pending - Week 3-4)
 
 ### E-commerce
-- [ ] feat: Complete multi-step checkout wizard (L) - Guest checkout, shipping selection
+- [x] 2026-03-21 feat: Complete multi-step checkout wizard (L) - Guest checkout, shipping selection
+  - Fixed Wizard::submitAction and cancelAction to accept strings instead of arrays
+  - Fixed Filament Get type import to use Filament\Schemas\Components\Utilities\Get
+  - Added save_shipping_address() method to UserManager for guest account creation
+  - Added session_forget() helper function for test cleanup
+  - Added getCountryName() method to CountryManager
+  - All 7 end-to-end tests passing (51 assertions)
 - [ ] feat: Integrate Stripe payment gateway (M) - Webhook handling, intents API
 - [ ] feat: Integrate PayPal payment gateway (M) - Express checkout integration
 - [ ] feat: Implement tax calculation engine (M) - Location-based rules

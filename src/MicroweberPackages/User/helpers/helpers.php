@@ -91,7 +91,10 @@ function session_all()
     return app()->user_manager->session_all();
 }
 
-
+function session_forget($name)
+{
+    return app()->user_manager->session_del($name);
+}
 
 
 function user_social_login($params)
