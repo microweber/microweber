@@ -9,8 +9,8 @@
 ### High Priority Issues
 
 - [x] 2026-03-21 fix: Modules/Group3 test failures - 4 failures in CouponResourceTest (table sorting and record visibility issues) - RESOLVED: Fixed database table name mismatches (coupons → cart_coupons), added unique coupon codes to prevent collisions, added Coupon::query()->delete() to clean state in filter/sorting tests
-- [ ] fix: Modules/Group3 errors - 5 errors in Cart and Coupons tests (Livewire rendering issues)
-- [ ] fix: Modules/Group6A test failures - MailTemplateResourceTest filter assertion failure (line 145)
+- [x] 2026-03-21 fix: Modules/Group3 errors - 2 failures in CartTest::it_get_cart and it_sum_cart (tests were using static content_id from previous test, failed in process isolation) - RESOLVED: Added product creation setup to both tests to ensure they work independently when run in separate processes
+- [x] 2026-03-21 fix: Modules/Group6A test failures - MailTemplateResourceTest filter assertion failure (line 145) - RESOLVED: Added TernaryFilter for 'is_active' field to MailTemplateResource table filters
 - [ ] fix: Modules/Group6A errors - 7 errors in Marketplace and MailTemplate tests
 - [ ] fix: Modules/Group6B failures - ExportTest::it_full_export expected 59 but got 64 (line 117)
 - [ ] fix: Modules/Group6B errors - 1 error in SliderSettingsFilamentTest
@@ -37,7 +37,7 @@
 - Modules-Newsletter: PASS (128 tests, 517 assertions)
 - Modules-Content: Timeout (requires separate run)
 - Modules-Billing: FAIL (85 tests, 1 failure)
-- Modules-Group3: FAIL (160 tests, 5 errors, 4 failures)
+- Modules-Group3: FAIL (160 tests, 2 failures in Comments module)
 - Modules-Group4: Timeout (requires separate run)
 - Modules-Group5: Timeout (requires separate run)
 - Modules-Group6A: FAIL (114 tests, 7 errors, 1 failure)

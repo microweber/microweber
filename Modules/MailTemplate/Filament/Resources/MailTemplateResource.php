@@ -146,16 +146,20 @@ class MailTemplateResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                ToggleColumn::make('is_active')
-                    ->label('Active')
-                    ->sortable(),
+            ToggleColumn::make('is_active')
+                ->label('Active')
+                ->sortable(),
 
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
-            ])
-            ->filters([
-                //
+            TextColumn::make('updated_at')
+                ->dateTime()
+                ->sortable(),
+        ])
+        ->filters([
+            Tables\Filters\TernaryFilter::make('is_active')
+                ->label('Active Status')
+                ->placeholder('All templates')
+                ->trueLabel('Active templates')
+                ->falseLabel('Inactive templates'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
