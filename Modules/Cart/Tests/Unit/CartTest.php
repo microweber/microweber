@@ -89,8 +89,22 @@ class CartTest extends TestCase
 
     public function it_get_cart(): void {
         empty_cart();
+        app()->database_manager->extended_save_set_permission(true);
+
+        // Create a product first (needed when tests run in separate processes)
+        $params = array(
+            'title' => 'Test product for get_cart',
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'price', 'name' => 'Price', 'value' => '30'),
+            ),
+            'is_active' => 1,
+        );
+        $saved_id = save_content($params);
+
         $add_to_cart = array(
-            'content_id' => self::$content_id,
+            'content_id' => $saved_id,
             'qty' => 2,
             'price' => 350,
         );
@@ -105,8 +119,22 @@ class CartTest extends TestCase
 
     public function it_sum_cart(): void {
         empty_cart();
+        app()->database_manager->extended_save_set_permission(true);
+
+        // Create a product first (needed when tests run in separate processes)
+        $params = array(
+            'title' => 'Test product for sum_cart',
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'price', 'name' => 'Price', 'value' => '30'),
+            ),
+            'is_active' => 1,
+        );
+        $saved_id = save_content($params);
+
         $add_to_cart = array(
-            'content_id' => self::$content_id,
+            'content_id' => $saved_id,
             'qty' => 3,
             'price' => 1300, // wrong price on purpose
         );
