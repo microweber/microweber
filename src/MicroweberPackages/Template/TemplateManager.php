@@ -26,6 +26,8 @@ use MicroweberPackages\Template\Adapters\TemplateFonts;
 use MicroweberPackages\Template\Adapters\TemplateIconFonts;
 use MicroweberPackages\Template\Adapters\TemplateLiveEditCss;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
+use MicroweberPackages\Template\Managers\ScriptStyleManager;
+use MicroweberPackages\Template\Managers\TemplateMetaTagManager;
 
 
 class TemplateManager
@@ -38,12 +40,45 @@ class TemplateManager
      * @var
      */
     public $app;
+
+    /**
+     * @var ScriptStyleManager
+     */
+    protected $scriptStyleManager;
+
+    /**
+     * @var TemplateMetaTagManager
+     */
+    protected $metaTagManager;
+
+    /**
+     * @deprecated Use $scriptStyleManager instead
+     */
     public $head = array();
+
+    /**
+     * @deprecated Use $scriptStyleManager instead
+     */
     public $head_callable = array();
+
+    /**
+     * @deprecated Use $scriptStyleManager instead
+     */
     public $foot = array();
+
+    /**
+     * @deprecated Use $scriptStyleManager instead
+     */
     public $foot_callable = array();
 
+    /**
+     * @deprecated Use $metaTagManager instead
+     */
     public $meta_tags = array();
+
+    /**
+     * @deprecated Use $metaTagManager instead
+     */
     public $html_opening_tag = array();
 
     /**
@@ -106,6 +141,10 @@ class TemplateManager
         $this->setCustomCssAdapter(new TemplateCustomCss());
         $this->setLiveEditCssAdapter(new TemplateLiveEditCss());
         $this->setIconFontsAdapter(new TemplateIconFonts());
+
+        // Initialize new manager classes for SRP
+        $this->scriptStyleManager = new ScriptStyleManager();
+        $this->metaTagManager = new TemplateMetaTagManager();
     }
 
     public function setIconFontsAdapter($adapter)
@@ -266,19 +305,21 @@ class TemplateManager
     }
 
     /**
-     * @deprecated
+     * @deprecated Use metaTagManager instead
      */
     public function meta($name, $value = false)
     {
         $this->meta_tags[$name] = $value;
+        $this->metaTagManager->setMetaTag($name, $value);
     }
 
     /**
-     * @deprecated
+     * @deprecated Use metaTagManager instead
      */
     public function html_opening_tag($name, $value = false)
     {
         $this->html_opening_tag[$name] = $value;
+        $this->metaTagManager->setHtmlAttribute($name, $value);
     }
 
     public function folder_name()
@@ -538,188 +579,73 @@ class TemplateManager
 
     /**
      * @internal
+     * @deprecated Use scriptStyleManager->admin_head() instead
      */
     public function admin_head($script_src)
     {
-        static $mw_template_headers;
-        if ($mw_template_headers == null) {
-            $mw_template_headers = array();
-        }
-
-        if (is_string($script_src)) {
-            if (!in_array($script_src, $mw_template_headers)) {
-                $mw_template_headers[] = $script_src;
-
-                return $mw_template_headers;
-            }
-        } else {
-            if (is_bool($script_src)) {
-                //   return $mw_template_headers;
-                $src = '';
-                if (is_array($mw_template_headers)) {
-                    foreach ($mw_template_headers as $header) {
-                        $ext = get_file_extension($header);
-                        switch (strtolower($ext)) {
-
-                            case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
-                                break;
-
-                            case 'js':
-                                $src
-                                    .= '<script src="' . $header . '"></script>' . "\n";
-                                break;
-
-                            default:
-                                $src .= $header . "\n";
-                                break;
-                        }
-                    }
-                }
-
-                return $src;
-            }
-        }
+        return $this->scriptStyleManager->admin_head($script_src);
     }
 
     /**
      * @internal
+     * @deprecated Use scriptStyleManager->head() instead
      */
     public function head($script_src)
     {
-        if ($this->head_callable == null) {
-            $this->head_callable = array();
-        }
+        // Maintain backward compatibility with public properties
+        $result = $this->scriptStyleManager->head($script_src);
 
         if (is_string($script_src)) {
             if (!in_array($script_src, $this->head)) {
                 $this->head[] = $script_src;
-
-                // return $this->head;
             }
-            return $script_src;
-        } else {
-            if (is_bool($script_src)) {
-                //   return $this->head;
-                $src = '';
-
-                if (is_array($this->head)) {
-                    foreach ($this->head as $header) {
-                        $ext = get_file_extension($header);
-                        switch (strtolower($ext)) {
-
-                            case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
-                                break;
-
-                            case 'js':
-                                $src
-                                    .= '<script src="' . $header . '"></script>' . "\n";
-                                break;
-
-                            default:
-                                $src .= $header . "\n";
-                                break;
-                        }
-                    }
-                }
-
-                return $src;
-            }
-
-            elseif (is_callable($script_src)) {
-                if (!in_array($script_src, $this->head_callable)) {
-                    $this->head_callable[] = $script_src;
-
-
-                    // return $this->head_callable;
-                }
-                return '';
+            if (!in_array($script_src, $this->head_callable)) {
+                $this->head_callable = $this->scriptStyleManager->getHeadCallable();
             }
         }
+
+        return $result;
     }
 
     /**
      * @internal
+     * @deprecated Use scriptStyleManager->head_callback() instead
      */
     public function head_callback($data = false)
     {
-        $data = array();
-        if (!empty($this->head_callable)) {
-            foreach ($this->head_callable as $callback) {
-                $data[] = call_user_func($callback, $data);
-            }
-        }
-
-        return $data;
+        return $this->scriptStyleManager->head_callback($data);
     }
 
     /**
      * @internal
+     * @deprecated Use scriptStyleManager->foot() instead
      */
     public function foot($script_src)
     {
-        if ($this->foot_callable == null) {
-            $this->foot_callable = array();
-        }
+        // Maintain backward compatibility with public properties
+        $result = $this->scriptStyleManager->foot($script_src);
 
         if (is_string($script_src)) {
             if (!in_array($script_src, $this->foot)) {
                 $this->foot[] = $script_src;
-
-                //  return $this->foot;
             }
-            return $script_src;
-        } else {
-            if (is_bool($script_src)) {
-                $src = '';
-                if (is_array($this->foot)) {
-                    foreach ($this->foot as $footer) {
-                        $ext = get_file_extension($footer);
-                        switch (strtolower($ext)) {
-
-                            case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $footer . '" type="text/css" media="all">' . "\n";
-                                break;
-
-                            case 'js':
-                                $src
-                                    .= '<script src="' . $footer . '"></script>' . "\n";
-                                break;
-
-                            default:
-                                $src .= $footer . "\n";
-                                break;
-                        }
-                    }
-                }
-
-                return $src;
-            } elseif (is_callable($script_src)) {
-                if (!in_array($script_src, $this->foot_callable)) {
-                    $this->foot_callable[] = $script_src;
-                    return '';
-                    // return $script_src;
-                    // return $this->foot_callable;
-                }
+            if (!in_array($script_src, $this->foot_callable)) {
+                $this->foot_callable = $this->scriptStyleManager->getFootCallable();
             }
         }
+
+        return $result;
     }
 
     /**
      * @internal
+     * @deprecated Use scriptStyleManager->foot_callback() instead
      */
     public function foot_callback($data = false)
     {
-        $data = array();
-        if (!empty($this->foot_callable)) {
-            foreach ($this->foot_callable as $callback) {
-                $data[] = call_user_func($callback, $data);
-            }
-        }
-
-        return $data;
+        return $this->scriptStyleManager->foot_callback($data);
     }
+
 
 //    public function get_layout_for_laravel_template($page = array())
 //    {
@@ -770,30 +696,20 @@ class TemplateManager
 
     public function process_meta($layout)
     {
-        $count = 1;
-        $replace = '';
+        // Delegate to the new meta tag manager
+        // Also maintain backward compatibility with legacy public properties
         if (!empty($this->html_opening_tag)) {
             foreach ($this->html_opening_tag as $key => $item) {
-                if (is_string($item)) {
-                    $replace .= $key . '="' . $item . '" ';
-                }
+                $this->metaTagManager->setHtmlAttribute($key, $item);
             }
         }
-
-        $layout = str_replace('<html ', '<html ' . $replace, $layout, $count);
-        $count = 1;
-        $replace = '';
         if (!empty($this->meta_tags)) {
             foreach ($this->meta_tags as $key => $item) {
-                if (is_string($item)) {
-                    $replace .= '<meta name="' . $key . '" content="' . $item . '">' . "\n";
-                }
+                $this->metaTagManager->setMetaTag($key, $item);
             }
         }
-        $count = 1;
-        $layout = str_replace('<head>', '<head>' . $replace, $layout, $count);
 
-        return $layout;
+        return $this->metaTagManager->render($layout);
     }
 
     /**
