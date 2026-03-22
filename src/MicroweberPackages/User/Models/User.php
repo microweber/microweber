@@ -42,15 +42,15 @@ use carbon\carbon;
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract
 {
     use HasFactory,
-        Notifiable,
-        TwoFactorAuthenticatable,
-        // HasRoles,
-        HasApiTokens,
-        Filterable,
-        HasSearchableTrait,
-        MustVerifyEmailTrait,
-        CanResetPassword,
-        CacheableQueryBuilderTrait;
+    Notifiable,
+    TwoFactorAuthenticatable,
+    \Spatie\Permission\Traits\HasRoles,
+    HasApiTokens,
+    Filterable,
+    HasSearchableTrait,
+    MustVerifyEmailTrait,
+    CanResetPassword,
+    CacheableQueryBuilderTrait;
 
     protected static function newFactory()
     {
