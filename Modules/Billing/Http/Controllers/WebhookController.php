@@ -48,7 +48,7 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
 
         // Process webhook immediately for backward compatibility
         $method = 'handle' . Str::studly(str_replace('.', '_', $payload['type']));
-        
+
         WebhookReceived::dispatch($payload);
 
         if (method_exists($this, $method)) {
@@ -111,7 +111,7 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
         }
 
         $user = $this->getUserByStripeId($customerId);
-        
+
         if ($user) {
             Log::info('Invoice paid webhook received', [
                 'customer' => $payload['data']['object']['customer'],
@@ -124,7 +124,7 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
                 $subscription = $user->subscriptions()
                     ->where('stripe_id', $payload['data']['object']['subscription'])
                     ->first();
-                
+
                 if ($subscription) {
                     $subscription->stripe_status = 'active';
                     $subscription->save();
@@ -152,7 +152,7 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
         // Additional custom handling
         $customerId = $payload['data']['object']['customer'] ?? null;
         $user = $customerId ? $this->getUserByStripeId($customerId) : null;
-        
+
         if ($user) {
             Log::info('Customer subscription updated webhook received', [
                 'customer' => $payload['data']['object']['customer'],
@@ -162,5 +162,153 @@ class WebhookController extends \Laravel\Cashier\Http\Controllers\WebhookControl
         }
 
         return $response ?? $this->successMethod();
+    }
+
+    /**
+     * Handle customer subscription deleted event.
+     *
+     * @param array $payload
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function handleCustomerSubscriptionDeleted(array $payload)
+    {
+        $customerId = $payload['data']['object']['customer'] ?? null;
+        $subscriptionId = $payload['data']['object']['id'] ?? null;
+
+        if ($customerId) {
+            $user = $this->getUserByStripeId($customerId);
+
+            if ($user && $subscriptionId) {
+                Log::info('Customer subscription deleted webhook received', [
+                    'customer' => $customerId,
+                    'subscription_id' => $subscriptionId,
+                ]);
+
+                // Update local subscription status
+                $subscription = $user->subscriptions()
+                    ->where('stripe_id', $subscriptionId)
+                    ->first();
+
+                if ($subscription) {
+                    $subscription->update([
+                        'stripe_status' => 'canceled',
+                        'ends_at' => now(),
+                    ]);
+
+                    Log::info('Subscription marked as canceled', [
+                        'subscription_id' => $subscription->id,
+                        'stripe_id' => $subscriptionId,
+                    ]);
+                }
+            }
+        }
+
+        return $this->successMethod();
+    }
+
+    /**
+     * Handle invoice payment failed event.
+     *
+     * @param array $payload
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function handleInvoicePaymentFailed(array $payload)
+    {
+        $customerId = $payload['data']['object']['customer'] ?? null;
+        $subscriptionId = $payload['data']['object']['subscription'] ?? null;
+
+        if ($customerId) {
+            $user = $this->getUserByStripeId($customerId);
+
+            if ($user) {
+                Log::info('Invoice payment failed webhook received', [
+                    'customer' => $customerId,
+                    'invoice_id' => $payload['data']['object']['id'] ?? null,
+                    'subscription_id' => $subscriptionId,
+                ]);
+
+                // Update subscription status to past_due if applicable
+                if ($subscriptionId) {
+                    $subscription = $user->subscriptions()
+                        ->where('stripe_id', $subscriptionId)
+                        ->first();
+
+                    if ($subscription) {
+                        // Check if this is the final attempt
+                        $nextPaymentAttempt = $payload['data']['object']['next_payment_attempt'] ?? null;
+                        if ($nextPaymentAttempt === null) {
+                            // Final failed attempt
+                            $subscription->update(['stripe_status' => 'unpaid']);
+                        } else {
+                            $subscription->update(['stripe_status' => 'past_due']);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->successMethod();
+    }
+
+    /**
+     * Handle invoice created event.
+     *
+     * @param array $payload
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function handleInvoiceCreated(array $payload)
+    {
+        $customerId = $payload['data']['object']['customer'] ?? null;
+        $subscriptionId = $payload['data']['object']['subscription'] ?? null;
+
+        if ($customerId) {
+            Log::info('Invoice created webhook received', [
+                'customer' => $customerId,
+                'invoice_id' => $payload['data']['object']['id'] ?? null,
+                'subscription_id' => $subscriptionId,
+            ]);
+        }
+
+        return $this->successMethod();
+    }
+
+    /**
+     * Handle checkout session completed event.
+     *
+     * @param array $payload
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function handleCheckoutSessionCompleted(array $payload)
+    {
+        $session = $payload['data']['object'];
+        $customerId = $session['customer'] ?? null;
+        $subscriptionId = $session['subscription'] ?? null;
+
+        if ($customerId && $subscriptionId) {
+            $user = $this->getUserByStripeId($customerId);
+
+            if ($user) {
+                Log::info('Checkout session completed webhook received', [
+                    'customer' => $customerId,
+                    'session_id' => $session['id'] ?? null,
+                    'subscription_id' => $subscriptionId,
+                ]);
+
+                // Update subscription with the new Stripe subscription ID
+                // The actual subscription creation is handled by Laravel Cashier
+                $subscription = $user->subscriptions()
+                    ->where('stripe_id', $subscriptionId)
+                    ->first();
+
+                if ($subscription) {
+                    // Mark as active if payment was successful
+                    if ($session['payment_status'] === 'paid') {
+                        $subscription->update(['stripe_status' => 'active']);
+                    }
+                }
+            }
+        }
+
+        return $this->successMethod();
     }
 }

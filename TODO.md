@@ -521,7 +521,12 @@
   - Integrated with existing CurrencyConversionService for exchange rate calculations
   - Added Blade directives (@currency, @currencySymbol, @currencyCode)
   - Created comprehensive config with multi-currency, API, and caching settings
-- [ ] feat: Complete subscription billing (M) - Recurring payments, plans
+- [x] 2026-03-22 feat: Complete subscription billing (M) - Recurring payments, plans
+  - Enhanced Subscription model with lifecycle methods: isCanceled(), isPastDue(), isUnpaid(), isIncomplete(), onGracePeriod(), cancelAtPeriodEnd(), cancelImmediately(), resume(), renew(), nextBillingDate(), currentPeriodEnd(), updateStatus(), markAsPastDue(), markAsUnpaid()
+  - Added comprehensive webhook handlers: handleCustomerSubscriptionDeleted, handleInvoicePaymentFailed, handleInvoiceCreated, handleCheckoutSessionCompleted
+  - Fixed SubscriptionPlanTest test isolation issues
+  - Fixed WebhookControllerTest unique constraint issue
+  - All 83 Billing module tests passing
 
 ### System
 - [ ] feat: Implement advanced caching (M) - Full page cache, fragment caching

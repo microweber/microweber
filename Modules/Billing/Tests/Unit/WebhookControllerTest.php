@@ -365,17 +365,18 @@ class WebhookControllerTest extends TestCase
     #[Test]
     public function webhook_log_factory_creates_valid_record()
     {
+        $uniqueEventId = 'evt_factory_test_' . time() . '_' . uniqid();
         $webhookLog = WebhookLog::factory()->create([
             'provider' => 'stripe',
             'event_type' => 'invoice.paid',
-            'event_id' => 'evt_factory_test',
+            'event_id' => $uniqueEventId,
         ]);
 
         $this->assertDatabaseHas('webhook_logs', [
             'id' => $webhookLog->id,
             'provider' => 'stripe',
             'event_type' => 'invoice.paid',
-            'event_id' => 'evt_factory_test',
+            'event_id' => $uniqueEventId,
         ]);
     }
 

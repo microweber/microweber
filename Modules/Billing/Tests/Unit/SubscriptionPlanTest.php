@@ -10,10 +10,18 @@ use Modules\Billing\Models\SubscriptionPlanGroup;
 
 class SubscriptionPlanTest extends BillingTestCase
 {
-
     #[Test]
+    public function it_can_create_subscription_plan_with_features(): void {
+        // First clean up any existing test data
+        \Modules\Billing\Models\SubscriptionPlanFeature::query()
+            ->whereIn('subscription_plan_id', function($query) {
+                $query->select('id')
+                    ->from('subscription_plans')
+                    ->where('name', 'Test Plan');
+            })->delete();
+        SubscriptionPlan::where('name', 'Test Plan')->delete();
+        SubscriptionPlanGroup::where('name', 'Test Group')->delete();
 
-    public function it_it_can_create_subscription_plan(): void {
         $group = SubscriptionPlanGroup::create([
             'name' => 'Test Group',
             'description' => 'Test description'
@@ -24,7 +32,7 @@ class SubscriptionPlanTest extends BillingTestCase
             'name' => 'Test Plan',
             'price' => 9.99,
             'billing_interval' => 'monthly',
-         ]);
+        ]);
 
         $plan->features()->create([
             'key' => 'feature1',
@@ -40,12 +48,12 @@ class SubscriptionPlanTest extends BillingTestCase
             'price' => 9.99
         ]);
 
-        $this->assertEquals(2, count($plan->features));
+        // Get fresh count from database using fresh query
+        $this->assertEquals(2, $plan->features()->count());
     }
 
     #[Test]
-
-    public function it_it_can_calculate_yearly_price(): void {
+    public function it_can_calculate_yearly_price(): void {
         $plan = SubscriptionPlan::create([
             'name' => 'Yearly Test',
             'price' => 100,
