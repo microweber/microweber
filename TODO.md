@@ -498,7 +498,14 @@
   - Added inventory fields to content and product_variants_combinations tables:
     - low_stock_threshold, reorder_point, reorder_quantity, last_stock_check
   - Created comprehensive test suite: 31 tests, 132 assertions (all passing)
-- [ ] feat: Add advanced pricing rules (S) - Bulk pricing, customer-specific
+- [x] 2026-03-22 feat: Add advanced pricing rules (S) - Bulk pricing, customer-specific
+  - Migrated product pricing tables (product_pricing_rules, product_customer_pricing)
+  - Created ProductPricingRule model with 32 comprehensive tests covering all rule types and calculations
+  - Created ProductCustomerPricing model with 15 tests for customer-specific pricing
+  - Created AdvancedPricingService with 26 tests for price calculation logic
+  - Supports bulk quantity discounts, bulk amount discounts, customer-specific pricing, and customer group pricing
+  - Features: tier-based pricing, rule stacking, priority-based application, date validity, usage limits
+  - All 73 pricing rule tests passing (230 assertions)
 - [ ] feat: Support multi-currency (M) - Currency switching, exchange rates
 - [ ] feat: Complete subscription billing (M) - Recurring payments, plans
 
