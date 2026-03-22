@@ -26,11 +26,15 @@
         </testsuite>
 
 
-        <testsuite name="CoreBrowserTests">
-            <directory>src/MicroweberPackages/*/Tests/Browser</directory>
-            <exclude>./src/MicroweberPackages/*/</exclude>
+<testsuite name="CoreBrowserTests">
+    <directory>src/MicroweberPackages/*/Tests/Browser</directory>
+    <exclude>./src/MicroweberPackages/*/</exclude>
 
-        </testsuite>
+  </testsuite>
+
+  <testsuite name="CrossBrowser">
+    <directory>tests/Browser/CrossBrowser</directory>
+  </testsuite>
 
         <testsuite name="ModulesBrowserTests">
             <directory>Modules/*/Tests/Browser</directory>
