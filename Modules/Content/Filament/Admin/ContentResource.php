@@ -721,8 +721,8 @@ class ContentResource extends Resource
                                         $prompt = "Generate SEO metadata for the following content. Include a meta title (max 60 characters), meta description (max 160 characters), and relevant keywords separated by commas:\n\n{$contentToAnalyze}";
 
                                         /*
-                                        * @var \Modules\Ai\Agents\BaseAgent $agent
-                                        */
+                                         * @var \Modules\Ai\Agents\BaseAgent $agent
+                                         */
                                         $agent = app('ai.agents')->agent('base');
 
                                         $class = new class {
@@ -738,7 +738,7 @@ class ContentResource extends Resource
 
                                         if ($resp) {
                                             $set('content_meta_title', $resp->meta_title);
-                                            $set('description', $resp->meta_description);
+                                            $set('content_meta_description', $resp->meta_description);
                                             $set('content_meta_keywords', $resp->meta_keywords);
                                         }
                                     }),
@@ -747,29 +747,171 @@ class ContentResource extends Resource
                         ->visible(app()->has('ai'))
                         ->columnSpanFull(),
 
+                    // Basic SEO Fields
                     Forms\Components\TextInput::make('content_meta_title')
                         ->label('Meta Title')
-                        ->helperText('Describe for what is this page about in short title')
+                        ->helperText('Describe for what is this page about in short title. Max 60 characters recommended.')
+                        ->maxLength(500)
                         ->hintAction(
                             TranslateFieldAction::make('content_meta_title')->label('')
                         )
                         ->columnSpanFull(),
 
-                    Forms\Components\Textarea::make('description')
+                    Forms\Components\Textarea::make('content_meta_description')
                         ->label('Meta Description')
-                        ->helperText('Please provide a brief summary of this web page')
+                        ->helperText('Provide a brief summary of this web page. Max 160 characters recommended.')
+                        ->maxLength(1000)
+                        ->rows(3)
                         ->hintAction(
-                            TranslateFieldAction::make('description')->label('')
+                            TranslateFieldAction::make('content_meta_description')->label('')
                         )
                         ->columnSpanFull(),
 
                     Forms\Components\TextInput::make('content_meta_keywords')
                         ->label('Meta Keywords')
-                        ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
+                        ->helperText('Separate keywords with a comma and space. Example: Blog, Online News, Phones for sale')
+                        ->maxLength(500)
                         ->hintAction(
                             TranslateFieldAction::make('content_meta_keywords')->label('')
                         )
                         ->columnSpanFull(),
+
+                    // Canonical URL
+                    Forms\Components\TextInput::make('canonical_url')
+                        ->label('Canonical URL')
+                        ->helperText('Specify the canonical URL if this content has duplicate versions. Leave empty to use the default URL.')
+                        ->maxLength(1000)
+                        ->columnSpanFull(),
+
+                    // Robots Meta
+                    Forms\Components\Select::make('robots_meta')
+                        ->label('Robots Meta')
+                        ->helperText('Control search engine indexing behavior')
+                        ->options([
+                            'index, follow' => 'Index, Follow',
+                            'index, nofollow' => 'Index, No Follow',
+                            'noindex, follow' => 'No Index, Follow',
+                            'noindex, nofollow' => 'No Index, No Follow',
+                        ])
+                        ->default('index, follow')
+                        ->columnSpanFull(),
+
+                    // Open Graph Fields
+                    Schemas\Components\Section::make('Open Graph (Facebook)')
+                        ->description('Social media sharing settings for Facebook and other platforms')
+                        ->collapsible()
+                        ->collapsed()
+                        ->schema([
+                            Forms\Components\TextInput::make('og_title')
+                                ->label('OG Title')
+                                ->helperText('The title when shared on Facebook. Defaults to Meta Title if empty.')
+                                ->maxLength(500)
+                                ->hintAction(
+                                    TranslateFieldAction::make('og_title')->label('')
+                                )
+                                ->columnSpanFull(),
+
+                            Forms\Components\Textarea::make('og_description')
+                                ->label('OG Description')
+                                ->helperText('The description when shared on Facebook. Defaults to Meta Description if empty.')
+                                ->maxLength(1000)
+                                ->rows(2)
+                                ->hintAction(
+                                    TranslateFieldAction::make('og_description')->label('')
+                                )
+                                ->columnSpanFull(),
+
+                            Forms\Components\TextInput::make('og_type')
+                                ->label('OG Type')
+                                ->helperText('Type of content (website, article, product)')
+                                ->default('website')
+                                ->maxLength(50),
+
+                            Forms\Components\TextInput::make('og_image')
+                                ->label('OG Image URL')
+                                ->helperText('Full URL to image shown when shared on Facebook')
+                                ->maxLength(1000)
+                                ->columnSpanFull(),
+                        ])->columnSpanFull(),
+
+                    // Twitter Card Fields
+                    Schemas\Components\Section::make('Twitter Card')
+                        ->description('Twitter sharing settings')
+                        ->collapsible()
+                        ->collapsed()
+                        ->schema([
+                            Forms\Components\Select::make('twitter_card')
+                                ->label('Twitter Card Type')
+                                ->helperText('Type of Twitter card to display')
+                                ->options([
+                                    'summary' => 'Summary',
+                                    'summary_large_image' => 'Summary with Large Image',
+                                    'app' => 'App Card',
+                                    'player' => 'Player Card',
+                                ])
+                                ->default('summary_large_image'),
+
+                            Forms\Components\TextInput::make('twitter_title')
+                                ->label('Twitter Title')
+                                ->helperText('The title when shared on Twitter. Defaults to Meta Title if empty.')
+                                ->maxLength(500)
+                                ->hintAction(
+                                    TranslateFieldAction::make('twitter_title')->label('')
+                                )
+                                ->columnSpanFull(),
+
+                            Forms\Components\Textarea::make('twitter_description')
+                                ->label('Twitter Description')
+                                ->helperText('The description when shared on Twitter. Defaults to Meta Description if empty.')
+                                ->maxLength(1000)
+                                ->rows(2)
+                                ->hintAction(
+                                    TranslateFieldAction::make('twitter_description')->label('')
+                                )
+                                ->columnSpanFull(),
+
+                            Forms\Components\TextInput::make('twitter_image')
+                                ->label('Twitter Image URL')
+                                ->helperText('Full URL to image shown when shared on Twitter')
+                                ->maxLength(1000)
+                                ->columnSpanFull(),
+                        ])->columnSpanFull(),
+
+                    // Sitemap Settings
+                    Schemas\Components\Section::make('Sitemap Settings')
+                        ->description('Configure how this content appears in the XML sitemap')
+                        ->collapsible()
+                        ->collapsed()
+                        ->schema([
+                            Forms\Components\Toggle::make('exclude_from_sitemap')
+                                ->label('Exclude from Sitemap')
+                                ->helperText('Prevent this content from being included in the XML sitemap')
+                                ->default(false)
+                                ->columnSpanFull(),
+
+                            Forms\Components\TextInput::make('sitemap_priority')
+                                ->label('Sitemap Priority')
+                                ->helperText('Priority from 0.0 to 1.0. Default is 0.5.')
+                                ->numeric()
+                                ->minValue(0)
+                                ->maxValue(1)
+                                ->step(0.1)
+                                ->default(0.5),
+
+                            Forms\Components\Select::make('sitemap_changefreq')
+                                ->label('Change Frequency')
+                                ->helperText('How frequently the page is likely to change')
+                                ->options([
+                                    'always' => 'Always',
+                                    'hourly' => 'Hourly',
+                                    'daily' => 'Daily',
+                                    'weekly' => 'Weekly',
+                                    'monthly' => 'Monthly',
+                                    'yearly' => 'Yearly',
+                                    'never' => 'Never',
+                                ])
+                                ->placeholder('Auto-detect based on content type'),
+                        ])->columnSpanFull(),
                 ])
         ];
     }

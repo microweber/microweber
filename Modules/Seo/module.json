@@ -1,0 +1,11 @@
+{
+    "name": "Seo",
+    "alias": "seo",
+    "description": "SEO Metadata Management module for managing meta tags, Open Graph, Twitter Cards, and sitemap settings",
+    "keywords": ["seo", "meta tags", "open graph", "twitter cards", "sitemap"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Seo\\Providers\\SeoServiceProvider"
+    ],
+    "files": []
+}

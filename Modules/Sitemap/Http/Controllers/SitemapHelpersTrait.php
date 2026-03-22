@@ -111,6 +111,8 @@ trait SitemapHelpersTrait
                 'id'=>$cat->id,
                 'original_link' => $cat->link(),
                 'updated_at' => $cat->updated_at->format('Y-m-d H:i:s'),
+                'priority' => '0.6',
+                'changefreq' => 'weekly',
             ];
 
             $categoriesLinksData[] = $tmp;

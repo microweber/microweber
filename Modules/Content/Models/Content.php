@@ -77,7 +77,7 @@ class Content extends Model
 
     public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories', 'custom_fields', 'custom_fields_values'];
 
-    public $translatable = ['title', 'url', 'description', 'content', 'content_body', 'content_meta_title', 'content_meta_keywords'];
+    public $translatable = ['title', 'url', 'description', 'content', 'content_body', 'content_meta_title', 'content_meta_keywords', 'content_meta_description', 'og_title', 'og_description', 'twitter_title', 'twitter_description'];
 
 
     protected $attributes = [
@@ -94,6 +94,11 @@ class Content extends Model
         'url',
         'content_meta_title',
         'content_meta_keywords',
+        'content_meta_description',
+        'og_title',
+        'og_description',
+        'twitter_title',
+        'twitter_description',
     ];
     protected $searchable = [
         'id',
@@ -115,6 +120,12 @@ class Content extends Model
         'url',
         'content_meta_title',
         'content_meta_keywords',
+        'content_meta_description',
+        'og_title',
+        'og_description',
+        'twitter_title',
+        'twitter_description',
+        'robots_meta',
     ];
 
     protected $fillable = [
@@ -132,6 +143,20 @@ class Content extends Model
         "description",
         "content_body",
         "content_meta_keywords",
+        "content_meta_description",
+        "og_title",
+        "og_description",
+        "og_image",
+        "og_type",
+        "twitter_title",
+        "twitter_description",
+        "twitter_image",
+        "twitter_card",
+        "canonical_url",
+        "robots_meta",
+        "sitemap_priority",
+        "sitemap_changefreq",
+        "exclude_from_sitemap",
         "original_link",
         "require_login",
         "created_by",
