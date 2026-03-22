@@ -23,7 +23,12 @@ class NewsletterCampaignFactory extends Factory
             'scheduled_at' => null,
             'sent_at' => null,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'campaign_type' => NewsletterCampaign::CAMPAIGN_TYPE_BROADCAST,
+            'trigger_event' => null,
+            'delay_minutes' => 0,
+            'is_active' => true,
+            'trigger_conditions' => null,
         ];
     }
 

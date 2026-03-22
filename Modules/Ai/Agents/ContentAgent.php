@@ -111,5 +111,10 @@ class ContentAgent extends BaseAgent
         // Add AI Image Generation tool for creating visual content
         $this->addTool(new \Modules\Ai\Tools\GenerateImageTool($this->dependencies));
 
+        // Add content generation AI tools for automated SEO and descriptions
+        $this->addTool(new \Modules\Ai\Tools\GenerateDescriptionTool($this->dependencies));
+        $this->addTool(new \Modules\Ai\Tools\GenerateSeoMetadataTool($this->dependencies));
+        $this->addTool(new \Modules\Ai\Tools\ContentImprovementTool($this->dependencies));
+
     }
 }

@@ -26,7 +26,22 @@ class NewsletterCampaign extends Model
     public const DELIVERY_TYPE_SEND_NOW = 'send_now';
     public const DELIVERY_TYPE_SCHEDULE = 'schedule';
 
+    public const CAMPAIGN_TYPE_BROADCAST = 'broadcast';
+    public const CAMPAIGN_TYPE_TRIGGERED = 'triggered';
+    public const CAMPAIGN_TYPE_AUTOMATION = 'automation';
+
+    public const TRIGGER_CART_ABANDONED = 'cart_abandoned';
+    public const TRIGGER_ORDER_PLACED = 'order_placed';
+    public const TRIGGER_ORDER_PAID = 'order_paid';
+    public const TRIGGER_USER_REGISTERED = 'user_registered';
+    public const TRIGGER_USER_SUBSCRIBED = 'user_subscribed';
+
     public $fillable = [
+        'campaign_type',
+        'trigger_event',
+        'delay_minutes',
+        'trigger_conditions',
+        'is_active',
         'sender_account_id',
         'email_template_id',
         'list_id',
@@ -51,6 +66,9 @@ class NewsletterCampaign extends Model
 
     public $casts = [
         'email_attached_files' => 'array',
+        'trigger_conditions' => 'array',
+        'is_active' => 'boolean',
+        'delay_minutes' => 'integer',
     ];
 
     protected static function newFactory()

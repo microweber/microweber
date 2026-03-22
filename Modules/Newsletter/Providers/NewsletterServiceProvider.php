@@ -19,6 +19,9 @@ use Modules\Newsletter\Livewire\Admin\Filament\NewsletterImportSubscribersAction
 use Modules\Newsletter\Livewire\UnsubscribePage;
 use Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use Modules\Newsletter\Console\Commands\ProcessCampaignsPerformanceTest;
+use Modules\Newsletter\Console\Commands\ProcessAbandonedCarts;
+use Modules\Newsletter\Console\Commands\ProcessAutomationQueue;
+use Modules\Newsletter\Listeners\NewsletterAutomationSubscriber;
 use Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 
 
@@ -74,16 +77,28 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         // Register Microweber module
         Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
         $this->commands(ProcessCampaigns::class);
+        $this->commands(ProcessAbandonedCarts::class);
+        $this->commands(ProcessAutomationQueue::class);
 
+        // Register event subscriber for automated campaigns
+        Event::subscribe(NewsletterAutomationSubscriber::class);
+
+        // Schedule campaign processing
         Schedule::command('newsletter:process-campaigns')
             ->everyMinute()
             ->withoutOverlapping();
 
+        // Schedule abandoned cart processing (every 15 minutes)
+        Schedule::command('newsletter:process-abandoned-carts')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping();
 
-
+        // Schedule automation queue processing (every minute)
+        Schedule::command('newsletter:process-automation-queue')
+            ->everyMinute()
+            ->withoutOverlapping();
 
         if (is_cli()) {
-
             $this->commands(ProcessCampaignsPerformanceTest::class);
         }
     }
