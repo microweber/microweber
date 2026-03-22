@@ -506,7 +506,21 @@
   - Supports bulk quantity discounts, bulk amount discounts, customer-specific pricing, and customer group pricing
   - Features: tier-based pricing, rule stacking, priority-based application, date validity, usage limits
   - All 73 pricing rule tests passing (230 assertions)
-- [ ] feat: Support multi-currency (M) - Currency switching, exchange rates
+- [x] 2026-03-22 feat: Support multi-currency (M) - Currency switching, exchange rates
+  - Created CurrencyManager service for currency switching and session management
+  - Implemented currency switching with session persistence and cart updates
+  - Created CurrencySwitcher Livewire component with dropdown UI
+  - Implemented automatic currency detection from browser locale
+  - Created ExchangeRateResource Filament admin UI for managing exchange rates
+  - Created CurrencyResource Filament admin UI for managing currencies
+  - Added migration for multi-currency columns (is_active, is_default, position)
+  - Created CurrencyMiddleware for auto-detection and request handling
+  - Implemented comprehensive helper functions (currency_format, currency_convert, etc.)
+  - Created MultiCurrencyTest with 17 test cases covering all functionality
+  - Tests passing: currency creation, exchange rates, conversion, session management
+  - Integrated with existing CurrencyConversionService for exchange rate calculations
+  - Added Blade directives (@currency, @currencySymbol, @currencyCode)
+  - Created comprehensive config with multi-currency, API, and caching settings
 - [ ] feat: Complete subscription billing (M) - Recurring payments, plans
 
 ### System
