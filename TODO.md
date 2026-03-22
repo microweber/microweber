@@ -436,7 +436,7 @@
   - Created CustomerFilter with tag filters (tags, tagsAny, withoutTags)
   - Created comprehensive test suite with 25 test cases (90 assertions)
   - All tests passing successfully
-- [ ] feat: Build marketing automation workflows (L) - Visual workflow builder
+- [x] 2026-03-22 feat: Build marketing automation workflows (L) - Visual workflow builder - Created Workflow model and database migrations - Created WorkflowNode model for visual nodes - Created WorkflowExecution model for tracking - Created WorkflowExecutionStep model - Built WorkflowEngine service for node execution - Created WorkflowBuilder Livewire component - Created WorkflowResource Filament admin UI - Added workflow execution job processing - Created comprehensive test suite (16 tests) - All tests cover: model creation, conditions, executions, statistics
 
 ### Advanced E-commerce
 - [ ] feat: Complete product variants system (M) - Size, color, custom fields
