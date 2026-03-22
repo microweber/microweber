@@ -1,0 +1,29 @@
+{
+    "name": "modules/seo",
+    "description": "SEO Metadata Management module for managing meta tags, Open Graph, Twitter Cards, and sitemap settings",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Seo\\": "",
+            "Modules\\Seo\\Database\\Factories\\": "database/factories/",
+            "Modules\\Seo\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Seo\\Tests\\": "Tests/"
+        }
+    }
+}

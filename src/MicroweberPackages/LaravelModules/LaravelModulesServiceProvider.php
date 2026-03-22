@@ -8,6 +8,7 @@ use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
+use MicroweberPackages\LaravelModules\Filament\Resources\ModuleDependencyResource;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Providers\ModulesConsoleServiceProvider;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
@@ -92,6 +93,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //            return new Laravel\LaravelFileRepository($app, $path);
 //        });
         FilamentRegistry::registerResource(ModuleResource::class);
+FilamentRegistry::registerResource(ModuleDependencyResource::class);
 
         $this->app->singleton(LaravelModulesCacheRepositoryContract::class, LaravelModulesCacheRepository::class);
 
