@@ -529,8 +529,73 @@
   - All 83 Billing module tests passing
 
 ### System
-- [ ] feat: Implement advanced caching (M) - Full page cache, fragment caching
-- [ ] feat: Create backup and restore system (M) - Automated backups, restore UI
+- [x] 2026-03-22 feat: Implement advanced caching (M) - Full page cache, fragment caching
+- Created PageCacheService with full page caching support:
+  - Full page cache with tag-based invalidation
+  - Mobile/desktop separate caching
+  - User role-based caching (optional for logged-in users)
+  - Smart cache invalidation on content changes
+  - Cache exclusion patterns for admin/api/checkout URLs
+  - Cache warming and preloading functionality
+  - Statistics tracking (hits, misses, writes, deletes)
+  - Cache key generation with locale, mobile, auth flags
+  - Support for Redis, Memcached, and Array drivers
+- Created FragmentCacheService for partial content caching:
+  - Fragment caching with tag-based invalidation
+  - Remember pattern for cache-or-compute operations
+  - Helper methods for menus, modules, categories, products
+  - Active keys tracking for debugging
+  - Support for bulk invalidation by tags
+  - Touch functionality to extend TTL
+- Created PageCacheMiddleware for automatic page caching:
+  - Intercepts HTTP requests and serves from cache
+  - Automatic response caching for valid requests
+  - Configurable exclusions (POST, AJAX, authenticated)
+  - Cache headers for HTTP compliance
+  - Integration with existing FrontendController
+- Created FragmentCacheDirective for Blade templates:
+  - @fragment and @endfragment directives
+  - @cache and @endcache aliases
+  - @menuCache and @moduleCache helper directives
+  - Automatic cache key and tag generation
+- Created Console Commands:
+  - cache:warm - Pre-populate cache with URLs
+  - cache:clear-page - Clear page/fragment caches
+  - cache:stats - Display cache statistics
+- Created helper functions:
+  - page_cache(), fragment_cache() - Service accessors
+  - cache_fragment(), cache_menu(), cache_module() - Fragment helpers
+  - clear_page_cache(), clear_fragment_cache() - Invalidation helpers
+  - invalidate_content_cache() - Content-specific invalidation
+  - get_cache_stats() - Statistics retrieval
+  - is_page_cache_enabled(), is_fragment_cache_enabled() - Status checks
+- Added configuration files:
+  - config/page-cache.php - Page cache settings
+  - config/fragment-cache.php - Fragment cache settings
+- Added environment variables to .env.example:
+  - PAGE_CACHE_ENABLED, PAGE_CACHE_TTL, PAGE_CACHE_DRIVER
+  - PAGE_CACHE_LOGGED_IN, PAGE_CACHE_QUERY_PARAMS, PAGE_CACHE_MOBILE
+  - FRAGMENT_CACHE_ENABLED, FRAGMENT_CACHE_TTL, FRAGMENT_CACHE_DRIVER
+  - PAGE_CACHE_WARMING, PAGE_CACHE_WARMING_SCHEDULE
+- Created comprehensive test suite:
+  - PageCacheServiceTest with 20 test cases
+  - FragmentCacheServiceTest with 25 test cases
+  - Tests cover: enabled/disabled states, store/retrieve, clearing
+  - Tests cover: statistics, mobile detection, user authentication
+  - Tests cover: helper methods, cache warming, invalidation
+- Created documentation at docs/ADVANCED_CACHING.md
+- All tests passing, ready for Redis/Memcached deployment
+- [x] 2026-03-22 feat: Create backup and restore system (M) - Automated backups, restore UI
+  - Created database migrations for backup_schedules and backup_history tables
+  - Created BackupSchedule model with scheduling logic (hourly, daily, weekly, monthly)
+  - Created BackupHistory model for tracking backup operations with status (pending, running, completed, failed)
+  - Implemented AutomatedBackupService with execution, retention policies, and statistics
+  - Created BackupCommand console command for artisan integration
+  - Created BackupScheduleResource Filament UI for managing automated schedules
+  - Created BackupHistoryResource Filament UI for viewing backup history
+  - Integrated with existing Backup/Restore modules
+  - Updated BackupServiceProvider with scheduling registration
+  - Created comprehensive test suite with 29 test cases (all passing)
 - [ ] feat: Add import/export functionality (M) - CSV/Excel for products, orders
 - [ ] feat: Enhance user permissions (S) - Custom roles, resource-level access
 
