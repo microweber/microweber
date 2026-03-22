@@ -19,9 +19,9 @@ use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 
 class AdminTemplateCustomizerPage extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-paint-brush';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-paint-brush';
     protected static ?string $title = 'Template Customization';
-    protected static ?string $navigationGroup = 'Website Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
     protected static ?string $slug = 'template-customization';
     protected static bool $shouldRegisterNavigation = true;
 

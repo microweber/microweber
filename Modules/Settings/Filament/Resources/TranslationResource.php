@@ -12,10 +12,14 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Actions\Action as TableAction;
 use Filament\Actions\Action;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
@@ -65,16 +69,13 @@ class TranslationResource extends Resource
                     ->helperText('The default text in the base language')
                     ->rows(3),
 
-                // Simplified approach - create one translation at a time
                 Select::make('initial_locale')
                     ->label('Initial Language')
                     ->options(function () {
                         $languages = [];
                         if (function_exists('get_available_languages')) {
                             $languages = get_available_languages();
-
                         } else {
-                            // Default language fallback
                             $defaultLang = function_exists('mw') ? mw()->lang_helper->default_lang() : 'en_US';
                             $languages[$defaultLang] = strtoupper($defaultLang) . ' - Default';
                         }
@@ -99,116 +100,177 @@ class TranslationResource extends Resource
                     ->label('Key')
                     ->searchable()
                     ->sortable()
-                    ->limit(40),
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(fn ($record) => $record->translation_key),
 
                 TextColumn::make('translation_namespace')
                     ->label('Namespace')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
-                    ->placeholder('Global'),
+                    ->placeholder('Global')
+                    ->badge()
+                    ->color('gray'),
 
                 TextColumn::make('translation_group')
                     ->label('Group')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
-                    ->placeholder('Default'),
+                    ->placeholder('Default')
+                    ->badge()
+                    ->color('info'),
 
                 TextColumn::make('translation_value_default')
                     ->label('Default Value')
-                    ->limit(50)
+                    ->limit(60)
+                    ->wrap()
                     ->searchable()
                     ->toggleable(),
 
-//                TextColumn::make('translations_count')
-//                    ->label('Languages')
-//                    ->getStateUsing(function (TranslationKey $record) {
-//                        return $record->texts()->count();
-//                    })
-//                    ->badge()
-//                    ->color('success'),
+                BadgeColumn::make('translations_count')
+                    ->label('Languages')
+                    ->getStateUsing(function (TranslationKey $record) {
+                        return $record->texts()->count();
+                    })
+                    ->color('success'),
 
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
-                    ->dateTime()
+                    ->dateTime('M d, Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                /* SelectFilter::make('translation_namespace')
-                     ->label('Namespace')
-                     ->options(function () {
-                         $namespaces = TranslationKey::distinct()
-                             ->whereNotNull('translation_namespace')
-                             ->where('translation_namespace', '!=', '')
-                             ->pluck('translation_namespace', 'translation_namespace')
-                             ->toArray();
+                SelectFilter::make('translation_namespace')
+                    ->label('Namespace')
+                    ->options(function () {
+                        $namespaces = TranslationKey::distinct()
+                            ->whereNotNull('translation_namespace')
+                            ->where('translation_namespace', '!=', '')
+                            ->pluck('translation_namespace', 'translation_namespace')
+                            ->toArray();
 
-                         return [
-                             '' => 'Global (No Namespace)',
-                         ] + $namespaces;
-                     })
-                     ->query(function (Builder $query, array $data): Builder {
-                         if (isset($data['value'])) {
-                             if ($data['value'] === '') {
-                                 return $query->where(function ($q) {
-                                     $q->whereNull('translation_namespace')
-                                       ->orWhere('translation_namespace', '');
-                                 });
-                             } else {
-                                 return $query->where('translation_namespace', $data['value']);
-                             }
-                         }
-                         return $query;
-                     }),
+                        return ['' => 'Global (No Namespace)'] + $namespaces;
+                    })
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['value'])) {
+                            if ($data['value'] === '') {
+                                return $query->where(function ($q) {
+                                    $q->whereNull('translation_namespace')
+                                        ->orWhere('translation_namespace', '');
+                                });
+                            }
+                            return $query->where('translation_namespace', $data['value']);
+                        }
+                        return $query;
+                    }),
 
-                 SelectFilter::make('translation_group')
-                     ->label('Translation Group')
-                     ->options(function () {
-                         $groups = TranslationKey::distinct()
-                             ->whereNotNull('translation_group')
-                             ->where('translation_group', '!=', '')
-                             ->pluck('translation_group', 'translation_group')
-                             ->toArray();
+                SelectFilter::make('translation_group')
+                    ->label('Translation Group')
+                    ->options(function () {
+                        $groups = TranslationKey::distinct()
+                            ->whereNotNull('translation_group')
+                            ->where('translation_group', '!=', '')
+                            ->pluck('translation_group', 'translation_group')
+                            ->toArray();
 
-                         return [
-                             'default' => 'Default',
-                         ] + $groups;
-                     })
-                     ->query(function (Builder $query, array $data): Builder {
-                         if (isset($data['value'])) {
-                             return $query->where('translation_group', $data['value']);
-                         }
-                         return $query;
-                     }),
- */
+                        return ['default' => 'Default'] + $groups;
+                    })
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['value'])) {
+                            return $query->where('translation_group', $data['value']);
+                        }
+                        return $query;
+                    }),
 
-
+                Tables\Filters\Filter::make('has_translations')
+                    ->label('Has Translations')
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['isActive']) && $data['isActive']) {
+                            return $query->has('texts');
+                        }
+                        return $query;
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+
+                    TableAction::make('quickTranslate')
+                        ->label('Quick Translate')
+                        ->icon('heroicon-o-plus')
+                        ->color('success')
+                        ->modal()
+                        ->modalHeading('Add Translation')
+                        ->form(function (TranslationKey $record) {
+                            $supportedLanguages = get_supported_languages(true);
+                            $existingLocales = $record->texts->pluck('translation_locale')->toArray();
+                            $availableLanguages = [];
+
+                            foreach ($supportedLanguages as $lang) {
+                                if (!in_array($lang['locale'], $existingLocales)) {
+                                    $availableLanguages[$lang['locale']] = $lang['display_name'] ?? $lang['locale'];
+                                }
+                            }
+
+                            return [
+                                Select::make('locale')
+                                    ->label('Language')
+                                    ->options($availableLanguages)
+                                    ->required()
+                                    ->searchable(),
+
+                                Textarea::make('translation_text')
+                                    ->label('Translation')
+                                    ->required()
+                                    ->rows(4)
+                                    ->default($record->translation_value_default ?? $record->translation_key),
+                            ];
+                        })
+                        ->action(function (TranslationKey $record, array $data): void {
+                            TranslationText::create([
+                                'translation_key_id' => $record->id,
+                                'translation_locale' => $data['locale'],
+                                'translation_text' => $data['translation_text'],
+                            ]);
+
+                            Notification::make()
+                                ->title('Translation added successfully')
+                                ->success()
+                                ->send();
+                        })
+                        ->visible(function (TranslationKey $record) {
+                            $supportedLanguages = get_supported_languages(true);
+                            $existingLocales = $record->texts->pluck('translation_locale')->toArray();
+                            return count($supportedLanguages) > count($existingLocales);
+                        }),
+                ])
+                ->tooltip('Actions'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
 
-                    BulkAction::make('add_translation')
+                    BulkAction::make('addTranslation')
                         ->label('Add Translation')
                         ->icon('heroicon-o-plus')
                         ->form([
                             Select::make('locale')
-                                ->label('Language')
+                                ->label('Target Language')
                                 ->options(function () {
                                     $languages = [];
-                                    if (function_exists('get_available_languages')) {
-                                        $languages = get_available_languages();
-
+                                    $supportedLanguages = get_supported_languages(true);
+                                    foreach ($supportedLanguages as $lang) {
+                                        $languages[$lang['locale']] = $lang['display_name'] ?? $lang['locale'];
                                     }
                                     return $languages;
                                 })
-                                ->required(),
+                                ->required()
+                                ->searchable()
+                                ->helperText('Select the language to add translations for'),
                         ])
                         ->action(function (Collection $records, array $data): void {
                             $count = 0;
@@ -231,10 +293,15 @@ class TranslationResource extends Resource
                                 ->title("Added {$count} translations for " . strtoupper($data['locale']))
                                 ->success()
                                 ->send();
-                        }),
+                        })
+                        ->requiresConfirmation()
+                        ->modalDescription('This will add translations for the selected language to all chosen records.'),
                 ]),
             ])
-            ->searchable();
+            ->defaultSort('updated_at', 'desc')
+            ->searchable()
+            ->persistFiltersInSession()
+            ->persistSearchInSession();
     }
 
     public static function getPages(): array
@@ -245,6 +312,4 @@ class TranslationResource extends Resource
             'edit' => Pages\EditTranslation::route('/{record}/edit'),
         ];
     }
-
-
 }
