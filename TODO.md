@@ -259,8 +259,23 @@
     - All 21 tests passing (1 intentionally skipped)
 
 ### Module System
-- [ ] feat: Build module marketplace integration (M) - Browse, install, update UI
-- [ ] feat: Add module dependency management (S) - Version constraints, conflicts
+- [x] 2026-03-22 feat: Build module marketplace integration (M) - Browse, install, update UI
+  - Enhanced MarketplaceResource with comprehensive marketplace integration
+  - Added individual actions: update, uninstall, refresh-cache
+  - Implemented bulk operations: install, update, uninstall
+  - Added advanced filtering: type (modules/templates), status (installed/available/updates), pricing (free/premium)
+  - Enhanced ListMarketplaces page with 5 tabs: All, Templates, Modules, Installed, Updates Available
+  - Added notification system for bulk operation results
+  - Created comprehensive test suite: MarketplaceResourceTest.php with 35 test cases
+  - All resource configuration tests passing (7 tests)
+- [x] 2026-03-22 feat: Add module dependency management (S) - Version constraints, conflicts
+  - ModuleDependency model with require/conflict/suggest/replace types
+  - ModuleDependencyService with semver version constraint parsing (^, ~, >=, etc.)
+  - ModuleDependencyResource Filament admin UI for managing dependencies
+  - Database migration for module_dependencies table with indexes
+  - Comprehensive test suite with 15 tests (57 assertions) - all passing
+  - Fixed Filament v5 type compatibility (navigationIcon, navigationGroup)
+  - Created composer.json for Seo module
 - [ ] feat: Create module configuration UI (S) - Settings forms per module
 
 ### API Development
