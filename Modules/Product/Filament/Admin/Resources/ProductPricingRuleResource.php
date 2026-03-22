@@ -173,18 +173,18 @@ class ProductPricingRuleResource extends Resource
                                 ->numeric()
                                 ->helperText('Leave empty for unlimited'),
 
-                            TextInput::make('value')
-                                ->label('Discount Value')
-                                ->numeric()
-                                ->required()
-                                ->helperText('Price or discount percentage/amount'),
-                        ])
-                        ->columns(3)
-                        ->collapsible()
-                        ->itemLabel(fn(array $state): ?string => ($state['min'] ?? '') . '-' . ($state['max'] ?? '∞')),
-                        ->addActionLabel('Add Tier')
-                        ->reorderable()
-                        ->defaultItems(0),
+TextInput::make('value')
+                                            ->label('Discount Value')
+                                            ->numeric()
+                                            ->required()
+                                            ->helperText('Price or discount percentage/amount'),
+                                    ])
+                                        ->columns(3)
+                                        ->collapsible()
+                                        ->itemLabel(fn(array $state): ?string => ($state['min'] ?? '') . '-' . ($state['max'] ?? '∞'))
+                                        ->addActionLabel('Add Tier')
+                                        ->reorderable()
+                                        ->defaultItems(0),
                 ])
                 ->collapsible(),
 

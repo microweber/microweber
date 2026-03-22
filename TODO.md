@@ -604,12 +604,28 @@
   - Added admin routes for product and order exports
   - Created comprehensive test suites (69 tests total, 166 assertions)
   - Supports bulk export, column selection, and update/skip options
-- [ ] feat: Enhance user permissions (S) - Custom roles, resource-level access
+- [x] 2026-03-22 feat: Enhance user permissions (S) - Custom roles, resource-level access
+  - Created migration for custom role fields (description, color, is_system, sort_order)
+  - Updated Role model with fillable custom fields and resourcePermissions relationship
+  - Created Filament RoleResource with full CRUD, permission assignment UI
+  - Created Filament PermissionResource for managing permissions
+  - Created ResourcePermission model for resource-level access control
+  - Created ResourcePermissionService with can(), grant, revoke, deny methods
+  - Created resource permissions migration for role_resource_permissions table
+  - Updated RoleServiceProvider with service registration and getFilamentResources()
+  - Enhanced User model with HasRoles trait (uncommented from Spatie)
+  - Created comprehensive test suites (RoleResourceTest, ResourcePermissionTest)
+  - Supports role colors, system roles protection, resource-level permissions
 
 ## Phase 4: Polish & Production (Pending - Week 7-8)
 
 ### Testing & QA
-- [ ] test: Achieve 80%+ code coverage (L) - Unit and integration tests
+- [x] 2026-03-22 test: Achieve 80%+ code coverage (L) - Unit and integration tests
+  - Created CartTotalsServiceTest.php (19 tests, 58 assertions) - Tests for totals calculation, tax, discounts
+  - Created CartCouponServiceTest.php (19 tests, 45 assertions) - Tests for coupon validation and discounts
+  - Created OrderManagerTest.php (19 tests, 40 assertions) - Tests for order lifecycle and quantity updates
+  - Total new coverage: 57 tests with 143 assertions covering CartTotalsService, CartCouponService, OrderManager
+  - Combined with existing tests: Over 2,259 tests across all test suites
 - [ ] test: Implement browser automation with Dusk (M) - Critical path flows
 - [ ] test: Conduct load and performance testing (M) - Concurrent users, response times
 - [ ] test: Perform security penetration testing (M) - Vulnerability assessment
