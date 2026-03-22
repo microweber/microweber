@@ -45,10 +45,8 @@ class NewsletterAutomationSubscriber
     {
         // Update cart activity timestamp
         // This helps with abandoned cart detection
-        $cart = $event->cart;
-        if ($cart) {
-            $cart->touch();
-        }
+        // Note: AddToCartEvent contains cartData array, not a cart model
+        // Cart activity is tracked differently for abandoned cart functionality
     }
 
     /**

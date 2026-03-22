@@ -7,11 +7,13 @@ use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Modules\Customer\Filament\CustomerResource\Pages\ManageCustomers;
 use Modules\Customer\Models\Customer;
+use Modules\Tag\Models\Tag;
 
 class CustomerResource extends Resource
 {
@@ -102,47 +104,144 @@ Forms\Components\Select::make('company_id')
                             ->maxLength(255),
 
                     ])
-                    ->createOptionAction(function (Forms\Components\Actions\Action $action) {
-                        return $action
-                            ->modalHeading('Create company')
-                            ->modalSubmitActionLabel('Create company')
-                            ->modalWidth('lg');
-                    }),
-            ]);
+            ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                return $action
+                ->modalHeading('Create company')
+                ->modalSubmitActionLabel('Create company')
+                ->modalWidth('lg');
+            }),
+            Forms\Components\Section::make('Segmentation')
+                ->description('Manage customer tags and segments')
+                ->collapsible()
+                ->schema([
+                    Forms\Components\Select::make('tags')
+                        ->label('Tags')
+                        ->multiple()
+                        ->relationship('tags', 'name')
+                        ->preload()
+                        ->searchable()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('slug')
+                                ->maxLength(255)
+                                ->helperText('Leave empty to auto-generate from name'),
+                            Forms\Components\Textarea::make('description')
+                                ->maxLength(65535),
+                        ])
+                        ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                            return $action
+                                ->modalHeading('Create Tag')
+                                ->modalSubmitActionLabel('Create Tag')
+                                ->modalWidth('lg');
+                        })
+                        ->helperText('Assign tags to categorize and segment this customer'),
+                ]),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyState(function (Table $table) {
-                $modelName = static::$model;
-                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+        ->emptyState(function (Table $table) {
+            $modelName = static::$model;
+            return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
-            })
-            ->with(['user', 'currency', 'company'])
-            ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('first_name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('last_name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('phone')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
-                Tables\Columns\BooleanColumn::make('active')->sortable(),
-                Tables\Columns\TextColumn::make('user.username')->sortable(),
-                Tables\Columns\TextColumn::make('currency.name')->sortable(),
-                Tables\Columns\TextColumn::make('company.name')->sortable(),
-            ])
-            ->filters([
-                Tables\Filters\Filter::make('active')
-                    ->query(fn(Builder $query): Builder => $query->where('active', true)),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+        })
+        ->with(['user', 'currency', 'company', 'tags'])
+        ->columns([
+            Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('first_name')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('last_name')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('phone')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
+            Tables\Columns\BooleanColumn::make('active')->sortable(),
+            Tables\Columns\TextColumn::make('user.username')->sortable(),
+            Tables\Columns\TextColumn::make('currency.name')->sortable(),
+            Tables\Columns\TextColumn::make('company.name')->sortable(),
+            Tables\Columns\TextColumn::make('tags.name')
+                ->label('Tags')
+                ->badge()
+                ->color('primary')
+                ->separator(',')
+                ->limitList(3)
+                ->expandableLimitedList()
+                ->searchable(),
+        ])
+        ->filters([
+            Tables\Filters\Filter::make('active')
+            ->query(fn(Builder $query): Builder => $query->where('active', true)),
+            Tables\Filters\SelectFilter::make('tags')
+                ->label('Has Tags')
+                ->multiple()
+                ->relationship('tags', 'name')
+                ->searchable()
+                ->preload(),
+            Tables\Filters\Filter::make('without_tags')
+                ->label('Without Tags')
+                ->toggle()
+                ->query(fn(Builder $query) => $query->doesntHave('tags')),
+            Tables\Filters\SelectFilter::make('status')
+                ->label('Status')
+                ->options([
+                    'active' => 'Active',
+                    'suspended' => 'Suspended',
+                    'pending' => 'Pending',
+                    'deleted' => 'Deleted',
+                    'inactive' => 'Inactive',
+                ]),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\DeleteBulkAction::make(),
+            Tables\Actions\BulkAction::make('addTags')
+                ->label('Add Tags')
+                ->icon('heroicon-m-tag')
+                ->requiresConfirmation()
+                ->modalHeading('Add Tags to Selected Customers')
+                ->modalDescription('Select tags to add to the selected customers.')
+                ->form([
+                    Forms\Components\Select::make('tags')
+                        ->label('Tags')
+                        ->multiple()
+                        ->options(fn() => Tag::pluck('name', 'id'))
+                        ->searchable()
+                        ->required(),
+                ])
+                ->action(function ($records, array $data) {
+                    $tagIds = $data['tags'] ?? [];
+                    foreach ($records as $record) {
+                        $record->addTags($tagIds);
+                    }
+                })
+                ->deselectRecordsAfterCompletion(),
+            Tables\Actions\BulkAction::make('removeTags')
+                ->label('Remove Tags')
+                ->icon('heroicon-m-minus-circle')
+                ->requiresConfirmation()
+                ->modalHeading('Remove Tags from Selected Customers')
+                ->modalDescription('Select tags to remove from the selected customers.')
+                ->form([
+                    Forms\Components\Select::make('tags')
+                        ->label('Tags to Remove')
+                        ->multiple()
+                        ->options(fn() => Tag::pluck('name', 'id'))
+                        ->searchable()
+                        ->required(),
+                ])
+                ->action(function ($records, array $data) {
+                    $tagIds = $data['tags'] ?? [];
+                    foreach ($records as $record) {
+                        $record->removeTags($tagIds);
+                    }
+                })
+                ->deselectRecordsAfterCompletion(),
+        ]);
     }
 
     public static function getPages(): array

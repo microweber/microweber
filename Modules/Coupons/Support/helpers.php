@@ -8,12 +8,23 @@ if (!function_exists('coupon_apply')) {
     function coupon_apply(array $params = []): array
     {
         $cartTotal = cart_sum(true);
+        $cartItems = app('cart_manager')->get_cart([]);
+
+        // Build context with cart data for validation
+        $context = [
+            'items' => $cartItems,
+            'cart_product_ids' => array_map('strval', array_column($cartItems, 'rel_id')),
+            'cart_category_ids' => array_map('strval', array_column($cartItems, 'category_id')),
+            'user_id' => auth()->id(),
+            'customer_group_id' => auth()->user()?->customer_group_id ?? null,
+        ];
 
         return app()->coupon_service->applyCoupon(
             $params['coupon_code'],
             $cartTotal,
             auth()->user()?->email,
-            request()->ip()
+            request()->ip(),
+            $context
         );
     }
 }

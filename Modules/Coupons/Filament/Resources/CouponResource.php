@@ -2,6 +2,7 @@
 
 namespace Modules\Coupons\Filament\Resources;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -21,9 +22,11 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\App;
 use Modules\Coupons\Filament\Resources\CouponResource\Pages;
 use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 use Modules\Coupons\Models\Coupon;
+use Modules\Coupons\Services\CouponService;
 
 class CouponResource extends Resource
 {
@@ -44,56 +47,343 @@ class CouponResource extends Resource
     {
         return $schema
             ->schema([
-                Section::make()->schema([
-                    Grid::make(2)->schema([
-                        TextInput::make('coupon_name')
-                            ->label('Coupon Name')
-                            ->required()
-                            ->maxLength(255),
+                Section::make('Basic Information')
+                    ->description('Configure the coupon name, code, and description.')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('coupon_name')
+                                ->label('Coupon Name')
+                                ->required()
+                                ->maxLength(255),
 
                         TextInput::make('coupon_code')
                             ->label('Coupon Code')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
+                        ]),
 
-            Select::make('discount_type')
-                ->label('Discount Type')
-                ->live()
-                ->options([
-                                'percentage' => 'Percentage',
-                                'fixed_amount' => 'Fixed Amount'
-                            ])
-                            ->required(),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->placeholder('Internal notes about this coupon...')
+                            ->rows(2)
+                            ->columnSpanFull(),
+                    ]),
 
-            TextInput::make('discount_value')
-                ->label('Discount Value')
-                ->required()
-                ->live()
-                ->numeric()
-                            ->minValue(0)
-                            ->maxValue(fn(callable $get) => $get('discount_type') === 'percentage' ? 100 : null
-                            ),
+                Section::make('Discount Settings')
+                    ->description('Configure how the discount is calculated.')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            Select::make('discount_type')
+                                ->label('Discount Type')
+                                ->live()
+                                ->options([
+                                    'percentage' => 'Percentage',
+                                    'fixed_amount' => 'Fixed Amount',
+                                    'free_shipping' => 'Free Shipping',
+                                ])
+                                ->required(),
+
+                            TextInput::make('discount_value')
+                                ->label('Discount Value')
+                                ->required(fn ($get) => $get('discount_type') !== 'free_shipping')
+                                ->disabled(fn ($get) => $get('discount_type') === 'free_shipping')
+                                ->live()
+                                ->numeric()
+                                ->minValue(0)
+                                ->maxValue(fn($get) => $get('discount_type') === 'percentage' ? 100 : null),
+
+                            TextInput::make('max_discount_amount')
+                                ->label('Maximum Discount Amount')
+                                ->helperText('For percentage coupons, the maximum discount amount.')
+                                ->numeric()
+                                ->minValue(0)
+                                ->visible(fn($get) => $get('discount_type') === 'percentage'),
 
                         TextInput::make('total_amount')
                             ->label('Minimum Order Amount')
                             ->numeric()
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->suffix(fn() => function_exists('currency_symbol') ? currency_symbol() : '$'),
+                        ]),
+                    ]),
 
-                        TextInput::make('uses_per_coupon')
-                            ->label('Uses Per Coupon')
-                            ->numeric()
-                            ->minValue(0),
+                Section::make('Usage Limits')
+                    ->description('Configure who can use this coupon and how many times.')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('uses_per_coupon')
+                                ->label('Total Usage Limit')
+                                ->helperText('Leave empty for unlimited uses.')
+                                ->numeric()
+                                ->minValue(0)
+                                ->placeholder('Unlimited'),
 
-                        TextInput::make('uses_per_customer')
-                            ->label('Uses Per Customer')
+                            TextInput::make('uses_per_customer')
+                                ->label('Uses Per Customer')
+                                ->helperText('Leave empty for unlimited uses per customer.')
+                                ->numeric()
+                                ->minValue(0)
+                                ->placeholder('Unlimited'),
+                        ]),
+                    ]),
+
+Section::make('Item Count Requirements')
+                ->description('Configure minimum and maximum item count requirements.')
+                ->collapsible()
+                ->schema([
+                    Grid::make(2)->schema([
+                        TextInput::make('min_items_count')
+                            ->label('Minimum Items')
+                            ->helperText('Minimum number of items required in cart.')
                             ->numeric()
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->placeholder('No minimum'),
+
+                        TextInput::make('max_items_count')
+                            ->label('Maximum Items')
+                            ->helperText('Maximum number of items allowed in cart.')
+                            ->numeric()
+                            ->minValue(0)
+                            ->placeholder('No maximum'),
+                    ]),
+
+                    TextInput::make('max_discount_per_order')
+                        ->label('Maximum Discount Per Order')
+                        ->helperText('Maximum discount amount that can be applied per order.')
+                        ->numeric()
+                        ->minValue(0)
+                        ->prefix(fn() => function_exists('currency_symbol') ? currency_symbol() : '$')
+                        ->placeholder('No limit'),
+                ]),
+
+            Section::make('Buy X Get Y (BOGO) Rules')
+                ->description('Configure buy X get Y discount rules.')
+                ->collapsible()
+                ->schema([
+                    Toggle::make('bogo_enabled')
+                        ->label('Enable BOGO')
+                        ->default(false)
+                        ->live(),
+
+                    Grid::make(3)->schema([
+                        TextInput::make('bogo_buy_quantity')
+                            ->label('Buy Quantity (X)')
+                            ->helperText('Number of items to buy.')
+                            ->numeric()
+                            ->minValue(1)
+                            ->required(fn($get) => $get('bogo_enabled')),
+
+                        TextInput::make('bogo_get_quantity')
+                            ->label('Get Quantity (Y)')
+                            ->helperText('Number of items to get free/discounted.')
+                            ->numeric()
+                            ->minValue(1)
+                            ->required(fn($get) => $get('bogo_enabled')),
+
+                        TextInput::make('bogo_discount_percent')
+                            ->label('Discount % on Free Items')
+                            ->helperText('100 = Free, 50 = 50% off.')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(100)
+                            ->default(100)
+                            ->suffix('%'),
+                    ])
+                    ->visible(fn($get) => $get('bogo_enabled')),
+
+                    Select::make('bogo_apply_to')
+                        ->label('Apply BOGO To')
+                        ->options([
+                            'matching' => 'Matching Products',
+                            'cheapest' => 'Cheapest Items',
+                            'expensive' => 'Most Expensive Items',
+                        ])
+                        ->default('matching')
+                        ->visible(fn($get) => $get('bogo_enabled')),
+                ]),
+
+            Section::make('Tiered/Volume Discount')
+                ->description('Configure tiered discounts based on cart total or item count.')
+                ->collapsible()
+                ->schema([
+                    Toggle::make('tiered_enabled')
+                        ->label('Enable Tiered Discounts')
+                        ->default(false)
+                        ->live(),
+
+                    Forms\Components\Repeater::make('tiered_rules')
+                        ->label('Discount Tiers')
+                        ->helperText('Define discount tiers. Higher thresholds override lower ones.')
+                        ->schema([
+                            Grid::make(3)->schema([
+                                Select::make('type')
+                                    ->label('Threshold Type')
+                                    ->options([
+                                        'amount' => 'Cart Total',
+                                        'quantity' => 'Item Count',
+                                    ])
+                                    ->required(),
+
+                                TextInput::make('threshold')
+                                    ->label('Threshold')
+                                    ->helperText('Minimum amount or count to reach this tier.')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->required(),
+
+                                Select::make('discount_type')
+                                    ->label('Discount Type')
+                                    ->options([
+                                        'percentage' => 'Percentage',
+                                        'fixed' => 'Fixed Amount',
+                                    ])
+                                    ->default('percentage')
+                                    ->required(),
+
+                                TextInput::make('discount_value')
+                                    ->label('Discount Value')
+                                    ->helperText('Percentage or fixed amount.')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->required(),
+
+                                TextInput::make('max_discount')
+                                    ->label('Maximum Discount')
+                                    ->helperText('Maximum discount for percentage coupons.')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->placeholder('No limit')
+                                    ->visible(fn($get) => $get('discount_type') === 'percentage'),
+                            ]),
+                        ])
+                        ->addable()
+                        ->deletable()
+                        ->reorderable()
+                        ->visible(fn($get) => $get('tiered_enabled')),
+                ]),
+
+            Section::make('Conditional Rules')
+                ->description('Configure conditional discount rules based on cart properties.')
+                ->collapsible()
+                ->schema([
+                    Forms\Components\Repeater::make('conditional_rules')
+                        ->label('Conditional Discount Rules')
+                        ->helperText('Define conditions that trigger discounts.')
+                        ->schema([
+                            Grid::make(2)->schema([
+                                Select::make('condition')
+                                    ->label('Condition Type')
+                                    ->options([
+                                        'cart_total' => 'Cart Total',
+                                        'item_count' => 'Item Count',
+                                        'specific_product' => 'Specific Product in Cart',
+                                        'specific_category' => 'Specific Category in Cart',
+                                    ])
+                                    ->required(),
+
+                                Select::make('operator')
+                                    ->label('Operator')
+                                    ->options([
+                                        '>' => 'Greater Than',
+                                        '>=' => 'Greater Than or Equal',
+                                        '<' => 'Less Than',
+                                        '<=' => 'Less Than or Equal',
+                                        '=' => 'Equal',
+                                        '!=' => 'Not Equal',
+                                        'has' => 'Has',
+                                        'not_has' => 'Does Not Have',
+                                    ])
+                                    ->required(),
+
+                                TextInput::make('value')
+                                    ->label('Value')
+                                    ->helperText('Threshold value or product/category IDs (comma-separated).')
+                                    ->required(),
+                            ]),
+
+                            Grid::make(3)->schema([
+                                Select::make('discount_type')
+                                    ->label('Discount Type')
+                                    ->options([
+                                        'percentage' => 'Percentage',
+                                        'fixed' => 'Fixed Amount',
+                                    ])
+                                    ->default('percentage')
+                                    ->required(),
+
+                                TextInput::make('discount_value')
+                                    ->label('Discount Value')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->required(),
+
+                                TextInput::make('max_discount')
+                                    ->label('Maximum Discount')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->placeholder('No limit')
+                                    ->visible(fn($get) => $get('discount_type') === 'percentage'),
+                            ]),
+                        ])
+                        ->addable()
+                        ->deletable()
+                        ->reorderable(),
+                ]),
+
+            Section::make('Advanced Rules')
+                ->description('Configure additional restrictions and rules.')
+                ->collapsible()
+                ->schema([
+                    Grid::make(2)->schema([
+                        Toggle::make('is_stackable')
+                            ->label('Can Stack')
+                            ->helperText('Allow this coupon to be combined with other coupons.')
+                            ->default(false),
+
+                        Toggle::make('first_time_only')
+                            ->label('First-Time Customers Only')
+                            ->helperText('Only allow for customers with no previous orders.')
+                            ->default(false),
+
+                        Toggle::make('auto_apply')
+                            ->label('Auto-Apply')
+                            ->helperText('Automatically apply when conditions are met.')
+                            ->default(false),
+
+                        Toggle::make('discount_shipping')
+                            ->label('Discount Shipping')
+                            ->helperText('Apply discount to shipping cost as well.')
+                            ->default(false),
 
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true),
                     ]),
+
+                    Forms\Components\Textarea::make('product_ids')
+                        ->label('Product Restrictions')
+                        ->helperText('Comma-separated product IDs. Leave empty to apply to all products.')
+                        ->rows(2)
+                        ->columnSpanFull(),
+
+                    Forms\Components\Textarea::make('excluded_product_ids')
+                        ->label('Excluded Products')
+                        ->helperText('Comma-separated product IDs to exclude from this coupon.')
+                        ->rows(2)
+                        ->columnSpanFull(),
+
+                    Forms\Components\Textarea::make('category_ids')
+                        ->label('Category Restrictions')
+                        ->helperText('Comma-separated category IDs. Leave empty to apply to all categories.')
+                        ->rows(2)
+                        ->columnSpanFull(),
+
+                    Forms\Components\Textarea::make('customer_group_ids')
+                        ->label('Customer Group Restrictions')
+                        ->helperText('Comma-separated customer group IDs. Leave empty for all groups.')
+                        ->rows(2)
+                        ->columnSpanFull(),
                 ]),
             ]);
     }
@@ -110,52 +400,149 @@ class CouponResource extends Resource
                 TextColumn::make('coupon_code')
                     ->label('Code')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->copyable()
+                    ->icon('heroicon-m-clipboard-document'),
+
+                TextColumn::make('formatted_discount')
+                    ->label('Discount')
+                    ->state(fn ($record) => $record->formatted_discount),
 
                 TextColumn::make('discount_type')
                     ->label('Type')
-                    ->formatStateUsing(fn(string $state): string => ucfirst(str_replace('_', ' ', $state))
-                    ),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
-                TextColumn::make('discount_value')
-                    ->label('Value')
-                    ->formatStateUsing(fn($state, $record): string => $record->discount_type === 'percentage'
-                        ? "{$state}%"
-                        : price_format($state)
-                    ),
+                TextColumn::make('usage_stats')
+                    ->label('Usage')
+                    ->state(function ($record) {
+                        $stats = $record->getUsageStats();
+                        $used = $stats['total_uses'] ?? 0;
+                        $limit = $record->uses_per_coupon;
+                        return $limit > 0 ? "{$used}/{$limit}" : (string) $used;
+                    }),
 
                 TextColumn::make('total_amount')
-                    ->label('Min. Amount')
-                    ->formatStateUsing(fn($state): string => $state ? price_format($state) : '-'
-                    ),
+                    ->label('Min. Order')
+                    ->formatStateUsing(fn($state): string => $state ? price_format($state) : '-'),
 
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
 
-                TextColumn::make('created_at')
+                IconColumn::make('is_stackable')
+                    ->label('Stackable')
+                    ->boolean()
+                    ->trueIcon('heroicon-m-check-circle')
+                    ->falseIcon('heroicon-m-x-circle'),
+
+                IconColumn::make('auto_apply')
+                    ->label('Auto-Apply')
+                    ->boolean()
+                    ->trueIcon('heroicon-m-bolt')
+                    ->falseIcon('heroicon-m-x-circle'),
+
+                TextColumn::make('valid_from')
+                    ->label('Valid From')
+                    ->dateTime('M d, Y')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+TextColumn::make('valid_to')
+                ->label('Valid Until')
+                ->dateTime('M d, Y')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+            IconColumn::make('bogo_enabled')
+                ->label('BOGO')
+                ->boolean()
+                ->trueIcon('heroicon-m-gift')
+                ->falseIcon('heroicon-m-x-circle')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+            IconColumn::make('tiered_enabled')
+                ->label('Tiered')
+                ->boolean()
+                ->trueIcon('heroicon-m-chart-bar')
+                ->falseIcon('heroicon-m-x-circle')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+            TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('discount_type')
                     ->options([
                         'percentage' => 'Percentage',
                         'fixed_amount' => 'Fixed Amount',
+                        'free_shipping' => 'Free Shipping',
                     ]),
                 TernaryFilter::make('is_active')
                     ->label('Active'),
+                TernaryFilter::make('is_stackable')
+                    ->label('Stackable'),
+                TernaryFilter::make('first_time_only')
+                    ->label('First-Time Only'),
+                TernaryFilter::make('auto_apply')
+                    ->label('Auto-Apply'),
+                Tables\Filters\Filter::make('valid_date')
+                    ->form([
+                        Forms\Components\DatePicker::make('valid_from')
+                            ->label('Valid From'),
+                        Forms\Components\DatePicker::make('valid_to')
+                            ->label('Valid Until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when($data['valid_from'], fn (Builder $query, $date): Builder =>
+                                $query->whereDate('valid_from', '>=', $date))
+                            ->when($data['valid_to'], fn (Builder $query, $date): Builder =>
+                                $query->whereDate('valid_to', '<=', $date));
+                    }),
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    EditAction::make(),
+                    Tables\Actions\Action::make('duplicate')
+                        ->label('Duplicate')
+                        ->icon('heroicon-m-document-duplicate')
+                        ->action(function (Coupon $record) {
+                            $newCoupon = $record->replicate();
+                            $newCoupon->coupon_code = $record->coupon_code . '-COPY';
+                            $newCoupon->times_used = 0;
+                            $newCoupon->total_discount_given = 0;
+                            $newCoupon->save();
+                        })
+                        ->requiresConfirmation()
+                        ->modalHeading('Duplicate Coupon')
+                        ->modalDescription('Are you sure you want to duplicate this coupon? A new code will be generated.'),
+                    DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 BulkActionGroup::make([
+                Tables\Actions\BulkAction::make('activate')
+                    ->label('Activate')
+                    ->icon('heroicon-m-check-circle')
+                    ->action(function ($records) {
+                        foreach ($records as $record) {
+                            $record->update(['is_active' => true]);
+                        }
+                    }),
+                Tables\Actions\BulkAction::make('deactivate')
+                    ->label('Deactivate')
+                    ->icon('heroicon-m-x-circle')
+                    ->action(function ($records) {
+                        foreach ($records as $record) {
+                            $record->update(['is_active' => false]);
+                        }
+                    }),
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array

@@ -13,6 +13,8 @@ use Modules\Company\Models\Company;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 use Modules\Order\Models\Order;
+use Modules\Tag\Models\Tag;
+use Modules\Customer\Models\CustomerTag;
 
 /**
  * @property int $id
@@ -161,6 +163,88 @@ class Customer extends Model
     public function scopeWherePhone($query, $phone)
     {
         return $query->where('phone', 'LIKE', '%' . $phone . '%');
+    }
+
+    /**
+     * Get tags associated with the customer.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'customer_tags', 'customer_id', 'tag_id')
+            ->withPivot('created_at');
+    }
+
+    /**
+     * Get tags as a comma-separated string.
+     */
+    public function getTagListAttribute(): string
+    {
+        return $this->tags->pluck('name')->implode(', ');
+    }
+
+    /**
+     * Get tag IDs as an array.
+     */
+    public function getTagIdsAttribute(): array
+    {
+        return $this->tags->pluck('id')->toArray();
+    }
+
+    /**
+     * Scope to filter customers by tag.
+     */
+    public function scopeHasTag($query, $tagId)
+    {
+        return $query->whereHas('tags', function ($q) use ($tagId) {
+            $q->where('tagging_tags.id', $tagId);
+        });
+    }
+
+    /**
+     * Scope to filter customers by multiple tags (has all).
+     */
+    public function scopeHasAllTags($query, array $tagIds)
+    {
+        foreach ($tagIds as $tagId) {
+            $query->whereHas('tags', function ($q) use ($tagId) {
+                $q->where('tagging_tags.id', $tagId);
+            });
+        }
+        return $query;
+    }
+
+    /**
+     * Scope to filter customers by any of the tags (has any).
+     */
+    public function scopeHasAnyTag($query, array $tagIds)
+    {
+        return $query->whereHas('tags', function ($q) use ($tagIds) {
+            $q->whereIn('tagging_tags.id', $tagIds);
+        });
+    }
+
+    /**
+     * Sync tags for the customer.
+     */
+    public function syncTags(array $tagIds): void
+    {
+        $this->tags()->sync($tagIds);
+    }
+
+    /**
+     * Add tags to the customer.
+     */
+    public function addTags(array $tagIds): void
+    {
+        $this->tags()->syncWithoutDetaching($tagIds);
+    }
+
+    /**
+     * Remove tags from the customer.
+     */
+    public function removeTags(array $tagIds): void
+    {
+        $this->tags()->detach($tagIds);
     }
 
     public function scopeApplyFilters($query, array $filters)

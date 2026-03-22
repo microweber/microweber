@@ -2,7 +2,9 @@
 
 namespace Modules\Tag\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use Modules\Customer\Models\Customer;
 
 /**
  * @package Conner\Tagging\Models
@@ -19,6 +21,14 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
  */
 class Tag extends \Conner\Tagging\Model\Tag
 {
-  use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
+    /**
+     * Get the customers associated with this tag.
+     */
+    public function customers(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'customer_tags', 'tag_id', 'customer_id')
+            ->withPivot('created_at');
+    }
 }

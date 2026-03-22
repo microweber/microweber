@@ -49,6 +49,7 @@ class CouponResourceTest extends TestCase
                 'discount_type' => 'percentage',
                 'discount_value' => 10,
                 'is_active' => true,
+                'conditional_rules' => [], // Empty array for repeater
             ])
             ->call('create')
             ->assertHasNoFormErrors()
