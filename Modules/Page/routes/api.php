@@ -1,18 +1,42 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Modules\Page\Http\Controllers\Api\PageApiController;
+
 /*
 |--------------------------------------------------------------------------
-| Frontend Routes
+| Page API Routes
 |--------------------------------------------------------------------------
 |
+| These routes provide a RESTful API for page management with Sanctum
+| authentication and rate limiting.
+|
 */
-use  \Illuminate\Support\Facades\Route;
 
+// Public API routes (read-only)
+Route::name('api.page.')
+    ->prefix('api/pages')
+    ->middleware(['api'])
+    ->group(function () {
+        Route::get('/', [PageApiController::class, 'index'])->name('index');
+        Route::get('/{page}', [PageApiController::class, 'show'])->name('show');
+    });
+
+// Protected API routes (full CRUD)
+Route::name('api.page.')
+    ->prefix('api/pages')
+    ->middleware(['api', 'auth:sanctum', 'throttle:api'])
+    ->group(function () {
+        Route::post('/', [PageApiController::class, 'store'])->name('store');
+        Route::put('/{page}', [PageApiController::class, 'update'])->name('update');
+        Route::patch('/{page}', [PageApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{page}', [PageApiController::class, 'destroy'])->name('destroy');
+    });
+
+// Legacy admin routes (backward compatibility)
 Route::name('api.')
     ->prefix('api')
-    ->middleware(['api','admin'])
-     ->group(function () {
-
-        Route::apiResource('page', \Modules\Page\Http\Controllers\Api\PageApiController::class);
-
+    ->middleware(['api', 'admin'])
+    ->group(function () {
+        Route::apiResource('page', PageApiController::class);
     });

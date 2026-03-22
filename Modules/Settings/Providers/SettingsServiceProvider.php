@@ -22,6 +22,7 @@ use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminTemplateCustomizerPage,
     AdminTemplatePage,
     Settings};
+use Modules\Settings\Filament\Resources\ModuleConfigurationResource;
 use Modules\Settings\Filament\Resources\TranslationResource;
 
 class SettingsServiceProvider extends BaseModuleServiceProvider
@@ -74,6 +75,9 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminShopAutoRespondEmailPage::class);
         FilamentRegistry::registerPage(AdminShopGeneralPage::class);
         FilamentRegistry::registerPage(AdminShopOtherPage::class);
+
+        // Register module configuration resource
+        FilamentRegistry::registerResource(ModuleConfigurationResource::class);
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(SettingsModuleSettings::class);

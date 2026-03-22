@@ -1,34 +1,46 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Modules\Content\Http\Controllers\Api\ContentApiController;
 
 /*
 |--------------------------------------------------------------------------
-| Frontend Routes
+| Content API Routes
 |--------------------------------------------------------------------------
+|
+| These routes provide a RESTful API for content management with Sanctum
+| authentication and rate limiting.
 |
 */
 
-use  \Illuminate\Support\Facades\Route;
+// Public API routes (read-only)
+Route::name('api.content.')
+    ->prefix('api/content')
+    ->middleware(['api'])
+    ->group(function () {
+        Route::get('/', [ContentApiController::class, 'index'])->name('index');
+        Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
+    });
 
+// Protected API routes (full CRUD)
+Route::name('api.content.')
+    ->prefix('api/content')
+    ->middleware(['api', 'auth:sanctum', 'throttle:api'])
+    ->group(function () {
+        Route::post('/', [ContentApiController::class, 'store'])->name('store');
+        Route::put('/{content}', [ContentApiController::class, 'update'])->name('update');
+        Route::patch('/{content}', [ContentApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{content}', [ContentApiController::class, 'destroy'])->name('destroy');
+    });
+
+// Admin routes (backward compatibility) - these require admin access
 Route::name('api.')
     ->prefix('api')
-    ->middleware(['api', 'admin'])
+    ->middleware(['web', 'api', 'admin'])
     ->group(function () {
         Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
             return mw()->category_manager->get_admin_js_tree_json($request->all());
         })->name('content.get_admin_js_tree_json');
-
-        Route::apiResource('content', \Modules\Content\Http\Controllers\Api\ContentApiController::class)->only([
-            'update', 'destroy', 'index', 'show', 'store'
-        ]);
-    });
-
-Route::name('api.')
-    ->prefix('api')
-    ->middleware(['web', 'api', 'admin'])
-    ->namespace('\Modules\Content\Http\Controllers\Api')
-    ->group(function () {
-
 
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
             return save_edit($request->all());
@@ -37,7 +49,6 @@ Route::name('api.')
         Route::any('get_content_admin', function (\Illuminate\Http\Request $request) {
             return get_content_admin($request->all());
         })->name('content.get_content_admin');
-
 
         Route::post('content/set_published', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->set_published($request->all());
@@ -62,10 +73,10 @@ Route::name('api.')
         Route::post('content/bulk_assign', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->helpers->bulk_assign($request->all());
         })->name('content.bulk_assign');
+
         Route::post('content/copy', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->helpers->copy($request->all());
         })->name('content.copy');
-
 
         Route::post('content/related_content/add', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->helpers->related_content_add($request->all());
@@ -80,7 +91,6 @@ Route::name('api.')
         })->name('content.related.reorder');
 
         Route::any('content/redirect_to_content', function (\Illuminate\Http\Request $request) {
-
             if (isset($request['id'])) {
                 $id = intval($request['id']);
                 $url = content_link($id);
@@ -91,13 +101,11 @@ Route::name('api.')
             }
         })->name('content.redirect_to_content');
 
-
         Route::post('content/delete', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->helpers->delete($request->all());
         })->name('content.delete');
 
         Route::get('content/get_link_admin', function (\Illuminate\Http\Request $request) {
-
             if (!isset($request['id'])) {
                 return false;
             }
@@ -134,7 +142,6 @@ Route::name('api.')
             return false;
         })->name('content.get_link_admin');
 
-
         Route::any('get_content', function (\Illuminate\Http\Request $request) {
             return get_content($request->all());
         })->name('content.get_content');
@@ -142,10 +149,6 @@ Route::name('api.')
         Route::any('get_posts', function (\Illuminate\Http\Request $request) {
             return get_posts($request->all());
         })->name('content.get_posts');
-
-        Route::any('content_title', function (\Illuminate\Http\Request $request) {
-            return content_title($request->all());
-        })->name('content.content_title');
 
         Route::any('content_title', function (\Illuminate\Http\Request $request) {
             return content_title($request->all());
@@ -171,25 +174,30 @@ Route::name('api.')
             return delete_content($request->all());
         })->name('content.delete_content');
 
-
         Route::any('content_parents', function (\Illuminate\Http\Request $request) {
             return content_parents($request->all());
         })->name('content.content_parents');
+
         Route::any('get_content_children', function (\Illuminate\Http\Request $request) {
             return get_content_children($request->all());
         })->name('content.get_content_children');
+
         Route::any('page_link', function (\Illuminate\Http\Request $request) {
             return page_link($request->all());
         })->name('content.page_link');
+
         Route::any('post_link', function (\Illuminate\Http\Request $request) {
             return post_link($request->all());
         })->name('content.post_link');
+
         Route::any('pages_tree', function (\Illuminate\Http\Request $request) {
             return pages_tree($request->all());
         })->name('content.pages_tree');
+
         Route::any('save_content', function (\Illuminate\Http\Request $request) {
             return save_content($request->all());
         })->name('content.save_content');
+
         Route::any('get_content_field_draft', function (\Illuminate\Http\Request $request) {
             return get_content_field_draft($request->all());
         })->name('content.get_content_field_draft');
@@ -197,6 +205,4 @@ Route::name('api.')
         Route::any('get_content_field', function (\Illuminate\Http\Request $request) {
             return get_content_field($request->all());
         })->name('content.get_content_field');
-
-
     });

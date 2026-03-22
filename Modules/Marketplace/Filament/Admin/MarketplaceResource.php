@@ -2,8 +2,13 @@
 
 namespace Modules\Marketplace\Filament\Admin;
 
-
-use Filament\Forms;
+use Carbon\Carbon;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 
@@ -12,9 +17,12 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use Modules\Marketplace\Models\MarketplaceItem;
 
@@ -108,12 +116,120 @@ class MarketplaceResource extends Resource
                 100,
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->label('Type')
+                    ->options([
+                        'microweber-module' => 'Modules',
+                        'microweber-template' => 'Templates',
+                    ])
+                    ->default('microweber-module'),
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'installed' => 'Installed',
+                        'available' => 'Available for Install',
+                        'has_update' => 'Has Updates',
+                    ])
+                    ->query(function ($query, $data) {
+                        if ($data['value'] === 'installed') {
+                            return $query->where('has_current_install', 1);
+                        } elseif ($data['value'] === 'available') {
+                            return $query->where('has_current_install', 0)
+                                         ->where('available_for_install', 1);
+                        } elseif ($data['value'] === 'has_update') {
+                            return $query->where('has_update', 1);
+                        }
+                        return $query;
+                    }),
+                SelectFilter::make('pricing')
+                    ->label('Pricing')
+                    ->options([
+                        'free' => 'Free',
+                        'premium' => 'Premium',
+                    ])
+                    ->query(function ($query, $data) {
+                        if ($data['value'] === 'free') {
+                            return $query->where('is_paid', 0);
+                        } elseif ($data['value'] === 'premium') {
+                            return $query->where('is_paid', 1);
+                        }
+                        return $query;
+                    }),
             ])
             ->actions([
-//                Tables\Actions\ViewAction::make()
-//                    ->slideOver()
-//                    ->modalCancelAction(false),
+                Tables\Actions\Action::make('update')
+                    ->label('Update')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('primary')
+                    ->visible(function (MarketplaceItem $marketplaceItem) {
+                        return $marketplaceItem->has_update == 1 && $marketplaceItem->has_current_install == 1;
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading(function (MarketplaceItem $marketplaceItem) {
+                        return "Update {$marketplaceItem->name}";
+                    })
+                    ->modalDescription('This will update the module to the latest version. Are you sure?')
+                    ->modalSubmitActionLabel('Yes, Update')
+                    ->action(function (MarketplaceItem $marketplaceItem) {
+                        try {
+                            $runner = new MicroweberComposerClient();
+                            $results = $runner->requestInstall([
+                                'require_name' => $marketplaceItem->internal_name,
+                                'require_version' => $marketplaceItem->version,
+                            ]);
+                            
+                            // Clear marketplace cache
+                            Cache::forget('livewire-marketplace');
+                            
+                            if (isset($results['success'])) {
+                                return redirect()->back()->with('success', "{$marketplaceItem->name} has been updated successfully.");
+                            } else {
+                                return redirect()->back()->with('error', $results['error'] ?? 'Update failed.');
+                            }
+                        } catch (\Exception $e) {
+                            return redirect()->back()->with('error', $e->getMessage());
+                        }
+                    }),
+                
+                Tables\Actions\Action::make('uninstall')
+                    ->label('Uninstall')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->visible(function (MarketplaceItem $marketplaceItem) {
+                        return $marketplaceItem->has_current_install == 1;
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading(function (MarketplaceItem $marketplaceItem) {
+                        return "Uninstall {$marketplaceItem->name}";
+                    })
+                    ->modalDescription('This will completely remove the module. This action cannot be undone.')
+                    ->modalSubmitActionLabel('Yes, Uninstall')
+                    ->action(function (MarketplaceItem $marketplaceItem) {
+                        try {
+                            $moduleManager = new ModuleManager();
+                            // Extract module name from internal_name
+                            $moduleName = explode('/', $marketplaceItem->internal_name);
+                            $moduleName = end($moduleName);
+                            
+                            $moduleManager->uninstall(['for_module' => $moduleName]);
+                            
+                            // Clear marketplace cache
+                            Cache::forget('livewire-marketplace');
+                            
+                            return redirect()->back()->with('success', "{$marketplaceItem->name} has been uninstalled successfully.");
+                        } catch (\Exception $e) {
+                            return redirect()->back()->with('error', $e->getMessage());
+                        }
+                    }),
+                
+                Tables\Actions\Action::make('refresh-cache')
+                    ->label('Refresh')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('secondary')
+                    ->action(function () {
+                        Cache::forget('livewire-marketplace');
+                        return redirect()->back()->with('success', 'Marketplace cache has been refreshed.');
+                    }),
 
                 Tables\Actions\EditAction::make('view-details')
                     ->modalHeading('View Marketplace Item')
@@ -123,12 +239,12 @@ class MarketplaceResource extends Resource
                     ->slideOver()
                     ->form([
 
-                        Forms\Components\Section::make('Package Details Section')
+                        Section::make('Package Details Section')
                             ->heading(false)
                             ->columns(2)
                             ->schema([
 
-                                Forms\Components\Placeholder::make('Package Screenshot')
+                                Placeholder::make('Package Screenshot')
                                     ->label(false)
                                     ->content(function (MarketplaceItem $marketplaceItem) {
                                         return view('mw-filament::components.placeholder-image-cropped',[
@@ -136,19 +252,19 @@ class MarketplaceResource extends Resource
                                         ]);
                                     }),
 
-                                Forms\Components\Section::make('Package Information')
+                                Section::make('Package Information')
                                     ->heading(false)
                                     ->columnSpan(1)
                                     ->columns(1)
                                     ->schema([
 
-                                        Forms\Components\Placeholder::make('Package Name')
+                                        Placeholder::make('Package Name')
                                             ->label(false)
                                             ->content(function (MarketplaceItem $marketplaceItem) {
                                                 return new HtmlString("<h2 class='text-2xl'>{$marketplaceItem->name}</h2>");
                                             }),
 
-                                        Forms\Components\Placeholder::make('Package Details')
+                                        Placeholder::make('Package Details')
                                             ->label(false)
                                             ->content(function (MarketplaceItem $marketplaceItem) {
                                                 $html = "<p class='text-sm'>{$marketplaceItem->description}</p>";
@@ -167,9 +283,9 @@ class MarketplaceResource extends Resource
                                                 return new HtmlString($html);
                                             }),
 
-                                        Forms\Components\Actions::make([
+                                        Actions::make([
 
-                                            Forms\Components\Actions\Action::make('installPackageVersion')
+                                            Action::make('installPackageVersion')
                                                 ->label('Download & install')
                                                 ->icon('heroicon-m-cloud-arrow-down')
                                                 ->slideOver()
@@ -180,7 +296,7 @@ class MarketplaceResource extends Resource
                                                 })
                                                 ->form([
 
-                                                    Forms\Components\TextInput::make('license_key')
+                                                    TextInput::make('license_key')
                                                         ->label('License Key')
                                                         ->rules([
                                                             fn (Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
@@ -215,7 +331,7 @@ class MarketplaceResource extends Resource
                                                         })
                                                         ->columnSpanFull(),
 
-                                                    Forms\Components\Select::make('version')
+                                                    Select::make('version')
                                                         ->label('Version')
                                                         ->hint(function (MarketplaceItem $marketplaceItem) {
                                                             return new HtmlString("<p class='text-sm'>Latest Version: {$marketplaceItem->version}</p>");
@@ -228,7 +344,7 @@ class MarketplaceResource extends Resource
                                                         })
                                                         ->required()
                                                         ->columnSpanFull(),
-                                                    Forms\Components\Placeholder::make('screenshot')
+                                                    Placeholder::make('screenshot')
                                                         ->label(false)
                                                         ->content(function (MarketplaceItem $marketplaceItem) {
                                                             $screenshotHtml = view('mw-filament::components.placeholder-image-cropped',[
@@ -264,7 +380,128 @@ class MarketplaceResource extends Resource
 
             ])
             ->bulkActions([
-
+                Tables\Actions\BulkAction::make('install')
+                    ->label('Install Selected')
+                    ->icon('heroicon-o-cloud-arrow-down')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Install Selected Modules')
+                    ->modalDescription('Are you sure you want to install the selected modules?')
+                    ->modalSubmitActionLabel('Yes, Install')
+                    ->action(function (array $records) {
+                        $runner = new MicroweberComposerClient();
+                        $results = [];
+                        foreach ($records as $record) {
+                            try {
+                                if (!$record->has_current_install && $record->available_for_install) {
+                                    $installResults = $runner->requestInstall([
+                                        'require_name' => $record->internal_name,
+                                        'require_version' => $record->version,
+                                    ]);
+                                    $results[] = [
+                                        'name' => $record->name,
+                                        'status' => isset($installResults['success']) ? 'success' : 'error',
+                                        'message' => $installResults['success'] ?? ($installResults['error'] ?? 'Unknown error'),
+                                    ];
+                                }
+                            } catch (\Exception $e) {
+                                $results[] = [
+                                    'name' => $record->name,
+                                    'status' => 'error',
+                                    'message' => $e->getMessage(),
+                                ];
+                            }
+                        }
+                        
+                        // Clear marketplace cache after bulk install
+                        Cache::forget('livewire-marketplace');
+                        
+                        return redirect()->back()->with('bulkInstallResults', $results);
+                    }),
+                Tables\Actions\BulkAction::make('update')
+                    ->label('Update Selected')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('primary')
+                    ->requiresConfirmation()
+                    ->modalHeading('Update Selected Modules')
+                    ->modalDescription('Are you sure you want to update the selected modules to their latest versions?')
+                    ->modalSubmitActionLabel('Yes, Update')
+                    ->visible(function ($records) {
+                        foreach ($records as $record) {
+                            if ($record->has_update) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    })
+                    ->action(function (array $records) {
+                        $runner = new MicroweberComposerClient();
+                        $results = [];
+                        foreach ($records as $record) {
+                            try {
+                                if ($record->has_update && $record->has_current_install) {
+                                    $updateResults = $runner->requestInstall([
+                                        'require_name' => $record->internal_name,
+                                        'require_version' => $record->version,
+                                    ]);
+                                    $results[] = [
+                                        'name' => $record->name,
+                                        'status' => isset($updateResults['success']) ? 'success' : 'error',
+                                        'message' => $updateResults['success'] ?? ($updateResults['error'] ?? 'Unknown error'),
+                                    ];
+                                }
+                            } catch (\Exception $e) {
+                                $results[] = [
+                                    'name' => $record->name,
+                                    'status' => 'error',
+                                    'message' => $e->getMessage(),
+                                ];
+                            }
+                        }
+                        
+                        // Clear marketplace cache after bulk update
+                        Cache::forget('livewire-marketplace');
+                        
+                        return redirect()->back()->with('bulkUpdateResults', $results);
+                    }),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->label('Uninstall Selected')
+                    ->icon('heroicon-o-trash')
+                    ->requiresConfirmation()
+                    ->modalHeading('Uninstall Selected Modules')
+                    ->modalDescription('Are you sure you want to uninstall the selected modules? This action cannot be undone.')
+                    ->modalSubmitActionLabel('Yes, Uninstall')
+                    ->action(function (array $records) {
+                        $moduleManager = new ModuleManager();
+                        $results = [];
+                        foreach ($records as $record) {
+                            try {
+                                if ($record->has_current_install) {
+                                    // Extract module name from internal_name (e.g., "microweber-modules/shop" -> "shop")
+                                    $moduleName = explode('/', $record->internal_name);
+                                    $moduleName = end($moduleName);
+                                    
+                                    $moduleManager->uninstall(['for_module' => $moduleName]);
+                                    $results[] = [
+                                        'name' => $record->name,
+                                        'status' => 'success',
+                                        'message' => 'Uninstalled successfully',
+                                    ];
+                                }
+                            } catch (\Exception $e) {
+                                $results[] = [
+                                    'name' => $record->name,
+                                    'status' => 'error',
+                                    'message' => $e->getMessage(),
+                                ];
+                            }
+                        }
+                        
+                        // Clear marketplace cache after bulk uninstall
+                        Cache::forget('livewire-marketplace');
+                        
+                        return redirect()->back()->with('bulkUninstallResults', $results);
+                    }),
             ]);
     }
 
