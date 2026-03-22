@@ -34,6 +34,7 @@ class OrderServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/admin.php'));
         /**
          * @property \Modules\Order\Repositories\OrderManager    $order_manager
          */

@@ -596,7 +596,14 @@
   - Integrated with existing Backup/Restore modules
   - Updated BackupServiceProvider with scheduling registration
   - Created comprehensive test suite with 29 test cases (all passing)
-- [ ] feat: Add import/export functionality (M) - CSV/Excel for products, orders
+- [x] 2026-03-22 feat: Add import/export functionality (M) - CSV/Excel for products, orders
+  - Created ProductExporter and ProductImporter for CSV/Excel import/export
+  - Created OrderExporter and OrderImporter for CSV/Excel import/export
+  - Added export/import actions to ProductResource and OrderResource Filament UI
+  - Created ProductExportController and OrderExportController with CSV/ZIP export support
+  - Added admin routes for product and order exports
+  - Created comprehensive test suites (69 tests total, 166 assertions)
+  - Supports bulk export, column selection, and update/skip options
 - [ ] feat: Enhance user permissions (S) - Custom roles, resource-level access
 
 ## Phase 4: Polish & Production (Pending - Week 7-8)

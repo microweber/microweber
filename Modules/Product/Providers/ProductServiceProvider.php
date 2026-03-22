@@ -49,6 +49,7 @@ class ProductServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/admin.php'));
 
 
         Validator::extendImplicit('price', PriceValidator::class . '@validate', 'Invalid price value!');

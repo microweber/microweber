@@ -101,14 +101,34 @@ Group::make()
                             ])->columns(2),
 
                         Section::make('Order items')
-                            ->headerActions([
-                                Action::make('reset')
-                                    ->modalHeading('Are you sure?')
-                                    ->modalDescription('All existing items will be removed from the order.')
-                                    ->requiresConfirmation()
-                                    ->color('danger')
-                                    ->action(fn(Forms\Set $set) => $set('cart', [])),
-                            ])
+            ->headerActions([
+                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
+                    ->icon('heroicon-m-cloud-arrow-up')
+                    ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
+                    ->chunkSize(50),
+                Tables\Actions\ExportAction::make()
+                    ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
+                    ->icon('heroicon-m-cloud-arrow-down')
+                    ->form(function (Tables\Actions\ExportAction $action): array {
+                        $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
+                        $schemaSchema = [];
+                        foreach ($exportColumns as $column) {
+                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                ->label($column->getLabel())
+                                ->default(true);
+                        }
+                        $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
+                            ->label('Export to multiple files (ZIP)');
+                        return $schemaSchema;
+                    })
+                    ->action(function (array $data, Table $table) {
+                        $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
+                        $exportMultiple = $data['export_multiple'] ?? false;
+                        $url = route('filament.admin.order.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
+                        return redirect()->to($url);
+                    }),
+                Tables\Actions\CreateAction::make()->label('Create order'),
+            ])
                             ->schema([
                                 static::getItemsRepeater(),
                             ]),
@@ -282,6 +302,28 @@ Group::make()
             ->defaultSort('id', 'desc')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\ExportBulkAction::make()
+                        ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
+                        ->form(function (Tables\Actions\BulkAction $action): array {
+                            $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
+                            $schemaSchema = [];
+                            foreach ($exportColumns as $column) {
+                                $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                    ->label($column->getLabel())
+                                    ->default(true);
+                            }
+                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
+                                ->label('Export to multiple files (ZIP)')
+                                ->default(false);
+                            return $schemaSchema;
+                        })
+                        ->action(function (array $data, Tables\Actions\BulkAction $action) {
+                            $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
+                            $selectedRecordIds = implode(',', $action->getRecords()->pluck('id')->toArray());
+                            $exportMultiple = $data['export_multiple'] ?? false;
+                            $route = route('filament.admin.order.export', ['columns' => $selectedColumns, 'selected_ids' => $selectedRecordIds, 'export_multiple' => $exportMultiple]);
+                            return redirect()->to($route);
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
