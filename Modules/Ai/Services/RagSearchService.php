@@ -138,7 +138,7 @@ class RagSearchService
                 'type' => 'product',
                 'source' => 'Product Catalog',
                 'title' => $product->title,
-                'content' => "Product: {$product->title}\nDescription: " . strip_tags($product->description ?: $product->content),
+                'content' => "Product: {$product->title}\nDescription: " . strip_tags($product->description ?? $product->content ?? ''),
                 'relevance' => 0.9,
                 'metadata' => [
                     'product_id' => $product->id,

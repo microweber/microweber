@@ -57,10 +57,17 @@ class CreateAgentChat extends CreateRecord
     {
         // Create the initial message if provided
         if (!empty($this->data['initial_prompt'])) {
+            $content = $this->data['initial_prompt'];
+
+            // Handle RichEditor array format (contains 'content' or 'text' key)
+            if (is_array($content)) {
+                $content = $content['content'] ?? $content['text'] ?? json_encode($content);
+            }
+
             AgentChatMessage::create([
                 'chat_id' => $this->record->id,
                 'role' => 'user',
-                'content' => $this->data['initial_prompt'],
+                'content' => is_string($content) ? $content : json_encode($content),
                 'agent_type' => $this->record->agent_type,
                 'processed_at' => now(),
             ]);

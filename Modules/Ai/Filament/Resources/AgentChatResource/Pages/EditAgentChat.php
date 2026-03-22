@@ -15,6 +15,16 @@ class EditAgentChat extends EditRecord
 {
     protected static string $resource = AgentChatResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Chat updated successfully';
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema

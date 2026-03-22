@@ -186,14 +186,40 @@ class CreateContentTool extends BaseTool
             return;
         }
 
+        // Check if Media model exists for relationship-based attachment
+        $mediaModelClass = '\Modules\Media\Models\Media';
+        $hasMediaModel = class_exists($mediaModelClass);
 
         foreach ($mediaUrls as $mediaUrl) {
-            if (!empty($mediaUrl) && filter_var($mediaUrl, FILTER_VALIDATE_URL)) {
-                save_media(array(
+            if (empty($mediaUrl) || !filter_var($mediaUrl, FILTER_VALIDATE_URL)) {
+                continue;
+            }
+
+            if ($hasMediaModel) {
+                // Create media record using Eloquent model
+                try {
+                    $mediaModelClass::create([
+                        'rel_type' => morph_name('content'),
+                        'rel_id' => $contentId,
+                        'filename' => $mediaUrl,
+                        'title' => basename($mediaUrl),
+                        'media_type' => 'image',
+                    ]);
+                } catch (\Exception $e) {
+                    // Fallback to save_media function if model creation fails
+                    save_media([
+                        'rel_type' => morph_name('content'),
+                        'rel_id' => $contentId,
+                        'filename' => $mediaUrl,
+                    ]);
+                }
+            } else {
+                // Fallback to save_media function
+                save_media([
                     'rel_type' => morph_name('content'),
                     'rel_id' => $contentId,
                     'filename' => $mediaUrl,
-                ));
+                ]);
             }
         }
     }

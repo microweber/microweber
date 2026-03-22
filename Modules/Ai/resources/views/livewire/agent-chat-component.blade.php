@@ -199,9 +199,9 @@
         </div>
     @endif
 
-    {{-- Message Input --}}
-    <div class="message-input bg-white rounded-lg border p-4">
-        @if($this->chat->is_active)
+{{-- Message Input --}}
+<div class="message-input bg-white rounded-lg border p-4">
+    @if($this->chat && $this->chat->is_active)
             <form wire:submit="sendMessage" class="space-y-3">
                 <div class="form-group">
                     <label for="userMessage" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
@@ -238,10 +238,10 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-x-2 text-sm text-gray-500">
-                        <x-heroicon-o-information-circle class="w-4 h-4"/>
-                        <span>Messages are processed by {{ ucfirst($this->chat->agent_type) }} Assistant</span>
-                    </div>
+            <div class="flex items-center gap-x-2 text-sm text-gray-500">
+                <x-heroicon-o-information-circle class="w-4 h-4"/>
+                <span>Messages are processed by {{ ucfirst($this->chat?->agent_type ?? 'AI') }} Assistant</span>
+            </div>
 
                     <button
                         type="submit"

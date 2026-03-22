@@ -42,7 +42,7 @@ class AgentChatComponent extends Component
     // Auto-scroll control
     public bool $shouldScrollToBottom = true;
 
-    protected AgentChat $chat;
+    protected ?AgentChat $chat = null;
 
     public function mount(int $chatId): void
     {
@@ -59,7 +59,13 @@ class AgentChatComponent extends Component
 
     public function loadChatMessages(): void
     {
-        $messages = $this->chat->messages()
+        $chat = $this->getChatProperty();
+        if (!$chat) {
+            $this->chatMessages = [];
+            return;
+        }
+
+        $messages = $chat->messages()
             ->orderBy('created_at')
             ->get();
 
@@ -100,7 +106,8 @@ class AgentChatComponent extends Component
         $this->errorMessage = null;
         $this->rateLimitMessage = null;
 
-        if ($this->isProcessing || !$this->chat->is_active) {
+        $chat = $this->getChatProperty();
+        if ($this->isProcessing || !$chat || !$chat->is_active) {
             return;
         }
 
@@ -198,6 +205,7 @@ class AgentChatComponent extends Component
     protected function createUserMessage(): AgentChatMessage
     {
         $content = $this->userMessage;
+        $chat = $this->getChatProperty();
 
         // Add file references if any
         if (!empty($this->uploadedFiles)) {
@@ -206,10 +214,10 @@ class AgentChatComponent extends Component
         }
 
         return AgentChatMessage::create([
-            'chat_id' => $this->chat->id,
+            'chat_id' => $chat?->id ?? $this->chatId,
             'role' => 'user',
             'content' => $content,
-            'agent_type' => $this->chat->agent_type,
+            'agent_type' => $chat?->agent_type ?? 'general',
             'metadata' => [
                 'has_attachments' => !empty($this->uploadedFiles),
                 'attachments' => $this->uploadedFiles,
@@ -235,11 +243,12 @@ class AgentChatComponent extends Component
             ->send();
 
         // Add system message
+        $chat = $this->getChatProperty();
         AgentChatMessage::create([
-            'chat_id' => $this->chat->id,
+            'chat_id' => $chat?->id ?? $this->chatId,
             'role' => 'system',
             'content' => 'Rate limit exceeded. Please wait before sending more messages.',
-            'agent_type' => $this->chat->agent_type,
+            'agent_type' => $chat?->agent_type ?? 'general',
             'metadata' => [
                 'error_type' => 'rate_limit',
                 'error_message' => $e->getMessage(),
@@ -272,11 +281,12 @@ class AgentChatComponent extends Component
             ->send();
 
         // Add error message to chat
+        $chat = $this->getChatProperty();
         AgentChatMessage::create([
-            'chat_id' => $this->chat->id,
+            'chat_id' => $chat?->id ?? $this->chatId,
             'role' => 'system',
             'content' => 'Error: Unable to process message. Please try again.',
-            'agent_type' => $this->chat->agent_type,
+            'agent_type' => $chat?->agent_type ?? 'general',
             'metadata' => [
                 'error' => $e->getMessage(),
                 'timestamp' => now()->toISOString(),

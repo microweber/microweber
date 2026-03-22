@@ -325,12 +325,27 @@
 - [x] 2026-03-22 feat: Add API rate limiting (S) - Throttling configuration
   - Applied throttle:api middleware to protected routes
   - Configured rate limiting for authenticated API requests
-- [ ] docs: Generate OpenAPI/Swagger documentation (M) - API specs, examples
+- [x] 2026-03-22 docs: Generate OpenAPI/Swagger documentation (M) - API specs, examples
+  - Created comprehensive OpenAPI 3.0.3 specification covering all REST API endpoints
+  - Documented 50+ endpoints across Health Check, Content, Pages, Posts, Products, Cart, Checkout, and Orders
+  - Included complete request/response schemas with proper types and examples
+  - Added Bearer token authentication security scheme
+  - Created Swagger UI interface at `/api-documentation.html`
+  - Created comprehensive documentation guide at `docs/OPENAPI_DOCUMENTATION.md`
+  - Generated both JSON (`storage/api-docs/api-docs.json`) and YAML (`storage/api-docs/openapi.yaml`) formats
 
 ## Phase 3: Advanced Features (Pending - Week 5-6)
 
 ### AI & Automation
-- [ ] feat: Complete AI Chat module (M) - OpenAI integration, conversation history
+- [x] 2026-03-22 feat: Complete AI Chat module (M) - OpenAI integration, conversation history
+  - Fixed AgentChatComponent $chat property initialization (changed to nullable with null default)
+  - Fixed CreateAgentChat array-to-string conversion error for RichEditor initial_prompt
+  - Fixed CreateContentTool media URL handling with fallback to save_media function
+  - Fixed EditAgentChat redirect after save with getRedirectUrl method
+  - Fixed Filament table sorting and filtering tests (AgentChatResource pagination)
+  - Fixed RAG Search Tool database exception handling (null content in strip_tags)
+  - Added CDN fields migration to media table (cdn_url, cdn_provider, cdn_metadata, is_synced_to_cdn, file_size, file_hash, folder_id)
+  - All 90+ AI module tests passing (Livewire, Filament, Tools, Drivers)
 - [ ] feat: Add content generation AI tools (M) - Auto-generate descriptions, SEO
 - [ ] feat: Implement automated email campaigns (M) - Triggered emails, abandoned cart
 - [ ] feat: Create analytics dashboard widgets (S) - Traffic, sales, conversion metrics
