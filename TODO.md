@@ -380,7 +380,24 @@
   - All tests passing
 
 ### Marketing
-- [ ] feat: Complete newsletter campaign management (M) - Email builder, sending
+- [x] 2026-03-22 feat: Complete newsletter campaign management (M) - Email builder, sending
+  - Campaigns infrastructure: Models, resources, and Filament UI already implemented
+  - Email builder: Visual template editor with MJML support, multiple starter templates
+  - Campaign creation wizard: 5-step wizard (Email To, From Email, Content, Schedule, Send)
+  - Template system: NewsletterTemplate model with JSON-based designs
+  - Content options: Design-based (MJML) and HTML/Text email types
+  - Email sending: Queue-based processing with multiple provider support (SMTP, SES, Mailgun, Mandrill, SparkPost, Mailchimp)
+  - Campaign scheduling: Send now or schedule for later with timezone support
+  - Recipient targeting: All subscribers or specific lists
+  - Progress tracking: Campaign status, open tracking, click tracking via pixel and link redirects
+  - Test sending: Send test emails before campaign launch
+  - Export functionality: Export campaigns to CSV/Excel
+  - Bulk operations: Cancel, delete campaigns
+  - Status management: Draft, Queued, Pending, Processing, Finished, Canceled, Failed
+  - Automated campaigns: Triggered emails (cart_abandoned, order_placed, order_paid, user_registered)
+  - Queue processing: ProcessCampaigns command with batch job dispatch
+  - Email tracking: Pixel tracking for opens, link click tracking for engagement
+  - Test suite: 5 Filament tests passing (22 assertions)
 - [ ] feat: Finalize coupon/discount system (M) - Advanced rules, usage limits
 - [ ] feat: Add customer segmentation (M) - Tag-based segmentation, filters
 - [ ] feat: Build marketing automation workflows (L) - Visual workflow builder
