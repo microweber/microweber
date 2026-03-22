@@ -11,6 +11,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
+use Modules\Product\Filament\Admin\Resources\ProductVariantAttributeResource;
 use Modules\Product\Filament\ProductModuleSettings;
 use Modules\Product\Filament\ProductsModuleSettings;
 use Modules\Product\Microweber\ProductModule;
@@ -47,6 +48,7 @@ class ProductServiceProvider extends BaseModuleServiceProvider
         Validator::extendImplicit('price', PriceValidator::class . '@validate', 'Invalid price value!');
 
         FilamentRegistry::registerResource(ProductResource::class);
+        FilamentRegistry::registerResource(ProductVariantAttributeResource::class);
         FilamentRegistry::registerPage(ProductsModuleSettings::class);
         Microweber::module(\Modules\Product\Microweber\ProductsModule::class);
 
