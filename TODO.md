@@ -473,7 +473,31 @@
   - Registered ProductVariantAttributeResource in ProductServiceProvider
   - Added proper indexes for query performance
   - Full integration with existing Product model and Content architecture
-- [ ] feat: Implement inventory management (M) - Stock tracking, alerts
+- [x] 2026-03-22 feat: Implement inventory management (M) - Stock tracking, alerts
+  - Created database migration for inventory tracking with 3 tables:
+    - `product_inventory_movements` - Tracks all stock changes (sale, restock, adjustment, etc.)
+    - `product_inventory_alerts` - Low stock and out of stock alerts
+    - `product_stock_reservations` - Stock reservations for carts and orders
+  - Created Inventory models: ProductInventoryMovement, ProductInventoryAlert, ProductStockReservation
+  - Created InventoryService with comprehensive stock operations:
+    - getStock() - Get current stock quantity
+    - getAvailableQuantity() - Stock minus reservations
+    - hasStock() - Check stock availability
+    - reserveStock() - Reserve stock for carts
+    - releaseReservation() - Release reserved stock
+    - restock() - Add inventory
+    - deductStock() - Remove inventory for sales
+    - adjustStock() - Adjust quantities
+    - processReturn() - Handle returns
+    - checkStockLevels() - Automatic alert creation
+  - Created LowStockNotification for email alerts
+  - Created UpdateInventoryOnOrderPaid listener for OrderWasPaid event
+  - Created ProductInventoryResource Filament admin UI for managing inventory
+  - Created CleanupExpiredStockReservations console command
+  - Integrated with existing ProductVariantCombination for variant inventory
+  - Added inventory fields to content and product_variants_combinations tables:
+    - low_stock_threshold, reorder_point, reorder_quantity, last_stock_check
+  - Created comprehensive test suite: 31 tests, 132 assertions (all passing)
 - [ ] feat: Add advanced pricing rules (S) - Bulk pricing, customer-specific
 - [ ] feat: Support multi-currency (M) - Currency switching, exchange rates
 - [ ] feat: Complete subscription billing (M) - Recurring payments, plans
