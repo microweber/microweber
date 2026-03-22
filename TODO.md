@@ -169,7 +169,24 @@
 
 ### Content Management
 - [x] 2026-03-21 feat: Integrate visual drag-and-drop editor (L) - Livewire editor components
-- [ ] feat: Implement template live preview (M) - Template selector, customization UI
+- [x] 2026-03-22 feat: Implement template live preview (M) - Template selector, customization UI
+  - Created AdminTemplateCustomizerPage.php with comprehensive template customization interface
+  - Implemented template selector with MwSelectTemplateForPage component
+  - Added appearance settings: colors (primary, secondary, background, text)
+  - Added typography controls: fonts, sizes, weights
+  - Added layout settings: container width, padding, header/footer toggles
+  - Added branding options: logo and favicon upload
+  - Integrated live preview iframe with real-time updates
+  - Implemented zoom controls (50%-100%), refresh, and device view toggles
+  - Added quick actions: Refresh Preview, View Live Site
+  - Implemented settings export/import (JSON format)
+  - Added reset to defaults functionality
+  - Created template-customizer.blade.php with responsive two-column layout
+  - Added TemplatePreviewController with preview rendering and customization API
+  - Created REST API endpoints for preview, customizations, and saving
+  - Implemented CSS variable generation for live style updates
+  - Added comprehensive test suite (TemplateCustomizerPageTest.php) with 15 test cases
+  - Tests cover: page rendering, form components, customization saving, preview generation
 - [ ] feat: Add multi-language content support (M) - Translation interface, locale switching
 - [ ] feat: Enhance media library with bulk upload (M) - Organization, CDN integration
 - [ ] feat: Add SEO metadata management (S) - Meta tags, sitemap generation

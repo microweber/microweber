@@ -5,11 +5,24 @@ use \Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
 
 Route::name('api.template.')
-    ->prefix('api/template')
-    ->middleware(['api', 'admin'])
-    ->group(function () {
+->prefix('api/template')
+->middleware(['api', 'admin'])
+->group(function () {
 
-        Route::get('template-settings-sidebar', function () {
+// Template preview and customization endpoints
+Route::get('preview', [
+    \MicroweberPackages\Template\Http\Controllers\TemplatePreviewController::class, 'preview'
+])->name('preview');
+
+Route::get('customizations', [
+    \MicroweberPackages\Template\Http\Controllers\TemplatePreviewController::class, 'getCustomizations'
+])->name('customizations');
+
+Route::post('customizations', [
+    \MicroweberPackages\Template\Http\Controllers\TemplatePreviewController::class, 'saveCustomization'
+])->name('save-customization');
+
+Route::get('template-settings-sidebar', function () {
 
             return view('template::template-settings-sidebar-render-component');
         });

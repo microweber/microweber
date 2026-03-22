@@ -19,6 +19,7 @@ use Modules\Settings\Filament\Pages\{AdminAdvancedPage,
     AdminShopAutoRespondEmailPage,
     AdminShopGeneralPage,
     AdminShopOtherPage,
+    AdminTemplateCustomizerPage,
     AdminTemplatePage,
     Settings};
 use Modules\Settings\Filament\Resources\TranslationResource;
@@ -67,6 +68,7 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerPage(AdminSeoPage::class);
         FilamentRegistry::registerPage(AdminTemplatePage::class);
+        FilamentRegistry::registerPage(AdminTemplateCustomizerPage::class);
 
         // Register shop settings pages
         FilamentRegistry::registerPage(AdminShopAutoRespondEmailPage::class);
