@@ -187,8 +187,40 @@
   - Implemented CSS variable generation for live style updates
   - Added comprehensive test suite (TemplateCustomizerPageTest.php) with 15 test cases
   - Tests cover: page rendering, form components, customization saving, preview generation
-- [ ] feat: Add multi-language content support (M) - Translation interface, locale switching
-- [ ] feat: Enhance media library with bulk upload (M) - Organization, CDN integration
+- [x] 2026-03-22 feat: Add multi-language content support (M) - Translation interface, locale switching
+  - Enhanced TranslationResource with improved UX:
+    - Added namespace and group filters for better organization
+    - Added translations count badge column
+    - Implemented Quick Translate action for individual translation keys
+    - Added bulk translation action for multiple keys
+    - Enhanced table with persistent filters and search
+    - Improved column formatting with tooltips and badges
+  - Created frontend locale switcher Livewire component:
+    - LocaleSwitcher component with dropdown UI
+    - Responsive design with dark mode support
+    - Automatically detects and displays supported languages
+    - Handles locale change with proper event dispatching
+    - Includes fallback icons when flag images unavailable
+  - Created comprehensive test suite:
+    - ContentTranslationTest with 14 test cases covering:
+      - Content translation creation and storage
+      - Multilanguage helper functions
+      - Language detection from URLs
+      - Multilanguage links generation
+      - Language switching functionality
+      - Repository methods testing
+      - Translation CRUD operations
+      - Locale context preservation
+    - All 14 tests passing with 63 assertions
+  - Fixed AdminTemplateCustomizerPage type compatibility issues for Filament v5
+- [x] 2026-03-22 feat: Enhance media library with bulk upload (M) - Organization, CDN integration
+  - Created MediaFolder model for hierarchical organization
+  - Enhanced Media model with CDN fields (cdn_url, cdn_provider, cdn_metadata, is_synced_to_cdn)
+  - Created migration for media_folders table and folder_id on media table
+  - Implemented BulkUploadService for batch file uploads with automatic organization
+  - Implemented CdnIntegrationService supporting S3, CloudFront, and Rackspace
+  - Created MediaResource Filament component with folder filtering and CDN sync actions
+  - Created comprehensive test suite (8 tests) covering all services and models
 - [ ] feat: Add SEO metadata management (S) - Meta tags, sitemap generation
 
 ### Module System
