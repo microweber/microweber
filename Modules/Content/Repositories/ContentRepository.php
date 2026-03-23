@@ -72,19 +72,35 @@ class ContentRepository extends AbstractRepository
 
         });
 
+        return $this->batchLoadCategoriesByIds($categoryIds);
+    }
+
+    /**
+     * Batch load categories by IDs to prevent N+1 queries
+     *
+     * @param array $categoryIds Array of category IDs
+     * @return array Array of category data
+     */
+    protected function batchLoadCategoriesByIds(array $categoryIds): array
+    {
         $ready = [];
-        if ($categoryIds) {
-            foreach ($categoryIds as $k => $v) {
-                $is_cat = app()->category_repository->getById($v);
-                if ($is_cat) {
-                    $ready[] = $is_cat;
-                }
+        if (empty($categoryIds)) {
+            return $ready;
+        }
+
+        // Batch load all categories in a single query
+        $categories = DB::table('categories')
+            ->whereIn('id', $categoryIds)
+            ->get()
+            ->keyBy('id');
+
+        foreach ($categoryIds as $categoryId) {
+            if ($category = $categories->get($categoryId)) {
+                $ready[] = (array) $category;
             }
         }
 
         return $ready;
-
-
     }
 
     /**
@@ -159,9 +175,7 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($relId): array
     {
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
-
             $customFields = [];
 
             $getCustomFields = DB::table('custom_fields')
@@ -169,19 +183,34 @@ class ContentRepository extends AbstractRepository
                 ->where('rel_id', $relId)
                 ->get();
 
-            foreach ($getCustomFields as $customField) {
+            if ($getCustomFields->isEmpty()) {
+                return [];
+            }
 
+            // Collect all custom field IDs for batch loading
+            $customFieldIds = [];
+            foreach ($getCustomFields as $customField) {
+                $customFieldIds[] = $customField->id;
+            }
+
+            // Batch load all custom field values in a single query
+            $allValues = DB::table('custom_fields_values')
+                ->select(['custom_field_id', 'value', 'position'])
+                ->whereIn('custom_field_id', $customFieldIds)
+                ->get()
+                ->groupBy('custom_field_id');
+
+            // Process custom fields with pre-loaded values
+            foreach ($getCustomFields as $customField) {
                 $customField = (array)$customField;
 
-                $getCustomFieldValues = DB::table('custom_fields_values')
-                    ->select(['value', 'position'])
-                    ->where('custom_field_id', $customField['id'])
-                    ->get();
-
                 $customFieldValues = [];
+                $fieldId = $customField['id'];
 
-                foreach ($getCustomFieldValues as $customFieldValue) {
-                    $customFieldValues[] = $customFieldValue->value;
+                if (isset($allValues[$fieldId])) {
+                    foreach ($allValues[$fieldId] as $value) {
+                        $customFieldValues[] = $value->value;
+                    }
                 }
 
                 $customField['value'] = $customFieldValues[0] ?? false;

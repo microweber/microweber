@@ -22,7 +22,7 @@ class OrderRepository extends AbstractRepository
         $orders->select('currency');
         $orders->whereNotNull('currency');
         $orders->groupBy('currency');
-      //  $orders->select('currency', DB::raw('count(*) as orders_count'));
+        // $orders->select('currency', DB::raw('count(*) as orders_count'));
 
         $data = $orders->get();
         if ($data) {
@@ -58,44 +58,130 @@ class OrderRepository extends AbstractRepository
     {
         $categories = [];
         $products = $this->getBestSellingProductsForPeriod($params);
-        if($products){
-            foreach ($products as $product) {
-                if(isset($product['content_id']) and !empty($product['content_id'])){
-                     $categories_get = app()->content_repository->getCategories($product['content_id']);
-                     if($categories_get){
-                         foreach ($categories_get as $category) {
-                             if(isset($category['id']) and !empty($category['id'])){
-                                 if($category['parent_id'] != 0){
-                                      continue;
-                                 }
 
-                                 if(!isset($categories[$category['id']])){
-                                     $categories[$category['id']] = $category;
-                                     $categories[$category['id']]['orders_count'] = 0;
-                                     $categories[$category['id']]['orders_amount'] = 0;
-                                     $categories[$category['id']]['orders_amount_rounded'] = 0;
-                                 }
-
-                                 $categories[$category['id']]['orders_count'] = $categories[$category['id']]['orders_count'] + $product['orders_count'];
-                                 $categories[$category['id']]['orders_amount'] = $categories[$category['id']]['orders_amount'] + $product['orders_amount'];
-                                 $categories[$category['id']]['orders_amount_rounded'] = $categories[$category['id']]['orders_amount_rounded'] + $product['orders_amount_rounded'];
-                             }
-                         }
-                     }
-
-                }
-            }
-            if(!empty($categories)){
-                // sort by orders_amount_rounded
-                usort($categories, function($a, $b) {
-                    return $b['orders_amount_rounded'] <=> $a['orders_amount_rounded'];
-                });
-            }
-
-
+        if (!$products) {
             return $categories;
         }
+
+        // Collect all content IDs for batch category loading
+        $contentIds = [];
+        foreach ($products as $product) {
+            if (!empty($product['content_id'])) {
+                $contentIds[] = $product['content_id'];
+            }
+        }
+
+        if (empty($contentIds)) {
+            return $categories;
+        }
+
+        // Batch load all categories for all products in a single query
+        $contentCategories = $this->batchLoadCategoriesForContentIds($contentIds);
+
+        // Process products with pre-loaded categories
+        foreach ($products as $product) {
+            if (empty($product['content_id'])) {
+                continue;
+            }
+
+            $contentId = $product['content_id'];
+            if (!isset($contentCategories[$contentId])) {
+                continue;
+            }
+
+            foreach ($contentCategories[$contentId] as $category) {
+                if (empty($category['id'])) {
+                    continue;
+                }
+
+                // Skip non-root categories
+                if (($category['parent_id'] ?? 0) != 0) {
+                    continue;
+                }
+
+                $categoryId = $category['id'];
+                if (!isset($categories[$categoryId])) {
+                    $categories[$categoryId] = $category;
+                    $categories[$categoryId]['orders_count'] = 0;
+                    $categories[$categoryId]['orders_amount'] = 0;
+                    $categories[$categoryId]['orders_amount_rounded'] = 0;
+                }
+
+                $categories[$categoryId]['orders_count'] += $product['orders_count'] ?? 0;
+                $categories[$categoryId]['orders_amount'] += $product['orders_amount'] ?? 0;
+                $categories[$categoryId]['orders_amount_rounded'] += $product['orders_amount_rounded'] ?? 0;
+            }
+        }
+
+        // Sort by orders_amount_rounded descending
+        if (!empty($categories)) {
+            usort($categories, function ($a, $b) {
+                return ($b['orders_amount_rounded'] ?? 0) <=> ($a['orders_amount_rounded'] ?? 0);
+            });
+        }
+
+        return $categories;
     }
+
+    /**
+     * Batch load categories for multiple content IDs to prevent N+1 queries
+     *
+     * @param array $contentIds Array of content IDs
+     * @return array Associative array with content_id as key and categories array as value
+     */
+    protected function batchLoadCategoriesForContentIds(array $contentIds): array
+    {
+        if (empty($contentIds)) {
+            return [];
+        }
+
+        $contentIds = array_unique($contentIds);
+
+        // Get all category items for all content IDs in a single query
+        $categoryItems = DB::table('categories_items')
+            ->select('rel_id', 'parent_id')
+            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
+            ->whereIn('rel_id', $contentIds)
+            ->get()
+            ->groupBy('rel_id');
+
+        // Collect all unique category IDs
+        $allCategoryIds = [];
+        foreach ($categoryItems as $items) {
+            foreach ($items as $item) {
+                $allCategoryIds[] = $item->parent_id;
+            }
+        }
+        $allCategoryIds = array_unique($allCategoryIds);
+
+        // Batch load all categories in a single query
+        $categoriesData = [];
+        if (!empty($allCategoryIds)) {
+            $categoriesResult = DB::table('categories')
+                ->whereIn('id', $allCategoryIds)
+                ->get();
+
+            foreach ($categoriesResult as $category) {
+                $categoriesData[$category->id] = (array) $category;
+            }
+        }
+
+        // Map categories to content IDs
+        $result = [];
+        foreach ($contentIds as $contentId) {
+            $result[$contentId] = [];
+            if (isset($categoryItems[$contentId])) {
+                foreach ($categoryItems[$contentId] as $item) {
+                    if (isset($categoriesData[$item->parent_id])) {
+                        $result[$contentId][] = $categoriesData[$item->parent_id];
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
     public function getBestSellingProductsForPeriod($params = [])
     {
         $orders = $this->getDefaultQueryForStats($params);
@@ -109,7 +195,7 @@ class OrderRepository extends AbstractRepository
             if(isset($params['productId']) and !empty($params['productId'])){
                 $join->where('cart.rel_id', '=', $params['productId']);
             }
-         }) ;
+        }) ;
         if(isset($params['productId']) and !empty($params['productId'])){
             $orders->where('cart.rel_id', '=', $params['productId']);
         }
@@ -145,8 +231,8 @@ class OrderRepository extends AbstractRepository
     public function getOrderItemsCountForPeriod($params = [])
     {
 
- // todo  finish the query
-      $orders = $this->getDefaultQueryForStats($params);
+        // todo finish the query
+        $orders = $this->getDefaultQueryForStats($params);
 
         $orders->join('cart', function ($join) use ($params) {
             $join->on('cart.order_id', '=', 'cart_orders.id');
@@ -162,12 +248,12 @@ class OrderRepository extends AbstractRepository
         if(isset($params['productId']) and !empty($params['productId'])){
             $orders->where('cart.rel_id', '=', $params['productId']);
         }
-        //  $orders->joinRelationship('cart');
+        // $orders->joinRelationship('cart');
         $orders->where('cart.rel_type', morph_name(\Modules\Content\Models\Content::class));
-       // $orders->select(DB::raw('COUNT( cart.rel_id ) as "count"') );
-       // $orders->groupBy('cart.rel_id');
-      //  $sum =   $orders->count('cart.order_id');
-        $sum =   $orders->count('cart_orders.id' );
+        // $orders->select(DB::raw('COUNT( cart.rel_id ) as "count"') );
+        // $orders->groupBy('cart.rel_id');
+        // $sum = $orders->count('cart.order_id');
+        $sum = $orders->count('cart_orders.id' );
 
         if ($sum) {
             return intval($sum);
@@ -193,7 +279,7 @@ class OrderRepository extends AbstractRepository
                     $groupByFields = 'date_year';
                     break;
             }
-         }
+        }
 
         $orders = $this->getDefaultQueryForStats($params);
 
@@ -223,15 +309,14 @@ class OrderRepository extends AbstractRepository
         $orders->orderBy('date', 'desc');
 
 
-       // where extract(year from date_order) < 2015
+        // where extract(year from date_order) < 2015
 
 
-
-         $dbDriver = mw()->database_manager->get_sql_engine();
+        $dbDriver = mw()->database_manager->get_sql_engine();
 
 
         if($dbDriver == 'sqlite'){
-            $data =  $orders->get([
+            $data = $orders->get([
                 DB::raw('sum( amount ) as amount'),
                 DB::raw('strftime( \'%Y\',created_at ) as date_year'),
                 DB::raw('strftime( \'%m\',created_at ) as date_month'),
@@ -244,7 +329,7 @@ class OrderRepository extends AbstractRepository
 
             ])->toArray();
         } else {
-            $data =  $orders->get([
+            $data = $orders->get([
                 DB::raw('sum( amount ) as amount'),
                 DB::raw('YEAR( created_at ) as date_year'),
                 DB::raw('MONTH( created_at ) as date_month'),
@@ -254,9 +339,9 @@ class OrderRepository extends AbstractRepository
                 DB::raw("DATE_FORMAT(created_at, '%Y %M Week %u') date_year_month_week_display"),
                 DB::raw('COUNT( * ) as "count"'),
 
+
             ])->toArray();
         }
-
 
 
         if (!empty($data)) {
@@ -276,8 +361,8 @@ class OrderRepository extends AbstractRepository
 
         $orders = $this->getModel()->newQuery();
         $params = array_merge($params, [
-                   'isPaid' => 1,
-                  'isCompleted' => 1,
+            'isPaid' => 1,
+            'isCompleted' => 1,
         ]);
         $dateSting = '';
         if (isset($params['from']) and $params['from']) {

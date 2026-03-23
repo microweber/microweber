@@ -1408,15 +1408,49 @@ abstract class AbstractRepository implements Repository
 
     public function getById($id)
     {
+        // Optimize array handling to use single query with whereIn instead of N+1
         if (is_array($id)) {
-            $result = [];
-            foreach ($id as $key => $value) {
-                $item = $this->getById($value);
-                if ($item) {
-                    $result[$key] = $item;
-                }
+            if (empty($id)) {
+                return [];
             }
-            return $result;
+
+            // Ensure all IDs are numeric
+            $ids = array_filter($id, function ($value) {
+                return is_numeric($value) && $value != 0;
+            });
+
+            if (empty($ids)) {
+                return [];
+            }
+
+            return $this->cacheCallback(__FUNCTION__.'_array_'.md5(implode(',', $ids)), func_get_args(), function () use ($ids) {
+                $items = $this->getModel()->newInstance()->newQueryWithoutScopes()
+                    ->whereIn('id', $ids)
+                    ->get()
+                    ->keyBy('id');
+
+                $result = [];
+                foreach ($ids as $key => $idValue) {
+                    $item = $items->get($idValue);
+                    if ($item) {
+                        $item = $item->toArray();
+
+                        $hookParams = [
+                            'data' => $item,
+                            'hook_overwrite_type' => 'single',
+                        ];
+
+                        $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+                        if (isset($overwrite['data'])) {
+                            $item = $overwrite['data'];
+                        }
+
+                        $result[$key] = $item;
+                    }
+                }
+
+                return $result;
+            });
         }
 
         if (!is_numeric($id) || $id == 0) {

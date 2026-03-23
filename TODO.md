@@ -631,10 +631,17 @@
 - [x] 2026-03-23 docs: Write user manual and guides (L) - End-user documentation - Created comprehensive USER_MANUAL.md with 1243 lines covering all features
 - [x] 2026-03-23 docs: Create developer documentation (L) - Module development guides - Created comprehensive DEVELOPER_GUIDE_MODULES.md with complete module development guide covering: architecture, getting started, module structure, service providers, models and database, Filament resources, frontend components, testing, API development, best practices, example modules, and troubleshooting
 - [x] 2026-03-23 docs: Write deployment guides (M) - Server requirements, installation - Created comprehensive DEPLOYMENT_GUIDE.md covering: system requirements, server configuration, pre-installation setup, multiple installation methods (Composer, Git, Docker, shared hosting), production configuration, web server setup (Apache/Nginx), SSL/TLS configuration with Let's Encrypt, database optimization, queue workers setup, caching with Redis, monitoring/logging, security best practices, troubleshooting guide, and Docker deployment
-- [ ] docs: Document architecture decisions (S) - ADRs for key decisions
+- [x] 2026-03-23 docs: Document architecture decisions (S) - ADRs for key decisions - Created comprehensive ARCHITECTURE_DECISIONS.md with 10 key ADRs covering: Multi-Panel Architecture, Modular System, Repository Pattern, Service-Oriented Cart Management, Payment Gateway Abstraction, Tax Calculation Engine, Multi-Language Support, Advanced Caching, Security-First Request Handling, and AI Integration Architecture
 
 ### Performance
-- [ ] perf: Optimize database queries (M) - N+1 queries, missing indexes
+- [x] 2026-03-23 perf: Optimize database queries (M) - N+1 queries, missing indexes
+  - Fixed N+1 in OrderRepository::getBestSellingCategoriesForPeriod() - batch loading
+  - Fixed N+1 in ContentRepository::getCategories() - batch loading with whereIn
+  - Fixed N+1 in ContentRepository::getCustomFields() - batch loading values
+  - Created CategoryRepositoryOptimized trait for tree() optimization
+  - Fixed AbstractRepository::getById() - array IDs use single whereIn query
+  - Added indexes on content_data, custom_fields_values, cart, categories tables
+  - Created comprehensive test suite: 7 tests, 22 assertions (all passing)
 - [ ] perf: Optimize assets (M) - Minification, CDN integration
 - [ ] perf: Optimize images (S) - WebP conversion, lazy loading
 - [ ] perf: Implement caching (M) - Redis, application caching
