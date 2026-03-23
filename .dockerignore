@@ -1,1 +1,74 @@
-**/.git
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+vendor
+node_modules
+bower_components
+
+# Build outputs
+public/build
+public/hot
+dist
+build
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+phpunit.xml
+phpunit.dusk.xml
+coverage
+.phpunit.result.cache
+
+# Logs
+storage/logs/*.log
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+*.log
+npm-debug.log
+yarn-error.log
+
+# Cache
+.cache
+.php-cs-fixer.cache
+
+# Documentation
+docs/*.md
+!docs/*.md
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.docker
+
+# CI/CD
+.github
+.travis.yml
+Jenkinsfile
+
+# Misc
+.editorconfig
+.babelrc
+.bowerrc
+.buildpath
+.autodev-workflow-state.json
+127.0.0.1
+*.pid
+*.sock

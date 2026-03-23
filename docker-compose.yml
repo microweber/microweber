@@ -1,37 +1,267 @@
-version: '3'
 services:
-    php-apache:
-        depends_on:
-            - mariadb
-        image: thecodingmachine/php:8.2-v4-apache-node16
-        ports:
-            - 80:80
-        volumes:
-            - html:/var/www/html
-        links:
-            - 'mariadb'
-        environment:
-            APACHE_DOCUMENT_ROOT: /var/www/html/public
-            COMPOSER_ALLOW_SUPERUSER: 1
-            APACHE_EXTENSION_DAV: 0
-            PHP_INI_MEMORY_LIMIT: 1g
-            PHP_INI_ERROR_REPORTING: E_ALL
-            PHP_EXTENSIONS: pgsql gettext imap sockets zip curl dom gd exif intl mbstring bcmath curl dom opcache mbstring soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
-            PECL_EXTENSION: sodium
-    mariadb:
-        image: mariadb:10.3
-        environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-            MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_USER: 'laravel'
-            MYSQL_PASSWORD: 'laravel'
-            MYSQL_DATABASE: 'laravel'
-        ports:
-            - 3306:3306
+  # ===========================================================================
+  # Application Service (PHP-FPM + Nginx)
+  # ===========================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+    container_name: microweber-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html:delegated
+      - ./storage:/var/www/html/storage:delegated
+      - ./bootstrap/cache:/var/www/html/bootstrap/cache:delegated
+      - app_vendor:/var/www/html/vendor
+      - app_node_modules:/var/www/html/node_modules
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_HOST=db
+      - DB_DATABASE=microweber
+      - DB_USERNAME=microweber
+      - DB_PASSWORD=secret
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_CONNECTION=database
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
+      - PHP_IDE_CONFIG=serverName=microweber
+    networks:
+      - microweber
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      mailpit:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ===========================================================================
+  # Queue Worker Service
+  # ===========================================================================
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: microweber-queue
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html:delegated
+      - app_vendor:/var/www/html/vendor
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=90
+    environment:
+      - APP_ENV=local
+      - DB_HOST=db
+      - REDIS_HOST=redis
+      - QUEUE_CONNECTION=database
+      - CACHE_STORE=redis
+    networks:
+      - microweber
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # ===========================================================================
+  # Scheduler Service (for cron jobs)
+  # ===========================================================================
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: microweber-scheduler
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html:delegated
+      - app_vendor:/var/www/html/vendor
+    command: >
+      sh -c "
+        while true; do
+          php artisan schedule:run --no-interaction
+          sleep 60
+        done
+      "
+    environment:
+      - APP_ENV=local
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    networks:
+      - microweber
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # ===========================================================================
+  # Database Service (MySQL/MariaDB)
+  # ===========================================================================
+  db:
+    image: mysql:8.0
+    container_name: microweber-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_DATABASE=microweber
+      - MYSQL_USER=microweber
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
+      - MYSQL_INITDB_SKIP_TZINFO=1
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - microweber
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "microweber", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ===========================================================================
+  # Redis Service (Caching & Sessions)
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: microweber-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - microweber
+    ports:
+      - "6379:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  # ===========================================================================
+  # Mailpit Service (Email Testing)
+  # ===========================================================================
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: microweber-mailpit
+    restart: unless-stopped
+    volumes:
+      - mailpit_data:/data
+    environment:
+      - MP_DATABASE=/data/mailpit.db
+      - MP_MAX_MESSAGES=5000
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
+    networks:
+      - microweber
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+  # ===========================================================================
+  # phpMyAdmin Service (Database Management)
+  # ===========================================================================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: microweber-phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=microweber
+      - PMA_PASSWORD=secret
+      - PMA_ARBITRARY=0
+    networks:
+      - microweber
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ===========================================================================
+  # MinIO Service (S3-compatible Object Storage)
+  # ===========================================================================
+  minio:
+    image: minio/minio:latest
+    container_name: microweber-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
+    networks:
+      - microweber
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Console
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # ===========================================================================
+  # Create MinIO bucket on startup
+  # ===========================================================================
+  minio-init:
+    image: minio/mc:latest
+    container_name: microweber-minio-init
+    depends_on:
+      minio:
+        condition: service_started
+    entrypoint: >
+      /bin/sh -c "
+        sleep 10;
+        /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin123;
+        /usr/bin/mc mb myminio/microweber || true;
+        /usr/bin/mc policy set public myminio/microweber;
+        exit 0;
+      "
+    networks:
+      - microweber
+
+# ===========================================================================
+# Networks
+# ===========================================================================
+networks:
+  microweber:
+    driver: bridge
+
+# ===========================================================================
+# Volumes
+# ===========================================================================
 volumes:
-    html:
-        driver: local
-        driver_opts:
-            o: bind
-            type: none
-            device: ./
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
+  mailpit_data:
+    driver: local
+  minio_data:
+    driver: local
+  app_vendor:
+    driver: local
+  app_node_modules:
+    driver: local

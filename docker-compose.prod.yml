@@ -1,0 +1,183 @@
+
+# Production Docker Compose Configuration
+# Usage: docker-compose -f docker-compose.prod.yml up -d
+
+services:
+  # ===========================================================================
+  # Application Service (Production)
+  # ===========================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: microweber-prod-app
+    restart: unless-stopped
+    volumes:
+      - app_storage:/var/www/html/storage
+      - app_logs:/var/www/html/storage/logs
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_HOST=db
+      - DB_DATABASE=microweber
+      - DB_USERNAME=microweber
+      - DB_PASSWORD_FILE=/run/secrets/db_password
+      - REDIS_HOST=redis
+      - QUEUE_CONNECTION=database
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
+      - RUN_MIGRATIONS=true
+      - CACHE_WARM=true
+    networks:
+      - microweber-prod
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    secrets:
+      - db_password
+      - app_key
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ===========================================================================
+  # Queue Worker Service
+  # ===========================================================================
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: microweber-prod-queue
+    restart: unless-stopped
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=90 --max-jobs=1000 --max-time=3600
+    volumes:
+      - app_storage:/var/www/html/storage
+    environment:
+      - APP_ENV=production
+      - DB_HOST=db
+      - REDIS_HOST=redis
+      - QUEUE_CONNECTION=database
+      - CACHE_STORE=redis
+    networks:
+      - microweber-prod
+    depends_on:
+      - app
+
+  # ===========================================================================
+  # Scheduler Service
+  # ===========================================================================
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: microweber-prod-scheduler
+    restart: unless-stopped
+    volumes:
+      - app_storage:/var/www/html/storage
+    command: >
+      sh -c "
+        while true; do
+          php artisan schedule:run --no-interaction
+          sleep 60
+        done
+      "
+    environment:
+      - APP_ENV=production
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    networks:
+      - microweber-prod
+    depends_on:
+      - app
+
+  # ===========================================================================
+  # Database Service
+  # ===========================================================================
+  db:
+    image: mysql:8.0
+    container_name: microweber-prod-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - MYSQL_DATABASE=microweber
+      - MYSQL_USER=microweber
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    networks:
+      - microweber-prod
+    secrets:
+      - db_root_password
+      - db_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # ===========================================================================
+  # Redis Service
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: microweber-prod-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - microweber-prod
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASSWORD:-}
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+
+# ===========================================================================
+# Networks
+# ===========================================================================
+networks:
+  microweber-prod:
+    driver: bridge
+    internal: false
+
+# ===========================================================================
+# Volumes
+# ===========================================================================
+volumes:
+  app_storage:
+    driver: local
+  app_logs:
+    driver: local
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# ===========================================================================
+# Secrets (use Docker secrets in production)
+# ===========================================================================
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_password:
+    file: ./secrets/db_password.txt
+  app_key:
+    file: ./secrets/app_key.txt
