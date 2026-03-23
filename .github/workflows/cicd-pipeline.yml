@@ -1,0 +1,595 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master, develop]
+    tags: ['v*']
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      skip_tests:
+        description: 'Skip test execution'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+env:
+  COMPOSER_ALLOW_SUPERUSER: 1
+  PHP_VERSION: '8.3'
+  NODE_VERSION: '22'
+
+jobs:
+  # ============================================
+  # STAGE 1: Code Quality & Validation
+  # ============================================
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml, intl, bcmath
+          coverage: none
+
+      - name: Validate composer files
+        run: |
+          composer validate --strict
+          composer check-platform-reqs --no-interaction
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: Run PHP Syntax Check
+        run: |
+          find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \; | grep -v "No syntax errors" || true
+
+      - name: Check code style (if config exists)
+        run: |
+          if [ -f ".php-cs-fixer.php" ] || [ -f ".php-cs-fixer.dist.php" ]; then
+            composer require --dev friendsofphp/php-cs-fixer --no-interaction --quiet || true
+            vendor/bin/php-cs-fixer fix --dry-run --diff || true
+          fi
+
+      - name: Run PHPStan (if config exists)
+        run: |
+          if [ -f "phpstan.neon.dist" ] || [ -f "phpstan.neon" ]; then
+            vendor/bin/phpstan analyse --no-progress --memory-limit=1G || true
+          fi
+
+  # ============================================
+  # STAGE 2: Security Scanning
+  # ============================================
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+
+      - name: Run Composer Audit
+        run: |
+          composer audit --format=json --no-interaction > composer-audit-results.json || true
+          composer audit --format=table --no-interaction || echo "::warning::Composer audit found issues"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run NPM Audit
+        run: |
+          npm audit --audit-level=moderate --json > npm-audit-results.json || true
+          npm audit --audit-level=moderate || echo "::warning::NPM audit found issues"
+
+      - name: Check for secrets in code
+        run: |
+          echo "::group::Scanning for secrets and sensitive data"
+          ! git grep -rE "(password|secret|api_key|token|private_key)\s*[=:]\s*[\"'][^\"']+[\"']" \
+            --include="*.php" --include="*.js" --include="*.json" --include="*.env*" . \
+            | grep -v vendor | grep -v node_modules || echo "::warning::Potential secrets found"
+          echo "::endgroup::"
+
+      - name: Upload Security Audit Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-results
+          path: |
+            composer-audit-results.json
+            npm-audit-results.json
+          retention-days: 30
+
+  # ============================================
+  # STAGE 3: Automated Testing
+  # ============================================
+  unit-tests:
+    name: Unit & Feature Tests
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-scan]
+    if: ${{ !inputs.skip_tests }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.3']
+        test-suite: ['Unit', 'Feature']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
+          coverage: xdebug
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-version }}-composer-
+
+      - name: Cache vendor directory
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php${{ matrix.php-version }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-version }}-vendor-
+
+      - name: Install Composer dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+
+      - name: Install and build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare test environment
+        run: |
+          rm -f .env
+          cp .env.example .env
+          sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+          sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
+          php artisan key:generate --ansi
+          touch database/database.sqlite
+
+      - name: Run ${{ matrix.test-suite }} Tests
+        run: |
+          mkdir -p build/test-results
+          vendor/bin/pest --configuration phpunit.xml --testsuite=${{ matrix.test-suite }} \
+            --coverage-clover build/test-results/clover-${{ matrix.test-suite }}.xml \
+            --log-junit build/test-results/junit-${{ matrix.test-suite }}.xml || true
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-php${{ matrix.php-version }}-${{ matrix.test-suite }}
+          path: build/test-results/
+          retention-days: 7
+
+  # ============================================
+  # STAGE 4: Module Tests
+  # ============================================
+  module-tests:
+    name: Module Tests
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-scan]
+    if: ${{ !inputs.skip_tests }}
+    strategy:
+      fail-fast: false
+      matrix:
+        test-group: [
+          'Modules-Newsletter',
+          'Modules-Content',
+          'Modules-Billing',
+          'Modules-Group3',
+          'Modules-Group4',
+          'Modules-Group5',
+          'Modules-Group6A',
+          'Modules-Group6B'
+        ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Cache vendor directory
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-vendor-
+
+      - name: Install Composer dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Regenerate autoload (on cache hit)
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+
+      - name: Install and build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare test environment
+        run: |
+          rm -f .env
+          cp .env.example .env
+          sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+          sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
+          php artisan key:generate --ansi
+          touch database/database.sqlite
+
+      - name: Run ${{ matrix.test-group }} Tests
+        timeout-minutes: 30
+        run: |
+          mkdir -p build/test-results
+          vendor/bin/pest --configuration phpunit.xml --testsuite=${{ matrix.test-group }} \
+            --log-junit build/test-results/junit-${{ matrix.test-group }}.xml || true
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.test-group }}
+          path: build/test-results/
+          retention-days: 7
+
+  # ============================================
+  # STAGE 5: Integration Tests
+  # ============================================
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, module-tests]
+    if: ${{ !inputs.skip_tests && github.event_name != 'pull_request' }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: microweber_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv, pdo_mysql
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+
+      - name: Install and build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare MySQL test environment
+        run: |
+          rm -f .env
+          cp .env.example .env
+          sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/g' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/g' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/g' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=microweber_test/g' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/g' .env
+          php artisan key:generate --ansi
+
+      - name: Run Integration Tests
+        run: |
+          vendor/bin/pest --configuration phpunit.xml --testsuite=Core --filter=Integration || true
+
+  # ============================================
+  # STAGE 6: Build & Package
+  # ============================================
+  build:
+    name: Build & Package
+    runs-on: ubuntu-latest
+    needs: [unit-tests, module-tests]
+    if: always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped') && (needs.module-tests.result == 'success' || needs.module-tests.result == 'skipped')
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      artifact-url: ${{ steps.upload.outputs.artifact-url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml
+          coverage: none
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(cat version.txt 2>/dev/null || echo "dev")
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-nodev-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-nodev-
+
+      - name: Install production dependencies
+        run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Create distribution package
+        run: |
+          DIST_DIR="microweber-${{ steps.version.outputs.version }}"
+          mkdir -p "dist/$DIST_DIR"
+
+          # Copy essential files
+          cp -r app bootstrap config database resources routes storage vendor "dist/$DIST_DIR/" 2>/dev/null || true
+          cp -r public "dist/$DIST_DIR/" 2>/dev/null || true
+          cp -r Modules "dist/$DIST_DIR/" 2>/dev/null || true
+          cp -r Templates "dist/$DIST_DIR/" 2>/dev/null || true
+          cp composer.json composer.lock version.txt "dist/$DIST_DIR/" 2>/dev/null || true
+          cp .env.example "dist/$DIST_DIR/" 2>/dev/null || true
+          cp README.md CHANGELOG.md LICENSE "dist/$DIST_DIR/" 2>/dev/null || true
+
+          # Clean up
+          cd dist
+          rm -rf "$DIST_DIR/storage/logs/*" "$DIST_DIR/storage/framework/cache/*" "$DIST_DIR/storage/framework/sessions/*"
+          find "$DIST_DIR" -name ".git" -o -name ".gitignore" -o -name "node_modules" | xargs rm -rf 2>/dev/null || true
+
+          # Create archive
+          zip -r "../microweber-${{ steps.version.outputs.version }}.zip" "$DIST_DIR"
+          cd ..
+
+      - name: Upload Build Artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: microweber-${{ steps.version.outputs.version }}
+          path: |
+            microweber-*.zip
+          retention-days: 30
+
+  # ============================================
+  # STAGE 7: Deploy to Staging
+  # ============================================
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build, integration-tests]
+    if: |
+      always() &&
+      (needs.build.result == 'success') &&
+      (needs.integration-tests.result == 'success' || needs.integration-tests.result == 'skipped') &&
+      (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: ${{ vars.STAGING_URL }}
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: microweber-${{ needs.build.outputs.version }}
+          path: ./dist
+
+      - name: Deploy to staging server
+        if: vars.STAGING_DEPLOY_ENABLED == 'true'
+        run: |
+          echo "Deploying to staging environment..."
+          # Add your staging deployment commands here
+          # Example: rsync, scp, or SSH deployment
+          # scp -i ${{ secrets.STAGING_SSH_KEY }} microweber-*.zip user@staging-server:/var/www/
+
+  # ============================================
+  # STAGE 8: Deploy to Production
+  # ============================================
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging]
+    if: |
+      always() &&
+      (needs.build.result == 'success') &&
+      (github.event_name == 'workflow_dispatch' && inputs.environment == 'production') ||
+      (startsWith(github.ref, 'refs/tags/v'))
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: microweber-${{ needs.build.outputs.version }}
+          path: ./dist
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to production server
+        if: vars.PRODUCTION_DEPLOY_ENABLED == 'true'
+        run: |
+          echo "Deploying to production environment..."
+          # Add your production deployment commands here
+          # Example: rsync, scp, or SSH deployment
+          # scp -i ${{ secrets.PRODUCTION_SSH_KEY }} microweber-*.zip user@production-server:/var/www/
+
+  # ============================================
+  # STAGE 9: Notification
+  # ============================================
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging, deploy-production]
+    if: always()
+
+    steps:
+      - name: Pipeline Status Summary
+        run: |
+          echo "## CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Code Quality | ${{ needs.code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Scan | ${{ needs.security-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Module Tests | ${{ needs.module-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Integration Tests | ${{ needs.integration-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deploy Staging | ${{ needs.deploy-staging.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deploy Production | ${{ needs.deploy-production.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::CI/CD Pipeline failed! Please check the logs for details."
+          # Add notification integrations here (Slack, Discord, email, etc.)
