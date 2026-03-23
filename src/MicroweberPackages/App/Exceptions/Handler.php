@@ -37,6 +37,16 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         parent::report($exception);
+        
+        // Track exception in monitoring system (only in production)
+        if (!app()->environment('local', 'testing')) {
+            try {
+                $errorTracking = app(\MicroweberPackages\Monitoring\Services\ErrorTrackingService::class);
+                $errorTracking->trackException($exception);
+            } catch (\Throwable $e) {
+                // Silently fail if error tracking fails
+            }
+        }
     }
 
     /**
