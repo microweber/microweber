@@ -642,8 +642,20 @@
   - Fixed AbstractRepository::getById() - array IDs use single whereIn query
   - Added indexes on content_data, custom_fields_values, cart, categories tables
   - Created comprehensive test suite: 7 tests, 22 assertions (all passing)
-- [ ] perf: Optimize assets (M) - Minification, CDN integration
-- [ ] perf: Optimize images (S) - WebP conversion, lazy loading
+- [x] 2026-03-23 perf: Optimize assets (M) - Minification, CDN integration
+  - Created AssetOptimizationService with comprehensive minification and CDN support
+  - Implemented CSS minification using regex-based optimization
+  - Integrated JShrink for JavaScript minification
+  - Added CDN URL transformation for static assets
+  - Created config/assets.php with environment-based configuration
+  - Added environment variables: ASSET_OPTIMIZATION_ENABLED, ASSET_USE_CDN, ASSET_CDN_URL, ASSET_MINIFY_CSS, ASSET_MINIFY_JS, ASSET_VERSIONING
+  - Updated ScriptStyleManager to automatically process assets through optimization service
+  - Assets are versioned with content hash for long-term caching
+  - Minified assets cached with configurable TTL (default 7 days)
+  - Created comprehensive test suite: AssetOptimizationServiceTest with 19 test cases
+  - Tests cover: CSS/JS minification, CDN integration, caching, external URL handling, statistics
+  - Service integrates with existing TemplateManager via ScriptStyleManager
+- [x] 2026-03-23 perf: Optimize images (S) - WebP conversion, lazy loading
 - [ ] perf: Implement caching (M) - Redis, application caching
 
 ### DevOps

@@ -41,7 +41,7 @@ class MediaServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
 
 
-        /**
+        /**  
          * @property MediaRepository $media_repository
          */
         $this->app->bind('media_repository', function () {
@@ -53,6 +53,9 @@ class MediaServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('media_manager', function ($app) {
             return new MediaManager();
         });
+
+        // Register image optimization service provider
+        $this->app->register(ImageOptimizationServiceProvider::class);
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(MediaModuleSettings::class);

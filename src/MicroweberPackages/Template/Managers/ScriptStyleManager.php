@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Template\Managers;
 
+use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Template\Services\AssetOptimizationService;
+
 /**
  * Manages scripts and stylesheets for head and foot sections.
  *
@@ -10,6 +13,10 @@ namespace MicroweberPackages\Template\Managers;
  */
 class ScriptStyleManager
 {
+    /**
+     * @var AssetOptimizationService|null Asset optimization service instance
+     */
+    protected ?AssetOptimizationService $assetOptimizer = null;
     /**
      * @var array Scripts/styles for head section
      */
@@ -34,6 +41,38 @@ class ScriptStyleManager
      * @var array Admin header scripts/styles
      */
     protected static ?array $adminHeaders = null;
+
+    /**
+     * Constructor - initializes asset optimizer if enabled
+     */
+    public function __construct()
+    {
+        if (config('assets.enabled', true)) {
+            $this->assetOptimizer = new AssetOptimizationService();
+        }
+    }
+
+    /**
+     * Get the asset optimization service instance
+     *
+     * @return AssetOptimizationService|null
+     */
+    public function getAssetOptimizer(): ?AssetOptimizationService
+    {
+        return $this->assetOptimizer;
+    }
+
+    /**
+     * Set the asset optimization service instance
+     *
+     * @param AssetOptimizationService|null $optimizer
+     * @return $this
+     */
+    public function setAssetOptimizer(?AssetOptimizationService $optimizer): self
+    {
+        $this->assetOptimizer = $optimizer;
+        return $this;
+    }
 
     /**
      * Add a script or style to the head section.
@@ -216,6 +255,11 @@ class ScriptStyleManager
     protected function renderAsset(string $asset): string
     {
         $ext = $this->getFileExtension($asset);
+
+        // Skip optimization for inline content or external URLs
+        if (!str_starts_with($asset, 'http') && !str_starts_with($asset, '//') && $this->assetOptimizer) {
+            $asset = $this->assetOptimizer->processAsset($asset, strtolower($ext));
+        }
 
         switch (strtolower($ext)) {
             case 'css':
