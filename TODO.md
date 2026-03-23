@@ -630,7 +630,7 @@
   - Interactive Swagger UI available at `/api-documentation.html`
 - [x] 2026-03-23 docs: Write user manual and guides (L) - End-user documentation - Created comprehensive USER_MANUAL.md with 1243 lines covering all features
 - [x] 2026-03-23 docs: Create developer documentation (L) - Module development guides - Created comprehensive DEVELOPER_GUIDE_MODULES.md with complete module development guide covering: architecture, getting started, module structure, service providers, models and database, Filament resources, frontend components, testing, API development, best practices, example modules, and troubleshooting
-- [ ] docs: Write deployment guides (M) - Server requirements, installation
+- [x] 2026-03-23 docs: Write deployment guides (M) - Server requirements, installation - Created comprehensive DEPLOYMENT_GUIDE.md covering: system requirements, server configuration, pre-installation setup, multiple installation methods (Composer, Git, Docker, shared hosting), production configuration, web server setup (Apache/Nginx), SSL/TLS configuration with Let's Encrypt, database optimization, queue workers setup, caching with Redis, monitoring/logging, security best practices, troubleshooting guide, and Docker deployment
 - [ ] docs: Document architecture decisions (S) - ADRs for key decisions
 
 ### Performance
