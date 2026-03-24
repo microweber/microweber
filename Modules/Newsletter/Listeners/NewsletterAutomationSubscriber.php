@@ -57,7 +57,7 @@ class NewsletterAutomationSubscriber
      */
     public function handleOrderCreated(OrderWasCreated $event): void
     {
-        $order = $event->order;
+        $order = $event->getModel();
         if (!$order || !$order->email) {
             return;
         }

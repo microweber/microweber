@@ -101,8 +101,8 @@ class AiChatRegressionTest extends TestCase
         ]);
 
         // Step 4: Verify message was stored
-        $this->assertDatabaseHas('ai_agent_chat_messages', [
-            'agent_chat_id' => $chat->id,
+        $this->assertDatabaseHas('agent_chat_messages', [
+            'chat_id' => $chat->id,
             'role' => 'user',
             'content' => 'Create a blog post about Laravel',
         ]);
@@ -333,12 +333,12 @@ class AiChatRegressionTest extends TestCase
 
         // Add multiple messages
         AgentChatMessage::factory()->count(3)->create([
-            'agent_chat_id' => $chat->id,
+            'chat_id' => $chat->id,
             'role' => 'user',
         ]);
 
         AgentChatMessage::factory()->count(3)->create([
-            'agent_chat_id' => $chat->id,
+            'chat_id' => $chat->id,
             'role' => 'assistant',
         ]);
 
@@ -346,7 +346,7 @@ class AiChatRegressionTest extends TestCase
         $response->assertStatus(200);
 
         // Verify all messages are loaded
-        $messages = AgentChatMessage::where('agent_chat_id', $chat->id)->get();
+        $messages = AgentChatMessage::where('chat_id', $chat->id)->get();
         $this->assertCount(6, $messages);
     }
 
@@ -407,14 +407,14 @@ class AiChatRegressionTest extends TestCase
         ]);
 
         AgentChatMessage::factory()->count(5)->create([
-            'agent_chat_id' => $chat->id,
+            'chat_id' => $chat->id,
         ]);
 
         $response = $this->delete('/admin/agent-chats/' . $chat->id);
         $response->assertRedirect();
 
         $this->assertNull(AgentChat::find($chat->id));
-        $this->assertEquals(0, AgentChatMessage::where('agent_chat_id', $chat->id)->count());
+        $this->assertEquals(0, AgentChatMessage::where('chat_id', $chat->id)->count());
     }
 
     /**

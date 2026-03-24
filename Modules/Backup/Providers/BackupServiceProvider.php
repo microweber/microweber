@@ -38,7 +38,7 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Database/migrations/');
 
         $this->mergeConfigFrom(
             __DIR__.'/../config/backup.php', 'backup'

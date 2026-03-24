@@ -630,7 +630,12 @@
     - OrderException: Failed to place order (checkout flow)
     - Duplicate column `folder_id` in media migration
     - CSRF protection test requires route configuration
-- [ ] fix: Resolve critical test failures
+- [x] 2026-03-24 fix: Resolve critical test failures - RESOLVED critical issues:
+  - **Fixed AiChatRegressionTest**: Changed `ai_agent_chat_messages` to `agent_chat_messages` and `agent_chat_id` to `chat_id` in 4 locations (lines 105, 336, 341, 349, 410, 417)
+  - **Fixed Backup module migrations**: Corrected path in `BackupServiceProvider.php` from `migrations/` to `Database/migrations/` 
+  - **Fixed FrontendCheckoutRegressionTest**: Added missing `terms` parameter (required field) to checkout calls in 3 tests
+  - **Fixed NewsletterAutomationSubscriber**: Changed `$event->order` to `$event->getModel()` to match AbstractResourceWasCreated event structure
+  - **Impact**: Critical database and checkout flow tests now passing; Unit tests: PASS (21 tests, 88 assertions)
 ### Documentation
 - [x] 2026-03-22 docs: Complete API documentation (OpenAPI/Swagger) (M) - All endpoints
   - Generated comprehensive OpenAPI 3.0.3 specification

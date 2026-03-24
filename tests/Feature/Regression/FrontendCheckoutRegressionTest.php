@@ -64,6 +64,7 @@ class FrontendCheckoutRegressionTest extends TestCase
             'city' => 'Test City',
             'country' => 'US',
             'zip' => '12345',
+            'terms' => 1,
             'is_paid' => 1,
             'order_completed' => 1,
         ]);
@@ -190,6 +191,7 @@ class FrontendCheckoutRegressionTest extends TestCase
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.com',
+            'terms' => 1,
         ]);
 
         $this->assertArrayHasKey('success', $checkoutStatus);
@@ -217,6 +219,7 @@ class FrontendCheckoutRegressionTest extends TestCase
             'state' => 'CA',
             'country' => 'US',
             'zip' => '90210',
+            'terms' => 1,
             'is_paid' => 1,
             'order_completed' => 1,
         ]);
@@ -251,6 +254,7 @@ class FrontendCheckoutRegressionTest extends TestCase
             'email' => 'stock@example.com',
             'first_name' => 'Stock',
             'last_name' => 'Test',
+            'terms' => 1,
             'is_paid' => 1,
             'order_completed' => 1,
         ]);
