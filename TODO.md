@@ -616,9 +616,21 @@
   - Enhanced User model with HasRoles trait (uncommented from Spatie)
   - Created comprehensive test suites (RoleResourceTest, ResourcePermissionTest)
   - Supports role colors, system roles protection, resource-level permissions
+## Phase 4: Polish & Production (Active - Week 7-8)
 
-## Phase 4: Polish & Production (Pending - Week 7-8)
 ### Testing & QA
+- [x] 2026-03-24 run: Full test suite execution and results analysis (M) - Test all modules
+  - **Unit tests**: PASS (21 tests, 88 assertions) ✅
+  - **Feature tests**: 603 tests run, 58 errors, 55 failures identified (documented below)
+  - **Known issues**:
+    - Missing `module_dependencies` table - needs migration run
+    - `Filament\Forms\Components\Grid` class not found - Filament v4→v5 migration
+    - `o-document-currency` SVG icon missing in heroicons
+    - Missing `agent_chat_id` column in `agent_chat_messages` table
+    - OrderException: Failed to place order (checkout flow)
+    - Duplicate column `folder_id` in media migration
+    - CSRF protection test requires route configuration
+- [ ] fix: Resolve critical test failures
 ### Documentation
 - [x] 2026-03-22 docs: Complete API documentation (OpenAPI/Swagger) (M) - All endpoints
   - Generated comprehensive OpenAPI 3.0.3 specification
@@ -702,7 +714,12 @@
   - Added config/monitoring.php with comprehensive configuration options
   - Added environment variables to .env.example
   - Created comprehensive test suite: 17 tests, 62 assertions (1 skipped)
-- [ ] chore: Document SSL/TLS configuration (S) - HTTPS setup guide
+- [x] 2026-03-23 chore: Document SSL/TLS configuration (S) - HTTPS setup guide
+  - Created comprehensive SSL/TLS configuration guide at `docs/SSL_TLS_CONFIGURATION.md`
+  - Covers Let's Encrypt setup, manual certificates, Apache/Nginx configuration
+  - Includes Laravel/PHP HTTPS configuration and security headers
+  - Provides troubleshooting section and security best practices
+  - Added certificate renewal automation and monitoring scripts
 
 ## Previous Work Completed
 
@@ -1137,3 +1154,7 @@
 **Technical Debt:** 2 low-priority items to address
 
 **Overall Assessment:** Codebase shows signs of legacy architecture with large manager classes. Security is generally good with proper Laravel protections, but some raw SQL usage needs review. No critical security vulnerabilities found.
+
+- [ ] run the full test suite
+
+- [ ] see the old dusk tests, we want t move them in legacy folder andm make new simple dusk tets to check if app gaes are lading without js errors
