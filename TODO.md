@@ -1176,3 +1176,15 @@
   - Updated phpunit.dusk.xml to point to new BrowserLegacy for CrossBrowser tests
   - Added tests/Browser/README.md with documentation for new simple tests
   - Updated tests/BrowserLegacy/README.md with deprecation notice
+
+- [x] 2026-03-24 feat: Create Dusk test for visiting all admin pages (M) - Admin smoke tests with user creation
+  - Created AdminPagesTest.php with comprehensive admin page coverage
+  - Admin user creation in setUp() using User::factory()->create(['is_admin' => 1])
+  - Tests cover: Dashboard, Content, Products, Orders, Customers, Categories, Comments, Media
+  - Tests cover: Coupons, Tax Rates, Shipping/Payment Providers, Invoices
+  - Tests cover: Newsletter (Campaigns, Workflows, Lists, Subscribers, Templates, Sender Accounts)
+  - Tests cover: Users, Roles, Permissions, Marketplace, Settings, Modules, Templates
+  - Tests cover: Backup History/Schedules, Error Tracking, Currencies, Exchange Rates
+  - Tests cover: Product Variants, Inventory, Pricing Rules, Tags, AI Chat, Mail Templates
+  - Tests cover: Checkout, FAQ, Offers, Billing (Subscriptions, Plans, Users)
+  - 55 comprehensive tests total with automatic admin login and JS error checking

@@ -38,6 +38,48 @@ Basic page loading tests that check for JavaScript errors:
 9. **Profile Page** - `/profile` - Verifies profile page loads
 10. **Forgot Password** - `/forgot-password` - Verifies forgot password page loads
 
+### AdminPagesTest.php
+Admin panel page loading tests with authentication:
+
+**Prerequisites:**
+- Creates an admin user before running tests
+- Logs in as admin before testing each page
+
+**Test Coverage:**
+- **Dashboard** - `/admin` - Main admin dashboard
+- **Content Pages** - `/admin/pages` - Content management
+- **Products** - `/admin/products` - Product catalog
+- **Orders** - `/admin/orders` - Order management
+- **Customers** - `/admin/customers` - Customer management
+- **Categories** - `/admin/categories` - Category management
+- **Comments** - `/admin/comments` - Comment moderation
+- **Media** - `/admin/media` - Media library
+- **Coupons** - `/admin/coupons` - Coupon management
+- **Tax Rates** - `/admin/tax-rates` - Tax configuration
+- **Shipping Providers** - `/admin/shipping-providers` - Shipping setup
+- **Payment Providers** - `/admin/payment-providers` - Payment gateways
+- **Invoices** - `/admin/invoices` - Invoice management
+- **Newsletter Campaigns** - `/admin/newsletter/campaigns` - Email campaigns
+- **Users** - `/admin/users` - User management
+- **Roles** - `/admin/roles` - Role management
+- **Marketplace** - `/admin/marketplace` - Module marketplace
+- **Settings** - `/admin/settings` - System configuration
+- **Modules** - `/admin/modules` - Module management
+- **Templates** - `/admin/templates` - Template management
+- **Backup History** - `/admin/backup-history` - Backup management
+- **Error Tracking** - `/admin/error-tracking` - Error monitoring
+- **Currencies** - `/admin/currencies` - Currency management
+- **Product Variants** - `/admin/product-variant-attributes` - Product variants
+- **Product Inventory** - `/admin/product-inventory` - Inventory management
+- **Pricing Rules** - `/admin/product-pricing-rules` - Pricing configuration
+- **Tags** - `/admin/tags` - Tag management
+- **AI Chat** - `/admin/ai/agent-chats` - AI chat management
+- **Mail Templates** - `/admin/mail-templates` - Email templates
+- **Billing** - `/admin/subscriptions` - Billing & subscriptions
+- **Workflows** - `/admin/newsletter/workflows` - Automation workflows
+- **Backup Schedules** - `/admin/backup-schedules` - Automated backups
+- **Permissions** - `/admin/permissions` - Permission management
+
 ## Legacy Tests
 
 The original complex Dusk tests have been moved to `tests/BrowserLegacy/`. These include:
