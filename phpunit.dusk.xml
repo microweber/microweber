@@ -32,9 +32,13 @@
 
   </testsuite>
 
-  <testsuite name="CrossBrowser">
-    <directory>tests/Browser/CrossBrowser</directory>
-  </testsuite>
+<testsuite name="Browser">
+    <directory>tests/Browser</directory>
+</testsuite>
+
+<testsuite name="CrossBrowser">
+    <directory>tests/BrowserLegacy/CrossBrowser</directory>
+</testsuite>
 
         <testsuite name="ModulesBrowserTests">
             <directory>Modules/*/Tests/Browser</directory>

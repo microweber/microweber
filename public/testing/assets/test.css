@@ -1,0 +1,11 @@
+/* This is a comment */
+.test-class {
+    color: red;
+    background: blue;
+    margin: 10px 20px;
+    padding: 0;
+}
+
+.another-class {
+    font-size: 14px;
+}

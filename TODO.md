@@ -1160,6 +1160,19 @@
 
 **Overall Assessment:** Codebase shows signs of legacy architecture with large manager classes. Security is generally good with proper Laravel protections, but some raw SQL usage needs review. No critical security vulnerabilities found.
 
-- [ ] run the full test suite
+- [x] 2026-03-24 test: Run full test suite (M) - Comprehensive test execution
+  - **Unit tests**: PASS (21 tests, 88 assertions) ✅
+  - **Feature tests**: Partial (603 tests, 1919 assertions)
+    - 94 errors, 56 failures, 7 skipped, 7 risky
+    - Key issues documented for remediation
+  - **Core tests**: Executed (full results captured)
+  - Fixed missing database tables: module_dependencies, backup_history
+  - Documented test results in test run summary
 
-- [ ] see the old dusk tests, we want t move them in legacy folder andm make new simple dusk tets to check if app gaes are lading without js errors
+- [x] 2026-03-24 chore: Move old Dusk tests to legacy folder and create simple smoke tests (M) - Page loading tests
+  - Moved 68 legacy Dusk test files from tests/Browser/ to tests/BrowserLegacy/
+  - Created simple smoke tests in tests/Browser/SmokeTest.php with 10 page loading tests
+  - Tests verify pages load without JavaScript console errors (SEVERE level)
+  - Updated phpunit.dusk.xml to point to new BrowserLegacy for CrossBrowser tests
+  - Added tests/Browser/README.md with documentation for new simple tests
+  - Updated tests/BrowserLegacy/README.md with deprecation notice
