@@ -13,6 +13,7 @@ namespace MicroweberPackages\Role;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Role\Filament\Resources\RoleResource;
 use MicroweberPackages\Role\Filament\Resources\PermissionResource;
 use MicroweberPackages\Role\Services\ResourcePermissionService;
@@ -43,6 +44,10 @@ class RoleServiceProvider extends ServiceProvider
         View::addNamespace('role', __DIR__ . '/resources/views');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+
+        // Register Filament resources
+        FilamentRegistry::registerResource(RoleResource::class);
+        FilamentRegistry::registerResource(PermissionResource::class);
     }
 
     /**

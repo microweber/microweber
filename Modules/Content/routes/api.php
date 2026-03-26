@@ -13,14 +13,14 @@ use Modules\Content\Http\Controllers\Api\ContentApiController;
 |
 */
 
-// Public API routes (read-only)
+// Public API routes (read-only) - no authentication required
 Route::name('api.content.')
-    ->prefix('api/content')
-    ->middleware(['api'])
-    ->group(function () {
-        Route::get('/', [ContentApiController::class, 'index'])->name('index');
-        Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
-    });
+->prefix('api/content')
+->middleware(['api', 'throttle:public'])
+->group(function () {
+    Route::get('/', [ContentApiController::class, 'index'])->name('index');
+    Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
+});
 
 // Protected API routes (full CRUD)
 Route::name('api.content.')

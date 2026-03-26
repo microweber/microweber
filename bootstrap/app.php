@@ -29,10 +29,15 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
 ->booted(function () {
     // Configure API rate limiting
     RateLimiter::for('api', function (Request $request) {
-        return RateLimiter::limit(
-            $request->user()?->getMorphClass() . '::' . $request->user()?->id ?? $request->ip(),
-            60,
-            1
+        return \Illuminate\Cache\RateLimiting\Limit::perMinute(60)->by(
+            $request->user()?->getMorphClass() . '::' . $request->user()?->id ?? $request->ip()
+        );
+    });
+
+    // Configure public rate limiter for unauthenticated API routes
+    RateLimiter::for('public', function (Request $request) {
+        return \Illuminate\Cache\RateLimiting\Limit::perMinute(100)->by(
+            'public::' . $request->ip()
         );
     });
 })->create();
