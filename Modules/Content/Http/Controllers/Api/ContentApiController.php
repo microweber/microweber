@@ -24,18 +24,26 @@ class ContentApiController extends Controller
      * Display a listing of content.
      *
      * @param Request $request
-     * @return AnonymousResourceCollection
+     * @return AnonymousResourceCollection|JsonResponse
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
-        $limit = $request->get('limit', 30);
-        $query = $this->content->filter($request->all());
+        try {
+            $limit = $request->get('limit', 30);
+            $query = $this->content->filter($request->all());
 
-        // Handle pagination
-        $content = $query->paginate($limit);
-        $content->appends($request->except('page'));
+            // Handle pagination
+            $content = $query->paginate($limit);
+            $content->appends($request->except('page'));
 
-        return ContentResource::collection($content);
+            return ContentResource::collection($content);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid query parameters',
+                'data' => [],
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -46,6 +54,13 @@ class ContentApiController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:500',
             'url' => 'nullable|string|max:500',
@@ -111,6 +126,13 @@ class ContentApiController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $content = $this->content->show($id);
 
         if (!$content) {
@@ -158,8 +180,15 @@ class ContentApiController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $content = $this->content->show($id);
 
         if (!$content) {

@@ -278,16 +278,16 @@ class PenetrationTest extends TestCase
         // Create a regular user (non-admin)
         $regularUser = User::factory()->create(['is_admin' => 0]);
 
-        // Test admin-only endpoint access
-        $response = $this->actingAs($regularUser)->get('/admin');
+        // Test that non-admin cannot create content via API (privilege escalation)
+        $response = $this->actingAs($regularUser)
+            ->postJson('/api/content', [
+                'title' => 'Escalation Test',
+                'content_type' => 'page',
+            ]);
 
-        // Regular user should be redirected or denied
-        $isDenied = !$response->isOk() ||
-            $response->isRedirect() ||
-            in_array($response->getStatusCode(), [401, 403]);
-
-        $this->assertTrue($isDenied,
-            "Regular user can access admin area. Status: " . $response->getStatusCode());
+        // Non-admin user should be forbidden
+        $this->assertContains($response->getStatusCode(), [401, 403],
+            "Regular user can create content via API. Got status: {$response->getStatusCode()}");
     }
 
     #[Test]
@@ -365,38 +365,34 @@ class PenetrationTest extends TestCase
     #[Test]
     public function it_blocks_csrf_bypass_via_header_manipulation(): void
     {
-        // API routes often use different authentication (token-based)
-        // This test verifies that unauthorized POST requests are blocked
-        $user = User::factory()->create();
+        // API routes use token-based auth (Sanctum), not CSRF
+        // This test verifies that non-admin users cannot create content
+        $user = User::factory()->create(['is_admin' => 0]);
 
         $response = $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
             ->actingAs($user)
-            ->post('/api/content', [
+            ->postJson('/api/content', [
                 'title' => 'Test CSRF Bypass',
                 'content_type' => 'page',
             ]);
 
-        // API requests should be validated - not succeed without proper auth/CSRF
-        // 201 = success (possible vulnerability), anything else = protected
-        $this->assertNotEquals(201, $response->getStatusCode(),
-            'CSRF bypass possible - content created without proper validation');
+        // Non-admin users should be forbidden from creating content
+        $this->assertContains($response->getStatusCode(), [401, 403],
+            'Non-admin user should not be able to create content. Got status: ' . $response->getStatusCode());
     }
 
     #[Test]
-    public function it_requires_csrf_for_post_requests(): void
+    public function it_requires_authentication_for_content_creation(): void
     {
-        $user = User::factory()->create();
+        // Unauthenticated POST request to content API should be rejected
+        $response = $this->postJson('/api/content', [
+            'title' => 'Test',
+            'content_type' => 'page',
+        ]);
 
-        // POST request without CSRF token should fail
-        $response = $this->actingAs($user)
-            ->post('/api/content', [
-                'title' => 'Test',
-                'content_type' => 'page',
-            ]);
-
-        // Should not succeed (would indicate CSRF bypass)
-        $this->assertNotEquals(201, $response->getStatusCode(),
-            'CSRF token not required for POST requests');
+        // Should require authentication (401) - API routes use Sanctum token auth
+        $this->assertContains($response->getStatusCode(), [401, 403],
+            'Unauthenticated request should be rejected. Got status: ' . $response->getStatusCode());
     }
 
     // ============================================================================

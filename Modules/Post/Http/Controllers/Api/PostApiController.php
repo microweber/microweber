@@ -24,17 +24,25 @@ class PostApiController extends Controller
      * Display a listing of posts.
      *
      * @param Request $request
-     * @return AnonymousResourceCollection
+     * @return AnonymousResourceCollection|JsonResponse
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
-        $limit = $request->get('limit', 30);
-        $query = $this->post->filter($request->all());
+        try {
+            $limit = $request->get('limit', 30);
+            $query = $this->post->filter($request->all());
 
-        $posts = $query->paginate($limit);
-        $posts->appends($request->except('page'));
+            $posts = $query->paginate($limit);
+            $posts->appends($request->except('page'));
 
-        return PostResource::collection($posts);
+            return PostResource::collection($posts);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid query parameters',
+                'data' => [],
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -45,6 +53,13 @@ class PostApiController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:500',
             'url' => 'nullable|string|max:500|unique:content,url',
@@ -82,7 +97,6 @@ class PostApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to create post',
-                'error' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -119,6 +133,13 @@ class PostApiController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $post = $this->post->show($id);
 
         if (!$post) {
@@ -165,7 +186,6 @@ class PostApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update post',
-                'error' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -173,11 +193,19 @@ class PostApiController extends Controller
     /**
      * Remove the specified post.
      *
+     * @param Request $request
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $post = $this->post->show($id);
 
         if (!$post) {
@@ -199,7 +227,6 @@ class PostApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to delete post',
-                'error' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
