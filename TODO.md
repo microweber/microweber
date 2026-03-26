@@ -1213,10 +1213,11 @@
   - **Fix**: Rewrote RoleResourceTest to test Role model functionality (CRUD, scopes, custom fields, guard auto-set, system role protection) instead of non-existent API routes.
   - **Result**: 10 tests passing (28 assertions), removed deprecated `@covers` annotations
 
-- [ ] fix: Error tracking table missing columns
-  - Location: `database/migrations/2026_03_22_000000_create_error_tracking_table.php`
-  - Issue: Tests expect columns not present in table
-  - **Action**: Verify migration creates all required columns
+- [x] 2026-03-26 fix: Error tracking table missing columns
+  - Location: `src/MicroweberPackages/Monitoring/database/migrations/2026_03_23_000001_create_error_tracking_table.php`
+  - Issue: MonitoringServiceProvider was never registered in MicroweberServiceProvider, so migration wasn't loaded
+  - Fix: Added `use` import and `$this->app->register(MonitoringServiceProvider::class)` in MicroweberServiceProvider
+  - All 17 error tracking tests now pass (1 skipped for SQLite index check)
 
 #### Category 2: API & Rate Limiter Issues (High Priority)
 - [ ] fix: Rate limiter 'public' not defined

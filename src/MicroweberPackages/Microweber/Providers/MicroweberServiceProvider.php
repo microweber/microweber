@@ -26,6 +26,7 @@ use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
+use MicroweberPackages\Monitoring\Providers\MonitoringServiceProvider;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
@@ -163,7 +164,7 @@ class MicroweberServiceProvider extends ServiceProvider
        // $this->app->register(\Modules\Customer\Providers\CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         //$this->app->register(PaymentServiceProvider::class);
-    //    $this->app->register(RoleServiceProvider::class);
+        $this->app->register(RoleServiceProvider::class);
       // $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
         //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
       //  $this->app->register(SwaggerServiceProvider::class);
@@ -172,6 +173,7 @@ class MicroweberServiceProvider extends ServiceProvider
         // $this->app->register(\EloquentFilter\ServiceProvider::class);
      //   $this->app->register(MailTemplatesServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);
+        $this->app->register(MonitoringServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
        // $this->app->register(ContentFilterServiceProvider::class);
