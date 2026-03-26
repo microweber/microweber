@@ -36,9 +36,7 @@ return new class extends Migration
             if (!Schema::hasColumn('media', 'file_hash')) {
                 $table->string('file_hash')->nullable()->after('file_size');
             }
-            if (!Schema::hasColumn('media', 'folder_id')) {
-                $table->unsignedBigInteger('folder_id')->nullable()->after('id');
-            }
+            // folder_id is managed by create_media_folders_table migration
         });
     }
 
@@ -54,6 +52,7 @@ return new class extends Migration
         }
 
         Schema::table('media', function (Blueprint $table) {
+            // folder_id is managed by create_media_folders_table migration
             $table->dropColumn([
                 'cdn_url',
                 'cdn_provider',
@@ -61,7 +60,6 @@ return new class extends Migration
                 'is_synced_to_cdn',
                 'file_size',
                 'file_hash',
-                'folder_id',
             ]);
         });
     }

@@ -1188,3 +1188,82 @@
   - Tests cover: Product Variants, Inventory, Pricing Rules, Tags, AI Chat, Mail Templates
   - Tests cover: Checkout, FAQ, Offers, Billing (Subscriptions, Plans, Users)
   - 55 comprehensive tests total with automatic admin login and JS error checking
+
+## Active Task: Fix All Failing Tests
+
+### Test Results Summary
+- **Total Feature Tests**: 603 tests, 1919 assertions
+- **Passed**: 478 ✅
+- **Failed**: 111 ❌
+- **Errors**: 94
+- **Skipped**: 7
+- **Risky**: 7
+
+### Categorized Failure Plan
+
+#### Category 1: Database Schema Issues (High Priority)
+- [x] 2026-03-26 fix: Migration rollback - SQLite drop column issue with folder_id
+  - Location: `Modules/Media/database/migrations/2026_03_22_000000_create_media_folders_table.php`
+  - Issue: Two migrations both managed `folder_id` on media table, causing rollback conflicts
+  - Fix: Removed duplicate `folder_id` from CDN migration, improved SQLite handling in media_folders migration
+  
+- [ ] fix: Users table missing 'name' column in tests
+  - Location: `database/factories/UserFactory.php` or migrations
+  - Issue: Tests expect `users.name` column that doesn't exist in test database
+  - **Affected tests**: OrderResourceTest, RoleResourceTest, etc.
+  - **Action**: Update UserFactory to use existing columns (first_name, last_name)
+
+- [ ] fix: Error tracking table missing columns
+  - Location: `database/migrations/2026_03_22_000000_create_error_tracking_table.php`
+  - Issue: Tests expect columns not present in table
+  - **Action**: Verify migration creates all required columns
+
+#### Category 2: API & Rate Limiter Issues (High Priority)
+- [ ] fix: Rate limiter 'public' not defined
+  - Location: `routes/api.php` or `app/Providers/RouteServiceProvider.php`
+  - Issue: API routes reference rate limiter that doesn't exist
+  - **Affected**: ContentApiTest, EcommerceApiTest
+  - **Action**: Define 'public' rate limiter in RouteServiceProvider
+
+#### Category 3: Security Test Issues (Medium Priority)
+- [ ] fix: SQL injection tests returning 500 errors
+  - Location: `tests/Feature/Security/PenetrationTest.php`
+  - Issue: Malicious payloads cause unhandled exceptions (500) instead of graceful rejection (400/422)
+  - **Action**: Add try-catch in ContentApiController@index to handle SQL exceptions
+
+#### Category 4: Performance Test Failures (Low Priority)
+- [ ] fix: Load testing timing thresholds
+  - Location: `tests/Feature/Performance/LoadTestingTest.php`
+  - Issue: Tests exceed time thresholds in CI environment
+  - **Action**: Increase thresholds or skip in testing environment
+
+#### Category 5: Metadata Warnings (Low Priority)
+- [ ] fix: PHPUnit 12 deprecated @covers annotations
+  - Location: Multiple test files with @covers in doc-comments
+  - Issue: PHPUnit 12 deprecates metadata in doc-comments
+  - **Action**: Convert to PHPUnit attributes or remove @covers
+
+### Execution Order
+1. First: Fix database schema issues (blocks many other tests)
+2. Second: Fix rate limiter configuration (blocks API tests)
+3. Third: Fix security test exceptions (add error handling)
+4. Fourth: Address performance test thresholds
+5. Fifth: Clean up metadata warnings
+
+### Active Subtask
+- [x] 2026-03-26 fix: SQLite migration rollback for media_folders table
+- [ ] fix: Users table schema issue in test factories
+- [ ] fix: Rate limiter configuration for API tests
+- [ ] fix: Security penetration test exception handling
+
+- [ ] fix the slow tests to use memry river
+
+- [ ] fix pint errors
+
+- [ ] run and fix all tests
+
+- [ ] fix pint errors
+
+- [ ] run the full test suite and fix failing
+
+- [ ] run the full test suite and fix failing
