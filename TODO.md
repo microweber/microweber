@@ -1220,11 +1220,11 @@
   - All 17 error tracking tests now pass (1 skipped for SQLite index check)
 
 #### Category 2: API & Rate Limiter Issues (High Priority)
-- [ ] fix: Rate limiter 'public' not defined
-  - Location: `routes/api.php` or `app/Providers/RouteServiceProvider.php`
-  - Issue: API routes reference rate limiter that doesn't exist
-  - **Affected**: ContentApiTest, EcommerceApiTest
-  - **Action**: Define 'public' rate limiter in RouteServiceProvider
+- [x] 2026-03-26 fix: Rate limiter 'public' not defined
+  - **Root cause**: The `public` rate limiter was already defined in `bootstrap/app.php`. The actual issue was that `ContentApiController`, `PageApiController`, and `PostApiController` extended `AdminDefaultController` which injects `admin` and `xss` controller-level middleware, causing 302 redirects to admin login on public API routes.
+  - **Fix**: Changed all three API controllers to extend `Illuminate\Routing\Controller` instead of `AdminDefaultController`. Authentication for protected routes is handled by `auth:sanctum` middleware in route definitions.
+  - **Files changed**: `Modules/Content/Http/Controllers/Api/ContentApiController.php`, `Modules/Page/Http/Controllers/Api/PageApiController.php`, `Modules/Post/Http/Controllers/Api/PostApiController.php`
+  - **Result**: ContentApiTest: 20 passed (6 remaining failures are unrelated test data/delete issues)
 
 #### Category 3: Security Test Issues (Medium Priority)
 - [ ] fix: SQL injection tests returning 500 errors
@@ -1268,3 +1268,7 @@
 - [ ] run the full test suite and fix failing
 
 - [ ] run the full test suite and fix failing
+
+- [ ] run the full test suite and fix failing
+
+- [ ] fix pint errors

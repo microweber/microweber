@@ -8,12 +8,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
+use Illuminate\Routing\Controller;
 use Modules\Post\Http\Resources\PostResource;
 use Modules\Post\Repositories\PostApiRepository;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostApiController extends AdminDefaultController
+class PostApiController extends Controller
 {
     public function __construct(
         private readonly PostApiRepository $post

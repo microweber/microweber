@@ -8,12 +8,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
+use Illuminate\Routing\Controller;
 use Modules\Content\Http\Resources\ContentResource;
 use Modules\Content\Repositories\ContentRepositoryApi;
 use Symfony\Component\HttpFoundation\Response;
 
-class ContentApiController extends AdminDefaultController
+class ContentApiController extends Controller
 {
     public function __construct(
         private readonly ContentRepositoryApi $content

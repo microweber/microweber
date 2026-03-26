@@ -8,12 +8,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
+use Illuminate\Routing\Controller;
 use Modules\Page\Http\Resources\PageResource;
 use Modules\Page\Repositories\PageApiRepository;
 use Symfony\Component\HttpFoundation\Response;
 
-class PageApiController extends AdminDefaultController
+class PageApiController extends Controller
 {
     public function __construct(
         private readonly PageApiRepository $page
