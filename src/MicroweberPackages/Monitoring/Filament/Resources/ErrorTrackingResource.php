@@ -3,8 +3,11 @@
 namespace MicroweberPackages\Monitoring\Filament\Resources;
 
 use MicroweberPackages\Monitoring\Models\ErrorTracking;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\TextInput;
+use Filament\Textarea;
+use Filament\Toggle;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,9 +17,9 @@ class ErrorTrackingResource extends Resource
 {
     protected static ?string $model = ErrorTracking::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bug-ant';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bug-ant';
 
-    protected static ?string $navigationGroup = 'System';
+    protected static string | \UnitEnum | null $navigationGroup = 'System';
 
     protected static ?string $navigationLabel = 'Error Tracking';
 
@@ -24,54 +27,54 @@ class ErrorTrackingResource extends Resource
 
     protected static ?int $navigationSort = 90;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Error Details')
+                Section::make('Error Details')
                     ->schema([
-                        Forms\Components\TextInput::make('level')
+                        TextInput::make('level')
                             ->label('Level')
                             ->disabled(),
 
-                        Forms\Components\Textarea::make('message')
+                        Textarea::make('message')
                             ->label('Message')
                             ->disabled()
                             ->rows(3)
                             ->columnSpanFull(),
 
-                        Forms\Components\TextInput::make('exception_class')
+                        TextInput::make('exception_class')
                             ->label('Exception Class')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('location')
+                        TextInput::make('location')
                             ->label('Location')
                             ->disabled()
                             ->hint('File and line number'),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Context')
+                Section::make('Context')
                     ->schema([
-                        Forms\Components\TextInput::make('url')
+                        TextInput::make('url')
                             ->label('URL')
                             ->disabled()
                             ->columnSpan(2),
 
-                        Forms\Components\TextInput::make('method')
+                        TextInput::make('method')
                             ->label('HTTP Method')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('user_ip')
+                        TextInput::make('user_ip')
                             ->label('IP Address')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('user_agent')
+                        TextInput::make('user_agent')
                             ->label('User Agent')
                             ->disabled()
                             ->columnSpanFull(),
 
-                        Forms\Components\Textarea::make('trace')
+                        Textarea::make('trace')
                             ->label('Stack Trace')
                             ->disabled()
                             ->rows(10)
@@ -80,13 +83,13 @@ class ErrorTrackingResource extends Resource
                     ->columns(2)
                     ->collapsed(),
 
-                Forms\Components\Section::make('Resolution')
+                Section::make('Resolution')
                     ->schema([
-                        Forms\Components\Toggle::make('is_resolved')
+                        Toggle::make('is_resolved')
                             ->label('Mark as Resolved')
                             ->live(),
 
-                        Forms\Components\Textarea::make('resolution_notes')
+                        Textarea::make('resolution_notes')
                             ->label('Resolution Notes')
                             ->placeholder('Describe how this error was resolved...')
                             ->rows(3)
@@ -195,7 +198,7 @@ class ErrorTrackingResource extends Resource
                 Tables\Filters\Filter::make('file')
                     ->label('File')
                     ->form([
-                        Forms\Components\TextInput::make('file')
+                        TextInput::make('file')
                             ->placeholder('Filter by file name...'),
                     ])
                     ->query(function (Builder $query, array $data) {
