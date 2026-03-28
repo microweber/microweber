@@ -8,12 +8,10 @@ use Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin;
 use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;
 use Modules\Multilanguage\Filament\Pages\MultilanguageSettingsAdmin;
 use Modules\WhiteLabel\Filament\Pages\WhiteLabelSettingsAdminSettingsPage;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
-#[RunTestsInSeparateProcesses]
 class ModuleSettingsPagesLoadTest extends TestCase
 {
     use InteractsWithFilamentPanel;

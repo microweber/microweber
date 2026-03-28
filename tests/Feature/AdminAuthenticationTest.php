@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Modules\Profile\Filament\Pages\Login;
@@ -13,7 +12,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 class AdminAuthenticationTest extends TestCase
 {
-    use LazilyRefreshDatabase;
 
     protected User $admin;
     protected User $regularUser;

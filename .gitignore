@@ -151,3 +151,4 @@ phpunit-coverage.xml
 *.sqlite-journal
 /.vscode
 .workflow-state
+127.0.0.1.bak

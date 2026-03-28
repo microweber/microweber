@@ -10,7 +10,6 @@ use Livewire\Livewire;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ProfileManagementTest extends TestCase
 {
     use UserTestHelperTrait;

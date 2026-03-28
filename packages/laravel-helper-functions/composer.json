@@ -6,7 +6,6 @@
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\LaravelHelperFunctions\\": "src/"
-
         },
         "files": [
             "src/helpers.php"
@@ -19,5 +18,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "version": "1.0.0"
 }

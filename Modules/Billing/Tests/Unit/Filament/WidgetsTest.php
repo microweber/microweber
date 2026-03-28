@@ -13,7 +13,6 @@ use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Str;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class WidgetsTest extends BillingTestCase
 {
     use InteractsWithFilamentPanel;
@@ -68,7 +67,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_displays_mrr_stat()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $activePlan = $this->createTestPlan(['price' => 2500]);
         $this->createTestSubscription([
@@ -87,7 +86,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_displays_active_subscriptions_count()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription(['stripe_status' => 'active', 'stripe_id' => 'sub_active_1']);
         $this->createTestSubscription(['stripe_status' => 'active', 'stripe_id' => 'sub_active_2']);
@@ -104,7 +103,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_displays_total_subscriptions_count()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription(['stripe_id' => 'sub_1']);
         $this->createTestSubscription(['stripe_id' => 'sub_2']);
@@ -121,7 +120,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_displays_churn_rate()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $oldSubscription = $this->createTestSubscription([
             'created_at' => now()->subDays(60),
@@ -145,7 +144,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_shows_zero_for_empty_database()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $response = Livewire::test(StatsOverviewWidget::class);
 
@@ -166,7 +165,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_displays_latest_five_subscriptions()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $subscriptions = [];
         for ($i = 0; $i < 7; $i++) {
@@ -185,7 +184,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_shows_empty_state_when_no_subscriptions()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $response = Livewire::test(LatestSubscriptionsWidget::class);
 
@@ -212,7 +211,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_displays_correct_columns()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription([
             'stripe_id' => 'sub_columns',
@@ -232,7 +231,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_status_badge_color_is_success_for_active()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription([
             'stripe_id' => 'sub_active_badge',
@@ -247,7 +246,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_status_badge_color_is_danger_for_canceled()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription([
             'stripe_id' => 'sub_canceled_badge',
@@ -262,7 +261,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function latest_subscriptions_widget_status_badge_color_is_warning_for_past_due()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription([
             'stripe_id' => 'sub_past_due_badge',
@@ -277,7 +276,7 @@ class WidgetsTest extends BillingTestCase
     #[Test]
     public function stats_overview_widget_has_four_stats()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $response = Livewire::test(StatsOverviewWidget::class);
 

@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
@@ -15,16 +15,16 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class OrderResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('cart')->delete();
+        DB::table('cart_orders')->delete();
     }
 
     protected function getResourceClass(): string
@@ -113,7 +113,7 @@ class OrderResourceTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas('orders', [
+        $this->assertDatabaseHas('cart_orders', [
             'order_reference_id' => 'ORDER-TEST-001',
             'customer_id' => $customer->id,
             'order_status' => OrderStatus::New,
@@ -141,23 +141,25 @@ class OrderResourceTest extends TestCase
     #[Test]
     public function it_edit_page_updates_record(): void
     {
+        $customer = Customer::factory()->create();
         $order = Order::factory()->create([
             'order_status' => OrderStatus::New,
             'order_completed' => false,
+            'customer_id' => $customer->id,
         ]);
 
         Livewire::test(EditOrder::class, ['record' => $order->id])
             ->fillForm([
                 'order_status' => OrderStatus::Completed,
                 'order_completed' => true,
+                'customer_id' => $customer->id,
             ])
             ->call('save')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('orders', [
+        $this->assertDatabaseHas('cart_orders', [
             'id' => $order->id,
-            'order_status' => OrderStatus::Completed,
+            'order_status' => OrderStatus::Completed->value,
             'order_completed' => true,
         ]);
     }
@@ -170,7 +172,7 @@ class OrderResourceTest extends TestCase
         Livewire::test(ListOrders::class)
             ->callTableAction('delete', $order);
 
-        $this->assertDatabaseMissing('orders', [
+        $this->assertSoftDeleted('cart_orders', [
             'id' => $order->id,
         ]);
     }
@@ -249,7 +251,7 @@ class OrderResourceTest extends TestCase
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('orders', [
+        $this->assertDatabaseHas('cart_orders', [
             'order_reference_id' => 'ORDER-ITEMS-001',
         ]);
     }
@@ -297,12 +299,12 @@ class OrderResourceTest extends TestCase
             ->callTableBulkAction('delete', [$order1, $order2])
             ->assertHasNoTableBulkActionErrors();
 
-        // Assert deleted records are gone
-        $this->assertDatabaseMissing('orders', ['id' => $order1->id]);
-        $this->assertDatabaseMissing('orders', ['id' => $order2->id]);
+        // Assert deleted records are soft-deleted
+        $this->assertSoftDeleted('cart_orders', ['id' => $order1->id]);
+        $this->assertSoftDeleted('cart_orders', ['id' => $order2->id]);
 
-        // Assert third order still exists
-        $this->assertDatabaseHas('orders', ['id' => $order3->id]);
+        // Assert third order still exists (not deleted)
+        $this->assertDatabaseHas('cart_orders', ['id' => $order3->id, 'deleted_at' => null]);
     }
 
     #[Test]

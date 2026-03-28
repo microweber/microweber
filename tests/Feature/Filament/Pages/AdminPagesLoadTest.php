@@ -7,12 +7,10 @@ use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 use Modules\Menu\Filament\Admin\Pages\AdminMenusPage;
 use Modules\Profile\Filament\Pages\EditProfile;
 use Modules\Updater\Filament\Pages\UpdaterPage;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
-#[RunTestsInSeparateProcesses]
 class AdminPagesLoadTest extends TestCase
 {
     use InteractsWithFilamentPanel;

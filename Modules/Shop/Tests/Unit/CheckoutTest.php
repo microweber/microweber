@@ -28,9 +28,9 @@ class CheckoutTest extends TestCase
         Config::set('mail.driver', 'array');
         Config::set('queue.driver', 'sync');
         Config::set('mail.transport', 'array');
-        Product::truncate();
-        Order::truncate();
-        Cart::truncate();
+        Product::query()->delete();
+        Order::query()->delete();
+        Cart::query()->delete();
 
 //create mail templste
 

@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Video\Filament\VideoModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class VideoModuleSettingsFilamentTest extends TestCase
 {
 

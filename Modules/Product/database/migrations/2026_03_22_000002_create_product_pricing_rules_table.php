@@ -80,8 +80,8 @@ return new class extends Migration
         // Create pivot table for customer-specific pricing
         Schema::create('product_customer_pricing', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('content')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->decimal('price', 12, 2)->nullable();
             $table->decimal('compare_price', 12, 2)->nullable();
             $table->decimal('minimum_quantity', 10, 2)->default(1);

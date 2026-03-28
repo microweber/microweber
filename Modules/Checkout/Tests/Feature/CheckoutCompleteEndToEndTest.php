@@ -2,7 +2,7 @@
 
 namespace Modules\Checkout\Tests\Feature;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Cart\Models\Cart;
 use Modules\Checkout\Services\CheckoutService;
 use Modules\Order\Models\Order;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\Test;
  */
 class CheckoutCompleteEndToEndTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     protected ?int $testProductId = null;
     protected ?int $testShippingProviderId = null;

@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Logo\Filament\LogoModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class LogoModuleSettingsFilamentTest extends TestCase
 {
 

@@ -13,7 +13,7 @@ class TemplateAssetPublisher extends AssetPublisher
      *
      * @return string
      */
-    public function getSourcePath()
+    public function getSourcePath(): string
     {
         return $this->getModule()->getExtraPath(
             TemplateGenerateConfigReader::read('assets')->getPath()

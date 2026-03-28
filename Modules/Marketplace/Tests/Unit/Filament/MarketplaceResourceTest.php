@@ -2,7 +2,6 @@
 
 namespace Modules\Marketplace\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
 use Modules\Marketplace\Filament\Admin\MarketplaceResource;
@@ -12,10 +11,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class MarketplaceResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class ShippingProviderResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

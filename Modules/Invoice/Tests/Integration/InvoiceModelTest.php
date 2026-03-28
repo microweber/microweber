@@ -13,8 +13,8 @@ class InvoiceModelTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Invoice::truncate();
-        InvoiceItem::truncate();
+        Invoice::query()->delete();
+        InvoiceItem::query()->delete();
     }
 
     #[Test]

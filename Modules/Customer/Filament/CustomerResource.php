@@ -104,7 +104,7 @@ Forms\Components\Select::make('company_id')
                             ->maxLength(255),
 
                     ])
-            ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+            ->createOptionAction(function ($action) {
                 return $action
                 ->modalHeading('Create company')
                 ->modalSubmitActionLabel('Create company')
@@ -130,7 +130,7 @@ Forms\Components\Select::make('company_id')
                             Forms\Components\Textarea::make('description')
                                 ->maxLength(65535),
                         ])
-                        ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                        ->createOptionAction(function ($action) {
                             return $action
                                 ->modalHeading('Create Tag')
                                 ->modalSubmitActionLabel('Create Tag')
@@ -149,7 +149,6 @@ Forms\Components\Select::make('company_id')
             return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
         })
-        ->with(['user', 'currency', 'company', 'tags'])
         ->columns([
             Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
@@ -172,7 +171,7 @@ Forms\Components\Select::make('company_id')
         ])
         ->filters([
             Tables\Filters\Filter::make('active')
-            ->query(fn(Builder $query): Builder => $query->where('active', true)),
+            ->query(fn($query) => $query->where('active', true)),
             Tables\Filters\SelectFilter::make('tags')
                 ->label('Has Tags')
                 ->multiple()

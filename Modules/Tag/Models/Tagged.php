@@ -2,7 +2,9 @@
 
 namespace Modules\Tag\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use Modules\Tag\Database\Factories\TaggedFactory;
 
 /**
  * @package Conner\Tagging\Models
@@ -17,4 +19,12 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 class Tagged extends \Conner\Tagging\Model\Tagged
 {
     use CacheableQueryBuilderTrait;
+    use HasFactory;
+
+    protected $fillable = ['tag_name', 'tag_slug', 'taggable_id', 'taggable_type'];
+
+    protected static function newFactory()
+    {
+        return TaggedFactory::new();
+    }
 }

@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('content_data', function (Blueprint $table) {
-            // Check and add composite index for frequent lookups
-            if (!Schema::hasIndex('content_data', 'content_data_rel_lookup_index')) {
-                $table->index(['rel_type', 'rel_id', 'field_name'], 'content_data_rel_lookup_index');
+        // Add composite index using raw SQL to support TEXT column prefix
+        if (!Schema::hasIndex('content_data', 'content_data_rel_lookup_index')) {
+            if (\Illuminate\Support\Facades\DB::getDriverName() === 'mysql') {
+                \Illuminate\Support\Facades\DB::statement(
+                    'CREATE INDEX content_data_rel_lookup_index ON content_data (rel_type(191), rel_id(191), field_name(191))'
+                );
+            } else {
+                \Illuminate\Support\Facades\DB::statement(
+                    'CREATE INDEX content_data_rel_lookup_index ON content_data (rel_type, rel_id, field_name)'
+                );
             }
+        }
 
+        Schema::table('content_data', function (Blueprint $table) {
             // Individual indexes for single-column queries
             if (!Schema::hasIndex('content_data', 'content_data_rel_type_index')) {
                 $table->index('rel_type', 'content_data_rel_type_index');

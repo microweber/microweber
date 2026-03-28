@@ -2,7 +2,7 @@
 
 namespace Modules\Currency\Tests\Unit;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Currency\Models\Currency;
 use Modules\Currency\Models\ExchangeRate;
 use Modules\Currency\Services\CurrencyManager;
@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class MultiCurrencyTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     protected CurrencyManager $currencyManager;
     protected CurrencyConversionService $conversionService;

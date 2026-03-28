@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class OrderResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

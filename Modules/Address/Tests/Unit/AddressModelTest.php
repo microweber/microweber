@@ -14,8 +14,8 @@ class AddressModelTest extends TestCase
     #[Test]
     public function it_address_types_and_relationships(): void {
         // Ensure clean test environment
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
 
         $customer = Customer::create([
             'name' => 'Address Test Customer',

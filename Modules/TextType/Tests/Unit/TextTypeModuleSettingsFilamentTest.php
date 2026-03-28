@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\TextType\Filament\TextTypeModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TextTypeModuleSettingsFilamentTest extends TestCase
 {
 

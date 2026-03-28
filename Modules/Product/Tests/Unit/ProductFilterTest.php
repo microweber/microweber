@@ -19,11 +19,11 @@ class ProductFilterTest extends TestCase
 
     private function cleanUp()
     {
-        $clean = \Modules\Product\Models\Product::truncate();
-        $clean = Order::truncate();
-        $clean = Cart::truncate();
-        $clean = CustomField::truncate();
-        $clean = CustomFieldValue::truncate();
+        $clean = \Modules\Product\Models\Product::query()->delete();
+        $clean = Order::query()->delete();
+        $clean = Cart::query()->delete();
+        $clean = CustomField::query()->delete();
+        $clean = CustomFieldValue::query()->delete();
     }
 
     #[Test]

@@ -75,6 +75,7 @@ class PostApiController extends Controller
             'layout_file' => 'nullable|string|max:500',
             'active_site_template' => 'nullable|string|max:500',
             'position' => 'nullable|integer',
+            'multilanguage' => 'nullable',
         ]);
 
         if ($validator->fails()) {

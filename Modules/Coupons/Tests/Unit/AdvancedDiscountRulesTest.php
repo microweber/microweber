@@ -17,7 +17,7 @@ class AdvancedDiscountRulesTest extends TestCase
         parent::setUp();
         $this->couponService = app(CouponService::class);
         Session::flush();
-        Coupon::truncate();
+        Coupon::query()->delete();
     }
 
     #[Test]

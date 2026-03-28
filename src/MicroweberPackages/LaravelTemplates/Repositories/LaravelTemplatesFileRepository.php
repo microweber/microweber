@@ -20,32 +20,6 @@ use Nwidart\Modules\Collection;
 class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 {
     /**
-     * Application instance.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
-     */
-    protected $app;
-
-    /**
-     * The module path.
-     *
-     * @var string|null
-     */
-    protected $path;
-
-    /**
-     * The scanned paths.
-     *
-     * @var array
-     */
-    protected $paths = [];
-
-    /**
-     * @var string
-     */
-    protected $stubPath;
-
-    /**
      * @var UrlGenerator
      */
     private $url;
@@ -125,11 +99,9 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     }
 
 
-    protected function createModule(...$args)
+    protected function createModule(Container $app, string $name, string $path): \Nwidart\Modules\Laravel\Module
     {
-
-        return StaticTemplateCreator::createModule(...$args);
-
+        return StaticTemplateCreator::createModule($app, $name, $path);
     }
 
     public function all(): array

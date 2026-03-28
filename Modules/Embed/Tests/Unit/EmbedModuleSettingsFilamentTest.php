@@ -11,7 +11,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\Embed\Filament\EmbedModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class EmbedModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

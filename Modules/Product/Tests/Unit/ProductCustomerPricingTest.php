@@ -2,13 +2,13 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Product\Models\ProductCustomerPricing;
 use Tests\TestCase;
 
 class ProductCustomerPricingTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

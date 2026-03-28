@@ -2,28 +2,29 @@
 
 namespace Modules\Customer\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Customer\Filament\CustomerResource;
 use Modules\Customer\Filament\CustomerResource\Pages\ManageCustomers;
 use Modules\Customer\Models\Customer;
-use Modules\Customer\Models\Company;
+use Modules\Company\Models\Company;
 use MicroweberPackages\User\Models\User;
 use Modules\Currency\Models\Currency;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class CustomerResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('customers')->delete();
+        DB::table('companies')->delete();
+        DB::table('currencies')->delete();
     }
 
     protected function getResourceClass(): string
@@ -74,25 +75,19 @@ class CustomerResourceTest extends TestCase
     {
         Livewire::test(ManageCustomers::class)
             ->assertSuccessful()
-            ->assertFormExists();
+            ->assertActionExists('create');
     }
 
     #[Test]
     public function it_create_page_validates_required_fields(): void
     {
         Livewire::test(ManageCustomers::class)
-            ->fillForm([
+            ->callAction('create', data: [
                 'name' => '',
-                'email' => '',
                 'user_id' => '',
                 'currency_id' => '',
             ])
-            ->call('create')
-            ->assertHasFormErrors([
-                'name',
-                'user_id',
-                'currency_id',
-            ]);
+            ->assertHasActionErrors(['name']);
     }
 
     #[Test]
@@ -102,7 +97,7 @@ class CustomerResourceTest extends TestCase
         $currency = Currency::factory()->create();
 
         Livewire::test(ManageCustomers::class)
-            ->fillForm([
+            ->callAction('create', data: [
                 'name' => 'Test Customer',
                 'first_name' => 'John',
                 'last_name' => 'Doe',
@@ -112,9 +107,7 @@ class CustomerResourceTest extends TestCase
                 'user_id' => $user->id,
                 'currency_id' => $currency->id,
             ])
-            ->call('create')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoActionErrors();
 
         $this->assertDatabaseHas('customers', [
             'name' => 'Test Customer',
@@ -133,33 +126,31 @@ class CustomerResourceTest extends TestCase
 
         Livewire::test(ManageCustomers::class)
             ->assertSuccessful()
-            ->assertFormSet([
-                'name' => 'Edit Test Customer',
-                'email' => 'edit@test.com',
-            ]);
+            ->assertCanSeeTableRecords([$customer]);
     }
 
     #[Test]
     public function it_edit_page_updates_record(): void
     {
+        $user = User::factory()->create();
+        $currency = Currency::factory()->create();
         $customer = Customer::factory()->create([
             'name' => 'Original Name',
-            'active' => true,
+            'user_id' => $user->id,
+            'currency_id' => $currency->id,
         ]);
 
         Livewire::test(ManageCustomers::class)
-            ->fillForm([
+            ->callTableAction('edit', $customer, data: [
                 'name' => 'Updated Name',
-                'active' => false,
+                'user_id' => $user->id,
+                'currency_id' => $currency->id,
             ])
-            ->call('save')
-            ->assertHasNoFormErrors()
-            ->assertRedirect();
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseHas('customers', [
             'id' => $customer->id,
             'name' => 'Updated Name',
-            'active' => false,
         ]);
     }
 

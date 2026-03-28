@@ -38,7 +38,7 @@ class ContentManagerTest extends TestCase
     #[Test]
 
     public function it_pages(): void {
-        $clean = Content::truncate();
+        $clean = Content::query()->delete();
 
         $params = array(
             'title' => 'My test page',
@@ -359,7 +359,7 @@ class ContentManagerTest extends TestCase
 
     public function it_next_prev(): void {
 
-        $clean = Content::truncate();
+        $clean = Content::query()->delete();
 
         $params = array(
             'title' => 'this is my test next prev post',

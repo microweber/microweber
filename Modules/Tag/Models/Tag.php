@@ -2,9 +2,11 @@
 
 namespace Modules\Tag\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Customer\Models\Customer;
+use Modules\Tag\Database\Factories\TagFactory;
 
 /**
  * @package Conner\Tagging\Models
@@ -22,6 +24,12 @@ use Modules\Customer\Models\Customer;
 class Tag extends \Conner\Tagging\Model\Tag
 {
     use CacheableQueryBuilderTrait;
+    use HasFactory;
+
+    protected static function newFactory()
+    {
+        return TagFactory::new();
+    }
 
     /**
      * Get the customers associated with this tag.

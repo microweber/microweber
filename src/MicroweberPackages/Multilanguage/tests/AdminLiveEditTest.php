@@ -63,10 +63,9 @@ class AdminLiveEditTest extends TestCase
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
         $fieldSaved = $response->decodeResponseJson();
 
@@ -137,10 +136,9 @@ class AdminLiveEditTest extends TestCase
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
         $fieldSaved = $response->decodeResponseJson();
 
@@ -150,7 +148,7 @@ class AdminLiveEditTest extends TestCase
         $_REQUEST['content_id'] = $findPage->id;
 
         $frontRender = new FrontendController();
-        $html = $frontRender->index();
+        $html = $frontRender->frontend(['content_id' => $findPage->id]);
 
         $this->assertTrue(str_contains($html, $contentFieldHtml));
 

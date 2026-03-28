@@ -2,17 +2,14 @@
 
 namespace Modules\Checkout\Tests\Unit\Livewire;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Checkout\Livewire\CheckoutWizard;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class CheckoutWizardTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

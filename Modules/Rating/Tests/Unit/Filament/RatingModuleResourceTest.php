@@ -2,7 +2,6 @@
 
 namespace Modules\Rating\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
 use Modules\Rating\Filament\Resources\RatingModuleResource\Pages\ListRatings;
@@ -14,10 +13,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class RatingModuleResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

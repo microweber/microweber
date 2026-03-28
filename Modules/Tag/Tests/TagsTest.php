@@ -5,7 +5,7 @@ namespace Modules\Tag\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Modules\Content\Models\Content;
@@ -13,7 +13,7 @@ use Modules\Content\Models\Content;
 class TagsTest extends TestCase
 {
 
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     #[Test]
 

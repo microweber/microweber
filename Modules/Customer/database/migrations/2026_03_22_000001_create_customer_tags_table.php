@@ -20,18 +20,13 @@ return new class extends Migration
         Schema::create('customer_tags', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->unsignedInteger('tag_id');
             $table->timestamp('created_at')->useCurrent();
 
-            // Foreign key constraints
+            // Foreign key constraint for customer_id
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
-                ->onDelete('cascade');
-
-            $table->foreign('tag_id')
-                ->references('id')
-                ->on('tags')
                 ->onDelete('cascade');
 
             // Unique constraint to prevent duplicate tags per customer

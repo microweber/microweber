@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class PaymentProviderResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

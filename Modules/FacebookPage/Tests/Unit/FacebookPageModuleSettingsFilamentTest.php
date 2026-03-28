@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\FacebookPage\Filament\FacebookPageModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class FacebookPageModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

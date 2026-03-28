@@ -95,7 +95,8 @@ return new class extends Migration
         if (!Schema::hasTable('coupon_rule_usage')) {
             Schema::create('coupon_rule_usage', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('coupon_id')->constrained('cart_coupons')->onDelete('cascade');
+                $table->unsignedInteger('coupon_id');
+                $table->foreign('coupon_id')->references('id')->on('cart_coupons')->onDelete('cascade');
                 $table->string('rule_type', 50)->comment('bogo, tiered, conditional');
                 $table->json('rule_context')->comment('Context data for the rule application');
                 $table->decimal('discount_amount', 12, 2)->default(0);

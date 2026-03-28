@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SocialLinksSettingsFilamentTest extends TestCase
 {
     #[Test]

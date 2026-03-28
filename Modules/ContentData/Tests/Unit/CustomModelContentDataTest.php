@@ -13,7 +13,7 @@ class CustomModelContentDataTest extends TestCase
     #[Test]
     public function it_content_data_to_custom_model(): void {
 
-        ContentData::truncate();
+        ContentData::query()->delete();
 
         $product = new TestModel();
         $product->title = 'Test car bmw';

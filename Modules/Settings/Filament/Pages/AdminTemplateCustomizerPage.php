@@ -3,8 +3,8 @@
 namespace Modules\Settings\Filament\Pages;
 
 use Filament\Actions\Action;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ColorPicker;
@@ -16,6 +16,9 @@ use Filament\Pages\Page;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
+
+use function get_options;
+use function save_option;
 
 class AdminTemplateCustomizerPage extends Page
 {
@@ -192,7 +195,7 @@ class AdminTemplateCustomizerPage extends Page
 
                 Section::make('Typography')
                     ->description('Customize fonts and text styling')
-                    ->icon('heroicon-o-font')
+                    ->icon('heroicon-o-document-text')
                     ->visible(fn () => $this->selectedTemplate !== '')
                     ->schema([
                         Grid::make(2)
@@ -384,7 +387,7 @@ class AdminTemplateCustomizerPage extends Page
             ]);
     }
 
-    protected function resetTemplateSettings(): void
+    public function resetTemplateSettings(): void
     {
         if (!$this->selectedTemplate) {
             return;

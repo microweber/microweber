@@ -34,8 +34,8 @@ class CouponServiceTest extends TestCase
     #[Test]
 
     public function it_session_management(): void {
-        Coupon::truncate();
-        CouponLog::truncate();
+        Coupon::query()->delete();
+        CouponLog::query()->delete();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()->create([
             'coupon_code' => 'TEST_SESSION',
             'discount_type' => 'fixed_amount',
@@ -62,8 +62,8 @@ class CouponServiceTest extends TestCase
     #[Test]
 
     public function it_expired_coupon(): void {
-        Coupon::truncate();
-        CouponLog::truncate();
+        Coupon::query()->delete();
+        CouponLog::query()->delete();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()
             ->expired()
             ->create(['coupon_code' => 'EXPIRED_TEST']);
@@ -77,8 +77,8 @@ class CouponServiceTest extends TestCase
     #[Test]
 
     public function it_customer_usage_limits(): void {
-        Coupon::truncate();
-        CouponLog::truncate();
+        Coupon::query()->delete();
+        CouponLog::query()->delete();
         $coupon = \Modules\Coupons\Database\Factories\CouponFactory::new()->create([
             'coupon_code' => 'CUSTOMER_LIMIT',
             'uses_per_customer' => 1

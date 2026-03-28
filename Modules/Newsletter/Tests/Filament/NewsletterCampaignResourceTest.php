@@ -10,14 +10,13 @@ use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Tests\NewsletterTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class NewsletterCampaignResourceTest extends NewsletterTestCase
 {
     #[Test]
     public function it_can_list_newsletter_campaigns()
     {
-        NewsletterCampaign::truncate();
-        NewsletterList::truncate();
+        NewsletterCampaign::query()->delete();
+        NewsletterList::query()->delete();
 
         $this->loginAsAdmin();
         $list = NewsletterList::factory()->create();

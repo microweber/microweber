@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\BeforeAfter\Filament\BeforeAfterModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class BeforeAfterModuleSettingsFilamentTest extends TestCase
 {
     #[Test]

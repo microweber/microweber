@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class AdvancedPricingServiceTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected AdvancedPricingService $pricingService;
 

@@ -110,7 +110,7 @@ class ProductPublicApiController extends Controller
             }
 
             // Load relationships
-            $product->load(['customField', 'media', 'categories']);
+            $product->load(['customField', 'media']);
 
             return response()->json([
                 'success' => true,
@@ -148,7 +148,7 @@ class ProductPublicApiController extends Controller
             }
 
             // Load relationships
-            $product->load(['customField', 'media', 'categories']);
+            $product->load(['customField', 'media']);
 
             return response()->json([
                 'success' => true,
@@ -212,9 +212,11 @@ class ProductPublicApiController extends Controller
                 ->where('is_active', 1)
                 ->where('is_deleted', 0)
                 ->where('content_type', 'product')
-                ->whereHas('categories', function ($q) use ($categorySlug) {
-                    $q->where('url', $categorySlug)
-                        ->orWhere('title', $categorySlug);
+                ->whereHas('categoryItems', function ($q) use ($categorySlug) {
+                    $q->whereHas('category', function ($cq) use ($categorySlug) {
+                        $cq->where('url', $categorySlug)
+                            ->orWhere('title', $categorySlug);
+                    });
                 });
 
             $products = $query->paginate($limit);

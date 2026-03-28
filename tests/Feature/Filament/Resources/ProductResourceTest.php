@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
 use Modules\Product\Filament\Admin\Resources\ProductResource\Pages\ListProducts;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class ProductResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

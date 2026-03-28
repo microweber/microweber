@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Product\Filament\Exports\ProductExporter;
 use Modules\Product\Filament\Imports\ProductImporter;
 use Modules\Product\Models\Product;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ProductImportExportTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

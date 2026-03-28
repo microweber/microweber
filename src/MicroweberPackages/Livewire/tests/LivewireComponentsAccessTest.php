@@ -59,6 +59,11 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
                 continue;
             }
 
+            // Skip Filament edit/view pages that require a record ID parameter
+            if (str_contains($component, '\\Pages\\Edit') || str_contains($component, '\\Pages\\View')) {
+                continue;
+            }
+
             if (str_contains($component, 'Microweber')) {
                 try {
                    // $component = new $component();

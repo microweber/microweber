@@ -122,7 +122,7 @@ class CartCouponService
             $this->cartRepository->getCartAmount(),
             null,
             null,
-            true // check_only mode
+            ['check_only' => true]
         );
 
         return !isset($result['error']);

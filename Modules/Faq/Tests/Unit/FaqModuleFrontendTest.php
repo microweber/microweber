@@ -4,7 +4,7 @@ namespace Modules\Faq\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
 use Modules\Faq\Models\Faq;
 use Modules\Faq\Microweber\FaqModule;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class FaqModuleFrontendTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     #[Test]
 

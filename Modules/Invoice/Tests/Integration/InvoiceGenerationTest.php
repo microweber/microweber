@@ -19,8 +19,8 @@ class InvoiceGenerationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Invoice::truncate();
-        InvoiceItem::truncate();
+        Invoice::query()->delete();
+        InvoiceItem::query()->delete();
         $this->invoiceService = app(InvoiceService::class);
     }
 

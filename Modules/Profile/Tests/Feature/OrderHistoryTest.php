@@ -7,12 +7,12 @@ use Modules\Order\Models\Order;
 use Modules\Profile\Filament\Pages\OrderHistory;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MicroweberPackages\User\Models\User;
 
 class OrderHistoryTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

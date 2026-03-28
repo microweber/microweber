@@ -2,7 +2,6 @@
 
 namespace Modules\Coupons\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Coupons\Filament\Resources\CouponResource;
 use Modules\Coupons\Filament\Resources\CouponResource\Pages\ListCoupons;
@@ -13,10 +12,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class CouponResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

@@ -101,9 +101,11 @@ class CheckoutService
 
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
             $this->markOrderAsPaid($orderId);
+        } else {
+            // Only call updateQuantities if not paid; when paid, the OrderWasPaid event
+            // listener (UpdateInventoryOnOrderPaid) handles stock deduction automatically.
+            $this->updateQuantities($orderId);
         }
-
-        $this->updateQuantities($orderId);
         $this->confirmEmailSend($orderId);
         $return = [
             'success' => true,

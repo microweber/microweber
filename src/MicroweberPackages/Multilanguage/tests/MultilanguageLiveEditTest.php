@@ -81,10 +81,9 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
         $fieldSaved = $response->decodeResponseJson();
 

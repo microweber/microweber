@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Coupons\Filament\Resources\CouponResource;
 use Modules\Coupons\Filament\Resources\CouponResource\Pages\ListCoupons;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class CouponResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

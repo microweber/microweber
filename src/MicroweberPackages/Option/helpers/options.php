@@ -104,3 +104,20 @@ function delete_option($key, $group = false, $module_id = false)
 
     return app()->option_manager->delete($key, $group, $module_id);
 }
+
+/**
+ * Getting multiple options from the database by params.
+ *
+ * @param $params array - query params, e.g. ['option_group' => 'my_group']
+ * @return array
+ * Example usage:
+ * get_options(['option_group' => 'my_group']);
+ */
+function get_options($params = [])
+{
+    $options = app()->option_repository->getByParams($params);
+    if (!$options) {
+        return [];
+    }
+    return $options;
+}

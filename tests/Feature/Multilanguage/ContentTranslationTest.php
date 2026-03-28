@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Multilanguage;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
@@ -11,7 +10,6 @@ use Modules\Content\Models\Content;
 
 class ContentTranslationTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected function setUp(): void
     {

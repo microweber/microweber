@@ -14,8 +14,8 @@ class TaxCartTest extends TestCase
      use ShopTestHelperTrait;
     #[Test]
     public function it_tax_applied_on_checkout(): void {
-        TaxType::truncate();
-        Coupon::truncate();
+        TaxType::query()->delete();
+        Coupon::query()->delete();
         empty_cart();
         save_option('enable_taxes', '1', 'shop');
         app()->tax_manager->save(array(

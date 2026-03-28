@@ -11,13 +11,12 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class FlatRateFilamentResourceTest extends TestCase
 {
 
     #[Test]
     public function it_flatrateshippingproviderlifecycle(): void {
-        ShippingProvider::truncate();
+        ShippingProvider::query()->delete();
         // Create Flat Rate Shipping Provider
         Livewire::test(CreateShippingProvider::class)
             ->fillForm([

@@ -8,11 +8,11 @@ use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterAutomationQueue;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Services\CampaignAutomationService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AutomatedEmailCampaignTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     #[Test]
     public function it_creates_triggered_campaign_with_automation_fields()

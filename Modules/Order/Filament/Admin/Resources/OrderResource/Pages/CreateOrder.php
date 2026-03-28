@@ -13,7 +13,7 @@ class CreateOrder extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
-Actions\EditAction::make()
+Actions\Action::make('save')
             ->action('create')
             ->icon('heroicon-o-check-circle')
             ->size('xl')

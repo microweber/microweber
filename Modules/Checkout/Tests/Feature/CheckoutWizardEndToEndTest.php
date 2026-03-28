@@ -2,7 +2,6 @@
 
 namespace Modules\Checkout\Tests\Feature;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Checkout\Livewire\CheckoutWizard;
 use Modules\Order\Models\Order;
@@ -10,10 +9,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class CheckoutWizardEndToEndTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected static ?int $testProductId = null;

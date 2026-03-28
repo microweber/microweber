@@ -2,7 +2,6 @@
 
 namespace Modules\MailTemplate\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\ListMailTemplates;
@@ -13,10 +12,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class MailTemplateResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

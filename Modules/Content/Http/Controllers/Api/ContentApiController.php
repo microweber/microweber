@@ -63,10 +63,12 @@ class ContentApiController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:500',
-            'url' => 'nullable|string|max:500',
-            'content_type' => 'required|string|max:255',
+            'url' => ['nullable', 'string', 'max:500', \Illuminate\Validation\Rule::unique('content', 'url')],
+            'content_type' => 'nullable|string|max:255',
             'content' => 'nullable|string',
+            'description' => 'nullable|string',
             'is_active' => 'nullable|boolean',
+            'multilanguage' => 'nullable',
         ]);
 
         if ($validator->fails()) {

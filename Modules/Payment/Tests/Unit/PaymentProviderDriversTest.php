@@ -10,7 +10,6 @@ use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\Creat
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PaymentProviderDriversTest extends TestCase
 {
 
@@ -19,7 +18,7 @@ class PaymentProviderDriversTest extends TestCase
 
 
     public function it_payment_provider_resource_drivers_render_method(): void {
-        PaymentProvider::truncate();
+        PaymentProvider::query()->delete();
 
         // Test PayPal driver
         $data = ['name' => 'PayPal', 'provider' => 'paypal', 'is_active' => 1];

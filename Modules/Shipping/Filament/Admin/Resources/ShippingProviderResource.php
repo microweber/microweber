@@ -62,9 +62,9 @@ class ShippingProviderResource extends Resource
         $shippingDrivers = $getAvailableToSetup['shippingDrivers'];
         $shippingProviders = $getAvailableToSetup['shippingProviders'];
 
-        return $form->schema([
-            Forms\Components\Wizard::make([
-                Forms\Components\Wizard\Step::make('Select Provider')
+        return $schema->schema([
+            \Filament\Schemas\Components\Wizard::make([
+                \Filament\Schemas\Components\Wizard\Step::make('Select Provider')
                     ->visible(function (Forms\Get $get) {
                         return !$get('id');
                     })
@@ -107,7 +107,7 @@ class ShippingProviderResource extends Resource
                             ->columnSpanFull()
                             ->label('Select Provider'),
                     ]),
-                Forms\Components\Wizard\Step::make('Provider Details')
+                \Filament\Schemas\Components\Wizard\Step::make('Provider Details')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Name')
@@ -120,7 +120,7 @@ class ShippingProviderResource extends Resource
                             ->label('Is Active')
                             ->columnSpanFull(),
                     ]),
-                Forms\Components\Wizard\Step::make('Settings')
+                \Filament\Schemas\Components\Wizard\Step::make('Settings')
                     ->schema(function (Forms\Get $get) use ($schema) {
                         $shippingDriver = $get('provider');
 

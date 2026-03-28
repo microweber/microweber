@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
 use Modules\Rating\Filament\Resources\RatingModuleResource\Pages\ListRatings;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class RatingModuleResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

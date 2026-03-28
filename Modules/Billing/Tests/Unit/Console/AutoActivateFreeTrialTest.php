@@ -17,7 +17,7 @@ class AutoActivateFreeTrialTest extends BillingTestCase
     #[Test]
     public function it_fails_when_activating_pending_trials_due_to_constraints()
     {
-        SubscriptionManual::truncate();
+        SubscriptionManual::query()->delete();
 
         $user = User::factory()->create();
         $subscription = SubscriptionManual::create([
@@ -43,7 +43,7 @@ class AutoActivateFreeTrialTest extends BillingTestCase
     #[Test]
     public function it_skips_already_activated_trials()
     {
-        SubscriptionManual::truncate();
+        SubscriptionManual::query()->delete();
         $user = User::factory()->create();
         $subscription = SubscriptionManual::create([
             'user_id' => $user->id,
@@ -62,7 +62,7 @@ class AutoActivateFreeTrialTest extends BillingTestCase
     #[Test]
     public function it_handles_no_pending_trials()
     {
-        SubscriptionManual::truncate();
+        SubscriptionManual::query()->delete();
 
         User::factory()->create(); // User with no subscription record
 

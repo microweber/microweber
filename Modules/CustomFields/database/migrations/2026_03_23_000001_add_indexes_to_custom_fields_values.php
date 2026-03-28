@@ -16,12 +16,20 @@ return new class extends Migration
             if (!Schema::hasIndex('custom_fields_values', 'custom_fields_values_custom_field_id_index')) {
                 $table->index('custom_field_id', 'custom_fields_values_custom_field_id_index');
             }
-
-            // Composite index for common query patterns
-            if (!Schema::hasIndex('custom_fields_values', 'custom_fields_values_lookup_index')) {
-                $table->index(['custom_field_id', 'value'], 'custom_fields_values_lookup_index');
-            }
         });
+
+        // Composite index using raw SQL to support TEXT column prefix
+        if (!Schema::hasIndex('custom_fields_values', 'custom_fields_values_lookup_index')) {
+            if (\Illuminate\Support\Facades\DB::getDriverName() === 'mysql') {
+                \Illuminate\Support\Facades\DB::statement(
+                    'CREATE INDEX custom_fields_values_lookup_index ON custom_fields_values (custom_field_id, value(191))'
+                );
+            } else {
+                \Illuminate\Support\Facades\DB::statement(
+                    'CREATE INDEX custom_fields_values_lookup_index ON custom_fields_values (custom_field_id, value)'
+                );
+            }
+        }
     }
 
     /**

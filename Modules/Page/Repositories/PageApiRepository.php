@@ -37,8 +37,7 @@ class PageApiRepository extends BaseRepository
     {
         $page = $this->model->find($id);
 
-
-        return $page->delete();
+        return $page->update(['is_deleted' => 1]);
     }
 
 

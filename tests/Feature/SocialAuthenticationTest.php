@@ -8,7 +8,6 @@ use Laravel\Socialite\Two\User as SocialiteUser;
 use MicroweberPackages\User\Models\User;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SocialAuthenticationTest extends TestCase
 {
     protected function setUp(): void

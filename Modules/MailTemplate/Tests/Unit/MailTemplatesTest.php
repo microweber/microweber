@@ -19,7 +19,7 @@ class MailTemplatesTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        MailTemplate::truncate();
+        MailTemplate::query()->delete();
         Config::set('mail.driver', 'array');
         Config::set('queue.driver', 'sync');
         Config::set('mail.transport', 'array');

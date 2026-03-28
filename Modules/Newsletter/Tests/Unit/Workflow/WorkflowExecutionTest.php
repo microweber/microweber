@@ -2,14 +2,14 @@
 
 namespace Modules\Newsletter\Tests\Unit\Workflow;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Newsletter\Tests\NewsletterTestCase;
 
 class WorkflowExecutionTest extends NewsletterTestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_can_create_execution(): void
     {

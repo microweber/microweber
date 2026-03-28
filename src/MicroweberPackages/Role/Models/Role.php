@@ -30,6 +30,7 @@ class Role extends \Spatie\Permission\Models\Role
     {
         return $this->belongsToMany(ResourcePermission::class, 'role_resource_permissions')
             ->withPivot('is_allowed', 'conditions')
+            ->withCasts(['is_allowed' => 'boolean'])
             ->withTimestamps();
     }
 

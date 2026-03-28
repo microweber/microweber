@@ -2,7 +2,6 @@
 
 namespace Modules\Faq\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs;
@@ -13,10 +12,8 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class FaqModuleResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

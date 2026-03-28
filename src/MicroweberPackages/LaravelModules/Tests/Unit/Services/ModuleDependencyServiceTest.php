@@ -2,18 +2,14 @@
 
 namespace MicroweberPackages\LaravelModules\Tests\Unit\Services;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\LaravelModules\Models\ModuleDependency;
 use MicroweberPackages\LaravelModules\Services\ModuleDependencyService;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ModuleDependencyServiceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

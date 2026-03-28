@@ -22,7 +22,7 @@ final class ContentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $this->title !== null ? strip_tags((string) $this->title) : null,
             'url' => $this->url,
             'content_type' => $this->content_type,
             'subtype' => $this->subtype,

@@ -55,13 +55,26 @@ class Order extends Model
         'phone',
         'custom_fields_data',
         'order_status',
+        'order_completed',
+        'is_paid',
+        'amount',
+        'currency',
+        'currency_code',
         'customer_id',
         'payment_provider_id',
         'payment_provider',
+        'payment_status',
         'shipping_provider_id',
         'shipping_provider',
+        'shipping_amount',
+        'discount_value',
+        'taxes_amount',
         'order_reference_id',
         'invoice_id',
+        'promo_code',
+        'skip_promo_code',
+        'coupon_id',
+        'discount_type',
     ];
 
     protected $searchable = [
@@ -140,7 +153,7 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'id', 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function shippingMethodName()

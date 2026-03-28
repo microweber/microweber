@@ -10,14 +10,13 @@ use Modules\Billing\Models\SubscriptionPlanGroup;
 use Modules\Billing\Tests\Unit\BillingTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SubscriptionPlanResourceTest extends BillingTestCase
 {
     #[Test]
     public function it_can_list_subscription_plans()
     {
-        SubscriptionPlan::truncate();
-        SubscriptionPlanGroup::truncate();
+        SubscriptionPlan::query()->delete();
+        SubscriptionPlanGroup::query()->delete();
 
 
         $this->loginAsAdmin();

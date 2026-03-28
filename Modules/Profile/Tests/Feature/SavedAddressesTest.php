@@ -7,12 +7,12 @@ use Modules\Customer\Models\Customer;
 use Modules\Profile\Filament\Pages\SavedAddresses;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MicroweberPackages\User\Models\User;
 
 class SavedAddressesTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void

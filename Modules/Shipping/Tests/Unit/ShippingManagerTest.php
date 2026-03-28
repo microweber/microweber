@@ -7,13 +7,12 @@ use Modules\Shipping\Models\ShippingProvider;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ShippingManagerTest extends TestCase
 {
 
     #[Test]
     public function it_getshippingmodules(): void {
-        ShippingProvider::truncate();
+        ShippingProvider::query()->delete();
         // Create Flat Rate Shipping Provider
         Livewire::test(CreateShippingProvider::class)
             ->fillForm([

@@ -2,7 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use Modules\Newsletter\Filament\Exports\NewsletterSubscriberExporter;
 use Modules\Newsletter\Models\NewsletterCampaign;
@@ -18,7 +18,7 @@ use ReflectionClass;
 
 class NewsletterSubscriberImportExportTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setImporterDataAndOptions($importer, $data, $options)
     {

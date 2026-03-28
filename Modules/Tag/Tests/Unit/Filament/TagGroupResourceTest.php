@@ -2,25 +2,27 @@
 
 namespace Modules\Tag\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Tag\Filament\Resources\TagGroupResource;
+use Modules\Tag\Filament\Resources\TagGroupResource\Pages\CreateTagGroup;
 use Modules\Tag\Filament\Resources\TagGroupResource\Pages\ListTagGroups;
 use Modules\Tag\Models\TagGroup;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TagGroupResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('tagging_tags')->delete();
+        DB::table('tagging_tagged')->delete();
+        DB::table('tagging_tag_groups')->delete();
     }
 
     #[Test]
@@ -39,12 +41,12 @@ class TagGroupResourceTest extends TestCase
     #[Test]
     public function it_create_page_saves_new_record(): void
     {
-        Livewire::test(ListTagGroups::class)
-            ->fillForm(['name' => 'New Group', 'slug' => 'new-group'])
+        Livewire::test(CreateTagGroup::class)
+            ->fillForm(['name' => 'New Group'])
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('tag_groups', ['name' => 'New Group']);
+        $this->assertDatabaseHas('tagging_tag_groups', ['name' => 'New Group']);
     }
 
     #[Test]
@@ -52,6 +54,6 @@ class TagGroupResourceTest extends TestCase
     {
         $group = TagGroup::factory()->create();
         Livewire::test(ListTagGroups::class)->callTableAction('delete', $group);
-        $this->assertDatabaseMissing('tag_groups', ['id' => $group->id]);
+        $this->assertDatabaseMissing('tagging_tag_groups', ['id' => $group->id]);
     }
 }

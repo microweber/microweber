@@ -22,13 +22,13 @@ class CouponApplyTest extends TestCase
         parent::setUp();
 
         empty_cart();
-        CartCouponLog::truncate();
-        TaxType::truncate();
+        CartCouponLog::query()->delete();
+        TaxType::query()->delete();
 
         save_option('enable_coupons', 1, 'shop');
         save_option('enable_taxes', 0, 'shop');
 
-        DB::table('cart_coupon_logs')->truncate();
+        DB::table('cart_coupon_logs')->delete();
     }
 
     #[Test]
@@ -222,7 +222,7 @@ class CouponApplyTest extends TestCase
 
     public function it_valid_coupon_code_with_percent_too_big(): void {
         empty_cart();
-        CartCouponLog::truncate();
+        CartCouponLog::query()->delete();
         save_option('enable_coupons', 1, 'shop');
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [

@@ -90,8 +90,8 @@ class CategoryManagerTest extends TestCase
 
     public function it_category_in_stock_filter(): void {
 
-        $clean = Content::truncate();
-        $clean = Product::truncate();
+        $clean = Content::query()->delete();
+        $clean = Product::query()->delete();
 
         // check when in stock
 
@@ -204,7 +204,7 @@ class CategoryManagerTest extends TestCase
     #[Test]
 
     public function it_category_search_by_keyword(): void {
-        $clean = Category::truncate();
+        $clean = Category::query()->delete();
 
         $category = new Category();
         $category->title = 'New cat testCategorySearchByKeyword' . uniqid();
@@ -240,9 +240,9 @@ class CategoryManagerTest extends TestCase
 
     public function it_category_json_tree_admin(): void {
 
-        $clean = Content::truncate();
-        $clean = Category::truncate();
-        $clean = CategoryItem::truncate();
+        $clean = Content::query()->delete();
+        $clean = Category::query()->delete();
+        $clean = CategoryItem::query()->delete();
 
         $newSimplePage = new Page();
         $newSimplePage->title = 'testCategoryJsonTreeAdminPageStatic0_' . uniqid();

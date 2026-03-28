@@ -3,7 +3,6 @@
 namespace Tests\Feature\Security;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * CSRF Protection Audit Test Suite

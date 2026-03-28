@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Settings\Filament\Resources\TranslationResource;
 use Modules\Settings\Filament\Resources\TranslationResource\Pages\ListTranslations;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class TranslationResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

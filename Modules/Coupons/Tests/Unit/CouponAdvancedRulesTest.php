@@ -20,9 +20,9 @@ class CouponAdvancedRulesTest extends TestCase
         parent::setUp();
         $this->couponService = app(CouponService::class);
         Session::flush();
-        Coupon::truncate();
-        CouponLog::truncate();
-        DB::table('cart_coupon_logs')->truncate();
+        Coupon::query()->delete();
+        CouponLog::query()->delete();
+        DB::table('cart_coupon_logs')->delete();
     }
 
     #[Test]

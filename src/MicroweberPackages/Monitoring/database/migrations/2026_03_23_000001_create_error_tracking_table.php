@@ -30,7 +30,7 @@ return new class extends Migration
             // Request context
             $table->text('url')->nullable();
             $table->string('method', 10)->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('user_ip', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->json('server_data')->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->integer('occurrence_count')->default(1);
             $table->timestamp('last_occurred_at')->nullable();
             $table->timestamp('resolved_at')->nullable();
-            $table->foreignId('resolved_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->unsignedInteger('resolved_by')->nullable();
             $table->text('resolution_notes')->nullable();
             
             $table->timestamps();

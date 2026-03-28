@@ -2,9 +2,10 @@
 
 namespace Modules\Tag\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Tag\Filament\Resources\TaggedResource;
+use Modules\Tag\Filament\Resources\TaggedResource\Pages\CreateTagged;
 use Modules\Tag\Filament\Resources\TaggedResource\Pages\ListTagged;
 use Modules\Tag\Models\Tagged;
 use Modules\Tag\Models\Tag;
@@ -13,16 +14,16 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TaggedResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('tagging_tags')->delete();
+        DB::table('tagging_tagged')->delete();
     }
 
     #[Test]
@@ -44,7 +45,7 @@ class TaggedResourceTest extends TestCase
         $content = Content::factory()->create();
         $tag = Tag::factory()->create();
 
-        Livewire::test(ListTagged::class)
+        Livewire::test(CreateTagged::class)
             ->fillForm([
                 'taggable_id' => $content->id,
                 'taggable_type' => 'content',
@@ -53,7 +54,7 @@ class TaggedResourceTest extends TestCase
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('tagged', ['taggable_id' => $content->id, 'tag_name' => $tag->name]);
+        $this->assertDatabaseHas('tagging_tagged', ['taggable_id' => $content->id, 'tag_name' => $tag->name]);
     }
 
     #[Test]
@@ -61,6 +62,6 @@ class TaggedResourceTest extends TestCase
     {
         $tagged = Tagged::factory()->create();
         Livewire::test(ListTagged::class)->callTableAction('delete', $tagged);
-        $this->assertDatabaseMissing('tagged', ['id' => $tagged->id]);
+        $this->assertDatabaseMissing('tagging_tagged', ['id' => $tagged->id]);
     }
 }

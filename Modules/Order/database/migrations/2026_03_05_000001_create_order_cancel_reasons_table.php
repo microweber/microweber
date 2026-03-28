@@ -11,8 +11,8 @@ return new class extends Migration
         if (!Schema::hasTable('order_cancel_reasons')) {
             Schema::create('order_cancel_reasons', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('order_id')->nullable()->constrained()->onDelete('set null');
+                $table->unsignedInteger('user_id')->nullable();
+                $table->unsignedInteger('order_id')->nullable();
                 $table->string('stripe_session_id')->nullable();
                 $table->text('reason')->nullable();
                 $table->string('ip_address')->nullable();

@@ -2,7 +2,7 @@
 
 namespace Modules\Tag\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Tag\Filament\Resources\TagResource;
 use Modules\Tag\Filament\Resources\TagResource\Pages\ListTags;
@@ -13,16 +13,16 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TagResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('tagging_tags')->delete();
+        DB::table('tagging_tagged')->delete();
     }
 
     #[Test]
@@ -78,7 +78,7 @@ class TagResourceTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas('tags', ['name' => 'New Tag', 'slug' => 'new-tag']);
+        $this->assertDatabaseHas('tagging_tags', ['name' => 'New Tag', 'slug' => 'new-tag']);
     }
 
     #[Test]
@@ -100,7 +100,7 @@ class TagResourceTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas('tags', ['id' => $tag->id, 'name' => 'Updated']);
+        $this->assertDatabaseHas('tagging_tags', ['id' => $tag->id, 'name' => 'Updated']);
     }
 
     #[Test]
@@ -108,7 +108,7 @@ class TagResourceTest extends TestCase
     {
         $tag = Tag::factory()->create();
         Livewire::test(ListTags::class)->callTableAction('delete', $tag);
-        $this->assertDatabaseMissing('tags', ['id' => $tag->id]);
+        $this->assertDatabaseMissing('tagging_tags', ['id' => $tag->id]);
     }
 
     #[Test]

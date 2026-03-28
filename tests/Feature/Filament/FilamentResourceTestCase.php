@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 abstract class FilamentResourceTestCase extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     /**

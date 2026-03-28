@@ -4,7 +4,7 @@ namespace Modules\GoogleAnalytics\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule;
 use Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs;
 use Modules\SiteStats\Models\StatsEvent;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class GoogleAnalyticsModuleTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     #[Test]
 

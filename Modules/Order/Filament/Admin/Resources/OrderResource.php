@@ -249,9 +249,10 @@ Group::make()
             ])
 ->actions([
             Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
             Tables\Actions\Action::make('generate_invoice')
                 ->label('Generate Invoice')
-                ->icon('heroicon-o-document-currency')
+                ->icon('heroicon-o-document-text')
                 ->color('success')
                 ->modalHeading('Generate Invoice from Order')
                 ->modalDescription('This will create a new invoice based on this order data.')
@@ -399,7 +400,7 @@ Group::make()
 
 
                 ])
-                ->createOptionAction(function (Action $action) {
+                ->createOptionAction(function ($action) {
                     return $action
                         ->modalHeading('Create customer')
                         ->modalSubmitActionLabel('Create customer')
@@ -594,12 +595,11 @@ Group::make()
                     }, shouldOpenInNewTab: true)
                     ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['rel_id'])),
             ])
-            ->defaultItems(1)
+            ->defaultItems(0)
             ->hiddenLabel()
             ->columns([
                 'md' => 10,
-            ])
-            ->required();
+            ]);
     }
 
 /** @return Builder<Order> */

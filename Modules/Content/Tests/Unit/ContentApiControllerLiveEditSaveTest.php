@@ -88,10 +88,10 @@ HTML;
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server
+
         );
 
 
@@ -207,10 +207,10 @@ HTML;
                 [
                     'data_base64' => $encoded,
                 ],
-                [],//params
-                $_COOKIE,//cookie
-                [],//files
-                $_SERVER //server
+                [],    // cookies
+                [],    // files
+                $_SERVER // server
+    
             );
 
 
@@ -344,10 +344,10 @@ HTML;
                 [
                     'data_base64' => $encoded,
                 ],
-                [],//params
-                $_COOKIE,//cookie
-                [],//files
-                $_SERVER //server
+                [],    // cookies
+                [],    // files
+                $_SERVER // server
+    
             );
 
 

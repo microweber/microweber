@@ -2,10 +2,19 @@
 
 namespace Modules\Company\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Company\Database\Factories\CompanyFactory;
 
 class Company extends Model
 {
+    use HasFactory;
+
+    protected static function newFactory()
+    {
+        return CompanyFactory::new();
+    }
+
     protected $table = 'companies';
 
     public $fillable = [

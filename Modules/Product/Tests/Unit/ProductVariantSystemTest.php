@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class ProductVariantSystemTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected ProductVariantService $variantService;
 

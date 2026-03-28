@@ -19,14 +19,10 @@
             "MicroweberPackages\\FrontendAssets\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-
-    },
+    "scripts": {},
     "config": {
         "sort-packages": true,
-        "allow-plugins": {
-           
-        }
+        "allow-plugins": {}
     },
     "extra": {
         "laravel": {
@@ -36,5 +32,6 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "version": "1.0.0"
 }

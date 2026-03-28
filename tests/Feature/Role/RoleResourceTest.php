@@ -2,14 +2,23 @@
 
 namespace Tests\Feature\Role;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Role\Models\Role;
 use MicroweberPackages\User\Models\User;
 use Tests\TestCase;
 
 class RoleResourceTest extends TestCase
 {
-    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan('migrate', [
+            '--path' => base_path('src/MicroweberPackages/Role/database/migrations'),
+            '--realpath' => true,
+            '--force' => true,
+        ]);
+    }
 
     protected function createAdminUser(): User
     {

@@ -4,6 +4,7 @@ namespace Modules\Currency\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Currency\Database\Factories\CurrencyFactory;
 
 /**
  * Currency Model
@@ -14,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 class Currency extends Model
 {
     use HasFactory;
+
+    protected static function newFactory()
+    {
+        return CurrencyFactory::new();
+    }
 
     /**
      * The table associated with the model.

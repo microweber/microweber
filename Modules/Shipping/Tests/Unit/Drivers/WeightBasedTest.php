@@ -9,7 +9,6 @@ use Modules\Shipping\Models\ShippingProvider;
 use Modules\Product\Models\Product;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class WeightBasedTest extends TestCase
 {
     protected function setUp(): void

@@ -3,7 +3,6 @@
 namespace Tests\Feature\Filament\Theme;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
@@ -20,7 +19,6 @@ use Tests\TestCase;
  */
 class DarkModeTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     /**

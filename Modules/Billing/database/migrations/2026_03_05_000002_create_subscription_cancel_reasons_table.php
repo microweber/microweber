@@ -11,8 +11,8 @@ return new class extends Migration
         if (!Schema::hasTable('subscription_cancel_reasons')) {
             Schema::create('subscription_cancel_reasons', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('subscription_id')->nullable()->constrained('subscriptions')->onDelete('set null');
+                $table->unsignedInteger('user_id')->nullable();
+                $table->unsignedBigInteger('subscription_id')->nullable();
                 $table->string('stripe_session_id')->nullable();
                 $table->text('reason')->nullable();
                 $table->string('ip_address')->nullable();

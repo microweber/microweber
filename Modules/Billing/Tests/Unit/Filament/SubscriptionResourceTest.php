@@ -12,7 +12,6 @@ use Modules\Billing\Tests\Unit\BillingTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Str;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SubscriptionResourceTest extends BillingTestCase
 {
     private function createTestSubscription(array $overrides = []): Subscription
@@ -51,7 +50,7 @@ class SubscriptionResourceTest extends BillingTestCase
     #[Test]
     public function it_can_list_subscriptions()
     {
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->loginAsAdmin();
 
@@ -287,7 +286,7 @@ class SubscriptionResourceTest extends BillingTestCase
     {
         $this->loginAsAdmin();
 
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         // Create active subscriptions
         $this->createTestSubscription([
@@ -385,7 +384,7 @@ class SubscriptionResourceTest extends BillingTestCase
     {
         $this->loginAsAdmin();
 
-        DB::table('subscriptions')->truncate();
+        DB::table('subscriptions')->delete();
 
         $this->createTestSubscription([
             'stripe_status' => 'active',

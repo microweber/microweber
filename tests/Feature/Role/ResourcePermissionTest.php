@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Role;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Role\Models\ResourcePermission;
 use MicroweberPackages\Role\Models\Role;
 use MicroweberPackages\Role\Services\ResourcePermissionService;
@@ -10,12 +9,18 @@ use Tests\TestCase;
 
 class ResourcePermissionTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('migrate:fresh');
+        $this->artisan('migrate', [
+            '--path' => base_path('src/MicroweberPackages/Role/database/migrations'),
+            '--realpath' => true,
+            '--force' => true,
+        ]);
+        // Clean up data from previous test runs to avoid unique constraint violations
+        \Illuminate\Support\Facades\DB::table('role_resource_permissions')->delete();
+        \Illuminate\Support\Facades\DB::table('resource_permissions')->delete();
     }
 
     /** @test */
@@ -148,7 +153,7 @@ class ResourcePermissionTest extends TestCase
     public function it_service_can_grant_resource_permission_to_role()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Manager', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Manager', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $service->grantPermission($role, 'products', 'edit');
 
@@ -160,14 +165,14 @@ class ResourcePermissionTest extends TestCase
         $resourcePermission = $role->resourcePermissions()->first();
         $this->assertEquals('products', $resourcePermission->resource_name);
         $this->assertEquals('edit', $resourcePermission->action);
-        $this->assertTrue($resourcePermission->pivot->is_allowed);
+        $this->assertEquals(1, (int) $resourcePermission->pivot->is_allowed);
     }
 
     /** @test */
     public function it_service_can_revoke_resource_permission_from_role()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Manager', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Manager', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $service->grantPermission($role, 'users', 'delete');
         $service->revokePermission($role, 'users', 'delete');
@@ -180,20 +185,20 @@ class ResourcePermissionTest extends TestCase
     public function it_service_can_deny_resource_permission_to_role()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Limited User', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Limited User', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $service->denyPermission($role, 'settings', 'edit');
 
         $role->refresh();
         $resourcePermission = $role->resourcePermissions()->first();
-        $this->assertFalse($resourcePermission->pivot->is_allowed);
+        $this->assertEquals(0, (int) $resourcePermission->pivot->is_allowed);
     }
 
     /** @test */
     public function it_service_checks_if_role_can_perform_action_on_resource()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Editor', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Editor', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $service->grantPermission($role, 'content', 'edit');
 
@@ -205,7 +210,7 @@ class ResourcePermissionTest extends TestCase
     public function it_service_returns_false_for_nonexistent_permission()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Test Role', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Test Role', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $this->assertFalse($service->can($role, 'nonexistent', 'action'));
     }
@@ -214,7 +219,7 @@ class ResourcePermissionTest extends TestCase
     public function it_service_can_get_all_resource_permissions_for_role()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Admin', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $service->grantPermission($role, 'users', 'view');
         $service->grantPermission($role, 'products', 'edit');
@@ -286,8 +291,8 @@ class ResourcePermissionTest extends TestCase
             'action' => 'view',
         ]);
 
-        $role1 = Role::create(['name' => 'Manager', 'guard_name' => 'web']);
-        $role2 = Role::create(['name' => 'Analyst', 'guard_name' => 'web']);
+        $role1 = Role::firstOrCreate(['name' => 'Manager', 'guard_name' => 'web'], ['guard_name' => 'web']);
+        $role2 = Role::firstOrCreate(['name' => 'Analyst', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $role1->resourcePermissions()->attach($permission->id, ['is_allowed' => true]);
         $role2->resourcePermissions()->attach($permission->id, ['is_allowed' => true]);
@@ -299,7 +304,7 @@ class ResourcePermissionTest extends TestCase
     public function it_can_store_conditions_in_pivot()
     {
         $service = app(ResourcePermissionService::class);
-        $role = Role::create(['name' => 'Regional Manager', 'guard_name' => 'web']);
+        $role = Role::firstOrCreate(['name' => 'Regional Manager', 'guard_name' => 'web'], ['guard_name' => 'web']);
 
         $conditions = ['region' => 'north_america', 'department' => 'sales'];
         $service->grantPermission($role, 'orders', 'view', $conditions);

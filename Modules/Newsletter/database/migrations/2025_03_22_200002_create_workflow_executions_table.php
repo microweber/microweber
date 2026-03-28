@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('workflow_executions')) {
+            return;
+        }
         Schema::create('workflow_executions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('workflow_id')->constrained()->onDelete('cascade');
@@ -24,7 +27,8 @@ return new class extends Migration
             $table->integer('total_steps')->default(0);
             $table->json('execution_log')->nullable(); // Step-by-step execution log
             $table->text('error_message')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
             
             $table->index(['workflow_id', 'status']);

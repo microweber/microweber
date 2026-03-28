@@ -24,7 +24,6 @@ use Tests\TestCase;
  * memory-intensive for Livewire component tests, so those are tested
  * at the list-page level and via ContentResourceFormReactivityTest.
  */
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AdminCrudRegressionTest extends TestCase
 {
     use InteractsWithFilamentPanel;

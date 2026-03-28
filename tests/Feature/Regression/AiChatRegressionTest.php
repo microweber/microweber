@@ -3,7 +3,6 @@
 namespace Tests\Feature\Regression;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
@@ -29,7 +28,7 @@ use Tests\TestCase;
 */
 class AiChatRegressionTest extends TestCase
 {
-    use LazilyRefreshDatabase, WithFaker;
+    use WithFaker;
 
     protected User $admin;
     protected AiService $agentService;
@@ -37,6 +36,12 @@ class AiChatRegressionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $apiKey = config('openai.api_key') ?: env('OPENAI_API_KEY');
+        if (empty($apiKey)) {
+            $this->markTestSkipped('OPENAI_API_KEY is not configured — skipping AI regression tests');
+        }
+
         $this->admin = User::factory()->create(['is_admin' => true]);
         $this->agentService = app(AiService::class);
 

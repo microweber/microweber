@@ -33,19 +33,19 @@ class LaravelModule extends Module
     /**
      * The module name.
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The module path.
      *
      * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * @var array of cached Json objects, keyed by filename
      */
-    protected $moduleJson = [];
+    protected array $moduleJson = [];
 
     /**
      * @var CacheManager

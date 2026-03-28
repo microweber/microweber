@@ -364,19 +364,19 @@ class ContentRepository extends AbstractRepository
      */
     public function getFirstShopPage(): array|null
     {
-        return get_pages('content_type=page&is_shop=1&is_deleted=0&single=1');
+        return get_pages('content_type=page&is_shop=1&is_deleted=0&single=1') ?: null;
 
     }
 
     public function getAllShopPages(): array|false
     {
-        return get_pages('content_type=page&is_deleted=0&is_shop=1');
+        return get_pages('content_type=page&is_deleted=0&is_shop=1') ?: [];
 
     }
 
     public function getAllBlogPages(): array|false
     {
-        return get_pages('content_type=page&subtype=dynamic&is_deleted=0&is_shop=0');
+        return get_pages('content_type=page&subtype=dynamic&is_deleted=0&is_shop=0') ?: [];
 
     }
 

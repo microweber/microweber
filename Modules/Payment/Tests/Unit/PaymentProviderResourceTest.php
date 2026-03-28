@@ -10,7 +10,6 @@ use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\Creat
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PaymentProviderResourceTest extends TestCase
 {
 

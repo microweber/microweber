@@ -19,12 +19,10 @@ use Modules\Settings\Filament\Pages\AdminShopAutoRespondEmailPage;
 use Modules\Settings\Filament\Pages\AdminTemplatePage;
 use Modules\Settings\Filament\Pages\AdminUpdatesPage;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
-#[RunTestsInSeparateProcesses]
 class SettingsPagesLoadTest extends TestCase
 {
     use InteractsWithFilamentPanel;

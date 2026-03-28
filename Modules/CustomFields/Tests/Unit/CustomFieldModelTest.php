@@ -13,7 +13,7 @@ class CustomFieldModelTest extends TestCase
     #[Test]
     public function it_add_custom_field_to_model(): void {
         Product::where('title', 'Samo Levski3')->delete();
-        CustomField::truncate();
+        CustomField::query()->delete();
 
         $newProduct = new Product();
         $newProduct->title = 'Samo Levski3';

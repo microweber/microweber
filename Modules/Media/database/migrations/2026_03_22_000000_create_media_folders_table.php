@@ -15,7 +15,11 @@ return new class extends Migration
             // Table exists, just ensure the folder_id column exists in media
             if (!Schema::hasColumn('media', 'folder_id')) {
                 Schema::table('media', function (Blueprint $table) {
-                    $table->foreignId('folder_id')->nullable()->after('id')->constrained('media_folders')->onDelete('set null');
+                    if (Schema::getConnection()->getDriverName() === 'sqlite') {
+                        $table->unsignedBigInteger('folder_id')->nullable();
+                    } else {
+                        $table->foreignId('folder_id')->nullable()->after('id')->constrained('media_folders')->onDelete('set null');
+                    }
                     $table->index('folder_id');
                 });
             } else {
@@ -35,7 +39,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('media_folders')->onDelete('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->unsignedInteger('created_by')->nullable();
             $table->boolean('is_system')->default(false);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
@@ -48,7 +52,11 @@ return new class extends Migration
         // Add folder_id to media table
         if (!Schema::hasColumn('media', 'folder_id')) {
             Schema::table('media', function (Blueprint $table) {
-                $table->foreignId('folder_id')->nullable()->after('id')->constrained('media_folders')->onDelete('set null');
+                if (Schema::getConnection()->getDriverName() === 'sqlite') {
+                    $table->unsignedBigInteger('folder_id')->nullable();
+                } else {
+                    $table->foreignId('folder_id')->nullable()->after('id')->constrained('media_folders')->onDelete('set null');
+                }
                 $table->index('folder_id');
             });
         } else {
@@ -72,10 +80,10 @@ return new class extends Migration
             $driverName = Schema::getConnection()->getDriverName();
 
             if ($driverName === 'sqlite') {
-                // SQLite doesn't support dropping foreign keys, just drop the column
-                Schema::table('media', function (Blueprint $table) {
-                    $table->dropColumn('folder_id');
-                });
+                // SQLite rollback for this migration is intentionally a no-op.
+                // Dropping a foreign-key column can require full table rebuilds
+                // and may fail depending on SQLite version and pragma state.
+                return;
             } else {
                 // MySQL/PostgreSQL: drop foreign key then column
                 Schema::table('media', function (Blueprint $table) {

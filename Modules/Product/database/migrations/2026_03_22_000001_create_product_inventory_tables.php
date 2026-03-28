@@ -26,7 +26,7 @@ return new class extends Migration {
                 $table->string('reference_type')->nullable(); // Order, Cart, Adjustment, etc.
                 $table->unsignedBigInteger('reference_id')->nullable();
                 $table->text('notes')->nullable();
-                $table->unsignedBigInteger('user_id')->nullable(); // Who made the change
+                $table->unsignedInteger('user_id')->nullable(); // Who made the change (users.id is INT)
                 $table->json('metadata')->nullable(); // Additional data
                 $table->timestamps();
 
@@ -49,7 +49,7 @@ return new class extends Migration {
                 $table->integer('threshold_quantity');
                 $table->boolean('is_resolved')->default(false);
                 $table->timestamp('resolved_at')->nullable();
-                $table->unsignedBigInteger('resolved_by')->nullable();
+                $table->unsignedInteger('resolved_by')->nullable();
                 $table->text('resolution_notes')->nullable();
                 $table->json('notification_sent_to')->nullable(); // Array of user IDs notified
                 $table->timestamps();
@@ -70,8 +70,8 @@ return new class extends Migration {
                 $table->integer('quantity');
                 $table->string('reservation_type'); // cart, order, hold, etc.
                 $table->string('session_id')->nullable();
-                $table->unsignedBigInteger('user_id')->nullable();
-                $table->unsignedBigInteger('order_id')->nullable();
+                $table->unsignedInteger('user_id')->nullable();
+                $table->unsignedInteger('order_id')->nullable();
                 $table->timestamp('expires_at'); // When reservation expires
                 $table->boolean('is_active')->default(true);
                 $table->json('metadata')->nullable();

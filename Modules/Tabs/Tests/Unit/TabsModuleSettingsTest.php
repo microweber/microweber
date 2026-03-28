@@ -8,7 +8,6 @@ use Livewire\Livewire;
 use Modules\Tabs\Filament\TabsModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TabsModuleSettingsTest extends TestCase
 {
 

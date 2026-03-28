@@ -90,10 +90,9 @@ class LiveEditSaveContentApiTest extends TestCase
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
 
         $fieldSaved = $response->decodeResponseJson();
@@ -128,10 +127,9 @@ class LiveEditSaveContentApiTest extends TestCase
             [
                 'data_base64' => 'somethingthatisnotbase64',
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
         $fieldSaved = $response->decodeResponseJson();
         $this->assertArrayHasKey('error', $fieldSaved);

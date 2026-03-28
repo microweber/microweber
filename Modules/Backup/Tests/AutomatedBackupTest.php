@@ -2,7 +2,7 @@
 
 namespace Modules\Backup\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Backup\Models\BackupSchedule;
 use Modules\Backup\Models\BackupHistory;
 use Modules\Backup\Services\AutomatedBackupService;
@@ -16,7 +16,7 @@ use Carbon\Carbon;
  */
 class AutomatedBackupTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected AutomatedBackupService $backupService;
 
@@ -26,8 +26,8 @@ class AutomatedBackupTest extends TestCase
         $this->backupService = app(AutomatedBackupService::class);
 
         // Truncate tables before each test
-        BackupHistory::truncate();
-        BackupSchedule::truncate();
+        BackupHistory::query()->delete();
+        BackupSchedule::query()->delete();
     }
 
     /** @test */
@@ -287,7 +287,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_completed_backups(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -322,7 +322,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_failed_backups(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -349,7 +349,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_running_backups(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -376,7 +376,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_manual_backups(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -403,7 +403,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_scheduled_backups(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -430,7 +430,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_scopes_older_than(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -459,7 +459,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_retrieves_backup_statistics(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -499,7 +499,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_calculates_success_rate_in_statistics(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $hist1 = new BackupHistory();
         $hist1->type = 'manual';
@@ -592,7 +592,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_cleans_up_stale_backup_records(): void
     {
-        BackupHistory::truncate();
+        BackupHistory::query()->delete();
 
         $stale = new BackupHistory();
         $stale->type = 'manual';
@@ -624,8 +624,8 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_creates_relationship_between_schedule_and_history(): void
     {
-        BackupHistory::truncate();
-        BackupSchedule::truncate();
+        BackupHistory::query()->delete();
+        BackupSchedule::query()->delete();
 
         $schedule = new BackupSchedule();
         $schedule->name = 'Test Schedule';
@@ -650,7 +650,7 @@ class AutomatedBackupTest extends TestCase
     /** @test */
     public function it_includes_media_by_default(): void
     {
-        BackupSchedule::truncate();
+        BackupSchedule::query()->delete();
 
         $schedule = new BackupSchedule();
         $schedule->name = 'Test';

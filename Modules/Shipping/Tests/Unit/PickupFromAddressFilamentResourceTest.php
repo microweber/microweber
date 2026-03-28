@@ -11,13 +11,12 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PickupFromAddressFilamentResourceTest extends TestCase
 {
 
     #[Test]
     public function it_pickupfromaddressshippingproviderlifecycle(): void {
-        ShippingProvider::truncate();
+        ShippingProvider::query()->delete();
         // Create Pickup From Address Shipping Provider
         Livewire::test(CreateShippingProvider::class)
             ->fillForm([

@@ -2,7 +2,7 @@
 
 namespace Modules\Billing\Tests\Unit;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Cashier\Cashier;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 class WebhookControllerTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

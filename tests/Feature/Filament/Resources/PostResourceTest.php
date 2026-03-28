@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Post\Filament\Admin\Resources\PostResource;
 use Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class PostResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

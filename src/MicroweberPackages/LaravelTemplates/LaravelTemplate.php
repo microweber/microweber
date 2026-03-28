@@ -20,30 +20,6 @@ class LaravelTemplate extends LaravelModule
     use Macroable;
 
     /**
-     * The laravel|lumen application instance.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
-     */
-    protected $app;
-
-    /**
-     * The module name.
-     */
-    protected $name;
-
-    /**
-     * The module path.
-     *
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @var array of cached Json objects, keyed by filename
-     */
-    protected $moduleJson = [];
-
-    /**
      * @var CacheManager
      */
     private $cache;

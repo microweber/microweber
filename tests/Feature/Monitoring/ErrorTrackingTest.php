@@ -5,7 +5,6 @@ namespace Tests\Feature\Monitoring;
 use Tests\TestCase;
 use MicroweberPackages\Monitoring\Models\ErrorTracking;
 use MicroweberPackages\Monitoring\Services\ErrorTrackingService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +12,6 @@ use Exception;
 
 class ErrorTrackingTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ErrorTrackingService $errorTracking;
 
@@ -306,13 +304,13 @@ class ErrorTrackingTest extends TestCase
     /** @test */
     public function error_tracking_table_has_indexes(): void
     {
-        // Skip on SQLite as it doesn't support getDoctrineSchemaManager
+        // Skip on SQLite as index introspection differs
         if (DB::getDriverName() === 'sqlite') {
             $this->markTestSkipped('Index verification skipped for SQLite');
         }
-        
-        $indexes = DB::getDoctrineSchemaManager()->listTableIndexes('error_tracking');
-        $indexNames = array_keys($indexes);
+
+        $rows = DB::select("SHOW INDEX FROM error_tracking");
+        $indexNames = array_unique(array_map(fn($r) => $r->Key_name, $rows));
         
         $this->assertContains('error_tracking_level_index', $indexNames);
         $this->assertContains('error_tracking_exception_class_index', $indexNames);

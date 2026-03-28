@@ -12,7 +12,6 @@ use Modules\Profile\Filament\Pages\Register;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AuthenticationTest extends TestCase
 {
     use UserTestHelperTrait;

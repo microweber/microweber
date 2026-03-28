@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Tax\Filament\Admin\Resources\TaxResource;
 use Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\ListTaxes;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class TaxResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

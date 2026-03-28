@@ -136,9 +136,8 @@ class TranslationResource extends Resource
                     })
                     ->color('success'),
 
-                TextColumn::make('updated_at')
-                    ->label('Last Updated')
-                    ->dateTime('M d, Y H:i')
+                TextColumn::make('id')
+                    ->label('ID')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -298,7 +297,7 @@ class TranslationResource extends Resource
                         ->modalDescription('This will add translations for the selected language to all chosen records.'),
                 ]),
             ])
-            ->defaultSort('updated_at', 'desc')
+            ->defaultSort('id', 'desc')
             ->searchable()
             ->persistFiltersInSession()
             ->persistSearchInSession();

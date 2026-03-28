@@ -84,10 +84,10 @@ class ContentApiControllerLiveEditSaveTestXss extends TestCase
                 [
                     'data_base64' => $encoded,
                 ],
-                [],//params
-                $_COOKIE,//cookie
-                [],//files
-                $_SERVER //server
+                [],    // cookies
+                [],    // files
+                $_SERVER // server
+
             );
 
             $fieldSaved = $response->decodeResponseJson();
@@ -155,10 +155,9 @@ HTML;
             [
                 'data_base64' => $encoded,
             ],
-            [],//params
-            $_COOKIE,//cookie
-            [],//files
-            $_SERVER //server
+            [],    // cookies
+            [],    // files
+            $_SERVER // server (contains HTTP_REFERER)
         );
 
         $fieldSaved = $response->decodeResponseJson();

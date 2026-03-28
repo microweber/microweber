@@ -12,9 +12,10 @@ use Illuminate\Filesystem\Filesystem;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
 use Nwidart\Modules\FileRepository;
+use Nwidart\Modules\Laravel\LaravelFileRepository;
 
 
-class LaravelModulesFileRepository extends FileRepository
+class LaravelModulesFileRepository extends LaravelFileRepository
 {
     public $configPrefix = 'modules';
 
@@ -30,19 +31,19 @@ class LaravelModulesFileRepository extends FileRepository
      *
      * @var string|null
      */
-    protected $path;
+    protected ?string $path;
 
     /**
      * The scanned paths.
      *
      * @var array
      */
-    protected $paths = [];
+    protected array $paths = [];
 
     /**
      * @var string
      */
-    protected $stubPath;
+    protected ?string $stubPath;
 
     /**
      * @var UrlGenerator

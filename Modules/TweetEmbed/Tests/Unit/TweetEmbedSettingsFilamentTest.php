@@ -9,7 +9,6 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use Modules\TweetEmbed\Filament\TweetEmbedModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TweetEmbedSettingsFilamentTest extends TestCase
 {
 

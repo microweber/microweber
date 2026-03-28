@@ -3,7 +3,6 @@
 namespace Tests\Feature\Regression;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Billing\Models\Subscription;
 use Modules\Billing\Models\SubscriptionCustomer;
@@ -20,7 +19,7 @@ use Tests\TestCase;
 */
 class BillingRegressionTest extends TestCase
 {
-    use LazilyRefreshDatabase, WithFaker;
+    use WithFaker;
 
     protected User $admin;
     protected User $customer;

@@ -27,12 +27,15 @@ class PostApiRepository extends BaseRepository
     {
         $post = $this->model->find($id);
 
-
         $post->update($data);
-
 
         return $post;
     }
 
+    public function delete($id)
+    {
+        $post = $this->model->find($id);
 
+        return $post->update(['is_deleted' => 1]);
+    }
 }

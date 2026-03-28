@@ -12,7 +12,6 @@ use Modules\Tabs\Filament\TabsTableList;
 use Modules\Tabs\Models\Tab;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TabsTableListFilamentTest extends TestCase
 {
 

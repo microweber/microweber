@@ -3,7 +3,6 @@
 namespace Tests\Feature\Filament;
 
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\User\Models\User;
 use Modules\Profile\Filament\Pages\EditProfile;
@@ -23,7 +22,6 @@ use PHPUnit\Framework\Attributes\Test;
  */
 class PanelAccessControlTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     /**

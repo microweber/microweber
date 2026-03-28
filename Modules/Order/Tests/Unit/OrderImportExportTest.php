@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Filament\Exports\OrderExporter;
 use Modules\Order\Filament\Imports\OrderImporter;
@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class OrderImportExportTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

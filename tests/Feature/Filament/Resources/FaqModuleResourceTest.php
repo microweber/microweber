@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class FaqModuleResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

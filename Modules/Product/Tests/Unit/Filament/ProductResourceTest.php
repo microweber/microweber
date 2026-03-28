@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Tests\Unit\Filament;
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
 use Modules\Product\Filament\Admin\Resources\ProductResource\Pages\ListProducts;
@@ -13,16 +13,15 @@ use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ProductResourceTest extends TestCase
 {
-    use LazilyRefreshDatabase;
     use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('content')->where('content_type', 'product')->delete();
     }
 
     #[Test]
@@ -35,7 +34,7 @@ class ProductResourceTest extends TestCase
     public function it_index_page_shows_all_records(): void
     {
         $products = Product::factory()->count(3)->create();
-        Livewire::test(ListProducts::class)->assertCanSeeTableRecords($products);
+        Livewire::test(ListProducts::class)->loadTable()->assertCanSeeTableRecords($products);
     }
 
     #[Test]

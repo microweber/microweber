@@ -6,12 +6,10 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
 use Modules\Settings\Filament\Pages\AdminTemplateCustomizerPage;
 use Modules\Settings\Filament\Pages\AdminTemplatePage;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
-#[RunTestsInSeparateProcesses]
 class TemplateCustomizerPageTest extends TestCase
 {
     use InteractsWithFilamentPanel;
@@ -165,10 +163,9 @@ class TemplateCustomizerPageTest extends TestCase
             ->set('selectedTemplate', $templateName)
             ->call('resetTemplateSettings');
 
-        // Note: The reset method is protected, so this test verifies
-        // the option was initially saved correctly
+        // After reset, the template options should be deleted from the DB
         $option = get_option('test_setting', $optionGroup);
-        $this->assertEquals('test_value', $option);
+        $this->assertNull($option);
     }
 
     #[Test]
@@ -218,6 +215,7 @@ class TemplateCustomizerPageTest extends TestCase
     #[Test]
     public function it_requires_authentication(): void
     {
+        \Illuminate\Support\Facades\Auth::logout();
         $this->get(route('filament.admin.pages.template-customization'))
             ->assertRedirect();
     }

@@ -101,16 +101,9 @@ trait ModulesRepositoryTrait
     }
 
 
-    protected function createModule(...$args)
+    protected function createModule(Container $app, string $name, string $path): \Nwidart\Modules\Laravel\Module
     {
-
-        $app = $args[0];
-        $name = $args[1];
-        $path = $args[2];
-
-
-        return StaticModuleCreator::createModule(...$args);
-
+        return StaticModuleCreator::createModule($app, $name, $path);
     }
 
 
@@ -130,7 +123,7 @@ trait ModulesRepositoryTrait
     }
 
 
-    public function find(string $name)
+    public function find(string $name): ?\Nwidart\Modules\Module
     {
 
 
@@ -147,6 +140,7 @@ trait ModulesRepositoryTrait
             }
         }
 
+        return null;
     }
 
     public function config(string $key, $default = null)
@@ -287,7 +281,7 @@ trait ModulesRepositoryTrait
 
     public $scanMemory = [];
 
-    public function scan()
+    public function scan(): array
     {
 //dd(debug_backtrace(1));
 
@@ -341,7 +335,7 @@ trait ModulesRepositoryTrait
         return $modules;
     }
 
-    public function findOrFail(string $name)
+    public function findOrFail(string $name): \Nwidart\Modules\Module
     {
         $module = $this->find($name);
 
@@ -363,7 +357,7 @@ trait ModulesRepositoryTrait
 
 
 
-    public function getModulePath($module)
+    public function getModulePath($module): string
     {
         try {
             return $this->findOrFail($module)->getPath() . '/';

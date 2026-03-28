@@ -11,7 +11,6 @@ use Modules\Testimonials\Filament\TestimonialsTableList;
 use Modules\Testimonials\Models\Testimonial;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class TestimonialsTableListFilamentTest extends TestCase
 {
     #[Test]

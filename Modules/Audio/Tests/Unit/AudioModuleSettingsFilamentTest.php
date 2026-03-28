@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AudioModuleSettingsFilamentTest extends TestCase
 {
 

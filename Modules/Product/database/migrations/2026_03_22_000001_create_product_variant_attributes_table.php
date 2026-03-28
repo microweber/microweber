@@ -24,8 +24,8 @@ return new class extends Migration {
                 $table->integer('position')->default(0); // Display order
                 $table->boolean('is_active')->default(true);
                 $table->json('settings')->nullable(); // Additional settings per attribute type
-                $table->unsignedBigInteger('created_by')->nullable();
-                $table->unsignedBigInteger('edited_by')->nullable();
+                $table->unsignedInteger('created_by')->nullable();
+                $table->unsignedInteger('edited_by')->nullable();
                 $table->timestamps();
 
                 $table->index(['key', 'is_active']);
@@ -46,8 +46,8 @@ return new class extends Migration {
                 $table->integer('position')->default(0);
                 $table->boolean('is_active')->default(true);
                 $table->json('metadata')->nullable(); // Additional metadata
-                $table->unsignedBigInteger('created_by')->nullable();
-                $table->unsignedBigInteger('edited_by')->nullable();
+                $table->unsignedInteger('created_by')->nullable();
+                $table->unsignedInteger('edited_by')->nullable();
                 $table->timestamps();
 
                 $table->unique(['attribute_id', 'key']);
@@ -89,10 +89,11 @@ return new class extends Migration {
             Schema::create('product_variant_combination_attributes', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('combination_id')->constrained('product_variants_combinations')->onDelete('cascade');
-                $table->foreignId('attribute_value_id')->constrained('product_variant_attribute_values')->onDelete('cascade');
+                $table->foreignId('attribute_value_id');
+                $table->foreign('attribute_value_id', 'pvca_attr_value_id_foreign')->references('id')->on('product_variant_attribute_values')->onDelete('cascade');
                 $table->timestamps();
 
-                $table->unique(['combination_id', 'attribute_value_id']);
+                $table->unique(['combination_id', 'attribute_value_id'], 'pvca_combination_attr_unique');
                 $table->index('attribute_value_id');
             });
         }

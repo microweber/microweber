@@ -11,7 +11,6 @@ use Modules\Content\Models\Content;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ContentResourceFormReactivityTest extends TestCase
 {
     protected function actingAsAdmin(): User

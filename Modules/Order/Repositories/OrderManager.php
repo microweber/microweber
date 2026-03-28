@@ -471,6 +471,9 @@ class OrderManager
     public function get_items($order_id)
     {
         try {
+            if (is_array($order_id)) {
+                $order_id = $order_id['id'] ?? 0;
+            }
             $order_id = intval($order_id);
             if ($order_id == 0) {
                 return [];
@@ -482,7 +485,8 @@ class OrderManager
                 'limit' => 1000,
             ];
 
-            return $this->app->database_manager->get($params);
+            $result = $this->app->database_manager->get($params);
+            return $result ?: [];
         } catch (QueryException $e) {
             Log::error('Failed to retrieve order items', [
                 'exception' => $e->getMessage(),
@@ -500,6 +504,7 @@ class OrderManager
      */
     public function order_items($order_id)
     {
-        return $this->get_items($order_id);
+        $items = $this->get_items($order_id);
+        return empty($items) ? false : $items;
     }
 }

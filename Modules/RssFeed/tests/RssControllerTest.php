@@ -5,14 +5,14 @@ namespace Modules\RssFeed\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Modules\RssFeed\Http\Controllers\RssController;
 use Illuminate\Http\Request;
 
 class RssControllerTest extends TestCase
 {
-    use LazilyRefreshDatabase;
+    use DatabaseTransactions;
 
     protected RssController $rssController;
 

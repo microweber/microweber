@@ -9,7 +9,6 @@ use Modules\Slider\Models\Slider;
 use Modules\Slider\Filament\SliderTableList;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class SliderSettingsFilamentTest extends TestCase
 {
 
@@ -18,7 +17,7 @@ class SliderSettingsFilamentTest extends TestCase
 
 
     public function it_slider_module_settings_form(): void {
-        Slider::truncate();
+        Slider::query()->delete();
 
         $moduleId = 'module-id-test-' . uniqid();
 

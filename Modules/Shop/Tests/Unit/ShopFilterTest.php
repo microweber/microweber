@@ -17,10 +17,10 @@ class ShopFilterTest extends TestCase
 {
     #[Test]
     public function it_get_products_in_shop(): void {
-        Page::truncate();
-        Product::truncate();
-        CustomField::truncate();
-        CustomFieldValue::truncate();
+        Page::query()->delete();
+        Product::query()->delete();
+        CustomField::query()->delete();
+        CustomFieldValue::query()->delete();
 
 
         $newShopPage = new Page();

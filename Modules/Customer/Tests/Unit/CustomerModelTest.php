@@ -13,8 +13,8 @@ class CustomerModelTest extends TestCase
 {
     #[Test]
     public function it_customer_creation(): void {
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
         // Create a new customer
         $customer = Customer::create([
             'name' => 'John Doe',
@@ -67,8 +67,8 @@ class CustomerModelTest extends TestCase
     #[Test]
 
     public function it_address_relationships(): void {
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
         $customer = Customer::create([
             'name' => 'With Address',
             'email' => 'withaddress@test.com'
@@ -88,8 +88,8 @@ class CustomerModelTest extends TestCase
 
 
     public function it_get_full_name(): void {
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
         $customer = Customer::create([
             'name' => 'Full Name',
             'first_name' => 'John',
@@ -103,8 +103,8 @@ class CustomerModelTest extends TestCase
     #[Test]
 
     public function it_company_relationship(): void {
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
         $customer = Customer::create([
             'name' => 'Company Customer',
             'email' => 'company@test.com',
@@ -119,8 +119,8 @@ class CustomerModelTest extends TestCase
 
 
     public function it_json_field_operations(): void {
-        DB::table('addresses')->truncate();
-        DB::table('customers')->truncate();
+        DB::table('addresses')->delete();
+        DB::table('customers')->delete();
         // Test empty/null customer_data
         $customer1 = (new Customer())->create(['customer_data' => null]);
         $this->assertNull($customer1->customer_data);

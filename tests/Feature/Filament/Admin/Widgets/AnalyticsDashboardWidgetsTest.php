@@ -6,12 +6,10 @@ use App\Filament\Admin\Widgets\ConversionStatsWidget;
 use App\Filament\Admin\Widgets\SalesStatsWidget;
 use App\Filament\Admin\Widgets\TrafficChartWidget;
 use App\Filament\Admin\Widgets\TrafficStatsWidget;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AnalyticsDashboardWidgetsTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected function setUp(): void
     {

@@ -4,11 +4,9 @@ namespace Tests\Feature\Filament\Resources;
 
 use Livewire\Livewire;
 use Modules\Offer\Filament\Admin\Resources\OfferResource;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class OfferResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

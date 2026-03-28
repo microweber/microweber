@@ -10,7 +10,6 @@ use MicroweberPackages\Option\Models\Option;
 use Modules\Btn\Filament\BtnModuleSettings;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class BtnModuleSettingsFilamentTest extends TestCase
 {
 

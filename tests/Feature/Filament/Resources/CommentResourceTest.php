@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Comments\Filament\Resources\CommentResource;
 use Modules\Comments\Filament\Resources\CommentResource\Pages\ListComments;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class CommentResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

@@ -32,7 +32,8 @@ return new class extends Migration
         if (!Schema::hasTable('role_resource_permissions')) {
             Schema::create('role_resource_permissions', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+                $table->unsignedInteger('role_id');
+                $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
                 $table->foreignId('resource_permission_id')->constrained('resource_permissions')->onDelete('cascade');
                 $table->boolean('is_allowed')->default(true);
                 $table->json('conditions')->nullable(); // JSON conditions for advanced access

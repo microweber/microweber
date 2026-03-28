@@ -12,7 +12,6 @@ use Modules\Accordion\Filament\AccordionTableList;
 use Modules\Accordion\Models\Accordion;
 use Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class AccordionTableListFilamentTest extends TestCase
 {
 

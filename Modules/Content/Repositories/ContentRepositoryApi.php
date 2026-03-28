@@ -39,8 +39,7 @@ class ContentRepositoryApi extends BaseRepository
     {
         $content = $this->model->find($id);
 
-
-        return $content->delete();
+        return $content->update(['is_deleted' => 1]);
     }
 
 

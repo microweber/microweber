@@ -5,11 +5,9 @@ namespace Tests\Feature\Filament\Resources;
 use Livewire\Livewire;
 use Modules\Category\Filament\Admin\Resources\CategoryResource;
 use Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\ListCategories;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-#[RunTestsInSeparateProcesses]
 class CategoryResourceTest extends FilamentResourceTestCase
 {
     protected function getResourceClass(): string

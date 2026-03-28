@@ -21,11 +21,8 @@
     ],
     "require": {
         "php": "^8.1"
- 
     },
-    "require-dev": {
-       
-    },
+    "require-dev": {},
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\MicroweberFilamentTheme\\": "src/"
@@ -36,9 +33,7 @@
             "MicroweberPackages\\MicroweberFilamentTheme\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-     
-    },
+    "scripts": {},
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -47,9 +42,9 @@
         }
     },
     "extra": {
-        "laravel": {
-        }
+        "laravel": {}
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "version": "1.0.0"
 }
