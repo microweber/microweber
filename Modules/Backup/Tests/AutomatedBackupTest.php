@@ -2,7 +2,6 @@
 
 namespace Modules\Backup\Tests;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Backup\Models\BackupSchedule;
 use Modules\Backup\Models\BackupHistory;
 use Modules\Backup\Services\AutomatedBackupService;
@@ -16,7 +15,6 @@ use Carbon\Carbon;
  */
 class AutomatedBackupTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected AutomatedBackupService $backupService;
 

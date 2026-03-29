@@ -4,13 +4,11 @@ namespace Modules\Currency\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Currency\Models\Currency;
 use Tests\TestCase;
 
 class CurrencyTest extends TestCase
 {
-    use DatabaseTransactions;
 
     #[Test]
 

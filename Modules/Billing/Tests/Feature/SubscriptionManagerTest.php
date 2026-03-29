@@ -5,7 +5,6 @@ namespace Modules\Billing\Tests\Feature;
 use PHPUnit\Framework\Attributes\Test;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\Billing\Services\SubscriptionManager;
 use Tests\TestCase;
@@ -13,7 +12,6 @@ use Illuminate\Support\Facades\Http;
 
 class SubscriptionManagerTest extends TestCase
 {
-    use DatabaseTransactions;
 
     #[Test]
 

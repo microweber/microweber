@@ -116,7 +116,7 @@ class MultilanguageApi
                     $findLocale = MultilanguageSupportedLocales::where('language', $locale)->first();
                 }
                 if (!$findLocale) {
-                    $findLocale = MultilanguageSupportedLocales::where('display_language', $locale)->first();
+                    $findLocale = MultilanguageSupportedLocales::where('display_name', $locale)->first();
                 }
                 if ($findLocale) {
                     $locale = $findLocale->locale;

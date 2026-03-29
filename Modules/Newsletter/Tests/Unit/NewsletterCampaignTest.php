@@ -11,11 +11,9 @@ use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterCampaignPixel;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewsletterCampaignTest extends TestCase
 {
-    use DatabaseTransactions;
 
     #[Test]
     public function it_can_create_a_campaign()

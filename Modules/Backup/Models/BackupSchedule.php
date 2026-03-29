@@ -25,6 +25,19 @@ class BackupSchedule extends Model
     protected $table = 'backup_schedules';
 
     /**
+     * The model's default attribute values.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'include_media' => true,
+        'is_active' => true,
+        'type' => 'contentBackup',
+        'frequency' => 'daily',
+        'retention_days' => 7,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<string>

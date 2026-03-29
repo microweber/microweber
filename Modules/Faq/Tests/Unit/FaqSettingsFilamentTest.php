@@ -81,8 +81,9 @@ class FaqSettingsFilamentTest extends TestCase
         $this->assertEquals(1, Faq::where('rel_type', 'some_rel_for_faq')->count());
         $this->assertEquals(1, Faq::where('rel_id', 1)->count());
 
-        // Test position ordering
-        $this->assertEquals('General FAQ', Faq::orderBy('position')->first()->question);
-        $this->assertEquals('Product FAQ', Faq::orderBy('position', 'desc')->first()->question);
+        // Test position ordering (scoped to test-created records)
+        $ids = [$generalFaq->id, $productFaq->id];
+        $this->assertEquals('General FAQ', Faq::whereIn('id', $ids)->orderBy('position')->first()->question);
+        $this->assertEquals('Product FAQ', Faq::whereIn('id', $ids)->orderBy('position', 'desc')->first()->question);
     }
 }

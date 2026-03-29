@@ -31,6 +31,7 @@ class CheckoutTest extends TestCase
         Product::query()->delete();
         Order::query()->delete();
         Cart::query()->delete();
+        save_option(['option_key' => 'shop_require_terms', 'option_value' => '0', 'option_group' => 'website']);
 
 //create mail templste
 
@@ -298,12 +299,12 @@ class CheckoutTest extends TestCase
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(10, $content_data_after_order['qty']);
 
-
-        $order = get_order_by_id($checkoutStatus);
+        $orderId = is_array($checkoutStatus) ? ($checkoutStatus['id'] ?? 0) : $checkoutStatus;
+        $order = get_order_by_id($orderId);
         $this->assertNotNull($order);
         $this->assertNull($order['amount']);
 
-        $order = get_order_by_id($checkoutStatus);
+        $order = get_order_by_id($orderId);
         $this->assertNotNull($order);
         $this->assertNull($order['amount']);
 
@@ -354,8 +355,8 @@ class CheckoutTest extends TestCase
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(11, $content_data_after_order['qty']);
 
-
-        $order = get_order_by_id($checkoutStatus);
+        $orderId = is_array($checkoutStatus) ? ($checkoutStatus['id'] ?? 0) : $checkoutStatus;
+        $order = get_order_by_id($orderId);
         $this->assertNotNull($order);
         $this->assertNull($order['amount']);
 

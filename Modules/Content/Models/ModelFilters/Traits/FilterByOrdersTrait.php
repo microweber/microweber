@@ -29,6 +29,9 @@ trait FilterByOrdersTrait
     public function sortOrders($direction)
     {
         $this->sortOrders = $direction;
+        $this->query
+            ->withCount('orders')
+            ->orderBy('orders_count', $direction);
     }
 
     public function orders($orders)

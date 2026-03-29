@@ -152,7 +152,24 @@ class CurrencyConversionService
     protected function getCrossRate(string $fromCurrency, string $toCurrency): ?float
     {
         $fromToBase = $this->getDirectRate($fromCurrency, $this->baseCurrency);
+
+        // Try inverse if direct from->base not found (e.g., base->from exists)
+        if ($fromToBase === null) {
+            $baseToFrom = $this->getDirectRate($this->baseCurrency, $fromCurrency);
+            if ($baseToFrom !== null && $baseToFrom > 0) {
+                $fromToBase = 1 / $baseToFrom;
+            }
+        }
+
         $baseToTarget = $this->getDirectRate($this->baseCurrency, $toCurrency);
+
+        // Try inverse if direct base->target not found
+        if ($baseToTarget === null) {
+            $targetToBase = $this->getDirectRate($toCurrency, $this->baseCurrency);
+            if ($targetToBase !== null && $targetToBase > 0) {
+                $baseToTarget = 1 / $targetToBase;
+            }
+        }
 
         if ($fromToBase !== null && $baseToTarget !== null && $fromToBase > 0) {
             return $baseToTarget / $fromToBase;

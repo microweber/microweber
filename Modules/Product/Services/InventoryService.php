@@ -497,7 +497,7 @@ class InventoryService
     {
         if ($variantId) {
             $variant = ProductVariantCombination::find($variantId);
-            return $variant ? $variant->low_stock_threshold : self::DEFAULT_LOW_STOCK_THRESHOLD;
+            return $variant ? ($variant->low_stock_threshold ?? self::DEFAULT_LOW_STOCK_THRESHOLD) : self::DEFAULT_LOW_STOCK_THRESHOLD;
         }
 
         $product = Content::find($productId);

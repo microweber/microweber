@@ -253,7 +253,7 @@ class TranslationResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
 
-                    BulkAction::make('addTranslation')
+                    BulkAction::make('add_translation')
                         ->label('Add Translation')
                         ->icon('heroicon-o-plus')
                         ->form([

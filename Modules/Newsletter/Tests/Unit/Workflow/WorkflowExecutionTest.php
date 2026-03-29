@@ -2,14 +2,12 @@
 
 namespace Modules\Newsletter\Tests\Unit\Workflow;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Newsletter\Tests\NewsletterTestCase;
 
 class WorkflowExecutionTest extends NewsletterTestCase
 {
-    use DatabaseTransactions;
 
     public function test_can_create_execution(): void
     {
@@ -149,9 +147,14 @@ class WorkflowExecutionTest extends NewsletterTestCase
             'status' => WorkflowExecution::STATUS_PENDING,
         ]);
 
+        WorkflowExecution::factory()->create([
+            'workflow_id' => $workflow->id,
+            'status' => WorkflowExecution::STATUS_CANCELLED,
+        ]);
+
         $stats = WorkflowExecution::getStatistics($workflow->id);
 
-        $this->assertEquals(6, $stats['total']);
+        $this->assertEquals(7, $stats['total']);
         $this->assertEquals(1, $stats['pending']);
         $this->assertEquals(3, $stats['completed']);
         $this->assertEquals(2, $stats['failed']);

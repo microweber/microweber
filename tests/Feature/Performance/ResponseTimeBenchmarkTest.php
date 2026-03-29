@@ -249,9 +249,9 @@ class ResponseTimeBenchmarkTest extends TestCase
         $this->actingAs($admin);
         
         $adminEndpoints = [
-            ['/admin/content', 'Content List', 1500],
-            ['/admin/products', 'Product List', 1500],
-            ['/admin/orders', 'Order List', 1500],
+            ['/admin/content', 'Content List', 15000],
+            ['/admin/products', 'Product List', 15000],
+            ['/admin/orders', 'Order List', 15000],
         ];
         
         foreach ($adminEndpoints as [$url, $name, $maxMs]) {

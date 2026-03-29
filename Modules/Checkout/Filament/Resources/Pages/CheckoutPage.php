@@ -33,7 +33,8 @@ class CheckoutPage extends Page
 
         // Redirect to cart if still empty
         if (!app()->cart_manager->get()) {
-            $this->redirect(route('shop.cart'));
+            $cartUrl = \Route::has('shop.cart') ? route('shop.cart') : '/cart';
+            $this->redirect($cartUrl);
         }
     }
 

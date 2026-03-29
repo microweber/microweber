@@ -673,7 +673,7 @@ class Coupon extends Model
             return [
                 'valid' => false,
                 'discount' => 0,
-                'message' => lang('Minimum of :count items required', ['count' => $this->min_items_count]),
+                'message' => 'Minimum of ' . $this->min_items_count . ' items required',
             ];
         }
 
@@ -681,7 +681,7 @@ class Coupon extends Model
             return [
                 'valid' => false,
                 'discount' => 0,
-                'message' => lang('Maximum of :count items allowed', ['count' => $this->max_items_count]),
+                'message' => 'Maximum of ' . $this->max_items_count . ' items allowed',
             ];
         }
 

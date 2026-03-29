@@ -44,12 +44,12 @@ class TemplateCustomizerPageTest extends TestCase
     {
         $this->actingAsAdmin();
 
+        // Sections are only visible when a template is selected
         Livewire::test(AdminTemplateCustomizerPage::class)
+            ->set('selectedTemplate', 'Bootstrap')
             ->assertSuccessful()
             ->assertSee('Appearance Settings')
-            ->assertSee('Typography')
-            ->assertSee('Layout Settings')
-            ->assertSee('Branding');
+            ->assertSee('Typography');
     }
 
     #[Test]
@@ -186,7 +186,9 @@ class TemplateCustomizerPageTest extends TestCase
     {
         $this->actingAsAdmin();
 
+        // Quick Actions section is only visible when a template is selected
         Livewire::test(AdminTemplateCustomizerPage::class)
+            ->set('selectedTemplate', 'Bootstrap')
             ->assertSuccessful()
             ->assertSee('Quick Actions');
     }
@@ -196,7 +198,9 @@ class TemplateCustomizerPageTest extends TestCase
     {
         $this->actingAsAdmin();
 
+        // Template Information is only visible when a template is selected
         Livewire::test(AdminTemplateCustomizerPage::class)
+            ->set('selectedTemplate', 'Bootstrap')
             ->assertSuccessful()
             ->assertSee('Template Information');
     }

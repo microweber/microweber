@@ -321,10 +321,10 @@ class Content extends Model
         $specialPrice = $this->getSpecialPriceAttribute();
 
         if ($specialPrice) {
-            return currency_format($specialPrice);
+            return currency_format((float) $specialPrice);
         }
 
-        return currency_format($originalPrice);
+        return currency_format((float) $originalPrice);
     }
 
     public function getPriceModelAttribute()

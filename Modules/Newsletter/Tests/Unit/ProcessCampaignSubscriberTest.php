@@ -2,7 +2,6 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 use Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
 use Modules\Newsletter\Models\NewsletterCampaign;
@@ -15,7 +14,6 @@ use Tests\TestCase;
 
 class ProcessCampaignSubscriberTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected function setUp(): void
     {

@@ -90,9 +90,8 @@ class CommentResourceTest extends TestCase
         // Verify filter logic works by querying the model directly,
         // since deferred table rendering in Filament v5 + Livewire v4
         // makes assertCanSeeTableRecords unreliable after filtering.
-        $filteredResults = Comment::where('is_moderated', true)->get();
-        $this->assertCount(1, $filteredResults);
-        $this->assertEquals($approved->id, $filteredResults->first()->id);
+        $this->assertTrue(Comment::where('id', $approved->id)->where('is_moderated', true)->exists());
+        $this->assertFalse(Comment::where('id', $pending->id)->where('is_moderated', true)->exists());
 
         // Also verify the list page renders with the filter
         Livewire::test(ListComments::class)
@@ -107,10 +106,9 @@ class CommentResourceTest extends TestCase
         $spam = Comment::factory()->create(['is_spam' => true]);
         $notSpam = Comment::factory()->create(['is_spam' => false]);
 
-        // Verify filter logic works by querying the model directly
-        $filteredResults = Comment::where('is_spam', true)->get();
-        $this->assertCount(1, $filteredResults);
-        $this->assertEquals($spam->id, $filteredResults->first()->id);
+        // Verify filter logic works by querying the model directly (scoped to test records)
+        $this->assertTrue(Comment::where('id', $spam->id)->where('is_spam', true)->exists());
+        $this->assertFalse(Comment::where('id', $notSpam->id)->where('is_spam', true)->exists());
 
         // Also verify the list page renders with the filter
         Livewire::test(ListComments::class)
@@ -161,8 +159,9 @@ class CommentResourceTest extends TestCase
             'created_at' => now()->subDays(1),
         ]);
 
-        // Verify sorting logic by querying the model directly
-        $sorted = Comment::orderBy('created_at', 'desc')->pluck('comment_name')->toArray();
+        // Verify sorting logic by querying the model directly (scoped to test records)
+        $ids = [$commentA->id, $commentB->id, $commentC->id];
+        $sorted = Comment::whereIn('id', $ids)->orderBy('created_at', 'desc')->pluck('comment_name')->toArray();
         $this->assertEquals(['Charlie', 'Bob', 'Alice'], $sorted);
 
         // Also verify the list page renders with the sort

@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders;
@@ -18,6 +19,7 @@ class PaymentProviderResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('payment_providers')->delete();
     }
 
     #[Test]
@@ -30,7 +32,7 @@ class PaymentProviderResourceTest extends TestCase
     public function it_index_page_shows_all_records(): void
     {
         $providers = PaymentProvider::factory()->count(3)->create();
-        Livewire::test(ListPaymentProviders::class)->assertCanSeeTableRecords($providers);
+        Livewire::test(ListPaymentProviders::class)->loadTable()->assertCanSeeTableRecords($providers);
     }
 
     #[Test]

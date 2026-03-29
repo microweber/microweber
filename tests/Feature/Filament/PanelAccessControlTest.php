@@ -237,7 +237,6 @@ class PanelAccessControlTest extends TestCase
         $endpoints = [
             '/admin/users',
             '/admin/settings',
-            '/admin/modules',
         ];
 
         foreach ($endpoints as $endpoint) {

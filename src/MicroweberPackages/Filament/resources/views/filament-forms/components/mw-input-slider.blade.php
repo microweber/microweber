@@ -3,18 +3,11 @@
     $startValue = $getState() ? [$getState()] : [0];
 @endphp
 
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :id="$getId()" :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
+<div>
+    @if($getLabel())
+        <label>{{ $getLabel() }}</label>
+    @endif
 
-
->
     <div
         style="display: none"
     >
@@ -101,5 +94,4 @@
         }">
 
     </div>
-
-</x-dynamic-component>
+</div>

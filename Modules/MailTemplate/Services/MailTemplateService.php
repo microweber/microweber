@@ -273,7 +273,7 @@ class MailTemplateService
                             'strike',
                             'link',
                             'orderedList',
-                            'unorderedList',
+                            'bulletList',
                             'undo',
                             'redo',
                         ])

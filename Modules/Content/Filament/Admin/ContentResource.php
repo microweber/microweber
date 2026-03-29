@@ -9,7 +9,7 @@ use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
-use Filament\GlobalSearch\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\Width as MaxWidth;

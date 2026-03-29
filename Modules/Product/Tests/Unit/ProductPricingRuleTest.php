@@ -2,13 +2,11 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Product\Models\ProductPricingRule;
 use Tests\TestCase;
 
 class ProductPricingRuleTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected function setUp(): void
     {

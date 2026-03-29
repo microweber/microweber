@@ -11,7 +11,7 @@ use Tests\TestCase;
 class AssetOptimizationServiceTest extends TestCase
 {
     protected AssetOptimizationService $service;
-    protected string $testAssetPath;
+    protected string $testAssetPath = '';
     protected string $testCssContent;
     protected string $testJsContent;
 
@@ -75,7 +75,7 @@ JS;
     protected function tearDown(): void
     {
         // Clean up test files
-        if (File::isDirectory($this->testAssetPath)) {
+        if ($this->testAssetPath && File::isDirectory($this->testAssetPath)) {
             File::deleteDirectory($this->testAssetPath);
         }
 

@@ -5,7 +5,6 @@ namespace Modules\Seo\Tests\Unit;
 use Modules\Content\Models\Content;
 use Modules\Seo\Services\SeoMetadataService;
 use MicroweberPackages\Option\Facades\Option;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 // Import the save_option helper function
@@ -13,7 +12,6 @@ use function save_option;
 
 class SeoMetadataServiceTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected SeoMetadataService $seoService;
 

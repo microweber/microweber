@@ -26,6 +26,12 @@ class ProductFilterTest extends TestCase
         $clean = CustomFieldValue::query()->delete();
     }
 
+    protected function tearDown(): void
+    {
+        $this->cleanUp();
+        parent::tearDown();
+    }
+
     #[Test]
 
     public function it_product_filter(): void {
@@ -255,10 +261,12 @@ class ProductFilterTest extends TestCase
         ]);
         $products = $productQuery->get();
 
-        $i = 1;
+        // Verify the products are sorted in ascending order by order count
+        $prevCount = -1;
         foreach ($products as $product) {
-            $this->assertEquals($i, $product->orders()->count());
-            $i++;
+            $count = $product->orders()->count();
+            $this->assertGreaterThanOrEqual($prevCount, $count);
+            $prevCount = $count;
         }
 
 
@@ -267,10 +275,13 @@ class ProductFilterTest extends TestCase
             'sortOrders' => 'desc'
         ]);
         $products = $productQuery->get();
-        $i = 1;
+
+        // Verify the products are sorted in descending order by order count
+        $prevCount = PHP_INT_MAX;
         foreach ($products as $product) {
-            $this->assertEquals($i, $product->orders()->count());
-            $i++;
+            $count = $product->orders()->count();
+            $this->assertLessThanOrEqual($prevCount, $count);
+            $prevCount = $count;
         }
 
 

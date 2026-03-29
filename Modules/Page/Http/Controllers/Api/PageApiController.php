@@ -89,6 +89,15 @@ class PageApiController extends Controller
         try {
             $page = $this->page->create($validator->validated());
 
+            $addToMenus = $request->input('add_content_to_menu');
+            if (!empty($addToMenus) && is_array($addToMenus)) {
+                foreach ($addToMenus as $menuId) {
+                    if (!app()->menu_manager->is_in_menu($menuId, $page->id)) {
+                        app()->content_manager->helpers->add_content_to_menu($page->id, $menuId);
+                    }
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Page created successfully',

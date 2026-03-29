@@ -2,7 +2,6 @@
 
 namespace Modules\Currency\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Currency\Models\Currency;
 use Modules\Currency\Models\ExchangeRate;
 use Modules\Currency\Services\CurrencyManager;
@@ -11,7 +10,6 @@ use Tests\TestCase;
 
 class MultiCurrencyTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected CurrencyManager $currencyManager;
     protected CurrencyConversionService $conversionService;
@@ -19,10 +17,14 @@ class MultiCurrencyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->currencyManager = app(CurrencyManager::class);
         $this->conversionService = app(CurrencyConversionService::class);
-        
+
+        // Clean up before each test to ensure isolation without DatabaseTransactions
+        ExchangeRate::query()->delete();
+        Currency::query()->delete();
+
         // Clear cache before each test
         $this->currencyManager->clearCache();
         $this->conversionService->clearCache();

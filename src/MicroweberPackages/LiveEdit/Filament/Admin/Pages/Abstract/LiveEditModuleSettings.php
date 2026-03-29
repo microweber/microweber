@@ -14,6 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
 use Filament\Support\Commands\Concerns\CanReadModelSchemas;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
@@ -92,7 +93,9 @@ abstract class LiveEditModuleSettings extends Page
 //                }
 
                 if (isset($fieldStatePath['options'])) {
-                    $this->options[$fieldStatePath['options']] = '';
+                    if (!array_key_exists($fieldStatePath['options'], $this->options)) {
+                        $this->options[$fieldStatePath['options']] = '';
+                    }
                 }
             }
         }
@@ -551,6 +554,10 @@ abstract class LiveEditModuleSettings extends Page
             }
         }
 
+        if (empty($moduleTemplatesForForm)) {
+            return [];
+        }
+
         if ($selectedSkin) {
             $this->options['template'] = $selectedSkin;
         }
@@ -563,6 +570,7 @@ abstract class LiveEditModuleSettings extends Page
                 ->label('Module template')
                 ->default($selectedSkin)
                 ->live()
+                ->nullable()
                 ->options($moduleTemplatesForForm)
         ];
 
@@ -602,6 +610,11 @@ abstract class LiveEditModuleSettings extends Page
                     $this->updated('options.' . $key, $itemToSave);
                 }
             }
+
+            Notification::make()
+                ->title(__('Saved successfully'))
+                ->success()
+                ->send();
         }
     }
 

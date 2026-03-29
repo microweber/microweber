@@ -29,6 +29,7 @@ class CustomerCheckoutTest extends TestCase
         Config::set('mail.driver', 'array');
         Config::set('queue.driver', 'sync');
         Config::set('mail.transport', 'array');
+        save_option(['option_key' => 'shop_require_terms', 'option_value' => '0', 'option_group' => 'website']);
 
         //create mail template
 

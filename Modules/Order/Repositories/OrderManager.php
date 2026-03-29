@@ -448,6 +448,7 @@ class OrderManager
             }
 
             $params = [
+                'table' => $this->table,
                 'id' => $order_id,
                 'single' => true,
             ];

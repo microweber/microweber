@@ -88,7 +88,7 @@ class MailTemplateResource extends Resource
                                 'strike',
                                 'link',
                                 'orderedList',
-                                'unorderedList',
+                                'bulletList',
                                 'undo',
                                 'redo',
                             ])

@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
@@ -14,7 +13,6 @@ use Tests\TestCase;
 
 class ProductVariantSystemTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected ProductVariantService $variantService;
 
@@ -22,6 +20,11 @@ class ProductVariantSystemTest extends TestCase
     {
         parent::setUp();
         $this->variantService = new ProductVariantService();
+        // Clean up variant tables before each test for isolation without DatabaseTransactions
+        DB::table('product_variant_combination_attributes')->delete();
+        ProductVariantCombination::query()->delete();
+        ProductVariantAttributeValue::query()->delete();
+        ProductVariantAttribute::query()->delete();
     }
 
     /**
@@ -171,7 +174,7 @@ class ProductVariantSystemTest extends TestCase
         // Test finding
         $combination = $this->variantService->findCombinationByAttributeKeys(
             $product->id,
-            ['size' => 'small', 'color' => 'red']
+            [$size->key => 'small', $color->key => 'red']
         );
 
         $this->assertInstanceOf(ProductVariantCombination::class, $combination);

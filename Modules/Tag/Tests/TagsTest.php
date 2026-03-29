@@ -5,7 +5,6 @@ namespace Modules\Tag\Tests;
 use PHPUnit\Framework\Attributes\Test;
 
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Modules\Content\Models\Content;
@@ -13,7 +12,6 @@ use Modules\Content\Models\Content;
 class TagsTest extends TestCase
 {
 
-    use DatabaseTransactions;
 
     #[Test]
 
@@ -179,13 +177,13 @@ class TagsTest extends TestCase
         $unique = 'tag-' . uniqid();
 
         $content = new Content();
-        $content->title = 'Test the tags';
+        $content->title = 'Test the tags ' . $unique;
         $content->content_type = 'page';
-        $content->url = 'test-the-tags';
+        $content->url = 'test-the-tags-' . $unique;
 
         $content->save();
         $content->tag($unique);
-        $content = Content::where('title', 'Test the tags')->first();
+        $content = Content::where('title', 'Test the tags ' . $unique)->first();
         $tags = $content->tagNames();
 
 
@@ -200,13 +198,13 @@ class TagsTest extends TestCase
         $unique = 'tag-' . uniqid();
 
         $content = new Content();
-        $content->title = 'Test the tags';
+        $content->title = 'Test the tags ' . $unique;
         $content->content_type = 'page';
-        $content->url = 'test-the-tags';
+        $content->url = 'test-the-tags-' . $unique;
 
         $content->save();
         $content->tag([$unique, 'tag2']);
-        $content = Content::where('title', 'Test the tags')->first();
+        $content = Content::where('title', 'Test the tags ' . $unique)->first();
         $tags = $content->tagNames();
 
         $this->assertIsArray($tags);

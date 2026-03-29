@@ -2,14 +2,12 @@
 
 namespace Modules\Newsletter\Tests\Unit\Workflow;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowNode;
 use Modules\Newsletter\Tests\NewsletterTestCase;
 
 class WorkflowModelTest extends NewsletterTestCase
 {
-    use DatabaseTransactions;
 
     public function test_can_create_workflow(): void
     {

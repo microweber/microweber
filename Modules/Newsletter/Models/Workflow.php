@@ -5,10 +5,16 @@ namespace Modules\Newsletter\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Newsletter\Database\Factories\WorkflowFactory;
 
 class Workflow extends Model
 {
     use HasFactory;
+
+    protected static function newFactory()
+    {
+        return WorkflowFactory::new();
+    }
 
     public $table = 'workflows';
 

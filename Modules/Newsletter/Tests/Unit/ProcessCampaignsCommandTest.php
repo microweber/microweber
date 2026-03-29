@@ -2,7 +2,6 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Mail;
@@ -19,7 +18,6 @@ use Tests\TestCase;
 
 class ProcessCampaignsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected function setUp(): void
     {

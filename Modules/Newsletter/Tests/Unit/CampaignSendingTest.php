@@ -10,13 +10,11 @@ use Tests\TestCase;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterList;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 use Modules\Newsletter\Mails\NewsletterMail;
 
 class CampaignSendingTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected function setUp(): void
     {

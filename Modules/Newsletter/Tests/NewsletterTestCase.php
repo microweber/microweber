@@ -2,13 +2,17 @@
 
 namespace Modules\Newsletter\Tests;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\Models\User;
 
 abstract class NewsletterTestCase extends TestCase
 {
-    use DatabaseTransactions;
-
-
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Clean up newsletter-related tables before each test for isolation
+        \Modules\Newsletter\Models\WorkflowExecution::query()->delete();
+        \Modules\Newsletter\Models\WorkflowNode::query()->delete();
+        \Modules\Newsletter\Models\Workflow::query()->delete();
+    }
 }

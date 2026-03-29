@@ -80,7 +80,11 @@ class ContentApiController extends Controller
         }
 
         try {
-            $content = $this->content->create($validator->validated());
+            $data = $validator->validated();
+            if (isset($data['content'])) {
+                $data['content'] = xss_clean($data['content']);
+            }
+            $content = $this->content->create($data);
 
             return response()->json([
                 'success' => true,

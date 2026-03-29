@@ -6,11 +6,9 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterList;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewsletterSubscriberTest extends TestCase
 {
-    use DatabaseTransactions;
 
     #[Test]
     public function it_can_subscribe_email()

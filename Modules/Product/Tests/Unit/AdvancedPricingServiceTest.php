@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
@@ -13,7 +12,6 @@ use Tests\TestCase;
 
 class AdvancedPricingServiceTest extends TestCase
 {
-    use DatabaseTransactions;
 
     protected AdvancedPricingService $pricingService;
 
@@ -290,12 +288,14 @@ class AdvancedPricingServiceTest extends TestCase
     /** @test */
     public function it_respects_cannot_stack_with_restrictions(): void
     {
+        $product = $this->createTestProduct(100);
+
         $rule1 = ProductPricingRule::create([
             'name' => 'Rule 1',
             'slug' => $this->uniqueSlug('rule-one-stack-svc'),
             'rule_type' => ProductPricingRule::RULE_TYPE_BULK_QUANTITY,
             'price_type' => ProductPricingRule::PRICE_TYPE_PERCENTAGE_DISCOUNT,
-            'product_ids' => [1],
+            'product_ids' => [$product->id],
             'tiers' => [['min' => 1, 'max' => null, 'value' => 10]],
             'is_stackable' => true,
             'priority' => 10,
@@ -307,7 +307,7 @@ class AdvancedPricingServiceTest extends TestCase
             'slug' => $this->uniqueSlug('rule-two-stack-svc'),
             'rule_type' => ProductPricingRule::RULE_TYPE_BULK_QUANTITY,
             'price_type' => ProductPricingRule::PRICE_TYPE_PERCENTAGE_DISCOUNT,
-            'product_ids' => [1],
+            'product_ids' => [$product->id],
             'tiers' => [['min' => 1, 'max' => null, 'value' => 5]],
             'is_stackable' => true,
             'cannot_stack_with' => [$rule1->id],
@@ -315,7 +315,7 @@ class AdvancedPricingServiceTest extends TestCase
             'is_active' => true,
         ]);
 
-        $result = $this->pricingService->calculatePrice(1, 1, 100);
+        $result = $this->pricingService->calculatePrice($product->id, 1, 100);
 
         // Only Rule 1 should apply (Rule 2 cannot stack with it)
         $this->assertEquals(90, $result['final_price']);
