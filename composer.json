@@ -23,7 +23,7 @@
         "irc": "irc://irc.freenode.org/microweber"
     },
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "ext-pdo": "*",
         "ext-zip": "*",
         "ext-dom": "*",
