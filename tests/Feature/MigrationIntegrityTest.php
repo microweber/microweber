@@ -31,6 +31,9 @@ class MigrationIntegrityTest extends TestCase
             return;
         }
 
+        // Ensure all pending migrations are applied before testing rollback integrity
+        $this->artisan('migrate', ['--force' => true])->assertSuccessful();
+
         // Get the current migration batch
         $lastBatch = DB::table('migrations')
             ->max('batch');

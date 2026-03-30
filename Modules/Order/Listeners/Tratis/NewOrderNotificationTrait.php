@@ -23,8 +23,8 @@ trait NewOrderNotificationTrait {
 
         // Is logged
         $notifiable = false;
-        if (isset($order->created_by) && $order->created_by > 0) {
-            $customer = User::where('id', $order->created_by)->first();
+        if (isset($order->user_id) && $order->user_id > 0) {
+            $customer = User::where('id', $order->user_id)->first();
             if ($customer) {
                 if (empty($order->email)) {
                     $notifiable = $customer;

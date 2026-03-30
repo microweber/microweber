@@ -101,7 +101,7 @@ class OrderFilter extends ModelFilter
     public function userId($userId)
     {
         $userId = intval($userId);
-        $this->query->where('created_by', $userId);
+        $this->query->where('user_id', $userId);
     }
 
     public function customerId($customerId)

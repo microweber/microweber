@@ -75,6 +75,7 @@ class Order extends Model
         'skip_promo_code',
         'coupon_id',
         'discount_type',
+        'user_id',
     ];
 
     protected $searchable = [
@@ -232,7 +233,7 @@ class Order extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'created_by');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
 
