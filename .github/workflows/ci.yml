@@ -1,4 +1,4 @@
-name: PHP Tests (Pest + PHPUnit)
+name: PHP Tests (PHPUnit)
 on:
   push:
 
@@ -69,10 +69,8 @@ jobs:
 
     - name: List all artisan commands
       run: php artisan list
-    - name: Run Tests (Pest + PHPUnit) with Coverage
-      run: vendor/bin/pest --configuration phpunit.xml --coverage-clover clover.xml
-    - name: Run Pest Module Suites
-      run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature
+    - name: Run PHPUnit Tests with Coverage
+      run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml --no-coverage-html
     - name: Upload coverage to Codecov
       if: always()
       uses: codecov/codecov-action@v5

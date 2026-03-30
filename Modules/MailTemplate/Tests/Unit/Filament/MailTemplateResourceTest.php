@@ -26,6 +26,7 @@ class MailTemplateResourceTest extends TestCase
             'welcome' => 'Welcome',
             'order' => 'Order',
             'notification' => 'Notification',
+            'password_reset' => 'Password Reset',
         ]]);
     }
 

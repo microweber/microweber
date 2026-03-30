@@ -47,6 +47,12 @@ class FormsManager
         $table = MW_DB_TABLE_FORMS_DATA;
         $params['table'] = $table;
 
+        // for_id is an alias for rel_id (the actual DB column)
+        if (isset($params['for_id']) && !isset($params['rel_id'])) {
+            $params['rel_id'] = $params['for_id'];
+            unset($params['for_id']);
+        }
+
         if (!isset($params['order_by'])) {
             $params['order_by'] = 'created_at desc';
         }
