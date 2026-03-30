@@ -11,7 +11,6 @@ use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class AdminLiveEditTest extends TestCase
 {

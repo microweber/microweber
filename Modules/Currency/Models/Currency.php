@@ -150,10 +150,11 @@ class Currency extends Model
      */
     public function formatAmount(float $amount): string
     {
+        $decimalSep = ($this->decimal_separator !== null && $this->decimal_separator !== '') ? $this->decimal_separator : '.';
         $formatted = number_format(
             $amount,
             $this->precision,
-            $this->decimal_separator,
+            $decimalSep,
             $this->thousand_separator
         );
 
@@ -172,10 +173,11 @@ class Currency extends Model
      */
     public function formatAmountPlain(float $amount): string
     {
+        $decimalSep = ($this->decimal_separator !== null && $this->decimal_separator !== '') ? $this->decimal_separator : '.';
         return number_format(
             $amount,
             $this->precision,
-            $this->decimal_separator,
+            $decimalSep,
             $this->thousand_separator
         );
     }

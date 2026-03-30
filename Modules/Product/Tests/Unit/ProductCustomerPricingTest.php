@@ -4,6 +4,7 @@ namespace Modules\Product\Tests\Unit;
 
 use Modules\Product\Models\ProductCustomerPricing;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProductCustomerPricingTest extends TestCase
 {
@@ -22,8 +23,8 @@ class ProductCustomerPricingTest extends TestCase
         ];
     }
 
-    /** @test */
-    public function it_can_create_customer_pricing(): void
+        #[Test]
+        public function it_can_create_customer_pricing(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -43,8 +44,8 @@ class ProductCustomerPricingTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_has_default_minimum_quantity_of_one(): void
+        #[Test]
+        public function it_has_default_minimum_quantity_of_one(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -56,8 +57,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(1, $pricing->minimum_quantity);
     }
 
-    /** @test */
-    public function it_casts_price_as_decimal(): void
+        #[Test]
+        public function it_casts_price_as_decimal(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -71,8 +72,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(100.00, (float) $pricing->price);
     }
 
-    /** @test */
-    public function it_can_set_validity_dates(): void
+        #[Test]
+        public function it_can_set_validity_dates(): void
     {
         $ids = $this->uniqueIds();
         $validFrom = now()->addDay()->startOfMinute();
@@ -93,8 +94,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals($validTo->format('Y-m-d H:i'), $pricing->valid_to->format('Y-m-d H:i'));
     }
 
-    /** @test */
-    public function it_can_check_current_validity(): void
+        #[Test]
+        public function it_can_check_current_validity(): void
     {
         $ids1 = $this->uniqueIds();
         $active = ProductCustomerPricing::create([
@@ -126,8 +127,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertFalse($expired->isCurrentlyValid());
     }
 
-    /** @test */
-    public function it_can_check_if_applies_to_quantity(): void
+        #[Test]
+        public function it_can_check_if_applies_to_quantity(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -143,8 +144,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertTrue($pricing->appliesToQuantity(10));
     }
 
-    /** @test */
-    public function it_scopes_active_customer_pricing(): void
+        #[Test]
+        public function it_scopes_active_customer_pricing(): void
     {
         $ids1 = $this->uniqueIds();
         ProductCustomerPricing::create([
@@ -168,8 +169,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals($ids1['product_id'], $active->first()->product_id);
     }
 
-    /** @test */
-    public function it_scopes_for_specific_customer(): void
+        #[Test]
+        public function it_scopes_for_specific_customer(): void
     {
         $userId = rand(1000, 9999);
 
@@ -196,8 +197,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(2, $customerPricing->count());
     }
 
-    /** @test */
-    public function it_scopes_for_specific_product(): void
+        #[Test]
+        public function it_scopes_for_specific_product(): void
     {
         $productId = rand(1000, 9999);
 
@@ -224,8 +225,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(2, $productPricing->count());
     }
 
-    /** @test */
-    public function it_scopes_for_minimum_quantity(): void
+        #[Test]
+        public function it_scopes_for_minimum_quantity(): void
     {
         ProductCustomerPricing::create([
             'product_id' => rand(1000, 9999),
@@ -253,8 +254,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(2, $validForQuantity->count());
     }
 
-    /** @test */
-    public function it_calculates_discount_percentage(): void
+        #[Test]
+        public function it_calculates_discount_percentage(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -267,8 +268,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals(20.00, $pricing->discount_percentage);
     }
 
-    /** @test */
-    public function it_returns_null_for_discount_percentage_when_no_compare_price(): void
+        #[Test]
+        public function it_returns_null_for_discount_percentage_when_no_compare_price(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -281,8 +282,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertNull($pricing->discount_percentage);
     }
 
-    /** @test */
-    public function it_returns_null_for_discount_percentage_when_compare_price_is_zero(): void
+        #[Test]
+        public function it_returns_null_for_discount_percentage_when_compare_price_is_zero(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -295,8 +296,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertNull($pricing->discount_percentage);
     }
 
-    /** @test */
-    public function it_can_store_metadata(): void
+        #[Test]
+        public function it_can_store_metadata(): void
     {
         $ids = $this->uniqueIds();
         $pricing = ProductCustomerPricing::create([
@@ -314,8 +315,8 @@ class ProductCustomerPricingTest extends TestCase
         $this->assertEquals('C-12345', $pricing->metadata['contract_id']);
     }
 
-    /** @test */
-    public function it_enforces_unique_product_customer_combination(): void
+        #[Test]
+        public function it_enforces_unique_product_customer_combination(): void
     {
         $ids = $this->uniqueIds();
         ProductCustomerPricing::create([

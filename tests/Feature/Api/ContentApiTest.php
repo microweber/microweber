@@ -441,8 +441,10 @@ final class ContentApiTest extends TestCase
 
         $response = $this->getJson('/api/posts?limit=200');
 
-        $response->assertStatus(200);
-        $this->assertGreaterThanOrEqual($initialCount + 5, count($response->json('data')));
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data', 'meta']);
+        // Use meta.total which reflects actual DB count, not limited page count
+        $this->assertGreaterThanOrEqual($initialCount + 5, $response->json('meta.total'));
     }
 
     #[Test]

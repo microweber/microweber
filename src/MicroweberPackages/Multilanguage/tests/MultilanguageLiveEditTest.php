@@ -9,8 +9,6 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
 use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
  class MultilanguageLiveEditTest extends MultilanguageTestBase
 {

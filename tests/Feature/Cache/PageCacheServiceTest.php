@@ -7,6 +7,7 @@ namespace Tests\Feature\Cache;
 use Tests\TestCase;
 use MicroweberPackages\Cache\Services\PageCacheService;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Page Cache Service Test
@@ -46,16 +47,16 @@ class PageCacheServiceTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
-    public function it_can_check_if_page_caching_is_enabled(): void
+        #[Test]
+        public function it_can_check_if_page_caching_is_enabled(): void
     {
         config(['cache.page.enabled' => true, 'cache.default' => 'array']);
         
         $this->assertTrue($this->service->isEnabled());
     }
 
-    /** @test */
-    public function it_returns_disabled_when_configuration_is_false(): void
+        #[Test]
+        public function it_returns_disabled_when_configuration_is_false(): void
     {
         config(['cache.page.enabled' => false, 'cache.default' => 'array']);
 
@@ -65,8 +66,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertFalse($service->isEnabled());
     }
 
-    /** @test */
-    public function it_generates_consistent_cache_keys(): void
+        #[Test]
+        public function it_generates_consistent_cache_keys(): void
     {
         $key1 = $this->service->getCacheKey();
         $key2 = $this->service->getCacheKey();
@@ -78,8 +79,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertStringStartsWith('page_cache_', $key1);
     }
 
-    /** @test */
-    public function it_differentiates_cache_keys_by_locale(): void
+        #[Test]
+        public function it_differentiates_cache_keys_by_locale(): void
     {
         $keyEn = $this->service->getCacheKey();
         
@@ -91,8 +92,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertNotEquals($keyEn, $keyEs);
     }
 
-    /** @test */
-    public function it_can_store_and_retrieve_page_content(): void
+        #[Test]
+        public function it_can_store_and_retrieve_page_content(): void
     {
         config([
             'cache.page.enabled' => true,
@@ -112,15 +113,15 @@ class PageCacheServiceTest extends TestCase
         $this->assertEquals($content, $cached['content']);
     }
 
-    /** @test */
-    public function it_returns_null_when_no_cache_exists(): void
+        #[Test]
+        public function it_returns_null_when_no_cache_exists(): void
     {
         $cached = $this->service->get();
         $this->assertNull($cached);
     }
 
-    /** @test */
-    public function it_tracks_cache_statistics(): void
+        #[Test]
+        public function it_tracks_cache_statistics(): void
     {
         config([
             'cache.page.enabled' => true,
@@ -140,8 +141,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertEquals(2, $stats['hits']);
     }
 
-    /** @test */
-    public function it_can_clear_page_cache(): void
+        #[Test]
+        public function it_can_clear_page_cache(): void
     {
         // Store content
         $this->service->store('test content');
@@ -157,8 +158,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertNull($this->service->get());
     }
 
-    /** @test */
-    public function it_can_invalidate_content_cache(): void
+        #[Test]
+        public function it_can_invalidate_content_cache(): void
     {
         $this->service->store('test content');
         
@@ -167,8 +168,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertTrue($invalidated);
     }
 
-    /** @test */
-    public function it_excludes_ajax_requests_from_caching(): void
+        #[Test]
+        public function it_excludes_ajax_requests_from_caching(): void
     {
         // Mock AJAX request
         request()->headers->set('X-Requested-With', 'XMLHttpRequest');
@@ -179,8 +180,8 @@ class PageCacheServiceTest extends TestCase
         request()->headers->remove('X-Requested-With');
     }
 
-    /** @test */
-    public function it_excludes_post_requests_from_caching(): void
+        #[Test]
+        public function it_excludes_post_requests_from_caching(): void
     {
         // Mock POST request
         request()->setMethod('POST');
@@ -191,8 +192,8 @@ class PageCacheServiceTest extends TestCase
         request()->setMethod('GET');
     }
 
-    /** @test */
-    public function it_excludes_authenticated_users_by_default(): void
+        #[Test]
+        public function it_excludes_authenticated_users_by_default(): void
     {
         // Create a test user and authenticate
         $user = new \stdClass();
@@ -204,8 +205,8 @@ class PageCacheServiceTest extends TestCase
         \Illuminate\Support\Facades\Auth::clearResolvedInstances();
     }
 
-    /** @test */
-    public function it_allows_authenticated_users_when_configured(): void
+        #[Test]
+        public function it_allows_authenticated_users_when_configured(): void
     {
         config(['cache.page.cache_for_logged_in' => true, 'cache.default' => 'array']);
 
@@ -220,8 +221,8 @@ class PageCacheServiceTest extends TestCase
         \Illuminate\Support\Facades\Auth::clearResolvedInstances();
     }
 
-    /** @test */
-    public function it_can_warm_cache_for_urls(): void
+        #[Test]
+        public function it_can_warm_cache_for_urls(): void
     {
         // This test requires a mock server or curl stub
         // For now, test that the method exists and returns proper structure
@@ -234,8 +235,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertArrayHasKey('failed', $results);
     }
 
-    /** @test */
-    public function it_returns_cache_statistics(): void
+        #[Test]
+        public function it_returns_cache_statistics(): void
     {
         $stats = $this->service->getStats();
         
@@ -246,8 +247,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertArrayHasKey('misses', $stats);
     }
 
-    /** @test */
-    public function it_respects_cache_ttl_configuration(): void
+        #[Test]
+        public function it_respects_cache_ttl_configuration(): void
     {
         config(['cache.page.ttl' => 7200]);
         
@@ -258,16 +259,16 @@ class PageCacheServiceTest extends TestCase
         $this->assertEquals(7200, $stats['ttl']);
     }
 
-    /** @test */
-    public function it_excludes_urls_matching_excluded_patterns(): void
+        #[Test]
+        public function it_excludes_urls_matching_excluded_patterns(): void
     {
         // Skip this test - request URI cannot be modified after request is created
         // The service reads from Request::getRequestUri() which is immutable after boot
         $this->markTestSkipped('Request URI cannot be modified after request is created in tests');
     }
 
-    /** @test */
-    public function it_allows_urls_not_matching_excluded_patterns(): void
+        #[Test]
+        public function it_allows_urls_not_matching_excluded_patterns(): void
     {
         config(['cache.page.excluded_patterns' => ['^/admin']]);
         
@@ -279,8 +280,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertIsBool($result);
     }
 
-    /** @test */
-    public function it_can_add_custom_cache_tags(): void
+        #[Test]
+        public function it_can_add_custom_cache_tags(): void
     {
         config([
             'cache.page.enabled' => true,
@@ -296,8 +297,8 @@ class PageCacheServiceTest extends TestCase
         $this->assertNotNull($cached);
     }
 
-    /** @test */
-    public function it_returns_null_for_nonexistent_cached_pages(): void
+        #[Test]
+        public function it_returns_null_for_nonexistent_cached_pages(): void
     {
         $pages = $this->service->getCachedPages();
         

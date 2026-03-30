@@ -7,6 +7,7 @@ use Modules\Currency\Models\ExchangeRate;
 use Modules\Currency\Services\CurrencyManager;
 use Modules\Currency\Services\CurrencyConversionService;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class MultiCurrencyTest extends TestCase
 {
@@ -30,8 +31,8 @@ class MultiCurrencyTest extends TestCase
         $this->conversionService->clearCache();
     }
 
-    /** @test */
-    public function it_can_create_currencies_with_required_fields(): void
+        #[Test]
+        public function it_can_create_currencies_with_required_fields(): void
     {
         $currency = Currency::create([
             'name' => 'Euro',
@@ -55,8 +56,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('EUR', $currency->code);
     }
 
-    /** @test */
-    public function currency_code_is_always_uppercase(): void
+        #[Test]
+        public function currency_code_is_always_uppercase(): void
     {
         $currency = Currency::create([
             'name' => 'Test Currency',
@@ -71,8 +72,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('EUR', $currency->code);
     }
 
-    /** @test */
-    public function it_can_set_and_get_default_currency(): void
+        #[Test]
+        public function it_can_set_and_get_default_currency(): void
     {
         $currency = Currency::create([
             'name' => 'US Dollar',
@@ -91,8 +92,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('USD', Currency::getDefault()->code);
     }
 
-    /** @test */
-    public function only_one_currency_can_be_default(): void
+        #[Test]
+        public function only_one_currency_can_be_default(): void
     {
         $usd = Currency::create([
             'name' => 'US Dollar',
@@ -122,8 +123,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertTrue($eur->fresh()->is_default);
     }
 
-    /** @test */
-    public function it_can_format_amounts_with_currency(): void
+        #[Test]
+        public function it_can_format_amounts_with_currency(): void
     {
         $currency = Currency::create([
             'name' => 'US Dollar',
@@ -139,8 +140,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('$ 1,234.56', $formatted);
     }
 
-    /** @test */
-    public function it_can_swap_currency_symbol_position(): void
+        #[Test]
+        public function it_can_swap_currency_symbol_position(): void
     {
         $currency = Currency::create([
             'name' => 'Euro',
@@ -156,8 +157,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('1.234,56 €', $formatted);
     }
 
-    /** @test */
-    public function it_can_create_exchange_rates(): void
+        #[Test]
+        public function it_can_create_exchange_rates(): void
     {
         $usd = Currency::create([
             'name' => 'US Dollar',
@@ -190,8 +191,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals(0.85, $rate->fresh()->rate);
     }
 
-    /** @test */
-    public function it_can_convert_currencies(): void
+        #[Test]
+        public function it_can_convert_currencies(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -220,16 +221,16 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals(85.00, $converted);
     }
 
-    /** @test */
-    public function same_currency_conversion_returns_same_amount(): void
+        #[Test]
+        public function same_currency_conversion_returns_same_amount(): void
     {
         $converted = $this->conversionService->convert(100, 'USD', 'USD');
         
         $this->assertEquals(100, $converted);
     }
 
-    /** @test */
-    public function it_can_get_exchange_rate_via_cross_rate(): void
+        #[Test]
+        public function it_can_get_exchange_rate_via_cross_rate(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -272,8 +273,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertGreaterThan(0, $rate);
     }
 
-    /** @test */
-    public function currency_manager_can_set_and_get_current_currency(): void
+        #[Test]
+        public function currency_manager_can_set_and_get_current_currency(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -307,8 +308,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEquals('EUR', $this->currencyManager->getCurrentCurrencyCode());
     }
 
-    /** @test */
-    public function currency_manager_cannot_set_inactive_currency(): void
+        #[Test]
+        public function currency_manager_cannot_set_inactive_currency(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -336,8 +337,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertFalse($result);
     }
 
-    /** @test */
-    public function it_can_get_active_currencies_only(): void
+        #[Test]
+        public function it_can_get_active_currencies_only(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -380,8 +381,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertFalse($activeCurrencies->contains('code', 'EUR'));
     }
 
-    /** @test */
-    public function helper_functions_work_correctly(): void
+        #[Test]
+        public function helper_functions_work_correctly(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -402,8 +403,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertStringContainsString('$', currency_format(100));
     }
 
-    /** @test */
-    public function exchange_rate_is_calculated_correctly(): void
+        #[Test]
+        public function exchange_rate_is_calculated_correctly(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -425,8 +426,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertEqualsWithDelta(1 / 0.85, $rate->inverse_rate, 0.0001);
     }
 
-    /** @test */
-    public function it_can_detect_stale_exchange_rates(): void
+        #[Test]
+        public function it_can_detect_stale_exchange_rates(): void
     {
         Currency::create([
             'name' => 'US Dollar',
@@ -454,8 +455,8 @@ class MultiCurrencyTest extends TestCase
         $this->assertTrue($rate->fresh()->isStale(24));
     }
 
-    /** @test */
-    public function currency_conversion_can_check_if_possible(): void
+        #[Test]
+        public function currency_conversion_can_check_if_possible(): void
     {
         Currency::create([
             'name' => 'US Dollar',

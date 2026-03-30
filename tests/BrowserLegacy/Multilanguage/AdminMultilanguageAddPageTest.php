@@ -6,8 +6,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Laravel\Dusk\Browser;
 use Modules\Page\Models\Page;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
@@ -15,10 +13,8 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCaseMultilanguage;
 
-#[RunTestsInSeparateProcesses]
 class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
-    #[RunInSeparateProcess]
     #[Test]
     public function it_add_post(): void {
         $this->browse(function (Browser $browser) {

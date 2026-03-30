@@ -8,6 +8,7 @@ use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\ListPayments;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\CreatePayment;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\EditPayment;
 use Modules\Payment\Models\Payment;
+use Modules\Payment\Models\PaymentProvider;
 use Modules\Payment\Enums\PaymentStatus;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
@@ -21,6 +22,19 @@ class PaymentResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        // Ensure active payment providers exist so form validation passes
+        foreach (['stripe', 'paypal', 'pay_on_delivery'] as $provider) {
+            PaymentProvider::firstOrCreate(
+                ['provider' => $provider],
+                ['name' => ucfirst($provider), 'is_active' => 1]
+            );
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        PaymentProvider::whereIn('provider', ['stripe', 'paypal', 'pay_on_delivery'])->delete();
+        parent::tearDown();
     }
 
     #[Test]

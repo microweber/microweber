@@ -12,6 +12,7 @@ use Modules\Product\Notifications\LowStockNotification;
 use Modules\Product\Services\InventoryService;
 use Modules\User\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class InventoryManagementTest extends TestCase
 {
@@ -55,8 +56,8 @@ class InventoryManagementTest extends TestCase
         ], $overrides));
     }
 
-    /** @test */
-    public function it_can_get_stock_quantity_for_product(): void
+        #[Test]
+        public function it_can_get_stock_quantity_for_product(): void
     {
         $product = $this->createProduct(['qty' => 100]);
 
@@ -65,8 +66,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(100, $stock);
     }
 
-    /** @test */
-    public function it_can_get_stock_quantity_for_variant(): void
+        #[Test]
+        public function it_can_get_stock_quantity_for_variant(): void
     {
         $product = $this->createProduct();
         $variant = $this->createVariant($product->id, ['quantity' => 50]);
@@ -76,8 +77,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(50, $stock);
     }
 
-    /** @test */
-    public function it_returns_unlimited_stock_for_nolimit_quantity(): void
+        #[Test]
+        public function it_returns_unlimited_stock_for_nolimit_quantity(): void
     {
         $product = $this->createProduct();
         $product->setContentData(['qty' => 'nolimit']);
@@ -88,8 +89,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(PHP_INT_MAX, $stock);
     }
 
-    /** @test */
-    public function it_can_restock_product(): void
+        #[Test]
+        public function it_can_restock_product(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -108,8 +109,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(75, $movement->quantity_after);
     }
 
-    /** @test */
-    public function it_can_restock_variant(): void
+        #[Test]
+        public function it_can_restock_variant(): void
     {
         $product = $this->createProduct();
         $variant = $this->createVariant($product->id, ['quantity' => 25]);
@@ -120,8 +121,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(50, $this->inventoryService->getStock($product->id, $variant->id));
     }
 
-    /** @test */
-    public function it_can_deduct_stock_for_sale(): void
+        #[Test]
+        public function it_can_deduct_stock_for_sale(): void
     {
         $product = $this->createProduct(['qty' => 100]);
 
@@ -140,8 +141,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(1, $movement->reference_id);
     }
 
-    /** @test */
-    public function it_creates_low_stock_alert_when_threshold_reached(): void
+        #[Test]
+        public function it_creates_low_stock_alert_when_threshold_reached(): void
     {
         $product = $this->createProduct(['qty' => 15]);
         $product->low_stock_threshold = 10;
@@ -163,8 +164,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(8, $alert->current_quantity);
     }
 
-    /** @test */
-    public function it_creates_out_of_stock_alert_when_stock_depleted(): void
+        #[Test]
+        public function it_creates_out_of_stock_alert_when_stock_depleted(): void
     {
         $product = $this->createProduct(['qty' => 5]);
 
@@ -180,8 +181,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(0, $alert->current_quantity);
     }
 
-    /** @test */
-    public function it_resolves_alerts_when_stock_is_replenished(): void
+        #[Test]
+        public function it_resolves_alerts_when_stock_is_replenished(): void
     {
         $product = $this->createProduct(['qty' => 5]);
 
@@ -199,8 +200,8 @@ class InventoryManagementTest extends TestCase
         $this->assertNotNull($alert->resolved_at);
     }
 
-    /** @test */
-    public function it_can_adjust_stock_quantity(): void
+        #[Test]
+        public function it_can_adjust_stock_quantity(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -215,8 +216,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(1, $movement->user_id);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_restock_quantity(): void
+        #[Test]
+        public function it_throws_exception_for_invalid_restock_quantity(): void
     {
         $product = $this->createProduct();
 
@@ -226,8 +227,8 @@ class InventoryManagementTest extends TestCase
         $this->inventoryService->restock($product->id, 0);
     }
 
-    /** @test */
-    public function it_throws_exception_for_negative_adjustment(): void
+        #[Test]
+        public function it_throws_exception_for_negative_adjustment(): void
     {
         $product = $this->createProduct();
 
@@ -237,8 +238,8 @@ class InventoryManagementTest extends TestCase
         $this->inventoryService->adjustStock($product->id, -1);
     }
 
-    /** @test */
-    public function it_can_reserve_stock(): void
+        #[Test]
+        public function it_can_reserve_stock(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -260,8 +261,8 @@ class InventoryManagementTest extends TestCase
         $this->assertTrue($reservation->is_active);
     }
 
-    /** @test */
-    public function it_throws_exception_when_insufficient_stock_for_reservation(): void
+        #[Test]
+        public function it_throws_exception_when_insufficient_stock_for_reservation(): void
     {
         $product = $this->createProduct(['qty' => 5]);
 
@@ -271,8 +272,8 @@ class InventoryManagementTest extends TestCase
         $this->inventoryService->reserveStock($product->id, 10, ProductStockReservation::TYPE_CART);
     }
 
-    /** @test */
-    public function it_calculates_available_quantity_correctly(): void
+        #[Test]
+        public function it_calculates_available_quantity_correctly(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -290,8 +291,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(40, $available); // 50 - 10 reserved
     }
 
-    /** @test */
-    public function it_can_release_reservation(): void
+        #[Test]
+        public function it_can_release_reservation(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -314,8 +315,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(10, $movement->quantity_change);
     }
 
-    /** @test */
-    public function it_processes_return_correctly(): void
+        #[Test]
+        public function it_processes_return_correctly(): void
     {
         $product = $this->createProduct(['qty' => 50]);
 
@@ -335,8 +336,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals('Customer return', $movement->notes);
     }
 
-    /** @test */
-    public function it_can_get_inventory_summary(): void
+        #[Test]
+        public function it_can_get_inventory_summary(): void
     {
         $product = $this->createProduct(['qty' => 25]);
         $product->low_stock_threshold = 10;
@@ -362,8 +363,8 @@ class InventoryManagementTest extends TestCase
         $this->assertFalse($summary['is_out_of_stock']);
     }
 
-    /** @test */
-    public function it_can_cleanup_expired_reservations(): void
+        #[Test]
+        public function it_can_cleanup_expired_reservations(): void
     {
         // Clear existing reservations first
         ProductStockReservation::query()->delete();
@@ -386,8 +387,8 @@ class InventoryManagementTest extends TestCase
         $this->assertFalse($reservation->fresh()->is_active);
     }
 
-    /** @test */
-    public function it_can_get_movement_history(): void
+        #[Test]
+        public function it_can_get_movement_history(): void
     {
         $product = $this->createProduct(['qty' => 100]);
 
@@ -401,8 +402,8 @@ class InventoryManagementTest extends TestCase
         $this->assertCount(3, $history);
     }
 
-    /** @test */
-    public function it_can_bulk_update_stock(): void
+        #[Test]
+        public function it_can_bulk_update_stock(): void
     {
         $product1 = $this->createProduct(['qty' => 50]);
         $product2 = $this->createProduct(['qty' => 30]);
@@ -421,8 +422,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(75, $this->inventoryService->getStock($product2->id));
     }
 
-    /** @test */
-    public function it_handles_variant_inventory_operations(): void
+        #[Test]
+        public function it_handles_variant_inventory_operations(): void
     {
         $product = $this->createProduct();
         $variant = $this->createVariant($product->id, ['quantity' => 20]);
@@ -440,8 +441,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(-5, $movement->quantity_change);
     }
 
-    /** @test */
-    public function it_checks_stock_availability_correctly(): void
+        #[Test]
+        public function it_checks_stock_availability_correctly(): void
     {
         $product = $this->createProduct(['qty' => 10]);
 
@@ -459,8 +460,8 @@ class InventoryManagementTest extends TestCase
         $this->assertTrue($this->inventoryService->hasStock($product2->id, 10000));
     }
 
-    /** @test */
-    public function it_prevents_negative_stock(): void
+        #[Test]
+        public function it_prevents_negative_stock(): void
     {
         $product = $this->createProduct(['qty' => 5]);
 
@@ -471,8 +472,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(0, $this->inventoryService->getStock($product->id));
     }
 
-    /** @test */
-    public function it_logs_all_movements_with_correct_quantity_values(): void
+        #[Test]
+        public function it_logs_all_movements_with_correct_quantity_values(): void
     {
         $product = $this->createProduct(['qty' => 100]);
 
@@ -484,8 +485,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals(75, $movement->quantity_after);
     }
 
-    /** @test */
-    public function it_can_get_low_stock_alerts(): void
+        #[Test]
+        public function it_can_get_low_stock_alerts(): void
     {
         // Clear any existing alerts first
         ProductInventoryAlert::query()->delete();
@@ -515,8 +516,8 @@ class InventoryManagementTest extends TestCase
         $this->assertCount(2, $alerts);
     }
 
-    /** @test */
-    public function alert_has_correct_severity_attributes(): void
+        #[Test]
+        public function alert_has_correct_severity_attributes(): void
     {
         // Clear existing alerts first
         ProductInventoryAlert::query()->delete();
@@ -552,8 +553,8 @@ class InventoryManagementTest extends TestCase
         $this->assertEquals('warning', $alert2->severity_color);
     }
 
-    /** @test */
-    public function it_can_resolve_alert_with_user_and_notes(): void
+        #[Test]
+        public function it_can_resolve_alert_with_user_and_notes(): void
     {
         $product = $this->createProduct(['qty' => 5]);
 
@@ -574,8 +575,8 @@ class InventoryManagementTest extends TestCase
         $this->assertNotNull($alert->resolved_at);
     }
 
-    /** @test */
-    public function reservation_is_marked_as_expired_correctly(): void
+        #[Test]
+        public function reservation_is_marked_as_expired_correctly(): void
     {
         $product = $this->createProduct();
 
@@ -592,8 +593,8 @@ class InventoryManagementTest extends TestCase
         $this->assertFalse($reservation->isValid());
     }
 
-    /** @test */
-    public function reservation_can_be_extended(): void
+        #[Test]
+        public function reservation_can_be_extended(): void
     {
         $product = $this->createProduct();
 
@@ -612,8 +613,8 @@ class InventoryManagementTest extends TestCase
         $this->assertTrue($reservation->fresh()->expires_at->greaterThan($originalExpiry));
     }
 
-    /** @test */
-    public function it_can_convert_reservation_to_cart_or_order(): void
+        #[Test]
+        public function it_can_convert_reservation_to_cart_or_order(): void
     {
         $product = $this->createProduct();
 

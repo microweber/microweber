@@ -7,6 +7,7 @@ use Modules\Order\Filament\Exports\OrderExporter;
 use Modules\Order\Filament\Imports\OrderImporter;
 use Modules\Order\Models\Order;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class OrderImportExportTest extends TestCase
 {
@@ -16,8 +17,8 @@ class OrderImportExportTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
-    public function it_can_get_exporter_columns(): void
+        #[Test]
+        public function it_can_get_exporter_columns(): void
     {
         $columns = OrderExporter::getColumns();
 
@@ -33,8 +34,8 @@ class OrderImportExportTest extends TestCase
         $this->assertContains('amount', $columnNames);
     }
 
-    /** @test */
-    public function it_can_get_importer_columns(): void
+        #[Test]
+        public function it_can_get_importer_columns(): void
     {
         $columns = OrderImporter::getColumns();
 
@@ -45,8 +46,8 @@ class OrderImportExportTest extends TestCase
         $this->assertGreaterThan(0, count($columns));
     }
 
-    /** @test */
-    public function it_validates_order_import_data_structure(): void
+        #[Test]
+        public function it_validates_order_import_data_structure(): void
     {
         $columns = OrderImporter::getColumns();
 
@@ -55,8 +56,8 @@ class OrderImportExportTest extends TestCase
         $this->assertContains('email', $columnNames);
     }
 
-    /** @test */
-    public function it_can_import_orders_with_valid_data(): void
+        #[Test]
+        public function it_can_import_orders_with_valid_data(): void
     {
         $data = [
             'order_reference_id' => 'IMPORT-001',
@@ -79,8 +80,8 @@ class OrderImportExportTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_generates_reference_id_if_not_provided(): void
+        #[Test]
+        public function it_generates_reference_id_if_not_provided(): void
     {
         $data = [
             'email' => 'test@example.com',
@@ -91,8 +92,8 @@ class OrderImportExportTest extends TestCase
         $this->assertNotEmpty($data['email']);
     }
 
-    /** @test */
-    public function it_prevents_duplicate_orders_on_import(): void
+        #[Test]
+        public function it_prevents_duplicate_orders_on_import(): void
     {
         // Create existing order
         Order::factory()->create(['order_reference_id' => 'DUPLICATE-001']);
@@ -108,8 +109,8 @@ class OrderImportExportTest extends TestCase
         $this->assertNotNull($existing);
     }
 
-    /** @test */
-    public function it_sets_default_order_status_if_not_provided(): void
+        #[Test]
+        public function it_sets_default_order_status_if_not_provided(): void
     {
         $data = [
             'email' => 'test@example.com',
@@ -119,8 +120,8 @@ class OrderImportExportTest extends TestCase
         $this->assertArrayNotHasKey('order_status', $data);
     }
 
-    /** @test */
-    public function it_exports_orders_with_correct_status_formatting(): void
+        #[Test]
+        public function it_exports_orders_with_correct_status_formatting(): void
     {
         $order = Order::factory()->create([
             'order_status' => OrderStatus::Delivered->value,
@@ -130,8 +131,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals(OrderStatus::Delivered->value, $order->order_status);
     }
 
-    /** @test */
-    public function it_handles_empty_optional_fields_in_order_import(): void
+        #[Test]
+        public function it_handles_empty_optional_fields_in_order_import(): void
     {
         $data = [
             'email' => 'minimal@example.com',
@@ -143,8 +144,8 @@ class OrderImportExportTest extends TestCase
         $this->assertArrayNotHasKey('address', $data);
     }
 
-    /** @test */
-    public function it_handles_special_characters_in_customer_names(): void
+        #[Test]
+        public function it_handles_special_characters_in_customer_names(): void
     {
         $data = [
             'email' => 'test@example.com',
@@ -155,8 +156,8 @@ class OrderImportExportTest extends TestCase
         $this->assertStringContainsString('José', $data['first_name']);
     }
 
-    /** @test */
-    public function it_exports_all_orders_when_no_selection(): void
+        #[Test]
+        public function it_exports_all_orders_when_no_selection(): void
     {
         Order::factory()->count(5)->create();
 
@@ -164,8 +165,8 @@ class OrderImportExportTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $count);
     }
 
-    /** @test */
-    public function it_can_update_existing_orders_via_import(): void
+        #[Test]
+        public function it_can_update_existing_orders_via_import(): void
     {
         $order = Order::factory()->create([
             'order_reference_id' => 'UPDATE-001',
@@ -187,8 +188,8 @@ class OrderImportExportTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_respects_is_paid_boolean_in_export(): void
+        #[Test]
+        public function it_respects_is_paid_boolean_in_export(): void
     {
         $paidOrder = Order::factory()->create(['is_paid' => 1]);
         $unpaidOrder = Order::factory()->create(['is_paid' => 0]);
@@ -197,8 +198,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals(0, $unpaidOrder->is_paid);
     }
 
-    /** @test */
-    public function it_respects_order_completed_boolean_in_export(): void
+        #[Test]
+        public function it_respects_order_completed_boolean_in_export(): void
     {
         $completedOrder = Order::factory()->create(['order_completed' => 1]);
         $incompleteOrder = Order::factory()->create(['order_completed' => 0]);
@@ -207,48 +208,48 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals(0, $incompleteOrder->order_completed);
     }
 
-    /** @test */
-    public function it_exporter_provides_notification_body(): void
+        #[Test]
+        public function it_exporter_provides_notification_body(): void
     {
         // Test that the exporter has a completed notification body method
         $this->assertTrue(method_exists(OrderExporter::class, 'getCompletedNotificationBody'));
     }
 
-    /** @test */
-    public function it_importer_provides_notification_body(): void
+        #[Test]
+        public function it_importer_provides_notification_body(): void
     {
         // Test that the importer has a completed notification body method
         $this->assertTrue(method_exists(OrderImporter::class, 'getCompletedNotificationBody'));
     }
 
-    /** @test */
-    public function it_exporter_provides_file_name(): void
+        #[Test]
+        public function it_exporter_provides_file_name(): void
     {
         // Test that the exporter has a file name method
         $this->assertTrue(method_exists(OrderExporter::class, 'getFileName'));
     }
 
-    /** @test */
-    public function it_importer_has_options_form_components(): void
+        #[Test]
+        public function it_importer_has_options_form_components(): void
     {
         $components = OrderImporter::getOptionsFormComponents();
         $this->assertIsArray($components);
     }
 
-    /** @test */
-    public function it_exporter_has_model_attribute(): void
+        #[Test]
+        public function it_exporter_has_model_attribute(): void
     {
         $this->assertEquals(Order::class, OrderExporter::getModel());
     }
 
-    /** @test */
-    public function it_importer_has_model_attribute(): void
+        #[Test]
+        public function it_importer_has_model_attribute(): void
     {
         $this->assertEquals(Order::class, OrderImporter::getModel());
     }
 
-    /** @test */
-    public function it_can_import_orders_in_bulk(): void
+        #[Test]
+        public function it_can_import_orders_in_bulk(): void
     {
         $ordersData = [
             ['email' => 'order1@example.com', 'order_status' => OrderStatus::New->value],
@@ -259,8 +260,8 @@ class OrderImportExportTest extends TestCase
         $this->assertCount(3, $ordersData);
     }
 
-    /** @test */
-    public function it_validates_email_format_in_import(): void
+        #[Test]
+        public function it_validates_email_format_in_import(): void
     {
         $data = [
             'email' => 'invalid-email',
@@ -270,15 +271,15 @@ class OrderImportExportTest extends TestCase
         $this->assertFalse(filter_var($data['email'], FILTER_VALIDATE_EMAIL));
     }
 
-    /** @test */
-    public function it_skips_orders_when_skip_existing_option_is_set(): void
+        #[Test]
+        public function it_skips_orders_when_skip_existing_option_is_set(): void
     {
         // When skip_existing is true, existing orders should not be updated
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_validates_required_fields_in_import(): void
+        #[Test]
+        public function it_validates_required_fields_in_import(): void
     {
         $data = [
             // Missing required 'email'
@@ -288,8 +289,8 @@ class OrderImportExportTest extends TestCase
         $this->assertArrayNotHasKey('email', $data);
     }
 
-    /** @test */
-    public function it_handles_null_values_gracefully_in_import(): void
+        #[Test]
+        public function it_handles_null_values_gracefully_in_import(): void
     {
         $data = [
             'email' => 'test@example.com',
@@ -301,22 +302,22 @@ class OrderImportExportTest extends TestCase
         $this->assertNull($data['address']);
     }
 
-    /** @test */
-    public function it_exports_orders_in_correct_order(): void
+        #[Test]
+        public function it_exports_orders_in_correct_order(): void
     {
         // Orders should be exported in order they were created or by ID
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_can_filter_orders_before_export(): void
+        #[Test]
+        public function it_can_filter_orders_before_export(): void
     {
         // Should be able to filter by status, date range, etc.
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_handles_max_length_constraints_in_import(): void
+        #[Test]
+        public function it_handles_max_length_constraints_in_import(): void
     {
         $longEmail = str_repeat('a', 300) . '@example.com'; // Likely exceeds limit
 
@@ -327,29 +328,29 @@ class OrderImportExportTest extends TestCase
         $this->assertGreaterThan(255, strlen($data['email']));
     }
 
-    /** @test */
-    public function it_allows_custom_delimiters_in_csv_import(): void
+        #[Test]
+        public function it_allows_custom_delimiters_in_csv_import(): void
     {
         // Should support different CSV delimiters (comma, semicolon, tab)
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_provides_import_summary_notification(): void
+        #[Test]
+        public function it_provides_import_summary_notification(): void
     {
         // After import, user should see summary of imported/skipped/failed
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_provides_export_summary_notification(): void
+        #[Test]
+        public function it_provides_export_summary_notification(): void
     {
         // After export, user should see summary of exported rows
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_exports_shipping_information_correctly(): void
+        #[Test]
+        public function it_exports_shipping_information_correctly(): void
     {
         $order = Order::factory()->create([
             'country' => 'United States',
@@ -363,8 +364,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals('New York', $order->city);
     }
 
-    /** @test */
-    public function it_exports_payment_information_correctly(): void
+        #[Test]
+        public function it_exports_payment_information_correctly(): void
     {
         $order = Order::factory()->create([
             'payment_provider' => 'stripe',
@@ -373,8 +374,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals('stripe', $order->payment_provider);
     }
 
-    /** @test */
-    public function it_handles_international_phone_numbers(): void
+        #[Test]
+        public function it_handles_international_phone_numbers(): void
     {
         $data = [
             'email' => 'test@example.com',
@@ -384,8 +385,8 @@ class OrderImportExportTest extends TestCase
         $this->assertStringContainsString('+', $data['phone']);
     }
 
-    /** @test */
-    public function it_exports_promo_code_when_present(): void
+        #[Test]
+        public function it_exports_promo_code_when_present(): void
     {
         $order = Order::factory()->create([
             'promo_code' => 'SUMMER20',
@@ -394,8 +395,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals('SUMMER20', $order->promo_code);
     }
 
-    /** @test */
-    public function it_handles_orders_without_customer(): void
+        #[Test]
+        public function it_handles_orders_without_customer(): void
     {
         $order = Order::factory()->create([
             'customer_id' => null,
@@ -406,8 +407,8 @@ class OrderImportExportTest extends TestCase
         $this->assertNotNull($order->email);
     }
 
-    /** @test */
-    public function it_exports_items_count_correctly(): void
+        #[Test]
+        public function it_exports_items_count_correctly(): void
     {
         $order = Order::factory()->create([
             'items_count' => 3,
@@ -416,8 +417,8 @@ class OrderImportExportTest extends TestCase
         $this->assertEquals(3, $order->items_count);
     }
 
-    /** @test */
-    public function it_preserves_timestamps_in_export_import(): void
+        #[Test]
+        public function it_preserves_timestamps_in_export_import(): void
     {
         $createdAt = now()->subDays(5);
         $updatedAt = now()->subDays(2);
@@ -431,8 +432,8 @@ class OrderImportExportTest extends TestCase
         $this->assertNotNull($order->updated_at);
     }
 
-    /** @test */
-    public function it_exports_transaction_id_when_present(): void
+        #[Test]
+        public function it_exports_transaction_id_when_present(): void
     {
         $order = Order::factory()->create([
             'transaction_id' => 'txn_123456789',

@@ -6,6 +6,7 @@ use Modules\Product\Filament\Exports\ProductExporter;
 use Modules\Product\Filament\Imports\ProductImporter;
 use Modules\Product\Models\Product;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProductImportExportTest extends TestCase
 {
@@ -15,8 +16,8 @@ class ProductImportExportTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
-    public function it_can_get_exporter_columns(): void
+        #[Test]
+        public function it_can_get_exporter_columns(): void
     {
         $columns = ProductExporter::getColumns();
 
@@ -31,8 +32,8 @@ class ProductImportExportTest extends TestCase
         $this->assertContains('is_active', $columnNames);
     }
 
-    /** @test */
-    public function it_can_get_importer_columns(): void
+        #[Test]
+        public function it_can_get_importer_columns(): void
     {
         $columns = ProductImporter::getColumns();
 
@@ -43,8 +44,8 @@ class ProductImportExportTest extends TestCase
         $this->assertGreaterThan(0, count($columns));
     }
 
-    /** @test */
-    public function it_validates_product_import_data_structure(): void
+        #[Test]
+        public function it_validates_product_import_data_structure(): void
     {
         $columns = ProductImporter::getColumns();
 
@@ -53,8 +54,8 @@ class ProductImportExportTest extends TestCase
         $this->assertContains('title', $columnNames);
     }
 
-    /** @test */
-    public function it_can_import_products_with_valid_data(): void
+        #[Test]
+        public function it_can_import_products_with_valid_data(): void
     {
         $data = [
             'title' => 'Test Product',
@@ -75,8 +76,8 @@ class ProductImportExportTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_generates_url_from_title_if_not_provided(): void
+        #[Test]
+        public function it_generates_url_from_title_if_not_provided(): void
     {
         $data = [
             'title' => 'My New Product',
@@ -89,8 +90,8 @@ class ProductImportExportTest extends TestCase
         $this->assertNotEmpty($data['title']);
     }
 
-    /** @test */
-    public function it_prevents_duplicate_products_on_import(): void
+        #[Test]
+        public function it_prevents_duplicate_products_on_import(): void
     {
         // Create existing product
         Product::factory()->create(['url' => 'duplicate-product', 'content_type' => 'product', 'subtype' => 'product']);
@@ -109,8 +110,8 @@ class ProductImportExportTest extends TestCase
         $this->assertNotNull($existing);
     }
 
-    /** @test */
-    public function it_sets_default_values_for_imported_products(): void
+        #[Test]
+        public function it_sets_default_values_for_imported_products(): void
     {
         $data = [
             'title' => 'Minimal Product',
@@ -123,8 +124,8 @@ class ProductImportExportTest extends TestCase
         $this->assertEquals('product', $data['subtype']);
     }
 
-    /** @test */
-    public function it_exports_products_with_correct_formatting(): void
+        #[Test]
+        public function it_exports_products_with_correct_formatting(): void
     {
         $product = Product::factory()->create([
             'title' => 'Test Product',
@@ -137,8 +138,8 @@ class ProductImportExportTest extends TestCase
         $this->assertEquals(1, $product->is_active);
     }
 
-    /** @test */
-    public function it_handles_empty_optional_fields_in_import(): void
+        #[Test]
+        public function it_handles_empty_optional_fields_in_import(): void
     {
         $data = [
             'title' => 'Product Without Optional Fields',
@@ -152,8 +153,8 @@ class ProductImportExportTest extends TestCase
         $this->assertArrayNotHasKey('sku', $data);
     }
 
-    /** @test */
-    public function it_handles_special_characters_in_product_titles(): void
+        #[Test]
+        public function it_handles_special_characters_in_product_titles(): void
     {
         $data = [
             'title' => 'Product with special chars: ñ, é, ü, ©, ™',
@@ -165,8 +166,8 @@ class ProductImportExportTest extends TestCase
         $this->assertStringContainsString('ñ', $data['title']);
     }
 
-    /** @test */
-    public function it_exports_all_products_when_no_selection(): void
+        #[Test]
+        public function it_exports_all_products_when_no_selection(): void
     {
         Product::factory()->count(5)->create(['content_type' => 'product', 'subtype' => 'product']);
 
@@ -174,8 +175,8 @@ class ProductImportExportTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $count);
     }
 
-    /** @test */
-    public function it_can_update_existing_products_via_import(): void
+        #[Test]
+        public function it_can_update_existing_products_via_import(): void
     {
         $product = Product::factory()->create([
             'title' => 'Old Title',
@@ -196,8 +197,8 @@ class ProductImportExportTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_respects_is_active_boolean_in_export(): void
+        #[Test]
+        public function it_respects_is_active_boolean_in_export(): void
     {
         $activeProduct = Product::factory()->create(['is_active' => 1, 'content_type' => 'product', 'subtype' => 'product']);
         $inactiveProduct = Product::factory()->create(['is_active' => 0, 'content_type' => 'product', 'subtype' => 'product']);
@@ -206,48 +207,48 @@ class ProductImportExportTest extends TestCase
         $this->assertEquals(0, $inactiveProduct->is_active);
     }
 
-    /** @test */
-    public function it_exporter_provides_notification_body(): void
+        #[Test]
+        public function it_exporter_provides_notification_body(): void
     {
         // Test that the exporter has a completed notification body method
         $this->assertTrue(method_exists(ProductExporter::class, 'getCompletedNotificationBody'));
     }
 
-    /** @test */
-    public function it_importer_provides_notification_body(): void
+        #[Test]
+        public function it_importer_provides_notification_body(): void
     {
         // Test that the importer has a completed notification body method
         $this->assertTrue(method_exists(ProductImporter::class, 'getCompletedNotificationBody'));
     }
 
-    /** @test */
-    public function it_exporter_provides_file_name(): void
+        #[Test]
+        public function it_exporter_provides_file_name(): void
     {
         // Test that the exporter has a file name method
         $this->assertTrue(method_exists(ProductExporter::class, 'getFileName'));
     }
 
-    /** @test */
-    public function it_importer_has_options_form_components(): void
+        #[Test]
+        public function it_importer_has_options_form_components(): void
     {
         $components = ProductImporter::getOptionsFormComponents();
         $this->assertIsArray($components);
     }
 
-    /** @test */
-    public function it_exporter_has_model_attribute(): void
+        #[Test]
+        public function it_exporter_has_model_attribute(): void
     {
         $this->assertEquals(Product::class, ProductExporter::getModel());
     }
 
-    /** @test */
-    public function it_importer_has_model_attribute(): void
+        #[Test]
+        public function it_importer_has_model_attribute(): void
     {
         $this->assertEquals(Product::class, ProductImporter::getModel());
     }
 
-    /** @test */
-    public function it_can_import_products_in_bulk(): void
+        #[Test]
+        public function it_can_import_products_in_bulk(): void
     {
         $productsData = [
             ['title' => 'Product 1', 'is_active' => 1, 'content_type' => 'product', 'subtype' => 'product'],
@@ -258,8 +259,8 @@ class ProductImportExportTest extends TestCase
         $this->assertCount(3, $productsData);
     }
 
-    /** @test */
-    public function it_validates_url_format_in_import(): void
+        #[Test]
+        public function it_validates_url_format_in_import(): void
     {
         $data = [
             'title' => 'Product',
@@ -272,15 +273,15 @@ class ProductImportExportTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_skips_products_when_skip_existing_option_is_set(): void
+        #[Test]
+        public function it_skips_products_when_skip_existing_option_is_set(): void
     {
         // When skip_existing is true, existing products should not be updated
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_validates_required_fields_in_import(): void
+        #[Test]
+        public function it_validates_required_fields_in_import(): void
     {
         $data = [
             // Missing required 'title'
@@ -290,8 +291,8 @@ class ProductImportExportTest extends TestCase
         $this->assertArrayNotHasKey('title', $data);
     }
 
-    /** @test */
-    public function it_handles_null_values_gracefully_in_import(): void
+        #[Test]
+        public function it_handles_null_values_gracefully_in_import(): void
     {
         $data = [
             'title' => 'Product',
@@ -303,22 +304,22 @@ class ProductImportExportTest extends TestCase
         $this->assertNull($data['sku']);
     }
 
-    /** @test */
-    public function it_exports_products_in_correct_order(): void
+        #[Test]
+        public function it_exports_products_in_correct_order(): void
     {
         // Products should be exported in order they were created or by ID
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_can_filter_products_before_export(): void
+        #[Test]
+        public function it_can_filter_products_before_export(): void
     {
         // Should be able to filter by status, date, etc.
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_handles_max_length_constraints_in_import(): void
+        #[Test]
+        public function it_handles_max_length_constraints_in_import(): void
     {
         $longTitle = str_repeat('a', 300); // Exceeds 255 char limit
 
@@ -329,22 +330,22 @@ class ProductImportExportTest extends TestCase
         $this->assertGreaterThan(255, strlen($data['title']));
     }
 
-    /** @test */
-    public function it_allows_custom_delimiters_in_csv_import(): void
+        #[Test]
+        public function it_allows_custom_delimiters_in_csv_import(): void
     {
         // Should support different CSV delimiters (comma, semicolon, tab)
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_provides_import_summary_notification(): void
+        #[Test]
+        public function it_provides_import_summary_notification(): void
     {
         // After import, user should see summary of imported/skipped/failed
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function it_provides_export_summary_notification(): void
+        #[Test]
+        public function it_provides_export_summary_notification(): void
     {
         // After export, user should see summary of exported rows
         $this->assertTrue(true);

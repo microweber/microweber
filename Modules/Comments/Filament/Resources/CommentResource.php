@@ -87,7 +87,7 @@ return parent::getEloquentQuery()
                     }),
                 Forms\Components\Select::make('rel_id')
                     ->label('Related ID')
-                    ->relationship('content', 'title')
+                    ->relationship('content', 'title', fn ($query) => $query->whereNotNull('title')->where('title', '!=', ''))
                     ->searchable()
                     ->preload()
                     ->dehydrated(true)

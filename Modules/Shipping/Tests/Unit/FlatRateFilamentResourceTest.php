@@ -7,7 +7,6 @@ use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\Cre
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\EditShippingProvider;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders;
 use Modules\Shipping\Models\ShippingProvider;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

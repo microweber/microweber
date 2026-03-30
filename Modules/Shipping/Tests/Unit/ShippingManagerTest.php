@@ -4,7 +4,6 @@ namespace Modules\Shipping\Tests\Unit;
 use Livewire\Livewire;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\CreateShippingProvider;
 use Modules\Shipping\Models\ShippingProvider;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 class ShippingManagerTest extends TestCase

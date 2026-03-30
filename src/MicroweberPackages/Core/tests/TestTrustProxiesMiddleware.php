@@ -3,9 +3,7 @@
 namespace MicroweberPackages\Core\tests;
 
 
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
 class TestTrustProxiesMiddleware extends TestCase
 {
     public function testIfThrottleMiddlewareWorks()

@@ -5,7 +5,6 @@ namespace MicroweberPackages\Multilanguage\tests;
 use PHPUnit\Framework\Attributes\Test;
 
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 class MultilanguageTest extends MultilanguageTestBase

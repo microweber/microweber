@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 
 

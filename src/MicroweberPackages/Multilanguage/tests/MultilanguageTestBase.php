@@ -25,9 +25,11 @@ abstract class MultilanguageTestBase extends TestCase
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
-           DB::table('options')
+        DB::table('options')
             ->where('option_group', 'multilanguage_settings')
             ->delete();
+
+        DB::table('multilanguage_supported_locales')->delete();
 
         app()->bind('permalink_manager', function () {
             return new PermalinkManager();
@@ -49,6 +51,9 @@ abstract class MultilanguageTestBase extends TestCase
                 'The Multilanguage module is not available.'
             );
         } else {
+            // Clean up supported locales from previous tests for isolation
+            \Illuminate\Support\Facades\DB::table('multilanguage_supported_locales')->delete();
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
 
             app()->bind('permalink_manager', function () {

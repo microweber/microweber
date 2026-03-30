@@ -8,6 +8,7 @@ use Modules\Profile\Filament\Pages\OrderHistory;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class OrderHistoryTest extends TestCase
 {
@@ -19,8 +20,8 @@ class OrderHistoryTest extends TestCase
         $this->setUpFilamentPanel('profile');
     }
 
-    /** @test */
-    public function it_order_history_page_is_accessible_to_authenticated_users(): void
+        #[Test]
+        public function it_order_history_page_is_accessible_to_authenticated_users(): void
     {
         $user = User::factory()->create([
             'email' => 'test' . uniqid() . '@example.com',
@@ -37,8 +38,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_order_history_page_requires_authentication(): void
+        #[Test]
+        public function it_order_history_page_requires_authentication(): void
     {
         $response = $this->get('/profile/order-history');
 
@@ -49,8 +50,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_displays_orders_for_logged_in_customer(): void
+        #[Test]
+        public function it_displays_orders_for_logged_in_customer(): void
     {
         $user = User::factory()->create([
             'email' => 'customer' . uniqid() . '@example.com',
@@ -79,8 +80,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_displays_no_orders_message_when_customer_has_no_orders(): void
+        #[Test]
+        public function it_displays_no_orders_message_when_customer_has_no_orders(): void
     {
         $user = User::factory()->create([
             'email' => 'newcustomer' . uniqid() . '@example.com',
@@ -100,8 +101,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_filters_orders_by_status(): void
+        #[Test]
+        public function it_filters_orders_by_status(): void
     {
         $user = User::factory()->create([
             'email' => 'customer2' . uniqid() . '@example.com',
@@ -133,8 +134,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_shows_order_details_in_modal(): void
+        #[Test]
+        public function it_shows_order_details_in_modal(): void
     {
         $user = User::factory()->create([
             'email' => 'customer3' . uniqid() . '@example.com',
@@ -167,8 +168,8 @@ class OrderHistoryTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_only_shows_orders_belonging_to_authenticated_customer(): void
+        #[Test]
+        public function it_only_shows_orders_belonging_to_authenticated_customer(): void
     {
         $user1 = User::factory()->create([
             'email' => 'customer1' . uniqid() . '@example.com',

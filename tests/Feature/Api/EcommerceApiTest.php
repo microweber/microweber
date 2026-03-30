@@ -91,15 +91,16 @@ class EcommerceApiTest extends TestCase
      */
     public function test_can_get_product_by_slug(): void
     {
-        $product = $this->createTestProduct('Test Product', 100, ['url' => 'test-product']);
+        $slug = 'test-product-slug-' . uniqid();
+        $product = $this->createTestProduct('Test Product Slug', 100, ['url' => $slug]);
 
-        $response = $this->getJson('/api/products/slug/test-product');
+        $response = $this->getJson('/api/products/slug/' . $slug);
 
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'title' => 'Test Product',
+                    'title' => 'Test Product Slug',
                 ],
             ]);
     }

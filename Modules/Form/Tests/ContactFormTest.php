@@ -2,6 +2,7 @@
 
 namespace Modules\Form\Tests;
 
+use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
@@ -12,6 +13,15 @@ use Symfony\Component\Mime\Part\TextPart;
 
 class ContactFormTest extends TestCase
 {
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Ensure array mail transport is used and reset for each test
+        Config::set('mail.transport', 'array');
+        app()->forgetInstance('mailer');
+        app()->forgetInstance(\Illuminate\Mail\MailManager::class);
+    }
 
     #[Test]
 

@@ -12,8 +12,6 @@ use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Templates\Bootstrap\Providers\BootstrapServiceProvider;
 
 

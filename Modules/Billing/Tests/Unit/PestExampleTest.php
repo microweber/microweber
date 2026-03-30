@@ -3,6 +3,7 @@
 namespace Modules\Billing\Tests\Unit;
 
 use Modules\Billing\Models\Subscription;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PestExampleTest extends BillingTestCase
 {
@@ -48,9 +49,7 @@ class PestExampleTest extends BillingTestCase
         ];
     }
 
-    /**
-     * @dataProvider statusProvider
-     */
+    #[DataProvider('statusProvider')]
     public function test_can_validate_subscription_data(string $status): void
     {
         $this->assertTrue(in_array($status, ['active', 'inactive', 'cancelled', 'trialing']));

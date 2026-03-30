@@ -6,6 +6,7 @@ use Modules\Content\Models\Content;
 use Modules\Seo\Services\SeoMetadataService;
 use MicroweberPackages\Option\Facades\Option;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 // Import the save_option helper function
 use function save_option;
@@ -21,8 +22,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->seoService = new SeoMetadataService();
     }
 
-    /** @test */
-    public function it_returns_default_metadata_when_no_content_provided()
+        #[Test]
+        public function it_returns_default_metadata_when_no_content_provided()
     {
         $metadata = $this->seoService->getMetadata();
 
@@ -36,8 +37,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertArrayHasKey('twitter', $metadata);
     }
 
-    /** @test */
-    public function it_returns_seo_metadata_for_content()
+        #[Test]
+        public function it_returns_seo_metadata_for_content()
     {
         $content = Content::factory()->create([
             'title' => 'Test Title',
@@ -58,8 +59,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertArrayHasKey('twitter', $metadata);
     }
 
-    /** @test */
-    public function it_falls_back_to_title_when_meta_title_is_empty()
+        #[Test]
+        public function it_falls_back_to_title_when_meta_title_is_empty()
     {
         $content = Content::factory()->create([
             'title' => 'Page Title',
@@ -71,8 +72,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('Page Title', $title);
     }
 
-    /** @test */
-    public function it_falls_back_to_description_when_meta_description_is_empty()
+        #[Test]
+        public function it_falls_back_to_description_when_meta_description_is_empty()
     {
         $content = Content::factory()->create([
             'description' => 'Page Description',
@@ -84,8 +85,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('Page Description', $description);
     }
 
-    /** @test */
-    public function it_uses_custom_canonical_url_if_provided()
+        #[Test]
+        public function it_uses_custom_canonical_url_if_provided()
     {
         $content = Content::factory()->create([
             'canonical_url' => 'https://example.com/custom-url',
@@ -96,8 +97,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('https://example.com/custom-url', $canonicalUrl);
     }
 
-    /** @test */
-    public function it_returns_content_link_when_canonical_is_empty()
+        #[Test]
+        public function it_returns_content_link_when_canonical_is_empty()
     {
         $content = Content::factory()->create([
             'canonical_url' => null,
@@ -109,8 +110,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertStringContainsString('test-page', $canonicalUrl);
     }
 
-    /** @test */
-    public function it_returns_robots_meta_from_content()
+        #[Test]
+        public function it_returns_robots_meta_from_content()
     {
         $content = Content::factory()->create([
             'robots_meta' => 'noindex, nofollow',
@@ -122,8 +123,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('noindex, nofollow', $robots);
     }
 
-    /** @test */
-    public function it_returns_noindex_for_inactive_content()
+        #[Test]
+        public function it_returns_noindex_for_inactive_content()
     {
         $content = Content::factory()->create([
             'is_active' => 0,
@@ -135,8 +136,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('noindex, nofollow', $robots);
     }
 
-    /** @test */
-    public function it_generates_open_graph_data()
+        #[Test]
+        public function it_generates_open_graph_data()
     {
         $content = Content::factory()->create([
             'title' => 'Page Title',
@@ -156,8 +157,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertArrayHasKey('locale', $ogData);
     }
 
-    /** @test */
-    public function it_falls_back_to_meta_data_for_open_graph()
+        #[Test]
+        public function it_falls_back_to_meta_data_for_open_graph()
     {
         $content = Content::factory()->create([
             'title' => 'Page Title',
@@ -174,8 +175,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('Meta Description', $ogData['description']);
     }
 
-    /** @test */
-    public function it_generates_twitter_card_data()
+        #[Test]
+        public function it_generates_twitter_card_data()
     {
         $content = Content::factory()->create([
             'title' => 'Page Title',
@@ -192,8 +193,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('summary_large_image', $twitterData['card']);
     }
 
-    /** @test */
-    public function it_generates_sitemap_data()
+        #[Test]
+        public function it_generates_sitemap_data()
     {
         $content = Content::factory()->create([
             'title' => 'Test Page',
@@ -214,8 +215,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('weekly', $sitemapData['changefreq']);
     }
 
-    /** @test */
-    public function it_excludes_content_from_sitemap()
+        #[Test]
+        public function it_excludes_content_from_sitemap()
     {
         $content = Content::factory()->create([
             'is_active' => 1,
@@ -227,8 +228,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEmpty($sitemapData);
     }
 
-    /** @test */
-    public function it_excludes_inactive_content_from_sitemap()
+        #[Test]
+        public function it_excludes_inactive_content_from_sitemap()
     {
         $content = Content::factory()->create([
             'is_active' => 0,
@@ -240,8 +241,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEmpty($sitemapData);
     }
 
-    /** @test */
-    public function it_determines_correct_og_type()
+        #[Test]
+        public function it_determines_correct_og_type()
     {
         $website = Content::factory()->create(['content_type' => 'page']);
         $article = Content::factory()->create(['content_type' => 'post']);
@@ -256,8 +257,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('product', $ogDataProduct['type']);
     }
 
-    /** @test */
-    public function it_assigns_priority_based_on_content_type()
+        #[Test]
+        public function it_assigns_priority_based_on_content_type()
     {
         $homePage = Content::factory()->create([
             'content_type' => 'page',
@@ -292,8 +293,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals(0.6, $postSitemapData['priority']);
     }
 
-    /** @test */
-    public function it_sanitizes_meta_text()
+        #[Test]
+        public function it_sanitizes_meta_text()
     {
         $reflection = new \ReflectionClass($this->seoService);
         $method = $reflection->getMethod('sanitizeMetaText');
@@ -305,8 +306,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertEquals('This is bold text', $result);
     }
 
-    /** @test */
-    public function it_truncates_long_text()
+        #[Test]
+        public function it_truncates_long_text()
     {
         $reflection = new \ReflectionClass($this->seoService);
         $method = $reflection->getMethod('sanitizeMetaText');
@@ -319,8 +320,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertStringEndsWith('...', $result);
     }
 
-    /** @test */
-    public function it_renders_meta_tags_as_html()
+        #[Test]
+        public function it_renders_meta_tags_as_html()
     {
         $content = Content::factory()->create([
             'title' => 'Test Title',
@@ -340,8 +341,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertStringContainsString('<link rel="canonical"', $html);
     }
 
-    /** @test */
-    public function it_escapes_html_in_meta_tags()
+        #[Test]
+        public function it_escapes_html_in_meta_tags()
     {
         $content = Content::factory()->create([
             'content_meta_title' => 'Title with <script>alert("xss")</script>',
@@ -353,8 +354,8 @@ class SeoMetadataServiceTest extends TestCase
         $this->assertStringContainsString('&lt;script&gt;', $html);
     }
 
-    /** @test */
-    public function it_returns_site_title_from_options()
+        #[Test]
+        public function it_returns_site_title_from_options()
     {
         // Skip this test as it requires special handling with Option facade caching
         $this->markTestSkipped('Requires Option facade setup - tested manually');
@@ -369,8 +370,8 @@ class SeoMetadataServiceTest extends TestCase
         // $this->assertEquals('My Test Site', $siteTitle);
     }
 
-    /** @test */
-    public function it_returns_default_site_title_when_option_is_empty()
+        #[Test]
+        public function it_returns_default_site_title_when_option_is_empty()
     {
         // Clear the option
         \MicroweberPackages\Option\Models\Option::where('option_key', 'website_title')->delete();

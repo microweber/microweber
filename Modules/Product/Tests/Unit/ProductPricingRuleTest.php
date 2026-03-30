@@ -4,6 +4,7 @@ namespace Modules\Product\Tests\Unit;
 
 use Modules\Product\Models\ProductPricingRule;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProductPricingRuleTest extends TestCase
 {
@@ -20,8 +21,8 @@ class ProductPricingRuleTest extends TestCase
         return $base . '-' . uniqid();
     }
 
-    /** @test */
-    public function it_can_create_a_bulk_quantity_pricing_rule(): void
+        #[Test]
+        public function it_can_create_a_bulk_quantity_pricing_rule(): void
     {
         $slug = $this->uniqueSlug('bulk-discount-10');
         $rule = ProductPricingRule::create([
@@ -46,8 +47,8 @@ class ProductPricingRuleTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_create_a_bulk_amount_pricing_rule(): void
+        #[Test]
+        public function it_can_create_a_bulk_amount_pricing_rule(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'High Volume Discount',
@@ -66,8 +67,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertCount(2, $rule->tiers);
     }
 
-    /** @test */
-    public function it_can_create_a_customer_specific_pricing_rule(): void
+        #[Test]
+        public function it_can_create_a_customer_specific_pricing_rule(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'VIP Customer Pricing',
@@ -86,8 +87,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertContains(2, $rule->customer_ids);
     }
 
-    /** @test */
-    public function it_can_create_a_customer_group_pricing_rule(): void
+        #[Test]
+        public function it_can_create_a_customer_group_pricing_rule(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Wholesale Group Pricing',
@@ -105,8 +106,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertContains(1, $rule->customer_group_ids);
     }
 
-    /** @test */
-    public function it_generates_slug_automatically_if_not_provided(): void
+        #[Test]
+        public function it_generates_slug_automatically_if_not_provided(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Auto Slug Test',
@@ -119,8 +120,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertStringContainsString('auto-slug', $rule->slug);
     }
 
-    /** @test */
-    public function it_can_apply_to_specific_products(): void
+        #[Test]
+        public function it_can_apply_to_specific_products(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Product Specific Discount',
@@ -134,8 +135,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule->appliesToProduct(200));
     }
 
-    /** @test */
-    public function it_applies_to_all_products_when_product_ids_is_empty(): void
+        #[Test]
+        public function it_applies_to_all_products_when_product_ids_is_empty(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Global Discount',
@@ -148,8 +149,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertTrue($rule->appliesToProduct(999));
     }
 
-    /** @test */
-    public function it_can_exclude_specific_products(): void
+        #[Test]
+        public function it_can_exclude_specific_products(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Most Products Discount',
@@ -164,8 +165,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule->appliesToProduct(51));
     }
 
-    /** @test */
-    public function it_can_apply_to_specific_categories(): void
+        #[Test]
+        public function it_can_apply_to_specific_categories(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Category Discount',
@@ -179,8 +180,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule->appliesToCategory(30));
     }
 
-    /** @test */
-    public function it_can_exclude_specific_categories(): void
+        #[Test]
+        public function it_can_exclude_specific_categories(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Most Categories Discount',
@@ -195,8 +196,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertTrue($rule->appliesToCategory(3));
     }
 
-    /** @test */
-    public function it_can_check_if_applies_to_customer(): void
+        #[Test]
+        public function it_can_check_if_applies_to_customer(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'VIP Customer',
@@ -214,8 +215,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule->appliesToCustomer(10, null));
     }
 
-    /** @test */
-    public function it_can_check_current_validity(): void
+        #[Test]
+        public function it_can_check_current_validity(): void
     {
         $activeRule = ProductPricingRule::create([
             'name' => 'Active Rule',
@@ -235,8 +236,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($inactiveRule->isCurrentlyValid());
     }
 
-    /** @test */
-    public function it_respects_date_validity(): void
+        #[Test]
+        public function it_respects_date_validity(): void
     {
         $futureRule = ProductPricingRule::create([
             'name' => 'Future Rule',
@@ -258,8 +259,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($expiredRule->isCurrentlyValid());
     }
 
-    /** @test */
-    public function it_can_calculate_price_with_percentage_discount(): void
+        #[Test]
+        public function it_can_calculate_price_with_percentage_discount(): void
     {
         $rule = ProductPricingRule::create([
             'name' => '10% Off',
@@ -278,8 +279,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertNotNull($result['tier']);
     }
 
-    /** @test */
-    public function it_can_calculate_price_with_fixed_discount(): void
+        #[Test]
+        public function it_can_calculate_price_with_fixed_discount(): void
     {
         $rule = ProductPricingRule::create([
             'name' => '$20 Off',
@@ -297,8 +298,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(20, $result['discount']);
     }
 
-    /** @test */
-    public function it_can_calculate_price_with_fixed_price_type(): void
+        #[Test]
+        public function it_can_calculate_price_with_fixed_price_type(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Fixed Price',
@@ -316,8 +317,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(50, $result['discount']);
     }
 
-    /** @test */
-    public function it_returns_base_price_when_no_tier_matches(): void
+        #[Test]
+        public function it_returns_base_price_when_no_tier_matches(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'High Quantity Only',
@@ -336,8 +337,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertNull($result['tier']);
     }
 
-    /** @test */
-    public function it_can_calculate_bulk_amount_discounts(): void
+        #[Test]
+        public function it_can_calculate_bulk_amount_discounts(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Order Total Discount',
@@ -356,8 +357,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(5, $result['discount']);
     }
 
-    /** @test */
-    public function it_can_get_tier_for_quantity(): void
+        #[Test]
+        public function it_can_get_tier_for_quantity(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Tiered Discount',
@@ -376,8 +377,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(['min' => 50, 'max' => null, 'value' => 20], $rule->getTierForQuantity(100));
     }
 
-    /** @test */
-    public function it_can_check_usage_limits(): void
+        #[Test]
+        public function it_can_check_usage_limits(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Limited Use',
@@ -393,8 +394,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(51, $rule->fresh()->usage_count);
     }
 
-    /** @test */
-    public function it_detects_when_usage_limit_reached(): void
+        #[Test]
+        public function it_detects_when_usage_limit_reached(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Maxed Out',
@@ -407,8 +408,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertTrue($rule->hasReachedLimit());
     }
 
-    /** @test */
-    public function it_can_check_if_can_stack_with_other_rules(): void
+        #[Test]
+        public function it_can_check_if_can_stack_with_other_rules(): void
     {
         $rule1 = ProductPricingRule::create([
             'name' => 'Rule 1',
@@ -435,8 +436,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule1->canStackWith($rule3));
     }
 
-    /** @test */
-    public function it_respects_cannot_stack_with_restrictions(): void
+        #[Test]
+        public function it_respects_cannot_stack_with_restrictions(): void
     {
         $rule1 = ProductPricingRule::create([
             'name' => 'Rule 1',
@@ -456,8 +457,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertFalse($rule1->canStackWith($rule2));
     }
 
-    /** @test */
-    public function it_scopes_active_rules_correctly(): void
+        #[Test]
+        public function it_scopes_active_rules_correctly(): void
     {
         ProductPricingRule::create([
             'name' => 'Active',
@@ -487,8 +488,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals('Active', $activeRules->first()->name);
     }
 
-    /** @test */
-    public function it_scopes_bulk_rules(): void
+        #[Test]
+        public function it_scopes_bulk_rules(): void
     {
         ProductPricingRule::create([
             'name' => 'Bulk Qty',
@@ -513,8 +514,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(2, $bulkRules->count());
     }
 
-    /** @test */
-    public function it_scopes_customer_specific_rules(): void
+        #[Test]
+        public function it_scopes_customer_specific_rules(): void
     {
         ProductPricingRule::create([
             'name' => 'Bulk',
@@ -539,8 +540,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(2, $customerRules->count());
     }
 
-    /** @test */
-    public function it_orders_by_priority_descending(): void
+        #[Test]
+        public function it_orders_by_priority_descending(): void
     {
         ProductPricingRule::create([
             'name' => 'Low Priority',
@@ -567,8 +568,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals('Low Priority', $rules[2]->name);
     }
 
-    /** @test */
-    public function it_prevents_negative_prices(): void
+        #[Test]
+        public function it_prevents_negative_prices(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Big Discount',
@@ -586,8 +587,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(100, $result['discount']);
     }
 
-    /** @test */
-    public function it_casts_arrays_properly(): void
+        #[Test]
+        public function it_casts_arrays_properly(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Cast Test',
@@ -604,8 +605,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertCount(2, $rule->category_ids);
     }
 
-    /** @test */
-    public function it_applies_to_all_when_all_is_in_product_ids(): void
+        #[Test]
+        public function it_applies_to_all_when_all_is_in_product_ids(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Global Rule',
@@ -617,8 +618,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertTrue($rule->appliesToProduct(999));
     }
 
-    /** @test */
-    public function it_handles_bundle_discount_rules(): void
+        #[Test]
+        public function it_handles_bundle_discount_rules(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Bundle Discount',
@@ -633,8 +634,8 @@ class ProductPricingRuleTest extends TestCase
         $this->assertEquals(ProductPricingRule::RULE_TYPE_BUNDLE_DISCOUNT, $rule->rule_type);
     }
 
-    /** @test */
-    public function it_handles_variant_override_rules(): void
+        #[Test]
+        public function it_handles_variant_override_rules(): void
     {
         $rule = ProductPricingRule::create([
             'name' => 'Variant Override',

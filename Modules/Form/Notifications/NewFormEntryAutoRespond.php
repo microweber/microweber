@@ -69,6 +69,10 @@ class NewFormEntryAutoRespond extends Notification
                     $appendFilePath = public_path($appendFilePath);
                     $appendFilePath = normalize_path($appendFilePath, false);
 
+                    if (!file_exists($appendFilePath)) {
+                        continue;
+                    }
+
                     $mail->attach($appendFilePath, [
                         'as' => basename($appendFilePath),
                         'mime' => \Illuminate\Support\Facades\File::mimeType($appendFilePath),

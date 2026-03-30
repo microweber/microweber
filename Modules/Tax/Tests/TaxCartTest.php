@@ -57,11 +57,11 @@ class TaxCartTest extends TestCase
         $checkoutDetails['email'] = 'test@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
+        $checkoutDetails['terms'] = true;
 
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
-
 
         // Verify order was created successfully
         $this->assertArrayHasKey('success', $checkoutStatus);

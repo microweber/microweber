@@ -14,7 +14,6 @@ use MicroweberPackages\User\Models\User;
 
 // php artisan test --filter ModuleSettingsItemsEditorTest
 
-#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ModuleSettingsItemsEditorTest extends TestCase
 {
     #[Test]

@@ -8,6 +8,7 @@ use Modules\Profile\Filament\Pages\SavedAddresses;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class SavedAddressesTest extends TestCase
 {
@@ -19,8 +20,8 @@ class SavedAddressesTest extends TestCase
         $this->panel = 'profile';
     }
 
-    /** @test */
-    public function it_saved_addresses_page_is_accessible_to_authenticated_users(): void
+        #[Test]
+        public function it_saved_addresses_page_is_accessible_to_authenticated_users(): void
     {
         $user = User::factory()->create([
             'email' => 'test' . uniqid() . '@example.com',
@@ -37,8 +38,8 @@ class SavedAddressesTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_saved_addresses_page_requires_authentication(): void
+        #[Test]
+        public function it_saved_addresses_page_requires_authentication(): void
     {
         $response = $this->get('/profile/saved-addresses');
 
@@ -49,8 +50,8 @@ class SavedAddressesTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_displays_saved_addresses_for_customer(): void
+        #[Test]
+        public function it_displays_saved_addresses_for_customer(): void
     {
         $user = User::factory()->create([
             'email' => 'customer' . uniqid() . '@example.com',
@@ -92,8 +93,8 @@ class SavedAddressesTest extends TestCase
             ->assertSee('123 Main St');
     }
 
-    /** @test */
-    public function it_displays_no_addresses_message_when_customer_has_no_addresses(): void
+        #[Test]
+        public function it_displays_no_addresses_message_when_customer_has_no_addresses(): void
     {
         $user = User::factory()->create([
             'email' => 'newcustomer' . uniqid() . '@example.com',
@@ -110,8 +111,8 @@ class SavedAddressesTest extends TestCase
             ->assertSee('You have not saved any addresses yet');
     }
 
-    /** @test */
-    public function it_page_shows_address_types(): void
+        #[Test]
+        public function it_page_shows_address_types(): void
     {
         $user = User::factory()->create([
             'email' => 'customer' . uniqid() . '@example.com',
@@ -165,8 +166,8 @@ class SavedAddressesTest extends TestCase
             ->assertSee('Billing Address');
     }
 
-    /** @test */
-    public function it_only_shows_addresses_belonging_to_authenticated_customer(): void
+        #[Test]
+        public function it_only_shows_addresses_belonging_to_authenticated_customer(): void
     {
         $user1 = User::factory()->create([
             'email' => 'customer1' . uniqid() . '@example.com',
@@ -227,8 +228,8 @@ class SavedAddressesTest extends TestCase
             ->assertDontSee('User2 Address');
     }
 
-    /** @test */
-    public function it_shows_address_type_badge(): void
+        #[Test]
+        public function it_shows_address_type_badge(): void
     {
         $user = User::factory()->create([
             'email' => 'customer' . uniqid() . '@example.com',
@@ -268,8 +269,8 @@ class SavedAddressesTest extends TestCase
             ->assertSee('Shipping');
     }
 
-    /** @test */
-    public function it_displays_address_details_in_table(): void
+        #[Test]
+        public function it_displays_address_details_in_table(): void
     {
         $user = User::factory()->create([
             'email' => 'customer' . uniqid() . '@example.com',

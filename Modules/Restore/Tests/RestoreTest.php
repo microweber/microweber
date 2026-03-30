@@ -8,7 +8,6 @@ use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
 use Modules\Restore\Formats\ZipReader;
 use MicroweberPackages\Utils\Zip\ZipArchiveExtractor;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 /**

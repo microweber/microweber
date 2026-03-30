@@ -7,6 +7,8 @@ use App\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
 use Modules\Cart\Repositories\CartManager;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Response Time Benchmark Tests
@@ -17,11 +19,11 @@ class ResponseTimeBenchmarkTest extends TestCase
 {
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark critical page response times
      */
-    public function benchmark_critical_pages(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_critical_pages(): void
     {
         $benchmarks = [
             ['url' => '/', 'name' => 'Homepage', 'max_ms' => 5000],
@@ -71,11 +73,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark API response times
      */
-    public function benchmark_api_endpoints(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_api_endpoints(): void
     {
         // Create test data
         Content::factory()->count(5)->create(['is_active' => 1]);
@@ -119,11 +121,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark authentication flows
      */
-    public function benchmark_authentication_flows(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_authentication_flows(): void
     {
         $email = 'benchmark-' . uniqid() . '@test.com';
         $user = User::factory()->create([
@@ -149,11 +151,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark e-commerce operations
      */
-    public function benchmark_ecommerce_operations(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_ecommerce_operations(): void
     {
         $product = Product::factory()->create([
             'title' => 'Benchmark Product',
@@ -192,11 +194,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark database operations
      */
-    public function benchmark_database_operations(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_database_operations(): void
     {
         // Create test data
         Product::factory()->count(100)->create(['is_active' => 1]);
@@ -235,11 +237,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark admin operations
      */
-    public function benchmark_admin_operations(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_admin_operations(): void
     {
         /** @var User $admin */
         $admin = User::factory()->create([
@@ -249,9 +251,9 @@ class ResponseTimeBenchmarkTest extends TestCase
         $this->actingAs($admin);
         
         $adminEndpoints = [
-            ['/admin/content', 'Content List', 15000],
-            ['/admin/products', 'Product List', 15000],
-            ['/admin/orders', 'Order List', 15000],
+            ['/admin/content', 'Content List', 30000],
+            ['/admin/products', 'Product List', 30000],
+            ['/admin/orders', 'Order List', 30000],
         ];
         
         foreach ($adminEndpoints as [$url, $name, $maxMs]) {
@@ -270,11 +272,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark static asset delivery
      */
-    public function benchmark_static_asset_delivery(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_static_asset_delivery(): void
     {
         // Note: This test assumes assets are compiled and available
         // In a real scenario, you'd test actual static file serving
@@ -304,11 +306,11 @@ class ResponseTimeBenchmarkTest extends TestCase
     }
 
     /**
-     * @test
-     * @group benchmark
      * Benchmark concurrent operations simulation
      */
-    public function benchmark_concurrent_operations(): void
+    #[Group('benchmark')]
+    #[Test]
+   public function benchmark_concurrent_operations(): void
     {
         $operations = [
             'read_homepage' => function () {

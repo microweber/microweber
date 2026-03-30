@@ -18,6 +18,9 @@ class UsersResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        // Clean up hardcoded test users that may persist between test runs
+        User::where('email', 'searchable@example.com')->orWhere('username', 'searchableuser')->delete();
+        User::where('email', 'search@example.com')->orWhere('username', 'searchuser')->delete();
     }
 
     protected function getResourceClass(): string

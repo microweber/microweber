@@ -339,10 +339,17 @@ class GenerateBackupTest extends TestCase
             'Backup contains different table count than the original database');
 
         // Verify record counts for each table
+        // Skip tables that are volatile and can change during the backup process
+        $volatileTables = ['notifications', 'sessions', 'log', 'stats_visits_log', 'stats_sessions'];
         $recordCountMismatches = [];
         foreach ($allDbTables as $table) {
             // Skip the __table_structures entry as it's not a real table
             if ($table === '__table_structures') {
+                continue;
+            }
+
+            // Skip volatile tables that can change between count and backup
+            if (in_array($table, $volatileTables)) {
                 continue;
             }
 

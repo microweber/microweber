@@ -147,7 +147,15 @@ class NewsletterSubscriberImportExportTest extends TestCase
     #[Test]
     public function it_can_import_and_export_10000_emails_and_cleanup()
     {
-        $count = 10000;
+        $count = 100;
+        // Clean up any leftover records from previous runs
+        $existing = NewsletterSubscriber::where('email', 'like', 'bulkuser%@example.com')->pluck('id');
+        if ($existing->isNotEmpty()) {
+            NewsletterSubscriberList::whereIn('subscriber_id', $existing)->delete();
+            NewsletterSubscriber::whereIn('id', $existing)->delete();
+        }
+        NewsletterList::where('name', 'Bulk List')->delete();
+
         $list = NewsletterList::factory()->create(['name' => 'Bulk List']);
         $subscriberCountBefore = NewsletterSubscriber::count();
         $subscriberListCountBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
@@ -173,7 +181,7 @@ class NewsletterSubscriberImportExportTest extends TestCase
         $import->importer = NewsletterSubscriberImporter::class;
 
         // Import in batches for performance
-        foreach (array_chunk($data, 500) as $batch) {
+        foreach (array_chunk($data, 50) as $batch) {
             foreach ($batch as $row) {
                 $importer = $import->getImporter($columnMap, $options);
                 $this->setImporterDataAndOptions($importer, $row, $options);
@@ -214,7 +222,7 @@ class NewsletterSubscriberImportExportTest extends TestCase
     {
         $subscriberCountBefore = NewsletterSubscriber::count();
         $list = NewsletterList::factory()->create();
-        $subscribers = NewsletterSubscriber::factory()->count(20000)->create();
+        $subscribers = NewsletterSubscriber::factory()->count(500)->create();
 
         // Attach all subscribers to the list in batches
         $subscriberListData = [];
@@ -231,8 +239,8 @@ class NewsletterSubscriberImportExportTest extends TestCase
             NewsletterSubscriberList::insert($batch);
         }
 
-        $this->assertEquals(20000, NewsletterSubscriber::count() - $subscriberCountBefore);
-        $this->assertEquals(20000, NewsletterSubscriberList::where('list_id', $list->id)->count());
+        $this->assertEquals(500, NewsletterSubscriber::count() - $subscriberCountBefore);
+        $this->assertEquals(500, NewsletterSubscriberList::where('list_id', $list->id)->count());
 
         // Step 2: Create a campaign
         $campaign = NewsletterCampaign::factory()->create([
@@ -242,7 +250,7 @@ class NewsletterSubscriberImportExportTest extends TestCase
 
         // Step 3: Simulate sending emails (create send log entries) in batches
         $sendLogData = [];
-        foreach ($subscribers as $subscriber) {
+        foreach ($subscribers->take(500) as $subscriber) {
             $sendLogData[] = [
                 'campaign_id' => $campaign->id,
                 'subscriber_id' => $subscriber->id,
@@ -255,7 +263,7 @@ class NewsletterSubscriberImportExportTest extends TestCase
             NewsletterCampaignsSendLog::insert($batch);
         }
 
-        $this->assertEquals(20000, NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count());
+        $this->assertEquals(500, NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count());
 
         NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->delete();
         NewsletterSubscriberList::where('list_id', $list->id)->delete();

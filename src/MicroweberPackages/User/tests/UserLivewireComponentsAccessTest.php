@@ -17,7 +17,6 @@ use MicroweberPackages\User\Http\Livewire\Admin\UpdateStatusAndRoleForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UserLoginAttemptsModal;
 use MicroweberPackages\User\Http\Livewire\Admin\UsersList;
 use MicroweberPackages\User\Http\Livewire\Admin\UserTosLogModal;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 class UserLivewireComponentsAccessTest extends TestCase

@@ -165,13 +165,13 @@ class TranslationImport
     private function _hashFields($array, $fields = ['translation_key', 'translation_group', 'translation_namespace'])
     {
         $hashString = '';
+        $arrayData = is_array($array) ? $array : $array->toArray();
 
         foreach ($fields as $field) {
-            if (isset($array[$field])) {
-                $hashString .= $array[$field];
-            } else {
+            if (!array_key_exists($field, $arrayData)) {
                 throw new \Exception('The field missing in array.');
             }
+            $hashString .= (string)($arrayData[$field] ?? '');
         }
 
         return $hashString;

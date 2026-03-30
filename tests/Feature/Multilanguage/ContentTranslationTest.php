@@ -15,6 +15,9 @@ class ContentTranslationTest extends TestCase
     {
         parent::setUp();
 
+        // Clean up content from previous test runs with these titles
+        Content::whereIn('title', ['Test Page', 'Home Page', 'About Us', 'Contact Page', 'Services'])->forceDelete();
+
         // Enable multilanguage
         if (class_exists(\MicroweberPackages\Multilanguage\MultilanguageHelpers::class)) {
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
@@ -23,6 +26,13 @@ class ContentTranslationTest extends TestCase
         // Clear existing languages and create test ones
         MultilanguageSupportedLocales::whereIn('locale', ['en_US', 'es_ES', 'fr_FR'])->delete();
         $this->createTestLanguages();
+    }
+
+    protected function tearDown(): void
+    {
+        Content::whereIn('title', ['Test Page', 'Home Page', 'About Us', 'Contact Page', 'Services'])->forceDelete();
+        MultilanguageSupportedLocales::whereIn('locale', ['en_US', 'es_ES', 'fr_FR'])->delete();
+        parent::tearDown();
     }
 
     protected function createTestLanguages()

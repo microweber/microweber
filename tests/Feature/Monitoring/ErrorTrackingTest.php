@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use Exception;
+use PHPUnit\Framework\Attributes\Test;
 
 class ErrorTrackingTest extends TestCase
 {
@@ -21,8 +22,8 @@ class ErrorTrackingTest extends TestCase
         $this->errorTracking = app(ErrorTrackingService::class);
     }
 
-    /** @test */
-    public function it_tracks_exception_in_database(): void
+        #[Test]
+        public function it_tracks_exception_in_database(): void
     {
         $exception = new Exception('Test exception message', 500);
         
@@ -38,8 +39,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertFalse($error->is_resolved);
     }
 
-    /** @test */
-    public function it_tracks_error_with_custom_level(): void
+        #[Test]
+        public function it_tracks_error_with_custom_level(): void
     {
         $id = $this->errorTracking->trackError('critical', 'Critical system error', [
             'file' => '/test/file.php',
@@ -55,8 +56,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals(42, $error->line);
     }
 
-    /** @test */
-    public function it_increments_occurrence_count_for_similar_errors(): void
+        #[Test]
+        public function it_increments_occurrence_count_for_similar_errors(): void
     {
         $id1 = $this->errorTracking->trackError('error', 'Duplicate error', [
             'file' => '/same/file.php',
@@ -74,8 +75,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals(2, $error->occurrence_count);
     }
 
-    /** @test */
-    public function it_returns_error_stats_by_period(): void
+        #[Test]
+        public function it_returns_error_stats_by_period(): void
     {
         // Clear existing records first
         ErrorTracking::query()->delete();
@@ -106,8 +107,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals('today', $todayStats['period']);
     }
 
-    /** @test */
-    public function it_gets_recent_errors(): void
+        #[Test]
+        public function it_gets_recent_errors(): void
     {
         ErrorTracking::query()->delete();
         ErrorTracking::factory()->count(10)->create();
@@ -117,8 +118,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertCount(5, $errors);
     }
 
-    /** @test */
-    public function it_filters_unresolved_errors(): void
+        #[Test]
+        public function it_filters_unresolved_errors(): void
     {
         ErrorTracking::query()->delete();
         ErrorTracking::factory()->count(3)->create(['is_resolved' => false]);
@@ -129,8 +130,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertCount(3, $unresolved);
     }
 
-    /** @test */
-    public function it_marks_error_as_resolved(): void
+        #[Test]
+        public function it_marks_error_as_resolved(): void
     {
         ErrorTracking::query()->delete();
         $error = ErrorTracking::factory()->create(['is_resolved' => false]);
@@ -145,8 +146,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals('Fixed in commit abc123', $error->resolution_notes);
     }
 
-    /** @test */
-    public function it_gets_top_error_sources(): void
+        #[Test]
+        public function it_gets_top_error_sources(): void
     {
         ErrorTracking::query()->delete();
         // Create errors from different files - all unresolved
@@ -165,8 +166,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals(5, $sources[0]->error_count);
     }
 
-    /** @test */
-    public function it_sanitizes_server_data(): void
+        #[Test]
+        public function it_sanitizes_server_data(): void
     {
         $originalServer = $_SERVER;
         $_SERVER['HTTP_COOKIE'] = 'session_id=secret_value';
@@ -187,8 +188,8 @@ class ErrorTrackingTest extends TestCase
         }
     }
 
-    /** @test */
-    public function error_tracking_model_has_scopes(): void
+        #[Test]
+        public function error_tracking_model_has_scopes(): void
     {
         ErrorTracking::query()->delete();
         // Create 2 unresolved errors (not critical)
@@ -209,8 +210,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals(1, ErrorTracking::critical()->count());
     }
 
-    /** @test */
-    public function error_tracking_model_can_mark_as_resolved(): void
+        #[Test]
+        public function error_tracking_model_can_mark_as_resolved(): void
     {
         $error = ErrorTracking::factory()->create(['is_resolved' => false]);
         
@@ -221,8 +222,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals('Fixed the bug', $error->fresh()->resolution_notes);
     }
 
-    /** @test */
-    public function error_tracking_model_increments_occurrence(): void
+        #[Test]
+        public function error_tracking_model_increments_occurrence(): void
     {
         $error = ErrorTracking::factory()->create(['occurrence_count' => 1]);
         
@@ -231,8 +232,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals(2, $error->fresh()->occurrence_count);
     }
 
-    /** @test */
-    public function error_has_location_attribute(): void
+        #[Test]
+        public function error_has_location_attribute(): void
     {
         $error = ErrorTracking::factory()->create([
             'file' => '/var/www/app/Controllers/TestController.php',
@@ -242,8 +243,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals('TestController.php:25', $error->location);
     }
 
-    /** @test */
-    public function error_has_severity_color_attribute(): void
+        #[Test]
+        public function error_has_severity_color_attribute(): void
     {
         $critical = ErrorTracking::factory()->make(['level' => 'critical']);
         $error = ErrorTracking::factory()->make(['level' => 'error']);
@@ -256,8 +257,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertEquals('info', $info->severity_color);
     }
 
-    /** @test */
-    public function error_has_formatted_trace_attribute(): void
+        #[Test]
+        public function error_has_formatted_trace_attribute(): void
     {
         $trace = implode("\n", array_map(fn($i) => "#{$i} /app/file{$i}.php({$i}): test()", range(1, 20)));
         
@@ -269,8 +270,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertCount(10, $lines);
     }
 
-    /** @test */
-    public function database_has_error_tracking_table(): void
+        #[Test]
+        public function database_has_error_tracking_table(): void
     {
         $this->assertTrue(Schema::hasTable('error_tracking'));
 
@@ -301,8 +302,8 @@ class ErrorTrackingTest extends TestCase
         ]));
     }
 
-    /** @test */
-    public function error_tracking_table_has_indexes(): void
+        #[Test]
+        public function error_tracking_table_has_indexes(): void
     {
         // Skip on SQLite as index introspection differs
         if (DB::getDriverName() === 'sqlite') {
@@ -319,8 +320,8 @@ class ErrorTrackingTest extends TestCase
         $this->assertContains('error_tracking_level_is_resolved_index', $indexNames);
     }
 
-    /** @test */
-    public function it_handles_tracking_failure_gracefully(): void
+        #[Test]
+        public function it_handles_tracking_failure_gracefully(): void
     {
         // Mock a database failure
         DB::shouldReceive('table')->andThrow(new Exception('Database connection failed'));

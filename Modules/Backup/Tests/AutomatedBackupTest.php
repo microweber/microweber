@@ -7,6 +7,7 @@ use Modules\Backup\Models\BackupHistory;
 use Modules\Backup\Services\AutomatedBackupService;
 use Tests\TestCase;
 use Carbon\Carbon;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Automated Backup System Test Suite
@@ -28,8 +29,8 @@ class AutomatedBackupTest extends TestCase
         BackupSchedule::query()->delete();
     }
 
-    /** @test */
-    public function it_can_create_a_backup_schedule(): void
+        #[Test]
+        public function it_can_create_a_backup_schedule(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Test Daily Backup';
@@ -52,8 +53,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($schedule->next_run_at);
     }
 
-    /** @test */
-    public function it_calculates_next_run_for_daily_schedule(): void
+        #[Test]
+        public function it_calculates_next_run_for_daily_schedule(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Daily Backup';
@@ -70,8 +71,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('02:00', $nextRun->format('H:i'));
     }
 
-    /** @test */
-    public function it_calculates_next_run_for_hourly_schedule(): void
+        #[Test]
+        public function it_calculates_next_run_for_hourly_schedule(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Hourly Backup';
@@ -85,8 +86,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($schedule->next_run_at);
     }
 
-    /** @test */
-    public function it_calculates_next_run_for_weekly_schedule(): void
+        #[Test]
+        public function it_calculates_next_run_for_weekly_schedule(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Weekly Backup';
@@ -103,8 +104,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals(1, $nextRun->dayOfWeek);
     }
 
-    /** @test */
-    public function it_calculates_next_run_for_monthly_schedule(): void
+        #[Test]
+        public function it_calculates_next_run_for_monthly_schedule(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Monthly Backup';
@@ -123,8 +124,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals(15, $nextRun->day);
     }
 
-    /** @test */
-    public function it_identifies_due_schedules(): void
+        #[Test]
+        public function it_identifies_due_schedules(): void
     {
         // Create a schedule due to run (past next_run_at)
         $schedule = new BackupSchedule();
@@ -141,8 +142,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertTrue($dueSchedules->contains($schedule));
     }
 
-    /** @test */
-    public function it_does_not_include_inactive_schedules_in_due_query(): void
+        #[Test]
+        public function it_does_not_include_inactive_schedules_in_due_query(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Inactive Schedule';
@@ -158,8 +159,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertFalse($dueSchedules->contains($schedule));
     }
 
-    /** @test */
-    public function it_can_mark_schedule_as_run(): void
+        #[Test]
+        public function it_can_mark_schedule_as_run(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Test Schedule';
@@ -178,8 +179,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($schedule->next_run_at);
     }
 
-    /** @test */
-    public function it_can_create_backup_history_record(): void
+        #[Test]
+        public function it_can_create_backup_history_record(): void
     {
         $history = new BackupHistory();
         $history->type = 'manual';
@@ -196,8 +197,8 @@ class AutomatedBackupTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_mark_history_as_running(): void
+        #[Test]
+        public function it_can_mark_history_as_running(): void
     {
         $history = new BackupHistory();
         $history->type = 'manual';
@@ -213,8 +214,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($history->started_at);
     }
 
-    /** @test */
-    public function it_can_mark_history_as_completed(): void
+        #[Test]
+        public function it_can_mark_history_as_completed(): void
     {
         $history = new BackupHistory();
         $history->type = 'manual';
@@ -232,8 +233,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($history->completed_at);
     }
 
-    /** @test */
-    public function it_can_mark_history_as_failed(): void
+        #[Test]
+        public function it_can_mark_history_as_failed(): void
     {
         $history = new BackupHistory();
         $history->type = 'manual';
@@ -250,8 +251,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertNotNull($history->completed_at);
     }
 
-    /** @test */
-    public function it_calculates_formatted_size(): void
+        #[Test]
+        public function it_calculates_formatted_size(): void
     {
         $history = new BackupHistory();
 
@@ -266,8 +267,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('N/A', $history->formatted_size);
     }
 
-    /** @test */
-    public function it_calculates_duration_attribute(): void
+        #[Test]
+        public function it_calculates_duration_attribute(): void
     {
         $history = new BackupHistory();
         $history->type = 'manual';
@@ -282,8 +283,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertGreaterThanOrEqual(330, $history->duration); // 5 minutes 30 seconds
     }
 
-    /** @test */
-    public function it_scopes_completed_backups(): void
+        #[Test]
+        public function it_scopes_completed_backups(): void
     {
         BackupHistory::query()->delete();
 
@@ -317,8 +318,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('completed', $completed->first()->status);
     }
 
-    /** @test */
-    public function it_scopes_failed_backups(): void
+        #[Test]
+        public function it_scopes_failed_backups(): void
     {
         BackupHistory::query()->delete();
 
@@ -344,8 +345,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('failed', $failed->first()->status);
     }
 
-    /** @test */
-    public function it_scopes_running_backups(): void
+        #[Test]
+        public function it_scopes_running_backups(): void
     {
         BackupHistory::query()->delete();
 
@@ -371,8 +372,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('running', $running->first()->status);
     }
 
-    /** @test */
-    public function it_scopes_manual_backups(): void
+        #[Test]
+        public function it_scopes_manual_backups(): void
     {
         BackupHistory::query()->delete();
 
@@ -398,8 +399,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('manual', $manual->first()->type);
     }
 
-    /** @test */
-    public function it_scopes_scheduled_backups(): void
+        #[Test]
+        public function it_scopes_scheduled_backups(): void
     {
         BackupHistory::query()->delete();
 
@@ -425,8 +426,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('scheduled', $scheduled->first()->type);
     }
 
-    /** @test */
-    public function it_scopes_older_than(): void
+        #[Test]
+        public function it_scopes_older_than(): void
     {
         BackupHistory::query()->delete();
 
@@ -454,8 +455,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals('old.zip', $old->first()->filename);
     }
 
-    /** @test */
-    public function it_retrieves_backup_statistics(): void
+        #[Test]
+        public function it_retrieves_backup_statistics(): void
     {
         BackupHistory::query()->delete();
 
@@ -494,8 +495,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals(3072000, $stats['total_size']);
     }
 
-    /** @test */
-    public function it_calculates_success_rate_in_statistics(): void
+        #[Test]
+        public function it_calculates_success_rate_in_statistics(): void
     {
         BackupHistory::query()->delete();
 
@@ -536,8 +537,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals(75.0, $stats['success_rate']);
     }
 
-    /** @test */
-    public function it_returns_backup_type_options(): void
+        #[Test]
+        public function it_returns_backup_type_options(): void
     {
         $options = BackupSchedule::getBackupTypeOptions();
 
@@ -546,8 +547,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertArrayHasKey('customBackup', $options);
     }
 
-    /** @test */
-    public function it_returns_frequency_options(): void
+        #[Test]
+        public function it_returns_frequency_options(): void
     {
         $options = BackupSchedule::getFrequencyOptions();
 
@@ -557,8 +558,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertArrayHasKey('monthly', $options);
     }
 
-    /** @test */
-    public function it_returns_day_of_week_options(): void
+        #[Test]
+        public function it_returns_day_of_week_options(): void
     {
         $options = BackupSchedule::getDayOfWeekOptions();
 
@@ -567,8 +568,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertArrayHasKey(6, $options); // Saturday
     }
 
-    /** @test */
-    public function it_returns_status_options(): void
+        #[Test]
+        public function it_returns_status_options(): void
     {
         $options = BackupHistory::getStatusOptions();
 
@@ -578,8 +579,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertArrayHasKey('failed', $options);
     }
 
-    /** @test */
-    public function it_returns_type_options(): void
+        #[Test]
+        public function it_returns_type_options(): void
     {
         $options = BackupHistory::getTypeOptions();
 
@@ -587,8 +588,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertArrayHasKey('scheduled', $options);
     }
 
-    /** @test */
-    public function it_cleans_up_stale_backup_records(): void
+        #[Test]
+        public function it_cleans_up_stale_backup_records(): void
     {
         BackupHistory::query()->delete();
 
@@ -619,8 +620,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertStringContainsString('timed out', $stale->error_message);
     }
 
-    /** @test */
-    public function it_creates_relationship_between_schedule_and_history(): void
+        #[Test]
+        public function it_creates_relationship_between_schedule_and_history(): void
     {
         BackupHistory::query()->delete();
         BackupSchedule::query()->delete();
@@ -645,8 +646,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals($schedule->id, $history->schedule->id);
     }
 
-    /** @test */
-    public function it_includes_media_by_default(): void
+        #[Test]
+        public function it_includes_media_by_default(): void
     {
         BackupSchedule::query()->delete();
 
@@ -660,8 +661,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertTrue($schedule->include_media);
     }
 
-    /** @test */
-    public function it_validates_retention_days_range(): void
+        #[Test]
+        public function it_validates_retention_days_range(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Test';
@@ -673,8 +674,8 @@ class AutomatedBackupTest extends TestCase
         $this->assertEquals(365, $schedule->retention_days);
     }
 
-    /** @test */
-    public function it_can_update_next_run_time(): void
+        #[Test]
+        public function it_can_update_next_run_time(): void
     {
         $schedule = new BackupSchedule();
         $schedule->name = 'Test';

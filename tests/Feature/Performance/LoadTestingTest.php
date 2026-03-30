@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Load Testing Suite
@@ -32,9 +33,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test baseline performance for homepage
      */
+    #[Test]
     public function it_homepage_loads_within_baseline_threshold(): void
     {
         $times = [];
@@ -70,9 +71,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test product listing page performance
      */
+    #[Test]
     public function it_product_listing_loads_within_threshold(): void
     {
         $start = microtime(true);
@@ -95,9 +96,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test content page rendering performance
      */
+    #[Test]
     public function it_content_pages_render_within_threshold(): void
     {
         $content = Content::factory()->create([
@@ -126,9 +127,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test API endpoint performance under load
      */
+    #[Test]
     public function it_api_endpoints_respond_within_threshold(): void
     {
         $endpoints = [
@@ -158,9 +159,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test cart operations performance
      */
+    #[Test]
     public function it_cart_operations_complete_within_threshold(): void
     {
         // Skip if cart API is not available
@@ -168,9 +169,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test database query performance
      */
+    #[Test]
     public function it_database_queries_execute_efficiently(): void
     {
         // Test product query
@@ -196,9 +197,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test memory usage under load
      */
+    #[Test]
     public function it_memory_usage_remains_stable_under_load(): void
     {
         $initialMemory = memory_get_usage(true);
@@ -221,9 +222,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test concurrent request simulation
      */
+    #[Test]
     public function it_handles_simulated_concurrent_requests(): void
     {
         $urls = [
@@ -262,9 +263,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test admin panel performance
      */
+    #[Test]
     public function it_admin_panel_loads_within_threshold(): void
     {
         /** @var User $user */
@@ -289,9 +290,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test search functionality performance
      */
+    #[Test]
     public function it_search_operations_complete_within_threshold(): void
     {
         $start = microtime(true);
@@ -308,9 +309,9 @@ class LoadTestingTest extends TestCase
     }
 
     /**
-     * @test
      * Test cache performance
      */
+    #[Test]
     public function it_cache_operations_are_fast(): void
     {
         $key = 'performance_test_key';

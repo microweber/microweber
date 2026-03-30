@@ -9,6 +9,7 @@ use Modules\Product\Models\ProductCustomerPricing;
 use Modules\Product\Models\ProductPricingRule;
 use Modules\Product\Services\AdvancedPricingService;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AdvancedPricingServiceTest extends TestCase
 {
@@ -39,8 +40,8 @@ class AdvancedPricingServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_calculates_base_price_for_product(): void
+        #[Test]
+        public function it_calculates_base_price_for_product(): void
     {
         $product = $this->createTestProduct(99.99);
 
@@ -49,16 +50,16 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(99.99, $basePrice);
     }
 
-    /** @test */
-    public function it_returns_zero_for_nonexistent_product(): void
+        #[Test]
+        public function it_returns_zero_for_nonexistent_product(): void
     {
         $basePrice = $this->pricingService->getBasePrice(99999);
 
         $this->assertEquals(0, $basePrice);
     }
 
-    /** @test */
-    public function it_calculates_price_without_any_rules(): void
+        #[Test]
+        public function it_calculates_price_without_any_rules(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -70,8 +71,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEmpty($result['rules_applied']);
     }
 
-    /** @test */
-    public function it_applies_bulk_quantity_discount(): void
+        #[Test]
+        public function it_applies_bulk_quantity_discount(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -95,8 +96,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertCount(1, $result['rules_applied']);
     }
 
-    /** @test */
-    public function it_applies_bulk_amount_discount(): void
+        #[Test]
+        public function it_applies_bulk_amount_discount(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -118,8 +119,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(50, $result['discount']);
     }
 
-    /** @test */
-    public function it_applies_fixed_price_override(): void
+        #[Test]
+        public function it_applies_fixed_price_override(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -141,8 +142,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(25, $result['discount']);
     }
 
-    /** @test */
-    public function it_applies_customer_specific_pricing(): void
+        #[Test]
+        public function it_applies_customer_specific_pricing(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -160,8 +161,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEqualsWithDelta(20.01, $result['discount'], 0.01);
     }
 
-    /** @test */
-    public function it_gets_customer_pricing_from_cache(): void
+        #[Test]
+        public function it_gets_customer_pricing_from_cache(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -180,8 +181,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals($pricing1->id, $pricing2->id);
     }
 
-    /** @test */
-    public function it_applies_rules_by_priority(): void
+        #[Test]
+        public function it_applies_rules_by_priority(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -213,8 +214,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(90, $result['final_price']);
     }
 
-    /** @test */
-    public function it_stacks_stackable_rules(): void
+        #[Test]
+        public function it_stacks_stackable_rules(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -249,8 +250,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertCount(2, $result['rules_applied']);
     }
 
-    /** @test */
-    public function it_does_not_stack_non_stackable_rules(): void
+        #[Test]
+        public function it_does_not_stack_non_stackable_rules(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -285,8 +286,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertCount(1, $result['rules_applied']);
     }
 
-    /** @test */
-    public function it_respects_cannot_stack_with_restrictions(): void
+        #[Test]
+        public function it_respects_cannot_stack_with_restrictions(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -322,8 +323,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertCount(1, $result['rules_applied']);
     }
 
-    /** @test */
-    public function it_applies_category_based_rules(): void
+        #[Test]
+        public function it_applies_category_based_rules(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -346,8 +347,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(100, $result['final_price']);
     }
 
-    /** @test */
-    public function it_respects_customer_group_restrictions(): void
+        #[Test]
+        public function it_respects_customer_group_restrictions(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -372,8 +373,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(80, $result2['final_price']);
     }
 
-    /** @test */
-    public function it_respects_date_validity(): void
+        #[Test]
+        public function it_respects_date_validity(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -395,8 +396,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEmpty($result['rules_applied']);
     }
 
-    /** @test */
-    public function it_respects_usage_limits(): void
+        #[Test]
+        public function it_respects_usage_limits(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -418,8 +419,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(100, $result['final_price']);
     }
 
-    /** @test */
-    public function it_creates_bulk_pricing_rule(): void
+        #[Test]
+        public function it_creates_bulk_pricing_rule(): void
     {
         $rule = $this->pricingService->createBulkPricingRule([
             'name' => 'New Bulk Rule',
@@ -436,8 +437,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(ProductPricingRule::RULE_TYPE_BULK_QUANTITY, $rule->rule_type);
     }
 
-    /** @test */
-    public function it_creates_customer_pricing(): void
+        #[Test]
+        public function it_creates_customer_pricing(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -454,8 +455,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(75.00, $pricing->price);
     }
 
-    /** @test */
-    public function it_applies_pricing_to_cart_items(): void
+        #[Test]
+        public function it_applies_pricing_to_cart_items(): void
     {
         $product1 = $this->createTestProduct(100);
         $product2 = $this->createTestProduct(50);
@@ -482,8 +483,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(50, $result['total_discount']); // 10 * 5 items
     }
 
-    /** @test */
-    public function it_validates_tier_structure(): void
+        #[Test]
+        public function it_validates_tier_structure(): void
     {
         $validTiers = [
             ['min' => 10, 'max' => 50, 'value' => 10],
@@ -508,8 +509,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertFalse($this->pricingService->validateTiers($incompleteTiers));
     }
 
-    /** @test */
-    public function it_gets_pricing_tiers_for_product(): void
+        #[Test]
+        public function it_gets_pricing_tiers_for_product(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -533,8 +534,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertCount(2, $tiers[0]['tiers']);
     }
 
-    /** @test */
-    public function it_checks_if_product_has_active_pricing_rules(): void
+        #[Test]
+        public function it_checks_if_product_has_active_pricing_rules(): void
     {
         $product1 = $this->createTestProduct(100);
         $product2 = $this->createTestProduct(50);
@@ -551,8 +552,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertFalse($this->pricingService->hasActivePricingRules($product2->id));
     }
 
-    /** @test */
-    public function it_detects_customer_specific_pricing(): void
+        #[Test]
+        public function it_detects_customer_specific_pricing(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -567,8 +568,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertFalse($this->pricingService->hasActivePricingRules($product->id, 6));
     }
 
-    /** @test */
-    public function it_clears_pricing_cache(): void
+        #[Test]
+        public function it_clears_pricing_cache(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -589,8 +590,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertTrue(true); // If no exception, cache was cleared
     }
 
-    /** @test */
-    public function it_prevents_negative_final_prices(): void
+        #[Test]
+        public function it_prevents_negative_final_prices(): void
     {
         $product = $this->createTestProduct(100);
 
@@ -609,8 +610,8 @@ class AdvancedPricingServiceTest extends TestCase
         $this->assertEquals(0, $result['final_price']);
     }
 
-    /** @test */
-    public function it_returns_rules_applied_in_result(): void
+        #[Test]
+        public function it_returns_rules_applied_in_result(): void
     {
         $product = $this->createTestProduct(100);
 

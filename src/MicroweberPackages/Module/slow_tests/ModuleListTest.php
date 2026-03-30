@@ -9,8 +9,6 @@ use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Assert as PHPUnit;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 class ModuleListTest extends TestCase

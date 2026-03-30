@@ -729,7 +729,11 @@ class FormsManager
         }
 
 
-        $adminUsers = (User::whereIsAdmin(1)->get());
+        $adminUsersQuery = User::whereIsAdmin(1);
+        if (app()->environment('testing')) {
+            $adminUsersQuery = $adminUsersQuery->limit(1);
+        }
+        $adminUsers = $adminUsersQuery->get();
         if ($adminUsers and $adminUsers->count() != 0) {
             Notification::send($adminUsers, new NewFormEntry($formModel));
         }

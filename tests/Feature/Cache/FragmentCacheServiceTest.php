@@ -7,6 +7,7 @@ namespace Tests\Feature\Cache;
 use Tests\TestCase;
 use MicroweberPackages\Cache\Services\FragmentCacheService;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Fragment Cache Service Test
@@ -43,16 +44,16 @@ class FragmentCacheServiceTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
-    public function it_can_check_if_fragment_caching_is_enabled(): void
+        #[Test]
+        public function it_can_check_if_fragment_caching_is_enabled(): void
     {
         config(['cache.fragment.enabled' => true, 'cache.default' => 'array']);
         
         $this->assertTrue($this->service->isEnabled());
     }
 
-    /** @test */
-    public function it_can_store_and_retrieve_fragment_content(): void
+        #[Test]
+        public function it_can_store_and_retrieve_fragment_content(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -73,15 +74,15 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals($content, $cached['content']);
     }
 
-    /** @test */
-    public function it_returns_null_when_fragment_not_cached(): void
+        #[Test]
+        public function it_returns_null_when_fragment_not_cached(): void
     {
         $cached = $this->service->get('nonexistent_key');
         $this->assertNull($cached);
     }
 
-    /** @test */
-    public function it_uses_remember_to_cache_computed_content(): void
+        #[Test]
+        public function it_uses_remember_to_cache_computed_content(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -105,8 +106,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals(1, $callCount); // Callback not called again
     }
 
-    /** @test */
-    public function it_can_delete_specific_fragment(): void
+        #[Test]
+        public function it_can_delete_specific_fragment(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -123,8 +124,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertNull($this->service->get($key, ['test']));
     }
 
-    /** @test */
-    public function it_can_clear_fragments_by_tags(): void
+        #[Test]
+        public function it_can_clear_fragments_by_tags(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -153,8 +154,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertNotNull($this->service->get('frag3', ['footer']));
     }
 
-    /** @test */
-    public function it_generates_cache_keys(): void
+        #[Test]
+        public function it_generates_cache_keys(): void
     {
         $key = $this->service->getCacheKey('menu', 'main', ['active' => true]);
         
@@ -162,8 +163,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertStringContainsString(app()->getLocale(), $key);
     }
 
-    /** @test */
-    public function it_generates_tags(): void
+        #[Test]
+        public function it_generates_tags(): void
     {
         $tags = $this->service->getTags('menu', 'main', ['custom']);
         
@@ -174,8 +175,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertContains('custom', $tags);
     }
 
-    /** @test */
-    public function it_tracks_cache_statistics(): void
+        #[Test]
+        public function it_tracks_cache_statistics(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -200,8 +201,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals(1, $stats['misses']);
     }
 
-    /** @test */
-    public function it_can_check_if_fragment_exists(): void
+        #[Test]
+        public function it_can_check_if_fragment_exists(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -217,8 +218,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertTrue($this->service->has($key, ['test']));
     }
 
-    /** @test */
-    public function it_can_touch_fragment_to_extend_ttl(): void
+        #[Test]
+        public function it_can_touch_fragment_to_extend_ttl(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -239,8 +240,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertNotNull($this->service->get($key, ['test']));
     }
 
-    /** @test */
-    public function it_tracks_active_keys(): void
+        #[Test]
+        public function it_tracks_active_keys(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -256,8 +257,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertContains('key2', $activeKeys);
     }
 
-    /** @test */
-    public function it_clears_active_keys(): void
+        #[Test]
+        public function it_clears_active_keys(): void
     {
         $this->service->store('key1', 'content', ['test']);
         $this->service->clearActiveKeys();
@@ -265,8 +266,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEmpty($this->service->getActiveKeys());
     }
 
-    /** @test */
-    public function it_can_invalidate_by_type(): void
+        #[Test]
+        public function it_can_invalidate_by_type(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -295,8 +296,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertNotNull($this->service->get('cat1', ['category']));
     }
 
-    /** @test */
-    public function it_clears_all_fragment_caches(): void
+        #[Test]
+        public function it_clears_all_fragment_caches(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -312,8 +313,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertNull($this->service->get('frag2', ['test']));
     }
 
-    /** @test */
-    public function menu_helper_caches_menu_fragments(): void
+        #[Test]
+        public function menu_helper_caches_menu_fragments(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -335,8 +336,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals(1, $callCount);
     }
 
-    /** @test */
-    public function module_helper_caches_module_fragments(): void
+        #[Test]
+        public function module_helper_caches_module_fragments(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -358,8 +359,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals(1, $callCount);
     }
 
-    /** @test */
-    public function category_tree_helper_caches_category_fragments(): void
+        #[Test]
+        public function category_tree_helper_caches_category_fragments(): void
     {
         config([
             'cache.fragment.enabled' => true,
@@ -381,8 +382,8 @@ class FragmentCacheServiceTest extends TestCase
         $this->assertEquals(1, $callCount);
     }
 
-    /** @test */
-    public function product_list_helper_caches_product_list_fragments(): void
+        #[Test]
+        public function product_list_helper_caches_product_list_fragments(): void
     {
         config([
             'cache.fragment.enabled' => true,

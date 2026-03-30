@@ -2,7 +2,6 @@
 
 namespace Modules\Shipping\Tests\Unit\Drivers;
 
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use Modules\Shipping\Drivers\PickupFromAddress;
 use Tests\TestCase;
