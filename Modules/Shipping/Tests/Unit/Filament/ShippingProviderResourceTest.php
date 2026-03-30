@@ -2,6 +2,7 @@
 
 namespace Modules\Shipping\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders;
@@ -18,6 +19,7 @@ class ShippingProviderResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('shipping_providers')->delete();
     }
 
     #[Test]

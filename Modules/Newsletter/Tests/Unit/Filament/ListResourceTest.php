@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use Modules\Newsletter\Filament\Admin\Resources\ListResource\Pages\ManageLists;
@@ -19,6 +20,8 @@ class ListResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin-newsletter');
+        DB::table('newsletter_lists')->delete();
+        DB::table('newsletter_subscribers')->delete();
     }
 
     protected function getResourceClass(): string

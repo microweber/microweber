@@ -2,6 +2,7 @@
 
 namespace Modules\MailTemplate\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\ListMailTemplates;
@@ -20,6 +21,7 @@ class MailTemplateResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('mail_templates')->delete();
         config(['modules.mail_template.template_types' => [
             'welcome' => 'Welcome',
             'order' => 'Order',

@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
@@ -18,6 +19,7 @@ class TemplatesResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin-newsletter');
+        DB::table('newsletter_templates')->delete();
     }
 
     protected function getResourceClass(): string

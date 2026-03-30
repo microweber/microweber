@@ -2,6 +2,7 @@
 
 namespace Modules\Rating\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
 use Modules\Rating\Filament\Resources\RatingModuleResource\Pages\ListRatings;
@@ -21,6 +22,7 @@ class RatingModuleResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('rating')->delete();
     }
 
     #[Test]

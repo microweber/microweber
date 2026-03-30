@@ -2,6 +2,7 @@
 
 namespace Modules\Offer\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Offer\Filament\Admin\Resources\OfferResource;
 use Modules\Offer\Filament\Admin\Resources\OfferResource\Pages\ListOffers;
@@ -20,6 +21,7 @@ class OfferResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('offers')->delete();
     }
 
     #[Test]

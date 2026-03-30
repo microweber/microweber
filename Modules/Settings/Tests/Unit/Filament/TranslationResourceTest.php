@@ -2,6 +2,7 @@
 
 namespace Modules\Settings\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Settings\Filament\Resources\TranslationResource;
 use Modules\Settings\Filament\Resources\TranslationResource\Pages\ListTranslations;
@@ -20,6 +21,7 @@ class TranslationResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('translation_keys')->delete();
     }
 
     #[Test]

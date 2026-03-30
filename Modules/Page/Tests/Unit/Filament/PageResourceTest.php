@@ -2,6 +2,7 @@
 
 namespace Modules\Page\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Page\Filament\Resources\PageResource;
 use Modules\Page\Filament\Resources\PageResource\Pages\ListPages;
@@ -18,6 +19,7 @@ class PageResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('content')->where('content_type', 'page')->delete();
     }
 
     #[Test]

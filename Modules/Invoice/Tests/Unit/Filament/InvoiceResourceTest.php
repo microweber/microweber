@@ -2,6 +2,7 @@
 
 namespace Modules\Invoice\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Invoice\Filament\Resources\InvoiceResource;
 use Modules\Invoice\Filament\Resources\InvoiceResource\Pages\CreateInvoice;
@@ -21,6 +22,8 @@ class InvoiceResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('invoices')->delete();
+        DB::table('customers')->delete();
     }
 
     #[Test]

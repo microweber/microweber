@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
 use Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\ManageCampaigns;
@@ -22,6 +23,9 @@ class CampaignResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin-newsletter');
+        DB::table('newsletter_campaigns')->delete();
+        DB::table('newsletter_lists')->delete();
+        DB::table('newsletter_sender_accounts')->delete();
     }
 
     protected function getResourceClass(): string

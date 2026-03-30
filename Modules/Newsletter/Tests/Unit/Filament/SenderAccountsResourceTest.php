@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
@@ -18,6 +19,7 @@ class SenderAccountsResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin-newsletter');
+        DB::table('newsletter_sender_accounts')->delete();
     }
 
     protected function getResourceClass(): string

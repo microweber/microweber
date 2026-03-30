@@ -2,6 +2,7 @@
 
 namespace Modules\Post\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Post\Filament\Admin\Resources\PostResource;
 use Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts;
@@ -18,6 +19,7 @@ class PostResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('content')->where('content_type', 'post')->delete();
     }
 
     #[Test]

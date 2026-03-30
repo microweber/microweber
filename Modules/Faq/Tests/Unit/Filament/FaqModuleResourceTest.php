@@ -2,6 +2,7 @@
 
 namespace Modules\Faq\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs;
@@ -20,6 +21,7 @@ class FaqModuleResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        DB::table('faqs')->delete();
     }
 
     #[Test]

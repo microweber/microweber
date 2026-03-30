@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit\Filament;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
@@ -19,6 +20,8 @@ class SubscribersResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin-newsletter');
+        DB::table('newsletter_subscribers')->delete();
+        DB::table('newsletter_lists')->delete();
     }
 
     protected function getResourceClass(): string
