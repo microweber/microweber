@@ -70,7 +70,7 @@ jobs:
     - name: List all artisan commands
       run: php artisan list
     - name: Run PHPUnit Tests with Coverage
-      run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml --no-coverage-html
+      run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml 
     - name: Upload coverage to Codecov
       if: always()
       uses: codecov/codecov-action@v5
