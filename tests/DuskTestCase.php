@@ -74,8 +74,8 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--window-size=1280,1080';
         $arguments[] = '--disable-popup-blocking';
         $arguments[] = '--disable-dev-shm-usage';
-        //  $arguments[] = '--user-data-dir=' . $tempDir;
-        //   $arguments[] = '--crash-dumps-dir=' . $tempDir;
+        $arguments[] = '--user-data-dir=' . $tempDir;
+        $arguments[] = '--crash-dumps-dir=' . $tempDir;
 
         //  $arguments[] = '--headless';
         //addArguments(`user-data-dir=${CURRENT_CHROMIUM_TMP_DIR}`);

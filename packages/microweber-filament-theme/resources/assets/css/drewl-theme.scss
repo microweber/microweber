@@ -1,0 +1,567 @@
+// ============================================================================
+// Drewl-Inspired Theme for Microweber Filament Admin
+// ============================================================================
+// Design tokens extracted from drewl.com:
+//   - Clean, minimal aesthetic with generous whitespace
+//   - Warm gray backgrounds (#f7f7f7)
+//   - Multi-layered subtle shadows
+//   - Large border radius (16px cards, 999px pills)
+//   - Inter font, neutral color palette
+// ============================================================================
+
+// --- Design Tokens ---
+$drewl-bg-page: #f7f7f7;
+$drewl-bg-surface: #ffffff;
+$drewl-bg-surface-translucent: rgba(255, 255, 255, 0.8);
+$drewl-bg-sidebar: #ffffff;
+
+$drewl-text-primary: #262626;
+$drewl-text-secondary: #525252;
+$drewl-text-muted: #707070;
+$drewl-text-faint: #a3a3a3;
+
+$drewl-border-color: #ebebeb;
+$drewl-border-subtle: #f0f0f0;
+
+$drewl-radius-sm: 8px;
+$drewl-radius-md: 12px;
+$drewl-radius-lg: 16px;
+$drewl-radius-xl: 24px;
+$drewl-radius-pill: 999px;
+
+$drewl-shadow-card:
+  rgba(0, 0, 0, 0.04) 0px -1px 0.5px 0px inset,
+  rgba(0, 0, 0, 0.02) 0px 8px 8px -4px,
+  rgba(0, 0, 0, 0.03) 0px 4px 4px -2px,
+  rgba(27, 27, 27, 0.03) 0px 3px 3px -1.5px,
+  rgba(0, 0, 0, 0.04) 0px 2px 2px -1px,
+  rgba(0, 0, 0, 0.06) 0px 0.5px 1px 0px,
+  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+
+$drewl-shadow-elevated:
+  rgba(27, 27, 27, 0.12) 0px 32px 32px -12px,
+  rgba(27, 27, 27, 0.12) 0px 16px 16px -8px,
+  rgba(27, 27, 27, 0.12) 0px 8px 8px -2px,
+  rgba(27, 27, 27, 0.12) 0px 4px 4px -2px,
+  rgba(27, 27, 27, 0.12) 0px 3px 3px -1.5px,
+  rgba(27, 27, 27, 0.12) 0px 2px 2px -1px,
+  rgba(27, 27, 27, 0.12) 0px 1px 1px -0.5px,
+  rgba(255, 255, 255, 0.04) 0px 1px 2px 0px inset,
+  rgba(255, 255, 255, 0.1) 0px 0.5px 0.5px 0px inset;
+
+$drewl-shadow-subtle:
+  rgba(0, 0, 0, 0.02) 0px 8px 8px -4px,
+  rgba(0, 0, 0, 0.03) 0px 4px 4px -2px,
+  rgba(27, 27, 27, 0.03) 0px 3px 3px -1.5px,
+  rgba(0, 0, 0, 0.04) 0px 2px 2px -1px,
+  rgba(0, 0, 0, 0.06) 0px 0.5px 1px 0px,
+  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px,
+  rgba(0, 0, 0, 0.04) 0px -1px 0.5px 0px inset;
+
+$drewl-shadow-sm: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+
+// --- Global page background ---
+:root {
+  --drewl-bg-page: #{$drewl-bg-page};
+  --drewl-bg-surface: #{$drewl-bg-surface};
+  --drewl-text-primary: #{$drewl-text-primary};
+  --drewl-text-secondary: #{$drewl-text-secondary};
+  --drewl-text-muted: #{$drewl-text-muted};
+  --drewl-border-color: #{$drewl-border-color};
+  --drewl-radius-lg: #{$drewl-radius-lg};
+}
+
+// ============================================================================
+// FIX: wire:loading spinners always visible
+// Livewire's JS should toggle these, but the custom fork doesn't handle it.
+// wire:loading elements must be hidden by default (shown only during requests).
+// wire:loading.remove elements must be visible by default (hidden during requests).
+// ============================================================================
+[wire\:loading\:delay\:default],
+[wire\:loading\.delay\.default],
+[wire\:loading] {
+  display: none !important;
+}
+
+// Ensure the non-loading (default) icons remain visible
+[wire\:loading\.remove],
+[wire\:loading\.remove\.delay\.default] {
+  display: inline-flex !important;
+}
+
+// For SVG icons specifically — use inline display
+svg[wire\:loading\.remove\.delay\.default],
+svg[wire\:loading\.remove] {
+  display: inline-block !important;
+}
+
+// During actual Livewire request, Livewire adds a data attribute
+// This ensures that IF Livewire does work properly, the swap still happens
+.livewire-is-loading [wire\:loading],
+.livewire-is-loading [wire\:loading\.delay\.default] {
+  display: inline-flex !important;
+}
+
+.livewire-is-loading [wire\:loading\.remove],
+.livewire-is-loading [wire\:loading\.remove\.delay\.default] {
+  display: none !important;
+}
+
+// --- Page body ---
+.fi-body {
+  background-color: $drewl-bg-page !important;
+}
+
+// --- Topbar ---
+.fi-topbar {
+  background-color: $drewl-bg-surface !important;
+  border-bottom: 1px solid $drewl-border-color !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(12px);
+
+  // Also target nested nav if present (Filament v3 compat)
+  > nav {
+    background-color: $drewl-bg-surface !important;
+    border-bottom: 1px solid $drewl-border-color !important;
+    box-shadow: none !important;
+  }
+
+  .fi-topbar-item-label {
+    color: $drewl-text-secondary;
+    font-weight: 400;
+  }
+}
+
+// --- Sidebar ---
+.fi-sidebar {
+  background-color: $drewl-bg-sidebar !important;
+  border-right: 1px solid $drewl-border-color !important;
+}
+
+.fi-sidebar-header {
+  border-bottom: 1px solid $drewl-border-subtle !important;
+}
+
+.fi-sidebar-nav-groups {
+  gap: 2px !important;
+}
+
+.fi-sidebar-group {
+  .fi-sidebar-group-label {
+    color: $drewl-text-muted !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+  }
+}
+
+.fi-sidebar-item {
+  .fi-sidebar-item-button {
+    border-radius: $drewl-radius-sm !important;
+    transition: all 0.15s ease !important;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+  }
+
+  .fi-sidebar-item-label {
+    color: $drewl-text-secondary !important;
+    font-weight: 400 !important;
+    font-size: 0.875rem !important;
+  }
+
+  .fi-sidebar-item-icon {
+    color: $drewl-text-muted !important;
+  }
+
+  &.fi-active {
+    .fi-sidebar-item-button {
+      background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .fi-sidebar-item-label {
+      color: $drewl-text-primary !important;
+      font-weight: 500 !important;
+    }
+
+    .fi-sidebar-item-icon {
+      color: $drewl-text-primary !important;
+    }
+  }
+}
+
+// --- Main content area ---
+.fi-main {
+  background-color: $drewl-bg-page !important;
+}
+
+// --- Section / Card containers ---
+.fi-section:not(.fi-aside) {
+  border-radius: $drewl-radius-lg !important;
+  overflow: hidden;
+}
+
+.fi-section-content-ctn {
+  background-color: $drewl-bg-surface !important;
+  border: 1px solid $drewl-border-color !important;
+  border-radius: $drewl-radius-lg !important;
+  box-shadow: $drewl-shadow-card !important;
+}
+
+// Remove dark separator lines above section headers
+.fi-section-header {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-color: $drewl-border-color !important;
+}
+
+// Ensure no dark borders leak through anywhere in sections
+.fi-section .border-t,
+.fi-section [class*="divide-"] > * + * {
+  border-color: $drewl-border-color !important;
+}
+
+// --- Widgets ---
+.fi-wi {
+  border-radius: $drewl-radius-lg !important;
+  box-shadow: $drewl-shadow-card !important;
+  border: 1px solid $drewl-border-color !important;
+  overflow: hidden;
+}
+
+.fi-wi-stats-overview-stat {
+  border-radius: $drewl-radius-md !important;
+}
+
+// --- Tables ---
+.fi-ta-ctn {
+  border-radius: $drewl-radius-lg !important;
+}
+
+.fi-ta-header-ctn {
+  background-color: $drewl-bg-surface !important;
+  border-radius: $drewl-radius-lg $drewl-radius-lg 0 0 !important;
+}
+
+.fi-ta-content {
+  background-color: $drewl-bg-surface !important;
+}
+
+.fi-ta-record {
+  border-bottom: 1px solid $drewl-border-subtle !important;
+  transition: background-color 0.15s ease !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.015) !important;
+  }
+
+  &:last-child {
+    border-bottom: none !important;
+  }
+}
+
+.fi-ta-header-cell {
+  color: $drewl-text-muted !important;
+  font-weight: 500 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+// --- Buttons ---
+.fi-btn {
+  border-radius: $drewl-radius-sm !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+
+  &:hover {
+    box-shadow: $drewl-shadow-sm !important;
+    transform: translateY(-1px);
+  }
+}
+
+// Primary button with pill shape for main CTAs
+.fi-btn.fi-color-primary {
+  border-radius: $drewl-radius-sm !important;
+}
+
+// --- Input fields ---
+.fi-input-wrp {
+  border-radius: $drewl-radius-sm !important;
+  border: 1px solid $drewl-border-color !important;
+  transition: all 0.2s ease !important;
+  background-color: $drewl-bg-surface !important;
+
+  &:focus-within {
+    border-color: darken($drewl-border-color, 20%) !important;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08) !important;
+  }
+}
+
+// --- Modals ---
+.fi-modal-content {
+  border-radius: $drewl-radius-xl !important;
+  box-shadow: $drewl-shadow-elevated !important;
+  border: 1px solid $drewl-border-color !important;
+}
+
+// --- Dropdowns ---
+.fi-dropdown-panel {
+  border-radius: $drewl-radius-md !important;
+  box-shadow: $drewl-shadow-elevated !important;
+  border: 1px solid $drewl-border-color !important;
+}
+
+// --- Badges ---
+.fi-badge {
+  border-radius: $drewl-radius-pill !important;
+  font-weight: 500 !important;
+  font-size: 0.75rem !important;
+}
+
+// --- Breadcrumbs ---
+.fi-breadcrumbs {
+  color: $drewl-text-muted;
+  font-size: 0.875rem;
+}
+
+// --- Page header ---
+.fi-header-heading {
+  color: $drewl-text-primary !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.fi-header-subheading {
+  color: $drewl-text-secondary !important;
+}
+
+// --- Tabs ---
+.fi-tabs {
+  border-bottom-color: $drewl-border-color !important;
+}
+
+.fi-tabs-item-button {
+  border-radius: $drewl-radius-sm $drewl-radius-sm 0 0 !important;
+  font-weight: 500 !important;
+  color: $drewl-text-muted !important;
+
+  &:hover {
+    color: $drewl-text-secondary !important;
+    background-color: rgba(0, 0, 0, 0.02) !important;
+  }
+}
+
+.fi-tabs-item.fi-active .fi-tabs-item-button {
+  color: $drewl-text-primary !important;
+}
+
+// --- Notifications ---
+.fi-notification {
+  border-radius: $drewl-radius-md !important;
+  box-shadow: $drewl-shadow-card !important;
+}
+
+// --- Pagination ---
+.fi-pagination-item {
+  border-radius: $drewl-radius-sm !important;
+}
+
+// --- Loading states ---
+.fi-loading-indicator {
+  color: $drewl-text-muted !important;
+}
+
+// --- Global search ---
+.fi-global-search-field {
+  input {
+    border-radius: $drewl-radius-pill !important;
+    background-color: $drewl-bg-page !important;
+    border: 1px solid $drewl-border-color !important;
+
+    &:focus {
+      background-color: $drewl-bg-surface !important;
+      border-color: $drewl-text-faint !important;
+    }
+  }
+}
+
+// --- Empty states ---
+.fi-empty-state {
+  padding: 3rem !important;
+}
+
+.fi-empty-state-heading {
+  color: $drewl-text-primary !important;
+  font-weight: 600 !important;
+}
+
+.fi-empty-state-description {
+  color: $drewl-text-muted !important;
+}
+
+// --- Smooth transitions everywhere ---
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// --- Custom scrollbar styling ---
+.fi-sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: $drewl-radius-pill;
+}
+
+// --- Responsive: reduce padding/gaps on small screens ---
+@media (max-width: 768px) {
+  // Tighten the main page content wrapper
+  .fi-page-header-main-ctn {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    gap: 12px !important;
+  }
+
+  // Reduce header padding
+  .fi-header {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    gap: 8px !important;
+  }
+
+  // Reduce main content side padding
+  .fi-main {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  // Smaller border radius on mobile for cards/sections
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi {
+    border-radius: $drewl-radius-sm !important;
+  }
+
+  .fi-modal-content {
+    border-radius: $drewl-radius-lg !important;
+  }
+
+  // Reduce widget/stats spacing
+  .fi-wi-stats-overview-stat {
+    border-radius: $drewl-radius-sm !important;
+  }
+
+  // Compact empty states
+  .fi-empty-state {
+    padding: 1.5rem !important;
+  }
+
+  // Tighten section gaps
+  .fi-section:not(.fi-aside) {
+    border-radius: $drewl-radius-sm !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .fi-page-header-main-ctn {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    gap: 8px !important;
+  }
+
+  .fi-header {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .fi-main {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  // Even smaller radius on very small screens
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi,
+  .fi-section:not(.fi-aside) {
+    border-radius: 6px !important;
+  }
+}
+
+// --- Dark mode overrides ---
+html.dark {
+  .fi-body {
+    background-color: #0a0a0a !important;
+  }
+
+  .fi-sidebar {
+    background-color: #111111 !important;
+    border-right-color: #1e1e1e !important;
+  }
+
+  .fi-topbar,
+  .fi-topbar > nav {
+    background-color: #111111 !important;
+    border-bottom-color: #1e1e1e !important;
+  }
+
+  .fi-section-content-ctn {
+    background-color: #111111 !important;
+    border-color: #1e1e1e !important;
+  }
+
+  .fi-ta-content {
+    background-color: #111111 !important;
+  }
+
+  .fi-ta-record {
+    border-bottom-color: #1e1e1e !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.03) !important;
+    }
+  }
+
+  .fi-modal-content {
+    background-color: #111111 !important;
+    border-color: #1e1e1e !important;
+  }
+
+  .fi-dropdown-panel {
+    background-color: #111111 !important;
+    border-color: #1e1e1e !important;
+  }
+
+  .fi-sidebar-item {
+    .fi-sidebar-item-button:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .fi-sidebar-item-label {
+      color: #a3a3a3 !important;
+    }
+
+    &.fi-active {
+      .fi-sidebar-item-button {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+      }
+
+      .fi-sidebar-item-label {
+        color: #ffffff !important;
+      }
+    }
+  }
+
+  .fi-sidebar-group .fi-sidebar-group-label {
+    color: #707070 !important;
+  }
+}

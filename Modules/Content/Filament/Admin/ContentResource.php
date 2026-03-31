@@ -136,6 +136,15 @@ class ContentResource extends Resource
 
         }
         $active_site_template_default = template_name();
+        // Ensure the default template matches an actual installed template dir_name.
+        // template_name() can return "default" which is not a valid dir_name.
+        $availableTemplates = site_templates();
+        if ($availableTemplates) {
+            $templateDirNames = array_column($availableTemplates, 'dir_name');
+            if (!in_array($active_site_template_default, $templateDirNames) && !empty($templateDirNames)) {
+                $active_site_template_default = $templateDirNames[0];
+            }
+        }
 
         /*  $localesWithLabels = [];
 
@@ -968,7 +977,10 @@ return $get('id');
 ->label('Author')
 ->placeholder('Select author')
 ->options(function () {
-return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email', 'id');
+return \MicroweberPackages\User\Models\User::query()
+    ->whereNotNull('email')
+    ->limit(100)
+    ->pluck('email', 'id');
 })
 ->searchable()
 ->preload(),
@@ -988,6 +1000,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->label('Content Subtype')
                         ->options([
                             'static' => 'Static',
+                            'page' => 'Page',
                             'post' => 'Post',
                             'product' => 'Product',
                             'dynamic' => 'Dynamic',

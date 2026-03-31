@@ -1,5 +1,5 @@
 .fi-input-wrp {
-    @apply rounded-md;
+    @apply rounded-md ring-1;
 
     &:focus-within {
         @apply outline outline-4 !ring-1;

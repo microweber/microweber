@@ -34,21 +34,26 @@ class MwSelectTemplateForPage
 
         $templates = site_templates();
         $active_site_template_default = template_name();
+        // Ensure the default template matches an actual installed template dir_name.
+        // template_name() can return "default" which is not a valid dir_name.
+        if ($templates) {
+            $templateDirNames = array_column($templates, 'dir_name');
+            if (!in_array($active_site_template_default, $templateDirNames) && !empty($templateDirNames)) {
+                $active_site_template_default = $templateDirNames[0];
+            }
+        }
 
 
         $selectTemplateInput = Forms\Components\Select::make($activeSiteTemplateInputName)
             ->label('Template')
             ->reactive()
              ->afterStateHydrated(
-                function (Get $get, Set $set) use ($activeSiteTemplateInputName, $layoutFileInputName) {
+                function (Get $get, Set $set) use ($activeSiteTemplateInputName, $layoutFileInputName, $active_site_template_default) {
                     $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
-                    if (!$activeSiteTemplate) {
-                        $activeSiteTemplate = template_name();
+                    if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
+                        $activeSiteTemplate = $active_site_template_default;
                         if ($activeSiteTemplate) {
-
-
-
                             $set($activeSiteTemplateInputName, $activeSiteTemplate);
                         }
 
@@ -62,13 +67,13 @@ class MwSelectTemplateForPage
 
                 }
             )
-            ->default(function (Get $get) use ($activeSiteTemplateInputName) {
+            ->default(function (Get $get) use ($activeSiteTemplateInputName, $active_site_template_default) {
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
 
-                if (!$activeSiteTemplate) {
-                    $activeSiteTemplate = template_name();
+                if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
+                    $activeSiteTemplate = $active_site_template_default;
                 }
 
 
@@ -110,12 +115,12 @@ class MwSelectTemplateForPage
 
         $selectLayoutInputInput = Forms\Components\Select::make($layoutFileInputName)
             ->label('Layout')
-            ->default(function (Get $get) use ($activeSiteTemplateInputName) {
+            ->default(function (Get $get) use ($activeSiteTemplateInputName, $active_site_template_default) {
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
-                if (!$activeSiteTemplate) {
-                    $activeSiteTemplate = template_name();
+                if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
+                    $activeSiteTemplate = $active_site_template_default;
                 }
 
                 if (!$activeSiteTemplate) {
@@ -134,11 +139,11 @@ class MwSelectTemplateForPage
 
             })
             ->reactive()
-             ->options(function (Get $get, Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+             ->options(function (Get $get, Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName, $active_site_template_default) {
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
 
-                if (!$activeSiteTemplate) {
-                    $activeSiteTemplate = template_name();
+                if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
+                    $activeSiteTemplate = $active_site_template_default;
                 }
 
                 if (!$activeSiteTemplate) {
@@ -158,14 +163,16 @@ class MwSelectTemplateForPage
                 });
 
             })
-            ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+            ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName, $active_site_template_default) {
 
                 $data = $livewire->data ?? [];
 
 
                 $activeSiteTemplate = $get($activeSiteTemplateInputName);
-                if (!$activeSiteTemplate) {
-                    $activeSiteTemplate = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
+                if (!$activeSiteTemplate || $activeSiteTemplate === 'default') {
+                    $activeSiteTemplate = isset($data['active_site_template']) && $data['active_site_template'] !== 'default'
+                        ? $data['active_site_template']
+                        : $active_site_template_default;
                 }
 
 
