@@ -8,9 +8,9 @@ use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Toggle;
-use Filament\Support\Enums\ActionSize;
+use Filament\Support\Enums\Size;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -44,7 +44,7 @@ class MenusList extends Component implements HasForms, HasActions
     {
 
 
-        return $form->schema([
+        return $schema->schema([
             Select::make('menu_id')
                 ->live()
                 ->native(true)
@@ -436,7 +436,7 @@ class MenusList extends Component implements HasForms, HasActions
         ])
             ->label('Settings')
             ->icon('heroicon-m-ellipsis-vertical')
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->color('gray');
     }
 

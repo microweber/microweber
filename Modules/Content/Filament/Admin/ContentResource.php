@@ -56,11 +56,16 @@ class ContentResource extends Resource
         $relType = \Modules\Content\Models\Content::class;
         $relId = $id;
 
-        $mediaIds = Media::query()
-            ->where('rel_type', $relType)
-            ->where('rel_id', $relId)
-            ->orderBy('position', 'asc')
-            ->pluck('id')->toArray();
+        static $mediaIdsCache = [];
+        $cacheKey = $relId ?? '__null__';
+        if (!isset($mediaIdsCache[$cacheKey])) {
+            $mediaIdsCache[$cacheKey] = Media::query()
+                ->where('rel_type', $relType)
+                ->where('rel_id', $relId)
+                ->orderBy('position', 'asc')
+                ->pluck('id')->toArray();
+        }
+        $mediaIds = $mediaIdsCache[$cacheKey];
 
 
         $contentType = 'page';
@@ -92,9 +97,18 @@ class ContentResource extends Resource
         $site_url = site_url();
         $sessionId = session()->getId();
 
+        static $cachedBlogs = null;
+        static $cachedShops = null;
 
-        $allBlogs = app()->content_repository->getAllBlogPages();
-        $allShops = app()->content_repository->getAllShopPages();
+        if ($cachedBlogs === null) {
+            $cachedBlogs = app()->content_repository->getAllBlogPages() ?: [];
+        }
+        if ($cachedShops === null) {
+            $cachedShops = app()->content_repository->getAllShopPages() ?: [];
+        }
+
+        $allBlogs = $cachedBlogs;
+        $allShops = $cachedShops;
 
         $firstBlogId = false;
         $firstShopId = false;
@@ -103,11 +117,13 @@ class ContentResource extends Resource
         if (empty($allShops) and $contentType === 'product') {
 
             app()->content_repository->createDefaultShopPage();
-            $allShops = app()->content_repository->getAllShopPages();
+            $cachedShops = app()->content_repository->getAllShopPages() ?: [];
+            $allShops = $cachedShops;
         }
         if (empty($allBlogs) and $contentType === 'post') {
             app()->content_repository->createDefaultBlogPage();
-            $allBlogs = app()->content_repository->getAllBlogPages();
+            $cachedBlogs = app()->content_repository->getAllBlogPages() ?: [];
+            $allBlogs = $cachedBlogs;
         }
 
 
@@ -1020,7 +1036,7 @@ return \MicroweberPackages\User\Models\User::query()->limit(100)->pluck('email',
                         ->label('ID')
                         ->inlineLabel(true)
                         ->content(function ($record) {
-                            return $record->id;
+                            return $record?->id;
                         })->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('id');
                         }),

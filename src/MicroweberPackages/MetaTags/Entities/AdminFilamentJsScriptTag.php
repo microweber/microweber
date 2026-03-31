@@ -18,13 +18,10 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
         $append_html = '' . "\r\n";
 
 
+        $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
         $append_html .= '<script id="mw-admin-settings">
-            mw.settings.adminUrl = "' . admin_url() . '";
+            if (typeof mw !== "undefined") { mw.settings.adminUrl = "' . admin_url() . '"; }
             </script>' . "\r\n";
-
-
-        $append_html .= '' . "\r\n";
-     $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
      //   $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
 
 

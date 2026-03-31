@@ -14,11 +14,15 @@ use Modules\Content\Http\Controllers\Api\ContentApiController;
 */
 
 // Public API routes (read-only) - no authentication required
+// NOTE: specific named routes must come BEFORE the wildcard /{content} route
 Route::name('api.content.')
 ->prefix('api/content')
 ->middleware(['api', 'throttle:public'])
 ->group(function () {
     Route::get('/', [ContentApiController::class, 'index'])->name('index');
+    Route::get('/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
+        return mw()->category_manager->get_admin_js_tree_json($request->all());
+    })->name('get_admin_js_tree_json')->withoutMiddleware(['throttle:public'])->middleware(['web', 'api', 'admin']);
     Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
 });
 

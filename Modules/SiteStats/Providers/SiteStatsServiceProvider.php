@@ -2,7 +2,6 @@
 
 namespace Modules\SiteStats\Providers;
 
-use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use Modules\SiteStats\Filament\SiteStatsDashboard;
@@ -20,8 +19,6 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
         event_bind('mw.pageview', function ($params = false) {
             if (get_option('stats_disabled', 'site_stats') == 1) {
                 return;
@@ -54,10 +51,6 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-
-
-        Livewire::component('microweber-module-sitestats::dashboard', SiteStatsDashboard::class);
-        Livewire::component('microweber-module-sitestats::dashboard-chart', SiteStatsDashboardChart::class);
 
 
         FilamentRegistry::registerWidget(

@@ -73,10 +73,6 @@
 
     <div
         wire:ignore
-        ax-load="visible"
-
-        ax-load-src="{{ public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js') }}"
-
         x-data="mwTreeFormComponent({
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             options: {{ json_encode($options, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }},

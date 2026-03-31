@@ -5,7 +5,7 @@ namespace Modules\Newsletter\Filament\Admin\Resources;
 use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\View;
-use Filament\Forms\Components\Wizard;
+use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Resources\Resource;

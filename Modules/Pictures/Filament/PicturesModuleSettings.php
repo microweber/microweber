@@ -17,7 +17,7 @@ class PicturesModuleSettings extends LiveEditModuleSettings
     public function form(Schema $schema): Schema
     {
         $relType = 'module';
-        $relId = $this->params['id'];
+        $relId = $this->params['id'] ?? null;
 
         $picturesFromContent = $this->getOption('data-use-from-post');
 

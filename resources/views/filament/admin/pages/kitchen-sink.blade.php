@@ -214,13 +214,14 @@ editor.on('change', val => {
             </pre>
             <script>
                 addEventListener('load', () => {
-                    const editor = mw.richTextEditor({
-                        target: '.richtext-example'
-                    });
-
-                    editor.on('change', val => {
-                        console.log(val)
-                    })
+                    if (typeof tinymce !== 'undefined') {
+                        const editor = mw.richTextEditor({
+                            target: '.richtext-example'
+                        });
+                        editor.on('change', val => {
+                            console.log(val)
+                        })
+                    }
                 })
 
             </script>
@@ -520,13 +521,14 @@ linkEditor.promise().then(function (data){
         </pre>
                 <script>
                     addEventListener('load', () => {
-                        const editor = mw.richTextEditor({
-                            target: '.richtext-example'
-                        });
-
-                        editor.on('change', val => {
-                            console.log(val)
-                        })
+                        if (typeof tinymce !== 'undefined') {
+                            const editor = mw.richTextEditor({
+                                target: '.richtext-example'
+                            });
+                            editor.on('change', val => {
+                                console.log(val)
+                            })
+                        }
                     })
 
                 </script>
@@ -789,7 +791,7 @@ console.log(dialogPrompt);
 
             <hr>
             <h2>Other elements with Tailwind classes</h2>
-            <img src="{{ public_asset('vendor/microweber-packages/payment/img/paypal.png') }}"
+            <img src="{{ public_asset('modules/payment/img/paypal.png') }}"
                  style="height: 36px; width: 36px;"
                  class="max-w-none object-cover object-center ring-white dark:ring-gray-900  !object-contain">
 

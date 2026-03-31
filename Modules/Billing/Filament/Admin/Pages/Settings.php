@@ -47,23 +47,23 @@ class Settings extends Page implements HasForms
             $icons[$provider->id] = 'heroicon-m-credit-card';
         }
 
-        $schema = [];
+        $components = [];
 
         if ($providers->isEmpty()) {
-            $schema[] = Placeholder::make('no_providers')
+            $components[] = Placeholder::make('no_providers')
                 ->label('No active payment providers found')
                 ->content('Please set up at least one payment provider to enable billing. For now only Stripe is supported.')
                 ->extraAttributes(['class' => 'text-center text-lg font-semibold']);
 
-            $schema[] = \Filament\Forms\Components\Actions::make([
-                \Filament\Forms\Components\Actions\Action::make('setup_providers')
+            $components[] = \Filament\Schemas\Components\Actions::make([
+                \Filament\Actions\Action::make('setup_providers')
                     ->label('Go to Payment Providers Setup')
                     ->url(admin_url('payment-providers'))
                     ->color('primary')
                     ->openUrlInNewTab(),
             ]);
         } else {
-            $schema[] = \JaOcero\RadioDeck\Forms\Components\RadioDeck::make('cashier_billing_payment_provider_id')
+            $components[] = \JaOcero\RadioDeck\Forms\Components\RadioDeck::make('cashier_billing_payment_provider_id')
                 ->label('Select Payment Provider')
                 ->options($options)
                 ->descriptions($descriptions)
@@ -72,29 +72,29 @@ class Settings extends Page implements HasForms
                 ->columns(2);
         }
 
-        $schema[] = TextInput::make('cashier_success_url')
+        $components[] = TextInput::make('cashier_success_url')
             ->label('Success URL redirect')
             ->url()
             ->columnSpan('full');
 
-        $schema[] = TextInput::make('cashier_cancel_url')
+        $components[] = TextInput::make('cashier_cancel_url')
             ->label('Cancel URL redirect')
             ->url()
             ->columnSpan('full');
-        $schema[] = TextInput::make('cashier_currency')
+        $components[] = TextInput::make('cashier_currency')
             ->label('Currency')
             ->placeholder('USD')
             ->default('USD')
             ->columnSpan('full');
 
-        $schema[] = TextInput::make('cashier_currency_locale')
+        $components[] = TextInput::make('cashier_currency_locale')
             ->label('Currency locale')
             ->placeholder('en_US')
             ->default('en_US')
             ->columnSpan('full');
         return $schema
             ->statePath('data')
-            ->schema($schema);
+            ->schema($components);
     }
 
     public function getFormDefaults(): array

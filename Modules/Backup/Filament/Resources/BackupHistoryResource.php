@@ -132,8 +132,17 @@ class BackupHistoryResource extends Resource
                 Tables\Filters\SelectFilter::make('status')
                     ->options(BackupHistory::getStatusOptions()),
 
-                Tables\Filters\DateRangeFilter::make('created_at')
-                    ->label('Created Between'),
+                Tables\Filters\Filter::make('created_at')
+                    ->label('Created Between')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from')->label('From'),
+                        Forms\Components\DatePicker::make('created_until')->label('Until'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['created_from'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
+                            ->when($data['created_until'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
+                    }),
             ])
             ->actions([
                 Tables\Actions\Action::make('download')

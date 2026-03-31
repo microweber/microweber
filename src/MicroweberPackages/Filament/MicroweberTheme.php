@@ -4,7 +4,7 @@ namespace MicroweberPackages\Filament;
 
 
 use Filament\Contracts\Plugin;
-use Filament\Forms\Components\Wizard;
+use Filament\Schemas\Components\Wizard;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;

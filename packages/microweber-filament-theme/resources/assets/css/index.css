@@ -50,6 +50,8 @@
 
 @import "tailwindcss";
 
+@source not "**/*.less";
+
 @config "./../../../tailwind.config.js";
 
 

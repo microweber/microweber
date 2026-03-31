@@ -1,7 +1,5 @@
 @php
     use Filament\Support\Enums\Width as MaxWidth;
-
-    $navigation = filament()->getNavigation();
 @endphp
 @push('scripts')
 
@@ -115,10 +113,7 @@
                 class="fi-sidebar-close-overlay fixed inset-0 z-30 bg-gray-950/50 transition duration-500 dark:bg-gray-950/75 lg:hidden"
             ></div>
 
-            <x-filament-panels::sidebar
-                :navigation="$navigation"
-                class="fi-main-sidebar"
-            />
+            @livewire(filament()->getSidebarLivewireComponent())
 
     <style>
     #mw-live-edit-templateSettings-editor-box{

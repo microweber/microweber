@@ -16,7 +16,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Wizard;
+use Filament\Schemas\Components\Wizard;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Utilities\Get;
@@ -35,10 +37,11 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\CustomFields\Enums\CustomFieldTypes;
 use Modules\CustomFields\Models\CustomField;
 
-class ListCustomFields extends AdminComponent implements HasForms, HasTable
+class ListCustomFields extends AdminComponent implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithActions;
 
     public $relType = '';
     public $relId = '';

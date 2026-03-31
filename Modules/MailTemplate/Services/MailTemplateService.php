@@ -214,7 +214,7 @@ class MailTemplateService
     public function getTemplateFormSchema(): array
     {
         return [
-            \Filament\Forms\Components\Section::make('Template Details')
+            \Filament\Schemas\Components\Section::make('Template Details')
                 ->schema([
                     \Filament\Forms\Components\TextInput::make('name')
                         ->required()
@@ -262,7 +262,7 @@ class MailTemplateService
                         ->columnSpanFull(),
                 ]),
 
-            \Filament\Forms\Components\Section::make('Template Content')
+            \Filament\Schemas\Components\Section::make('Template Content')
                 ->schema([
                     \Filament\Forms\Components\RichEditor::make('message')
                         ->required()
@@ -288,7 +288,7 @@ class MailTemplateService
                         ->columnSpanFull(),
                ]),
 
-            \Filament\Forms\Components\Section::make('Available Variables')
+            \Filament\Schemas\Components\Section::make('Available Variables')
                 ->schema([
                     \Filament\Forms\Components\Placeholder::make('variables')
                         ->content(function ($get) {

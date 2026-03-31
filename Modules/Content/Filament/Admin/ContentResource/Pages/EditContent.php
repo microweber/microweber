@@ -62,8 +62,7 @@ class EditContent extends EditRecord
 
     public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return $schema
-            ->schema($this->getEditContentForms());
+        return static::getResource()::form($schema);
     }
 
 

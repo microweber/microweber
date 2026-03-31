@@ -33,7 +33,21 @@ if (! function_exists('app')) {
 
 function mw_is_installed() : bool
 {
-    return (bool) Config::get('microweber.is_installed');
+    if (!(bool) Config::get('microweber.is_installed')) {
+        return false;
+    }
+
+    // Graceful fallback: flag is set but DB may be empty (e.g. after tests wiped it)
+    static $dbChecked = null;
+    if ($dbChecked === null) {
+        try {
+            $dbChecked = \Illuminate\Support\Facades\DB::table('users')->exists();
+        } catch (\Throwable $e) {
+            $dbChecked = false;
+        }
+    }
+
+    return $dbChecked;
 }
 
 

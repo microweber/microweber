@@ -35,6 +35,23 @@ class AdminTemplateCustomizerPage extends Page
     public $customizationData = [];
     public $activeTab = 'appearance';
 
+    // Form field properties (required for Livewire entangle)
+    public $primary_color = '#007bff';
+    public $secondary_color = '#6c757d';
+    public $background_color = '#ffffff';
+    public $text_color = '#333333';
+    public $heading_font = 'Arial';
+    public $body_font = 'Arial';
+    public $base_font_size = 16;
+    public $font_weight = '400';
+    public $container_width = 'container';
+    public $section_padding = '60px';
+    public $show_header = true;
+    public $show_footer = true;
+    public $logo = null;
+    public $favicon = null;
+    public $layout_file = '';
+
     public function mount(): void
     {
         $defaultTemplate = app()->template_manager->get_config();

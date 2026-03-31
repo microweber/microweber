@@ -16,6 +16,8 @@ use MicroweberPackages\Microweber\Facades\Microweber;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Modules\Newsletter\Filament\NewsletterModuleSettings;
 use Modules\Newsletter\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
+use Modules\Newsletter\Livewire\Admin\NewsletterDashboardStats;
+use Modules\Newsletter\Livewire\Admin\NewsletterSubscribersList;
 use Modules\Newsletter\Livewire\UnsubscribePage;
 use Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use Modules\Newsletter\Console\Commands\ProcessCampaignsPerformanceTest;
@@ -68,6 +70,8 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
             Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
             ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
         });
+        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
+        Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
         Livewire::component('newsletter-unsubscribe-page', UnsubscribePage::class);
 
 

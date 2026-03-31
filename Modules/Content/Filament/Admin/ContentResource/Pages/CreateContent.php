@@ -81,8 +81,7 @@ class CreateContent extends CreateRecord
 
     public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return $schema
-            ->schema($this->getEditContentForms());
+        return static::getResource()::form($schema);
     }
 
 
@@ -91,9 +90,9 @@ class CreateContent extends CreateRecord
 
         $actions = [];
 
-        $editAction = Actions\EditAction::make()->action('saveContentAndGoLiveEdit');
+        $editAction = Actions\Action::make('liveEdit')->action('saveContentAndGoLiveEdit');
         if (request()->header('Sec-Fetch-Dest') === 'iframe') {
-            $editAction = Actions\EditAction::make()->action('saveContentAndGoLiveEditIframe');
+            $editAction = Actions\Action::make('liveEditIframe')->action('saveContentAndGoLiveEditIframe');
         }
 
         $editAction->icon('heroicon-m-eye')
@@ -104,7 +103,7 @@ class CreateContent extends CreateRecord
         $actions[] = $editAction;
 
 
-        $actions[] = Actions\EditAction::make()
+        $actions[] = Actions\Action::make('saveContent')
             ->action('saveContent')
             ->icon('heroicon-o-check-circle')
             ->size('xl')

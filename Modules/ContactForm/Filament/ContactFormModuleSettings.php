@@ -31,36 +31,27 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
 
-                                \LaraZeus\Accordion\Forms\Accordions::make('Options')
-                                    ->slideOverRight()
-                                    ->activeAccordion(0)
-                                    ->accordions([
+                                \Filament\Schemas\Components\Section::make('From Fields')
+                                    ->icon('heroicon-o-rectangle-stack')
+                                    ->collapsible()
+                                    ->schema(function () use ($relId) {
+                                        $customFieldParams = [
+                                            'relId' => $relId,
+                                            'relType' => 'module'
+                                        ];
+                                        if ($relId == 0) {
+                                            $customFieldParams['createdBy'] = user_id();
+                                        }
+                                        $components = [];
+                                        $components[] = Livewire::make('admin-list-custom-fields', $customFieldParams)->columnSpanFull();
+                                        return $components;
+                                    }),
 
-                                        \LaraZeus\Accordion\Forms\Accordion::make('from_fields')
-                                            ->columns()
-                                            ->icon( 'heroicon-o-rectangle-stack')
-                                            ->label('From Fields')
-                                            ->schema(function () use ($relId) {
-
-                                                $customFieldParams = [
-                                                    'relId' => $relId,
-                                                    'relType' => 'module'
-                                                ];
-
-                                                if ($relId == 0) {
-                                                    $customFieldParams['createdBy'] = user_id();
-                                                }
-
-                                                $components = [];
-                                                $components[] = Livewire::make('admin-list-custom-fields', $customFieldParams)->columnSpanFull();
-
-                                                return $components;
-                                            }),
-                                        \LaraZeus\Accordion\Forms\Accordion::make('auto_respond_settings')
-                                            ->columnSpanFull()
-                                            ->label('Auto Respond Settings')
-                                            ->icon( 'heroicon-o-envelope-open')
-                                            ->schema([
+                                \Filament\Schemas\Components\Section::make('Auto Respond Settings')
+                                    ->icon('heroicon-o-envelope-open')
+                                    ->collapsible()
+                                    ->columnSpanFull()
+                                    ->schema([
                                                 Toggle::make('options.email_autorespond_enable')
                                                     ->label('Enable auto respond message to user')
                                                     ->helperText('Allow users to receive "Thank you emails after subscription."')
@@ -107,11 +98,11 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
 
                                             ]),
 
-                                        \LaraZeus\Accordion\Forms\Accordion::make('advanced')
-                                            ->columnSpanFull()
-                                            ->icon('heroicon-o-cog')
-                                            ->label('Advanced')
-                                            ->schema([
+                                \Filament\Schemas\Components\Section::make('Advanced')
+                                    ->icon('heroicon-o-cog')
+                                    ->collapsible()
+                                    ->columnSpanFull()
+                                    ->schema([
                                                 TextInput::make('options.button_text')
                                                     ->label('Button text')
                                                     ->helperText('Write your button text')
@@ -163,7 +154,6 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
 
 
                                             ]),
-                                    ]),
 
 
                             ]),

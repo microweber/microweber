@@ -73,6 +73,29 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
          ),
      );
 
+     // Inject Microweber admin JS assets (admin.js, libs, etc.) into the Filament head.
+     // Using FilamentView::registerRenderHook (global) so it fires for all admin pages.
+     FilamentView::registerRenderHook(
+         PanelsRenderHook::HEAD_START,
+         function (): HtmlString {
+             $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
+             return new HtmlString($renderer->getHeadMetaTags());
+         },
+     );
+     FilamentView::registerRenderHook(
+         PanelsRenderHook::BODY_END,
+         function (): HtmlString {
+             $renderer = new \MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer();
+             return new HtmlString($renderer->getFooterMetaTags());
+         },
+     );
+
+ // Register custom Filament panel component views (e.g. layout.live-edit) under 'filament-panels' namespace
+ $this->loadViewsFrom(
+ __DIR__ . '/../resources/views/filament',
+ 'filament-panels'
+ );
+
  // Register custom Filament component views under 'mw-filament' namespace
  // This replaces the deprecated 'filament-forms::components.' pattern
  $this->loadViewsFrom(

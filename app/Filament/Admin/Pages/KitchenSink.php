@@ -2,30 +2,29 @@
 
 namespace App\Filament\Admin\Pages;
 
+use Filament\Actions\Action as FilamentAction;
 use Filament\Schemas\Components\Actions;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Components\Wizard;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -40,11 +39,6 @@ use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
 use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
-use MicroweberPackages\Filament\Forms\Components\MwRangeSlider;
-use Modules\Components\View\Components\Section;
-use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
-use Rupadana\FilamentSlider\Components\InputSlider;
-use Rupadana\FilamentSlider\Components\InputSliderGroup;
 
 class KitchenSink extends Page
 {
@@ -63,6 +57,61 @@ class KitchenSink extends Page
     public $mw_color_picker = '#133be8';
     public $mw_link_picker = '';
     public $mw_icon_picker = 'mw-micon-Address-Book';
+
+    // MwInputSlider fields
+    public $min = 0;
+    public $max = 100;
+    // RadioDeck
+    public $name = '';
+    // Radio
+    public $status = '';
+    // CheckboxList
+    public $technologies = [];
+    // Image tab
+    public $backgroundColor = '#000000';
+    public $text = '';
+    public $hsl_color = '';
+    public $rgb_color = '';
+    public $rgba_color = '';
+    // Inputs tab
+    public $email = '';
+    public $password = '';
+    public $bio = '';
+    public $rich_bio = '';
+    public $markdown_bio = '';
+    public $card_input = '';
+    public $grid_input_1 = '';
+    public $grid_input_2 = '';
+    public $placeholder = '';
+    public $repeater = [];
+    public $time_picker = '';
+    public $toggle_button = '';
+    public $card_input2 = '';
+    public $section_input = '';
+    // Selects & Dropdowns tab
+    public $role = '';
+    public $tags = [];
+    public $actions = '';
+    // Toggles & Checkboxes tab
+    public $agree_terms = false;
+    public $preferences = [];
+    public $is_active = false;
+    // Media tab
+    public $profile_picture = null;
+    public $custom_file = null;
+    // Advanced tab
+    public $favorite_color = '';
+    public $custom_color_picker = '';
+    public $icon_picker = '';
+    public $link_picker = '';
+    public $tags_input = [];
+    public $key_value = [];
+    // Dates & Times tab
+    public $birthdate = '';
+    public $event_date = '';
+    // Wizard tab
+    public $step1_input = '';
+    public $step2_input = '';
 
 
 
@@ -181,11 +230,11 @@ class KitchenSink extends Page
                     ])
                     ->required()
                     ->iconSize(IconSize::Large) // Small | Medium | Large | (string - sm | md | lg)
-                    ->iconSizes([ // Customize the values for each icon size
-                                  'sm' => 'h-12 w-12',
-                                  'md' => 'h-14 w-14',
-                                  'lg' => 'h-16 w-16',
-                    ])
+//                    ->iconSizes([ // Customize the values for each icon size
+//                                  'sm' => 'h-12 w-12',
+//                                  'md' => 'h-14 w-14',
+//                                  'lg' => 'h-16 w-16',
+//                    ])
 //                    ->iconPosition(IconPosition::Before) // Before | After | (string - before | after)
 //                    ->alignment(Alignment::Start) // Start | Center | End | (string - start | center | end)
 //                    ->gap('gap-5') // Gap between Icon and Description (Any TailwindCSS gap-* utility)
@@ -205,66 +254,9 @@ class KitchenSink extends Page
                     ->columns(3),
 
 
-                \LaraZeus\Accordion\Forms\Accordions::make('OptionsOriginal')
-                    ->activeAccordion(0)
-                    ->accordions([
-                        \LaraZeus\Accordion\Forms\Accordion::make('main-data')
-                            ->columns()
-                            ->label('User Details')
-                            ->icon('heroicon-o-user')
-                            ->badge('New Badge')
-                            ->badgeColor('info')
-
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                        \LaraZeus\Accordion\Forms\Accordion::make('settings')
-                            ->columns()
-                            ->label('Settings')
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                        \LaraZeus\Accordion\Forms\Accordion::make('next')
-                            ->columns()
-                            ->label('Whats next?')
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                    ]),
-
-                \LaraZeus\Accordion\Forms\Accordions::make('Options')
-                    ->slideOverRight()
-                    ->activeAccordion(0)
-                    ->accordions([
-                        \LaraZeus\Accordion\Forms\Accordion::make('main-data')
-                            ->columns()
-                            ->label('User Details')
-                            ->icon('heroicon-o-user')
-
-                            ->badge('New Badge')
-                            ->badgeColor('info')
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                        \LaraZeus\Accordion\Forms\Accordion::make('settings')
-                            ->columns()
-                            ->label('Settings')
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                        \LaraZeus\Accordion\Forms\Accordion::make('next')
-                            ->columns()
-                            ->label('Whats next?')
-                            ->schema([
-                                TextInput::make('name')->required(),
-                                TextInput::make('email')->required(),
-                            ]),
-                    ]),
+                // LaraZeus Accordion disabled - incompatible with Filament v5
+                // \LaraZeus\Accordion\Forms\Accordions::make('OptionsOriginal') ...,
+                // \LaraZeus\Accordion\Forms\Accordions::make('Options') ...,
 
                 MwColorPicker::make('mw_color_picker')
                     ->live()
@@ -297,7 +289,7 @@ class KitchenSink extends Page
 
                 Actions::make([
 
-                    Actions\Action::make('star')
+                    FilamentAction::make('star')
                         ->icon('heroicon-m-star')
                         ->requiresConfirmation()
                         ->tooltip('New Badge Tooltip')
@@ -307,7 +299,7 @@ class KitchenSink extends Page
                                 ->success()
                                 ->send();
                         }),
-                    Actions\Action::make('resetStars')
+                    FilamentAction::make('resetStars')
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
@@ -380,8 +372,8 @@ class KitchenSink extends Page
                                 RichEditor::make('rich_bio')->label('Rich Bio'),
                                 MarkdownEditor::make('markdown_bio')->label('Markdown Bio'),
 
-                                // Card Component
-                                Card::make()
+                                // Section Component (replaces removed Card)
+                                \Filament\Schemas\Components\Section::make('Card Input')
                                     ->schema([
                                         TextInput::make('card_input')->label('Card Input'),
                                     ]),
@@ -413,10 +405,10 @@ class KitchenSink extends Page
                                 // Toggle Button Component
                                 ToggleButtons::make('toggle_button')
                                     ->label('Toggle Button'),
-                                // Card Component
-                                Card::make()
+                                // Section Component (replaces removed Card)
+                                \Filament\Schemas\Components\Section::make('Card Input 2')
                                     ->schema([
-                                        TextInput::make('card_input')->label('Card Input'),
+                                        TextInput::make('card_input2')->label('Card Input'),
                                     ]),
 
                                 // Grid Component
@@ -460,8 +452,9 @@ class KitchenSink extends Page
                                     'editor' => 'Editor',
                                     'viewer' => 'Viewer',
                                 ]),
-                                MultiSelect::make('tags')
+                                Select::make('tags')
                                     ->label('Tags')
+                                    ->multiple()
                                     ->options([
                                         'php' => 'PHP',
                                         'javascript' => 'JavaScript',

@@ -16,12 +16,18 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductVariantAttribute;
 
 class ProductVariantAttributeResource extends Resource
 {
+    protected static ?string $model = ProductVariantAttribute::class;
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-swatch';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
@@ -184,12 +190,12 @@ class ProductVariantAttributeResource extends Resource
                     ->label('Active'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('position', 'asc');

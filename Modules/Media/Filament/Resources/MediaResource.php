@@ -44,7 +44,7 @@ class MediaResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([
+        return $schema->schema([
             Forms\Components\Section::make('Media Information')
                 ->schema([
                     Forms\Components\Grid::make(['default' => 1, 'md' => 2])

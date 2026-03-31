@@ -43,17 +43,19 @@ class MicroweberFilamentTheme implements Plugin
         static::configureComponents();
         static::configureAssets();
 
-        $head = new AdminFilamentMetaTagsRenderer();
-        $headTags = $head->getHeadMetaTags();
-        $footerTags = $head->getFooterMetaTags();
-
         $panel->renderHook(
             name: PanelsRenderHook::HEAD_START,
-            hook: fn(): string => $headTags
+            hook: function(): string {
+                $head = new AdminFilamentMetaTagsRenderer();
+                return $head->getHeadMetaTags();
+            }
         );
         $panel->renderHook(
             name: PanelsRenderHook::BODY_END,
-            hook: fn(): string => $footerTags
+            hook: function(): string {
+                $head = new AdminFilamentMetaTagsRenderer();
+                return $head->getFooterMetaTags();
+            }
         );
     }
 

@@ -201,6 +201,11 @@ class AdminManager
         }
     }
 
+    public function getMenu(string $menu): array
+    {
+        return [];
+    }
+
     public function serving(\Closure $callback): void
     {
         Event::listen(ServingAdmin::class, $callback);

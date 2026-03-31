@@ -2,6 +2,7 @@
 
 namespace Modules\Settings\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminShopOtherPage extends AdminSettingsPage
@@ -16,5 +17,8 @@ class AdminShopOtherPage extends AdminSettingsPage
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
-
+    public function form(Schema $schema): Schema
+    {
+        return $schema->schema([]);
+    }
 }

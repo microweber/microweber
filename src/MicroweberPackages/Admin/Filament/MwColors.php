@@ -14,5 +14,6 @@ namespace MicroweberPackages\Admin\Filament;
         700 => '15, 98, 254',
         800 => '0, 29, 111',
         900 => '0, 17, 65',
+        950 => '0, 9, 33',
     ];
 }

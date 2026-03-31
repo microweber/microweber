@@ -2,7 +2,7 @@
 
 namespace Modules\Search\Filament;
 
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;

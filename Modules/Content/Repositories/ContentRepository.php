@@ -382,7 +382,8 @@ class ContentRepository extends AbstractRepository
 
     public function getFirstBlogPage(): array|null
     {
-        return get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
+        $result = get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
+        return $result ?: null;
     }
 
 
