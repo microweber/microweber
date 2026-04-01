@@ -379,35 +379,18 @@
     @apply dark:text-gray-300;
 }
 
-.fi-sidebar-item-button {
+.fi-sidebar-item-btn {
     @apply dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white;
 }
 
-.fi-sidebar-item-button .fi-sidebar-item-label {
+.fi-sidebar-item-btn .fi-sidebar-item-label {
     @apply dark:text-gray-200;
 }
 
-.fi-sidebar-item-button:hover .fi-sidebar-item-label {
+.fi-sidebar-item-btn:hover .fi-sidebar-item-label {
     @apply dark:text-white;
 }
-.fi-sidebar-nav-groups {
-    @apply !gap-y-2 !-mx-0 !divide-y-0;
-}
-.fi-sidebar-nav-groups .fi-sidebar-item-button {
-    @apply !text-sm;
-}
-.fi-sidebar-group {
-    @apply !py-0;
-}
-.fi-sidebar-group .fi-sidebar-item-button {
-    @apply !py-1;
-}
-.fi-sidebar-group .fi-sidebar-item-button .fi-sidebar-item-label {
-    @apply !text-sm;
-}
-.fi-sidebar-item-button {
-    @apply !py-[0.6rem];
-}
+/* Sidebar styles moved to drewl-theme.scss */
 
 .mw-ui-btn {
     @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle dark:text-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;

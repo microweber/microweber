@@ -12,7 +12,7 @@
 }
 
 .fi-section-content-ctn {
-    @apply border border-gray-200 rounded-xl;
+    @apply rounded-xl;
 }
 
 /*.fi-section-content {*/

@@ -1,81 +1,60 @@
 // ============================================================================
-// Drewl-Inspired Theme for Microweber Filament Admin
+// Microweber Filament Admin Theme
 // ============================================================================
-// Design tokens extracted from drewl.com:
-//   - Clean, minimal aesthetic with generous whitespace
-//   - Warm gray backgrounds (#f7f7f7)
-//   - Multi-layered subtle shadows
-//   - Large border radius (16px cards, 999px pills)
-//   - Inter font, neutral color palette
+// Hybrid of the original Microweber v2 admin design and drewl aesthetic:
+//   - Cool blue-gray tones from MW v2 (bg: #f6f8fb, text: #182433)
+//   - Clean shadows from drewl (multi-layered, subtle)
+//   - Rounded corners: 12px cards (between MW v2's 4px and drewl's 16px)
+//   - Inter font, generous whitespace
+//   - Sidebar: clean, flat, matching MW v2 layout
 // ============================================================================
 
-// --- Design Tokens ---
-$drewl-bg-page: #f7f7f7;
-$drewl-bg-surface: #ffffff;
-$drewl-bg-surface-translucent: rgba(255, 255, 255, 0.8);
-$drewl-bg-sidebar: #ffffff;
+// --- Design Tokens (merged MW v2 + drewl) ---
+$mw-bg-page: #f6f8fb;          // MW v2 cool blue-gray background
+$mw-bg-surface: #ffffff;
+$mw-bg-surface-translucent: rgba(255, 255, 255, 0.85);
+$mw-bg-sidebar: #ffffff;
 
-$drewl-text-primary: #262626;
-$drewl-text-secondary: #525252;
-$drewl-text-muted: #707070;
-$drewl-text-faint: #a3a3a3;
+$mw-text-primary: #182433;     // MW v2 dark blue-black
+$mw-text-secondary: #4a5568;   // Softer secondary
+$mw-text-muted: #718096;       // Muted labels
+$mw-text-faint: #a0aec0;       // Placeholder text
 
-$drewl-border-color: #ebebeb;
-$drewl-border-subtle: #f0f0f0;
+$mw-border-color: #dadfe5;     // MW v2 exact border color
+$mw-border-subtle: #edf2f7;    // Very subtle dividers
 
-$drewl-radius-sm: 8px;
-$drewl-radius-md: 12px;
-$drewl-radius-lg: 16px;
-$drewl-radius-xl: 24px;
-$drewl-radius-pill: 999px;
+$mw-accent: #4299e1;           // Blue accent (MW v2 link color)
+$mw-accent-light: #ebf4ff;     // Light blue for icon backgrounds
 
-$drewl-shadow-card:
-  rgba(0, 0, 0, 0.04) 0px -1px 0.5px 0px inset,
-  rgba(0, 0, 0, 0.02) 0px 8px 8px -4px,
-  rgba(0, 0, 0, 0.03) 0px 4px 4px -2px,
-  rgba(27, 27, 27, 0.03) 0px 3px 3px -1.5px,
-  rgba(0, 0, 0, 0.04) 0px 2px 2px -1px,
-  rgba(0, 0, 0, 0.06) 0px 0.5px 1px 0px,
-  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+$mw-radius-sm: 4px;             // MW v2 exact: inputs, buttons
+$mw-radius-md: 4px;             // MW v2 exact
+$mw-radius-lg: 4px;             // MW v2 exact: cards
+$mw-radius-xl: 8px;             // Modals — slightly rounded
+$mw-radius-pill: 999px;
 
-$drewl-shadow-elevated:
-  rgba(27, 27, 27, 0.12) 0px 32px 32px -12px,
-  rgba(27, 27, 27, 0.12) 0px 16px 16px -8px,
-  rgba(27, 27, 27, 0.12) 0px 8px 8px -2px,
-  rgba(27, 27, 27, 0.12) 0px 4px 4px -2px,
-  rgba(27, 27, 27, 0.12) 0px 3px 3px -1.5px,
-  rgba(27, 27, 27, 0.12) 0px 2px 2px -1px,
-  rgba(27, 27, 27, 0.12) 0px 1px 1px -0.5px,
-  rgba(255, 255, 255, 0.04) 0px 1px 2px 0px inset,
-  rgba(255, 255, 255, 0.1) 0px 0.5px 0.5px 0px inset;
+// Shadow — MW v2 exact card shadow
+$mw-shadow-card: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
 
-$drewl-shadow-subtle:
-  rgba(0, 0, 0, 0.02) 0px 8px 8px -4px,
-  rgba(0, 0, 0, 0.03) 0px 4px 4px -2px,
-  rgba(27, 27, 27, 0.03) 0px 3px 3px -1.5px,
-  rgba(0, 0, 0, 0.04) 0px 2px 2px -1px,
-  rgba(0, 0, 0, 0.06) 0px 0.5px 1px 0px,
-  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px,
-  rgba(0, 0, 0, 0.04) 0px -1px 0.5px 0px inset;
+$mw-shadow-elevated:
+  rgba(0, 0, 0, 0.12) 0px 8px 24px -4px,
+  rgba(0, 0, 0, 0.06) 0px 4px 8px -2px,
+  rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
 
-$drewl-shadow-sm: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+$mw-shadow-sm: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;  // MW v2 exact card shadow
 
-// --- Global page background ---
+// --- CSS Custom Properties ---
 :root {
-  --drewl-bg-page: #{$drewl-bg-page};
-  --drewl-bg-surface: #{$drewl-bg-surface};
-  --drewl-text-primary: #{$drewl-text-primary};
-  --drewl-text-secondary: #{$drewl-text-secondary};
-  --drewl-text-muted: #{$drewl-text-muted};
-  --drewl-border-color: #{$drewl-border-color};
-  --drewl-radius-lg: #{$drewl-radius-lg};
+  --mw-bg-page: #{$mw-bg-page};
+  --mw-bg-surface: #{$mw-bg-surface};
+  --mw-text-primary: #{$mw-text-primary};
+  --mw-text-secondary: #{$mw-text-secondary};
+  --mw-text-muted: #{$mw-text-muted};
+  --mw-border-color: #{$mw-border-color};
+  --mw-radius-lg: #{$mw-radius-lg};
 }
 
 // ============================================================================
 // FIX: wire:loading spinners always visible
-// Livewire's JS should toggle these, but the custom fork doesn't handle it.
-// wire:loading elements must be hidden by default (shown only during requests).
-// wire:loading.remove elements must be visible by default (hidden during requests).
 // ============================================================================
 [wire\:loading\:delay\:default],
 [wire\:loading\.delay\.default],
@@ -83,20 +62,16 @@ $drewl-shadow-sm: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(0, 0, 0, 0.1) 0px 1px
   display: none !important;
 }
 
-// Ensure the non-loading (default) icons remain visible
 [wire\:loading\.remove],
 [wire\:loading\.remove\.delay\.default] {
   display: inline-flex !important;
 }
 
-// For SVG icons specifically — use inline display
 svg[wire\:loading\.remove\.delay\.default],
 svg[wire\:loading\.remove] {
   display: inline-block !important;
 }
 
-// During actual Livewire request, Livewire adds a data attribute
-// This ensures that IF Livewire does work properly, the swap still happens
 .livewire-is-loading [wire\:loading],
 .livewire-is-loading [wire\:loading\.delay\.default] {
   display: inline-flex !important;
@@ -107,154 +82,347 @@ svg[wire\:loading\.remove] {
   display: none !important;
 }
 
-// --- Page body ---
+// ============================================================================
+// Page body
+// ============================================================================
 .fi-body {
-  background-color: $drewl-bg-page !important;
+  background-color: $mw-bg-page !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px !important;  // MW v2 exact: 14px base
+  line-height: 20px !important;  // MW v2 exact: 20px
+  color: $mw-text-primary !important;  // MW v2 exact: #182433
 }
 
-// --- Topbar ---
+// ============================================================================
+// Topbar — clean white bar, subtle bottom border (MW v2 style)
+// ============================================================================
 .fi-topbar {
-  background-color: $drewl-bg-surface !important;
-  border-bottom: 1px solid $drewl-border-color !important;
+  background-color: $mw-bg-surface !important;
+  border-bottom: 1px solid $mw-border-color !important;
   box-shadow: none !important;
-  backdrop-filter: blur(12px);
+  height: 49px !important;  // MW v2 exact: ~49px
+  min-height: 49px !important;
+  max-height: 49px !important;
+  padding: 0 16px !important;  // MW v2: horizontal padding matching main content
+  align-items: center !important;
+  gap: 12px !important;  // MW v2: consistent spacing between topbar sections
 
-  // Also target nested nav if present (Filament v3 compat)
   > nav {
-    background-color: $drewl-bg-surface !important;
-    border-bottom: 1px solid $drewl-border-color !important;
+    background-color: $mw-bg-surface !important;
+    border-bottom: 1px solid $mw-border-color !important;
     box-shadow: none !important;
   }
 
   .fi-topbar-item-label {
-    color: $drewl-text-secondary;
+    color: $mw-text-secondary;
     font-weight: 400;
+  }
+
+  // Logo area — MW v2: proper spacing after logo
+  .fi-topbar-start {
+    margin-right: auto !important;  // Push end section to the right
+    margin-left: 0 !important;
+  }
+
+  // Right section — MW v2: consistent gap between items
+  .fi-topbar-end {
+    margin-left: auto !important;
+    gap: 12px !important;  // MW v2: consistent spacing
   }
 }
 
-// --- Sidebar ---
+// Topbar "Add" button — MW v2: light blue bg with dark text
+.fi-btn.admin-toolbar-add,
+.fi-btn.admin-toolbar-add.fi-color-primary {
+  background-color: #e1edf8 !important;  // MW v2 exact: light blue
+  color: $mw-text-primary !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: $mw-radius-sm !important;
+  height: 36px !important;  // Proportional to 49px topbar
+  min-height: 36px !important;
+
+  &:hover {
+    background-color: #d0e1f3 !important;
+    opacity: 1 !important;
+  }
+
+  // Override icon/text colors inside button
+  svg, img {
+    filter: none !important;
+  }
+  span, .fi-btn-label {
+    color: $mw-text-primary !important;
+  }
+}
+
+// Topbar "Live Edit" button — MW v2: light green bg with dark text
+.fi-btn.admin-toolbar-live-edit,
+.fi-btn.admin-toolbar-live-edit.fi-color-primary {
+  background-color: #e2f9e6 !important;  // MW v2 exact: light green
+  color: $mw-text-primary !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: $mw-radius-sm !important;
+  height: 36px !important;  // Proportional to 49px topbar
+  min-height: 36px !important;
+
+  &:hover {
+    background-color: #d0f0d6 !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: $mw-text-primary !important;
+  }
+}
+
+// ============================================================================
+// Sidebar — MW v2 pixel-perfect match
+// ============================================================================
 .fi-sidebar {
-  background-color: $drewl-bg-sidebar !important;
-  border-right: 1px solid $drewl-border-color !important;
+  background-color: $mw-bg-sidebar !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;  // MW v2: no rounded corners on sidebar
 }
 
 .fi-sidebar-header {
-  border-bottom: 1px solid $drewl-border-subtle !important;
+  border-bottom: none !important;
+  padding: 31px 15px 5px !important;  // MW v2 exact: 31px 15px 5px
 }
 
 .fi-sidebar-nav-groups {
-  gap: 2px !important;
+  gap: 0px !important;
+  padding: 0 15px !important;  // MW v2 exact: 0 15px
+
+  // Override Filament's default divider (we handle it on .fi-sidebar-group)
+  > * + * {
+    border-top: none !important;
+  }
 }
 
+// Group labels — MW v2 style: smaller, muted, acts as section divider
 .fi-sidebar-group {
+  padding: 0 !important;
+  border-top: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2: separator between sections
+  margin-top: 4px !important;
+  padding-top: 4px !important;
+
+  &:first-child {
+    border-top: none !important;  // No separator above first group
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
   .fi-sidebar-group-label {
-    color: $drewl-text-muted !important;
-    font-size: 0.7rem !important;
+    color: $mw-text-faint !important;
+    font-size: 0.65rem !important;
     font-weight: 600 !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
+    padding: 20px 8px 6px !important;
   }
 }
 
 .fi-sidebar-item {
-  .fi-sidebar-item-button {
-    border-radius: $drewl-radius-sm !important;
+  .fi-sidebar-item-btn {
+    border-radius: 4px !important;  // MW v2 exact: 4px
     transition: all 0.15s ease !important;
+    padding: 4px 0px 4px 44px !important;  // MW v2: minimal vertical padding, 44px left indent
+    background-color: transparent !important;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.04) !important;
+      background-color: rgba(0, 0, 0, 0.03) !important;
     }
   }
 
+  // Item labels — default to sub-item style: 12px/500 (MW v2 exact)
   .fi-sidebar-item-label {
-    color: $drewl-text-secondary !important;
-    font-weight: 400 !important;
-    font-size: 0.875rem !important;
+    color: $mw-text-primary !important;
+    font-weight: 500 !important;  // MW v2 sub-item: 500
+    font-size: 12px !important;  // MW v2 sub-item: 12px
+    line-height: 17.14px !important;  // MW v2 exact: 17.1429px
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
+  // Items WITH icons = top-level items (Dashboard, Settings, etc.)
+  // MW v2 top-level: 16px font, 15px 0 padding
   .fi-sidebar-item-icon {
-    color: $drewl-text-muted !important;
+    color: $mw-text-primary !important;  // MW v2: same as text rgb(24, 36, 51)
+    width: 24px !important;  // MW v2 exact: 24px
+    height: 24px !important;
+    margin-right: 16px !important;  // MW v2 exact: 16px
   }
 
+  // When item HAS an icon, it's a top-level item — override to 16px/15px padding
+  .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
+    font-size: 16px !important;  // MW v2 top-level: 16px
+    line-height: 22.86px !important;  // MW v2 exact: 22.8571px
+  }
+
+  &:has(.fi-sidebar-item-icon) {
+    .fi-sidebar-item-btn {
+      padding: 15px 0px !important;  // MW v2 exact top-level: 15px 0
+    }
+  }
+
+  // Active state — differentiate top-level (icon) vs sub-items (no icon)
   &.fi-active {
-    .fi-sidebar-item-button {
-      background-color: rgba(0, 0, 0, 0.05) !important;
+    // Sub-items (no icon): subtle bg tint, no decoration
+    .fi-sidebar-item-btn {
+      background-color: rgba(0, 0, 0, 0.06) !important;  // MW v2 exact active sub-item bg
     }
 
     .fi-sidebar-item-label {
-      color: $drewl-text-primary !important;
-      font-weight: 500 !important;
+      color: $mw-text-primary !important;
+      font-weight: 400 !important;
+      text-decoration: none !important;
     }
 
     .fi-sidebar-item-icon {
-      color: $drewl-text-primary !important;
+      color: $mw-text-primary !important;
+    }
+
+    // Top-level items (with icon): underline text, transparent bg — MW v2 Dashboard style
+    &:has(.fi-sidebar-item-icon) {
+      .fi-sidebar-item-btn {
+        background-color: transparent !important;
+      }
+
+      .fi-sidebar-item-label {
+        text-decoration: underline !important;
+        text-underline-offset: 4px !important;
+        text-decoration-thickness: 2px !important;
+        text-decoration-color: $mw-text-primary !important;
+      }
     }
   }
 }
 
-// --- Main content area ---
-.fi-main {
-  background-color: $drewl-bg-page !important;
+// Hide Filament's grouped border line — MW v2 doesn't have it
+.fi-sidebar-item-grouped-border {
+  display: none !important;
 }
 
-// --- Section / Card containers ---
+// Sidebar badge (e.g., Orders "11") — MW v2 blue pill
+.fi-sidebar-item-badge {
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+}
+
+// ============================================================================
+// Main content area
+// ============================================================================
+.fi-main {
+  background-color: transparent !important;  // MW v2: transparent, page bg shows through
+  padding: 10px 16px !important;  // MW v2 exact: 10px 16px
+}
+
+// Main content container — MW v2: transparent bg
+.fi-main-ctn {
+  background-color: transparent !important;
+}
+
+// ============================================================================
+// Page body — MW v2: 24px vertical margin
+// ============================================================================
+.fi-page > div {
+  margin: 24px 0 !important;  // MW v2 exact: page body margin
+}
+
+// Gap between sections/cards — MW v2: 24px
+.fi-page .fi-section + .fi-section,
+.fi-page .fi-wi + .fi-wi,
+.fi-page .fi-wi + .fi-section,
+.fi-page .fi-section + .fi-wi {
+  margin-top: 24px !important;  // MW v2 exact: gap between cards
+}
+
+// ============================================================================
+// Sections / Cards — MW v2 shadow style with rounded corners
+// ============================================================================
 .fi-section:not(.fi-aside) {
-  border-radius: $drewl-radius-lg !important;
+  border-radius: $mw-radius-lg !important;
   overflow: hidden;
 }
 
 .fi-section-content-ctn {
-  background-color: $drewl-bg-surface !important;
-  border: 1px solid $drewl-border-color !important;
-  border-radius: $drewl-radius-lg !important;
-  box-shadow: $drewl-shadow-card !important;
+  background-color: $mw-bg-surface !important;
+  border: none !important;
+  border-radius: $mw-radius-lg !important;
+  box-shadow: $mw-shadow-sm !important;
 }
 
-// Remove dark separator lines above section headers
+// Remove dark separator lines above/below section headers
 .fi-section-header {
   border-top: none !important;
-  border-bottom: none !important;
-  border-color: $drewl-border-color !important;
+  border-bottom: 1px solid $mw-border-subtle !important;  // MW v2: very subtle separator under heading
+  padding: 12px 16px !important;  // MW v2: tighter header padding
+  border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
-// Ensure no dark borders leak through anywhere in sections
+// Ensure no dark borders leak through in sections
 .fi-section .border-t,
 .fi-section [class*="divide-"] > * + * {
-  border-color: $drewl-border-color !important;
+  border-color: $mw-border-subtle !important;
 }
 
-// --- Widgets ---
+// Remove the thick border-bottom from Tailwind's divide utility in sections
+.fi-section-content-ctn > [class*="divide-"] > * + * {
+  border-color: $mw-border-subtle !important;
+}
+
+// ============================================================================
+// Widgets — dashboard stat cards
+// ============================================================================
 .fi-wi {
-  border-radius: $drewl-radius-lg !important;
-  box-shadow: $drewl-shadow-card !important;
-  border: 1px solid $drewl-border-color !important;
+  border-radius: $mw-radius-lg !important;
+  box-shadow: $mw-shadow-sm !important;
+  border: none !important;
   overflow: hidden;
+  background-color: $mw-bg-surface !important;
 }
 
 .fi-wi-stats-overview-stat {
-  border-radius: $drewl-radius-md !important;
+  border-radius: $mw-radius-md !important;
 }
 
-// --- Tables ---
+// ============================================================================
+// Tables — clean, MW v2 style with subtle row dividers
+// ============================================================================
 .fi-ta-ctn {
-  border-radius: $drewl-radius-lg !important;
+  border-radius: $mw-radius-lg !important;
+  box-shadow: $mw-shadow-sm !important;
+  border: none !important;
+  overflow: hidden;
 }
 
 .fi-ta-header-ctn {
-  background-color: $drewl-bg-surface !important;
-  border-radius: $drewl-radius-lg $drewl-radius-lg 0 0 !important;
+  background-color: $mw-bg-surface !important;
+  border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;
+  border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2 exact
+
+  // Table search input — match global input styles
+  .fi-input-wrp {
+    border-radius: $mw-radius-sm !important;  // MW v2: 4px, not 7px
+  }
 }
 
 .fi-ta-content {
-  background-color: $drewl-bg-surface !important;
+  background-color: $mw-bg-surface !important;
 }
 
 .fi-ta-record {
-  border-bottom: 1px solid $drewl-border-subtle !important;
+  border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2 exact translucent border
   transition: background-color 0.15s ease !important;
+  padding-top: 4px !important;  // MW v2: compact row padding
+  padding-bottom: 4px !important;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.015) !important;
+    background-color: rgba(66, 153, 225, 0.03) !important;
   }
 
   &:last-child {
@@ -263,152 +431,478 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-ta-header-cell {
-  color: $drewl-text-muted !important;
-  font-weight: 500 !important;
-  font-size: 0.75rem !important;
+  color: #667382 !important;  // MW v2 exact table header color
+  font-weight: 600 !important;
+  font-size: 10px !important;  // MW v2 exact
   text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+  letter-spacing: 0.4px !important;  // MW v2 exact
 }
 
-// --- Buttons ---
+// ============================================================================
+// Buttons — MW v2 style
+// ============================================================================
 .fi-btn {
-  border-radius: $drewl-radius-sm !important;
-  font-weight: 500 !important;
-  transition: all 0.2s ease !important;
-  box-shadow: none !important;
+  border-radius: $mw-radius-sm !important;  // MW v2: 4px
+  font-weight: 400 !important;  // MW v2: 400
+  font-size: 14px !important;  // MW v2: 14px
+  transition: all 0.15s ease !important;
+  box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;
+  padding: 10.4px 20px !important;  // MW v2 exact: 10.4px 20px
+  height: 48px !important;  // MW v2 exact: ~48.78px
+  min-height: 48px !important;
 
   &:hover {
-    box-shadow: $drewl-shadow-sm !important;
-    transform: translateY(-1px);
+    opacity: 0.9 !important;
   }
 }
 
-// Primary button with pill shape for main CTAs
+// Primary button — MW v2: dark bg #182433
 .fi-btn.fi-color-primary {
-  border-radius: $drewl-radius-sm !important;
+  background-color: #182433 !important;  // MW v2 exact: btn-dark
+  color: #ffffff !important;
+  border: 1px solid #1f2e41 !important;  // MW v2 exact
+
+  &:hover {
+    background-color: #1f2e41 !important;
+    opacity: 1 !important;
+  }
 }
 
-// --- Input fields ---
+// Custom Filament color buttons — override oklch to MW v2 style
+.fi-btn[class*="fi-color-mw"],
+.fi-btn.fi-color-info {
+  background-color: #182433 !important;
+  color: #ffffff !important;
+  border: 1px solid #1f2e41 !important;
+
+  &:hover {
+    background-color: #1f2e41 !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: #ffffff !important;
+  }
+
+  svg {
+    color: #ffffff !important;
+  }
+}
+
+// Success/save button — MW v2: green #2fb344
+.fi-btn.fi-color-success {
+  background-color: #2fb344 !important;  // MW v2 exact
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+}
+
+// Danger button
+.fi-btn.fi-color-danger {
+  background-color: #d63939 !important;  // MW v2 exact
+  color: #ffffff !important;
+}
+
+// Outline / secondary buttons — MW v2: transparent bg, border, compact
+.fi-btn.fi-color-gray {
+  border: 1px solid $mw-border-color !important;
+  background-color: transparent !important;
+  color: $mw-text-primary !important;
+  box-shadow: none !important;
+  height: auto !important;  // MW v2: outline btns are more compact
+  min-height: auto !important;
+  padding: 4px 12px !important;  // MW v2: compact outline padding
+
+  &:hover {
+    background-color: $mw-bg-page !important;
+    opacity: 1 !important;
+  }
+}
+
+// Small buttons (table action buttons, Published dropdown)
+.fi-btn.fi-size-sm {
+  padding: 6px 12px !important;  // MW v2: smaller padding for table buttons
+  font-size: 13px !important;
+  height: auto !important;
+}
+
+// Extra small buttons
+.fi-btn.fi-size-xs {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+// Icon buttons (small action buttons)
+.fi-icon-btn {
+  border-radius: $mw-radius-sm !important;
+  transition: all 0.15s ease !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+// ============================================================================
+// Form labels — MW v2: 14px/400
+// ============================================================================
+.fi-fo-field-wrp-label,
+.fi-fo-field-label {
+  font-size: 14px !important;  // MW v2 exact: 14px labels
+  font-weight: 400 !important;  // MW v2 exact: 400
+  color: $mw-text-primary !important;
+  margin: 0 8px 8px 0 !important;  // MW v2 exact: label spacing
+}
+
+// ============================================================================
+// Input fields
+// ============================================================================
 .fi-input-wrp {
-  border-radius: $drewl-radius-sm !important;
-  border: 1px solid $drewl-border-color !important;
-  transition: all 0.2s ease !important;
-  background-color: $drewl-bg-surface !important;
+  border-radius: $mw-radius-sm !important;
+  border: 1px solid $mw-border-color !important;
+  transition: all 0.15s ease !important;
+  background-color: $mw-bg-surface !important;
+  min-height: 44px !important;  // MW v2: ~45px input height
 
   &:focus-within {
-    border-color: darken($drewl-border-color, 20%) !important;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08) !important;
+    border-color: $mw-accent !important;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15) !important;
   }
 }
 
-// --- Modals ---
+// Select inputs
+.fi-select-wrp {
+  border-radius: $mw-radius-sm !important;
+}
+
+// ============================================================================
+// Modals — MW v2: 4px radius cards, but modals slightly larger
+// ============================================================================
 .fi-modal-content {
-  border-radius: $drewl-radius-xl !important;
-  box-shadow: $drewl-shadow-elevated !important;
-  border: 1px solid $drewl-border-color !important;
+  border-radius: $mw-radius-xl !important;
+  box-shadow: $mw-shadow-elevated !important;
+  border: 1px solid $mw-border-color !important;
 }
 
-// --- Dropdowns ---
+// ============================================================================
+// Card body padding — MW v2: 16px
+// ============================================================================
+.fi-section-content {
+  padding: 16px !important;  // MW v2 exact card body padding
+}
+
+// ============================================================================
+// Dropdowns
+// ============================================================================
 .fi-dropdown-panel {
-  border-radius: $drewl-radius-md !important;
-  box-shadow: $drewl-shadow-elevated !important;
-  border: 1px solid $drewl-border-color !important;
+  border-radius: $mw-radius-md !important;
+  box-shadow: $mw-shadow-elevated !important;
+  border: 1px solid $mw-border-color !important;
 }
 
-// --- Badges ---
+// ============================================================================
+// Badges — MW v2 style: small rounded, not pill
+// ============================================================================
 .fi-badge {
-  border-radius: $drewl-radius-pill !important;
-  font-weight: 500 !important;
-  font-size: 0.75rem !important;
-}
-
-// --- Breadcrumbs ---
-.fi-breadcrumbs {
-  color: $drewl-text-muted;
-  font-size: 0.875rem;
-}
-
-// --- Page header ---
-.fi-header-heading {
-  color: $drewl-text-primary !important;
+  border-radius: 4px !important;  // MW v2 exact
   font-weight: 600 !important;
-  letter-spacing: -0.02em !important;
+  font-size: 10px !important;  // MW v2 exact
+  padding: 2.5px 5px !important;
 }
 
-.fi-header-subheading {
-  color: $drewl-text-secondary !important;
-}
+// ============================================================================
+// Breadcrumbs — MW v2: muted, 14px
+// ============================================================================
+.fi-breadcrumbs {
+  color: $mw-text-muted !important;
+  font-size: 14px !important;
 
-// --- Tabs ---
-.fi-tabs {
-  border-bottom-color: $drewl-border-color !important;
-}
-
-.fi-tabs-item-button {
-  border-radius: $drewl-radius-sm $drewl-radius-sm 0 0 !important;
-  font-weight: 500 !important;
-  color: $drewl-text-muted !important;
-
-  &:hover {
-    color: $drewl-text-secondary !important;
-    background-color: rgba(0, 0, 0, 0.02) !important;
-  }
-}
-
-.fi-tabs-item.fi-active .fi-tabs-item-button {
-  color: $drewl-text-primary !important;
-}
-
-// --- Notifications ---
-.fi-notification {
-  border-radius: $drewl-radius-md !important;
-  box-shadow: $drewl-shadow-card !important;
-}
-
-// --- Pagination ---
-.fi-pagination-item {
-  border-radius: $drewl-radius-sm !important;
-}
-
-// --- Loading states ---
-.fi-loading-indicator {
-  color: $drewl-text-muted !important;
-}
-
-// --- Global search ---
-.fi-global-search-field {
-  input {
-    border-radius: $drewl-radius-pill !important;
-    background-color: $drewl-bg-page !important;
-    border: 1px solid $drewl-border-color !important;
-
-    &:focus {
-      background-color: $drewl-bg-surface !important;
-      border-color: $drewl-text-faint !important;
+  a {
+    color: #206bc4 !important;  // MW v2 link blue
+    text-decoration: none !important;
+    &:hover {
+      text-decoration: underline !important;
     }
   }
 }
 
-// --- Empty states ---
+// ============================================================================
+// Page header — MW v2: 24px heading, 700 weight
+// ============================================================================
+.fi-header {
+  margin: 24px 0 0 !important;  // MW v2 exact: page-header margin
+  height: auto !important;
+  min-height: 49px !important;  // MW v2 exact: ~49px page-header height
+  display: flex !important;
+  align-items: center !important;
+  background-color: transparent !important;  // MW v2: transparent page header
+  padding: 0 !important;  // MW v2: 0 padding on page-header
+}
+
+.fi-header-heading {
+  color: $mw-text-primary !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;  // 24px — matches MW v2 exact
+  letter-spacing: normal !important;  // MW v2 exact: normal (was -0.01em)
+  margin-bottom: 0 !important;  // MW v2: 0 margin-bottom (flex layout)
+}
+
+.fi-header-subheading {
+  color: $mw-text-secondary !important;
+  font-size: 0.875rem !important;
+}
+
+// Section headings (Add New Page, Media, Published, etc.)
+// MW v2 card headers use 14px/400 — compact section headers
+.fi-section-header-heading {
+  font-size: 14px !important;  // MW v2 exact: card header 14px
+  font-weight: 400 !important;  // MW v2 exact: 400
+  color: $mw-text-primary !important;
+  margin-bottom: 0 !important;
+}
+
+// ============================================================================
+// Tabs — MW v2: underline style, 14px text
+// ============================================================================
+.fi-tabs {
+  border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2 exact border
+}
+
+// Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
+.fi-tabs-item {
+  border-radius: 0 !important;
+  font-weight: 500 !important;  // MW v2 inactive: 500
+  font-size: 14px !important;  // MW v2 exact: 14px
+  color: $mw-text-primary !important;  // MW v2: dark color for all tabs
+  padding: 8px 0 !important;  // MW v2: vertical padding only
+  margin-right: 24px !important;  // MW v2: spacing between tabs
+  border-bottom: 2px solid transparent !important;
+  margin-bottom: -1px !important;
+  background-color: transparent !important;
+
+  .fi-tabs-item-label {
+    font-size: 14px !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+  }
+
+  &:hover {
+    color: $mw-text-primary !important;
+    background-color: transparent !important;
+    border-bottom-color: $mw-border-color !important;
+  }
+
+  &.fi-active {
+    color: $mw-text-primary !important;
+    font-weight: 600 !important;  // MW v2 active: 600
+    border-bottom-color: $mw-text-primary !important;  // MW v2: 2px solid dark underline
+  }
+}
+
+// Legacy selector fallback
+.fi-tabs-item-button {
+  border-radius: 0 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: $mw-text-primary !important;
+  background-color: transparent !important;
+}
+
+// ============================================================================
+// Notifications
+// ============================================================================
+.fi-notification {
+  border-radius: $mw-radius-md !important;
+  box-shadow: $mw-shadow-card !important;
+}
+
+// ============================================================================
+// Stat overview cards — MW v2 style
+// ============================================================================
+.fi-wi-stats-overview-stat {
+  padding: 16px !important;  // MW v2: compact stat cards
+
+  .fi-wi-stats-overview-stat-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: $mw-text-muted !important;
+    text-transform: none !important;
+  }
+
+  .fi-wi-stats-overview-stat-value {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: $mw-text-primary !important;
+  }
+}
+
+// ============================================================================
+// Pagination — MW v2 style
+// ============================================================================
+.fi-pagination-item {
+  border-radius: $mw-radius-sm !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.fi-pagination-item-active {
+  background-color: #182433 !important;
+  color: #ffffff !important;
+}
+
+// ============================================================================
+// Loading states
+// ============================================================================
+.fi-loading-indicator {
+  color: $mw-text-muted !important;
+}
+
+// ============================================================================
+// Global search — clean pill-shaped search bar (MW v2 style)
+// ============================================================================
+.fi-global-search-field {
+  // The wrapper IS the visible pill — border, bg, radius all go here
+  .fi-input-wrp {
+    border-radius: $mw-radius-pill !important;
+    background-color: $mw-bg-page !important;
+    border: 1px solid $mw-border-color !important;
+    min-height: 38px !important;  // Slightly smaller for topbar
+    box-shadow: none !important;
+
+    &:focus-within {
+      background-color: $mw-bg-surface !important;
+      border-color: $mw-accent !important;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15) !important;
+    }
+  }
+
+  // Inner input — transparent, no border (wrapper handles it)
+  input {
+    border: none !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+    &:focus {
+      border: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+  }
+}
+
+// ============================================================================
+// Empty states
+// ============================================================================
 .fi-empty-state {
   padding: 3rem !important;
 }
 
 .fi-empty-state-heading {
-  color: $drewl-text-primary !important;
+  color: $mw-text-primary !important;
   font-weight: 600 !important;
 }
 
 .fi-empty-state-description {
-  color: $drewl-text-muted !important;
+  color: $mw-text-muted !important;
 }
 
-// --- Smooth transitions everywhere ---
+// ============================================================================
+// Toggle / Switch
+// ============================================================================
+.fi-toggle-wrp {
+  .fi-toggle-button,
+  [role="switch"],
+  button {
+    border-radius: $mw-radius-pill !important;
+  }
+}
+
+// ============================================================================
+// Links — MW v2 blue color
+// ============================================================================
+.fi-link {
+  color: #206bc4 !important;  // MW v2 exact link color
+
+  &:hover {
+    color: #1a569d !important;  // MW v2 exact hover
+    text-decoration: underline !important;
+  }
+}
+
+// ============================================================================
+// Content list items — MW v2 page titles and dates
+// ============================================================================
+// Page/post titles in table rows — MW v2: 16px/600
+.fi-ta-record .font-medium a {
+  font-size: 16px !important;  // MW v2 exact: page titles are 16px
+  font-weight: 600 !important;  // MW v2 exact: semibold
+  color: $mw-text-primary !important;
+}
+
+// Date/timestamp text in table rows — MW v2: 12px, muted gray
+.fi-ta-record [class*="text-\[0.6rem\]"],
+.fi-ta-record [class*="text-\[0."] {
+  font-size: 12px !important;  // MW v2 exact: 12px date text
+  color: #667382 !important;  // MW v2 exact: muted gray
+}
+
+// Published badge in table — make more compact like MW v2
+.fi-ta-record .fi-btn.fi-size-sm.fi-color-success {
+  padding: 4px 10px !important;  // MW v2: compact badge padding
+  font-size: 12px !important;
+  height: 28px !important;  // MW v2 exact: 28px badge height
+  min-height: 28px !important;
+}
+
+// ============================================================================
+// Global border-radius fix — Filament defaults to 7px, MW v2 uses 4px
+// ============================================================================
+.fi-breadcrumbs,
+.fi-ta-record a,
+.fi-ta-record button,
+.fi-tabs-item,
+.fi-pagination-items,
+.fi-ac-btn,
+.fi-dropdown-trigger button {
+  border-radius: $mw-radius-sm !important;
+}
+
+// Table row padding — MW v2: more compact rows (~80px height)
+.fi-ta-content > div > div {
+  padding: 10px 0 !important;  // MW v2: tighter row padding (was 16px 0)
+}
+
+// Published button in table — MW v2: green text on light green bg (soft badge style)
+.fi-ta-content .fi-btn.fi-color-success {
+  color: #2fb344 !important;
+  background-color: #eaf7ec !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 3px 6px !important;
+  border-radius: 4px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+
+  span, .fi-btn-label {
+    color: #2fb344 !important;
+  }
+  svg {
+    color: #2fb344 !important;
+  }
+}
+
+// ============================================================================
+// Smooth transitions
+// ============================================================================
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-// --- Custom scrollbar styling ---
+// ============================================================================
+// Custom scrollbar
+// ============================================================================
 .fi-sidebar-nav::-webkit-scrollbar {
   width: 4px;
 }
@@ -418,56 +912,51 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-sidebar-nav::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: $drewl-radius-pill;
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: $mw-radius-pill;
 }
 
-// --- Responsive: reduce padding/gaps on small screens ---
+// ============================================================================
+// Responsive — mobile/tablet
+// ============================================================================
 @media (max-width: 768px) {
-  // Tighten the main page content wrapper
   .fi-page-header-main-ctn {
     padding-top: 12px !important;
     padding-bottom: 12px !important;
     gap: 12px !important;
   }
 
-  // Reduce header padding
   .fi-header {
     padding-top: 12px !important;
     padding-bottom: 12px !important;
     gap: 8px !important;
   }
 
-  // Reduce main content side padding
   .fi-main {
     padding-left: 8px !important;
     padding-right: 8px !important;
   }
 
-  // Smaller border radius on mobile for cards/sections
   .fi-section-content-ctn,
   .fi-ta-ctn,
   .fi-wi {
-    border-radius: $drewl-radius-sm !important;
+    border-radius: $mw-radius-sm !important;
   }
 
   .fi-modal-content {
-    border-radius: $drewl-radius-lg !important;
+    border-radius: $mw-radius-lg !important;
   }
 
-  // Reduce widget/stats spacing
   .fi-wi-stats-overview-stat {
-    border-radius: $drewl-radius-sm !important;
+    border-radius: $mw-radius-sm !important;
   }
 
-  // Compact empty states
   .fi-empty-state {
     padding: 1.5rem !important;
   }
 
-  // Tighten section gaps
   .fi-section:not(.fi-aside) {
-    border-radius: $drewl-radius-sm !important;
+    border-radius: $mw-radius-sm !important;
   }
 }
 
@@ -488,7 +977,6 @@ svg[wire\:loading\.remove] {
     padding-right: 4px !important;
   }
 
-  // Even smaller radius on very small screens
   .fi-section-content-ctn,
   .fi-ta-ctn,
   .fi-wi,
@@ -497,71 +985,182 @@ svg[wire\:loading\.remove] {
   }
 }
 
-// --- Dark mode overrides ---
+// ============================================================================
+// Dark mode
+// ============================================================================
 html.dark {
   .fi-body {
-    background-color: #0a0a0a !important;
+    background-color: #0f1117 !important;
   }
 
   .fi-sidebar {
-    background-color: #111111 !important;
-    border-right-color: #1e1e1e !important;
+    background-color: #161922 !important;
+    border-right: none !important;
   }
 
   .fi-topbar,
   .fi-topbar > nav {
-    background-color: #111111 !important;
-    border-bottom-color: #1e1e1e !important;
+    background-color: #161922 !important;
+    border-bottom-color: #1e2330 !important;
   }
 
   .fi-section-content-ctn {
-    background-color: #111111 !important;
-    border-color: #1e1e1e !important;
+    background-color: #161922 !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+  }
+
+  .fi-ta-ctn {
+    background-color: #161922 !important;
   }
 
   .fi-ta-content {
-    background-color: #111111 !important;
+    background-color: #161922 !important;
   }
 
   .fi-ta-record {
-    border-bottom-color: #1e1e1e !important;
+    border-bottom-color: #1e2330 !important;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.03) !important;
     }
   }
 
+  .fi-wi {
+    background-color: #161922 !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+  }
+
   .fi-modal-content {
-    background-color: #111111 !important;
-    border-color: #1e1e1e !important;
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
   }
 
   .fi-dropdown-panel {
-    background-color: #111111 !important;
-    border-color: #1e1e1e !important;
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
+  }
+
+  .fi-input-wrp {
+    border-color: #2d3748 !important;
+    background-color: #1a1f2e !important;
+
+    &:focus-within {
+      border-color: $mw-accent !important;
+    }
   }
 
   .fi-sidebar-item {
-    .fi-sidebar-item-button:hover {
-      background-color: rgba(255, 255, 255, 0.06) !important;
+    .fi-sidebar-item-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05) !important;
     }
 
     .fi-sidebar-item-label {
-      color: #a3a3a3 !important;
+      color: #a0aec0 !important;
+    }
+
+    .fi-sidebar-item-icon {
+      color: #718096 !important;
     }
 
     &.fi-active {
-      .fi-sidebar-item-button {
-        background-color: rgba(255, 255, 255, 0.08) !important;
+      // Sub-items (no icon): subtle bg tint
+      .fi-sidebar-item-btn {
+        background-color: rgba(255, 255, 255, 0.06) !important;
       }
 
       .fi-sidebar-item-label {
-        color: #ffffff !important;
+        color: #e2e8f0 !important;
+        text-decoration: none !important;
+      }
+
+      .fi-sidebar-item-icon {
+        color: #e2e8f0 !important;
+      }
+
+      // Top-level items (with icon): underline text, transparent bg — same as light mode
+      &:has(.fi-sidebar-item-icon) {
+        .fi-sidebar-item-btn {
+          background-color: transparent !important;
+        }
+
+        .fi-sidebar-item-label {
+          text-decoration: underline !important;
+          text-underline-offset: 4px !important;
+          text-decoration-thickness: 2px !important;
+          text-decoration-color: #e2e8f0 !important;
+        }
       }
     }
   }
 
   .fi-sidebar-group .fi-sidebar-group-label {
-    color: #707070 !important;
+    color: #4a5568 !important;
+  }
+
+  // Page heading — light text in dark mode
+  .fi-header-heading {
+    color: #e2e8f0 !important;
+  }
+
+  // Section headings — light text in dark mode
+  .fi-section-header-heading {
+    color: #a0aec0 !important;
+  }
+
+  // Stat overview — light values in dark mode
+  .fi-wi-stats-overview-stat {
+    .fi-wi-stats-overview-stat-value {
+      color: #e2e8f0 !important;
+    }
+    .fi-wi-stats-overview-stat-label {
+      color: #718096 !important;
+    }
+  }
+
+  // Breadcrumbs — adjusted for dark mode
+  .fi-breadcrumbs {
+    color: #718096 !important;
+    a {
+      color: #63b3ed !important;  // Lighter blue for dark bg
+    }
+  }
+
+  // Tabs — light text in dark mode
+  .fi-tabs {
+    border-bottom-color: #1e2330 !important;
+  }
+  .fi-tabs-item {
+    color: #a0aec0 !important;
+    border-bottom-color: transparent !important;
+
+    &.fi-active {
+      color: #e2e8f0 !important;
+      border-bottom-color: #e2e8f0 !important;
+    }
+  }
+
+  // Table header cells — slightly brighter in dark mode
+  .fi-ta-header-cell {
+    color: #718096 !important;
+  }
+
+  // Table header container dark bg
+  .fi-ta-header-ctn {
+    background-color: #161922 !important;
+    border-bottom-color: #1e2330 !important;
+  }
+
+  // Form labels in dark mode
+  .fi-fo-field-wrp-label,
+  .fi-fo-field-label {
+    color: #a0aec0 !important;
+  }
+
+  // Links in dark mode
+  .fi-link {
+    color: #63b3ed !important;
+    &:hover {
+      color: #90cdf4 !important;
+    }
   }
 }
