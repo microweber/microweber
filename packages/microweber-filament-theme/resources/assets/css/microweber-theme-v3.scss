@@ -100,12 +100,23 @@ svg[wire\:loading\.remove] {
   background-color: $mw-bg-surface !important;
   border-bottom: 1px solid $mw-border-color !important;
   box-shadow: none !important;
-  height: 49px !important;  // MW v2 exact: ~49px
+  height: auto !important;
   min-height: 49px !important;
-  max-height: 49px !important;
-  padding: 0 16px !important;  // MW v2: horizontal padding matching main content
+  max-height: none !important;
+  padding: 16px 16px !important;  // MW v2: generous vertical + horizontal padding
   align-items: center !important;
   gap: 12px !important;  // MW v2: consistent spacing between topbar sections
+
+  // Search input — smaller and compact
+  .fi-global-search-field {
+    max-width: 200px !important;
+
+    input {
+      font-size: 13px !important;
+      padding: 6px 10px !important;
+      height: 34px !important;
+    }
+  }
 
   > nav {
     background-color: $mw-bg-surface !important;
@@ -240,6 +251,8 @@ svg[wire\:loading\.remove] {
     transition: all 0.15s ease !important;
     padding: 8px 12px 8px 44px !important;  // MW v2 exact: 8px 12px 8px 44px
     background-color: transparent !important;
+    border: none !important;  // Remove any border/underline on sidebar items
+    text-decoration: none !important;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.03) !important;
@@ -370,7 +383,7 @@ svg[wire\:loading\.remove] {
 // MW v2 cards have no header separator — heading is inline in card body
 .fi-section-header {
   border: none !important;  // MW v2: no borders at all (no top, bottom, or left accent line)
-  padding: 16px 16px 0 !important;  // MW v2: same as card body, no bottom pad (content follows)
+  padding: 16px 24px 0 !important;  // MW v2: match card body horizontal padding (24px)
   border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
@@ -407,7 +420,8 @@ svg[wire\:loading\.remove] {
   border-radius: $mw-radius-lg !important;
   box-shadow: $mw-shadow-sm !important;
   border: none !important;
-  overflow: hidden;
+  overflow-x: auto !important;  // allow horizontal scroll for wide tables
+  overflow-y: hidden !important;  // clip for border-radius
 }
 
 .fi-ta-header-ctn {
@@ -448,6 +462,54 @@ svg[wire\:loading\.remove] {
   letter-spacing: 0.4px !important;  // MW v2 exact
 }
 
+// Table checkbox column — add spacing so it doesn't stick to the next column
+// Must match Filament's :first-of-type/:last-of-type specificity
+.fi-ta-selection-cell,
+.fi-ta-selection-cell:first-of-type,
+.fi-ta-selection-cell:last-of-type {
+  padding-inline-start: 12px !important;
+  padding-inline-end: 8px !important;
+  width: 42px !important;
+}
+
+// Custom fields table column widths
+.fi-ta-header-cell-type,
+.fi-ta-cell-type {
+  width: 50px !important;
+}
+.fi-ta-header-cell-value,
+.fi-ta-cell-value {
+  width: 120px !important;
+}
+
+// Table actions cell — shrink to fit and prevent wrapping
+.fi-ta-actions-header-cell,
+.fi-ta-cell:has(.fi-ta-actions) {
+  padding-inline-end: 12px !important;
+  white-space: nowrap !important;
+  width: 1% !important;  // shrink to fit content
+}
+
+// Prevent long text columns from stretching — allow truncation
+.fi-ta-cell,
+.fi-ta-header-cell {
+  white-space: nowrap !important;
+}
+
+// Selection cell should not truncate
+.fi-ta-selection-cell {
+  overflow: visible !important;
+  max-width: none !important;
+}
+
+// Actions cell should not truncate
+.fi-ta-actions-header-cell,
+.fi-ta-cell:has(.fi-ta-actions) {
+  overflow: visible !important;
+  max-width: none !important;
+  text-overflow: clip !important;
+}
+
 // ============================================================================
 // Buttons — MW v2 style
 // ============================================================================
@@ -467,10 +529,14 @@ svg[wire\:loading\.remove] {
 }
 
 // Primary button — MW v2: dark bg #182433
-.fi-btn.fi-color-primary {
+// Exclude topbar toolbar buttons which use light bg
+.fi-btn.fi-color-primary:not(.admin-toolbar-buttons) {
   background-color: #182433 !important;  // MW v2 exact: btn-dark
   color: #ffffff !important;
   border: 1px solid #1f2e41 !important;  // MW v2 exact
+  svg {
+    color: #ffffff !important;
+  }
 
   &:hover {
     background-color: #1f2e41 !important;
@@ -528,12 +594,37 @@ svg[wire\:loading\.remove] {
   border: 1px solid transparent !important;
   font-weight: 700 !important;  // MW v2 exact: bold save button
   text-transform: uppercase !important;  // MW v2: "SAVE" uppercase
+
+  svg {
+    color: #ffffff !important;  // White icon on green button
+  }
 }
 
-// Danger button
+// Danger button — filled
 .fi-btn.fi-color-danger {
   background-color: #d63939 !important;  // MW v2 exact
   color: #ffffff !important;
+}
+
+// Danger button — outline variant
+.fi-btn.fi-color-danger.fi-outlined {
+  background-color: transparent !important;
+  color: #d63939 !important;
+  border: 1px solid #d63939 !important;
+  box-shadow: none !important;
+
+  svg {
+    color: #d63939 !important;
+  }
+
+  &:hover {
+    background-color: #d63939 !important;
+    color: #ffffff !important;
+
+    svg {
+      color: #ffffff !important;
+    }
+  }
 }
 
 // Outline / secondary buttons — MW v2: transparent bg, border, compact
@@ -622,11 +713,36 @@ svg[wire\:loading\.remove] {
   border: 1px solid $mw-border-color !important;
 }
 
+// Slide-over modals — slide from right edge, full screen height
+.fi-modal-slide-over {
+  .fi-modal-window-ctn {
+    justify-items: end !important;  // Push modal to right edge instead of center
+    grid-template-rows: 1fr !important;  // Single row — no header/footer splitting
+    align-items: stretch !important;
+  }
+  .fi-modal-window {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;  // No border-radius on slide-over (flush with edge)
+    margin: 0 !important;
+    grid-row: 1 / -1 !important;  // Span all grid rows
+    overflow-y: auto !important;
+  }
+  .fi-modal-content {
+    box-shadow: none !important;  // No shadow inside slide-over panel
+    border: none !important;
+  }
+  .fi-modal-footer {
+    box-shadow: none !important;
+    border-top: none !important;
+  }
+}
+
 // ============================================================================
 // Card body padding — MW v2: 16px
 // ============================================================================
 .fi-section-content {
-  padding: 16px !important;  // MW v2 exact card body padding
+  padding: 16px 24px !important;  // MW v2 exact card body padding (16px vertical, 24px horizontal)
   gap: 16px !important;  // MW v2: tighter gap between form fields (was 24px Filament default)
 }
 
@@ -668,6 +784,12 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Page header — MW v2: 24px heading, 700 weight
 // ============================================================================
+// Page header container — reduce Filament's large padding/gap from --spacing * 8
+.fi-page-header-main-ctn {
+  padding-block: 8px !important;  // MW v2: tight padding around header area
+  row-gap: 12px !important;  // MW v2: minimal gap between heading row and content
+}
+
 .fi-header {
   margin: 24px 0 0 !important;  // MW v2 exact: page-header margin
   height: auto !important;
@@ -862,12 +984,30 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Toggle / Switch
 // ============================================================================
-.fi-toggle-wrp {
-  .fi-toggle-button,
-  [role="switch"],
-  button {
-    border-radius: $mw-radius-pill !important;
+// Checkboxes — visible border on unchecked state
+.fi-checkbox-input {
+  border: 1px solid #9ca3af !important;  // Darker border for better visibility
+  border-radius: 4px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+
+  &:checked {
+    border-color: transparent !important;  // Hide border when checked (bg color shows)
   }
+}
+
+// Toggle — pill shape, MW v2 style
+.fi-toggle,
+.fi-toggle-button,
+[role="switch"] {
+  border-radius: $mw-radius-pill !important;  // MW v2: pill-shaped toggles
+}
+
+// Toggle knob (inner circle)
+.fi-toggle .fi-toggle-knob,
+.fi-toggle::after {
+  border-radius: 50% !important;
 }
 
 // ============================================================================

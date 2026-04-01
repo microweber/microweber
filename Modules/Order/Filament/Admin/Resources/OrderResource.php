@@ -23,8 +23,11 @@ use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
 use Modules\Order\Models\Order;
+use Modules\Payment\Enums\PaymentStatus;
+use Modules\Payment\Models\PaymentProvider;
 use Modules\Product\Models\Product;
 use Squire\Models\Country;
+use Squire\Models\Currency;
 
 class OrderResource extends Resource
 {
@@ -59,82 +62,166 @@ public static function getNavigationBadgeTooltip(): ?string
             ->schema([
                 Group::make()
                     ->schema([
-
-                        Group::make()
-                            ->schema([
-
-                                Section::make()
-                                    ->heading('Order Details')
-                                    ->schema(static::getDetailsFormSchema())
-                                    ->collapsible()
-                                    ->columnSpanFull(),
-
-                                Section::make()
-                                    ->heading('Shipping details')
-                                    ->collapsible()
+                        \Filament\Schemas\Components\Tabs::make('OrderTabs')
+                            ->contained()
+                            ->tabs([
+                                \Filament\Schemas\Components\Tabs\Tab::make('Order Details')
+                                    ->icon('heroicon-o-shopping-cart')
                                     ->schema([
+                                        Section::make()
+                                            ->heading('Customer & Reference')
+                                            ->schema(static::getDetailsFormSchema())
+                                            ->columnSpanFull(),
 
-Forms\Components\Select::make('country')
-->searchable()
-->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
-->formatStateUsing(fn($state): ?string => $state ? Country::firstWhere('id', $state)?->getAttribute('name') : null)
-->options(function () {
-return Country::all()->pluck('name', 'id');
-})
-->preload(),
-
-Group::make()
+                                        Section::make('Order items')
                                             ->schema([
-                                                Forms\Components\TextInput::make('city'),
-                                                Forms\Components\TextInput::make('state')->label('State / Province'),
-                                                Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
+                                                static::getItemsRepeater(),
+                                            ]),
+                                    ]),
 
-                                            ])->columns(3),
+                                \Filament\Schemas\Components\Tabs\Tab::make('Shipping')
+                                    ->icon('heroicon-o-truck')
+                                    ->schema([
+                                        Section::make()
+                                            ->heading('Shipping details')
+                                            ->schema([
+                                                Forms\Components\Select::make('country')
+                                                    ->searchable()
+                                                    ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+                                                    ->formatStateUsing(fn($state): ?string => $state ? Country::firstWhere('id', $state)?->getAttribute('name') : null)
+                                                    ->options(function () {
+                                                        return Country::all()->pluck('name', 'id');
+                                                    })
+                                                    ->preload(),
 
-                                        Forms\Components\Textarea::make('address'),
-                                        Forms\Components\Textarea::make('address2'),
-                                        Forms\Components\TextInput::make('phone'),
+                                                Group::make()
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('city'),
+                                                        Forms\Components\TextInput::make('state')->label('State / Province'),
+                                                        Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
+                                                    ])->columns(3),
 
+                                                Forms\Components\Textarea::make('address'),
+                                                Forms\Components\Textarea::make('address2'),
+                                                Forms\Components\TextInput::make('phone'),
+                                            ])->columnSpanFull(),
+                                    ]),
 
-                                    ])->columnSpanFull(),
+                                \Filament\Schemas\Components\Tabs\Tab::make('Payment')
+                                    ->icon('heroicon-o-credit-card')
+                                    ->schema([
+                                        Section::make()
+                                            ->heading('Payment Information')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('payment_amount')
+                                                    ->label('Amount')
+                                                    ->numeric()
+                                                    ->regex('/^\d{1,6}(\.\d{0,2})?$/')
+                                                    ->dehydrated(false)
+                                                    ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
+                                                        if ($record) {
+                                                            $payment = $record->payments()->latest()->first();
+                                                            $component->state($payment?->amount);
+                                                        }
+                                                    }),
 
-                            ])->columns(2),
+                                                Forms\Components\Select::make('payment_currency')
+                                                    ->label('Currency')
+                                                    ->searchable()
+                                                    ->dehydrated(false)
+                                                    ->options(fn () => Currency::all()->pluck('name', 'id'))
+                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                                        if ($record) {
+                                                            $payment = $record->payments()->latest()->first();
+                                                            $component->state($payment?->currency);
+                                                        }
+                                                    }),
 
-                        Section::make('Order items')
-            ->headerActions([
-                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
-                    ->icon('heroicon-m-cloud-arrow-up')
-                    ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
-                    ->chunkSize(50),
-                Tables\Actions\ExportAction::make()
-                    ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
-                    ->icon('heroicon-m-cloud-arrow-down')
-                    ->form(function (Tables\Actions\ExportAction $action): array {
-                        $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
-                        $schemaSchema = [];
-                        foreach ($exportColumns as $column) {
-                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
-                                ->label($column->getLabel())
-                                ->default(true);
-                        }
-                        $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
-                            ->label('Export to multiple files (ZIP)');
-                        return $schemaSchema;
-                    })
-                    ->action(function (array $data, Table $table) {
-                        $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
-                        $exportMultiple = $data['export_multiple'] ?? false;
-                        $url = route('filament.admin.order.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
-                        return redirect()->to($url);
-                    }),
-                Tables\Actions\CreateAction::make()->label('Create order'),
-            ])
-                            ->schema([
-                                static::getItemsRepeater(),
-                            ]),
+                                                Forms\Components\Select::make('payment_status')
+                                                    ->label('Status')
+                                                    ->dehydrated(false)
+                                                    ->options(PaymentStatus::class)
+                                                    ->default(PaymentStatus::Pending)
+                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                                        if ($record) {
+                                                            $payment = $record->payments()->latest()->first();
+                                                            $component->state($payment?->status);
+                                                        }
+                                                    }),
+
+                                                Forms\Components\Select::make('payment_provider_id')
+                                                    ->label('Payment Provider')
+                                                    ->dehydrated(false)
+                                                    ->options(fn () => PaymentProvider::where('is_active', 1)->pluck('name', 'id'))
+                                                    ->searchable()
+                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                                        if ($record) {
+                                                            $payment = $record->payments()->latest()->first();
+                                                            $component->state($payment?->payment_provider_id);
+                                                        }
+                                                    }),
+
+                                                Forms\Components\TextInput::make('payment_transaction_id')
+                                                    ->label('Transaction ID')
+                                                    ->dehydrated(false)
+                                                    ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
+                                                        if ($record) {
+                                                            $payment = $record->payments()->latest()->first();
+                                                            $component->state($payment?->transaction_id);
+                                                        }
+                                                    }),
+                                            ])->columns(2),
+                                    ]),
+
+                                \Filament\Schemas\Components\Tabs\Tab::make('Advanced')
+                                    ->icon('heroicon-o-cog-6-tooth')
+                                    ->schema([
+                                        Section::make('Import / Export')
+                                            ->collapsible()
+                                            ->collapsed()
+                                            ->headerActions([
+                                                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
+                                                    ->icon('heroicon-m-cloud-arrow-up')
+                                                    ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
+                                                    ->chunkSize(50),
+                                                Tables\Actions\ExportAction::make()
+                                                    ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
+                                                    ->icon('heroicon-m-cloud-arrow-down')
+                                                    ->form(function (Tables\Actions\ExportAction $action): array {
+                                                        $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
+                                                        $schemaSchema = [];
+                                                        foreach ($exportColumns as $column) {
+                                                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                                                ->label($column->getLabel())
+                                                                ->default(true);
+                                                        }
+                                                        $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
+                                                            ->label('Export to multiple files (ZIP)');
+                                                        return $schemaSchema;
+                                                    })
+                                                    ->action(function (array $data, Table $table) {
+                                                        $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
+                                                        $exportMultiple = $data['export_multiple'] ?? false;
+                                                        $url = route('filament.admin.order.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
+                                                        return redirect()->to($url);
+                                                    }),
+                                            ])
+                                            ->schema([
+                                                Forms\Components\Placeholder::make('import_export_info')
+                                                    ->label('')
+                                                    ->content('Use the buttons above to import or export orders.'),
+                                            ]),
+
+                                        Section::make('Additional Information')
+                                            ->schema([
+                                                Forms\Components\MarkdownEditor::make('other_info')
+                                                    ->columnSpan('full'),
+                                            ]),
+                                    ]),
+                            ])
+                            ->columnSpanFull(),
                     ])
                     ->columnSpan(['lg' => 2]),
-
 
                 Group::make([
 
@@ -193,12 +280,16 @@ Group::make()
 
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
+                    ->grow(false)
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->grow(false)
+                    ->dateTime('M d, Y'),
 
                 ImageUrlColumn::make('firstProductThumbnail')
                     ->label('Product')
+                    ->grow(false)
                     ->circular()
                     ->defaultImageUrl(function (Order $record) {
                         return $record->thumbnail();
@@ -206,11 +297,13 @@ Group::make()
 
                 Tables\Columns\TextColumn::make('order_reference_id')
                     ->label('Number')
+                    ->grow(false)
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('order_status')
                     ->label('Status')
+                    ->grow(false)
                     ->badge(),
 
 
@@ -218,21 +311,24 @@ Group::make()
                     ->label('Email')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
 
                 Tables\Columns\TextColumn::make('amount')
+                    ->grow(false)
                     ->sortable()
                     ->money(fn($record) => $record->currency),
 
 
                 Tables\Columns\BooleanColumn::make('order_completed')
                     ->label('Completed')
+                    ->grow(false)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\BooleanColumn::make('is_paid')
                     ->label('Paid')
+                    ->grow(false)
                     ->sortable()
                     ->toggleable(),
 
@@ -248,10 +344,14 @@ Group::make()
                 'all'
             ])
 ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\EditAction::make()
+                ->iconButton(),
+            Tables\Actions\DeleteAction::make()
+                ->iconButton(),
             Tables\Actions\Action::make('generate_invoice')
                 ->label('Generate Invoice')
+                ->iconButton()
+                ->tooltip('Generate Invoice')
                 ->icon('heroicon-o-document-text')
                 ->color('success')
                 ->modalHeading('Generate Invoice from Order')
@@ -292,6 +392,8 @@ Group::make()
                 }),
             Tables\Actions\Action::make('view_invoice')
                 ->label('View Invoice')
+                ->iconButton()
+                ->tooltip('View Invoice')
                 ->icon('heroicon-o-document-text')
                 ->url(fn(Order $record): ?string => $record->invoice_id ? \Modules\Invoice\Filament\Resources\InvoiceResource::getUrl('edit', ['record' => $record->invoice_id]) : null)
                 ->visible(fn(Order $record): bool => (bool) $record->invoice_id)
@@ -416,10 +518,6 @@ Group::make()
 
 //            AddressForm::make('address')
 //                ->columnSpan('full'),
-
-            Forms\Components\MarkdownEditor::make('other_info')
-                ->columnSpan('full'),
-
 
         ];
     }

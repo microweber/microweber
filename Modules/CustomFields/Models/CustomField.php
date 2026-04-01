@@ -222,7 +222,7 @@ class CustomField extends Model
         }
 
         if (isset($this->type)) {
-            $this->type = strtolower($this->type);
+            $this->type = strtolower($this->type instanceof \BackedEnum ? $this->type->value : (string) $this->type);
         }
         if (isset($this->name)) {
             $this->name_key = Str::slug($this->name, '-');

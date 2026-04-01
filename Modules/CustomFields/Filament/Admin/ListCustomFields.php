@@ -258,11 +258,8 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
                                     ->schema([
                                         RadioDeck::make('type')
                                             ->afterStateUpdated(function (Get $get, Set $set) {
-
                                                 $set('type', $get('type'));
-                                                $statePath = 'mountedTableActionsData.0';
-                                                $this->dispatchFormEvent('wizard::nextStep', statePath: $statePath, currentStepIndex: 0);
-
+                                                $this->js('setTimeout(() => { const w = document.querySelector(".fi-sc-wizard"); if (w && w._x_dataStack) { w._x_dataStack[0].goToNextStep(); } }, 100)');
                                             })
                                             ->label('Custom field type')
                                             ->options(CustomFieldTypes::class)
@@ -277,6 +274,7 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
                                     ->schema($editForm),
                             ]
                         )
+                        ->skippable()
 //                            ->startOnStep(function (Get $get) {
 //
 //                            $step = 1;
@@ -304,6 +302,7 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
 
                     IconColumn::make('type')
                         ->action( EditAction::make('custom-field-edit'))
+                        ->grow(false)
                         ->icon(function (CustomField $customField) {
                             $icon = CustomFieldTypes::from($customField->type);
                             return $icon->getIcons();
@@ -315,6 +314,7 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable, Has
 
                 TextColumn::make('value')
                     ->action( EditAction::make('custom-field-edit'))
+                    ->grow(false)
                     ->state(function (CustomField $customField) {
 
 
