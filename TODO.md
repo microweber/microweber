@@ -160,8 +160,16 @@
   - Verified: ContentResource lines 404-460 renders `mw-tree` view with singleSelect, skipCategories, contentTypeFilter
   - Tree renders on both Create Page and Edit Page; selection updates hidden `parent` field via Alpine.js `$entangle()`
   - No code changes needed — feature was already complete
-- [ ] feat: Pages — add page template/layout chooser with preview thumbnails _(ref: workflows/scope-cycle/02-make-actionable-plan)_
-- [ ] feat: Pages — add bulk publish/unpublish action to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-01  feat: Pages — template/layout chooser with preview already exists _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Verified: Template tab in ContentResource (lines 505-518) renders MwSelectTemplateForPage component
+  - Component provides: template dropdown, layout dropdown, and live preview iframe
+  - Browser confirmed: Template="Bootstrap", Layout="Clean page", live preview renders correctly
+  - No code changes needed — feature was already complete
+- [x] 2026-04-01  feat: Pages — add bulk publish/unpublish action to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Added Publish and Unpublish bulk actions to ContentResource table (applies to Pages, Posts, Products)
+  - Publish: sets `is_active = 1` with confirmation dialog, green check-circle icon
+  - Unpublish: sets `is_active = 0` with confirmation dialog, orange x-circle icon
+  - Both deselect records after completion; 155 Content tests pass
 
 ### Posts Resource (currently 60%)
 - [ ] feat: Posts — add excerpt field and featured-image showcase to form _(ref: workflows/scope-cycle/02-make-actionable-plan)_

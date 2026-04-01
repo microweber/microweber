@@ -1371,6 +1371,20 @@ return \MicroweberPackages\User\Models\User::query()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('publish')
+                        ->label('Publish')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion()
+                        ->action(fn ($records) => $records->each->update(['is_active' => 1])),
+                    Tables\Actions\BulkAction::make('unpublish')
+                        ->label('Unpublish')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion()
+                        ->action(fn ($records) => $records->each->update(['is_active' => 0])),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
