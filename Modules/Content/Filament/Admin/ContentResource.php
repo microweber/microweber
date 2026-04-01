@@ -329,12 +329,18 @@ class ContentResource extends Resource
                                         return $get('content_type') !== 'page';
                                     }),
 
-
-//                    MwRichEditor::make('content_body')
-//                        ->columnSpan('full')
-//                        ->visible(function (Schemas\Components\Utilities\Get $get) {
-//                            return $get('content_type') !== 'page';
-//                        }),
+                                Forms\Components\Textarea::make('description')
+                                    ->label('Excerpt')
+                                    ->helperText('A short summary displayed in post listings and search results.')
+                                    ->rows(3)
+                                    ->maxLength(500)
+                                    ->columnSpanFull()
+                                    ->hintAction(
+                                        TranslateFieldAction::make('description')->label('')
+                                    )
+                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                                        return $get('content_type') === 'post';
+                                    }),
                             ])
                             ->columnSpanFull()
                             ->columns(2),

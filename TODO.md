@@ -172,7 +172,12 @@
   - Both deselect records after completion; 155 Content tests pass
 
 ### Posts Resource (currently 60%)
-- [ ] feat: Posts — add excerpt field and featured-image showcase to form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-01  feat: Posts — add excerpt field and featured-image showcase to form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Added `description` Textarea as "Excerpt" field (3 rows, 500 char max) to ContentResource form
+  - Visible only for posts (`content_type === 'post'`), positioned after content_body
+  - Includes translate hint action and helper text for discoverability
+  - Featured image already handled by MwMediaBrowser (first media = featured image)
+  - Verified: renders on Create Post, hidden on Create Page; 39 Post tests pass
 - [ ] feat: Posts — add publish/schedule date picker with draft vs published states _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Posts — add author display column and filter to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Posts — add bulk publish/unpublish action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
