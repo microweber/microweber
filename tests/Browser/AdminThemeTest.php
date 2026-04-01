@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 /**
  * Admin Theme & UX Tests
  *
- * Validates the drewl-inspired Filament admin theme:
+ * Validates the Microweber v3 Filament admin theme:
  *   - Design tokens (CSS variables) applied
  *   - wire:loading spinners hidden by default
  *   - Component styling (sidebar, body, topbar, sections)
@@ -75,17 +75,17 @@ class AdminThemeTest extends DuskTestCase
                 $vars = $browser->script("
                     var root = getComputedStyle(document.documentElement);
                     return {
-                        bgPage: root.getPropertyValue('--drewl-bg-page').trim(),
-                        bgSurface: root.getPropertyValue('--drewl-bg-surface').trim(),
-                        textPrimary: root.getPropertyValue('--drewl-text-primary').trim(),
-                        radiusLg: root.getPropertyValue('--drewl-radius-lg').trim()
+                        bgPage: root.getPropertyValue('--mw-bg-page').trim(),
+                        bgSurface: root.getPropertyValue('--mw-bg-surface').trim(),
+                        textPrimary: root.getPropertyValue('--mw-text-primary').trim(),
+                        radiusLg: root.getPropertyValue('--mw-radius-lg').trim()
                     };
                 ");
                 $r = $vars[0];
-                $this->assertEquals('#f7f7f7', $r['bgPage'], '--drewl-bg-page = #f7f7f7');
-                $this->assertEquals('#ffffff', $r['bgSurface'], '--drewl-bg-surface = #ffffff');
-                $this->assertEquals('#262626', $r['textPrimary'], '--drewl-text-primary = #262626');
-                $this->assertEquals('16px', $r['radiusLg'], '--drewl-radius-lg = 16px');
+                $this->assertEquals('#f6f8fb', $r['bgPage'], '--mw-bg-page = #f6f8fb');
+                $this->assertEquals('#ffffff', $r['bgSurface'], '--mw-bg-surface = #ffffff');
+                $this->assertEquals('#182433', $r['textPrimary'], '--mw-text-primary = #182433');
+                $this->assertEquals('4px', $r['radiusLg'], '--mw-radius-lg = 4px');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['css_variables_applied'] = $e->getMessage();
@@ -152,8 +152,8 @@ class AdminThemeTest extends DuskTestCase
                     return body ? getComputedStyle(body).backgroundColor : null;
                 ");
                 $this->assertNotNull($bodyBg[0], '.fi-body should exist');
-                $this->assertMatchesRegularExpression('/rgb\(247,\s*247,\s*247\)/', $bodyBg[0],
-                    'Body background should be warm gray #f7f7f7');
+                $this->assertMatchesRegularExpression('/rgb\(246,\s*248,\s*251\)/', $bodyBg[0],
+                    'Body background should be MW v2 blue-gray #f6f8fb');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['body_warm_gray_bg'] = $e->getMessage();
@@ -183,8 +183,8 @@ class AdminThemeTest extends DuskTestCase
                     return ctn ? getComputedStyle(ctn).borderRadius : null;
                 ");
                 $this->assertNotNull($radius[0], '.fi-section-content-ctn should exist');
-                $this->assertEquals('16px', $radius[0],
-                    'Section containers should have 16px border-radius on desktop');
+                $this->assertEquals('4px', $radius[0],
+                    'Section containers should have 4px border-radius on desktop');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['section_border_radius_desktop'] = $e->getMessage();

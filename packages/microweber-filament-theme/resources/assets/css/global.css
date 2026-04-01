@@ -390,7 +390,7 @@
 .fi-sidebar-item-btn:hover .fi-sidebar-item-label {
     @apply dark:text-white;
 }
-/* Sidebar styles moved to drewl-theme.scss */
+/* Sidebar styles moved to microweber-theme-v3.scss */
 
 .mw-ui-btn {
     @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle dark:text-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;

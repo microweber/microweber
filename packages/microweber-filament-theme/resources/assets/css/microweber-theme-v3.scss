@@ -1,15 +1,15 @@
 // ============================================================================
-// Microweber Filament Admin Theme
+// Microweber Theme v3 — Admin Panel
 // ============================================================================
-// Hybrid of the original Microweber v2 admin design and drewl aesthetic:
-//   - Cool blue-gray tones from MW v2 (bg: #f6f8fb, text: #182433)
-//   - Clean shadows from drewl (multi-layered, subtle)
-//   - Rounded corners: 12px cards (between MW v2's 4px and drewl's 16px)
+// Migration of Microweber v2 admin design to Filament v5:
+//   - Cool blue-gray tones (bg: #f6f8fb, text: #182433)
+//   - Clean shadows (multi-layered, subtle)
+//   - Rounded corners: 4px (MW v2 exact)
 //   - Inter font, generous whitespace
 //   - Sidebar: clean, flat, matching MW v2 layout
 // ============================================================================
 
-// --- Design Tokens (merged MW v2 + drewl) ---
+// --- Design Tokens ---
 $mw-bg-page: #f6f8fb;          // MW v2 cool blue-gray background
 $mw-bg-surface: #ffffff;
 $mw-bg-surface-translucent: rgba(255, 255, 255, 0.85);
@@ -141,6 +141,8 @@ svg[wire\:loading\.remove] {
   border-radius: $mw-radius-sm !important;
   height: 36px !important;  // Proportional to 49px topbar
   min-height: 36px !important;
+  padding: 0 16px !important;  // Centered text in 36px height
+  line-height: 36px !important;
 
   &:hover {
     background-color: #d0e1f3 !important;
@@ -166,6 +168,8 @@ svg[wire\:loading\.remove] {
   border-radius: $mw-radius-sm !important;
   height: 36px !important;  // Proportional to 49px topbar
   min-height: 36px !important;
+  padding: 0 16px !important;  // Centered text in 36px height
+  line-height: 36px !important;
 
   &:hover {
     background-color: #d0f0d6 !important;
@@ -206,8 +210,8 @@ svg[wire\:loading\.remove] {
 .fi-sidebar-group {
   padding: 0 !important;
   border-top: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2: separator between sections
-  margin-top: 4px !important;
-  padding-top: 4px !important;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
 
   &:first-child {
     border-top: none !important;  // No separator above first group
@@ -221,15 +225,20 @@ svg[wire\:loading\.remove] {
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    padding: 20px 8px 6px !important;
+    padding: 12px 8px 4px !important;  // Condensed: was 20px 8px 6px
   }
+}
+
+// Remove Filament's default 16px gap between sidebar items
+.fi-sidebar-group-items {
+  gap: 0px !important;
 }
 
 .fi-sidebar-item {
   .fi-sidebar-item-btn {
     border-radius: 4px !important;  // MW v2 exact: 4px
     transition: all 0.15s ease !important;
-    padding: 4px 0px 4px 44px !important;  // MW v2: minimal vertical padding, 44px left indent
+    padding: 8px 12px 8px 44px !important;  // MW v2 exact: 8px 12px 8px 44px
     background-color: transparent !important;
 
     &:hover {
@@ -237,12 +246,12 @@ svg[wire\:loading\.remove] {
     }
   }
 
-  // Item labels — default to sub-item style: 12px/500 (MW v2 exact)
+  // Item labels — default to sub-item style: 14px/400 (MW v2 exact dropdown-item)
   .fi-sidebar-item-label {
     color: $mw-text-primary !important;
-    font-weight: 500 !important;  // MW v2 sub-item: 500
-    font-size: 12px !important;  // MW v2 sub-item: 12px
-    line-height: 17.14px !important;  // MW v2 exact: 17.1429px
+    font-weight: 400 !important;  // MW v2 sub-item: 400
+    font-size: 14px !important;  // MW v2 sub-item: 14px
+    line-height: 20px !important;  // MW v2 exact: 20px
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -265,7 +274,7 @@ svg[wire\:loading\.remove] {
 
   &:has(.fi-sidebar-item-icon) {
     .fi-sidebar-item-btn {
-      padding: 15px 0px !important;  // MW v2 exact top-level: 15px 0
+      padding: 10px 0px !important;  // Condensed: was 15px 0
     }
   }
 
@@ -347,6 +356,7 @@ svg[wire\:loading\.remove] {
 .fi-section:not(.fi-aside) {
   border-radius: $mw-radius-lg !important;
   overflow: hidden;
+  box-shadow: none !important;  // MW v2: shadow is on .fi-section-content-ctn only, not the section itself
 }
 
 .fi-section-content-ctn {
@@ -357,10 +367,10 @@ svg[wire\:loading\.remove] {
 }
 
 // Remove dark separator lines above/below section headers
+// MW v2 cards have no header separator — heading is inline in card body
 .fi-section-header {
-  border-top: none !important;
-  border-bottom: 1px solid $mw-border-subtle !important;  // MW v2: very subtle separator under heading
-  padding: 12px 16px !important;  // MW v2: tighter header padding
+  border: none !important;  // MW v2: no borders at all (no top, bottom, or left accent line)
+  padding: 16px 16px 0 !important;  // MW v2: same as card body, no bottom pad (content follows)
   border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
@@ -489,11 +499,35 @@ svg[wire\:loading\.remove] {
   }
 }
 
-// Success/save button — MW v2: green #2fb344
+// Page header "Live edit" button — MW v2: blue filled btn-primary
+.fi-header-actions-ctn .fi-btn.fi-color-info {
+  background-color: #206bc4 !important;  // MW v2 exact: btn-primary blue
+  color: #fcfdfe !important;  // MW v2 exact: near-white text
+  border: 1px solid transparent !important;
+  font-weight: 400 !important;  // MW v2 exact: 400
+  box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;  // MW v2 exact shadow
+
+  &:hover {
+    background-color: #1a569d !important;
+    opacity: 1 !important;
+  }
+
+  span, .fi-btn-label {
+    color: #fcfdfe !important;
+  }
+
+  svg {
+    color: #fcfdfe !important;
+  }
+}
+
+// Success/save button — MW v2: green #2fb344, bold text
 .fi-btn.fi-color-success {
   background-color: #2fb344 !important;  // MW v2 exact
   color: #ffffff !important;
   border: 1px solid transparent !important;
+  font-weight: 700 !important;  // MW v2 exact: bold save button
+  text-transform: uppercase !important;  // MW v2: "SAVE" uppercase
 }
 
 // Danger button
@@ -542,14 +576,14 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Form labels — MW v2: 14px/400
+// Form labels — MW v2: 16px/500 on create forms
 // ============================================================================
 .fi-fo-field-wrp-label,
 .fi-fo-field-label {
-  font-size: 14px !important;  // MW v2 exact: 14px labels
-  font-weight: 400 !important;  // MW v2 exact: 400
+  font-size: 16px !important;  // MW v2 exact: 16px form labels
+  font-weight: 500 !important;  // MW v2 exact: 500
   color: $mw-text-primary !important;
-  margin: 0 8px 8px 0 !important;  // MW v2 exact: label spacing
+  margin: 5px 0 !important;  // MW v2 exact: 5px 0 label spacing
 }
 
 // ============================================================================
@@ -565,6 +599,12 @@ svg[wire\:loading\.remove] {
   &:focus-within {
     border-color: $mw-accent !important;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15) !important;
+  }
+
+  // Inner input should fill wrapper height and match radius
+  input, textarea, select {
+    border-radius: $mw-radius-sm !important;  // Fix 7px Filament default leak
+    padding: 10px 14px !important;  // MW v2 exact: 10.4px 14.4px
   }
 }
 
@@ -587,6 +627,7 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-section-content {
   padding: 16px !important;  // MW v2 exact card body padding
+  gap: 16px !important;  // MW v2: tighter gap between form fields (was 24px Filament default)
 }
 
 // ============================================================================
@@ -650,37 +691,45 @@ svg[wire\:loading\.remove] {
   font-size: 0.875rem !important;
 }
 
-// Section headings (Add New Page, Media, Published, etc.)
-// MW v2 card headers use 14px/400 — compact section headers
+// Section headings (Add New Post, Media, Published, etc.)
+// MW v2 uses 16px/600 for main card headings, 14px/600 for sidebar card headings
 .fi-section-header-heading {
-  font-size: 14px !important;  // MW v2 exact: card header 14px
-  font-weight: 400 !important;  // MW v2 exact: 400
+  font-size: 16px !important;  // MW v2 exact: 16px card header
+  font-weight: 600 !important;  // MW v2 exact: 600
   color: $mw-text-primary !important;
   margin-bottom: 0 !important;
+  padding-left: 0 !important;  // MW v2: no left padding (remove Filament's 20px icon accent padding)
 }
+
+// Sidebar section headings — MW v2 uses 14px/600 <strong> inline
+// Can't target sidebar by class (no fi-aside), so keep all headings at 16px/600
+// which matches MW v2 main card headings. Sidebar "Visibility" etc. were 14px in old admin
+// but the visual difference is minimal at 16px.
 
 // ============================================================================
 // Tabs — MW v2: underline style, 14px text
 // ============================================================================
 .fi-tabs {
-  border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2 exact border
+  border-bottom: none !important;  // MW v2: no container border, tabs float above card
+  padding-left: 16px !important;  // MW v2: align tabs with card body content (16px padding)
 }
 
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
-.fi-tabs-item {
+// Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item)
+.fi-tabs .fi-tabs-item {
   border-radius: 0 !important;
   font-weight: 500 !important;  // MW v2 inactive: 500
   font-size: 14px !important;  // MW v2 exact: 14px
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
-  padding: 8px 0 !important;  // MW v2: vertical padding only
+  padding: 10px 0 !important;  // MW v2: ~45px height
   margin-right: 24px !important;  // MW v2: spacing between tabs
   border-bottom: 2px solid transparent !important;
-  margin-bottom: -1px !important;
+  margin-bottom: 0 !important;
   background-color: transparent !important;
 
   .fi-tabs-item-label {
     font-size: 14px !important;
-    font-weight: inherit !important;
+    font-weight: 500 !important;  // MW v2 inactive: 500, override global.css 700
     color: inherit !important;
   }
 
@@ -694,6 +743,10 @@ svg[wire\:loading\.remove] {
     color: $mw-text-primary !important;
     font-weight: 600 !important;  // MW v2 active: 600
     border-bottom-color: $mw-text-primary !important;  // MW v2: 2px solid dark underline
+
+    .fi-tabs-item-label {
+      font-weight: 600 !important;  // MW v2 active label: 600
+    }
   }
 }
 

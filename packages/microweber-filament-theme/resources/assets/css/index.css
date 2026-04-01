@@ -46,7 +46,7 @@
 @import './microweber/live-edit-components.css';
 @import "./tabler-vars.scss";
 @import "./global.css";
-@import "./drewl-theme.scss";
+@import "./microweber-theme-v3.scss";
 
 
 @import "tailwindcss";
