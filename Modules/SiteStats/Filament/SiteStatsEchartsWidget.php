@@ -2,6 +2,7 @@
 
 namespace Modules\SiteStats\Filament;
 
+use Carbon\CarbonImmutable;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,32 @@ class SiteStatsEchartsWidget extends Widget
     protected static bool $isLazy = false;
 
     protected ?array $cachedChartData = null;
+
+    public string $period = 'daily';
+
+    public function getPeriodsDataFromFilter(): array
+    {
+        $period = $this->period;
+        $startDate = null;
+        $endDate = null;
+        $title = 'Visitors';
+
+        $ranges = [
+            'daily'   => ['sub' => 'subDays',   'amount' => 30, 'title' => 'Visitors per day'],
+            'weekly'  => ['sub' => 'subWeeks',  'amount' => 12, 'title' => 'Visitors per week'],
+            'monthly' => ['sub' => 'subMonths', 'amount' => 12, 'title' => 'Visitors per month'],
+            'yearly'  => ['sub' => 'subYears',  'amount' => 5,  'title' => 'Visitors per year'],
+        ];
+
+        if (isset($ranges[$period])) {
+            $cfg = $ranges[$period];
+            $startDate = CarbonImmutable::now()->{$cfg['sub']}($cfg['amount']);
+            $endDate = CarbonImmutable::now();
+            $title = $cfg['title'];
+        }
+
+        return compact('startDate', 'endDate', 'period', 'title');
+    }
 
     public function getChartData(): array
     {
@@ -61,16 +88,13 @@ class SiteStatsEchartsWidget extends Widget
         return $this->cachedChartData;
     }
 
-    public function getHeading(): string
+    public function updatePeriod(string $period): array
     {
-        $period = $this->filters['period'] ?? 'daily';
+        $allowed = ['daily', 'weekly', 'monthly', 'yearly'];
+        $this->period = in_array($period, $allowed, true) ? $period : 'daily';
+        $this->cachedChartData = null;
 
-        return match ($period) {
-            'weekly' => 'Weekly Visitors',
-            'monthly' => 'Monthly Visitors',
-            'yearly' => 'Yearly Visitors',
-            default => 'Daily Visitors',
-        };
+        return $this->getChartData();
     }
 
     public function getOnlineCount(): int

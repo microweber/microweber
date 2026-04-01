@@ -128,7 +128,12 @@
   - Added `protected ?array $cachedChartData = null` to avoid re-executing 3 DB queries on repeated calls within same render cycle
   - Cache resets naturally on Livewire re-render (new component instance)
 - [x] perf: SiteStatsEchartsWidget — `getOnlineCount()` cached with 60s TTL via `Cache::remember()`
-- [ ] fix(ui): echarts-widget period switching broken — `wire:ignore` prevents Livewire re-render after filter dispatch
+- [x] fix(ui): echarts-widget period switching now works via Alpine.js + `$wire.updatePeriod()`
+  - Root cause: `wire:ignore` blocked Livewire DOM updates; radio buttons dispatched `updateFilter` event that nothing handled
+  - Fix: added `public string $period` property and `updatePeriod()` Livewire method; overrode `getPeriodsDataFromFilter()` to use widget-level period
+  - Blade rewritten with Alpine.js `x-data` component: radios call `changePeriod()` → `$wire.updatePeriod()` → chart updates via `setOption()`, footer via `x-text` bindings
+  - Added loading spinner overlay, input validation (whitelist of allowed periods)
+  - Verified Daily→Weekly→Monthly switching in browser: correct label counts (31/13/13) and titles
 - [ ] refactor: mw-tree.blade.php — redundant `$suffix`/`$id` assignments (lines 17-18 duplicate lines 30-31)
 - [ ] cleanup: mw-media-browser.js — redundant condition in `$watch` callback and leftover `console.log` comments
 

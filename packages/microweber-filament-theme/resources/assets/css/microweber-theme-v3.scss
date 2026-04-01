@@ -1540,6 +1540,7 @@ html.dark {
 // Dashboard — MW v2 Statistics Card (ECharts)
 // ============================================================================
 .mw-stats-card {
+  position: relative;
   background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
   box-shadow: $mw-shadow-sm;
