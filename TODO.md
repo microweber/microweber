@@ -34,7 +34,101 @@
   - Enumerated all old admin pages/routes and all Filament resources/pages
   - Created migration checklist below
 
-- [ ] add the workflows to the todo and work on them one by one add them with [ ] points https://agents.tools.ooyes.net/workflows.yml
+- [x] 2026-04-01  plan: add workflows from agents.tools.ooyes.net to TODO
+  - Fetched 33 workflows across 11 cycles from https://agents.tools.ooyes.net/workflows.yml
+  - Added all workflows as actionable TODO items below
+
+---
+
+## Workflows — agents.tools.ooyes.net
+
+### Dev Cycle
+- [ ] 01 Test the Project — Run tests, verify build, check dependencies, populate TODO.md with issues
+  - https://agents.tools.ooyes.net/workflows/dev-cycle/01-test-the-project.yml
+- [ ] 02 Test the UI — Test interface components, check browser compatibility and accessibility
+  - https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui.yml
+- [ ] 03 Code Review — Analyse code quality, security, performance, and best practices
+  - https://agents.tools.ooyes.net/workflows/dev-cycle/03-code-review.yml
+
+### Scope Cycle
+- [ ] 01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md
+  - https://agents.tools.ooyes.net/workflows/scope-cycle/01-define-product-scope.yml
+- [ ] 02 Actionable Plan → TODO — Break the scope into developer-ready tasks and populate TODO.md
+  - https://agents.tools.ooyes.net/workflows/scope-cycle/02-make-actionable-plan.yml
+
+### Feature Cycle
+- [ ] 01 Define Feature — Write a complete spec with acceptance criteria before any code is written
+  - https://agents.tools.ooyes.net/workflows/feature-cycle/01-define-feature.yml
+- [ ] 02 Design and Review — Technical design covering data, services, API, security, and performance
+  - https://agents.tools.ooyes.net/workflows/feature-cycle/02-design-and-review.yml
+- [ ] 03 Implement — Execute the design task-by-task with verification after each change
+  - https://agents.tools.ooyes.net/workflows/feature-cycle/03-implement.yml
+- [ ] 04 Test — Verify acceptance criteria, edges, security, and performance
+  - https://agents.tools.ooyes.net/workflows/feature-cycle/04-test.yml
+- [ ] 05 Release — Pre-release checklist, deployment, smoke test, rollback plan
+  - https://agents.tools.ooyes.net/workflows/feature-cycle/05-release.yml
+
+### Bug Cycle
+- [ ] 01 Reproduce — Establish an on-demand reproduction and write a failing regression test
+  - https://agents.tools.ooyes.net/workflows/bug-cycle/01-reproduce.yml
+- [ ] 02 Diagnose — Find the exact root cause using hypothesis-driven investigation
+  - https://agents.tools.ooyes.net/workflows/bug-cycle/02-diagnose.yml
+- [ ] 03 Fix and Verify — Apply a minimal targeted fix, verify tests pass, commit with full context
+  - https://agents.tools.ooyes.net/workflows/bug-cycle/03-fix-and-verify.yml
+
+### Release Cycle
+- [ ] 01 Pre-Release Check — Tests, security scan, changelog, docs, migration safety — go/no-go gate
+  - https://agents.tools.ooyes.net/workflows/release-cycle/01-pre-release-check.yml
+- [ ] 02 Release — Version tag, changelog, deploy, migrations, health check
+  - https://agents.tools.ooyes.net/workflows/release-cycle/02-release.yml
+- [ ] 03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
+  - https://agents.tools.ooyes.net/workflows/release-cycle/03-post-release.yml
+
+### Refactor Cycle
+- [ ] 01 Assess — Identify code quality issues, establish test safety net, risk assessment
+  - https://agents.tools.ooyes.net/workflows/refactor-cycle/01-assess.yml
+- [ ] 02 Plan — Map current state, define target state, sequence atomic steps
+  - https://agents.tools.ooyes.net/workflows/refactor-cycle/02-plan.yml
+- [ ] 03 Execute — One step at a time, test after every change, commit each step
+  - https://agents.tools.ooyes.net/workflows/refactor-cycle/03-execute.yml
+
+### Incident Cycle
+- [ ] 01 Detect and Triage — Confirm the incident, assess severity, assemble the response team
+  - https://agents.tools.ooyes.net/workflows/incident-cycle/01-detect-and-triage.yml
+- [ ] 02 Investigate and Resolve — Form hypotheses, gather evidence, apply fix, confirm resolution
+  - https://agents.tools.ooyes.net/workflows/incident-cycle/02-investigate-and-resolve.yml
+- [ ] 03 Post-Mortem — Blameless review, timeline reconstruction, action items to prevent recurrence
+  - https://agents.tools.ooyes.net/workflows/incident-cycle/03-post-mortem.yml
+
+### Data Cycle
+- [ ] 01 Model and Design — ERD review, schema design decisions, index strategy, migration plan
+  - https://agents.tools.ooyes.net/workflows/data-cycle/01-model-and-design.yml
+- [ ] 02 Migrate and Apply — Zero-downtime migration execution and rollback readiness
+  - https://agents.tools.ooyes.net/workflows/data-cycle/02-migrate-and-apply.yml
+- [ ] 03 Validate and Monitor — Data integrity checks, query performance, pipeline monitoring
+  - https://agents.tools.ooyes.net/workflows/data-cycle/03-validate-and-monitor.yml
+
+### Onboarding Cycle
+- [ ] 01 Environment Setup — Local dev environment, tooling, credentials, verify the build runs
+  - https://agents.tools.ooyes.net/workflows/onboarding-cycle/01-environment-setup.yml
+- [ ] 02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
+  - https://agents.tools.ooyes.net/workflows/onboarding-cycle/02-explore-codebase.yml
+- [ ] 03 First Contribution — Pick a starter issue, implement, PR, and get it merged
+  - https://agents.tools.ooyes.net/workflows/onboarding-cycle/03-first-contribution.yml
+
+### Security Cycle
+- [ ] 01 Audit — OWASP Top 10 review, dependency CVE scan, secret detection, header check
+  - https://agents.tools.ooyes.net/workflows/security-cycle/01-audit.yml
+- [ ] 02 Remediate — Fix all findings — patch CVEs, fix injection/auth bugs, rotate secrets
+  - https://agents.tools.ooyes.net/workflows/security-cycle/02-remediate.yml
+- [ ] 03 Harden — CSP, HSTS, rate limiting, least-privilege, security scanning in CI
+  - https://agents.tools.ooyes.net/workflows/security-cycle/03-harden.yml
+
+### Deploy Cycle
+- [ ] 01 Prepare Deployment — Artefact build, env config validation, migration review, rollback plan
+  - https://agents.tools.ooyes.net/workflows/deploy-cycle/01-prepare-deployment.yml
+- [ ] 02 Deploy and Verify — Execute deploy, smoke tests, error rate monitoring, rollback if needed
+  - https://agents.tools.ooyes.net/workflows/deploy-cycle/02-deploy-and-verify.yml
 
 ---
 
