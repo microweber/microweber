@@ -1161,6 +1161,11 @@ return \MicroweberPackages\User\Models\User::query()
                 ->searchable()
                 ->columnSpanFull(),
 
+            Tables\Columns\TextColumn::make('created_by')
+                ->label('Author')
+                ->formatStateUsing(fn ($state) => $state ? user_name($state) : '—')
+                ->toggleable(isToggledHiddenByDefault: false),
+
             Tables\Columns\SelectColumn::make('is_active')
                 ->options([
                     1 => 'Published',
@@ -1370,6 +1375,16 @@ return \MicroweberPackages\User\Models\User::query()
                             return $query->whereCategoryIds([$data['value']]);
                         }
                         return $query;
+                    }),
+
+                Tables\Filters\SelectFilter::make('created_by')
+                    ->label('Author')
+                    ->searchable()
+                    ->options(function () {
+                        return \MicroweberPackages\User\Models\User::query()
+                            ->whereIn('id', Content::query()->whereNotNull('created_by')->distinct()->pluck('created_by'))
+                            ->pluck('email', 'id')
+                            ->toArray();
                     }),
             ])
             ->filtersFormWidth(MaxWidth::Medium)
