@@ -403,7 +403,28 @@ class ContentResource extends Resource
                                     ->default(function (Schemas\Components\Utilities\Get $get) {
                                         return $get('id') ? 0 : 1;
                                     })
+                                    ->live()
+                                    ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
+                                        if ($get('is_active') && !$get('posted_at')) {
+                                            $set('posted_at', now()->format('Y-m-d H:i:s'));
+                                        }
+                                    }),
 
+                                Forms\Components\DateTimePicker::make('posted_at')
+                                    ->label('Publish Date')
+                                    ->helperText(function (Schemas\Components\Utilities\Get $get) {
+                                        $postedAt = $get('posted_at');
+                                        if ($postedAt && \Carbon\Carbon::parse($postedAt)->isFuture()) {
+                                            return 'This post is scheduled for future publication.';
+                                        }
+                                        return 'Set a future date to schedule publication. Leave empty to publish immediately.';
+                                    })
+                                    ->native(false)
+                                    ->displayFormat('M d, Y H:i')
+                                    ->live()
+                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                                        return $get('content_type') === 'post';
+                                    }),
                             ]),
 
 

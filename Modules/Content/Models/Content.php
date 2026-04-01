@@ -168,7 +168,15 @@ class Content extends Model
         "session_id",
         "updated_at",
         "created_at",
+        "posted_at",
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'posted_at' => 'datetime',
+        ];
+    }
 
     public function scopeActive($query)
     {

@@ -178,7 +178,12 @@
   - Includes translate hint action and helper text for discoverability
   - Featured image already handled by MwMediaBrowser (first media = featured image)
   - Verified: renders on Create Post, hidden on Create Page; 39 Post tests pass
-- [ ] feat: Posts — add publish/schedule date picker with draft vs published states _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-01  feat: Posts — add publish/schedule date picker with draft vs published states _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Added `posted_at` to Content model's `$fillable` and cast as `datetime`
+  - Added DateTimePicker "Publish Date" in Published section, visible only for posts
+  - Helper text dynamically shows "scheduled for future publication" when date is in the future
+  - Toggle auto-sets `posted_at` to now when publishing without a date
+  - Verified: renders on Create Post, hidden on Create Page
 - [ ] feat: Posts — add author display column and filter to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Posts — add bulk publish/unpublish action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
