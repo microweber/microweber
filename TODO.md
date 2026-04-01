@@ -146,8 +146,47 @@
 - [x] 2026-04-01  01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md
   - Comprehensive product scope covering: vision, target users, 92 modules, e-commerce, 6 panels, tech stack, data models, integrations, requirements, constraints, risks
   - https://agents.tools.ooyes.net/workflows/scope-cycle/01-define-product-scope.yml
-- [ ] 02 Actionable Plan → TODO — Break the scope into developer-ready tasks and populate TODO.md
+- [x] 2026-04-01  02 Actionable Plan → TODO — Break the scope into developer-ready tasks and populate TODO.md
+  - Created PLAN.md with 4 phases, 50 tasks, complexity estimates, and dependency map
+  - Added Phase 1 tasks (19 items) to TODO.md below
   - https://agents.tools.ooyes.net/workflows/scope-cycle/02-make-actionable-plan.yml
+
+---
+
+## Phase 1: Core Content & Commerce _(ref: PLAN.md)_
+
+### Pages Resource (currently 80%)
+- [ ] feat: Pages — add parent-page tree selector in create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Pages — add page template/layout chooser with preview thumbnails _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Pages — add bulk publish/unpublish action to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+### Posts Resource (currently 60%)
+- [ ] feat: Posts — add excerpt field and featured-image showcase to form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Posts — add publish/schedule date picker with draft vs published states _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Posts — add author display column and filter to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Posts — add bulk publish/unpublish action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+### Products Resource (currently 60%)
+- [ ] feat: Products — add variant management UI (size/color/custom attributes) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Products — add inventory tracking fields (stock qty, low-stock threshold) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Products — add weight/dimensions fields for shipping calculation _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+### Orders Resource (currently 85%)
+- [ ] feat: Orders — add status-change timeline/activity log _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Orders — add shipping tracking number field _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Orders — add bulk status update action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Orders — add refund processing UI (partial/full) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+### Users Resource (currently 60%)
+- [ ] feat: Users — enable create/edit routes and verify form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [ ] feat: Users — add role assignment to create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+### Login Page
+- [ ] style: Login page — match MW v2 visual design (branding, layout, colors) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+
+---
 
 ### Feature Cycle
 - [ ] 01 Define Feature — Write a complete spec with acceptance criteria before any code is written
@@ -250,11 +289,11 @@
 | 2.2 | Website > Pages (create/edit) | PageResource → CreatePage, EditPage | [ ] |
 | 2.3 | Website > Posts (list) | `Modules/Post/Filament/Admin/Resources/PostResource.php` → ListPosts | [~] |
 | 2.4 | Website > Posts (create/edit) | PostResource → CreatePost, EditPost | [ ] |
-| 2.5 | Website > Categories | `Modules/Category/Filament/Admin/Resources/CategoryResource.php` | [ ] |
+| 2.5 | Website > Categories | `Modules/Category/Filament/Admin/Resources/CategoryResource.php` | [x] |
 | 2.6 | Media Library | `Modules/MediaLibrary/Filament/Admin/Pages/MediaLibrary.php` | [ ] |
 | 2.7 | Menu management | `Modules/Menu/Filament/Admin/Pages/AdminMenusPage.php` | [ ] |
-| 2.8 | Tags | `Modules/Tag/Filament/Resources/TagResource.php` | [ ] |
-| 2.9 | Comments | `Modules/Comments/Filament/Resources/CommentResource.php` | [ ] |
+| 2.8 | Tags | `Modules/Tag/Filament/Resources/TagResource.php` | [x] |
+| 2.9 | Comments | `Modules/Comments/Filament/Resources/CommentResource.php` | [x] |
 
 ### 3. Shop Section
 
@@ -317,10 +356,10 @@
 
 | # | Old MW v2 Page | Filament 5 Equivalent | Status |
 |---|----------------|----------------------|--------|
-| 6.1 | Users list | `UsersResource.php` | [ ] |
+| 6.1 | Users list | `UsersResource.php` | [~] |
 | 6.2 | User create/edit | UsersResource → CreateUsers, EditUsers | [ ] |
-| 6.3 | Roles | `RoleResource.php` | [ ] |
-| 6.4 | Permissions | `PermissionResource.php` | [ ] |
+| 6.3 | Roles | `RoleResource.php` | [x] |
+| 6.4 | Permissions | `PermissionResource.php` | [x] |
 
 ### 7. Multilanguage / Translations
 
@@ -333,25 +372,25 @@
 
 | # | Old MW v2 Page | Filament 5 Equivalent | Status |
 |---|----------------|----------------------|--------|
-| 8.1 | Newsletter dashboard | `Modules/Newsletter/Filament/Admin/Pages/Homepage.php` | [ ] |
-| 8.2 | Campaigns | `CampaignResource.php` | [ ] |
-| 8.3 | Subscribers | `SubscribersResource.php` | [ ] |
-| 8.4 | Lists | `ListResource.php` | [ ] |
-| 8.5 | Templates | `TemplatesResource.php` | [ ] |
-| 8.6 | Template editor | `TemplateEditor.php` | [ ] |
-| 8.7 | Sender accounts | `SenderAccountsResource.php` | [ ] |
-| 8.8 | Workflows | `WorkflowResource.php` | [ ] |
+| 8.1 | Newsletter dashboard | `Modules/Newsletter/Filament/Admin/Pages/Homepage.php` | [x] |
+| 8.2 | Campaigns | `CampaignResource.php` | [x] |
+| 8.3 | Subscribers | `SubscribersResource.php` | [x] |
+| 8.4 | Lists | `ListResource.php` | [x] |
+| 8.5 | Templates | `TemplatesResource.php` | [x] |
+| 8.6 | Template editor | `TemplateEditor.php` | [x] |
+| 8.7 | Sender accounts | `SenderAccountsResource.php` | [x] |
+| 8.8 | Workflows | `WorkflowResource.php` | [x] |
 
 ### 9. Billing / Subscriptions (if enabled)
 
 | # | Old MW v2 Page | Filament 5 Equivalent | Status |
 |---|----------------|----------------------|--------|
-| 9.1 | Billing dashboard | `Modules/Billing/Filament/Admin/Pages/Dashboard.php` | [ ] |
-| 9.2 | Subscription plans | `SubscriptionPlanResource.php` | [ ] |
-| 9.3 | Plan groups | `SubscriptionPlanGroupsResource.php` | [ ] |
-| 9.4 | Subscriptions list | `SubscriptionResource.php` | [ ] |
-| 9.5 | Billing users | `BillingUserResource.php` | [ ] |
-| 9.6 | Billing settings | `Modules/Billing/Filament/Admin/Pages/Settings.php` | [ ] |
+| 9.1 | Billing dashboard | `Modules/Billing/Filament/Admin/Pages/Dashboard.php` | [x] |
+| 9.2 | Subscription plans | `SubscriptionPlanResource.php` | [x] |
+| 9.3 | Plan groups | `SubscriptionPlanGroupsResource.php` | [x] |
+| 9.4 | Subscriptions list | `SubscriptionResource.php` | [x] |
+| 9.5 | Billing users | `BillingUserResource.php` | [x] |
+| 9.6 | Billing settings | `Modules/Billing/Filament/Admin/Pages/Settings.php` | [x] |
 
 ### 10. Cross-Cutting Design Tasks
 
