@@ -156,7 +156,10 @@
 ## Phase 1: Core Content & Commerce _(ref: PLAN.md)_
 
 ### Pages Resource (currently 80%)
-- [ ] feat: Pages — add parent-page tree selector in create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-01  feat: Pages — parent-page tree selector already exists in create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Verified: ContentResource lines 404-460 renders `mw-tree` view with singleSelect, skipCategories, contentTypeFilter
+  - Tree renders on both Create Page and Edit Page; selection updates hidden `parent` field via Alpine.js `$entangle()`
+  - No code changes needed — feature was already complete
 - [ ] feat: Pages — add page template/layout chooser with preview thumbnails _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Pages — add bulk publish/unpublish action to list _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
