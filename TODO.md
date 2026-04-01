@@ -54,20 +54,42 @@
 - [x] 2026-04-01  fix: AutomatedBackupTest date-dependent assertion uses hardcoded month _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - File: `Modules/Backup/Tests/AutomatedBackupTest.php:123`
   - Fix: replaced hardcoded `assertEquals(4, ...)` with dynamic `Carbon::now()->startOfMonth()->addMonth()->month`
-- [ ] fix: CheckoutClientTest::it_checkout_client_names flaky — missing 'success' key in response _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+- [x] fix: CheckoutClientTest::it_checkout_client_names flaky — missing 'success' key in response _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - File: `Modules/Shop/Tests/Unit/CheckoutClientTest.php:74`
-- [ ] fix: 6 risky tests — output buffers not closed (Filament auth/authorization tests) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - Root cause: `shop_require_terms` option set by other tests (CheckoutWizardTest) leaks via shared DB, causing `validateCheckoutData()` to reject checkout
+  - Fix: reset `shop_require_terms` option at test start, verify cart is populated, assert no error before asserting success
+- [x] fix: 6 risky tests — output buffers not closed (Filament auth/authorization tests) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - `tests/Feature/Filament/Pages/TemplateCustomizerPageTest.php:228`
   - `tests/Feature/Filament/PanelAccessControlTest.php:51, :231`
   - `tests/Feature/Filament/AuthorizationTest.php:112`
   - `tests/Feature/Filament/UsersResourceAuthorizationTest.php:35`
   - `Modules/Billing/Tests/Unit/AuthorizationTest.php:15`
-- [ ] fix: npm high-severity CVE in lodash.set (prototype pollution) — run `npm audit fix` _(ref: workflows/dev-cycle/01-test-the-project.yml)_
-- [ ] chore: Sass deprecation warnings — `unquote()` global built-in will be removed in Dart Sass 3.0 _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - Fix: added `#[After]` output buffer cleanup to `InteractsWithFilamentPanel` trait, and `tearDown` to `BillingTestCase`
+- [x] fix: npm high-severity CVE in lodash.set (prototype pollution) — run `npm audit fix` _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - lodash.set CVE already resolved; ran `npm audit fix` reducing vulnerabilities from 13→9
+  - Remaining 9 are deep deps of laravel-mix (elliptic, webpack-dev-server) with no fix available
+- [x] chore: Sass deprecation warnings — `unquote()` global built-in will be removed in Dart Sass 3.0 _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - File: `packages/frontend-assets/resources/assets/css/scss/tree.scss:396-402`
-  - Fix: replace `unquote(...)` with `string.unquote(...)`
-- [ ] 02 Test the UI — Test interface components, check browser compatibility and accessibility
+  - Fix: removed `unquote()` and `-webkit-calc` entirely, using plain `calc()` which modern Sass handles natively
+  - Remaining `unquote()` calls are in third-party font libraries (tabler-icons, materialdesignicons)
+- [x] 2026-04-01  02 Test the UI — Test interface components, check browser compatibility and accessibility
   - https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui.yml
+  - Tested 12 admin pages via Playwright browser automation
+  - Results: 10 pages load without errors, 1 JS error on create/edit forms, 1 settings page title issue
+
+### UI Issues Found _(ref: workflows/dev-cycle/02-test-the-project-ui.yml)_
+- [ ] fix(js): `mwTreeFormComponent is not defined` — Alpine.js component missing on Create/Edit Page, Post, Product forms
+  - Affects: Parent page tree selector, category tree selector
+  - Console error: `ReferenceError: mwTreeFormComponent is not defined` in Livewire/Alpine init
+  - Pages affected: `/admin/pages/create`, `/admin/posts/create`, `/admin/products/create`, and their edit equivalents
+- [ ] fix(ui): Settings hub page (`/admin/settings`) missing page title prefix — shows "Microweber" instead of "Settings - Microweber"
+- [ ] fix(ui): Settings hub page and General Settings page (`/admin/settings/general`) missing breadcrumb navigation
+- [ ] fix(ui): Dashboard stat cards use `<h5>` tags for numeric values (417, 95, etc.) — semantic misuse, should be `<span>` or `<p>`
+- [ ] fix(ui): Mobile (375px) — Orders table columns truncated, Status/Amount/Paid/Actions overflow off-screen with no scroll indicator
+- [ ] fix(ui): Mobile (375px) — Topbar user avatar slightly clipped on right edge
+- [ ] fix(a11y): No skip-navigation link present on any admin page
+- [ ] fix(a11y): Heading hierarchy issue — H2 "Add new" dropdown appears in DOM before H1 page title on all pages
+
 - [ ] 03 Code Review — Analyse code quality, security, performance, and best practices
   - https://agents.tools.ooyes.net/workflows/dev-cycle/03-code-review.yml
 

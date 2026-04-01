@@ -11,5 +11,14 @@ class BillingTestCase extends TestCase
 {
    //use DatabaseTransactions;
 
+    protected function tearDown(): void
+    {
+        // Clean up stale output buffers left by Filament/Livewire rendering
+        // when non-admin users hit admin routes.
+        while (ob_get_level() > 1) {
+            ob_end_clean();
+        }
 
+        parent::tearDown();
+    }
 }

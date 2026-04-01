@@ -49,13 +49,20 @@ class CheckoutClientTest extends TestCase
     #[Test]
 
     public function it_checkout_client_names(): void {
-        empty_cart();
+        // Clear shop options that other tests may have enabled, which would
+        // cause validateCheckoutData() to reject our checkout attempt.
+        save_option('shop_require_terms', 0, 'website');
 
+        empty_cart();
 
         $this->_addProductToCart('CheckoutClientTestProduct 1');
         $this->_addProductToCart('CheckoutClientTestProduct 2');
         $this->_addProductToCart('CheckoutClientTestProduct 3');
         $this->_addProductToCart('CheckoutClientTestProduct 4');
+
+        // Verify cart is not empty before proceeding
+        $cart = get_cart();
+        $this->assertNotEmpty($cart, 'Cart should contain items before checkout');
 
         $email = 'client+'.uniqid('testCheckoutClientNames').'test@microweber.com';
         $checkoutDetails = array();
@@ -71,7 +78,8 @@ class CheckoutClientTest extends TestCase
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
-         $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertArrayNotHasKey('error', $checkoutStatus, 'Checkout returned error: ' . json_encode($checkoutStatus));
+        $this->assertArrayHasKey('success', $checkoutStatus);
         $this->assertArrayHasKey('order_id', $checkoutStatus);
         $this->assertArrayHasKey('order_completed', $checkoutStatus);
         $this->assertArrayHasKey('amount', $checkoutStatus);

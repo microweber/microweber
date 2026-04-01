@@ -4,6 +4,7 @@ namespace Tests\Feature\Filament\Concerns;
 
 use Filament\Facades\Filament;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\After;
 
 /**
  * Trait for Filament resource tests that ensures the admin panel
@@ -24,6 +25,21 @@ trait InteractsWithFilamentPanel
      * The panel ID used for the current test session.
      */
     protected string $filamentPanelId = 'admin';
+
+    /**
+     * Clean up stale output buffers left by Filament/Livewire rendering.
+     *
+     * When non-admin users hit admin routes, Filament starts output buffering
+     * for page rendering but the redirect/forbidden response may leave
+     * buffers open. PHPUnit flags these as "risky" tests.
+     */
+    #[After]
+    protected function cleanUpOutputBuffers(): void
+    {
+        while (ob_get_level() > 1) {
+            ob_end_clean();
+        }
+    }
 
     /**
      * Set up the Filament admin panel for testing.

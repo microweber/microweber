@@ -393,13 +393,11 @@ visibility: visible;
   }
 
     .mw-tree-toggler +   .mw-tree-item-content {
-        width: unquote("-webkit-calc(100% - 1px)");
-        width: unquote("calc(100% - 1px)");
+        width: calc(100% - 1px);
     }
 
   .has-children > .mw-tree-item-content {
-    width: unquote("-webkit-calc(100% - 35px)");
-    width: unquote("calc(100% - 35px)");
+    width: calc(100% - 35px);
   }
 
   .mw-tree-context-menu {
