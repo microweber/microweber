@@ -189,7 +189,10 @@
   - Column is toggleable, visible by default in list layout
   - Added Author SelectFilter with searchable dropdown, populated from users who have authored content
   - Verified: Author column and filter render in Posts list view; 39 Post tests pass
-- [ ] feat: Posts — add bulk publish/unpublish action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-01  feat: Posts — add bulk publish/unpublish action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Already implemented in commit 3d5430922a as part of "Pages — add bulk publish/unpublish action to list"
+  - Bulk actions are defined in ContentResource which PostResource inherits
+  - No additional code changes needed
 
 ### Products Resource (currently 60%)
 - [ ] feat: Products — add variant management UI (size/color/custom attributes) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
