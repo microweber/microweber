@@ -120,8 +120,13 @@
   - Fixed `getNavgationLabel` typo → `getNavigationLabel`; removed commented-out debug code
   - Added `!is_array($items)` guard in sort loop to prevent crash from `array_flip` producing integers
   - 94 Settings-related tests pass
-- [ ] fix(bug): SiteStatsRepository `getSessionsForPeriod('views')` — ambiguous `updated_at` column in JOIN query causes SQL error
-- [ ] perf: SiteStatsEchartsWidget — `getChartData()` not memoized, 3 DB queries may execute multiple times per render
+- [x] fix(bug): SiteStatsRepository `getSessionsForPeriod('views')` — ambiguous `updated_at` column in JOIN query causes SQL error
+  - Qualified all `updated_at` references in `applyDateRangeToQueryBuilder()` with `$query->getModel()->getTable()` prefix
+  - Fixed incorrect JOIN condition: `stats_visits_log.id = session_id_key` → `stats_visits_log.session_id_key = stats_sessions.id`
+  - Verified all query modes (daily/weekly/monthly, sessions/views/bounced) work correctly
+- [x] perf: SiteStatsEchartsWidget — `getChartData()` memoized with `$cachedChartData` instance property
+  - Added `protected ?array $cachedChartData = null` to avoid re-executing 3 DB queries on repeated calls within same render cycle
+  - Cache resets naturally on Livewire re-render (new component instance)
 - [ ] perf: SiteStatsEchartsWidget — `getOnlineCount()` query on sessions table not cached
 - [ ] fix(ui): echarts-widget period switching broken — `wire:ignore` prevents Livewire re-render after filter dispatch
 - [ ] refactor: mw-tree.blade.php — redundant `$suffix`/`$id` assignments (lines 17-18 duplicate lines 30-31)

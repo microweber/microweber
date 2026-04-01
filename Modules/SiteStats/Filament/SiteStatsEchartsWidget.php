@@ -19,8 +19,14 @@ class SiteStatsEchartsWidget extends Widget
 
     protected static bool $isLazy = false;
 
+    protected ?array $cachedChartData = null;
+
     public function getChartData(): array
     {
+        if ($this->cachedChartData !== null) {
+            return $this->cachedChartData;
+        }
+
         $periodsDataFromFilter = $this->getPeriodsDataFromFilter();
 
         $startDate = $periodsDataFromFilter['startDate'];
@@ -41,7 +47,7 @@ class SiteStatsEchartsWidget extends Widget
         $totalBounced = array_sum($bouncedData);
         $bouncePercent = $totalVisitors > 0 ? intval(($totalBounced / $totalVisitors) * 100) : 0;
 
-        return [
+        $this->cachedChartData = [
             'labels' => array_values($labels),
             'visitors' => array_values($visitors),
             'bounced' => array_values($bouncedData),
@@ -50,6 +56,8 @@ class SiteStatsEchartsWidget extends Widget
             'totalBounced' => $totalBounced,
             'bouncePercent' => $bouncePercent,
         ];
+
+        return $this->cachedChartData;
     }
 
     public function getHeading(): string

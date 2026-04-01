@@ -47,23 +47,26 @@ class SiteStatsRepository
 
     public function applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period)
     {
+        $table = $query->getModel()->getTable();
+        $updatedAt = $table . '.updated_at';
+
         if ($period == 'weekly') {
 
-            $query->whereYear('updated_at', '>=', date('Y', strtotime($startDate)));
-            $query->whereYear('updated_at', '<=', date('Y', strtotime($endDate)));
+            $query->whereYear($updatedAt, '>=', date('Y', strtotime($startDate)));
+            $query->whereYear($updatedAt, '<=', date('Y', strtotime($endDate)));
 
         } else {
-            $query->when($startDate, fn(Builder $query) => $query->whereDate('updated_at', '>=', $startDate));
-            $query->when($endDate, fn(Builder $query) => $query->whereDate('updated_at', '<=', $endDate));
+            $query->when($startDate, fn(Builder $query) => $query->whereDate($updatedAt, '>=', $startDate));
+            $query->when($endDate, fn(Builder $query) => $query->whereDate($updatedAt, '<=', $endDate));
         }
 
         if ($period == 'daily') {
-            $query->whereDate('updated_at', $periodRangesDatesInterval);
+            $query->whereDate($updatedAt, $periodRangesDatesInterval);
         }
 
         if ($period == 'weekly') {
-            $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval . ' week')));
-            $query->whereBetween('updated_at', [
+            $query->whereYear($updatedAt, date('Y', strtotime($periodRangesDatesInterval . ' week')));
+            $query->whereBetween($updatedAt, [
                 date('Y-m-d', strtotime($periodRangesDatesInterval . ' week')),
                 date('Y-m-d', strtotime($periodRangesDatesInterval . ' week +6 days')),
             ]);
@@ -71,14 +74,14 @@ class SiteStatsRepository
         }
 
         if ($period == 'monthly') {
-            $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval)));
-            $query->whereMonth('updated_at', date('m', strtotime($periodRangesDatesInterval)));
+            $query->whereYear($updatedAt, date('Y', strtotime($periodRangesDatesInterval)));
+            $query->whereMonth($updatedAt, date('m', strtotime($periodRangesDatesInterval)));
         }
 
         if ($period == 'yearly') {
-            $query->whereYear('updated_at', $periodRangesDatesInterval);
-            $query->whereYear('updated_at', '<=', $periodRangesDatesInterval);
-            $query->whereYear('updated_at', '>=', $periodRangesDatesInterval);
+            $query->whereYear($updatedAt, $periodRangesDatesInterval);
+            $query->whereYear($updatedAt, '<=', $periodRangesDatesInterval);
+            $query->whereYear($updatedAt, '>=', $periodRangesDatesInterval);
         }
 
         return $query;
@@ -196,8 +199,8 @@ class SiteStatsRepository
 
                 if ($returnType == 'views') {
                     $records[] = $query->join('stats_visits_log',
-                        'stats_visits_log.id', '=', 'session_id_key')
-                        ->count('stats_visits_log.session_id_key');
+                        'stats_visits_log.session_id_key', '=', 'stats_sessions.id')
+                        ->count('stats_visits_log.id');
 
                 }
                 if ($returnType == 'bounced') {
