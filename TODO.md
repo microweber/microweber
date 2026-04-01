@@ -43,8 +43,27 @@
 ## Workflows — agents.tools.ooyes.net
 
 ### Dev Cycle
-- [ ] 01 Test the Project — Run tests, verify build, check dependencies, populate TODO.md with issues
+- [x] 2026-04-01  01 Test the Project — Run tests, verify build, check dependencies, populate TODO.md with issues
   - https://agents.tools.ooyes.net/workflows/dev-cycle/01-test-the-project.yml
+  - Results: 2,416 tests total, 1 failure, 6 risky, 43 skipped, 0 errors
+  - Build: theme CSS compiles, webpack OK, composer valid
+  - Dependencies: 0 PHP CVEs, 2 high npm CVEs (lodash.set)
+  - Issues found and added below
+
+### Test & Build Issues Found
+- [ ] fix: AutomatedBackupTest date-dependent assertion uses hardcoded month (expects 4 but today is April so next month=5) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - File: `Modules/Backup/Tests/AutomatedBackupTest.php:123`
+  - Root cause: test comment says "since we're on 2026-03-22" — assertion should use Carbon::now() relative dates, not hardcoded month
+- [ ] fix: 6 risky tests — output buffers not closed (Filament auth/authorization tests) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - `tests/Feature/Filament/Pages/TemplateCustomizerPageTest.php:228`
+  - `tests/Feature/Filament/PanelAccessControlTest.php:51, :231`
+  - `tests/Feature/Filament/AuthorizationTest.php:112`
+  - `tests/Feature/Filament/UsersResourceAuthorizationTest.php:35`
+  - `Modules/Billing/Tests/Unit/AuthorizationTest.php:15`
+- [ ] fix: npm high-severity CVE in lodash.set (prototype pollution) — run `npm audit fix` _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+- [ ] chore: Sass deprecation warnings — `unquote()` global built-in will be removed in Dart Sass 3.0 _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - File: `packages/frontend-assets/resources/assets/css/scss/tree.scss:396-402`
+  - Fix: replace `unquote(...)` with `string.unquote(...)`
 - [ ] 02 Test the UI — Test interface components, check browser compatibility and accessibility
   - https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui.yml
 - [ ] 03 Code Review — Analyse code quality, security, performance, and best practices
