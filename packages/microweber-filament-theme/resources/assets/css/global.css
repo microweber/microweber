@@ -195,6 +195,10 @@
 
 /* Responsive table improvements */
 @media (max-width: 768px) {
+    .fi-ta-content-ctn {
+        -webkit-overflow-scrolling: touch;
+    }
+
     .fi-ta-content {
         @apply overflow-x-auto;
     }
@@ -205,6 +209,25 @@
 
     .fi-ta-cell {
         @apply whitespace-nowrap;
+    }
+
+    /* Fade hint on right edge when table overflows */
+    .fi-ta-ctn {
+        position: relative;
+    }
+    .fi-ta-ctn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 24px;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.85));
+        pointer-events: none;
+        z-index: 1;
+    }
+    .dark .fi-ta-ctn::after {
+        background: linear-gradient(to right, transparent, rgba(22,25,34,0.85));
     }
 }
 
@@ -225,6 +248,15 @@
 
 /* Mobile navigation improvements */
 @media (max-width: 640px) {
+    .fi-topbar {
+        @apply overflow-hidden;
+    }
+
+    .fi-topbar-end {
+        @apply overflow-hidden;
+        min-width: 0;
+    }
+
     .fi-main {
         @apply px-4;
     }

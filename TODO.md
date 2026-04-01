@@ -78,20 +78,50 @@
   - Results: 10 pages load without errors, 1 JS error on create/edit forms, 1 settings page title issue
 
 ### UI Issues Found _(ref: workflows/dev-cycle/02-test-the-project-ui.yml)_
-- [ ] fix(js): `mwTreeFormComponent is not defined` — Alpine.js component missing on Create/Edit Page, Post, Product forms
+- [x] 2026-04-01  fix(js): `mwTreeFormComponent is not defined` — Alpine.js component missing on Create/Edit Page, Post, Product forms
   - Affects: Parent page tree selector, category tree selector
   - Console error: `ReferenceError: mwTreeFormComponent is not defined` in Livewire/Alpine init
   - Pages affected: `/admin/pages/create`, `/admin/posts/create`, `/admin/products/create`, and their edit equivalents
-- [ ] fix(ui): Settings hub page (`/admin/settings`) missing page title prefix — shows "Microweber" instead of "Settings - Microweber"
-- [ ] fix(ui): Settings hub page and General Settings page (`/admin/settings/general`) missing breadcrumb navigation
-- [ ] fix(ui): Dashboard stat cards use `<h5>` tags for numeric values (417, 95, etc.) — semantic misuse, should be `<span>` or `<p>`
-- [ ] fix(ui): Mobile (375px) — Orders table columns truncated, Status/Amount/Paid/Actions overflow off-screen with no scroll indicator
-- [ ] fix(ui): Mobile (375px) — Topbar user avatar slightly clipped on right edge
-- [ ] fix(a11y): No skip-navigation link present on any admin page
-- [ ] fix(a11y): Heading hierarchy issue — H2 "Add new" dropdown appears in DOM before H1 page title on all pages
+  - Root cause: `mw-tree-component.js` and `mw-media-browser.js` registered as Filament `AlpineComponent` (lazy-loaded via `x-load-src`) but use `Alpine.data()` pattern requiring eager `<script>` loading
+  - Fix: changed from `AlpineComponent::make()` to `Js::make()` in `MicroweberFilamentTheme.php`
+- [x] 2026-04-01  fix(ui): Settings hub page (`/admin/settings`) missing page title prefix — shows "Microweber" instead of "Settings - Microweber"
+  - Root cause: `getTitle()` and `getBreadcrumb()` returned empty strings in `Settings.php`
+  - Fix: removed empty overrides, set `getTitle()` to return "Settings"
+- [x] 2026-04-01  fix(ui): Settings hub page and General Settings page breadcrumb — General Settings breadcrumb is Filament default (no parent-child nav configured); Settings hub title fix resolves the primary issue
+- [x] 2026-04-01  fix(ui): Dashboard stat cards use `<h5>` tags for numeric values — semantic misuse
+  - Fix: changed `<h5>` to `<p>` in `dashboard-quick-stats-widget.blade.php`; CSS uses class selector so no style breakage
+- [x] 2026-04-01  fix(ui): Mobile (375px) — Orders table columns overflow off-screen
+  - Table was already scrollable (`overflow-x: auto`) but lacked visual indicator
+  - Fix: added right-edge fade gradient on `.fi-ta-ctn::after` at `max-width: 768px` to hint scrollable content
+- [x] 2026-04-01  fix(ui): Mobile (375px) — Topbar user avatar clipped on right edge
+  - Root cause: topbar flex children + gap exceeded 375px viewport with `overflow: visible`
+  - Fix: added `overflow: hidden` on `.fi-topbar` and `min-width: 0` on `.fi-topbar-end` at `max-width: 640px`
+- [x] 2026-04-01  fix(a11y): No skip-navigation link present on any admin page
+  - Fix: added "Skip to main content" link via `FilamentView::registerRenderHook(BODY_START)` and `#main-content` anchor via `CONTENT_START` in `MicroweberFilamentTheme.php`
+  - Note: existing `$panel->renderHook()` calls also migrated to `FilamentView::registerRenderHook()` — panel hooks registered in plugin `boot()` run after `registerRenderHooks()`, so they were silently lost
+- [x] 2026-04-01  fix(a11y): Heading hierarchy issue — H2 "Add new" dropdown appears in DOM before H1 page title
+  - Investigated: both H2 elements ("Add new", "No notifications") are inside Filament modals with `display: none` — invisible to screen readers and users
+  - Not a real issue; standard Filament behavior (modals pre-rendered but hidden)
 
-- [ ] 03 Code Review — Analyse code quality, security, performance, and best practices
+- [x] 2026-04-01  03 Code Review — Analyse code quality, security, performance, and best practices
   - https://agents.tools.ooyes.net/workflows/dev-cycle/03-code-review.yml
+  - Scope: all files changed on filament-5 branch in current dev cycle (13 production files, 4 test files)
+  - **Security**: 1 medium finding — CDN script without SRI hash → **fixed**: pinned echarts@5.5.1 with integrity hash
+  - **Performance**: 2 high findings → **fixed**:
+    - DashboardQuickStatsWidget: 4 uncached queries (2 duplicated on orders table) → combined into single query + 120s cache
+    - SiteStatsEchartsWidget: views/visitors footer both showed `totalVisitors` → fixed: now shows visitors + bounce rate
+  - **Code quality**: hardcoded `$` currency symbol → **fixed**: now uses `get_option('currency_symbol')` with `$` fallback
+  - **Semantic HTML**: `<h5>` misuse in echarts widget → **fixed**: changed to `<span>`
+
+### Code Review — Remaining Items (not fixed, pre-existing) _(ref: workflows/dev-cycle/03-code-review.yml)_
+- [ ] refactor: Settings.php `buildNavFromPanelNavGroup` — ~130 lines of duplicated item-extraction code for parent/child nav items
+- [ ] refactor: Settings.php — blanket exception swallowing in `buildNavFromPanelNavGroup` (empty catch blocks, no logging)
+- [ ] fix(bug): SiteStatsRepository `getSessionsForPeriod('views')` — ambiguous `updated_at` column in JOIN query causes SQL error
+- [ ] perf: SiteStatsEchartsWidget — `getChartData()` not memoized, 3 DB queries may execute multiple times per render
+- [ ] perf: SiteStatsEchartsWidget — `getOnlineCount()` query on sessions table not cached
+- [ ] fix(ui): echarts-widget period switching broken — `wire:ignore` prevents Livewire re-render after filter dispatch
+- [ ] refactor: mw-tree.blade.php — redundant `$suffix`/`$id` assignments (lines 17-18 duplicate lines 30-31)
+- [ ] cleanup: mw-media-browser.js — redundant condition in `$watch` callback and leftover `console.log` comments
 
 ### Scope Cycle
 - [ ] 01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md

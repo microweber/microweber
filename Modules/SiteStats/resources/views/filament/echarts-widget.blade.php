@@ -9,7 +9,7 @@
                 <div class="mw-stats-card-header-text">
                     <p class="mw-stats-card-title">Statistics</p>
                     <div class="mw-stats-card-online">
-                        <h5 class="mw-stats-card-online-count">{{ $this->getOnlineCount() }}</h5>
+                        <span class="mw-stats-card-online-count">{{ $this->getOnlineCount() }}</span>
                         <span class="mw-stats-card-online-label">Online</span>
                     </div>
                 </div>
@@ -37,13 +37,13 @@
         @php $chartData = $this->getChartData(); @endphp
         <div class="mw-stats-card-footer">
             <div class="mw-stats-card-footer-left">
-                <div class="mw-stats-card-footer-stat" title="Views">
-                    <x-filament::icon icon="heroicon-o-heart" class="mw-stats-card-footer-icon" />
-                    <span>{{ number_format($chartData['totalVisitors']) }}</span>
-                </div>
                 <div class="mw-stats-card-footer-stat" title="Visitors">
                     <x-filament::icon icon="heroicon-o-user" class="mw-stats-card-footer-icon" />
                     <span>{{ number_format($chartData['totalVisitors']) }}</span>
+                </div>
+                <div class="mw-stats-card-footer-stat" title="Bounce rate">
+                    <x-filament::icon icon="heroicon-o-arrow-uturn-left" class="mw-stats-card-footer-icon" />
+                    <span>{{ $chartData['bouncePercent'] }}%</span>
                 </div>
             </div>
             <div class="mw-stats-card-footer-right">
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" integrity="sha256-6EJwvQzVvfYP78JtAMKjkcsugfTSanqe4WGFpUdzo88=" crossorigin="anonymous"></script>
     <script>
         (function() {
             const chartData = @json($chartData);

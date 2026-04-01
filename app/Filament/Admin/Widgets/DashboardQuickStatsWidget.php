@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Widgets;
 
 use Filament\Widgets\Widget;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Modules\Order\Models\Order;
 
@@ -14,35 +15,46 @@ class DashboardQuickStatsWidget extends Widget
 
     protected string $view = 'filament.admin.widgets.dashboard-quick-stats-widget';
 
-    protected static bool $isLazy = false;
-
     public function getStats(): array
     {
+        $stats = Cache::remember('dashboard_quick_stats', 120, function () {
+            $orderStats = $this->getOrderStats();
+
+            return [
+                'emails' => $this->getEmailsCount(),
+                'comments' => $this->getCommentsCount(),
+                'salesTotal' => $orderStats['total'],
+                'ordersCount' => $orderStats['count'],
+            ];
+        });
+
+        $currencySymbol = $this->getCurrencySymbol();
+
         return [
             [
                 'label' => 'Emails',
-                'value' => $this->getEmailsCount(),
+                'value' => $stats['emails'],
                 'icon' => 'heroicon-o-envelope',
                 'color' => 'blue',
                 'url' => url(mw_admin_prefix_url() . '/contact-form'),
             ],
             [
                 'label' => 'Last comments',
-                'value' => $this->getCommentsCount(),
+                'value' => $stats['comments'],
                 'icon' => 'heroicon-o-chat-bubble-left-right',
                 'color' => 'pink',
                 'url' => url(mw_admin_prefix_url() . '/comments'),
             ],
             [
                 'label' => 'Sales',
-                'value' => $this->getSalesTotal(),
+                'value' => $currencySymbol . ' ' . number_format((float) $stats['salesTotal'], 2),
                 'icon' => 'heroicon-o-currency-dollar',
                 'color' => 'green',
                 'url' => url(mw_admin_prefix_url() . '/orders'),
             ],
             [
                 'label' => 'Recent Orders',
-                'value' => $this->getRecentOrdersCount(),
+                'value' => $stats['ordersCount'],
                 'icon' => 'heroicon-o-shopping-bag',
                 'color' => 'orange',
                 'url' => url(mw_admin_prefix_url() . '/orders'),
@@ -68,27 +80,29 @@ class DashboardQuickStatsWidget extends Widget
         }
     }
 
-    private function getSalesTotal(): string
+    private function getOrderStats(): array
     {
         try {
-            $total = Order::query()
+            $result = Order::query()
                 ->where('order_completed', 1)
-                ->sum('amount');
+                ->selectRaw('COUNT(*) as orders_count, COALESCE(SUM(amount), 0) as orders_total')
+                ->first();
 
-            return '$ ' . number_format((float) $total, 2);
+            return [
+                'count' => (string) ($result->orders_count ?? 0),
+                'total' => (float) ($result->orders_total ?? 0),
+            ];
         } catch (\Throwable $e) {
-            return '$ 0.00';
+            return ['count' => '0', 'total' => 0.0];
         }
     }
 
-    private function getRecentOrdersCount(): string
+    private function getCurrencySymbol(): string
     {
         try {
-            return (string) Order::query()
-                ->where('order_completed', 1)
-                ->count();
+            return get_option('currency_symbol', 'website') ?: '$';
         } catch (\Throwable $e) {
-            return '0';
+            return '$';
         }
     }
 }

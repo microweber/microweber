@@ -4,12 +4,12 @@ namespace MicroweberPackages\MicroweberFilamentTheme;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Theme;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
@@ -43,16 +43,24 @@ class MicroweberFilamentTheme implements Plugin
         static::configureComponents();
         static::configureAssets();
 
-        $panel->renderHook(
-            name: PanelsRenderHook::HEAD_START,
-            hook: function(): string {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_START,
+            fn (): string => '<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary-600 dark:focus:bg-gray-900 dark:focus:text-primary-400">Skip to main content</a>',
+        );
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::CONTENT_START,
+            fn (): string => '<div id="main-content"></div>',
+        );
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::HEAD_START,
+            function(): string {
                 $head = new AdminFilamentMetaTagsRenderer();
                 return $head->getHeadMetaTags();
             }
         );
-        $panel->renderHook(
-            name: PanelsRenderHook::BODY_END,
-            hook: function(): string {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            function(): string {
                 $head = new AdminFilamentMetaTagsRenderer();
                 return $head->getFooterMetaTags();
             }
@@ -67,8 +75,8 @@ class MicroweberFilamentTheme implements Plugin
             Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css')),
             Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.js')),
 
-            AlpineComponent::make('mw-media-browser-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-media-browser.js')),
-            AlpineComponent::make('mw-tree-component-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js')),
+            Js::make('mw-media-browser-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-media-browser.js')),
+            Js::make('mw-tree-component-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js')),
 
         ]);
     }

@@ -47,6 +47,7 @@ class SiteStatsEchartsWidget extends Widget
             'bounced' => array_values($bouncedData),
             'title' => $title,
             'totalVisitors' => $totalVisitors,
+            'totalBounced' => $totalBounced,
             'bouncePercent' => $bouncePercent,
         ];
     }

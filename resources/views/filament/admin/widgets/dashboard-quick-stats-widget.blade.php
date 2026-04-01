@@ -8,7 +8,7 @@
                     </div>
                     <div class="mw-quick-stat-card-content">
                         <p class="mw-quick-stat-card-label">{{ $stat['label'] }}</p>
-                        <h5 class="mw-quick-stat-card-value">{{ $stat['value'] }}</h5>
+                        <p class="mw-quick-stat-card-value">{{ $stat['value'] }}</p>
                     </div>
                 </div>
                 <div class="mw-quick-stat-card-footer">
