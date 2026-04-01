@@ -5,9 +5,9 @@ namespace Modules\Settings\Filament\Pages;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\Support\FilamentHelpers;
-use Modules\FileManager\Filament\Pages\FileManagerPageAdmin;
 
 
 class Settings extends Page
@@ -35,23 +35,18 @@ class Settings extends Page
         $settingsPages[] = new AdminTemplatePage();
         $settingsPages[] = new AdminSeoPage();
         $settingsPages[] = new AdminAdvancedPage();
-       // $settingsPages[] = new FileManagerPageAdmin();
         $settingsPages[] = new AdminLoginRegisterPage();
         $settingsPages[] = new AdminLanguagePage();
         $settingsPages[] = new AdminPrivacyPolicyPage();
-        //$settingsPages[] = new AdminExperimentalPage();
         $settingsPages[] = new AdminMaintenanceModePage();
         $settingsPages[] = new AdminCustomTagsPage();
 
         $settingsPages[] = new AdminShopGeneralPage();
-      //  $settingsPages[] = new AdminShopPaymentsPage();
          $settingsPages[] = new AdminShopAutoRespondEmailPage();
         $settingsPages[] = new AdminShopOtherPage();
-   //     $settingsPages[] = new AdminShopOtherPage();
 
         $registeredSettingsPages = FilamentRegistry::getPages(self::class, Filament::getCurrentPanel()->getId());
         $registeredSettingsResources = FilamentRegistry::getResources(self::class, Filament::getCurrentPanel()->getId());
-
 
         if (!empty($registeredSettingsPages)) {
             foreach ($registeredSettingsPages as $registeredSettingsPage) {
@@ -61,26 +56,20 @@ class Settings extends Page
 
         if (!empty($registeredSettingsResources)) {
             foreach ($registeredSettingsResources as $registeredSettingsResource) {
-
                 $settingsPages[] = new $registeredSettingsResource;
             }
         }
 
         $settingsGroups = [];
-        $panel = Filament::getCurrentPanel()->getId();
-        //  $panelNavigationGroups = Filament::getCurrentPanel()->getNavigationGroups();
         $panelNavigationItems = Filament::getCurrentPanel()->getNavigation();
 
- //dd($panelNavigationItems);
         if ($panelNavigationItems) {
             foreach ($panelNavigationItems as $navGroup) {
 
-
-                //if not end with settings skip
                 if (method_exists($navGroup, 'getLabel') && !str_ends_with($navGroup->getLabel(), 'Settings')) {
                     continue;
                 }
-                if (method_exists($navGroup, 'getLabel') && $navGroup->getLabel() ==  'Settings') {
+                if (method_exists($navGroup, 'getLabel') && $navGroup->getLabel() === 'Settings') {
                     continue;
                 }
 
@@ -89,12 +78,9 @@ class Settings extends Page
                 if (!empty($settingsGroupsNavGroup)) {
                     foreach ($settingsGroupsNavGroup as $itemsNavGroup) {
                         foreach ($itemsNavGroup as $itemsNavGroupItem) {
-
                             $settingsGroups[$navGroup->getLabel()][] = $itemsNavGroupItem;
                         }
                     }
-                    //dd($settingsGroupsNavGroup);
-                    //  $settingsGroups = array_merge($settingsGroups, $settingsGroupsNavGroup);
                 }
 
             }
@@ -127,7 +113,6 @@ class Settings extends Page
                 $description = $instance->getDescription();
             }
 
-            //check if description property exists
             if (!isset($description) or $description == '') {
 
                 $reflectionClass = new \ReflectionClass($instance);
@@ -136,8 +121,6 @@ class Settings extends Page
                      $description = $descriptionProp->getValue($instance);
                 }
             }
-
-
 
             $heading = '';
             if (method_exists($instance, 'getHeading')) {
@@ -176,8 +159,6 @@ class Settings extends Page
 
         }
 
-
-// make the hardcoded order of the settings groups $settingsGroups
         $topOrder = [
             'Website Settings',
             'Shop Settings',
@@ -185,21 +166,17 @@ class Settings extends Page
             'Email Settings',
             'System Settings',
             'Language Settings',
-
         ];
         $settingsGroups = array_merge(array_flip($topOrder), $settingsGroups);
 
-
-
-
-        //sort $settingsGroups items postion iside the groups
-
         foreach ($settingsGroups as $group => $items) {
+            if (!is_array($items)) {
+                unset($settingsGroups[$group]);
+                continue;
+            }
             usort($items, function ($a, $b) {
-
                 if (isset($a['position']) && isset($b['position']) && $a['position'] === $b['position']) {
                     return 0;
-
                 } else if (!isset($a['position']) && !isset($b['position'])) {
                     return 0;
                 } elseif (!isset($a['position'])) {
@@ -207,7 +184,6 @@ class Settings extends Page
                 } elseif (!isset($b['position'])) {
                     return -1;
                 }
-
 
                 return $a['position'] <=> $b['position'];
             });
@@ -219,8 +195,86 @@ class Settings extends Page
         ];
     }
 
+    /**
+     * Extract item data from a navigation item object.
+     *
+     * Handles both parent and child navigation items with consistent
+     * error handling and fallback logic.
+     */
+    private function extractItemData(object $item, string $defaultIcon = ''): array
+    {
+        $itemData = [
+            'title' => '',
+            'description' => '',
+            'heading' => '',
+            'slug' => '',
+            'icon' => $defaultIcon,
+            'url' => '',
+        ];
 
-    private function buildNavFromPanelNavGroup(NavigationGroup $navGroup)
+        try {
+            if (method_exists($item, 'getLabel')) {
+                $itemData['title'] = $item->getLabel();
+                $itemData['heading'] = $item->getLabel();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Settings nav: failed to get label', ['error' => $e->getMessage()]);
+        }
+
+        try {
+            if (method_exists($item, 'getDescription')) {
+                $itemData['description'] = $item->getDescription();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Settings nav: failed to get description', ['error' => $e->getMessage()]);
+        }
+
+        if (empty($itemData['description'])) {
+            try {
+                if (method_exists($item, 'getNavigationLabel')) {
+                    $itemData['description'] = $item->getNavigationLabel();
+                }
+            } catch (\Exception $e) {
+                Log::debug('Settings nav: failed to get navigation label', ['error' => $e->getMessage()]);
+            }
+        }
+
+        try {
+            if (method_exists($item, 'getSlug')) {
+                $itemData['slug'] = $item->getSlug();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Settings nav: failed to get slug', ['error' => $e->getMessage()]);
+        }
+
+        if (empty($itemData['icon'])) {
+            $itemData['icon'] = FilamentHelpers::getNavigationItemIcon($item);
+        }
+
+        try {
+            if (method_exists($item, 'getIcon') && !empty($item->getIcon())) {
+                $itemData['icon'] = $item->getIcon();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Settings nav: failed to get icon', ['error' => $e->getMessage()]);
+        }
+
+        try {
+            if (method_exists($item, 'getUrl')) {
+                $itemData['url'] = $item->getUrl();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Settings nav: failed to get URL', ['error' => $e->getMessage()]);
+        }
+
+        if (empty($itemData['description'])) {
+            $itemData['description'] = FilamentHelpers::getNavigationItemDescription($item);
+        }
+
+        return $itemData;
+    }
+
+    private function buildNavFromPanelNavGroup(NavigationGroup $navGroup): array
     {
         $settingsGroups = [];
 
@@ -231,150 +285,23 @@ class Settings extends Page
             $groupLabel = $navGroup->getTitle();
         }
 
-        if (method_exists($navGroup, 'getItems')) {
-            foreach ($navGroup->getItems() as $item) {
+        if (!method_exists($navGroup, 'getItems')) {
+            return $settingsGroups;
+        }
 
-                $itemData = [
-                    'title' => '',
-                    'description' => '',
-                    'heading' => '',
-                    'slug' => '',
-                    'icon' => '',
-                    'url' => ''
-                ];
+        foreach ($navGroup->getItems() as $item) {
+            $settingsGroups[$groupLabel][] = $this->extractItemData($item);
 
+            if (method_exists($item, 'getChildItems')) {
                 try {
-                    if (method_exists($item, 'getLabel')) {
-                        $itemData['title'] = $item->getLabel();
-                        $itemData['heading'] = $item->getLabel();
-                    }
-                } catch (\Exception $e) {
-                }
-
-                try {
-                    if (method_exists($item, 'getDescription')) {
-                        $itemData['description'] = $item->getDescription();
-                    }
-                } catch (\Exception $e) {
-                }
-
-                if (!isset($itemData['description']) or $itemData['description'] == '') {
-                    try {
-                        if (method_exists($item, 'getNavgationLabel')) {
-                            $itemData['description'] = $item->getNavgationLabel();
+                    $childItems = $item->getChildItems();
+                    if (!empty($childItems)) {
+                        foreach ($childItems as $childItem) {
+                            $settingsGroups[$groupLabel][] = $this->extractItemData($childItem, 'mw-general');
                         }
-                    } catch (\Exception $e) {
-                    }
-                }
-
-
-                try {
-                    if (method_exists($item, 'getSlug')) {
-                        $itemData['slug'] = $item->getSlug();
                     }
                 } catch (\Exception $e) {
-                }
-
-                if (!isset($itemData['icon']) or $itemData['icon'] == '') {
-
-                    $itemData['icon'] = FilamentHelpers::getNavigationItemIcon($item);
-                }
-
-                try {
-                    if (method_exists($item, 'getUrl')) {
-                        $itemData['url'] = $item->getUrl();
-                    }
-                } catch (\Exception $e) {
-                }
-
-
-                if (!isset($itemData['description']) or $itemData['description'] == '') {
-                    // a reflection class for the item to get the description
-                    $itemData['description'] = FilamentHelpers::getNavigationItemDescription($item);
-
-                }
-
-
-                $settingsGroups[$groupLabel][] = $itemData;
-
-
-                if (method_exists($item, 'getChildItems')) {
-                    try {
-                        $childItems = $item->getChildItems();
-                        if (!empty($childItems)) {
-                            foreach ($childItems as $childItem) {
-                                $childItemData = [
-                                    'title' => '',
-                                    'description' => '',
-                                    'heading' => '',
-                                    'slug' => '',
-                                    'icon' => 'mw-general',
-                                    'url' => ''
-                                ];
-
-                                try {
-                                    if (method_exists($childItem, 'getLabel')) {
-                                        $childItemData['title'] = $childItem->getLabel();
-                                        $childItemData['heading'] = $childItem->getLabel();
-                                    }
-                                } catch (\Exception $e) {
-                                }
-
-                                try {
-                                    if (method_exists($childItem, 'getDescription')) {
-                                        $childItemData['description'] = $childItem->getDescription();
-                                    }
-                                } catch (\Exception $e) {
-                                }
-
-                                try {
-                                    if (method_exists($childItem, 'getSlug')) {
-                                        $childItemData['slug'] = $childItem->getSlug();
-                                    }
-                                } catch (\Exception $e) {
-                                }
-
-                                try {
-                                    if (method_exists($childItem, 'getIcon')) {
-                                        $childItemData['icon'] = $childItem->getIcon();
-                                    }
-                                } catch (\Exception $e) {
-                                }
-
-                                try {
-                                    if (method_exists($childItem, 'getUrl')) {
-                                        $childItemData['url'] = $childItem->getUrl();
-                                    }
-                                } catch (\Exception $e) {
-                                }
-
-                                if (!isset($childItemData['description']) or $childItemData['description'] == '') {
-                                    // a reflection class for the item to get the description
-                                    $childItemData['description'] = FilamentHelpers::getNavigationItemDescription($childItem);
-
-                                }
-/*
-
-                                if (!isset($childItemData['description']) or $childItemData['description'] == '') {
-                                    $instance = $childItem;
-                                    $reflectionClass = new \ReflectionClass($instance);
-                                    $descriptionProp = $reflectionClass->hasProperty('description') ? $reflectionClass->getProperty('description') : null;
-                                    if ($descriptionProp) {
-                                        $childItemData['description'] = $descriptionProp->getValue($instance);
-                                    }
-
-                                }*/
-
-
-
-
-
-
-                                $settingsGroups[$groupLabel][] = $childItemData;
-                            }
-                        }
-                    } catch (\Exception $e) {
-                    }
+                    Log::debug('Settings nav: failed to get child items', ['error' => $e->getMessage()]);
                 }
             }
         }

@@ -114,8 +114,12 @@
   - **Semantic HTML**: `<h5>` misuse in echarts widget → **fixed**: changed to `<span>`
 
 ### Code Review — Remaining Items (not fixed, pre-existing) _(ref: workflows/dev-cycle/03-code-review.yml)_
-- [ ] refactor: Settings.php `buildNavFromPanelNavGroup` — ~130 lines of duplicated item-extraction code for parent/child nav items
-- [ ] refactor: Settings.php — blanket exception swallowing in `buildNavFromPanelNavGroup` (empty catch blocks, no logging)
+- [x] 2026-04-01  refactor: Settings.php `buildNavFromPanelNavGroup` — extract duplicated item-extraction code
+  - Extracted `extractItemData($item, $defaultIcon)` private method shared by parent and child nav items
+  - Removed ~70 lines of duplicated try/catch blocks; exception swallowing now logs via `Log::debug()`
+  - Fixed `getNavgationLabel` typo → `getNavigationLabel`; removed commented-out debug code
+  - Added `!is_array($items)` guard in sort loop to prevent crash from `array_flip` producing integers
+  - 94 Settings-related tests pass
 - [ ] fix(bug): SiteStatsRepository `getSessionsForPeriod('views')` — ambiguous `updated_at` column in JOIN query causes SQL error
 - [ ] perf: SiteStatsEchartsWidget — `getChartData()` not memoized, 3 DB queries may execute multiple times per render
 - [ ] perf: SiteStatsEchartsWidget — `getOnlineCount()` query on sessions table not cached
