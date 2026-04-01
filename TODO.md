@@ -143,7 +143,8 @@
   - Removed 4 lines of commented-out `console.log`, `return`, and alternative `statePath` code
 
 ### Scope Cycle
-- [ ] 01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md
+- [x] 2026-04-01  01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md
+  - Comprehensive product scope covering: vision, target users, 92 modules, e-commerce, 6 panels, tech stack, data models, integrations, requirements, constraints, risks
   - https://agents.tools.ooyes.net/workflows/scope-cycle/01-define-product-scope.yml
 - [ ] 02 Actionable Plan → TODO — Break the scope into developer-ready tasks and populate TODO.md
   - https://agents.tools.ooyes.net/workflows/scope-cycle/02-make-actionable-plan.yml
