@@ -1357,3 +1357,177 @@ html.dark {
     }
   }
 }
+
+// ============================================================================
+// Dashboard — MW v2 Welcome Widget
+// ============================================================================
+.mw-welcome-widget {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.mw-welcome-widget-heading {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: $mw-text-primary !important;
+  line-height: 1.2 !important;
+  margin: 0 0 4px !important;
+}
+
+.mw-welcome-widget-subtitle {
+  font-size: 14px !important;
+  color: $mw-text-secondary !important;
+  margin: 0 !important;
+}
+
+.mw-welcome-widget-period {
+  font-size: 14px !important;
+  color: $mw-text-secondary !important;
+  margin: 0 !important;
+}
+
+// ============================================================================
+// Dashboard — MW v2 Quick Stats Cards (Emails, Comments, Sales, Orders)
+// ============================================================================
+.mw-quick-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .mw-quick-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mw-quick-stat-card {
+  background-color: $mw-bg-surface;
+  border-radius: $mw-radius-lg;
+  box-shadow: $mw-shadow-sm;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+    text-decoration: none !important;
+  }
+}
+
+.mw-quick-stat-card-body {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  gap: 16px;
+}
+
+.mw-quick-stat-card-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mw-quick-stat-icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+// Color variants — MW v2 exact icon background colors
+.mw-quick-stat-card-icon--blue {
+  background-color: #dbeafe;
+  .mw-quick-stat-icon-svg { color: #3b82f6; }
+}
+
+.mw-quick-stat-card-icon--pink {
+  background-color: #fce7f3;
+  .mw-quick-stat-icon-svg { color: #ec4899; }
+}
+
+.mw-quick-stat-card-icon--green {
+  background-color: #d1fae5;
+  .mw-quick-stat-icon-svg { color: #f59e0b; }
+}
+
+.mw-quick-stat-card-icon--orange {
+  background-color: #ffedd5;
+  .mw-quick-stat-icon-svg { color: #f97316; }
+}
+
+.mw-quick-stat-card-content {
+  flex: 1;
+}
+
+.mw-quick-stat-card-label {
+  font-size: 14px !important;
+  color: $mw-text-secondary !important;
+  margin: 0 0 2px !important;
+  font-weight: 400 !important;
+}
+
+.mw-quick-stat-card-value {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: $mw-text-primary !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.mw-quick-stat-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 24px 12px;
+  border-top: 1px solid $mw-border-subtle;
+}
+
+.mw-quick-stat-card-link {
+  font-size: 13px !important;
+  color: #206bc4 !important;
+  font-weight: 500 !important;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+// Dark mode for dashboard widgets
+html.dark {
+  .mw-welcome-widget-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .mw-welcome-widget-subtitle,
+  .mw-welcome-widget-period {
+    color: #718096 !important;
+  }
+
+  .mw-quick-stat-card {
+    background-color: #161922 !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+  }
+
+  .mw-quick-stat-card-label {
+    color: #718096 !important;
+  }
+
+  .mw-quick-stat-card-value {
+    color: #e2e8f0 !important;
+  }
+
+  .mw-quick-stat-card-footer {
+    border-top-color: #1e2330 !important;
+  }
+
+  .mw-quick-stat-card-link {
+    color: #63b3ed !important;
+  }
+}

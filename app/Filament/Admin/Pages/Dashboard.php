@@ -32,32 +32,27 @@ class Dashboard extends \Filament\Pages\Dashboard
 
     protected string $view = 'filament.admin.pages.dashboard';
 
+    // Hide the page heading — the WelcomeWidget provides the greeting instead
+    public function getHeading(): string|Htmlable
+    {
+        return '';
+    }
 
     protected function getHeaderActions(): array
     {
-        return [
-            FilterAction::make()
-                ->form([
-                    Select::make('period')
-                        ->options([
-                            'daily' => 'Daily',
-
-                            'weekly' => 'Weekly',
-                            'monthly' => 'Monthly',
-                            'yearly' => 'Yearly',
-                        ]),
-                    DatePicker::make('startDate'),
-                    DatePicker::make('endDate'),
-
-
-                ]),
-        ];
+        return [];
     }
 
 
     public function getWidgets(): array
     {
-        $widgets = FilamentRegistry::getWidgets(self::class, Filament::getCurrentPanel()->getId());
-        return $widgets;
+        $coreWidgets = [
+            \App\Filament\Admin\Widgets\WelcomeWidget::class,
+            \App\Filament\Admin\Widgets\DashboardQuickStatsWidget::class,
+        ];
+
+        $registeredWidgets = FilamentRegistry::getWidgets(self::class, Filament::getCurrentPanel()->getId());
+
+        return array_merge($coreWidgets, $registeredWidgets);
     }
 }
