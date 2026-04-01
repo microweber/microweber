@@ -4,6 +4,7 @@ namespace Modules\SiteStats\Filament;
 
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\Widget;
+use Illuminate\Support\Facades\Cache;
 use Modules\SiteStats\Repositories\SiteStatsRepository;
 
 class SiteStatsEchartsWidget extends Widget
@@ -74,13 +75,15 @@ class SiteStatsEchartsWidget extends Widget
 
     public function getOnlineCount(): int
     {
-        try {
-            return \Modules\SiteStats\Models\Sessions::query()
-                ->where('updated_at', '>=', now()->subMinutes(5))
-                ->distinct('session_id')
-                ->count('session_id');
-        } catch (\Throwable $e) {
-            return 0;
-        }
+        return Cache::remember('site_stats_online_count', 60, function () {
+            try {
+                return \Modules\SiteStats\Models\Sessions::query()
+                    ->where('updated_at', '>=', now()->subMinutes(5))
+                    ->distinct('session_id')
+                    ->count('session_id');
+            } catch (\Throwable $e) {
+                return 0;
+            }
+        });
     }
 }

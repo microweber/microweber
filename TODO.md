@@ -127,7 +127,7 @@
 - [x] perf: SiteStatsEchartsWidget — `getChartData()` memoized with `$cachedChartData` instance property
   - Added `protected ?array $cachedChartData = null` to avoid re-executing 3 DB queries on repeated calls within same render cycle
   - Cache resets naturally on Livewire re-render (new component instance)
-- [ ] perf: SiteStatsEchartsWidget — `getOnlineCount()` query on sessions table not cached
+- [x] perf: SiteStatsEchartsWidget — `getOnlineCount()` cached with 60s TTL via `Cache::remember()`
 - [ ] fix(ui): echarts-widget period switching broken — `wire:ignore` prevents Livewire re-render after filter dispatch
 - [ ] refactor: mw-tree.blade.php — redundant `$suffix`/`$id` assignments (lines 17-18 duplicate lines 30-31)
 - [ ] cleanup: mw-media-browser.js — redundant condition in `$watch` callback and leftover `console.log` comments
