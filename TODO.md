@@ -51,9 +51,11 @@
   - Issues found and added below
 
 ### Test & Build Issues Found
-- [ ] fix: AutomatedBackupTest date-dependent assertion uses hardcoded month (expects 4 but today is April so next month=5) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+- [x] 2026-04-01  fix: AutomatedBackupTest date-dependent assertion uses hardcoded month _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - File: `Modules/Backup/Tests/AutomatedBackupTest.php:123`
-  - Root cause: test comment says "since we're on 2026-03-22" — assertion should use Carbon::now() relative dates, not hardcoded month
+  - Fix: replaced hardcoded `assertEquals(4, ...)` with dynamic `Carbon::now()->startOfMonth()->addMonth()->month`
+- [ ] fix: CheckoutClientTest::it_checkout_client_names flaky — missing 'success' key in response _(ref: workflows/dev-cycle/01-test-the-project.yml)_
+  - File: `Modules/Shop/Tests/Unit/CheckoutClientTest.php:74`
 - [ ] fix: 6 risky tests — output buffers not closed (Filament auth/authorization tests) _(ref: workflows/dev-cycle/01-test-the-project.yml)_
   - `tests/Feature/Filament/Pages/TemplateCustomizerPageTest.php:228`
   - `tests/Feature/Filament/PanelAccessControlTest.php:51, :231`

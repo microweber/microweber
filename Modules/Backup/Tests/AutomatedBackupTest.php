@@ -119,8 +119,9 @@ class AutomatedBackupTest extends TestCase
         $schedule->calculateNextRun();
 
         $nextRun = Carbon::parse($schedule->next_run_at);
-        // Next month since we're on 2026-03-22
-        $this->assertEquals(4, $nextRun->month);
+        // Monthly schedules always target next month (see BackupSchedule::calculateNextRun)
+        $expectedMonth = Carbon::now()->startOfMonth()->addMonth()->month;
+        $this->assertEquals($expectedMonth, $nextRun->month);
         $this->assertEquals(15, $nextRun->day);
     }
 
