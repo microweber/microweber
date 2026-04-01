@@ -138,7 +138,9 @@
   - Removed unused `$id = $getId()` (line 7) and `$id = $this->getId()` (line 30) — `$id` was never referenced
   - Removed duplicate `$suffix` initialization (lines 16-18) — already set on line 31
   - Cleaned up excessive blank lines; verified Create Page still loads without errors
-- [ ] cleanup: mw-media-browser.js — redundant condition in `$watch` callback and leftover `console.log` comments
+- [x] cleanup: mw-media-browser.js — removed redundant condition and commented-out debug code
+  - Simplified `$watch` callback: `value.length > 0 && this.selectedImages && this.selectedImages.length > 0` → `value.length > 0` (value IS selectedImages)
+  - Removed 4 lines of commented-out `console.log`, `return`, and alternative `statePath` code
 
 ### Scope Cycle
 - [ ] 01 Define Product Scope — Analyse the codebase and write a comprehensive SCOPE.md

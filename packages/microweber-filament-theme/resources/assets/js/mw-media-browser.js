@@ -8,7 +8,7 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             this.$watch('selectedImages', (value) => {
-                this.showBulkDeleteButton = value.length > 0 && this.selectedImages && this.selectedImages.length > 0;
+                this.showBulkDeleteButton = value.length > 0;
             });
         },
 
@@ -31,13 +31,7 @@ document.addEventListener('alpine:init', () => {
         bulkDeleteSelectedMedia() {
             if (this.selectedImages && this.selectedImages.length > 0) {
                 if (confirm('Are you sure you want to delete the selected images?')) {
-
-//console.log(this.$el.parentNode.parentNode.parentNode.parentNode.parentNode)
-//console.log(this.$root)
-                    const statePath = (this.$root.querySelector('[x-data-id]').getAttribute('x-data-id'))
-
-//return;
-                 //   const statePath = this.$root.closest('[x-data-id]').getAttribute('x-data-id');
+                    const statePath = this.$root.querySelector('[x-data-id]').getAttribute('x-data-id');
                     this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds', statePath, {
                         ids: this.selectedImages
                     });
