@@ -1,33 +1,14 @@
 @props(['selectedCategories', 'selectedPage', 'skipCategories', 'contentType', 'skipPageId', 'isShopFilter'])
 
-
 @php
-    use Filament\Support\Facades\FilamentView;
-
-    $id = $getId();
     $statePath = $getStatePath();
 @endphp
 <x-dynamic-component
     :component="$getFieldWrapperView()"
 >
 
-
-    @php
-        $suffix = '';
-
-        $suffix = $this->getId();
-
-
-
-    @endphp
-
-
-
-
 <div>
     @php
-
-        $id = $this->getId();
         $suffix = $this->getId();
 
         // Prepare the options array
@@ -69,8 +50,6 @@
         }
     @endphp
 
-
-
     <div
         wire:ignore
         x-data="mwTreeFormComponent({
@@ -78,12 +57,9 @@
             options: {{ json_encode($options, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }},
             params: {{ json_encode($params, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) }}
         })"
-
     >
         <div id="mw-tree-edit-content-{{$suffix}}"></div>
     </div>
 </div>
 
 </x-dynamic-component>
-
-

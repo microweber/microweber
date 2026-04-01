@@ -134,7 +134,10 @@
   - Blade rewritten with Alpine.js `x-data` component: radios call `changePeriod()` → `$wire.updatePeriod()` → chart updates via `setOption()`, footer via `x-text` bindings
   - Added loading spinner overlay, input validation (whitelist of allowed periods)
   - Verified Daily→Weekly→Monthly switching in browser: correct label counts (31/13/13) and titles
-- [ ] refactor: mw-tree.blade.php — redundant `$suffix`/`$id` assignments (lines 17-18 duplicate lines 30-31)
+- [x] refactor: mw-tree.blade.php — removed redundant `$suffix`/`$id` assignments
+  - Removed unused `$id = $getId()` (line 7) and `$id = $this->getId()` (line 30) — `$id` was never referenced
+  - Removed duplicate `$suffix` initialization (lines 16-18) — already set on line 31
+  - Cleaned up excessive blank lines; verified Create Page still loads without errors
 - [ ] cleanup: mw-media-browser.js — redundant condition in `$watch` callback and leftover `console.log` comments
 
 ### Scope Cycle
