@@ -217,12 +217,12 @@ svg[wire\:loading\.remove] {
   }
 }
 
-// Group labels — MW v2 style: smaller, muted, acts as section divider
+// Group labels — MW v2 style: looks like parent nav items, not tiny uppercase headers
 .fi-sidebar-group {
   padding: 0 !important;
-  border-top: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2: separator between sections
-  margin-top: 0px !important;
-  padding-top: 0px !important;
+  border-top: 1px solid rgba(4, 32, 69, 0.10) !important;  // MW v2: subtle separator between sections
+  margin-top: 4px !important;
+  padding-top: 4px !important;
 
   &:first-child {
     border-top: none !important;  // No separator above first group
@@ -231,12 +231,12 @@ svg[wire\:loading\.remove] {
   }
 
   .fi-sidebar-group-label {
-    color: $mw-text-faint !important;
-    font-size: 0.65rem !important;
+    color: $mw-text-secondary !important;  // Darker than before — matches MW v2 parent items
+    font-size: 0.7rem !important;
     font-weight: 600 !important;
-    letter-spacing: 0.08em !important;
+    letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
-    padding: 12px 8px 4px !important;  // Condensed: was 20px 8px 6px
+    padding: 10px 8px 4px !important;
   }
 }
 
@@ -265,9 +265,9 @@ svg[wire\:loading\.remove] {
     font-weight: 400 !important;  // MW v2 sub-item: 400
     font-size: 14px !important;  // MW v2 sub-item: 14px
     line-height: 20px !important;  // MW v2 exact: 20px
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    white-space: normal !important;  // Allow wrapping to prevent truncation
+    overflow: visible !important;
+    word-break: break-word !important;
   }
 
   // Items WITH icons = top-level items (Dashboard, Settings, etc.)
@@ -1286,8 +1286,12 @@ html.dark {
     }
   }
 
-  .fi-sidebar-group .fi-sidebar-group-label {
-    color: #4a5568 !important;
+  .fi-sidebar-group {
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+
+    .fi-sidebar-group-label {
+      color: #4a5568 !important;
+    }
   }
 
   // Page heading — light text in dark mode
@@ -1528,6 +1532,185 @@ html.dark {
   }
 
   .mw-quick-stat-card-link {
+    color: #63b3ed !important;
+  }
+}
+
+// ============================================================================
+// Dashboard — MW v2 Statistics Card (ECharts)
+// ============================================================================
+.mw-stats-card {
+  background-color: $mw-bg-surface;
+  border-radius: $mw-radius-lg;
+  box-shadow: $mw-shadow-sm;
+  overflow: hidden;
+}
+
+.mw-stats-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 12px;
+}
+
+.mw-stats-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mw-stats-card-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 8px;
+  background-color: #f0f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mw-stats-card-icon-svg {
+  width: 24px;
+  height: 24px;
+  color: $mw-text-secondary;
+}
+
+.mw-stats-card-title {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: $mw-text-secondary !important;
+  margin: 0 0 2px !important;
+}
+
+.mw-stats-card-online {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.mw-stats-card-online-count {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: $mw-text-primary !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.mw-stats-card-online-label {
+  font-size: 14px !important;
+  color: $mw-text-muted !important;
+}
+
+.mw-stats-card-header-right {
+  display: flex;
+  gap: 4px;
+}
+
+.mw-stats-card-period-label {
+  cursor: pointer;
+  font-size: 14px !important;
+  color: $mw-text-primary !important;
+  padding: 4px 8px;
+  border-radius: $mw-radius-sm;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  span {
+    font-weight: 400;
+  }
+
+  &:hover span {
+    text-decoration: underline;
+  }
+
+  input[type="radio"]:checked ~ span {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
+}
+
+.mw-stats-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px 16px;
+  border-top: 1px solid $mw-border-subtle;
+}
+
+.mw-stats-card-footer-left {
+  display: flex;
+  gap: 16px;
+}
+
+.mw-stats-card-footer-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: $mw-text-secondary;
+}
+
+.mw-stats-card-footer-icon {
+  width: 18px;
+  height: 18px;
+  color: $mw-text-muted;
+}
+
+.mw-stats-card-show-more {
+  font-size: 13px !important;
+  color: #206bc4 !important;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+// Dark mode for statistics card
+html.dark {
+  .mw-stats-card {
+    background-color: #161922 !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+  }
+
+  .mw-stats-card-icon {
+    background-color: #1e2330 !important;
+  }
+
+  .mw-stats-card-icon-svg {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-title {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-online-count {
+    color: #e2e8f0 !important;
+  }
+
+  .mw-stats-card-online-label {
+    color: #4a5568 !important;
+  }
+
+  .mw-stats-card-period-label {
+    color: #a0aec0 !important;
+  }
+
+  .mw-stats-card-footer {
+    border-top-color: #1e2330 !important;
+  }
+
+  .mw-stats-card-footer-stat {
+    color: #718096 !important;
+  }
+
+  .mw-stats-card-show-more {
     color: #63b3ed !important;
   }
 }

@@ -6,6 +6,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use Modules\SiteStats\Filament\SiteStatsDashboard;
 use Modules\SiteStats\Filament\SiteStatsDashboardChart;
+use Modules\SiteStats\Filament\SiteStatsEchartsWidget;
 
 
 class SiteStatsServiceProvider extends BaseModuleServiceProvider
@@ -54,7 +55,7 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerWidget(
-            SiteStatsDashboardChart::class,
+            SiteStatsEchartsWidget::class,
             \App\Filament\Admin\Pages\Dashboard::class);
 
         FilamentRegistry::registerWidget(
