@@ -105,6 +105,20 @@ public static function getNavigationBadgeTooltip(): ?string
                                                 Forms\Components\Textarea::make('address2'),
                                                 Forms\Components\TextInput::make('phone'),
                                             ])->columnSpanFull(),
+
+                                        Section::make()
+                                            ->heading('Tracking')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('shipping_tracking_number')
+                                                    ->label('Tracking number')
+                                                    ->placeholder('e.g. 1Z999AA10123456784')
+                                                    ->maxLength(255),
+                                                Forms\Components\TextInput::make('shipping_tracking_url')
+                                                    ->label('Tracking URL')
+                                                    ->placeholder('https://...')
+                                                    ->url()
+                                                    ->maxLength(2048),
+                                            ])->columnSpanFull(),
                                     ]),
 
                                 \Filament\Schemas\Components\Tabs\Tab::make('Payment')

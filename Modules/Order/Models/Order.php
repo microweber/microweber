@@ -67,6 +67,8 @@ class Order extends Model
         'shipping_provider_id',
         'shipping_provider',
         'shipping_amount',
+        'shipping_tracking_number',
+        'shipping_tracking_url',
         'discount_value',
         'taxes_amount',
         'order_reference_id',
