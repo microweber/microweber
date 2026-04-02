@@ -212,7 +212,12 @@
   - Added `low_stock_threshold` to variant edit form in ProductVariantManager
   - Backend already supported threshold via `InventoryService::getLowStockThreshold()` and `checkStockLevels()`
   - 169 product tests pass, no regressions
-- [ ] feat: Products — add weight/dimensions fields for shipping calculation _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Products — add weight/dimensions fields for shipping calculation _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Shipping section already existed in Product Details tab with weight, width, length, depth fields
+  - Fixed field name mismatch: form saved `weight`/`width`/`length`/`depth` but shipping drivers read `shipping_weight`/`shipping_width`/`shipping_height`/`shipping_depth`
+  - Renamed form fields to `content_data.shipping_weight`, `shipping_width`, `shipping_height`, `shipping_depth`
+  - Renamed "Length" label to "Height" to match backend field name (`shipping_height`)
+  - 169 product tests + 31 shipping tests pass, no regressions
 - [ ] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 

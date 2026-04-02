@@ -729,26 +729,25 @@ class ContentResource extends Resource
                         ->heading('Advanced')
                         ->description('Advanced product shipping settings.')
                         ->schema([
-                            Forms\Components\TextInput::make('content_data.weight')
+                            Forms\Components\TextInput::make('content_data.shipping_weight')
                                 ->numeric()
                                 ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                 ->label('Weight (kg)')
                                 ->default(0),
 
-
-                            Forms\Components\TextInput::make('content_data.width')
+                            Forms\Components\TextInput::make('content_data.shipping_width')
                                 ->numeric()
                                 ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                 ->label('Width (cm)')
                                 ->default(0),
 
-                            Forms\Components\TextInput::make('content_data.length')
+                            Forms\Components\TextInput::make('content_data.shipping_height')
                                 ->numeric()
                                 ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                ->label('Length (cm)')
+                                ->label('Height (cm)')
                                 ->default(0),
 
-                            Forms\Components\TextInput::make('content_data.depth')
+                            Forms\Components\TextInput::make('content_data.shipping_depth')
                                 ->numeric()
                                 ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                 ->label('Depth (cm)')
