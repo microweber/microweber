@@ -2267,11 +2267,20 @@ html.dark {
 }
 
 // --- Grid view ---
+// Responsive columns: ~6 cols on wide screens, ~3 on narrow, ~2 on mobile
 .mw-media-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
   padding: 12px;
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  @media (min-width: 1800px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
 .mw-media-grid-item {
@@ -2281,11 +2290,21 @@ html.dark {
   cursor: pointer;
   overflow: hidden;
   background: $mw-bg-page;
-  transition: border-color 100ms, box-shadow 100ms;
+  transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
-  &:hover { border-color: $mw-border-color; }
-  &.selected { border-color: $mw-accent; box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2); }
-  &.bulk-selected { border-color: $mw-accent; }
+  &:hover {
+    border-color: $mw-border-color;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  &.selected {
+    border-color: $mw-accent;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.25);
+  }
+  &.bulk-selected {
+    border-color: $mw-accent;
+    background: rgba(66, 153, 225, 0.04);
+  }
 }
 
 .mw-media-grid-checkbox {
@@ -2310,18 +2329,40 @@ html.dark {
 
 .mw-media-grid-thumb {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: $mw-bg-page;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+// Lazy-loading wrapper — contains skeleton, image, and error fallback
+.mw-media-grid-lazy {
+  width: 100%;
+  height: 100%;
+  position: relative;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.02);
   }
+}
+
+// Skeleton loading animation
+.mw-media-grid-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
+  background-size: 200% 100%;
+  animation: mw-skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes mw-skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .mw-media-grid-icon {
@@ -2651,6 +2692,12 @@ html.dark {
   }
 
   .mw-media-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .mw-media-grid-thumb {
+    aspect-ratio: 1;
   }
 }

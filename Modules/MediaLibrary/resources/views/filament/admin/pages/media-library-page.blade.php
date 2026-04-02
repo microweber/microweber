@@ -202,10 +202,36 @@
                                     <input type="checkbox" {{ in_array($item->id, $bulkSelected) ? 'checked' : '' }} />
                                 </label>
 
-                                {{-- Thumbnail --}}
+                                {{-- Thumbnail with lazy loading via IntersectionObserver --}}
                                 <div class="mw-media-grid-thumb">
-                                    @if($item->file_type === 'image')
-                                        <img src="{{ $item->url }}" alt="{{ $item->title }}" loading="lazy" />
+                                    @if($item->file_type === 'image' || in_array($item->media_type, ['picture', 'image']))
+                                        <div
+                                            class="mw-media-grid-lazy"
+                                            x-data="{ loaded: false, error: false }"
+                                            x-intersect.once="
+                                                const img = $el.querySelector('img');
+                                                if (img) {
+                                                    img.src = img.dataset.src;
+                                                    img.onload = () => { loaded = true; };
+                                                    img.onerror = () => { error = true; loaded = true; };
+                                                }
+                                            "
+                                        >
+                                            {{-- Skeleton placeholder --}}
+                                            <div class="mw-media-grid-skeleton" x-show="!loaded" x-cloak></div>
+                                            {{-- Actual image (src set by IntersectionObserver) --}}
+                                            <img
+                                                data-src="{{ $this->getThumbnailUrl($item->filename, \Modules\MediaLibrary\Filament\Admin\Pages\MediaLibrary::GRID_THUMB_WIDTH) }}"
+                                                alt="{{ $item->title }}"
+                                                x-show="loaded && !error"
+                                                x-cloak
+                                                x-transition.opacity.duration.200ms
+                                            />
+                                            {{-- Error fallback --}}
+                                            <div class="mw-media-grid-icon" x-show="error" x-cloak>
+                                                <x-heroicon-o-photo class="w-10 h-10" />
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="mw-media-grid-icon">
                                             @if($item->file_type === 'video')
@@ -255,8 +281,8 @@
                                             </label>
                                         </td>
                                         <td>
-                                            @if($item->file_type === 'image')
-                                                <img src="{{ $item->url }}" alt="" class="mw-media-list-thumb" loading="lazy" />
+                                            @if($item->file_type === 'image' || in_array($item->media_type, ['picture', 'image']))
+                                                <img src="{{ $this->getThumbnailUrl($item->filename, 80) }}" alt="" class="mw-media-list-thumb" loading="lazy" />
                                             @else
                                                 <span class="mw-media-list-type-icon">
                                                     @if($item->file_type === 'video')
@@ -300,7 +326,7 @@
 
                 {{-- Preview --}}
                 <div class="mw-media-detail-preview">
-                    @if($selectedMediaData['file_type'] === 'image')
+                    @if($selectedMediaData['file_type'] === 'image' || in_array($selectedMediaData['media_type'], ['picture', 'image']))
                         <img src="{{ $selectedMediaData['url'] }}" alt="{{ $selectedMediaData['title'] }}" />
                     @else
                         <div class="mw-media-detail-icon">

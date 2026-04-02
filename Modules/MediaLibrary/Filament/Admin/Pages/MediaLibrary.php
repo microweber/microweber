@@ -53,6 +53,9 @@ class MediaLibrary extends Page
 
     protected int $perPage = 36;
 
+    /** Thumbnail width in pixels for grid view. */
+    public const GRID_THUMB_WIDTH = 300;
+
     public static function canAccess(): bool
     {
         return is_admin();
@@ -467,6 +470,25 @@ class MediaLibrary extends Page
     // =========================================================================
     // Helpers
     // =========================================================================
+
+    /**
+     * Generate a cached thumbnail URL for grid display.
+     * Uses the existing thumbnail() helper which handles {SITE_URL} placeholders,
+     * caching, and webp conversion.
+     */
+    public function getThumbnailUrl(string $filename, int $width = 300): string
+    {
+        if (empty($filename)) {
+            return '';
+        }
+
+        try {
+            $url = thumbnail($filename, $width);
+            return $url ?: $filename;
+        } catch (\Throwable $e) {
+            return $filename;
+        }
+    }
 
     public function formatFileSize(?int $bytes): string
     {
