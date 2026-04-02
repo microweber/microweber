@@ -240,7 +240,12 @@
 - [x] feat: Users — add role assignment to create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Login Page
-- [ ] style: Login page — match MW v2 visual design (branding, layout, colors) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-02  style: Login page — match MW v2 visual design (branding, layout, colors) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Added login-specific CSS to microweber-theme-v3.scss: cool blue-gray background, card shadow/border, 420px max-width, centered logo, dark navy submit button with MW v2 box-shadow
+  - Fixed brandLogo fallback in FilamentAdminPanelProvider to use admin_logo_login() SVG when admin_logo() is empty
+  - Added dark mode login styles (dark background, dark card, accent button)
+  - Logo centered with proper sizing in login header
+  - Visual QA verified: login page and dashboard both display correctly
 
 ---
 
@@ -450,7 +455,7 @@
 
 ### 10. Cross-Cutting Design Tasks
 
-- [ ] 10.1 Login page — match MW v2 login design
+- [x] 10.1 Login page — match MW v2 login design
 - [ ] 10.2 Dark mode — full QA pass across all pages
 - [ ] 10.3 Mobile responsive — sidebar collapse, table stacking
 - [ ] 10.4 Form layouts — consistent field spacing, labels, help text

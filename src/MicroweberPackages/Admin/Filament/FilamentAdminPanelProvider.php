@@ -100,7 +100,11 @@ class FilamentAdminPanelProvider extends PanelProvider
             // ->sidebarCollapsibleOnDesktop()
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
-                return mw()->ui->admin_logo();
+                $logo = mw()->ui->admin_logo();
+                if (empty($logo)) {
+                    $logo = mw()->ui->admin_logo_login();
+                }
+                return $logo;
             })
             ->brandName(function () {
                 return mw()->ui->brand_name();

@@ -1715,3 +1715,106 @@ html.dark {
     color: #63b3ed !important;
   }
 }
+
+// ============================================================================
+// Login Page — MW v2 Visual Design
+// ============================================================================
+// Centered card layout with MW v2 branding, colors, and spacing.
+// Targets Filament's simple/auth layout used for login, registration, etc.
+// ============================================================================
+
+.fi-simple-layout {
+  background-color: $mw-bg-page !important;
+}
+
+.fi-simple-main {
+  border-radius: $mw-radius-lg !important;
+  box-shadow: $mw-shadow-card !important;
+  max-width: 420px !important;
+  ring: none;
+
+  // Override Filament's ring border with MW v2 border
+  --tw-ring-shadow: none !important;
+  border: 1px solid $mw-border-color;
+}
+
+.fi-simple-header {
+  text-align: center;
+
+  .fi-logo {
+    display: flex;
+    justify-content: center;
+
+    img {
+      height: 40px !important;
+      width: auto !important;
+    }
+  }
+
+  .fi-simple-header-heading {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: $mw-text-primary !important;
+    line-height: 32px;
+  }
+
+  .fi-simple-header-subheading {
+    font-size: 14px !important;
+    color: $mw-text-muted !important;
+  }
+}
+
+// Login form inputs — MW v2 style
+.fi-simple-page {
+  .fi-fo-field-wrp {
+    label {
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      color: $mw-text-primary !important;
+    }
+  }
+
+  // Primary submit button — MW v2 dark navy style
+  .fi-btn-primary {
+    background-color: $mw-text-primary !important;
+    border-radius: $mw-radius-sm !important;
+    font-weight: 600 !important;
+    box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px,
+                rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;
+
+    &:hover {
+      background-color: #2a3a4d !important;
+    }
+  }
+}
+
+// Dark mode login
+html.dark {
+  .fi-simple-layout {
+    background-color: #0f1117 !important;
+  }
+
+  .fi-simple-main {
+    background-color: #161922 !important;
+    border-color: #2d3748 !important;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px 0px !important;
+  }
+
+  .fi-simple-header {
+    .fi-simple-header-heading {
+      color: #e2e8f0 !important;
+    }
+
+    .fi-simple-header-subheading {
+      color: #718096 !important;
+    }
+  }
+
+  .fi-simple-page .fi-btn-primary {
+    background-color: $mw-accent !important;
+
+    &:hover {
+      background-color: #5aabe8 !important;
+    }
+  }
+}
