@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use MicroweberPackages\Role\Models\Role;
 use MicroweberPackages\User\Filament\Resources\UsersResource\Pages;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -64,6 +65,12 @@ public static function form(Schema $schema): Schema
                         '0' => 'No',
                         '1' => 'Yes',
                     ]),
+                Select::make('roles')
+                    ->label('Roles')
+                    ->multiple()
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
@@ -77,6 +84,10 @@ public static function form(Schema $schema): Schema
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('first_name')->searchable(),
                 Tables\Columns\TextColumn::make('last_name')->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Roles')
+                    ->badge()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at'),
 
             ])

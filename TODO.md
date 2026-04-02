@@ -237,7 +237,7 @@
 
 ### Users Resource (currently 60%)
 - [x] feat: Users — enable create/edit routes and verify form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
-- [ ] feat: Users — add role assignment to create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Users — add role assignment to create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Login Page
 - [ ] style: Login page — match MW v2 visual design (branding, layout, colors) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
