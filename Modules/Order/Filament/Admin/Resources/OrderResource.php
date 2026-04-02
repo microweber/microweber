@@ -281,6 +281,16 @@ public static function getNavigationBadgeTooltip(): ?string
                         ])
                         ->collapsible()
                         ->hidden(fn(?Order $record) => $record === null),
+
+                    Section::make('Refunds')
+                        ->schema([
+                            Forms\Components\ViewField::make('refund_history')
+                                ->view('modules.order::filament.admin.refund-history')
+                                ->dehydrated(false)
+                                ->columnSpanFull(),
+                        ])
+                        ->collapsible()
+                        ->hidden(fn(?Order $record) => $record === null || $record->refunds->isEmpty()),
                 ])->columnSpan(['lg' => 1])
 
             ])

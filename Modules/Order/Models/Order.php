@@ -168,6 +168,11 @@ class Order extends Model
         return $this->hasMany(OrderStatusHistory::class, 'order_id')->orderByDesc('created_at');
     }
 
+    public function refunds()
+    {
+        return $this->hasMany(OrderRefund::class, 'order_id')->orderByDesc('created_at');
+    }
+
     public function payments()
     {
         return $this->morphMany(\Modules\Payment\Models\Payment::class, 'rel');
