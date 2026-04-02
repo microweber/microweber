@@ -249,9 +249,33 @@
 
 ---
 
+## Phase 2: Media & Navigation _(ref: PLAN.md, docs/features/media-library.md)_
+
+### Media Library
+- [ ] feat: Media Library — create Livewire full-page component with 3-panel layout (folder sidebar, grid/list, detail panel) _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — build thumbnail grid view with responsive columns and lazy loading _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — add list/table view toggle with session-persisted preference _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — build folder tree sidebar with create/rename/delete actions _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — add drag-and-drop upload zone with progress indicators _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — add bulk select with delete, move-to-folder, and CDN sync actions _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — build metadata/detail panel with title, description, alt text, dimensions, usage info _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — add search bar and filters (type, date range, folder) _(ref: docs/features/media-library.md)_
+- [ ] feat: Media Library — integrate Unsplash stock photo search as tab/panel _(ref: docs/features/media-library.md)_
+- [ ] test: Media Library — add Livewire component tests for upload, folder CRUD, bulk actions, and search _(ref: docs/features/media-library.md)_
+
+### Menu Management
+- [ ] feat: Menu management — build drag-and-drop menu editor with nested items _(ref: PLAN.md 2.5)_
+- [ ] feat: Menu management — add item types (page link, custom URL, category) _(ref: PLAN.md 2.6)_
+- [ ] feat: Menu management — add menu location assignment (header, footer, sidebar) _(ref: PLAN.md 2.7)_
+
+---
+
 ### Feature Cycle
-- [ ] 01 Define Feature — Write a complete spec with acceptance criteria before any code is written
+- [x] 2026-04-02  01 Define Feature — Write a complete spec with acceptance criteria before any code is written
   - https://agents.tools.ooyes.net/workflows/feature-cycle/01-define-feature.yml
+  - Feature: Media Library — Full Admin UI (Phase 2 top priority)
+  - Spec written at `docs/features/media-library.md` with: problem statement, 7 user stories, 19 acceptance criteria, UI layout wireframe, data requirements, API design, security considerations, open questions
+  - Implementation tasks added below (Phase 2 section)
 - [ ] 02 Design and Review — Technical design covering data, services, API, security, and performance
   - https://agents.tools.ooyes.net/workflows/feature-cycle/02-design-and-review.yml
 - [ ] 03 Implement — Execute the design task-by-task with verification after each change
