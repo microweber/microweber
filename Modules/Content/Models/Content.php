@@ -169,6 +169,7 @@ class Content extends Model
         "updated_at",
         "created_at",
         "posted_at",
+        "low_stock_threshold",
     ];
 
     protected function casts(): array

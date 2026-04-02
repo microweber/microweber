@@ -175,6 +175,12 @@ class ProductVariantManager extends AdminComponent implements HasForms, HasTable
                             ->numeric()
                             ->default(0),
 
+                        TextInput::make('low_stock_threshold')
+                            ->numeric()
+                            ->label('Low Stock Threshold')
+                            ->helperText('Alert when stock falls below this.')
+                            ->default(10),
+
                         Toggle::make('allow_backorders')
                             ->label('Allow Backorders')
                             ->default(false),

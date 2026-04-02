@@ -677,6 +677,14 @@ class ContentResource extends Resource
                             ->rules(['regex:/^\d{1,6}$/'])
                             ->label('Max quantity per order')
                             ->default(0),
+
+                        Forms\Components\TextInput::make('low_stock_threshold')
+                            ->numeric()
+                            ->rules(['regex:/^\d{1,6}$/'])
+                            ->label('Low stock threshold')
+                            ->helperText('Get alerted when stock falls below this number.')
+                            ->default(10)
+                            ->placeholder('10'),
                     ])->hidden(function (Schemas\Components\Utilities\Get $get) {
                         return !$get('content_data.track_quantity');
                     }),

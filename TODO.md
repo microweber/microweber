@@ -205,7 +205,13 @@
   - Create page shows "Save the product first" empty state (variants require a product ID)
   - Registered Livewire component in `ProductServiceProvider`
   - 171 product tests pass, no regressions
-- [ ] feat: Products — add inventory tracking fields (stock qty, low-stock threshold) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Products — add inventory tracking fields (stock qty, low-stock threshold) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Product Details tab already had: SKU, barcode, track_quantity toggle, quantity, sell_oos, max_qty_per_order
+  - Added `low_stock_threshold` field to Inventory section (visible when Track Quantity is on)
+  - Added `low_stock_threshold` to Content model's `$fillable` array
+  - Added `low_stock_threshold` to variant edit form in ProductVariantManager
+  - Backend already supported threshold via `InventoryService::getLowStockThreshold()` and `checkStockLevels()`
+  - 169 product tests pass, no regressions
 - [ ] feat: Products — add weight/dimensions fields for shipping calculation _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
