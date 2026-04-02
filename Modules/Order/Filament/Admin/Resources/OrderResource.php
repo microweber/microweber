@@ -429,6 +429,23 @@ public static function getNavigationBadgeTooltip(): ?string
             ->defaultSort('id', 'desc')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('update_status')
+                        ->label('Update status')
+                        ->icon('heroicon-m-arrow-path')
+                        ->form([
+                            Forms\Components\Select::make('order_status')
+                                ->label('New status')
+                                ->options(OrderStatus::class)
+                                ->required(),
+                        ])
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records, array $data): void {
+                            $records->each(function (Order $order) use ($data) {
+                                $order->order_status = $data['order_status'];
+                                $order->save();
+                            });
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->successNotificationTitle('Order statuses updated'),
                     Tables\Actions\ExportBulkAction::make()
                         ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
                         ->form(function (Tables\Actions\BulkAction $action): array {

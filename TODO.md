@@ -232,7 +232,7 @@
 ### Orders Resource (currently 85%)
 - [x] feat: Orders — add status-change timeline/activity log _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [x] feat: Orders — add shipping tracking number field _(ref: workflows/scope-cycle/02-make-actionable-plan)_
-- [ ] feat: Orders — add bulk status update action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Orders — add bulk status update action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Orders — add refund processing UI (partial/full) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Users Resource (currently 60%)
