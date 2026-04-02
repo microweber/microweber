@@ -218,7 +218,10 @@
   - Renamed form fields to `content_data.shipping_weight`, `shipping_width`, `shipping_height`, `shipping_depth`
   - Renamed "Length" label to "Height" to match backend field name (`shipping_height`)
   - 169 product tests + 31 shipping tests pass, no regressions
-- [ ] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Already existed: `content_data.sku` and `content_data.barcode` in Product Details → Inventory section
+  - Also has QueryBuilder filter constraints for SKU and barcode in list table
+  - No code changes needed — feature was already complete
 - [ ] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Orders Resource (currently 85%)
