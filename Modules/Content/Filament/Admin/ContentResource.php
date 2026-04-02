@@ -1186,6 +1186,42 @@ return \MicroweberPackages\User\Models\User::query()
                 ->formatStateUsing(fn ($state) => $state ? user_name($state) : '—')
                 ->toggleable(isToggledHiddenByDefault: false),
 
+            Tables\Columns\TextColumn::make('stock_status')
+                ->label('Stock')
+                ->badge()
+                ->getStateUsing(function (Model $record) {
+                    if ($record->content_type !== 'product') {
+                        return null;
+                    }
+                    $trackQuantity = $record->getContentDataByFieldName('track_quantity');
+                    if (!$trackQuantity) {
+                        return 'In Stock';
+                    }
+                    $qty = (int) ($record->qty ?? 0);
+                    if ($qty <= 0) {
+                        return 'Out of Stock';
+                    }
+                    $threshold = $record->low_stock_threshold ?? 10;
+                    if ($qty <= $threshold) {
+                        return 'Low Stock';
+                    }
+                    return 'In Stock';
+                })
+                ->color(fn (?string $state): string => match ($state) {
+                    'In Stock' => 'success',
+                    'Low Stock' => 'warning',
+                    'Out of Stock' => 'danger',
+                    default => 'gray',
+                })
+                ->icon(fn (?string $state): ?string => match ($state) {
+                    'In Stock' => 'heroicon-m-check-circle',
+                    'Low Stock' => 'heroicon-m-exclamation-triangle',
+                    'Out of Stock' => 'heroicon-m-x-circle',
+                    default => null,
+                })
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->visible(fn ($livewire) => $livewire instanceof \Modules\Product\Filament\Admin\Resources\ProductResource\Pages\ListProducts),
+
             Tables\Columns\SelectColumn::make('is_active')
                 ->options([
                     1 => 'Published',

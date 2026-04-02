@@ -15,7 +15,32 @@
 
 {{-- opacity-0 group-hover:opacity-100 --}}
 
-    <div class="flex flex-row sm:flex-row items-center mt-2 sm:mt-0 w-full sm:w-auto justify-start sm:justify-end">
+    <div class="flex flex-row sm:flex-row items-center mt-2 sm:mt-0 w-full sm:w-auto justify-start sm:justify-end gap-3">
+        @if($content->content_type === 'product')
+            @php
+                $trackQty = $content->getContentDataByFieldName('track_quantity');
+                if ($trackQty) {
+                    $qty = (int) ($content->qty ?? 0);
+                    $threshold = $content->low_stock_threshold ?? 10;
+                    if ($qty <= 0) {
+                        $stockLabel = 'Out of Stock';
+                        $stockColor = 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400';
+                    } elseif ($qty <= $threshold) {
+                        $stockLabel = 'Low Stock';
+                        $stockColor = 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400';
+                    } else {
+                        $stockLabel = 'In Stock';
+                        $stockColor = 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400';
+                    }
+                } else {
+                    $stockLabel = 'In Stock';
+                    $stockColor = 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400';
+                }
+            @endphp
+            <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium {{ $stockColor }}">
+                {{ $stockLabel }}
+            </span>
+        @endif
         <a class="" href="{{content_link($content->id)}}" target="_blank" data-bs-toggle="tooltip" x-data="{}" x-tooltip="{
             content: 'View',
             theme: $store.theme,

@@ -222,7 +222,12 @@
   - Already existed: `content_data.sku` and `content_data.barcode` in Product Details → Inventory section
   - Also has QueryBuilder filter constraints for SKU and barcode in list table
   - No code changes needed — feature was already complete
-- [ ] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Products — add stock status badge in list view _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Added stock badge to grid view via `content-view-column.blade.php` (product-only, with `@if content_type === 'product'`)
+  - Added stock badge TextColumn to list view in `getListTableColumns()` (visible only on ListProducts page)
+  - Badge states: "In Stock" (green), "Low Stock" (warning), "Out of Stock" (danger)
+  - Logic: if track_quantity disabled → "In Stock"; if qty <= 0 → "Out of Stock"; if qty <= threshold → "Low Stock"
+  - Badge hidden on Pages/Posts lists; 169 product tests pass, no regressions
 
 ### Orders Resource (currently 85%)
 - [ ] feat: Orders — add status-change timeline/activity log _(ref: workflows/scope-cycle/02-make-actionable-plan)_
