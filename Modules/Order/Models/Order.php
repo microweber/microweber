@@ -109,13 +109,27 @@ class Order extends Model
     {
         parent::boot();
 
-//        static::created(function ($model) {
-//            $model->calculateNewAmounts();
-//        });
-//        static::updated(function ($model) {
-//            $model->calculateNewAmounts();
-//        });
+        static::created(function (Order $order) {
+            if ($order->order_status) {
+                OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'old_status' => null,
+                    'new_status' => $order->order_status,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        });
 
+        static::updating(function (Order $order) {
+            if ($order->isDirty('order_status')) {
+                OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'old_status' => $order->getOriginal('order_status'),
+                    'new_status' => $order->order_status,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        });
     }
 
 //    public function calculateNewAmounts()
@@ -146,6 +160,11 @@ class Order extends Model
         return $this->provideFilter(OrderFilter::class);
     }
 
+
+    public function statusHistory()
+    {
+        return $this->hasMany(OrderStatusHistory::class, 'order_id')->orderByDesc('created_at');
+    }
 
     public function payments()
     {

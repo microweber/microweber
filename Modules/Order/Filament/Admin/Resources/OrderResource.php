@@ -257,6 +257,16 @@ public static function getNavigationBadgeTooltip(): ?string
                                 ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
                         ])
                         ->hidden(fn(?Order $record) => $record === null),
+
+                    Section::make('Status Timeline')
+                        ->schema([
+                            Forms\Components\ViewField::make('status_timeline')
+                                ->view('modules.order::filament.admin.status-timeline')
+                                ->dehydrated(false)
+                                ->columnSpanFull(),
+                        ])
+                        ->collapsible()
+                        ->hidden(fn(?Order $record) => $record === null),
                 ])->columnSpan(['lg' => 1])
 
             ])

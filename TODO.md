@@ -230,7 +230,7 @@
   - Badge hidden on Pages/Posts lists; 169 product tests pass, no regressions
 
 ### Orders Resource (currently 85%)
-- [ ] feat: Orders — add status-change timeline/activity log _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Orders — add status-change timeline/activity log _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Orders — add shipping tracking number field _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Orders — add bulk status update action _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Orders — add refund processing UI (partial/full) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
