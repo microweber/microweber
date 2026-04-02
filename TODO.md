@@ -252,7 +252,7 @@
 ## Phase 2: Media & Navigation _(ref: PLAN.md, docs/features/media-library.md)_
 
 ### Media Library
-- [ ] feat: Media Library — create Livewire full-page component with 3-panel layout (folder sidebar, grid/list, detail panel) _(ref: docs/features/media-library.md)_
+- [x] feat: Media Library — create Livewire full-page component with 3-panel layout (folder sidebar, grid/list, detail panel) _(ref: docs/features/media-library.md)_ ✅ 2026-04-02 — Livewire page with folder sidebar, grid/list views, detail panel, drag-and-drop upload, bulk actions, search/filter, and SCSS styles
 - [ ] feat: Media Library — build thumbnail grid view with responsive columns and lazy loading _(ref: docs/features/media-library.md)_
 - [ ] feat: Media Library — add list/table view toggle with session-persisted preference _(ref: docs/features/media-library.md)_
 - [ ] feat: Media Library — build folder tree sidebar with create/rename/delete actions _(ref: docs/features/media-library.md)_

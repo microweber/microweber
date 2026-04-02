@@ -1,263 +1,391 @@
-<div>
-    <div class="media-search-stock-images-wrapper">
-        <style>
-
-            html, body {
-                height: auto;
-            }
-
-            .image-item-thumbnail {
-                display: inline-block;
-                background-repeat: no-repeat;
-                background-size: contain;
-                background-position: center;
-                width: 100% !important;
-                height: 115px !important;
-            }
-
-            #media-results {
-                overflow: hidden;
-            }
-
-            #media-results li {
-                min-height: 270px;
-            }
-
-            #media-results li .image-item-thumbnail {
-                width: 100% !important;
-                height: 171px !important;
-                margin-bottom: 5px;
-            }
-
-            #media-results li a {
-                font-size: 13px;
-                color: #156fbb;
-                width: 100% !important;
-            }
-
-            #media-results li.no-results {
-                width: 100%;
-                text-align: center;
-            }
-
-            #media-results li .mw-spinner {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                z-index: 3;
-                transform: translate(-50%, -50%);
-            }
-
-            #media-results li {
-                float: left;
-                position: relative;
-                width: 31.33%;
-                padding: 0;
-                border: 1px solid #d6d6d6;
-                margin: 1%;
-                border-radius: 3px;
-                box-shadow: 0 2px 2px #00000012;
-                text-align: center;
-                list-style: none;
-            }
-
-            .stock-field {
-                width: 100%;
-                padding-bottom: 20px;
-            }
-
-            .image-item-likes {
-                padding: 5px;
-                color: red;
-                position: absolute;
-                right: 4px;
-                background: #fff;
-                top: 4px;
-                border-radius: 6px;
-                padding-bottom: 2px;
-                max-width: 65px;
-            }
-
-            .image-item-likes span {
-                float: left;
-                font-size: 13px;
-                margin-right: 4px;
-            }
-
-            .image-item-author {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 8px 0 0;
-            }
-
-            .image-item-is-downloaded {
-                z-index: 2;
-                font-size: 46px;
-                color: #45b318;
-                position: absolute;
-                text-align: center;
-                background: #ffffffb3;
-                width: 100%;
-                height: 173px;
-                padding-top: 65px;
-            }
-
-            .stock-field {
-                position: relative;
-            }
-
-            .stock-field .mw-spinner {
-                position: absolute;
-                top: 10px;
-                right: 14px;
-                z-index: 1;
-                pointer-events: none;
-            }
-        </style>
-        <script>
-            function selectMediaImage(imageElement, photoId) {
-
-                mw.spinner(({element: imageElement.parent(), size: 30})).show();
-
-
-                getMediaImageUrl = mw.settings.api_url + "media_library/download?photo_id=" + photoId;
-
-                $.get(getMediaImageUrl, function (imageUrl) {
-                    mw.url.windowHashParam('select-file', encodeURIComponent(imageUrl));
-                    $(imageElement).parent().find('.image-item-thumbnail').css('opacity', ' 0.6');
-                    $(imageElement).parent().find('.image-item-thumbnail').before('<span class="mw-icon-checkmark-circled image-item-is-downloaded"></span>');
-                    mw.top().notification.success('<?php _ejs('Image selected'); ?>', 3000);
-                    mw.spinner(({element: imageElement.parent(), size: 30})).remove();
-
-                });
-
-
-                mw.reload_module('files/browser');
-            }
-
-            function doSearch(node) {
-                var val = node.value.trim();
-                if (!val) {
-                    mw.spinner(({element: node.parentNode})).hide();
-                }
-                mw.spinner(({element: node.parentNode, size: 20})).show();
-                mw.on.stopWriting(node, function () {
-                    searchMediaLibrary(node.value, 1, function () {
-                        mw.spinner(({element: node.parentNode})).hide();
-                        setTimeout(function () {
-                            if (window.thismodal) {
-                                thismodal.center()
-                            }
-                        })
-                    })
-                })
-            }
-
-            var searchMediaLibraryXHR = null;
-
-            function searchMediaLibrary(search, page, callback) {
-                page = page || 1
-                search = (search || '').trim();
-                var root = $('#mw-media-library-results .mw-browser-list');
-                if (!search) {
-                    $('.stock-field').removeClass('loading')
-                    $('#resbox').hide();
-                    return;
-                }
-                $('#resbox').show();
-                if (searchMediaLibraryXHR) {
-                    searchMediaLibraryXHR.abort();
-                }
-                searchMediaLibraryXHR = $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search + "&page=" + page, function (data) {
-
-                    if (page == 1) {
-                        root.html('<?php _ejs('Searching'); ?>...');
-                    }
-
-                    if (data.success) {
-                        if (page == 1) {
-                            root.empty();
-                        }
-                        if (data.photos.length) {
-                            $.each(data.photos, function (key, val) {
-
-                                var li = $('<li/>');
-                                var download = $('<button class="btn btn-outline-primary btn-sm py-1 px-1" />');
-                                var thumbnail = $('<span class="image-item-thumbnail" style="background-image:url(' + val.url_thumb + ');">');
-                                var author = '<div class="image-item-author">Author: <br><a href="' + val.author_url + '" target="_new">' + val.author + '</a></div>';
-                                var likes = $('<span class="image-item-likes d-flex align-items-center justify-content-center" />');
-
-                                download.on('click', function () {
-                                    selectMediaImage($(this), val.id);
-                                    $(this).hide();
-                                });
-
-                                li.append(likes);
-                                li.append(thumbnail);
-                                li.append(download);
-                                li.append(author);
-
-                                download.append('<?php _ejs('Download'); ?>');
-                                likes.append('<span class="mdi mdi-heart"></span>' + val.likes);
-
-                                root.append(li);
-
-                            });
-
-                            var nextPage = parseInt(page) + 1;
-
-                            var loadMoreFunction = "searchMediaLibrary('" + search + "'," + nextPage + ");";
-
-                            $('#mw-media-library-pagination').html('<div style="text-align: center;"><button onClick="' + loadMoreFunction + '" class="btn btn-primary">Load more</button></div>');
-
-                        } else {
-                            $('.media-results').html('<li class="no-results">Nothing found for <b>' + search + '</b></li>')
-                        }
-
-                    } else {
-                        $('#mw-media-library-results').find('.mw-browser-list').html(data.error);
-                    }
-                    callback.call(data)
-
-
-                }).always(function () {
-                    setTimeout(function () {
-
-                        var dialog = mw.top().dialog.get();
-                        if (dialog) {
-                            dialog.center();
-                        }
-
-                    }, 50);
-
-
-                });
-            }
-
-            searchMediaLibrary('');
-        </script>
-
-
-        <div class="text-center mt-3 mx-auto" style="max-width: 450px;">
-            <h4 class="mb-3"><?php _e("Search free images from Unsplash"); ?></h4>
-            <small class="text-muted d-block"><?php _e("Enter a search term bellow to begin searching images from "); ?>
-                <a href="http://unsplash.com" target="_new" style="color:#009cff;">Unsplash.com</a>.
-                <br/><?php _e("You can use free stock images."); ?></small>
-
-            <div class="form-control-live-edit-label-wrapper stock-field mt-4">
-                <input type="text" class="form-control-live-edit-input"
-                       placeholder="<?php _e("Example: cars, business or landscape..."); ?>" oninput="doSearch(this)">
+<div
+    x-data="{
+        showUploadZone: false,
+        dragOver: false,
+        confirmBulkDelete: false,
+        showMoveToFolder: false,
+        showCreateFolder: false,
+    }"
+    class="mw-media-library"
+>
+    {{-- ================================================================== --}}
+    {{-- Toolbar: Search, Filters, View Toggle, Upload                     --}}
+    {{-- ================================================================== --}}
+    <div class="mw-media-toolbar">
+        <div class="mw-media-toolbar-left">
+            <div class="mw-media-search">
+                <x-heroicon-m-magnifying-glass class="mw-media-search-icon" />
+                <input
+                    type="text"
+                    wire:model.live.debounce.300ms="search"
+                    placeholder="Search media..."
+                    class="mw-media-search-input"
+                />
             </div>
+
+            <select wire:model.live="typeFilter" class="mw-media-filter-select">
+                <option value="">All types</option>
+                <option value="picture">Images</option>
+                <option value="video">Videos</option>
+                <option value="audio">Audio</option>
+                <option value="file">Documents</option>
+            </select>
         </div>
 
-        <div style="display: none;" id="resbox">
-            <div id="mw-media-library-results">
-                <ul class="mw-browser-list" id="media-results">
-                </ul>
+        <div class="mw-media-toolbar-right">
+            {{-- View toggle --}}
+            <div class="mw-media-view-toggle">
+                <button
+                    wire:click="toggleView('grid')"
+                    class="mw-media-view-btn {{ $viewMode === 'grid' ? 'active' : '' }}"
+                    title="Grid view"
+                >
+                    <x-heroicon-m-squares-2x2 class="w-4 h-4" />
+                </button>
+                <button
+                    wire:click="toggleView('list')"
+                    class="mw-media-view-btn {{ $viewMode === 'list' ? 'active' : '' }}"
+                    title="List view"
+                >
+                    <x-heroicon-m-list-bullet class="w-4 h-4" />
+                </button>
             </div>
-            <div id="mw-media-library-pagination"></div>
-        </div>
 
+            {{-- Upload button --}}
+            <button
+                @click="showUploadZone = !showUploadZone"
+                class="mw-media-upload-btn"
+            >
+                <x-heroicon-m-arrow-up-tray class="w-4 h-4" />
+                Upload
+            </button>
+        </div>
     </div>
 
+    {{-- Bulk actions bar --}}
+    @if(count($bulkSelected) > 0)
+        <div class="mw-media-bulk-bar">
+            <span class="mw-media-bulk-count">{{ count($bulkSelected) }} selected</span>
+            <button wire:click="selectAllVisible" class="mw-media-bulk-action">Select all</button>
+            <button wire:click="deselectAll" class="mw-media-bulk-action">Deselect</button>
+            <button @click="showMoveToFolder = true" class="mw-media-bulk-action">
+                <x-heroicon-m-folder-arrow-down class="w-4 h-4" /> Move
+            </button>
+            <button @click="confirmBulkDelete = true" class="mw-media-bulk-action mw-media-bulk-danger">
+                <x-heroicon-m-trash class="w-4 h-4" /> Delete
+            </button>
+        </div>
+
+        {{-- Bulk delete confirmation --}}
+        <div x-show="confirmBulkDelete" x-cloak class="mw-media-confirm-bar">
+            <span>Delete {{ count($bulkSelected) }} items permanently?</span>
+            <button wire:click="bulkDelete" @click="confirmBulkDelete = false" class="mw-media-confirm-yes">Yes, delete</button>
+            <button @click="confirmBulkDelete = false" class="mw-media-confirm-no">Cancel</button>
+        </div>
+
+        {{-- Move to folder selector --}}
+        <div x-show="showMoveToFolder" x-cloak class="mw-media-confirm-bar">
+            <span>Move to:</span>
+            <button wire:click="bulkMoveToFolder(null)" @click="showMoveToFolder = false" class="mw-media-bulk-action">Root (no folder)</button>
+            @foreach($this->folders as $folder)
+                <button wire:click="bulkMoveToFolder({{ $folder['id'] }})" @click="showMoveToFolder = false" class="mw-media-bulk-action">{{ $folder['name'] }}</button>
+            @endforeach
+            <button @click="showMoveToFolder = false" class="mw-media-confirm-no">Cancel</button>
+        </div>
+    @endif
+
+    {{-- Upload zone --}}
+    <div
+        x-show="showUploadZone || dragOver"
+        x-cloak
+        class="mw-media-upload-zone"
+        :class="{ 'drag-over': dragOver }"
+        x-on:dragover.prevent="dragOver = true"
+        x-on:dragleave.prevent="dragOver = false"
+        x-on:drop.prevent="
+            dragOver = false;
+            const files = $event.dataTransfer.files;
+            if (files.length) {
+                $wire.uploadMultiple('uploads', files);
+            }
+        "
+    >
+        <div class="mw-media-upload-zone-inner">
+            <x-heroicon-o-cloud-arrow-up class="w-10 h-10 text-gray-400" />
+            <p>Drag files here or click to browse</p>
+            <label class="mw-media-upload-browse-btn">
+                Browse files
+                <input
+                    type="file"
+                    multiple
+                    wire:model="uploads"
+                    class="sr-only"
+                    accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
+                />
+            </label>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- 3-Panel Layout                                                     --}}
+    {{-- ================================================================== --}}
+    <div class="mw-media-panels" x-on:dragover.prevent="dragOver = true">
+
+        {{-- Left: Folder sidebar --}}
+        <aside class="mw-media-sidebar">
+            <div class="mw-media-sidebar-header">
+                <span class="mw-media-sidebar-title">Folders</span>
+                <button @click="showCreateFolder = !showCreateFolder" class="mw-media-sidebar-add" title="New folder">
+                    <x-heroicon-m-plus class="w-4 h-4" />
+                </button>
+            </div>
+
+            {{-- Create folder form --}}
+            <div x-show="showCreateFolder" x-cloak class="mw-media-folder-create">
+                <input
+                    type="text"
+                    wire:model="newFolderName"
+                    placeholder="Folder name"
+                    class="mw-media-folder-input"
+                    wire:keydown.enter="createFolder"
+                />
+                <div class="mw-media-folder-create-actions">
+                    <button wire:click="createFolder" @click="showCreateFolder = false" class="mw-media-folder-create-btn">Create</button>
+                    <button @click="showCreateFolder = false" class="mw-media-folder-cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            {{-- All Media --}}
+            <button
+                wire:click="selectFolder(null)"
+                class="mw-media-folder-item {{ $selectedFolderId === null ? 'active' : '' }}"
+            >
+                <x-heroicon-m-photo class="w-4 h-4" />
+                <span>All Media</span>
+                <span class="mw-media-folder-count">{{ $this->totalMediaCount }}</span>
+            </button>
+
+            {{-- Folder tree --}}
+            @foreach($this->folders as $folder)
+                @include('modules.media_library::filament.admin.partials.folder-item', ['folder' => $folder, 'depth' => 0])
+            @endforeach
+        </aside>
+
+        {{-- Center: Media grid/list --}}
+        <div class="mw-media-content">
+            @php $media = $this->getMediaProperty(); @endphp
+
+            @if($media->isEmpty())
+                <div class="mw-media-empty">
+                    <x-heroicon-o-photo class="w-16 h-16 text-gray-300" />
+                    <p>No media found</p>
+                    @if($search || $typeFilter || $selectedFolderId)
+                        <button wire:click="$set('search', ''); $set('typeFilter', ''); $set('selectedFolderId', null);" class="mw-media-empty-reset">
+                            Clear filters
+                        </button>
+                    @endif
+                </div>
+            @else
+                {{-- Grid view --}}
+                @if($viewMode === 'grid')
+                    <div class="mw-media-grid" wire:loading.class="opacity-50">
+                        @foreach($media as $item)
+                            <div
+                                wire:click="selectMedia({{ $item->id }})"
+                                class="mw-media-grid-item {{ $selectedMediaId === $item->id ? 'selected' : '' }} {{ in_array($item->id, $bulkSelected) ? 'bulk-selected' : '' }}"
+                            >
+                                {{-- Bulk checkbox --}}
+                                <label
+                                    class="mw-media-grid-checkbox"
+                                    wire:click.stop="toggleBulkSelect({{ $item->id }})"
+                                >
+                                    <input type="checkbox" {{ in_array($item->id, $bulkSelected) ? 'checked' : '' }} />
+                                </label>
+
+                                {{-- Thumbnail --}}
+                                <div class="mw-media-grid-thumb">
+                                    @if($item->file_type === 'image')
+                                        <img src="{{ $item->url }}" alt="{{ $item->title }}" loading="lazy" />
+                                    @else
+                                        <div class="mw-media-grid-icon">
+                                            @if($item->file_type === 'video')
+                                                <x-heroicon-o-film class="w-10 h-10" />
+                                            @elseif($item->file_type === 'audio')
+                                                <x-heroicon-o-musical-note class="w-10 h-10" />
+                                            @elseif($item->file_type === 'document')
+                                                <x-heroicon-o-document-text class="w-10 h-10" />
+                                            @else
+                                                <x-heroicon-o-paper-clip class="w-10 h-10" />
+                                            @endif
+                                            <span class="mw-media-grid-ext">.{{ pathinfo($item->filename, PATHINFO_EXTENSION) }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="mw-media-grid-label">
+                                    {{ Str::limit($item->title ?: basename($item->filename), 24) }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    {{-- List view --}}
+                    <div class="mw-media-list" wire:loading.class="opacity-50">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:32px;"></th>
+                                    <th style="width:50px;">Preview</th>
+                                    <th>Title</th>
+                                    <th>Folder</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($media as $item)
+                                    <tr
+                                        wire:click="selectMedia({{ $item->id }})"
+                                        class="{{ $selectedMediaId === $item->id ? 'selected' : '' }} {{ in_array($item->id, $bulkSelected) ? 'bulk-selected' : '' }}"
+                                    >
+                                        <td>
+                                            <label wire:click.stop="toggleBulkSelect({{ $item->id }})">
+                                                <input type="checkbox" {{ in_array($item->id, $bulkSelected) ? 'checked' : '' }} />
+                                            </label>
+                                        </td>
+                                        <td>
+                                            @if($item->file_type === 'image')
+                                                <img src="{{ $item->url }}" alt="" class="mw-media-list-thumb" loading="lazy" />
+                                            @else
+                                                <span class="mw-media-list-type-icon">
+                                                    @if($item->file_type === 'video')
+                                                        <x-heroicon-m-film class="w-5 h-5" />
+                                                    @elseif($item->file_type === 'audio')
+                                                        <x-heroicon-m-musical-note class="w-5 h-5" />
+                                                    @else
+                                                        <x-heroicon-m-document class="w-5 h-5" />
+                                                    @endif
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->title ?: basename($item->filename) }}</td>
+                                        <td>{{ $item->folder?->name ?? '-' }}</td>
+                                        <td><span class="mw-media-type-badge">{{ $item->media_type }}</span></td>
+                                        <td>{{ $this->formatFileSize($item->file_size) }}</td>
+                                        <td>{{ $item->created_at?->format('M d, Y') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+
+                {{-- Pagination --}}
+                <div class="mw-media-pagination">
+                    {{ $media->links() }}
+                </div>
+            @endif
+        </div>
+
+        {{-- Right: Detail panel --}}
+        @if($selectedMediaData)
+            <aside class="mw-media-detail">
+                <div class="mw-media-detail-header">
+                    <span>Details</span>
+                    <button wire:click="closeDetailPanel" class="mw-media-detail-close" title="Close">
+                        <x-heroicon-m-x-mark class="w-4 h-4" />
+                    </button>
+                </div>
+
+                {{-- Preview --}}
+                <div class="mw-media-detail-preview">
+                    @if($selectedMediaData['file_type'] === 'image')
+                        <img src="{{ $selectedMediaData['url'] }}" alt="{{ $selectedMediaData['title'] }}" />
+                    @else
+                        <div class="mw-media-detail-icon">
+                            @if($selectedMediaData['file_type'] === 'video')
+                                <x-heroicon-o-film class="w-16 h-16" />
+                            @elseif($selectedMediaData['file_type'] === 'audio')
+                                <x-heroicon-o-musical-note class="w-16 h-16" />
+                            @else
+                                <x-heroicon-o-document-text class="w-16 h-16" />
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Editable fields --}}
+                <div class="mw-media-detail-fields">
+                    <label>Title</label>
+                    <input type="text" wire:model="editTitle" class="mw-media-detail-input" />
+
+                    <label>Description</label>
+                    <textarea wire:model="editDescription" rows="2" class="mw-media-detail-input"></textarea>
+
+                    <label>Alt text</label>
+                    <input type="text" wire:model="editAltText" class="mw-media-detail-input" placeholder="Describe the image" />
+
+                    <button wire:click="saveMediaDetails" class="mw-media-detail-save">
+                        Save changes
+                    </button>
+                </div>
+
+                {{-- Info --}}
+                <div class="mw-media-detail-info">
+                    <div class="mw-media-detail-info-row">
+                        <span>File</span>
+                        <span class="mw-media-detail-info-value truncate" title="{{ $selectedMediaData['filename'] }}">{{ basename($selectedMediaData['filename']) }}</span>
+                    </div>
+                    <div class="mw-media-detail-info-row">
+                        <span>Type</span>
+                        <span class="mw-media-detail-info-value">{{ $selectedMediaData['media_type'] }}</span>
+                    </div>
+                    <div class="mw-media-detail-info-row">
+                        <span>Size</span>
+                        <span class="mw-media-detail-info-value">{{ $this->formatFileSize($selectedMediaData['file_size']) }}</span>
+                    </div>
+                    @if($selectedMediaData['folder_name'])
+                        <div class="mw-media-detail-info-row">
+                            <span>Folder</span>
+                            <span class="mw-media-detail-info-value">{{ $selectedMediaData['folder_name'] }}</span>
+                        </div>
+                    @endif
+                    <div class="mw-media-detail-info-row">
+                        <span>Uploaded</span>
+                        <span class="mw-media-detail-info-value">{{ $selectedMediaData['created_at'] }}</span>
+                    </div>
+                    @if($selectedMediaData['is_synced_to_cdn'])
+                        <div class="mw-media-detail-info-row">
+                            <span>CDN</span>
+                            <span class="mw-media-detail-info-value" style="color: var(--mw-success, #2fb344);">Synced</span>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Used in --}}
+                @if(!empty($selectedMediaData['used_in']))
+                    <div class="mw-media-detail-used-in">
+                        <label>Used in</label>
+                        @foreach($selectedMediaData['used_in'] as $usage)
+                            <div class="mw-media-detail-usage-item">
+                                <span>{{ $usage['type'] }}:</span> {{ $usage['title'] }}
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+                {{-- Delete button --}}
+                <div class="mw-media-detail-actions">
+                    <button
+                        wire:click="deleteMedia({{ $selectedMediaData['id'] }})"
+                        wire:confirm="Delete this media item permanently?"
+                        class="mw-media-detail-delete"
+                    >
+                        <x-heroicon-m-trash class="w-4 h-4" /> Delete
+                    </button>
+                </div>
+            </aside>
+        @endif
+    </div>
 </div>
