@@ -43,14 +43,15 @@ public static function form(Schema $schema): Schema
                 ),
                 TextInput::make('password')
                     ->password()
-                    ->dehydrateStateUsing(static function ($state) {
-                        if (!empty($state)) {
-                            return Hash::make($state);
-                        }
-                        return null;
-                    }),
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                    ->confirmed()
+                    ->minLength(4),
                 TextInput::make('password_confirmation')
-                    ->password(),
+                    ->password()
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(false),
                 Select::make('is_admin')
                     ->label('Is Admin')
                     ->options([
@@ -103,8 +104,8 @@ public static function form(Schema $schema): Schema
     {
         return [
             'index' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\ListUsers::route('/'),
-//            'create' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\CreateUsers::route('/create'),
-//            'edit' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\EditUsers::route('/{record}/edit'),
+            'create' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\CreateUsers::route('/create'),
+            'edit' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\EditUsers::route('/{record}/edit'),
         ];
     }
 
@@ -156,7 +157,7 @@ public static function form(Schema $schema): Schema
     {
         return [
             Action::make('edit')
-                ->url(static::getUrl('index', ['record' => $record->id])),
+                ->url(static::getUrl('edit', ['record' => $record])),
         ];
     }
 }

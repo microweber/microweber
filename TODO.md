@@ -236,7 +236,7 @@
 - [x] feat: Orders — add refund processing UI (partial/full) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Users Resource (currently 60%)
-- [ ] feat: Users — enable create/edit routes and verify form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] feat: Users — enable create/edit routes and verify form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Users — add role assignment to create/edit form _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 
 ### Login Page
