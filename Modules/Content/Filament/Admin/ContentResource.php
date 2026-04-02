@@ -550,6 +550,19 @@ class ContentResource extends Resource
                         ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'product';
                         }),
+                    Tabs\Tab::make('Variants')
+                        ->schema(function (Content|null $record) {
+                            $productId = $record?->id ?? 0;
+                            return [
+                                Livewire::make('admin-product-variant-manager', [
+                                    'productId' => $productId,
+                                ]),
+                            ];
+                        })
+                        ->icon('heroicon-o-swatch')
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
+                            return $get('content_type') == 'product';
+                        }),
                     Tabs\Tab::make('Custom Fields')
                         ->schema(function (Content|null $record) {
 

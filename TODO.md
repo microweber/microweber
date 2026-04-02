@@ -195,7 +195,16 @@
   - No additional code changes needed
 
 ### Products Resource (currently 60%)
-- [ ] feat: Products — add variant management UI (size/color/custom attributes) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+- [x] 2026-04-02  feat: Products — add variant management UI (size/color/custom attributes) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
+  - Created `ProductVariantManager` Livewire component with attribute selection checkboxes and combination table
+  - Added "Variants" tab to ContentResource form (visible only for products, with swatch icon)
+  - Attribute selection: checkbox cards for each active attribute, with "Manage Attributes" link
+  - Generate Combinations: button creates cartesian product of selected attribute values via `ProductVariantService`
+  - Combination table: columns for Variant label, SKU, Price, Stock, Default, Active with Edit/Delete actions
+  - Edit modal: pricing (price/compare/cost), inventory (SKU/barcode/quantity/backorders), shipping (weight), status (default/active)
+  - Create page shows "Save the product first" empty state (variants require a product ID)
+  - Registered Livewire component in `ProductServiceProvider`
+  - 171 product tests pass, no regressions
 - [ ] feat: Products — add inventory tracking fields (stock qty, low-stock threshold) _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Products — add weight/dimensions fields for shipping calculation _(ref: workflows/scope-cycle/02-make-actionable-plan)_
 - [ ] feat: Products — add SKU/barcode field to main form _(ref: workflows/scope-cycle/02-make-actionable-plan)_

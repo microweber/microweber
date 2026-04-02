@@ -20,6 +20,7 @@ use Modules\Product\Filament\ProductModuleSettings;
 use Modules\Product\Filament\ProductsModuleSettings;
 use Modules\Product\Microweber\ProductModule;
 use Modules\Product\Services\InventoryService;
+use Modules\Product\Filament\Admin\ProductVariantManager;
 use Modules\Product\Validators\PriceValidator;
 
 class ProductServiceProvider extends BaseModuleServiceProvider
@@ -36,6 +37,8 @@ class ProductServiceProvider extends BaseModuleServiceProvider
         // Register event listeners
         Event::listen(OrderWasPaid::class, UpdateInventoryOnOrderPaid::class);
 
+        // Register Livewire components
+        \Livewire\Livewire::component('admin-product-variant-manager', ProductVariantManager::class);
     }
 
     /**
