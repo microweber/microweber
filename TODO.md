@@ -475,9 +475,11 @@
   - **Tests:** Core suite 294 tests pass (19 skipped), full suite 12/12 suites pass from previous run
   - **Build:** `composer validate` clean, `npm run build` available
   - **Database:** `microweber_testing` MySQL DB connected, all migrations applied
-- [~] 02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
+- [x] 2026-04-03  02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/02-explore-codebase.yml
-- [ ] 03 First Contribution — Pick a starter issue, implement, PR, and get it merged
+  - Created `docs/architecture-guide.md`: directory structure, module system, STI content model, polymorphic relations, Filament admin, Live Edit, domain model (content/commerce/user), request flow, testing strategy, key files for contributors
+  - **92+ modules** in `Modules/`, **40+ packages** in `src/MicroweberPackages/`, **626 routes**
+- [~] 03 First Contribution — Pick a starter issue, implement, PR, and get it merged
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/03-first-contribution.yml
 
 ### Security Cycle
