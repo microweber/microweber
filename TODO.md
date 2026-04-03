@@ -460,11 +460,15 @@
   - **Rollback tested:** all 4 new migrations have proper `down()` methods; rollback + re-apply cycle verified successfully
   - **Zero-downtime safe:** all migrations are additive (new tables, new columns, column type changes) — no destructive operations, no data loss on rollback
   - **Rollback strategy:** `php artisan migrate:rollback --step=4` reverts all filament-5 order changes cleanly
-- [~] 03 Validate and Monitor — Data integrity checks, query performance, pipeline monitoring
+- [x] 2026-04-03  03 Validate and Monitor — Data integrity checks, query performance, pipeline monitoring
   - https://agents.tools.ooyes.net/workflows/data-cycle/03-validate-and-monitor.yml
+  - **Integrity checks:** 0 orphaned content_data, media, categories_items, cart items; 415 orphaned order_status_history (test data residue from deleted test orders — not a production issue)
+  - **Query performance:** EXPLAIN analysis on 5 core query patterns; 4/5 used indexes properly
+  - **Performance fix:** media table had full table scan on (rel_type, rel_id) — added composite index, query now uses `ref` scan (1 row vs 181)
+  - **Table health:** all key tables accessible, row counts verified, no corruption detected
 
 ### Onboarding Cycle
-- [ ] 01 Environment Setup — Local dev environment, tooling, credentials, verify the build runs
+- [~] 01 Environment Setup — Local dev environment, tooling, credentials, verify the build runs
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/01-environment-setup.yml
 - [ ] 02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/02-explore-codebase.yml
