@@ -374,9 +374,16 @@
   - **Uncommitted work:** 9 modified files + 3 untracked test files need to be committed before release (Media Library, Menu, CategoryResource, ContentManagerCrud bug fix, theme CSS, MetaTagsRenderHook fix)
   - **APP_DEBUG:** set to `true` in .env — must be set to `false` for production deployment
   - **Abandoned packages:** 3 (doctrine/annotations, graham-campbell/security-core, inspector-apm/neuron-ai) — no security risk, cosmetic only
-- [~] 02 Release — Version tag, changelog, deploy, migrations, health check
+- [x] 2026-04-03  02 Release — Version tag, changelog, deploy, migrations, health check
   - https://agents.tools.ooyes.net/workflows/release-cycle/02-release.yml
-- [ ] 03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
+  - Version: `4.0-dev17` (bumped from `4.0-dev16`)
+  - CHANGELOG.md updated with Added/Changed/Fixed/Security/Performance sections
+  - 6 commits: gitignore, bug fixes, Media Library, Menu editor, CategoryResource, theme CSS, release artifacts
+  - Annotated tag `v4.0-dev17` created
+  - Smoke test: admin login (200), homepage (200), version constant verified
+  - All 3 migrations already ran (order_status_history, shipping_tracking, order_refunds)
+  - Note: not pushed to remote — merge `filament-5` → `master` when ready
+- [~] 03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
   - https://agents.tools.ooyes.net/workflows/release-cycle/03-post-release.yml
 
 ### Refactor Cycle
