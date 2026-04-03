@@ -176,6 +176,7 @@ class AdminShopAutoRespondEmailPage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('New Order Notifications')
+                    ->icon('heroicon-m-bell-alert')
                     ->description('Configure email notifications for new orders')
                     ->schema([
                         Toggle::make('options.orders.order_email_enabled')
@@ -212,6 +213,7 @@ class AdminShopAutoRespondEmailPage extends AdminSettingsPage
 
 
                 Section::make('Email Templates')
+                    ->icon('heroicon-m-document-text')
                     ->description('Choose the email templates to send for different events')
                     ->schema([
                         Select::make('options.orders.new_order_mail_template')
@@ -247,6 +249,7 @@ class AdminShopAutoRespondEmailPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Advanced Settings')
+                    ->icon('heroicon-m-cog-6-tooth')
                     ->description('Additional configuration options')
                     ->collapsed()
                     ->schema([

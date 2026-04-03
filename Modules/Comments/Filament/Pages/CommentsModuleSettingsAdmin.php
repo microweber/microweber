@@ -43,6 +43,7 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('General Settings')
+                    ->icon('heroicon-m-cog-6-tooth')
                     ->schema([
                         Toggle::make('options.comments.enable_comments')
                             ->live()
@@ -80,6 +81,7 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
                     ]),
 
                 Section::make('Display Settings')
+                    ->icon('heroicon-m-eye')
                     ->schema([
                         Select::make('options.comments.default_sort')
                             ->live()
@@ -109,6 +111,7 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
                     ]),
 
                 Section::make('Email Notifications')
+                    ->icon('heroicon-m-bell')
                     ->schema([
                         Toggle::make('options.comments.notify_admin')
                             ->live()
@@ -128,6 +131,7 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
                     ]),
 
                 Section::make('Anti-Spam Settings')
+                    ->icon('heroicon-m-shield-exclamation')
                     ->schema([
                         Toggle::make('options.comments.enable_captcha')
                             ->live()

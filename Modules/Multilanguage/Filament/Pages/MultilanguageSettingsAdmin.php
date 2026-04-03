@@ -82,6 +82,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
 
 
                                 Section::make('Default Language Settings')
+                                    ->icon('heroicon-m-language')
                                     ->description('Set the default language for your website')
                                     ->visible(fn(Get $get) => $get('options.multilanguage_settings.is_active') === true)
                                     ->schema([
@@ -105,6 +106,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
 
 
                                 Section::make('Manage Languages')
+                                    ->icon('heroicon-m-list-bullet')
                                     ->visible(fn(Get $get) => $get('options.multilanguage_settings.is_active') === true)
                                     ->description('Add, edit, and manage the languages available on your website.')
                                     ->schema([
@@ -118,6 +120,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                 Grid::make(2)
                                     ->schema([
                                         Section::make('Basic Settings')
+                                            ->icon('heroicon-m-cog-6-tooth')
                                             ->schema([
 
 
@@ -135,6 +138,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                             ]),
 
                                         Section::make('Geolocation Settings')
+                                            ->icon('heroicon-m-globe-alt')
                                             ->description('Automatically detect visitor location and switch language accordingly')
                                             ->schema([
                                                 Toggle::make('options.multilanguage_settings.use_geolocation')
@@ -175,6 +179,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                             ->visible(fn(Get $get) => $get('options.multilanguage_settings.is_active') === true)
                             ->schema([
                                 Section::make('Advanced Configuration')
+                                    ->icon('heroicon-m-wrench-screwdriver')
                                     ->description('Advanced multilanguage configuration options')
                                     ->schema([
                                         Actions::make([
@@ -198,6 +203,7 @@ class MultilanguageSettingsAdmin extends AdminSettingsPage
                                             ->alignCenter(),
 
                                         Section::make('Debug Information')
+                                            ->icon('heroicon-m-bug-ant')
                                             ->schema([
                                                 \Filament\Forms\Components\Placeholder::make('current_language')
                                                     ->label('Current Language')

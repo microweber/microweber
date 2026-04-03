@@ -23,6 +23,7 @@ class AdminMaintenanceModePage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('Maintenance Mode Settings')
+                    ->icon('heroicon-m-wrench-screwdriver')
                     ->description('Configure maintenance mode for your website')
                     ->schema([
                         Toggle::make('options.website.maintenance_mode')

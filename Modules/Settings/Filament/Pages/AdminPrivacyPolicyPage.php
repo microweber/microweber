@@ -40,6 +40,7 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Privacy policy settings')
+                    ->icon('heroicon-m-shield-check')
                     ->view('mw-filament::sections.section')
                     ->description('A Privacy Policy is a legal agreement that explains what kinds of personal information you gather from website visitors, how you use this information, and how you keep it safe. Examples of personal information might include: Names. Dates of birth.
                                     The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA).')
@@ -74,6 +75,7 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
                 ]),
 
                 Section::make('Contact form settings')
+                    ->icon('heroicon-m-chat-bubble-left-right')
                     ->view('mw-filament::sections.section')
                     ->description('Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.')
                     ->schema([
@@ -98,6 +100,7 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
                 ]),
 
                 Section::make('Newsletter settings')
+                    ->icon('heroicon-m-newspaper')
                     ->view('mw-filament::sections.section')
                     ->description('Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.')
                     ->schema([

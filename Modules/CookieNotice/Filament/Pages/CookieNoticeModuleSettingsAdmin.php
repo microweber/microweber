@@ -30,6 +30,7 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('General Settings')
+                    ->icon('heroicon-m-shield-check')
                     ->schema([
                         Toggle::make('options.cookie_notice.enable_cookie_notice')
                             ->live()

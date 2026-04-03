@@ -30,6 +30,7 @@ class BackupHistoryResource extends Resource
         return $schema
             ->schema([
                 Forms\Components\Section::make('Backup Information')
+                    ->icon('heroicon-m-archive-box')
                     ->schema([
                         Forms\Components\TextInput::make('filename')
                             ->disabled(),

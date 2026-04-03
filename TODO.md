@@ -847,36 +847,55 @@
 - [x] 2026-04-03  migrate: General settings (4.2) — compare form sections, site info fields with MW v2
   - Updated custom section blade view to render icons via $getIcon()
   - Added icons to all 5 sections: Seo (magnifying-glass), General (cog), Online Shop (shopping-bag), Maintenance (wrench-screwdriver), Branding (heart)
-- [~] migrate: Template settings (4.3) — compare template picker, live preview with MW v2
+- [x] 2026-04-03  migrate: Template settings (4.3) — compare template picker, live preview with MW v2
+  - Added icon to Website template section (paint-brush)
 - [x] 2026-04-03  migrate: SEO settings (4.4) — compare meta fields, sitemap config with MW v2
   - Added icon to SEO Settings section (magnifying-glass)
 - [x] 2026-04-03  migrate: Email settings (4.7) — compare SMTP form, test email button with MW v2
   - Added icons to 2 sections: System e-mail (envelope), General e-mail provider (server-stack)
-- [ ] migrate: Mail templates (4.9) — compare template editor, variable list with MW v2
+- [x] 2026-04-03  migrate: Mail templates (4.9) — compare template editor, variable list with MW v2
+  - Added icons to 3 sections: Template Details (document-text), Template Content (pencil-square), Available Variables (code-bracket)
 - [x] 2026-04-03  migrate: Login & Register settings (4.11) — compare toggle options, social login config with MW v2
   - Added icons to 2 sections: Register options (user-plus), Login options (arrow-right-on-rectangle)
 - [x] 2026-04-03  migrate: Advanced settings (4.12) — compare developer options layout with MW v2
   - Added icons to 2 sections: Custom tags (code-bracket), Other settings (adjustments-horizontal)
-- [ ] migrate: Template Customizer (4.6) — compare color pickers, typography, live preview with MW v2
+- [x] 2026-04-03  migrate: Template Customizer (4.6) — compare color pickers, typography, live preview with MW v2
+  - Already has icons on all 5 sections (rectangle-stack, paint-brush, etc.) — no changes needed
 
 ### Priority 4 — System & Admin Pages
 
-- [ ] migrate: Modules list (5.1) — compare module cards, enable/disable toggles with MW v2
+- [~] migrate: Modules list (5.1) — compare module cards, enable/disable toggles with MW v2
 - [ ] migrate: Marketplace (5.2) — compare marketplace grid, install buttons with MW v2
 - [ ] migrate: Updates (5.3) — compare update status, changelog display with MW v2
-- [ ] migrate: Backup & schedules (5.5) — compare backup list, schedule form with MW v2
-- [ ] migrate: Maintenance mode (5.4) — compare toggle, preview message with MW v2
+- [x] 2026-04-03  migrate: Backup & schedules (5.5) — compare backup list, schedule form with MW v2
+  - BackupScheduleResource: added icons to 4 sections (calendar, archive-box, clock, signal)
+  - BackupHistoryResource: added icon to Backup Information (archive-box)
+  - ListBackups: added icons to 2 sections (circle-stack, photo)
+- [x] 2026-04-03  migrate: Maintenance mode (5.4) — compare toggle, preview message with MW v2
+  - Added icon to Maintenance Mode Settings section (wrench-screwdriver)
 
 ### Priority 5 — Remaining Pages
 
-- [ ] migrate: Language settings (7.1) — compare language list, flag icons, default selection with MW v2
+- [x] 2026-04-03  migrate: Language settings (7.1) — compare language list, flag icons, default selection with MW v2
+  - Added icons to 3 sections: Default Language (language), Multilanguage Support (globe-alt), Translation Management (document-duplicate)
 - [ ] migrate: Translations (7.2) — compare translation table, import/export with MW v2
-- [ ] migrate: Privacy Policy (4.10) — compare policy editor, consent options with MW v2
-- [ ] migrate: Cookie Notice (4.13) — compare banner preview, settings with MW v2
+- [x] 2026-04-03  migrate: Privacy Policy (4.10) — compare policy editor, consent options with MW v2
+  - Added icons to 3 sections: Privacy policy (shield-check), Contact form (chat-bubble-left-right), Newsletter (newspaper)
+- [x] 2026-04-03  migrate: Cookie Notice (4.13) — compare banner preview, settings with MW v2
+  - Added icon to General Settings section (shield-check)
 - [ ] migrate: File Manager (4.14) — compare file browser layout with MW v2
-- [ ] migrate: Comments settings (4.15) — compare moderation options with MW v2
-- [ ] migrate: Custom HTML tags (4.5) — compare code editor, placement options with MW v2
-- [ ] migrate: Auto-respond emails (4.8) — compare email template forms with MW v2
+- [x] 2026-04-03  migrate: Comments settings (4.15) — compare moderation options with MW v2
+  - Added icons to 4 sections: General (cog), Display (eye), Email Notifications (bell), Anti-Spam (shield-exclamation)
+- [x] 2026-04-03  migrate: Custom HTML tags (4.5) — compare code editor, placement options with MW v2
+  - Added icons to 4 sections: Head Tags (code-bracket), Footer Tags (code-bracket-square), Ads.txt (megaphone), Robots.txt (cpu-chip)
+- [x] 2026-04-03  migrate: Auto-respond emails (4.8) — compare email template forms with MW v2
+  - Added icons to 3 sections: New Order Notifications (bell-alert), Email Templates (document-text), Advanced (cog)
 - [ ] migrate: Error tracking (5.6) — compare error list, stack trace display with MW v2
-- [ ] migrate: AI settings (5.7) — compare API key form, model selection with MW v2
-- [ ] migrate: White Label (5.10) — compare branding fields, logo upload with MW v2
+- [x] 2026-04-03  migrate: AI settings (5.7) — compare API key form, model selection with MW v2
+  - Added icons to all 11 sections: General (sparkles), providers (cpu-chip/server), Supadata (circle-stack), Tavily (magnifying-glass), FAL (photo)
+- [x] 2026-04-03  migrate: White Label (5.10) — compare branding fields, logo upload with MW v2
+  - Added icons to all 7 sections: License (key), Brand Identity (identification), Logos (photo), Powered By (heart), Support (lifebuoy), Marketplace (building-storefront), Advanced (cog)
+- [x] 2026-04-03  migrate: Multilanguage settings — section icons
+  - Added icons to 6 sections: Default Language (language), Manage Languages (list-bullet), Basic (cog), Geolocation (globe-alt), Advanced (wrench-screwdriver), Debug (bug-ant)
+- [x] 2026-04-03  migrate: Shop General settings — section icons
+  - Added icons to 3 sections: Currency (currency-dollar), Terms (document-check), Other (adjustments-horizontal)

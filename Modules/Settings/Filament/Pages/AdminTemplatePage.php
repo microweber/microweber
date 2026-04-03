@@ -69,6 +69,7 @@ class AdminTemplatePage extends Page
             ->schema([
 
                 Section::make('Website template')
+                    ->icon('heroicon-m-paint-brush')
                     ->view('mw-filament::sections.section')
                     ->description('The website template is the design of your website. You can choose from a variety of templates.')
                     ->schema([

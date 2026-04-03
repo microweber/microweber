@@ -25,6 +25,7 @@ class BackupScheduleResource extends Resource
         return $schema
             ->schema([
                 Forms\Components\Section::make('Schedule Details')
+                    ->icon('heroicon-m-calendar')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Schedule Name')
@@ -44,6 +45,7 @@ class BackupScheduleResource extends Resource
                     ->columns(2),
 
                 Forms\Components\Section::make('Backup Options')
+                    ->icon('heroicon-m-archive-box')
                     ->schema([
                         Forms\Components\Toggle::make('include_media')
                             ->label('Include Media Files')
@@ -62,6 +64,7 @@ class BackupScheduleResource extends Resource
                     ]),
 
                 Forms\Components\Section::make('Frequency & Retention')
+                    ->icon('heroicon-m-clock')
                     ->schema([
                         Forms\Components\Select::make('frequency')
                             ->label('Frequency')
@@ -108,6 +111,7 @@ class BackupScheduleResource extends Resource
                     ->columns(2),
 
                 Forms\Components\Section::make('Schedule Status')
+                    ->icon('heroicon-m-signal')
                     ->schema([
                         Forms\Components\DateTimePicker::make('last_run_at')
                             ->label('Last Run')

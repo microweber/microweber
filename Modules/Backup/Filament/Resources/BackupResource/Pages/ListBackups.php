@@ -115,6 +115,7 @@ class ListBackups extends ListRecords
                     ->description('Select what to include in your backup')
                     ->schema([
                         Section::make('Database Tables')
+                            ->icon('heroicon-m-circle-stack')
                             ->schema([
                                 Toggle::make('includeTables')
                                     ->label('Include Tables')
@@ -143,6 +144,7 @@ class ListBackups extends ListRecords
                             ->visible(fn(callable $get) => $get('backupType') === 'customBackup'),
 
                         Section::make('Media Files')
+                            ->icon('heroicon-m-photo')
                             ->schema([
                                 Toggle::make('includeMedia')
                                     ->live()

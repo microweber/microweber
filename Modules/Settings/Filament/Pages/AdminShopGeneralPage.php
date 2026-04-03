@@ -41,6 +41,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
 
 
                 Section::make('Currency settings')
+                    ->icon('heroicon-m-currency-dollar')
                     ->view('mw-filament::sections.section')
                     ->description('Set the default currency and symbol for your shop.')
                     ->schema([
@@ -98,6 +99,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Terms and conditions settings')
+                    ->icon('heroicon-m-document-check')
                     ->view('mw-filament::sections.section')
                     ->description('Configure TOS shop settings.')
                     ->schema([
@@ -122,6 +124,7 @@ class AdminShopGeneralPage extends AdminSettingsPage
 
 
                 Section::make('Other settings')
+                    ->icon('heroicon-m-adjustments-horizontal')
                     ->view('mw-filament::sections.section')
                     ->description('Configure additional shop settings.')
                     ->schema([

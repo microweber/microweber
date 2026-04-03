@@ -89,6 +89,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
         if (!$haveLicense) {
             return $schema->schema([
                 Section::make('White Label License Required')
+                    ->icon('heroicon-m-key')
                     ->description('To access White Label features, you need a valid license.')
                     ->schema([
                         View::make('modules.white_label::filament.admin.license-required')
@@ -109,6 +110,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                     Tabs\Tab::make('Branding')
                         ->schema([
                             Section::make('Brand Identity')
+                                ->icon('heroicon-m-identification')
                                 ->schema([
                                     TextInput::make('options.white_label.brand_name')
                                         ->label('Brand Name')
@@ -123,6 +125,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                                 ]),
 
                             Section::make('Logos')
+                                ->icon('heroicon-m-photo')
                                 ->schema([
                                     MwFileUpload::make('options.white_label.logo_admin')
                                         ->label('Logo for Admin Panel')
@@ -154,6 +157,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                     Tabs\Tab::make('Footer & Support')
                         ->schema([
                             Section::make('Powered By Settings')
+                                ->icon('heroicon-m-heart')
                                 ->schema([
                                     Toggle::make('options.white_label.disable_powered_by_link')
                                         ->label('Disable the "Powered By"')
@@ -171,6 +175,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                                 ]),
 
                             Section::make('Support Links')
+                                ->icon('heroicon-m-lifebuoy')
                                 ->schema([
                                     Toggle::make('options.white_label.enable_service_links')
                                         ->label('Enable Support Links')
@@ -192,6 +197,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                     Tabs\Tab::make('Marketplace')
                         ->schema([
                             Section::make('Marketplace Settings')
+                                ->icon('heroicon-m-building-storefront')
                                 ->schema([
                                     Toggle::make('options.white_label.disable_marketplace')
                                         ->label('Microweber Marketplace')
@@ -223,6 +229,7 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
                     Tabs\Tab::make('Advanced')
                         ->schema([
                             Section::make('Advanced Settings')
+                                ->icon('heroicon-m-cog-6-tooth')
                                 ->schema([
                                     Toggle::make('options.white_label.hide_white_label_module_from_list')
                                         ->label('Hide White Label Module from List')

@@ -36,6 +36,7 @@ class MailTemplateResource extends Resource
         return $schema
             ->schema([
                 Section::make('Template Details')
+                    ->icon('heroicon-m-document-text')
                     ->schema([
                         TextInput::make('name')
                             ->required()
@@ -78,6 +79,7 @@ class MailTemplateResource extends Resource
                     ]),
 
                 Section::make('Template Content')
+                    ->icon('heroicon-m-pencil-square')
                     ->schema([
                         RichEditor::make('message')
                             ->required()
@@ -102,6 +104,7 @@ class MailTemplateResource extends Resource
                     ]),
 
                 Section::make('Available Variables')
+                    ->icon('heroicon-m-code-bracket')
                     ->schema([
                         Forms\Components\Placeholder::make('variables')
                             ->content(function ($get) use ($service) {

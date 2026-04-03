@@ -67,6 +67,7 @@ Artisan::call('config:clear');
             return $schema
                 ->schema([
                     Section::make('AI settings are disabled')
+                        ->icon('heroicon-m-x-circle')
                         ->view('mw-filament::sections.section')
                         ->schema([
                             Placeholder::make('options.ai.disabled_message')
@@ -85,6 +86,7 @@ Artisan::call('config:clear');
         return $schema
             ->schema([
 Section::make('General AI Settings')
+->icon('heroicon-m-sparkles')
 ->view('mw-filament::sections.section')
 ->schema([
 Toggle::make('options.ai.enabled')
@@ -129,6 +131,7 @@ Select::make('options.ai.default_driver_images')
 ]),
 
                 Section::make('OpenAI Settings')
+                    ->icon('heroicon-m-cpu-chip')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -159,6 +162,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
                 Section::make('Google Gemini Settings')
+                    ->icon('heroicon-m-cpu-chip')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -189,6 +193,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
                 Section::make('OpenRouter Settings')
+                    ->icon('heroicon-m-cpu-chip')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -219,6 +224,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
                 Section::make('Ollama Settings')
+                    ->icon('heroicon-m-server')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -248,6 +254,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
                 Section::make('Anthropic/Claude Settings')
+                    ->icon('heroicon-m-cpu-chip')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -273,6 +280,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
                 Section::make('Replicate Settings')
+                    ->icon('heroicon-m-cpu-chip')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -302,6 +310,7 @@ Select::make('options.ai.default_driver_images')
                     ]),
 
 Section::make('Supadata Settings')
+->icon('heroicon-m-circle-stack')
 ->visible(fn(callable $get) => $get('options.ai.enabled'))
 ->view('mw-filament::sections.section')
 ->schema([
@@ -358,6 +367,7 @@ TextInput::make('options.ai.supadata_temperature')
 ]),
 
 Section::make('TAVILY Search Settings')
+                    ->icon('heroicon-m-magnifying-glass')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([
@@ -398,6 +408,7 @@ Section::make('TAVILY Search Settings')
 ]),
 
 Section::make('FAL AI Settings')
+                    ->icon('heroicon-m-photo')
                     ->visible(fn(callable $get) => $get('options.ai.enabled'))
                     ->view('mw-filament::sections.section')
                     ->schema([

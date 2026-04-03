@@ -350,6 +350,7 @@ class AdminLanguagePage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('Default Language Settings')
+                    ->icon('heroicon-m-language')
                     ->description('Set the default language for your website')
                     ->schema([
                         Select::make('options.website.language')
@@ -370,6 +371,7 @@ class AdminLanguagePage extends AdminSettingsPage
                     ]),
 
                 Section::make('Multilanguage Support')
+                    ->icon('heroicon-m-globe-alt')
                     ->description('Enable support for multiple languages on your website')
                     ->schema([
                         Actions::make([
@@ -400,6 +402,7 @@ class AdminLanguagePage extends AdminSettingsPage
                     ]),
 
                 Section::make('Translation Management')
+                    ->icon('heroicon-m-document-duplicate')
                     ->description('Manage translations for your website content')
                     ->schema([
                         // Quick access to translation manager

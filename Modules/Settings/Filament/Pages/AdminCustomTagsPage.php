@@ -30,6 +30,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('Custom Head Tags')
+                    ->icon('heroicon-m-code-bracket')
                     ->description('Add custom HTML tags to the <head> section of your website')
                     ->schema([
                         Textarea::make('options.website.website_head')
@@ -45,6 +46,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Custom Footer Tags')
+                    ->icon('heroicon-m-code-bracket-square')
                     ->description('Add custom HTML tags to the footer of your website')
                     ->schema([
                         Textarea::make('options.website.website_footer')
@@ -60,6 +62,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Custom Ads.txt')
+                    ->icon('heroicon-m-megaphone')
                     ->collapsed()
                     ->collapsible()
                     ->description('Configure your ads.txt file content')
@@ -75,6 +78,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
 
 
                 Section::make('Custom Robots.txt')
+                    ->icon('heroicon-m-cpu-chip')
                     ->collapsed()
                     ->collapsible()
                     ->description('Configure your robots.txt file content')
