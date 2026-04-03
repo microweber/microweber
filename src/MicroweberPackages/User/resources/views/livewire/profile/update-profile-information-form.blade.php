@@ -30,9 +30,9 @@
                     <img x-bind:src="photoPreview" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;" alt="{{ __('New user photo') }}">
                 </div>
 
-                <x-user::primary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                <x-user::button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     {{ __('Select A New Photo') }}
-				</x-user::primary-button>
+				</x-user::button>
 
 				@if ($this->user->profile_photo_path)
                     <x-user::secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
