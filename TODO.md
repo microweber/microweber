@@ -777,8 +777,14 @@
   - SVG scoping: changed action icon CSS from `.group svg` to `.group a svg` to prevent coloring stock badge icons
   - Dark mode: light price text (#e2e8f0), muted original (#718096), sale red (#fc8181)
   - No regressions: Posts and Pages lists unaffected; 20 Content tests pass
-- [~] migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
-- [ ] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
+- [x] 2026-04-03  migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
+  - Section icons: Pricing (currency-dollar), Inventory (cube), Shipping (truck) on Product Details tab
+  - Content tab Pricing section also gets currency-dollar icon (visible for products only)
+  - Variants tab: already has swatch icon and "Save the product first" empty state — no changes needed
+  - All sidebar sections already have icons from Posts 2.4 task (Published, Parent page, Tags, Menus, Media)
+  - Dark mode: verified all sections display correctly
+  - No regressions: 20 Content tests pass
+- [~] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
 - [ ] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
 
 ### Priority 2 — Shop Pages

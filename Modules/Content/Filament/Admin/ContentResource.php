@@ -312,6 +312,7 @@ class ContentResource extends Resource
     protected static function pricingSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Pricing')
+            ->icon('heroicon-m-currency-dollar')
             ->schema([
                 Forms\Components\TextInput::make('price')
                     ->numeric()
@@ -539,6 +540,7 @@ class ContentResource extends Resource
     {
         return [
             Schemas\Components\Section::make('Pricing')
+                ->icon('heroicon-m-currency-dollar')
                 ->schema([
 
                     Forms\Components\TextInput::make('price')
@@ -569,6 +571,7 @@ class ContentResource extends Resource
                 ])->columnSpanFull(),
 
             Schemas\Components\Section::make('Inventory')
+                ->icon('heroicon-m-cube')
                 ->schema([
 
 
@@ -615,6 +618,7 @@ class ContentResource extends Resource
                 ])->columnSpanFull(),
 
             Schemas\Components\Section::make('Shipping')
+                ->icon('heroicon-m-truck')
                 ->schema([
 
                     // This is a physical product
