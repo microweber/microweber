@@ -58,10 +58,6 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
             SiteStatsEchartsWidget::class,
             \App\Filament\Admin\Pages\Dashboard::class);
 
-        FilamentRegistry::registerWidget(
-            SiteStatsDashboard::class,
-            \App\Filament\Admin\Pages\Dashboard::class);
-
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(SiteStatsModuleSettings::class);

@@ -53,6 +53,21 @@ class Dashboard extends \Filament\Pages\Dashboard
 
         $registeredWidgets = FilamentRegistry::getWidgets(self::class, Filament::getCurrentPanel()->getId());
 
-        return array_merge($coreWidgets, $registeredWidgets);
+        $widgets = array_merge($coreWidgets, $registeredWidgets);
+
+        $getSort = function ($widget): int {
+            $class = $widget instanceof WidgetConfiguration ? $widget->widget : $widget;
+            try {
+                $ref = new \ReflectionProperty($class, 'sort');
+                $ref->setAccessible(true);
+                return (int) ($ref->getValue(null) ?? 0);
+            } catch (\Throwable) {
+                return 0;
+            }
+        };
+
+        usort($widgets, fn ($a, $b) => $getSort($a) <=> $getSort($b));
+
+        return $widgets;
     }
 }

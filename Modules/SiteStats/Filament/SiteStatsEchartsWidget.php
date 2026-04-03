@@ -13,7 +13,7 @@ class SiteStatsEchartsWidget extends Widget
     use InteractsWithPageFilters;
     use SiteStatsDataTrait;
 
-    protected static ?int $sort = 2;
+    protected static ?int $sort = -1;
 
     protected int|string|array $columnSpan = 'full';
 

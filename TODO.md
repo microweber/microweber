@@ -57,7 +57,7 @@ Each page migration follows this cycle:
 > Skill: https://agents.tools.ooyes.net/skills/clone-website.yml (Phase 1 recon + Phase 3 component spec)
 > QA: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui.yml
 
-- [ ] migrate: Dashboard — `app/Filament/Admin/Pages/Dashboard.php` — ref: `https://demo.microweber.org/admin/dashboard`
+- [x] 2026-04-03  migrate: Dashboard — `app/Filament/Admin/Pages/Dashboard.php` — ref: `https://demo.microweber.org/admin/dashboard`
 - [ ] migrate: Main Settings hub page — `Modules/Settings/Filament/Pages/Settings.php` + `settings-main.blade.php` — ref: `https://demo.microweber.org/admin/settings`
 
 ---

@@ -9,7 +9,7 @@ use Modules\Order\Models\Order;
 
 class DashboardQuickStatsWidget extends Widget
 {
-    protected static ?int $sort = -1;
+    protected static ?int $sort = 0;
 
     protected int|string|array $columnSpan = 'full';
 
