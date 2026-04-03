@@ -479,11 +479,16 @@
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/02-explore-codebase.yml
   - Created `docs/architecture-guide.md`: directory structure, module system, STI content model, polymorphic relations, Filament admin, Live Edit, domain model (content/commerce/user), request flow, testing strategy, key files for contributors
   - **92+ modules** in `Modules/`, **40+ packages** in `src/MicroweberPackages/`, **626 routes**
-- [~] 03 First Contribution — Pick a starter issue, implement, PR, and get it merged
+- [x] 2026-04-03  03 First Contribution — Pick a starter issue, implement, PR, and get it merged
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/03-first-contribution.yml
+  - **Issue:** Migrate deprecated `dispatchFormEvent` to Filament v5 `callSchemaComponentMethod` in media browser
+  - Migrated 6 JS calls across `mw-media-browser.js` and `mw-media-browser.blade.php`
+  - Added `#[ExposedLivewireMethod]` attribute to 6 methods in `MwMediaBrowser.php`
+  - Updated `addMediaItemMultiple` and `updateImageFilename` signatures for new argument passing pattern
+  - 250 tests pass (Modules-Group6A suite), 0 regressions
 
 ### Security Cycle
-- [ ] 01 Audit — OWASP Top 10 review, dependency CVE scan, secret detection, header check
+- [~] 01 Audit — OWASP Top 10 review, dependency CVE scan, secret detection, header check
   - https://agents.tools.ooyes.net/workflows/security-cycle/01-audit.yml
 - [ ] 02 Remediate — Fix all findings — patch CVEs, fix injection/auth bugs, rotate secrets
   - https://agents.tools.ooyes.net/workflows/security-cycle/02-remediate.yml

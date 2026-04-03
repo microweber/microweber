@@ -8,6 +8,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Support\Components\Attributes\ExposedLivewireMethod;
 use Modules\Media\Models\Media;
 
 class MwMediaBrowser extends Field
@@ -24,9 +25,8 @@ class MwMediaBrowser extends Field
     protected function setUp(): void
     {
         parent::setUp();
-        // Note: registerListeners was removed in Filament v5.
-        // Media browser events are now handled via Livewire's native
-        // event dispatching from the component's Blade view.
+        // Media browser methods are exposed to JS via #[ExposedLivewireMethod]
+        // and called from JS using $wire.callSchemaComponentMethod().
 
         $this->registerActions([
             fn (MwMediaBrowser $component): Action => $component->editAction(),
@@ -57,6 +57,7 @@ class MwMediaBrowser extends Field
             })->size('xs');
     }
 
+    #[ExposedLivewireMethod]
     public function mediaItemsSort($itemsSortedIds)
     {
         if (!$itemsSortedIds) {
@@ -75,6 +76,7 @@ class MwMediaBrowser extends Field
         $this->refreshMediaData();
 
     }
+    #[ExposedLivewireMethod]
     public function deleteMediaItemById($id = false)
     {
         if (!$id) {
@@ -114,8 +116,10 @@ class MwMediaBrowser extends Field
         }
 
     }
-    public function addMediaItemMultiple($urls = [])
+    #[ExposedLivewireMethod]
+    public function addMediaItemMultiple($data = [])
     {
+        $urls = $data['urls'] ?? $data;
         if (!is_array($urls) || empty($urls)) {
             return;
         }
@@ -128,6 +132,7 @@ class MwMediaBrowser extends Field
 
         $this->state($this->mediaIds);
     }
+    #[ExposedLivewireMethod]
     public function addMediaItem($data = [])
     {
         $url = false;
@@ -158,9 +163,10 @@ class MwMediaBrowser extends Field
         $this->state($this->mediaIds);
     }
 
-    public function updateImageFilename($id = false,$data=[])
+    #[ExposedLivewireMethod]
+    public function updateImageFilename($data = [])
     {
-        $mediaId = $id;
+        $mediaId = $data['id'] ?? false;
         if (!$mediaId) {
             return;
         }
@@ -169,13 +175,12 @@ class MwMediaBrowser extends Field
             return;
         }
 
-
-        if(isset($data['src'])){
-            $media->filename = $data['src'];
+        $filename = $data['filename'] ?? ($data['src'] ?? null);
+        if ($filename) {
+            $media->filename = $filename;
             $media->save();
             $this->refreshMediaData();
         }
-
     }
 
     public function deleteAction(): Action
@@ -188,6 +193,7 @@ class MwMediaBrowser extends Field
             });
     }
 
+    #[ExposedLivewireMethod]
     public function deleteMediaItemsByIds($ids = false)
     {
         $mediaId = $ids;

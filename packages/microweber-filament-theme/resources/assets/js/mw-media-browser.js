@@ -32,7 +32,7 @@ document.addEventListener('alpine:init', () => {
             if (this.selectedImages && this.selectedImages.length > 0) {
                 if (confirm('Are you sure you want to delete the selected images?')) {
                     const statePath = this.$root.querySelector('[x-data-id]').getAttribute('x-data-id');
-                    this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds', statePath, {
+                    this.$wire.callSchemaComponentMethod(statePath, 'deleteMediaItemsByIds', {
                         ids: this.selectedImages
                     });
                     this.selectedImages = [];
@@ -44,7 +44,7 @@ document.addEventListener('alpine:init', () => {
             const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
             if (dialogConfirm) {
                 const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
-                this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById', statePath, {
+                this.$wire.callSchemaComponentMethod(statePath, 'deleteMediaItemById', {
                     id: id
                 });
             }
@@ -53,7 +53,7 @@ document.addEventListener('alpine:init', () => {
         async editImageFilename(id, url) {
             const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
             const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
-            this.$wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename', statePath, {
+            this.$wire.callSchemaComponentMethod(statePath, 'updateImageFilename', {
                 data: { id: id, filename: editedImage }
             });
         }

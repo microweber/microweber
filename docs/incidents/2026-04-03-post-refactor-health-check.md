@@ -44,7 +44,7 @@ Triggered by Incident Cycle workflow after completing Refactor Cycle. Ran full h
 
 | # | Action | Owner | Status |
 |---|--------|-------|--------|
-| 1 | Migrate `dispatchFormEvent` to `$wire.call()` in media browser JS | Dev team | Open |
+| 1 | Migrate `dispatchFormEvent` to `$wire.callSchemaComponentMethod()` in media browser JS | Dev team | Done |
 | 2 | Add Blade component existence check to CI (e.g., `php artisan view:cache` in test pipeline) | Dev team | Open |
 | 3 | Ensure `version.txt` is written without trailing newline in release scripts | Dev team | Done |
 

@@ -34,7 +34,7 @@
                         var data = {}
                         data.url = res.src
 
-                        $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {data: data})
+                        $wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItem', {data: data})
 
                     })
                 });
@@ -52,7 +52,7 @@
                             if(!Array.isArray(url)) {
                                 url = [url];
                             }
-                            $wire.dispatchFormEvent('mwMediaBrowser::addMediaItemMultiple','{{ $statePath }}', {
+                            $wire.callSchemaComponentMethod('{{ $statePath }}', 'addMediaItemMultiple', {
                                     data: { urls: url }
                                 })
                     });
@@ -104,7 +104,7 @@
                                 for (var i = 0; i < itemsSortedIds.length; i++) {
                                     itemsSortedIdsArray.push(itemsSortedIds[i].getAttribute('x-sortable-item'));
                                 }
-                                $wire.dispatchFormEvent('mwMediaBrowser::mediaItemsSort','{{ $statePath }}', {
+                                $wire.callSchemaComponentMethod('{{ $statePath }}', 'mediaItemsSort', {
                                     itemsSortedIds: itemsSortedIdsArray
                                 })
                                 mediaIds = itemsSortedIdsArray
