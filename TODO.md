@@ -731,8 +731,28 @@
 
 ### Priority 1 — High-Traffic Pages (visual polish)
 
-- [~] migrate: Pages list (2.1) — compare grid/list toggle, thumbnail layout, status badges, action buttons with MW v2
-- [ ] migrate: Pages create/edit (2.2) — compare form tab layout, field ordering, sidebar sections with MW v2
+- [x] 2026-04-03  migrate: Pages list (2.1) — compare grid/list toggle, thumbnail layout, status badges, action buttons with MW v2
+  - Grid/list toggle: already implemented via HasToggleableTable with session persistence
+  - Thumbnail: 48px rounded with cover fit, flex-shrink, overflow hidden
+  - Title: 14px/500 with primary color, accent hover effect
+  - Parent breadcrumb: 12px muted text with slash separators
+  - Category badges: 12px accent blue filter buttons
+  - Updated timestamp: 11px faint color
+  - Action icons: muted color with hover-to-primary transition (view, live edit, settings)
+  - Status: published/unpublished inline select column (120px min-width)
+  - Homepage indicator: home icon in muted color
+  - Dark mode: light title (#e2e8f0), blue hover (#63b3ed), muted metadata (#718096), faint timestamps (#4a5568)
+- [x] 2026-04-03  migrate: Pages create/edit (2.2) — compare form tab layout, field ordering, sidebar sections with MW v2
+  - Parent page tree: constrained to 320px max-height with scroll (was 2000px+ unconstrained)
+  - Menu checkbox list: constrained to 240px max-height with scroll (was 12000px+ with 639 checkboxes)
+  - Sidebar sections: tighter 16px vertical spacing between Published, Parent page, Tags, Menus
+  - Collapsible sections: hover feedback, compact padding when collapsed (SEO sub-sections)
+  - Tags input: pill-style with accent-light background, 13px font, 4px radius
+  - Rich editor: border styling, toolbar with subtle background
+  - Checkbox list: 14px font, proper text color
+  - Header actions: consistent 8px gap between Delete, Live edit, Save buttons
+  - Custom scrollbars: 6px width, rounded thumb for tree and checkbox containers
+  - Dark mode: tree border (#1e2330), dark bg, light scrollbar; tags with blue tint; rich editor dark toolbar
 - [ ] migrate: Posts list (2.3) — compare column layout, author display, date formatting with MW v2
 - [ ] migrate: Posts create/edit (2.4) — compare editor layout, excerpt field, publish section with MW v2
 - [ ] migrate: Products list (3.1) — compare product grid cards, price display, stock badges with MW v2
