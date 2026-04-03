@@ -598,8 +598,36 @@ svg[wire\:loading\.remove] {
   line-height: 1.3 !important;
 }
 
+// Product price display in grid view
+.fi-ta-record .group .mw-product-price {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.fi-ta-record .group .mw-price-current {
+  color: $mw-text-primary !important;
+}
+
+.fi-ta-record .group .mw-price-original {
+  color: $mw-text-muted !important;
+  text-decoration: line-through !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  margin-right: 4px !important;
+}
+
+.fi-ta-record .group .mw-price-special {
+  color: #e53e3e !important;  // Sale price red
+}
+
+// Stock badge icon sizing in grid view
+.fi-ta-record .group .inline-flex svg {
+  color: inherit !important;
+}
+
 // Action icons (view, live edit, settings) — muted, hover reveal
-.fi-ta-record .group svg {
+.fi-ta-record .group a svg {
   color: $mw-text-muted !important;
   transition: color 0.15s ease !important;
 }
@@ -1881,12 +1909,25 @@ html.dark {
     }
   }
 
-  .fi-ta-record .group svg {
+  .fi-ta-record .group a svg {
     color: #718096 !important;
   }
 
   .fi-ta-record .group a:hover svg {
     color: #e2e8f0 !important;
+  }
+
+  // Product price dark mode
+  .fi-ta-record .group .mw-price-current {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-ta-record .group .mw-price-original {
+    color: #718096 !important;
+  }
+
+  .fi-ta-record .group .mw-price-special {
+    color: #fc8181 !important;
   }
 
   .fi-ta-record .group .text-\[0\.8rem\],

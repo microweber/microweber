@@ -18,6 +18,10 @@
     <div class="flex flex-row sm:flex-row items-center mt-2 sm:mt-0 w-full sm:w-auto justify-start sm:justify-end gap-3">
         @if($content->content_type === 'product')
             @php
+                $price = $content->price ?? 0;
+                $specialPrice = function_exists('offers_get_price') ? $content->getSpecialPriceAttribute() : null;
+                $currencySymbol = get_option('currency_symbol', 'e-commerce') ?: '$';
+
                 $trackQty = $content->getContentDataByFieldName('track_quantity');
                 if ($trackQty) {
                     $qty = (int) ($content->qty ?? 0);
@@ -25,19 +29,32 @@
                     if ($qty <= 0) {
                         $stockLabel = 'Out of Stock';
                         $stockColor = 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400';
+                        $stockIcon = 'heroicon-m-x-circle';
                     } elseif ($qty <= $threshold) {
                         $stockLabel = 'Low Stock';
                         $stockColor = 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400';
+                        $stockIcon = 'heroicon-m-exclamation-triangle';
                     } else {
                         $stockLabel = 'In Stock';
                         $stockColor = 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400';
+                        $stockIcon = 'heroicon-m-check-circle';
                     }
                 } else {
                     $stockLabel = 'In Stock';
                     $stockColor = 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400';
+                    $stockIcon = 'heroicon-m-check-circle';
                 }
             @endphp
-            <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium {{ $stockColor }}">
+            <span class="mw-product-price">
+                @if($specialPrice && $specialPrice > 0 && $specialPrice < $price)
+                    <span class="mw-price-original">{{ $currencySymbol }}{{ number_format($price, 2) }}</span>
+                    <span class="mw-price-special">{{ $currencySymbol }}{{ number_format($specialPrice, 2) }}</span>
+                @else
+                    <span class="mw-price-current">{{ $currencySymbol }}{{ number_format($price, 2) }}</span>
+                @endif
+            </span>
+            <span class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium {{ $stockColor }}">
+                {{ svg($stockIcon, 'w-3.5 h-3.5') }}
                 {{ $stockLabel }}
             </span>
         @endif

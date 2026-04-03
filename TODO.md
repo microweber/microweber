@@ -769,8 +769,15 @@
   - Date picker input: border-radius consistency with other fields
   - Dark mode: excerpt textarea with dark bg, proper border color, light text
   - No regressions: Pages create form also benefits from section icons; 20 tests pass
-- [~] migrate: Products list (3.1) — compare product grid cards, price display, stock badges with MW v2
-- [ ] migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
+- [x] 2026-04-03  migrate: Products list (3.1) — compare product grid cards, price display, stock badges with MW v2
+  - Price display: added product price to grid view with currency symbol from settings, bold 14px/600 styling
+  - Special/sale price: strikethrough original price + red sale price when special price is active
+  - Stock badges: added status icons (check-circle, exclamation-triangle, x-circle) to In Stock/Low Stock/Out of Stock badges
+  - CSS: .mw-product-price, .mw-price-current, .mw-price-original, .mw-price-special classes
+  - SVG scoping: changed action icon CSS from `.group svg` to `.group a svg` to prevent coloring stock badge icons
+  - Dark mode: light price text (#e2e8f0), muted original (#718096), sale red (#fc8181)
+  - No regressions: Posts and Pages lists unaffected; 20 Content tests pass
+- [~] migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
 - [ ] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
 - [ ] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
 
