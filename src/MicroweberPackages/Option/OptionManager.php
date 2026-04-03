@@ -67,7 +67,7 @@ class OptionManager
         if (!empty($get)) {
             foreach ($get as $key => $value) {
                 if (isset($get[$key]['field_values']) and $get[$key]['field_values'] != false) {
-                    $get[$key]['field_values'] = unserialize(base64_decode($get[$key]['field_values']));
+                    $get[$key]['field_values'] = @unserialize(base64_decode($get[$key]['field_values']), ['allowed_classes' => false]);
                 }
                 if (isset($get[$key]['option_value']) and strval($get[$key]['option_value']) != '') {
                     $get[$key]['option_value'] = $this->app->url_manager->replace_site_url_back($get[$key]['option_value']);

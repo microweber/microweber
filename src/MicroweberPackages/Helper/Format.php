@@ -1059,7 +1059,7 @@ class Format
             $serialized
         );
 
-        return unserialize($serialized);
+        return @unserialize($serialized, ['allowed_classes' => false]);
     }
 
     public function is_base64($data)

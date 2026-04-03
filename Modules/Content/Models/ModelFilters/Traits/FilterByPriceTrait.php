@@ -35,7 +35,7 @@ trait FilterByPriceTrait
 
                     $price = intval($price);
                     $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
-                    $query2->whereRaw("CAST(value as INTEGER) = {$price}");
+                    $query2->whereRaw("CAST(value as INTEGER) = ?", [$price]);
 
                     return $query2;
                 });
@@ -74,8 +74,8 @@ trait FilterByPriceTrait
                 $query2->where(function ($query3) use ($minPrice, $maxPrice,$dbDriver) {
 
                     if ($dbDriver == 'sqlite') {
-                        $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
-                        $query3->whereRaw("CAST(value as INTEGER) <= {$maxPrice}");
+                        $query3->whereRaw("CAST(value as INTEGER) >= ?", [$minPrice]);
+                        $query3->whereRaw("CAST(value as INTEGER) <= ?", [$maxPrice]);
                     } else {
                         $query3->whereBetween('value', [$minPrice, $maxPrice]);
                     }

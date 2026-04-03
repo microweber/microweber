@@ -29,7 +29,15 @@ class ProcessQueueController extends Controller
                 $payload = $queueItem->payload;
                 if ($payload) {
                     $payload = @json_decode($payload, true);
-                    $command = @unserialize($payload['data']['command']);
+                    $command = @unserialize($payload['data']['command'], ['allowed_classes' => [
+                        \Illuminate\Queue\CallQueuedClosure::class,
+                        \Illuminate\Broadcasting\BroadcastEvent::class,
+                        \Illuminate\Events\CallQueuedListener::class,
+                        \Illuminate\Mail\SendQueuedMailable::class,
+                        \Illuminate\Notifications\SendQueuedNotifications::class,
+                        \Illuminate\Queue\CallQueuedHandler::class,
+                        \MicroweberPackages\Queue\Jobs::class,
+                    ]]);
 
                     if (is_object($command)) {
                         try {

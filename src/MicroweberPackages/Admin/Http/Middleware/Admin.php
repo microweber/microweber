@@ -78,7 +78,7 @@ class Admin
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
         if (!$hasNoAdmin) {
-            return $next($request);
+            return redirect(site_url());
         }
 
         $adminUrl = admin_url();

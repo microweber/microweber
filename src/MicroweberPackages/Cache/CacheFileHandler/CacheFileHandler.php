@@ -136,7 +136,7 @@ class CacheFileHandler
         $size = (int)stream_get_contents($handle, self::META_HEADER_LEN);
         if ($size) {
             $meta = stream_get_contents($handle, $size, self::META_HEADER_LEN);
-            $meta = unserialize($meta);
+            $meta = @unserialize($meta, ['allowed_classes' => false]);
             $meta[self::FILE] = $file;
             $meta[self::HANDLE] = $handle;
             return $meta;
@@ -187,7 +187,7 @@ class CacheFileHandler
             $data = stream_get_contents($meta[self::HANDLE]);
             flock($meta[self::HANDLE], LOCK_UN);
             fclose($meta[self::HANDLE]);
-            return empty($meta[self::META_SERIALIZED]) ? $data : unserialize($data);
+            return empty($meta[self::META_SERIALIZED]) ? $data : @unserialize($data, ['allowed_classes' => false]);
         }
 
     }

@@ -97,14 +97,15 @@ class UserForgotPasswordController extends Controller
         $status = Password::sendResetLink(
             $request->only('email'),
             function ($user, $token) {
+                $hashedToken = hash('sha256', $token);
                 (DB::table('password_resets')
                     ->updateOrInsert(
                         ['email' => $user->email],
                         [
-                            'token' => md5($token)
+                            'token' => $hashedToken
                         ]
                     ))
-                    ? $user->sendPasswordResetNotification(md5($token))
+                    ? $user->sendPasswordResetNotification($hashedToken)
                     : null;
             }
 
