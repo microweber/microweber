@@ -1114,8 +1114,16 @@ return \MicroweberPackages\User\Models\User::query()
 
             Tables\Columns\TextColumn::make('created_by')
                 ->label('Author')
+                ->icon('heroicon-m-user')
                 ->formatStateUsing(fn ($state) => $state ? user_name($state) : '—')
                 ->toggleable(isToggledHiddenByDefault: false),
+
+            Tables\Columns\TextColumn::make('posted_at')
+                ->label('Published')
+                ->dateTime('M d, Y')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->visible(fn ($livewire) => $livewire instanceof \Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts),
 
             Tables\Columns\TextColumn::make('stock_status')
                 ->label('Stock')

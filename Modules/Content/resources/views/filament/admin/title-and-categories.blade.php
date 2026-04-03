@@ -69,11 +69,24 @@
          </span>
         @endif
 
-        @if($content->updated_at)
-            <div class="text-[0.6rem]">
-                {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
-            </div>
-        @endif
+        <div class="mw-content-meta flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
+            @if($content->content_type === 'post' && $content->created_by)
+                <span class="mw-content-author text-[0.7rem]">
+                    {{ svg('heroicon-m-user', 'inline-block w-3 h-3 mr-0.5 align-[-2px]') }}
+                    {{ user_name($content->created_by) }}
+                </span>
+            @endif
+
+            @if($content->content_type === 'post' && $content->posted_at)
+                <span class="mw-content-date text-[0.6rem]">
+                    {{ _e("Published") }}: {{ $content->posted_at->format('M d, Y') }}
+                </span>
+            @elseif($content->updated_at)
+                <span class="mw-content-date text-[0.6rem]">
+                    {{ _e("Updated") }}: {{ $content->updated_at->format('M d, Y') }}
+                </span>
+            @endif
+        </div>
 
     </div>
 </div>

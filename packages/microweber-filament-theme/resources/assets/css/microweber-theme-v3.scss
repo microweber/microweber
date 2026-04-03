@@ -574,10 +574,28 @@ svg[wire\:loading\.remove] {
   color: $mw-accent !important;
 }
 
-// Updated timestamp
-.fi-ta-record .group .text-\[0\.6rem\] {
+// Updated/Published timestamp
+.fi-ta-record .group .text-\[0\.6rem\],
+.fi-ta-record .group .mw-content-date {
   font-size: 11px !important;
   color: $mw-text-faint !important;
+}
+
+// Author display in grid view (posts)
+.fi-ta-record .group .mw-content-author {
+  font-size: 12px !important;
+  color: $mw-text-muted !important;
+
+  svg {
+    color: $mw-text-muted !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+}
+
+// Content metadata row
+.fi-ta-record .group .mw-content-meta {
+  line-height: 1.3 !important;
 }
 
 // Action icons (view, live edit, settings) — muted, hover reveal
@@ -1860,8 +1878,17 @@ html.dark {
     color: #718096 !important;
   }
 
-  .fi-ta-record .group .text-\[0\.6rem\] {
+  .fi-ta-record .group .text-\[0\.6rem\],
+  .fi-ta-record .group .mw-content-date {
     color: #4a5568 !important;
+  }
+
+  .fi-ta-record .group .mw-content-author {
+    color: #718096 !important;
+
+    svg {
+      color: #718096 !important;
+    }
   }
 
   // Dark mode status badges — tinted backgrounds with light text

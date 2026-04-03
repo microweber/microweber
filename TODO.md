@@ -753,8 +753,16 @@
   - Header actions: consistent 8px gap between Delete, Live edit, Save buttons
   - Custom scrollbars: 6px width, rounded thumb for tree and checkbox containers
   - Dark mode: tree border (#1e2330), dark bg, light scrollbar; tags with blue tint; rich editor dark toolbar
-- [ ] migrate: Posts list (2.3) — compare column layout, author display, date formatting with MW v2
-- [ ] migrate: Posts create/edit (2.4) — compare editor layout, excerpt field, publish section with MW v2
+- [x] 2026-04-03  migrate: Posts list (2.3) — compare column layout, author display, date formatting with MW v2
+  - Author display: added author name with user icon in grid view for posts (mw-content-author class)
+  - Date formatting: posts show "Published: Apr 03, 2026" (from posted_at) instead of verbose "Updated" timestamp; pages still show "Updated" format
+  - List view: added sortable Published date column (posted_at) visible only on Posts list page
+  - Author column: added user icon to list view Author column
+  - Metadata layout: consolidated author + date into flex row with gap spacing (mw-content-meta)
+  - Dark mode: proper colors for author (#718096) and date (#4a5568) metadata
+  - CSS: added .mw-content-author, .mw-content-date, .mw-content-meta styles to theme SCSS
+  - No regressions: Pages list still shows "Updated" format without author; 19 Content tests + 1 Post test pass
+- [~] migrate: Posts create/edit (2.4) — compare editor layout, excerpt field, publish section with MW v2
 - [ ] migrate: Products list (3.1) — compare product grid cards, price display, stock badges with MW v2
 - [ ] migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
 - [ ] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
