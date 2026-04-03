@@ -1121,10 +1121,89 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Loading states
+// Loading states — skeleton screens, spinners (MW v2)
 // ============================================================================
+
+// Spinner icon color
 .fi-loading-indicator {
-  color: $mw-text-muted !important;
+  color: $mw-accent !important;
+}
+
+// Table loading pulse — subtle opacity change while data loads
+.fi-ta-ctn.fi-loading {
+  opacity: 0.6 !important;
+  transition: opacity 0.2s ease !important;
+
+  .fi-ta-content {
+    pointer-events: none !important;
+  }
+}
+
+// Section skeleton (Filament loading-section with animate-pulse)
+.fi-loading-section {
+  border-radius: $mw-radius-md !important;
+  background-color: $mw-bg-surface !important;
+  border: 1px solid $mw-border-subtle !important;
+  min-height: 120px !important;
+}
+
+// Skeleton placeholder blocks — reusable pulse animation
+.mw-skeleton {
+  background: linear-gradient(90deg, #edf2f7 25%, #e2e8f0 50%, #edf2f7 75%) !important;
+  background-size: 200% 100% !important;
+  animation: mw-skeleton-shimmer 1.5s ease-in-out infinite !important;
+  border-radius: $mw-radius-sm !important;
+}
+
+.mw-skeleton-text {
+  @extend .mw-skeleton;
+  height: 14px !important;
+  margin-bottom: 8px !important;
+
+  &:last-child {
+    width: 60% !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+.mw-skeleton-avatar {
+  @extend .mw-skeleton;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+}
+
+.mw-skeleton-thumbnail {
+  @extend .mw-skeleton;
+  width: 100% !important;
+  aspect-ratio: 4/3 !important;
+}
+
+// Livewire navigation loading bar at top
+.mw-page-loading-bar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, $mw-accent, #667eea) !important;
+  z-index: 9999 !important;
+  transform: scaleX(0) !important;
+  transform-origin: left !important;
+  transition: transform 0.4s ease !important;
+}
+
+// Button loading state — inline spinner
+.fi-btn[wire\:loading] .fi-loading-indicator,
+.fi-btn .fi-loading-indicator {
+  width: 16px !important;
+  height: 16px !important;
+  color: currentColor !important;
+}
+
+@keyframes mw-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 // ============================================================================
@@ -1672,6 +1751,24 @@ html.dark {
   .fi-empty-state-description,
   .fi-ta-empty-state-description {
     color: #718096 !important;
+  }
+
+  // Dark mode loading states
+  .fi-loading-indicator {
+    color: #63b3ed !important;
+  }
+
+  .fi-loading-section {
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
+  }
+
+  .mw-skeleton,
+  .mw-skeleton-text,
+  .mw-skeleton-avatar,
+  .mw-skeleton-thumbnail {
+    background: linear-gradient(90deg, #1e2330 25%, #2d3748 50%, #1e2330 75%) !important;
+    background-size: 200% 100% !important;
   }
 
   .fi-dropdown-panel {
