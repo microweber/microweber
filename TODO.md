@@ -418,11 +418,17 @@
   - 13 atomic steps sequenced in additive order across 4 phases (A: Content 7 steps, B: Order 3, C: Menu 2, D: MediaLibrary 1)
   - Success criteria: formArray() 555→<100 lines, form() 240→<40, editAction() 169→<90, 5x payment duplication→1x
   - Full plan at `docs/refactoring/REFACTOR-PLAN.md`
-- [~] 03 Execute — One step at a time, test after every change, commit each step
+- [x] 2026-04-03  03 Execute — One step at a time, test after every change, commit each step
   - https://agents.tools.ooyes.net/workflows/refactor-cycle/03-execute.yml
+  - Phase A: ContentResource formArray() reduced from 555 to 45 lines — extracted 9 section builders + 3 setup helpers
+  - Phase B: OrderResource form() reduced from 240 to 25 lines — extracted 8 section/tab methods, deduplicated 5x→1x payment query
+  - Phase C: MenusList — added findMenuOrFail() helper replacing 5x Menu::find() calls
+  - Phase D: MediaLibrary — added isImageMedia() helper for media type checking
+  - Backward-compatible aliases preserved for productDetailsFormArray(), seoFormArray(), advancedSettingsFormArray()
+  - Test suite: 12/12 suites PASS (2,489 tests, 16,868 assertions)
 
 ### Incident Cycle
-- [ ] 01 Detect and Triage — Confirm the incident, assess severity, assemble the response team
+- [~] 01 Detect and Triage — Confirm the incident, assess severity, assemble the response team
   - https://agents.tools.ooyes.net/workflows/incident-cycle/01-detect-and-triage.yml
 - [ ] 02 Investigate and Resolve — Form hypotheses, gather evidence, apply fix, confirm resolution
   - https://agents.tools.ooyes.net/workflows/incident-cycle/02-investigate-and-resolve.yml
