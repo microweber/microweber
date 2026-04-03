@@ -15,6 +15,7 @@ use Modules\Payment\Enums\PaymentStatus;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\CreatePayment;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\EditPayment;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\ListPayments;
+use Filament\Schemas\Components\Section;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 
@@ -37,28 +38,32 @@ class PaymentResource extends Resource
     {
         return $schema
             ->schema([
-                TextInput::make('rel_id')
-                    ->label('Related ID')
-                    ->required(),
-                TextInput::make('rel_type')
-                    ->label('Related Type')
-                    ->required(),
-                TextInput::make('amount')
-                    ->required()
-                    ->numeric()
-                    ->prefix(fn($record) => $record?->currency ?? ''),
-                TextInput::make('currency')
-                    ->required(),
-                \Filament\Forms\Components\Select::make('status')
-                    ->options(PaymentStatus::class)
-                    ->required(),
-                Select::make('payment_provider')
-                    ->options(fn() => PaymentProvider::where('is_active', 1)->get()->pluck('name', 'provider')->toArray())
-                    ->required()
-                    ->searchable(),
-                TextInput::make('transaction_id'),
-                KeyValue::make('payment_data')
-                    ->label('Payment Data'),
+                Section::make('Payment Details')
+                    ->icon('heroicon-m-credit-card')
+                    ->schema([
+                        TextInput::make('rel_id')
+                            ->label('Related ID')
+                            ->required(),
+                        TextInput::make('rel_type')
+                            ->label('Related Type')
+                            ->required(),
+                        TextInput::make('amount')
+                            ->required()
+                            ->numeric()
+                            ->prefix(fn($record) => $record?->currency ?? ''),
+                        TextInput::make('currency')
+                            ->required(),
+                        \Filament\Forms\Components\Select::make('status')
+                            ->options(PaymentStatus::class)
+                            ->required(),
+                        Select::make('payment_provider')
+                            ->options(fn() => PaymentProvider::where('is_active', 1)->get()->pluck('name', 'provider')->toArray())
+                            ->required()
+                            ->searchable(),
+                        TextInput::make('transaction_id'),
+                        KeyValue::make('payment_data')
+                            ->label('Payment Data'),
+                    ]),
             ]);
     }
 

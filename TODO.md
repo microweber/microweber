@@ -820,10 +820,18 @@
   - Table: already well-styled with copyable code, formatted discount, usage stats, icon columns
   - Form: added section icons across all 8 sections — ticket, receipt-percent, calculator, shopping-cart, gift (BOGO), chart-bar (tiered), funnel (conditional), cog (advanced)
   - No regressions: 78 Coupon tests pass
-- [~] migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2
-- [ ] migrate: Invoices (3.11) — compare invoice list, print layout with MW v2
-- [ ] migrate: Payments (3.12) — compare payment list, status display with MW v2
-- [ ] migrate: Taxes (3.15) — compare tax list, rate configuration with MW v2
+- [x] 2026-04-03  migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2
+  - Form: wrapped flat fields in Section with heroicon-m-tag icon
+  - Table: already styled with money formatting, icon columns, date display
+  - No regressions: 15 Offer tests pass
+- [x] 2026-04-03  migrate: Invoices (3.11) — compare invoice list, print layout with MW v2
+  - Form: added section icons — heroicon-m-document-text (Invoice Details), heroicon-m-queue-list (Items), heroicon-m-envelope (Email)
+  - Table: already has status badges, date columns, export, PDF actions
+  - No regressions: 108 Invoice/Payment tests pass
+- [x] 2026-04-03  migrate: Payments (3.12) — compare payment list, status display with MW v2
+  - Form: wrapped flat fields in Section with heroicon-m-credit-card icon
+  - Table: already has status enums, sortable columns, provider display
+- [~] migrate: Taxes (3.15) — compare tax list, rate configuration with MW v2
 - [ ] migrate: Checkout flow (3.17) — compare checkout wizard steps with MW v2
 
 ### Priority 3 — Settings Pages

@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
 use Modules\Offer\Models\Offer;
 use Filament\Schemas\Components\Utilities\Get;
 
@@ -35,59 +36,63 @@ class OfferResource extends Resource
     {
         return $schema
             ->schema([
-                Select::make('product_id')
-                    ->relationship('product', 'title', function ($query) {
-                        return $query->with('media');
-                    })
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->native(false)
-                    ->allowHtml(true)
-                    ->columnSpan('full')
-                    ->reactive()
-                    ->afterStateUpdated(fn($state, callable $set) => $set('price_id', null))
-                    ->optionsLimit(50)
-                    ->getOptionLabelFromRecordUsing(fn($record) => view('modules.offer::filament.forms.components.product-option', [
-                        'title' => $record->title,
-                        'price' => $record->price_display,
-                        'image' => $record->image,
-                    ])),
+                Section::make('Offer Details')
+                    ->icon('heroicon-m-tag')
+                    ->schema([
+                        Select::make('product_id')
+                            ->relationship('product', 'title', function ($query) {
+                                return $query->with('media');
+                            })
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->allowHtml(true)
+                            ->columnSpan('full')
+                            ->reactive()
+                            ->afterStateUpdated(fn($state, callable $set) => $set('price_id', null))
+                            ->optionsLimit(50)
+                            ->getOptionLabelFromRecordUsing(fn($record) => view('modules.offer::filament.forms.components.product-option', [
+                                'title' => $record->title,
+                                'price' => $record->price_display,
+                                'image' => $record->image,
+                            ])),
 
-                Select::make('price_id')
-                    ->label('Price')
-                    ->options(function (Get $get) {
-                        $productId = $get('product_id');
-                        if (!$productId) {
-                            return [];
-                        }
-                        $prices = app()->shop_manager->get_product_prices($productId, true);
+                        Select::make('price_id')
+                            ->label('Price')
+                            ->options(function (Get $get) {
+                                $productId = $get('product_id');
+                                if (!$productId) {
+                                    return [];
+                                }
+                                $prices = app()->shop_manager->get_product_prices($productId, true);
 
-                        if (!$prices) {
-                            return [];
-                        }
-                        return collect($prices)->mapWithKeys(function ($price, $key) {
-                            return [$price['id'] => $price['name'] . ' - ' . currency_format($price['value'])];
-                        })->toArray();
-                    })
-                    ->required()
-                    ->searchable()
-                    ->columnSpan('full'),
+                                if (!$prices) {
+                                    return [];
+                                }
+                                return collect($prices)->mapWithKeys(function ($price, $key) {
+                                    return [$price['id'] => $price['name'] . ' - ' . currency_format($price['value'])];
+                                })->toArray();
+                            })
+                            ->required()
+                            ->searchable()
+                            ->columnSpan('full'),
 
-                TextInput::make('offer_price')
-                    ->label('Offer Price')
-                    ->required()
-                    ->numeric()
-                    ->columnSpan('full'),
+                        TextInput::make('offer_price')
+                            ->label('Offer Price')
+                            ->required()
+                            ->numeric()
+                            ->columnSpan('full'),
 
-                DateTimePicker::make('expires_at')
-                    ->label('Expires At')
-                    ->columnSpan('full'),
+                        DateTimePicker::make('expires_at')
+                            ->label('Expires At')
+                            ->columnSpan('full'),
 
-                Toggle::make('is_active')
-                    ->label('Is Active')
-                    ->default(true)
-                    ->columnSpan('full'),
+                        Toggle::make('is_active')
+                            ->label('Is Active')
+                            ->default(true)
+                            ->columnSpan('full'),
+                    ]),
             ]);
     }
 

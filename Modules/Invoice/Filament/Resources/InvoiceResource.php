@@ -47,6 +47,7 @@ class InvoiceResource extends Resource
                 Grid::make(2)
                     ->schema([
                         Forms\Components\Section::make('Invoice Details')
+                            ->icon('heroicon-m-document-text')
                             ->schema([
                                 Forms\Components\DatePicker::make('invoice_date')
                                     ->required()
@@ -117,6 +118,7 @@ Forms\Components\Select::make('user_id')
                             ->columnSpanFull(),
 
                         Forms\Components\Section::make('Invoice Items')
+                            ->icon('heroicon-m-queue-list')
                             ->schema([
                                 Forms\Components\Repeater::make('items')
                                     ->relationship()
@@ -282,6 +284,7 @@ Tables\Filters\SelectFilter::make('paid_status')
                 ->modalDescription('Send this invoice to the customer via email with PDF attachment.')
                 ->form([
                     Section::make('Email Details')
+                        ->icon('heroicon-m-envelope')
                         ->schema([
                             TextInput::make('to_email')
                                 ->label('To Email')
