@@ -678,6 +678,29 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
+// Form helper text / hints — MW v2: muted secondary text below fields
+// ============================================================================
+.fi-fo-field-wrp-hint,
+.fi-fo-helper-text {
+  font-size: 12px !important;
+  color: $mw-text-muted !important;
+  margin-top: 4px !important;
+  line-height: 1.4 !important;
+}
+
+// Section descriptions — context text below section headings
+.fi-section-header-description {
+  font-size: 13px !important;
+  color: $mw-text-secondary !important;
+}
+
+// Required field asterisk
+.fi-field-wrp-label sup {
+  color: #ef4444 !important;
+  margin-left: 2px !important;
+}
+
+// ============================================================================
 // Input fields
 // ============================================================================
 .fi-input-wrp {
@@ -1350,6 +1373,16 @@ html.dark {
   // Form labels in dark mode
   .fi-fo-field-wrp-label,
   .fi-fo-field-label {
+    color: #a0aec0 !important;
+  }
+
+  // Form helper text in dark mode
+  .fi-fo-field-wrp-hint,
+  .fi-fo-helper-text {
+    color: #718096 !important;
+  }
+
+  .fi-section-header-description {
     color: #a0aec0 !important;
   }
 

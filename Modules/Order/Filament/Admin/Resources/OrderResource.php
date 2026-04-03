@@ -142,10 +142,12 @@ public static function getNavigationBadgeTooltip(): ?string
                         Forms\Components\TextInput::make('shipping_tracking_number')
                             ->label('Tracking number')
                             ->placeholder('e.g. 1Z999AA10123456784')
+                            ->helperText('Carrier tracking number shared with the customer.')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('shipping_tracking_url')
                             ->label('Tracking URL')
                             ->placeholder('https://...')
+                            ->helperText('Full URL where customers can track their shipment.')
                             ->url()
                             ->maxLength(2048),
                     ])->columnSpanFull(),
@@ -159,11 +161,13 @@ public static function getNavigationBadgeTooltip(): ?string
             ->schema([
                 Section::make()
                     ->heading('Payment Information')
+                    ->description('Details about how this order was paid.')
                     ->schema([
                         Forms\Components\TextInput::make('payment_amount')
                             ->label('Amount')
                             ->numeric()
                             ->regex('/^\d{1,6}(\.\d{0,2})?$/')
+                            ->helperText('Total amount paid by customer.')
                             ->dehydrated(false)
                             ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
                                 $payment = static::getLatestPayment($record);
@@ -173,6 +177,7 @@ public static function getNavigationBadgeTooltip(): ?string
                         Forms\Components\Select::make('payment_currency')
                             ->label('Currency')
                             ->searchable()
+                            ->helperText('Currency in which payment was received.')
                             ->dehydrated(false)
                             ->options(fn () => Currency::all()->pluck('name', 'id'))
                             ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
@@ -182,6 +187,7 @@ public static function getNavigationBadgeTooltip(): ?string
 
                         Forms\Components\Select::make('payment_status')
                             ->label('Status')
+                            ->helperText('Current payment processing state.')
                             ->dehydrated(false)
                             ->options(PaymentStatus::class)
                             ->default(PaymentStatus::Pending)
@@ -192,6 +198,7 @@ public static function getNavigationBadgeTooltip(): ?string
 
                         Forms\Components\Select::make('payment_provider_id')
                             ->label('Payment Provider')
+                            ->helperText('Gateway or service that processed this payment.')
                             ->dehydrated(false)
                             ->options(fn () => PaymentProvider::where('is_active', 1)->pluck('name', 'id'))
                             ->searchable()
@@ -202,6 +209,7 @@ public static function getNavigationBadgeTooltip(): ?string
 
                         Forms\Components\TextInput::make('payment_transaction_id')
                             ->label('Transaction ID')
+                            ->helperText('Unique identifier from the payment provider.')
                             ->dehydrated(false)
                             ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
                                 $payment = static::getLatestPayment($record);

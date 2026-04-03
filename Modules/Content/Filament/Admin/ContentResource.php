@@ -256,12 +256,14 @@ class ContentResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255)
                     ->required()
+                    ->helperText('The main heading displayed on the page (recommended: 50-60 characters).')
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),
 
                 Forms\Components\TextInput::make('url')
                     ->maxLength(255)
+                    ->helperText('URL-friendly identifier. Leave blank to auto-generate from title.')
                     ->hintAction(
                         TranslateFieldAction::make('url')->label('')
                     )->columnSpanFull(),
@@ -313,6 +315,7 @@ class ContentResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                    ->helperText('Displayed price to customers (e.g., 19.99).')
                     ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->required(),
 
@@ -326,6 +329,7 @@ class ContentResource extends Resource
                         }
                     })
                     ->numeric()
+                    ->helperText('Optional discounted price. Must be lower than regular price.')
                     ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->visible(function_exists('offers_get_price')),
