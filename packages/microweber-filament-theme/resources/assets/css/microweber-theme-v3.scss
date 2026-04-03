@@ -776,6 +776,59 @@ svg[wire\:loading\.remove] {
   }
 }
 
+// Modal header — MW v2: 16px heading, consistent padding
+.fi-modal-header {
+  padding: 16px 24px !important;
+  border-bottom: 1px solid $mw-border-color !important;
+}
+
+.fi-modal-heading {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: $mw-text-primary !important;
+}
+
+.fi-modal-description {
+  font-size: 13px !important;
+  color: $mw-text-secondary !important;
+}
+
+// Modal close button — consistent positioning
+.fi-modal-close-btn {
+  border-radius: $mw-radius-sm !important;
+  color: $mw-text-muted !important;
+
+  &:hover {
+    color: $mw-text-primary !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+// Modal footer — MW v2: right-aligned buttons, consistent padding
+.fi-modal-footer {
+  padding: 12px 24px !important;
+  border-top: 1px solid $mw-border-color !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
+
+  // Action buttons in modal footer — consistent sizing
+  .fi-btn {
+    min-height: 36px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+  }
+}
+
+// Modal body padding — consistent with card body
+.fi-modal-content .fi-section-content {
+  padding: 16px 24px !important;
+}
+
+// Confirmation dialog — centered text, reasonable max-width
+.fi-modal-confirmation {
+  text-align: center !important;
+}
+
 // ============================================================================
 // Card body padding — MW v2: 16px
 // ============================================================================
@@ -1309,6 +1362,31 @@ html.dark {
   .fi-modal-content {
     background-color: #161922 !important;
     border-color: #1e2330 !important;
+  }
+
+  .fi-modal-header {
+    border-bottom-color: #1e2330 !important;
+  }
+
+  .fi-modal-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-modal-description {
+    color: #a0aec0 !important;
+  }
+
+  .fi-modal-close-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  .fi-modal-footer {
+    border-top-color: #1e2330 !important;
   }
 
   .fi-dropdown-panel {
