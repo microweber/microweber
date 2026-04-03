@@ -770,11 +770,11 @@ class ContentManagerCrud extends Crud
         }
 
         if (isset($data['created_at'])) {
-            $data_to_save['created_at'] = ($data['created_at']);
+            $data_to_save['created_at'] = $this->sanitizeDateValue($data['created_at']);
         }
 
         if (isset($data['updated_at'])) {
-            $data_to_save['updated_at'] = ($data['updated_at']);
+            $data_to_save['updated_at'] = $this->sanitizeDateValue($data['updated_at']);
         }
         if (isset($data['original_link'])) {
             $data_to_save['original_link'] = $data['original_link'];
@@ -1412,5 +1412,18 @@ class ContentManagerCrud extends Crud
     public function clearCache()
     {
         self::$precached_links = [];
+    }
+
+    private function sanitizeDateValue($value): string
+    {
+        if (empty($value)) {
+            return date('Y-m-d H:i:s');
+        }
+
+        try {
+            return date('Y-m-d H:i:s', strtotime($value) ?: time());
+        } catch (\DateMalformedStringException $e) {
+            return date('Y-m-d H:i:s');
+        }
     }
 }

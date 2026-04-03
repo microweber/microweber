@@ -12,7 +12,6 @@ use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
-use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
 use Filament\Support\Assets\Js;
 
 class MicroweberFilamentTheme implements Plugin
@@ -50,20 +49,6 @@ class MicroweberFilamentTheme implements Plugin
         FilamentView::registerRenderHook(
             PanelsRenderHook::CONTENT_START,
             fn (): string => '<div id="main-content"></div>',
-        );
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::HEAD_START,
-            function(): string {
-                $head = new AdminFilamentMetaTagsRenderer();
-                return $head->getHeadMetaTags();
-            }
-        );
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::BODY_END,
-            function(): string {
-                $head = new AdminFilamentMetaTagsRenderer();
-                return $head->getFooterMetaTags();
-            }
         );
     }
 
