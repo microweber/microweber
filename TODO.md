@@ -811,8 +811,12 @@
   - Added section icon (heroicon-m-folder-open) to "Parent Page or Category" sidebar section
   - Dark mode: dark border/background for tree container
   - No regressions: 45 Category tests pass
-- [~] migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
-- [ ] migrate: Coupons (3.9) — compare list/form layout with MW v2
+- [x] 2026-04-03  migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
+  - Table: already well-styled with badges for type/key, active icon column
+  - Form: added section icons — heroicon-m-information-circle (Attribute Info), heroicon-m-queue-list (Values)
+  - Values repeater already has reorder, collapse, delete, add actions
+  - No regressions: 21 Variant tests pass
+- [~] migrate: Coupons (3.9) — compare list/form layout with MW v2
 - [ ] migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2
 - [ ] migrate: Invoices (3.11) — compare invoice list, print layout with MW v2
 - [ ] migrate: Payments (3.12) — compare payment list, status display with MW v2

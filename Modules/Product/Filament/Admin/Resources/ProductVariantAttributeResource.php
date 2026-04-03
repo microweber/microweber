@@ -47,6 +47,7 @@ class ProductVariantAttributeResource extends Resource
     {
         return [
             Section::make('Attribute Information')
+                ->icon('heroicon-m-information-circle')
                 ->schema([
                     TextInput::make('name')
                         ->required()
@@ -89,6 +90,7 @@ class ProductVariantAttributeResource extends Resource
                 ->columnSpan(['lg' => 2]),
 
             Section::make('Attribute Values')
+                ->icon('heroicon-m-queue-list')
                 ->schema([
                     Repeater::make('values')
                         ->relationship('values')
