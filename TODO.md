@@ -468,9 +468,14 @@
   - **Table health:** all key tables accessible, row counts verified, no corruption detected
 
 ### Onboarding Cycle
-- [~] 01 Environment Setup — Local dev environment, tooling, credentials, verify the build runs
+- [x] 2026-04-03  01 Environment Setup — Local dev environment, tooling, credentials, verify the build runs
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/01-environment-setup.yml
-- [ ] 02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
+  - **Stack:** PHP 8.4.18, Laravel 11.51.0, MariaDB 10.11.14, Node 22.22.1, npm 10.9.4, Composer 2.9.5
+  - **App health:** homepage 200 (500ms), admin login 200 (62ms), 626 routes registered
+  - **Tests:** Core suite 294 tests pass (19 skipped), full suite 12/12 suites pass from previous run
+  - **Build:** `composer validate` clean, `npm run build` available
+  - **Database:** `microweber_testing` MySQL DB connected, all migrations applied
+- [~] 02 Explore the Codebase — Architecture tour, key concepts, domain model, flow through the system
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/02-explore-codebase.yml
 - [ ] 03 First Contribution — Pick a starter issue, implement, PR, and get it merged
   - https://agents.tools.ooyes.net/workflows/onboarding-cycle/03-first-contribution.yml
