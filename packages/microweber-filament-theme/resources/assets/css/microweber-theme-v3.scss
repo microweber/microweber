@@ -1076,6 +1076,141 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
+// Content Create/Edit Form — MW v2 style
+// ============================================================================
+// Tabs content panel — remove default padding so sections sit flush
+.fi-tabs > .fi-tabs-tab-content {
+  padding: 0 !important;
+}
+
+// 3-column grid layout — tighten gap between main content and sidebar
+.fi-tabs .fi-grid.lg\:fi-grid-cols {
+  gap: 24px !important;
+}
+
+// Sidebar sections (right column) — tighter vertical spacing
+// The right column group contains Published, Parent page, Tags, Menus
+.fi-grid.lg\:fi-grid-cols > .fi-sc-group:last-child {
+  .fi-sc-section + .fi-sc-section {
+    margin-top: 16px !important;
+  }
+}
+
+// Parent page tree — constrain height with scroll to prevent 2000px+ expansion
+.mw--global-admin-tree {
+  max-height: 320px !important;
+  overflow-y: auto !important;
+  border: 1px solid $mw-border-subtle !important;
+  border-radius: $mw-radius-sm !important;
+  padding: 8px !important;
+
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+  }
+}
+
+// Media upload zone — MW v2: dashed border, centered content
+.fi-section-content .filepond--root,
+.fi-section-content [class*="media-browser"] {
+  border-radius: $mw-radius-sm !important;
+}
+
+// Collapsible section chevron — consistent sizing
+.fi-section.fi-collapsible {
+  .fi-section-header {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02) !important;
+    }
+  }
+
+  // Collapsed state — compact padding
+  &.fi-collapsed .fi-section-header {
+    padding-bottom: 16px !important;
+  }
+}
+
+// SEO tab sections — tighter spacing for collapsible sub-sections
+.fi-section.fi-collapsible + .fi-section.fi-collapsible {
+  margin-top: 8px !important;
+}
+
+// Toggle field — MW v2 inline label alignment
+.fi-fo-field-wrp .fi-toggle {
+  align-items: center !important;
+}
+
+// Header actions — MW v2: right-aligned, consistent button spacing
+.fi-header-actions {
+  gap: 8px !important;
+}
+
+// Page header — tighter bottom margin for edit/create pages
+.fi-resource-edit-record-page .fi-header,
+.fi-resource-create-record-page .fi-header {
+  margin-bottom: 0 !important;
+}
+
+// Tags input — MW v2: compact pill-style tags
+.fi-tags-input-tags {
+  gap: 4px !important;
+
+  .fi-tags-input-tag {
+    border-radius: $mw-radius-sm !important;
+    font-size: 13px !important;
+    padding: 2px 8px !important;
+    background-color: $mw-accent-light !important;
+    color: $mw-text-primary !important;
+    border: 1px solid rgba(66, 153, 225, 0.2) !important;
+  }
+}
+
+// Checkbox list — MW v2: tighter spacing for menu checkboxes
+.fi-fo-checkbox-list {
+  max-height: 240px !important;
+  overflow-y: auto !important;
+  gap: 8px !important;
+
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+  }
+
+  .fi-checkbox-list-option-label {
+    font-size: 14px !important;
+    color: $mw-text-primary !important;
+  }
+}
+
+// Rich editor — MW v2 styling
+.fi-rich-editor {
+  border-radius: $mw-radius-sm !important;
+  border: 1px solid $mw-border-color !important;
+
+  .fi-rich-editor-toolbar {
+    border-bottom: 1px solid $mw-border-subtle !important;
+    background-color: #fafbfc !important;
+    border-radius: $mw-radius-sm $mw-radius-sm 0 0 !important;
+  }
+}
+
+// ============================================================================
 // Notifications / Toasts — MW v2 style
 // ============================================================================
 .fi-no {
@@ -2055,6 +2190,45 @@ html.dark {
     color: #63b3ed !important;
     &:hover {
       color: #90cdf4 !important;
+    }
+  }
+
+  // Content create/edit form — dark mode
+  .mw--global-admin-tree {
+    border-color: #1e2330 !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .fi-section.fi-collapsible .fi-section-header:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .fi-tags-input-tags .fi-tags-input-tag {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(66, 153, 225, 0.3) !important;
+  }
+
+  .fi-fo-checkbox-list {
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .fi-checkbox-list-option-label {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-rich-editor {
+    border-color: #1e2330 !important;
+
+    .fi-rich-editor-toolbar {
+      background-color: #1a1d28 !important;
+      border-bottom-color: #1e2330 !important;
     }
   }
 }
