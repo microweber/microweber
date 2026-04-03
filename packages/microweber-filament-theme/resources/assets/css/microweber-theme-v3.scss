@@ -1163,19 +1163,115 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Empty states
+// Empty states — consistent "no data" styling (MW v2)
 // ============================================================================
 .fi-empty-state {
-  padding: 3rem !important;
+  padding: 3rem 2rem !important;
+  text-align: center !important;
+}
+
+.fi-empty-state-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
+}
+
+.fi-empty-state-icon-bg {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background-color: $mw-accent-light !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 4px !important;
+
+  svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: $mw-accent !important;
+  }
 }
 
 .fi-empty-state-heading {
-  color: $mw-text-primary !important;
+  font-size: 15px !important;
   font-weight: 600 !important;
+  color: $mw-text-primary !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
 }
 
 .fi-empty-state-description {
+  font-size: 13px !important;
   color: $mw-text-muted !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+.fi-empty-state-footer {
+  margin-top: 8px !important;
+
+  .fi-btn {
+    font-size: 13px !important;
+    padding: 8px 16px !important;
+    min-height: 34px !important;
+    border-radius: $mw-radius-sm !important;
+  }
+}
+
+// Table-specific empty state
+.fi-ta-empty-state {
+  padding: 3rem 2rem !important;
+}
+
+.fi-ta-empty-state-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
+}
+
+.fi-ta-empty-state-icon-bg {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background-color: $mw-accent-light !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 4px !important;
+
+  svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: $mw-accent !important;
+  }
+}
+
+.fi-ta-empty-state-heading {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: $mw-text-primary !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.fi-ta-empty-state-description {
+  font-size: 13px !important;
+  color: $mw-text-muted !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+// Schema component empty state
+.fi-sc-empty-state {
+  padding: 2rem !important;
+  text-align: center !important;
 }
 
 // ============================================================================
@@ -1556,6 +1652,26 @@ html.dark {
         color: #63b3ed !important;
       }
     }
+  }
+
+  // Dark mode empty states
+  .fi-empty-state-icon-bg,
+  .fi-ta-empty-state-icon-bg {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+
+    svg {
+      color: #63b3ed !important;
+    }
+  }
+
+  .fi-empty-state-heading,
+  .fi-ta-empty-state-heading {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-empty-state-description,
+  .fi-ta-empty-state-description {
+    color: #718096 !important;
   }
 
   .fi-dropdown-panel {
