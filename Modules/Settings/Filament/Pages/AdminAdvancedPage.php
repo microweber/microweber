@@ -38,6 +38,7 @@ class AdminAdvancedPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Custom tags')
+                    ->icon('heroicon-m-code-bracket')
                     ->view('mw-filament::sections.section')
                     ->description('Allows you to insert custom code in the website header and footer. For e.g. Live chat, Google Ads and others.')
                     ->schema([
@@ -84,6 +85,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
 
                 Section::make('Other settings')
+                    ->icon('heroicon-m-adjustments-horizontal')
                     ->description('Other settings for your website.')
                     ->view('mw-filament::sections.section')
                     ->schema([

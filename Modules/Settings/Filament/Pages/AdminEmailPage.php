@@ -34,6 +34,7 @@ class AdminEmailPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('System e-mail website settings')
+                    ->icon('heroicon-m-envelope')
                     ->view('mw-filament::sections.section')
                     ->description('Deliver messages related with new registration, password resets and others system functionalities.')
                     ->schema([
@@ -58,6 +59,7 @@ class AdminEmailPage extends AdminSettingsPage
                     ]),
 
                 Section::make('General e-mail provider settings')
+                    ->icon('heroicon-m-server-stack')
                     ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([

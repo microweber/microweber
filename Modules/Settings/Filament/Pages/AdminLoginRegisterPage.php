@@ -35,6 +35,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('Register options')
+                    ->icon('heroicon-m-user-plus')
                     ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([
@@ -66,6 +67,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
 
 
                 Section::make('Login options')
+                    ->icon('heroicon-m-arrow-right-on-rectangle')
                     ->view('mw-filament::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([

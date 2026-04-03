@@ -831,19 +831,32 @@
 - [x] 2026-04-03  migrate: Payments (3.12) — compare payment list, status display with MW v2
   - Form: wrapped flat fields in Section with heroicon-m-credit-card icon
   - Table: already has status enums, sortable columns, provider display
-- [~] migrate: Taxes (3.15) — compare tax list, rate configuration with MW v2
-- [ ] migrate: Checkout flow (3.17) — compare checkout wizard steps with MW v2
+- [x] 2026-04-03  migrate: Taxes (3.15) — compare tax list, rate configuration with MW v2
+  - TaxResource: wrapped flat fields in Section::make('Tax Details') with heroicon-m-calculator icon
+  - TaxRateResource: added icons to all 5 sections — Basic Information (info-circle), Location Rules (map-pin), Configuration (cog), Validity Period (calendar-days), Tax Preview (eye)
+  - Dark mode verified on tax rate create form
+- [x] 2026-04-03  migrate: Checkout flow (3.17) — compare checkout wizard steps with MW v2
+  - CheckoutResource: added icons to all 7 sections — Personal Information (user), Shipping Address (map-pin), Shipping Method (truck), Order Items (shopping-bag), Apply Coupon (ticket), Payment Method (credit-card), Terms and Conditions (document-check)
+  - CheckoutWizard: already had icons on all 5 wizard steps (shopping-cart, user, truck, credit-card, clipboard-document-check)
 
 ### Priority 3 — Settings Pages
 
-- [ ] migrate: Settings hub (4.1) — compare card grid layout, icons, navigation with MW v2
-- [ ] migrate: General settings (4.2) — compare form sections, site info fields with MW v2
-- [ ] migrate: Template settings (4.3) — compare template picker, live preview with MW v2
-- [ ] migrate: SEO settings (4.4) — compare meta fields, sitemap config with MW v2
-- [ ] migrate: Email settings (4.7) — compare SMTP form, test email button with MW v2
+- [x] 2026-04-03  migrate: Settings hub (4.1) — compare card grid layout, icons, navigation with MW v2
+  - Already well-polished: 3-column card grid, icons, descriptions, grouped sections, dark mode
+  - No changes needed
+- [x] 2026-04-03  migrate: General settings (4.2) — compare form sections, site info fields with MW v2
+  - Updated custom section blade view to render icons via $getIcon()
+  - Added icons to all 5 sections: Seo (magnifying-glass), General (cog), Online Shop (shopping-bag), Maintenance (wrench-screwdriver), Branding (heart)
+- [~] migrate: Template settings (4.3) — compare template picker, live preview with MW v2
+- [x] 2026-04-03  migrate: SEO settings (4.4) — compare meta fields, sitemap config with MW v2
+  - Added icon to SEO Settings section (magnifying-glass)
+- [x] 2026-04-03  migrate: Email settings (4.7) — compare SMTP form, test email button with MW v2
+  - Added icons to 2 sections: System e-mail (envelope), General e-mail provider (server-stack)
 - [ ] migrate: Mail templates (4.9) — compare template editor, variable list with MW v2
-- [ ] migrate: Login & Register settings (4.11) — compare toggle options, social login config with MW v2
-- [ ] migrate: Advanced settings (4.12) — compare developer options layout with MW v2
+- [x] 2026-04-03  migrate: Login & Register settings (4.11) — compare toggle options, social login config with MW v2
+  - Added icons to 2 sections: Register options (user-plus), Login options (arrow-right-on-rectangle)
+- [x] 2026-04-03  migrate: Advanced settings (4.12) — compare developer options layout with MW v2
+  - Added icons to 2 sections: Custom tags (code-bracket), Other settings (adjustments-horizontal)
 - [ ] migrate: Template Customizer (4.6) — compare color pickers, typography, live preview with MW v2
 
 ### Priority 4 — System & Admin Pages

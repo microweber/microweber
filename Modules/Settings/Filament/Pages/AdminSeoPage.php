@@ -44,6 +44,7 @@ class AdminSeoPage extends AdminSettingsPage
             ->schema([
 
                 Section::make('SEO Settings')
+                    ->icon('heroicon-m-magnifying-glass')
                     ->view('mw-filament::sections.section')
                     ->description('Make these settings to get the best results when finding your website.')
                     ->schema([

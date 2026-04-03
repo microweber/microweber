@@ -41,6 +41,7 @@ class CheckoutResource extends Resource
                         Grid::make()
                             ->schema([
                                 Section::make('Personal Information')
+                                    ->icon('heroicon-m-user')
                                     ->schema([
                                         TextInput::make('first_name')
                                             ->required()
@@ -83,6 +84,7 @@ class CheckoutResource extends Resource
                                     ->columns(2),
 
                                 Section::make('Shipping Address')
+                                    ->icon('heroicon-m-map-pin')
                                     ->schema([
                                         Select::make('country')
                                             ->required()
@@ -143,6 +145,7 @@ class CheckoutResource extends Resource
 
 
                                 Section::make('Shipping Method')
+                                    ->icon('heroicon-m-truck')
                                     ->visible(function (Forms\Get $get) {
                                         $visible = app()->shipping_method_manager->getProviders() && app()->cart_manager->get();
                                         return $visible;
@@ -188,6 +191,7 @@ class CheckoutResource extends Resource
                         Grid::make()
                             ->schema([
                                 Section::make('Order Items')
+                                    ->icon('heroicon-m-shopping-bag')
                                     ->schema([
                                         Livewire::make(CartItems::class)
                                             ->columnSpanFull(),
@@ -195,6 +199,7 @@ class CheckoutResource extends Resource
 
 
                                 Section::make('Apply Coupon')
+                                    ->icon('heroicon-m-ticket')
                                     ->visible(function (Forms\Get $get) {
                                         return app()->cart_manager->get() and coupon_get_count();
                                     })
@@ -264,6 +269,7 @@ class CheckoutResource extends Resource
                                     ]),
 
                                 Section::make('Payment Method')
+                                    ->icon('heroicon-m-credit-card')
                                     ->visible(function (Forms\Get $get) {
                                         $visible = app()->payment_method_manager->getProviders() && app()->cart_manager->get();
                                         return $visible;
@@ -304,6 +310,7 @@ class CheckoutResource extends Resource
 
 
                                 Section::make('Terms and Conditions')
+                                    ->icon('heroicon-m-document-check')
                                     ->visible(function (Forms\Get $get) {
                                         return get_option('shop_require_terms', 'website') == 1;
                                     })

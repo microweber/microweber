@@ -33,6 +33,7 @@ class TaxRateResource extends Resource
         return $schema
             ->schema([
                 Section::make('Basic Information')
+                    ->icon('heroicon-m-information-circle')
                     ->schema([
                         TextInput::make('name')
                             ->label('Tax Name')
@@ -71,6 +72,7 @@ class TaxRateResource extends Resource
                     ->columns(['lg' => 2]),
 
                 Section::make('Location Rules')
+                    ->icon('heroicon-m-map-pin')
                     ->description('Define where this tax rate applies')
                     ->schema([
                         Select::make('country_code')
@@ -110,6 +112,7 @@ class TaxRateResource extends Resource
                     ->columns(['lg' => 2]),
 
                 Section::make('Configuration')
+                    ->icon('heroicon-m-cog-6-tooth')
                     ->schema([
                         TextInput::make('priority')
                             ->label('Priority')
@@ -129,6 +132,7 @@ class TaxRateResource extends Resource
                     ->columns(['lg' => 3]),
 
                 Section::make('Validity Period')
+                    ->icon('heroicon-m-calendar-days')
                     ->schema([
                         DateTimePicker::make('valid_from')
                             ->label('Valid From')
@@ -143,6 +147,7 @@ class TaxRateResource extends Resource
                     ->columns(['lg' => 2]),
 
                 Section::make('Tax Preview')
+                    ->icon('heroicon-m-eye')
                     ->schema([
                         Placeholder::make('tax_preview')
                             ->label('')
