@@ -154,7 +154,10 @@ Each page migration follows this cycle:
 
 ## Phase 15 — Checkout Frontend Pages
 
-- [x] 2026-04-03  migrate: Checkout Frontend pages — **frontend pages, not admin panel — out of scope for admin design migration**
+- [x] 2026-04-03  migrate: Checkout Page — `Modules/Checkout/Filament/Resources/Pages/CheckoutPage.php` — ref: `https://demo.microweber.org/checkout` — **frontend page, not admin panel — out of scope for admin design migration**
+- [x] 2026-04-03  migrate: Checkout Success — `Modules/Checkout/Filament/Resources/Pages/CheckoutSuccessPage.php` — ref: `https://demo.microweber.org/checkout/success` — **frontend page, out of scope**
+- [x] 2026-04-03  migrate: Checkout Failed — `Modules/Checkout/Filament/Resources/Pages/CheckoutFailedPage.php` — ref: `https://demo.microweber.org/checkout/failed` — **frontend page, out of scope**
+- [x] 2026-04-03  migrate: Checkout Cancelled — `Modules/Checkout/Filament/Resources/Pages/CheckoutCancelledPage.php` — ref: `https://demo.microweber.org/checkout/cancelled` — **frontend page, out of scope**
 
 ---
 
