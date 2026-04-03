@@ -1228,6 +1228,22 @@ svg[wire\:loading\.remove] {
   }
 }
 
+// Excerpt textarea — subtle visual distinction from content body
+.fi-fo-textarea textarea {
+  border: 1px solid $mw-border-color !important;
+  border-radius: $mw-radius-sm !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  padding: 10px 12px !important;
+  resize: vertical !important;
+  background-color: #fafbfc !important;
+}
+
+// Publish Date — scheduled post indicator styling
+.fi-fo-date-time-picker .fi-input-wrp {
+  border-radius: $mw-radius-sm !important;
+}
+
 // ============================================================================
 // Notifications / Toasts — MW v2 style
 // ============================================================================
@@ -2257,6 +2273,13 @@ html.dark {
       background-color: #1a1d28 !important;
       border-bottom-color: #1e2330 !important;
     }
+  }
+
+  // Excerpt textarea — dark mode
+  .fi-fo-textarea textarea {
+    background-color: #1a1d28 !important;
+    border-color: #1e2330 !important;
+    color: #e2e8f0 !important;
   }
 }
 

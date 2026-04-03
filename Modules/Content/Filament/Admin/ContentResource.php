@@ -297,6 +297,7 @@ class ContentResource extends Resource
     protected static function mediaSection($relType, $relId, $mediaIds): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Media')
+            ->icon('heroicon-m-photo')
             ->schema([
                 MwMediaBrowser::make('mediaIds')
                     ->label('Add images')
@@ -341,6 +342,7 @@ class ContentResource extends Resource
     protected static function publishedSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Published')
+            ->icon('heroicon-m-signal')
             ->schema([
                 Forms\Components\Toggle::make('is_active')
                     ->label('Published')
@@ -356,6 +358,7 @@ class ContentResource extends Resource
 
                 Forms\Components\DateTimePicker::make('posted_at')
                     ->label('Publish Date')
+                    ->prefixIcon('heroicon-m-calendar')
                     ->helperText(function (Schemas\Components\Utilities\Get $get) {
                         $postedAt = $get('posted_at');
                         if ($postedAt && \Carbon\Carbon::parse($postedAt)->isFuture()) {
@@ -375,6 +378,7 @@ class ContentResource extends Resource
     protected static function parentPageSection($firstBlogId, $firstShopId): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Parent page')
+            ->icon('heroicon-m-folder')
             ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
                 $parent = null;
                 $categoryIds = [];
@@ -419,6 +423,7 @@ class ContentResource extends Resource
     protected static function tagsSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Tags')
+            ->icon('heroicon-m-tag')
             ->schema([
                 Forms\Components\TagsInput::make('tags')
                     ->label(false)
@@ -431,6 +436,7 @@ class ContentResource extends Resource
     protected static function menusSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('Menus')
+            ->icon('heroicon-m-bars-3')
             ->schema([
                 Forms\Components\CheckboxList::make('menuIds')
                     ->label('Menus')
