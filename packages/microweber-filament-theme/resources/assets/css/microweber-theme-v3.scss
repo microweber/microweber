@@ -511,6 +511,21 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
+// Standard column widths — consistent across all table resources
+// ============================================================================
+// ID column — compact, numeric
+.fi-ta-header-cell:first-child,
+.fi-ta-cell:first-child {
+  // Let Filament handle via grow(false); just ensure min-width for readability
+  min-width: 60px;
+}
+
+// Status badge columns — ensure enough room for badge + icon
+.fi-ta-cell .fi-badge {
+  white-space: nowrap !important;
+}
+
+// ============================================================================
 // Buttons — MW v2 style
 // ============================================================================
 .fi-btn {
@@ -1237,7 +1252,52 @@ html.dark {
     border-bottom-color: #1e2330 !important;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.03) !important;
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+
+  // Table cell text — lighten for dark backgrounds
+  .fi-ta-cell {
+    color: #e2e8f0 !important;
+  }
+
+  // Table title links in dark mode
+  .fi-ta-record .font-medium a {
+    color: #e2e8f0 !important;
+  }
+
+  // Dark mode status badges — tinted backgrounds with light text
+  .fi-ta-content .fi-badge,
+  .fi-badge {
+    &.fi-color-success {
+      background-color: rgba(47, 179, 68, 0.2) !important;
+      color: #68d391 !important;
+    }
+    &.fi-color-warning {
+      background-color: rgba(237, 137, 54, 0.2) !important;
+      color: #f6ad55 !important;
+    }
+    &.fi-color-danger {
+      background-color: rgba(245, 101, 101, 0.2) !important;
+      color: #fc8181 !important;
+    }
+    &.fi-color-info {
+      background-color: rgba(66, 153, 225, 0.2) !important;
+      color: #63b3ed !important;
+    }
+    &.fi-color-gray {
+      background-color: rgba(160, 174, 192, 0.15) !important;
+      color: #a0aec0 !important;
+    }
+  }
+
+  // Published button in dark mode
+  .fi-ta-content .fi-btn.fi-color-success {
+    color: #68d391 !important;
+    background-color: rgba(47, 179, 68, 0.15) !important;
+
+    span, .fi-btn-label {
+      color: #68d391 !important;
     }
   }
 

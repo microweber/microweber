@@ -348,10 +348,12 @@ public static function getNavigationBadgeTooltip(): ?string
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->grow(false)
+                    ->width('80px')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->grow(false)
+                    ->width('140px')
                     ->dateTime('M d, Y'),
 
                 ImageUrlColumn::make('firstProductThumbnail')
@@ -371,7 +373,23 @@ public static function getNavigationBadgeTooltip(): ?string
                 Tables\Columns\TextColumn::make('order_status')
                     ->label('Status')
                     ->grow(false)
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (?string $state): string => match (strtolower((string) $state)) {
+                        'pending' => 'warning',
+                        'processing', 'shipped' => 'info',
+                        'completed', 'delivered' => 'success',
+                        'cancelled', 'refunded', 'failed' => 'danger',
+                        default => 'gray',
+                    })
+                    ->icon(fn (?string $state): ?string => match (strtolower((string) $state)) {
+                        'pending' => 'heroicon-m-clock',
+                        'processing' => 'heroicon-m-arrow-path',
+                        'shipped' => 'heroicon-m-truck',
+                        'completed', 'delivered' => 'heroicon-m-check-circle',
+                        'cancelled', 'failed' => 'heroicon-m-x-circle',
+                        'refunded' => 'heroicon-m-arrow-uturn-left',
+                        default => null,
+                    }),
 
 
                 Tables\Columns\TextColumn::make('customer.email')
