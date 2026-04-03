@@ -411,9 +411,14 @@
   - Test safety net: Content (70), Order (80), MediaLibrary (44), Menu (7), Settings (23) — all passing
   - Refactoring plan written at `docs/refactoring/REFACTOR-ASSESSMENT.md` with 5 priorities, atomic steps, and risk mitigation
   - **Go/No-Go: GO** — all 4 criteria met
-- [~] 02 Plan — Map current state, define target state, sequence atomic steps
+- [x] 2026-04-03  02 Plan — Map current state, define target state, sequence atomic steps
   - https://agents.tools.ooyes.net/workflows/refactor-cycle/02-plan.yml
-- [ ] 03 Execute — One step at a time, test after every change, commit each step
+  - Mapped all callers: `formArray()` has 2 external callers (ContentTableList, AdminLiveEditPage), 3 subclasses (Page/Post/Product — none override form methods)
+  - Target state defined: ContentResource 1529→<900 lines, OrderResource 818→<650, MenusList 491→<400
+  - 13 atomic steps sequenced in additive order across 4 phases (A: Content 7 steps, B: Order 3, C: Menu 2, D: MediaLibrary 1)
+  - Success criteria: formArray() 555→<100 lines, form() 240→<40, editAction() 169→<90, 5x payment duplication→1x
+  - Full plan at `docs/refactoring/REFACTOR-PLAN.md`
+- [~] 03 Execute — One step at a time, test after every change, commit each step
   - https://agents.tools.ooyes.net/workflows/refactor-cycle/03-execute.yml
 
 ### Incident Cycle
