@@ -32,6 +32,7 @@ class ErrorTrackingResource extends Resource
         return $schema
             ->schema([
                 Section::make('Error Details')
+                    ->icon('heroicon-m-exclamation-triangle')
                     ->schema([
                         TextInput::make('level')
                             ->label('Level')
@@ -55,6 +56,7 @@ class ErrorTrackingResource extends Resource
                     ->columns(2),
 
                 Section::make('Context')
+                    ->icon('heroicon-m-information-circle')
                     ->schema([
                         TextInput::make('url')
                             ->label('URL')
@@ -84,6 +86,7 @@ class ErrorTrackingResource extends Resource
                     ->collapsed(),
 
                 Section::make('Resolution')
+                    ->icon('heroicon-m-check-circle')
                     ->schema([
                         Toggle::make('is_resolved')
                             ->label('Mark as Resolved')

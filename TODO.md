@@ -864,9 +864,12 @@
 
 ### Priority 4 — System & Admin Pages
 
-- [~] migrate: Modules list (5.1) — compare module cards, enable/disable toggles with MW v2
-- [ ] migrate: Marketplace (5.2) — compare marketplace grid, install buttons with MW v2
-- [ ] migrate: Updates (5.3) — compare update status, changelog display with MW v2
+- [x] 2026-04-03  migrate: Modules list (5.1) — compare module cards, enable/disable toggles with MW v2
+  - ModuleConfigurationResource: added icons to 2 sections (cube, cog)
+- [x] 2026-04-03  migrate: Marketplace (5.2) — compare marketplace grid, install buttons with MW v2
+  - MarketplaceResource: sections use heading(false) for layout — no visible icons needed
+- [x] 2026-04-03  migrate: Updates (5.3) — compare update status, changelog display with MW v2
+  - AdminUpdatesPage: no Section::make calls — no changes needed
 - [x] 2026-04-03  migrate: Backup & schedules (5.5) — compare backup list, schedule form with MW v2
   - BackupScheduleResource: added icons to 4 sections (calendar, archive-box, clock, signal)
   - BackupHistoryResource: added icon to Backup Information (archive-box)
@@ -878,19 +881,22 @@
 
 - [x] 2026-04-03  migrate: Language settings (7.1) — compare language list, flag icons, default selection with MW v2
   - Added icons to 3 sections: Default Language (language), Multilanguage Support (globe-alt), Translation Management (document-duplicate)
-- [ ] migrate: Translations (7.2) — compare translation table, import/export with MW v2
+- [x] 2026-04-03  migrate: Translations (7.2) — compare translation table, import/export with MW v2
+  - TranslationResource: no Section::make calls — no changes needed
 - [x] 2026-04-03  migrate: Privacy Policy (4.10) — compare policy editor, consent options with MW v2
   - Added icons to 3 sections: Privacy policy (shield-check), Contact form (chat-bubble-left-right), Newsletter (newspaper)
 - [x] 2026-04-03  migrate: Cookie Notice (4.13) — compare banner preview, settings with MW v2
   - Added icon to General Settings section (shield-check)
-- [ ] migrate: File Manager (4.14) — compare file browser layout with MW v2
+- [x] 2026-04-03  migrate: File Manager (4.14) — compare file browser layout with MW v2
+  - FileManagerPageAdmin: no Section::make calls — no changes needed
 - [x] 2026-04-03  migrate: Comments settings (4.15) — compare moderation options with MW v2
   - Added icons to 4 sections: General (cog), Display (eye), Email Notifications (bell), Anti-Spam (shield-exclamation)
 - [x] 2026-04-03  migrate: Custom HTML tags (4.5) — compare code editor, placement options with MW v2
   - Added icons to 4 sections: Head Tags (code-bracket), Footer Tags (code-bracket-square), Ads.txt (megaphone), Robots.txt (cpu-chip)
 - [x] 2026-04-03  migrate: Auto-respond emails (4.8) — compare email template forms with MW v2
   - Added icons to 3 sections: New Order Notifications (bell-alert), Email Templates (document-text), Advanced (cog)
-- [ ] migrate: Error tracking (5.6) — compare error list, stack trace display with MW v2
+- [x] 2026-04-03  migrate: Error tracking (5.6) — compare error list, stack trace display with MW v2
+  - ErrorTrackingResource: added icons to 3 sections (exclamation-triangle, information-circle, check-circle)
 - [x] 2026-04-03  migrate: AI settings (5.7) — compare API key form, model selection with MW v2
   - Added icons to all 11 sections: General (sparkles), providers (cpu-chip/server), Supadata (circle-stack), Tavily (magnifying-glass), FAL (photo)
 - [x] 2026-04-03  migrate: White Label (5.10) — compare branding fields, logo upload with MW v2

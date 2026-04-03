@@ -39,6 +39,7 @@ class ModuleConfigurationResource extends Resource
         return $schema
             ->schema([
                 Section::make('Module Information')
+                    ->icon('heroicon-m-cube')
                     ->description('Basic information about the module')
                     ->schema([
                         TextInput::make('name')
@@ -54,6 +55,7 @@ class ModuleConfigurationResource extends Resource
                     ]),
 
                 Section::make('Configuration')
+                    ->icon('heroicon-m-cog-6-tooth')
                     ->description('Module-specific configuration settings')
                     ->schema([
                         Tabs::make('Settings')
