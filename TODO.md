@@ -784,8 +784,17 @@
   - All sidebar sections already have icons from Posts 2.4 task (Published, Parent page, Tags, Menus, Media)
   - Dark mode: verified all sections display correctly
   - No regressions: 20 Content tests pass
-- [~] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
-- [ ] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
+- [x] 2026-04-03  migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
+  - Grid cards: added visible borders, rounded corners (radius-md), surface background for better card definition
+  - Thumbnails: changed object-fit from `contain` to `cover` for natural image display
+  - Grid spacing: increased gap (10→14px) and padding (12→16px) for breathing room
+  - Card labels: added border-top separator, font-weight 500, muted text color
+  - Folder sidebar: folder count badges now use pill styling with background
+  - Toolbar: added bottom border separator
+  - Panels container: added subtle box-shadow
+  - Dark mode: verified grid cards, detail panel, folder sidebar, toolbar all render correctly
+  - No regressions: 113 Media tests pass
+- [~] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
 
 ### Priority 2 — Shop Pages
 

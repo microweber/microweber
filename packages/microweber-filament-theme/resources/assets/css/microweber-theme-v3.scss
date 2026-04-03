@@ -2800,6 +2800,8 @@ html.dark {
   gap: 12px;
   padding: 12px 0;
   flex-wrap: wrap;
+  border-bottom: 1px solid $mw-border-subtle;
+  margin-bottom: 0;
 }
 
 .mw-media-toolbar-left {
@@ -3452,6 +3454,7 @@ html.dark {
   border-radius: $mw-radius-lg;
   overflow: hidden;
   background: $mw-bg-surface;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 // --- Folder Sidebar ---
@@ -3591,10 +3594,16 @@ html.dark {
 }
 
 .mw-media-folder-count {
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 500;
   color: $mw-text-muted;
   margin-left: auto;
   flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 6px;
+  border-radius: $mw-radius-pill;
+  min-width: 18px;
+  text-align: center;
 }
 
 .mw-media-folder-actions {
@@ -3658,8 +3667,8 @@ html.dark {
 .mw-media-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
-  padding: 12px;
+  gap: 14px;
+  padding: 16px;
 
   @media (min-width: 1400px) {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -3672,17 +3681,17 @@ html.dark {
 
 .mw-media-grid-item {
   position: relative;
-  border: 2px solid transparent;
-  border-radius: $mw-radius-sm;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-md;
   cursor: pointer;
   overflow: hidden;
-  background: $mw-bg-page;
+  background: $mw-bg-surface;
   transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
   &:hover {
-    border-color: $mw-border-color;
+    border-color: darken($mw-border-color, 8%);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
   &.selected {
     border-color: $mw-accent;
@@ -3733,7 +3742,7 @@ html.dark {
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     background: rgba(0, 0, 0, 0.02);
   }
 }
@@ -3768,13 +3777,15 @@ html.dark {
 }
 
 .mw-media-grid-label {
-  padding: 6px 8px;
+  padding: 8px 10px;
   font-size: 11px;
-  color: $mw-text-primary;
+  font-weight: 500;
+  color: $mw-text-secondary;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
+  border-top: 1px solid $mw-border-subtle;
 }
 
 // --- List view ---
@@ -4213,6 +4224,7 @@ html.dark {
 
   .mw-media-folder-count {
     color: #4a5568;
+    background: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-folder-input {
@@ -4226,11 +4238,12 @@ html.dark {
   }
 
   .mw-media-grid-item {
-    background: #161922;
-    border-color: #1e2330;
+    background: #1a1f2e;
+    border-color: #2d3748;
 
     &:hover {
-      border-color: #2d3748;
+      border-color: #4a5568;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     &.selected {
@@ -4243,16 +4256,17 @@ html.dark {
     }
   }
 
+  .mw-media-grid-label {
+    color: #a0aec0;
+    border-top-color: #2d3748;
+  }
+
   .mw-media-grid-thumb {
     background: rgba(255, 255, 255, 0.03);
   }
 
   .mw-media-grid-icon {
     color: #4a5568;
-  }
-
-  .mw-media-grid-label {
-    color: #a0aec0;
   }
 
   .mw-media-grid-skeleton {
