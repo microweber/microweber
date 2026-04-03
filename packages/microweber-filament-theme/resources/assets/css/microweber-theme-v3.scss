@@ -857,18 +857,45 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Breadcrumbs — MW v2: muted, 14px
+// Breadcrumbs — MW v2: consistent across all pages
 // ============================================================================
 .fi-breadcrumbs {
-  color: $mw-text-muted !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
 
-  a {
-    color: #206bc4 !important;  // MW v2 link blue
-    text-decoration: none !important;
-    &:hover {
-      text-decoration: underline !important;
+  ol {
+    gap: 6px !important;
+    align-items: center !important;
+  }
+
+  li {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: $mw-text-muted !important;
+
+    a {
+      color: $mw-accent !important;
+      text-decoration: none !important;
+      transition: color 0.15s ease !important;
+
+      &:hover {
+        color: #2b6cb0 !important;  // MW v2 link hover (darker blue)
+        text-decoration: underline !important;
+      }
     }
+
+    // Current page (last breadcrumb, no link)
+    &:last-child {
+      color: $mw-text-primary !important;
+      font-weight: 600 !important;
+    }
+  }
+
+  // Separator icon (chevron)
+  .fi-icon {
+    width: 14px !important;
+    height: 14px !important;
+    color: $mw-text-faint !important;
   }
 }
 
@@ -1857,11 +1884,26 @@ html.dark {
     }
   }
 
-  // Breadcrumbs — adjusted for dark mode
+  // Breadcrumbs — dark mode
   .fi-breadcrumbs {
-    color: #718096 !important;
-    a {
-      color: #63b3ed !important;  // Lighter blue for dark bg
+    li {
+      color: #718096 !important;
+
+      a {
+        color: #63b3ed !important;
+
+        &:hover {
+          color: #90cdf4 !important;
+        }
+      }
+
+      &:last-child {
+        color: #e2e8f0 !important;
+      }
+    }
+
+    .fi-icon {
+      color: #4a5568 !important;
     }
   }
 
