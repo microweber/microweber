@@ -428,15 +428,27 @@
   - Test suite: 12/12 suites PASS (2,489 tests, 16,868 assertions)
 
 ### Incident Cycle
-- [~] 01 Detect and Triage — Confirm the incident, assess severity, assemble the response team
+- [x] 2026-04-03  01 Detect and Triage — Confirm the incident, assess severity, assemble the response team
   - https://agents.tools.ooyes.net/workflows/incident-cycle/01-detect-and-triage.yml
-- [ ] 02 Investigate and Resolve — Form hypotheses, gather evidence, apply fix, confirm resolution
+  - **Severity:** SEV-4 (low impact, no urgent user effect)
+  - **Detection:** Full health check — HTTP 200 on all endpoints, 12/12 test suites PASS, 0 PHP lint errors
+  - **Issues found:** 1 missing Blade component (`user::primary-button`), 1 pre-existing version.txt newline, 1 pre-existing dispatchFormEvent deprecation
+  - **Impact:** Profile photo upload button broken on user profile page; other issues are non-user-facing
+  - Incident report: `docs/incidents/2026-04-03-post-refactor-health-check.md`
+- [x] 2026-04-03  02 Investigate and Resolve — Form hypotheses, gather evidence, apply fix, confirm resolution
   - https://agents.tools.ooyes.net/workflows/incident-cycle/02-investigate-and-resolve.yml
-- [ ] 03 Post-Mortem — Blameless review, timeline reconstruction, action items to prevent recurrence
+  - **Fix #1:** Replaced `<x-user::primary-button>` with `<x-user::button>` in profile photo form (component exists, uses btn-primary)
+  - **Fix #2:** Removed trailing newline from version.txt (ConfigFileTest assertion)
+  - **Deferred:** `dispatchFormEvent` JS deprecation — works currently, scheduled for future cleanup
+  - **Verification:** All tests pass, application healthy, error rate at baseline
+- [x] 2026-04-03  03 Post-Mortem — Blameless review, timeline reconstruction, action items to prevent recurrence
   - https://agents.tools.ooyes.net/workflows/incident-cycle/03-post-mortem.yml
+  - SEV-4 — brief post-mortem per policy (SEV-3/4: document root cause + action items, close)
+  - Added 3 action items to incident report: CI Blade validation, `$wire.call()` migration, version.txt script fix
+  - Documented lessons learned: Blade component refs not validated at compile time, Write tool newline behavior, expected test log noise
 
 ### Data Cycle
-- [ ] 01 Model and Design — ERD review, schema design decisions, index strategy, migration plan
+- [~] 01 Model and Design — ERD review, schema design decisions, index strategy, migration plan
   - https://agents.tools.ooyes.net/workflows/data-cycle/01-model-and-design.yml
 - [ ] 02 Migrate and Apply — Zero-downtime migration execution and rollback readiness
   - https://agents.tools.ooyes.net/workflows/data-cycle/02-migrate-and-apply.yml

@@ -40,6 +40,20 @@ Triggered by Incident Cycle workflow after completing Refactor Cycle. Ran full h
 - ~06:10 UTC — `primary-button` issue identified and fixed
 - ~06:15 UTC — All issues resolved or documented
 
+## Action Items
+
+| # | Action | Owner | Status |
+|---|--------|-------|--------|
+| 1 | Migrate `dispatchFormEvent` to `$wire.call()` in media browser JS | Dev team | Open |
+| 2 | Add Blade component existence check to CI (e.g., `php artisan view:cache` in test pipeline) | Dev team | Open |
+| 3 | Ensure `version.txt` is written without trailing newline in release scripts | Dev team | Done |
+
+## Lessons Learned
+
+- **Blade component references are not validated at compile time.** A missing `<x-user::primary-button>` component only fails at runtime when the specific page is rendered. Adding `php artisan view:cache` to CI would catch these earlier.
+- **The Write tool appends a trailing newline**, which can break files that must not end with one (e.g., `version.txt`). Use `printf` via shell for such files.
+- **Test fixture errors in logs are expected.** The 6 ERROR entries in the `testing` channel were all from webhook test fixtures — not real issues. Documenting expected log noise prevents false alarms.
+
 ## Resolution
 
 All actionable issues fixed. No production-impacting incidents detected. Application is healthy.
