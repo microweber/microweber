@@ -3,6 +3,44 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [4.0-dev17] - 2026-04-03
+
+### Added
+- **Media Library** — Full admin UI with 3-panel layout (folder sidebar, thumbnail grid/list, detail panel), drag-and-drop upload, bulk actions (delete, move, CDN sync), search/filters (type, date range, folder), Unsplash stock photo integration, and 26 Livewire component tests
+- **Menu Management** — Redesigned drag-and-drop menu editor with nested items, item type icons (page/category/custom URL), rename/delete actions, and cascade-delete for child items
+- **Product Variants** — Variant management UI with attribute selection, combination generation, and per-variant pricing/inventory/shipping fields
+- **Order Enhancements** — Status-change timeline, shipping tracking fields, bulk status update, and refund processing UI (partial/full) with 3 new migrations
+- **Users Resource** — Enabled create/edit routes with role assignment form
+- **Content Management** — Bulk publish/unpublish actions, post excerpt field, publish/schedule date picker, author column and filter
+- **Product Inventory** — Low-stock threshold field, stock status badges (In Stock/Low Stock/Out of Stock) in list view
+- **Login Page** — Styled to match MW v2 visual design with branding, layout, and dark mode support
+- **Dashboard** — MW v2-style welcome widget, quick stats cards, ECharts area chart with period switching (Daily/Weekly/Monthly)
+- **Accessibility** — Skip-navigation link on all admin pages
+- **Documentation** — SCOPE.md, PLAN.md, and Media Library feature spec
+
+### Changed
+- Migrated dashboard chart from Chart.js to ECharts with gradient fill and smooth line
+- Sidebar widened to 16rem with improved group headers and text wrapping
+- Shipping dimension fields renamed to match backend drivers (shipping_weight, shipping_width, shipping_height, shipping_depth)
+- Settings.php refactored: extracted `extractItemData()`, fixed typo, added array guard
+- SiteStatsRepository: fixed ambiguous column in JOIN query, corrected JOIN condition
+
+### Fixed
+- Alpine.js component loading error (`mwTreeFormComponent is not defined`) on create/edit forms
+- Duplicate `HEAD_START` render hook causing "Identifier 'Ziggy' has already been declared" JS error
+- `DateMalformedStringException` when saving content with invalid date strings (PHP 8.4)
+- Settings hub page missing title prefix
+- Mobile topbar avatar clipping and orders table overflow
+- ECharts widget period switching (was non-functional due to `wire:ignore` blocking DOM updates)
+- Dashboard stats: deduplicated order queries, added 120s cache, fixed currency symbol
+
+### Security
+- Pinned ECharts CDN to v5.5.1 with SRI integrity hash
+- Resolved lodash.set prototype pollution CVE
+
+### Performance
+- Dashboard quick stats: combined 4 queries into 1 with 120s cache
+- SiteStatsEchartsWidget: memoized chart data, cached online count with 60s TTL
 
 ## [2.0.16] - 2024-06-26
 - Maintenance release

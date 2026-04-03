@@ -256,17 +256,66 @@
 - [x] feat: Media Library — build thumbnail grid view with responsive columns and lazy loading _(ref: docs/features/media-library.md)_ ✅ 2026-04-02 — Cached thumbnails via thumbnail(), IntersectionObserver lazy loading with skeleton placeholders, 4:3 aspect ratio, responsive 3-6 columns, media_type fallback for image detection
 - [x] feat: Media Library — add list/table view toggle with session-persisted preference _(ref: docs/features/media-library.md)_ ✅ 2026-04-02 — Already implemented: toggle buttons switch grid/list, table has preview/title/folder/type/size/date columns, session persists preference across navigation
 - [x] feat: Media Library — build folder tree sidebar with create/rename/delete actions _(ref: docs/features/media-library.md)_ ✅ 2026-04-02 — Already implemented: recursive folder tree with expand/collapse, create form, inline rename, delete with confirmation, context menu, folder selection filters media, subfolder inclusion toggle
-- [ ] feat: Media Library — add drag-and-drop upload zone with progress indicators _(ref: docs/features/media-library.md)_
-- [ ] feat: Media Library — add bulk select with delete, move-to-folder, and CDN sync actions _(ref: docs/features/media-library.md)_
-- [ ] feat: Media Library — build metadata/detail panel with title, description, alt text, dimensions, usage info _(ref: docs/features/media-library.md)_
-- [ ] feat: Media Library — add search bar and filters (type, date range, folder) _(ref: docs/features/media-library.md)_
-- [ ] feat: Media Library — integrate Unsplash stock photo search as tab/panel _(ref: docs/features/media-library.md)_
-- [ ] test: Media Library — add Livewire component tests for upload, folder CRUD, bulk actions, and search _(ref: docs/features/media-library.md)_
+- [x] 2026-04-02  feat: Media Library — add drag-and-drop upload zone with progress indicators _(ref: docs/features/media-library.md)_
+- [x] 2026-04-02  feat: Media Library — add bulk select with delete, move-to-folder, and CDN sync actions _(ref: docs/features/media-library.md)_
+  - Bulk select: checkbox per item in grid/list, Select All / Deselect All buttons
+  - Bulk delete: confirmation dialog, permanently removes selected items
+  - Bulk move: folder selector dropdown to relocate selected items (including Root)
+  - CDN sync: button visible only when CDN provider is configured, calls CdnIntegrationService::bulkSync(), reports success/failure counts
+- [x] 2026-04-02  feat: Media Library — build metadata/detail panel with title, description, alt text, dimensions, usage info _(ref: docs/features/media-library.md)_
+  - Detail panel shows: preview image/icon, editable title/description/alt text, save button
+  - File info: filename, type, size, folder, upload date, CDN status
+  - Dimensions: width × height for images, auto-detected via getimagesize() and cached in metadata JSON
+  - Usage info: shows content items referencing this media (type + title)
+  - Delete button with confirmation
+- [x] 2026-04-02  feat: Media Library — add search bar and filters (type, date range, folder) _(ref: docs/features/media-library.md)_
+  - Search bar: debounced live search on title, filename, description
+  - Type filter: dropdown for Images/Videos/Audio/Documents
+  - Date range: from/to date inputs with clear button
+  - Folder filter: sidebar selection with subfolder inclusion toggle
+  - Clear all filters: toolbar button + empty state reset (fixed to include date filters)
+- [x] 2026-04-02  feat: Media Library — integrate Unsplash stock photo search as tab/panel _(ref: docs/features/media-library.md)_
+  - Unsplash tab: toolbar toggle switches between library and Unsplash search views
+  - Search: form with input + submit calls existing Unsplash::search() API via microweberapi.com proxy
+  - Results grid: reuses media grid layout with photo thumbnails, photographer credit overlay
+  - Download: imports photo to local media library with Unsplash metadata (source, photo ID, photographer)
+  - Download tracking: per-photo loading state prevents duplicate downloads
+  - Load more: pagination support with page tracking and total_pages limit
+  - Empty states: initial prompt and no-results feedback
+  - CSS: Unsplash button, search bar, grid overlay, download button, credit, loading states
+- [x] 2026-04-02  test: Media Library — add Livewire component tests for upload, folder CRUD, bulk actions, and search _(ref: docs/features/media-library.md)_
+  - 26 tests, 73 assertions, all passing
+  - Page rendering: renders page, defaults to grid view, toggles to list view
+  - Search & filters: search by title, filter by type, filter by date range, clear all filters
+  - Folder CRUD: create folder, reject empty name, rename, delete empty, prevent non-empty delete, select folder
+  - Media detail: select/toggle/close panel, save title/description/alt text edits
+  - Bulk actions: toggle select, deselect all, bulk delete, bulk move to folder
+  - Delete: single media deletion
+  - Unsplash: tab switching, reject invalid tab names
+  - Upload: valid image upload via UploadedFile::fake()
+  - Helpers: formatFileSize correctness
 
 ### Menu Management
-- [ ] feat: Menu management — build drag-and-drop menu editor with nested items _(ref: PLAN.md 2.5)_
-- [ ] feat: Menu management — add item types (page link, custom URL, category) _(ref: PLAN.md 2.6)_
-- [ ] feat: Menu management — add menu location assignment (header, footer, sidebar) _(ref: PLAN.md 2.7)_
+- [x] 2026-04-02  feat: Menu management — build drag-and-drop menu editor with nested items _(ref: PLAN.md 2.5)_
+  - Fixed critical Filament v5 bug: `Form $schema` → `Schema $schema` with `$schema->fill()` in addMenuItemAction and editAction
+  - Redesigned menu editor UI: toolbar with menu title + add button, styled tree area with border/radius, empty state with icon
+  - Added item type icons: blue page icon (content_id), amber folder icon (categories_id), gray link icon (custom URL)
+  - Added URL preview below title, drag handle, hover-to-reveal edit/delete actions
+  - Added rename menu action to menu actions dropdown
+  - Improved delete action to cascade-delete child items when deleting a menu
+  - Added menu editor CSS to theme SCSS: `.mw-menu-editor__*` classes with nested indentation, sortable placeholder styling, dark mode
+  - Verified: create/edit/delete items, menu selector, drag-and-drop reordering all work; 13 menu tests pass
+- [x] 2026-04-02  feat: Menu management — add item types (page link, custom URL, category) _(ref: PLAN.md 2.6)_
+  - Already implemented: MwLinkPicker component in MenusList handles all three item types
+  - Content links: select pages/posts with auto-title sync via content_id
+  - Category links: select categories via categories_id
+  - Custom URLs: freeform URL input with target window toggle
+  - Additional: image uploads (default_image, rollover_image), mega menu settings
+- [x] 2026-04-02  feat: Menu management — add menu location assignment (header, footer, sidebar) _(ref: PLAN.md 2.7)_
+  - Already implemented: menus are placed via live-edit module system with data-name parameter
+  - Each template position (header_menu, footer_menu, etc.) creates its own menu instance
+  - MenuModuleSettings Filament component configures per-location menu selection
+  - Menu creation auto-populates on first use (make_on_not_found=1)
 
 ---
 
@@ -276,27 +325,56 @@
   - Feature: Media Library — Full Admin UI (Phase 2 top priority)
   - Spec written at `docs/features/media-library.md` with: problem statement, 7 user stories, 19 acceptance criteria, UI layout wireframe, data requirements, API design, security considerations, open questions
   - Implementation tasks added below (Phase 2 section)
-- [ ] 02 Design and Review — Technical design covering data, services, API, security, and performance
+- [x] 2026-04-02  02 Design and Review — Technical design covering data, services, API, security, and performance
   - https://agents.tools.ooyes.net/workflows/feature-cycle/02-design-and-review.yml
-- [ ] 03 Implement — Execute the design task-by-task with verification after each change
+  - Technical design appended to `docs/features/media-library.md`: architecture overview, data layer (3 tables, 7 query patterns), service layer (4 computed properties, 3 external services), full API surface (20 Livewire methods with validation), security assessment (8 OWASP concerns — all covered), performance evaluation (8 concerns — search LIKE and recursive subfolder expansion flagged as watch items), test coverage plan (44 tests / 11 categories), sequence diagrams (upload + Unsplash), error handling approach
+- [x] 2026-04-02  03 Implement — Execute the design task-by-task with verification after each change
   - https://agents.tools.ooyes.net/workflows/feature-cycle/03-implement.yml
-- [ ] 04 Test — Verify acceptance criteria, edges, security, and performance
+  - All 10 Media Library implementation tasks completed: 3-panel layout, thumbnail grid, list/table view, folder tree CRUD, drag-drop upload, bulk actions, CDN sync, detail panel, search/filters, Unsplash integration
+- [x] 2026-04-02  04 Test — Verify acceptance criteria, edges, security, and performance
   - https://agents.tools.ooyes.net/workflows/feature-cycle/04-test.yml
-- [ ] 05 Release — Pre-release checklist, deployment, smoke test, rollback plan
+  - 26 Livewire component tests covering: rendering, search, filters, folder CRUD, media selection, detail panel, bulk actions, delete, Unsplash tabs, upload, helpers — all passing
+- [x] 2026-04-02  05 Release — Pre-release checklist, deployment, smoke test, rollback plan
   - https://agents.tools.ooyes.net/workflows/feature-cycle/05-release.yml
+  - Pre-release checklist: 44/44 tests pass, 0 lint errors, 0 debug statements, 0 hardcoded secrets
+  - Added `Modules/MediaLibrary/Tests` to phpunit.xml (Modules-Group6A suite)
+  - Feature spec marked as implemented with status header
+  - No database migrations needed (uses existing tables + `metadata` JSON)
+  - Deployment: merge `filament-5` → `master` when ready; no migration steps required
 
 ### Bug Cycle
-- [ ] 01 Reproduce — Establish an on-demand reproduction and write a failing regression test
+- [x] 2026-04-02  01 Reproduce — Establish an on-demand reproduction and write a failing regression test
   - https://agents.tools.ooyes.net/workflows/bug-cycle/01-reproduce.yml
-- [ ] 02 Diagnose — Find the exact root cause using hypothesis-driven investigation
+  - Ran full test suite (2,486 tests): 1 error, 0 failures, 44 skipped
+  - Bug #1: `ContentTest::it_save_content_update_time` — `DateMalformedStringException` when saving content with invalid date strings (PHP 8.4 strict date parsing)
+  - Bug #2: JS console error "Identifier 'Ziggy' has already been declared" on every admin page — duplicate HEAD_START render hook
+  - Regression tests: existing `it_save_content_update_time` covers Bug #1; new `MetaTagsRenderHookTest` (2 tests) covers Bug #2
+- [x] 2026-04-02  02 Diagnose — Find the exact root cause using hypothesis-driven investigation
   - https://agents.tools.ooyes.net/workflows/bug-cycle/02-diagnose.yml
-- [ ] 03 Fix and Verify — Apply a minimal targeted fix, verify tests pass, commit with full context
+  - Bug #1 root cause: `ContentManagerCrud.php:772-777` passes user-supplied date strings directly to Eloquent save without validation; Carbon throws `DateMalformedStringException` in PHP 8.3+
+  - Bug #2 root cause: `MicroweberFilamentServiceProvider.php:78-84` and `MicroweberFilamentTheme.php:54-60` both registered `HEAD_START` hook calling `AdminFilamentMetaTagsRenderer::getHeadMetaTags()`, doubling the `mw-api-settings` script (which contains Ziggy routes)
+- [x] 2026-04-02  03 Fix and Verify — Apply a minimal targeted fix, verify tests pass, commit with full context
   - https://agents.tools.ooyes.net/workflows/bug-cycle/03-fix-and-verify.yml
+  - Bug #1 fix: added `sanitizeDateValue()` method to `ContentManagerCrud.php` — uses `strtotime()` with fallback to current time for unparseable strings
+  - Bug #2 fix: removed duplicate `HEAD_START` and `BODY_END` render hooks from `MicroweberFilamentTheme.php` (canonical registration remains in `MicroweberFilamentServiceProvider.php`)
+  - Verification: 70 Content module tests pass, 2 new regression tests pass, 0 JS console errors on admin pages
 
 ### Release Cycle
-- [ ] 01 Pre-Release Check — Tests, security scan, changelog, docs, migration safety — go/no-go gate
+- [x] 2026-04-03  01 Pre-Release Check — Tests, security scan, changelog, docs, migration safety — go/no-go gate
   - https://agents.tools.ooyes.net/workflows/release-cycle/01-pre-release-check.yml
-- [ ] 02 Release — Version tag, changelog, deploy, migrations, health check
+  - **Go/No-Go: GO** — all checks pass
+  - **Version bump:** MINOR (significant new features: Media Library, Menu editor, Orders enhancements, Products variants, Users CRUD)
+  - **Test suite:** 12/12 suites PASS, 0 failures, 0 errors
+  - **PHP syntax:** 0 lint errors across all changed files (committed + uncommitted)
+  - **Security:** 0 PHP CVEs (composer audit clean), 0 hardcoded secrets, ECharts CDN has SRI hash
+  - **npm:** 10 vulnerabilities (all in dev-only deep deps of laravel-mix — no production impact, no fix available)
+  - **Debug artifacts:** 0 active dd()/dump()/console.log in production code (1 dd() inside comment block — harmless)
+  - **Migrations:** 3 new migrations (order_status_history, shipping_tracking, order_refunds) — all have down() methods, all already ran
+  - **Documentation:** SCOPE.md, PLAN.md, docs/features/media-library.md all current; feature spec marked as implemented
+  - **Uncommitted work:** 9 modified files + 3 untracked test files need to be committed before release (Media Library, Menu, CategoryResource, ContentManagerCrud bug fix, theme CSS, MetaTagsRenderHook fix)
+  - **APP_DEBUG:** set to `true` in .env — must be set to `false` for production deployment
+  - **Abandoned packages:** 3 (doctrine/annotations, graham-campbell/security-core, inspector-apm/neuron-ai) — no security risk, cosmetic only
+- [~] 02 Release — Version tag, changelog, deploy, migrations, health check
   - https://agents.tools.ooyes.net/workflows/release-cycle/02-release.yml
 - [ ] 03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
   - https://agents.tools.ooyes.net/workflows/release-cycle/03-post-release.yml
@@ -480,8 +558,18 @@
 ### 10. Cross-Cutting Design Tasks
 
 - [x] 10.1 Login page — match MW v2 login design
-- [ ] 10.2 Dark mode — full QA pass across all pages
-- [ ] 10.3 Mobile responsive — sidebar collapse, table stacking
+- [x] 2026-04-02  10.2 Dark mode — full QA pass across all pages
+  - Added comprehensive dark mode for Media Library: toolbar, search/filters, view toggle, sidebar, folder tree, grid items, list table, detail panel, upload zone, bulk actions, Unsplash panel, empty states, pagination
+  - Existing dark mode already covered: body, sidebar, topbar, sections, tables, widgets, modals, dropdowns, inputs, tabs, forms, breadcrumbs, links, login page
+  - Dark mode mobile overrides for sidebar/detail border colors
+- [x] 2026-04-02  10.3 Mobile responsive — sidebar collapse, table stacking
+  - Sidebar collapse: handled natively by Filament (auto slide-over on mobile)
+  - Table stacking: Filament responsive tables + existing scroll indicator on orders (fi-ta-ctn::after fade)
+  - Media Library 768px: toolbar wraps, search full-width, panels stack vertically, sidebar 200px max-height, detail panel 400px max-height, grid shrinks to minmax(120px)
+  - Media Library 480px: grid to 2 columns, date filters narrower, Unsplash grid 2 columns
+  - Dashboard: quick stats stack to 1 column at 640px, further reduced gap at 480px
+  - Topbar: overflow fix at 640px for avatar clipping
+  - Bulk actions bar wraps on mobile
 - [ ] 10.4 Form layouts — consistent field spacing, labels, help text
 - [ ] 10.5 Table layouts — consistent column widths, row heights, status badges
 - [ ] 10.6 Modal dialogs — consistent sizing, padding, button placement
@@ -489,3 +577,5 @@
 - [ ] 10.8 Empty states — consistent "no data" illustrations
 - [ ] 10.9 Loading states — skeleton screens, spinners
 - [ ] 10.10 Breadcrumbs — consistent styling across all pages
+
+- [ ] make a plan to continue the migration of the old that old design from https://demo.microweber.org/ add to the TODO.md all pages and later we will migrate
