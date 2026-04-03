@@ -4786,3 +4786,42 @@ html.dark {
     color: #4a5568;
   }
 }
+
+// --- Categories Tree List ---
+.mw-edit-categories-list {
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-lg;
+  background: $mw-bg-surface;
+  padding: 0.5rem;
+  min-height: 100px;
+}
+
+.mw-tree-nav-skin-category-manager {
+  .mw-tree-item-content {
+    border-radius: $mw-radius-sm !important;
+    transition: background-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .mw-tree-item-title svg {
+    opacity: 0.7;
+  }
+}
+
+html.dark {
+  .mw-edit-categories-list {
+    border-color: #1e2330;
+    background: #0f1117;
+  }
+
+  .mw-tree-nav-skin-category-manager {
+    .mw-tree-item-content {
+      &:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}

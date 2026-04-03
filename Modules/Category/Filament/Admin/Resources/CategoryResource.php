@@ -100,6 +100,7 @@ class CategoryResource extends Resource
             Group::make()
                 ->schema([
                     Forms\Components\Section::make('Parent Page or Category')
+                        ->icon('heroicon-m-folder-open')
                         ->schema([
                             MwTree::make('mw_parent_page_and_category_state')
                                 ->live()

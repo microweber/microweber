@@ -805,8 +805,13 @@
 
 ### Priority 2 — Shop Pages
 
-- [~] migrate: Shop Categories (3.3) — compare tree layout, category cards with MW v2
-- [ ] migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
+- [x] 2026-04-03  migrate: Shop Categories (3.3) — compare tree layout, category cards with MW v2
+  - Added bordered container with rounded corners for category tree list
+  - Improved tree item hover states with subtle box-shadow
+  - Added section icon (heroicon-m-folder-open) to "Parent Page or Category" sidebar section
+  - Dark mode: dark border/background for tree container
+  - No regressions: 45 Category tests pass
+- [~] migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
 - [ ] migrate: Coupons (3.9) — compare list/form layout with MW v2
 - [ ] migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2
 - [ ] migrate: Invoices (3.11) — compare invoice list, print layout with MW v2
