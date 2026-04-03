@@ -48,6 +48,7 @@ class CouponResource extends Resource
         return $schema
             ->schema([
                 Section::make('Basic Information')
+                    ->icon('heroicon-m-ticket')
                     ->description('Configure the coupon name, code, and description.')
                     ->schema([
                         Grid::make(2)->schema([
@@ -71,6 +72,7 @@ class CouponResource extends Resource
                     ]),
 
                 Section::make('Discount Settings')
+                    ->icon('heroicon-m-receipt-percent')
                     ->description('Configure how the discount is calculated.')
                     ->schema([
                         Grid::make(2)->schema([
@@ -109,6 +111,7 @@ class CouponResource extends Resource
                     ]),
 
                 Section::make('Usage Limits')
+                    ->icon('heroicon-m-calculator')
                     ->description('Configure who can use this coupon and how many times.')
                     ->schema([
                         Grid::make(2)->schema([
@@ -129,6 +132,7 @@ class CouponResource extends Resource
                     ]),
 
 Section::make('Item Count Requirements')
+                ->icon('heroicon-m-shopping-cart')
                 ->description('Configure minimum and maximum item count requirements.')
                 ->collapsible()
                 ->schema([
@@ -158,6 +162,7 @@ Section::make('Item Count Requirements')
                 ]),
 
             Section::make('Buy X Get Y (BOGO) Rules')
+                ->icon('heroicon-m-gift')
                 ->description('Configure buy X get Y discount rules.')
                 ->collapsible()
                 ->schema([
@@ -204,6 +209,7 @@ Section::make('Item Count Requirements')
                 ]),
 
             Section::make('Tiered/Volume Discount')
+                ->icon('heroicon-m-chart-bar')
                 ->description('Configure tiered discounts based on cart total or item count.')
                 ->collapsible()
                 ->schema([
@@ -264,6 +270,7 @@ Section::make('Item Count Requirements')
                 ]),
 
             Section::make('Conditional Rules')
+                ->icon('heroicon-m-funnel')
                 ->description('Configure conditional discount rules based on cart properties.')
                 ->collapsible()
                 ->schema([
@@ -332,6 +339,7 @@ Section::make('Item Count Requirements')
                 ]),
 
             Section::make('Advanced Rules')
+                ->icon('heroicon-m-cog-6-tooth')
                 ->description('Configure additional restrictions and rules.')
                 ->collapsible()
                 ->schema([
