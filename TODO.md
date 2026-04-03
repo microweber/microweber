@@ -383,11 +383,27 @@
   - Smoke test: admin login (200), homepage (200), version constant verified
   - All 3 migrations already ran (order_status_history, shipping_tracking, order_refunds)
   - Note: not pushed to remote — merge `filament-5` → `master` when ready
-- [~] 03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
+- [x] 2026-04-03  03 Post-Release — 30-minute monitoring, cleanup, stakeholder communication, follow-up tasks
   - https://agents.tools.ooyes.net/workflows/release-cycle/03-post-release.yml
+  - **Monitoring:** All endpoints stable (/, /admin/login → 200), 0 errors in logs, DB healthy, all migrations ran
+  - **Release summary (v4.0-dev17):**
+    - Media Library: full admin UI with 3-panel layout, Unsplash integration, bulk actions, 26 tests
+    - Menu editor: redesigned with drag-and-drop, item type icons, rename/cascade-delete
+    - Products: variant management UI, low-stock threshold, stock status badges
+    - Orders: status timeline, shipping tracking, bulk status update, refund processing
+    - Users: create/edit with role assignment
+    - Content: bulk publish/unpublish, post scheduling, author filters
+    - Bug fixes: PHP 8.4 date parsing, duplicate Ziggy script, ECharts period switching
+    - Security: ECharts SRI hash, lodash.set CVE resolved
+  - **Follow-up work identified (added below):**
+    - npm dev-dependency vulnerabilities (laravel-mix deep deps — no fix available, monitor for updates)
+    - APP_DEBUG must be set to false before production deployment
+    - 3 abandoned composer packages to evaluate for replacement
+    - Remaining Phase 3-4 admin migration tasks (see mapping table below)
+    - Compile theme CSS for production (`npm run production`) before deployment
 
 ### Refactor Cycle
-- [ ] 01 Assess — Identify code quality issues, establish test safety net, risk assessment
+- [~] 01 Assess — Identify code quality issues, establish test safety net, risk assessment
   - https://agents.tools.ooyes.net/workflows/refactor-cycle/01-assess.yml
 - [ ] 02 Plan — Map current state, define target state, sequence atomic steps
   - https://agents.tools.ooyes.net/workflows/refactor-cycle/02-plan.yml
