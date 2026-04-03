@@ -23,7 +23,12 @@ class Settings extends Page
 
     public function getTitle(): string
     {
-        return 'Settings';
+        return '';
+    }
+
+    public function getHeading(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return '';
     }
 
 
