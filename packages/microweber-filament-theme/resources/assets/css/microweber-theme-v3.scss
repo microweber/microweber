@@ -526,6 +526,82 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
+// Content list grid cards — Pages/Posts/Products (MW v2 style)
+// ============================================================================
+
+// Grid card row — clean spacing and hover state
+.fi-ta-record .group {
+  padding: 10px 0 !important;
+  transition: background-color 0.15s ease !important;
+}
+
+// Thumbnail in grid view — rounded, consistent size
+.fi-ta-record .group .h-12.w-12 {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: $mw-radius-sm !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}
+
+// Title link styling
+.fi-ta-record .group .font-medium a {
+  color: $mw-text-primary !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+
+  &:hover {
+    color: $mw-accent !important;
+  }
+}
+
+// Parent breadcrumb and category text
+.fi-ta-record .group .text-\[0\.8rem\] {
+  font-size: 12px !important;
+  color: $mw-text-muted !important;
+  line-height: 1.4 !important;
+
+  a {
+    color: $mw-text-muted !important;
+  }
+}
+
+// Category filter buttons
+.fi-ta-record .group .text-blue-500 {
+  font-size: 12px !important;
+  color: $mw-accent !important;
+}
+
+// Updated timestamp
+.fi-ta-record .group .text-\[0\.6rem\] {
+  font-size: 11px !important;
+  color: $mw-text-faint !important;
+}
+
+// Action icons (view, live edit, settings) — muted, hover reveal
+.fi-ta-record .group svg {
+  color: $mw-text-muted !important;
+  transition: color 0.15s ease !important;
+}
+
+.fi-ta-record .group a:hover svg {
+  color: $mw-text-primary !important;
+}
+
+// Homepage icon
+.fi-ta-record .group .heroicon-o-home,
+.fi-ta-record .group [class*="heroicon"] {
+  color: $mw-text-muted !important;
+}
+
+// Published/Unpublished select column
+.fi-ta-cell .fi-ta-select {
+  min-width: 120px !important;
+}
+
+// ============================================================================
 // Buttons — MW v2 style
 // ============================================================================
 .fi-btn {
@@ -1625,6 +1701,32 @@ html.dark {
   // Table title links in dark mode
   .fi-ta-record .font-medium a {
     color: #e2e8f0 !important;
+  }
+
+  // Content grid card dark mode
+  .fi-ta-record .group .font-medium a {
+    color: #e2e8f0 !important;
+
+    &:hover {
+      color: #63b3ed !important;
+    }
+  }
+
+  .fi-ta-record .group svg {
+    color: #718096 !important;
+  }
+
+  .fi-ta-record .group a:hover svg {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-ta-record .group .text-\[0\.8rem\],
+  .fi-ta-record .group .text-\[0\.8rem\] a {
+    color: #718096 !important;
+  }
+
+  .fi-ta-record .group .text-\[0\.6rem\] {
+    color: #4a5568 !important;
   }
 
   // Dark mode status badges — tinted backgrounds with light text
