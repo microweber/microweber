@@ -42,21 +42,19 @@ class MenusList extends Component implements HasForms, HasActions
 
     public function form(Schema $schema): Schema
     {
-
-
         return $schema->schema([
             Select::make('menu_id')
                 ->live()
                 ->native(true)
                 ->selectablePlaceholder(false)
-                ->default(function (Component $component, Get $get) {
-
-                    // return $menu_id;
-                    return $get('menu_id');
+                ->default(fn (Get $get) => $get('menu_id'))
+                ->options(function () {
+                    return Menu::where('item_type', 'menu')
+                        ->orderByRaw("CASE WHEN title IN ('header_menu','footer_menu_1','footer_menu_2','footer_menu_3') THEN 0 ELSE 1 END")
+                        ->orderBy('id')
+                        ->pluck('title', 'id');
                 })
-                ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
-                ->preload()
-                ->label(' '),
+                ->label('Menu'),
         ]);
     }
 
@@ -68,20 +66,53 @@ class MenusList extends Component implements HasForms, HasActions
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
-                $record?->delete();
+                if ($record) {
+                    if ($record->item_type === 'menu') {
+                        Menu::where('parent_id', $record->id)
+                            ->where('item_type', 'menu_item')
+                            ->delete();
+                    }
+                    $record->delete();
+                }
                 $this->dispatch('$refresh');
+            });
+    }
+
+    public function renameMenuAction(): Action
+    {
+        return Action::make('renameMenu')
+            ->label('Rename menu')
+            ->icon('heroicon-m-pencil-square')
+            ->mountUsing(function (Schema $schema, array $arguments) {
+                $record = Menu::find($arguments['id']);
+                if ($record) {
+                    $schema->fill(['title' => $record->title]);
+                }
+            })
+            ->form([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(200)
+                    ->label('Menu name'),
+            ])
+            ->action(function (array $data, array $arguments) {
+                $record = Menu::find($arguments['id']);
+                if ($record) {
+                    $record->title = $data['title'];
+                    $record->save();
+                }
             });
     }
 
     public function addMenuItemAction(): Action
     {
         return CreateAction::make('addMenuItemAction')
-//            ->modalWidth('md')
             ->createAnother(false)
-            ->mountUsing(function (Form $schema, array $arguments) {
-                $form->fill($arguments);
+            ->mountUsing(function (Schema $schema, array $arguments) {
+                $schema->fill($arguments);
             })
             ->label('Add menu item')
+            ->icon('heroicon-m-plus')
             ->form(static::menuItemEditFormArray())
             ->action(function (array $data) {
 
@@ -96,7 +127,6 @@ class MenusList extends Component implements HasForms, HasActions
                     $this->dispatch('mw-option-saved',
                         optionGroup: $this->option_group,
                         optionKey: $this->option_key,
-
                     );
                 }
             });
@@ -326,9 +356,8 @@ class MenusList extends Component implements HasForms, HasActions
 
         return Action::make('edit')
             ->icon('heroicon-m-pencil')
-            ->mountUsing(function (Form $schema, array $arguments) {
+            ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = Menu::find($arguments['id']);
-
 
                 $recordArray = $record->toArray();
                 $recordArray['display_title'] = $record->displayTitle;
@@ -341,7 +370,7 @@ class MenusList extends Component implements HasForms, HasActions
                     $recordArray['advanced'] = true;
                 }
 
-                $form->fill($recordArray);
+                $schema->fill($recordArray);
             })
             ->modalAutofocus(false)
             ->form(array_merge(
@@ -430,11 +459,11 @@ class MenusList extends Component implements HasForms, HasActions
     {
         return ActionGroup::make([
             $this->addMenuItemAction()->arguments(['parent_id' => $this->menu_id]),
-            // $this->editAction()->arguments(['id' => $this->menu_id]),
+            $this->renameMenuAction()->arguments(['id' => $this->menu_id]),
             $this->createAction(),
             $this->deleteAction()->arguments(['id' => $this->menu_id]),
         ])
-            ->label('Settings')
+            ->label('Menu actions')
             ->icon('heroicon-m-ellipsis-vertical')
             ->size(Size::Small)
             ->color('gray');

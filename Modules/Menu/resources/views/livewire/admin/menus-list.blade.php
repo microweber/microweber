@@ -2,127 +2,105 @@
 
     @script
     <script>
-
         document.addEventListener('livewire:initialized', async () => {
-
-
         })
     </script>
     @endscript
 
-    <div>
+    <div class="mw-menu-editor">
 
-        <style>
-            .admin-menu-items-holder ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-
-            .admin-menu-items-holder ul ul {
-                margin-left: 20px;
-            }
-        </style>
-
-
-    </div>
-
-
-    <div class="flex gap-3 justify-between">
-        <h4 class="text-xl">
-            Select the Menu you want to edit
-        </h4>
-
-    </div>
-
-    @if($menu)
-    {{ $this->form }}
-    @endif
-
-    @if($menu)
-
-        <div class="mt-4">
-
-            {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
-
-
-
-
-
-
-
-        </div>
-
-
-
-        <hr class="mt-6" />
-
-        <div class="mt-8">
-            <div class="text-sm uppercase font-bold">
-                {{ $menu->title }}  structure
+        {{-- Menu selector bar --}}
+        <div class="mw-menu-editor__selector">
+            <div class="flex gap-3 items-end justify-between flex-wrap">
+                <div class="flex-1 min-w-[200px] max-w-sm">
+                    {{ $this->form }}
+                </div>
+                <div class="flex gap-2 items-center">
+                    {{ $this->menuActionsGroup() }}
+                </div>
             </div>
-           <p class="text-sm">
-               Here you can edit your menu links. You can also drag and drop to reorder them.
-           </p>
         </div>
-        <div
 
-            x-load="visible"
-            x-load-src="{{ asset('modules/menu/js/sortableMenu.js') }}"
-            x-data="sortableMenu()"
-        >
-                <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
-                    <div data-menu-id="{{ $menu->id }}" class="px-4 pb-4 pt-4">
-                        @php
-                            $params = array(
-                              'menu_id' => $menu->id,
-                              'link' => function ($item) {
-                                  return view('modules.menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
-                              }
-                             );
-                             $menuTree = menu_tree($params);
+        @if($menu)
 
-                             echo $menuTree;
-                        @endphp
-
-                        @if(!$menuTree)
-
-                            <div class="flex flex-col justify-center items-center py-8">
-                                <h3 class="text-center text-xl text-gray-500">
-                                    No menu items found
-                                </h3>
-
-                                <p class="mt-2">
-                                    Create your first menu item
-                                </p>
-
-                                <div class="mt-4">
-                                    <!-- Removed: {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }} -->
-                                    {{ $this->menuActionsGroup() }}
-                                </div>
-
-                            </div>
-
-                        @endif
-
+            {{-- Toolbar --}}
+            <div class="mw-menu-editor__toolbar">
+                <div class="flex gap-2 items-center justify-between">
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-800 dark:text-gray-200">
+                            {{ $menu->title }}
+                        </h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                            Drag items to reorder. Nest items by dragging them under a parent.
+                        </p>
+                    </div>
+                    <div>
+                        {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
                     </div>
                 </div>
             </div>
 
-        <div class="flex gap-2 items-center justify-between mt-4">
-            <div class="text-sm uppercase font-bold">
-                {{ $menu->title }}  selected
+            {{-- Menu tree --}}
+            <div
+                x-load="visible"
+                x-load-src="{{ asset('modules/menu/js/sortableMenu.js') }}"
+                x-data="sortableMenu()"
+            >
+                <div class="mw-menu-editor__tree" data-menu-id="{{ $menu->id }}">
+                    @php
+                        $params = array(
+                          'menu_id' => $menu->id,
+                          'link' => function ($item) {
+                              return view('modules.menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
+                          }
+                         );
+                         $menuTree = menu_tree($params);
+                    @endphp
+
+                    @if($menuTree)
+                        {!! $menuTree !!}
+                    @else
+                        <div class="mw-menu-editor__empty">
+                            <div class="flex flex-col justify-center items-center py-12">
+                                <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
+                                    <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-base font-medium text-gray-600 dark:text-gray-300">
+                                    No menu items yet
+                                </h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
+                                    Add links to pages, categories, or custom URLs
+                                </p>
+                                {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
 
-            {{ $this->menuActionsGroup() }}
-        </div>
+        @else
+            {{-- No menus exist --}}
+            <div class="mw-menu-editor__empty mt-6">
+                <div class="flex flex-col justify-center items-center py-12">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
+                        <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-base font-medium text-gray-600 dark:text-gray-300">
+                        No menus found
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
+                        Create your first menu to get started
+                    </p>
+                    {{ $this->createAction }}
+                </div>
+            </div>
+        @endif
 
-
-
-
-
-    @endif
-
+    </div>
 
     <x-filament-actions::modals/>
 </div>
