@@ -448,9 +448,13 @@
   - Documented lessons learned: Blade component refs not validated at compile time, Write tool newline behavior, expected test log noise
 
 ### Data Cycle
-- [~] 01 Model and Design — ERD review, schema design decisions, index strategy, migration plan
+- [x] 2026-04-03  01 Model and Design — ERD review, schema design decisions, index strategy, migration plan
   - https://agents.tools.ooyes.net/workflows/data-cycle/01-model-and-design.yml
-- [ ] 02 Migrate and Apply — Zero-downtime migration execution and rollback readiness
+  - Created `docs/data-model.md`: ERD overview, 221+ migrations cataloged, core table documentation, design decisions (STI, polymorphic, EAV patterns)
+  - **Schema issues found:** order_status_history.order_id/user_id type mismatch (unsignedInteger vs bigInteger), missing indexes on user_id and refunded_by
+  - **Migration created:** `2026_04_03_000001_fix_order_tables_column_types_and_indexes.php` — fixes column types, adds missing indexes
+  - **Index strategy:** existing coverage is good (content, cart_orders, content_data, categories, cart all indexed); recommended future indexes for menus, media, invoices
+- [~] 02 Migrate and Apply — Zero-downtime migration execution and rollback readiness
   - https://agents.tools.ooyes.net/workflows/data-cycle/02-migrate-and-apply.yml
 - [ ] 03 Validate and Monitor — Data integrity checks, query performance, pipeline monitoring
   - https://agents.tools.ooyes.net/workflows/data-cycle/03-validate-and-monitor.yml
