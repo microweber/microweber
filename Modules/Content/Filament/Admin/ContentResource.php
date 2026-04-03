@@ -47,12 +47,8 @@ class ContentResource extends Resource
 
     public static function formArray($params = [])
     {
-        $id = null;
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        }
+        $id = $params['id'] ?? null;
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-
         $relType = \Modules\Content\Models\Content::class;
         $relId = $id;
 
@@ -67,9 +63,38 @@ class ContentResource extends Resource
         }
         $mediaIds = $mediaIdsCache[$cacheKey];
 
+        $contentType = static::resolveContentType($params);
+        $contentSubtype = $params['contentSubtype'] ?? (isset(static::$subType) ? static::$subType : 'static');
+        $sessionId = session()->getId();
+        $active_site_template_default = static::resolveDefaultTemplate();
+        [$firstBlogId, $firstShopId] = static::resolveParentPages($contentType);
 
+        $mainForm = [
+            Schemas\Components\Group::make([
+                Schemas\Components\Group::make()
+                    ->schema([
+                        ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
+                        static::generalInformationSection(),
+                        static::mediaSection($relType, $relId, $mediaIds),
+                        static::pricingSection(),
+                    ])->columnSpan(['lg' => 2]),
+
+                Schemas\Components\Group::make()
+                    ->schema([
+                        static::publishedSection(),
+                        static::parentPageSection($firstBlogId, $firstShopId),
+                        static::tagsSection(),
+                        static::menusSection(),
+                    ])->columnSpan(['lg' => 1]),
+            ])->columns(3)->columnSpanFull(),
+        ];
+
+        return static::contentTabsSchema($mainForm);
+    }
+
+    protected static function resolveContentType(array $params): string
+    {
         $contentType = 'page';
-        $contentSubtype = 'static';
         if (isset($params['contentType'])) {
             $contentType = $params['contentType'];
         }
@@ -84,19 +109,27 @@ class ContentResource extends Resource
                 $contentType = 'page';
             }
         }
-        if (isset($params['contentSubtype'])) {
-            $contentSubtype = $params['contentSubtype'];
-        }
         if (isset(static::$contentType)) {
             $contentType = static::$contentType;
         }
-        if (isset(static::$subType)) {
-            $contentSubtype = static::$subType;
+        return $contentType;
+    }
+
+    protected static function resolveDefaultTemplate(): string
+    {
+        $active_site_template_default = template_name();
+        $availableTemplates = site_templates();
+        if ($availableTemplates) {
+            $templateDirNames = array_column($availableTemplates, 'dir_name');
+            if (!in_array($active_site_template_default, $templateDirNames) && !empty($templateDirNames)) {
+                $active_site_template_default = $templateDirNames[0];
+            }
         }
+        return $active_site_template_default;
+    }
 
-        $site_url = site_url();
-        $sessionId = session()->getId();
-
+    protected static function resolveParentPages(string $contentType): array
+    {
         static $cachedBlogs = null;
         static $cachedShops = null;
 
@@ -107,428 +140,317 @@ class ContentResource extends Resource
             $cachedShops = app()->content_repository->getAllShopPages() ?: [];
         }
 
-        $allBlogs = $cachedBlogs;
-        $allShops = $cachedShops;
-
-        $firstBlogId = false;
-        $firstShopId = false;
-
-
-        if (empty($allShops) and $contentType === 'product') {
-
+        if (empty($cachedShops) && $contentType === 'product') {
             app()->content_repository->createDefaultShopPage();
             $cachedShops = app()->content_repository->getAllShopPages() ?: [];
-            $allShops = $cachedShops;
         }
-        if (empty($allBlogs) and $contentType === 'post') {
+        if (empty($cachedBlogs) && $contentType === 'post') {
             app()->content_repository->createDefaultBlogPage();
             $cachedBlogs = app()->content_repository->getAllBlogPages() ?: [];
-            $allBlogs = $cachedBlogs;
         }
 
-
-        if ($allBlogs and !empty($allBlogs) and isset($allBlogs[0]['id'])) {
-            $firstBlogId = $allBlogs[0]['id'];
-
-        }
-        if ($allShops and !empty($allShops) and isset($allShops[0]['id'])) {
-            $firstShopId = $allShops[0]['id'];
-
-        }
-        $active_site_template_default = template_name();
-        // Ensure the default template matches an actual installed template dir_name.
-        // template_name() can return "default" which is not a valid dir_name.
-        $availableTemplates = site_templates();
-        if ($availableTemplates) {
-            $templateDirNames = array_column($availableTemplates, 'dir_name');
-            if (!in_array($active_site_template_default, $templateDirNames) && !empty($templateDirNames)) {
-                $active_site_template_default = $templateDirNames[0];
-            }
-        }
-
-        /*  $localesWithLabels = [];
-
-
-          $isMultilanguageActive = MultilanguageHelpers::multilanguageIsEnabled();
-          if ($isMultilanguageActive) {
-              $translatableLocales = static::getTranslatableLocales();
-          } else {
-              $translatableLocales = [];
-          }
-          if ($translatableLocales) {
-              foreach ($translatableLocales as $locale) {
-                  $localesWithLabels[$locale] = FilamentTranslateField::getLocaleLabel($locale, $locale);
-              }
-          }*/
-
-        $mainForm = [
-
-            Schemas\Components\Group::make([
-
-                Schemas\Components\Group::make()
-                    ->schema([
-
-                        Forms\Components\Hidden::make('id')
-                            ->default($id),
-                        Forms\Components\Hidden::make('session_id')
-                            ->default($sessionId),
-
-                        Forms\Components\Hidden::make('content_type')
-                            ->default($contentType),
-
-                        Forms\Components\Hidden::make('subtype')
-                            ->default($contentSubtype),
-
-
-                        Forms\Components\Hidden::make('multilanguage')
-                            ->visible($isMultilanguageEnabled)
-                        ,
-
-
-                        Forms\Components\Hidden::make('active_site_template')
-                            ->default($active_site_template_default)
-                            ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                return $get('content_type') == 'page';
-                            }),
-                        Forms\Components\Hidden::make('layout_file')->visible(function (Schemas\Components\Utilities\Get $get) {
-                            return $get('content_type') == 'page';
-                        }),
-                        Forms\Components\Hidden::make('tags')
-                            ->default(function (?Model $record) {
-                                if ($record) {
-
-                                    return $record->getTagNamesAttribute();
-                                }
-                                return [];
-                            })->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
-
-                                if ($record) {
-                                    $categoryIds = $record->getTagNamesAttribute();
-                                    if (!is_array($categoryIds)) {
-                                        $categoryIds = explode(',', $categoryIds);
-                                    }
-                                    $set('tags', $categoryIds);
-                                } else {
-                                    $set('tags', []);
-                                }
-                            }),
-                        Forms\Components\Hidden::make('categoryIds')
-                            ->default(function (?Model $record) {
-                                if ($record) {
-                                    return $record->getCategoryIdsAttribute();
-                                }
-                                return [];
-                            })
-                            ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state) {
-
-                                if ($record) {
-                                    $categoryIds = $record->getCategoryIdsAttribute();
-                                    if (!is_array($categoryIds)) {
-                                        $categoryIds = explode(',', $categoryIds);
-                                    }
-                                    $set('categoryIds', $categoryIds);
-                                } else {
-                                    $set('categoryIds', []);
-                                }
-                            })
-                        ,
-
-                        Forms\Components\Hidden::make('menuIds')
-                            ->default(function (?Model $record) {
-                                if ($record) {
-                                    return $record->menuIds;
-                                }
-                                return [];
-                            })
-                            ->afterStateHydrated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state, ?Model $record) {
-
-                                if ($record) {
-                                    $set('menuIds', $record->menuIds);
-                                } else {
-                                    $set('menuIds', []);
-                                }
-                            })
-                        ,
-
-
-                        Forms\Components\Hidden::make('parent'),
-
-                        Forms\Components\Hidden::make('is_shop')
-                            ->default(0)
-                            ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                return $get('content_type') === 'page';
-                            }),
-                        Forms\Components\Hidden::make('is_home')
-                            ->default(0)
-                            ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                return $get('content_type') === 'page';
-                            }),
-
-
-                        Schemas\Components\Section::make('General Information')
-                            ->heading(function (Schemas\Components\Utilities\Get $get) {
-                                if ($get('content_type') === 'page') {
-                                    if ($get('id')) {
-                                        return 'Edit Page';
-                                    } else {
-                                        return 'Add New Page';
-                                    }
-                                }
-                                if ($get('content_type') === 'product') {
-                                    if ($get('id')) {
-                                        return 'Edit Product';
-                                    } else {
-                                        return 'Add New Product';
-                                    }
-                                }
-                                if ($get('content_type') === 'post') {
-                                    if ($get('id')) {
-                                        return 'Edit Post';
-                                    } else {
-                                        return 'Add New Post';
-                                    }
-                                }
-                            })
-                            ->schema([
-
-
-                                Forms\Components\TextInput::make('title')
-                                    ->maxLength(255)
-                                    ->required()
-                                    ->hintAction(
-                                        TranslateFieldAction::make('title')->label('')
-                                    )->columnSpanFull()
-                                ,
-
-                                Forms\Components\TextInput::make('url')
-                                    ->maxLength(255)
-                                    ->hintAction(
-                                        TranslateFieldAction::make('url')->label('')
-                                    )->columnSpanFull()
-                                ,
-
-
-//
-//                                MwTitleWithSlugInput::make(
-//                                    fieldTitle: 'title',
-//                                    fieldSlug: 'url',
-//                                    urlHost: $site_url,
-//                                    titleLabel: 'Title',
-//                                    slugLabel: 'Link:',
-//
-//                                )
-//                                    ->columnSpanFull(),
-
-
-                                Forms\Components\RichEditor::make('content_body')
-                                    ->columnSpan('full')
-                                    ->hintAction(
-                                        TranslateFieldAction::make('content_body')->label('')
-                                    )
-                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                        return $get('content_type') !== 'page';
-                                    }),
-
-                                Forms\Components\Textarea::make('description')
-                                    ->label('Excerpt')
-                                    ->helperText('A short summary displayed in post listings and search results.')
-                                    ->rows(3)
-                                    ->maxLength(500)
-                                    ->columnSpanFull()
-                                    ->hintAction(
-                                        TranslateFieldAction::make('description')->label('')
-                                    )
-                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                        return $get('content_type') === 'post';
-                                    }),
-                            ])
-                            ->columnSpanFull()
-                            ->columns(2),
-
-
-                        Schemas\Components\Section::make('Media')
-                            ->schema([
-                                MwMediaBrowser::make('mediaIds')
-                                    ->label('Add images')
-                                    ->setRelType($relType)
-                                    ->setRelId($relId)
-                                    ->default(function () use ($relType, $relId, $mediaIds) {
-                                        return $mediaIds;
-                                    })
-                            ]),
-
-                        Schemas\Components\Section::make('Pricing')
-                            ->schema([
-
-                                Forms\Components\TextInput::make('price')
-                                    ->numeric()
-                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                    ->columnSpan(['lg' => 2, 'sm' => 2])
-                                    ->required(),
-
-
-                                Forms\Components\TextInput::make('special_price')
-                                    ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
-
-                                        if ($record) {
-                                            $getSpecialPrice = $record->getSpecialPriceAttribute();
-
-                                            $set('special_price', $getSpecialPrice);
-                                        } else {
-                                            $set('special_price', '');
-                                        }
-                                    })
-                                    ->numeric()
-                                    ->columnSpan(['lg' => 2, 'sm' => 2])
-                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                    ->visible(function_exists('offers_get_price'))
-                                ,
-
-
-                            ])->columnSpanFull()->visible(function (Schemas\Components\Utilities\Get $get) {
-                                return $get('content_type') == 'product';
-                            }),
-
-                    ])->columnSpan(['lg' => 2]),
-
-
-                Schemas\Components\Group::make()
-                    ->schema([
-
-
-                        Schemas\Components\Section::make('Published')
-                            ->schema([
-                                Forms\Components\Toggle::make('is_active')
-                                    ->label('Published')
-                                    ->default(function (Schemas\Components\Utilities\Get $get) {
-                                        return $get('id') ? 0 : 1;
-                                    })
-                                    ->live()
-                                    ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
-                                        if ($get('is_active') && !$get('posted_at')) {
-                                            $set('posted_at', now()->format('Y-m-d H:i:s'));
-                                        }
-                                    }),
-
-                                Forms\Components\DateTimePicker::make('posted_at')
-                                    ->label('Publish Date')
-                                    ->helperText(function (Schemas\Components\Utilities\Get $get) {
-                                        $postedAt = $get('posted_at');
-                                        if ($postedAt && \Carbon\Carbon::parse($postedAt)->isFuture()) {
-                                            return 'This post is scheduled for future publication.';
-                                        }
-                                        return 'Set a future date to schedule publication. Leave empty to publish immediately.';
-                                    })
-                                    ->native(false)
-                                    ->displayFormat('M d, Y H:i')
-                                    ->live()
-                                    ->visible(function (Schemas\Components\Utilities\Get $get) {
-                                        return $get('content_type') === 'post';
-                                    }),
-                            ]),
-
-
-                        Schemas\Components\Section::make('Parent page')
-                            ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
-                                $parent = null;
-                                $isShopFilter = null;
-                                $categoryIds = [];
-                                if ($record) {
-                                    $parent = $record->parent;
-                                    $categoryIds = $record->getCategoryIdsAttribute();
-                                }
-
-
-//                                $parent = $params['parent'] ?? null;
-//                                if(!$parent and !$id){
-//                                    //set the parent of the blog or shop depending on the content type
-//                                    if ($contentType === 'post' && $firstBlogId) {
-//                                        $parent = $firstBlogId;
-//                                    } elseif ($contentType === 'product' && $firstShopId) {
-//                                        $parent = $firstShopId;
-//                                    }
-//                                }
-//
-
-                                $singleSelect = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
-
-                                $skipCategories = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
-
-                                $contentTypeFilter = ($record && $record->content_type === 'page') || $get('content_type') === 'page' ? 'page' : false;
-
-                                $isShopFilter = match (true) {
-                                    ($record && $record->content_type === 'product') || $get('content_type') === 'product' => 1,
-                                    ($record && $record->content_type === 'post') || $get('content_type') === 'post' => 0,
-                                    default => null,
-                                };
-
-
-                                if ($isShopFilter) {
-                                    $parent = $firstShopId;
-                                } elseif ($get('content_type') === 'post' && $firstBlogId) {
-                                    $parent = $firstBlogId;
-                                }
-
-
-                                $viewData = [
-                                    'selectedPage' => $parent,
-                                    'singleSelect' => $singleSelect,
-                                    'skipCategories' => $skipCategories,
-                                    'contentType' => $contentTypeFilter,
-                                    'skipPageId' => $record?->id,
-                                    'isShopFilter' => $isShopFilter,
-                                    'selectedCategories' => $categoryIds
-                                ];
-
-                                return [
-                                    Schemas\Components\View::make('mw-filament::admin.mw-tree')
-                                        ->viewData($viewData)
-                                ];
-                            }),
-
-
-                        Schemas\Components\Section::make('Tags')
-                            ->schema([
-                                Forms\Components\TagsInput::make('tags')
-                                    ->label(false)
-                                    ->reorderable()
-                                    ->helperText('Separate using commas or Enter key.')
-                                    ->placeholder('Add a tag'),
-                            ]),
-
-                        Schemas\Components\Section::make('Menus')
-                            ->schema([
-
-                                Forms\Components\CheckboxList::make('menuIds')
-                                    ->label('Menus')
-                                    ->helperText('Select menu where this content will appear')
-                                    ->options(function (?Model $record) {
-                                        $menus = get_menus();
-                                        $menusCheckboxes = [];
-                                        if ($menus) {
-                                            foreach ($menus as $menu) {
-                                                $menusCheckboxes[$menu['id']] = Str::headline($menu['title']);
-                                            }
-                                        }
-                                        return $menusCheckboxes;
-                                    }),
-                            ])
-                    ])->columnSpan(['lg' => 1]),
-
-
-            ])->columns(3)->columnSpanFull(),
-
-
+        $firstBlogId = ($cachedBlogs && !empty($cachedBlogs) && isset($cachedBlogs[0]['id'])) ? $cachedBlogs[0]['id'] : false;
+        $firstShopId = ($cachedShops && !empty($cachedShops) && isset($cachedShops[0]['id'])) ? $cachedShops[0]['id'] : false;
+
+        return [$firstBlogId, $firstShopId];
+    }
+
+    protected static function hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default): array
+    {
+        return [
+            Forms\Components\Hidden::make('id')
+                ->default($id),
+            Forms\Components\Hidden::make('session_id')
+                ->default($sessionId),
+            Forms\Components\Hidden::make('content_type')
+                ->default($contentType),
+            Forms\Components\Hidden::make('subtype')
+                ->default($contentSubtype),
+            Forms\Components\Hidden::make('multilanguage')
+                ->visible($isMultilanguageEnabled),
+            Forms\Components\Hidden::make('active_site_template')
+                ->default($active_site_template_default)
+                ->visible(function (Schemas\Components\Utilities\Get $get) {
+                    return $get('content_type') == 'page';
+                }),
+            Forms\Components\Hidden::make('layout_file')->visible(function (Schemas\Components\Utilities\Get $get) {
+                return $get('content_type') == 'page';
+            }),
+            Forms\Components\Hidden::make('tags')
+                ->default(function (?Model $record) {
+                    if ($record) {
+                        return $record->getTagNamesAttribute();
+                    }
+                    return [];
+                })->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
+                    if ($record) {
+                        $categoryIds = $record->getTagNamesAttribute();
+                        if (!is_array($categoryIds)) {
+                            $categoryIds = explode(',', $categoryIds);
+                        }
+                        $set('tags', $categoryIds);
+                    } else {
+                        $set('tags', []);
+                    }
+                }),
+            Forms\Components\Hidden::make('categoryIds')
+                ->default(function (?Model $record) {
+                    if ($record) {
+                        return $record->getCategoryIdsAttribute();
+                    }
+                    return [];
+                })
+                ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state) {
+                    if ($record) {
+                        $categoryIds = $record->getCategoryIdsAttribute();
+                        if (!is_array($categoryIds)) {
+                            $categoryIds = explode(',', $categoryIds);
+                        }
+                        $set('categoryIds', $categoryIds);
+                    } else {
+                        $set('categoryIds', []);
+                    }
+                }),
+            Forms\Components\Hidden::make('menuIds')
+                ->default(function (?Model $record) {
+                    if ($record) {
+                        return $record->menuIds;
+                    }
+                    return [];
+                })
+                ->afterStateHydrated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set, ?array $state, ?Model $record) {
+                    if ($record) {
+                        $set('menuIds', $record->menuIds);
+                    } else {
+                        $set('menuIds', []);
+                    }
+                }),
+            Forms\Components\Hidden::make('parent'),
+            Forms\Components\Hidden::make('is_shop')
+                ->default(0)
+                ->visible(function (Schemas\Components\Utilities\Get $get) {
+                    return $get('content_type') === 'page';
+                }),
+            Forms\Components\Hidden::make('is_home')
+                ->default(0)
+                ->visible(function (Schemas\Components\Utilities\Get $get) {
+                    return $get('content_type') === 'page';
+                }),
         ];
+    }
 
+    protected static function generalInformationSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('General Information')
+            ->heading(function (Schemas\Components\Utilities\Get $get) {
+                $type = $get('content_type');
+                $isEdit = (bool) $get('id');
+                $labels = [
+                    'page' => $isEdit ? 'Edit Page' : 'Add New Page',
+                    'product' => $isEdit ? 'Edit Product' : 'Add New Product',
+                    'post' => $isEdit ? 'Edit Post' : 'Add New Post',
+                ];
+                return $labels[$type] ?? null;
+            })
+            ->schema([
+                Forms\Components\TextInput::make('title')
+                    ->maxLength(255)
+                    ->required()
+                    ->hintAction(
+                        TranslateFieldAction::make('title')->label('')
+                    )->columnSpanFull(),
 
+                Forms\Components\TextInput::make('url')
+                    ->maxLength(255)
+                    ->hintAction(
+                        TranslateFieldAction::make('url')->label('')
+                    )->columnSpanFull(),
+
+                Forms\Components\RichEditor::make('content_body')
+                    ->columnSpan('full')
+                    ->hintAction(
+                        TranslateFieldAction::make('content_body')->label('')
+                    )
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') !== 'page';
+                    }),
+
+                Forms\Components\Textarea::make('description')
+                    ->label('Excerpt')
+                    ->helperText('A short summary displayed in post listings and search results.')
+                    ->rows(3)
+                    ->maxLength(500)
+                    ->columnSpanFull()
+                    ->hintAction(
+                        TranslateFieldAction::make('description')->label('')
+                    )
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') === 'post';
+                    }),
+            ])
+            ->columnSpanFull()
+            ->columns(2);
+    }
+
+    protected static function mediaSection($relType, $relId, $mediaIds): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Media')
+            ->schema([
+                MwMediaBrowser::make('mediaIds')
+                    ->label('Add images')
+                    ->setRelType($relType)
+                    ->setRelId($relId)
+                    ->default(function () use ($relType, $relId, $mediaIds) {
+                        return $mediaIds;
+                    })
+            ]);
+    }
+
+    protected static function pricingSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Pricing')
+            ->schema([
+                Forms\Components\TextInput::make('price')
+                    ->numeric()
+                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                    ->columnSpan(['lg' => 2, 'sm' => 2])
+                    ->required(),
+
+                Forms\Components\TextInput::make('special_price')
+                    ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
+                        if ($record) {
+                            $getSpecialPrice = $record->getSpecialPriceAttribute();
+                            $set('special_price', $getSpecialPrice);
+                        } else {
+                            $set('special_price', '');
+                        }
+                    })
+                    ->numeric()
+                    ->columnSpan(['lg' => 2, 'sm' => 2])
+                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                    ->visible(function_exists('offers_get_price')),
+            ])->columnSpanFull()->visible(function (Schemas\Components\Utilities\Get $get) {
+                return $get('content_type') == 'product';
+            });
+    }
+
+    protected static function publishedSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Published')
+            ->schema([
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Published')
+                    ->default(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('id') ? 0 : 1;
+                    })
+                    ->live()
+                    ->afterStateUpdated(function (Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
+                        if ($get('is_active') && !$get('posted_at')) {
+                            $set('posted_at', now()->format('Y-m-d H:i:s'));
+                        }
+                    }),
+
+                Forms\Components\DateTimePicker::make('posted_at')
+                    ->label('Publish Date')
+                    ->helperText(function (Schemas\Components\Utilities\Get $get) {
+                        $postedAt = $get('posted_at');
+                        if ($postedAt && \Carbon\Carbon::parse($postedAt)->isFuture()) {
+                            return 'This post is scheduled for future publication.';
+                        }
+                        return 'Set a future date to schedule publication. Leave empty to publish immediately.';
+                    })
+                    ->native(false)
+                    ->displayFormat('M d, Y H:i')
+                    ->live()
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') === 'post';
+                    }),
+            ]);
+    }
+
+    protected static function parentPageSection($firstBlogId, $firstShopId): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Parent page')
+            ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
+                $parent = null;
+                $categoryIds = [];
+                if ($record) {
+                    $parent = $record->parent;
+                    $categoryIds = $record->getCategoryIdsAttribute();
+                }
+
+                $singleSelect = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
+                $skipCategories = ($record && $record->content_type === 'page') || $get('content_type') === 'page';
+                $contentTypeFilter = ($record && $record->content_type === 'page') || $get('content_type') === 'page' ? 'page' : false;
+
+                $isShopFilter = match (true) {
+                    ($record && $record->content_type === 'product') || $get('content_type') === 'product' => 1,
+                    ($record && $record->content_type === 'post') || $get('content_type') === 'post' => 0,
+                    default => null,
+                };
+
+                if ($isShopFilter) {
+                    $parent = $firstShopId;
+                } elseif ($get('content_type') === 'post' && $firstBlogId) {
+                    $parent = $firstBlogId;
+                }
+
+                $viewData = [
+                    'selectedPage' => $parent,
+                    'singleSelect' => $singleSelect,
+                    'skipCategories' => $skipCategories,
+                    'contentType' => $contentTypeFilter,
+                    'skipPageId' => $record?->id,
+                    'isShopFilter' => $isShopFilter,
+                    'selectedCategories' => $categoryIds
+                ];
+
+                return [
+                    Schemas\Components\View::make('mw-filament::admin.mw-tree')
+                        ->viewData($viewData)
+                ];
+            });
+    }
+
+    protected static function tagsSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Tags')
+            ->schema([
+                Forms\Components\TagsInput::make('tags')
+                    ->label(false)
+                    ->reorderable()
+                    ->helperText('Separate using commas or Enter key.')
+                    ->placeholder('Add a tag'),
+            ]);
+    }
+
+    protected static function menusSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Menus')
+            ->schema([
+                Forms\Components\CheckboxList::make('menuIds')
+                    ->label('Menus')
+                    ->helperText('Select menu where this content will appear')
+                    ->options(function (?Model $record) {
+                        $menus = get_menus();
+                        $menusCheckboxes = [];
+                        if ($menus) {
+                            foreach ($menus as $menu) {
+                                $menusCheckboxes[$menu['id']] = Str::headline($menu['title']);
+                            }
+                        }
+                        return $menusCheckboxes;
+                    }),
+            ]);
+    }
+
+    protected static function contentTabsSchema(array $mainForm): array
+    {
         return [
             Tabs::make('ContentTabs')
                 ->schema([
                     Tabs\Tab::make('Content')
-                        ->schema(
-                            $mainForm
-                        ),
+                        ->schema($mainForm),
                     Tabs\Tab::make('Template')
                         ->schema([
                             Schemas\Components\Section::make('Select Template')
@@ -545,7 +467,7 @@ class ContentResource extends Resource
                         }),
                     Tabs\Tab::make('Product Details')
                         ->schema(
-                            self::productDetailsFormArray()
+                            static::productDetailsSection()
                         )
                         ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'product';
@@ -565,12 +487,10 @@ class ContentResource extends Resource
                         }),
                     Tabs\Tab::make('Custom Fields')
                         ->schema(function (Content|null $record) {
-
                             $relId = 0;
                             if (isset($record->id)) {
                                 $relId = $record->id;
                             }
-
 
                             $customFieldParams = [
                                 'relId' => $relId,
@@ -579,25 +499,17 @@ class ContentResource extends Resource
 
                             if ($relId == 0) {
                                 $customFieldParams['createdBy'] = user_id();
-//                            if (isset($this->data['session_id']) and $this->data['session_id']) {
-//                                $customFieldParams['sessionId'] = $this->data['session_id'];
-//                            }
                             }
 
-                            $components = [];
-                            $components[] = Livewire::make('admin-list-custom-fields', $customFieldParams);
-
-                            return $components;
+                            return [Livewire::make('admin-list-custom-fields', $customFieldParams)];
                         }),
                     Tabs\Tab::make('SEO')
                         ->schema(
-                            self::seoFormArray()
+                            static::seoSection()
                         ),
                     Tabs\Tab::make('Advanced')
-                        ->schema(self::advancedSettingsFormArray()),
+                        ->schema(static::advancedSection()),
                 ])->columnSpanFull()
-
-
         ];
     }
 
@@ -613,7 +525,7 @@ class ContentResource extends Resource
         return $schema->schema(static::formArray($params));
     }
 
-    public static function productDetailsFormArray()
+    public static function productDetailsSection()
     {
         return [
             Schemas\Components\Section::make('Pricing')
@@ -768,7 +680,12 @@ class ContentResource extends Resource
         ];
     }
 
-    public static function seoFormArray()
+    public static function productDetailsFormArray()
+    {
+        return static::productDetailsSection();
+    }
+
+    public static function seoSection()
     {
         return [
             Schemas\Components\Section::make('Search engine optimisation (SEO)')
@@ -988,14 +905,19 @@ class ContentResource extends Resource
         ];
     }
 
+    public static function seoFormArray()
+    {
+        return static::seoSection();
+    }
+
     public static function seoForm(Form $schema): Form
     {
         return $schema
-            ->schema(static::seoFormArray());
+            ->schema(static::seoSection());
     }
 
 
-    public static function advancedSettingsFormArray()
+    public static function advancedSection()
     {
         return [
             Schemas\Components\Section::make('Advanced Settings')
@@ -1153,10 +1075,15 @@ return \MicroweberPackages\User\Models\User::query()
         ];
     }
 
+    public static function advancedSettingsFormArray()
+    {
+        return static::advancedSection();
+    }
+
     public static function advancedSettingsForm(Form $schema): Form
     {
         return $schema
-            ->schema(static::advancedSettingsFormArray());
+            ->schema(static::advancedSection());
     }
 
 

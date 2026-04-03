@@ -40,6 +40,11 @@ class MenusList extends Component implements HasForms, HasActions
     public string $option_group = ''; //if this is set it will save as module option on change
     public string $option_key = ''; //if this is set it will save as module option on change
 
+    protected static function findMenuOrFail($id): ?Menu
+    {
+        return Menu::find($id);
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema->schema([
@@ -65,7 +70,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
-                $record = Menu::find($arguments['id']);
+                $record = static::findMenuOrFail($arguments['id']);
                 if ($record) {
                     if ($record->item_type === 'menu') {
                         Menu::where('parent_id', $record->id)
@@ -84,7 +89,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->label('Rename menu')
             ->icon('heroicon-m-pencil-square')
             ->mountUsing(function (Schema $schema, array $arguments) {
-                $record = Menu::find($arguments['id']);
+                $record = static::findMenuOrFail($arguments['id']);
                 if ($record) {
                     $schema->fill(['title' => $record->title]);
                 }
@@ -96,7 +101,7 @@ class MenusList extends Component implements HasForms, HasActions
                     ->label('Menu name'),
             ])
             ->action(function (array $data, array $arguments) {
-                $record = Menu::find($arguments['id']);
+                $record = static::findMenuOrFail($arguments['id']);
                 if ($record) {
                     $record->title = $data['title'];
                     $record->save();
@@ -357,7 +362,7 @@ class MenusList extends Component implements HasForms, HasActions
         return Action::make('edit')
             ->icon('heroicon-m-pencil')
             ->mountUsing(function (Schema $schema, array $arguments) {
-                $record = Menu::find($arguments['id']);
+                $record = static::findMenuOrFail($arguments['id']);
 
                 $recordArray = $record->toArray();
                 $recordArray['display_title'] = $record->displayTitle;
@@ -392,7 +397,7 @@ class MenusList extends Component implements HasForms, HasActions
                 ]
             ))
             ->record(function (array $arguments) {
-                $record = Menu::find($arguments['id']);
+                $record = static::findMenuOrFail($arguments['id']);
                 return $record;
             })
             ->action(function (Menu $record, array $data) {

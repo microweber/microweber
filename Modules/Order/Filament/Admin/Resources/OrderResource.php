@@ -65,236 +65,261 @@ public static function getNavigationBadgeTooltip(): ?string
                         \Filament\Schemas\Components\Tabs::make('OrderTabs')
                             ->contained()
                             ->tabs([
-                                \Filament\Schemas\Components\Tabs\Tab::make('Order Details')
-                                    ->icon('heroicon-o-shopping-cart')
-                                    ->schema([
-                                        Section::make()
-                                            ->heading('Customer & Reference')
-                                            ->schema(static::getDetailsFormSchema())
-                                            ->columnSpanFull(),
-
-                                        Section::make('Order items')
-                                            ->schema([
-                                                static::getItemsRepeater(),
-                                            ]),
-                                    ]),
-
-                                \Filament\Schemas\Components\Tabs\Tab::make('Shipping')
-                                    ->icon('heroicon-o-truck')
-                                    ->schema([
-                                        Section::make()
-                                            ->heading('Shipping details')
-                                            ->schema([
-                                                Forms\Components\Select::make('country')
-                                                    ->searchable()
-                                                    ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
-                                                    ->formatStateUsing(fn($state): ?string => $state ? Country::firstWhere('id', $state)?->getAttribute('name') : null)
-                                                    ->options(function () {
-                                                        return Country::all()->pluck('name', 'id');
-                                                    })
-                                                    ->preload(),
-
-                                                Group::make()
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('city'),
-                                                        Forms\Components\TextInput::make('state')->label('State / Province'),
-                                                        Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
-                                                    ])->columns(3),
-
-                                                Forms\Components\Textarea::make('address'),
-                                                Forms\Components\Textarea::make('address2'),
-                                                Forms\Components\TextInput::make('phone'),
-                                            ])->columnSpanFull(),
-
-                                        Section::make()
-                                            ->heading('Tracking')
-                                            ->schema([
-                                                Forms\Components\TextInput::make('shipping_tracking_number')
-                                                    ->label('Tracking number')
-                                                    ->placeholder('e.g. 1Z999AA10123456784')
-                                                    ->maxLength(255),
-                                                Forms\Components\TextInput::make('shipping_tracking_url')
-                                                    ->label('Tracking URL')
-                                                    ->placeholder('https://...')
-                                                    ->url()
-                                                    ->maxLength(2048),
-                                            ])->columnSpanFull(),
-                                    ]),
-
-                                \Filament\Schemas\Components\Tabs\Tab::make('Payment')
-                                    ->icon('heroicon-o-credit-card')
-                                    ->schema([
-                                        Section::make()
-                                            ->heading('Payment Information')
-                                            ->schema([
-                                                Forms\Components\TextInput::make('payment_amount')
-                                                    ->label('Amount')
-                                                    ->numeric()
-                                                    ->regex('/^\d{1,6}(\.\d{0,2})?$/')
-                                                    ->dehydrated(false)
-                                                    ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
-                                                        if ($record) {
-                                                            $payment = $record->payments()->latest()->first();
-                                                            $component->state($payment?->amount);
-                                                        }
-                                                    }),
-
-                                                Forms\Components\Select::make('payment_currency')
-                                                    ->label('Currency')
-                                                    ->searchable()
-                                                    ->dehydrated(false)
-                                                    ->options(fn () => Currency::all()->pluck('name', 'id'))
-                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
-                                                        if ($record) {
-                                                            $payment = $record->payments()->latest()->first();
-                                                            $component->state($payment?->currency);
-                                                        }
-                                                    }),
-
-                                                Forms\Components\Select::make('payment_status')
-                                                    ->label('Status')
-                                                    ->dehydrated(false)
-                                                    ->options(PaymentStatus::class)
-                                                    ->default(PaymentStatus::Pending)
-                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
-                                                        if ($record) {
-                                                            $payment = $record->payments()->latest()->first();
-                                                            $component->state($payment?->status);
-                                                        }
-                                                    }),
-
-                                                Forms\Components\Select::make('payment_provider_id')
-                                                    ->label('Payment Provider')
-                                                    ->dehydrated(false)
-                                                    ->options(fn () => PaymentProvider::where('is_active', 1)->pluck('name', 'id'))
-                                                    ->searchable()
-                                                    ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
-                                                        if ($record) {
-                                                            $payment = $record->payments()->latest()->first();
-                                                            $component->state($payment?->payment_provider_id);
-                                                        }
-                                                    }),
-
-                                                Forms\Components\TextInput::make('payment_transaction_id')
-                                                    ->label('Transaction ID')
-                                                    ->dehydrated(false)
-                                                    ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
-                                                        if ($record) {
-                                                            $payment = $record->payments()->latest()->first();
-                                                            $component->state($payment?->transaction_id);
-                                                        }
-                                                    }),
-                                            ])->columns(2),
-                                    ]),
-
-                                \Filament\Schemas\Components\Tabs\Tab::make('Advanced')
-                                    ->icon('heroicon-o-cog-6-tooth')
-                                    ->schema([
-                                        Section::make('Import / Export')
-                                            ->collapsible()
-                                            ->collapsed()
-                                            ->headerActions([
-                                                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
-                                                    ->icon('heroicon-m-cloud-arrow-up')
-                                                    ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
-                                                    ->chunkSize(50),
-                                                Tables\Actions\ExportAction::make()
-                                                    ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
-                                                    ->icon('heroicon-m-cloud-arrow-down')
-                                                    ->form(function (Tables\Actions\ExportAction $action): array {
-                                                        $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
-                                                        $schemaSchema = [];
-                                                        foreach ($exportColumns as $column) {
-                                                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
-                                                                ->label($column->getLabel())
-                                                                ->default(true);
-                                                        }
-                                                        $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
-                                                            ->label('Export to multiple files (ZIP)');
-                                                        return $schemaSchema;
-                                                    })
-                                                    ->action(function (array $data, Table $table) {
-                                                        $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
-                                                        $exportMultiple = $data['export_multiple'] ?? false;
-                                                        $url = route('filament.admin.order.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
-                                                        return redirect()->to($url);
-                                                    }),
-                                            ])
-                                            ->schema([
-                                                Forms\Components\Placeholder::make('import_export_info')
-                                                    ->label('')
-                                                    ->content('Use the buttons above to import or export orders.'),
-                                            ]),
-
-                                        Section::make('Additional Information')
-                                            ->schema([
-                                                Forms\Components\MarkdownEditor::make('other_info')
-                                                    ->columnSpan('full'),
-                                            ]),
-                                    ]),
+                                static::orderDetailsTab(),
+                                static::shippingTab(),
+                                static::paymentTab(),
+                                static::advancedTab(),
                             ])
                             ->columnSpanFull(),
                     ])
                     ->columnSpan(['lg' => 2]),
 
                 Group::make([
-
-                    Section::make()
-                        ->schema([
-                            Forms\Components\Select::make('order_status')
-                                ->columnSpanFull()
-                                ->default(OrderStatus::New)
-                                ->options(OrderStatus::class)
-                                ->required(),
-                            Forms\Components\Toggle::make('order_completed')
-                                ->default(1)
-                                ->label('Order completed')
-                                ->columnSpan('full')
-                                ->required(),
-
-                            Forms\Components\Toggle::make('is_paid')
-                                ->default(1)
-                                ->label('Is paid')
-                                ->columnSpan('full')
-                                ->required(),
-                        ]),
-
-                    Section::make()
-                        ->schema([
-
-                            Forms\Components\Placeholder::make('created_at')
-                                ->label('Created at')
-                                ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
-
-                            Forms\Components\Placeholder::make('updated_at')
-                                ->label('Last modified at')
-                                ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
-                        ])
-                        ->hidden(fn(?Order $record) => $record === null),
-
-                    Section::make('Status Timeline')
-                        ->schema([
-                            Forms\Components\ViewField::make('status_timeline')
-                                ->view('modules.order::filament.admin.status-timeline')
-                                ->dehydrated(false)
-                                ->columnSpanFull(),
-                        ])
-                        ->collapsible()
-                        ->hidden(fn(?Order $record) => $record === null),
-
-                    Section::make('Refunds')
-                        ->schema([
-                            Forms\Components\ViewField::make('refund_history')
-                                ->view('modules.order::filament.admin.refund-history')
-                                ->dehydrated(false)
-                                ->columnSpanFull(),
-                        ])
-                        ->collapsible()
-                        ->hidden(fn(?Order $record) => $record === null || $record->refunds->isEmpty()),
+                    static::orderStatusSection(),
+                    static::orderTimestampsSection(),
+                    static::statusTimelineSection(),
+                    static::refundsSection(),
                 ])->columnSpan(['lg' => 1])
 
             ])
             ->columns(3);
+    }
+
+    private static function getLatestPayment(?Order $record): ?object
+    {
+        return $record?->payments()->latest()->first();
+    }
+
+    protected static function orderDetailsTab(): \Filament\Schemas\Components\Tabs\Tab
+    {
+        return \Filament\Schemas\Components\Tabs\Tab::make('Order Details')
+            ->icon('heroicon-o-shopping-cart')
+            ->schema([
+                Section::make()
+                    ->heading('Customer & Reference')
+                    ->schema(static::getDetailsFormSchema())
+                    ->columnSpanFull(),
+
+                Section::make('Order items')
+                    ->schema([
+                        static::getItemsRepeater(),
+                    ]),
+            ]);
+    }
+
+    protected static function shippingTab(): \Filament\Schemas\Components\Tabs\Tab
+    {
+        return \Filament\Schemas\Components\Tabs\Tab::make('Shipping')
+            ->icon('heroicon-o-truck')
+            ->schema([
+                Section::make()
+                    ->heading('Shipping details')
+                    ->schema([
+                        Forms\Components\Select::make('country')
+                            ->searchable()
+                            ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+                            ->formatStateUsing(fn($state): ?string => $state ? Country::firstWhere('id', $state)?->getAttribute('name') : null)
+                            ->options(function () {
+                                return Country::all()->pluck('name', 'id');
+                            })
+                            ->preload(),
+
+                        Group::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('city'),
+                                Forms\Components\TextInput::make('state')->label('State / Province'),
+                                Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
+                            ])->columns(3),
+
+                        Forms\Components\Textarea::make('address'),
+                        Forms\Components\Textarea::make('address2'),
+                        Forms\Components\TextInput::make('phone'),
+                    ])->columnSpanFull(),
+
+                Section::make()
+                    ->heading('Tracking')
+                    ->schema([
+                        Forms\Components\TextInput::make('shipping_tracking_number')
+                            ->label('Tracking number')
+                            ->placeholder('e.g. 1Z999AA10123456784')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('shipping_tracking_url')
+                            ->label('Tracking URL')
+                            ->placeholder('https://...')
+                            ->url()
+                            ->maxLength(2048),
+                    ])->columnSpanFull(),
+            ]);
+    }
+
+    protected static function paymentTab(): \Filament\Schemas\Components\Tabs\Tab
+    {
+        return \Filament\Schemas\Components\Tabs\Tab::make('Payment')
+            ->icon('heroicon-o-credit-card')
+            ->schema([
+                Section::make()
+                    ->heading('Payment Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('payment_amount')
+                            ->label('Amount')
+                            ->numeric()
+                            ->regex('/^\d{1,6}(\.\d{0,2})?$/')
+                            ->dehydrated(false)
+                            ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
+                                $payment = static::getLatestPayment($record);
+                                $component->state($payment?->amount);
+                            }),
+
+                        Forms\Components\Select::make('payment_currency')
+                            ->label('Currency')
+                            ->searchable()
+                            ->dehydrated(false)
+                            ->options(fn () => Currency::all()->pluck('name', 'id'))
+                            ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                $payment = static::getLatestPayment($record);
+                                $component->state($payment?->currency);
+                            }),
+
+                        Forms\Components\Select::make('payment_status')
+                            ->label('Status')
+                            ->dehydrated(false)
+                            ->options(PaymentStatus::class)
+                            ->default(PaymentStatus::Pending)
+                            ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                $payment = static::getLatestPayment($record);
+                                $component->state($payment?->status);
+                            }),
+
+                        Forms\Components\Select::make('payment_provider_id')
+                            ->label('Payment Provider')
+                            ->dehydrated(false)
+                            ->options(fn () => PaymentProvider::where('is_active', 1)->pluck('name', 'id'))
+                            ->searchable()
+                            ->afterStateHydrated(function (Forms\Components\Select $component, ?Order $record) {
+                                $payment = static::getLatestPayment($record);
+                                $component->state($payment?->payment_provider_id);
+                            }),
+
+                        Forms\Components\TextInput::make('payment_transaction_id')
+                            ->label('Transaction ID')
+                            ->dehydrated(false)
+                            ->afterStateHydrated(function (Forms\Components\TextInput $component, ?Order $record) {
+                                $payment = static::getLatestPayment($record);
+                                $component->state($payment?->transaction_id);
+                            }),
+                    ])->columns(2),
+            ]);
+    }
+
+    protected static function advancedTab(): \Filament\Schemas\Components\Tabs\Tab
+    {
+        return \Filament\Schemas\Components\Tabs\Tab::make('Advanced')
+            ->icon('heroicon-o-cog-6-tooth')
+            ->schema([
+                Section::make('Import / Export')
+                    ->collapsible()
+                    ->collapsed()
+                    ->headerActions([
+                        \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importOrders')
+                            ->icon('heroicon-m-cloud-arrow-up')
+                            ->importer(\Modules\Order\Filament\Imports\OrderImporter::class)
+                            ->chunkSize(50),
+                        Tables\Actions\ExportAction::make()
+                            ->exporter(\Modules\Order\Filament\Exports\OrderExporter::class)
+                            ->icon('heroicon-m-cloud-arrow-down')
+                            ->form(function (Tables\Actions\ExportAction $action): array {
+                                $exportColumns = \Modules\Order\Filament\Exports\OrderExporter::getColumns();
+                                $schemaSchema = [];
+                                foreach ($exportColumns as $column) {
+                                    $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                        ->label($column->getLabel())
+                                        ->default(true);
+                                }
+                                $schemaSchema[] = \Filament\Forms\Components\Checkbox::make('export_multiple')
+                                    ->label('Export to multiple files (ZIP)');
+                                return $schemaSchema;
+                            })
+                            ->action(function (array $data, Table $table) {
+                                $selectedColumns = array_keys(array_filter(\Illuminate\Support\Arr::except($data, 'export_multiple')));
+                                $exportMultiple = $data['export_multiple'] ?? false;
+                                $url = route('filament.admin.order.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
+                                return redirect()->to($url);
+                            }),
+                    ])
+                    ->schema([
+                        Forms\Components\Placeholder::make('import_export_info')
+                            ->label('')
+                            ->content('Use the buttons above to import or export orders.'),
+                    ]),
+
+                Section::make('Additional Information')
+                    ->schema([
+                        Forms\Components\MarkdownEditor::make('other_info')
+                            ->columnSpan('full'),
+                    ]),
+            ]);
+    }
+
+    protected static function orderStatusSection(): Section
+    {
+        return Section::make()
+            ->schema([
+                Forms\Components\Select::make('order_status')
+                    ->columnSpanFull()
+                    ->default(OrderStatus::New)
+                    ->options(OrderStatus::class)
+                    ->required(),
+                Forms\Components\Toggle::make('order_completed')
+                    ->default(1)
+                    ->label('Order completed')
+                    ->columnSpan('full')
+                    ->required(),
+                Forms\Components\Toggle::make('is_paid')
+                    ->default(1)
+                    ->label('Is paid')
+                    ->columnSpan('full')
+                    ->required(),
+            ]);
+    }
+
+    protected static function orderTimestampsSection(): Section
+    {
+        return Section::make()
+            ->schema([
+                Forms\Components\Placeholder::make('created_at')
+                    ->label('Created at')
+                    ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
+                Forms\Components\Placeholder::make('updated_at')
+                    ->label('Last modified at')
+                    ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
+            ])
+            ->hidden(fn(?Order $record) => $record === null);
+    }
+
+    protected static function statusTimelineSection(): Section
+    {
+        return Section::make('Status Timeline')
+            ->schema([
+                Forms\Components\ViewField::make('status_timeline')
+                    ->view('modules.order::filament.admin.status-timeline')
+                    ->dehydrated(false)
+                    ->columnSpanFull(),
+            ])
+            ->collapsible()
+            ->hidden(fn(?Order $record) => $record === null);
+    }
+
+    protected static function refundsSection(): Section
+    {
+        return Section::make('Refunds')
+            ->schema([
+                Forms\Components\ViewField::make('refund_history')
+                    ->view('modules.order::filament.admin.refund-history')
+                    ->dehydrated(false)
+                    ->columnSpanFull(),
+            ])
+            ->collapsible()
+            ->hidden(fn(?Order $record) => $record === null || $record->refunds->isEmpty());
     }
 
     public static function table(Table $table): Table

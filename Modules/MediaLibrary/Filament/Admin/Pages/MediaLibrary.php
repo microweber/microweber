@@ -572,6 +572,11 @@ class MediaLibrary extends Page
         }
     }
 
+    protected static function isImageMedia(Media $media): bool
+    {
+        return $media->file_type === 'image' || in_array($media->media_type, ['picture', 'image'], true);
+    }
+
     /**
      * Get image dimensions from metadata cache or by reading the file.
      */
@@ -580,7 +585,7 @@ class MediaLibrary extends Page
         $noSize = ['width' => null, 'height' => null];
 
         // Only images have dimensions
-        if ($media->file_type !== 'image' && !in_array($media->media_type, ['picture', 'image'], true)) {
+        if (!static::isImageMedia($media)) {
             return $noSize;
         }
 
