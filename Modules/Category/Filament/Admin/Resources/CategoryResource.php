@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
 use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableResource;
+use Filament\Schemas\Components\Group;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 
@@ -50,34 +51,60 @@ class CategoryResource extends Resource
         }
 
         return [
-            Tabs::make('Category Details')
-                ->columnSpanFull()
+            Group::make()
                 ->schema([
-                    // General Tab
-                    Tabs\Tab::make('Category Details')
+                    Tabs::make('Category Details')
+                        ->contained()
+                        ->columnSpanFull()
+                        ->tabs([
+                            // General Tab
+                            Tabs\Tab::make('Category Details')
+                                ->icon('heroicon-o-folder')
+                                ->schema([
+                                    Forms\Components\Hidden::make('id')->default($id),
+                                    Forms\Components\Hidden::make('parent_id')->default(0),
+                                    Forms\Components\Hidden::make('rel_type'),
+                                    Forms\Components\Hidden::make('rel_id'),
+
+                                    Forms\Components\TextInput::make('title')
+                                        ->label('Title')
+                                        ->required(),
+
+                                    Forms\Components\Textarea::make('description')
+                                        ->label('Description'),
+                                ]),
+
+                            // SEO Tab
+                            Tabs\Tab::make('SEO')
+                                ->icon('heroicon-o-magnifying-glass')
+                                ->schema([
+                                    Forms\Components\TextInput::make('url')
+                                        ->label('Url'),
+                                    Forms\Components\TextInput::make('category_meta_title')
+                                        ->label('Meta Title'),
+                                    Forms\Components\Textarea::make('category_meta_description')
+                                        ->label('Meta Description'),
+                                ]),
+
+                            // Advanced Tab
+                            Tabs\Tab::make('Advanced')
+                                ->icon('heroicon-o-cog-6-tooth')
+                                ->schema([
+                                    MwMediaBrowser::make('mediaIds')
+                                        ->label('Category Images'),
+                                ]),
+                        ]),
+                ])
+                ->columnSpan(['lg' => 2]),
+
+            Group::make()
+                ->schema([
+                    Forms\Components\Section::make('Parent Page or Category')
                         ->schema([
-
-                            Forms\Components\Hidden::make('id')->default($id),
-                            Forms\Components\Hidden::make('parent_id')->default(0),
-                            Forms\Components\Hidden::make('rel_type'),
-                            Forms\Components\Hidden::make('rel_id'),
-
-                            Forms\Components\TextInput::make('title')
-                                ->label('Title')
-                                ->required(),
-
-                            Forms\Components\Textarea::make('description')
-                                ->label('Description'),
-
                             MwTree::make('mw_parent_page_and_category_state')
                                 ->live()
                                 ->extraFieldWrapperAttributes([
                                     'class' => 'mw-tree-wrapper',
-                                ])->columnSpan([
-                                    'default' => 1,
-                                    'sm' => 1,
-                                    'xl' => 1,
-                                    '2xl' => 1,
                                 ])
                                 ->required(function (Forms\Get $get) {
                                     $required = true;
@@ -119,22 +146,9 @@ class CategoryResource extends Resource
                                         }
                                     }
                                 }),
-
                         ]),
-
-                    // Advanced Tab
-                    Tabs\Tab::make('Advanced')
-                        ->schema([
-                            Forms\Components\TextInput::make('url')
-                                ->label('Url'),
-                            MwMediaBrowser::make('mediaIds')
-                                ->label('Category Images'),
-                            Forms\Components\TextInput::make('category_meta_title')
-                                ->label('Meta Title'),
-                            Forms\Components\Textarea::make('category_meta_description')
-                                ->label('Meta Description'),
-                        ]),
-                ]),
+                ])
+                ->columnSpan(['lg' => 1]),
         ];
     }
 
@@ -147,7 +161,7 @@ class CategoryResource extends Resource
             $params['record'] = $record;
         }
 
-        return $schema->schema(static::formArray($params));
+        return $schema->schema(static::formArray($params))->columns(3);
     }
 
 
