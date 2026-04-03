@@ -794,11 +794,18 @@
   - Panels container: added subtle box-shadow
   - Dark mode: verified grid cards, detail panel, folder sidebar, toolbar all render correctly
   - No regressions: 113 Media tests pass
-- [~] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
+- [x] 2026-04-03  migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
+  - Migrated all hardcoded hex colors to $mw-* SCSS variables for consistency
+  - Menu items: increased padding/gap, subtle border styling
+  - Type icons: added rounded background pill (28x28) for visual weight
+  - Drag handles: improved opacity and color using $mw-text-muted
+  - Tree nesting: improved sortable placeholder with accent color
+  - Dark mode: updated toolbar, tree, items, type icons with proper dark palette
+  - No regressions: 13 Menu tests pass
 
 ### Priority 2 — Shop Pages
 
-- [ ] migrate: Shop Categories (3.3) — compare tree layout, category cards with MW v2
+- [~] migrate: Shop Categories (3.3) — compare tree layout, category cards with MW v2
 - [ ] migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
 - [ ] migrate: Coupons (3.9) — compare list/form layout with MW v2
 - [ ] migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2

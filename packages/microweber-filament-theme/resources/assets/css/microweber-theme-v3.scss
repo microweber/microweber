@@ -4592,17 +4592,17 @@ html.dark {
 }
 
 .mw-menu-editor__toolbar {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem 0.5rem 0 0;
-  padding: 0.75rem 1rem;
+  background: $mw-bg-page;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-lg $mw-radius-lg 0 0;
+  padding: 0.875rem 1.25rem;
 }
 
 .mw-menu-editor__tree {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: $mw-bg-surface;
+  border: 1px solid $mw-border-color;
   border-top: none;
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 $mw-radius-lg $mw-radius-lg;
   padding: 0.5rem;
   min-height: 60px;
 
@@ -4621,7 +4621,7 @@ html.dark {
   ul ul {
     margin-left: 1.5rem;
     padding-left: 0;
-    border-left: 2px solid #e2e8f0;
+    border-left: 2px solid $mw-border-subtle;
   }
 
   li {
@@ -4631,53 +4631,54 @@ html.dark {
 
   /* Sortable placeholder */
   .ui-sortable-placeholder {
-    background: #ebf5ff;
-    border: 2px dashed #3b82f6;
-    border-radius: 0.375rem;
-    min-height: 42px;
-    margin: 2px 0;
+    background: rgba($mw-accent, 0.06);
+    border: 2px dashed $mw-accent;
+    border-radius: $mw-radius-sm;
+    min-height: 44px;
+    margin: 3px 0;
     visibility: visible !important;
   }
 
   .ui-sortable-helper {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 0.375rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-radius: $mw-radius-sm;
     opacity: 0.95;
     z-index: 100;
   }
 }
 
 .mw-menu-editor__empty {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  background: $mw-bg-surface;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-lg;
 }
 
 .mw-menu-item {
-  margin: 2px 0;
+  margin: 3px 0;
 }
 
 .mw-menu-item__inner {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.625rem;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  background: $mw-bg-surface;
+  border: 1px solid $mw-border-subtle;
+  border-radius: $mw-radius-sm;
   transition: border-color 0.15s, box-shadow 0.15s;
 
   &:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-color: $mw-border-color;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 }
 
 .mw-menu-item__handle {
   flex-shrink: 0;
-  opacity: 0.4;
+  opacity: 0.35;
   transition: opacity 0.15s;
   padding: 2px;
+  color: $mw-text-muted;
 
   &:hover {
     opacity: 0.8;
@@ -4689,8 +4690,10 @@ html.dark {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: $mw-radius-sm;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .mw-menu-item__content {
@@ -4704,7 +4707,7 @@ html.dark {
 .mw-menu-item__title {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1e293b;
+  color: $mw-text-primary;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4712,7 +4715,7 @@ html.dark {
 
 .mw-menu-item__url {
   font-size: 0.6875rem;
-  color: #94a3b8;
+  color: $mw-text-muted;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4731,39 +4734,48 @@ html.dark {
   opacity: 1;
 }
 
-/* Dark mode */
-.dark {
+/* Dark mode — Menu editor */
+html.dark {
   .mw-menu-editor__toolbar {
-    background: #1a1d2e;
-    border-color: #2d3748;
+    background: #161922;
+    border-color: #1e2330;
   }
 
   .mw-menu-editor__tree {
-    background: #111827;
-    border-color: #2d3748;
+    background: #0f1117;
+    border-color: #1e2330;
 
     ul ul {
-      border-left-color: #374151;
+      border-left-color: #2d3748;
     }
 
     .ui-sortable-placeholder {
-      background: rgba(59, 130, 246, 0.1);
-      border-color: #3b82f6;
+      background: rgba(66, 153, 225, 0.08);
+      border-color: #4299e1;
     }
   }
 
   .mw-menu-editor__empty {
-    background: #111827;
-    border-color: #2d3748;
+    background: #0f1117;
+    border-color: #1e2330;
   }
 
   .mw-menu-item__inner {
-    background: #1a1d2e;
+    background: #1a1f2e;
     border-color: #2d3748;
 
     &:hover {
       border-color: #4a5568;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     }
+  }
+
+  .mw-menu-item__type-icon {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .mw-menu-item__handle {
+    color: #4a5568;
   }
 
   .mw-menu-item__title {
@@ -4771,6 +4783,6 @@ html.dark {
   }
 
   .mw-menu-item__url {
-    color: #64748b;
+    color: #4a5568;
   }
 }
