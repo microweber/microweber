@@ -152,3 +152,17 @@ phpunit-coverage.xml
 /.vscode
 .workflow-state
 127.0.0.1.bak
+/*.png
+
+# Temporary audit/snapshot files
+*-snapshot.md
+*-snapshot-*.md
+snapshot-*.md
+media-snapshot.md
+current-design-audit.md
+design-audit-full.md
+old-design-spec.md
+measurements-*.json
+docs/design-references/
+docs/research/
+.autodev-workflow-state.json
