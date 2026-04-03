@@ -107,6 +107,7 @@
             <directory>Modules/Sitemap/Tests</directory>
             <directory>Modules/Menu/Tests</directory>
             <directory>Modules/Media/Tests</directory>
+            <directory>Modules/MediaLibrary/Tests</directory>
             <directory>Modules/Teamcard/Tests</directory>
             <directory>Modules/Restore/Tests</directory>
             <directory>Modules/ImageRollover/Tests</directory>

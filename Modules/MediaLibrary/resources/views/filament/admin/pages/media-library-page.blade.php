@@ -30,6 +30,25 @@
                 <option value="audio">Audio</option>
                 <option value="file">Documents</option>
             </select>
+
+            <input
+                type="date"
+                wire:model.live="dateFrom"
+                class="mw-media-filter-date"
+                title="From date"
+            />
+            <input
+                type="date"
+                wire:model.live="dateTo"
+                class="mw-media-filter-date"
+                title="To date"
+            />
+
+            @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
+                <button wire:click="clearFilters" class="mw-media-clear-filters" title="Clear all filters">
+                    <x-heroicon-m-x-circle class="w-4 h-4" />
+                </button>
+            @endif
         </div>
 
         <div class="mw-media-toolbar-right">
@@ -51,6 +70,16 @@
                 </button>
             </div>
 
+            {{-- Unsplash button --}}
+            <button
+                wire:click="switchTab('{{ $activeTab === 'unsplash' ? 'library' : 'unsplash' }}')"
+                class="mw-media-unsplash-btn {{ $activeTab === 'unsplash' ? 'active' : '' }}"
+                title="Search Unsplash stock photos"
+            >
+                <x-heroicon-m-camera class="w-4 h-4" />
+                Unsplash
+            </button>
+
             {{-- Upload button --}}
             <button
                 @click="showUploadZone = !showUploadZone"
@@ -71,6 +100,11 @@
             <button @click="showMoveToFolder = true" class="mw-media-bulk-action">
                 <x-heroicon-m-folder-arrow-down class="w-4 h-4" /> Move
             </button>
+            @if($this->isCdnConfigured())
+                <button wire:click="bulkSyncToCdn" class="mw-media-bulk-action">
+                    <x-heroicon-m-cloud-arrow-up class="w-4 h-4" /> CDN Sync
+                </button>
+            @endif
             <button @click="confirmBulkDelete = true" class="mw-media-bulk-action mw-media-bulk-danger">
                 <x-heroicon-m-trash class="w-4 h-4" /> Delete
             </button>
@@ -94,35 +128,114 @@
         </div>
     @endif
 
-    {{-- Upload zone --}}
+    {{-- Upload zone with progress indicators --}}
     <div
+        x-data="{
+            uploading: false,
+            progress: 0,
+            fileCount: 0,
+            uploadComplete: false,
+            uploadError: false,
+            errorMessage: '',
+            handleFiles(files) {
+                if (this.uploading || !files.length) return;
+                this.uploading = true;
+                this.progress = 0;
+                this.fileCount = files.length;
+                this.uploadComplete = false;
+                this.uploadError = false;
+                this.errorMessage = '';
+                $wire.uploadMultiple('uploads', files,
+                    () => {
+                        this.progress = 100;
+                        this.uploadComplete = true;
+                        setTimeout(() => {
+                            this.uploading = false;
+                            this.uploadComplete = false;
+                            this.progress = 0;
+                            showUploadZone = false;
+                        }, 2000);
+                    },
+                    (error) => {
+                        this.uploadError = true;
+                        this.errorMessage = 'Upload failed. Check file size (max 10MB) and type.';
+                        this.uploading = false;
+                        this.progress = 0;
+                    },
+                    (event) => {
+                        this.progress = event.detail.progress;
+                    }
+                );
+            }
+        }"
         x-show="showUploadZone || dragOver"
         x-cloak
         class="mw-media-upload-zone"
-        :class="{ 'drag-over': dragOver }"
+        :class="{
+            'drag-over': dragOver,
+            'is-uploading': uploading,
+            'is-complete': uploadComplete,
+            'is-error': uploadError
+        }"
         x-on:dragover.prevent="dragOver = true"
         x-on:dragleave.prevent="dragOver = false"
         x-on:drop.prevent="
             dragOver = false;
-            const files = $event.dataTransfer.files;
-            if (files.length) {
-                $wire.uploadMultiple('uploads', files);
-            }
+            handleFiles($event.dataTransfer.files);
         "
     >
         <div class="mw-media-upload-zone-inner">
-            <x-heroicon-o-cloud-arrow-up class="w-10 h-10 text-gray-400" />
-            <p>Drag files here or click to browse</p>
-            <label class="mw-media-upload-browse-btn">
-                Browse files
-                <input
-                    type="file"
-                    multiple
-                    wire:model="uploads"
-                    class="sr-only"
-                    accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
-                />
-            </label>
+            {{-- Default state --}}
+            <template x-if="!uploading && !uploadComplete && !uploadError">
+                <div class="mw-media-upload-default">
+                    <x-heroicon-o-cloud-arrow-up class="w-10 h-10 text-gray-400" />
+                    <p>Drag files here or click to browse</p>
+                    <label class="mw-media-upload-browse-btn">
+                        Browse files
+                        <input
+                            type="file"
+                            multiple
+                            class="sr-only"
+                            accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
+                            x-on:change="handleFiles($event.target.files)"
+                        />
+                    </label>
+                </div>
+            </template>
+
+            {{-- Uploading state --}}
+            <template x-if="uploading && !uploadComplete">
+                <div class="mw-media-upload-progress">
+                    <div class="mw-media-upload-spinner"></div>
+                    <p class="mw-media-upload-status">
+                        Uploading <span x-text="fileCount"></span> file<span x-show="fileCount > 1">s</span>...
+                    </p>
+                    <div class="mw-media-upload-progress-bar">
+                        <div class="mw-media-upload-progress-fill" :style="'width: ' + progress + '%'"></div>
+                    </div>
+                    <span class="mw-media-upload-percent" x-text="Math.round(progress) + '%'"></span>
+                </div>
+            </template>
+
+            {{-- Complete state --}}
+            <template x-if="uploadComplete">
+                <div class="mw-media-upload-complete">
+                    <x-heroicon-o-check-circle class="w-10 h-10" style="color: var(--mw-success, #2fb344);" />
+                    <p>Upload complete</p>
+                </div>
+            </template>
+
+            {{-- Error state --}}
+            <template x-if="uploadError">
+                <div class="mw-media-upload-error">
+                    <x-heroicon-o-exclamation-triangle class="w-10 h-10" style="color: var(--mw-danger, #d63939);" />
+                    <p x-text="errorMessage"></p>
+                    <button
+                        class="mw-media-upload-browse-btn"
+                        @click="uploadError = false; errorMessage = '';"
+                    >Try again</button>
+                </div>
+            </template>
         </div>
     </div>
 
@@ -171,7 +284,90 @@
             @endforeach
         </aside>
 
-        {{-- Center: Media grid/list --}}
+        {{-- Center: Media grid/list OR Unsplash search --}}
+        @if($activeTab === 'unsplash')
+            <div class="mw-media-content">
+                {{-- Unsplash search bar --}}
+                <div class="mw-media-unsplash-search">
+                    <form wire:submit="searchUnsplash" style="display:flex;gap:8px;flex:1;">
+                        <input
+                            type="text"
+                            wire:model="unsplashSearch"
+                            placeholder="Search free stock photos..."
+                            class="mw-media-unsplash-input"
+                        />
+                        <button type="submit" class="mw-media-unsplash-search-btn">
+                            <x-heroicon-m-magnifying-glass class="w-4 h-4" />
+                            Search
+                        </button>
+                    </form>
+                </div>
+
+                {{-- Loading indicator --}}
+                <div wire:loading wire:target="searchUnsplash,loadMoreUnsplash" class="mw-media-unsplash-loading">
+                    <div class="mw-media-upload-spinner"></div>
+                    <span>Searching...</span>
+                </div>
+
+                {{-- Results grid --}}
+                @if(count($unsplashResults) > 0)
+                    <div class="mw-media-unsplash-grid" wire:loading.class="opacity-50" wire:target="searchUnsplash">
+                        @foreach($unsplashResults as $photo)
+                            @php
+                                // Proxy API uses flat keys (url_small), direct API uses nested (urls.small)
+                                $thumbUrl = $photo['url_small'] ?? $photo['url_thumb'] ?? $photo['urls']['small'] ?? $photo['urls']['thumb'] ?? '';
+                                $altText = $photo['alt_description'] ?? $photo['description'] ?? '';
+                                $photographer = $photo['author'] ?? $photo['user']['name'] ?? '';
+                            @endphp
+                            <div class="mw-media-unsplash-item" wire:key="unsplash-{{ $photo['id'] }}">
+                                <img
+                                    src="{{ $thumbUrl }}"
+                                    alt="{{ $altText }}"
+                                    loading="lazy"
+                                />
+                                <div class="mw-media-unsplash-overlay">
+                                    <button
+                                        wire:click="downloadUnsplashPhoto('{{ $photo['id'] }}')"
+                                        class="mw-media-unsplash-download {{ in_array($photo['id'], $unsplashDownloading) ? 'is-downloading' : '' }}"
+                                        {{ in_array($photo['id'], $unsplashDownloading) ? 'disabled' : '' }}
+                                    >
+                                        @if(in_array($photo['id'], $unsplashDownloading))
+                                            <div class="mw-media-upload-spinner" style="width:14px;height:14px;border-width:2px;"></div>
+                                            Downloading...
+                                        @else
+                                            <x-heroicon-m-arrow-down-tray class="w-4 h-4" />
+                                            Add to library
+                                        @endif
+                                    </button>
+                                    @if($photographer)
+                                        <span class="mw-media-unsplash-credit">{{ $photographer }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Load more --}}
+                    @if($unsplashPage < $unsplashTotalPages)
+                        <div class="mw-media-unsplash-load-more">
+                            <button wire:click="loadMoreUnsplash" class="mw-media-unsplash-more-btn" wire:loading.attr="disabled" wire:target="loadMoreUnsplash">
+                                Load more photos
+                            </button>
+                        </div>
+                    @endif
+                @elseif($unsplashSearch && !$unsplashLoading)
+                    <div class="mw-media-unsplash-empty" wire:loading.remove wire:target="searchUnsplash">
+                        <x-heroicon-o-camera class="w-16 h-16 text-gray-300" />
+                        <p>No photos found for "{{ $unsplashSearch }}"</p>
+                    </div>
+                @else
+                    <div class="mw-media-unsplash-empty" wire:loading.remove wire:target="searchUnsplash">
+                        <x-heroicon-o-camera class="w-16 h-16 text-gray-300" />
+                        <p>Search for free stock photos from Unsplash</p>
+                    </div>
+                @endif
+            </div>
+        @else
         <div class="mw-media-content">
             @php $media = $this->getMediaProperty(); @endphp
 
@@ -179,8 +375,8 @@
                 <div class="mw-media-empty">
                     <x-heroicon-o-photo class="w-16 h-16 text-gray-300" />
                     <p>No media found</p>
-                    @if($search || $typeFilter || $selectedFolderId)
-                        <button wire:click="$set('search', ''); $set('typeFilter', ''); $set('selectedFolderId', null);" class="mw-media-empty-reset">
+                    @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
+                        <button wire:click="clearFilters" class="mw-media-empty-reset">
                             Clear filters
                         </button>
                     @endif
@@ -313,6 +509,7 @@
                 </div>
             @endif
         </div>
+        @endif
 
         {{-- Right: Detail panel --}}
         @if($selectedMediaData)
@@ -357,6 +554,26 @@
                     </button>
                 </div>
 
+                {{-- Copy URL --}}
+                <div class="mw-media-detail-url" x-data="{ copied: false }">
+                    <label>URL</label>
+                    <div class="mw-media-detail-url-row">
+                        <input type="text" value="{{ $selectedMediaData['url'] }}" readonly class="mw-media-detail-input" style="font-size: 0.75rem;" />
+                        <button
+                            class="mw-media-detail-copy-btn"
+                            title="Copy URL"
+                            @click="
+                                navigator.clipboard.writeText('{{ e($selectedMediaData['url']) }}');
+                                copied = true;
+                                setTimeout(() => copied = false, 2000);
+                            "
+                        >
+                            <template x-if="!copied"><x-heroicon-m-clipboard class="w-4 h-4" /></template>
+                            <template x-if="copied"><x-heroicon-m-check class="w-4 h-4" style="color: var(--mw-success, #2fb344);" /></template>
+                        </button>
+                    </div>
+                </div>
+
                 {{-- Info --}}
                 <div class="mw-media-detail-info">
                     <div class="mw-media-detail-info-row">
@@ -371,6 +588,12 @@
                         <span>Size</span>
                         <span class="mw-media-detail-info-value">{{ $this->formatFileSize($selectedMediaData['file_size']) }}</span>
                     </div>
+                    @if($selectedMediaData['width'] && $selectedMediaData['height'])
+                        <div class="mw-media-detail-info-row">
+                            <span>Dimensions</span>
+                            <span class="mw-media-detail-info-value">{{ $selectedMediaData['width'] }} × {{ $selectedMediaData['height'] }} px</span>
+                        </div>
+                    @endif
                     @if($selectedMediaData['folder_name'])
                         <div class="mw-media-detail-info-row">
                             <span>Folder</span>

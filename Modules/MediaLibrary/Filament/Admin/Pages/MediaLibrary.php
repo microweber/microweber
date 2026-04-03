@@ -9,6 +9,8 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
+use Modules\Media\Services\CdnIntegrationService;
+use Modules\MediaLibrary\Support\Unsplash;
 
 class MediaLibrary extends Page
 {
@@ -29,6 +31,8 @@ class MediaLibrary extends Page
     public string $viewMode = 'grid';
     public string $search = '';
     public string $typeFilter = '';
+    public string $dateFrom = '';
+    public string $dateTo = '';
     public ?int $selectedFolderId = null;
     public ?int $selectedMediaId = null;
     public bool $includeSubfolders = true;
@@ -50,6 +54,15 @@ class MediaLibrary extends Page
 
     // --- Bulk selection ---
     public array $bulkSelected = [];
+
+    // --- Unsplash stock photos ---
+    public string $activeTab = 'library';
+    public string $unsplashSearch = '';
+    public int $unsplashPage = 1;
+    public array $unsplashResults = [];
+    public int $unsplashTotalPages = 0;
+    public bool $unsplashLoading = false;
+    public array $unsplashDownloading = [];
 
     protected int $perPage = 36;
 
@@ -105,6 +118,14 @@ class MediaLibrary extends Page
         // Type filter
         if ($this->typeFilter !== '') {
             $query->where('media_type', $this->typeFilter);
+        }
+
+        // Date range filter
+        if ($this->dateFrom !== '') {
+            $query->whereDate('created_at', '>=', $this->dateFrom);
+        }
+        if ($this->dateTo !== '') {
+            $query->whereDate('created_at', '<=', $this->dateTo);
         }
 
         return $query->orderByDesc('created_at')->paginate($this->perPage);
@@ -279,6 +300,9 @@ class MediaLibrary extends Page
             }
         }
 
+        // Get image dimensions from metadata or by reading the file
+        $dimensions = $this->getMediaDimensions($media);
+
         $this->selectedMediaData = [
             'id' => $media->id,
             'title' => $media->title,
@@ -292,6 +316,8 @@ class MediaLibrary extends Page
             'folder_id' => $media->folder_id,
             'created_at' => $media->created_at?->format('M d, Y H:i'),
             'alt_text' => data_get($media->metadata, 'alt_text', ''),
+            'width' => $dimensions['width'],
+            'height' => $dimensions['height'],
             'is_synced_to_cdn' => $media->is_synced_to_cdn,
             'cdn_url' => $media->cdn_url,
             'used_in' => $usedIn,
@@ -381,6 +407,42 @@ class MediaLibrary extends Page
         $this->dispatch('notify', type: 'success', message: 'Selected media moved.');
     }
 
+    public function bulkSyncToCdn(): void
+    {
+        if (empty($this->bulkSelected)) {
+            return;
+        }
+
+        $cdn = app(CdnIntegrationService::class);
+
+        if (!$cdn->isConfigured()) {
+            $this->dispatch('notify', type: 'warning', message: 'CDN is not configured. Set up CDN provider in settings first.');
+            return;
+        }
+
+        $results = $cdn->bulkSync($this->bulkSelected);
+
+        $successCount = count($results['success']);
+        $failedCount = count($results['failed']);
+
+        if ($failedCount === 0) {
+            $this->dispatch('notify', type: 'success', message: "{$successCount} items synced to CDN.");
+        } else {
+            $this->dispatch('notify', type: 'warning', message: "{$successCount} synced, {$failedCount} failed.");
+        }
+
+        $this->bulkSelected = [];
+    }
+
+    public function isCdnConfigured(): bool
+    {
+        try {
+            return app(CdnIntegrationService::class)->isConfigured();
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     // =========================================================================
     // File Upload
     // =========================================================================
@@ -467,6 +529,26 @@ class MediaLibrary extends Page
         $this->resetPage();
     }
 
+    public function updatedDateFrom(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedDateTo(): void
+    {
+        $this->resetPage();
+    }
+
+    public function clearFilters(): void
+    {
+        $this->search = '';
+        $this->typeFilter = '';
+        $this->dateFrom = '';
+        $this->dateTo = '';
+        $this->selectedFolderId = null;
+        $this->resetPage();
+    }
+
     // =========================================================================
     // Helpers
     // =========================================================================
@@ -490,6 +572,52 @@ class MediaLibrary extends Page
         }
     }
 
+    /**
+     * Get image dimensions from metadata cache or by reading the file.
+     */
+    protected function getMediaDimensions(Media $media): array
+    {
+        $noSize = ['width' => null, 'height' => null];
+
+        // Only images have dimensions
+        if ($media->file_type !== 'image' && !in_array($media->media_type, ['picture', 'image'], true)) {
+            return $noSize;
+        }
+
+        // Check cached metadata first
+        $metadata = $media->metadata ?? [];
+        if (!empty($metadata['width']) && !empty($metadata['height'])) {
+            return ['width' => (int) $metadata['width'], 'height' => (int) $metadata['height']];
+        }
+
+        // Try to read dimensions from the file
+        try {
+            $filename = $media->getOriginal('filename') ?? $media->filename;
+            $filename = str_replace('{SITE_URL}', '', $filename);
+
+            $localPath = public_path($filename);
+            if (!is_file($localPath)) {
+                $localPath = base_path($filename);
+            }
+
+            if (is_file($localPath) && function_exists('getimagesize')) {
+                $info = @getimagesize($localPath);
+                if ($info && $info[0] > 0 && $info[1] > 0) {
+                    // Cache dimensions in metadata for future lookups
+                    $metadata['width'] = $info[0];
+                    $metadata['height'] = $info[1];
+                    $media->update(['metadata' => $metadata]);
+
+                    return ['width' => $info[0], 'height' => $info[1]];
+                }
+            }
+        } catch (\Throwable $e) {
+            // Silently fail — dimensions are non-critical
+        }
+
+        return $noSize;
+    }
+
     public function formatFileSize(?int $bytes): string
     {
         if ($bytes === null || $bytes === 0) {
@@ -501,5 +629,111 @@ class MediaLibrary extends Page
         }
 
         return number_format($bytes / 1024, 1) . ' KB';
+    }
+
+    // =========================================================================
+    // Unsplash Stock Photos
+    // =========================================================================
+
+    public function switchTab(string $tab): void
+    {
+        if (in_array($tab, ['library', 'unsplash'], true)) {
+            $this->activeTab = $tab;
+        }
+    }
+
+    public function searchUnsplash(): void
+    {
+        $keyword = trim($this->unsplashSearch);
+        if ($keyword === '') {
+            return;
+        }
+
+        $this->unsplashLoading = true;
+        $this->unsplashPage = 1;
+        $this->unsplashResults = [];
+        $this->unsplashTotalPages = 0;
+
+        try {
+            $unsplash = new Unsplash();
+            $result = $unsplash->search($keyword, 1);
+
+            if (is_array($result) && !empty($result['success']) && !empty($result['photos'])) {
+                $this->unsplashResults = $result['photos'];
+                $this->unsplashTotalPages = (int) ($result['total_pages'] ?? 1);
+            } else {
+                $this->unsplashResults = [];
+            }
+        } catch (\Throwable $e) {
+            $this->dispatch('notify', type: 'danger', message: 'Failed to search Unsplash. Please try again.');
+        }
+
+        $this->unsplashLoading = false;
+    }
+
+    public function loadMoreUnsplash(): void
+    {
+        $keyword = trim($this->unsplashSearch);
+        if ($keyword === '' || $this->unsplashPage >= $this->unsplashTotalPages) {
+            return;
+        }
+
+        $this->unsplashLoading = true;
+        $this->unsplashPage++;
+
+        try {
+            $unsplash = new Unsplash();
+            $result = $unsplash->search($keyword, $this->unsplashPage);
+
+            if (is_array($result) && !empty($result['success']) && !empty($result['photos'])) {
+                $this->unsplashResults = array_merge($this->unsplashResults, $result['photos']);
+            }
+        } catch (\Throwable $e) {
+            $this->unsplashPage--;
+        }
+
+        $this->unsplashLoading = false;
+    }
+
+    public function downloadUnsplashPhoto(string $photoId): void
+    {
+        if (in_array($photoId, $this->unsplashDownloading, true)) {
+            return;
+        }
+
+        $this->unsplashDownloading[] = $photoId;
+
+        try {
+            $unsplash = new Unsplash();
+            $downloadedUrl = $unsplash->download($photoId);
+
+            if ($downloadedUrl) {
+                $photoData = collect($this->unsplashResults)->firstWhere('id', $photoId);
+                $title = $photoData['description'] ?? $photoData['alt_description'] ?? $photoId;
+
+                Media::create([
+                    'title' => Str::limit($title, 200),
+                    'filename' => $downloadedUrl,
+                    'media_type' => 'picture',
+                    'folder_id' => $this->selectedFolderId,
+                    'created_by' => auth()->id(),
+                    'metadata' => [
+                        'source' => 'unsplash',
+                        'unsplash_id' => $photoId,
+                        'photographer' => $photoData['author'] ?? $photoData['user']['name'] ?? null,
+                    ],
+                ]);
+
+                unset($this->folderCounts);
+                unset($this->totalMediaCount);
+                $this->dispatch('notify', type: 'success', message: 'Photo added to your media library.');
+            } else {
+                $this->dispatch('notify', type: 'danger', message: 'Failed to download photo.');
+            }
+        } catch (\Throwable $e) {
+            $this->dispatch('notify', type: 'danger', message: 'Download failed: ' . $e->getMessage());
+        }
+
+        $this->unsplashDownloading = array_values(array_diff($this->unsplashDownloading, [$photoId]));
     }
 }
