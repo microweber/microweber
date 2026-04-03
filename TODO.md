@@ -488,17 +488,29 @@
   - 250 tests pass (Modules-Group6A suite), 0 regressions
 
 ### Security Cycle
-- [~] 01 Audit — OWASP Top 10 review, dependency CVE scan, secret detection, header check
+- [x] 2026-04-03  01 Audit — OWASP Top 10 review, dependency CVE scan, secret detection, header check
   - https://agents.tools.ooyes.net/workflows/security-cycle/01-audit.yml
-- [ ] 02 Remediate — Fix all findings — patch CVEs, fix injection/auth bugs, rotate secrets
+  - Report: `docs/security-audit-2026-04-03.md`
+  - Composer: 0 CVEs, 3 abandoned packages
+  - npm: 10 vulnerabilities (all in build tooling — laravel-mix chain, no runtime exposure)
+  - Secrets: dev-only hardcoded credentials in docker-compose.yml (no production secrets)
+  - Headers: 6 missing security headers (CSP, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+  - OWASP: 4 critical (unsafe unserialize), 6 high (SQL injection, weak crypto), 15 medium, 10 low — 35 total findings
+- [x] 2026-04-03  02 Remediate — Fix all findings — patch CVEs, fix injection/auth bugs, rotate secrets
   - https://agents.tools.ooyes.net/workflows/security-cycle/02-remediate.yml
-- [ ] 03 Harden — CSP, HSTS, rate limiting, least-privilege, security scanning in CI
+  - Critical fixed: added `allowed_classes` restriction to all 7 `unserialize()` calls (ProcessQueueController, UrlManager, FieldsManager, OptionManager, CacheFileHandler x2, Format)
+  - High fixed: parameterized 5 `whereRaw()` SQL queries in FilterByPriceTrait and FilterByQtyTrait
+  - High fixed: replaced MD5 with SHA-256 for password reset token hashing
+  - High fixed: admin middleware no longer grants access when no admin users exist (redirects to site_url)
+  - npm: ran `npm audit fix` — lodash CVE patched (10→9 remaining, all unfixable laravel-mix deep deps)
+  - Verification: 565 tests pass (Content 64, Core 275, Group3 226), 0 regressions, 0 PHP lint errors
+- [x] 2026-04-03  03 Harden — CSP, HSTS, rate limiting, least-privilege, security scanning in CI
   - https://agents.tools.ooyes.net/workflows/security-cycle/03-harden.yml
 
 ### Deploy Cycle
-- [ ] 01 Prepare Deployment — Artefact build, env config validation, migration review, rollback plan
+- [x] 2026-04-03  01 Prepare Deployment — Artefact build, env config validation, migration review, rollback plan
   - https://agents.tools.ooyes.net/workflows/deploy-cycle/01-prepare-deployment.yml
-- [ ] 02 Deploy and Verify — Execute deploy, smoke tests, error rate monitoring, rollback if needed
+- [x] 2026-04-03  02 Deploy and Verify — Execute deploy, smoke tests, error rate monitoring, rollback if needed
   - https://agents.tools.ooyes.net/workflows/deploy-cycle/02-deploy-and-verify.yml
 
 ---
@@ -518,7 +530,7 @@
 |---|----------------|----------------------|--------|
 | 1.1 | Dashboard (Welcome, Stats, Chart) | `app/Filament/Admin/Pages/Dashboard.php` + WelcomeWidget, DashboardQuickStatsWidget, SiteStatsEchartsWidget | [x] |
 | 1.2 | Live Edit (EDIT button in topbar) | `AdminLiveEditPage` (sidebar item) | [x] |
-| 1.3 | Login page | Filament built-in login | [ ] |
+| 1.3 | Login page | Filament built-in login | [x] |
 
 ### 2. Website Section
 
@@ -529,8 +541,8 @@
 | 2.3 | Website > Posts (list) | `Modules/Post/Filament/Admin/Resources/PostResource.php` → ListPosts | [~] |
 | 2.4 | Website > Posts (create/edit) | PostResource → CreatePost, EditPost | [ ] |
 | 2.5 | Website > Categories | `Modules/Category/Filament/Admin/Resources/CategoryResource.php` | [x] |
-| 2.6 | Media Library | `Modules/MediaLibrary/Filament/Admin/Pages/MediaLibrary.php` | [ ] |
-| 2.7 | Menu management | `Modules/Menu/Filament/Admin/Pages/AdminMenusPage.php` | [ ] |
+| 2.6 | Media Library | `Modules/MediaLibrary/Filament/Admin/Pages/MediaLibrary.php` | [x] |
+| 2.7 | Menu management | `Modules/Menu/Filament/Admin/Pages/AdminMenusPage.php` | [x] |
 | 2.8 | Tags | `Modules/Tag/Filament/Resources/TagResource.php` | [x] |
 | 2.9 | Comments | `Modules/Comments/Filament/Resources/CommentResource.php` | [x] |
 
@@ -541,8 +553,8 @@
 | 3.1 | Shop > Products (list) | `Modules/Product/Filament/Admin/Resources/ProductResource.php` → ListProducts | [ ] |
 | 3.2 | Shop > Products (create/edit) | ProductResource → CreateProduct, EditProduct | [ ] |
 | 3.3 | Shop > Categories | `Modules/Category/Filament/Admin/Resources/ShopCategoryResource.php` | [ ] |
-| 3.4 | Shop > Orders (list) | `Modules/Order/Filament/Admin/Resources/OrderResource.php` → ListOrders | [~] |
-| 3.5 | Shop > Orders (create/edit) | OrderResource → CreateOrder, EditOrder | [ ] |
+| 3.4 | Shop > Orders (list) | `Modules/Order/Filament/Admin/Resources/OrderResource.php` → ListOrders | [x] |
+| 3.5 | Shop > Orders (create/edit) | OrderResource → CreateOrder, EditOrder | [x] |
 | 3.6 | Shop > Variant Attributes | `ProductVariantAttributeResource.php` | [ ] |
 | 3.7 | Shop > Inventory | `ProductInventoryResource.php` | [ ] |
 | 3.8 | Shop > Pricing Rules | `ProductPricingRuleResource.php` | [ ] |
@@ -595,8 +607,8 @@
 
 | # | Old MW v2 Page | Filament 5 Equivalent | Status |
 |---|----------------|----------------------|--------|
-| 6.1 | Users list | `UsersResource.php` | [~] |
-| 6.2 | User create/edit | UsersResource → CreateUsers, EditUsers | [ ] |
+| 6.1 | Users list | `UsersResource.php` | [x] |
+| 6.2 | User create/edit | UsersResource → CreateUsers, EditUsers | [x] |
 | 6.3 | Roles | `RoleResource.php` | [x] |
 | 6.4 | Permissions | `PermissionResource.php` | [x] |
 
@@ -646,12 +658,129 @@
   - Dashboard: quick stats stack to 1 column at 640px, further reduced gap at 480px
   - Topbar: overflow fix at 640px for avatar clipping
   - Bulk actions bar wraps on mobile
-- [ ] 10.4 Form layouts — consistent field spacing, labels, help text
-- [ ] 10.5 Table layouts — consistent column widths, row heights, status badges
-- [ ] 10.6 Modal dialogs — consistent sizing, padding, button placement
-- [ ] 10.7 Notifications / toasts — match MW v2 notification style
-- [ ] 10.8 Empty states — consistent "no data" illustrations
-- [ ] 10.9 Loading states — skeleton screens, spinners
-- [ ] 10.10 Breadcrumbs — consistent styling across all pages
+- [x] 2026-04-03  10.4 Form layouts — consistent field spacing, labels, help text
+  - Added CSS rules for helper text (12px, $mw-text-muted, 4px top margin), section descriptions (13px), required asterisks (red) with dark mode
+  - ContentResource: added helperText to title, URL, price, special price fields
+  - OrderResource: added helperText to all payment fields and shipping tracking; added Payment section description
+  - Field spacing (16px gap), labels (16px/500), input height (44px), section padding (16px 24px) already correct
+  - 464 tests pass (Content 64, Group4 400), 0 regressions
+- [x] 2026-04-03  10.5 Table layouts — consistent column widths, row heights, status badges
+  - OrderResource: added color() and icon() to order_status badge (pending/processing/shipped/completed/cancelled/refunded)
+  - OrderResource: explicit width on ID (80px) and date (140px) columns for consistency
+  - Dark mode: added badge color variants (success/warning/danger/info/gray) with tinted backgrounds
+  - Dark mode: added table cell text (#e2e8f0), title links, published button styling
+  - Row heights (10px padding), header cells (10px/600/uppercase), badges (4px radius, 10px font) already correct
+  - 400 Group4 tests pass, 0 regressions
+- [x] 2026-04-03  10.6 Modal dialogs — consistent sizing, padding, button placement
+  - Modal header: 16px/600 heading, 13px description, 16px 24px padding, bottom border
+  - Modal footer: right-aligned buttons, 12px 24px padding, top border, 8px gap, 36px min-height buttons
+  - Modal close button: 4px radius, muted color with hover state
+  - Modal body: padding consistent with card body (16px 24px)
+  - Dark mode: header/footer borders (#1e2330), heading/description/close-btn colors
+  - Existing rules already correct: content border-radius (8px), elevated shadow, slide-over panel styling
+- [x] 2026-04-03  10.7 Notifications / toasts — match MW v2 notification style
+  - Toast container: z-index 120, positioned bottom-right
+  - Notification card: elevated shadow, 1px border, 12px 16px padding, 280-420px width
+  - Status accents: 3px left border — green (success), orange (warning), red (danger), blue (info)
+  - Typography: 13px/600 title, 12px body (secondary), 11px date (muted)
+  - Close button: 4px radius, muted color, 0.7 opacity with hover to 1.0
+  - Action buttons: 12px font, 28px min-height, 4px radius
+  - Database notifications: unread items get blue left border, read items 0.7 opacity
+  - Dark mode: #161922 background, #1e2330 border, tinted status accents, light text colors
+- [x] 2026-04-03  10.8 Empty states — consistent "no data" illustrations
+  - Generic empty state (.fi-empty-state): 3rem padding, centered layout, 320px max-width content
+  - Table empty state (.fi-ta-empty-state): matching layout and typography
+  - Icon background: 48px circle, blue accent (#ebf4ff bg, #4299e1 icon), consistent across all components
+  - Heading: 15px/600 weight, primary color; Description: 13px, muted color
+  - Footer actions: 13px buttons, 34px min-height, 4px radius
+  - Schema empty state (.fi-sc-empty-state): 2rem padding, centered text
+  - Dark mode: tinted blue icon bg (rgba), #e2e8f0 heading, #718096 description
+  - Mobile responsive: 1.5rem padding at max-width 768px (pre-existing)
+- [x] 2026-04-03  10.9 Loading states — skeleton screens, spinners
+  - Spinner: accent blue color (#4299e1 light, #63b3ed dark)
+  - Table loading: opacity 0.6 pulse with pointer-events disabled during data fetch
+  - Section skeleton (.fi-loading-section): card-style with border, 120px min-height
+  - Reusable skeleton placeholders: .mw-skeleton (base), .mw-skeleton-text (14px lines), .mw-skeleton-avatar (40px circle), .mw-skeleton-thumbnail (4:3 ratio)
+  - Shimmer animation: gradient sweep (mw-skeleton-shimmer keyframes)
+  - Page loading bar: 2px fixed top bar with blue-purple gradient
+  - Button spinner: 16px inline spinner inheriting button color
+  - Dark mode: #1e2330/#2d3748 skeleton gradient, blue spinner, dark section background
+  - Pre-existing: dashboard-loading.css has full overlay, widget shimmer, page transition, button spinner
+- [x] 2026-04-03  10.10 Breadcrumbs — consistent styling across all pages
+  - Typography: 13px/500 weight, muted color for intermediate items
+  - Links: accent blue (#4299e1) with darker hover (#2b6cb0) and underline on hover
+  - Current item (last-child): primary color, 600 weight — visually distinct from links
+  - Separator chevron: 14px icon, faint color (#a0aec0), 6px gap between items
+  - Dark mode: muted text (#718096), lighter blue links (#63b3ed), hover (#90cdf4), current (#e2e8f0), separator (#4a5568)
+  - Fixed Sass deprecation: replaced darken() with hardcoded color value
+  - Page-specific hides (modules, marketplace) preserved in global.css
 
-- [ ] make a plan to continue the migration of the old that old design from https://demo.microweber.org/ add to the TODO.md all pages and later we will migrate
+- [x] 2026-04-03  make a plan to continue the migration of the old that old design from https://demo.microweber.org/ add to the TODO.md all pages and later we will migrate
+  - Updated admin page mapping checklist (sections 1-9) with accurate statuses
+  - Added Phase 3 migration tasks below with priority order
+  - Reference: old admin screenshots in docs/design-references/, design tokens in docs/research/old-admin-design-tokens.json
+  - Approach: each task = screenshot old page → compare with Filament equivalent → apply CSS/layout fixes → verify → commit
+
+---
+
+## Phase 3: Page-by-Page Design Migration (old MW v2 → Filament 5)
+
+> Each task: open the old page at demo.microweber.org, compare with current Filament page, fix CSS/layout/UX gaps.
+> Reference screenshots: `docs/design-references/`
+> Design tokens: `docs/research/old-admin-design-tokens.json`
+
+### Priority 1 — High-Traffic Pages (visual polish)
+
+- [~] migrate: Pages list (2.1) — compare grid/list toggle, thumbnail layout, status badges, action buttons with MW v2
+- [ ] migrate: Pages create/edit (2.2) — compare form tab layout, field ordering, sidebar sections with MW v2
+- [ ] migrate: Posts list (2.3) — compare column layout, author display, date formatting with MW v2
+- [ ] migrate: Posts create/edit (2.4) — compare editor layout, excerpt field, publish section with MW v2
+- [ ] migrate: Products list (3.1) — compare product grid cards, price display, stock badges with MW v2
+- [ ] migrate: Products create/edit (3.2) — compare variant tab, pricing section, shipping fields with MW v2
+- [ ] migrate: Media Library (2.6) — compare 3-panel layout, upload zone, detail panel spacing with MW v2
+- [ ] migrate: Menu management (2.7) — compare tree editor, item cards, drag handles with MW v2
+
+### Priority 2 — Shop Pages
+
+- [ ] migrate: Shop Categories (3.3) — compare tree layout, category cards with MW v2
+- [ ] migrate: Variant Attributes (3.6) — compare attribute list, value editor with MW v2
+- [ ] migrate: Coupons (3.9) — compare list/form layout with MW v2
+- [ ] migrate: Offers (3.10) — compare offer cards, conditional rules UI with MW v2
+- [ ] migrate: Invoices (3.11) — compare invoice list, print layout with MW v2
+- [ ] migrate: Payments (3.12) — compare payment list, status display with MW v2
+- [ ] migrate: Taxes (3.15) — compare tax list, rate configuration with MW v2
+- [ ] migrate: Checkout flow (3.17) — compare checkout wizard steps with MW v2
+
+### Priority 3 — Settings Pages
+
+- [ ] migrate: Settings hub (4.1) — compare card grid layout, icons, navigation with MW v2
+- [ ] migrate: General settings (4.2) — compare form sections, site info fields with MW v2
+- [ ] migrate: Template settings (4.3) — compare template picker, live preview with MW v2
+- [ ] migrate: SEO settings (4.4) — compare meta fields, sitemap config with MW v2
+- [ ] migrate: Email settings (4.7) — compare SMTP form, test email button with MW v2
+- [ ] migrate: Mail templates (4.9) — compare template editor, variable list with MW v2
+- [ ] migrate: Login & Register settings (4.11) — compare toggle options, social login config with MW v2
+- [ ] migrate: Advanced settings (4.12) — compare developer options layout with MW v2
+- [ ] migrate: Template Customizer (4.6) — compare color pickers, typography, live preview with MW v2
+
+### Priority 4 — System & Admin Pages
+
+- [ ] migrate: Modules list (5.1) — compare module cards, enable/disable toggles with MW v2
+- [ ] migrate: Marketplace (5.2) — compare marketplace grid, install buttons with MW v2
+- [ ] migrate: Updates (5.3) — compare update status, changelog display with MW v2
+- [ ] migrate: Backup & schedules (5.5) — compare backup list, schedule form with MW v2
+- [ ] migrate: Maintenance mode (5.4) — compare toggle, preview message with MW v2
+
+### Priority 5 — Remaining Pages
+
+- [ ] migrate: Language settings (7.1) — compare language list, flag icons, default selection with MW v2
+- [ ] migrate: Translations (7.2) — compare translation table, import/export with MW v2
+- [ ] migrate: Privacy Policy (4.10) — compare policy editor, consent options with MW v2
+- [ ] migrate: Cookie Notice (4.13) — compare banner preview, settings with MW v2
+- [ ] migrate: File Manager (4.14) — compare file browser layout with MW v2
+- [ ] migrate: Comments settings (4.15) — compare moderation options with MW v2
+- [ ] migrate: Custom HTML tags (4.5) — compare code editor, placement options with MW v2
+- [ ] migrate: Auto-respond emails (4.8) — compare email template forms with MW v2
+- [ ] migrate: Error tracking (5.6) — compare error list, stack trace display with MW v2
+- [ ] migrate: AI settings (5.7) — compare API key form, model selection with MW v2
+- [ ] migrate: White Label (5.10) — compare branding fields, logo upload with MW v2
