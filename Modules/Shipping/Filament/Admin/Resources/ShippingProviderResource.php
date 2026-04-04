@@ -8,17 +8,36 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 
 class ShippingProviderResource extends Resource
 {
     protected static ?string $model = \Modules\Shipping\Models\ShippingProvider::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
     protected static string | null $navigationLabel = 'Shipping Providers';
     protected static ?int $navigationSort = 15;
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'provider'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->provider) {
+            $details['Provider'] = $record->provider;
+        }
+
+        $details['Status'] = $record->is_active ? 'Active' : 'Inactive';
+
+        return $details;
+    }
 
     public static string $description = 'Configure your shop Shipping Providers';
     public function getDescription(): string
