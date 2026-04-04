@@ -207,7 +207,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 
 ### High Priority (user-facing content)
 - [x] 2026-04-04  global-search: TagResource — search tags by name
-- [ ] global-search: TagGroupResource — search tag groups by name
+- [x] 2026-04-04  global-search: TagGroupResource — search tag groups by name
 - [ ] global-search: FaqModuleResource — search FAQs by question/answer
 - [ ] global-search: ShopCategoryResource — search shop categories by title
 - [ ] global-search: CouponResource — search coupons by code/name
