@@ -14,17 +14,39 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Modules\Tax\Models\TaxType;
 
 class TaxResource extends Resource
 {
     protected static ?string $model = TaxType::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-calculator';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax';
     protected static ?int $navigationSort = 7;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->type) {
+            $details['Type'] = ucfirst($record->type);
+        }
+
+        if ($record->rate) {
+            $details['Rate'] = $record->rate . '%';
+        }
+
+        return $details;
+    }
 
 
     protected static string $description = 'Configure your shop taxes settings';
