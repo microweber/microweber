@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Faq\Models\Faq;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -19,6 +20,8 @@ class FaqModuleResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
+    protected static ?string $recordTitleAttribute = 'question';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-question-mark-circle';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Other';
@@ -26,6 +29,22 @@ class FaqModuleResource extends Resource
     protected static ?int $navigationSort = 100;
 
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['question', 'answer'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->answer) {
+            $details['Answer'] = \Illuminate\Support\Str::limit($record->answer, 80);
+        }
+
+        return $details;
+    }
 
 
     public static function form(Schema $schema): Schema
