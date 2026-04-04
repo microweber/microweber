@@ -33,6 +33,8 @@ class SubscribersResource extends Resource
 {
     protected static ?string $model = NewsletterSubscriber::class;
 
+    protected static ?string $recordTitleAttribute = 'email';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $label = 'Subscribers';
@@ -40,6 +42,26 @@ class SubscribersResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Mail';
 
     protected static ?int $navigationSort = 4;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['email', 'name'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->name) {
+            $details['Name'] = $record->name;
+        }
+
+        if ($record->status) {
+            $details['Status'] = ucfirst($record->status);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {

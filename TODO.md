@@ -232,7 +232,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: ModuleConfigurationResource — search module configs by name
 - [x] 2026-04-04  global-search: ErrorTrackingResource — search errors by message
 - [x] 2026-04-04  global-search: CampaignResource — search newsletter campaigns by name
-- [ ] global-search: SubscribersResource — search newsletter subscribers by email
+- [x] 2026-04-04  global-search: SubscribersResource — search newsletter subscribers by email
 - [ ] global-search: TemplatesResource — search newsletter templates by name
 - [ ] global-search: ListResource — search newsletter lists by name
 - [ ] global-search: WorkflowResource — search newsletter workflows by name
