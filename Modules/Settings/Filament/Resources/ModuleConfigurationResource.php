@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Module\ModuleManager;
 use Modules\Settings\Filament\Resources\ModuleConfigurationResource\Pages;
@@ -21,6 +22,7 @@ use Modules\Settings\Filament\Resources\ModuleConfigurationResource\Pages;
 class ModuleConfigurationResource extends Resource
 {
     protected static ?string $model = \MicroweberPackages\Module\Models\Module::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
     protected static ?string $navigationLabel = 'Module Configuration';
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
@@ -28,6 +30,26 @@ class ModuleConfigurationResource extends Resource
     protected static ?string $pluralLabel = 'Module Configurations';
     protected static ?string $slug = 'module-configuration';
     public static string $description = 'Manage module settings and configurations';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'module', 'type'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->module) {
+            $details['Module'] = $record->module;
+        }
+
+        if ($record->type) {
+            $details['Type'] = ucfirst($record->type);
+        }
+
+        return $details;
+    }
 
     public function getDescription(): string
     {

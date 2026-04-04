@@ -229,7 +229,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 ### Lower Priority (admin/system)
 - [x] 2026-04-04  global-search: MailTemplateResource — search mail templates by name/subject
 - [x] 2026-04-04  global-search: TranslationResource — search translations by key/value
-- [ ] global-search: ModuleConfigurationResource — search module configs by name
+- [x] 2026-04-04  global-search: ModuleConfigurationResource — search module configs by name
 - [ ] global-search: ErrorTrackingResource — search errors by message
 - [ ] global-search: CampaignResource — search newsletter campaigns by name
 - [ ] global-search: SubscribersResource — search newsletter subscribers by email
