@@ -79,4 +79,15 @@ class BackupResourceTest extends TestCase
         Livewire::test(ListBackups::class)->callTableAction('delete', $backup);
         $this->assertNull(Backup::find($backup->id));
     }
+
+    #[Test]
+    public function it_global_search_returns_results(): void
+    {
+        $backup = Backup::factory()->create([
+            'filename' => 'test-backup-global-search.zip',
+        ]);
+
+        $results = BackupResource::getGlobalSearchResults('global-search');
+        $this->assertNotEmpty($results);
+    }
 }

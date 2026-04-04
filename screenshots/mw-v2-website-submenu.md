@@ -1,0 +1,174 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading [level=1] [ref=e6]:
+        - link [ref=e7] [cursor=pointer]:
+          - /url: https://demo.microweber.org/v2/admin/
+      - generic [ref=e8]:
+        - list [ref=e9]:
+          - listitem [ref=e10]:
+            - link "Dashboard" [ref=e11] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/
+              - img [ref=e12]
+              - generic [ref=e15]: Dashboard
+          - listitem [ref=e16]:
+            - button "Website" [expanded] [active] [ref=e17] [cursor=pointer]:
+              - img [ref=e18]
+              - generic [ref=e21]: Website
+            - generic [ref=e131]:
+              - link "Design" [ref=e133] [cursor=pointer]:
+                - /url: " https://demo.microweber.org/v2/admin/page/design "
+                - generic [ref=e134]: Design
+              - link "Pages" [ref=e136] [cursor=pointer]:
+                - /url: " https://demo.microweber.org/v2/admin/page "
+                - generic [ref=e137]: Pages
+              - link "Categories" [ref=e139] [cursor=pointer]:
+                - /url: " https://demo.microweber.org/v2/admin/category "
+                - generic [ref=e140]: Categories
+              - link "Posts" [ref=e142] [cursor=pointer]:
+                - /url: " https://demo.microweber.org/v2/admin/post "
+                - generic [ref=e143]: Posts
+          - listitem [ref=e22]:
+            - button "Shop" [expanded] [ref=e23] [cursor=pointer]:
+              - img [ref=e24]
+              - generic [ref=e27]: Shop
+          - listitem [ref=e28]:
+            - link "Marketplace" [ref=e29] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/marketplace
+              - img [ref=e30]
+              - generic [ref=e33]: Marketplace
+          - listitem [ref=e34]:
+            - link "Modules" [ref=e35] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/modules
+              - img [ref=e36]
+              - generic [ref=e39]: Modules
+          - listitem [ref=e40]:
+            - link "Settings" [ref=e41] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/settings
+              - img [ref=e42]
+              - generic [ref=e45]: Settings
+          - listitem [ref=e46]:
+            - link "Users" [ref=e47] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/users
+              - img [ref=e48]
+              - generic [ref=e51]: Users
+          - listitem [ref=e52]:
+            - link "Get Help" [ref=e53] [cursor=pointer]:
+              - /url: https://microweber.org/go/feedback/
+              - img [ref=e54]
+              - generic [ref=e57]: Get Help
+          - listitem [ref=e58]:
+            - link "Log out" [ref=e59] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/logout
+              - img [ref=e60]
+              - generic [ref=e63]: Log out
+        - separator [ref=e64]
+        - list [ref=e65]:
+          - listitem [ref=e66]:
+            - combobox [ref=e68]:
+              - option "English" [selected]
+              - option "Afrikaans"
+              - option "Albanian"
+              - option "Arabic"
+              - option "Bahasa Indonesia"
+              - option "Bahasa Melayu"
+              - option "Bulgarian"
+              - option "Croatian"
+              - option "Dansk"
+              - option "Deutsch"
+              - option "Español"
+              - option "Finnish"
+              - option "Français"
+              - option "Greek"
+              - option "Italiano"
+              - option "Japanese"
+              - option "Magyar"
+              - option "Nederlands"
+              - option "Norwegian"
+              - option "Oʻzbek"
+              - option "Polski"
+              - option "Português"
+              - option "Română"
+              - option "Slovenčina"
+              - option "Slovenščina"
+              - option "Svenska"
+              - option "Thai"
+              - option "Türkçe"
+              - option "Ukrainian"
+              - option "Vietnamese"
+              - option "Zulu"
+              - option "Čeština"
+              - option "Русский"
+              - option "македонски јазик"
+              - option "עברית"
+              - option "فارسی"
+              - option "हिन्दी"
+              - option "বাংলা"
+              - option "中文 (中国)"
+              - option "한국어"
+          - listitem [ref=e69]:
+            - generic [ref=e72]:
+              - img [ref=e73]
+              - generic [ref=e75]: Light
+          - listitem [ref=e76]:
+            - link "PA Password Admin" [ref=e77] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/user/profile
+              - generic [ref=e79]: PA
+              - generic [ref=e80]: Password Admin
+  - main [ref=e82]:
+    - generic [ref=e85]:
+      - button "ADD" [ref=e88] [cursor=pointer]:
+        - generic [ref=e89]: ADD
+      - list [ref=e91]:
+        - listitem [ref=e92]:
+          - link "EDIT" [ref=e93] [cursor=pointer]:
+            - /url: https://demo.microweber.org/v2/admin/live-edit?editmode:y
+            - generic [ref=e94]: EDIT
+    - generic [ref=e99]:
+      - heading "Pages Menu" [level=1] [ref=e103]
+      - generic [ref=e104]:
+        - tablist [ref=e105]:
+          - tab "Settings" [selected] [ref=e106] [cursor=pointer]
+          - tab "Templates" [ref=e107] [cursor=pointer]
+        - tabpanel [ref=e109]:
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - generic [ref=e112]: Pages & Sub-Pages From
+              - combobox [ref=e113]:
+                - option "None" [selected]
+                - option "Contact us"
+                - option "Shop"
+                - option "Blog"
+                - option "Home"
+                - option "[use current page]"
+            - generic [ref=e114]:
+              - generic [ref=e115]: Show Categories from page
+              - combobox [ref=e116]:
+                - option "Yes"
+                - option "No" [selected]
+            - generic [ref=e117]:
+              - generic [ref=e118]: Include Parent
+              - combobox [ref=e119]:
+                - option "Yes"
+                - option "No" [selected]
+            - generic [ref=e120]:
+              - generic [ref=e121]: Max depth
+              - combobox [ref=e122]:
+                - option "Default" [selected]
+                - option "1"
+                - option "2"
+                - option "3"
+                - option "4"
+                - option "5"
+                - option "6"
+                - option "7"
+                - option "8"
+                - option "9"
+    - paragraph [ref=e125]:
+      - generic [ref=e126]:
+        - link "Create a website" [ref=e127] [cursor=pointer]:
+          - /url: https://microweber.com/
+        - text: with
+        - link "Microweber" [ref=e128] [cursor=pointer]:
+          - /url: https://microweber.org
+      - text: "Version: 2.0.20"

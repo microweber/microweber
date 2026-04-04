@@ -14,11 +14,33 @@ class BackupScheduleResource extends Resource
 {
     protected static ?string $model = BackupSchedule::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-calendar';
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 10;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->type) {
+            $details['Type'] = BackupSchedule::getBackupTypeOptions()[$record->type] ?? $record->type;
+        }
+
+        if ($record->frequency) {
+            $details['Frequency'] = BackupSchedule::getFrequencyOptions()[$record->frequency] ?? $record->frequency;
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {

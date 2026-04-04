@@ -17,12 +17,35 @@ class RatingModuleResource extends Resource
 {
     protected static ?string $model = Rating::class;
 
+    protected static ?string $recordTitleAttribute = 'rel_type';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-star';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Other';
 
     protected static ?int $navigationSort = 100;
+
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['rel_type', 'comment'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->rating) {
+            $details['Rating'] = $record->rating . ' / 5';
+        }
+
+        if ($record->comment) {
+            $details['Comment'] = \Illuminate\Support\Str::limit($record->comment, 50);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {

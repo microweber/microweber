@@ -201,6 +201,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 
 ---
 
+- [x] 2026-04-04  make filament tests for th e global search on all pages needed
 ## Global Search — Modules needing implementation
 
 > Already done: ContentResource (Pages/Posts/Products inherit), CategoryResource, OrderResource, CommentResource, MediaResource, UsersResource, RoleResource, PermissionResource
@@ -238,11 +239,11 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: WorkflowResource — search newsletter workflows by name
 - [x] 2026-04-04  global-search: SenderAccountsResource — search sender accounts by email/name
 - [x] 2026-04-04  global-search: CheckoutResource — search checkout config by name — **skipped: no model, checkout is a form page not a CRUD resource**
-- [ ] global-search: BackupResource — search backups by filename
-- [ ] global-search: BackupScheduleResource — search backup schedules by name
-- [ ] global-search: BackupHistoryResource — search backup history by filename
-- [ ] global-search: ModuleDependencyResource — search module dependencies by name
-- [ ] global-search: RatingModuleResource — search ratings by content
+- [x] 2026-04-04  global-search: BackupResource — search backups by filename
+- [x] 2026-04-04  global-search: BackupScheduleResource — search backup schedules by name
+- [x] 2026-04-04  global-search: BackupHistoryResource — search backup history by filename
+- [x] 2026-04-04  global-search: ModuleDependencyResource — search module dependencies by name
+- [x] 2026-04-04  global-search: RatingModuleResource — search ratings by content
 
 ### Skip (admin-only, no meaningful search value)
 - AgentChatResource, BillingUserResource, SubscriptionPlanResource, SubscriptionPlanGroupsResource, SubscriptionResource, TaggedResource

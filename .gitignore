@@ -166,3 +166,8 @@ measurements-*.json
 docs/design-references/
 docs/research/
 .autodev-workflow-state.json
+.vscode/autodev.json
+TEMP_PROMPT.md
+TEMP_SESSION_OUT.txt
+.autodev-session-state.json
+.autodev/

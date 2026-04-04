@@ -1,0 +1,72 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading [level=1] [ref=e6]:
+        - link [ref=e7] [cursor=pointer]:
+          - /url: https://demo.microweber.org/v2/admin/
+      - generic [ref=e8]:
+        - list [ref=e9]:
+          - listitem [ref=e10]:
+            - link "Dashboard" [ref=e11] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/
+          - listitem [ref=e16]:
+            - button "Website" [expanded] [active] [ref=e17] [cursor=pointer]
+            - generic [ref=e131]
+          - listitem [ref=e22]:
+            - button "Shop" [expanded] [ref=e23] [cursor=pointer]
+          - listitem [ref=e28]:
+            - link "Marketplace" [ref=e29] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/marketplace
+          - listitem [ref=e34]:
+            - link "Modules" [ref=e35] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/modules
+          - listitem [ref=e40]:
+            - link "Settings" [ref=e41] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/settings
+          - listitem [ref=e46]:
+            - link "Users" [ref=e47] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/users
+          - listitem [ref=e52]:
+            - link "Get Help" [ref=e53] [cursor=pointer]:
+              - /url: https://microweber.org/go/feedback/
+          - listitem [ref=e58]:
+            - link "Log out" [ref=e59] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/logout
+        - separator [ref=e64]
+        - list [ref=e65]:
+          - listitem [ref=e66]:
+            - combobox [ref=e68]
+          - listitem [ref=e69]:
+            - generic [ref=e72]
+          - listitem [ref=e76]:
+            - link "PA Password Admin" [ref=e77] [cursor=pointer]:
+              - /url: https://demo.microweber.org/v2/admin/user/profile
+  - main [ref=e82]:
+    - generic [ref=e85]:
+      - button "ADD" [ref=e88] [cursor=pointer]:
+        - generic [ref=e89]: ADD
+      - list [ref=e91]:
+        - listitem [ref=e92]:
+          - link "EDIT" [ref=e93] [cursor=pointer]:
+            - /url: https://demo.microweber.org/v2/admin/live-edit?editmode:y
+            - generic [ref=e94]: EDIT
+    - generic [ref=e99]:
+      - heading "Pages Menu" [level=1] [ref=e103]
+      - generic [ref=e104]:
+        - tablist [ref=e105]:
+          - tab "Settings" [selected] [ref=e106] [cursor=pointer]
+          - tab "Templates" [ref=e107] [cursor=pointer]
+        - tabpanel [ref=e109]:
+          - generic [ref=e110]:
+            - generic [ref=e111]
+            - generic [ref=e114]
+            - generic [ref=e117]
+            - generic [ref=e120]
+    - paragraph [ref=e125]:
+      - generic [ref=e126]:
+        - link "Create a website" [ref=e127] [cursor=pointer]:
+          - /url: https://microweber.com/
+        - text: with
+        - link "Microweber" [ref=e128] [cursor=pointer]:
+          - /url: https://microweber.org
+      - text: "Version: 2.0.20"

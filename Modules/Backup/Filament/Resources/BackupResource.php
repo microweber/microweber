@@ -28,9 +28,31 @@ class BackupResource extends Resource
 
     protected static ?string $model = Backup::class;
 
+    protected static ?string $recordTitleAttribute = 'filename';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-uturn-left';
 
     protected static ?int $navigationSort = 9999;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['filename'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->date) {
+            $details['Date'] = $record->date;
+        }
+
+        if ($record->size) {
+            $details['Size'] = number_format($record->size / 1024, 1) . ' KB';
+        }
+
+        return $details;
+    }
 
     public static $sessionId = null;
     private static $restoreFile = null;

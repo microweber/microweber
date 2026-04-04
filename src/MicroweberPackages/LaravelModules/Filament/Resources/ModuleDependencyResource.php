@@ -16,6 +16,8 @@ class ModuleDependencyResource extends Resource
 {
     protected static ?string $model = ModuleDependency::class;
 
+    protected static ?string $recordTitleAttribute = 'module_name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrows-right-left';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
@@ -25,6 +27,32 @@ class ModuleDependencyResource extends Resource
     protected static ?int $navigationSort = 121;
 
     protected static ?string $slug = 'module-dependencies';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['module_name', 'dependency_module_name'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->dependency_module_name) {
+            $details['Depends On'] = $record->dependency_module_name;
+        }
+
+        if ($record->dependency_type) {
+            $typeLabels = [
+                ModuleDependency::TYPE_REQUIRE => 'Required',
+                ModuleDependency::TYPE_CONFLICT => 'Conflict',
+                ModuleDependency::TYPE_SUGGEST => 'Suggested',
+                ModuleDependency::TYPE_REPLACE => 'Replaces',
+            ];
+            $details['Type'] = $typeLabels[$record->dependency_type] ?? $record->dependency_type;
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {

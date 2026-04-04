@@ -99,4 +99,16 @@ class RatingModuleResourceTest extends TestCase
             ->call('create')
             ->assertHasFormErrors(['rating']);
     }
+
+    #[Test]
+    public function it_global_search_returns_results(): void
+    {
+        $rating = Rating::factory()->create([
+            'comment' => 'Global search test comment',
+            'rating' => 5,
+        ]);
+
+        $results = RatingModuleResource::getGlobalSearchResults('Global search test');
+        $this->assertNotEmpty($results);
+    }
 }

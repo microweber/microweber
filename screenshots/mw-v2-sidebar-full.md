@@ -1,0 +1,60 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading [level=1] [ref=e6]:
+        - link [ref=e7] [cursor=pointer]:
+          - /url: https://demo.microweber.org/v2/admin/
+      - generic [ref=e8]:
+        - list [ref=e9]:
+          - listitem [ref=e10]
+          - listitem [ref=e16]
+          - listitem [ref=e22]
+          - listitem [ref=e28]
+          - listitem [ref=e34]
+          - listitem [ref=e40]
+          - listitem [ref=e46]
+          - listitem [ref=e52]
+          - listitem [ref=e58]
+        - separator [ref=e64]
+        - list [ref=e65]:
+          - listitem [ref=e66]
+          - listitem [ref=e69]
+          - listitem [ref=e76]
+  - main [ref=e82]:
+    - generic [ref=e85]:
+      - button "ADD" [ref=e88] [cursor=pointer]:
+        - generic [ref=e89]: ADD
+      - list [ref=e91]:
+        - listitem [ref=e92]:
+          - link "EDIT" [ref=e93] [cursor=pointer]:
+            - /url: https://demo.microweber.org/v2/admin/live-edit?editmode:y
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - heading "Welcome back, Password Admin" [level=1] [ref=e99]
+        - generic [ref=e100]:
+          - paragraph [ref=e102]: Here's what's happening
+          - paragraph [ref=e104]: Last 30 days
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]
+          - generic [ref=e126]
+        - img [ref=e136]
+        - generic [ref=e141]:
+          - generic "Views" [ref=e142]
+          - generic "Visitors" [ref=e146]
+          - generic [ref=e151] [cursor=pointer]: Show more
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - generic [ref=e155]
+          - generic [ref=e168]
+        - generic [ref=e180]:
+          - generic [ref=e182]
+          - generic [ref=e195]
+    - paragraph [ref=e107]:
+      - generic [ref=e108]:
+        - link "Create a website" [ref=e109] [cursor=pointer]:
+          - /url: https://microweber.com/
+        - text: with
+        - link "Microweber" [ref=e110] [cursor=pointer]:
+          - /url: https://microweber.org
+      - text: "Version: 2.0.20"

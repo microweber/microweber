@@ -14,11 +14,33 @@ class BackupHistoryResource extends Resource
 {
     protected static ?string $model = BackupHistory::class;
 
+    protected static ?string $recordTitleAttribute = 'filename';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clock';
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 11;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['filename'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->type) {
+            $details['Type'] = BackupHistory::getTypeOptions()[$record->type] ?? $record->type;
+        }
+
+        if ($record->status) {
+            $details['Status'] = BackupHistory::getStatusOptions()[$record->status] ?? $record->status;
+        }
+
+        return $details;
+    }
 
     public static function getNavigationLabel(): string
     {
