@@ -16,16 +16,42 @@ use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\CreatePayment
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\EditPayment;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource\Pages\ListPayments;
 use Filament\Schemas\Components\Section;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
 
 class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
-
+    protected static ?string $recordTitleAttribute = 'transaction_id';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 4;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['transaction_id', 'amount', 'payment_provider'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->transaction_id ?: 'Payment #' . $record->id;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->amount) {
+            $details['Amount'] = ($record->currency ?: '$') . ' ' . number_format((float) $record->amount, 2);
+        }
+
+        if ($record->status) {
+            $details['Status'] = ucfirst($record->status);
+        }
+
+        return $details;
+    }
 
 
     public static string $description = 'Manage payments and transactions';
