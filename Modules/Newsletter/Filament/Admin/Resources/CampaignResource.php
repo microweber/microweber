@@ -53,6 +53,8 @@ class CampaignResource extends Resource
 {
     protected static ?string $model = NewsletterCampaign::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-megaphone';
 
     //    protected static ?string $slug = 'newsletter/sender-accounts';
@@ -64,6 +66,26 @@ class CampaignResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
     protected static ?int $navigationSort = 2;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'subject', 'from_name', 'from_email'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->subject) {
+            $details['Subject'] = \Illuminate\Support\Str::limit($record->subject, 80);
+        }
+
+        if ($record->status) {
+            $details['Status'] = ucfirst($record->status);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
