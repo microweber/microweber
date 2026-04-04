@@ -24,6 +24,8 @@ class TemplatesResource extends Resource
 {
     protected static ?string $model = NewsletterTemplate::class;
 
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-paint-brush';
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
@@ -35,6 +37,11 @@ class TemplatesResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Mail';
 
     protected static ?int $navigationSort = 3;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title'];
+    }
 
     public static function form(Schema $schema): Schema
     {
