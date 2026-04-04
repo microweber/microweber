@@ -22,6 +22,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Content\Models\Content;
 use Modules\Product\Filament\Admin\Resources\ProductInventoryResource\Pages;
 use Modules\Product\Models\ProductInventoryMovement;
@@ -36,12 +37,38 @@ class ProductInventoryResource extends Resource
     protected static ?int $navigationSort = 10;
 
     protected static ?string $model = ProductInventoryMovement::class;
+    protected static ?string $recordTitleAttribute = 'notes';
 
     protected static ?string $label = 'Inventory Movement';
 
     protected static ?string $pluralLabel = 'Inventory';
 
     protected static ?string $navigationLabel = 'Inventory';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['notes', 'type', 'product.title'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->product?->title ?? 'Inventory #' . $record->id;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->type) {
+            $details['Type'] = ucfirst($record->type);
+        }
+
+        if ($record->quantity_change) {
+            $details['Qty Change'] = ($record->quantity_change > 0 ? '+' : '') . $record->quantity_change;
+        }
+
+        return $details;
+    }
 
     protected static ?string $slug = 'inventory';
 
