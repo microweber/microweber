@@ -12,6 +12,7 @@ use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Filament\Resources\InvoiceResource\Pages;
 use Modules\Invoice\Filament\Exports\InvoiceExporter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Checkbox;
@@ -25,6 +26,7 @@ class InvoiceResource extends Resource
 {
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $model = Invoice::class;
+    protected static ?string $recordTitleAttribute = 'invoice_number';
 
     protected static string | null $navigationLabel = 'Invoices';
     protected static ?string $modelLabel = 'Invoice';
@@ -38,6 +40,30 @@ class InvoiceResource extends Resource
     {
 
         return static::$description;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['invoice_number', 'reference_number', 'customer.first_name', 'customer.last_name', 'customer.email'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->reference_number) {
+            $details['Reference'] = $record->reference_number;
+        }
+
+        if ($record->customer) {
+            $details['Customer'] = trim($record->customer->first_name . ' ' . $record->customer->last_name);
+        }
+
+        if ($record->status) {
+            $details['Status'] = ucfirst($record->status);
+        }
+
+        return $details;
     }
 
     public static function form(Schema $schema): Schema
