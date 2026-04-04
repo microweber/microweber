@@ -30,6 +30,8 @@ class ListResource extends Resource
 {
     protected static ?string $model = NewsletterList::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-list-bullet';
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
@@ -41,6 +43,22 @@ class ListResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
 
     protected static ?int $navigationSort = 2;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->description) {
+            $details['Description'] = \Illuminate\Support\Str::limit($record->description, 80);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
