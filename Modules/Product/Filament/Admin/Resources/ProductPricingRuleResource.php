@@ -19,12 +19,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductPricingRule;
 
 class ProductPricingRuleResource extends Resource
 {
     protected static string | \BackedEnum | null $navigationIcon = null;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
 
@@ -37,6 +39,26 @@ class ProductPricingRuleResource extends Resource
     public static function getModel(): string
     {
         return ProductPricingRule::class;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'slug', 'description'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->rule_type) {
+            $details['Type'] = ucfirst(str_replace('_', ' ', $record->rule_type));
+        }
+
+        if ($record->slug) {
+            $details['Slug'] = $record->slug;
+        }
+
+        return $details;
     }
 
     public static function form(Schema $schema): Schema

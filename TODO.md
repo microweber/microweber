@@ -224,7 +224,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: ExchangeRateResource — search exchange rates by currency
 - [x] 2026-04-04  global-search: ProductInventoryResource — search inventory by SKU/product
 - [x] 2026-04-04  global-search: ProductVariantAttributeResource — search variant attributes by name
-- [ ] global-search: ProductPricingRuleResource — search pricing rules by name
+- [x] 2026-04-04  global-search: ProductPricingRuleResource — search pricing rules by name
 
 ### Lower Priority (admin/system)
 - [ ] global-search: MailTemplateResource — search mail templates by name/subject
