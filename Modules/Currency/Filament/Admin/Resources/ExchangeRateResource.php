@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Currency\Models\ExchangeRate;
 use Modules\Currency\Models\Currency;
 use Modules\Currency\Filament\Admin\Resources\ExchangeRateResource\Pages;
@@ -15,12 +16,38 @@ use Modules\Currency\Services\CurrencyConversionService;
 class ExchangeRateResource extends Resource
 {
     protected static ?string $model = ExchangeRate::class;
+    protected static ?string $recordTitleAttribute = 'from_currency';
 
     protected static ?string $navigationIcon = null;
 
     protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 11;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['from_currency', 'to_currency', 'source'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->from_currency . ' → ' . $record->to_currency;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->rate) {
+            $details['Rate'] = (string) $record->rate;
+        }
+
+        if ($record->source) {
+            $details['Source'] = $record->source;
+        }
+
+        return $details;
+    }
 
     public static function form(Form $form): Form
     {
