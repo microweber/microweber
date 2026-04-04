@@ -237,7 +237,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: ListResource — search newsletter lists by name
 - [x] 2026-04-04  global-search: WorkflowResource — search newsletter workflows by name
 - [x] 2026-04-04  global-search: SenderAccountsResource — search sender accounts by email/name
-- [ ] global-search: CheckoutResource — search checkout config by name
+- [x] 2026-04-04  global-search: CheckoutResource — search checkout config by name — **skipped: no model, checkout is a form page not a CRUD resource**
 - [ ] global-search: BackupResource — search backups by filename
 - [ ] global-search: BackupScheduleResource — search backup schedules by name
 - [ ] global-search: BackupHistoryResource — search backup history by filename
