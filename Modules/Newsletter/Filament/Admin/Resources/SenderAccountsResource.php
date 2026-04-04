@@ -20,6 +20,8 @@ class SenderAccountsResource extends Resource
 {
     protected static ?string $model = NewsletterSenderAccount::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = null;
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
@@ -31,6 +33,26 @@ class SenderAccountsResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 4;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'from_name', 'from_email', 'account_type'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->from_email) {
+            $details['Email'] = $record->from_email;
+        }
+
+        if ($record->account_type) {
+            $details['Type'] = ucfirst(str_replace('_', ' ', $record->account_type));
+        }
+
+        return $details;
+    }
 
     public static function getEditFormArray()
     {
