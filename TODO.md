@@ -227,7 +227,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: ProductPricingRuleResource — search pricing rules by name
 
 ### Lower Priority (admin/system)
-- [ ] global-search: MailTemplateResource — search mail templates by name/subject
+- [x] 2026-04-04  global-search: MailTemplateResource — search mail templates by name/subject
 - [ ] global-search: TranslationResource — search translations by key/value
 - [ ] global-search: ModuleConfigurationResource — search module configs by name
 - [ ] global-search: ErrorTrackingResource — search errors by message

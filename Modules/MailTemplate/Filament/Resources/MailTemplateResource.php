@@ -16,6 +16,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplateResource extends Resource
@@ -24,10 +25,31 @@ class MailTemplateResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $model = MailTemplate::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
      protected static string | \UnitEnum | null $navigationGroup = 'Email Settings';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'subject', 'type'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->subject) {
+            $details['Subject'] = $record->subject;
+        }
+
+        if ($record->type) {
+            $details['Type'] = ucfirst(str_replace('_', ' ', $record->type));
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
