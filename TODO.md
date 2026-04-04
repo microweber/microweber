@@ -216,7 +216,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 ### Medium Priority (commerce/operations)
 - [x] 2026-04-04  global-search: InvoiceResource — search invoices by reference/customer
 - [x] 2026-04-04  global-search: PaymentResource — search payments by reference/status
-- [ ] global-search: PaymentProviderResource — search payment providers by name
+- [x] 2026-04-04  global-search: PaymentProviderResource — search payment providers by name
 - [ ] global-search: ShippingProviderResource — search shipping providers by name
 - [ ] global-search: TaxResource — search taxes by name
 - [ ] global-search: TaxRateResource — search tax rates by name

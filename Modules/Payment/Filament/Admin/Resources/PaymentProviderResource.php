@@ -17,6 +17,7 @@ use Modules\Payment\Models\PaymentProvider;
 class PaymentProviderResource extends Resource
 {
     protected static ?string $model = PaymentProvider::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
@@ -24,6 +25,24 @@ class PaymentProviderResource extends Resource
     protected static ?int $navigationSort = 14;
 
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'provider'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->provider) {
+            $details['Provider'] = $record->provider;
+        }
+
+        $details['Status'] = $record->is_active ? 'Active' : 'Inactive';
+
+        return $details;
+    }
 
     public static string $description = 'Configure your shop payments settings';
     public function getDescription(): string
