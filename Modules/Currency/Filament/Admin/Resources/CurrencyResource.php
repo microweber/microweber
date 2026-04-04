@@ -7,18 +7,40 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Currency\Models\Currency;
 use Modules\Currency\Filament\Admin\Resources\CurrencyResource\Pages;
 
 class CurrencyResource extends Resource
 {
     protected static ?string $model = Currency::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = null;
 
     protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 10;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'code', 'symbol'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->code) {
+            $details['Code'] = $record->code;
+        }
+
+        if ($record->symbol) {
+            $details['Symbol'] = $record->symbol;
+        }
+
+        return $details;
+    }
 
     public static function form(Form $form): Form
     {
