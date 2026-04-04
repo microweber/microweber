@@ -21,12 +21,14 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductVariantAttribute;
 
 class ProductVariantAttributeResource extends Resource
 {
     protected static ?string $model = ProductVariantAttribute::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static string | \BackedEnum | null $navigationIcon = null;
 
@@ -37,6 +39,26 @@ class ProductVariantAttributeResource extends Resource
     protected static ?string $label = 'Variant Attribute';
 
     protected static ?string $pluralLabel = 'Variant Attributes';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'key', 'description'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->type) {
+            $details['Type'] = ucfirst($record->type);
+        }
+
+        if ($record->key) {
+            $details['Key'] = $record->key;
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
