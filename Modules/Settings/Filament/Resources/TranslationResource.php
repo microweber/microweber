@@ -31,12 +31,33 @@ use Filament\Notifications\Notification;
 class TranslationResource extends Resource
 {
     protected static ?string $model = TranslationKey::class;
+    protected static ?string $recordTitleAttribute = 'translation_key';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Language Settings';
 
     protected static string | null $navigationLabel = 'Translations';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['translation_key', 'translation_namespace', 'translation_group'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->translation_group) {
+            $details['Group'] = $record->translation_group;
+        }
+
+        if ($record->translation_namespace && $record->translation_namespace !== '*') {
+            $details['Namespace'] = $record->translation_namespace;
+        }
+
+        return $details;
+    }
 
     protected static ?string $pluralModelLabel = 'Translations';
 
