@@ -210,7 +210,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: TagGroupResource — search tag groups by name
 - [x] 2026-04-04  global-search: FaqModuleResource — search FAQs by question/answer
 - [x] 2026-04-04  global-search: ShopCategoryResource — search shop categories by title — inherits from CategoryResource (already has full global search)
-- [ ] global-search: CouponResource — search coupons by code/name
+- [x] 2026-04-04  global-search: CouponResource — search coupons by code/name
 - [ ] global-search: OfferResource — search offers by name
 
 ### Medium Priority (commerce/operations)

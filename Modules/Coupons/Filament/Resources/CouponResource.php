@@ -22,6 +22,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Modules\Coupons\Filament\Resources\CouponResource\Pages;
 use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
@@ -33,10 +34,33 @@ class CouponResource extends Resource
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-ticket';
 
     protected static ?string $model = Coupon::class;
+    protected static ?string $recordTitleAttribute = 'coupon_name';
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 12;
 
     protected static string $description = 'Configure your shop coupons settings';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['coupon_name', 'coupon_code', 'description'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->coupon_code) {
+            $details['Code'] = $record->coupon_code;
+        }
+
+        if ($record->discount_type && $record->discount_value) {
+            $details['Discount'] = $record->discount_type === 'percentage'
+                ? $record->discount_value . '%'
+                : '$' . $record->discount_value;
+        }
+
+        return $details;
+    }
 
     public static function getDescription(): string
     {
