@@ -219,7 +219,7 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 - [x] 2026-04-04  global-search: PaymentProviderResource — search payment providers by name
 - [x] 2026-04-04  global-search: ShippingProviderResource — search shipping providers by name
 - [x] 2026-04-04  global-search: TaxResource — search taxes by name
-- [ ] global-search: TaxRateResource — search tax rates by name
+- [x] 2026-04-04  global-search: TaxRateResource — search tax rates by name
 - [ ] global-search: CurrencyResource — search currencies by name/code
 - [ ] global-search: ExchangeRateResource — search exchange rates by currency
 - [ ] global-search: ProductInventoryResource — search inventory by SKU/product

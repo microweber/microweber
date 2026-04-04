@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\TernaryFilter;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Modules\Country\Models\Country;
 use Modules\Tax\Models\TaxRate;
@@ -22,11 +23,36 @@ use Modules\Tax\Models\TaxRate;
 class TaxRateResource extends Resource
 {
     protected static ?string $model = TaxRate::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-receipt-percent';
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static ?string $modelLabel = 'Tax Rate';
     protected static ?string $navigationLabel = 'Tax Rates';
     protected static ?int $navigationSort = 8;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description', 'country_code'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->rate) {
+            $details['Rate'] = $record->rate . '%';
+        }
+
+        if ($record->country_code) {
+            $details['Country'] = $record->country_code;
+        }
+
+        if ($record->type) {
+            $details['Type'] = ucfirst($record->type);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
