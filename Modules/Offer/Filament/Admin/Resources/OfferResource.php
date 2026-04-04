@@ -12,11 +12,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Section;
 use Modules\Offer\Models\Offer;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Schemas\Components\Utilities\Get;
 
 class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
+
+    protected static ?string $recordTitleAttribute = 'offer_price';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
@@ -26,6 +29,29 @@ class OfferResource extends Resource
 
 
     protected static string $description = 'Configure your shop offers settings';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['offer_price', 'product.title'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->product?->title ?? 'Offer #' . $record->id;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->offer_price) {
+            $details['Price'] = '$' . number_format((float) $record->offer_price, 2);
+        }
+
+        $details['Status'] = $record->is_active ? 'Active' : 'Inactive';
+
+        return $details;
+    }
 
     public function getDescription(): string
     {
