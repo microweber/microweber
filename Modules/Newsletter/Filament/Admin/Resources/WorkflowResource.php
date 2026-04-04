@@ -26,11 +26,32 @@ use Modules\Newsletter\Services\WorkflowEngine;
 class WorkflowResource extends Resource
 {
     protected static ?string $model = Workflow::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Automation Workflows';
     protected static ?string $label = 'Workflow';
     protected static ?string $pluralLabel = 'Automation Workflows';
     protected static ?int $navigationSort = 1;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description', 'trigger_type'];
+    }
+
+    public static function getGlobalSearchResultDetails(\Illuminate\Database\Eloquent\Model $record): array
+    {
+        $details = [];
+
+        if ($record->trigger_type) {
+            $details['Trigger'] = ucfirst(str_replace('_', ' ', $record->trigger_type));
+        }
+
+        if ($record->description) {
+            $details['Description'] = \Illuminate\Support\Str::limit($record->description, 80);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
