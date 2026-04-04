@@ -12,7 +12,7 @@ use MicroweberPackages\Filament\Support\FilamentHelpers;
 
 class Settings extends Page
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | \BackedEnum | null $navigationIcon = null;
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-main';
 

@@ -149,13 +149,20 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-globe-alt')
                     ->label('Website'),
                 'Shop' => NavigationGroup::make()
+                    ->icon('heroicon-o-shopping-bag')
                     ->label('Shop'),
                 'Other' => NavigationGroup::make()
                     ->label('Other')
                     ->collapsible(true),
 
                 'Settings' => NavigationGroup::make()
+                    ->icon('heroicon-o-cog-6-tooth')
                     ->label('Settings')
+                    ->collapsible(true),
+
+                'Users' => NavigationGroup::make()
+                    ->icon('heroicon-o-users')
+                    ->label('Users')
                     ->collapsible(true),
 
                 'Website Settings' => NavigationGroup::make()

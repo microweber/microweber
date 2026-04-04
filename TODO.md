@@ -189,3 +189,60 @@ For each `migrate:` task above:
 Work through phases 4→15 in order. Within each phase, prioritize pages that are most user-facing (list views before create/edit, main pages before sub-pages).
 
 ### Total pages to migrate: ~115 across 12 phases
+
+## Todo
+- [x] 2026-04-04  examine all pages and towkr on thgenm
+- [x] 2026-04-04  make the sideabr design the same — added group-level icons (Website globe, Shop bag, Settings gear, Users people), removed item-level icons from Shop/Settings/Users resources to resolve Filament 5 constraint
+- [x] 2026-04-04  make the davboatd the ame put the chart above the oshte bloks — already matches MW v2: Welcome greeting → Statistics chart → 4 stat cards (Emails, Comments, Sales, Orders) in 2×2 grid
+- [x] 2026-04-04  examine allp ages — all pages verified matching MW v2 (Phases 4-15 complete)
+- [x] 2026-04-04  pay attention to the old sitebat and ndew makr them the same — sidebar group icons match MW v2 (Website/Shop/Settings/Users)
+- [x] 2026-04-04  fix the sidebar desing — group-level icons added, item-level icons removed from 11 resources across Shop/Settings/Users groups
+- [x] 2026-04-04  wokro now on the global search add in the TODO.md modiules that need thei bloal search done ... add with [ ] — audit complete, items added below
+
+---
+
+## Global Search — Modules needing implementation
+
+> Already done: ContentResource (Pages/Posts/Products inherit), CategoryResource, OrderResource, CommentResource, MediaResource, UsersResource, RoleResource, PermissionResource
+
+### High Priority (user-facing content)
+- [x] 2026-04-04  global-search: TagResource — search tags by name
+- [ ] global-search: TagGroupResource — search tag groups by name
+- [ ] global-search: FaqModuleResource — search FAQs by question/answer
+- [ ] global-search: ShopCategoryResource — search shop categories by title
+- [ ] global-search: CouponResource — search coupons by code/name
+- [ ] global-search: OfferResource — search offers by name
+
+### Medium Priority (commerce/operations)
+- [ ] global-search: InvoiceResource — search invoices by reference/customer
+- [ ] global-search: PaymentResource — search payments by reference/status
+- [ ] global-search: PaymentProviderResource — search payment providers by name
+- [ ] global-search: ShippingProviderResource — search shipping providers by name
+- [ ] global-search: TaxResource — search taxes by name
+- [ ] global-search: TaxRateResource — search tax rates by name
+- [ ] global-search: CurrencyResource — search currencies by name/code
+- [ ] global-search: ExchangeRateResource — search exchange rates by currency
+- [ ] global-search: ProductInventoryResource — search inventory by SKU/product
+- [ ] global-search: ProductVariantAttributeResource — search variant attributes by name
+- [ ] global-search: ProductPricingRuleResource — search pricing rules by name
+
+### Lower Priority (admin/system)
+- [ ] global-search: MailTemplateResource — search mail templates by name/subject
+- [ ] global-search: TranslationResource — search translations by key/value
+- [ ] global-search: ModuleConfigurationResource — search module configs by name
+- [ ] global-search: ErrorTrackingResource — search errors by message
+- [ ] global-search: CampaignResource — search newsletter campaigns by name
+- [ ] global-search: SubscribersResource — search newsletter subscribers by email
+- [ ] global-search: TemplatesResource — search newsletter templates by name
+- [ ] global-search: ListResource — search newsletter lists by name
+- [ ] global-search: WorkflowResource — search newsletter workflows by name
+- [ ] global-search: SenderAccountsResource — search sender accounts by email/name
+- [ ] global-search: CheckoutResource — search checkout config by name
+- [ ] global-search: BackupResource — search backups by filename
+- [ ] global-search: BackupScheduleResource — search backup schedules by name
+- [ ] global-search: BackupHistoryResource — search backup history by filename
+- [ ] global-search: ModuleDependencyResource — search module dependencies by name
+- [ ] global-search: RatingModuleResource — search ratings by content
+
+### Skip (admin-only, no meaningful search value)
+- AgentChatResource, BillingUserResource, SubscriptionPlanResource, SubscriptionPlanGroupsResource, SubscriptionResource, TaggedResource

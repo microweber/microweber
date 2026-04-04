@@ -19,7 +19,7 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \BackedEnum | null $navigationIcon = null;
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
     protected static string | \UnitEnum | null $navigationGroup = 'Settings';
     protected static ?string $title = 'Comments Settings';

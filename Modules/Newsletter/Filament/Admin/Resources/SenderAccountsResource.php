@@ -20,7 +20,7 @@ class SenderAccountsResource extends Resource
 {
     protected static ?string $model = NewsletterSenderAccount::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-trending-up';
+    protected static string | \BackedEnum | null $navigationIcon = null;
 
 //    protected static ?string $slug = 'newsletter/sender-accounts';
 

@@ -24,7 +24,7 @@ use Modules\Product\Models\ProductPricingRule;
 
 class ProductPricingRuleResource extends Resource
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
+    protected static string | \BackedEnum | null $navigationIcon = null;
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
 
