@@ -12,10 +12,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class ErrorTrackingResource extends Resource
 {
     protected static ?string $model = ErrorTracking::class;
+    protected static ?string $recordTitleAttribute = 'message';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bug-ant';
 
@@ -26,6 +28,31 @@ class ErrorTrackingResource extends Resource
     protected static ?string $breadcrumb = 'Error Tracking';
 
     protected static ?int $navigationSort = 90;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['message', 'exception_class', 'file', 'url'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return \Illuminate\Support\Str::limit($record->message ?? 'Error #' . $record->id, 80);
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+
+        if ($record->level) {
+            $details['Level'] = ucfirst($record->level);
+        }
+
+        if ($record->exception_class) {
+            $details['Exception'] = class_basename($record->exception_class);
+        }
+
+        return $details;
+    }
 
     public static function form(Schema $schema): Schema
     {
