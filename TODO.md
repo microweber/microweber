@@ -69,7 +69,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  on the sidebar there is from bottom border on the menus please remove it
 
-- [ ] on up page screen on the menu Selecter app search and make it through the top 10 menus with expandable box
+- [x] 2026-04-06  on up page screen on the menu Selecter app search and make it through the top 10 menus with expandable box
 
 - [x] 2026-04-06  on the dashboard the card bottles are not very visible please fix them
 
