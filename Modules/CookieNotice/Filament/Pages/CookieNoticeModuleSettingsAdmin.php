@@ -16,7 +16,7 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
     protected static bool $shouldRegisterNavigation = false;
     //protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cookie';
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
     protected static ?string $title = 'Cookie Notice';
     protected static string | null $navigationLabel = 'Cookie Notice';
     protected static ?int $navigationSort = 11;

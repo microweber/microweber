@@ -22,11 +22,11 @@ class ModuleResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Modules';
 
     protected static ?string $label = 'Modules';
 
-    protected static ?int $navigationSort = 120;
+    protected static ?int $navigationSort = 1;
 
     public static string $description = 'Manage system modules';
 

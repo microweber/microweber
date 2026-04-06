@@ -25,7 +25,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 
     protected static ?string $title = 'Advanced';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     public function getView(): string
     {

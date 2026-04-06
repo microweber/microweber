@@ -21,7 +21,7 @@ class MediaResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-photo';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Content';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
     protected static ?int $navigationSort = 10;
 

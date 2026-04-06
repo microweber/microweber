@@ -24,7 +24,7 @@ class FaqModuleResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-question-mark-circle';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
     protected static ?int $navigationSort = 100;
 

@@ -145,17 +145,32 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'Dashboard' => NavigationGroup::make()
                     ->label('')
                     ->collapsible(false),
+
                 'Website' => NavigationGroup::make()
                     ->icon('heroicon-o-globe-alt')
                     ->label('Website')
+                    ->collapsible(true)
                     ->collapsed(true),
+
                 'Shop' => NavigationGroup::make()
                     ->icon('heroicon-o-shopping-bag')
                     ->label('Shop')
+                    ->collapsible(true)
                     ->collapsed(true),
-                'Other' => NavigationGroup::make()
-                    ->label('Other')
-                    ->collapsible(true),
+
+                'Marketplace' => NavigationGroup::make()
+                    ->label('Marketplace')
+                    ->collapsible(false)
+                    ->extraSidebarAttributes([
+                        'class' => 'mw-nav-group-no-label',
+                    ]),
+
+                'Modules' => NavigationGroup::make()
+                    ->label('Modules')
+                    ->collapsible(false)
+                    ->extraSidebarAttributes([
+                        'class' => 'mw-nav-group-no-label',
+                    ]),
 
                 'Settings' => NavigationGroup::make()
                     ->icon('heroicon-o-cog-6-tooth')
@@ -173,11 +188,9 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->extraSidebarAttributes([
                         'class' => 'hidden bg-gray-50 dark:bg-gray-900',
                     ])
-
                     ->label('Website Settings')
                     ->collapsed(false)
                     ->collapsible(true),
-
 
                 'Shop Settings' => NavigationGroup::make()
                     ->extraSidebarAttributes([
@@ -195,7 +208,6 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->collapsed(false)
                     ->collapsible(true),
 
-
                 'Customization Settings' => NavigationGroup::make()
                     ->extraSidebarAttributes([
                         'class' => 'hidden bg-gray-50 dark:bg-gray-900',
@@ -209,6 +221,14 @@ class FilamentAdminPanelProvider extends PanelProvider
                         'class' => 'hidden bg-gray-50 dark:bg-gray-900',
                     ])
                     ->label('System Settings')
+                    ->collapsed(false)
+                    ->collapsible(true),
+
+                'Language Settings' => NavigationGroup::make()
+                    ->extraSidebarAttributes([
+                        'class' => 'hidden bg-gray-50 dark:bg-gray-900',
+                    ])
+                    ->label('Language Settings')
                     ->collapsed(false)
                     ->collapsible(true),
             ])

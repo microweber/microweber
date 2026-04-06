@@ -18,7 +18,7 @@ class CommentResource extends Resource
 {
 protected static ?string $model = Comment::class;
 protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-protected static string | \UnitEnum | null $navigationGroup = 'Other';
+protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 protected static ?string $recordTitleAttribute = 'comment_subject';
 protected static bool $shouldRegisterNavigation = false;
 

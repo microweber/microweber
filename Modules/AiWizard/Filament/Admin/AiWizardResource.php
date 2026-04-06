@@ -26,7 +26,7 @@ class AiWizardResource extends Resource
 
     // protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static bool $shouldRegisterNavigation = false;
 

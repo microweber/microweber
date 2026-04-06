@@ -20,7 +20,7 @@ class AdminLoginRegisterPage extends AdminSettingsPage
 
     protected static string $description = 'Configure your login and registration settings';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
 
 

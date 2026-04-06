@@ -57,7 +57,7 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                     ->sort(300),
                 NavigationItem::make('Back to admin')
                     ->url(admin_url())
-                    ->group('Other')
+                    ->group('System Settings')
                     ->sort(20000)
                     ->icon('heroicon-o-arrow-right-end-on-rectangle'),
 

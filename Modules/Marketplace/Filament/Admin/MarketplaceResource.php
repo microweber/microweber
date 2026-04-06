@@ -29,10 +29,11 @@ use Modules\Marketplace\Models\MarketplaceItem;
 class MarketplaceResource extends Resource
 {
     protected static ?string $model = MarketplaceItem::class;
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-bag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-storefront';
     protected static string | null $navigationLabel = 'Marketplace';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Marketplace';
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $breadcrumb = 'Marketplace';
 

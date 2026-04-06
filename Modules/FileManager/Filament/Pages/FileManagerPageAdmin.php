@@ -14,7 +14,7 @@ class FileManagerPageAdmin extends AdminSettingsPage
 
     protected static string $description = 'Configure your file settings';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
 
 }

@@ -19,7 +19,7 @@ class MediaLibrary extends Page
 
     protected static string|\BackedEnum|null $navigationIcon = null;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Website';
+    protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 
     protected static ?int $navigationSort = 5;
 

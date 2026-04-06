@@ -22,7 +22,7 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
 
     protected static string $description = 'Configure your privacy policy settings';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Other';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
 
     public array $optionGroups = [
