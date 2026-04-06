@@ -12,7 +12,7 @@ class PostResource extends ContentResource
     protected static ?string $model = Post::class;
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
 
     protected static bool $shouldRegisterNavigation = true;

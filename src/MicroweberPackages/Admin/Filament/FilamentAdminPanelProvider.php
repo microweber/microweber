@@ -147,10 +147,12 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->collapsible(false),
                 'Website' => NavigationGroup::make()
                     ->icon('heroicon-o-globe-alt')
-                    ->label('Website'),
+                    ->label('Website')
+                    ->collapsed(true),
                 'Shop' => NavigationGroup::make()
                     ->icon('heroicon-o-shopping-bag')
-                    ->label('Shop'),
+                    ->label('Shop')
+                    ->collapsed(true),
                 'Other' => NavigationGroup::make()
                     ->label('Other')
                     ->collapsible(true),
@@ -158,12 +160,14 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'Settings' => NavigationGroup::make()
                     ->icon('heroicon-o-cog-6-tooth')
                     ->label('Settings')
-                    ->collapsible(true),
+                    ->collapsible(true)
+                    ->collapsed(true),
 
                 'Users' => NavigationGroup::make()
                     ->icon('heroicon-o-users')
                     ->label('Users')
-                    ->collapsible(true),
+                    ->collapsible(true)
+                    ->collapsed(true),
 
                 'Website Settings' => NavigationGroup::make()
                     ->extraSidebarAttributes([

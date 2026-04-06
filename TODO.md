@@ -202,6 +202,10 @@ Work through phases 4→15 in order. Within each phase, prioritize pages that ar
 ---
 
 - [x] 2026-04-04  make filament tests for th e global search on all pages needed
+- [x] 2026-04-04  мижтагт тхе дисебар десигн — sidebar already migrated in previous tasks (group-level icons added: Website globe, Shop bag, Settings gear, Users people)
+- [x] 2026-04-04  маке глоба серцх гор алл модуелс он филамнр тсее хо — all global search implementations already complete (see Global Search section above)
+- [x] 2026-04-04  dusk tet and filament test for the search — created AdminGlobalSearchTest Dusk tests (4 test methods: UI accessibility, returns results, empty results handling, keyboard accessibility); all Filament unit tests already in place (12 resources with it_global_search_returns_results)
+- [x] 2026-04-06  now lets continue the sidebar design mifration — reordered Website items (Pages, Categories, Posts, Media Library) and Shop items (Products, Orders, Categories, Customers, Variant Attributes, Inventory) to match MW v2; moved Customers from Shop Settings to Shop group; collapsed all groups by default
 ## Global Search — Modules needing implementation
 
 > Already done: ContentResource (Pages/Posts/Products inherit), CategoryResource, OrderResource, CommentResource, MediaResource, UsersResource, RoleResource, PermissionResource
