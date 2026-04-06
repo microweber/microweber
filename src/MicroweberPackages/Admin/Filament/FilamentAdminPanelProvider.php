@@ -4,6 +4,7 @@ namespace MicroweberPackages\Admin\Filament;
 
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Tables\Table;
 use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
@@ -47,8 +48,15 @@ class FilamentAdminPanelProvider extends PanelProvider
     {
         parent::__construct($app);
         $this->filamentPath = mw_admin_prefix_url();
+    }
 
-
+    public function boot(): void
+    {
+        Table::configureUsing(function (Table $table): Table {
+            return $table
+                ->paginationPageOptions([10, 25, 50, 100, 250])
+                ->defaultPaginationPageOption(25);
+        });
     }
 
     public function getPanelPages(): array

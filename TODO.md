@@ -61,7 +61,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  dashboard remove the last 30 days link on the top because we already have statistics
 
-- [ ] the the pagigng controlls on all pages and add paging and limit seelctions on them issing
+- [x] 2026-04-06  the the pagigng controlls on all pages and add paging and limit seelctions on them issing
 
 - [ ] on the dashboard click on view comments the table is not ok see the Potent page stable
 
