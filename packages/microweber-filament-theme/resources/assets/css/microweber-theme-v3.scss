@@ -2504,22 +2504,6 @@ html.dark {
   line-height: 1.2 !important;
 }
 
-.mw-quick-stat-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px 24px 12px;
-  border-top: 1px solid $mw-border-subtle;
-}
-
-.mw-quick-stat-card-link {
-  font-size: 13px !important;
-  color: #206bc4 !important;
-  font-weight: 500 !important;
-
-  &:hover {
-    text-decoration: underline !important;
-  }
-}
 
 // Dark mode for dashboard widgets
 html.dark {
@@ -2544,13 +2528,6 @@ html.dark {
     color: #e2e8f0 !important;
   }
 
-  .mw-quick-stat-card-footer {
-    border-top-color: #1e2330 !important;
-  }
-
-  .mw-quick-stat-card-link {
-    color: #63b3ed !important;
-  }
 }
 
 // ============================================================================

@@ -11,9 +11,6 @@
                         <p class="mw-quick-stat-card-value">{{ $stat['value'] }}</p>
                     </div>
                 </div>
-                <div class="mw-quick-stat-card-footer">
-                    <span class="mw-quick-stat-card-link">View</span>
-                </div>
             </a>
         @endforeach
     </div>

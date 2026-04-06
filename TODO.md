@@ -137,4 +137,4 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  on the dashboard to stats the dates on the starting date and out of the screen so we must always see them they must be inside the widget
 
-- [ ] on the dashboard in the boxes with emails was customer sales and reason orders we have view button so remove that button because now we click on the card to go there
+- [x] 2026-04-06  on the dashboard in the boxes with emails was customer sales and reason orders we have view button so remove that button because now we click on the card to go there
