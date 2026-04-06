@@ -112,3 +112,11 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  although all tavles table the new status must be with green label now it doesn't have green
 
 - [x] 2026-04-06  check the dark scheme and fix all the books in the dark cSS
+
+- [x] 2026-04-06  the цреате customer currency drop down make it so we can create currency as now we don't have it
+
+- [ ] on the great category screen the true Spirit and Peter category level is in the comb make it to be above the search page or category not to be on column
+
+- [ ] on the great category the tops doesn't have the appropriate padding make sure all the tabs everywhere have the same padding in terms of the icon foreign page or category it's not aligned and also it has some padding is not okay
+
+- [ ] the major plot on create category here some gap and the icon is missing for the upload image

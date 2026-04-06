@@ -64,7 +64,35 @@ class CustomerResource extends Resource
                     ->relationship('currency', 'name')
                     ->searchable()
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('US Dollar'),
+                        Forms\Components\TextInput::make('code')
+                            ->required()
+                            ->maxLength(3)
+                            ->minLength(3)
+                            ->placeholder('USD')
+                            ->unique()
+                            ->dehydrateStateUsing(fn (string $state): string => strtoupper($state)),
+                        Forms\Components\TextInput::make('symbol')
+                            ->required()
+                            ->maxLength(10)
+                            ->placeholder('$'),
+                        Forms\Components\TextInput::make('precision')
+                            ->numeric()
+                            ->default(2)
+                            ->minValue(0)
+                            ->maxValue(8),
+                        Forms\Components\TextInput::make('thousand_separator')
+                            ->maxLength(1)
+                            ->default(','),
+                        Forms\Components\TextInput::make('decimal_separator')
+                            ->maxLength(1)
+                            ->default('.'),
+                    ]),
 Forms\Components\Select::make('company_id')
 ->label('Company')
 ->relationship('company', 'name')
