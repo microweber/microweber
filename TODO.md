@@ -99,9 +99,9 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  the dashboard when I click on emails it doesn't go to the emails page make it go to the emails model page where I can see the contact form emails
 
-- [ ] check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
+- [x] 2026-04-06  check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
 
-- [ ] check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
+- [x] 2026-04-06  check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
 
 - [ ] on the create customer the currency drop down Is Not Okay check all drop downs and there is label on the effective it's missing probably so it's not centered
 
