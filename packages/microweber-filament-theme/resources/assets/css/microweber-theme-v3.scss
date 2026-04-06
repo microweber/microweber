@@ -2730,15 +2730,15 @@ html.dark {
 
 .fi-simple-header {
   text-align: center;
+  padding-top: 8px !important;
 
-  .fi-logo {
-    display: flex;
-    justify-content: center;
-
-    img {
-      height: 40px !important;
-      width: auto !important;
-    }
+  // Logo on login page — larger and centered
+  img.fi-logo {
+    height: 48px !important;
+    width: auto !important;
+    display: block;
+    margin: 0 auto 16px;
+    overflow: visible !important;
   }
 
   .fi-simple-header-heading {
