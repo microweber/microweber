@@ -161,4 +161,48 @@ class SettingsPagesLoadTest extends TestCase
     {
         $this->assertTrue(class_exists(AdminUpdatesPage::class));
     }
+
+    #[Test]
+    #[DataProvider('settingsPageUrlsProvider')]
+    public function settings_page_does_not_return_500(string $url, string $label): void
+    {
+        $this->actingAsAdmin();
+
+        $response = $this->get($url);
+
+        $this->assertNotEquals(
+            500,
+            $response->getStatusCode(),
+            "Settings page '{$label}' at {$url} returned HTTP 500"
+        );
+    }
+
+    public static function settingsPageUrlsProvider(): array
+    {
+        $prefix = '/admin';
+
+        return [
+            'Settings Index' => ["{$prefix}/settings", 'Settings Index'],
+            'General' => ["{$prefix}/settings/general", 'General'],
+            'SEO' => ["{$prefix}/settings/seo-page", 'SEO'],
+            'Template' => ["{$prefix}/admin-template-page", 'Template'],
+            'Login & Register' => ["{$prefix}/admin-login-register-page", 'Login & Register'],
+            'Privacy Policy' => ["{$prefix}/admin-privacy-policy-page", 'Privacy Policy'],
+            'Custom Tags' => ["{$prefix}/admin-custom-tags-page", 'Custom Tags'],
+            'Cookie Notice' => ["{$prefix}/cookie-notice-module-settings-admin", 'Cookie Notice'],
+            'Email' => ["{$prefix}/admin-email-page", 'Email'],
+            'Auto Respond Email' => ["{$prefix}/admin-shop-auto-respond-email-page", 'Auto Respond Email'],
+            'Mail Templates' => ["{$prefix}/mail-templates", 'Mail Templates'],
+            'Main Shop Settings' => ["{$prefix}/admin-shop-general-page", 'Main Shop Settings'],
+            'Shop Other' => ["{$prefix}/admin-shop-other-page", 'Shop Other'],
+            'Advanced' => ["{$prefix}/admin-advanced-page", 'Advanced'],
+            'System Settings' => ["{$prefix}/admin-maintenance-mode-page", 'System Settings'],
+            'Language' => ["{$prefix}/admin-language-page", 'Language'],
+            'Multilanguage' => ["{$prefix}/multilanguage-settings-admin", 'Multilanguage'],
+            'White Label' => ["{$prefix}/white-label-settings-admin-settings-page", 'White Label'],
+            'Module Configuration' => ["{$prefix}/module-configuration", 'Module Configuration'],
+            'Module Dependencies' => ["{$prefix}/module-dependencies", 'Module Dependencies'],
+            'Kitchen Sink' => ["{$prefix}/kitchen-sink", 'Kitchen Sink'],
+        ];
+    }
 }

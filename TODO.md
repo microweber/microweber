@@ -131,7 +131,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  make filamentt unit test for the user section in admin
 
-- [ ] make fi,amnent dusk unit test for the settings pages
+- [x] 2026-04-06  make fi,amnent dusk unit test for the settings pages
 
 - [ ] we must unify the padding some tabs and the headings of the cards for example on the create category the padding of the tops is different than the right section will patent patient category has a lie in there so we must have the same body in the same alignment so make a plan how to align everything
 
