@@ -116,6 +116,13 @@ Forms\Components\Select::make('user_id')
                                             ->rows(2)
                                             ->required(),
                                     ])
+                                    ->createOptionAction(function ($action) {
+                                        return $action
+                                            ->modalHeading('Create Customer')
+                                            ->modalSubmitActionLabel('Create Customer')
+                                            ->modalWidth('lg')
+                                            ->slideOver();
+                                    })
                                     ->searchable()
                                     ->preload()
                                     ->required(),

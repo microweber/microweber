@@ -60,6 +60,9 @@ Forms\Components\Select::make('subscription_plan_group_id')
                                     ->required()
                                     ->helperText('Name of the plan group (e.g., Business Plans)'),
                             ])
+                            ->createOptionAction(function ($action) {
+                                return $action->slideOver();
+                            })
                             ->columnSpanFull()
                             ->helperText('Group this plan belongs to'),
                         Forms\Components\Textarea::make('description')

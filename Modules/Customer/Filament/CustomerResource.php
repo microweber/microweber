@@ -92,7 +92,14 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('decimal_separator')
                             ->maxLength(1)
                             ->default('.'),
-                    ]),
+                    ])
+                    ->createOptionAction(function ($action) {
+                        return $action
+                            ->modalHeading('Create Currency')
+                            ->modalSubmitActionLabel('Create Currency')
+                            ->modalWidth('lg')
+                            ->slideOver();
+                    }),
 Forms\Components\Select::make('company_id')
 ->label('Company')
 ->relationship('company', 'name')
@@ -139,7 +146,8 @@ Forms\Components\Select::make('company_id')
                 return $action
                 ->modalHeading('Create company')
                 ->modalSubmitActionLabel('Create company')
-                ->modalWidth('lg');
+                ->modalWidth('lg')
+                ->slideOver();
             }),
             Forms\Components\Section::make('Segmentation')
                 ->description('Manage customer tags and segments')
@@ -165,7 +173,8 @@ Forms\Components\Select::make('company_id')
                             return $action
                                 ->modalHeading('Create Tag')
                                 ->modalSubmitActionLabel('Create Tag')
-                                ->modalWidth('lg');
+                                ->modalWidth('lg')
+                                ->slideOver();
                         })
                         ->helperText('Assign tags to categorize and segment this customer'),
                 ]),

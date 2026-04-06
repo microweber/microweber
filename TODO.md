@@ -121,6 +121,14 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  the major plot on create category here some gap and the icon is missing for the upload image
 
-- [ ] all the modals must be in slide  right they create modals  in the customer or examine that was because right now they are not appearing very good in there must be slide right
+- [x] 2026-04-06  all the modals must be in slide  right they create modals  in the customer or examine that was because right now they are not appearing very good in there must be slide right
 
 - [ ] on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border
+
+- [ ] on the atcive tabs items everywhere put underline because now we don't have underline
+
+- [ ] on the create category the eye cream must be aligned with the uploader box so that I can must be a little bit on the left on the padding and on the order tabs of course must be aligned with all the icons
+
+- [ ] make filamentt unit test for the user section in admin
+
+- [ ] make fi,amnent dusk unit test for the settings pages

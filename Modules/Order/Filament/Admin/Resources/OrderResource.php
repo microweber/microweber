@@ -610,7 +610,8 @@ public static function getNavigationBadgeTooltip(): ?string
                     return $action
                         ->modalHeading('Create customer')
                         ->modalSubmitActionLabel('Create customer')
-                        ->modalWidth('lg');
+                        ->modalWidth('lg')
+                        ->slideOver();
                 }),
 
 
