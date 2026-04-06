@@ -28,8 +28,4 @@ class WelcomeWidget extends Widget
         return "Here's what's happening";
     }
 
-    public function getPeriodLabel(): string
-    {
-        return 'Last 30 days';
-    }
 }

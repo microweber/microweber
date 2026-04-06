@@ -59,7 +59,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  on the dashboard when you click on the emails link it doesn't work
 
-- [ ] dashboard remove the last 30 days link on the top because we already have statistics
+- [x] 2026-04-06  dashboard remove the last 30 days link on the top because we already have statistics
 
 - [ ] the the pagigng controlls on all pages and add paging and limit seelctions on them issing
 
@@ -68,3 +68,9 @@ Each page migration follows this cycle:
 - [ ] the Welcome note on the dashboard is spliced to the cart it needs some padding
 
 - [ ] on the sidebar there is from bottom border on the menus please remove it
+
+- [ ] on up page screen on the menu Selecter app search and make it through the top 10 menus with expandable box
+
+- [ ] on the dashboard the card bottles are not very visible please fix them
+
+- [ ] on the dashboard on the show more the statistics of the old version are better please make the new version the same

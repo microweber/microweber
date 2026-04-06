@@ -2381,11 +2381,6 @@ html.dark {
   margin: 0 !important;
 }
 
-.mw-welcome-widget-period {
-  font-size: 14px !important;
-  color: $mw-text-secondary !important;
-  margin: 0 !important;
-}
 
 // ============================================================================
 // Dashboard — MW v2 Quick Stats Cards (Emails, Comments, Sales, Orders)
@@ -2505,8 +2500,7 @@ html.dark {
     color: #e2e8f0 !important;
   }
 
-  .mw-welcome-widget-subtitle,
-  .mw-welcome-widget-period {
+  .mw-welcome-widget-subtitle {
     color: #718096 !important;
   }
 
