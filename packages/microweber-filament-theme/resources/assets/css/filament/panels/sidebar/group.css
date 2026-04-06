@@ -1,16 +1,24 @@
 .fi-sidebar-nav .fi-sidebar-group {
-    @apply px-2 py-5;
+    @apply px-2 py-1;
 }
 
 .fi-sidebar-group .fi-sidebar-group-icon {
-    @apply text-gray-900 dark:text-gray-400;
+    @apply text-gray-900 dark:text-gray-400 h-6 w-6;
 }
 
+/* Style group labels to match MW v2: title case, same size as nav items */
 .fi-sidebar-group .fi-sidebar-group-label {
-    @apply font-medium text-gray-900 dark:text-gray-400;
+    @apply font-normal text-gray-900 dark:text-gray-400;
+    text-transform: none !important;
+    font-size: 1rem !important;
 }
 
-/* Hide group label for single-item standalone groups (Marketplace, Modules) */
+/* Make group button look like a regular nav item */
+.fi-sidebar-group > .fi-sidebar-group-btn {
+    @apply rounded-md px-2 py-2;
+}
+
+/* Hide group label for single-item standalone groups (Marketplace, Modules, Settings, Users) */
 .mw-nav-group-no-label > .fi-sidebar-group-btn {
     @apply hidden;
 }

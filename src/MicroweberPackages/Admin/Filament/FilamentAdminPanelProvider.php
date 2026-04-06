@@ -173,16 +173,18 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ]),
 
                 'Settings' => NavigationGroup::make()
-                    ->icon('heroicon-o-cog-6-tooth')
                     ->label('Settings')
-                    ->collapsible(true)
-                    ->collapsed(true),
+                    ->collapsible(false)
+                    ->extraSidebarAttributes([
+                        'class' => 'mw-nav-group-no-label',
+                    ]),
 
                 'Users' => NavigationGroup::make()
-                    ->icon('heroicon-o-users')
                     ->label('Users')
-                    ->collapsible(true)
-                    ->collapsed(true),
+                    ->collapsible(false)
+                    ->extraSidebarAttributes([
+                        'class' => 'mw-nav-group-no-label',
+                    ]),
 
                 'Website Settings' => NavigationGroup::make()
                     ->extraSidebarAttributes([

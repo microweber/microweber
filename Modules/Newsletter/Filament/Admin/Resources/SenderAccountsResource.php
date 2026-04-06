@@ -30,7 +30,7 @@ class SenderAccountsResource extends Resource
 
     protected static ?string $label = 'Senders';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Email Settings';
 
     protected static ?int $navigationSort = 4;
 

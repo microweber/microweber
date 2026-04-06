@@ -23,7 +23,7 @@ class PermissionResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = null;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Users';
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 100;
 

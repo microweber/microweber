@@ -882,9 +882,10 @@ select option,
 }
 
 .fi-sidebar-group-label {
-    @apply !capitalize;
-    font-size: 0.875rem !important;
+    text-transform: none !important;
+    font-size: 1rem !important;
     line-height: 1.25rem !important;
+    font-weight: 400 !important;
 }
 
 .mw-admin-empty-state-heading {

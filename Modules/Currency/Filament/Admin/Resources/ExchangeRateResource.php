@@ -20,7 +20,7 @@ class ExchangeRateResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = null;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
     protected static ?int $navigationSort = 11;
 

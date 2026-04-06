@@ -232,11 +232,11 @@ svg[wire\:loading\.remove] {
 
   .fi-sidebar-group-label {
     color: $mw-text-secondary !important;  // Darker than before — matches MW v2 parent items
-    font-size: 0.7rem !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
-    padding: 10px 8px 4px !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    padding: 6px 8px !important;
   }
 }
 

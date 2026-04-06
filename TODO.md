@@ -23,4 +23,5 @@ Each page migration follows this cycle:
 
 ## Done
 
+- [x] 2026-04-06  sidebar isi sntill not the same design as the old version, evalue and fix
 - [x] 2026-04-06  migrate the sidebar design to match MW v2

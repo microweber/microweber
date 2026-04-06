@@ -13,7 +13,7 @@ use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
 {
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
 
