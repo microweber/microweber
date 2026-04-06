@@ -4,6 +4,8 @@ namespace MicroweberPackages\User\Tests\Unit\Filament;
 
 use Livewire\Livewire;
 use MicroweberPackages\User\Filament\Resources\UsersResource;
+use MicroweberPackages\User\Filament\Resources\UsersResource\Pages\CreateUsers;
+use MicroweberPackages\User\Filament\Resources\UsersResource\Pages\EditUsers;
 use MicroweberPackages\User\Filament\Resources\UsersResource\Pages\ListUsers;
 use MicroweberPackages\User\Models\User;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
@@ -105,5 +107,37 @@ class UsersResourceTest extends TestCase
                 'id' => $user->id,
             ]);
         }
+    }
+
+    #[Test]
+    public function it_create_page_loads_without_errors(): void
+    {
+        Livewire::test(CreateUsers::class)
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function it_edit_page_loads_without_errors(): void
+    {
+        $user = User::factory()->create();
+
+        Livewire::test(EditUsers::class, [
+            'record' => $user->getRouteKey(),
+        ])
+            ->assertSuccessful();
+    }
+
+    #[Test]
+    public function it_admin_pages_return_no_500(): void
+    {
+        $response = $this->get('/admin/users');
+        $this->assertNotEquals(500, $response->status());
+
+        $response = $this->get('/admin/users/create');
+        $this->assertNotEquals(500, $response->status());
+
+        $user = User::factory()->create();
+        $response = $this->get("/admin/users/{$user->id}/edit");
+        $this->assertNotEquals(500, $response->status());
     }
 }
