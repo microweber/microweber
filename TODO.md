@@ -24,6 +24,8 @@ Each page migration follows this cycle:
 
 
 - [x] 2026-04-06  sidebar icons on the sub item aren ot the same color and sidebars with subintem fave messeg padding not aligned, pls fix
+- [x] 2026-04-06  ok but icon aligment on the items with subitmes is not the same as the itmes without suitmes
+- [ ] also work on the bashabrd and hte main contnaer spasnc see the odiginal site and make a plan to fix the conainter , see on the original we dont strech to the fill site, make a plan and populat rhe todo
 ## Done
 
 - [x] 2026-04-06  fix the side body cool fix the side by The Concourse on the ATMs and the super teams

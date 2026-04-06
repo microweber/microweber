@@ -13,9 +13,14 @@
     font-size: 1rem !important;
 }
 
-/* Make group button look like a regular nav item */
+/* Make group button look like a regular nav item — aligned with standalone items */
 .fi-sidebar-group > .fi-sidebar-group-btn {
-    @apply rounded-md px-2 py-2;
+    @apply rounded-md py-2 pl-0 pr-2;
+}
+
+/* Match standalone item icon spacing (16px margin-right) */
+.fi-sidebar-group > .fi-sidebar-group-btn > svg:first-child {
+    @apply mr-4;
 }
 
 /* Hide group label for single-item standalone groups (Marketplace, Modules, Settings, Users) */
