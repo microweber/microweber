@@ -21,13 +21,13 @@ Each page migration follows this cycle:
 
 ## Todo
 
-- [ ] fix the side body cool fix the side by The Concourse on the ATMs and the super teams
 
-- [ ] remove the dashboard container shadow
-
-- [ ] work on the main container seeing the main container on the original website there is padding on the left and the right which is responsive for making the same so we don't stretch the content on the fluid work on the container
 
 ## Done
+
+- [x] 2026-04-06  fix the side body cool fix the side by The Concourse on the ATMs and the super teams
+- [x] 2026-04-06  remove the dashboard container shadow
+- [x] 2026-04-06  work on the main container seeing the main container on the original website there is padding on the left and the right which is responsive for making the same so we don't stretch the content on the fluid work on the container
 
 - [x] 2026-04-06  the sidebar has some double underlines please fix
 - [x] 2026-04-06  sidebar isi sntill not the same design as the old version, evalue and fix

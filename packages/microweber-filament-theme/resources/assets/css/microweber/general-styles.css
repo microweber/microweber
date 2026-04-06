@@ -912,7 +912,10 @@ select option,
     @apply border-none;
 }
 
-.fi-main-ctn.w-screen,
+.fi-main-ctn.w-screen {
+    @apply !bg-transparent dark:!bg-transparent;
+}
+
 .fi-topbar nav {
     @apply bg-slate-50 dark:bg-gray-900;
 }

@@ -118,7 +118,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Amber,
             ])
-            ->maxContentWidth(Width::ScreenTwoExtraLarge)
+            ->maxContentWidth(Width::Full)
             ->unsavedChangesAlerts();
 
         return $panel;
