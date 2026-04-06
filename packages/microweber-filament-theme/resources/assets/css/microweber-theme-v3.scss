@@ -240,6 +240,12 @@ svg[wire\:loading\.remove] {
   }
 }
 
+// Group button icons — match standalone item icon color (MW v2: same dark color)
+.fi-sidebar-group-btn svg {
+  color: $mw-text-primary !important;
+  stroke: $mw-text-primary !important;
+}
+
 // Remove Filament's default 16px gap between sidebar items
 .fi-sidebar-group-items {
   gap: 0px !important;
@@ -249,7 +255,7 @@ svg[wire\:loading\.remove] {
   .fi-sidebar-item-btn {
     border-radius: 4px !important;  // MW v2 exact: 4px
     transition: all 0.15s ease !important;
-    padding: 8px 12px 8px 44px !important;  // MW v2 exact: 8px 12px 8px 44px
+    padding: 8px 12px 8px 52px !important;  // MW v2: aligned with parent item labels
     background-color: transparent !important;
     border: none !important;  // Remove any border/underline on sidebar items
     text-decoration: none !important;
