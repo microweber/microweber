@@ -1146,9 +1146,9 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Content Create/Edit Form — MW v2 style
 // ============================================================================
-// Tabs content panel — remove default padding so sections sit flush
+// Tabs content panel — match section content padding for alignment
 .fi-tabs > .fi-tabs-tab-content {
-  padding: 0 !important;
+  padding: 16px 24px !important;
 }
 
 // 3-column grid layout — tighten gap between main content and sidebar
