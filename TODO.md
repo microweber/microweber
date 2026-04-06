@@ -54,3 +54,17 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
 
 - [x] 2026-04-06  also work on the dashboard we want the cards to not have white background on the container and see the old dashboard we want the same
+
+- [x] 2026-04-06  dashboard design is still not okay
+
+- [x] 2026-04-06  on the dashboard when you click on the emails link it doesn't work
+
+- [ ] dashboard remove the last 30 days link on the top because we already have statistics
+
+- [ ] the the pagigng controlls on all pages and add paging and limit seelctions on them issing
+
+- [ ] on the dashboard click on view comments the table is not ok see the Potent page stable
+
+- [ ] the Welcome note on the dashboard is spliced to the cart it needs some padding
+
+- [ ] on the sidebar there is from bottom border on the menus please remove it

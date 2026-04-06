@@ -416,13 +416,13 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Widgets — dashboard stat cards
+// Widgets — dashboard widget containers
 // ============================================================================
 .fi-wi {
   border-radius: $mw-radius-lg !important;
-  box-shadow: none !important;  // MW v2: no shadow on widget containers
-  border: 1px solid $mw-border-color !important;  // Subtle border instead
-  overflow: hidden;
+  box-shadow: none !important;
+  border: none !important;  // No border on widget container — individual cards have their own
+  overflow: visible;
   background-color: transparent !important;  // MW v2: transparent, body bg shows through
 }
 

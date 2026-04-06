@@ -36,7 +36,7 @@ class DashboardQuickStatsWidget extends Widget
                 'value' => $stats['emails'],
                 'icon' => 'heroicon-o-envelope',
                 'color' => 'blue',
-                'url' => url(mw_admin_prefix_url() . '/contact-form'),
+                'url' => url(mw_admin_prefix_url()),
             ],
             [
                 'label' => 'Last comments',
