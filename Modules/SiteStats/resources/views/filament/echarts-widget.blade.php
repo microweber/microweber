@@ -12,6 +12,7 @@
             onlineCount: {{ $this->getOnlineCount() }},
             chart: null,
             loading: false,
+            expanded: false,
 
             init() {
                 this.$nextTick(() => {
@@ -23,6 +24,45 @@
 
             renderChart() {
                 if (!this.chart || !this.chartData) return;
+
+                const series = [{
+                    name: 'Visitors',
+                    type: 'line',
+                    data: this.chartData.visitors,
+                    smooth: true,
+                    symbol: 'none',
+                    lineStyle: { width: 2, color: '#4299e1' },
+                    areaStyle: {
+                        color: {
+                            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: 'rgba(66, 153, 225, 0.25)' },
+                                { offset: 1, color: 'rgba(66, 153, 225, 0.02)' }
+                            ]
+                        }
+                    }
+                }];
+
+                if (this.expanded && this.chartData.bounced) {
+                    series.push({
+                        name: 'Bounced',
+                        type: 'line',
+                        data: this.chartData.bounced,
+                        smooth: true,
+                        symbol: 'none',
+                        lineStyle: { width: 2, color: '#f56565', type: 'dashed' },
+                        areaStyle: {
+                            color: {
+                                type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: 'rgba(245, 101, 101, 0.15)' },
+                                    { offset: 1, color: 'rgba(245, 101, 101, 0.02)' }
+                                ]
+                            }
+                        }
+                    });
+                }
+
                 this.chart.setOption({
                     tooltip: {
                         trigger: 'axis',
@@ -32,39 +72,38 @@
                         textStyle: { color: '#182433', fontSize: 12 },
                         axisPointer: { type: 'line', lineStyle: { color: '#4299e1', width: 1 } }
                     },
-                    grid: { left: 0, right: 0, top: 10, bottom: 30, containLabel: false },
+                    legend: this.expanded ? {
+                        show: true,
+                        bottom: 0,
+                        textStyle: { color: '#4a5568', fontSize: 12 }
+                    } : { show: false },
+                    grid: { left: this.expanded ? 50 : 0, right: 10, top: 10, bottom: this.expanded ? 40 : 30, containLabel: false },
                     xAxis: {
                         type: 'category',
                         data: this.chartData.labels,
                         boundaryGap: false,
-                        axisLine: { show: false },
+                        axisLine: { show: this.expanded },
                         axisTick: { show: false },
-                        axisLabel: { show: false }
+                        axisLabel: { show: this.expanded, color: '#4a5568', fontSize: 11 }
                     },
                     yAxis: {
                         type: 'value',
                         splitLine: { lineStyle: { color: '#e0e0e0', type: 'solid' } },
                         axisLine: { show: false },
                         axisTick: { show: false },
-                        axisLabel: { show: false }
+                        axisLabel: { show: this.expanded, color: '#4a5568', fontSize: 11 }
                     },
-                    series: [{
-                        name: this.chartData.title,
-                        type: 'line',
-                        data: this.chartData.visitors,
-                        smooth: true,
-                        symbol: 'none',
-                        lineStyle: { width: 2, color: '#4299e1' },
-                        areaStyle: {
-                            color: {
-                                type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-                                colorStops: [
-                                    { offset: 0, color: 'rgba(66, 153, 225, 0.25)' },
-                                    { offset: 1, color: 'rgba(66, 153, 225, 0.02)' }
-                                ]
-                            }
-                        }
-                    }]
+                    series: series
+                }, true);
+            },
+
+            toggleExpanded() {
+                this.expanded = !this.expanded;
+                this.$nextTick(() => {
+                    const height = this.expanded ? 320 : 200;
+                    this.$refs.chartContainer.style.height = height + 'px';
+                    this.chart?.resize();
+                    this.renderChart();
                 });
             },
 
@@ -112,7 +151,7 @@
         </div>
 
         {{-- Chart area --}}
-        <div x-ref="chartContainer" style="width: 100%; height: 200px;"></div>
+        <div x-ref="chartContainer" style="width: 100%; height: 200px; transition: height 0.3s ease;"></div>
 
         {{-- Loading overlay --}}
         <div x-show="loading" x-cloak class="mw-stats-card-loading" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.6); z-index: 10;">
@@ -130,9 +169,13 @@
                     <x-filament::icon icon="heroicon-o-arrow-uturn-left" class="mw-stats-card-footer-icon" />
                     <span x-text="chartData.bouncePercent + '%'"></span>
                 </div>
+                <div class="mw-stats-card-footer-stat" x-show="expanded" title="Bounced sessions" x-cloak>
+                    <x-filament::icon icon="heroicon-o-x-circle" class="mw-stats-card-footer-icon" />
+                    <span x-text="Number(chartData.totalBounced).toLocaleString()"></span>
+                </div>
             </div>
             <div class="mw-stats-card-footer-right">
-                <span class="mw-stats-card-show-more">Show more</span>
+                <span class="mw-stats-card-show-more" @click="toggleExpanded()" x-text="expanded ? 'Show less' : 'Show more'"></span>
             </div>
         </div>
     </div>
