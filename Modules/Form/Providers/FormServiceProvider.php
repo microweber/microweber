@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CustomField\FieldsManager;
 use Modules\Form\FormsManager;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Form\Filament\Resources\FormEntryResource;
 
 class FormServiceProvider extends BaseModuleServiceProvider
 {
@@ -56,6 +58,8 @@ class FormServiceProvider extends BaseModuleServiceProvider
         });
 
         Validator::extendImplicit('valid_image', \Modules\Form\Validators\ImageValidator::class.'@validate', 'Invalid image file');
+
+        FilamentRegistry::registerResource(FormEntryResource::class);
 
 
     }
