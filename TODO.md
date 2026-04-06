@@ -47,8 +47,10 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  sidebar isi sntill not the same design as the old version, evalue and fix
 - [x] 2026-04-06  migrate the sidebar design to match MW v2
 
-- [ ] on the pages posting product lists on the bottom the paging selector is not okay
+- [x] 2026-04-06  on the pages posting product lists on the bottom the paging selector is not okay
 
-- [ ] on the page post product list table made the title of the page bigger
+- [x] 2026-04-06  on the page post product list table made the title of the page bigger
 
-- [ ] in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
+- [x] 2026-04-06  in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
+
+- [ ] also work on the dashboard we want the cards to not have white background on the container and see the old dashboard we want the same

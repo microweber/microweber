@@ -249,6 +249,7 @@ svg[wire\:loading\.remove] {
 // Remove Filament's default 16px gap between sidebar items
 .fi-sidebar-group-items {
   gap: 0px !important;
+  padding-top: 0 !important;  // Remove gap between group header and first sub-item
 }
 
 .fi-sidebar-item {
@@ -267,7 +268,7 @@ svg[wire\:loading\.remove] {
 
   // Item labels — default to sub-item style: 14px/400 (MW v2 exact dropdown-item)
   .fi-sidebar-item-label {
-    color: $mw-text-primary !important;
+    color: $mw-text-secondary !important;  // Sub-items: softer secondary color
     font-weight: 400 !important;  // MW v2 sub-item: 400
     font-size: 14px !important;  // MW v2 sub-item: 14px
     line-height: 20px !important;  // MW v2 exact: 20px
@@ -285,8 +286,9 @@ svg[wire\:loading\.remove] {
     margin-right: 16px !important;  // MW v2 exact: 16px
   }
 
-  // When item HAS an icon, it's a top-level item — override to 16px/15px padding
+  // When item HAS an icon, it's a top-level item — override to primary color & 16px
   .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
+    color: $mw-text-primary !important;  // Top-level: dark primary color
     font-size: 16px !important;  // MW v2 top-level: 16px
     line-height: 22.86px !important;  // MW v2 exact: 22.8571px
   }
@@ -1058,7 +1060,7 @@ svg[wire\:loading\.remove] {
 .fi-header-heading {
   color: $mw-text-primary !important;
   font-weight: 700 !important;
-  font-size: 1.5rem !important;  // 24px — matches MW v2 exact
+  font-size: 1.75rem !important;  // 28px — prominent page title
   letter-spacing: normal !important;  // MW v2 exact: normal (was -0.01em)
   margin-bottom: 0 !important;  // MW v2: 0 margin-bottom (flex layout)
 }
@@ -1433,6 +1435,21 @@ svg[wire\:loading\.remove] {
 .fi-pagination-item-active {
   background-color: #182433 !important;
   color: #ffffff !important;
+}
+
+// Per-page select — MW v2 style dropdown
+.fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+  background-color: $mw-bg-sidebar !important;
+  border: 1px solid $mw-border-color !important;
+  border-radius: $mw-radius-sm !important;
+}
+
+.fi-ta-ctn .fi-select-input {
+  appearance: auto !important;  // Restore native dropdown arrow
+  cursor: pointer !important;
+  padding: 6px 8px !important;
+  font-size: 13px !important;
+  min-width: 60px !important;
 }
 
 // ============================================================================
