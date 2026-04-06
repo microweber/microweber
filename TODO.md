@@ -107,7 +107,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  all tables the items checkboxes are not aligned with the main checkbox on for example check the order table in the customer's table please fix the items checkboxes
 
-- [ ] on the order table and all the taps the active tap must have white background because right now I don't understand the actual tap use the variables check me in the CSS
+- [x] 2026-04-06  on the order table and all the taps the active tap must have white background because right now I don't understand the actual tap use the variables check me in the CSS
 
 - [ ] although all tavles table the new status must be with green label now it doesn't have green
 

@@ -1100,13 +1100,13 @@ svg[wire\:loading\.remove] {
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
 // Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item)
 .fi-tabs .fi-tabs-item {
-  border-radius: 0 !important;
+  border-radius: $mw-radius-sm !important;
   font-weight: 500 !important;  // MW v2 inactive: 500
   font-size: 14px !important;  // MW v2 exact: 14px
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
-  padding: 10px 0 !important;  // MW v2: ~45px height
-  margin-right: 24px !important;  // MW v2: spacing between tabs
-  border-bottom: 2px solid transparent !important;
+  padding: 8px 14px !important;
+  margin-right: 4px !important;
+  border-bottom: none !important;
   margin-bottom: 0 !important;
   background-color: transparent !important;
 
@@ -1118,14 +1118,14 @@ svg[wire\:loading\.remove] {
 
   &:hover {
     color: $mw-text-primary !important;
-    background-color: transparent !important;
-    border-bottom-color: $mw-border-color !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
   }
 
   &.fi-active {
     color: $mw-text-primary !important;
     font-weight: 600 !important;  // MW v2 active: 600
-    border-bottom-color: $mw-text-primary !important;  // MW v2: 2px solid dark underline
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
 
     .fi-tabs-item-label {
       font-weight: 600 !important;  // MW v2 active label: 600
@@ -2269,11 +2269,11 @@ html.dark {
   }
   .fi-tabs-item {
     color: #a0aec0 !important;
-    border-bottom-color: transparent !important;
 
     &.fi-active {
       color: #e2e8f0 !important;
-      border-bottom-color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     }
   }
 
