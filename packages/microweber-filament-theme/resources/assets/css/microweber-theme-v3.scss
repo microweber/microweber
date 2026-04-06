@@ -209,7 +209,7 @@ svg[wire\:loading\.remove] {
 
 .fi-sidebar-nav-groups {
   gap: 0px !important;
-  padding: 0 15px !important;  // MW v2 exact: 0 15px
+  padding: 16px 15px !important;  // MW v2: 16px top/bottom to match topbar padding
 
   // Override Filament's default divider (we handle it on .fi-sidebar-group)
   > * + * {

@@ -123,7 +123,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  all the modals must be in slide  right they create modals  in the customer or examine that was because right now they are not appearing very good in there must be slide right
 
-- [ ] on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border
+- [x] 2026-04-06  on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border
 
 - [ ] on the atcive tabs items everywhere put underline because now we don't have underline
 
@@ -132,3 +132,9 @@ Each page migration follows this cycle:
 - [ ] make filamentt unit test for the user section in admin
 
 - [ ] make fi,amnent dusk unit test for the settings pages
+
+- [ ] we must unify the padding some tabs and the headings of the cards for example on the create category the padding of the tops is different than the right section will patent patient category has a lie in there so we must have the same body in the same alignment so make a plan how to align everything
+
+- [ ] on the dashboard to stats the dates on the starting date and out of the screen so we must always see them they must be inside the widget
+
+- [ ] on the dashboard in the boxes with emails was customer sales and reason orders we have view button so remove that button because now we click on the card to go there
