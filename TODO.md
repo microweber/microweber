@@ -82,3 +82,5 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  now on the comment settings the header of the settings is doesn't have padding
 
 - [x] 2026-04-06  actually all the headers doesn't have padding please fix globally and check on your other pages
+
+- [x] 2026-04-06  on the sidebar pading switch have wrong padding on the main item
