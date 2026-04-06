@@ -22,9 +22,28 @@
                 });
             },
 
+            hasData() {
+                if (!this.chartData || !this.chartData.visitors) return false;
+                return this.chartData.visitors.some(v => v > 0);
+            },
+
             renderChart() {
                 if (!this.chart || !this.chartData) return;
 
+                const allZero = !this.hasData();
+                const noDataEl = this.$refs.noDataOverlay;
+                if (noDataEl) noDataEl.style.display = allZero ? 'flex' : 'none';
+
+                const visitorsGradient = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    { offset: 0, color: 'rgba(66, 153, 225, 0.25)' },
+                    { offset: 1, color: 'rgba(66, 153, 225, 0.02)' }
+                ]);
+                const bouncedGradient = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    { offset: 0, color: 'rgba(245, 101, 101, 0.15)' },
+                    { offset: 1, color: 'rgba(245, 101, 101, 0.02)' }
+                ]);
+
+                const showBounced = this.expanded && this.chartData.bounced;
                 const series = [{
                     name: 'Visitors',
                     type: 'line',
@@ -32,18 +51,10 @@
                     smooth: true,
                     symbol: 'none',
                     lineStyle: { width: 2, color: '#4299e1' },
-                    areaStyle: {
-                        color: {
-                            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-                            colorStops: [
-                                { offset: 0, color: 'rgba(66, 153, 225, 0.25)' },
-                                { offset: 1, color: 'rgba(66, 153, 225, 0.02)' }
-                            ]
-                        }
-                    }
+                    areaStyle: { color: visitorsGradient }
                 }];
 
-                if (this.expanded && this.chartData.bounced) {
+                if (showBounced) {
                     series.push({
                         name: 'Bounced',
                         type: 'line',
@@ -51,17 +62,11 @@
                         smooth: true,
                         symbol: 'none',
                         lineStyle: { width: 2, color: '#f56565', type: 'dashed' },
-                        areaStyle: {
-                            color: {
-                                type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-                                colorStops: [
-                                    { offset: 0, color: 'rgba(245, 101, 101, 0.15)' },
-                                    { offset: 1, color: 'rgba(245, 101, 101, 0.02)' }
-                                ]
-                            }
-                        }
+                        areaStyle: { color: bouncedGradient }
                     });
                 }
+
+                const yMax = allZero ? 10 : undefined;
 
                 this.chart.setOption({
                     tooltip: {
@@ -77,18 +82,33 @@
                         bottom: 0,
                         textStyle: { color: '#4a5568', fontSize: 12 }
                     } : { show: false },
-                    grid: { left: this.expanded ? 50 : 0, right: 10, top: 10, bottom: this.expanded ? 40 : 30, containLabel: false },
+                    grid: {
+                        left: this.expanded ? 50 : 10,
+                        right: 10,
+                        top: 10,
+                        bottom: this.expanded ? 40 : 30,
+                        containLabel: false
+                    },
                     xAxis: {
                         type: 'category',
                         data: this.chartData.labels,
                         boundaryGap: false,
-                        axisLine: { show: this.expanded },
+                        axisLine: { show: this.expanded, lineStyle: { color: '#e0e0e0' } },
                         axisTick: { show: false },
-                        axisLabel: { show: this.expanded, color: '#4a5568', fontSize: 11 }
+                        axisLabel: {
+                            show: true,
+                            color: '#a0aec0',
+                            fontSize: 10,
+                            interval: Math.max(0, Math.floor(this.chartData.labels.length / 6) - 1),
+                            rotate: 0
+                        }
                     },
                     yAxis: {
                         type: 'value',
-                        splitLine: { lineStyle: { color: '#e0e0e0', type: 'solid' } },
+                        min: 0,
+                        max: yMax,
+                        splitNumber: allZero ? 2 : undefined,
+                        splitLine: { lineStyle: { color: allZero ? '#f0f0f0' : '#e0e0e0', type: 'solid' } },
                         axisLine: { show: false },
                         axisTick: { show: false },
                         axisLabel: { show: this.expanded, color: '#4a5568', fontSize: 11 }
@@ -102,7 +122,10 @@
                 this.$nextTick(() => {
                     const height = this.expanded ? 320 : 200;
                     this.$refs.chartContainer.style.height = height + 'px';
-                    this.chart?.resize();
+                    if (this.chart) {
+                        this.chart.dispose();
+                        this.chart = echarts.init(this.$refs.chartContainer);
+                    }
                     this.renderChart();
                 });
             },
@@ -151,7 +174,12 @@
         </div>
 
         {{-- Chart area --}}
-        <div x-ref="chartContainer" style="width: 100%; height: 200px; transition: height 0.3s ease;"></div>
+        <div style="position: relative;">
+            <div x-ref="chartContainer" style="width: 100%; height: 200px; transition: height 0.3s ease;"></div>
+            <div x-ref="noDataOverlay" style="display: none; position: absolute; inset: 0; align-items: center; justify-content: center; pointer-events: none;">
+                <span style="color: #a0aec0; font-size: 13px; background: rgba(255,255,255,0.8); padding: 4px 12px; border-radius: 6px;">No visitor data for this period</span>
+            </div>
+        </div>
 
         {{-- Loading overlay --}}
         <div x-show="loading" x-cloak class="mw-stats-card-loading" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.6); z-index: 10;">

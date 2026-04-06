@@ -76,3 +76,5 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  on the dashboard on the show more the statistics of the old version are better please make the new version the same
 
 - [x] 2026-04-06  Work on the login page the logo is not ok
+
+- [x] 2026-04-06  work on the dashboard chart when I click daily weekly monthly the chart is so great and also when I click show more it's empty
