@@ -11,7 +11,9 @@ use Filament\Tables\Filters;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
-use Modules\Customer\Filament\CustomerResource\Pages\ManageCustomers;
+use Modules\Customer\Filament\CustomerResource\Pages\CreateCustomer;
+use Modules\Customer\Filament\CustomerResource\Pages\EditCustomer;
+use Modules\Customer\Filament\CustomerResource\Pages\ListCustomers;
 use Modules\Customer\Models\Customer;
 use Modules\Tag\Models\Tag;
 
@@ -246,7 +248,9 @@ Forms\Components\Select::make('company_id')
     public static function getPages(): array
     {
         return [
-            'index' => ManageCustomers::route('/'),
+            'index' => ListCustomers::route('/'),
+            'create' => CreateCustomer::route('/create'),
+            'edit' => EditCustomer::route('/{record}/edit'),
         ];
     }
 
@@ -297,9 +301,7 @@ Forms\Components\Select::make('company_id')
     {
         return [
             Action::make('edit')
-                ->url(static::getUrl('index', ['record' => $record->id, 'activeTab' => 'edit'])),
-            Action::make('view')
-                ->url(static::getUrl('index', ['record' => $record->id])),
+                ->url(static::getUrl('edit', ['record' => $record->id])),
         ];
     }
 }

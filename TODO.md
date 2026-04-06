@@ -89,7 +89,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  see the customers stable the paging element is of and have double arrows on the pair page item selector
 
-- [ ] on the create customer model make it a new screen because now the model is feeling the whole page so we want on the new page
+- [x] 2026-04-06  on the create customer model make it a new screen because now the model is feeling the whole page so we want on the new page
 
 - [ ] on the category page fixed the table the three it has wrong padding on the check box in the open element
 
