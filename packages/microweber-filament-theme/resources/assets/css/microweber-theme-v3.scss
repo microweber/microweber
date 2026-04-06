@@ -1094,7 +1094,7 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-tabs {
   border-bottom: none !important;  // MW v2: no container border, tabs float above card
-  padding-left: 16px !important;  // MW v2: align tabs with card body content (16px padding)
+  padding-left: 10px !important;  // Align tab icons with section header icons
 }
 
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
