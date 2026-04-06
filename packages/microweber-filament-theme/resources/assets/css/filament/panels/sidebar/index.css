@@ -19,5 +19,5 @@
 }
 
 .fi-sidebar-nav-groups {
-    @apply mx-0 gap-y-0 divide-y divide-gray-950/5 dark:divide-white/5;
+    @apply mx-0 gap-y-0;
 }
