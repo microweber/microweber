@@ -71,6 +71,6 @@ Each page migration follows this cycle:
 
 - [ ] on up page screen on the menu Selecter app search and make it through the top 10 menus with expandable box
 
-- [ ] on the dashboard the card bottles are not very visible please fix them
+- [x] 2026-04-06  on the dashboard the card bottles are not very visible please fix them
 
 - [ ] on the dashboard on the show more the statistics of the old version are better please make the new version the same

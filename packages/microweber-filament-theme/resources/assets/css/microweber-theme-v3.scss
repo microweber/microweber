@@ -2397,9 +2397,9 @@ html.dark {
 }
 
 .mw-quick-stat-card {
-  background-color: transparent;
+  background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
-  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid $mw-border-color;
   display: flex;
   flex-direction: column;
@@ -2530,10 +2530,10 @@ html.dark {
 // ============================================================================
 .mw-stats-card {
   position: relative;
-  background-color: transparent;
+  background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
   border: 1px solid $mw-border-color;
-  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
