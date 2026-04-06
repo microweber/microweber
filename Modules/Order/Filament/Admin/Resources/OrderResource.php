@@ -375,6 +375,7 @@ public static function getNavigationBadgeTooltip(): ?string
                     ->grow(false)
                     ->badge()
                     ->color(fn (?string $state): string => match (strtolower((string) $state)) {
+                        'new' => 'success',
                         'pending' => 'warning',
                         'processing', 'shipped' => 'info',
                         'completed', 'delivered' => 'success',
@@ -382,6 +383,7 @@ public static function getNavigationBadgeTooltip(): ?string
                         default => 'gray',
                     })
                     ->icon(fn (?string $state): ?string => match (strtolower((string) $state)) {
+                        'new' => 'heroicon-m-sparkles',
                         'pending' => 'heroicon-m-clock',
                         'processing' => 'heroicon-m-arrow-path',
                         'shipped' => 'heroicon-m-truck',
