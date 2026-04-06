@@ -1,38 +1,40 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "permission": {
-    "*": "allow"
-  },
-  "mcp": {
+  "mcpServers": {
     "playwright": {
       "type": "local",
-      "command": [
-        "npx",
+      "command": "npx",
+      "args": [
         "-y",
         "@playwright/mcp@latest"
       ],
-      "enabled": true
+      "tools": [
+        "*"
+      ]
     },
     "sequential-thinking": {
       "type": "local",
-      "command": [
-        "npx",
+      "command": "npx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ],
-      "enabled": true
+      "tools": [
+        "*"
+      ]
     },
     "memory": {
       "type": "local",
-      "command": [
-        "npx",
+      "command": "npx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
-      "enabled": true,
-      "environment": {
+      "env": {
         "MEMORY_FILE_PATH": ".autodev/MEMORY.jsonl"
-      }
+      },
+      "tools": [
+        "*"
+      ]
     }
   }
 }
