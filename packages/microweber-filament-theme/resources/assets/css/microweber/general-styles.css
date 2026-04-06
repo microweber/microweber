@@ -992,7 +992,14 @@ select option,
 .fi-resource-list-records-page .fi-header,
 .fi-resource-create-record-page .fi-header,
 .fi-resource-edit-record-page .fi-header {
-    @apply sticky top-[60px]  py-[30px] z-[19]  !bg-white dark:!bg-gray-900;
+    @apply sticky top-[60px]  py-[30px] z-[19];
+    background-color: #f6f8fb !important;
+}
+
+.dark .fi-resource-list-records-page .fi-header,
+.dark .fi-resource-create-record-page .fi-header,
+.dark .fi-resource-edit-record-page .fi-header {
+    background-color: rgb(17, 24, 39) !important;
 }
 
 .fi-select-input {

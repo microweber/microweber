@@ -36,6 +36,7 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  fix: remove SCSS `!important` padding override on `.fi-main` and restore responsive side padding (lg:80px, md:48px, sm:16px) so content doesn't stretch edge-to-edge on wide screens
 - [x] 2026-04-06  fix: add max-width constraint (1440px) on `.fi-page > div` to cap content width on ultra-wide monitors while keeping it centered
 - [x] 2026-04-06  verify: test layout at 1920px, 1440px, 1024px, and 768px viewports — content should have proportional side spacing and never stretch beyond 1440px
+- [x] 2026-04-06  on fix the pages and post and proiduct header there is isme white backgound on it
 ## Done
 
 - [x] 2026-04-06  fix the side body cool fix the side by The Concourse on the ATMs and the super teams
@@ -45,3 +46,9 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  the sidebar has some double underlines please fix
 - [x] 2026-04-06  sidebar isi sntill not the same design as the old version, evalue and fix
 - [x] 2026-04-06  migrate the sidebar design to match MW v2
+
+- [ ] on the pages posting product lists on the bottom the paging selector is not okay
+
+- [ ] on the page post product list table made the title of the page bigger
+
+- [ ] in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
