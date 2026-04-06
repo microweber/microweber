@@ -220,12 +220,11 @@ svg[wire\:loading\.remove] {
 // Group labels — MW v2 style: looks like parent nav items, not tiny uppercase headers
 .fi-sidebar-group {
   padding: 0 !important;
-  border-top: 1px solid rgba(4, 32, 69, 0.10) !important;  // MW v2: subtle separator between sections
+  border-top: none !important;
   margin-top: 4px !important;
   padding-top: 4px !important;
 
   &:first-child {
-    border-top: none !important;  // No separator above first group
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
