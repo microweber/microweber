@@ -420,10 +420,10 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-wi {
   border-radius: $mw-radius-lg !important;
-  box-shadow: $mw-shadow-sm !important;
-  border: none !important;
+  box-shadow: none !important;  // MW v2: no shadow on widget containers
+  border: 1px solid $mw-border-color !important;  // Subtle border instead
   overflow: hidden;
-  background-color: $mw-bg-surface !important;
+  background-color: transparent !important;  // MW v2: transparent, body bg shows through
 }
 
 .fi-wi-stats-overview-stat {
@@ -2403,17 +2403,19 @@ html.dark {
 }
 
 .mw-quick-stat-card {
-  background-color: $mw-bg-surface;
+  background-color: transparent;
   border-radius: $mw-radius-lg;
-  box-shadow: $mw-shadow-sm;
+  box-shadow: none;
+  border: 1px solid $mw-border-color;
   display: flex;
   flex-direction: column;
   text-decoration: none !important;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease;
   overflow: hidden;
 
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+    border-color: darken($mw-border-color, 10%);
+    box-shadow: none;
     text-decoration: none !important;
   }
 }
@@ -2535,9 +2537,10 @@ html.dark {
 // ============================================================================
 .mw-stats-card {
   position: relative;
-  background-color: $mw-bg-surface;
+  background-color: transparent;
   border-radius: $mw-radius-lg;
-  box-shadow: $mw-shadow-sm;
+  border: 1px solid $mw-border-color;
+  box-shadow: none;
   overflow: hidden;
 }
 

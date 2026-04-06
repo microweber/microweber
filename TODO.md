@@ -53,4 +53,4 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
 
-- [ ] also work on the dashboard we want the cards to not have white background on the container and see the old dashboard we want the same
+- [x] 2026-04-06  also work on the dashboard we want the cards to not have white background on the container and see the old dashboard we want the same
