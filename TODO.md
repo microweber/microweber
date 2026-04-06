@@ -63,7 +63,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  the the pagigng controlls on all pages and add paging and limit seelctions on them issing
 
-- [ ] on the dashboard click on view comments the table is not ok see the Potent page stable
+- [x] 2026-04-06  on the dashboard click on view comments the table is not ok see the Potent page stable
 
 - [ ] the Welcome note on the dashboard is spliced to the cart it needs some padding
 

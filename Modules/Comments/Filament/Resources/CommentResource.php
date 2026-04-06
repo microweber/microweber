@@ -102,19 +102,19 @@ return parent::getEloquentQuery()
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['content']))
             ->columns([
                 Tables\Columns\TextColumn::make('comment_name')
-                    ->label('Name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('comment_email')
-                    ->label('Email')
-                    ->searchable(),
+                    ->label('Author')
+                    ->description(fn ($record) => $record->comment_email)
+                    ->searchable(['comment_name', 'comment_email']),
                 Tables\Columns\TextColumn::make('comment_body')
                     ->label('Comment')
-                    ->limit(50)
+                    ->limit(80)
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('content.title')
                     ->label('Content')
                     ->searchable()
-                    ->default('No post title'),
+                    ->default('—')
+                    ->toggleable(),
                 Tables\Columns\IconColumn::make('is_moderated')
                     ->label('Approved')
                     ->boolean(),
@@ -123,7 +123,7 @@ return parent::getEloquentQuery()
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
-                    ->dateTime()
+                    ->dateTime('M d, Y H:i')
                     ->sortable(),
             ])
             ->filters([
