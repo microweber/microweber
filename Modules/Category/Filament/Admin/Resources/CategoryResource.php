@@ -53,52 +53,6 @@ class CategoryResource extends Resource
         return [
             Group::make()
                 ->schema([
-                    Tabs::make('Category Details')
-                        ->contained()
-                        ->columnSpanFull()
-                        ->tabs([
-                            // General Tab
-                            Tabs\Tab::make('Category Details')
-                                ->icon('heroicon-o-folder')
-                                ->schema([
-                                    Forms\Components\Hidden::make('id')->default($id),
-                                    Forms\Components\Hidden::make('parent_id')->default(0),
-                                    Forms\Components\Hidden::make('rel_type'),
-                                    Forms\Components\Hidden::make('rel_id'),
-
-                                    Forms\Components\TextInput::make('title')
-                                        ->label('Title')
-                                        ->required(),
-
-                                    Forms\Components\Textarea::make('description')
-                                        ->label('Description'),
-                                ]),
-
-                            // SEO Tab
-                            Tabs\Tab::make('SEO')
-                                ->icon('heroicon-o-magnifying-glass')
-                                ->schema([
-                                    Forms\Components\TextInput::make('url')
-                                        ->label('Url'),
-                                    Forms\Components\TextInput::make('category_meta_title')
-                                        ->label('Meta Title'),
-                                    Forms\Components\Textarea::make('category_meta_description')
-                                        ->label('Meta Description'),
-                                ]),
-
-                            // Advanced Tab
-                            Tabs\Tab::make('Advanced')
-                                ->icon('heroicon-o-cog-6-tooth')
-                                ->schema([
-                                    MwMediaBrowser::make('mediaIds')
-                                        ->label('Category Images'),
-                                ]),
-                        ]),
-                ])
-                ->columnSpan(['lg' => 2]),
-
-            Group::make()
-                ->schema([
                     Forms\Components\Section::make('Parent Page or Category')
                         ->icon('heroicon-m-folder-open')
                         ->schema([
@@ -149,7 +103,53 @@ class CategoryResource extends Resource
                                 }),
                         ]),
                 ])
-                ->columnSpan(['lg' => 1]),
+                ->columnSpanFull(),
+
+            Group::make()
+                ->schema([
+                    Tabs::make('Category Details')
+                        ->contained()
+                        ->columnSpanFull()
+                        ->tabs([
+                            // General Tab
+                            Tabs\Tab::make('Category Details')
+                                ->icon('heroicon-o-folder')
+                                ->schema([
+                                    Forms\Components\Hidden::make('id')->default($id),
+                                    Forms\Components\Hidden::make('parent_id')->default(0),
+                                    Forms\Components\Hidden::make('rel_type'),
+                                    Forms\Components\Hidden::make('rel_id'),
+
+                                    Forms\Components\TextInput::make('title')
+                                        ->label('Title')
+                                        ->required(),
+
+                                    Forms\Components\Textarea::make('description')
+                                        ->label('Description'),
+                                ]),
+
+                            // SEO Tab
+                            Tabs\Tab::make('SEO')
+                                ->icon('heroicon-o-magnifying-glass')
+                                ->schema([
+                                    Forms\Components\TextInput::make('url')
+                                        ->label('Url'),
+                                    Forms\Components\TextInput::make('category_meta_title')
+                                        ->label('Meta Title'),
+                                    Forms\Components\Textarea::make('category_meta_description')
+                                        ->label('Meta Description'),
+                                ]),
+
+                            // Advanced Tab
+                            Tabs\Tab::make('Advanced')
+                                ->icon('heroicon-o-cog-6-tooth')
+                                ->schema([
+                                    MwMediaBrowser::make('mediaIds')
+                                        ->label('Category Images'),
+                                ]),
+                        ]),
+                ])
+                ->columnSpanFull(),
         ];
     }
 
@@ -162,7 +162,7 @@ class CategoryResource extends Resource
             $params['record'] = $record;
         }
 
-        return $schema->schema(static::formArray($params))->columns(3);
+        return $schema->schema(static::formArray($params))->columns(1);
     }
 
 

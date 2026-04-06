@@ -115,8 +115,12 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  the цреате customer currency drop down make it so we can create currency as now we don't have it
 
-- [ ] on the great category screen the true Spirit and Peter category level is in the comb make it to be above the search page or category not to be on column
+- [x] 2026-04-06  on the great category screen the true Spirit and Peter category level is in the comb make it to be above the search page or category not to be on column
 
-- [ ] on the great category the tops doesn't have the appropriate padding make sure all the tabs everywhere have the same padding in terms of the icon foreign page or category it's not aligned and also it has some padding is not okay
+- [x] 2026-04-06  on the great category the tops doesn't have the appropriate padding make sure all the tabs everywhere have the same padding in terms of the icon foreign page or category it's not aligned and also it has some padding is not okay
 
-- [ ] the major plot on create category here some gap and the icon is missing for the upload image
+- [x] 2026-04-06  the major plot on create category here some gap and the icon is missing for the upload image
+
+- [ ] all the modals must be in slide  right they create modals  in the customer or examine that was because right now they are not appearing very good in there must be slide right
+
+- [ ] on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border

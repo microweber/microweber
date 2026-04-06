@@ -59,6 +59,7 @@
 
                 }">
 
+                <x-heroicon-o-arrow-up-tray class="w-8 h-8 text-gray-400 mb-2" />
                 <span>
                     Select media file or <b class="text-yellow-500 font-bold">Upload</b>
                 </span>
