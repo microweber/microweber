@@ -1448,9 +1448,8 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-ta-ctn .fi-select-input {
-  appearance: auto !important;  // Restore native dropdown arrow
   cursor: pointer !important;
-  padding: 6px 8px !important;
+  padding: 6px 24px 6px 8px !important;  // Extra right padding for the chevron icon
   font-size: 13px !important;
   min-width: 60px !important;
 }

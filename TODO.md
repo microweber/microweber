@@ -87,7 +87,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  on the website in the shop section the icon have more pudging than the dartboard and the title fixed the padding on the menu on the sidebar
 
-- [ ] see the customers stable the paging element is of and have double arrows on the pair page item selector
+- [x] 2026-04-06  see the customers stable the paging element is of and have double arrows on the pair page item selector
 
 - [ ] on the create customer model make it a new screen because now the model is feeling the whole page so we want on the new page
 
@@ -110,3 +110,13 @@ Each page migration follows this cycle:
 - [ ] check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
 
 - [ ] check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
+
+- [ ] on the create customer the currency drop down Is Not Okay check all drop downs and there is label on the effective it's missing probably so it's not centered
+
+- [ ] all tables the items checkboxes are not aligned with the main checkbox on for example check the order table in the customer's table please fix the items checkboxes
+
+- [ ] on the order table and all the taps the active tap must have white background because right now I don't understand the actual tap use the variables check me in the CSS
+
+- [ ] although all tavles table the new status must be with green label now it doesn't have green
+
+- [ ] check the dark scheme and fix all the books in the dark cSS
