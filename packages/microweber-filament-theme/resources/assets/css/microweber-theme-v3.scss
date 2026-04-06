@@ -1042,12 +1042,12 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Page header container — reduce Filament's large padding/gap from --spacing * 8
 .fi-page-header-main-ctn {
-  padding-block: 8px !important;  // MW v2: tight padding around header area
+  padding-block: 16px !important;  // MW v2: comfortable padding around header area
   row-gap: 12px !important;  // MW v2: minimal gap between heading row and content
 }
 
 .fi-header {
-  margin: 24px 0 0 !important;  // MW v2 exact: page-header margin
+  margin: 16px 0 8px !important;  // MW v2: page-header margin with bottom spacing
   height: auto !important;
   min-height: 49px !important;  // MW v2 exact: ~49px page-header height
   display: flex !important;
