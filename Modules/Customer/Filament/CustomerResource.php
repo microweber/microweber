@@ -50,20 +50,21 @@ class CustomerResource extends Resource
                     ->email()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('active')
-                    ->required(),
+                    ->label('Active')
+                    ->required()
+                    ->inline(false),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'username')
                     ->preload()
                     ->reactive()
                     ->searchable()
                     ->required(),
-Forms\Components\Select::make('currency_id')
-->label('Currency')
-->options(collect(\Modules\Currency\Models\Currency::all())->pluck('name', 'id'))
-->searchable()
-->preload()
-->default('USD')
-->required(),
+                Forms\Components\Select::make('currency_id')
+                    ->label('Currency')
+                    ->relationship('currency', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 Forms\Components\Select::make('company_id')
 ->label('Company')
 ->relationship('company', 'name')

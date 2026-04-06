@@ -103,7 +103,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
 
-- [ ] on the create customer the currency drop down Is Not Okay check all drop downs and there is label on the effective it's missing probably so it's not centered
+- [x] 2026-04-06  on the create customer the currency drop down Is Not Okay check all drop downs and there is label on the effective it's missing probably so it's not centered
 
 - [ ] all tables the items checkboxes are not aligned with the main checkbox on for example check the order table in the customer's table please fix the items checkboxes
 
