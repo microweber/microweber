@@ -346,7 +346,15 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-main {
   background-color: transparent !important;  // MW v2: transparent, page bg shows through
-  padding: 10px 16px !important;  // MW v2 exact: 10px 16px
+  padding: 10px 5rem !important;  // Desktop: generous side padding to prevent stretching
+
+  @media (max-width: 1440px) {
+    padding: 10px 3rem !important;  // Mid-range screens: moderate padding
+  }
+
+  @media (max-width: 1024px) {
+    padding: 10px 1.5rem !important;  // Tablets: tighter padding
+  }
 }
 
 // Main content container — MW v2: transparent bg
@@ -358,7 +366,8 @@ svg[wire\:loading\.remove] {
 // Page body — MW v2: 24px vertical margin
 // ============================================================================
 .fi-page > div {
-  margin: 24px 0 !important;  // MW v2 exact: page body margin
+  margin: 24px auto !important;  // MW v2: centered with vertical margin
+  max-width: 1440px !important;  // Cap content width on ultra-wide screens
 }
 
 // Gap between sections/cards — MW v2: 24px

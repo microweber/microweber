@@ -25,7 +25,17 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  sidebar icons on the sub item aren ot the same color and sidebars with subintem fave messeg padding not aligned, pls fix
 - [x] 2026-04-06  ok but icon aligment on the items with subitmes is not the same as the itmes without suitmes
-- [ ] also work on the bashabrd and hte main contnaer spasnc see the odiginal site and make a plan to fix the conainter , see on the original we dont strech to the fill site, make a plan and populat rhe todo
+- [x] 2026-04-06  also work on the bashabrd and hte main contnaer spasnc see the odiginal site and make a plan to fix the conainter , see on the original we dont strech to the fill site, make a plan and populat rhe todo
+
+### Main container spacing plan
+
+**Problem:** At 1920px viewport, content stretches to 1617px with only 16px side padding — too wide, not matching MW v2.
+**Root cause:** SCSS `.fi-main { padding: 10px 16px !important; }` overrides the responsive padding in `global.css` (`lg:px-[5rem] md:px-[3rem] sm:px-[1rem]`).
+**Fix approach:** Replace the fixed SCSS padding with responsive padding that scales with viewport width, and add a max-width on the page content to cap stretching on ultra-wide screens.
+
+- [x] 2026-04-06  fix: remove SCSS `!important` padding override on `.fi-main` and restore responsive side padding (lg:80px, md:48px, sm:16px) so content doesn't stretch edge-to-edge on wide screens
+- [x] 2026-04-06  fix: add max-width constraint (1440px) on `.fi-page > div` to cap content width on ultra-wide monitors while keeping it centered
+- [x] 2026-04-06  verify: test layout at 1920px, 1440px, 1024px, and 768px viewports — content should have proportional side spacing and never stretch beyond 1440px
 ## Done
 
 - [x] 2026-04-06  fix the side body cool fix the side by The Concourse on the ATMs and the super teams
