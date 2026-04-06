@@ -84,3 +84,29 @@ Each page migration follows this cycle:
 - [x] 2026-04-06  actually all the headers doesn't have padding please fix globally and check on your other pages
 
 - [x] 2026-04-06  on the sidebar pading switch have wrong padding on the main item
+
+- [x] 2026-04-06  on the website in the shop section the icon have more pudging than the dartboard and the title fixed the padding on the menu on the sidebar
+
+- [ ] see the customers stable the paging element is of and have double arrows on the pair page item selector
+
+- [ ] on the create customer model make it a new screen because now the model is feeling the whole page so we want on the new page
+
+- [ ] on the category page fixed the table the three it has wrong padding on the check box in the open element
+
+- [ ] on the category page fixed the table the three it has wrong padding on the check box in the open element
+
+- [ ] in the category page on the at category icon we want to add label with text category
+
+- [ ] on all the tables all the tables check the paging on the bottom if there is the book with the double arrows in the paging one selector on the bottom is messed
+
+- [ ] on all the tables all the tables check the paging on the bottom if there is the book with the double arrows in the paging one selector on the bottom is messed
+
+- [ ] the dashboard when I click on emails it doesn't go to the emails page make it go to the emails model page where I can see the contact form emails
+
+- [ ] the dashboard when I click on emails it doesn't go to the emails page make it go to the emails model page where I can see the contact form emails
+
+- [ ] check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
+
+- [ ] check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
+
+- [ ] check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
