@@ -3,8 +3,8 @@
 namespace Modules\Currency\Filament\Admin\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -18,9 +18,9 @@ class ExchangeRateResource extends Resource
     protected static ?string $model = ExchangeRate::class;
     protected static ?string $recordTitleAttribute = 'from_currency';
 
-    protected static ?string $navigationIcon = null;
+    protected static string | \BackedEnum | null $navigationIcon = null;
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 11;
 
@@ -49,9 +49,9 @@ class ExchangeRateResource extends Resource
         return $details;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Exchange Rate Details')
                     ->description('Define the conversion rate between two currencies')
