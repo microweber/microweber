@@ -1126,6 +1126,7 @@ svg[wire\:loading\.remove] {
     font-weight: 600 !important;  // MW v2 active: 600
     background-color: #ffffff !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 2px solid $mw-text-primary !important;
 
     .fi-tabs-item-label {
       font-weight: 600 !important;  // MW v2 active label: 600
@@ -2274,6 +2275,7 @@ html.dark {
       color: #e2e8f0 !important;
       background-color: rgba(255, 255, 255, 0.08) !important;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      border-bottom: 2px solid #e2e8f0 !important;
     }
   }
 

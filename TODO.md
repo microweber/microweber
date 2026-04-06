@@ -125,7 +125,7 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border
 
-- [ ] on the atcive tabs items everywhere put underline because now we don't have underline
+- [x] 2026-04-06  on the atcive tabs items everywhere put underline because now we don't have underline
 
 - [ ] on the create category the eye cream must be aligned with the uploader box so that I can must be a little bit on the left on the padding and on the order tabs of course must be aligned with all the icons
 
