@@ -2288,6 +2288,28 @@ html.dark {
     border-bottom-color: #1e2330 !important;
   }
 
+  // Pagination text — visible in dark mode
+  .fi-pagination-overview {
+    color: #a0aec0 !important;
+  }
+
+  // Pagination active page — dark mode
+  .fi-pagination-item-active {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+  }
+
+  // Per-page select label
+  .fi-pagination {
+    color: #a0aec0 !important;
+  }
+
+  // Per-page select wrapper in table — dark bg
+  .fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+  }
+
   // Form labels in dark mode
   .fi-fo-field-wrp-label,
   .fi-fo-field-label {

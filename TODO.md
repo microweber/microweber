@@ -111,4 +111,4 @@ Each page migration follows this cycle:
 
 - [x] 2026-04-06  although all tavles table the new status must be with green label now it doesn't have green
 
-- [ ] check the dark scheme and fix all the books in the dark cSS
+- [x] 2026-04-06  check the dark scheme and fix all the books in the dark cSS
