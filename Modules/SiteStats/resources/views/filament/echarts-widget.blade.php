@@ -83,11 +83,11 @@
                         textStyle: { color: '#4a5568', fontSize: 12 }
                     } : { show: false },
                     grid: {
-                        left: this.expanded ? 50 : 10,
-                        right: 10,
+                        left: this.expanded ? 50 : 40,
+                        right: 40,
                         top: 10,
                         bottom: this.expanded ? 40 : 30,
-                        containLabel: false
+                        containLabel: true
                     },
                     xAxis: {
                         type: 'category',
