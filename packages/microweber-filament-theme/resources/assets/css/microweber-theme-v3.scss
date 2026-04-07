@@ -389,14 +389,15 @@ svg[wire\:loading\.remove] {
 .fi-section:not(.fi-aside) {
   border-radius: $mw-radius-lg !important;
   overflow: hidden;
-  box-shadow: none !important;  // MW v2: shadow is on .fi-section-content-ctn only, not the section itself
+  box-shadow: $mw-shadow-sm !important;  // shadow on the whole card so header+content are visually unified
+  background-color: $mw-bg-surface !important;
 }
 
 .fi-section-content-ctn {
   background-color: $mw-bg-surface !important;
   border: none !important;
-  border-radius: $mw-radius-lg !important;
-  box-shadow: $mw-shadow-sm !important;
+  border-radius: 0 0 $mw-radius-lg $mw-radius-lg !important;
+  box-shadow: none !important;  // removed — was rendering as a thin line below the section header
 }
 
 // Remove dark separator lines above/below section headers
