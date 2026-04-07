@@ -21,120 +21,122 @@ Each page migration follows this cycle:
 
 ## Todo
 
+### Filament admin full-page test plan
 
+> **Goal:** systematically visit every admin page in Filament, capture screenshots at desktop + mobile in light + dark mode, and check for HTTP 500s, JS console errors, and visual regressions vs MW v2.
+>
+> **Tooling:**
+> - HTTP smoke (no-500): extend `tests/Feature/Admin/AdminPagesNo500Test.php` to cover every route below.
+> - Visual + JS errors: Playwright via `mcp__playwright__browser_navigate` → `browser_console_messages` → `browser_take_screenshot` at 1440x900 and 390x844, toggling dark mode.
+> - Per page assert: (a) status 200/302, (b) no console errors, (c) screenshots saved under `screenshots/audit/<area>/<page>-{light,dark}-{desktop,mobile}.png`.
 
-- [x] 2026-04-06  sidebar icons on the sub item aren ot the same color and sidebars with subintem fave messeg padding not aligned, pls fix
-- [x] 2026-04-06  ok but icon aligment on the items with subitmes is not the same as the itmes without suitmes
-- [x] 2026-04-06  also work on the bashabrd and hte main contnaer spasnc see the odiginal site and make a plan to fix the conainter , see on the original we dont strech to the fill site, make a plan and populat rhe todo
+#### Phase 1 — Route inventory
+- [ ] enumerate every Filament page: `php artisan route:list --path=admin --json` and extract unique GET routes
+- [ ] group routes by area (dashboard, content, shop, users, settings, marketplace, modules) and write into `tests/fixtures/admin-pages.php`
+- [ ] for each Resource include: index, create, edit (with seeded record id), and any custom Pages
 
-### Main container spacing plan
+#### Phase 2 — HTTP smoke (no-500) test
+- [ ] extend `AdminPagesNo500Test` to iterate the fixture and assert 200/302 (never 5xx) for every authenticated GET
+- [ ] add per-area data providers so failures point at the exact route
+- [ ] run suite, fix any 500s, commit per area
 
-**Problem:** At 1920px viewport, content stretches to 1617px with only 16px side padding — too wide, not matching MW v2.
-**Root cause:** SCSS `.fi-main { padding: 10px 16px !important; }` overrides the responsive padding in `global.css` (`lg:px-[5rem] md:px-[3rem] sm:px-[1rem]`).
-**Fix approach:** Replace the fixed SCSS padding with responsive padding that scales with viewport width, and add a max-width on the page content to cap stretching on ultra-wide screens.
+#### Phase 3 — Console / JS error audit
+- [ ] write `scripts/audit-admin-console.mjs` that logs in, walks the fixture, and prints every `console.error` per page
+- [ ] triage and fix unique JS errors
 
-- [x] 2026-04-06  fix: remove SCSS `!important` padding override on `.fi-main` and restore responsive side padding (lg:80px, md:48px, sm:16px) so content doesn't stretch edge-to-edge on wide screens
-- [x] 2026-04-06  fix: add max-width constraint (1440px) on `.fi-page > div` to cap content width on ultra-wide monitors while keeping it centered
-- [x] 2026-04-06  verify: test layout at 1920px, 1440px, 1024px, and 768px viewports — content should have proportional side spacing and never stretch beyond 1440px
-- [x] 2026-04-06  on fix the pages and post and proiduct header there is isme white backgound on it
-## Done
+#### Phase 4 — Visual audit per area
+For each area: light desktop, dark desktop, light mobile, dark mobile screenshots; diff against MW v2 reference.
 
-- [x] 2026-04-06  fix the side body cool fix the side by The Concourse on the ATMs and the super teams
-- [x] 2026-04-06  remove the dashboard container shadow
-- [x] 2026-04-06  work on the main container seeing the main container on the original website there is padding on the left and the right which is responsive for making the same so we don't stretch the content on the fluid work on the container
+##### Dashboard
+- [ ] /admin — main dashboard
+- [ ] dashboard widgets daily/weekly/monthly chart states
+- [ ] notifications panel open
 
-- [x] 2026-04-06  the sidebar has some double underlines please fix
-- [x] 2026-04-06  sidebar isi sntill not the same design as the old version, evalue and fix
-- [x] 2026-04-06  migrate the sidebar design to match MW v2
+##### Content — Pages
+- [ ] /admin/pages (list)
+- [ ] /admin/pages/create
+- [ ] /admin/pages/{id}/edit — Content tab
+- [ ] /admin/pages/{id}/edit — Template tab
+- [ ] /admin/pages/{id}/edit — Custom Fields tab
+- [ ] /admin/pages/{id}/edit — SEO tab
+- [ ] /admin/pages/{id}/edit — Advanced tab
 
-- [x] 2026-04-06  on the pages posting product lists on the bottom the paging selector is not okay
+##### Content — Posts
+- [ ] /admin/posts (list)
+- [ ] /admin/posts/create (all tabs)
+- [ ] /admin/posts/{id}/edit (all tabs)
 
-- [x] 2026-04-06  on the page post product list table made the title of the page bigger
+##### Content — Categories
+- [ ] /admin/categories (list)
+- [ ] /admin/categories/create (all tabs)
+- [ ] /admin/categories/{id}/edit (all tabs)
 
-- [x] 2026-04-06  in the sidebar the padding of the items with suit items the first item padding is not okay and color is not okay
+##### Shop — Products
+- [ ] /admin/products (list)
+- [ ] /admin/products/create (Content, Product Details, Variants, Custom Fields, SEO, Advanced)
+- [ ] /admin/products/{id}/edit (all tabs)
 
-- [x] 2026-04-06  also work on the dashboard we want the cards to not have white background on the container and see the old dashboard we want the same
+##### Shop — Orders
+- [ ] /admin/orders (list, filter tabs: all/new/processing/completed/cancelled)
+- [ ] /admin/orders/create (all tabs)
+- [ ] /admin/orders/{id}/edit
+- [ ] /admin/orders/{id}/view (if exists)
 
-- [x] 2026-04-06  dashboard design is still not okay
+##### Shop — Categories
+- [ ] /admin/shop/categories (list, tree view)
+- [ ] /admin/shop/categories/create
+- [ ] /admin/shop/categories/{id}/edit
 
-- [x] 2026-04-06  on the dashboard when you click on the emails link it doesn't work
+##### Shop — Customers
+- [ ] /admin/customers (list)
+- [ ] /admin/customers/create
+- [ ] /admin/customers/{id}/edit
 
-- [x] 2026-04-06  dashboard remove the last 30 days link on the top because we already have statistics
+##### Users
+- [ ] /admin/users (list)
+- [ ] /admin/users/create
+- [ ] /admin/users/{id}/edit
+- [ ] /admin/users/roles (if exists)
 
-- [x] 2026-04-06  the the pagigng controlls on all pages and add paging and limit seelctions on them issing
+##### Settings
+- [ ] /admin/settings — General
+- [ ] /admin/settings — Website
+- [ ] /admin/settings — Email
+- [ ] /admin/settings — Shop / Payments
+- [ ] /admin/settings — Shipping
+- [ ] /admin/settings — Tax
+- [ ] /admin/settings — Comments
+- [ ] /admin/settings — Language / Multilanguage
+- [ ] /admin/settings — Social login
+- [ ] /admin/settings — SEO
+- [ ] /admin/settings — Cache
+- [ ] /admin/settings — Backup / restore
 
-- [x] 2026-04-06  on the dashboard click on view comments the table is not ok see the Potent page stable
+##### Marketplace
+- [ ] /admin/marketplace (index)
+- [ ] /admin/marketplace — templates
+- [ ] /admin/marketplace — modules
+- [ ] /admin/marketplace — install flow
 
-- [x] 2026-04-06  the Welcome note on the dashboard is spliced to the cart it needs some padding
+##### Modules
+- [ ] /admin/modules (list)
+- [ ] /admin/modules/{name}/admin (a couple of representative modules)
 
-- [x] 2026-04-06  on the sidebar there is from bottom border on the menus please remove it
+##### Auth / standalone
+- [ ] /admin/login (light + dark)
+- [ ] /admin/password/reset
+- [ ] 404 admin page
+- [ ] forced 500 admin error page
 
-- [x] 2026-04-06  on up page screen on the menu Selecter app search and make it through the top 10 menus with expandable box
+#### Phase 5 — Cross-cutting checks
+- [ ] table pagination controls (per-page selector, prev/next) on every list page
+- [ ] modal slide-right behaviour on every create/edit modal
+- [ ] tab underline + padding alignment on every tabbed form
+- [ ] dark mode color contrast pass on every page
+- [ ] mobile sidebar drawer open/close on every page
+- [ ] keyboard focus ring visible on every interactive element
 
-- [x] 2026-04-06  on the dashboard the card bottles are not very visible please fix them
-
-- [x] 2026-04-06  on the dashboard on the show more the statistics of the old version are better please make the new version the same
-
-- [x] 2026-04-06  Work on the login page the logo is not ok
-
-- [x] 2026-04-06  work on the dashboard chart when I click daily weekly monthly the chart is so great and also when I click show more it's empty
-
-- [x] 2026-04-06  now on the comment settings the header of the settings is doesn't have padding
-
-- [x] 2026-04-06  actually all the headers doesn't have padding please fix globally and check on your other pages
-
-- [x] 2026-04-06  on the sidebar pading switch have wrong padding on the main item
-
-- [x] 2026-04-06  on the website in the shop section the icon have more pudging than the dartboard and the title fixed the padding on the menu on the sidebar
-
-- [x] 2026-04-06  see the customers stable the paging element is of and have double arrows on the pair page item selector
-
-- [x] 2026-04-06  on the create customer model make it a new screen because now the model is feeling the whole page so we want on the new page
-
-- [x] 2026-04-06  on the category page fixed the table the three it has wrong padding on the check box in the open element
-
-- [x] 2026-04-06  in the category page on the at category icon we want to add label with text category
-
-- [x] 2026-04-06  on all the tables all the tables check the paging on the bottom if there is the book with the double arrows in the paging one selector on the bottom is messed
-
-- [x] 2026-04-06  the dashboard when I click on emails it doesn't go to the emails page make it go to the emails model page where I can see the contact form emails
-
-- [x] 2026-04-06  check if all the dashboard links are working and make disc test for them if they go to the correct place and there is no error 500
-
-- [x] 2026-04-06  check what disk tests we have and add simple test to check forever 500 on all the pages in admin and check out for js error
-
-- [x] 2026-04-06  on the create customer the currency drop down Is Not Okay check all drop downs and there is label on the effective it's missing probably so it's not centered
-
-- [x] 2026-04-06  all tables the items checkboxes are not aligned with the main checkbox on for example check the order table in the customer's table please fix the items checkboxes
-
-- [x] 2026-04-06  on the order table and all the taps the active tap must have white background because right now I don't understand the actual tap use the variables check me in the CSS
-
-- [x] 2026-04-06  although all tavles table the new status must be with green label now it doesn't have green
-
-- [x] 2026-04-06  check the dark scheme and fix all the books in the dark cSS
-
-- [x] 2026-04-06  the цреате customer currency drop down make it so we can create currency as now we don't have it
-
-- [x] 2026-04-06  on the great category screen the true Spirit and Peter category level is in the comb make it to be above the search page or category not to be on column
-
-- [x] 2026-04-06  on the great category the tops doesn't have the appropriate padding make sure all the tabs everywhere have the same padding in terms of the icon foreign page or category it's not aligned and also it has some padding is not okay
-
-- [x] 2026-04-06  the major plot on create category here some gap and the icon is missing for the upload image
-
-- [x] 2026-04-06  all the modals must be in slide  right they create modals  in the customer or examine that was because right now they are not appearing very good in there must be slide right
-
-- [x] 2026-04-06  on the sidebar the stating padding between the bottom the top of the on the top bar the padding must be the same on the total or in bottom now the dashboard padding is not the same between the add button and the border
-
-- [x] 2026-04-06  on the atcive tabs items everywhere put underline because now we don't have underline
-
-- [x] 2026-04-06  on the create category the eye cream must be aligned with the uploader box so that I can must be a little bit on the left on the padding and on the order tabs of course must be aligned with all the icons
-
-- [x] 2026-04-06  make filamentt unit test for the user section in admin
-
-- [x] 2026-04-06  make fi,amnent dusk unit test for the settings pages
-
-- [x] 2026-04-06  we must unify the padding some tabs and the headings of the cards for example on the create category the padding of the tops is different than the right section will patent patient category has a lie in there so we must have the same body in the same alignment so make a plan how to align everything
-
-- [x] 2026-04-06  on the dashboard to stats the dates on the starting date and out of the screen so we must always see them they must be inside the widget
-
-- [x] 2026-04-06  on the dashboard in the boxes with emails was customer sales and reason orders we have view button so remove that button because now we click on the card to go there
+#### Phase 6 — Triage + fix
+- [ ] open a TODO entry for each defect found, grouped by area
+- [ ] fix in order: 500s → JS errors → layout breaks → visual polish
+- [ ] re-run Phase 2 + Phase 3 to confirm green before closing

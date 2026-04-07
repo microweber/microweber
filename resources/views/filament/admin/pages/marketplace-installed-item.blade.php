@@ -1,5 +1,8 @@
 <x-filament-panels::page>
 
+    @if(empty($item))
+        <div class="text-gray-500">No item specified.</div>
+    @else
     <div>
 
         <div class="">
@@ -72,5 +75,6 @@
 
     </div>
     </div>
+    @endif
 
 </x-filament-panels::page>

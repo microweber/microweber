@@ -81,7 +81,9 @@ class ProductInventoryResource extends Resource
                         ->label('Product')
                         ->options(function () {
                             return Content::where('content_type', 'product')
+                                ->whereNotNull('title')
                                 ->pluck('title', 'id')
+                                ->map(fn ($title) => (string) $title)
                                 ->toArray();
                         })
                         ->searchable()
@@ -89,7 +91,12 @@ class ProductInventoryResource extends Resource
 
                     Select::make('variant_id')
                         ->label('Variant')
-                        ->relationship('variant', 'sku')
+                        ->relationship(
+                            'variant',
+                            'sku',
+                            fn ($query) => $query->whereNotNull('sku'),
+                        )
+                        ->getOptionLabelFromRecordUsing(fn ($record) => (string) ($record->sku ?? $record->id))
                         ->searchable()
                         ->preload()
                         ->nullable(),

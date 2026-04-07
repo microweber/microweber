@@ -100,8 +100,8 @@
                 <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                 <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>
                 <td data-label="<?php _e('Subscribed at'); ?>"><?php
-                    if ($subscriber['created_at'] > 0) {
-                       echo $subscriber['created_at'];
+                    if (!empty($subscriber['created_at'])) {
+                       echo (string) $subscriber['created_at'];
                     } else {
                         echo 'N/A';
                     }

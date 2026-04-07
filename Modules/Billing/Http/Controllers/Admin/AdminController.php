@@ -7,23 +7,27 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 
     public function index(Request $request)
     {
-        return view('modules.billing::admin.index');
+        return redirect('/admin/billing/billing-users');
     }
 
     public function users(Request $request)
     {
-        return view('modules.billing::admin.users');
+        // Legacy livewire view; redirect to Filament resource.
+        return redirect('/admin/billing/billing-users');
     }
 
 
     public function subscriptionPlans(Request $request)
     {
-        return view('modules.billing::admin.subscription-plans');
+        // Legacy livewire view; redirect to Filament resource.
+        return redirect('/admin/billing/subscription-plans');
     }
 
     public function subscriptionPlanGroups(Request $request)
     {
-        return view('modules.billing::admin.subscription-plan-groups');
+        // SubscriptionPlanGroups livewire view references an unimplemented component.
+        // Redirect to the Filament subscription-plan-groups resource which IS implemented.
+        return redirect('/admin/billing/subscription-plan-groups');
     }
 
     public function settings(Request $request)

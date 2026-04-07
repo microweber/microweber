@@ -29,7 +29,7 @@ class MarketplaceInstalledItem extends Page
             ];
         }
 
-        return [];
+        return ['item' => null];
     }
 
 
