@@ -1092,9 +1092,11 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Tabs — MW v2: underline style, 14px text
 // ============================================================================
-.fi-tabs {
+.fi-tabs,
+.fi-tabs.fi-contained {
   border-bottom: none !important;  // MW v2: no container border, tabs float above card
-  padding-left: 10px !important;  // Align tab icons with section header icons
+  padding-left: 34px !important;  // Aligns first tab icon with .fi-section-content (24px) inside the card
+  box-shadow: none !important;  // Remove the inset bottom-line shadow from Filament default
 }
 
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
@@ -1104,7 +1106,7 @@ svg[wire\:loading\.remove] {
   font-weight: 500 !important;  // MW v2 inactive: 500
   font-size: 14px !important;  // MW v2 exact: 14px
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
-  padding: 8px 14px !important;
+  padding: 10px 14px !important;  // 10px vertical matches .fi-sidebar-item-btn padding
   margin-right: 4px !important;
   border-bottom: none !important;
   margin-bottom: 0 !important;
@@ -1263,6 +1265,48 @@ svg[wire\:loading\.remove] {
   .fi-checkbox-list-option-label {
     font-size: 14px !important;
     color: $mw-text-primary !important;
+  }
+}
+
+// Pagination — MW v2: compact "Per page" selector
+// The global .fi-input-wrp { min-height: 44px } rule makes the per-page select too tall for inline pagination use.
+.fi-pagination {
+  padding: 8px 24px !important;
+
+  .fi-input-wrp {
+    min-height: 32px !important;
+  }
+
+  select.fi-select-input,
+  .fi-input-wrp .fi-select-input {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    padding-left: 10px !important;
+    padding-right: 28px !important;
+    font-size: 13px !important;
+    min-height: 32px !important;
+    line-height: 1.2 !important;
+  }
+}
+
+// Tree component (parent page/category picker) — visible radio/checkbox checked state
+// The form-check-input radios in mw--global-admin-tree have white background overriding the checked indicator.
+.mw--global-admin-tree {
+  input[type="radio"],
+  input[type="checkbox"] {
+    accent-color: $mw-accent !important;
+    cursor: pointer;
+  }
+
+  input[type="radio"]:checked {
+    background-color: $mw-accent !important;
+    border-color: $mw-accent !important;
+    background-image: radial-gradient(circle, #ffffff 30%, transparent 35%) !important;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: $mw-accent !important;
+    border-color: $mw-accent !important;
   }
 }
 
