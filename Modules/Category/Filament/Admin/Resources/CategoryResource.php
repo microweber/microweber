@@ -57,6 +57,7 @@ class CategoryResource extends Resource
                 MwTree::make('mw_parent_page_and_category_state')
                     ->columnSpanFull()
                     ->hiddenLabel()
+                    ->inlineLabel(false)
                     ->live()
                     ->extraFieldWrapperAttributes([
                         'class' => 'mw-tree-wrapper',

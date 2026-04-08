@@ -7,7 +7,7 @@
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
-    :has-inline-label="$hasInlineLabel"
+    :has-inline-label="false"
 >
     @php
         $suffix = '';
