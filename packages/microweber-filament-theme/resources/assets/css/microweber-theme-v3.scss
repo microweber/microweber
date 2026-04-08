@@ -1305,6 +1305,8 @@ svg[wire\:loading\.remove] {
     align-items: center !important;
     gap: 6px !important;
     line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .mw-tree-item-title svg { flex-shrink: 0; }
   tree-label.form-check {
