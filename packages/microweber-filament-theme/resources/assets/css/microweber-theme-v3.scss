@@ -1293,6 +1293,33 @@ svg[wire\:loading\.remove] {
 // Tree component (parent page/category picker) — visible radio/checkbox checked state
 // The form-check-input radios in mw--global-admin-tree have white background overriding the checked indicator.
 .mw--global-admin-tree {
+  // Align tree row contents (radio, expand arrow, icon, title) on a single baseline
+  li { line-height: 1.4 !important; }
+  .mw-tree-item-content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .mw-tree-item-title {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    line-height: 1.4 !important;
+  }
+  .mw-tree-item-title svg { flex-shrink: 0; }
+  tree-label.form-check {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+  tree-label.form-check input[type="radio"],
+  tree-label.form-check input[type="checkbox"] {
+    margin: 0 !important;
+    float: none !important;
+  }
+
   input[type="radio"],
   input[type="checkbox"] {
     accent-color: $mw-accent !important;
