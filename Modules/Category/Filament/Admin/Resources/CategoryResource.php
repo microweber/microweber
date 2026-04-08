@@ -50,6 +50,17 @@ class CategoryResource extends Resource
             $id = $record->id;
         }
 
+        // Allow preselecting parent via query string (?parent_page_id=X or ?parent_category_id=X)
+        if (!$selectedPage && empty($selectedCategories)) {
+            $parentPageId = request()->get('parent_page_id');
+            $parentCategoryId = request()->get('parent_category_id');
+            if ($parentPageId) {
+                $selectedPage = (int) $parentPageId;
+            } elseif ($parentCategoryId) {
+                $selectedCategories[] = (int) $parentCategoryId;
+            }
+        }
+
         $parentTreeSection = Forms\Components\Section::make('Parent page')
             ->icon('heroicon-m-folder-open')
             ->columns(1)
@@ -110,9 +121,12 @@ class CategoryResource extends Resource
                     ->icon('heroicon-o-folder')
                     ->schema([
                         Forms\Components\Hidden::make('id')->default($id),
-                        Forms\Components\Hidden::make('parent_id')->default(0),
-                        Forms\Components\Hidden::make('rel_type'),
-                        Forms\Components\Hidden::make('rel_id'),
+                        Forms\Components\Hidden::make('parent_id')
+                            ->default($selectedCategories[0] ?? 0),
+                        Forms\Components\Hidden::make('rel_type')
+                            ->default($selectedPage ? morph_name(Content::class) : null),
+                        Forms\Components\Hidden::make('rel_id')
+                            ->default($selectedPage ?: null),
 
                         Forms\Components\TextInput::make('title')
                             ->label('Title')
