@@ -50,106 +50,103 @@ class CategoryResource extends Resource
             $id = $record->id;
         }
 
+        $parentTreeSection = Forms\Components\Section::make('Parent page')
+            ->icon('heroicon-m-folder-open')
+            ->schema([
+                MwTree::make('mw_parent_page_and_category_state')
+                    ->live()
+                    ->extraFieldWrapperAttributes([
+                        'class' => 'mw-tree-wrapper',
+                    ])
+                    ->required(function (Forms\Get $get) {
+                        $required = true;
+                        if ($get('parent_id')) {
+                            $required = false;
+                        }
+                        if ($get('rel_id')) {
+                            $required = false;
+                        }
+                        return $required;
+                    })
+                    ->label('Choose Parent Page or Category')
+                    ->viewData([
+                        'singleSelect' => true,
+                        'selectedPage' => $selectedPage,
+                        'selectedCategories' => $selectedCategories,
+                    ])
+                    ->default([])
+                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                        if (!$state) {
+                            $set('parent_id', '');
+                            $set('rel_type', '');
+                            $set('rel_id', '');
+                        }
+                        if ($state) {
+                            foreach ($state as $item) {
+                                if (isset($item['type']) && $item['type'] === 'page') {
+                                    $set('rel_type', morph_name(Content::class));
+                                    $set('rel_id', $item['id']);
+                                    $set('parent_id', '');
+                                }
+                                if (isset($item['type']) && $item['type'] === 'category') {
+                                    $set('parent_id', $item['id']);
+                                    $set('rel_type', '');
+                                    $set('rel_id', '');
+                                }
+                            }
+                        }
+                    }),
+            ]);
+
+        $tabs = Tabs::make('Category Details')
+            ->contained()
+            ->columnSpanFull()
+            ->tabs([
+                Tabs\Tab::make('Category Details')
+                    ->icon('heroicon-o-folder')
+                    ->schema([
+                        Forms\Components\Hidden::make('id')->default($id),
+                        Forms\Components\Hidden::make('parent_id')->default(0),
+                        Forms\Components\Hidden::make('rel_type'),
+                        Forms\Components\Hidden::make('rel_id'),
+
+                        Forms\Components\TextInput::make('title')
+                            ->label('Title')
+                            ->required(),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description'),
+                    ]),
+
+                Tabs\Tab::make('SEO')
+                    ->icon('heroicon-o-magnifying-glass')
+                    ->schema([
+                        Forms\Components\TextInput::make('url')
+                            ->label('Url'),
+                        Forms\Components\TextInput::make('category_meta_title')
+                            ->label('Meta Title'),
+                        Forms\Components\Textarea::make('category_meta_description')
+                            ->label('Meta Description'),
+                    ]),
+
+                Tabs\Tab::make('Advanced')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->schema([
+                        MwMediaBrowser::make('mediaIds')
+                            ->label('Category Images'),
+                    ]),
+            ]);
+
         return [
-            Group::make()
-                ->schema([
-                    Forms\Components\Section::make('Parent Page or Category')
-                        ->icon('heroicon-m-folder-open')
-                        ->schema([
-                            MwTree::make('mw_parent_page_and_category_state')
-                                ->live()
-                                ->extraFieldWrapperAttributes([
-                                    'class' => 'mw-tree-wrapper',
-                                ])
-                                ->required(function (Forms\Get $get) {
-                                    $required = true;
+            Group::make([
+                Group::make()
+                    ->schema([$tabs])
+                    ->columnSpan(['lg' => 2]),
 
-                                    if ($get('parent_id')) {
-                                        $required = false;
-                                    }
-                                    if ($get('rel_id')) {
-                                        $required = false;
-                                    }
-
-                                    return $required;
-                                })
-                                ->label('Choose Parent Page or Category')
-                                ->viewData([
-                                    'singleSelect' => true,
-                                    'selectedPage' => $selectedPage,
-                                    'selectedCategories' => $selectedCategories,
-                                ])
-                                ->default([])
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-                                    if (!$state) {
-                                        $set('parent_id', '');
-                                        $set('rel_type', '');
-                                        $set('rel_id', '');
-                                    }
-                                    if ($state) {
-                                        foreach ($state as $item) {
-                                            if (isset($item['type']) && $item['type'] === 'page') {
-                                                $set('rel_type', morph_name(Content::class));
-                                                $set('rel_id', $item['id']);
-                                                $set('parent_id', '');
-                                            }
-                                            if (isset($item['type']) && $item['type'] === 'category') {
-                                                $set('parent_id', $item['id']);
-                                                $set('rel_type', '');
-                                                $set('rel_id', '');
-                                            }
-                                        }
-                                    }
-                                }),
-                        ]),
-                ])
-                ->columnSpanFull(),
-
-            Group::make()
-                ->schema([
-                    Tabs::make('Category Details')
-                        ->contained()
-                        ->columnSpanFull()
-                        ->tabs([
-                            // General Tab
-                            Tabs\Tab::make('Category Details')
-                                ->icon('heroicon-o-folder')
-                                ->schema([
-                                    Forms\Components\Hidden::make('id')->default($id),
-                                    Forms\Components\Hidden::make('parent_id')->default(0),
-                                    Forms\Components\Hidden::make('rel_type'),
-                                    Forms\Components\Hidden::make('rel_id'),
-
-                                    Forms\Components\TextInput::make('title')
-                                        ->label('Title')
-                                        ->required(),
-
-                                    Forms\Components\Textarea::make('description')
-                                        ->label('Description'),
-                                ]),
-
-                            // SEO Tab
-                            Tabs\Tab::make('SEO')
-                                ->icon('heroicon-o-magnifying-glass')
-                                ->schema([
-                                    Forms\Components\TextInput::make('url')
-                                        ->label('Url'),
-                                    Forms\Components\TextInput::make('category_meta_title')
-                                        ->label('Meta Title'),
-                                    Forms\Components\Textarea::make('category_meta_description')
-                                        ->label('Meta Description'),
-                                ]),
-
-                            // Advanced Tab
-                            Tabs\Tab::make('Advanced')
-                                ->icon('heroicon-o-cog-6-tooth')
-                                ->schema([
-                                    MwMediaBrowser::make('mediaIds')
-                                        ->label('Category Images'),
-                                ]),
-                        ]),
-                ])
-                ->columnSpanFull(),
+                Group::make()
+                    ->schema([$parentTreeSection])
+                    ->columnSpan(['lg' => 1]),
+            ])->columns(3)->columnSpanFull(),
         ];
     }
 
@@ -162,7 +159,7 @@ class CategoryResource extends Resource
             $params['record'] = $record;
         }
 
-        return $schema->schema(static::formArray($params))->columns(1);
+        return $schema->schema(static::formArray($params))->columns(3);
     }
 
 

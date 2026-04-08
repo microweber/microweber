@@ -28,13 +28,18 @@ class CreateCategory extends CreateRecord
     }
     protected function getHeaderActions(): array
     {
-        $actions = [];
+        return [
+            Actions\Action::make('saveCategory')
+                ->action('create')
+                ->icon('heroicon-o-check-circle')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
+        ];
+    }
 
-        $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-        if ($isMultilanguageEnabled) {
-            // $actions[] = Actions\LocaleSwitcher::make();
-        }
-
-        return $actions;
+    protected function getFormActions(): array
+    {
+        return [];
     }
 }

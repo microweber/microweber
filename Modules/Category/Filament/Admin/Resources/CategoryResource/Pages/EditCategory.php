@@ -5,6 +5,7 @@ namespace Modules\Category\Filament\Admin\Resources\CategoryResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Filament\Actions\DeleteActionOnlyIcon;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Category\Filament\Admin\Resources\CategoryResource;
 
@@ -26,15 +27,25 @@ class EditCategory extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        $actions = [];
+        return [
+            DeleteActionOnlyIcon::make()
+                ->label('Delete')
+                ->icon('heroicon-o-trash')
+                ->size('xl')
+                ->onlyIconAndTooltip()
+                ->outlined(),
 
-        $actions[] = Actions\DeleteAction::make();
+            Actions\Action::make('saveCategory')
+                ->action('save')
+                ->icon('heroicon-o-check-circle')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
+        ];
+    }
 
-        $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-        if ($isMultilanguageEnabled) {
-            // $actions[] = Actions\LocaleSwitcher::make();
-        }
-
-        return $actions;
+    protected function getFormActions(): array
+    {
+        return [];
     }
 }
