@@ -52,8 +52,11 @@ class CategoryResource extends Resource
 
         $parentTreeSection = Forms\Components\Section::make('Parent page')
             ->icon('heroicon-m-folder-open')
+            ->columns(1)
             ->schema([
                 MwTree::make('mw_parent_page_and_category_state')
+                    ->columnSpanFull()
+                    ->hiddenLabel()
                     ->live()
                     ->extraFieldWrapperAttributes([
                         'class' => 'mw-tree-wrapper',
