@@ -351,14 +351,14 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-main {
   background-color: transparent !important;  // MW v2: transparent, page bg shows through
-  padding: 10px 5rem !important;  // Desktop: generous side padding to prevent stretching
+  padding: 64px 5rem 0 !important;  // Desktop: align breadcrumbs with Website sidebar item
 
   @media (max-width: 1440px) {
-    padding: 10px 3rem !important;  // Mid-range screens: moderate padding
+    padding: 64px 3rem 0 !important;  // Mid-range screens: moderate padding
   }
 
   @media (max-width: 1024px) {
-    padding: 10px 1.5rem !important;  // Tablets: tighter padding
+    padding: 64px 1.5rem 0 !important;  // Tablets: tighter padding
   }
 }
 
@@ -371,7 +371,7 @@ svg[wire\:loading\.remove] {
 // Page body — MW v2: 24px vertical margin
 // ============================================================================
 .fi-page > div {
-  margin: 24px auto !important;  // MW v2: centered with vertical margin
+  margin: 0 auto 24px !important;  // MW v2: centered, no top margin (header handles spacing)
   max-width: 1440px !important;  // Cap content width on ultra-wide screens
 }
 
@@ -1048,12 +1048,12 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Page header container — reduce Filament's large padding/gap from --spacing * 8
 .fi-page-header-main-ctn {
-  padding-block: 16px !important;  // MW v2: comfortable padding around header area
+  padding-block: 8px !important;  // MW v2: comfortable padding around header area
   row-gap: 12px !important;  // MW v2: minimal gap between heading row and content
 }
 
 .fi-header {
-  margin: 16px 0 8px !important;  // MW v2: page-header margin with bottom spacing
+  margin: 0 0 8px !important;  // MW v2: page-header margin with bottom spacing
   height: auto !important;
   min-height: 49px !important;  // MW v2 exact: ~49px page-header height
   display: flex !important;
@@ -1725,6 +1725,14 @@ svg[wire\:loading\.remove] {
   gap: 12px !important;
   max-width: 320px !important;
   margin: 0 auto !important;
+}
+
+// Give standalone tables (not wrapped in fi-section) a white card background
+.fi-resource-list-records-page .fi-ta {
+  background-color: $mw-bg-surface !important;
+  border-radius: $mw-radius-lg !important;
+  box-shadow: $mw-shadow-sm !important;
+  overflow: hidden;
 }
 
 .fi-ta-empty-state-icon-bg {
@@ -3829,6 +3837,66 @@ html.dark {
     height: 16px;
     cursor: pointer;
     accent-color: $mw-accent;
+  }
+}
+
+// 3-dot menu on media items (grid + list)
+.mw-media-item-menu {
+  position: relative;
+  display: inline-block;
+
+  .mw-media-grid-item & {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+  .mw-media-grid-item:hover & { opacity: 1; }
+}
+.mw-media-item-menu-btn {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid $mw-border-color;
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $mw-text-secondary;
+  &:hover { background: #fff; color: $mw-text-primary; }
+}
+.mw-media-item-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 50;
+  min-width: 170px;
+  background: #fff;
+  border: 1px solid $mw-border-color;
+  border-radius: $mw-radius-md;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+
+  button, a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: transparent;
+    border: 0;
+    color: $mw-text-primary;
+    font-size: 13px;
+    text-align: left;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover { background: $mw-bg-muted; }
+    &.text-danger { color: #d63939; }
   }
 }
 

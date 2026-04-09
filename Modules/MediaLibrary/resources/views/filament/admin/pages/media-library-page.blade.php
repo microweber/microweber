@@ -447,6 +447,27 @@
                                 <div class="mw-media-grid-label">
                                     {{ Str::limit($item->title ?: basename($item->filename), 24) }}
                                 </div>
+
+                                {{-- 3-dot menu --}}
+                                <div class="mw-media-item-menu" x-data="{ open: false }" wire:click.stop>
+                                    <button @click.stop="open = !open" class="mw-media-item-menu-btn" type="button">
+                                        <x-heroicon-m-ellipsis-vertical class="w-4 h-4" />
+                                    </button>
+                                    <div x-show="open" @click.away="open = false" x-cloak class="mw-media-item-menu-dropdown">
+                                        <button type="button" @click="navigator.clipboard.writeText('{{ $item->filename }}'); open = false; $dispatch('notify', {type:'success', message:'URL copied'})">
+                                            <x-heroicon-m-clipboard-document class="w-4 h-4" /> Copy URL
+                                        </button>
+                                        <a href="{{ $item->filename }}" target="_blank" @click="open = false">
+                                            <x-heroicon-m-arrow-top-right-on-square class="w-4 h-4" /> Open in new tab
+                                        </a>
+                                        <button type="button" wire:click.stop="selectMedia({{ $item->id }})" @click="open = false">
+                                            <x-heroicon-m-pencil class="w-4 h-4" /> Edit
+                                        </button>
+                                        <button type="button" wire:click.stop="deleteMedia({{ $item->id }})" wire:confirm="Delete this media item?" @click="open = false" class="text-danger">
+                                            <x-heroicon-m-trash class="w-4 h-4" /> Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -463,6 +484,7 @@
                                     <th>Type</th>
                                     <th>Size</th>
                                     <th>Date</th>
+                                    <th style="width:40px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -496,6 +518,27 @@
                                         <td><span class="mw-media-type-badge">{{ $item->media_type }}</span></td>
                                         <td>{{ $this->formatFileSize($item->file_size) }}</td>
                                         <td>{{ $item->created_at?->format('M d, Y') }}</td>
+                                        <td wire:click.stop>
+                                            <div class="mw-media-item-menu" x-data="{ open: false }">
+                                                <button @click.stop="open = !open" class="mw-media-item-menu-btn" type="button">
+                                                    <x-heroicon-m-ellipsis-vertical class="w-4 h-4" />
+                                                </button>
+                                                <div x-show="open" @click.away="open = false" x-cloak class="mw-media-item-menu-dropdown">
+                                                    <button type="button" @click="navigator.clipboard.writeText('{{ $item->filename }}'); open = false; $dispatch('notify', {type:'success', message:'URL copied'})">
+                                                        <x-heroicon-m-clipboard-document class="w-4 h-4" /> Copy URL
+                                                    </button>
+                                                    <a href="{{ $item->filename }}" target="_blank" @click="open = false">
+                                                        <x-heroicon-m-arrow-top-right-on-square class="w-4 h-4" /> Open in new tab
+                                                    </a>
+                                                    <button type="button" wire:click.stop="selectMedia({{ $item->id }})" @click="open = false">
+                                                        <x-heroicon-m-pencil class="w-4 h-4" /> Edit
+                                                    </button>
+                                                    <button type="button" wire:click.stop="deleteMedia({{ $item->id }})" wire:confirm="Delete this media item?" @click="open = false" class="text-danger">
+                                                        <x-heroicon-m-trash class="w-4 h-4" /> Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

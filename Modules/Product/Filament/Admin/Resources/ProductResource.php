@@ -38,6 +38,7 @@ class ProductResource extends ContentResource
     {
         return parent::table($table)
             ->headerActions([
+                Tables\Actions\ActionGroup::make([
                 \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
                     ->icon('heroicon-m-cloud-arrow-up')
                     ->importer(ProductImporter::class)
@@ -63,6 +64,7 @@ class ProductResource extends ContentResource
                         $url = route('filament.admin.product.export', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                         return redirect()->to($url);
                     }),
+                ])->icon('heroicon-o-cog-6-tooth')->tooltip('Settings')->color('gray')->button()->label(''),
                 Tables\Actions\CreateAction::make(),
             ])
             ->bulkActions([

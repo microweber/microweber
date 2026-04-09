@@ -558,7 +558,7 @@ mw.filePicker = function (options) {
                     mw.tools.loading(el, true);
                     var fr = mw
                         .top()
-                        .tools.moduleFrameRoute("filament.admin.media-library");
+                        .tools.moduleFrameRoute("filament.admin.pages.media-library");
                     $wrap.append(fr);
                     if (scope.settings._frameMaxHeight) {
                         fr.style.maxHeight = "60vh";

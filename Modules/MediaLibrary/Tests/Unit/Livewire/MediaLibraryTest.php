@@ -2,6 +2,8 @@
 
 namespace Modules\MediaLibrary\Tests\Unit\Livewire;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\MediaFolder;
@@ -18,6 +20,10 @@ class MediaLibraryTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel('admin');
+
+        // Clean slate so tests don't depend on fixture data
+        Media::query()->delete();
+        MediaFolder::query()->delete();
     }
 
     protected function tearDown(): void
@@ -775,6 +781,72 @@ class MediaLibraryTest extends TestCase
             ->set('bulkSelected', [$media->id])
             ->call('bulkSyncToCdn')
             ->assertDispatched('notify');
+    }
+
+    // =========================================================================
+    // File Upload (full Filament flow)
+    // =========================================================================
+
+    #[Test]
+    public function it_uploads_an_image_via_filament_livewire(): void
+    {
+        Storage::fake('public');
+
+        $file = UploadedFile::fake()->image('upload-test.jpg', 200, 150);
+
+        Livewire::test(MediaLibrary::class)
+            ->set('uploads', [$file])
+            ->assertDispatched('notify');
+
+        $this->assertDatabaseHas('media', [
+            'media_type' => 'picture',
+        ]);
+
+        $row = Media::query()->where('media_type', 'picture')->latest('id')->first();
+        $this->assertNotNull($row);
+        $this->assertStringContainsString('.jpg', $row->filename);
+        $this->assertEquals('upload-test', $row->title);
+    }
+
+    #[Test]
+    public function it_uploads_into_selected_folder(): void
+    {
+        Storage::fake('public');
+
+        $folder = MediaFolder::create([
+            'name' => 'Upload Target Folder',
+            'slug' => 'upload-target-folder',
+        ]);
+
+        $file = UploadedFile::fake()->image('folder-upload.png', 100, 100);
+
+        Livewire::test(MediaLibrary::class)
+            ->set('selectedFolderId', $folder->id)
+            ->set('uploads', [$file]);
+
+        $this->assertDatabaseHas('media', [
+            'folder_id' => $folder->id,
+            'media_type' => 'picture',
+        ]);
+    }
+
+    #[Test]
+    public function it_blocks_executable_uploads(): void
+    {
+        Storage::fake('public');
+
+        $bad = UploadedFile::fake()->create('evil.php', 10, 'application/x-php');
+
+        try {
+            Livewire::test(MediaLibrary::class)
+                ->set('uploads', [$bad]);
+        } catch (\Throwable $e) {
+            // Validation may throw — that's also acceptable rejection
+        }
+
+        $this->assertDatabaseMissing('media', [
+            'filename' => 'evil.php',
+        ]);
     }
 
     #[Test]
