@@ -30,7 +30,7 @@ class ProductVariantAttributeResource extends Resource
     protected static ?string $model = ProductVariantAttribute::class;
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string | \BackedEnum | null $navigationIcon = null;
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-swatch';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 

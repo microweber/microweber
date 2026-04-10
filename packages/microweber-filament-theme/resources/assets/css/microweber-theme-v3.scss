@@ -405,7 +405,7 @@ svg[wire\:loading\.remove] {
 // MW v2 cards have no header separator — heading is inline in card body
 .fi-section-header {
   border: none !important;  // MW v2: no borders at all (no top, bottom, or left accent line)
-  padding: 16px 24px 0 !important;  // MW v2: match card body horizontal padding (24px)
+  padding: 20px 28px 0 !important;  // MW v2: match card body horizontal padding
   border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
@@ -966,7 +966,7 @@ svg[wire\:loading\.remove] {
 
 // Modal body padding — consistent with card body
 .fi-modal-content .fi-section-content {
-  padding: 16px 24px !important;
+  padding: 20px 28px !important;
 }
 
 // Confirmation dialog — centered text, reasonable max-width
@@ -978,8 +978,8 @@ svg[wire\:loading\.remove] {
 // Card body padding — MW v2: 16px
 // ============================================================================
 .fi-section-content {
-  padding: 16px 24px !important;  // MW v2 exact card body padding (16px vertical, 24px horizontal)
-  gap: 16px !important;  // MW v2: tighter gap between form fields (was 24px Filament default)
+  padding: 20px 28px !important;  // Card body padding — generous spacing for readability
+  gap: 18px !important;  // Comfortable gap between form fields
 }
 
 // ============================================================================
