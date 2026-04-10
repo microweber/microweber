@@ -531,6 +531,12 @@ class FrontendController extends Controller
 
                 }
 
+                // Fallback: if no slug matched, try direct URL resolution
+                if (!$page && !$slug_post && !$slug_page) {
+                    $page = $this->app->content_manager->get_by_url($page_url);
+                    $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+                }
+
                 if ($slug_category) {
                     $cat = $this->app->category_manager->get_by_url($slug_category);
                     if ($cat) {
