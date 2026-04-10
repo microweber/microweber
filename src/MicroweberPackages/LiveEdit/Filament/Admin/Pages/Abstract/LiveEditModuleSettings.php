@@ -4,6 +4,9 @@ namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract;
 
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\EmbeddedSchema;
+use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -56,6 +59,13 @@ abstract class LiveEditModuleSettings extends Page
 
     protected string $view = 'filament-panels::components.layout.simple-form';
 
+    public function content(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Form::make([EmbeddedSchema::make('form')]),
+            ]);
+    }
 
     public function form(Schema $schema): Schema
     {

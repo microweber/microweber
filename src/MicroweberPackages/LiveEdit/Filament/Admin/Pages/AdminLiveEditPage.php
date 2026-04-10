@@ -160,42 +160,44 @@ class AdminLiveEditPage extends Page
                     $params = $data['params'];
 
                     if (isset($data['moduleSettingsComponent'])) {
-                        $exists = livewire_component_exists($data['moduleSettingsComponent']);
-                        if (!$exists) {
-                            $exists = class_exists($data['moduleSettingsComponent']);
-                            if ($exists) {
-                                $resourceClass = $data['moduleSettingsComponent'];
-                                if (method_exists($resourceClass, 'getUrl')) {
-                                    $url = $resourceClass::getUrl();
-                                    if ($url) {
-                                        return [
-                                            \Filament\Schemas\Components\View::make('microweber-live-edit::module-settings-iframe')
-                                                ->viewData([
-                                                    'iframeUrl' => $url,
-                                                    'resourceClass' => $resourceClass,
-                                                    'data' => $data,
-                                                    'params' => $params
-                                                ])
-                                        ];
-                                    }
-                                }
-                            }
-                        }
+                        $componentClass = $data['moduleSettingsComponent'];
+                        $exists = class_exists($componentClass);
+
                         if (!$exists) {
                             return [
                                 TextInput::make('error')
                                     ->label('Error')
                                     ->readOnly()
                                     ->default('Livewire or Filament Component not found: '
-                                        . $data['moduleSettingsComponent'])
+                                        . $componentClass)
                             ];
                         }
+
+                        // Check if the component is a Filament Page with a URL
+                        // If so, use an iframe to render it
+                        if (is_subclass_of($componentClass, \Filament\Pages\Page::class)
+                            && method_exists($componentClass, 'getUrl')) {
+                            $url = $componentClass::getUrl();
+                            if ($url) {
+                                return [
+                                    \Filament\Schemas\Components\View::make('microweber-live-edit::module-settings-iframe')
+                                        ->viewData([
+                                            'iframeUrl' => $url,
+                                            'resourceClass' => $componentClass,
+                                            'data' => $data,
+                                            'params' => $params
+                                        ])
+                                ];
+                            }
+                        }
+
+                        // For regular Livewire components, embed directly
                         $liveEditIframeData = [];
                         if (isset($data['liveEditIframeData']) and !empty($data['liveEditIframeData'])) {
                             $liveEditIframeData = $data['liveEditIframeData'];
                         }
                         return [
-                            Livewire::make($data['moduleSettingsComponent'],
+                            Livewire::make($componentClass,
                                 ['params' => $params, 'liveEditIframeData' => $liveEditIframeData])
                         ];
 
