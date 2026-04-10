@@ -242,3 +242,136 @@
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-control-live-edit-label-wrapper {
     @apply mx-0;
 }
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+    /* Dialog goes full-screen on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-dialog-holder {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        @apply !rounded-none;
+    }
+
+    /* Root layout — stack vertically on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-link-editor-root {
+        @apply !flex-col;
+        height: 100% !important;
+    }
+
+    /* Nav becomes horizontal scrollable tab bar */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+        padding: 12px 16px !important;
+        gap: 6px !important;
+        border-right: none !important;
+        border-bottom: 1px solid theme('colors.gray.200') !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .dark .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
+        border-right: none !important;
+        border-bottom-color: theme('colors.gray.700') !important;
+    }
+
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide "Choose from" label on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav > li:first-child .form-label {
+        @apply !hidden;
+    }
+
+    /* Nav items inline */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav > li {
+        @apply flex-shrink-0;
+    }
+
+    /* Nav links — compact pill style */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav .mw-admin-action-links {
+        @apply whitespace-nowrap px-3 py-1.5 text-xs;
+    }
+
+    /* Content area fills remaining space and scrolls */
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
+        @apply flex-1 overflow-y-auto;
+        padding: 16px !important;
+    }
+
+    /* Inner scroll area — adjust max-height for mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div:first-of-type {
+        max-height: none;
+        @apply overflow-visible;
+    }
+
+    /* Close button adjusted for mobile — sits above nav, right-aligned */
+    .mw_modal_live_edit_link_editor_settings .x-close-modal-link {
+        top: 8px !important;
+        right: 8px !important;
+        @apply bg-white dark:bg-gray-800 shadow-sm rounded-full z-30;
+    }
+
+    /* Give nav right padding so tabs don't go under X button */
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
+        padding-right: 44px !important;
+    }
+
+    /* Footer buttons full-width on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer {
+        @apply flex-col gap-2;
+        padding: 12px 0 0 !important;
+        margin-top: 12px !important;
+    }
+
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
+        @apply w-full justify-center text-center py-2.5;
+    }
+
+    /* File picker sub-tabs — scrollable on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+        @apply overflow-x-auto flex-nowrap;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header a {
+        @apply text-xs px-3 py-1.5 flex-shrink-0;
+    }
+
+    /* File upload drop zone — smaller padding on mobile */
+    .mw_modal_live_edit_link_editor_settings .mw-ui-field-holder {
+        @apply p-6;
+    }
+
+    /* Media library iframe full width */
+    .mw_modal_live_edit_link_editor_settings iframe {
+        width: 100% !important;
+        min-height: 50vh !important;
+    }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
+        padding: 8px 12px !important;
+    }
+
+    .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
+        padding: 12px !important;
+    }
+}

@@ -443,6 +443,97 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply mb-0;
 }
 
+/* ===== Prompt / Confirm Dialog Styling ===== */
+.mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
+    @apply !rounded-xl overflow-hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-width: 1024px !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-header .modal-title {
+    @apply text-base font-semibold text-gray-900 dark:text-white;
+}
+
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-close {
+    @apply w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer;
+    @apply text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:text-gray-200 dark:hover:bg-gray-700 transition-colors;
+}
+
+.mw-dialog-skin-default .mw-dialog-container {
+    @apply !px-6 !py-4;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-label-wrapper {
+    @apply mb-0 relative;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .live-edit-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input {
+    @apply w-full !rounded-lg !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800;
+    @apply text-sm text-gray-900 dark:text-white;
+    @apply transition-colors duration-150;
+    padding: 8px 12px !important;
+    height: 40px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
+    @apply !border-blue-500 dark:!border-blue-400;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-bottom-effect {
+    @apply !hidden;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer {
+    @apply !px-6 !py-4 !border-0;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn {
+    @apply !rounded-lg !px-4 !py-2 !text-sm !font-medium !cursor-pointer transition-colors duration-150;
+    @apply !border-0;
+    @apply !text-gray-700 dark:!text-gray-300 !bg-gray-100 dark:!bg-gray-800;
+    @apply hover:!bg-gray-200 dark:hover:!bg-gray-700;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn-primary,
+.mw-dialog-skin-default .mw-dialog-footer .btn:last-child {
+    @apply !bg-blue-600 !border-0 !text-white;
+    @apply hover:!bg-blue-700;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn-primary:disabled,
+.mw-dialog-skin-default .mw-dialog-footer .btn:last-child:disabled {
+    @apply !opacity-50 !cursor-not-allowed;
+}
+
+.mw-dialog-skin-default .mw-dialog-overlay {
+    @apply !bg-black/40;
+}
+
+/* Prompt/Confirm dialog mobile */
+@media (max-width: 768px) {
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
+        max-width: calc(100vw - 32px) !important;
+        margin: 16px !important;
+    }
+
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-container {
+        @apply !px-4 !py-3;
+    }
+
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-footer {
+        @apply !px-4 !py-3;
+    }
+}
+
 .admin-toolbar-buttons {
     transition: 0.25s ease;
 }
