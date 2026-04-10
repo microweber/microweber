@@ -1,4 +1,4 @@
-<div class="mb-6 p-4">
+<div class="mb-6 p-2 flex flex-col gap-4">
 
 {{--
 
@@ -66,7 +66,7 @@
 
         <div
             wire:click="replaceMountedAction('{{ $action['action'] }}')"
-            class="mw-add-content-modal-action-wrapper cursor-pointer flex gap-6 p-4 group hover:scale-105 transition duration-150 hover:bg-blue-500/10 rounded-md w-full">
+            class="mw-add-content-modal-action-wrapper cursor-pointer flex gap-6 p-5 group hover:scale-105 transition duration-150 hover:bg-blue-500/10 rounded-lg w-full border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-center w-20 h-20 bg-blue-500/5 transition duration-150 group-hover:bg-white shadow-md rounded p-4">
                 @svg($action['icon'], "h-10 w-10 text-black/80 dark:text-white")
             </div>

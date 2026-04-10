@@ -763,16 +763,29 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-le-modules-dialog .modules-list-defaultModules {
-    @apply bg-white dark:bg-gray-800;
+    @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden;
 
-    input {
-        margin: 10px auto;
-        @apply pl-[30px];
+    input.form-control.mw-modules-list-search-block {
+        margin: 0 auto;
+        height: 40px !important;
+        border-radius: 8px !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+        outline: none !important;
+        padding-left: 40px !important;
+        padding-right: 36px !important;
+        font-size: 14px !important;
+        @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+
+        &:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+        }
     }
 }
 
 .mw-le-modules-dialog .modules-list-block {
-    @apply !w-[96%];
+    @apply !w-full;
 }
 
 .mw-tree-context-menu-item svg {
@@ -787,7 +800,49 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-control-box-default {
-    @apply px-3 dark:bg-gray-800;
+    @apply px-0 dark:bg-gray-800;
+}
+
+.mw-control-box-title {
+    @apply text-base font-semibold;
+    padding: 16px 20px !important;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.dark .mw-control-box-title {
+    border-bottom-color: #374151;
+}
+
+.mw-control-box-content {
+    padding: 16px 20px !important;
+}
+
+.mw-control-box-content > div > div {
+    margin-bottom: 16px;
+}
+
+.form-control-live-edit-label-wrapper {
+    margin-bottom: 12px;
+}
+
+.form-control-live-edit-label-wrapper .live-edit-label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.edit-mode-toggle-container {
+    @apply flex gap-2 mb-4;
+}
+
+.edit-mode-option {
+    @apply flex-1 rounded-lg border border-gray-200 dark:border-gray-600 p-3 cursor-pointer transition;
+}
+
+.edit-mode-option:hover {
+    @apply border-blue-300 bg-blue-50/50 dark:border-blue-500 dark:bg-blue-900/20;
+}
+
+.edit-mode-option.active {
+    @apply border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/30;
 }
 
 .bg-custom-600:not(.fi-fo-toggle) {
@@ -870,11 +925,73 @@ select option,
 }
 
 .mw-le-modules-dialog {
-    @apply bg-white dark:bg-gray-800 dark:text-white;
+    @apply bg-white dark:bg-gray-800 dark:text-white rounded-xl overflow-hidden;
+    padding: 20px !important;
+}
+
+.mw-le-modules-dialog .modules-list-search-block {
+    padding: 0 48px 0 0 !important;
+    margin: 0 0 12px 0 !important;
+
+    .input-icon-addon {
+        left: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin-right: 0 !important;
+        z-index: 10;
+
+        svg {
+            width: 18px !important;
+            height: 18px !important;
+        }
+    }
+
+    /* Clear X button inside search */
+    > span[style*="cursor: pointer"] {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 48px !important;
+        padding: 2px !important;
+    }
+}
+
+.mw-le-modules-dialog .modules-list-block {
+    @apply p-0 m-0;
+
+    .row {
+        @apply gap-y-1;
+    }
+}
+
+.mw-le-modules-dialog .mw-modules-list-block-item {
+    @apply rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150;
+    @apply hover:bg-blue-50 dark:hover:bg-gray-700;
+    height: auto !important;
+    width: auto !important;
+    background-color: transparent;
 }
 
 .mw-le-modules-dialog .modules-list-block-item-picture {
-    @apply dark:text-white dark:fill-white dark:invert;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    @apply mr-2.5 flex-shrink-0;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    @apply dark:invert;
+}
+
+.mw-le-modules-dialog .modules-list-block-item-title {
+    @apply text-sm font-medium text-gray-800 dark:text-gray-200;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mw-le-modules-dialog .modules-list-block-item-description {
+    @apply hidden;
 }
 
 .mw-modules-list-block-item:hover {
@@ -1259,18 +1376,20 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .mw-customize-styles-main-btn {
     display: inline-block;
     position: relative;
-    padding: 30px 35px;
+    padding: 20px 24px;
     background: white;
     @apply dark:bg-gray-800 dark:text-white;
     border: 1px solid #e5e5e5;
     border-radius: 12px;
     color: #333;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     text-align: center;
-    min-width: 310px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     cursor: pointer;
     overflow: hidden;
@@ -1362,7 +1481,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .edit-mode-option {
-    @apply p-5 border text-center border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 cursor-pointer transition-all duration-300 ease-in-out shadow-sm hover:shadow-xl items-center gap-4;
+    @apply p-3 border text-center border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 cursor-pointer transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg items-center gap-3;
 
     svg {
         margin: 0 auto;
@@ -1390,12 +1509,33 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .mw-le-dialog-block.mw-le-modules-dialog {
+    @apply rounded-xl;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-height: 500px !important;
+    height: auto !important;
+
     .modules-list.modules-list-defaultModules {
-        @apply mt-5;
+        @apply mt-0 pt-0;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        max-height: 100%;
 
         .close-modal-button {
-            @apply top-[-15px];
+            top: 4px !important;
+            right: 4px !important;
+            @apply z-10;
+            @apply w-8 h-8 flex items-center justify-center rounded-lg;
+            @apply hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+
+            svg {
+                @apply w-5 h-5 text-gray-500;
+            }
         }
+    }
+
+    .modules-list-block {
+        max-height: 400px !important;
+        overflow-y: auto !important;
     }
 }
 

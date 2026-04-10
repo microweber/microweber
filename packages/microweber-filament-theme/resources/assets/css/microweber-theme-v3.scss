@@ -914,11 +914,17 @@ svg[wire\:loading\.remove] {
   .fi-modal-content {
     box-shadow: none !important;  // No shadow inside slide-over panel
     border: none !important;
+    padding: 20px 24px !important;  // Content padding for slide-over panels
   }
   .fi-modal-footer {
     box-shadow: none !important;
     border-top: none !important;
   }
+}
+
+// Sidebar-aligned modals — ensure content has padding
+.fi-modal-window.fi-align-start .fi-modal-content {
+  padding: 28px 28px !important;
 }
 
 // Modal header — MW v2: 16px heading, consistent padding

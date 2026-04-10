@@ -112,6 +112,15 @@
     @apply flex items-center;
 }
 
+#toolbar {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+}
+
+#user-menu-wrapper {
+    @apply ml-2;
+}
+
 .mw-le-hamburger span {
     @apply !bg-black dark:!bg-white;
 }
@@ -162,12 +171,26 @@ body {
     @apply !fill-black dark:!fill-white;
 }
 
+#save-button {
+    @apply !bg-green-100 !text-green-800 dark:!bg-green-900 dark:!text-green-200 !border-none font-semibold rounded;
+}
+
+#save-button:hover {
+    @apply !bg-green-200 dark:!bg-green-800;
+}
+
 .mw-live-edit-search-dropdown {
-    @apply !bg-gray-100 dark:!bg-gray-800 !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full;
+    @apply !bg-gray-100 dark:!bg-gray-800 !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full !overflow-visible;
+    background-position: calc(100% - 8px) center !important;
+    background-size: 16px 16px !important;
+    padding-right: 32px !important;
 }
 
 .mw-live-edit-search-dropdown input {
-    @apply w-full !overflow-hidden;
+    @apply !overflow-hidden !text-ellipsis;
+    width: calc(100% - 28px) !important;
+    max-height: 35px !important;
+    box-sizing: border-box !important;
 }
 
 
@@ -183,18 +206,38 @@ body {
 
 
 .mw-autocomplete .mw-autocomplete-list {
-    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0 z-10;
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-white dark:bg-gray-800 m-0 rounded-b-lg p-0 shadow-lg border border-gray-200 dark:border-gray-700;
+    z-index: 1000;
+    margin-top: 2px;
 }
 
 .mw-autocomplete .mw-autocomplete-list a {
-    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-gray-700 !p-6 border-none flex items-center hover:bg-gray-200;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-gray-700 !px-4 !py-2.5 border-none flex items-center hover:bg-gray-100 text-sm;
 }
 
 #mw-live-edit-search-content {
-    @apply max-w-[400px];
+    @apply max-w-[400px] relative;
+    z-index: 1000;
 
     .form-select {
         @apply dark:text-white;
+    }
+
+    .mw-autocomplete {
+        z-index: 1000;
+    }
+
+    .mw-select {
+        z-index: 1000;
+
+        &.active {
+            z-index: 1001;
+        }
+
+        .mw-select-value:after {
+            right: 8px;
+            pointer-events: none;
+        }
     }
 }
 
