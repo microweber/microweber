@@ -18,7 +18,7 @@
                 this.$nextTick(() => {
                     this.chart = echarts.init(this.$refs.chartContainer);
                     this.renderChart();
-                    window.addEventListener('resize', () => this.chart?.resize());
+                    window.addEventListener('resize', () => { try { this.chart?.resize(); } catch(e) {} });
                 });
             },
 

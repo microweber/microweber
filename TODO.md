@@ -48,7 +48,7 @@ Each page migration follows this cycle:
 For each area: light desktop, dark desktop, light mobile, dark mobile screenshots; diff against MW v2 reference.
 
 ##### Dashboard
-- [ ] /admin — main dashboard
+- [x] 2026-04-10  /admin — main dashboard
 - [ ] dashboard widgets daily/weekly/monthly chart states
 - [ ] notifications panel open
 
