@@ -14,6 +14,7 @@ $mw-bg-page: #f6f8fb;          // MW v2 cool blue-gray background
 $mw-bg-surface: #ffffff;
 $mw-bg-surface-translucent: rgba(255, 255, 255, 0.85);
 $mw-bg-sidebar: #ffffff;
+$mw-bg-muted: #f1f5f9;            // MW v2: light muted background for hover states
 
 $mw-text-primary: #182433;     // MW v2 dark blue-black
 $mw-text-secondary: #4a5568;   // Softer secondary
@@ -1920,6 +1921,63 @@ svg[wire\:loading\.remove] {
   .fi-main {
     padding-left: 8px !important;
     padding-right: 8px !important;
+    padding-top: 16px !important;  // Reduce top padding on mobile (64px is too much)
+  }
+
+  // Topbar: hide search text, show only icon; compact Live Edit
+  .fi-topbar {
+    padding: 8px 8px !important;
+    gap: 6px !important;
+    min-height: 44px !important;
+  }
+
+  // Collapse global search to icon-only on mobile
+  .fi-global-search-field {
+    max-width: 36px !important;
+    overflow: hidden !important;
+
+    input {
+      width: 36px !important;
+      padding-left: 28px !important;
+      padding-right: 0 !important;
+      color: transparent !important;
+      cursor: pointer !important;
+      &::placeholder { color: transparent !important; }
+      &:focus {
+        width: 180px !important;
+        color: $mw-text-primary !important;
+        &::placeholder { color: $mw-text-muted !important; }
+      }
+    }
+  }
+
+  // Hide "Live Edit" text label — show icon only
+  .fi-topbar-end a[href*="editmode"] {
+    font-size: 0 !important;
+    padding: 6px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    svg, img { font-size: initial; width: 18px; height: 18px; }
+  }
+
+  // Compact "Add" button on mobile
+  .fi-btn.admin-toolbar-add {
+    padding: 0 8px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+
+  // Page heading: truncate long titles
+  .fi-header-heading {
+    font-size: 1.25rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .fi-section-content-ctn,
@@ -1943,6 +2001,13 @@ svg[wire\:loading\.remove] {
   .fi-section:not(.fi-aside) {
     border-radius: $mw-radius-sm !important;
   }
+
+  // Media library: constrain the search icon on mobile
+  .mw-media-search-icon {
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1960,6 +2025,15 @@ svg[wire\:loading\.remove] {
   .fi-main {
     padding-left: 4px !important;
     padding-right: 4px !important;
+    padding-top: 8px !important;
+  }
+
+  // Hide "Add" label, show icon only
+  .fi-btn.admin-toolbar-add {
+    font-size: 0 !important;
+    padding: 0 8px !important;
+    gap: 0 !important;
+    svg { font-size: initial; }
   }
 
   .fi-section-content-ctn,

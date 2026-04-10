@@ -31,6 +31,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
             ->schema([
                 Section::make('Custom Head Tags')
                     ->icon('heroicon-m-code-bracket')
+                    ->view('mw-filament::sections.section')
                     ->description('Add custom HTML tags to the <head> section of your website')
                     ->schema([
                         Textarea::make('options.website.website_head')
@@ -47,6 +48,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
 
                 Section::make('Custom Footer Tags')
                     ->icon('heroicon-m-code-bracket-square')
+                    ->view('mw-filament::sections.section')
                     ->description('Add custom HTML tags to the footer of your website')
                     ->schema([
                         Textarea::make('options.website.website_footer')
@@ -63,8 +65,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
 
                 Section::make('Custom Ads.txt')
                     ->icon('heroicon-m-megaphone')
-                    ->collapsed()
-                    ->collapsible()
+                    ->view('mw-filament::sections.section')
                     ->description('Configure your ads.txt file content')
                     ->schema([
                         Textarea::make('options.website.ads_txt')
@@ -79,8 +80,7 @@ class AdminCustomTagsPage extends AdminSettingsPage
 
                 Section::make('Custom Robots.txt')
                     ->icon('heroicon-m-cpu-chip')
-                    ->collapsed()
-                    ->collapsible()
+                    ->view('mw-filament::sections.section')
                     ->description('Configure your robots.txt file content')
                     ->schema([
                         Textarea::make('options.website.robots_txt')

@@ -44,6 +44,8 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
             ->schema([
                 Section::make('General Settings')
                     ->icon('heroicon-m-cog-6-tooth')
+                    ->view('mw-filament::sections.section')
+                    ->description('Configure general comment behavior and limits.')
                     ->schema([
                         Toggle::make('options.comments.enable_comments')
                             ->live()
@@ -82,6 +84,8 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
 
                 Section::make('Display Settings')
                     ->icon('heroicon-m-eye')
+                    ->view('mw-filament::sections.section')
+                    ->description('Control how comments are displayed on your site.')
                     ->schema([
                         Select::make('options.comments.default_sort')
                             ->live()
@@ -112,6 +116,8 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
 
                 Section::make('Email Notifications')
                     ->icon('heroicon-m-bell')
+                    ->view('mw-filament::sections.section')
+                    ->description('Configure email notifications for comment activity.')
                     ->schema([
                         Toggle::make('options.comments.notify_admin')
                             ->live()
@@ -132,6 +138,8 @@ class CommentsModuleSettingsAdmin extends AdminSettingsPage
 
                 Section::make('Anti-Spam Settings')
                     ->icon('heroicon-m-shield-exclamation')
+                    ->view('mw-filament::sections.section')
+                    ->description('Protect your site from spam comments.')
                     ->schema([
                         Toggle::make('options.comments.enable_captcha')
                             ->live()

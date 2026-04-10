@@ -31,6 +31,8 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
             ->schema([
                 Section::make('General Settings')
                     ->icon('heroicon-m-shield-check')
+                    ->view('mw-filament::sections.section')
+                    ->description('Enable or disable cookie notice and configure its appearance.')
                     ->schema([
                         Toggle::make('options.cookie_notice.enable_cookie_notice')
                             ->live()
@@ -42,7 +44,13 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
                             ->label('Cookie Policy URL')
                             ->helperText('URL to your cookie policy page')
                             ->default('privacy-policy'),
+                    ]),
 
+                Section::make('Appearance')
+                    ->icon('heroicon-m-paint-brush')
+                    ->view('mw-filament::sections.section')
+                    ->description('Customize the look and feel of your cookie notice panel.')
+                    ->schema([
                         ColorPicker::make('options.cookie_notice.background_color')
                             ->live()
                             ->label('Panel Background Color'),
@@ -51,6 +59,22 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
                             ->live()
                             ->label('Panel Text Color'),
 
+                        Select::make('options.cookie_notice.panel_toggle_position')
+                            ->live()
+                            ->label('Panel Toggle Position')
+                            ->options([
+                                'left' => 'Left',
+                                'center' => 'Center',
+                                'right' => 'Right'
+                            ])
+                            ->default('right'),
+                    ]),
+
+                Section::make('Content')
+                    ->icon('heroicon-m-document-text')
+                    ->view('mw-filament::sections.section')
+                    ->description('Set the title and text displayed in the cookie notice.')
+                    ->schema([
                         TextInput::make('options.cookie_notice.cookie_notice_title')
                             ->live()
                             ->label('Cookie Notice Title')
@@ -62,17 +86,6 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
                             ->label('Cookie Notice Text')
                             ->helperText('Text content of the cookie notice panel')
                             ->default('This website uses cookies to ensure you get the best experience on our website.'),
-
-                        Select::make('options.cookie_notice.panel_toggle_position')
-                            ->live()
-                            ->label('Panel Toggle Position')
-                            ->options([
-                                'left' => 'Left',
-                                'center' => 'Center',
-                                'right' => 'Right'
-                            ])
-                            ->default('right'),
-
                     ]),
 
 

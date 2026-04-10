@@ -81,6 +81,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                             }),
                     ]),
                 Section::make('Facebook Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their Facebook account')
                     ->schema([
                         Toggle::make('options.users.enable_user_fb_registration')
                             ->label('Enable Facebook Login')
@@ -108,6 +111,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Twitter Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their Twitter account')
                     ->schema([
                         Toggle::make('options.users.enable_user_twitter_registration')
                             ->label('Enable Twitter Login')
@@ -135,6 +141,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Google Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their Google account')
                     ->schema([
                         Toggle::make('options.users.enable_user_google_registration')
                             ->label('Enable Google Login')
@@ -161,6 +170,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                     ]),
 
                 Section::make('GitHub Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their GitHub account')
                     ->schema([
                         Toggle::make('options.users.enable_user_github_registration')
                             ->label('Enable GitHub Login')
@@ -187,6 +199,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                     ]),
 
                 Section::make('LinkedIn Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their LinkedIn account')
                     ->schema([
                         Toggle::make('options.users.enable_user_linkedin_registration')
                             ->label('Enable LinkedIn Login')
@@ -213,6 +228,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Microweber Login')
+                    ->icon('heroicon-m-share')
+                    ->view('mw-filament::sections.section')
+                    ->description('Allow users to log in with their Microweber account')
                     ->schema([
                         Toggle::make('options.users.enable_user_microweber_registration')
                             ->label('Enable Microweber Login')

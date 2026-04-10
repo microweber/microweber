@@ -17,7 +17,7 @@ class MediaLibrary extends Page
     use WithPagination;
     use WithFileUploads;
 
-    protected static string|\BackedEnum|null $navigationIcon = null;
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-photo';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website Settings';
 

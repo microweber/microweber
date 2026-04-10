@@ -21,6 +21,8 @@ class AdminExperimentalPage extends AdminSettingsPage
         return $schema
             ->schema([
                 Section::make('Cache Settings')
+                    ->icon('heroicon-m-bolt')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure caching options for better performance')
                     ->schema([
                         Toggle::make('options.experimental.static_files_delivery')
@@ -45,6 +47,8 @@ class AdminExperimentalPage extends AdminSettingsPage
                     ]),
 
                 Section::make('Development Settings')
+                    ->icon('heroicon-m-wrench-screwdriver')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure development-related settings')
                     ->schema([
                         Toggle::make('options.experimental.debug_mode')
@@ -59,6 +63,8 @@ class AdminExperimentalPage extends AdminSettingsPage
                     ]),
 
                 Section::make('UI Settings')
+                    ->icon('heroicon-m-paint-brush')
+                    ->view('mw-filament::sections.section')
                     ->description('Configure experimental UI features')
                     ->schema([
                         Toggle::make('options.experimental.new_template_picker')
