@@ -70,7 +70,7 @@ a {
     max-width: 100%;
     align-items: center;
     justify-content: space-between;
-    background: var(--tblr-bg-surface);
+    background: var(--tblr-bg-surface, #ffffff);
     display: flex;
     position: relative;
     z-index: 999;
@@ -142,12 +142,12 @@ html.preview #toolbar {
 
 #preview-nav .btn.active,
 .toolbar-nav .btn.active {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     transition: 0.3s;
 }
 
 .toolbar-nav {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     border-radius: 100px;
     display: inline-flex;
     align-items: center;
@@ -343,7 +343,7 @@ html[dir="rtl"] #user-menu {
 .mw-editor-le2
     .mw-editor-controller-component-select
     .mw-editor-controller-component-select-values-holder {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     border-radius: 0 0 10px 10px;
     border-color: rgba(255, 255, 255, 0.12);
 }
@@ -356,7 +356,7 @@ html[dir="rtl"] #user-menu {
     padding: 5px;
     white-space: nowrap;
 
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     border-radius: 0 0 10px 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
         rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
@@ -368,7 +368,7 @@ html[dir="rtl"] #user-menu {
 
 .mw-editor-le2 mw-editor-button {
     cursor: pointer;
-    color: var(--tblr-card-title-color);
+    color: var(--tblr-card-title-color, #182433);
 }
 
 .mw-editor-le2 iframe {
@@ -617,8 +617,8 @@ html.dark .mw-le-layouts-dialog {
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: var(--tblr-body-bg2);
-    border-color: var(--tblr-body-bg2);
+    background-color: var(--tblr-body-bg2, #f4f6fa);
+    border-color: var(--tblr-body-bg2, #f4f6fa);
     padding: 0 20px 0 55px;
     font-size: 14px;
     color: #737373;
@@ -852,8 +852,8 @@ html.dark .mw-le-layouts-dialog {
 
 .mw-le-modules-dialog .modules-list-search-block .modules-list-search-field {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: var(--tblr-body-bg2);
-    border-color: var(--tblr-body-bg2);
+    background-color: var(--tblr-body-bg2, #f4f6fa);
+    border-color: var(--tblr-body-bg2, #f4f6fa);
     padding: 0 20px 0 55px;
     font-size: 14px;
     color: white;
@@ -861,8 +861,8 @@ html.dark .mw-le-layouts-dialog {
 
 .mw-modules-list-search-block {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: var(--tblr-body-bg2);
-    border-color: var(--tblr-body-bg2);
+    background-color: var(--tblr-body-bg2, #f4f6fa);
+    border-color: var(--tblr-body-bg2, #f4f6fa);
 }
 
 .modules-list-search-block svg.icon {
@@ -937,8 +937,8 @@ html.dark .mw-le-layouts-dialog {
     width: calc(var(--sidebar-end-size));
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
-    background-color: var(--tblr-bg-surface);
-    border-left: var(--tblr-body-color);
+    background-color: var(--tblr-bg-surface, #ffffff);
+    border-left: var(--tblr-body-color, #182433);
     padding: 11px;
     z-index: 1;
 
@@ -957,7 +957,7 @@ html.dark .mw-le-layouts-dialog {
 /* /gui editor */
 
 .mw-modules-list-block-item:hover {
-    background-color: var(--tblr-body-bg);
+    background-color: var(--tblr-body-bg, #f4f6fa);
 }
 #mw-live-edit-search-content .mw-spinner {
     z-index: 10;

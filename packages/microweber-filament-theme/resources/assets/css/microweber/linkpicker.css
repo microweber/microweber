@@ -1,76 +1,244 @@
-.mw-filepicker-component-navigation-header {
-    @apply w-full;
-}
+/* ===== Link Picker Dialog ===== */
 
-.mw-filepicker-component-navigation-header
-    .form-control-live-edit-label-wrapper {
-    @apply w-full flex items-center justify-center rounded bg-gray-100 p-1.5 gap-2;
-}
-
-.form-control-live-edit-label-wrapper a {
-    @apply hover:bg-white/80 hover:dark:bg-gray-900 rounded py-2 px-4 text-center text-gray-600 dark:text-white w-full md:w-40 text-sm whitespace-nowrap;
-}
-
-.form-control-live-edit-label-wrapper a.active {
-    @apply bg-white dark:bg-gray-900;
-}
-
-.mw-ui-field-holder {
-    @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;
-}
-
+/* Hide the default dialog header (title bar) */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-header {
     @apply !hidden;
 }
 
+/* Dialog holder — the outer frame */
+.mw_modal_live_edit_link_editor_settings .mw-dialog-holder {
+    @apply !rounded-xl overflow-hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Dialog container — remove default padding */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-container {
     @apply !p-0;
 }
 
-.mw_modal_live_edit_link_editor_settings
-    .mw-link-editor-root
-    .mw-ui-form-controller-root
-    > div:first-of-type {
-    max-height: calc(100vh - 210px);
-    @apply pt-0;
-}
-
+/* Root layout — flex row: nav left, content right */
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-root {
-    @apply flex  w-full;
+    @apply flex w-full;
 }
 
+/* ===== Close Button (X) ===== */
+.mw_modal_live_edit_link_editor_settings .x-close-modal-link {
+    @apply absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer;
+    @apply text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:text-gray-200 dark:hover:bg-gray-700 transition-colors;
+    font-size: 20px;
+}
+
+/* ===== Left Navigation Tabs ===== */
 .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
-    @apply bg-gray-100 dark:bg-gray-900 !p-7 flex flex-col text-center;
+    @apply bg-gray-50 dark:bg-gray-800 flex flex-col text-center;
+    padding: 24px 20px !important;
+    min-width: 180px;
+    max-width: 180px;
+    gap: 4px !important;
+    border-right: 1px solid theme('colors.gray.200');
 }
 
+.dark .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
+    border-right-color: theme('colors.gray.700');
+}
+
+/* "Choose from" label */
+.mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav > li:first-child .form-label {
+    @apply text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2;
+    padding: 0 8px !important;
+}
+
+/* Nav items */
+.mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav > li {
+    padding: 0 !important;
+}
+
+/* Nav links */
+.mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav .mw-admin-action-links {
+    @apply block rounded-lg px-3 py-2 text-sm font-medium text-left cursor-pointer;
+    @apply text-gray-600 dark:text-gray-300;
+    @apply transition-colors duration-150;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav .mw-admin-action-links:hover {
+    @apply bg-gray-200/60 dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav .mw-admin-action-links.active {
+    @apply bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm;
+}
+
+/* ===== Right Content Area (Controller Root) ===== */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
-    @apply bg-white dark:bg-gray-900 !p-7 flex-1;
+    @apply bg-white dark:bg-gray-900 flex-1;
+    padding: 24px 28px !important;
+}
+
+/* Controller title (URL, Pages, etc.) */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > .form-label {
+    @apply text-base font-semibold text-gray-900 dark:text-white mb-4 block;
+}
+
+/* Inner content area — scrollable */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div:first-of-type {
+    max-height: calc(100vh - 280px);
+    @apply pt-0 overflow-auto;
+}
+
+/* ===== Input Fields ===== */
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-label-wrapper {
+    @apply mb-4 relative;
+}
+
+.mw_modal_live_edit_link_editor_settings .live-edit-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-input {
+    @apply w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800;
+    @apply text-sm text-gray-900 dark:text-white;
+    @apply transition-colors duration-150;
+    padding: 8px 12px !important;
+    height: 40px !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-input:focus {
+    @apply border-blue-500 dark:border-blue-400;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-input::placeholder {
+    @apply text-gray-400 dark:text-gray-500;
+}
+
+/* Hide the bottom effect span (old underline animation) */
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-bottom-effect {
+    @apply !hidden;
+}
+
+/* ===== Checkboxes ===== */
+.mw_modal_live_edit_link_editor_settings .form-check {
+    @apply flex items-center gap-2 py-1;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-check-input[type="checkbox"] {
+    @apply w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 cursor-pointer;
+    @apply focus:ring-blue-500 focus:ring-2 focus:ring-offset-0;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-check-label {
+    @apply text-sm text-gray-600 dark:text-gray-300 cursor-pointer;
+}
+
+/* ===== Radio buttons (Pages tab) ===== */
+.mw_modal_live_edit_link_editor_settings .form-check-input[type="radio"] {
+    @apply w-4 h-4 rounded-full border-gray-300 dark:border-gray-600 text-blue-600 cursor-pointer;
+    @apply focus:ring-blue-500 focus:ring-2 focus:ring-offset-0;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller--radio-list {
     @apply pt-2;
 }
 
-.mw_modal_live_edit_link_editor_settings .form-check {
-    @apply py-1;
+/* ===== Footer (Cancel / OK buttons) ===== */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer {
+    @apply !border-t border-gray-200 dark:border-gray-700 !border-solid;
+    @apply flex justify-end gap-3;
+    padding: 16px 0 4px !important;
+    margin-top: 16px !important;
+    background-color: transparent !important;
 }
 
-.mw_modal_live_edit_link_editor_settings .form-check-input {
-    @apply pe-1;
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
+    @apply rounded-lg px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150;
+    @apply border border-gray-300 dark:border-gray-600;
+    @apply text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800;
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700;
 }
 
-.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder,
-.mw_modal_live_edit_link_editor_settings .form-label,
-.mw_modal_live_edit_link_editor_settings .modal-footer {
-    @apply py-0 px-1;
+/* OK button — primary style (last button) */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button:last-child {
+    @apply bg-blue-600 border-blue-600 text-white;
+    @apply hover:bg-blue-700 hover:border-blue-700;
 }
 
-.mw_modal_live_edit_link_editor_settings
-    .mw-ui-form-controller-root
-    > div:first-of-type {
-    @apply h-full pb-3;
+/* ===== Search input on Pages/Content tabs ===== */
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-posts-search input,
+.mw_modal_live_edit_link_editor_settings .mw-autocomplete input {
+    @apply w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800;
+    @apply text-sm text-gray-900 dark:text-white;
+    padding: 8px 12px !important;
+    height: 40px !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-.mw-ui-form-controllers-footer {
-    @apply !border-0 mb-3;
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-posts-search input:focus,
+.mw_modal_live_edit_link_editor_settings .mw-autocomplete input:focus {
+    @apply border-blue-500;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Autocomplete list */
+.mw_modal_live_edit_link_editor_settings .mw-autocomplete-list {
+    @apply rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 mt-2;
+    @apply shadow-sm overflow-hidden;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-autocomplete-list li a {
+    @apply block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700;
+    @apply transition-colors duration-100;
+}
+
+/* ===== File Upload Area ===== */
+.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder {
+    @apply w-full flex flex-col items-center gap-4 rounded-xl p-12;
+    @apply border-2 border-dashed border-gray-300 dark:border-gray-600;
+    @apply bg-gray-50/50 dark:bg-gray-800/50;
+    @apply transition-colors duration-150;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:hover {
+    @apply border-blue-400 dark:border-blue-500 bg-blue-50/30 dark:bg-blue-900/10;
+}
+
+/* File picker navigation header tabs */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header {
+    @apply w-full;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+    @apply w-full flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 p-1.5 gap-2 mb-4;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header a {
+    @apply hover:bg-white/80 dark:hover:bg-gray-700 rounded-md py-2 px-4 text-center;
+    @apply text-gray-600 dark:text-gray-300 text-sm whitespace-nowrap transition-colors;
+}
+
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-component-navigation-header a.active {
+    @apply bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white;
+}
+
+/* ===== Select dropdowns ===== */
+.mw_modal_live_edit_link_editor_settings .form-select {
+    @apply w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800;
+    @apply text-sm text-gray-900 dark:text-white;
+    padding: 8px 12px !important;
+    height: 40px !important;
+    outline: none !important;
+}
+
+.mw_modal_live_edit_link_editor_settings .form-select:focus {
+    @apply border-blue-500;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* ===== Misc ===== */
+
+/* Override the global form-control-live-edit-label-wrapper margin inside link picker */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root .form-control-live-edit-label-wrapper {
+    @apply mx-0;
 }

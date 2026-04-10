@@ -3649,7 +3649,7 @@ html.dark {
   min-height: 500px;
   border: 1px solid $mw-border-color;
   border-radius: $mw-radius-lg;
-  overflow: hidden;
+  overflow: visible;
   background: $mw-bg-surface;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
@@ -3854,7 +3854,7 @@ html.dark {
 .mw-media-content {
   flex: 1;
   min-width: 0;
-  overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -3881,7 +3881,7 @@ html.dark {
   border: 1px solid $mw-border-color;
   border-radius: $mw-radius-md;
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   background: $mw-bg-surface;
   transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
@@ -3987,6 +3987,7 @@ html.dark {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: $mw-radius-md $mw-radius-md 0 0;
   background: rgba(0, 0, 0, 0.03);
 }
 
@@ -4764,11 +4765,7 @@ html.dark .mw-media-pagination {
   }
 
   .mw-media-sidebar {
-    width: 100%;
-    min-width: 100%;
-    max-height: 200px;
-    border-right: none;
-    border-bottom: 1px solid $mw-border-color;
+    display: none;
   }
 
   .mw-media-detail {
@@ -4776,13 +4773,14 @@ html.dark .mw-media-pagination {
     min-width: 100%;
     border-left: none;
     border-top: 1px solid $mw-border-color;
-    max-height: 400px;
+    max-height: 350px;
+    overflow-y: auto;
   }
 
   .mw-media-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 6px;
-    padding: 8px;
+    gap: 8px;
+    padding: 10px;
   }
 
   .mw-media-grid-thumb {

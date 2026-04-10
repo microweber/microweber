@@ -404,13 +404,15 @@
                                         <div
                                             class="mw-media-grid-lazy"
                                             x-data="{ loaded: false, error: false }"
-                                            x-intersect.once="
-                                                const img = $el.querySelector('img');
-                                                if (img) {
-                                                    img.src = img.dataset.src;
-                                                    img.onload = () => { loaded = true; };
-                                                    img.onerror = () => { error = true; loaded = true; };
-                                                }
+                                            x-init="
+                                                $nextTick(() => {
+                                                    const img = $el.querySelector('img');
+                                                    if (img) {
+                                                        img.src = img.dataset.src;
+                                                        img.onload = () => { loaded = true; };
+                                                        img.onerror = () => { error = true; loaded = true; };
+                                                    }
+                                                })
                                             "
                                         >
                                             {{-- Skeleton placeholder --}}

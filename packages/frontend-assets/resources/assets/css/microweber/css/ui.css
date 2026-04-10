@@ -3359,7 +3359,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    color: var(--tblr-body-color);
+    color: var(--tblr-body-color, #182433);
 }
 .mw-tree-nav-skin-category-manager .mw-tree-item-content.item-selectable-true {
     padding-inline-start: 50px !important;

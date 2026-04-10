@@ -120,7 +120,7 @@ html.dark {
 }
 
 [data-view="list"] .mw-file-manager-view-table tbody tr:hover > * {
-    background-color: var(--tblr-card-bg-hover);
+    background-color: var(--tblr-card-bg-hover, #f0f0f0);
 }
 
 .mw-file-manager-list-item-matches--false .form-check {
@@ -430,7 +430,7 @@ html.dark {
     width: 40px;
 }
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb-file {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     font-weight: bolder;
     border-radius: 3px;
     font-size: 10px;
@@ -460,7 +460,7 @@ html.dark {
     display: none !important;
 }
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb-file {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface, #ffffff);
     font-weight: bolder;
     border-radius: 3px;
     font-size: 20px;

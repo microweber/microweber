@@ -1138,8 +1138,8 @@
             });
 
             addButton.get(0).ownerDocument.body.addEventListener('click', function (e){
-                if (!addButton.get(0).contains(e.target)) {
-                    addButton.get(0).parentElement.classList.remove('active');
+                if (!root.get(0).contains(e.target)) {
+                    root.get(0).classList.remove('active');
                 }
             });
 
