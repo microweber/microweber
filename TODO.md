@@ -31,14 +31,14 @@ Each page migration follows this cycle:
 > - Per page assert: (a) status 200/302, (b) no console errors, (c) screenshots saved under `screenshots/audit/<area>/<page>-{light,dark}-{desktop,mobile}.png`.
 
 #### Phase 1 — Route inventory
-- [ ] enumerate every Filament page: `php artisan route:list --path=admin --json` and extract unique GET routes
-- [ ] group routes by area (dashboard, content, shop, users, settings, marketplace, modules) and write into `tests/fixtures/admin-pages.php`
-- [ ] for each Resource include: index, create, edit (with seeded record id), and any custom Pages
+- [x] 2026-04-10  enumerate every Filament page: `php artisan route:list --path=admin --json` and extract unique GET routes
+- [x] 2026-04-10  group routes by area (dashboard, content, shop, users, settings, marketplace, modules) and write into `tests/fixtures/admin-pages.php`
+- [x] 2026-04-10  for each Resource include: index, create, edit (with seeded record id), and any custom Pages
 
 #### Phase 2 — HTTP smoke (no-500) test
-- [ ] extend `AdminPagesNo500Test` to iterate the fixture and assert 200/302 (never 5xx) for every authenticated GET
-- [ ] add per-area data providers so failures point at the exact route
-- [ ] run suite, fix any 500s, commit per area
+- [x] 2026-04-10  extend `AdminPagesNo500Test` to iterate the fixture and assert 200/302 (never 5xx) for every authenticated GET
+- [x] 2026-04-10  add per-area data providers so failures point at the exact route
+- [x] 2026-04-10  run suite, fix any 500s, commit per area
 
 #### Phase 3 — Console / JS error audit
 - [ ] write `scripts/audit-admin-console.mjs` that logs in, walks the fixture, and prints every `console.error` per page
