@@ -41,8 +41,8 @@ Each page migration follows this cycle:
 - [x] 2026-04-10  run suite, fix any 500s, commit per area
 
 #### Phase 3 — Console / JS error audit
-- [ ] write `scripts/audit-admin-console.mjs` that logs in, walks the fixture, and prints every `console.error` per page
-- [ ] triage and fix unique JS errors
+- [x] 2026-04-10  write `scripts/audit-admin-console.mjs` that logs in, walks the fixture, and prints every `console.error` per page
+- [x] 2026-04-10  triage and fix unique JS errors
 
 #### Phase 4 — Visual audit per area
 For each area: light desktop, dark desktop, light mobile, dark mobile screenshots; diff against MW v2 reference.
