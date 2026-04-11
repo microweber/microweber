@@ -134,19 +134,17 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 11: Mobile Responsiveness
 
-- [ ] Test all updated sections at 390×844 viewport
-- [ ] Top header bar — stack or simplify on mobile (hide phone text, icon-only buttons)
-- [ ] Navigation — hamburger menu on mobile
-- [ ] Hero section — responsive text sizing and padding
-- [ ] Feature grid — single column on mobile
-- [ ] Footer — stack columns vertically on mobile
-- [ ] Shop sidebar — collapse below products on mobile
+- [x] 2026-04-11  Test all updated sections at 390×844 viewport
+- [x] 2026-04-11  Top header bar — stack or simplify on mobile (hide phone text, icon-only buttons)
+- [x] 2026-04-11  Navigation — hamburger menu on mobile
+- [x] 2026-04-11  Hero section — responsive text sizing and padding
+- [x] 2026-04-11  Feature grid — single column on mobile
+- [x] 2026-04-11  Footer — stack columns vertically on mobile
+- [x] 2026-04-11  Shop sidebar — collapse below products on mobile
 
 ### Phase 12: Build & Verify
 
-- [ ] Run `npm run build` in `Templates/Bootstrap/` to compile SCSS/JS
-- [ ] Verify all pages visually: Home, Blog, Shop, Contact, single post, single product
-- [ ] Take before/after screenshots for comparison
-- [ ] Commit all changes
-
-- [ ] make make the make the make the make the unit make the unit test make the unit test make the unit te
+- [x] 2026-04-11  Run `npm run build` in `Templates/Bootstrap/` to compile SCSS/JS
+- [x] 2026-04-11  Verify all pages visually: Home, Blog, Shop, Contact, single post, single product
+- [x] 2026-04-11  Take before/after screenshots for comparison
+- [x] 2026-04-11  Commit all changes
