@@ -79,7 +79,8 @@ class EditContent extends EditRecord
         $editAction->icon('heroicon-m-eye')
             ->label('Live edit')
             ->size('xl')
-            ->color('info');
+            ->color('info')
+            ->labeledFrom('md');
 
 
 
@@ -96,7 +97,8 @@ class EditContent extends EditRecord
             ->icon('heroicon-o-check-circle')
             ->size('xl')
             ->label('Save')
-            ->color('success');
+            ->color('success')
+            ->labeledFrom('md');
 
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         if ($isMultilanguageEnabled) {
