@@ -13,28 +13,27 @@ $itemTags = content_tags(CONTENT_ID);
 
 @section('content')
     <div class="blog-inner-page py-5" id="blog-content-<?php print CONTENT_ID; ?>">
-        <div class="container mw-m-t-30 mw-m-b-50">
-            <div class="row">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-12">
 
-                <?php if ($picture != '' AND $picture != false): ?>
+                    <?php if ($picture != '' AND $picture != false): ?>
+                    <div class="mb-4 rounded overflow-hidden">
+                        <img src="<?php print $picture; ?>" alt="<?php echo e($post['title']); ?>" class="w-100" style="max-height: 500px; object-fit: cover;">
+                    </div>
+                    <?php endif; ?>
 
-                <div class="background-image-holder h-650" style="background-image: url('<?php print $picture; ?>');">
-
-                </div>
-                <?php endif; ?>
-
-                <h2 class="mt-5 text-center  text-dark"><?php echo $post['title']; ?></h2>
-                <p class="text-dark text-center"><?php echo date('d M Y', strtotime($post['created_at'])); ?></p>
-
-                <div class="col-md-10 col-12 mx-auto">
+                    <h1 class="mt-4 mb-2 text-center"><?php echo $post['title']; ?></h1>
+                    <p class="text-muted text-center mb-5"><?php echo date('d M Y', strtotime($post['created_at'])); ?></p>
 
                     <div class="description edit dropcap typography-area" field="content" rel="content">
 
                     </div>
-                    <module type="sharer" id="post-bottom-sharer" class="py-3 float-start"
-                            style="xwidth: calc(100% - 45px);"/>
-                </div>
 
+                    <hr class="my-4">
+
+                    <module type="sharer" id="post-bottom-sharer" class="py-3"/>
+                </div>
             </div>
         </div>
     </div>

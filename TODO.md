@@ -121,8 +121,8 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 9: Blog & Post Pages
 
-- [ ] Update `blog.blade.php` — Add blog listing layout matching demo style
-- [ ] Update `post.blade.php` — Clean single-post typography and layout
+- [x] 2026-04-11  Update `blog.blade.php` — Add blog listing layout matching demo style
+- [x] 2026-04-11  Update `post.blade.php` — Clean single-post typography and layout
 
 ### Phase 10: Global Styling & SCSS
 
