@@ -115,9 +115,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 8: Shop Page
 
-- [ ] Update `shop.blade.php` — Add hero banner section with dark background, "Online Store Design Concept" heading and subtitle
-- [ ] Ensure product grid uses clean card layout with image, title, price
-- [ ] Add sidebar with category list (matching demo Category 1, Category 2 pattern)
+- [x] 2026-04-11  Update `shop.blade.php` — Add hero banner section with dark background, "Online Store Design Concept" heading and subtitle
+- [x] 2026-04-11  Ensure product grid uses clean card layout with image, title, price
+- [x] 2026-04-11  Add sidebar with category list (matching demo Category 1, Category 2 pattern)
 
 ### Phase 9: Blog & Post Pages
 

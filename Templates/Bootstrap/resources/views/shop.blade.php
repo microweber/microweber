@@ -6,7 +6,7 @@ type: layout
 content_type: dynamic
 name: Shop
 is_shop: y
-description: Showcase shop items in a sylish grid arrangement.
+description: Showcase shop items in a stylish grid arrangement.
 position: 4
 */
 
@@ -16,18 +16,7 @@ position: 4
 
 @section('content')
 <div class="edit" rel="content" field="content">
-    <module type="layouts" template="content/skin-6"/>
+    <module type="layouts" template="titles/skin-1"/>
+    <module type="layouts" template="ecommerce/skin-1"/>
 </div>
-
-
-<section class="py-5 container">
-
-    <module type="shop" />
-
-</section>
-
-<div class="edit" rel="content" field="shop-after-content">
-    <p class="element"></p>
-</div>
-
 @endsection
