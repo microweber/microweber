@@ -187,7 +187,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 ### Phase 1: Core Layout & Navigation Module Settings
 
 - [x] 2026-04-11  **Layouts module** — Verify background settings panel (image/video/color picker), spacer controls, and section padding options work correctly in live editor
-- [ ] **Menu module** — Test all menu template skins (navbar, simple, skin-1, linktree, images) render properly with Bootstrap styling; verify mobile hamburger settings
+- [x] 2026-04-11  **Menu module** — Test all menu template skins (navbar, simple, skin-1, linktree, images) render properly with Bootstrap styling; verify mobile hamburger settings
 - [ ] **Logo module** — Test default and 2rows templates; verify logo sizing and alignment settings
 - [ ] **Breadcrumb module** — Test skin-1 through skin-6; ensure consistent styling with Bootstrap theme
 - [ ] **Spacer module** — Verify height control works; check spacer renders correctly in sections
