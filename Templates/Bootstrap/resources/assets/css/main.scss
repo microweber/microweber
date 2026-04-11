@@ -237,6 +237,12 @@ li.dropdown {
     margin-top: 3rem;
 }
 
+/* Icon Sizing Utility */
+.icon-size-64px {
+    font-size: 64px;
+    line-height: 64px;
+}
+
 /* Mobile header adjustments */
 @media screen and (max-width: 1279px) {
     .templates-top-header-menu {
