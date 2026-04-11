@@ -206,7 +206,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **ContactForm module** — Test form templates (default, skin-1 through skin-6, CTA forms); verify field configuration, email settings, success message
 - [x] 2026-04-12  **Search module** — Test autocomplete template; verify search type settings (all, shop, blog)
 - [x] 2026-04-12  **Sharer module** — Test social sharing buttons; verify platform selection settings
-- [ ] **Comments module** — Verify comment display and moderation settings
+- [x] 2026-04-12  **Comments module** — Verify comment display and moderation settings
 - [ ] **Rating module** — Test star rating display and settings
 
 ### Phase 4: E-commerce Module Settings
