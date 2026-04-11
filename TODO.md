@@ -44,3 +44,107 @@
 - [x] 2026-04-11  Product edit forms with many tabs may overflow — verify horizontal scroll indicator is visible
 
 - [x] 2026-04-11  fix the thumbnail on the admin marketplace templates
+
+- [x] 2026-04-11  ok all works, now we will work on the bootstrap template, make a detailed plan in the todo how to make it
+
+---
+
+## Bootstrap Template — Match Demo Design (https://demo.microweber.org/v2/)
+
+> **Goal:** Update the local Bootstrap template (`Templates/Bootstrap/`) to match the polished demo site design.
+> **Build command:** `cd Templates/Bootstrap && npm run build`
+> **Key files:** `resources/views/`, `resources/assets/sass/app.scss`, `resources/assets/css/main.scss`
+
+### Current vs Demo — Key Differences
+
+The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Columns with icons", "Centered hero" placeholder text). The demo has a professional, production-ready design with:
+- Dark top header bar (social links, phone, "CONTACT US" button, search, user icon, cart)
+- Clean right-aligned main navigation
+- Full-width hero with background image and centered CTA
+- Feature sections with icons and "Learn More" buttons
+- Video section with embed
+- Story/blog cards grid
+- Testimonial carousel
+- Professional 3-column footer (company info, phone/email/social, addresses)
+- Consistent color scheme (dark header, orange/peach accent color, white body)
+
+---
+
+### Phase 1: Header & Navigation
+
+- [ ] Update `menus/skin-1.blade.php` — Add top header bar with social links (Facebook, Twitter, LinkedIn), phone number, "CONTACT US" button, search icon, user icon, cart icon
+- [ ] Update `menus/skin-1.blade.php` — Replace centered pill nav with right-aligned main navigation (Home, Blog, Shop, Contact us) matching demo layout
+- [ ] Add SCSS for `.templates-top-header-menu` — dark background, white text, flex layout with social left / actions right
+- [ ] Add SCSS for main nav — clean typography, right-aligned links, active state styling with underline/bold
+
+### Phase 2: Hero / Jumbotron
+
+- [ ] Update `jumbotron/skin-1.blade.php` — Replace Bootstrap SVG logo + generic jumbotron with full-width hero section: background image, centered heading ("Describe your company"), subtitle, CTA button
+- [ ] Remove the two-column "Change the background" / "Add borders" sub-cards — replace with clean single hero layout
+- [ ] Add SCSS for hero — full-viewport-height option, overlay gradient for text readability, centered content
+
+### Phase 3: Feature Sections
+
+- [ ] Update `features/skin-1.blade.php` — Replace raw SVG icons with proper icon components (using mw-micon or mdi icons), add "Learn More" buttons matching demo style
+- [ ] Add section title ("The Feature Title") with centered layout and clean typography
+- [ ] SCSS for feature cards — icon sizing, consistent spacing, button styling to match demo orange/accent color
+
+### Phase 4: Content / CTA Sections
+
+- [ ] Update `content/skin-1.blade.php` — Create "Share your story with a video" section with subtitle and embedded video placeholder
+- [ ] Create second content variant — "Your Story Should Evolve Over Time" section with heading, subtitle, and call-to-action
+- [ ] Add centered icon above section headings (matching demo arrow-down icon pattern)
+
+### Phase 5: Blog Section
+
+- [ ] Update `blog/skin-1.blade.php` — Create 3-column blog card grid with image thumbnail, title, excerpt, "Read More" link
+- [ ] Style blog cards — clean image aspect ratio, title typography, excerpt truncation, hover effects
+- [ ] Add pagination dot indicator below blog grid (matching demo)
+
+### Phase 6: Testimonial / Text Block
+
+- [ ] Update `text-block/skin-1.blade.php` — Create testimonial/quote section with author avatar, name, title, company, and quote text
+- [ ] Add "Pictures In The Sky" callout section with centered text (matching demo)
+- [ ] SCSS for testimonial — avatar circle, carousel dots, centered layout
+
+### Phase 7: Footer
+
+- [ ] Update `footers/skin-1.blade.php` — Replace 4-column category menu layout with 3-column professional footer: Column 1 (Company name, description, page links), Column 2 (Phone, Email, Social icons), Column 3 (Address blocks — California, New York)
+- [ ] Keep copyright bar at bottom with "All Rights Reserved" and Microweber credit
+- [ ] SCSS for footer — light warm background (#f9f6f1 or similar), clean typography, orange accent on links/icons
+
+### Phase 8: Shop Page
+
+- [ ] Update `shop.blade.php` — Add hero banner section with dark background, "Online Store Design Concept" heading and subtitle
+- [ ] Ensure product grid uses clean card layout with image, title, price
+- [ ] Add sidebar with category list (matching demo Category 1, Category 2 pattern)
+
+### Phase 9: Blog & Post Pages
+
+- [ ] Update `blog.blade.php` — Add blog listing layout matching demo style
+- [ ] Update `post.blade.php` — Clean single-post typography and layout
+
+### Phase 10: Global Styling & SCSS
+
+- [ ] Define CSS custom properties in `main.scss` or `design-vars.scss`: primary accent color (orange/peach ~#e8945a), heading color, body text color, footer background
+- [ ] Typography — set heading font family, body font, consistent font sizes and weights
+- [ ] Button styling — rounded buttons with accent color, hover states, outline variants
+- [ ] Section spacing — consistent vertical padding between sections (py-5 / 80-100px)
+- [ ] Link styling — accent color on hover, smooth transitions
+
+### Phase 11: Mobile Responsiveness
+
+- [ ] Test all updated sections at 390×844 viewport
+- [ ] Top header bar — stack or simplify on mobile (hide phone text, icon-only buttons)
+- [ ] Navigation — hamburger menu on mobile
+- [ ] Hero section — responsive text sizing and padding
+- [ ] Feature grid — single column on mobile
+- [ ] Footer — stack columns vertically on mobile
+- [ ] Shop sidebar — collapse below products on mobile
+
+### Phase 12: Build & Verify
+
+- [ ] Run `npm run build` in `Templates/Bootstrap/` to compile SCSS/JS
+- [ ] Verify all pages visually: Home, Blog, Shop, Contact, single post, single product
+- [ ] Take before/after screenshots for comparison
+- [ ] Commit all changes
