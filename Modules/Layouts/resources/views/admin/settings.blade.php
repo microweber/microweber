@@ -1,8 +1,6 @@
 <div>
+    <script src="{{ asset('modules/layouts/js/layouts-module-settings.js') }}"></script>
     <div
-        x-ignore
-        ax-load
-        ax-load-src="{{ asset('modules/layouts/js/layouts-module-settings.js') }}"
         x-data="layoutSettings('image', '{{ $optionGroup }}')"
     >
         <div id="mw-layout-setting-module" wire:ignore>

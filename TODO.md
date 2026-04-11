@@ -151,4 +151,87 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 - [x] 2026-04-11  work on the bootstrap template mobile
 
-- [ ] next work on all module settings, poplulate the todo with all modulles and a plan for each module se
+- [x] 2026-04-11  next work on all module settings, populate the todo with all modules and a plan for each module settings
+
+---
+
+## Module Settings — Bootstrap Template Integration
+
+> **Goal:** Review and improve all module settings panels, template skins, and JSON schema configurations used by the Bootstrap template to ensure they render correctly, have proper defaults, and match the demo design.
+
+### Module Categories
+
+**Layout Modules** — modules used to structure page sections:
+- Layouts, Background, Spacer
+
+**Navigation Modules** — header/menu/breadcrumb:
+- Menu, Logo, Breadcrumb
+
+**Content Display Modules** — modules that show content:
+- Post (blog posts), Pictures (galleries), Slider, Video, Embed
+
+**Interactive Modules** — user interaction:
+- Btn (buttons), ContactForm, Search, Sharer, Comments, Rating
+
+**E-commerce Modules** — shop functionality:
+- Cart, Product, Category, Checkout, Currency, Payment, Shipping, Coupons, Order
+
+**Social & Communication Modules:**
+- SocialLinks, Newsletter, Testimonials, Teamcard
+
+**Utility Modules:**
+- Tabs, Accordion, Elements, Faq, CookieNotice, GoogleMaps, Pagination, Captcha
+
+---
+
+### Phase 1: Core Layout & Navigation Module Settings
+
+- [x] 2026-04-11  **Layouts module** — Verify background settings panel (image/video/color picker), spacer controls, and section padding options work correctly in live editor
+- [ ] **Menu module** — Test all menu template skins (navbar, simple, skin-1, linktree, images) render properly with Bootstrap styling; verify mobile hamburger settings
+- [ ] **Logo module** — Test default and 2rows templates; verify logo sizing and alignment settings
+- [ ] **Breadcrumb module** — Test skin-1 through skin-6; ensure consistent styling with Bootstrap theme
+- [ ] **Spacer module** — Verify height control works; check spacer renders correctly in sections
+
+### Phase 2: Content Display Module Settings
+
+- [ ] **Post module** — Test key skins (default, skin-1, skin-10, blog-pro, post-slider); verify JSON schema settings (slides count, adaptive height) for carousel; check card styling consistency
+- [ ] **Pictures module** — Test gallery templates (masonry, simple, default, skin-10+); verify lightbox, grid columns, and caption settings
+- [ ] **Slider module** — Test default and swiper-skin-1; verify autoplay, navigation, transition settings
+- [ ] **Video module** — Test default, dialog, dialog-button templates; verify responsive embed sizing
+- [ ] **Embed module** — Verify iframe/HTML embed settings panel works
+
+### Phase 3: Interactive Module Settings
+
+- [ ] **Btn module** — Verify bootstrap.json schema (button style, size, text, link, icon settings); test button preview in settings panel
+- [ ] **ContactForm module** — Test form templates (default, skin-1 through skin-6, CTA forms); verify field configuration, email settings, success message
+- [ ] **Search module** — Test autocomplete template; verify search type settings (all, shop, blog)
+- [ ] **Sharer module** — Test social sharing buttons; verify platform selection settings
+- [ ] **Comments module** — Verify comment display and moderation settings
+- [ ] **Rating module** — Test star rating display and settings
+
+### Phase 4: E-commerce Module Settings
+
+- [ ] **Cart module** — Test templates (bootstrap, default, small_modal, shop_inner); verify cart quantity display, checkout link
+- [ ] **Product module** — Test product display skins; verify price, image, add-to-cart settings
+- [ ] **Category module** — Test category list templates (default, skin-1, horizontal-list, images); verify nesting and active state
+- [ ] **Checkout module** — Verify checkout flow settings and form fields
+- [ ] **Currency module** — Test currency selector display
+- [ ] **Payment module** — Verify payment provider settings panels
+
+### Phase 5: Social & Communication Module Settings
+
+- [ ] **SocialLinks module** — Test all skins (default, skin-1, skin-2, skin-4, skin-7, footer); verify JSON schema for platform URL settings; check icon rendering
+- [ ] **Newsletter module** — Test subscription form templates; verify email integration settings
+- [ ] **Testimonials module** — Test key skins (default, skin-10, skin-12+); verify avatar, name, company, quote fields; check carousel settings
+- [ ] **Teamcard module** — Test team member display skins; verify photo, name, role, social link settings
+
+### Phase 6: Utility Module Settings
+
+- [ ] **Tabs module** — Test tab templates (default, skin-1 through skin-5, horizontal centered); verify tab add/remove, content editing
+- [ ] **Accordion module** — Test accordion display; verify expand/collapse settings
+- [ ] **Elements module** — Test element types (icon, picture, text, title, inline-table, multiple-columns)
+- [ ] **Faq module** — Test FAQ display template; verify question/answer editing
+- [ ] **CookieNotice module** — Verify cookie consent banner settings (text, button, position)
+- [ ] **GoogleMaps module** — Test map embed; verify API key, zoom, marker settings
+- [ ] **Pagination module** — Test pagination styles (bootstrap3, bootstrap4, default, mw); verify per-page settings
+- [ ] **Captcha module** — Verify captcha integration settings

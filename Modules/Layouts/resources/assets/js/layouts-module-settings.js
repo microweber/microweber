@@ -1,4 +1,4 @@
-export default function layoutSettings(activeTab, optionGroup) {
+window.layoutSettings = function layoutSettings(activeTab, optionGroup) {
     return {
         activeTab: 'image',
         backgroundSize: 'auto',
@@ -19,14 +19,17 @@ export default function layoutSettings(activeTab, optionGroup) {
         },
         init() {
 
-            this.modalId = this.$refs.modalContainer.getAttribute('wire:key')
-            this.modalId = this.modalId.substring(0, this.modalId.indexOf('.')) + '-action'
+            var modalContainer = this.$el.closest('[wire\\:key]');
+            if (modalContainer) {
+                this.modalId = modalContainer.getAttribute('wire:key');
+                this.modalId = this.modalId.substring(0, this.modalId.indexOf('.')) + '-action';
+            }
 
 
             let targets = this.getTargets();
 
-
-
+            // Reset supports array before re-detecting
+            this.supports = [];
 
             if (targets.bg) {
                 // add to support
