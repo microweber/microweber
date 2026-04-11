@@ -190,16 +190,21 @@ Forms\Components\Select::make('company_id')
 
         })
         ->columns([
-            Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('id')->sortable()->searchable()
+                ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('first_name')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('last_name')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('phone')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('phone')->sortable()->searchable()
+                ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
             Tables\Columns\BooleanColumn::make('active')->sortable(),
-            Tables\Columns\TextColumn::make('user.username')->sortable(),
-            Tables\Columns\TextColumn::make('currency.name')->sortable(),
-            Tables\Columns\TextColumn::make('company.name')->sortable(),
+            Tables\Columns\TextColumn::make('user.username')->sortable()
+                ->visibleFrom('md'),
+            Tables\Columns\TextColumn::make('currency.name')->sortable()
+                ->visibleFrom('md'),
+            Tables\Columns\TextColumn::make('company.name')->sortable()
+                ->visibleFrom('md'),
             Tables\Columns\TextColumn::make('tags.name')
                 ->label('Tags')
                 ->badge()
