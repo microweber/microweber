@@ -2673,6 +2673,16 @@ html.dark {
   .fi-ta-split {
     flex-wrap: wrap !important;
   }
+
+  // Truncate long category names in the categories tree on mobile.
+  .mw-edit-categories-list .mw-tree-item-title {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
 }
 
 .mw-quick-stat-card {
