@@ -196,7 +196,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 - [x] 2026-04-11  **Post module** — Test key skins (default, skin-1, skin-10, blog-pro, post-slider); verify JSON schema settings (slides count, adaptive height) for carousel; check card styling consistency
 - [x] 2026-04-11  **Pictures module** — Test gallery templates (masonry, simple, default, skin-10+); verify lightbox, grid columns, and caption settings
-- [ ] **Slider module** — Test default and swiper-skin-1; verify autoplay, navigation, transition settings
+- [x] 2026-04-11  **Slider module** — Test default and swiper-skin-1; verify autoplay, navigation, transition settings
 - [ ] **Video module** — Test default, dialog, dialog-button templates; verify responsive embed sizing
 - [ ] **Embed module** — Verify iframe/HTML embed settings panel works
 

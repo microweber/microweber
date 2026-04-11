@@ -144,7 +144,7 @@ filter: sepia(100%);
     .swiper-pagination-bullet {
         width: 12px !important;
         height: 12px !important;
-        background: rgba(255, 255, 255, 0.5) !importan t;
+        background: rgba(255, 255, 255, 0.5) !important;
         border-radius: 50% !important;
         opacity: 1 !important;
         margin: 0 !important;
