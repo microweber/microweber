@@ -2666,6 +2666,13 @@ html.dark {
   .mw-quick-stats-grid {
     grid-template-columns: 1fr;
   }
+
+  // Fix Published/Unpublished dropdown badge clipping on mobile.
+  // The Split layout is flex-nowrap so content + dropdown overflow.
+  // Force wrapping so the dropdown badge moves below the content card.
+  .fi-ta-split {
+    flex-wrap: wrap !important;
+  }
 }
 
 .mw-quick-stat-card {
