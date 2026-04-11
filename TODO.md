@@ -103,9 +103,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 6: Testimonial / Text Block
 
-- [ ] Update `text-block/skin-1.blade.php` — Create testimonial/quote section with author avatar, name, title, company, and quote text
-- [ ] Add "Pictures In The Sky" callout section with centered text (matching demo)
-- [ ] SCSS for testimonial — avatar circle, carousel dots, centered layout
+- [x] 2026-04-11  Update `text-block/skin-1.blade.php` — Create testimonial/quote section with author avatar, name, title, company, and quote text
+- [x] 2026-04-11  Add "Pictures In The Sky" callout section with centered text (matching demo)
+- [x] 2026-04-11  SCSS for testimonial — avatar circle, carousel dots, centered layout
 
 ### Phase 7: Footer
 
@@ -148,3 +148,5 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [ ] Verify all pages visually: Home, Blog, Shop, Contact, single post, single product
 - [ ] Take before/after screenshots for comparison
 - [ ] Commit all changes
+
+- [ ] make make the make the make the make the unit make the unit test make the unit test make the unit te

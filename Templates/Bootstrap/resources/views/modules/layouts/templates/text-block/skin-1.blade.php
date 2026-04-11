@@ -30,11 +30,17 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="container mw-layout-container">
-        <div class="row text-center nodrop">
-            <div class="col-12 col-lg-10 col-lg-8 mx-auto allow-drop">
-                <p>Like rock stars, asteroids have been given their fair share of urban myth and lore. ‌Many have attributed the extinction of the dinosaurs to the impact of a huge asteroid on the earth.Like rock stars, asteroids have been given their fair share of urban myth and lore. ‌Many have attributed the extinction of the dinosaurs to the impact of a huge asteroid on the earth.Like rock stars, asteroids have been given their fair share of urban myth and lore. ‌Many have attributed the extinction of the dinosaurs to the impact of a huge asteroid on the earth. </p>
+        <div class="row text-center">
+            <div class="col-12 col-lg-10 col-lg-8 mx-auto">
+                <h5 data-mwplaceholder="Enter title here">Pictures In The Sky</h5>
+                <p data-mwplaceholder="Enter text here">The $79 iWork '08 appears to be a good deal for anyone needing an affordable office suite for the Mac. Apple has finally added a spreadsheet application. At first glance, Numbers is an elegant no-brainer for anyone migrating from Microsoft Excel.</p>
+                <br><br><br>
             </div>
         </div>
+
+        <div></div>
+
+        <module type="testimonials" id="{{ $params['id'] }}-testimonials" template="skin-10" project_name="Testimonials 1"/>
     </div>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
 
