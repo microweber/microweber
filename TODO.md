@@ -214,9 +214,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **Cart module** — Test templates (bootstrap, default, small_modal, shop_inner); verify cart quantity display, checkout link
 - [x] 2026-04-12  **Product module** — Test product display skins; verify price, image, add-to-cart settings
 - [x] 2026-04-12  **Category module** — Test category list templates (default, skin-1, horizontal-list, images); verify nesting and active state
-- [ ] **Checkout module** — Verify checkout flow settings and form fields
-- [ ] **Currency module** — Test currency selector display
-- [ ] **Payment module** — Verify payment provider settings panels
+- [x] 2026-04-12  **Checkout module** — Verify checkout flow settings and form fields
+- [x] 2026-04-12  **Currency module** — Test currency selector display
+- [x] 2026-04-12  **Payment module** — Verify payment provider settings panels
 
 ### Phase 5: Social & Communication Module Settings
 
