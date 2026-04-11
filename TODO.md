@@ -85,9 +85,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 3: Feature Sections
 
-- [ ] Update `features/skin-1.blade.php` — Replace raw SVG icons with proper icon components (using mw-micon or mdi icons), add "Learn More" buttons matching demo style
-- [ ] Add section title ("The Feature Title") with centered layout and clean typography
-- [ ] SCSS for feature cards — icon sizing, consistent spacing, button styling to match demo orange/accent color
+- [x] 2026-04-11  Update `features/skin-1.blade.php` — Replace raw SVG icons with proper icon components (using mw-micon or mdi icons), add "Learn More" buttons matching demo style
+- [x] 2026-04-11  Add section title ("The Feature Title") with centered layout and clean typography
+- [x] 2026-04-11  SCSS for feature cards — icon sizing, consistent spacing, button styling to match demo orange/accent color
 
 ### Phase 4: Content / CTA Sections
 

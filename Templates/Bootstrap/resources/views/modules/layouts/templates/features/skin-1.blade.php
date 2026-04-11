@@ -26,47 +26,52 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
-<section class="section <?php print $layout_classes; ?> edit safe-mode   " field="layout-features-skin-1-{{ $params['id'] }}" rel="module">
+<section class="section features-skin-2 <?php print $layout_classes; ?> edit safe-mode" field="layout-features-skin-1-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container mw-layout-container px-4 py-5" id="featured-3">
-        <h2 class="pb-2 border-bottom">Columns with icons</h2>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-            <div class="feature col">
-                <div class="feature-icon  ">
-                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+    <div class="mw-layout-container container">
+        <div class="row text-center safe-mode">
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="regular-mode">
+                    <h4 data-mwplaceholder="Enter title here">The Feature Title</h4>
                 </div>
-                <h2>Featured title</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    Call to action
-                            <a class="mb-2" href=""><i class="mdi mdi-arrow-right"></i></a>
-                </a>
             </div>
-            <div class="feature col">
-                <div class="feature-icon  ">
-                    <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"/></svg>
+        </div>
+
+        <div class="row text-center mt-7">
+            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
+                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Add-User"></i>
+
+                <div class="text-center mt-6 regular-mode">
+                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
                 </div>
-                <h2>Featured title</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    Call to action
-                            <a class="mb-2" href=""><i class="mdi mdi-arrow-right"></i></a>
-                </a>
+                <div class="mt-md-4 mt-3">
+                    <module type="btn" id="{{ $params['id'] }}-btn-1" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                </div>
             </div>
-            <div class="feature col">
-                <div class="feature-icon  ">
-                    <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+
+            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
+                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Add-UserStar"></i>
+
+                <div class="text-center mt-6 regular-mode">
+                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
                 </div>
-                <h2>Featured title</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    Call to action
-                            <a class="mb-2" href=""><i class="mdi mdi-arrow-right"></i></a>
-                </a>
+                <div class="mt-md-4 mt-3">
+                    <module type="btn" id="{{ $params['id'] }}-btn-2" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                </div>
+            </div>
+
+            <div class="mx-auto col-md-6 col-lg-4 col-12 mb-5 cloneable element text-center safe-mode background-color-element">
+                <i class="features-skin-2-icons mb-2 safe-element no-typing mw-micon-Business-ManWoman"></i>
+
+                <div class="text-center mt-6 regular-mode">
+                    <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
+                </div>
+                <div class="mt-md-4 mt-3">
+                    <module type="btn" id="{{ $params['id'] }}-btn-3" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                </div>
             </div>
         </div>
     </div>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-
 </section>
