@@ -272,6 +272,79 @@ li.dropdown {
     }
 }
 
+@media screen and (max-width: 576px) {
+    .templates-top-header-menu {
+        .top-header-background.header-top {
+            padding: 4px 8px;
+            min-height: 40px;
+
+            .btn-socials {
+                display: none;
+            }
+
+            > ul {
+                gap: 0 !important;
+            }
+
+            .btn-contacts,
+            .module-btn {
+                display: none;
+            }
+
+            .btn-search,
+            .btn-member {
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+
+            .btn-shopping-cart {
+                svg {
+                    width: 22px;
+                    height: 22px;
+                }
+
+                .js-shopping-cart-quantity {
+                    font-size: 10px;
+                    padding: 1px 5px;
+                }
+            }
+        }
+    }
+
+    .header-background.mw-menu-skin-com {
+        padding: 5px 0;
+    }
+
+    .header-section-title {
+        font-size: 28px;
+    }
+
+    .header-section-p {
+        font-size: 14px;
+    }
+
+    .mw-header-section-mh-100vh {
+        min-height: 50vh;
+    }
+
+    /* Features section mobile */
+    .features-skin-2 {
+        padding: 30px 0;
+    }
+
+    .features-skin-2-icons {
+        font-size: 36px;
+        line-height: 36px;
+    }
+
+    .icon-size-64px {
+        font-size: 48px;
+        line-height: 48px;
+    }
+}
+
 /* Section spacing */
 .module-layouts > section.section {
     padding-top: 4rem;

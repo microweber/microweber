@@ -148,3 +148,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-11  Verify all pages visually: Home, Blog, Shop, Contact, single post, single product
 - [x] 2026-04-11  Take before/after screenshots for comparison
 - [x] 2026-04-11  Commit all changes
+
+- [x] 2026-04-11  work on the bootstrap template mobile
+
+- [ ] next work on all module settings, poplulate the todo with all modulles and a plan for each module se
