@@ -207,7 +207,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **Search module** — Test autocomplete template; verify search type settings (all, shop, blog)
 - [x] 2026-04-12  **Sharer module** — Test social sharing buttons; verify platform selection settings
 - [x] 2026-04-12  **Comments module** — Verify comment display and moderation settings
-- [ ] **Rating module** — Test star rating display and settings
+- [x] 2026-04-12  **Rating module** — Test star rating display and settings
 
 ### Phase 4: E-commerce Module Settings
 
