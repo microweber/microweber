@@ -72,10 +72,10 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 1: Header & Navigation
 
-- [ ] Update `menus/skin-1.blade.php` — Add top header bar with social links (Facebook, Twitter, LinkedIn), phone number, "CONTACT US" button, search icon, user icon, cart icon
-- [ ] Update `menus/skin-1.blade.php` — Replace centered pill nav with right-aligned main navigation (Home, Blog, Shop, Contact us) matching demo layout
-- [ ] Add SCSS for `.templates-top-header-menu` — dark background, white text, flex layout with social left / actions right
-- [ ] Add SCSS for main nav — clean typography, right-aligned links, active state styling with underline/bold
+- [x] 2026-04-11  Update `menus/skin-1.blade.php` — Add top header bar with social links (Facebook, Twitter, LinkedIn), phone number, "CONTACT US" button, search icon, user icon, cart icon
+- [x] 2026-04-11  Update `menus/skin-1.blade.php` — Replace centered pill nav with right-aligned main navigation (Home, Blog, Shop, Contact us) matching demo layout
+- [x] 2026-04-11  Add SCSS for `.templates-top-header-menu` — dark background, white text, flex layout with social left / actions right
+- [x] 2026-04-11  Add SCSS for main nav — clean typography, right-aligned links, active state styling with underline/bold
 
 ### Phase 2: Hero / Jumbotron
 

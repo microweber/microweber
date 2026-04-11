@@ -78,4 +78,128 @@ li.dropdown {
     }
 }
 
+/* Top Header Bar */
+.templates-top-header-menu {
+    .top-header-background.header-top {
+        color: #fff;
+        padding: 5px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 50px;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            transition: opacity .3s;
+
+            &:hover {
+                opacity: .8;
+            }
+        }
+
+        .btn-socials {
+            .list-inline {
+                margin-bottom: 0;
+
+                li {
+                    display: inline-block;
+
+                    a {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .btn-search {
+            .dropdown-menu {
+                min-width: 300px;
+                padding: 10px;
+            }
+        }
+
+        .btn-member {
+            .mw-big-dropdown {
+                min-width: 200px;
+            }
+        }
+
+        .btn-shopping-cart {
+            .js-shopping-cart-quantity {
+                font-size: 12px;
+                padding: 2px 8px;
+            }
+        }
+    }
+}
+
+/* Main Navigation */
+.header-background.mw-menu-skin-com {
+    padding: 10px 0;
+
+    .mw-big-header-logo {
+        a {
+            display: flex;
+            align-items: center;
+
+            img {
+                max-width: 200px;
+                height: auto;
+            }
+        }
+    }
+
+    .menu-header-skin-1 {
+        .navbar-nav {
+            gap: 20px;
+
+            .nav-link {
+                font-size: 14px;
+                font-weight: 700;
+                text-transform: none;
+                transition: opacity .3s;
+                padding: 0 12px;
+                line-height: 50px;
+
+                &:hover {
+                    opacity: .8;
+                }
+
+                &.active {
+                    text-decoration: underline;
+                    text-underline-offset: 4px;
+                }
+            }
+        }
+    }
+}
+
+/* Mobile header adjustments */
+@media screen and (max-width: 1279px) {
+    .templates-top-header-menu {
+        .top-header-background.header-top {
+            flex-wrap: wrap;
+            padding: 5px 10px;
+
+            .btn-phone {
+                display: none;
+            }
+        }
+    }
+
+    .header-background.mw-menu-skin-com {
+        .mw-big-header-logo {
+            img {
+                max-width: 150px;
+            }
+        }
+    }
+}
+
 @import "rtl-changes.scss";
