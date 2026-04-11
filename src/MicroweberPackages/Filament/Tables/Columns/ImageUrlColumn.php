@@ -43,4 +43,40 @@ class ImageUrlColumn extends ImageColumn
         return $this;
     }
 
+    public function toEmbeddedHtml(): string
+    {
+        if (! $this->backgroundCropped) {
+            return parent::toEmbeddedHtml();
+        }
+
+        $state = $this->getState();
+
+        if ($state instanceof \Illuminate\Support\Collection) {
+            $state = $state->all();
+        }
+
+        $state = \Illuminate\Support\Arr::wrap($state);
+
+        $imageUrl = $state[0] ?? null;
+
+        if (blank($imageUrl)) {
+            $imageUrl = $this->getDefaultImageUrl();
+        }
+
+        if (blank($imageUrl)) {
+            return '<div class="w-full"></div>';
+        }
+
+        $escapedUrl = e($imageUrl);
+        $height = $this->backgroundCroppedHeight;
+
+        ob_start(); ?>
+
+        <div class="w-full">
+            <div class="image-column-cropped w-full" style="height: <?= $height ?>px; background-image: url('<?= $escapedUrl ?>'); background-size: cover; background-position: top;"></div>
+        </div>
+
+        <?php return ob_get_clean();
+    }
+
 }

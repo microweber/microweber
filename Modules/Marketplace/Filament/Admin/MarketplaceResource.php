@@ -63,7 +63,7 @@ class MarketplaceResource extends Resource
                 Tables\Columns\Layout\Stack::make([
 
                     ImageUrlColumn::make('screenshot_link')
-                        ->backgroundCropped(100)
+                        ->backgroundCropped(176)
                         ->imageUrl(function (MarketplaceItem $marketplaceItem) {
                             return $marketplaceItem->screenshot_link;
                         })->columnSpanFull(),
@@ -122,8 +122,7 @@ class MarketplaceResource extends Resource
                     ->options([
                         'microweber-module' => 'Modules',
                         'microweber-template' => 'Templates',
-                    ])
-                    ->default('microweber-module'),
+                    ]),
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
