@@ -98,9 +98,16 @@
                         axisLabel: {
                             show: true,
                             color: '#a0aec0',
-                            fontSize: 10,
-                            interval: Math.max(0, Math.floor(this.chartData.labels.length / 6) - 1),
-                            rotate: 0
+                            fontSize: window.innerWidth < 768 ? 9 : 10,
+                            interval: Math.max(0, Math.floor(this.chartData.labels.length / (window.innerWidth < 768 ? 4 : 6)) - 1),
+                            rotate: window.innerWidth < 768 ? 45 : 0,
+                            formatter: function(value) {
+                                if (window.innerWidth < 768) {
+                                    var parts = value.split('-');
+                                    return parts.length === 3 ? parts[1] + '/' + parts[2] : value;
+                                }
+                                return value;
+                            }
                         }
                     },
                     yAxis: {

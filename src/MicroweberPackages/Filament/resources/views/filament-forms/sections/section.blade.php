@@ -1,8 +1,7 @@
 <div>
 
-
-    <div class="flex gap-8 bg-white dark:bg-white/5 shadow rounded p-12">
-        <div class="w-[20rem]">
+    <div class="mw-settings-section">
+        <div class="mw-settings-section-sidebar">
             <h3 class="font-bold text-xl flex items-center gap-2">
                 @if($getIcon())
                     @svg($getIcon(), 'w-5 h-5 text-gray-500 dark:text-gray-400')
@@ -14,7 +13,7 @@
             </div>
         </div>
 
-        <div class="bg-blue-500/5 dark:bg-white/5  p-12 rounded w-full">
+        <div class="mw-settings-section-content">
             {{ $getChildComponentContainer() }}
         </div>
     </div>

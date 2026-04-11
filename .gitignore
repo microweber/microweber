@@ -172,3 +172,4 @@ TEMP_SESSION_OUT.txt
 .autodev-session-state.json
 .autodev/
 dashboard-snapshot.yml
+/screenshots
