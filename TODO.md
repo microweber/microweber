@@ -198,7 +198,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-11  **Pictures module** — Test gallery templates (masonry, simple, default, skin-10+); verify lightbox, grid columns, and caption settings
 - [x] 2026-04-11  **Slider module** — Test default and swiper-skin-1; verify autoplay, navigation, transition settings
 - [x] 2026-04-11  **Video module** — Test default, dialog, dialog-button templates; verify responsive embed sizing
-- [ ] **Embed module** — Verify iframe/HTML embed settings panel works
+- [x] 2026-04-12  **Embed module** — Verify iframe/HTML embed settings panel works
 
 ### Phase 3: Interactive Module Settings
 
