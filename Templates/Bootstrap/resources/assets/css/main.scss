@@ -271,4 +271,35 @@ li.dropdown {
     }
 }
 
+/* Footer */
+.footer-background {
+    .footer-19-menu {
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li a {
+                text-decoration: none;
+                font-weight: 500;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .col-lg-4 small,
+    .col-lg-3 small {
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        opacity: 0.7;
+    }
+}
+
 @import "rtl-changes.scss";
