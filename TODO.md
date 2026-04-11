@@ -234,4 +234,4 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **CookieNotice module** — Verify cookie consent banner settings (text, button, position)
 - [x] 2026-04-12  **GoogleMaps module** — Test map embed; verify API key, zoom, marker settings
 - [x] 2026-04-12  **Pagination module** — Test pagination styles (bootstrap3, bootstrap4, default, mw); verify per-page settings
-- [ ] **Captcha module** — Verify captcha integration settings
+- [x] 2026-04-12  **Captcha module** — Verify captcha integration settings
