@@ -79,9 +79,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 2: Hero / Jumbotron
 
-- [ ] Update `jumbotron/skin-1.blade.php` — Replace Bootstrap SVG logo + generic jumbotron with full-width hero section: background image, centered heading ("Describe your company"), subtitle, CTA button
-- [ ] Remove the two-column "Change the background" / "Add borders" sub-cards — replace with clean single hero layout
-- [ ] Add SCSS for hero — full-viewport-height option, overlay gradient for text readability, centered content
+- [x] 2026-04-11  Update `jumbotron/skin-1.blade.php` — Replace Bootstrap SVG logo + generic jumbotron with full-width hero section: background image, centered heading ("Describe your company"), subtitle, CTA button
+- [x] 2026-04-11  Remove the two-column "Change the background" / "Add borders" sub-cards — replace with clean single hero layout
+- [x] 2026-04-11  Add SCSS for hero — full-viewport-height option, overlay gradient for text readability, centered content
 
 ### Phase 3: Feature Sections
 

@@ -180,6 +180,44 @@ li.dropdown {
     }
 }
 
+/* Hero / Jumbotron Section */
+.mw-header-section-mh-100vh {
+    min-height: 80vh;
+}
+
+.header-section-title {
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.header-section-p {
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.mb-7 {
+    margin-bottom: 3rem;
+}
+
+@media screen and (max-width: 768px) {
+    .mw-header-section-mh-100vh {
+        min-height: 60vh;
+    }
+
+    .header-section-title {
+        font-size: 36px;
+    }
+
+    .header-section-p {
+        font-size: 16px;
+    }
+}
+
 /* Mobile header adjustments */
 @media screen and (max-width: 1279px) {
     .templates-top-header-menu {
