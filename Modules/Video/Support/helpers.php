@@ -127,7 +127,10 @@ if (!function_exists('renderVideoModule')) {
             }
         }
 
-        $thumb = get_option('upload_thumb', $params['id']);
+        $thumb = get_option('thumbnail', $params['id']);
+        if ($thumb == false) {
+            $thumb = get_option('upload_thumb', $params['id']);
+        }
 
         if ($thumb) {
             $use_thumbnail = (!empty(trim($thumb)) ? true : false);
