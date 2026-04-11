@@ -14,29 +14,21 @@
 @include('modules.breadcrumb::partials.breadcrumb_params')
 
 <style>
+    .mw-breadcrumb-skin-2-wrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        padding: 0 40px;
+    }
+
     ul.mw-big2-breadcrumb-skin-2 {
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-            min-width: 480px;
-            padding: 0 40px;
-        }
-
-        .breadcrumb-skin-2 {
-            display: flex;
-            border-radius: 10px;
-            margin: auto;
-            text-align: center;
-            top: 50%;
-            width: 100%;
-            height: 40px;
-            transform: translateY(-50%);
-            z-index: 1;
-            justify-content: center;
-        }
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
 
 
         .breadcrumb__item--skin-2 {
@@ -85,10 +77,6 @@
 
 
         @media all and (max-width: 1000px) {
-            .breadcrumb {
-                height: 35px;
-            }
-
             .breadcrumb__title{
                 font-size: 11px;
             }
@@ -98,19 +86,16 @@
         }
 
         @media all and (max-width: 710px) {
-            .breadcrumb {
-                height: 30px;
-            }
             .breadcrumb__item--skin-2 {
-                padding: 0 20px;
+                padding: 0 15px;
+                font-size: 13px;
             }
-
         }
     }
 </style>
 
 
-<div class="container">
+<div class="mw-breadcrumb-skin-2-wrap">
     <ul class="mw-big2-breadcrumb-skin-2 breadcrumb-skin-2">
         <li class="breadcrumb__item--skin-2 breadcrumb__item--skin-2-firstChild">
             <a class="breadcrumb__inner" href="{{ $homepage['url'] }}">

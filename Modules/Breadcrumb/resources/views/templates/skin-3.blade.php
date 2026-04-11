@@ -15,6 +15,15 @@
 
 <style>
     ul.mw-big2-breadcrumb-skin-3 {
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: inline-flex;
+        }
+
         .breadcrumbs__item {
             background: #fff;
             color: #333;
@@ -23,11 +32,13 @@
             position: relative;
             text-decoration: none;
             transition: background 0.2s linear;
+            display: inline-block;
         }
 
         .breadcrumbs__item:hover:after,
         .breadcrumbs__item:hover, .breadcrumbs__item.active {
-            background: var(--mw-primary-color);;
+            background: var(--mw-primary-color);
+            color: #fff;
         }
 
         .breadcrumbs__item:focus:after,
@@ -50,33 +61,38 @@
             z-index: 1;
         }
 
-
-        .breadcrumbs__item:last-child {
+        li:last-child .breadcrumbs__item {
             border-right: none;
         }
 
         .breadcrumbs__item.active {
-            background: var(--mw-primary-color);;
+            background: var(--mw-primary-color);
         }
     }
 </style>
 
 
 <ul class="mw-big2-breadcrumb-skin-3 breadcrumbs">
-    <a class="breadcrumbs__item" href="{{ $homepage['url'] }}">
-       {{ $homepage['title'] }}
-    </a>
+    <li>
+        <a class="breadcrumbs__item" href="{{ $homepage['url'] }}">
+           {{ $homepage['title'] }}
+        </a>
+    </li>
 
     @if(!empty($data))
         @foreach($data as $item)
             @if($loop->last)
-                <a class="breadcrumbs__item active">
-                    {{ $item['title'] }}
-                </a>
+                <li>
+                    <a class="breadcrumbs__item active">
+                        {{ $item['title'] }}
+                    </a>
+                </li>
             @else
-                <a class="breadcrumbs__item" href="{{ $item['url'] }}">
-                    {{ $item['title'] }}
-                </a>
+                <li>
+                    <a class="breadcrumbs__item" href="{{ $item['url'] }}">
+                        {{ $item['title'] }}
+                    </a>
+                </li>
             @endif
         @endforeach
     @endif

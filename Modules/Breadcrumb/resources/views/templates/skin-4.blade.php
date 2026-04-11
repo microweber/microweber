@@ -89,6 +89,30 @@
            color:#fff;
        }
 
+       @media all and (max-width: 768px) {
+           ul li a {
+               height: 50px;
+               padding: 12px 10px 0 30px;
+               font-size: 14px;
+               &:after {
+                   border-top: 25px solid transparent;
+                   border-bottom: 25px solid transparent;
+                   border-left: 25px solid #F3F5FA;
+                   right: -25px;
+               }
+               &:before {
+                   border-top: 25px solid transparent;
+                   border-bottom: 25px solid transparent;
+                   border-left: 25px solid #fff;
+               }
+           }
+           ul li:last-child a {
+               padding-right: 20px;
+           }
+           ul li a:hover:after, ul li a.active:after {
+               border-left-color: var(--mw-primary-color);
+           }
+       }
 
     }
 </style>

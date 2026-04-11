@@ -2,12 +2,10 @@
 
 namespace Modules\Breadcrumb\Filament;
 
-use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use Modules\Rating\Filament\RatingTableList;
 
 class BreadcrumbModuleSettings extends LiveEditModuleSettings
 {
@@ -17,22 +15,19 @@ class BreadcrumbModuleSettings extends LiveEditModuleSettings
     {
         return $schema
             ->schema([
-                Select::make('options.data-start-from')
-                    ->label('Root level')
-                    ->options([
-                        '' => 'Default',
-                        'page' => 'Page',
-                        'category' => 'Category',
-                    ])
-                    ->default('')
-                    ->live()
-
-                ,
                 Tabs::make('Breadcrumb settings')
                     ->schema([
                         Tabs\Tab::make('Main settings')
                             ->schema([
-
+                                Select::make('options.data-start-from')
+                                    ->label('Root level')
+                                    ->options([
+                                        '' => 'Default',
+                                        'page' => 'Page',
+                                        'category' => 'Category',
+                                    ])
+                                    ->default('')
+                                    ->live(),
                             ]),
                         Tabs\Tab::make('Design')
                             ->schema($this->getTemplatesFormSchema()),

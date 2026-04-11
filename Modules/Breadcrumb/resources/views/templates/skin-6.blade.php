@@ -15,15 +15,12 @@
 
 <style>
    .mw-big2-breadcrumb-skin-6 {
-       &.container {
-           display: flex;
-           flex-direction: column;
-           height: 100%;
-           width: 100%;
-           min-width: 480px;
-           padding: 0 40px;
-           margin-top: 30px;
-       }
+       display: flex;
+       flex-direction: column;
+       height: 100%;
+       width: 100%;
+       padding: 0 40px;
+       margin-top: 30px;
 
        .breadcrumb {
            display: flex;
@@ -136,7 +133,7 @@
 
 
 
-<div class="container mw-big2-breadcrumb-skin-6">
+<div class="mw-big2-breadcrumb-skin-6">
     <div class="breadcrumb">
         <a href="{{ $homepage['url'] }}">
             <span class="breadcrumb__inner">
