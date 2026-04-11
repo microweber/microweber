@@ -24,7 +24,7 @@
 
 ### Content list cards
 
-- [ ] Pages list: long page titles overflow card width — add `text-overflow: ellipsis` with `max-width` on title text
+- [x] 2026-04-11  Pages list: long page titles overflow card width — add `text-overflow: ellipsis` with `max-width` on title text
 - [ ] Categories tree: long category names overflow container — truncate with ellipsis
 
 ### Page headers / edit pages

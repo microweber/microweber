@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full">
 
-    <div class="font-medium w-full">
-        <a href="{{$content->editLink()}}">
+    <div class="font-medium w-full overflow-hidden">
+        <a href="{{$content->editLink()}}" class="block truncate">
             {{$content->title}}
         </a>
 
