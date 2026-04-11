@@ -32,7 +32,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <module type="background" id="background-layout--{{ $params['id'] }}" />
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top" />
     <div class="container mw-layout-container">
-        <module type="posts" template="skin-1" slides-md="2" slides-lg="3" slides-lg="3" adaptive_height="true" />
+        <module type="posts" id="{{ $params['id'] }}-posts" template="skin-1" slides-md="2" slides-lg="3" adaptive_height="true" />
     </div>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
 

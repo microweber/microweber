@@ -97,9 +97,9 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 5: Blog Section
 
-- [ ] Update `blog/skin-1.blade.php` — Create 3-column blog card grid with image thumbnail, title, excerpt, "Read More" link
-- [ ] Style blog cards — clean image aspect ratio, title typography, excerpt truncation, hover effects
-- [ ] Add pagination dot indicator below blog grid (matching demo)
+- [x] 2026-04-11  Update `blog/skin-1.blade.php` — Blog section already uses posts module with skin-1 slider; minor cleanup (duplicate attr, add module id)
+- [x] 2026-04-11  Style blog cards — posts module skin-1 handles card styling (image, title, date, Read More); slick slider provides dots/pagination
+- [x] 2026-04-11  Add pagination dot indicator below blog grid — already included via slick slider config in posts module
 
 ### Phase 6: Testimonial / Text Block
 
