@@ -62,22 +62,17 @@ class PaymentsRelationManager extends RelationManager
             ->paginated(false)
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('amount')
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
                 Tables\Columns\TextColumn::make('paymentProvider.name')
-//                   ->formatStateUsing(function ($state) {
-//                       dd($state);
-//                       dd($record->paymentProvider->name);
-//                        return $record->paymentProvider->name;
-//                    })
-                    //->format(fn ($record) => $record->paymentProvider()->name)
-                 //   ->formatStateUsing(fn ($state) => Str::headline($state))
-                   // ->formatStateUsing(fn ($record) => $record->paymentProvider()->name)
-                    ->sortable(),
+                    ->label('Provider')
+                    ->sortable()
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
             ])
