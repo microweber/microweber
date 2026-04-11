@@ -78,17 +78,22 @@ public static function form(Schema $schema): Schema
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('id')
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('username')->searchable(),
-                Tables\Columns\TextColumn::make('phone')->searchable(),
+                Tables\Columns\TextColumn::make('phone')->searchable()
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\TextColumn::make('first_name')->searchable(),
-                Tables\Columns\TextColumn::make('last_name')->searchable(),
+                Tables\Columns\TextColumn::make('first_name')->searchable()
+                    ->visibleFrom('md'),
+                Tables\Columns\TextColumn::make('last_name')->searchable()
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Roles')
                     ->badge()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->visibleFrom('md'),
 
             ])
             ->filters([
