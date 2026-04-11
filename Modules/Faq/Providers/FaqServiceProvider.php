@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Faq\Filament\FaqModuleSettings;
 use Modules\Faq\Filament\FaqTableList;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Microweber\FaqModule;
@@ -36,7 +37,7 @@ class FaqServiceProvider extends BaseModuleServiceProvider
 
         Livewire::component('modules.faq.filament.faq-table-list', FaqTableList::class);
 
-
+        FilamentRegistry::registerPage(FaqModuleSettings::class);
 
         FilamentRegistry::registerResource(FaqModuleResource::class);
         FilamentRegistry::registerResource(FaqModuleResource::class,Settings::class);
