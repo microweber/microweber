@@ -99,8 +99,8 @@
                             show: true,
                             color: '#a0aec0',
                             fontSize: window.innerWidth < 768 ? 9 : 10,
-                            interval: Math.max(0, Math.floor(this.chartData.labels.length / (window.innerWidth < 768 ? 4 : 6)) - 1),
-                            rotate: window.innerWidth < 768 ? 45 : 0,
+                            interval: Math.max(0, Math.floor(this.chartData.labels.length / (window.innerWidth < 768 ? 5 : 6)) - 1),
+                            rotate: 0,
                             formatter: function(value) {
                                 if (window.innerWidth < 768) {
                                     var parts = value.split('-');
