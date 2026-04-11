@@ -36,7 +36,7 @@
 ### Dashboard
 
 - [x] 2026-04-11  Dashboard chart: X-axis date labels slightly truncated on far left at 390px — increase left grid margin or reduce font size on mobile
-- [ ] Dashboard stat cards: "Last comments" and "Recent Orders" card labels may truncate on very narrow screens — use shorter labels on mobile or allow text wrapping
+- [x] 2026-04-11  Dashboard stat cards: "Last comments" and "Recent Orders" card labels may truncate on very narrow screens — use shorter labels on mobile or allow text wrapping
 
 ### Tabs
 
