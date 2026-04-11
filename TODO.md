@@ -220,7 +220,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 5: Social & Communication Module Settings
 
-- [ ] **SocialLinks module** — Test all skins (default, skin-1, skin-2, skin-4, skin-7, footer); verify JSON schema for platform URL settings; check icon rendering
+- [x] 2026-04-12  **SocialLinks module** — Test all skins (default, skin-1, skin-2, skin-4, skin-7, footer); verify JSON schema for platform URL settings; check icon rendering
 - [ ] **Newsletter module** — Test subscription form templates; verify email integration settings
 - [ ] **Testimonials module** — Test key skins (default, skin-10, skin-12+); verify avatar, name, company, quote fields; check carousel settings
 - [ ] **Teamcard module** — Test team member display skins; verify photo, name, role, social link settings
