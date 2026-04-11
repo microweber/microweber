@@ -228,7 +228,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 ### Phase 6: Utility Module Settings
 
 - [x] 2026-04-12  **Tabs module** — Test tab templates (default, skin-1 through skin-5, horizontal centered); verify tab add/remove, content editing
-- [ ] **Accordion module** — Test accordion display; verify expand/collapse settings
+- [x] 2026-04-12  **Accordion module** — Test accordion display; verify expand/collapse settings
 - [ ] **Elements module** — Test element types (icon, picture, text, title, inline-table, multiple-columns)
 - [ ] **Faq module** — Test FAQ display template; verify question/answer editing
 - [ ] **CookieNotice module** — Verify cookie consent banner settings (text, button, position)
