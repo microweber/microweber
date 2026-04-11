@@ -6,137 +6,39 @@
 
 ---
 
-## Migration Approach
+## Done
 
-Each page migration follows this cycle:
+- [x] 2026-04-11  Make a todo to fix all mobile pages issues
 
-1. **Capture reference** — Use the clone-website skill (Phase 1: Reconnaissance) to screenshot the MW v2 page at `https://demo.microweber.org/admin/<path>` and extract design tokens, layout patterns, spacing, colors
-2. **Inspect current Filament page** — Open the local Filament admin, compare against the MW v2 reference
-3. **Implement** — Update Filament Resource/Page forms, tables, Blade views, and CSS to match the MW v2 design language (section icons, card layouts, typography, colors, dark mode)
-4. **Visual QA** — Use the UI test workflow to verify pixel-level match at desktop and mobile viewports, light and dark mode
-5. **Commit** — One logical change per page/group
+## Mobile Pages Issues
 
----
- 
+> Audited at 390×844 viewport (iPhone 14 equivalent) on 2026-04-11.
+> Screenshots saved under `screenshots/audit/mobile/`.
 
-## Todo
+### Tables — column overflow / truncation
 
-### Filament admin full-page test plan
+- [ ] Products list: "PUBLISHED" badge text clipped on right edge — badge should wrap or abbreviate on mobile
+- [ ] Customers list: table columns overflow viewport ("LAST NA...", "Custo..." truncated) — hide low-priority columns (ID, Phone) on mobile or switch to card layout
+- [ ] Users list: "PHON..." column header truncated — same fix as customers, hide Phone column on small screens
+- [ ] Orders edit: Payments table headers overflow ("PAYMENT PROVIDER", "STATUS" clipped) — responsive table or hide columns on mobile
 
-> **Goal:** systematically visit every admin page in Filament, capture screenshots at desktop + mobile in light + dark mode, and check for HTTP 500s, JS console errors, and visual regressions vs MW v2.
->
-> **Tooling:**
-> - HTTP smoke (no-500): extend `tests/Feature/Admin/AdminPagesNo500Test.php` to cover every route below.
-> - Visual + JS errors: Playwright via `mcp__playwright__browser_navigate` → `browser_console_messages` → `browser_take_screenshot` at 1440x900 and 390x844, toggling dark mode.
-> - Per page assert: (a) status 200/302, (b) no console errors, (c) screenshots saved under `screenshots/audit/<area>/<page>-{light,dark}-{desktop,mobile}.png`.
+### Content list cards
 
-#### Phase 1 — Route inventory
-- [x] 2026-04-10  enumerate every Filament page: `php artisan route:list --path=admin --json` and extract unique GET routes
-- [x] 2026-04-10  group routes by area (dashboard, content, shop, users, settings, marketplace, modules) and write into `tests/fixtures/admin-pages.php`
-- [x] 2026-04-10  for each Resource include: index, create, edit (with seeded record id), and any custom Pages
+- [ ] Pages list: long page titles overflow card width — add `text-overflow: ellipsis` with `max-width` on title text
+- [ ] Categories tree: long category names overflow container — truncate with ellipsis
 
-#### Phase 2 — HTTP smoke (no-500) test
-- [x] 2026-04-10  extend `AdminPagesNo500Test` to iterate the fixture and assert 200/302 (never 5xx) for every authenticated GET
-- [x] 2026-04-10  add per-area data providers so failures point at the exact route
-- [x] 2026-04-10  run suite, fix any 500s, commit per area
+### Page headers / edit pages
 
-#### Phase 3 — Console / JS error audit
-- [x] 2026-04-10  write `scripts/audit-admin-console.mjs` that logs in, walks the fixture, and prints every `console.error` per page
-- [x] 2026-04-10  triage and fix unique JS errors
+- [ ] Page edit: page title in header bar overflows left edge ("ategoryJsonTreeAdminPageStatic0_69c...") — truncate with ellipsis and max-width on the header title element
+- [ ] Page edit: header action buttons (trash, Live edit, SAVE) are cramped on mobile — stack vertically or use icon-only buttons on small screens
+- [ ] Products list: duplicate "New product" button appears (one in page header, one in floating toolbar) — hide one on mobile
 
-#### Phase 4 — Visual audit per area
-For each area: light desktop, dark desktop, light mobile, dark mobile screenshots; diff against MW v2 reference.
+### Dashboard
 
-##### Dashboard
-- [x] 2026-04-10  /admin — main dashboard
-- [ ] dashboard widgets daily/weekly/monthly chart states
-- [ ] notifications panel open
+- [ ] Dashboard chart: X-axis date labels slightly truncated on far left at 390px — increase left grid margin or reduce font size on mobile
+- [ ] Dashboard stat cards: "Last comments" and "Recent Orders" card labels may truncate on very narrow screens — use shorter labels on mobile or allow text wrapping
 
-##### Content — Pages
-- [ ] /admin/pages (list)
-- [ ] /admin/pages/create
-- [ ] /admin/pages/{id}/edit — Content tab
-- [ ] /admin/pages/{id}/edit — Template tab
-- [ ] /admin/pages/{id}/edit — Custom Fields tab
-- [ ] /admin/pages/{id}/edit — SEO tab
-- [ ] /admin/pages/{id}/edit — Advanced tab
+### Tabs
 
-##### Content — Posts
-- [ ] /admin/posts (list)
-- [ ] /admin/posts/create (all tabs)
-- [ ] /admin/posts/{id}/edit (all tabs)
-
-##### Content — Categories
-- [ ] /admin/categories (list)
-- [ ] /admin/categories/create (all tabs)
-- [ ] /admin/categories/{id}/edit (all tabs)
-
-##### Shop — Products
-- [ ] /admin/products (list)
-- [ ] /admin/products/create (Content, Product Details, Variants, Custom Fields, SEO, Advanced)
-- [ ] /admin/products/{id}/edit (all tabs)
-
-##### Shop — Orders
-- [ ] /admin/orders (list, filter tabs: all/new/processing/completed/cancelled)
-- [ ] /admin/orders/create (all tabs)
-- [ ] /admin/orders/{id}/edit
-- [ ] /admin/orders/{id}/view (if exists)
-
-##### Shop — Categories
-- [ ] /admin/shop/categories (list, tree view)
-- [ ] /admin/shop/categories/create
-- [ ] /admin/shop/categories/{id}/edit
-
-##### Shop — Customers
-- [ ] /admin/customers (list)
-- [ ] /admin/customers/create
-- [ ] /admin/customers/{id}/edit
-
-##### Users
-- [ ] /admin/users (list)
-- [ ] /admin/users/create
-- [ ] /admin/users/{id}/edit
-- [ ] /admin/users/roles (if exists)
-
-##### Settings
-- [ ] /admin/settings — General
-- [ ] /admin/settings — Website
-- [ ] /admin/settings — Email
-- [ ] /admin/settings — Shop / Payments
-- [ ] /admin/settings — Shipping
-- [ ] /admin/settings — Tax
-- [ ] /admin/settings — Comments
-- [ ] /admin/settings — Language / Multilanguage
-- [ ] /admin/settings — Social login
-- [ ] /admin/settings — SEO
-- [ ] /admin/settings — Cache
-- [ ] /admin/settings — Backup / restore
-
-##### Marketplace
-- [ ] /admin/marketplace (index)
-- [ ] /admin/marketplace — templates
-- [ ] /admin/marketplace — modules
-- [ ] /admin/marketplace — install flow
-
-##### Modules
-- [ ] /admin/modules (list)
-- [ ] /admin/modules/{name}/admin (a couple of representative modules)
-
-##### Auth / standalone
-- [ ] /admin/login (light + dark)
-- [ ] /admin/password/reset
-- [ ] 404 admin page
-- [ ] forced 500 admin error page
-
-#### Phase 5 — Cross-cutting checks
-- [ ] table pagination controls (per-page selector, prev/next) on every list page
-- [ ] modal slide-right behaviour on every create/edit modal
-- [ ] tab underline + padding alignment on every tabbed form
-- [ ] dark mode color contrast pass on every page
-- [ ] mobile sidebar drawer open/close on every page
-- [ ] keyboard focus ring visible on every interactive element
-
-#### Phase 6 — Triage + fix
-- [ ] open a TODO entry for each defect found, grouped by area
-- [ ] fix in order: 500s → JS errors → layout breaks → visual polish
-- [ ] re-run Phase 2 + Phase 3 to confirm green before closing
+- [ ] Order edit: third tab label ("P...") truncated — ensure tab labels are abbreviated or scrollable-visible on mobile
+- [ ] Product edit forms with many tabs may overflow — verify horizontal scroll indicator is visible
