@@ -31,7 +31,7 @@
 
 - [x] 2026-04-11  Page edit: page title in header bar overflows left edge ("ategoryJsonTreeAdminPageStatic0_69c...") — truncate with ellipsis and max-width on the header title element
 - [x] 2026-04-11  Page edit: header action buttons (trash, Live edit, SAVE) are cramped on mobile — stack vertically or use icon-only buttons on small screens
-- [ ] Products list: duplicate "New product" button appears (one in page header, one in floating toolbar) — hide one on mobile
+- [x] 2026-04-11  Products list: duplicate "New product" button appears (one in page header, one in floating toolbar) — hide one on mobile
 
 ### Dashboard
 

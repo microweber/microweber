@@ -65,7 +65,8 @@ class ProductResource extends ContentResource
                         return redirect()->to($url);
                     }),
                 ])->icon('heroicon-o-cog-6-tooth')->tooltip('Settings')->color('gray')->button()->label(''),
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->extraAttributes(['class' => 'hidden md:inline-flex']),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
