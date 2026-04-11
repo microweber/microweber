@@ -33,9 +33,9 @@ if (($slides_lg === null or $slides_lg === false or $slides_lg == '') and isset(
     $slides_lg = '2';
 }
 
-$slides_xl = get_option('slides-lg', $params['id']);
-if (($slides_xl === null or $slides_xl === false or $slides_xl == '') and isset($params['slides-lg'])) {
-    $slides_xl = $params['slides-lg'];
+$slides_xl = get_option('slides-xl', $params['id']);
+if (($slides_xl === null or $slides_xl === false or $slides_xl == '') and isset($params['slides-xl'])) {
+    $slides_xl = $params['slides-xl'];
 } elseif ($slides_xl === null or $slides_xl === false or $slides_xl == '') {
     $slides_xl = '2';
 }

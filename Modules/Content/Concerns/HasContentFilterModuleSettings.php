@@ -100,7 +100,7 @@ trait HasContentFilterModuleSettings
                 })
                 ->label('Description')
                 ->live(),
-            TextInput::make('data-character-limit')
+            TextInput::make('options.data-character-limit')
                 ->visible(function (Forms\Get $get) {
                     return $get('options.data-show') == 1;
                 })
