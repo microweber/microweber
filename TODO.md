@@ -41,4 +41,4 @@
 ### Tabs
 
 - [x] 2026-04-11  Order edit: third tab label ("P...") truncated — ensure tab labels are abbreviated or scrollable-visible on mobile
-- [ ] Product edit forms with many tabs may overflow — verify horizontal scroll indicator is visible
+- [x] 2026-04-11  Product edit forms with many tabs may overflow — verify horizontal scroll indicator is visible
