@@ -271,6 +271,17 @@ li.dropdown {
     }
 }
 
+/* Section spacing */
+.module-layouts > section.section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+/* Smooth link transitions */
+a {
+    transition: color 0.2s ease;
+}
+
 /* Footer */
 .footer-background {
     .footer-19-menu {

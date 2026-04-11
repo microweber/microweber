@@ -126,11 +126,11 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 10: Global Styling & SCSS
 
-- [ ] Define CSS custom properties in `main.scss` or `design-vars.scss`: primary accent color (orange/peach ~#e8945a), heading color, body text color, footer background
-- [ ] Typography — set heading font family, body font, consistent font sizes and weights
-- [ ] Button styling — rounded buttons with accent color, hover states, outline variants
-- [ ] Section spacing — consistent vertical padding between sections (py-5 / 80-100px)
-- [ ] Link styling — accent color on hover, smooth transitions
+- [x] 2026-04-11  Define CSS custom properties in `main.scss` or `design-vars.scss`: primary accent color (orange/peach ~#e8945a), heading color, body text color, footer background
+- [x] 2026-04-11  Typography — set heading font family, body font, consistent font sizes and weights
+- [x] 2026-04-11  Button styling — rounded buttons with accent color, hover states, outline variants
+- [x] 2026-04-11  Section spacing — consistent vertical padding between sections (py-5 / 80-100px)
+- [x] 2026-04-11  Link styling — accent color on hover, smooth transitions
 
 ### Phase 11: Mobile Responsiveness
 

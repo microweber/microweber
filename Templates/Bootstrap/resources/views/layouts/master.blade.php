@@ -10,6 +10,10 @@
 
     {!! meta_tags_head() !!}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     {{-- Vite CSS --}}
 
     <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app.css') }}">
