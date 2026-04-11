@@ -20,7 +20,7 @@ description: Skin-7
 </style>
 
 @php
-    $tn = $tn_size;
+    $tn = $tn_size ?? [350, 350];
     if (!isset($tn[0]) or ($tn[0]) == 150) {
         $tn[0] = 350;
     }
