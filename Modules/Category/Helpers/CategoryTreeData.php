@@ -427,9 +427,7 @@ class CategoryTreeData
 //        }
 
         if (!is_array($orderby)) {
-            $orderby[0] = 'position';
-
-            $orderby[1] = 'ASC';
+            $orderby = ['position', 'ASC'];
         }
 
         if (isset($remove_ids) and !is_array($remove_ids)) {
