@@ -202,7 +202,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ### Phase 3: Interactive Module Settings
 
-- [ ] **Btn module** — Verify bootstrap.json schema (button style, size, text, link, icon settings); test button preview in settings panel
+- [x] 2026-04-12  **Btn module** — Verify bootstrap.json schema (button style, size, text, link, icon settings); test button preview in settings panel
 - [ ] **ContactForm module** — Test form templates (default, skin-1 through skin-6, CTA forms); verify field configuration, email settings, success message
 - [ ] **Search module** — Test autocomplete template; verify search type settings (all, shop, blog)
 - [ ] **Sharer module** — Test social sharing buttons; verify platform selection settings
