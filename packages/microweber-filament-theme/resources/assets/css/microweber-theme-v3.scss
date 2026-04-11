@@ -2683,6 +2683,19 @@ html.dark {
     white-space: nowrap;
     vertical-align: middle;
   }
+
+  // Fix page edit header title overflow on mobile.
+  // The .fi-header flex container has nowrap, so the title div and
+  // actions div overflow. Wrap and constrain the title.
+  .fi-header {
+    flex-wrap: wrap !important;
+  }
+
+  .fi-header > div:first-child {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
 }
 
 .mw-quick-stat-card {
