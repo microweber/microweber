@@ -247,3 +247,5 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  now in http://127.0.0.1:8000/admin/template-customization there is slow loading arrow when you change template
 
 - [x] 2026-04-12  now work on http://127.0.0.1:8000/admin/file-manager-page-admin  see the seach and sort by boimnputs
+
+- [x] 2026-04-12  some module like the accodion and other live edit module donesh ave admin pages http://127.0.0.1:800
