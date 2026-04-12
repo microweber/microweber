@@ -26,9 +26,10 @@ use Livewire\Component;
 use Modules\Checkout\Services\CheckoutService;
 use Modules\Order\Models\Order;
 
-class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\HasSchemas
+class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\HasSchemas, \Filament\Actions\Contracts\HasActions
 {
     use InteractsWithSchemas;
+    use \Filament\Actions\Concerns\InteractsWithActions;
 
     public ?array $data = [];
 

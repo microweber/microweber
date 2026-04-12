@@ -265,3 +265,6 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  also ifx the template seggins and see if  color schemems work on live edit
 
 - [x] 2026-04-12  ok contine to work on the bootrap 5 template fxi all mobile issues make interl todo lsit and work
+- [x] 2026-04-12  fux the checjout and th e full tempalteo n mobile
+
+- [ ] make a plan to valu e all module sins on descto and mobile and fix them , ad in the the todo.md the
