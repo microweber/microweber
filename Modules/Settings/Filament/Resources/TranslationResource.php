@@ -41,7 +41,7 @@ class TranslationResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['translation_key', 'translation_namespace', 'translation_group'];
+        return [];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
