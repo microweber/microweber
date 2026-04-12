@@ -46,7 +46,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                     <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
                 </div>
                 <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-1" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                    <module type="btn" id="{{ $params['id'] }}-btn-1" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                     <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
                 </div>
                 <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-2" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                    <module type="btn" id="{{ $params['id'] }}-btn-2" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
                 </div>
             </div>
 
@@ -68,7 +68,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                     <p data-mwplaceholder="Enter text here">To get started in learning how to observe the stars much better, there are some basic things.</p>
                 </div>
                 <div class="mt-md-4 mt-3">
-                    <module type="btn" id="{{ $params['id'] }}-btn-3" button_style="btn-outline-primary" button_size="btn-md" button_text="Learn More"/>
+                    <module type="btn" id="{{ $params['id'] }}-btn-3" button_style="btn-dark" button_size="btn-md" button_text="Learn More"/>
                 </div>
             </div>
         </div>

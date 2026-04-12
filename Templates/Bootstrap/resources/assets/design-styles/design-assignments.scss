@@ -23,7 +23,7 @@ a i:before {
     color: var(--mw-primary-color);
 }
 
-.btn.btn-primary, .btn:not(.btn-secondary):not(.btn-outline):not(.btn-link) {
+.btn.btn-primary, .btn:not(.btn-secondary):not(.btn-outline):not(.btn-link):not(.btn-dark) {
     background-color: var(--mw-btn-background-color);
     color: var(--mw-btn-text-color);
     border-color: var(--mw-btn-border-color);

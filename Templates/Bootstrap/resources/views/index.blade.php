@@ -17,10 +17,7 @@
         <module type="layouts" template="jumbotron/skin-1"/>
         <module type="layouts" template="features/skin-1"/>
         <module type="layouts" template="content/skin-1"/>
-        <module type="layouts" template="features/skin-1"/>
         <module type="layouts" template="blog/skin-1"/>
-        <module type="layouts" template="content/skin-1"/>
-        <module type="layouts" template="content/skin-1"/>
         <module type="layouts" template="text-block/skin-1"/>
     </div>
 @endsection
