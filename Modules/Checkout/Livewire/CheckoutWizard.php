@@ -18,6 +18,7 @@ use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -89,7 +90,7 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     ->startOnStep($this->step)
                     ->contained()
                     ->persistStepInQueryString('step')
-            ->submitAction('submit')
+            ->submitAction(new HtmlString(''))
             ->cancelAction('cancel'),
             ])
             ->statePath('data');
@@ -396,7 +397,7 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->size('lg')
-                    ->submit('submit'),
+                    ->action(fn () => $this->submit()),
             ])
                 ->fullWidth(),
         ];
