@@ -243,3 +243,5 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  Connect global search on all Filament resources — added recordTitleAttribute and getGloballySearchableAttributes to 10 resources
 
 - [x] 2026-04-12  remove the translations from the global search
+
+- [x] 2026-04-12  now in http://127.0.0.1:8000/admin/template-customization there is slow loading arrow when you change template

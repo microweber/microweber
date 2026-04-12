@@ -74,35 +74,39 @@
                     @endif
                 </div>
 
-                <div class="p-4 bg-gray-100 dark:bg-gray-800">
-                    @if($this->previewUrl)
-                        <div
-                            x-data="{
-                                isLoading: true,
-                                scale: 0.75,
-                                init() {
-                                    this.$wire.on('refreshPreview', () => {
-                                        this.refreshFrame();
-                                    });
+                <div
+                    class="p-4 bg-gray-100 dark:bg-gray-800"
+                    x-data="{
+                        isLoading: true,
+                        scale: 0.75,
+                        previewUrl: @js($this->previewUrl),
+                        init() {
+                            this.$wire.on('refreshPreview', () => {
+                                this.refreshFrame();
+                            });
 
-                                    this.$wire.on('templateChanged', ({ template }) => {
-                                        this.isLoading = true;
-                                        setTimeout(() => this.refreshFrame(), 500);
-                                    });
-                                },
-                                refreshFrame() {
-                                    const frame = this.$refs.previewFrame;
-                                    if (frame) {
-                                        this.isLoading = true;
-                                        frame.src = frame.src; // Reload iframe
-                                    }
-                                },
-                                onFrameLoad() {
-                                    this.isLoading = false;
+                            this.$wire.on('templateChanged', ({ template, previewUrl }) => {
+                                if (previewUrl) {
+                                    this.previewUrl = previewUrl;
+                                    this.isLoading = true;
                                 }
-                            }"
-                            class="relative"
-                        >
+                            });
+                        },
+                        refreshFrame() {
+                            const frame = this.$refs.previewFrame;
+                            if (frame) {
+                                this.isLoading = true;
+                                frame.src = frame.src;
+                            }
+                        },
+                        onFrameLoad() {
+                            this.isLoading = false;
+                        }
+                    }"
+                    wire:ignore
+                >
+                    <template x-if="previewUrl">
+                        <div class="relative">
                             {{-- Loading Spinner --}}
                             <div
                                 x-show="isLoading"
@@ -118,33 +122,32 @@
                             {{-- Preview Controls --}}
                             <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-2">
-                                    <x-filament::button
+                                    <button
                                         type="button"
                                         x-on:click="scale = Math.max(0.5, scale - 0.1)"
-                                        icon="heroicon-m-minus"
-                                        color="gray"
-                                        size="xs"
-                                    />
+                                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                    >
+                                        <x-heroicon-m-minus class="w-4 h-4"/>
+                                    </button>
                                     <span class="text-xs text-gray-600 dark:text-gray-400 min-w-[60px] text-center" x-text="Math.round(scale * 100) + '%'">75%</span>
-                                    <x-filament::button
+                                    <button
                                         type="button"
                                         x-on:click="scale = Math.min(1.0, scale + 0.1)"
-                                        icon="heroicon-m-plus"
-                                        color="gray"
-                                        size="xs"
-                                    />
+                                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                                    >
+                                        <x-heroicon-m-plus class="w-4 h-4"/>
+                                    </button>
                                 </div>
 
                                 <div class="flex items-center gap-2">
-                                    <x-filament::button
+                                    <button
                                         type="button"
                                         x-on:click="refreshFrame()"
-                                        icon="heroicon-m-arrow-path"
-                                        color="gray"
-                                        size="xs"
+                                        class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2.5 py-1.5 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                                     >
+                                        <x-heroicon-m-arrow-path class="w-4 h-4"/>
                                         Reload
-                                    </x-filament::button>
+                                    </button>
                                 </div>
                             </div>
 
@@ -156,11 +159,11 @@
                                 >
                                     <iframe
                                         x-ref="previewFrame"
-                                        src="{{ $this->previewUrl }}"
+                                        x-bind:src="previewUrl"
                                         class="w-full h-full border-0"
                                         sandbox="allow-scripts allow-same-origin allow-forms"
                                         loading="lazy"
-                                        x-on:load="onFrameLoad"
+                                        x-on:load="onFrameLoad()"
                                         title="Template Preview"
                                     ></iframe>
                                 </div>
@@ -168,30 +171,20 @@
 
                             {{-- Device View Toggle --}}
                             <div class="flex items-center justify-center gap-2 mt-4">
-                                <x-filament::button
-                                    type="button"
-                                    icon="heroicon-m-computer-desktop"
-                                    color="gray"
-                                    size="xs"
-                                    tooltip="Desktop View"
-                                />
-                                <x-filament::button
-                                    type="button"
-                                    icon="heroicon-m-device-tablet"
-                                    color="gray"
-                                    size="xs"
-                                    tooltip="Tablet View"
-                                />
-                                <x-filament::button
-                                    type="button"
-                                    icon="heroicon-m-device-phone-mobile"
-                                    color="gray"
-                                    size="xs"
-                                    tooltip="Mobile View"
-                                />
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Desktop View">
+                                    <x-heroicon-m-computer-desktop class="w-4 h-4"/>
+                                </button>
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Tablet View">
+                                    <x-heroicon-m-device-tablet class="w-4 h-4"/>
+                                </button>
+                                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Mobile View">
+                                    <x-heroicon-m-device-phone-mobile class="w-4 h-4"/>
+                                </button>
                             </div>
                         </div>
-                    @else
+                    </template>
+
+                    <template x-if="!previewUrl">
                         <div class="flex flex-col items-center justify-center h-[600px] text-center">
                             <div class="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
                                 <x-heroicon-o-photo class="w-8 h-8 text-gray-400"/>
@@ -201,7 +194,7 @@
                                 Select a template from the dropdown above to see a live preview of your changes.
                             </p>
                         </div>
-                    @endif
+                    </template>
                 </div>
             </div>
 

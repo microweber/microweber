@@ -127,7 +127,7 @@ class AdminTemplateCustomizerPage extends Page
     {
         $this->loadCustomizationData();
         $this->updatePreviewUrl();
-        $this->dispatch('templateChanged', template: $this->selectedTemplate);
+        $this->dispatch('templateChanged', template: $this->selectedTemplate, previewUrl: $this->previewUrl);
     }
 
     public function saveCustomization(string $key, $value): void
