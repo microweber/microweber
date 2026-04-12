@@ -262,4 +262,4 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 - [x] 2026-04-12  test and fix the checkout
 
-- [~] also ifx the template seggins and see if  color schemems work on live edit
+- [x] 2026-04-12  also ifx the template seggins and see if  color schemems work on live edit
