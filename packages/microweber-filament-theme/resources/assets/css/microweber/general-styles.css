@@ -404,7 +404,48 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-file-manager-search-button {
-    @apply flex items-center justify-center h-[34px] w-[34px] ms-3 border border-gray-500;
+    @apply flex items-center justify-center h-[34px] w-[34px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-r-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+    margin-left: -1px;
+}
+
+/* File Manager search input - Filament admin styling */
+.mw-file-manager-search .form-control-live-edit-input {
+    @apply !rounded-l-lg !rounded-r-none !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800 text-sm text-gray-900 dark:text-white;
+    padding: 6px 12px !important;
+    height: 34px !important;
+    width: 190px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.mw-file-manager-search .form-control-live-edit-input:focus {
+    @apply !border-primary-500;
+    box-shadow: 0 0 0 1px rgba(var(--primary-500), 0.3) !important;
+}
+.mw-file-manager-search .form-control-live-edit-input::placeholder {
+    @apply text-gray-400 dark:text-gray-500;
+}
+
+/* File Manager sort select - Filament admin styling */
+.mw-file-manager--sort-select {
+    @apply !rounded-lg !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800 text-sm text-gray-700 dark:text-gray-300;
+    height: 34px !important;
+    padding: 4px 28px 4px 10px !important;
+    min-width: 120px;
+    font-size: 13px !important;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-position: right 6px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+.mw-file-manager--sort-select:focus {
+    @apply !border-primary-500 !outline-none;
+}
+.mw-file-manager--sort-select option {
+    @apply dark:bg-gray-800 dark:text-white;
 }
 
 .settings-title-inside {
