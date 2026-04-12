@@ -88,9 +88,10 @@ function module_admin_url($module_name = false)
             }
 
             $moduleNameLower = $module->getLowerName();
-
+            $moduleNameKebab = \Illuminate\Support\Str::kebab($module->getName());
 
             $pluralModuleNameLower = \Illuminate\Support\Str::plural($moduleNameLower);
+            $pluralModuleNameKebab = \Illuminate\Support\Str::plural($moduleNameKebab);
 
 
             $routeNames =
@@ -110,10 +111,26 @@ function module_admin_url($module_name = false)
                     'admin.' . $pluralModuleNameLower,
 
 
+                    'filament.admin.pages.' . $moduleNameLower . '-module-settings',
+                    'filament.admin.pages.' . $moduleNameKebab . '-module-settings',
+                    'filament.admin.pages.' . $moduleNameLower . '-module-settings-admin',
+                    'filament.admin.pages.' . $moduleNameKebab . '-module-settings-admin',
                     'filament.admin.pages.' . $moduleNameLower . '-settings-admin',
+                    'filament.admin.pages.' . $moduleNameKebab . '-settings-admin',
                     'filament.admin.pages.' . $moduleNameLower . '-settings',
+                    'filament.admin.pages.' . $moduleNameKebab . '-settings',
                     'filament.admin.pages.admin-' . $moduleNameLower . '-page',
+                    'filament.admin.pages.admin-' . $moduleNameKebab . '-page',
                     'filament.admin.pages.' . $moduleNameLower . '-page-admin',
+                    'filament.admin.pages.' . $moduleNameKebab . '-page-admin',
+
+                    // Kebab-case resource routes
+                    'filament.admin.resources.' . $moduleNameKebab,
+                    'filament.admin.resources.' . $moduleNameKebab . '.index',
+                    'filament.admin.resources.' . $pluralModuleNameKebab,
+                    'filament.admin.resources.' . $pluralModuleNameKebab . '.index',
+                    'filament.admin.pages.' . $moduleNameKebab,
+                    'filament.admin.pages.' . $pluralModuleNameKebab,
                 ];
             //
             //  $routeCollection = Illuminate\Support\Facades\Route::getRoutes();
@@ -129,6 +146,18 @@ function module_admin_url($module_name = false)
                 if (\Illuminate\Support\Facades\Route::has($routeName)) {
 
                     return route($routeName);
+                }
+            }
+
+            // Dynamic fallback: search all filament admin page routes containing the module name
+            $routeCollection = \Illuminate\Support\Facades\Route::getRoutes();
+            foreach ($routeCollection as $route) {
+                $routeName = $route->getName();
+                if ($routeName && str_starts_with($routeName, 'filament.admin.pages.')) {
+                    $pagePart = substr($routeName, strlen('filament.admin.pages.'));
+                    if (str_contains($pagePart, $moduleNameKebab)) {
+                        return route($routeName);
+                    }
                 }
             }
 
