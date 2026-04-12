@@ -267,4 +267,80 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  ok contine to work on the bootrap 5 template fxi all mobile issues make interl todo lsit and work
 - [x] 2026-04-12  fux the checjout and th e full tempalteo n mobile
 
-- [ ] make a plan to valu e all module sins on descto and mobile and fix them , ad in the the todo.md the
+- [x] 2026-04-12  make a plan to valu e all module sins on descto and mobile and fix them , ad in the the todo.md the
+
+---
+
+## Module Skins Evaluation — Desktop & Mobile
+
+> **Goal:** Test every module skin on the Bootstrap template at both desktop (1440×900) and mobile (390×844) viewports. Fix layout issues, broken styling, overflow, and Bootstrap 4→5 compatibility problems.
+> **Method:** Load each module skin via live editor or direct page, screenshot, check for overflow, broken layout, and missing styles.
+> **53 modules, ~280 skins total** — grouped by priority (user-facing impact).
+
+### Priority 1: Layout & Page Structure Skins (used on every page)
+
+- [ ] **Layouts** — default, skin-1, content/skin-1; check section padding, background, overflow on mobile
+- [ ] **Menu** — default, navbar, simple, skin-1, small, linktree, images; verify dropdown submenus, mobile hamburger, BS5 data attributes
+- [ ] **Logo** — default, 2rows; sizing and alignment on mobile
+- [ ] **Breadcrumb** — default, skin-1 through skin-6; truncation on mobile with long page paths
+- [ ] **Footer** — skin-1, footer_cart; column stacking on mobile, link colors
+
+### Priority 2: Content Display Skins (blog, shop, galleries)
+
+- [ ] **Post** — default, skin-1, skin-10, blog-pro, post-slider, skin-2 through skin-9; card grid on mobile, image aspect ratios, slider dots
+- [ ] **Product** — default, skin-1, skin-4 through skin-12; product card layout, price alignment, add-to-cart button on mobile
+- [ ] **Pictures** — default, masonry, simple, skin-1 through skin-20, slick, slider; lightbox, grid columns collapsing on mobile
+- [ ] **Content** — default, skin-1, sidebar, masonry, dictionary, search; content width on mobile
+- [ ] **Slider** — default, swiper-skin-1; touch swipe, navigation arrows on mobile
+- [ ] **Video** — default, dialog, dialog-button; responsive embed sizing
+
+### Priority 3: Interactive Module Skins
+
+- [ ] **Btn** — bootstrap, default; button sizing on mobile
+- [ ] **ContactForm** — default, skin-1 through skin-6, CTA forms, subscribe-1 through subscribe-7; form field width on mobile, submit button
+- [ ] **Search** — default, autocomplete; search input width on mobile
+- [ ] **Comments** — default; comment thread indentation on mobile
+- [ ] **Rating** — default; star sizing
+- [ ] **Sharer** — default; social icon spacing on mobile
+
+### Priority 4: E-commerce Skins
+
+- [ ] **Cart** — bootstrap, default, shop_inner, mw_default; cart table on mobile, quantity controls
+- [ ] **Category** — default, skin-1, horizontal-list-1, images; category list wrapping on mobile
+- [ ] **Shop** — default, skin-1; product grid and sidebar on mobile
+
+### Priority 5: Social & Communication Skins
+
+- [ ] **SocialLinks** — default, skin-1, skin-2, skin-7, skin-9, footer; icon sizing and spacing on mobile
+- [ ] **Testimonials** — default, skin-1 through skin-23; carousel swiping, card overflow on mobile
+- [ ] **Teamcard** — default, skin-1 through skin-19, slider; card grid on mobile, image sizing
+- [ ] **Newsletter** — default, small; form width on mobile
+
+### Priority 6: Utility Module Skins
+
+- [ ] **Accordion** — default, skin-1, skin-3, skin-4, misc-12; expand/collapse on mobile, text overflow
+- [ ] **Tabs** — default, skin-1 through skin-5, horizontal-centered-tabs; tab label truncation on mobile, scrollable tabs
+- [ ] **Faq** — default; question/answer width on mobile
+- [ ] **CookieNotice** — default; banner position and button on mobile
+- [ ] **GoogleMaps** — default; map responsive sizing
+- [ ] **Pagination** — bootstrap3, bootstrap4, default, mw; page number overflow on mobile
+- [ ] **Elements** — icon, picture, text, title, inline-table, multiple-columns; column layout on mobile
+- [ ] **Spacer** — default; height consistency
+- [ ] **Embed** — default; iframe responsive sizing
+- [ ] **Tag** — bootstrap, cloud, default; tag wrapping on mobile
+
+### Priority 7: Remaining/Niche Modules
+
+- [ ] **Audio** — default
+- [ ] **BeforeAfter** — default
+- [ ] **Marquee** — default
+- [ ] **HighlightCode** — default
+- [ ] **Skills** — default
+- [ ] **Pdf** — default, iframe
+- [ ] **ImageRollover** — default
+- [ ] **Multilanguage** — default
+- [ ] **FacebookLike** — default
+- [ ] **FacebookPage** — default
+- [ ] **TweetEmbed** — default
+- [ ] **GoogleAnalytics** — default
+- [ ] **CustomFields** — bootstrap5 set (primary), bootstrap3/4 sets (legacy check)
