@@ -344,3 +344,5 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **TweetEmbed** — default
 - [x] 2026-04-12  **GoogleAnalytics** — default
 - [x] 2026-04-12  **CustomFields** — bootstrap5 set (primary), bootstrap3/4 sets (legacy check)
+
+- [x] 2026-04-12  Evaluate all modules skins and fix the broken
