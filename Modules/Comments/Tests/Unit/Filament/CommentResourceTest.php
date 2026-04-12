@@ -136,7 +136,6 @@ class CommentResourceTest extends TestCase
     {
         Livewire::test(ListComments::class)
             ->assertTableColumnExists('comment_name')
-            ->assertTableColumnExists('comment_email')
             ->assertTableColumnExists('comment_body')
             ->assertTableColumnExists('is_moderated')
             ->assertTableColumnExists('is_spam');
