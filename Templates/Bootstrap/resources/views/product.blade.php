@@ -35,7 +35,7 @@ $prev = prev_content(content_id());
 
     <div class="shop-inner-page " id="shop-content-<?php print CONTENT_ID; ?>" field="shop-inner-page" rel="page">
         <section class="py-md-5 mb-md-5 fx-particles">
-            <div class="container-fluid mw-layout-container mw-m-t-30 mw-m-b-50">
+            <div class="container mw-layout-container">
                 <div class="row justify-content-center">
                     <div class="row product-holder">
                         <div class="col-12 col-md-6 col-lg-6">
@@ -45,11 +45,11 @@ $prev = prev_content(content_id());
                         <div class="col-12 col-md-6 col-lg-6 relative product-info-wrapper">
                             <div class="product-info">
                                 <div class="product-info-content">
-                                    <div class="heading mt-sm-4 mt-md-0 pb-0 mb-2">
-                                        <h1 class="edit d-inline-block" field="title"
+                                    <div class="heading mt-sm-4 mt-md-0 pb-0 mb-2 d-flex align-items-start justify-content-between">
+                                        <h1 class="edit mb-0" field="title"
                                             rel="content"><?php print content_title(); ?></h1>
 
-                                        <div class="next-previous-content float-end">
+                                        <div class="next-previous-content flex-shrink-0 ms-3">
                                             <?php if ($prev != false) { ?>
                                             <a href="<?php print content_link($prev['id']); ?>"
                                                class="prev-content tip btn btn-outline-default" data-tip="#prev-tip"><i

@@ -254,4 +254,6 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ## Todo
 - [x] 2026-04-12  the prduct inner pages are not loading pls fix
-- [ ] evaluetae the whole bootrap tempalte and fix make realsitic default content and
+- [~] evaluetae the whole bootrap tempalte and fix make realsitic default content and
+
+- [x] 2026-04-12  now prodcut are added witohu price, plsfix

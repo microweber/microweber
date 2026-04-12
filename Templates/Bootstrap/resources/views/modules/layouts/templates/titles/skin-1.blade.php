@@ -32,8 +32,8 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <div class="container mw-layout-container">
         <div class="row text-center mb-5 nodrop">
             <div class="col-lg-10 mx-auto allow-drop">
-                <h1 class="mb-3">Online Store Design Concept</h1>
-                <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                <h1 class="mb-3"><?php print content_title(); ?></h1>
+                <p class="lead edit" field="layout-titles-skin-1-description-{{ $params['id'] }}" rel="module">Discover our latest updates, articles and offerings.</p>
             </div>
         </div>
     </div>
