@@ -99,6 +99,15 @@ li.dropdown {
             }
         }
 
+        .dropdown-menu a {
+            color: #212529;
+
+            &:hover {
+                opacity: 1;
+                background-color: #f8f9fa;
+            }
+        }
+
         .btn-socials {
             .list-inline {
                 margin-bottom: 0;
@@ -122,12 +131,23 @@ li.dropdown {
             .dropdown-menu {
                 min-width: 300px;
                 padding: 10px;
+
+                @media screen and (max-width: 576px) {
+                    min-width: 250px;
+                    right: 0;
+                    left: auto;
+                }
             }
         }
 
         .btn-member {
             .mw-big-dropdown {
                 min-width: 200px;
+
+                @media screen and (max-width: 576px) {
+                    right: 0;
+                    left: auto;
+                }
             }
         }
 
@@ -135,6 +155,15 @@ li.dropdown {
             .js-shopping-cart-quantity {
                 font-size: 12px;
                 padding: 2px 8px;
+            }
+
+            .mw-big-dropdown-cart {
+                @media screen and (max-width: 576px) {
+                    right: 0;
+                    left: auto;
+                    min-width: 280px;
+                    max-width: calc(100vw - 20px);
+                }
             }
         }
     }

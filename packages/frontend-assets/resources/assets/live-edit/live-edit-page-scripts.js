@@ -661,6 +661,20 @@ if (self === top) {
                 #back-to-live-sticky-button.sticky {
                     /* top is animated via keyframes */
                 }
+                @media screen and (max-width: 576px) {
+                    #back-to-live-sticky-button {
+                        font-size: 0.85rem;
+                        padding: 8px 14px 8px 18px;
+                        gap: 6px;
+                        border-radius: 0 0 12px 12px;
+                        left: 20px;
+                        transform: none;
+                    }
+                    @keyframes back-to-live-slide-down {
+                        from { top: -50px; }
+                        to { top: 0; }
+                    }
+                }
             `;
             document.head.appendChild(style);
         }
