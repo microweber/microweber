@@ -257,3 +257,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [~] evaluetae the whole bootrap tempalte and fix make realsitic default content and
 
 - [x] 2026-04-12  now prodcut are added witohu price, plsfix
+
+- [x] 2026-04-12  test and fix all template pages and the content form
+
+- [~] test and fix the checkout

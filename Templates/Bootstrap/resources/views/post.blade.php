@@ -27,7 +27,7 @@ $itemTags = content_tags(CONTENT_ID);
                     <p class="text-muted text-center mb-5"><?php echo date('d M Y', strtotime($post['created_at'])); ?></p>
 
                     <div class="description edit dropcap typography-area" field="content" rel="content">
-
+                        <?php echo $post['content_body']; ?>
                     </div>
 
                     <hr class="my-4">
