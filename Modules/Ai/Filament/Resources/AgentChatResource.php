@@ -23,11 +23,17 @@ use Modules\Ai\Models\AgentChat;
 class AgentChatResource extends Resource
 {
     protected static ?string $model = AgentChat::class;
+    protected static ?string $recordTitleAttribute = 'title';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
       protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 1100;
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'description', 'agent_type'];
+    }
 
     public static function form(Schema $schema): Schema
     {

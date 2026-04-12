@@ -20,6 +20,8 @@ class SubscriptionPlanGroupsResource extends Resource
 {
     protected static ?string $model = SubscriptionPlanGroup::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \UnitEnum | null $navigationGroup = 'Billing';
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -31,6 +33,11 @@ class SubscriptionPlanGroupsResource extends Resource
     protected static ?string $modelLabel = 'Plan Group';
 
     protected static ?string $pluralModelLabel = 'Plan Groups';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'sku', 'description'];
+    }
 
     public static function form(Schema $schema): Schema
     {

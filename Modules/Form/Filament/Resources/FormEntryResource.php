@@ -14,6 +14,8 @@ class FormEntryResource extends Resource
 {
     protected static ?string $model = FormData::class;
 
+    protected static ?string $recordTitleAttribute = 'id';
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-envelope';
 
     protected static string|\UnitEnum|null $navigationGroup = null;

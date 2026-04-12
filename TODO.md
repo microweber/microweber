@@ -239,3 +239,5 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  All module settings verified across 6 phases (40+ modules) — fixes applied to Tabs, Faq, Captcha, Product, Category modules
 
 - [x] 2026-04-12  Run full PHPUnit test suite to verify no regressions from module fixes
+
+- [x] 2026-04-12  Connect global search on all Filament resources — added recordTitleAttribute and getGloballySearchableAttributes to 10 resources

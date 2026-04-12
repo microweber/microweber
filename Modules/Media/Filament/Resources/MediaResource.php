@@ -27,6 +27,11 @@ class MediaResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'filename', 'description'];
+    }
+
     public static function getNavigationLabel(): string
     {
         return 'Media Library';

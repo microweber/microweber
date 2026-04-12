@@ -24,11 +24,18 @@ class SubscriptionPlanResource extends Resource
 {
     protected static ?string $model = SubscriptionPlan::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \UnitEnum | null $navigationGroup = 'Billing';
 
     protected static ?int $navigationSort = 2;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'sku', 'description'];
+    }
 
     public static function form(Schema $schema): Schema
     {

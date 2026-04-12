@@ -29,6 +29,7 @@ use Modules\Marketplace\Models\MarketplaceItem;
 class MarketplaceResource extends Resource
 {
     protected static ?string $model = MarketplaceItem::class;
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-storefront';
     protected static string | null $navigationLabel = 'Marketplace';
 
@@ -40,6 +41,11 @@ class MarketplaceResource extends Resource
     protected static ?string $pluralLabel = 'Marketplaces';
 
     protected static ?string $slug = 'marketplace';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description', 'type'];
+    }
     public static string $description = 'Extend your website with modules and themes';
     public function getDescription(): string
     {

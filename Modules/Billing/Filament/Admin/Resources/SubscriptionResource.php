@@ -34,9 +34,16 @@ class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
 
     protected static string | null $navigationLabel = 'Subscriptions';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'stripe_id', 'stripe_status'];
+    }
 
     protected static ?string $slug = 'subscriptions';
 

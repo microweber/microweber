@@ -20,6 +20,8 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = SystemModulesSushi::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Modules';

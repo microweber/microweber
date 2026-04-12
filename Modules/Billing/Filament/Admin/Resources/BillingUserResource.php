@@ -21,9 +21,16 @@ class BillingUserResource extends Resource
 {
     protected static ?string $model = BillingUser::class;
 
+    protected static ?string $recordTitleAttribute = 'email';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?int $navigationSort = 3000;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['email', 'username', 'first_name', 'last_name'];
+    }
 
     public static function form(Schema $schema): Schema
     {

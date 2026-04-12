@@ -18,6 +18,8 @@ class TaggedResource extends Resource
 {
     protected static ?string $model = Tagged::class;
 
+    protected static ?string $recordTitleAttribute = 'tag_name';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     protected static string | \UnitEnum | null $navigationGroup = 'Content';
@@ -28,6 +30,11 @@ class TaggedResource extends Resource
 
     protected static ?string $pluralLabel = 'Tagged Content';
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['tag_name', 'tag_slug'];
+    }
 
     public static function form(Schema $schema): Schema
     {
