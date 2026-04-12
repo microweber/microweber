@@ -114,6 +114,14 @@ class PermalinkManager
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
                         }
+
+                        // Also check for products and other non-page content types
+                        $findContentBySlug = Content::where('url', $findSlugByType)
+                            ->where('content_type', '!=', 'page')
+                            ->first();
+                        if ($findContentBySlug) {
+                            return $findContentBySlug['url'];
+                        }
 //                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
 //                        if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
 //                            return $findPostsBySlug['url'];

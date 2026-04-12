@@ -251,3 +251,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  some module like the accodion and other live edit module donesh ave admin pages http://127.0.0.1:800
 
 - [x] 2026-04-12  now work on the bootrap template it has some double menus etc, isntall the default content
+
+## Todo
+- [x] 2026-04-12  the prduct inner pages are not loading pls fix
+- [ ] evaluetae the whole bootrap tempalte and fix make realsitic default content and
