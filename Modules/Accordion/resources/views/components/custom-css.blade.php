@@ -23,24 +23,24 @@
 
 <style>
     #{{ $params['id'] }} .mw-accordion-module-button {
-        background-color: {{$accordionColor}};
-        border-color: {{$accordionBorderColor}};
+        background-color: {{$accordionColor}}
+        border-color: {{$accordionBorderColor}}
 
         &:hover {
-            background-color: {{$accordionHoverColor}};
+            background-color: {{$accordionHoverColor}}
         }
 
         i.mdi {
-            color: {{$accordionTextColor}};
+            color: {{$accordionTextColor}}
         }
     }
 
     #{{ $params['id'] }} .mw-accordion-text-color {
-        color: {{$accordionTextColor}};
+        color: {{$accordionTextColor}}
     }
 
     #{{ $params['id'] }} .mw-accordion-module-content {
-        background-color: {{$accordionContentColor}};
+        background-color: {{$accordionContentColor}}
     }
 
 </style>

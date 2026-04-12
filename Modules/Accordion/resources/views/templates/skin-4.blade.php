@@ -55,7 +55,7 @@
             <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
                  class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}"
                  aria-labelledby="header-item-{{ $edit_field_key }}"
-                 data-parent="#mw-accordion-module-{{ $params['id'] }}">
+                 data-bs-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="accordion-body mw-accordion-module-content">
                     @include('modules.accordion::partials.render_accordion_item_content')
                 </div>

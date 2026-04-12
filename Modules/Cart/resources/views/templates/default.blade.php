@@ -49,15 +49,15 @@ Description: Default cart add template with prices and add to cart button
                     </div>
 
                     @if(!$in_stock)
-                        <button class="btn btn-default pull-right" type="button" disabled="disabled"
+                        <button class="btn btn-secondary float-end" type="button" disabled="disabled"
                                 onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
-                            <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+                            <i class="mdi mdi-cart"></i>
                             {{ _e("Out of stock", true) }}
                         </button>
                     @else
-                        <button class="btn btn-primary pull-right" type="button"
+                        <button class="btn btn-primary float-end" type="button"
                                 onclick="mw.cart.add_and_show_modal('{{ $for_id ?? '' }}','{{ $v }}', '{{ $title }}');">
-                            <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+                            <i class="mdi mdi-cart"></i>
                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                         </button>
                     @endif

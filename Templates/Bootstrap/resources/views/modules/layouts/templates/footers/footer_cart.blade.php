@@ -4,8 +4,8 @@
             + '<section style="text-align: center;">'
             + '<h5>' + title + '</h5>'
             + '<p><?php _ejs("has been added to your cart"); ?></p><br />'
-            + '<div><a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="pull-left mt-2"><?php _e("Continue shopping"); ?></a>'
-            + '<a href="<?php print checkout_url(); ?>" class="btn-d pull-right"><?php _ejs("Checkout"); ?></a></section><div class="clearfix"></div></div>';
+            + '<div><a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="float-start mt-2"><?php _e("Continue shopping"); ?></a>'
+            + '<a href="<?php print checkout_url(); ?>" class="btn-d float-end"><?php _ejs("Checkout"); ?></a></section><div class="clearfix"></div></div>';
         return html;
 
     }
@@ -59,11 +59,11 @@
 
 
 <!-- Login Modal -->
-<div class="modal  login-modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+<div class="modal fade login-modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -95,7 +95,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">

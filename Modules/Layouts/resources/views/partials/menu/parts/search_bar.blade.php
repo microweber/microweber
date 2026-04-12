@@ -1,6 +1,6 @@
 <?php if ($search_bar): ?>
     <li class="nav-item dropdown btn-search">
-        <a href="#" class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-magnify mdi-20px"></i></a>
+        <a href="#" class="nav-link" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-magnify mdi-20px"></i></a>
         <div class="dropdown-menu">
             <div class="row">
                 <form class="col w-300 mx-auto input-glass" action="<?php print site_url(); ?>search" method="get">

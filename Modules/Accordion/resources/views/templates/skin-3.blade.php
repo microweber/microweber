@@ -52,7 +52,7 @@
                 </h5>
             </div>
 
-            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
+            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="header-item-{{ $edit_field_key }}" data-bs-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="card-body mw-accordion-module-content">
                     @include('modules.accordion::partials.render_accordion_item_content')
 

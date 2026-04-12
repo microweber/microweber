@@ -30,6 +30,11 @@
         #testimonials-{{ $params['id'] }} .card{
             width: calc(33.333% - 15px);
         }
+        @media (max-width: 768px) {
+            #testimonials-{{ $params['id'] }} .card{
+                width: 100%;
+            }
+        }
     </style>
 
     <div class="mw-testimonials-module-default-skin" id="testimonials-{{ $params['id'] }}">
@@ -41,7 +46,7 @@
                 <div class="card border-0">
                     <div id="collapse-{{ $params['id'] }}-{{ $item->id }}"
                          aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}"
-                         data-parent="#testimonials-{{ $params['id'] }}">
+                         data-bs-parent="#testimonials-{{ $params['id'] }}">
 
                         @php
 

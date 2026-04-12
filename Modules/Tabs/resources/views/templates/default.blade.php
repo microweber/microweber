@@ -28,7 +28,7 @@ description: Default
                         </h5>
                     </div>
 
-                    <div id="collapse-{{ $params['id'] }}-{{ $item->id }}" class="collapse" aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}" data-parent="#tabs-{{ $params['id'] }}">
+                    <div id="collapse-{{ $params['id'] }}-{{ $item->id }}" class="collapse" aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}" data-bs-parent="#tabs-{{ $params['id'] }}">
                         <div class="card-body">
                             {!! $item->content !!}
                         </div>

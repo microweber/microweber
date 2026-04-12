@@ -82,7 +82,7 @@
                         <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
                     </button>
                 </div>
-                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
+                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-bs-parent="#mw-accordion-module-{{ $params['id'] }}">
                     <div class="card-body mw-accordion-module-content py-3 px-4">
                         @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
