@@ -11,6 +11,10 @@ use Modules\Ai\Tools\AnalyticsTopPagesTool;
 use Modules\Ai\Tools\AnalyticsTrafficReferrersTool;
 use Modules\Ai\Tools\AnalyticsTrafficSummaryTool;
 use Modules\Ai\Tools\BillingAccountStatusTool;
+use Modules\Ai\Tools\BillingInvoiceCustomerHistoryTool;
+use Modules\Ai\Tools\BillingInvoiceDetailTool;
+use Modules\Ai\Tools\BillingInvoiceLookupTool;
+use Modules\Ai\Tools\BillingInvoiceUnpaidSummaryTool;
 use Modules\Ai\Tools\BillingMetricsSummaryTool;
 use Modules\Ai\Tools\BillingPlanSummaryTool;
 use Modules\Ai\Tools\BillingSubscriptionLookupTool;
@@ -120,6 +124,26 @@ class McpToolCatalog
                 'tool' => BillingMetricsSummaryTool::class,
                 'module' => 'billing',
                 'title' => 'Summarize recurring billing metrics such as MRR, active subscriptions, and churn.',
+            ],
+            'billing.invoice_lookup' => [
+                'tool' => BillingInvoiceLookupTool::class,
+                'module' => 'billing',
+                'title' => 'Search invoices by number, reference, customer, date range, and status.',
+            ],
+            'billing.invoice_detail' => [
+                'tool' => BillingInvoiceDetailTool::class,
+                'module' => 'billing',
+                'title' => 'Inspect a single invoice with masked customer data, totals, line items, and reference context.',
+            ],
+            'billing.invoice_unpaid_summary' => [
+                'tool' => BillingInvoiceUnpaidSummaryTool::class,
+                'module' => 'billing',
+                'title' => 'Summarize unpaid and overdue invoices with aging and outstanding balances.',
+            ],
+            'billing.invoice_customer_history' => [
+                'tool' => BillingInvoiceCustomerHistoryTool::class,
+                'module' => 'billing',
+                'title' => 'Review a customer invoice history with masked contact details and outstanding balance.',
             ],
             'newsletter.campaign_lookup' => [
                 'tool' => NewsletterCampaignLookupTool::class,

@@ -27,6 +27,8 @@ use Modules\Customer\Models\Customer;
 use Modules\Form\Models\FormData;
 use Modules\Form\Models\FormDataValue;
 use Modules\Form\Models\FormList;
+use Modules\Invoice\Models\Invoice as InvoiceRecord;
+use Modules\Invoice\Models\InvoiceItem;
 use Modules\Newsletter\Models\NewsletterAutomationQueue;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
@@ -64,6 +66,8 @@ class McpControllerTest extends TestCase
     protected ?McpClient $billingClient = null;
     protected ?GeneratedMcpClientToken $billingToken = null;
     protected ?GeneratedMcpClientToken $billingNoAdminToken = null;
+    protected ?McpClient $invoiceClient = null;
+    protected ?GeneratedMcpClientToken $invoiceToken = null;
     protected ?McpClient $formsClient = null;
     protected ?GeneratedMcpClientToken $formsToken = null;
     protected ?McpClient $newsletterClient = null;
@@ -97,6 +101,14 @@ class McpControllerTest extends TestCase
         if (! Schema::hasTable('subscriptions') || ! Schema::hasTable('subscription_plans') || ! Schema::hasTable('subscription_plans_groups')) {
             Artisan::call('migrate', [
                 '--path' => base_path('Modules/Billing/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('invoices') || ! Schema::hasTable('invoice_items')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Invoice/database/migrations'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
@@ -161,9 +173,16 @@ class McpControllerTest extends TestCase
         }
         if (Schema::hasTable('customers')) {
             DB::table('customers')->where('email', 'like', 'billing-mcp-%@example.com')->delete();
+            DB::table('customers')->where('email', 'like', 'invoice-mcp-%@example.com')->delete();
         }
         if (Schema::hasTable('users')) {
             DB::table('users')->where('email', 'like', 'billing-mcp-%@example.com')->delete();
+        }
+        if (Schema::hasTable('invoice_items')) {
+            DB::table('invoice_items')->delete();
+        }
+        if (Schema::hasTable('invoices')) {
+            DB::table('invoices')->delete();
         }
         if (Schema::hasTable('forms_data_values')) {
             DB::table('forms_data_values')->delete();
@@ -228,6 +247,7 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:8');
         RateLimiter::clear('mcp-client-token:9');
         RateLimiter::clear('mcp-client-token:10');
+        RateLimiter::clear('mcp-client-token:11');
 
         config([
             'modules.ai.enabled' => true,
@@ -289,6 +309,19 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->invoiceClient = $manager->createClient([
+            'name' => 'Invoice MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'billing.invoice_lookup',
+                'billing.invoice_detail',
+                'billing.invoice_unpaid_summary',
+                'billing.invoice_customer_history',
+            ],
+            'allowed_modules' => ['billing'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->formsClient = $manager->createClient([
             'name' => 'Forms MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -323,6 +356,7 @@ class McpControllerTest extends TestCase
         $this->analyticsToken = $manager->issueToken($this->analyticsClient, 'analytics-only', ['mcp:access', 'mcp:admin']);
         $this->billingToken = $manager->issueToken($this->billingClient, 'billing-only', ['mcp:access', 'mcp:admin']);
         $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
+        $this->invoiceToken = $manager->issueToken($this->invoiceClient, 'invoice-only', ['mcp:access', 'mcp:admin']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
         $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
@@ -408,6 +442,10 @@ class McpControllerTest extends TestCase
             'billing.plan_summary',
             'billing.account_status',
             'billing.metrics_summary',
+            'billing.invoice_lookup',
+            'billing.invoice_detail',
+            'billing.invoice_unpaid_summary',
+            'billing.invoice_customer_history',
             'newsletter.campaign_lookup',
             'newsletter.subscriber_lookup',
             'newsletter.template_lookup',
@@ -472,6 +510,26 @@ class McpControllerTest extends TestCase
             'billing.plan_summary',
             'billing.account_status',
             'billing.metrics_summary',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function invoice_client_only_receives_invoice_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->invoiceToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'invoice-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'billing.invoice_lookup',
+            'billing.invoice_detail',
+            'billing.invoice_unpaid_summary',
+            'billing.invoice_customer_history',
         ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
@@ -1037,6 +1095,119 @@ class McpControllerTest extends TestCase
     }
 
     #[Test]
+    public function invoice_lookup_returns_invoice_rows(): void
+    {
+        $this->seedInvoiceFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->invoiceToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 35,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.invoice_lookup',
+                    'arguments' => [
+                        'search_term' => 'INV-MCP',
+                        'paid_status' => InvoiceRecord::STATUS_UNPAID,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('INV-MCP-001', $text);
+        $this->assertStringContainsString('in*****************@example.com', $text);
+        $this->assertStringContainsString('1,250.00 USD', $text);
+    }
+
+    #[Test]
+    public function invoice_detail_returns_items_and_masked_customer_data(): void
+    {
+        $fixtures = $this->seedInvoiceFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->invoiceToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 36,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.invoice_detail',
+                    'arguments' => [
+                        'invoice_id' => $fixtures['primaryInvoice']->id,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('INV-MCP-001', $text);
+        $this->assertStringContainsString('in*****************@example.com', $text);
+        $this->assertStringContainsString('Premium support retainer', $text);
+        $this->assertStringContainsString('ORDER-2001', $text);
+    }
+
+    #[Test]
+    public function invoice_unpaid_summary_reports_overdue_balances(): void
+    {
+        $this->seedInvoiceFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->invoiceToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 37,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.invoice_unpaid_summary',
+                    'arguments' => [
+                        'overdue_only' => 'yes',
+                        'sort_by' => 'days_overdue',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Outstanding balance', $text);
+        $this->assertStringContainsString('INV-MCP-002', $text);
+        $this->assertStringContainsString('Days overdue', $text);
+    }
+
+    #[Test]
+    public function invoice_customer_history_summarizes_customer_balance(): void
+    {
+        $fixtures = $this->seedInvoiceFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->invoiceToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 38,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.invoice_customer_history',
+                    'arguments' => [
+                        'customer_id' => $fixtures['primaryCustomer']->id,
+                        'months_back' => 24,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Lifetime total', $text);
+        $this->assertStringContainsString('INV-MCP-001', $text);
+        $this->assertStringContainsString('INV-MCP-002', $text);
+        $this->assertStringContainsString('in*****************@example.com', $text);
+    }
+
+    #[Test]
     public function forms_form_lookup_returns_form_activity(): void
     {
         $fixtures = $this->seedFormFixtures();
@@ -1556,6 +1727,109 @@ class McpControllerTest extends TestCase
             'session_id_key' => $mobileSession->id,
             'updated_at' => now()->subMinutes(2),
         ]);
+    }
+
+    /**
+     * @return array{primaryCustomer: Customer, primaryInvoice: InvoiceRecord, overdueInvoice: InvoiceRecord}
+     */
+    private function seedInvoiceFixtures(): array
+    {
+        $primaryCustomer = Customer::factory()->create([
+            'first_name' => 'Invoice',
+            'last_name' => 'Primary',
+            'email' => 'invoice-mcp-primary@example.com',
+            'phone' => '+1-555-000-1111',
+        ]);
+
+        $secondaryCustomer = Customer::factory()->create([
+            'first_name' => 'Invoice',
+            'last_name' => 'Secondary',
+            'email' => 'invoice-mcp-secondary@example.com',
+            'phone' => '+1-555-000-2222',
+        ]);
+
+        $primaryInvoice = InvoiceRecord::factory()->withCustomer($primaryCustomer)->create([
+            'invoice_number' => 'INV-MCP-001',
+            'reference_number' => 'ORDER-2001',
+            'invoice_date' => now()->subDays(10)->toDateString(),
+            'due_date' => now()->addDays(5)->toDateString(),
+            'status' => InvoiceRecord::STATUS_SENT,
+            'paid_status' => InvoiceRecord::STATUS_UNPAID,
+            'sub_total' => 120000,
+            'discount' => 5000,
+            'discount_type' => 'fixed',
+            'discount_val' => 5000,
+            'total' => 125000,
+            'due_amount' => 125000,
+            'tax' => 10.00,
+            'notes' => 'Outstanding support invoice',
+        ]);
+
+        InvoiceItem::query()->create([
+            'invoice_id' => $primaryInvoice->id,
+            'name' => 'Premium support retainer',
+            'description' => 'Monthly engineering support',
+            'price' => 100000,
+            'quantity' => 1,
+            'tax' => 0,
+        ]);
+        InvoiceItem::query()->create([
+            'invoice_id' => $primaryInvoice->id,
+            'name' => 'Onboarding workshop',
+            'description' => 'Implementation planning and training',
+            'price' => 20000,
+            'quantity' => 1,
+            'tax' => 0,
+        ]);
+
+        $overdueInvoice = InvoiceRecord::factory()->withCustomer($primaryCustomer)->overdue()->create([
+            'invoice_number' => 'INV-MCP-002',
+            'reference_number' => 'ORDER-2002',
+            'invoice_date' => now()->subDays(40)->toDateString(),
+            'due_date' => now()->subDays(12)->toDateString(),
+            'status' => InvoiceRecord::STATUS_OVERDUE,
+            'paid_status' => InvoiceRecord::STATUS_PARTIALLY_PAID,
+            'sub_total' => 80000,
+            'discount' => 0,
+            'discount_type' => 'fixed',
+            'discount_val' => 0,
+            'total' => 80000,
+            'due_amount' => 30000,
+            'tax' => 0,
+            'notes' => 'Follow up with finance team',
+        ]);
+
+        InvoiceItem::query()->create([
+            'invoice_id' => $overdueInvoice->id,
+            'name' => 'Migration consulting',
+            'description' => 'Invoice remaining balance',
+            'price' => 80000,
+            'quantity' => 1,
+            'tax' => 0,
+        ]);
+
+        InvoiceRecord::factory()->withCustomer($secondaryCustomer)->paid()->create([
+            'invoice_number' => 'INV-MCP-003',
+            'reference_number' => 'ORDER-2003',
+            'invoice_date' => now()->subDays(20)->toDateString(),
+            'due_date' => now()->subDays(3)->toDateString(),
+            'status' => InvoiceRecord::STATUS_PAID,
+            'paid_status' => InvoiceRecord::STATUS_PAID,
+            'sub_total' => 45000,
+            'discount' => 0,
+            'discount_type' => 'fixed',
+            'discount_val' => 0,
+            'total' => 45000,
+            'due_amount' => 0,
+            'tax' => 0,
+            'notes' => 'Settled invoice',
+        ]);
+
+        return [
+            'primaryCustomer' => $primaryCustomer,
+            'primaryInvoice' => $primaryInvoice,
+            'overdueInvoice' => $overdueInvoice,
+        ];
     }
 
     /**

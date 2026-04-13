@@ -163,6 +163,10 @@ Initial MCP tools:
 - `billing.plan_summary`
 - `billing.account_status`
 - `billing.metrics_summary`
+- `billing.invoice_lookup`
+- `billing.invoice_detail`
+- `billing.invoice_unpaid_summary`
+- `billing.invoice_customer_history`
 - `newsletter.campaign_lookup`
 - `newsletter.subscriber_lookup`
 - `newsletter.template_lookup`
@@ -604,6 +608,70 @@ Notes:
 }
 ```
 
+`billing.invoice_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "invoice_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "paid_status": { "type": "string" },
+    "date_from": { "type": "string" },
+    "date_to": { "type": "string" },
+    "overdue_only": { "type": "string" },
+    "customer_id": { "type": "integer" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.invoice_detail`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "invoice_id": { "type": "integer" },
+    "invoice_number": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.invoice_unpaid_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "overdue_only": { "type": "string" },
+    "days_past_due": { "type": "integer" },
+    "customer_id": { "type": "integer" },
+    "sort_by": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.invoice_customer_history`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "customer_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "include_paid": { "type": "string" },
+    "months_back": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
 `newsletter.campaign_lookup`
 
 ```json
@@ -684,6 +752,8 @@ Billing-specific safety notes:
 - `billing.*` tools are read-only and keep the first rollout focused on subscriptions, plans, account state, and aggregate metrics rather than invoices or raw payment/webhook data.
 - `billing.subscription_lookup` and `billing.account_status` mask customer emails, payment method last-four details, and provider subscription IDs before returning data over MCP.
 - `billing.metrics_summary` is intended to be admin-only via the existing `modules.ai.mcp.auth.admin_only_tools` / `admin_only_modules` config, and only exposes aggregate MRR/churn/count metrics.
+- `billing.invoice_lookup`, `billing.invoice_detail`, and `billing.invoice_customer_history` mask customer email addresses and avoid exposing guest `unique_hash` tokens, raw webhook payloads, or payment-provider internals.
+- `billing.invoice_unpaid_summary` stays read-only and limits invoice reporting to aging, balances, and customer history rather than payment execution or invoice delivery actions.
 
 Newsletter-specific safety notes:
 
