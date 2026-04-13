@@ -441,7 +441,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-13  **Dashboard stats inconsistency** — Verified: stats pull from real tracking tables (NewsletterCampaignPixel: 300, NewsletterCampaignClickedLink: 200, SendLog: 199). Values are from seeded test data, not hardcoded. No code fix needed.
 - [x] 2026-04-13  **Dashboard — add recent campaigns widget** — Added RecentCampaignsWidget showing last 5 campaigns with status badges, opened/clicked counts, and creation date.
-- [ ] **Dashboard — add quick actions** — Add "Create Campaign", "Import Subscribers", "New Template" quick action buttons to the dashboard.
+- [x] 2026-04-13  **Dashboard — add quick actions** — Added header action buttons: Create Campaign, Import Subscribers, New Template.
 
 ### Phase 7: Navigation & Information Architecture
 

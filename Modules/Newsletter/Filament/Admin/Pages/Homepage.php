@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Filament\Admin\Pages;
 
+use Filament\Actions;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignsSendLog;
@@ -19,6 +20,26 @@ class Homepage extends BaseDashboard
    // protected string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage-new';
 
 //    protected static bool $shouldRegisterNavigation = false;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\Action::make('create_campaign')
+                ->label('Create Campaign')
+                ->icon('heroicon-o-rocket-launch')
+                ->url(route('filament.admin-newsletter.pages.create-campaign')),
+            Actions\Action::make('import_subscribers')
+                ->label('Import Subscribers')
+                ->icon('heroicon-o-cloud-arrow-up')
+                ->url(route('filament.admin-newsletter.resources.subscribers.index'))
+                ->color('gray'),
+            Actions\Action::make('new_template')
+                ->label('New Template')
+                ->icon('heroicon-o-paint-brush')
+                ->url(route('filament.admin-newsletter.resources.templates.index'))
+                ->color('gray'),
+        ];
+    }
 
     protected function __getViewData(): array
     {
