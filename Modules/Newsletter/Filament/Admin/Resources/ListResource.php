@@ -67,7 +67,12 @@ class ListResource extends Resource
 
                 TextInput::make('name')
                     ->label('Name')
-                    ->placeholder('Enter name'),
+                    ->placeholder('Enter name')
+                    ->required(),
+
+                TextInput::make('description')
+                    ->label('Description')
+                    ->placeholder('Enter description'),
 
             ]);
     }
@@ -76,11 +81,28 @@ class ListResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('subscribersCount'),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('description')
+                    ->limit(50)
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('subscribersCount')
+                    ->label('Subscribers')
+                    ->sortable(query: fn ($query, string $direction) =>
+                        $query->withCount('subscribers')->orderBy('subscribers_count', $direction)
+                    )
+                    ->alignCenter(),
+                TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime('M j, Y')
+                    ->sortable()
+                    ->toggleable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
-                //
+                Tables\Filters\Filter::make('has_subscribers')
+                    ->label('With subscribers')
+                    ->query(fn ($query) => $query->whereHas('subscribers')),
             ])
              ->headerActions([ // Added header actions
                  Tables\Actions\ExportAction::make()

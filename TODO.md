@@ -420,7 +420,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 - [x] 2026-04-13  **Subscribers table shows "test@example.com" for all** — Added status badge column (active/unsubscribed/bounced) and Created At column to subscribers table.
 - [x] 2026-04-13  **Subscribers — add status column** — Added color-coded badge column with sortable and toggleable options.
 - [x] 2026-04-13  **Subscribers — add "Created At" column** — Added date column, hidden by default, toggleable.
-- [ ] **Lists table — 572 lists with lorem names** — Test data has inflated the lists. Not a code issue, but the lists table could benefit from: a description column, created date, and ability to filter by subscriber count > 0.
+- [x] 2026-04-13  **Lists table — 572 lists with lorem names** — Added description column (toggleable), Created date column, subscriber count sorting, and "With subscribers" filter.
 - [x] 2026-04-13  **Lists — duplicate "New Lists" buttons** — Removed duplicate CreateAction from table header; page header "New List" button remains.
 
 ### Phase 4: Designs (Templates) Page
