@@ -389,7 +389,6 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-section:not(.fi-aside) {
   border-radius: $mw-radius-lg !important;
-  overflow: hidden;
   box-shadow: $mw-shadow-sm !important;  // shadow on the whole card so header+content are visually unified
   background-color: $mw-bg-surface !important;
 }
