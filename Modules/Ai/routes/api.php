@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Ai\Facades\Ai;
 
+Route::post('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'handle'])
+    ->middleware(['api', 'throttle:api', 'mcp.client'])
+    ->name('api.ai.mcp');
+
 Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', [Modules\Ai\Http\Controllers\AiController::class, 'chat'])
         ->name('api.ai.chat');

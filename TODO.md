@@ -447,23 +447,41 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-13  **Sidebar navigation grouping** — Reorganized: Dashboard (ungrouped), Campaigns (Campaigns, Lists, Automation Workflows), Subscribers (Subscribers), Templates (Designs), Settings (Senders), Back to admin (ungrouped, bottom). Removed redundant "E-mail Marketing" link.
 - [x] 2026-04-13  **"Back to admin" link** — Replaced NavigationItem with render hook at SIDEBAR_NAV_END; styled with separator line above and hover effect.
-- [ ] **Breadcrumbs** — Edit Campaign shows breadcrumbs (Campaigns / Ex est labore. / Edit). Verify all pages have proper breadcrumbs.
+- [x] 2026-04-13  **Breadcrumbs** — Edit Campaign, template editor, create flow, and dashboard now show consistent newsletter breadcrumbs; covered by Filament regression tests.
 
 ### Phase 8: Mobile Responsiveness
 
-- [ ] **Campaigns table on mobile** — Verify table columns don't overflow at 390px viewport. Hide Subscribers, Opened, Clicked columns on mobile.
-- [ ] **Subscribers table on mobile** — Verify Email and Lists columns don't overflow.
-- [ ] **Dashboard stats cards on mobile** — Verify 3-column stats row wraps properly.
-- [ ] **Template editor on mobile** — Verify the email editor is usable on mobile viewport (may need a "desktop only" notice).
+- [x] 2026-04-13  **Campaigns table on mobile** — Added a mobile summary column and hid Subject/List metrics, Subscribers, Opened, Clicked, and Status log at small breakpoints; verified at 390px.
+- [x] 2026-04-13  **Subscribers table on mobile** — Replaced the overflow-prone mobile table with a Subscriber summary column and hid Email/Lists on small screens; verified at 390px.
+- [x] 2026-04-13  **Dashboard stats cards on mobile** — Changed newsletter stats widgets to stack one card per row on small screens; verified on the mobile dashboard.
+- [x] 2026-04-13  **Template editor on mobile** — Added a mobile-only desktop recommendation notice and verified it renders with breadcrumbs at 390px.
 
 ### Phase 9: Automation & Workflows
 
-- [ ] **Workflow builder page** — Verify the Livewire-based workflow builder loads and functions. Check if the visual workflow editor JS is present and working.
-- [ ] **Triggered campaigns** — Test creating a triggered campaign (e.g., cart_abandoned) and verify the automation queue processes correctly.
-- [ ] **Automation navigation** — Workflows don't appear in the current sidebar navigation. Add a navigation item under "Campaigns" or "Automation" group.
+- [x] 2026-04-13  **Workflow builder page** — Registered the workflow resource in the newsletter panel, embedded a working server-rendered builder into the edit page, and added regression coverage for add/connect/update/delete node flows.
+- [x] 2026-04-13  **Triggered campaigns** — Test creating a triggered campaign (e.g., cart_abandoned) and verify the automation queue processes correctly.
+- [x] 2026-04-13  **Automation navigation** — Registered `WorkflowResource` in the newsletter Filament panel so workflow routes and sidebar navigation appear under the Campaigns group.
 
 ### Phase 10: Data Quality & Testing
 
-- [ ] **Clean up test/factory data** — The 572 lists with lorem ipsum names and 12 campaigns with random Latin text make it hard to evaluate the UI. Consider adding a "seed demo data" command that creates realistic sample data (3-5 lists, 5-10 campaigns with real-looking names).
-- [ ] **Campaign send test** — Test the full campaign send flow end-to-end: create campaign → select list → choose template → schedule/send now → verify send log.
-- [ ] **Unsubscribe page** — Test the `/unsubscribe` endpoint renders properly and actually unsubscribes the user.
+- [x] 2026-04-13  **Clean up test/factory data** — The 572 lists with lorem ipsum names and 12 campaigns with random Latin text make it hard to evaluate the UI. Consider adding a "seed demo data" command that creates realistic sample data (3-5 lists, 5-10 campaigns with real-looking names).
+- [x] 2026-04-13  **Campaign send test** — Added regression coverage for the create → configure → send-now → process → send-log flow and verified it with targeted newsletter tests.
+- [x] 2026-04-13  **Unsubscribe page** — Test the `/unsubscribe` endpoint renders properly and actually unsubscribes the user.
+
+### Phase 11: MCP Server & API Key Auth via `pass`
+
+> **Goal:** Add a secure MCP server for Microweber AI/admin operations, authenticated with scoped API keys and backed by the Unix `pass` password store for provider secrets and server credentials.
+
+- [x] 2026-04-13  **Plan MCP follow-up work** — Newsletter work is complete; next phase is planned below so MCP/auth implementation can start in a focused pass.
+- [x] 2026-04-13  **Choose module boundary and protocol surface** — Landed the first MCP surface inside `Modules/Ai` with a POST JSON-RPC endpoint at `/api/mcp`, using `initialize` and `tools/list` as the initial protocol methods and reusing the existing AI module/service boundary.
+- [x] 2026-04-13  **Define the authentication model** — MCP now uses `auth:sanctum` bearer tokens with an `mcp:access` ability and admin-user enforcement; docs note that Passport/OpenAPI hooks remain for OAuth/OpenAPI compatibility, not MCP transport auth.
+- [x] **Add a `pass` secret storage adapter** — Added a process-backed `PassSecretStore` with environment-aware references like `pass://microweber/{env}/ai/{provider}`, wired AI settings to save only secret references, and taught `AiServiceProvider` to resolve or migrate legacy plaintext provider secrets at runtime.
+- [x] 2026-04-13  **Model MCP clients and scopes** — Added `mcp_clients`, `mcp_client_tokens`, and `mcp_client_token_events` tables plus AI models/factories and an `McpClientTokenManager` that issues one-time plain tokens, hashes them at rest, supports rotation/revocation, tracks allowed scopes/tools/modules, updates last-used metadata, and writes audit events.
+- [x] 2026-04-13  **Implement middleware and request verification** — Replaced Sanctum route auth with an `mcp.client` middleware that parses MCP bearer tokens, verifies hashed token records, enforces required scopes plus tool/module/admin-only gating, applies per-client rate limits, updates last-used metadata, and writes structured MCP audit events.
+- [ ] **Map Microweber tools into MCP capabilities** — Wrap the existing AI tools/services into MCP-compatible tool descriptors and invocation handlers. Start with read-safe tools first (content lookup, product lookup, order lookup, settings read) before enabling mutating/admin tools.
+- [ ] **Build admin management UI** — Add a Filament page/resource for MCP clients and provider-key references: create/revoke client keys, assign scopes, map allowed tools, test connection health, and show whether the expected `pass` entries exist without revealing their values.
+- [ ] **Add deployment/bootstrap support** — Document server prerequisites for `pass` (`gnupg`, `pass`, server key import, non-interactive access strategy), plus local/dev bootstrap commands and fallback behavior when `pass` is unavailable.
+- [ ] **Document the MCP contract** — Add implementation notes for request/response schemas, supported tools, auth headers, example `pass` paths, rotation procedure, and error semantics so future implementation can also be exposed cleanly through `Modules/OpenApi` docs where appropriate.
+- [ ] **Test end-to-end before rollout** — Add feature tests for auth failures/scope enforcement, unit tests for the `pass` adapter, and integration tests for at least one MCP tool call using a seeded client token and fake secret backend.
+
+- [ ] Integrate MCP in each module separately, make a plan and populate todo

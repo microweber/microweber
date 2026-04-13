@@ -113,6 +113,56 @@ Messages should be provided as an array of message objects, each with:
 - `temperature`: Sampling temperature (default: 0.7)
 - `max_tokens`: Maximum tokens in response (default: 1000)
 
+## MCP endpoint
+
+The first MCP surface lives inside `Modules/Ai` and is exposed as a JSON-RPC endpoint at `POST /api/mcp`.
+
+Authentication model:
+
+- MCP uses dedicated MCP client bearer tokens issued from the `mcp_client_tokens` table.
+- Clients must send `Authorization: Bearer <token>`.
+- Tokens are shown once on creation, stored hashed at rest, and must include the configured required scopes (default: `mcp:access`).
+- Middleware now verifies token hashes, checks client scope/tool/module access, enforces per-client rate limits, updates last-used metadata, and logs MCP audit events.
+- Existing Passport/OpenAPI integration remains untouched and can continue serving OAuth/OpenAPI documentation concerns separately; MCP transport auth now uses the dedicated MCP client-token model.
+
+Secret storage:
+
+- AI provider API keys can be backed by the Unix `pass` password store.
+- When `AI_SECRET_STORE_ENABLED=true`, provider secrets are persisted as `pass://...` references in options storage and resolved through `pass` at runtime.
+- Legacy plaintext option values are migrated to `pass` references the next time AI config is loaded while the secret store is enabled.
+
+MCP client model:
+
+- MCP clients are now modeled in the database via `mcp_clients`, `mcp_client_tokens`, and `mcp_client_token_events`.
+- Client records carry allowed scopes, allowed tools, allowed modules, per-client rate limits, last-used timestamps, and revocation state.
+- MCP tokens are shown once when issued, stored hashed at rest, support rotation/revocation, and write audit events for creation, use, rotation, and revocation.
+
+Current supported methods:
+
+- `initialize`
+- `tools/list`
+
+Configuration is available under `config('modules.ai.mcp')` and can be controlled with:
+
+- `AI_MCP_ENABLED`
+- `AI_MCP_ENDPOINT`
+- `AI_MCP_TRANSPORT`
+- `AI_MCP_PROTOCOL_VERSION`
+- `AI_MCP_SERVER_NAME`
+- `AI_MCP_SERVER_VERSION`
+- `AI_MCP_CLIENT_TOKEN_PREFIX`
+- `AI_MCP_REQUIRE_ADMIN`
+- `AI_MCP_REQUIRED_ABILITIES`
+- `AI_MCP_ADMIN_SCOPE`
+- `AI_MCP_ADMIN_ONLY_TOOLS`
+- `AI_MCP_ADMIN_ONLY_MODULES`
+- `AI_SECRET_STORE_DRIVER`
+- `AI_SECRET_STORE_ENABLED`
+- `AI_SECRET_STORE_BINARY`
+- `AI_SECRET_STORE_PATH_PREFIX`
+- `AI_SECRET_STORE_ENV`
+- `AI_SECRET_STORE_DIR`
+
 ### Function Definition Format
 
 Each function in the `functions` array should follow this structure:

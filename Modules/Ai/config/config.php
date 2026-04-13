@@ -18,6 +18,44 @@ return [
     'default_driver' => env('AI_DRIVER', 'openai'),
     'default_driver_images' => env('AI_DRIVER_IMAGES', 'replicate'),
 
+    'mcp' => [
+        'enabled' => env('AI_MCP_ENABLED', false),
+        'endpoint' => env('AI_MCP_ENDPOINT', '/api/mcp'),
+        'transport' => env('AI_MCP_TRANSPORT', 'http-jsonrpc'),
+        'protocol_version' => env('AI_MCP_PROTOCOL_VERSION', '2025-03-26'),
+        'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
+        'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
+        'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),
+        'auth' => [
+            'guard' => env('AI_MCP_AUTH_GUARD', 'sanctum'),
+            'require_admin' => (bool) env('AI_MCP_REQUIRE_ADMIN', true),
+            'required_abilities' => array_filter(array_map(
+                static fn (string $ability): string => trim($ability),
+                explode(',', (string) env('AI_MCP_REQUIRED_ABILITIES', 'mcp:access'))
+            )),
+            'admin_scope' => env('AI_MCP_ADMIN_SCOPE', 'mcp:admin'),
+            'admin_only_tools' => array_filter(array_map(
+                static fn (string $tool): string => trim($tool),
+                explode(',', (string) env('AI_MCP_ADMIN_ONLY_TOOLS', ''))
+            )),
+            'admin_only_modules' => array_filter(array_map(
+                static fn (string $module): string => trim($module),
+                explode(',', (string) env('AI_MCP_ADMIN_ONLY_MODULES', ''))
+            )),
+        ],
+    ],
+
+    'secret_store' => [
+        'driver' => env('AI_SECRET_STORE_DRIVER', 'pass'),
+        'pass' => [
+            'enabled' => (bool) env('AI_SECRET_STORE_ENABLED', false),
+            'binary' => env('AI_SECRET_STORE_BINARY', 'pass'),
+            'path_prefix' => env('AI_SECRET_STORE_PATH_PREFIX', 'microweber'),
+            'environment' => env('AI_SECRET_STORE_ENV', env('APP_ENV', 'production')),
+            'store_dir' => env('AI_SECRET_STORE_DIR'),
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | AI Drivers

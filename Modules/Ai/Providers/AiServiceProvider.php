@@ -9,12 +9,16 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
+use Modules\Ai\Http\Middleware\AuthenticateMcpClient;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 use Modules\Ai\Http\Livewire\AgentChatComponent;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Policies\AgentChatPolicy;
 use Modules\Ai\Services\AiService;
 use Modules\Ai\Services\AiServiceImages;
+use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Ai\Services\Secrets\PassCommandRunner;
+use Modules\Ai\Services\Secrets\PassSecretStore;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
 
 class AiServiceProvider extends BaseModuleServiceProvider
@@ -70,6 +74,10 @@ class AiServiceProvider extends BaseModuleServiceProvider
     {
         $this->registerConfig();
         $this->registerViews();
+        $this->app->singleton(McpClientTokenManager::class);
+        $this->app->singleton(PassCommandRunner::class);
+        $this->app->singleton(PassSecretStore::class);
+        $this->app['router']->aliasMiddleware('mcp.client', AuthenticateMcpClient::class);
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
@@ -165,21 +173,23 @@ class AiServiceProvider extends BaseModuleServiceProvider
 
             // Load driver-specific settings
             $openAiModel = get_option('openai_model', 'ai');
-            $openAiApiKey = get_option('openai_api_key', 'ai');
+            $openAiApiKey = $this->resolveAiSecretOption('openai_api_key');
             $openRouterModel = get_option('openrouter_model', 'ai');
-            $openRouterApiKey = get_option('openrouter_api_key', 'ai');
+            $openRouterApiKey = $this->resolveAiSecretOption('openrouter_api_key');
             $ollamaModel = get_option('ollama_model', 'ai');
             $ollamaApiUrl = get_option('ollama_api_url', 'ai');
             $geminiModel = get_option('gemini_model', 'ai');
-            $geminiApiKey = get_option('gemini_api_key', 'ai');
-            $replicateApiToken = get_option('replicate_api_key', 'ai');
+            $geminiApiKey = $this->resolveAiSecretOption('gemini_api_key');
+            $anthropicModel = get_option('anthropic_model', 'ai');
+            $anthropicApiKey = $this->resolveAiSecretOption('anthropic_api_key');
+            $replicateApiToken = $this->resolveAiSecretOption('replicate_api_key');
             $replicateImageModel = get_option('replicate_model', 'ai');
-            $tavilyApiKey = get_option('tavily_api_key', 'ai');
+            $tavilyApiKey = $this->resolveAiSecretOption('tavily_api_key');
             $tavilySearchDepth = get_option('tavily_search_depth', 'ai');
             $tavilyMaxResults = get_option('tavily_max_results', 'ai');
-            $supadataApiKey = get_option('supadata_api_key', 'ai');
+            $supadataApiKey = $this->resolveAiSecretOption('supadata_api_key');
 
-            $falApiKey = get_option('fal_api_key', 'ai');
+            $falApiKey = $this->resolveAiSecretOption('fal_api_key');
             $falModel = get_option('fal_model', 'ai');
 
             if ($openAiModel) {
@@ -210,6 +220,13 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 Config::set('modules.ai.drivers.gemini.api_key', $geminiApiKey);
             }
 
+            if ($anthropicModel) {
+                Config::set('modules.ai.drivers.anthropic.model', $anthropicModel);
+            }
+            if ($anthropicApiKey) {
+                Config::set('modules.ai.drivers.anthropic.api_key', $anthropicApiKey);
+            }
+
             if ($replicateApiToken) {
                 Config::set('modules.ai.drivers.replicate.api_key', $replicateApiToken);
             }
@@ -238,5 +255,35 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 Config::set('modules.ai.drivers.fal.model', $falModel);
             }
         }
+    }
+
+    private function resolveAiSecretOption(string $optionKey): ?string
+    {
+        $storedValue = get_option($optionKey, 'ai');
+
+        if (blank($storedValue)) {
+            return null;
+        }
+
+        /** @var PassSecretStore $secretStore */
+        $secretStore = $this->app->make(PassSecretStore::class);
+
+        return $secretStore->resolveAiProviderSecret(
+            optionKey: $optionKey,
+            storedValue: $storedValue,
+            persistReference: function (string $reference) use ($optionKey): void {
+                $this->persistAiSecretReference($optionKey, $reference);
+            },
+        );
+    }
+
+    private function persistAiSecretReference(string $optionKey, string $reference): void
+    {
+        save_option([
+            'option_key' => $optionKey,
+            'option_value' => $reference,
+            'option_group' => 'ai',
+            'module' => 'settings/group/website',
+        ]);
     }
 }
