@@ -14,6 +14,7 @@ use Filament\Support\Colors\Color;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use MicroweberPackages\Filament\Plugins\MicroweberFilamentSocialitePlugin;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Profile\Filament\Pages\EditProfile;
 use Modules\Profile\Filament\Pages\ForgotPassword;
 use Modules\Profile\Filament\Pages\Login;
@@ -64,7 +65,9 @@ class FilamentProfilePanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])->plugin(
+            ])
+            ->plugin(new MicroweberFilamentTheme())
+            ->plugin(
                 MicroweberFilamentSocialitePlugin::make()->configure()
             );
 

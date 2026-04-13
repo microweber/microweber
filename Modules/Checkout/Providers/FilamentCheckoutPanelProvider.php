@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use Modules\Checkout\Filament\Resources\CheckoutResource;
 use Modules\Checkout\Filament\Resources\Pages\CheckoutPage;
 
@@ -45,6 +46,7 @@ class FilamentCheckoutPanelProvider extends PanelProvider
             ->resources([
                 CheckoutResource::class,
             ])
+            ->plugin(new MicroweberFilamentTheme())
             ->middleware([
 
                'web',

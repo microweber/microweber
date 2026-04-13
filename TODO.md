@@ -358,3 +358,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 - [x] 2026-04-13  ok now style the chkout page , seems the cutom css is not loadng
 [attachment: .autodev/messages/attachments/20260413_120342_7f308dff/paste-1776074619591.png]
+
+- [x] 2026-04-13  the next buttpn in checkout has somal oagin state, seems the css is not usingg the microwbert heme
+
+- [x] 2026-04-13  also if in the subsctions/billing module the css and the  theme
