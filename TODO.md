@@ -366,3 +366,10 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-13  ok now in the checkout and all form fields seemsthere is some double baack abnd blue border on the focuse filed, pls reove the blue we want ony the black 
 
 also checkn on dark mode, also the shoubly selelct driodown in the shipping on the checkout is not ok the X is falling down , pls fix
+
+- [x] 2026-04-13  fic hre raio nbttuons when not active is not visible and whn e activei s red
+[attachment: .autodev/messages/attachments/20260413_130249_f992c0f0/paste-1776078166371.png]
+
+- [x] 2026-04-13  still radio button and checkboxes and not very fiiclbe mak them more visible , whey are too hard to
+
+- [ ] test the newsltter moduile make sure all is working

@@ -1,12 +1,37 @@
 .fi-radio-input {
-    @apply ring-gray-950/[15%];
+    border-radius: 50% !important;
+    border: 2px solid rgb(156, 163, 175) !important;
+    background-color: white !important;
+    width: 18px !important;
+    height: 18px !important;
+    appearance: none !important;
+    cursor: pointer;
 
-    &:focus,
-    &:focus:checked {
-        @apply outline-none ring-2 ring-gray-950/50 dark:ring-white/40;
+    &:checked {
+        border-color: var(--primary-600) !important;
+        background-color: var(--primary-600) !important;
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e") !important;
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
-    &:focus:not(:checked) {
-        @apply ring-2 ring-gray-950/50 dark:ring-white/40;
+    &:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15) !important;
+    }
+}
+
+html.dark .fi-radio-input {
+    border-color: rgb(107, 114, 128) !important;
+    background-color: rgb(17, 24, 39) !important;
+
+    &:checked {
+        border-color: var(--primary-500) !important;
+        background-color: var(--primary-500) !important;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15) !important;
     }
 }
