@@ -167,6 +167,10 @@ Initial MCP tools:
 - `billing.invoice_detail`
 - `billing.invoice_unpaid_summary`
 - `billing.invoice_customer_history`
+- `billing.payment_lookup`
+- `billing.payment_detail`
+- `billing.payment_provider_health`
+- `billing.payment_webhook_health`
 - `newsletter.campaign_lookup`
 - `newsletter.subscriber_lookup`
 - `newsletter.template_lookup`
@@ -672,6 +676,67 @@ Notes:
 }
 ```
 
+`billing.payment_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "payment_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "provider": { "type": "string" },
+    "rel_type": { "type": "string" },
+    "date_from": { "type": "string" },
+    "date_to": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.payment_detail`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "payment_id": { "type": "integer" },
+    "transaction_id": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.payment_provider_health`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider": { "type": "string" },
+    "period_days": { "type": "integer" },
+    "include_breakdown": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.payment_webhook_health`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider": { "type": "string" },
+    "status": { "type": "string" },
+    "period_days": { "type": "integer" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
 `newsletter.campaign_lookup`
 
 ```json
@@ -754,6 +819,8 @@ Billing-specific safety notes:
 - `billing.metrics_summary` is intended to be admin-only via the existing `modules.ai.mcp.auth.admin_only_tools` / `admin_only_modules` config, and only exposes aggregate MRR/churn/count metrics.
 - `billing.invoice_lookup`, `billing.invoice_detail`, and `billing.invoice_customer_history` mask customer email addresses and avoid exposing guest `unique_hash` tokens, raw webhook payloads, or payment-provider internals.
 - `billing.invoice_unpaid_summary` stays read-only and limits invoice reporting to aging, balances, and customer history rather than payment execution or invoice delivery actions.
+- `billing.payment_lookup` and `billing.payment_detail` expose transaction, provider, relation, and status summaries only; they intentionally omit `payment_data`, provider `settings`, API keys, and full payment-instrument details.
+- `billing.payment_provider_health` and `billing.payment_webhook_health` stay aggregate/read-only, summarize provider and webhook status safely, and sanitize leaked-looking secrets or long card-number-like digit sequences in error text.
 
 Newsletter-specific safety notes:
 

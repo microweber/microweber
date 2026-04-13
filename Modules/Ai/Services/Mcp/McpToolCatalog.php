@@ -15,6 +15,10 @@ use Modules\Ai\Tools\BillingInvoiceCustomerHistoryTool;
 use Modules\Ai\Tools\BillingInvoiceDetailTool;
 use Modules\Ai\Tools\BillingInvoiceLookupTool;
 use Modules\Ai\Tools\BillingInvoiceUnpaidSummaryTool;
+use Modules\Ai\Tools\BillingPaymentDetailTool;
+use Modules\Ai\Tools\BillingPaymentLookupTool;
+use Modules\Ai\Tools\BillingPaymentProviderHealthTool;
+use Modules\Ai\Tools\BillingPaymentWebhookHealthTool;
 use Modules\Ai\Tools\BillingMetricsSummaryTool;
 use Modules\Ai\Tools\BillingPlanSummaryTool;
 use Modules\Ai\Tools\BillingSubscriptionLookupTool;
@@ -144,6 +148,26 @@ class McpToolCatalog
                 'tool' => BillingInvoiceCustomerHistoryTool::class,
                 'module' => 'billing',
                 'title' => 'Review a customer invoice history with masked contact details and outstanding balance.',
+            ],
+            'billing.payment_lookup' => [
+                'tool' => BillingPaymentLookupTool::class,
+                'module' => 'billing',
+                'title' => 'Search payments by transaction ID, provider, status, related record, or date range.',
+            ],
+            'billing.payment_detail' => [
+                'tool' => BillingPaymentDetailTool::class,
+                'module' => 'billing',
+                'title' => 'Inspect a single payment transaction without exposing raw provider payloads or secrets.',
+            ],
+            'billing.payment_provider_health' => [
+                'tool' => BillingPaymentProviderHealthTool::class,
+                'module' => 'billing',
+                'title' => 'Summarize payment provider transaction health, success rate, and recent volume.',
+            ],
+            'billing.payment_webhook_health' => [
+                'tool' => BillingPaymentWebhookHealthTool::class,
+                'module' => 'billing',
+                'title' => 'Review payment webhook processing health by provider and status without exposing raw payloads.',
             ],
             'newsletter.campaign_lookup' => [
                 'tool' => NewsletterCampaignLookupTool::class,

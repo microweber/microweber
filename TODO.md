@@ -498,7 +498,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-13  **Billing subscriptions MCP domain** (`Modules/Billing`) — Add read-only `billing.subscription.*` and `billing.metrics.*` tools for subscription lookup, plan summaries, MRR/churn snapshots, and customer billing status, with admin-only scope requirements.
 - [x] 2026-04-13  **Invoice MCP domain** (`Modules/Invoice`) — Add read-only `billing.invoice.*` tools for invoice search/detail, unpaid/overdue summaries, and customer invoice history.
-- [ ] **Payment MCP domain** (`Modules/Payment`) — Add read-only `billing.payment.*` tools for transaction lookup and payment-provider health summaries, never exposing secrets, raw webhook payloads, or full payment instrument data.
+- [x] 2026-04-13  **Payment MCP domain** (`Modules/Payment`) — Added read-only `billing.payment_lookup`, `billing.payment_detail`, `billing.payment_provider_health`, and `billing.payment_webhook_health` tools in `Modules/Ai`, kept `payment_data` / provider settings / webhook payloads out of MCP output, sanitized secret-like and card-number-like error strings, and covered the flow with focused MCP feature tests.
 
 **Priority later — broaden operational context around shop/design/media once the above surfaces are proven**
 

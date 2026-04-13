@@ -40,6 +40,8 @@ use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterTemplate;
 use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
+use Modules\Payment\Models\Payment;
+use Modules\Payment\Models\PaymentProvider;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\SiteStats\Models\Browsers;
@@ -50,6 +52,7 @@ use Modules\SiteStats\Models\ReferrersDomains;
 use Modules\SiteStats\Models\ReferrersPaths;
 use Modules\SiteStats\Models\Sessions as SiteStatsSession;
 use Modules\SiteStats\Models\StatsUrl;
+use Modules\Billing\Models\WebhookLog;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -68,6 +71,8 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $billingNoAdminToken = null;
     protected ?McpClient $invoiceClient = null;
     protected ?GeneratedMcpClientToken $invoiceToken = null;
+    protected ?McpClient $paymentClient = null;
+    protected ?GeneratedMcpClientToken $paymentToken = null;
     protected ?McpClient $formsClient = null;
     protected ?GeneratedMcpClientToken $formsToken = null;
     protected ?McpClient $newsletterClient = null;
@@ -109,6 +114,14 @@ class McpControllerTest extends TestCase
         if (! Schema::hasTable('invoices') || ! Schema::hasTable('invoice_items')) {
             Artisan::call('migrate', [
                 '--path' => base_path('Modules/Invoice/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('payments') || ! Schema::hasTable('payment_providers')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Payment/database/migrations'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
@@ -177,6 +190,12 @@ class McpControllerTest extends TestCase
         }
         if (Schema::hasTable('users')) {
             DB::table('users')->where('email', 'like', 'billing-mcp-%@example.com')->delete();
+        }
+        if (Schema::hasTable('payments')) {
+            DB::table('payments')->delete();
+        }
+        if (Schema::hasTable('payment_providers')) {
+            DB::table('payment_providers')->delete();
         }
         if (Schema::hasTable('invoice_items')) {
             DB::table('invoice_items')->delete();
@@ -248,6 +267,7 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:9');
         RateLimiter::clear('mcp-client-token:10');
         RateLimiter::clear('mcp-client-token:11');
+        RateLimiter::clear('mcp-client-token:12');
 
         config([
             'modules.ai.enabled' => true,
@@ -322,6 +342,19 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->paymentClient = $manager->createClient([
+            'name' => 'Payment MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'billing.payment_lookup',
+                'billing.payment_detail',
+                'billing.payment_provider_health',
+                'billing.payment_webhook_health',
+            ],
+            'allowed_modules' => ['billing'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->formsClient = $manager->createClient([
             'name' => 'Forms MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -357,6 +390,7 @@ class McpControllerTest extends TestCase
         $this->billingToken = $manager->issueToken($this->billingClient, 'billing-only', ['mcp:access', 'mcp:admin']);
         $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
         $this->invoiceToken = $manager->issueToken($this->invoiceClient, 'invoice-only', ['mcp:access', 'mcp:admin']);
+        $this->paymentToken = $manager->issueToken($this->paymentClient, 'payment-only', ['mcp:access', 'mcp:admin']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
         $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
@@ -446,6 +480,10 @@ class McpControllerTest extends TestCase
             'billing.invoice_detail',
             'billing.invoice_unpaid_summary',
             'billing.invoice_customer_history',
+            'billing.payment_lookup',
+            'billing.payment_detail',
+            'billing.payment_provider_health',
+            'billing.payment_webhook_health',
             'newsletter.campaign_lookup',
             'newsletter.subscriber_lookup',
             'newsletter.template_lookup',
@@ -530,6 +568,26 @@ class McpControllerTest extends TestCase
             'billing.invoice_detail',
             'billing.invoice_unpaid_summary',
             'billing.invoice_customer_history',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function payment_client_only_receives_payment_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->paymentToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'payment-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'billing.payment_lookup',
+            'billing.payment_detail',
+            'billing.payment_provider_health',
+            'billing.payment_webhook_health',
         ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
@@ -1208,6 +1266,121 @@ class McpControllerTest extends TestCase
     }
 
     #[Test]
+    public function payment_lookup_returns_transaction_rows(): void
+    {
+        $this->seedPaymentFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->paymentToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 39,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.payment_lookup',
+                    'arguments' => [
+                        'search_term' => 'ch_payment_primary',
+                        'provider' => 'stripe',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('stripe', $text);
+        $this->assertStringContainsString('Payment #', $text);
+        $this->assertStringContainsString('ch_payme...mary', $text);
+        $this->assertStringContainsString('Completed', $text);
+    }
+
+    #[Test]
+    public function payment_detail_hides_raw_payloads_and_secrets(): void
+    {
+        $fixtures = $this->seedPaymentFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->paymentToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 40,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.payment_detail',
+                    'arguments' => [
+                        'payment_id' => $fixtures['primaryPayment']->id,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Hidden for safety', $text);
+        $this->assertStringContainsString('Stripe Gateway', $text);
+        $this->assertStringNotContainsString('sk_live_secret', $text);
+        $this->assertStringNotContainsString('4111111111111111', $text);
+    }
+
+    #[Test]
+    public function payment_provider_health_reports_success_rates(): void
+    {
+        $this->seedPaymentFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->paymentToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 41,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.payment_provider_health',
+                    'arguments' => [
+                        'provider' => 'stripe',
+                        'include_breakdown' => 'yes',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Stripe Gateway', $text);
+        $this->assertStringContainsString('Success rate', $text);
+        $this->assertStringContainsString('Completed volume', $text);
+        $this->assertStringContainsString('Failed', $text);
+    }
+
+    #[Test]
+    public function payment_webhook_health_sanitizes_failure_messages(): void
+    {
+        $this->seedPaymentFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->paymentToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 42,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.payment_webhook_health',
+                    'arguments' => [
+                        'provider' => 'stripe',
+                        'limit' => 5,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('checkout.session.completed', $text);
+        $this->assertStringContainsString('api_key=[redacted]', $text);
+        $this->assertStringNotContainsString('sk_live_secret', $text);
+        $this->assertStringNotContainsString('4111111111111111', $text);
+    }
+
+    #[Test]
     public function forms_form_lookup_returns_form_activity(): void
     {
         $fixtures = $this->seedFormFixtures();
@@ -1727,6 +1900,120 @@ class McpControllerTest extends TestCase
             'session_id_key' => $mobileSession->id,
             'updated_at' => now()->subMinutes(2),
         ]);
+    }
+
+    /**
+     * @return array{primaryProvider: PaymentProvider, primaryPayment: Payment}
+     */
+    private function seedPaymentFixtures(): array
+    {
+        $stripeProvider = PaymentProvider::factory()->create([
+            'name' => 'Stripe Gateway',
+            'provider' => 'stripe',
+            'is_active' => 1,
+            'is_default' => 1,
+            'settings' => [
+                'secret_key' => 'sk_live_secret',
+                'webhook_secret' => 'whsec_hidden',
+            ],
+        ]);
+
+        $paypalProvider = PaymentProvider::factory()->create([
+            'name' => 'PayPal Gateway',
+            'provider' => 'paypal',
+            'is_active' => 1,
+            'is_default' => 0,
+            'settings' => [
+                'client_secret' => 'paypal-secret',
+            ],
+        ]);
+
+        $primaryPayment = Payment::factory()->create([
+            'rel_id' => '2001',
+            'rel_type' => 'order',
+            'amount' => 129.99,
+            'currency' => 'USD',
+            'status' => 'completed',
+            'payment_provider' => 'stripe',
+            'payment_provider_id' => (string) $stripeProvider->id,
+            'transaction_id' => 'ch_payment_primary',
+            'payment_data' => [
+                'card_last_four' => '4242',
+                'card_number' => '4111111111111111',
+                'secret_key' => 'sk_live_secret',
+            ],
+            'created_at' => now()->subHours(2),
+            'updated_at' => now()->subHours(2),
+        ]);
+
+        Payment::factory()->create([
+            'rel_id' => '2002',
+            'rel_type' => 'order',
+            'amount' => 89.50,
+            'currency' => 'USD',
+            'status' => 'failed',
+            'payment_provider' => 'stripe',
+            'payment_provider_id' => (string) $stripeProvider->id,
+            'transaction_id' => 'ch_payment_failed',
+            'payment_data' => [
+                'failure_code' => 'card_declined',
+                'api_key' => 'sk_live_secret',
+            ],
+            'created_at' => now()->subHour(),
+            'updated_at' => now()->subHour(),
+        ]);
+
+        Payment::factory()->create([
+            'rel_id' => '3001',
+            'rel_type' => 'order',
+            'amount' => 59.00,
+            'currency' => 'USD',
+            'status' => 'pending',
+            'payment_provider' => 'paypal',
+            'payment_provider_id' => (string) $paypalProvider->id,
+            'transaction_id' => 'pp_payment_pending',
+            'payment_data' => [
+                'payer_id' => 'payer-1',
+            ],
+            'created_at' => now()->subMinutes(30),
+            'updated_at' => now()->subMinutes(30),
+        ]);
+
+        WebhookLog::factory()->completed()->create([
+            'provider' => 'stripe',
+            'event_type' => 'checkout.session.completed',
+            'event_id' => 'evt_checkout_completed',
+            'payload' => [
+                'secret_key' => 'sk_live_secret',
+                'card_number' => '4111111111111111',
+            ],
+            'attempts' => 1,
+            'processed_at' => now()->subMinutes(20),
+        ]);
+
+        WebhookLog::factory()->failed()->create([
+            'provider' => 'stripe',
+            'event_type' => 'payment_intent.payment_failed',
+            'event_id' => 'evt_payment_failed',
+            'payload' => [
+                'api_key' => 'sk_live_secret',
+                'customer_email' => 'buyer@example.com',
+            ],
+            'error_message' => 'api_key=sk_live_secret payment failed for card 4111111111111111',
+            'attempts' => 2,
+        ]);
+
+        WebhookLog::factory()->pending()->create([
+            'provider' => 'paypal',
+            'event_type' => 'payment.capture.pending',
+            'event_id' => 'evt_paypal_pending',
+            'attempts' => 0,
+        ]);
+
+        return [
+            'primaryProvider' => $stripeProvider,
+            'primaryPayment' => $primaryPayment,
+        ];
     }
 
     /**
