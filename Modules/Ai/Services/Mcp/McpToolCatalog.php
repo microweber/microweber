@@ -6,6 +6,14 @@ namespace Modules\Ai\Services\Mcp;
 
 use Modules\Ai\Tools\ContentSearchTool;
 use Modules\Ai\Tools\GetContentTool;
+use Modules\Ai\Tools\AnalyticsAudienceBreakdownTool;
+use Modules\Ai\Tools\AnalyticsTopPagesTool;
+use Modules\Ai\Tools\AnalyticsTrafficReferrersTool;
+use Modules\Ai\Tools\AnalyticsTrafficSummaryTool;
+use Modules\Ai\Tools\FormActivitySummaryTool;
+use Modules\Ai\Tools\FormLookupTool;
+use Modules\Ai\Tools\FormSubmissionDetailTool;
+use Modules\Ai\Tools\FormSubmissionSearchTool;
 use Modules\Ai\Tools\NewsletterAutomationStatusTool;
 use Modules\Ai\Tools\NewsletterCampaignLookupTool;
 use Modules\Ai\Tools\NewsletterSubscriberLookupTool;
@@ -48,6 +56,46 @@ class McpToolCatalog
                 'tool' => SettingsReadTool::class,
                 'module' => 'settings',
                 'title' => 'Read non-sensitive Microweber option values by group and key.',
+            ],
+            'analytics.traffic_summary' => [
+                'tool' => AnalyticsTrafficSummaryTool::class,
+                'module' => 'analytics',
+                'title' => 'Summarize visitors, pageviews, bounce rate, average session duration, and top traffic sources.',
+            ],
+            'analytics.top_pages' => [
+                'tool' => AnalyticsTopPagesTool::class,
+                'module' => 'analytics',
+                'title' => 'List the top pages or content items by sessions and views.',
+            ],
+            'analytics.traffic_referrers' => [
+                'tool' => AnalyticsTrafficReferrersTool::class,
+                'module' => 'analytics',
+                'title' => 'Summarize traffic referrers by domain and path.',
+            ],
+            'analytics.audience_breakdown' => [
+                'tool' => AnalyticsAudienceBreakdownTool::class,
+                'module' => 'analytics',
+                'title' => 'Break down audiences by country and device type.',
+            ],
+            'forms.form_lookup' => [
+                'tool' => FormLookupTool::class,
+                'module' => 'forms',
+                'title' => 'Search form definitions and summarize submission activity.',
+            ],
+            'forms.submission_search' => [
+                'tool' => FormSubmissionSearchTool::class,
+                'module' => 'forms',
+                'title' => 'Search form submissions with masked sender information and message previews.',
+            ],
+            'forms.submission_detail' => [
+                'tool' => FormSubmissionDetailTool::class,
+                'module' => 'forms',
+                'title' => 'Inspect a single form submission with normalized fields and masked personal data.',
+            ],
+            'forms.activity_summary' => [
+                'tool' => FormActivitySummaryTool::class,
+                'module' => 'forms',
+                'title' => 'Summarize recent form submission volume, unread backlog, and active forms.',
             ],
             'newsletter.campaign_lookup' => [
                 'tool' => NewsletterCampaignLookupTool::class,

@@ -151,6 +151,14 @@ Initial MCP tools:
 - `product.lookup`
 - `order.lookup`
 - `settings.read`
+- `analytics.traffic_summary`
+- `analytics.top_pages`
+- `analytics.traffic_referrers`
+- `analytics.audience_breakdown`
+- `forms.form_lookup`
+- `forms.submission_search`
+- `forms.submission_detail`
+- `forms.activity_summary`
 - `newsletter.campaign_lookup`
 - `newsletter.subscriber_lookup`
 - `newsletter.template_lookup`
@@ -423,6 +431,118 @@ Notes:
 }
 ```
 
+`analytics.traffic_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "period": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`analytics.top_pages`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "period": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`analytics.traffic_referrers`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "period": { "type": "string" },
+    "limit": { "type": "integer" },
+    "include_internal": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`analytics.audience_breakdown`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "period": { "type": "string" },
+    "limit": { "type": "integer" },
+    "breakdown": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`forms.form_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "form_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "list_id": { "type": "integer" },
+    "is_active": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`forms.submission_search`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "form_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "read_status": { "type": "string" },
+    "date_from": { "type": "string" },
+    "date_to": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`forms.submission_detail`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "submission_id": { "type": "integer" }
+  },
+  "required": ["submission_id"],
+  "additionalProperties": false
+}
+```
+
+`forms.activity_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "form_id": { "type": "integer" },
+    "period": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
 `newsletter.campaign_lookup`
 
 ```json
@@ -485,6 +605,18 @@ Notes:
   "additionalProperties": false
 }
 ```
+
+Analytics-specific safety notes:
+
+- `analytics.*` tools are read-only and currently expose aggregated reporting data only.
+- `analytics.traffic_referrers` summarizes referrers by domain/path instead of returning raw external referrer URLs.
+- The analytics period contract intentionally follows the Site Stats dashboard windows: `daily` = last 30 days, `weekly` = last 12 weeks, `monthly` = last 12 months, `yearly` = last 5 years.
+
+Forms-specific safety notes:
+
+- `forms.*` tools are read-only and normalize both legacy `form_values` JSON submissions and newer `forms_data_values` rows.
+- `forms.submission_search` and `forms.submission_detail` mask emails, phone numbers, names, source IPs, and uploaded file paths before returning data over MCP.
+- `forms.activity_summary` only exposes aggregated submission counts and unread backlog, while `forms.form_lookup` reports recipient counts instead of raw notification addresses.
 
 Newsletter-specific safety notes:
 

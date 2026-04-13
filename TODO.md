@@ -491,8 +491,8 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 **Priority now — extend MCP with high-signal read-only admin/reporting tools first**
 
 - [x] 2026-04-13  **Newsletter MCP domain** (`Modules/Newsletter`) — Added read-only `newsletter.campaign_lookup`, `newsletter.subscriber_lookup`, `newsletter.template_lookup`, and `newsletter.automation_status` tools in `Modules/Ai`, wired them into the MCP catalog under the `newsletter` module key, masked subscriber emails / sanitized automation errors, and covered the flow with focused MCP feature tests.
-- [ ] **Site stats / analytics MCP domain** (`Modules/SiteStats`) — Add read-only `analytics.*` tools for overview metrics, top pages/content, and traffic/referrer summaries, keeping outputs aggregated and safe for non-destructive admin use.
-- [ ] **Forms / contact submissions MCP domain** (`Modules/ContactForm` and/or `Modules/Form`) — Add read-only `forms.*` tools for form listing, submission search, and submission detail lookup with careful PII handling and strict access gating.
+- [x] 2026-04-13  **Site stats / analytics MCP domain** (`Modules/SiteStats`) — Added read-only `analytics.traffic_summary`, `analytics.top_pages`, `analytics.traffic_referrers`, and `analytics.audience_breakdown` tools in `Modules/Ai`, wired them into the MCP catalog under the `analytics` module key, kept referrer output aggregated by domain/path, and covered the flow with focused MCP feature tests.
+- [x] 2026-04-13  **Forms / contact submissions MCP domain** (`Modules/ContactForm` and `Modules/Form`) — Added read-only `forms.form_lookup`, `forms.submission_search`, `forms.submission_detail`, and `forms.activity_summary` tools in `Modules/Ai`, normalized both legacy and new submission storage formats, masked submission PII / file paths, and covered the flow with focused MCP feature tests.
 
 **Priority next — add commerce/billing reporting once the read-only pattern is stable**
 

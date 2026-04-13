@@ -15,7 +15,11 @@ use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
 use Modules\Ai\Services\Secrets\PassCommandRunner;
 use Modules\Ai\Services\Secrets\PassSecretStore;
+use Modules\ContactForm\Models\Form as ContactForm;
 use Modules\Content\Models\Content;
+use Modules\Form\Models\FormData;
+use Modules\Form\Models\FormDataValue;
+use Modules\Form\Models\FormList;
 use Modules\Newsletter\Models\NewsletterAutomationQueue;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
@@ -29,6 +33,14 @@ use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
+use Modules\SiteStats\Models\Browsers;
+use Modules\SiteStats\Models\Geoip;
+use Modules\SiteStats\Models\Log as SiteStatsLog;
+use Modules\SiteStats\Models\Referrers;
+use Modules\SiteStats\Models\ReferrersDomains;
+use Modules\SiteStats\Models\ReferrersPaths;
+use Modules\SiteStats\Models\Sessions as SiteStatsSession;
+use Modules\SiteStats\Models\StatsUrl;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -40,6 +52,10 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $missingScopeToken = null;
     protected ?GeneratedMcpClientToken $missingAdminScopeToken = null;
     protected ?GeneratedMcpClientToken $limitedToolToken = null;
+    protected ?McpClient $analyticsClient = null;
+    protected ?GeneratedMcpClientToken $analyticsToken = null;
+    protected ?McpClient $formsClient = null;
+    protected ?GeneratedMcpClientToken $formsToken = null;
     protected ?McpClient $newsletterClient = null;
     protected ?GeneratedMcpClientToken $newsletterToken = null;
     protected ?GeneratedMcpClientToken $revokedToken = null;
@@ -68,9 +84,78 @@ class McpControllerTest extends TestCase
             ]);
         }
 
+        if (! Schema::hasTable('forms_data') || ! Schema::hasTable('forms_data_values') || ! Schema::hasTable('forms_lists') || ! Schema::hasTable('forms')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Form/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/ContactForm/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('stats_sessions') || ! Schema::hasTable('stats_visits_log') || ! Schema::hasTable('stats_urls')) {
+            DB::table('migrations')->whereIn('migration', [
+                '2023_10_01_000002_create_stats_visits_log_table',
+                '2023_10_01_000003_create_stats_browser_agents_table',
+                '2023_10_01_000004_create_stats_referrers_table',
+                '2023_10_01_000005_create_stats_referrers_domains_table',
+                '2023_10_01_000006_create_stats_referrers_paths_table',
+                '2023_10_01_000007_create_stats_urls_table',
+                '2023_10_01_000008_create_stats_sessions_table',
+                '2023_10_01_000009_create_stats_geoip_table',
+            ])->delete();
+
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/SiteStats/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
         DB::table('mcp_client_token_events')->delete();
         DB::table('mcp_client_tokens')->delete();
         DB::table('mcp_clients')->delete();
+        if (Schema::hasTable('forms_data_values')) {
+            DB::table('forms_data_values')->delete();
+        }
+        if (Schema::hasTable('forms_data')) {
+            DB::table('forms_data')->delete();
+        }
+        if (Schema::hasTable('forms_lists')) {
+            DB::table('forms_lists')->delete();
+        }
+        if (Schema::hasTable('forms')) {
+            DB::table('forms')->delete();
+        }
+        if (Schema::hasTable('stats_visits_log')) {
+            DB::table('stats_visits_log')->delete();
+        }
+        if (Schema::hasTable('stats_sessions')) {
+            DB::table('stats_sessions')->delete();
+        }
+        if (Schema::hasTable('stats_urls')) {
+            DB::table('stats_urls')->delete();
+        }
+        if (Schema::hasTable('stats_referrers')) {
+            DB::table('stats_referrers')->delete();
+        }
+        if (Schema::hasTable('stats_referrers_domains')) {
+            DB::table('stats_referrers_domains')->delete();
+        }
+        if (Schema::hasTable('stats_referrers_paths')) {
+            DB::table('stats_referrers_paths')->delete();
+        }
+        if (Schema::hasTable('stats_browser_agents')) {
+            DB::table('stats_browser_agents')->delete();
+        }
+        if (Schema::hasTable('stats_geoip')) {
+            DB::table('stats_geoip')->delete();
+        }
         DB::table('newsletter_campaigns_send_log')->delete();
         DB::table('newsletter_campaigns_clicked_link')->delete();
         DB::table('newsletter_campaigns_pixel')->delete();
@@ -94,6 +179,8 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:4');
         RateLimiter::clear('mcp-client-token:5');
         RateLimiter::clear('mcp-client-token:6');
+        RateLimiter::clear('mcp-client-token:7');
+        RateLimiter::clear('mcp-client-token:8');
 
         config([
             'modules.ai.enabled' => true,
@@ -129,6 +216,32 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->analyticsClient = $manager->createClient([
+            'name' => 'Analytics MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'analytics.traffic_summary',
+                'analytics.top_pages',
+                'analytics.traffic_referrers',
+                'analytics.audience_breakdown',
+            ],
+            'allowed_modules' => ['analytics'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
+        $this->formsClient = $manager->createClient([
+            'name' => 'Forms MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'forms.form_lookup',
+                'forms.submission_search',
+                'forms.submission_detail',
+                'forms.activity_summary',
+            ],
+            'allowed_modules' => ['forms'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->newsletterClient = $manager->createClient([
             'name' => 'Newsletter MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -147,6 +260,8 @@ class McpControllerTest extends TestCase
         $this->missingScopeToken = $manager->issueToken($this->fullAccessClient, 'missing-scope', ['content:read']);
         $this->missingAdminScopeToken = $manager->issueToken($this->limitedToolClient, 'missing-admin', ['mcp:access']);
         $this->limitedToolToken = $manager->issueToken($this->limitedToolClient, 'limited-tool', ['mcp:access', 'mcp:admin']);
+        $this->analyticsToken = $manager->issueToken($this->analyticsClient, 'analytics-only', ['mcp:access', 'mcp:admin']);
+        $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
         $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
         $manager->revokeToken($this->revokedToken->token, null, 'Revoked in test setup');
@@ -219,6 +334,14 @@ class McpControllerTest extends TestCase
             'product.lookup',
             'order.lookup',
             'settings.read',
+            'analytics.traffic_summary',
+            'analytics.top_pages',
+            'analytics.traffic_referrers',
+            'analytics.audience_breakdown',
+            'forms.form_lookup',
+            'forms.submission_search',
+            'forms.submission_detail',
+            'forms.activity_summary',
             'newsletter.campaign_lookup',
             'newsletter.subscriber_lookup',
             'newsletter.template_lookup',
@@ -244,6 +367,46 @@ class McpControllerTest extends TestCase
             ['content.lookup', 'order.lookup'],
             collect($response->json('result.tools'))->pluck('name')->all()
         );
+    }
+
+    #[Test]
+    public function analytics_client_only_receives_analytics_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->analyticsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'analytics-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'analytics.traffic_summary',
+            'analytics.top_pages',
+            'analytics.traffic_referrers',
+            'analytics.audience_breakdown',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function forms_client_only_receives_forms_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->formsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'forms-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'forms.form_lookup',
+            'forms.submission_search',
+            'forms.submission_detail',
+            'forms.activity_summary',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
     #[Test]
@@ -545,6 +708,229 @@ class McpControllerTest extends TestCase
     }
 
     #[Test]
+    public function analytics_traffic_summary_returns_aggregated_metrics(): void
+    {
+        $this->seedAnalyticsFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->analyticsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 19,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'analytics.traffic_summary',
+                    'arguments' => [
+                        'period' => 'daily',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Visitors', $text);
+        $this->assertStringContainsString('Landing Page', $text);
+        $this->assertStringContainsString('google.com', $text);
+    }
+
+    #[Test]
+    public function analytics_top_pages_returns_ranked_pages(): void
+    {
+        $this->seedAnalyticsFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->analyticsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 20,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'analytics.top_pages',
+                    'arguments' => [
+                        'period' => 'daily',
+                        'limit' => 5,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Landing Page', $text);
+        $this->assertStringContainsString('/landing-page', $text);
+        $this->assertStringContainsString('Sessions', $text);
+    }
+
+    #[Test]
+    public function analytics_traffic_referrers_returns_domain_and_path_summaries(): void
+    {
+        $this->seedAnalyticsFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->analyticsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 25,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'analytics.traffic_referrers',
+                    'arguments' => [
+                        'period' => 'daily',
+                        'limit' => 5,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('google.com', $text);
+        $this->assertStringContainsString('/search', $text);
+        $this->assertStringContainsString('External', $text);
+    }
+
+    #[Test]
+    public function analytics_audience_breakdown_returns_country_and_device_data(): void
+    {
+        $this->seedAnalyticsFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->analyticsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 26,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'analytics.audience_breakdown',
+                    'arguments' => [
+                        'period' => 'daily',
+                        'breakdown' => 'both',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('United States', $text);
+        $this->assertStringContainsString('Desktop', $text);
+        $this->assertStringContainsString('Mobile', $text);
+    }
+
+    #[Test]
+    public function forms_form_lookup_returns_form_activity(): void
+    {
+        $fixtures = $this->seedFormFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->formsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 27,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'forms.form_lookup',
+                    'arguments' => [
+                        'search_term' => 'Support',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Support Contact Form', $text);
+        $this->assertStringContainsString('2', $text);
+        $this->assertStringContainsString('recipient', $text);
+    }
+
+    #[Test]
+    public function forms_submission_search_masks_personal_data(): void
+    {
+        $this->seedFormFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->formsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 28,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'forms.submission_search',
+                    'arguments' => [
+                        'search_term' => 'Need help',
+                        'read_status' => 'unread',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Support Contact Form', $text);
+        $this->assertStringContainsString('ja*********@example.com', $text);
+        $this->assertStringNotContainsString('jane.reader@example.com', $text);
+        $this->assertStringContainsString('Unread', $text);
+    }
+
+    #[Test]
+    public function forms_submission_detail_masks_sensitive_fields_and_normalizes_attachments(): void
+    {
+        $fixtures = $this->seedFormFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->formsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 29,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'forms.submission_detail',
+                    'arguments' => [
+                        'submission_id' => $fixtures['supportSubmission']->id,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('ja*********@example.com', $text);
+        $this->assertStringContainsString('***-***-1234', $text);
+        $this->assertStringContainsString('[file] brief.pdf', $text);
+        $this->assertStringContainsString('203.0.x.x', $text);
+        $this->assertStringNotContainsString('203.0.113.10', $text);
+    }
+
+    #[Test]
+    public function forms_activity_summary_reports_recent_submission_totals(): void
+    {
+        $this->seedFormFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->formsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 30,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'forms.activity_summary',
+                    'arguments' => [
+                        'period' => 'recent_30d',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Forms activity summary', $text);
+        $this->assertStringContainsString('Support Contact Form', $text);
+        $this->assertStringContainsString('3', $text);
+    }
+
+    #[Test]
     public function newsletter_campaign_lookup_returns_campaign_metrics(): void
     {
         $list = NewsletterList::factory()->create(['name' => 'Launch Audience']);
@@ -824,5 +1210,284 @@ class McpControllerTest extends TestCase
                 ->where('action', 'token.used')
                 ->count()
         );
+    }
+
+    private function seedAnalyticsFixtures(): void
+    {
+        $landingContent = Content::factory()->create([
+            'title' => 'Landing Page',
+            'content_type' => 'page',
+            'is_active' => 1,
+            'is_deleted' => 0,
+        ]);
+        $pricingContent = Content::factory()->create([
+            'title' => 'Pricing Page',
+            'content_type' => 'page',
+            'is_active' => 1,
+            'is_deleted' => 0,
+        ]);
+
+        $landingUrl = StatsUrl::query()->create([
+            'url' => site_url('landing-page'),
+            'content_id' => $landingContent->id,
+            'url_hash' => md5('landing-page'),
+            'updated_at' => now(),
+        ]);
+        $pricingUrl = StatsUrl::query()->create([
+            'url' => site_url('pricing-page'),
+            'content_id' => $pricingContent->id,
+            'url_hash' => md5('pricing-page'),
+            'updated_at' => now(),
+        ]);
+
+        $referrerDomain = ReferrersDomains::query()->create([
+            'referrer_domain' => 'google.com',
+            'updated_at' => now(),
+        ]);
+        $referrerPath = ReferrersPaths::query()->create([
+            'referrer_domain_id' => $referrerDomain->id,
+            'referrer_path' => '/search',
+            'updated_at' => now(),
+        ]);
+        $referrer = Referrers::query()->create([
+            'referrer' => 'https://google.com/search?q=microweber',
+            'referrer_hash' => md5('google-referrer'),
+            'referrer_domain_id' => $referrerDomain->id,
+            'referrer_path_id' => $referrerPath->id,
+            'is_internal' => 0,
+            'updated_at' => now(),
+        ]);
+
+        $desktopBrowser = Browsers::query()->create([
+            'browser_agent' => 'Desktop Browser',
+            'browser_agent_hash' => md5('desktop-browser'),
+            'platform' => 'Windows',
+            'browser' => 'Chrome',
+            'device' => 'Desktop',
+            'is_desktop' => 1,
+            'is_mobile' => 0,
+            'is_phone' => 0,
+            'is_tablet' => 0,
+            'is_robot' => 0,
+            'updated_at' => now(),
+        ]);
+        $mobileBrowser = Browsers::query()->create([
+            'browser_agent' => 'Mobile Browser',
+            'browser_agent_hash' => md5('mobile-browser'),
+            'platform' => 'iOS',
+            'browser' => 'Safari',
+            'device' => 'Phone',
+            'is_desktop' => 0,
+            'is_mobile' => 1,
+            'is_phone' => 1,
+            'is_tablet' => 0,
+            'is_robot' => 0,
+            'updated_at' => now(),
+        ]);
+
+        $unitedStates = Geoip::query()->create([
+            'country_code' => 'US',
+            'country_name' => 'United States',
+            'updated_at' => now(),
+        ]);
+        $unitedKingdom = Geoip::query()->create([
+            'country_code' => 'GB',
+            'country_name' => 'United Kingdom',
+            'updated_at' => now(),
+        ]);
+
+        $desktopSession = SiteStatsSession::query()->create([
+            'session_id' => 'desktop-session',
+            'browser_id' => $desktopBrowser->id,
+            'referrer_id' => $referrer->id,
+            'referrer_domain_id' => $referrerDomain->id,
+            'referrer_path_id' => $referrerPath->id,
+            'geoip_id' => $unitedStates->id,
+            'language' => 'en',
+            'updated_at' => now(),
+        ]);
+        $mobileSession = SiteStatsSession::query()->create([
+            'session_id' => 'mobile-session',
+            'browser_id' => $mobileBrowser->id,
+            'referrer_id' => $referrer->id,
+            'referrer_domain_id' => $referrerDomain->id,
+            'referrer_path_id' => $referrerPath->id,
+            'geoip_id' => $unitedKingdom->id,
+            'language' => 'en',
+            'updated_at' => now(),
+        ]);
+
+        SiteStatsLog::query()->create([
+            'url_id' => $landingUrl->id,
+            'referrer_id' => $referrer->id,
+            'view_count' => 1,
+            'session_id_key' => $desktopSession->id,
+            'updated_at' => now()->subMinutes(5),
+        ]);
+        SiteStatsLog::query()->create([
+            'url_id' => $landingUrl->id,
+            'referrer_id' => $referrer->id,
+            'view_count' => 2,
+            'session_id_key' => $desktopSession->id,
+            'updated_at' => now()->subMinutes(1),
+        ]);
+        SiteStatsLog::query()->create([
+            'url_id' => $pricingUrl->id,
+            'referrer_id' => $referrer->id,
+            'view_count' => 1,
+            'session_id_key' => $mobileSession->id,
+            'updated_at' => now()->subMinutes(2),
+        ]);
+    }
+
+    /**
+     * @return array{form: ContactForm, list: FormList, supportSubmission: FormData}
+     */
+    private function seedFormFixtures(): array
+    {
+        $list = new FormList();
+        $list->created_at = now()->subDays(5);
+        $list->created_by = 1;
+        $list->title = 'Support Inbox';
+        $list->description = 'Contact form support queue';
+        $list->module_name = 'contact_form';
+        $list->save();
+
+        $supportForm = ContactForm::query()->create([
+            'name' => 'Support Contact Form',
+            'slug' => 'support-contact-form',
+            'list_id' => $list->id,
+            'module_id' => 1001,
+            'description' => 'Primary support form',
+            'confirmation_message' => 'Thanks for reaching out.',
+            'emails_notifications' => 'support@example.com,team@example.com',
+            'emails_notifications_subject' => 'New support inquiry',
+            'is_active' => 1,
+        ]);
+
+        $salesForm = ContactForm::query()->create([
+            'name' => 'Sales Form',
+            'slug' => 'sales-form',
+            'list_id' => null,
+            'module_id' => 2002,
+            'description' => 'Sales inquiries',
+            'confirmation_message' => 'We will contact you soon.',
+            'emails_notifications' => 'sales@example.com',
+            'emails_notifications_subject' => 'New sales inquiry',
+            'is_active' => 1,
+        ]);
+
+        $supportSubmission = new FormData();
+        $supportSubmission->created_at = now()->subHours(2);
+        $supportSubmission->updated_at = now()->subHours(2);
+        $supportSubmission->created_by = 1;
+        $supportSubmission->rel_type = 'module';
+        $supportSubmission->rel_id = (string) $supportForm->module_id;
+        $supportSubmission->list_id = $list->id;
+        $supportSubmission->form_values = '';
+        $supportSubmission->module_name = 'contact_form';
+        $supportSubmission->module_id = (string) $supportForm->module_id;
+        $supportSubmission->url = 'https://example.com/contact';
+        $supportSubmission->user_ip = '203.0.113.10';
+        $supportSubmission->is_read = 0;
+        $supportSubmission->save();
+
+        FormDataValue::query()->create([
+            'form_data_id' => $supportSubmission->id,
+            'field_type' => 'text',
+            'field_key' => 'name',
+            'field_name' => 'Name',
+            'field_value' => 'Jane Reader',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $supportSubmission->id,
+            'field_type' => 'email',
+            'field_key' => 'email',
+            'field_name' => 'Email',
+            'field_value' => 'jane.reader@example.com',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $supportSubmission->id,
+            'field_type' => 'phone',
+            'field_key' => 'phone',
+            'field_name' => 'Phone',
+            'field_value' => '+1 (555) 000-1234',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $supportSubmission->id,
+            'field_type' => 'textarea',
+            'field_key' => 'message',
+            'field_name' => 'Message',
+            'field_value' => 'Need help with the checkout flow on mobile devices.',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $supportSubmission->id,
+            'field_type' => 'file',
+            'field_key' => 'attachment',
+            'field_name' => 'Attachment',
+            'field_value' => '/var/www/storage/uploads/support/brief.pdf',
+        ]);
+
+        $legacySubmission = new FormData();
+        $legacySubmission->created_at = now()->subDay();
+        $legacySubmission->updated_at = now()->subDay();
+        $legacySubmission->created_by = 1;
+        $legacySubmission->rel_type = 'module';
+        $legacySubmission->rel_id = (string) $supportForm->module_id;
+        $legacySubmission->list_id = $list->id;
+        $legacySubmission->form_values = json_encode([
+            'name' => 'Legacy Writer',
+            'email' => 'legacy.writer@example.com',
+            'message' => 'Legacy entry stored in form_values only.',
+        ], JSON_THROW_ON_ERROR);
+        $legacySubmission->module_name = 'contact_form';
+        $legacySubmission->module_id = (string) $supportForm->module_id;
+        $legacySubmission->url = 'https://example.com/contact?legacy=1';
+        $legacySubmission->user_ip = '198.51.100.22';
+        $legacySubmission->is_read = 1;
+        $legacySubmission->save();
+
+        $salesSubmission = new FormData();
+        $salesSubmission->created_at = now()->subHours(4);
+        $salesSubmission->updated_at = now()->subHours(4);
+        $salesSubmission->created_by = 1;
+        $salesSubmission->rel_type = 'module';
+        $salesSubmission->rel_id = (string) $salesForm->module_id;
+        $salesSubmission->list_id = 0;
+        $salesSubmission->form_values = '';
+        $salesSubmission->module_name = 'contact_form';
+        $salesSubmission->module_id = (string) $salesForm->module_id;
+        $salesSubmission->url = 'https://example.com/request-demo';
+        $salesSubmission->user_ip = '192.0.2.11';
+        $salesSubmission->is_read = 0;
+        $salesSubmission->save();
+
+        FormDataValue::query()->create([
+            'form_data_id' => $salesSubmission->id,
+            'field_type' => 'text',
+            'field_key' => 'company_name',
+            'field_name' => 'Company Name',
+            'field_value' => 'Acme Corp',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $salesSubmission->id,
+            'field_type' => 'email',
+            'field_key' => 'email',
+            'field_name' => 'Email',
+            'field_value' => 'sales.lead@example.com',
+        ]);
+        FormDataValue::query()->create([
+            'form_data_id' => $salesSubmission->id,
+            'field_type' => 'textarea',
+            'field_key' => 'message',
+            'field_name' => 'Message',
+            'field_value' => 'Interested in enterprise pricing and onboarding.',
+        ]);
+
+        return [
+            'form' => $supportForm,
+            'list' => $list,
+            'supportSubmission' => $supportSubmission,
+        ];
     }
 }
