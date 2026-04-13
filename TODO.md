@@ -439,7 +439,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 ### Phase 6: Dashboard Improvements
 
-- [ ] **Dashboard stats inconsistency** — "Emails opened: 300" and "Emails clicked: 200" seem like hardcoded/test values. Verify these pull from real tracking data (newsletter_campaigns_pixel and newsletter_campaigns_clicked_link tables).
+- [x] 2026-04-13  **Dashboard stats inconsistency** — Verified: stats pull from real tracking tables (NewsletterCampaignPixel: 300, NewsletterCampaignClickedLink: 200, SendLog: 199). Values are from seeded test data, not hardcoded. No code fix needed.
 - [ ] **Dashboard — add recent campaigns widget** — Show the last 5 campaigns with their status and open/click rates below the charts.
 - [ ] **Dashboard — add quick actions** — Add "Create Campaign", "Import Subscribers", "New Template" quick action buttons to the dashboard.
 
