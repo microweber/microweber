@@ -20,6 +20,7 @@ use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use Modules\Newsletter\Filament\Widgets\CampaignsChart;
 use Modules\Newsletter\Filament\Widgets\MailsOverviewWidget;
 use Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
+use Modules\Newsletter\Filament\Widgets\RecentCampaignsWidget;
 use Modules\Newsletter\Filament\Widgets\SubscribersChart;
 use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
@@ -71,6 +72,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 MailsOverviewWidget::class,
                 CampaignsChart::class,
                 SubscribersChart::class,
+                RecentCampaignsWidget::class,
             ])
             ->navigationItems([
                 NavigationItem::make('E-mail Marketing')
