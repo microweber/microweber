@@ -152,6 +152,353 @@ Initial MCP tools:
 - `order.lookup`
 - `settings.read`
 
+### MCP contract
+
+Transport:
+
+- Endpoint: `POST /api/mcp`
+- Content type: `application/json`
+- Protocol envelope: JSON-RPC 2.0
+- Authentication: `Authorization: Bearer <mcp client token>`
+
+Base request shape:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "request-1",
+  "method": "initialize",
+  "params": {}
+}
+```
+
+Validation rules currently enforced by `Modules/Ai/Http/Requests/McpRequest.php`:
+
+- `jsonrpc` is required and must be `"2.0"`.
+- `method` is required and must be a string.
+- `params` is optional and must be an object/associative array when present.
+- `params.name` is required for `tools/call`.
+- `params.arguments` is optional for `tools/call` and must be an object/associative array when present.
+
+#### `initialize`
+
+Example request:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "clientInfo": {
+      "name": "my-mcp-client",
+      "version": "1.0.0"
+    }
+  }
+}
+```
+
+Example response:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "protocolVersion": "2025-03-26",
+    "serverInfo": {
+      "name": "Microweber AI MCP",
+      "version": "0.1.0"
+    },
+    "capabilities": {
+      "tools": {
+        "listChanged": false
+      }
+    },
+    "transport": "http-jsonrpc"
+  }
+}
+```
+
+#### `tools/list`
+
+Example request:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "tools-1",
+  "method": "tools/list"
+}
+```
+
+Example response shape:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "tools-1",
+  "result": {
+    "tools": [
+      {
+        "name": "content.lookup",
+        "description": "Search Microweber content by keyword and type.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "search_term": {
+              "type": "string",
+              "description": "Search term to find in content titles, descriptions, or content body. Use keywords related to the content you are looking for."
+            },
+            "content_type": {
+              "type": "string",
+              "description": "Type of content to search for. Options: \"page\", \"post\", \"product\", \"category\", or \"all\" for all types."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum number of results to return (1-50). Default is 10."
+            }
+          },
+          "required": [
+            "search_term"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "module": "content",
+          "domain": "content",
+          "readOnlyHint": true
+        }
+      }
+    ]
+  }
+}
+```
+
+Notes:
+
+- The returned tool list is filtered by the authenticated MCP client's allowed tools/modules.
+- Tools that require the configured admin scope are hidden when the token does not include that scope.
+
+#### `tools/call`
+
+Example request:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 14,
+  "method": "tools/call",
+  "params": {
+    "name": "content.lookup",
+    "arguments": {
+      "search_term": "MCP Knowledge",
+      "content_type": "page"
+    }
+  }
+}
+```
+
+Example success response:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 14,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Content Search Results..."
+      }
+    ],
+    "isError": false
+  }
+}
+```
+
+Example tool-level error response:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 18,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "The setting 'openai_api_key' is sensitive and cannot be read over MCP."
+      }
+    ],
+    "isError": true
+  }
+}
+```
+
+Notes:
+
+- Tool output is normalized into plain text before returning to the client.
+- `isError: true` means the tool executed but returned an application/tool error.
+- JSON-RPC `error` is reserved for protocol/server-level failures such as unknown methods or missing execution context.
+
+#### Current tool argument schemas
+
+`content.lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "search_term": { "type": "string" },
+    "content_type": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "required": ["search_term"],
+  "additionalProperties": false
+}
+```
+
+`content.get`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "content_id": { "type": "integer" },
+    "include_meta": { "type": "string" }
+  },
+  "required": ["content_id"],
+  "additionalProperties": false
+}
+```
+
+`product.lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "search_term": { "type": "string" },
+    "min_price": { "type": "number" },
+    "max_price": { "type": "number" },
+    "category": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`order.lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "date_from": { "type": "string" },
+    "date_to": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`settings.read`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "option_group": { "type": "string" },
+    "option_key": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "required": ["option_group"],
+  "additionalProperties": false
+}
+```
+
+#### Auth header and token format
+
+- Clients must send `Authorization: Bearer <token>`.
+- Tokens are issued from the MCP admin UI and are shown exactly once.
+- The persisted token format is prefixed with `AI_MCP_CLIENT_TOKEN_PREFIX` (default: `mcp_`) and currently looks like:
+
+```text
+mcp_{token_id}|{random_secret}
+```
+
+- The database stores only a hash plus the last eight characters for display/audit.
+
+#### Rotation and revocation procedure
+
+Recommended rotation flow:
+
+1. Issue a new key for the same MCP client from the Filament `McpClientResource`.
+2. Update the consuming MCP client to use the new bearer token.
+3. Confirm `initialize` and `tools/list` succeed with the new key.
+4. Revoke the previous key from the client token relation manager.
+
+Revocation semantics:
+
+- Revoked or expired tokens return `401 Unauthorized`.
+- Revocation writes a `token.revoked` audit event.
+- Rotating a token revokes the old token and writes both revoke/rotate audit events.
+
+#### Error semantics
+
+Transport/auth middleware errors return normal HTTP error responses:
+
+- `401 Unauthorized`
+  - missing bearer token
+  - invalid token
+  - revoked/inactive token
+- `403 Forbidden`
+  - missing required scope
+  - tool not allowed for the client
+  - module not allowed for the client
+  - missing admin scope for admin-only tools/modules
+- `429 Too Many Requests`
+  - per-client MCP rate limit exceeded
+
+Protocol/server errors return JSON-RPC `error` objects:
+
+- `-32000` — MCP server is disabled
+- `-32601` — JSON-RPC method not found
+- `-32602` — MCP tool not found
+- `-32603` — server-side execution failure or missing MCP request context
+
+Current non-JSON-RPC middleware error shape:
+
+```json
+{
+  "error": "Forbidden",
+  "message": "MCP token does not have the required scope."
+}
+```
+
+Rate-limit error shape:
+
+```json
+{
+  "error": "Too many requests",
+  "message": "MCP client rate limit exceeded.",
+  "retry_after": 42
+}
+```
+
+#### `pass` reference examples relevant to the contract
+
+- `pass://microweber/local/ai/openai`
+- `pass://microweber/production/ai/anthropic`
+
+These references are not returned by MCP tool calls, but they are part of the operational contract for AI provider secret resolution and are surfaced as health-only metadata in the MCP admin UI.
+
+#### OpenAPI note
+
+The MCP endpoint is currently documented here as the source-of-truth contract for the Microweber implementation. If/when MCP is mirrored into `Modules/OpenApi`, this section should be treated as the baseline for request envelopes, auth headers, tool schemas, and error semantics.
+
 Configuration is available under `config('modules.ai.mcp')` and can be controlled with:
 
 - `AI_MCP_ENABLED`

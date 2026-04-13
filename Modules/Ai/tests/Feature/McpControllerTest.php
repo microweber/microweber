@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Modules\Ai\Models\McpClient;
 use Modules\Ai\Models\McpClientToken;
+use Modules\Ai\Providers\AiServiceProvider;
 use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Ai\Services\Secrets\PassCommandRunner;
+use Modules\Ai\Services\Secrets\PassSecretStore;
 use Modules\Content\Models\Content;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
@@ -462,5 +465,109 @@ class McpControllerTest extends TestCase
             ->assertJsonPath('result.isError', true);
 
         $this->assertStringContainsString('sensitive', data_get($response->json(), 'result.content.0.text', ''));
+    }
+
+    #[Test]
+    public function rollout_path_supports_pass_backed_ai_config_and_a_first_mcp_session(): void
+    {
+        config([
+            'modules.ai.secret_store.driver' => 'pass',
+            'modules.ai.secret_store.pass.enabled' => true,
+            'modules.ai.secret_store.pass.path_prefix' => 'microweber',
+            'modules.ai.secret_store.pass.environment' => 'testing',
+        ]);
+
+        save_option([
+            'option_key' => 'openai_api_key',
+            'option_value' => 'pass://microweber/testing/ai/openai',
+            'option_group' => 'ai',
+        ]);
+
+        $runner = $this->createMock(PassCommandRunner::class);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with(['show', 'microweber/testing/ai/openai'], null)
+            ->willReturn('stored-openai-key');
+
+        $this->app->instance(PassCommandRunner::class, $runner);
+        $this->app->singleton(PassSecretStore::class, fn ($app) => new PassSecretStore($app->make(PassCommandRunner::class)));
+
+        $provider = new AiServiceProvider($this->app);
+        $provider->setAiConfig();
+
+        $this->assertSame('stored-openai-key', config('modules.ai.drivers.openai.api_key'));
+        $this->assertSame('pass://microweber/testing/ai/openai', get_option('openai_api_key', 'ai'));
+
+        Content::factory()->create([
+            'title' => 'Rollout MCP Page',
+            'description' => 'Rollout validation content for MCP.',
+            'content_type' => 'page',
+            'is_active' => 1,
+            'is_deleted' => 0,
+        ]);
+
+        $headers = ['Authorization' => 'Bearer ' . $this->limitedToolToken->plainTextToken];
+
+        $this->withHeaders($headers)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'rollout-init',
+                'method' => 'initialize',
+                'params' => [
+                    'clientInfo' => [
+                        'name' => 'rollout-check',
+                        'version' => '1.0.0',
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('result.serverInfo.name', 'Microweber AI MCP');
+
+        $toolsListResponse = $this->withHeaders($headers)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'rollout-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $toolsListResponse->assertOk();
+        $this->assertSame(
+            ['content.lookup', 'order.lookup'],
+            collect($toolsListResponse->json('result.tools'))->pluck('name')->all()
+        );
+        $this->assertSame(
+            ['search_term'],
+            data_get($toolsListResponse->json(), 'result.tools.0.inputSchema.required')
+        );
+
+        $toolCallResponse = $this->withHeaders($headers)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'rollout-call',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'content.lookup',
+                    'arguments' => [
+                        'search_term' => 'Rollout MCP',
+                        'content_type' => 'page',
+                    ],
+                ],
+            ]);
+
+        $toolCallResponse->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $this->assertStringContainsString(
+            'Rollout MCP Page',
+            data_get($toolCallResponse->json(), 'result.content.0.text', '')
+        );
+        $this->assertSame(
+            3,
+            DB::table('mcp_client_token_events')
+                ->where('mcp_client_id', $this->limitedToolClient->id)
+                ->where('mcp_client_token_id', $this->limitedToolToken->token->id)
+                ->where('action', 'token.used')
+                ->count()
+        );
     }
 }

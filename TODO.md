@@ -481,7 +481,33 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 - [x] 2026-04-13  **Map Microweber tools into MCP capabilities** — Added an MCP tool catalog in `Modules/Ai`, exposed `tools/list` and `tools/call`, mapped the first read-only tools (`content.lookup`, `content.get`, `product.lookup`, `order.lookup`, `settings.read`), normalized HTML tool output into MCP text content, and covered the flow with MCP feature tests.
 - [x] 2026-04-13  **Build admin management UI** — Added a Filament `McpClientResource` in `Modules/Ai` with create/edit/view flows, scoped client policy fields, issue/revoke key management via relation managers and page actions, MCP health-test actions, and read-only `pass` reference status summaries that never reveal secret values.
 - [x] 2026-04-13  **Add deployment/bootstrap support** — Documented the MCP/pass rollout in `Modules/Ai/README.md`, including server prerequisites (`gnupg`, `pass`), key import/init flow, local/dev bootstrap commands, `AI_SECRET_STORE_*` examples, non-interactive operating guidance, reference-path conventions, and current fallback behavior when `pass` is disabled or unavailable.
-- [ ] **Document the MCP contract** — Add implementation notes for request/response schemas, supported tools, auth headers, example `pass` paths, rotation procedure, and error semantics so future implementation can also be exposed cleanly through `Modules/OpenApi` docs where appropriate.
-- [ ] **Test end-to-end before rollout** — Add feature tests for auth failures/scope enforcement, unit tests for the `pass` adapter, and integration tests for at least one MCP tool call using a seeded client token and fake secret backend.
+- [x] 2026-04-13  **Document the MCP contract** — Added an `MCP contract` section to `Modules/Ai/README.md` covering JSON-RPC request/response envelopes, supported tool schemas, auth header and token format, rotation/revocation flow, middleware vs JSON-RPC error semantics, and relevant `pass://...` examples; linked `Modules/OpenApi/README.md` to that section as the future baseline for OpenAPI exposure.
+- [x] 2026-04-13  **Test end-to-end before rollout** — Added a rollout-oriented MCP feature test that boots pass-backed AI config, issues a scoped MCP token, and exercises `initialize` → `tools/list` → `tools/call` in sequence; reran the focused MCP suite (`McpControllerTest`, `McpClientTokenManagerTest`, `PassSecretStoreTest`, `AiServiceProviderSecretStoreTest`, `McpClientResourceTest`) and verified 29 tests pass.
 
-- [ ] Integrate MCP in each module separately, make a plan and populate todo
+- [x] 2026-04-13  **Integrate MCP in each module separately, make a plan and populate todo** — Expanded the Phase 11 backlog below into a concrete module-by-module MCP rollout plan with priorities, first read-only tool surfaces, and domain/scope expectations.
+
+#### MCP module rollout backlog
+
+**Priority now — extend MCP with high-signal read-only admin/reporting tools first**
+
+- [ ] **Newsletter MCP domain** (`Modules/Newsletter`) — Add read-only `newsletter.*` tools for campaign search/status, subscriber lookup, template lookup, and workflow/automation queue health so admins can answer delivery and audience questions without entering the panel UI.
+- [ ] **Site stats / analytics MCP domain** (`Modules/SiteStats`) — Add read-only `analytics.*` tools for overview metrics, top pages/content, and traffic/referrer summaries, keeping outputs aggregated and safe for non-destructive admin use.
+- [ ] **Forms / contact submissions MCP domain** (`Modules/ContactForm` and/or `Modules/Form`) — Add read-only `forms.*` tools for form listing, submission search, and submission detail lookup with careful PII handling and strict access gating.
+
+**Priority next — add commerce/billing reporting once the read-only pattern is stable**
+
+- [ ] **Billing subscriptions MCP domain** (`Modules/Billing`) — Add read-only `billing.subscription.*` and `billing.metrics.*` tools for subscription lookup, plan summaries, MRR/churn snapshots, and customer billing status, with admin-only scope requirements.
+- [ ] **Invoice MCP domain** (`Modules/Invoice`) — Add read-only `billing.invoice.*` tools for invoice search/detail, unpaid/overdue summaries, and customer invoice history.
+- [ ] **Payment MCP domain** (`Modules/Payment`) — Add read-only `billing.payment.*` tools for transaction lookup and payment-provider health summaries, never exposing secrets, raw webhook payloads, or full payment instrument data.
+
+**Priority later — broaden operational context around shop/design/media once the above surfaces are proven**
+
+- [ ] **Shipping and tax MCP tools** (`Modules/Shipping`, `Modules/Tax`) — Extend the existing commerce surface with read-only shipping-zone, shipping-method, tax-rule, and tax-preview helpers for support and operations workflows.
+- [ ] **Media / file manager MCP domain** (`Modules/Media`, `Modules/FileManager`, `Modules/MediaLibrary`) — Add read-only media search, asset detail, and storage-health tools so MCP clients can answer "find this file/image" requests without write access.
+- [ ] **Layouts / design MCP domain** (`Modules/Layouts`, template packages) — Add read-only design/layout lookup tools for installed layouts, active template usage, and template asset references.
+
+**Cross-cutting rollout rules for every new module/domain**
+
+- [ ] **Per-domain scope and module gating** — For each new MCP domain, define the tool names, allowed module key, required scopes/permissions, and whether any tools must also require the configured admin scope.
+- [ ] **Read-only first policy** — Keep the first rollout of every new module strictly read-only, cap result sets, avoid destructive operations, and mask or omit credentials, secrets, and sensitive PII.
+- [ ] **Per-module contract/test/docs updates** — For each module expansion, update `Modules/Ai/README.md` contract docs, add focused `tools/list`/`tools/call` coverage, and note the domain in `TODO.md` as it lands.
