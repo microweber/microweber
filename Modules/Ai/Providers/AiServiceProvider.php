@@ -9,6 +9,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
+use Modules\Ai\Filament\Resources\McpClientResource;
 use Modules\Ai\Http\Middleware\AuthenticateMcpClient;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 use Modules\Ai\Http\Livewire\AgentChatComponent;
@@ -91,6 +92,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
         Livewire::component('ai.agent-chat-component', AgentChatComponent::class);
 
         FilamentRegistry::registerResource(AgentChatResource::class);
+        FilamentRegistry::registerResource(McpClientResource::class);
         FilamentRegistry::registerPage(AiSettingsPage::class);
 
         LiveEditManager::addScript('mw-ai', asset('modules/ai/js/mw-ai.js'));

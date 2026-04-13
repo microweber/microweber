@@ -136,6 +136,7 @@ MCP client model:
 - MCP clients are now modeled in the database via `mcp_clients`, `mcp_client_tokens`, and `mcp_client_token_events`.
 - Client records carry allowed scopes, allowed tools, allowed modules, per-client rate limits, last-used timestamps, and revocation state.
 - MCP tokens are shown once when issued, stored hashed at rest, support rotation/revocation, and write audit events for creation, use, rotation, and revocation.
+- Admins can manage MCP clients from the Filament `McpClientResource`, including issuing/revoking keys, testing MCP health, and checking whether expected `pass://...` provider references exist without exposing secret values.
 
 Current supported methods:
 

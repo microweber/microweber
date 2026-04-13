@@ -17,7 +17,7 @@ class McpToolCatalog
     /**
      * @return array<string, array{tool: class-string<ToolInterface>, module: string, title: string}>
      */
-    private function definitions(): array
+    public function allDefinitions(): array
     {
         return [
             'content.lookup' => [
@@ -55,7 +55,7 @@ class McpToolCatalog
     {
         $tools = [];
 
-        foreach ($this->definitions() as $mcpToolName => $definition) {
+        foreach ($this->allDefinitions() as $mcpToolName => $definition) {
             if (! $context->client->allowsTool($mcpToolName) || ! $context->client->allowsModule($definition['module'])) {
                 continue;
             }
@@ -83,12 +83,12 @@ class McpToolCatalog
 
     public function hasTool(string $name): bool
     {
-        return array_key_exists($name, $this->definitions());
+        return array_key_exists($name, $this->allDefinitions());
     }
 
     public function callTool(string $name, array $arguments): string
     {
-        $definition = $this->definitions()[$name] ?? null;
+        $definition = $this->allDefinitions()[$name] ?? null;
 
         if ($definition === null) {
             throw new \InvalidArgumentException("MCP tool [{$name}] is not registered.");

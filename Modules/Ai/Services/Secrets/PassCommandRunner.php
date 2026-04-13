@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Services\Secrets;
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class PassCommandRunner
@@ -24,5 +25,16 @@ class PassCommandRunner
         $process->mustRun();
 
         return trim($process->getOutput());
+    }
+
+    public function succeeds(array $arguments): bool
+    {
+        try {
+            $this->run($arguments);
+
+            return true;
+        } catch (ProcessFailedException) {
+            return false;
+        }
     }
 }

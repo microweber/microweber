@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Ai\Facades\Ai;
 
 Route::post('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'handle'])
-    ->middleware(['api', 'throttle:api', 'mcp.client'])
+    ->middleware(['api', 'mcp.client'])
     ->name('api.ai.mcp');
 
 Route::middleware(['admin'])->group(function () {

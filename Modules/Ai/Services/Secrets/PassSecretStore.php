@@ -110,6 +110,15 @@ class PassSecretStore
         $this->runner->run(['rm', '-f', $this->pathFromReference($reference)]);
     }
 
+    public function exists(string $reference): bool
+    {
+        if (! $this->isEnabled() || ! $this->isReference($reference)) {
+            return false;
+        }
+
+        return $this->runner->succeeds(['show', $this->pathFromReference($reference)]);
+    }
+
     public function path(string $namespace, string $name): string
     {
         $prefix = trim((string) config('modules.ai.secret_store.pass.path_prefix', 'microweber'), '/');
