@@ -446,7 +446,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 ### Phase 7: Navigation & Information Architecture
 
 - [x] 2026-04-13  **Sidebar navigation grouping** — Reorganized: Dashboard (ungrouped), Campaigns (Campaigns, Lists, Automation Workflows), Subscribers (Subscribers), Templates (Designs), Settings (Senders), Back to admin (ungrouped, bottom). Removed redundant "E-mail Marketing" link.
-- [ ] **"Back to admin" link** — Should use a distinct style (bottom-pinned, separator line above) to differentiate from regular navigation items.
+- [x] 2026-04-13  **"Back to admin" link** — Replaced NavigationItem with render hook at SIDEBAR_NAV_END; styled with separator line above and hover effect.
 - [ ] **Breadcrumbs** — Edit Campaign shows breadcrumbs (Campaigns / Ex est labore. / Edit). Verify all pages have proper breadcrumbs.
 
 ### Phase 8: Mobile Responsiveness

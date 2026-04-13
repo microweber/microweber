@@ -2,7 +2,6 @@
 
 namespace Modules\Newsletter\Providers;
 
-use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
@@ -74,12 +73,6 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 SubscribersChart::class,
                 RecentCampaignsWidget::class,
             ])
-            ->navigationItems([
-                NavigationItem::make('Back to admin')
-                    ->url(admin_url())
-                    ->sort(20000)
-                    ->icon('heroicon-o-arrow-right-end-on-rectangle'),
-            ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
             ->authMiddleware([
@@ -91,6 +84,11 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
         $panel->renderHook(
             name: PanelsRenderHook::SIDEBAR_NAV_START,
             hook: fn() => view('microweber-module-newsletter::livewire.filament.admin.sidebar.create-new-campaign-btn')
+        );
+
+        $panel->renderHook(
+            name: PanelsRenderHook::SIDEBAR_NAV_END,
+            hook: fn() => view('microweber-module-newsletter::livewire.filament.admin.sidebar.back-to-admin')
         );
 
         $panel->plugin(new MicroweberFilamentTheme());
