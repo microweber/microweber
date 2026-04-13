@@ -432,10 +432,10 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 ### Phase 5: Senders Configuration
 
-- [ ] **Sender type column shows icon only** — The TYPE column shows a small icon but no text label. Add text labels (SMTP, PHP Mail, Mailchimp, etc.) next to or below the icon for clarity.
+- [x] 2026-04-13  **Sender type column shows icon only** — Changed from IconColumn to TextColumn with icon + text label (PHP Mail, SMTP, Mailchimp, etc.).
 - [ ] **Sender — add "Active" status column** — Show whether a sender account is marked as active/default.
 - [ ] **Sender — test connection button** — Add a "Test" action button that sends a test email to verify the sender configuration works.
-- [ ] **"New Senders" button label** — Should be "New Sender" (singular).
+- [x] 2026-04-13  **"New Senders" button label** — Fixed to "New Sender" (singular).
 
 ### Phase 6: Dashboard Improvements
 

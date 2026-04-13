@@ -253,7 +253,7 @@ class SenderAccountsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('account_type')
+                TextColumn::make('account_type')
                     ->label('Type')
                     ->icon(fn (string $state): string => match ($state) {
                         'php_mail' => 'newsletter-php',
@@ -264,13 +264,22 @@ class SenderAccountsResource extends Resource
                         'mandrill' => 'newsletter-mandrill',
                         'amazon_ses' => 'newsletter-amazon-ses',
                         'sparkpost' => 'newsletter-sparkpost',
-                    }),
-//                TextColumn::make('provider')
-//                    ->state(function (NewsletterSenderAccount $senderAccount) {
-//                        return strtoupper($senderAccount->account_type);
-//                    }),
-                TextColumn::make('from_name'),
-                TextColumn::make('from_email'),
+                        default => 'heroicon-o-envelope',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'php_mail' => 'PHP Mail',
+                        'smtp' => 'SMTP',
+                        'gmail' => 'Gmail',
+                        'mailchimp' => 'Mailchimp',
+                        'mailgun' => 'Mailgun',
+                        'mandrill' => 'Mandrill',
+                        'amazon_ses' => 'Amazon SES',
+                        'sparkpost' => 'Sparkpost',
+                        default => ucfirst($state),
+                    })
+                    ->sortable(),
+                TextColumn::make('from_name')->searchable(),
+                TextColumn::make('from_email')->searchable(),
                 TextColumn::make('reply_email'),
             ])
             ->filters([
