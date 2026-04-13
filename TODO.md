@@ -352,3 +352,6 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 [attachment: .autodev/messages/attachments/20260413_101222_80324823/paste-1776067504790.png]
 
 - [x] 2026-04-13  fix the admin login, the logo must have somep adding and the sign in text must be centered
+
+- [x] 2026-04-13  ok but now in the template, make the active navi tem undelined
+[attachment: .autodev/messages/attachments/20260413_120032_0ef83e21/paste-1776074430256.png]

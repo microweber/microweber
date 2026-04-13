@@ -203,7 +203,9 @@ li.dropdown {
                 }
 
                 &.active {
-                    text-decoration: none;
+                    text-decoration: underline;
+                    text-underline-offset: 6px;
+                    text-decoration-thickness: 2px;
                     opacity: 1;
                 }
             }
