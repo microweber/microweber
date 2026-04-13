@@ -372,4 +372,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-13  still radio button and checkboxes and not very fiiclbe mak them more visible , whey are too hard to
 
-- [ ] test the newsltter moduile make sure all is working
+- [x] 2026-04-13  test the newsltter moduile make sure all is working
+  - Dashboard, Campaigns, Lists, Designs, Subscribers, Senders pages all working
+  - Create Campaign wizard working (Email To → From Email → Content → Schedule → Send)
+  - Fixed: Flatpickr component crash on Edit Campaign — switched from `BobiMicroweber\FilamentFlatpickr` to `Coolsam\Flatpickr` (Filament 5 compatible)

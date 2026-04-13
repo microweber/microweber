@@ -3,7 +3,7 @@
 namespace Modules\Newsletter\Filament\Admin\Pages;
 
 
-use BobiMicroweber\FilamentFlatpickr\Forms\Components\Flatpickr;
+use Coolsam\Flatpickr\Forms\Components\Flatpickr;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
