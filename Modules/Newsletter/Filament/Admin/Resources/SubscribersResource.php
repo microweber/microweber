@@ -121,6 +121,24 @@ class SubscribersResource extends Resource
                         ->limitList(2)
                         ->expandableLimitedList(),
 
+                    Tables\Columns\TextColumn::make('status')
+                        ->label('Status')
+                        ->badge()
+                        ->color(fn (string $state): string => match ($state) {
+                            'active' => 'success',
+                            'unsubscribed' => 'danger',
+                            'bounced' => 'warning',
+                            default => 'gray',
+                        })
+                        ->sortable()
+                        ->toggleable(),
+
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->label('Created')
+                        ->dateTime('M j, Y')
+                        ->sortable()
+                        ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->defaultSort('id', 'desc')
             ->filters([

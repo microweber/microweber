@@ -104,7 +104,6 @@ class ListResource extends Resource
                          $url = route('filament.admin-newsletter.export.lists', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                          return redirect()->to($url);
                      }),
-                 Tables\Actions\CreateAction::make(),
              ])
             ->actions([
                 Tables\Actions\EditAction::make(),

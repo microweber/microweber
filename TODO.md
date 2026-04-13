@@ -417,11 +417,11 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 ### Phase 3: Subscriber & List Management
 
-- [ ] **Subscribers table shows "test@example.com" for all** — Multiple subscribers share the same email from test data. Not a code bug, but the subscriber list should show a status column (subscribed/unsubscribed) for real-world usefulness.
-- [ ] **Subscribers — add status column** — Add a column showing subscription status (active/unsubscribed/bounced) to the subscribers table.
-- [ ] **Subscribers — add "Created At" column** — Currently only Name, Email Address, Lists. Add a date column for when subscribers were added.
+- [x] 2026-04-13  **Subscribers table shows "test@example.com" for all** — Added status badge column (active/unsubscribed/bounced) and Created At column to subscribers table.
+- [x] 2026-04-13  **Subscribers — add status column** — Added color-coded badge column with sortable and toggleable options.
+- [x] 2026-04-13  **Subscribers — add "Created At" column** — Added date column, hidden by default, toggleable.
 - [ ] **Lists table — 572 lists with lorem names** — Test data has inflated the lists. Not a code issue, but the lists table could benefit from: a description column, created date, and ability to filter by subscriber count > 0.
-- [ ] **Lists — duplicate "New Lists" buttons** — Both in page header and table header. Consolidate.
+- [x] 2026-04-13  **Lists — duplicate "New Lists" buttons** — Removed duplicate CreateAction from table header; page header "New List" button remains.
 
 ### Phase 4: Designs (Templates) Page
 
