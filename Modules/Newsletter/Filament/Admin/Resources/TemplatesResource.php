@@ -55,13 +55,43 @@ class TemplatesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('medium'),
+                TextColumn::make('campaigns_count')
+                    ->label('Used in')
+                    ->counts('campaigns')
+                    ->suffix(' campaigns')
+                    ->sortable()
+                    ->alignCenter()
+                    ->color('gray'),
+                TextColumn::make('updated_at')
+                    ->label('Last Modified')
+                    ->dateTime('M j, Y H:i')
+                    ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime('M j, Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                 //
             ])
 ->actions([
+            Tables\Actions\Action::make('preview')
+                ->icon('heroicon-o-eye')
+                ->label('Preview')
+                ->modalHeading(fn ($record) => $record->title)
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Close')
+                ->modalContent(fn ($record) => new \Illuminate\Support\HtmlString(
+                    '<div style="width:100%;max-height:500px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;padding:16px;background:#fff;">'
+                    . ($record->text ?: '<p style="color:#999;text-align:center;">No HTML preview available</p>')
+                    . '</div>'
+                )),
             Tables\Actions\Action::make('Edit')
                 ->icon('heroicon-o-pencil')
                 ->url(function ($record) {

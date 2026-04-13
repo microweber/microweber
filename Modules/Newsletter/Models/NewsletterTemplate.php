@@ -24,4 +24,9 @@ class NewsletterTemplate extends Model
     {
         return NewsletterTemplateFactory::new();
     }
+
+    public function campaigns()
+    {
+        return $this->hasMany(NewsletterCampaign::class, 'email_template_id');
+    }
 }

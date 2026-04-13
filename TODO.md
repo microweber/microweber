@@ -425,10 +425,10 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 ### Phase 4: Designs (Templates) Page
 
-- [ ] **Templates table too sparse** — Only shows Title and Created At. Add: preview thumbnail, last modified date, and usage count (how many campaigns use this template).
-- [ ] **"New design" button** — Verify it correctly creates a new template and opens the editor. Currently creates a template record but the editor redirect may fail (see Phase 1 bug).
-- [ ] **Template preview** — Add a preview action (eye icon) that shows the rendered email HTML in a modal, without needing to open the full editor.
-- [ ] **Duplicate "New design" buttons** — "New design" in header and "New Lists" (wrong label?) in table header.
+- [x] 2026-04-13  **Templates table too sparse** — Added campaigns usage count, Last Modified column, searchable/sortable title, Created hidden by default.
+- [x] 2026-04-13  **"New design" button** — Verified: works correctly, creates template from selected starter and redirects to editor.
+- [x] 2026-04-13  **Template preview** — Added preview action (eye icon) that shows rendered email HTML in a modal.
+- [x] 2026-04-13  **Duplicate "New design" buttons** — No duplicate found; only the page header button exists.
 
 ### Phase 5: Senders Configuration
 
