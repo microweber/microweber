@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tools;
 
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
@@ -80,9 +80,10 @@ class OrderSearchTool extends BaseTool
             if (!empty($search_term)) {
                 $query->where(function ($q) use ($search_term) {
                     $q->where('id', 'LIKE', '%' . $search_term . '%')
-                      ->orWhere('customer_email', 'LIKE', '%' . $search_term . '%')
-                      ->orWhere('customer_name', 'LIKE', '%' . $search_term . '%')
-                      ->orWhere('order_number', 'LIKE', '%' . $search_term . '%');
+                      ->orWhere('email', 'LIKE', '%' . $search_term . '%')
+                      ->orWhere('first_name', 'LIKE', '%' . $search_term . '%')
+                      ->orWhere('last_name', 'LIKE', '%' . $search_term . '%')
+                      ->orWhere('order_reference_id', 'LIKE', '%' . $search_term . '%');
                 });
             }
 
@@ -146,22 +147,23 @@ class OrderSearchTool extends BaseTool
             </p>
         </div>";
 
-        $tableData = [];
-        foreach ($orders as $order) {
-            $statusBadge = $this->getOrderStatusBadge($order->order_status ?? 'new');
-            $total = $order->amount ?? 0;
-            $formattedTotal = number_format($total, 2) . ' ' . ($order->currency ?? 'EUR');
-            
-            $customerInfo = ($order->customer_name ?? 'Unknown') . 
-                           ($order->customer_email ? "<br><small class='text-muted'>{$order->customer_email}</small>" : '');
-            
-            $orderDate = $order->created_at ? 
+            $tableData = [];
+            foreach ($orders as $order) {
+                $statusBadge = $this->getOrderStatusBadge($order->order_status ?? 'new');
+                $total = $order->amount ?? 0;
+                $formattedTotal = number_format($total, 2) . ' ' . ($order->currency ?? 'EUR');
+                
+                $customerName = trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? ''));
+                $customerInfo = ($customerName !== '' ? $customerName : 'Unknown') .
+                           ($order->email ? "<br><small class='text-muted'>{$order->email}</small>" : '');
+             
+                $orderDate = $order->created_at ? 
                 $order->created_at->format('M j, Y H:i') : 
                 'Unknown';
 
             $tableData[] = [
                 'id' => "<strong>#{$order->id}</strong>" . 
-                       ($order->order_number ? "<br><small class='text-muted'>{$order->order_number}</small>" : ''),
+                       ($order->order_reference_id ? "<br><small class='text-muted'>{$order->order_reference_id}</small>" : ''),
                 'customer' => $customerInfo,
                 'status' => $statusBadge,
                 'total' => "<strong>{$formattedTotal}</strong>",
@@ -190,6 +192,8 @@ class OrderSearchTool extends BaseTool
         $badgeClass = match($status) {
             'new' => 'bg-info',
             'processing' => 'bg-warning',
+            'shipped' => 'bg-primary',
+            'delivered' => 'bg-success',
             'completed' => 'bg-success',
             'cancelled' => 'bg-danger',
             'refunded' => 'bg-secondary',

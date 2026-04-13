@@ -25,6 +25,7 @@ class McpRequest extends FormRequest
             'method' => ['required', 'string', 'max:255'],
             'params' => ['sometimes', 'array'],
             'params.name' => ['required_if:method,tools/call', 'string', 'max:255'],
+            'params.arguments' => ['sometimes', 'array'],
         ];
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tools;
 
-use MicroweberPackages\Content\Models\Content;
+use Modules\Content\Models\Content;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
@@ -64,7 +64,7 @@ class ContentSearchTool extends BaseTool
         $limit = max(1, min(50, $limit));
 
         try {
-            $query = Content::query()->with(['category', 'parent']);
+            $query = Content::query();
 
             // Search by title, description, or content
             $query->where(function ($q) use ($search_term) {
@@ -124,16 +124,6 @@ class ContentSearchTool extends BaseTool
                 "<span class='badge bg-success'>Active</span>" : 
                 "<span class='badge bg-secondary'>Inactive</span>";
             
-            $parentInfo = '';
-            if ($item->parent && $item->parent->title) {
-                $parentInfo = "<small class='text-muted'>Parent: {$item->parent->title}</small><br>";
-            }
-
-            $categoryInfo = '';
-            if ($item->category && $item->category->title) {
-                $categoryInfo = "<small class='text-muted'>Category: {$item->category->title}</small><br>";
-            }
-
             $description = $item->description ? 
                 "<p class='card-text'>" . \Str::limit($item->description, 120) . "</p>" : '';
 
@@ -150,8 +140,6 @@ class ContentSearchTool extends BaseTool
                     <div class='card-body'>
                         <h6 class='card-title'>{$item->title}</h6>
                         {$description}
-                        {$parentInfo}
-                        {$categoryInfo}
                         {$lastUpdated}
                     </div>
                     <div class='card-footer'>

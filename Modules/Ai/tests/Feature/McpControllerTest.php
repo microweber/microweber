@@ -12,6 +12,9 @@ use Modules\Ai\Models\McpClient;
 use Modules\Ai\Models\McpClientToken;
 use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Content\Models\Content;
+use Modules\Order\Models\Order;
+use Modules\Product\Models\Product;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -79,8 +82,8 @@ class McpControllerTest extends TestCase
         $this->limitedToolClient = $manager->createClient([
             'name' => 'Limited Tool MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
-            'allowed_tools' => ['content.lookup', 'orders.lookup'],
-            'allowed_modules' => ['content', 'orders'],
+            'allowed_tools' => ['content.lookup', 'order.lookup'],
+            'allowed_modules' => ['content', 'order'],
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
@@ -150,34 +153,37 @@ class McpControllerTest extends TestCase
             ->assertJson([
                 'jsonrpc' => '2.0',
                 'id' => 'tools-1',
-                'result' => [
-                    'tools' => [],
-                ],
             ]);
+
+        $tools = collect($response->json('result.tools'));
+
+        $this->assertSame([
+            'content.lookup',
+            'content.get',
+            'product.lookup',
+            'order.lookup',
+            'settings.read',
+        ], $tools->pluck('name')->all());
+        $this->assertSame('object', data_get($tools->firstWhere('name', 'content.lookup'), 'inputSchema.type'));
+        $this->assertTrue((bool) data_get($tools->firstWhere('name', 'settings.read'), 'annotations.readOnlyHint'));
     }
 
     #[Test]
-    public function allowed_tool_calls_still_return_json_rpc_method_not_found_until_tool_mapping_exists(): void
+    public function tools_list_only_returns_tools_allowed_for_the_client(): void
     {
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->limitedToolToken->plainTextToken)
             ->postJson(route('api.ai.mcp'), [
                 'jsonrpc' => '2.0',
-                'id' => 99,
-                'method' => 'tools/call',
-                'params' => [
-                    'name' => 'content.lookup',
-                ],
+                'id' => 91,
+                'method' => 'tools/list',
             ]);
 
-        $response->assertOk()
-            ->assertJson([
-                'jsonrpc' => '2.0',
-                'id' => 99,
-                'error' => [
-                    'code' => -32601,
-                    'message' => 'Method not found.',
-                ],
-            ]);
+        $response->assertOk();
+
+        $this->assertSame(
+            ['content.lookup', 'order.lookup'],
+            collect($response->json('result.tools'))->pluck('name')->all()
+        );
     }
 
     #[Test]
@@ -256,7 +262,7 @@ class McpControllerTest extends TestCase
     public function mcp_endpoint_enforces_admin_only_tool_scope_when_configured(): void
     {
         config([
-            'modules.ai.mcp.auth.admin_only_tools' => ['orders.lookup'],
+            'modules.ai.mcp.auth.admin_only_tools' => ['order.lookup'],
         ]);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->missingAdminScopeToken->plainTextToken)
@@ -265,7 +271,7 @@ class McpControllerTest extends TestCase
                 'id' => 12,
                 'method' => 'tools/call',
                 'params' => [
-                    'name' => 'orders.lookup',
+                    'name' => 'order.lookup',
                 ],
             ]);
 
@@ -308,5 +314,153 @@ class McpControllerTest extends TestCase
             'mcp_client_token_id' => $rateLimitedToken->token->id,
             'action' => 'token.rate_limited',
         ]);
+    }
+
+    #[Test]
+    public function content_lookup_returns_plain_text_results_for_matching_content(): void
+    {
+        Content::factory()->create([
+            'title' => 'MCP Knowledge Base',
+            'description' => 'Reference page for MCP integrations.',
+            'content_type' => 'page',
+            'is_active' => 1,
+            'is_deleted' => 0,
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->limitedToolToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 14,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'content.lookup',
+                    'arguments' => [
+                        'search_term' => 'MCP Knowledge',
+                        'content_type' => 'page',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $this->assertStringContainsString('MCP Knowledge Base', data_get($response->json(), 'result.content.0.text', ''));
+    }
+
+    #[Test]
+    public function product_lookup_returns_plain_text_results_for_matching_products(): void
+    {
+        Product::factory()->create([
+            'title' => 'MCP Commerce Product',
+            'description' => 'A product exposed through the MCP catalog.',
+            'is_active' => 1,
+            'is_deleted' => 0,
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->fullAccessToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 15,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'product.lookup',
+                    'arguments' => [
+                        'search_term' => 'Commerce Product',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $this->assertStringContainsString('MCP Commerce Product', data_get($response->json(), 'result.content.0.text', ''));
+    }
+
+    #[Test]
+    public function order_lookup_returns_plain_text_results_for_matching_orders(): void
+    {
+        Order::factory()->create([
+            'order_reference_id' => 'MCP-ORDER-1001',
+            'first_name' => 'Ada',
+            'last_name' => 'Lovelace',
+            'email' => 'ada@example.com',
+            'order_status' => 'processing',
+            'amount' => 99.95,
+            'currency' => 'USD',
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->limitedToolToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 16,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'order.lookup',
+                    'arguments' => [
+                        'search_term' => 'MCP-ORDER-1001',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('MCP-ORDER-1001', $text);
+        $this->assertStringContainsString('Ada Lovelace', $text);
+    }
+
+    #[Test]
+    public function settings_read_returns_plain_text_for_non_sensitive_options(): void
+    {
+        save_option([
+            'option_key' => 'site_name',
+            'option_value' => 'Microweber MCP Demo',
+            'option_group' => 'website',
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->fullAccessToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 17,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'settings.read',
+                    'arguments' => [
+                        'option_group' => 'website',
+                        'option_key' => 'site_name',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('site_name', $text);
+        $this->assertStringContainsString('Microweber MCP Demo', $text);
+    }
+
+    #[Test]
+    public function settings_read_marks_sensitive_options_as_tool_errors(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->fullAccessToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 18,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'settings.read',
+                    'arguments' => [
+                        'option_group' => 'ai',
+                        'option_key' => 'openai_api_key',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', true);
+
+        $this->assertStringContainsString('sensitive', data_get($response->json(), 'result.content.0.text', ''));
     }
 }

@@ -17,6 +17,7 @@ use Modules\Ai\Policies\AgentChatPolicy;
 use Modules\Ai\Services\AiService;
 use Modules\Ai\Services\AiServiceImages;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Ai\Services\Mcp\McpToolCatalog;
 use Modules\Ai\Services\Secrets\PassCommandRunner;
 use Modules\Ai\Services\Secrets\PassSecretStore;
 use Modules\Ai\Services\Drivers\AiServiceInterface;
@@ -75,6 +76,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->app->singleton(McpClientTokenManager::class);
+        $this->app->singleton(McpToolCatalog::class);
         $this->app->singleton(PassCommandRunner::class);
         $this->app->singleton(PassSecretStore::class);
         $this->app['router']->aliasMiddleware('mcp.client', AuthenticateMcpClient::class);

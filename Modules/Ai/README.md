@@ -141,6 +141,15 @@ Current supported methods:
 
 - `initialize`
 - `tools/list`
+- `tools/call`
+
+Initial MCP tools:
+
+- `content.lookup`
+- `content.get`
+- `product.lookup`
+- `order.lookup`
+- `settings.read`
 
 Configuration is available under `config('modules.ai.mcp')` and can be controlled with:
 

@@ -74,7 +74,11 @@ class ProductSearchTool extends BaseTool
         $limit = max(1, min(50, $limit));
 
         try {
-            $query = Product::query()->with(['categories', 'customFieldValues']);
+            if (!empty($category)) {
+                return $this->handleError('Category filtering is not supported by the current product catalog model.');
+            }
+
+            $query = Product::query();
 
             // Search by title, content, or SKU
             if (!empty($search_term)) {
@@ -85,30 +89,6 @@ class ProductSearchTool extends BaseTool
                 });
             }
 
-            // Price range filter
-            if ($min_price !== null || $max_price !== null) {
-                $query->whereHas('customFieldValues', function ($q) use ($min_price, $max_price) {
-                    $q->where('name_key', 'price');
-                    if ($min_price !== null) {
-                        $q->where('value', '>=', $min_price);
-                    }
-                    if ($max_price !== null) {
-                        $q->where('value', '<=', $max_price);
-                    }
-                });
-            }
-
-            // Category filter
-            if (!empty($category)) {
-                $query->whereHas('categories', function ($q) use ($category) {
-                    if (is_numeric($category)) {
-                        $q->where('id', $category);
-                    } else {
-                        $q->where('title', 'LIKE', '%' . $category . '%');
-                    }
-                });
-            }
-
             // Only active products
             $query->where('is_active', 1);
             
@@ -116,6 +96,22 @@ class ProductSearchTool extends BaseTool
             $query->orderBy('title');
 
             $products = $query->limit($limit)->get();
+
+            if ($min_price !== null || $max_price !== null) {
+                $products = $products->filter(function ($product) use ($min_price, $max_price) {
+                    $price = $this->getProductPrice($product);
+
+                    if ($min_price !== null && $price < (float) $min_price) {
+                        return false;
+                    }
+
+                    if ($max_price !== null && $price > (float) $max_price) {
+                        return false;
+                    }
+
+                    return true;
+                })->values();
+            }
 
             if ($products->isEmpty()) {
                 $searchCriteria = [];
@@ -144,8 +140,6 @@ class ProductSearchTool extends BaseTool
         if (!empty($search_term)) $searchSummary[] = "'{$search_term}'";
         if ($min_price !== null) $searchSummary[] = "min price: " . $this->formatMoney($min_price);
         if ($max_price !== null) $searchSummary[] = "max price: " . $this->formatMoney($max_price);
-        if (!empty($category)) $searchSummary[] = "category: '{$category}'";
-        
         if (!empty($searchSummary)) {
             $html .= '<div class="alert alert-info mb-3">';
             $html .= '<strong>Search Results for:</strong> ' . implode(', ', $searchSummary);
@@ -200,17 +194,6 @@ class ProductSearchTool extends BaseTool
                 $html .= '<small class="text-success">In Stock</small><br>';
             }
 
-            // Categories
-            if ($product->categories && $product->categories->count() > 0) {
-                $html .= '<small class="text-muted">Categories: ';
-                $categoryNames = $product->categories->pluck('title')->take(3)->toArray();
-                $html .= htmlspecialchars(implode(', ', $categoryNames));
-                if ($product->categories->count() > 3) {
-                    $html .= '...';
-                }
-                $html .= '</small>';
-            }
-
             $html .= '</div>'; // mt-auto
             $html .= '</div>'; // card-body
 
@@ -230,42 +213,16 @@ class ProductSearchTool extends BaseTool
     
     private function getProductPrice($product): float
     {
-        // Try to get price from custom fields
-        if ($product->customFieldValues) {
-            $priceField = $product->customFieldValues->where('name_key', 'price')->first();
-            if ($priceField && is_numeric($priceField->value)) {
-                return (float) $priceField->value;
-            }
-        }
-        
-        // Fallback - you might need to adjust this based on Microweber's price structure
-        return 0.0;
+        return is_numeric($product->price ?? null) ? (float) $product->price : 0.0;
     }
     
     private function getProductSku($product): string
     {
-        // Try to get SKU from content data or custom fields
-        if (isset($product->content_data['sku'])) {
-            return $product->content_data['sku'];
-        }
-        
-        if ($product->customFieldValues) {
-            $skuField = $product->customFieldValues->where('name_key', 'sku')->first();
-            if ($skuField) {
-                return $skuField->value;
-            }
-        }
-        
-        return '';
+        return (string) ($product->sku ?? '');
     }
     
     private function getProductQty($product)
     {
-        // Try to get quantity from content data
-        if (isset($product->content_data['qty'])) {
-            return $product->content_data['qty'];
-        }
-        
-        return null;
+        return $product->qty ?? null;
     }
 }
