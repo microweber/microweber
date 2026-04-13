@@ -11,6 +11,7 @@ use Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use Modules\Newsletter\Filament\Admin\Pages\EditCampaign;
 use Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use Modules\Newsletter\Filament\Admin\Pages\ProcessCampaign;
+use Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 use Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
 use Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
@@ -55,7 +56,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 Homepage::class,
                 CreateCampaign::class,
                 EditCampaign::class,
-                ProcessCampaign::class
+                ProcessCampaign::class,
+                TemplateEditor::class,
             ])
             ->resources([
                 SenderAccountsResource::class,

@@ -24,9 +24,6 @@ use Modules\Newsletter\Console\Commands\ProcessCampaignsPerformanceTest;
 use Modules\Newsletter\Console\Commands\ProcessAbandonedCarts;
 use Modules\Newsletter\Console\Commands\ProcessAutomationQueue;
 use Modules\Newsletter\Listeners\NewsletterAutomationSubscriber;
-use Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
-
-
 class NewsletterServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'Newsletter';
@@ -54,7 +51,6 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/admin.php'));
         $this->app->register(NewsletterFilamentAdminPanelProvider::class);
-        FilamentRegistry::registerPage(TemplateEditor::class);
 
         // Register Microweber Icons set
         if(is_dir(realpath(__DIR__ . '/../resources/svg'))) {

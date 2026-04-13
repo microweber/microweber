@@ -92,18 +92,41 @@ class CampaignResource extends Resource
         return $schema
             ->schema([
                 TextInput::make('name')
+                    ->label('Campaign Name')
                     ->required()
                     ->maxLength(255),
-Select::make('list_id')
-->label('List')
-->options(fn () => NewsletterList::pluck('name', 'id'))
-->searchable()
-->preload()
-->required(),
+
+                TextInput::make('subject')
+                    ->label('Email Subject')
+                    ->helperText('The subject line recipients will see in their inbox.')
+                    ->maxLength(255),
+
+                Select::make('list_id')
+                    ->label('List')
+                    ->options(fn () => NewsletterList::pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
+                Select::make('sender_account_id')
+                    ->label('Sender Account')
+                    ->options(fn () => NewsletterSenderAccount::all()->mapWithKeys(fn ($account) => [
+                        $account->id => $account->from_name . ' (' . $account->from_email . ')',
+                    ]))
+                    ->searchable()
+                    ->preload(),
+
+                Select::make('email_content_type')
+                    ->label('Email Content Type')
+                    ->options([
+                        'design' => 'Design (visual editor)',
+                        'html' => 'HTML (plain text)',
+                    ])
+                    ->default('design')
+                    ->required(),
 
                 Select::make('status')
                     ->options([
-
                         NewsletterCampaign::STATUS_DRAFT => 'Draft',
                         NewsletterCampaign::STATUS_QUEUED => 'Queued',
                         NewsletterCampaign::STATUS_PENDING => 'Pending',
@@ -115,17 +138,9 @@ Select::make('list_id')
                     ->required()
                     ->hidden(fn(callable $get) => $get('id') === null),
 
-
                 Textarea::make('email_content_html')
                     ->label('Email Content HTML')
-                ,
-                Select::make('email_content_type')
-                    ->label('Email Content Type')
-                    ->options([
-                        'design' => 'Design',
-                        'html' => 'HTML',
-                    ])
-                    ->required(),
+                    ->hidden(fn(callable $get) => $get('email_content_type') !== 'html'),
             ]);
     }
 
@@ -193,22 +208,27 @@ Select::make('list_id')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
                     ->hidden(function (NewsletterCampaign $campaign) {
-                        if ($campaign->status == NewsletterCampaign::STATUS_DRAFT) {
-                            return false;
-                        }
-                        return true;
+                        return $campaign->status !== NewsletterCampaign::STATUS_DRAFT;
+                    })
+                    ->url(fn(NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
+
+                Tables\Actions\Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->hidden(function (NewsletterCampaign $campaign) {
+                        return $campaign->status === NewsletterCampaign::STATUS_DRAFT;
                     })
                     ->url(fn(NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 
                 Tables\Actions\Action::make('cancel')
                     ->label('Cancel')
                     ->hidden(function (NewsletterCampaign $campaign) {
-                        if (($campaign->status == NewsletterCampaign::STATUS_QUEUED)
-                            || ($campaign->status == NewsletterCampaign::STATUS_PENDING)
-                            || ($campaign->status == NewsletterCampaign::STATUS_PROCESSING)) {
-                            return false;
-                        }
-                        return true;
+                        return !in_array($campaign->status, [
+                            NewsletterCampaign::STATUS_QUEUED,
+                            NewsletterCampaign::STATUS_PENDING,
+                            NewsletterCampaign::STATUS_PROCESSING,
+                            'sending',
+                        ]);
                     })
                     ->requiresConfirmation()
                     ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {

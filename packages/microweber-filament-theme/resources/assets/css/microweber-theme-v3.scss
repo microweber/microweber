@@ -1197,6 +1197,12 @@ svg[wire\:loading\.remove] {
   border-radius: $mw-radius-sm !important;
   padding: 8px !important;
 
+  // On the main categories list page the tree IS the page content — don't constrain it
+  .mw-edit-categories-list & {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
   // Custom scrollbar
   &::-webkit-scrollbar {
     width: 6px;
@@ -1325,8 +1331,10 @@ svg[wire\:loading\.remove] {
     min-height: 28px;
   }
   .mw-tree-item-content tree-label.form-check {
+    position: absolute !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
+    left: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     min-height: 0 !important;

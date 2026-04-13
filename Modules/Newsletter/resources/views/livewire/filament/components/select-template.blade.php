@@ -45,7 +45,7 @@
             <x-filament::button
                 size="sm"
                 color="gray"
-                href="{{route('filament.admin.pages.newsletter.template-editor') . '?id=' . $campaign['emailTemplate']['id'] . '&campaignId=' . $campaign['campaignId']}}"
+                href="{{route('filament.admin-newsletter.pages.template-editor') . '?id=' . $campaign['emailTemplate']['id'] . '&campaignId=' . $campaign['campaignId']}}"
                 tag="a"
             >
                 Edit Template

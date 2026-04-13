@@ -65,7 +65,7 @@ class TemplatesResource extends Resource
             Tables\Actions\Action::make('Edit')
                 ->icon('heroicon-o-pencil')
                 ->url(function ($record) {
-                    return route('filament.admin.pages.newsletter.template-editor') . '?id=' . $record->id;
+                    return route('filament.admin-newsletter.pages.template-editor') . '?id=' . $record->id;
                 }),
             Tables\Actions\DeleteAction::make(),
         ])

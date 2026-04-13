@@ -3,79 +3,88 @@ $currentRecord = $getRecord();
 @endphp
 <div>
 
-
     @if($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_DRAFT)
 
-        <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
-            {{ __('Draft') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-gray-600 bg-gray-100 rounded-full dark:text-gray-400 dark:bg-gray-700">
+            <x-filament::icon
+                icon="heroicon-m-pencil"
+                class="h-4 w-4"
+            /> {{ __('Draft') }}
         </span>
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_PROCESSING)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-yellow-200 rounded-full">
-            <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Processing') }} ({{$currentRecord->jobs_progress}}%)
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-blue-700 bg-blue-100 rounded-full dark:text-blue-400 dark:bg-blue-900">
+            <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Sending') }} ({{$currentRecord->jobs_progress}}%)
         </span>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{$currentRecord->jobs_progress}}%"></div>
-            </div>
+        <div class="mt-1 w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+            <div class="bg-blue-500 h-1.5 rounded-full transition-all" style="width: {{$currentRecord->jobs_progress}}%"></div>
+        </div>
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_FINISHED)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-green-500 bg-green-200 rounded-full">
-           <x-filament::icon
-               icon="heroicon-m-check"
-               class="h-5 w-5 text-green-500"
-           /> {{ __('Finished') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-green-700 bg-green-100 rounded-full dark:text-green-400 dark:bg-green-900">
+            <x-filament::icon
+                icon="heroicon-m-check-circle"
+                class="h-4 w-4"
+            /> {{ __('Finished') }}
         </span>
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_FAILED)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-red-500 bg-red-200 rounded-full">
-           <x-filament::icon
-               icon="heroicon-m-x-mark"
-               class="h-5 w-5 text-red-500"
-           /> {{ __('Failed') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-red-700 bg-red-100 rounded-full dark:text-red-400 dark:bg-red-900">
+            <x-filament::icon
+                icon="heroicon-m-x-circle"
+                class="h-4 w-4"
+            /> {{ __('Failed') }}
         </span>
 
-        @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_SCHEDULED)
+    @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_SCHEDULED)
 
-            <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-green-200 rounded-full">
-           <x-filament::icon
-               icon="heroicon-m-clock"
-               class="h-5 w-5 text-gray-800"
-           /> {{ __('Scheduled') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-amber-700 bg-amber-100 rounded-full dark:text-amber-400 dark:bg-amber-900">
+            <x-filament::icon
+                icon="heroicon-m-clock"
+                class="h-4 w-4"
+            /> {{ __('Scheduled') }}
         </span>
-            <div>
-                <span class="leading-1 text-xs text-gray-600 dark:text-gray-400">
+        @if($currentRecord->scheduled_at)
+            <div class="mt-1">
+                <span class="text-xs text-gray-500 dark:text-gray-400">
                     {{ $currentRecord->scheduled_at }}
-                    <br />
-                    {{ $currentRecord->scheduled_timezone }}
                 </span>
             </div>
-
+        @endif
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_CANCELED)
 
-        <span class="px-2 py-1 text-xs font-semibold leading-5 text-red-500 bg-red-200 rounded-full">
-            {{ __('Canceled') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-gray-500 bg-gray-100 rounded-full line-through dark:text-gray-400 dark:bg-gray-700">
+            <x-filament::icon
+                icon="heroicon-m-no-symbol"
+                class="h-4 w-4"
+            /> {{ __('Canceled') }}
         </span>
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_PENDING)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
-           <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Pending') }}
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-blue-700 bg-blue-100 rounded-full dark:text-blue-400 dark:bg-blue-900">
+            <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Pending') }}
         </span>
 
     @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_QUEUED)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
-       <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Queued') }}
-    </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-blue-700 bg-blue-100 rounded-full dark:text-blue-400 dark:bg-blue-900">
+            <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Queued') }}
+        </span>
+
+    @elseif($currentRecord->status === 'sending')
+
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-blue-700 bg-blue-100 rounded-full dark:text-blue-400 dark:bg-blue-900">
+            <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Sending') }}
+        </span>
 
     @else
 
-        <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
-
+        <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-gray-600 bg-gray-100 rounded-full dark:text-gray-400 dark:bg-gray-700">
             {{ ucfirst($currentRecord->status) }}
         </span>
 

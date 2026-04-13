@@ -120,7 +120,7 @@ class EditCampaign extends Page
         $findCampaign->email_template_id = $findNewsletterTemplate->id;
         $findCampaign->save();
 
-        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $findNewsletterTemplate->id . '&campaignId=' . $findCampaign->id);
+        return redirect(route('filament.admin-newsletter.pages.template-editor') . '?id=' . $findNewsletterTemplate->id . '&campaignId=' . $findCampaign->id);
 
 
     }
@@ -144,7 +144,7 @@ class EditCampaign extends Page
         $findCampaign->email_template_id = $newTemplate->id;
         $findCampaign->save();
 
-        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $newTemplate->id . '&campaignId=' . $findCampaign->id);
+        return redirect(route('filament.admin-newsletter.pages.template-editor') . '?id=' . $newTemplate->id . '&campaignId=' . $findCampaign->id);
     }
 
     public function form(Schema $schema): Schema

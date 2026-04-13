@@ -62,7 +62,7 @@ class Templates extends Page implements HasTable
             ->actions([
                 Action::make('Edit')
                     ->icon('heroicon-m-pencil-square')
-                    ->url(fn(NewsletterTemplate $template) => route('filament.admin.pages.newsletter.template-editor').'?id='.$template->id),
+                    ->url(fn(NewsletterTemplate $template) => route('filament.admin-newsletter.pages.template-editor').'?id='.$template->id),
                 DeleteAction::make(),
             ])
 ->bulkActions([]);

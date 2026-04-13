@@ -31,7 +31,7 @@ class ManageTemplates extends ManageRecords
         $newTemplate->json = $templateJson;
         $newTemplate->save();
 
-        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $newTemplate->id);
+        return redirect(route('filament.admin-newsletter.pages.template-editor') . '?id=' . $newTemplate->id);
     }
 
     protected function getHeaderActions(): array
