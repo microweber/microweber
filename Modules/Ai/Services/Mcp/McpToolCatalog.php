@@ -19,6 +19,10 @@ use Modules\Ai\Tools\BillingPaymentDetailTool;
 use Modules\Ai\Tools\BillingPaymentLookupTool;
 use Modules\Ai\Tools\BillingPaymentProviderHealthTool;
 use Modules\Ai\Tools\BillingPaymentWebhookHealthTool;
+use Modules\Ai\Tools\ShippingMethodLookupTool;
+use Modules\Ai\Tools\ShippingZoneSummaryTool;
+use Modules\Ai\Tools\TaxPreviewTool;
+use Modules\Ai\Tools\TaxRuleLookupTool;
 use Modules\Ai\Tools\BillingMetricsSummaryTool;
 use Modules\Ai\Tools\BillingPlanSummaryTool;
 use Modules\Ai\Tools\BillingSubscriptionLookupTool;
@@ -168,6 +172,26 @@ class McpToolCatalog
                 'tool' => BillingPaymentWebhookHealthTool::class,
                 'module' => 'billing',
                 'title' => 'Review payment webhook processing health by provider and status without exposing raw payloads.',
+            ],
+            'shipping.method_lookup' => [
+                'tool' => ShippingMethodLookupTool::class,
+                'module' => 'shipping',
+                'title' => 'Search configured shipping methods by provider, status, or default selection without exposing raw settings.',
+            ],
+            'shipping.zone_summary' => [
+                'tool' => ShippingZoneSummaryTool::class,
+                'module' => 'shipping',
+                'title' => 'Summarize country-based shipping zones and pricing rules without exposing raw provider settings.',
+            ],
+            'tax.rule_lookup' => [
+                'tool' => TaxRuleLookupTool::class,
+                'module' => 'tax',
+                'title' => 'Search modern tax rates and legacy tax rules by name, country, status, or identifier.',
+            ],
+            'tax.preview' => [
+                'tool' => TaxPreviewTool::class,
+                'module' => 'tax',
+                'title' => 'Preview tax calculations for a subtotal and location using the current Microweber tax rules.',
             ],
             'newsletter.campaign_lookup' => [
                 'tool' => NewsletterCampaignLookupTool::class,

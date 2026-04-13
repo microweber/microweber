@@ -87,6 +87,11 @@ abstract class AbstractBillingTool extends BaseTool
         return number_format((float) $amount, 2) . ' ' . strtoupper($currency ?: 'USD');
     }
 
+    protected function yesNoLabel(bool $value): string
+    {
+        return $value ? 'Yes' : 'No';
+    }
+
     protected function subscriptionStatusLabel(Subscription $subscription): string
     {
         if ($subscription->onGracePeriod()) {

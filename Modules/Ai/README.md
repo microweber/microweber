@@ -171,6 +171,10 @@ Initial MCP tools:
 - `billing.payment_detail`
 - `billing.payment_provider_health`
 - `billing.payment_webhook_health`
+- `shipping.method_lookup`
+- `shipping.zone_summary`
+- `tax.rule_lookup`
+- `tax.preview`
 - `newsletter.campaign_lookup`
 - `newsletter.subscriber_lookup`
 - `newsletter.template_lookup`
@@ -737,6 +741,73 @@ Notes:
 }
 ```
 
+`shipping.method_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "provider": { "type": "string" },
+    "is_active": { "type": "string" },
+    "is_default": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`shipping.zone_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": { "type": "integer" },
+    "provider": { "type": "string" },
+    "country": { "type": "string" },
+    "include_inactive_zones": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`tax.rule_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "rule_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "country_code": { "type": "string" },
+    "is_active": { "type": "string" },
+    "include_legacy": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`tax.preview`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "amount": { "type": "string" },
+    "country_code": { "type": "string" },
+    "state_code": { "type": "string" },
+    "city": { "type": "string" },
+    "zip_code": { "type": "string" }
+  },
+  "required": ["amount"],
+  "additionalProperties": false
+}
+```
+
 `newsletter.campaign_lookup`
 
 ```json
@@ -821,6 +892,18 @@ Billing-specific safety notes:
 - `billing.invoice_unpaid_summary` stays read-only and limits invoice reporting to aging, balances, and customer history rather than payment execution or invoice delivery actions.
 - `billing.payment_lookup` and `billing.payment_detail` expose transaction, provider, relation, and status summaries only; they intentionally omit `payment_data`, provider `settings`, API keys, and full payment-instrument details.
 - `billing.payment_provider_health` and `billing.payment_webhook_health` stay aggregate/read-only, summarize provider and webhook status safely, and sanitize leaked-looking secrets or long card-number-like digit sequences in error text.
+
+Shipping-specific safety notes:
+
+- `shipping.*` tools are read-only and summarize configured providers and country-zone pricing without returning raw `settings` blobs or checkout-facing instruction text.
+- `shipping.method_lookup` reports driver names, default/active flags, and compact configuration summaries instead of the full provider form payload.
+- `shipping.zone_summary` limits output to country-level pricing rules, cost caps, and rule types so support teams can inspect configuration safely.
+
+Tax-specific safety notes:
+
+- `tax.*` tools are read-only and expose rule metadata and preview calculations only; they do not toggle tax settings or mutate rules.
+- `tax.rule_lookup` summarizes both modern `tax_rates` and legacy `tax_types` fallback rules so operators can understand which calculation path is active.
+- `tax.preview` only evaluates a caller-provided subtotal/location and returns the matched rule breakdown; it does not persist carts, addresses, or checkout state.
 
 Newsletter-specific safety notes:
 

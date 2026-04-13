@@ -502,7 +502,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 **Priority later — broaden operational context around shop/design/media once the above surfaces are proven**
 
-- [ ] **Shipping and tax MCP tools** (`Modules/Shipping`, `Modules/Tax`) — Extend the existing commerce surface with read-only shipping-zone, shipping-method, tax-rule, and tax-preview helpers for support and operations workflows.
+- [x] 2026-04-13  **Shipping and tax MCP tools** (`Modules/Shipping`, `Modules/Tax`) — Added read-only `shipping.method_lookup`, `shipping.zone_summary`, `tax.rule_lookup`, and `tax.preview` tools in `Modules/Ai`, summarized provider/zone configuration without exposing raw settings blobs, included both modern and legacy tax rule reporting, and covered the flow with focused MCP feature tests.
 - [ ] **Media / file manager MCP domain** (`Modules/Media`, `Modules/FileManager`, `Modules/MediaLibrary`) — Add read-only media search, asset detail, and storage-health tools so MCP clients can answer "find this file/image" requests without write access.
 - [ ] **Layouts / design MCP domain** (`Modules/Layouts`, template packages) — Add read-only design/layout lookup tools for installed layouts, active template usage, and template asset references.
 

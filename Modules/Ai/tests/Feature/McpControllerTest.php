@@ -42,6 +42,7 @@ use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
+use Modules\Shipping\Models\ShippingProvider;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\SiteStats\Models\Browsers;
@@ -53,6 +54,8 @@ use Modules\SiteStats\Models\ReferrersPaths;
 use Modules\SiteStats\Models\Sessions as SiteStatsSession;
 use Modules\SiteStats\Models\StatsUrl;
 use Modules\Billing\Models\WebhookLog;
+use Modules\Tax\Models\TaxRate;
+use Modules\Tax\Models\TaxType;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -73,6 +76,8 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $invoiceToken = null;
     protected ?McpClient $paymentClient = null;
     protected ?GeneratedMcpClientToken $paymentToken = null;
+    protected ?McpClient $shippingTaxClient = null;
+    protected ?GeneratedMcpClientToken $shippingTaxToken = null;
     protected ?McpClient $formsClient = null;
     protected ?GeneratedMcpClientToken $formsToken = null;
     protected ?McpClient $newsletterClient = null;
@@ -122,6 +127,22 @@ class McpControllerTest extends TestCase
         if (! Schema::hasTable('payments') || ! Schema::hasTable('payment_providers')) {
             Artisan::call('migrate', [
                 '--path' => base_path('Modules/Payment/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('shipping_providers')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Shipping/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('tax_types') || ! Schema::hasTable('tax_rates')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Tax/database/migrations'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
@@ -197,6 +218,15 @@ class McpControllerTest extends TestCase
         if (Schema::hasTable('payment_providers')) {
             DB::table('payment_providers')->delete();
         }
+        if (Schema::hasTable('shipping_providers')) {
+            DB::table('shipping_providers')->delete();
+        }
+        if (Schema::hasTable('tax_rates')) {
+            DB::table('tax_rates')->delete();
+        }
+        if (Schema::hasTable('tax_types')) {
+            DB::table('tax_types')->delete();
+        }
         if (Schema::hasTable('invoice_items')) {
             DB::table('invoice_items')->delete();
         }
@@ -268,6 +298,7 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:10');
         RateLimiter::clear('mcp-client-token:11');
         RateLimiter::clear('mcp-client-token:12');
+        RateLimiter::clear('mcp-client-token:13');
 
         config([
             'modules.ai.enabled' => true,
@@ -355,6 +386,19 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->shippingTaxClient = $manager->createClient([
+            'name' => 'Shipping Tax MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'shipping.method_lookup',
+                'shipping.zone_summary',
+                'tax.rule_lookup',
+                'tax.preview',
+            ],
+            'allowed_modules' => ['shipping', 'tax'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->formsClient = $manager->createClient([
             'name' => 'Forms MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -391,6 +435,7 @@ class McpControllerTest extends TestCase
         $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
         $this->invoiceToken = $manager->issueToken($this->invoiceClient, 'invoice-only', ['mcp:access', 'mcp:admin']);
         $this->paymentToken = $manager->issueToken($this->paymentClient, 'payment-only', ['mcp:access', 'mcp:admin']);
+        $this->shippingTaxToken = $manager->issueToken($this->shippingTaxClient, 'shipping-tax-only', ['mcp:access', 'mcp:admin']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
         $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
@@ -484,6 +529,10 @@ class McpControllerTest extends TestCase
             'billing.payment_detail',
             'billing.payment_provider_health',
             'billing.payment_webhook_health',
+            'shipping.method_lookup',
+            'shipping.zone_summary',
+            'tax.rule_lookup',
+            'tax.preview',
             'newsletter.campaign_lookup',
             'newsletter.subscriber_lookup',
             'newsletter.template_lookup',
@@ -588,6 +637,26 @@ class McpControllerTest extends TestCase
             'billing.payment_detail',
             'billing.payment_provider_health',
             'billing.payment_webhook_health',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function shipping_tax_client_only_receives_shipping_and_tax_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->shippingTaxToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'shipping-tax-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'shipping.method_lookup',
+            'shipping.zone_summary',
+            'tax.rule_lookup',
+            'tax.preview',
         ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
@@ -1381,6 +1450,120 @@ class McpControllerTest extends TestCase
     }
 
     #[Test]
+    public function shipping_method_lookup_returns_safe_provider_summaries(): void
+    {
+        $this->seedShippingTaxFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->shippingTaxToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 43,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'shipping.method_lookup',
+                    'arguments' => [
+                        'provider' => 'shipping_to_country',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Country Shipping', $text);
+        $this->assertStringContainsString('country zone', strtolower($text));
+        $this->assertStringNotContainsString('Please select your shipping country', $text);
+    }
+
+    #[Test]
+    public function shipping_zone_summary_reports_country_cost_rules(): void
+    {
+        $this->seedShippingTaxFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->shippingTaxToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 44,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'shipping.zone_summary',
+                    'arguments' => [
+                        'country' => 'United States',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('United States', $text);
+        $this->assertStringContainsString('Per item', $text);
+        $this->assertStringContainsString('Base 7.50 USD', $text);
+    }
+
+    #[Test]
+    public function tax_rule_lookup_includes_modern_and_legacy_rules(): void
+    {
+        $this->seedShippingTaxFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->shippingTaxToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 45,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'tax.rule_lookup',
+                    'arguments' => [
+                        'country_code' => 'US',
+                        'include_legacy' => 'yes',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('California Sales Tax', $text);
+        $this->assertStringContainsString('Legacy VAT', $text);
+        $this->assertStringContainsString('Location rule', $text);
+        $this->assertStringContainsString('Legacy fallback', $text);
+    }
+
+    #[Test]
+    public function tax_preview_returns_breakdown_for_matching_location(): void
+    {
+        $this->seedShippingTaxFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->shippingTaxToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 46,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'tax.preview',
+                    'arguments' => [
+                        'amount' => '100',
+                        'country_code' => 'US',
+                        'state_code' => 'CA',
+                        'zip_code' => '90001',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Tax amount', $text);
+        $this->assertStringContainsString('California Sales Tax', $text);
+        $this->assertStringContainsString('8.25 USD', $text);
+        $this->assertStringContainsString('US, CA, ZIP 90001', $text);
+    }
+
+    #[Test]
     public function forms_form_lookup_returns_form_activity(): void
     {
         $fixtures = $this->seedFormFixtures();
@@ -2014,6 +2197,81 @@ class McpControllerTest extends TestCase
             'primaryProvider' => $stripeProvider,
             'primaryPayment' => $primaryPayment,
         ];
+    }
+
+    private function seedShippingTaxFixtures(): void
+    {
+        ShippingProvider::query()->create([
+            'name' => 'Country Shipping',
+            'provider' => 'shipping_to_country',
+            'is_active' => 1,
+            'is_default' => 1,
+            'position' => 1,
+            'settings' => [
+                'countries' => [
+                    [
+                        'shipping_country' => 'United States',
+                        'shipping_type' => 'per_item',
+                        'shipping_cost' => 7.50,
+                        'shipping_price_per_item' => 2.25,
+                        'is_active' => true,
+                    ],
+                    [
+                        'shipping_country' => 'Worldwide',
+                        'shipping_type' => 'fixed',
+                        'shipping_cost' => 15.00,
+                        'is_active' => true,
+                    ],
+                ],
+                'shipping_instructions' => 'Please select your shipping country to calculate shipping costs.',
+            ],
+        ]);
+
+        ShippingProvider::query()->create([
+            'name' => 'Weight Shipping',
+            'provider' => 'weight_based',
+            'is_active' => 1,
+            'is_default' => 0,
+            'position' => 2,
+            'settings' => [
+                'base_shipping_cost' => 4.00,
+                'cost_per_weight_unit' => 1.50,
+                'max_shipping_cost' => 25.00,
+                'free_shipping_threshold' => 50.00,
+                'shipping_instructions' => 'Weight-based shipping available.',
+            ],
+        ]);
+
+        TaxRate::query()->create([
+            'name' => 'California Sales Tax',
+            'description' => 'CA base sales tax',
+            'country_code' => 'US',
+            'state_code' => 'CA',
+            'zip_code_pattern' => '900*',
+            'type' => 'percentage',
+            'rate' => 8.25,
+            'priority' => 20,
+            'is_default' => false,
+            'is_active' => true,
+        ]);
+
+        TaxRate::query()->create([
+            'name' => 'US Default Tax',
+            'description' => 'Fallback US tax',
+            'country_code' => 'US',
+            'type' => 'percentage',
+            'rate' => 5.00,
+            'priority' => 5,
+            'is_default' => true,
+            'is_active' => true,
+        ]);
+
+        TaxType::query()->create([
+            'name' => 'Legacy VAT',
+            'type' => 'percent',
+            'rate' => 15.00,
+            'description' => 'Legacy global tax fallback',
+        ]);
     }
 
     /**
