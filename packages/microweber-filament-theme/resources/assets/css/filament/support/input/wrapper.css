@@ -2,7 +2,7 @@
     @apply rounded-md ring-1;
 
     &:focus-within {
-        @apply outline outline-4 !ring-1;
+        @apply outline-none !ring-2;
     }
 
     &:not(.fi-invalid) {
@@ -13,7 +13,7 @@
         }
 
         &:focus-within {
-            @apply outline-primary-500/30 ring-gray-950/[15%] dark:outline-primary-400/40 dark:ring-white/20;
+            @apply ring-gray-950/50 dark:ring-white/40;
         }
     }
 
@@ -21,7 +21,7 @@
         @apply ring-danger-600 dark:ring-danger-400;
 
         &:focus-within {
-            @apply outline-primary-500/30 dark:outline-primary-400/40;
+            @apply ring-danger-600 dark:ring-danger-400;
         }
     }
 }

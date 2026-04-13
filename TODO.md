@@ -362,3 +362,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-13  the next buttpn in checkout has somal oagin state, seems the css is not usingg the microwbert heme
 
 - [x] 2026-04-13  also if in the subsctions/billing module the css and the  theme
+
+- [x] 2026-04-13  ok now in the checkout and all form fields seemsthere is some double baack abnd blue border on the focuse filed, pls reove the blue we want ony the black 
+
+also checkn on dark mode, also the shoubly selelct driodown in the shipping on the checkout is not ok the X is falling down , pls fix

@@ -871,8 +871,8 @@ svg[wire\:loading\.remove] {
   min-height: 44px !important;  // MW v2: ~45px input height
 
   &:focus-within {
-    border-color: $mw-accent !important;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15) !important;
+    border-color: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1) !important;
   }
 
   // Inner input should fill wrapper height and match radius
@@ -885,6 +885,22 @@ svg[wire\:loading\.remove] {
 // Select inputs
 .fi-select-wrp {
   border-radius: $mw-radius-sm !important;
+}
+
+// Select input container — fix clear X button dropping to second line
+.fi-select-input-ctn {
+  display: flex !important;
+  align-items: center !important;
+
+  .fi-select-input-btn {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .fi-select-input-value-remove-btn {
+    flex: 0 0 auto !important;
+    margin-right: 8px !important;
+  }
 }
 
 // ============================================================================
@@ -1639,8 +1655,8 @@ svg[wire\:loading\.remove] {
 
     &:focus-within {
       background-color: $mw-bg-surface !important;
-      border-color: $mw-accent !important;
-      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15) !important;
+      border-color: rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1) !important;
     }
   }
 
@@ -2409,7 +2425,8 @@ html.dark {
     background-color: #1a1f2e !important;
 
     &:focus-within {
-      border-color: $mw-accent !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) !important;
     }
   }
 
