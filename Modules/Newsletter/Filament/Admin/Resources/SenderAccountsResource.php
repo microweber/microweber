@@ -12,9 +12,11 @@ use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use Modules\Newsletter\Models\NewsletterSenderAccount;
+use Modules\Newsletter\Senders\NewsletterMailSender;
 
 class SenderAccountsResource extends Resource
 {
@@ -290,6 +292,46 @@ class SenderAccountsResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('test')
+                    ->label('Test')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->requiresConfirmation()
+                    ->modalHeading('Send Test Email')
+                    ->modalDescription(fn (NewsletterSenderAccount $record) =>
+                        "Send a test email from \"{$record->from_name} <{$record->from_email}>\" to the current admin's email address."
+                    )
+                    ->action(function (NewsletterSenderAccount $record) {
+                        $adminEmail = auth()->user()->email;
+
+                        $mailSender = new NewsletterMailSender();
+                        $mailSender->setSender($record->toArray());
+                        $mailSender->setTemplate(['text' => '<h2>Test Email</h2><p>This is a test email from your newsletter sender account: <strong>' . e($record->from_name) . '</strong>.</p><p>If you received this email, your sender configuration is working correctly.</p>']);
+                        $mailSender->setCampaign([
+                            'id' => 0,
+                            'name' => $record->from_name,
+                            'subject' => 'Test Email — ' . $record->from_name,
+                        ]);
+                        $mailSender->setSubscriber([
+                            'email' => $adminEmail,
+                            'name' => auth()->user()->name ?? 'Admin',
+                        ]);
+
+                        $result = $mailSender->sendMail();
+
+                        if ($result['success']) {
+                            Notification::make()
+                                ->title('Test email sent')
+                                ->body("Sent to {$adminEmail}")
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Test email failed')
+                                ->body($result['message'] ?? 'Unknown error')
+                                ->danger()
+                                ->send();
+                        }
+                    }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
