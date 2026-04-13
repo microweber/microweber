@@ -46,6 +46,14 @@ class CreateCampaign extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
+    public function getBreadcrumbs(): array
+    {
+        return [
+            route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
+            '' => 'Create Campaign',
+        ];
+    }
+
     public $name = '';
 
     public function createCampaign()

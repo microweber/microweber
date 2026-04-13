@@ -21,6 +21,14 @@ class ProcessCampaign extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
+    public function getBreadcrumbs(): array
+    {
+        return [
+            route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
+            '' => 'Processing: ' . ($this->campaign?->name ?? 'Campaign'),
+        ];
+    }
+
     public $listeners = [
 
     ];

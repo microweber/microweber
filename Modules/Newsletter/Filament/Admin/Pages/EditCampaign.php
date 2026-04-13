@@ -81,6 +81,14 @@ class EditCampaign extends Page
 
     }
 
+    public function getBreadcrumbs(): array
+    {
+        return [
+            route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
+            '' => $this->model?->name ?? 'Edit Campaign',
+        ];
+    }
+
     public function mount()
     {
         $id = request()->route('id');
