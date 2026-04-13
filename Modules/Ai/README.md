@@ -159,6 +159,10 @@ Initial MCP tools:
 - `forms.submission_search`
 - `forms.submission_detail`
 - `forms.activity_summary`
+- `billing.subscription_lookup`
+- `billing.plan_summary`
+- `billing.account_status`
+- `billing.metrics_summary`
 - `newsletter.campaign_lookup`
 - `newsletter.subscriber_lookup`
 - `newsletter.template_lookup`
@@ -543,6 +547,63 @@ Notes:
 }
 ```
 
+`billing.subscription_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "include_canceled": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.plan_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "group_sku": { "type": "string" },
+    "include_inactive": { "type": "string" },
+    "currency": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.account_status`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "customer_id": { "type": "integer" },
+    "user_id": { "type": "integer" },
+    "search_term": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+`billing.metrics_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "period_days": { "type": "integer" },
+    "include_breakdown": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
 `newsletter.campaign_lookup`
 
 ```json
@@ -617,6 +678,12 @@ Forms-specific safety notes:
 - `forms.*` tools are read-only and normalize both legacy `form_values` JSON submissions and newer `forms_data_values` rows.
 - `forms.submission_search` and `forms.submission_detail` mask emails, phone numbers, names, source IPs, and uploaded file paths before returning data over MCP.
 - `forms.activity_summary` only exposes aggregated submission counts and unread backlog, while `forms.form_lookup` reports recipient counts instead of raw notification addresses.
+
+Billing-specific safety notes:
+
+- `billing.*` tools are read-only and keep the first rollout focused on subscriptions, plans, account state, and aggregate metrics rather than invoices or raw payment/webhook data.
+- `billing.subscription_lookup` and `billing.account_status` mask customer emails, payment method last-four details, and provider subscription IDs before returning data over MCP.
+- `billing.metrics_summary` is intended to be admin-only via the existing `modules.ai.mcp.auth.admin_only_tools` / `admin_only_modules` config, and only exposes aggregate MRR/churn/count metrics.
 
 Newsletter-specific safety notes:
 

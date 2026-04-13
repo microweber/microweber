@@ -496,7 +496,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 **Priority next — add commerce/billing reporting once the read-only pattern is stable**
 
-- [ ] **Billing subscriptions MCP domain** (`Modules/Billing`) — Add read-only `billing.subscription.*` and `billing.metrics.*` tools for subscription lookup, plan summaries, MRR/churn snapshots, and customer billing status, with admin-only scope requirements.
+- [x] 2026-04-13  **Billing subscriptions MCP domain** (`Modules/Billing`) — Add read-only `billing.subscription.*` and `billing.metrics.*` tools for subscription lookup, plan summaries, MRR/churn snapshots, and customer billing status, with admin-only scope requirements.
 - [ ] **Invoice MCP domain** (`Modules/Invoice`) — Add read-only `billing.invoice.*` tools for invoice search/detail, unpaid/overdue summaries, and customer invoice history.
 - [ ] **Payment MCP domain** (`Modules/Payment`) — Add read-only `billing.payment.*` tools for transaction lookup and payment-provider health summaries, never exposing secrets, raw webhook payloads, or full payment instrument data.
 

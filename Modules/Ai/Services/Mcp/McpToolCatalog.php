@@ -10,6 +10,10 @@ use Modules\Ai\Tools\AnalyticsAudienceBreakdownTool;
 use Modules\Ai\Tools\AnalyticsTopPagesTool;
 use Modules\Ai\Tools\AnalyticsTrafficReferrersTool;
 use Modules\Ai\Tools\AnalyticsTrafficSummaryTool;
+use Modules\Ai\Tools\BillingAccountStatusTool;
+use Modules\Ai\Tools\BillingMetricsSummaryTool;
+use Modules\Ai\Tools\BillingPlanSummaryTool;
+use Modules\Ai\Tools\BillingSubscriptionLookupTool;
 use Modules\Ai\Tools\FormActivitySummaryTool;
 use Modules\Ai\Tools\FormLookupTool;
 use Modules\Ai\Tools\FormSubmissionDetailTool;
@@ -96,6 +100,26 @@ class McpToolCatalog
                 'tool' => FormActivitySummaryTool::class,
                 'module' => 'forms',
                 'title' => 'Summarize recent form submission volume, unread backlog, and active forms.',
+            ],
+            'billing.subscription_lookup' => [
+                'tool' => BillingSubscriptionLookupTool::class,
+                'module' => 'billing',
+                'title' => 'Search subscriptions by customer, plan, status, or provider reference.',
+            ],
+            'billing.plan_summary' => [
+                'tool' => BillingPlanSummaryTool::class,
+                'module' => 'billing',
+                'title' => 'List subscription plans with pricing, intervals, discounts, and feature summaries.',
+            ],
+            'billing.account_status' => [
+                'tool' => BillingAccountStatusTool::class,
+                'module' => 'billing',
+                'title' => 'Inspect a billing customer account with masked payment details and subscription state.',
+            ],
+            'billing.metrics_summary' => [
+                'tool' => BillingMetricsSummaryTool::class,
+                'module' => 'billing',
+                'title' => 'Summarize recurring billing metrics such as MRR, active subscriptions, and churn.',
             ],
             'newsletter.campaign_lookup' => [
                 'tool' => NewsletterCampaignLookupTool::class,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,8 +16,14 @@ use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
 use Modules\Ai\Services\Secrets\PassCommandRunner;
 use Modules\Ai\Services\Secrets\PassSecretStore;
+use Modules\Billing\Models\Subscription as BillingSubscription;
+use Modules\Billing\Models\SubscriptionPlan;
+use Modules\Billing\Models\SubscriptionPlanFeature;
+use Modules\Billing\Models\SubscriptionPlanGroup;
+use Modules\Billing\Models\SubscriptionCustomer;
 use Modules\ContactForm\Models\Form as ContactForm;
 use Modules\Content\Models\Content;
+use Modules\Customer\Models\Customer;
 use Modules\Form\Models\FormData;
 use Modules\Form\Models\FormDataValue;
 use Modules\Form\Models\FormList;
@@ -54,6 +61,9 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $limitedToolToken = null;
     protected ?McpClient $analyticsClient = null;
     protected ?GeneratedMcpClientToken $analyticsToken = null;
+    protected ?McpClient $billingClient = null;
+    protected ?GeneratedMcpClientToken $billingToken = null;
+    protected ?GeneratedMcpClientToken $billingNoAdminToken = null;
     protected ?McpClient $formsClient = null;
     protected ?GeneratedMcpClientToken $formsToken = null;
     protected ?McpClient $newsletterClient = null;
@@ -79,6 +89,14 @@ class McpControllerTest extends TestCase
         if (! Schema::hasTable('newsletter_campaigns') || ! Schema::hasTable('workflow_executions')) {
             Artisan::call('migrate', [
                 '--path' => base_path('Modules/Newsletter/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('subscriptions') || ! Schema::hasTable('subscription_plans') || ! Schema::hasTable('subscription_plans_groups')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Billing/database/migrations'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
@@ -120,6 +138,33 @@ class McpControllerTest extends TestCase
         DB::table('mcp_client_token_events')->delete();
         DB::table('mcp_client_tokens')->delete();
         DB::table('mcp_clients')->delete();
+        if (Schema::hasTable('webhook_logs')) {
+            DB::table('webhook_logs')->delete();
+        }
+        if (Schema::hasTable('subscription_cancel_reasons')) {
+            DB::table('subscription_cancel_reasons')->delete();
+        }
+        if (Schema::hasTable('subscription_plans_groups_features')) {
+            DB::table('subscription_plans_groups_features')->delete();
+        }
+        if (Schema::hasTable('subscription_plans_features')) {
+            DB::table('subscription_plans_features')->delete();
+        }
+        if (Schema::hasTable('subscriptions')) {
+            DB::table('subscriptions')->delete();
+        }
+        if (Schema::hasTable('subscription_plans')) {
+            DB::table('subscription_plans')->delete();
+        }
+        if (Schema::hasTable('subscription_plans_groups')) {
+            DB::table('subscription_plans_groups')->delete();
+        }
+        if (Schema::hasTable('customers')) {
+            DB::table('customers')->where('email', 'like', 'billing-mcp-%@example.com')->delete();
+        }
+        if (Schema::hasTable('users')) {
+            DB::table('users')->where('email', 'like', 'billing-mcp-%@example.com')->delete();
+        }
         if (Schema::hasTable('forms_data_values')) {
             DB::table('forms_data_values')->delete();
         }
@@ -181,6 +226,8 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:6');
         RateLimiter::clear('mcp-client-token:7');
         RateLimiter::clear('mcp-client-token:8');
+        RateLimiter::clear('mcp-client-token:9');
+        RateLimiter::clear('mcp-client-token:10');
 
         config([
             'modules.ai.enabled' => true,
@@ -229,6 +276,19 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->billingClient = $manager->createClient([
+            'name' => 'Billing MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'billing.subscription_lookup',
+                'billing.plan_summary',
+                'billing.account_status',
+                'billing.metrics_summary',
+            ],
+            'allowed_modules' => ['billing'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->formsClient = $manager->createClient([
             'name' => 'Forms MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -261,6 +321,8 @@ class McpControllerTest extends TestCase
         $this->missingAdminScopeToken = $manager->issueToken($this->limitedToolClient, 'missing-admin', ['mcp:access']);
         $this->limitedToolToken = $manager->issueToken($this->limitedToolClient, 'limited-tool', ['mcp:access', 'mcp:admin']);
         $this->analyticsToken = $manager->issueToken($this->analyticsClient, 'analytics-only', ['mcp:access', 'mcp:admin']);
+        $this->billingToken = $manager->issueToken($this->billingClient, 'billing-only', ['mcp:access', 'mcp:admin']);
+        $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
         $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
@@ -342,6 +404,10 @@ class McpControllerTest extends TestCase
             'forms.submission_search',
             'forms.submission_detail',
             'forms.activity_summary',
+            'billing.subscription_lookup',
+            'billing.plan_summary',
+            'billing.account_status',
+            'billing.metrics_summary',
             'newsletter.campaign_lookup',
             'newsletter.subscriber_lookup',
             'newsletter.template_lookup',
@@ -386,6 +452,26 @@ class McpControllerTest extends TestCase
             'analytics.top_pages',
             'analytics.traffic_referrers',
             'analytics.audience_breakdown',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function billing_client_only_receives_billing_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'billing-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'billing.subscription_lookup',
+            'billing.plan_summary',
+            'billing.account_status',
+            'billing.metrics_summary',
         ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
@@ -816,6 +902,138 @@ class McpControllerTest extends TestCase
         $this->assertStringContainsString('United States', $text);
         $this->assertStringContainsString('Desktop', $text);
         $this->assertStringContainsString('Mobile', $text);
+    }
+
+    #[Test]
+    public function billing_metrics_tool_is_hidden_without_admin_scope_when_configured(): void
+    {
+        config([
+            'modules.ai.mcp.auth.admin_only_tools' => ['billing.metrics_summary'],
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingNoAdminToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'billing-tools-no-admin',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'billing.subscription_lookup',
+            'billing.plan_summary',
+            'billing.account_status',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function billing_subscription_lookup_returns_subscription_rows(): void
+    {
+        $this->seedBillingFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 31,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.subscription_lookup',
+                    'arguments' => [
+                        'search_term' => 'billing-mcp-primary@example.com',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Business Monthly', $text);
+        $this->assertStringContainsString('bi*****************@example.com', $text);
+        $this->assertStringContainsString('active', $text);
+    }
+
+    #[Test]
+    public function billing_plan_summary_returns_pricing_and_features(): void
+    {
+        $this->seedBillingFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 32,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.plan_summary',
+                    'arguments' => [
+                        'group_sku' => 'HOSTING',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Business Monthly', $text);
+        $this->assertStringContainsString('storage', $text);
+        $this->assertStringContainsString('29.99 USD', $text);
+    }
+
+    #[Test]
+    public function billing_account_status_masks_payment_details(): void
+    {
+        $fixtures = $this->seedBillingFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 33,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.account_status',
+                    'arguments' => [
+                        'customer_id' => $fixtures['primaryCustomer']->id,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('****4242', $text);
+        $this->assertStringContainsString('bi*****************@example.com', $text);
+        $this->assertStringNotContainsString('4242 4242', $text);
+    }
+
+    #[Test]
+    public function billing_metrics_summary_reports_mrr_and_churn(): void
+    {
+        $this->seedBillingFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->billingToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 34,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'billing.metrics_summary',
+                    'arguments' => [
+                        'period_days' => 30,
+                        'include_breakdown' => 'yes',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('39.99 USD', $text);
+        $this->assertStringContainsString('Status breakdown', $text);
+        $this->assertStringContainsString('canceled', $text);
     }
 
     #[Test]
@@ -1488,6 +1706,115 @@ class McpControllerTest extends TestCase
             'form' => $supportForm,
             'list' => $list,
             'supportSubmission' => $supportSubmission,
+        ];
+    }
+
+    /**
+     * @return array{primaryCustomer: SubscriptionCustomer, primarySubscription: BillingSubscription}
+     */
+    private function seedBillingFixtures(): array
+    {
+        $group = SubscriptionPlanGroup::factory()->create([
+            'name' => 'Hosting Plans',
+            'sku' => 'HOSTING',
+        ]);
+
+        $monthlyPlan = SubscriptionPlan::factory()->forGroup($group)->create([
+            'name' => 'Business Monthly',
+            'sku' => 'BIZ-MONTHLY',
+            'price' => 29.99,
+            'currency' => 'USD',
+            'billing_interval' => 'monthly',
+            'trial_days' => 14,
+            'is_active' => true,
+        ]);
+        SubscriptionPlanFeature::query()->create([
+            'subscription_plan_id' => $monthlyPlan->id,
+            'key' => 'storage',
+            'description' => 'Storage allowance',
+            'value' => '100 GB',
+            'limit' => '100',
+            'position' => 1,
+        ]);
+
+        $yearlyPlan = SubscriptionPlan::factory()->forGroup($group)->create([
+            'name' => 'Business Annual',
+            'sku' => 'BIZ-YEARLY',
+            'price' => 120.00,
+            'currency' => 'USD',
+            'billing_interval' => 'yearly',
+            'trial_days' => 0,
+            'is_active' => true,
+        ]);
+
+        $primaryUser = User::factory()->create([
+            'email' => 'billing-mcp-primary@example.com',
+            'first_name' => 'Billing',
+            'last_name' => 'Primary',
+        ]);
+        $secondaryUser = User::factory()->create([
+            'email' => 'billing-mcp-secondary@example.com',
+            'first_name' => 'Billing',
+            'last_name' => 'Secondary',
+        ]);
+
+        $primaryCustomer = SubscriptionCustomer::query()->create([
+            'user_id' => $primaryUser->id,
+            'name' => 'Billing Primary',
+            'first_name' => 'Billing',
+            'last_name' => 'Primary',
+            'email' => 'billing-mcp-primary@example.com',
+            'stripe_id' => 'cus_billing_primary',
+            'pm_type' => 'card',
+            'pm_last_four' => '4242',
+            'status' => 'active',
+            'trial_ends_at' => now()->addDays(10),
+        ]);
+        $secondaryCustomer = SubscriptionCustomer::query()->create([
+            'user_id' => $secondaryUser->id,
+            'name' => 'Billing Secondary',
+            'first_name' => 'Billing',
+            'last_name' => 'Secondary',
+            'email' => 'billing-mcp-secondary@example.com',
+            'stripe_id' => 'cus_billing_secondary',
+            'pm_type' => 'card',
+            'pm_last_four' => '1111',
+            'status' => 'active',
+        ]);
+
+        $primarySubscription = BillingSubscription::factory()
+            ->forCustomer($primaryCustomer)
+            ->forPlan($monthlyPlan)
+            ->active()
+            ->create([
+                'stripe_id' => 'sub_billing_primary_active',
+                'starts_at' => now()->subDays(12),
+                'trial_ends_at' => now()->addDays(2),
+            ]);
+
+        BillingSubscription::factory()
+            ->forCustomer($secondaryCustomer)
+            ->forPlan($yearlyPlan)
+            ->active()
+            ->create([
+                'stripe_id' => 'sub_billing_secondary_active',
+                'starts_at' => now()->subMonths(2),
+                'trial_ends_at' => null,
+            ]);
+
+        BillingSubscription::factory()
+            ->forCustomer($primaryCustomer)
+            ->forPlan($monthlyPlan)
+            ->canceled()
+            ->create([
+                'stripe_id' => 'sub_billing_primary_canceled',
+                'created_at' => now()->subDays(60),
+                'updated_at' => now()->subDays(5),
+            ]);
+
+        return [
+            'primaryCustomer' => $primaryCustomer,
+            'primarySubscription' => $primarySubscription,
         ];
     }
 }
