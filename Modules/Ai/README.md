@@ -151,6 +151,9 @@ Initial MCP tools:
 - `product.lookup`
 - `order.lookup`
 - `settings.read`
+- `media.lookup`
+- `media.asset_detail`
+- `media.storage_health`
 - `analytics.traffic_summary`
 - `analytics.top_pages`
 - `analytics.traffic_referrers`
@@ -741,6 +744,51 @@ Notes:
 }
 ```
 
+`media.lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "media_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "file_type": { "type": "string" },
+    "folder_id": { "type": "integer" },
+    "is_synced_to_cdn": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`media.asset_detail`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "media_id": { "type": "integer" },
+    "include_metadata": { "type": "string" }
+  },
+  "required": ["media_id"],
+  "additionalProperties": false
+}
+```
+
+`media.storage_health`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "path": { "type": "string" },
+    "include_webp_cache": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
 `shipping.method_lookup`
 
 ```json
@@ -870,6 +918,12 @@ Notes:
   "additionalProperties": false
 }
 ```
+
+Media-specific safety notes:
+
+- `media.*` tools are read-only and keep the first rollout focused on asset discovery, per-asset summaries, and aggregate storage health.
+- `media.lookup` and `media.asset_detail` return relative media paths, folder labels, and metadata-key summaries only; they intentionally omit raw filesystem paths, direct CDN URLs, and large metadata blobs.
+- `media.storage_health` stays aggregate-only, summarizes public-disk usage and media folder distribution safely, and does not expose write permissions or destructive file-manager actions.
 
 Analytics-specific safety notes:
 

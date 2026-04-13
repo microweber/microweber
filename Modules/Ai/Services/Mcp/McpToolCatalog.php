@@ -34,6 +34,9 @@ use Modules\Ai\Tools\NewsletterAutomationStatusTool;
 use Modules\Ai\Tools\NewsletterCampaignLookupTool;
 use Modules\Ai\Tools\NewsletterSubscriberLookupTool;
 use Modules\Ai\Tools\NewsletterTemplateLookupTool;
+use Modules\Ai\Tools\MediaAssetDetailTool;
+use Modules\Ai\Tools\MediaLookupTool;
+use Modules\Ai\Tools\MediaStorageHealthTool;
 use Modules\Ai\Tools\OrderSearchTool;
 use Modules\Ai\Tools\ProductSearchTool;
 use Modules\Ai\Tools\SettingsReadTool;
@@ -72,6 +75,21 @@ class McpToolCatalog
                 'tool' => SettingsReadTool::class,
                 'module' => 'settings',
                 'title' => 'Read non-sensitive Microweber option values by group and key.',
+            ],
+            'media.lookup' => [
+                'tool' => MediaLookupTool::class,
+                'module' => 'media',
+                'title' => 'Search uploaded media assets by filename, title, folder, or CDN sync status.',
+            ],
+            'media.asset_detail' => [
+                'tool' => MediaAssetDetailTool::class,
+                'module' => 'media',
+                'title' => 'Inspect a single media asset with safe path, folder, relation, and metadata summaries.',
+            ],
+            'media.storage_health' => [
+                'tool' => MediaStorageHealthTool::class,
+                'module' => 'media',
+                'title' => 'Summarize media-library storage, public disk usage, and folder distribution without write access.',
             ],
             'analytics.traffic_summary' => [
                 'tool' => AnalyticsTrafficSummaryTool::class,

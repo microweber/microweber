@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Modules\Ai\Models\McpClient;
 use Modules\Ai\Models\McpClientToken;
 use Modules\Ai\Providers\AiServiceProvider;
@@ -29,6 +30,8 @@ use Modules\Form\Models\FormDataValue;
 use Modules\Form\Models\FormList;
 use Modules\Invoice\Models\Invoice as InvoiceRecord;
 use Modules\Invoice\Models\InvoiceItem;
+use Modules\Media\Models\Media;
+use Modules\Media\Models\MediaFolder;
 use Modules\Newsletter\Models\NewsletterAutomationQueue;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
@@ -74,6 +77,8 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $billingNoAdminToken = null;
     protected ?McpClient $invoiceClient = null;
     protected ?GeneratedMcpClientToken $invoiceToken = null;
+    protected ?McpClient $mediaClient = null;
+    protected ?GeneratedMcpClientToken $mediaToken = null;
     protected ?McpClient $paymentClient = null;
     protected ?GeneratedMcpClientToken $paymentToken = null;
     protected ?McpClient $shippingTaxClient = null;
@@ -127,6 +132,14 @@ class McpControllerTest extends TestCase
         if (! Schema::hasTable('payments') || ! Schema::hasTable('payment_providers')) {
             Artisan::call('migrate', [
                 '--path' => base_path('Modules/Payment/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
+        if (! Schema::hasTable('media') || ! Schema::hasTable('media_folders')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Media/database/migrations'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
@@ -218,6 +231,15 @@ class McpControllerTest extends TestCase
         if (Schema::hasTable('payment_providers')) {
             DB::table('payment_providers')->delete();
         }
+        if (Schema::hasTable('media_thumbnails')) {
+            DB::table('media_thumbnails')->delete();
+        }
+        if (Schema::hasTable('media')) {
+            DB::table('media')->delete();
+        }
+        if (Schema::hasTable('media_folders')) {
+            DB::table('media_folders')->delete();
+        }
         if (Schema::hasTable('shipping_providers')) {
             DB::table('shipping_providers')->delete();
         }
@@ -299,6 +321,7 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:11');
         RateLimiter::clear('mcp-client-token:12');
         RateLimiter::clear('mcp-client-token:13');
+        RateLimiter::clear('mcp-client-token:14');
 
         config([
             'modules.ai.enabled' => true,
@@ -313,6 +336,8 @@ class McpControllerTest extends TestCase
             'modules.ai.mcp.auth.admin_only_tools' => [],
             'modules.ai.mcp.auth.admin_only_modules' => [],
         ]);
+
+        Storage::fake('public');
 
         /** @var McpClientTokenManager $manager */
         $manager = app(McpClientTokenManager::class);
@@ -370,6 +395,18 @@ class McpControllerTest extends TestCase
                 'billing.invoice_customer_history',
             ],
             'allowed_modules' => ['billing'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
+        $this->mediaClient = $manager->createClient([
+            'name' => 'Media MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'media.lookup',
+                'media.asset_detail',
+                'media.storage_health',
+            ],
+            'allowed_modules' => ['media'],
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
@@ -434,6 +471,7 @@ class McpControllerTest extends TestCase
         $this->billingToken = $manager->issueToken($this->billingClient, 'billing-only', ['mcp:access', 'mcp:admin']);
         $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
         $this->invoiceToken = $manager->issueToken($this->invoiceClient, 'invoice-only', ['mcp:access', 'mcp:admin']);
+        $this->mediaToken = $manager->issueToken($this->mediaClient, 'media-only', ['mcp:access', 'mcp:admin']);
         $this->paymentToken = $manager->issueToken($this->paymentClient, 'payment-only', ['mcp:access', 'mcp:admin']);
         $this->shippingTaxToken = $manager->issueToken($this->shippingTaxClient, 'shipping-tax-only', ['mcp:access', 'mcp:admin']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
@@ -509,6 +547,9 @@ class McpControllerTest extends TestCase
             'product.lookup',
             'order.lookup',
             'settings.read',
+            'media.lookup',
+            'media.asset_detail',
+            'media.storage_health',
             'analytics.traffic_summary',
             'analytics.top_pages',
             'analytics.traffic_referrers',
@@ -558,6 +599,25 @@ class McpControllerTest extends TestCase
             ['content.lookup', 'order.lookup'],
             collect($response->json('result.tools'))->pluck('name')->all()
         );
+    }
+
+    #[Test]
+    public function media_client_only_receives_media_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->mediaToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'media-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'media.lookup',
+            'media.asset_detail',
+            'media.storage_health',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
     #[Test]
@@ -1110,6 +1170,96 @@ class McpControllerTest extends TestCase
             'billing.plan_summary',
             'billing.account_status',
         ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function media_lookup_returns_asset_rows(): void
+    {
+        $this->seedMediaFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->mediaToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 30,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'media.lookup',
+                    'arguments' => [
+                        'search_term' => 'sunset',
+                        'file_type' => 'image',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Homepage Sunset Banner', $text);
+        $this->assertStringContainsString('uploads/mcp-media/gallery/sunset-banner.jpg', $text);
+        $this->assertStringContainsString('Image', $text);
+        $this->assertStringNotContainsString('https://cdn.example.com/assets/sunset-banner.jpg', $text);
+    }
+
+    #[Test]
+    public function media_asset_detail_returns_safe_metadata_summary(): void
+    {
+        $fixtures = $this->seedMediaFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->mediaToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 31,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'media.asset_detail',
+                    'arguments' => [
+                        'media_id' => $fixtures['primaryImage']->id,
+                        'include_metadata' => 'yes',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Media asset detail', $text);
+        $this->assertStringContainsString('Marketing / Homepage Hero', $text);
+        $this->assertStringContainsString('width, height, alt', $text);
+        $this->assertStringContainsString('Stored', $text);
+        $this->assertStringNotContainsString('https://cdn.example.com/assets/sunset-banner.jpg', $text);
+    }
+
+    #[Test]
+    public function media_storage_health_returns_aggregate_stats(): void
+    {
+        $this->seedMediaFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->mediaToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 32,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'media.storage_health',
+                    'arguments' => [
+                        'path' => 'uploads/mcp-media',
+                        'include_webp_cache' => 'no',
+                        'limit' => 5,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Media storage health', $text);
+        $this->assertStringContainsString('uploads/mcp-media', $text);
+        $this->assertStringContainsString('Top media folders', $text);
+        $this->assertStringContainsString('Top public disk directories', $text);
+        $this->assertStringContainsString('Image: 1', $text);
     }
 
     #[Test]
@@ -2272,6 +2422,90 @@ class McpControllerTest extends TestCase
             'rate' => 15.00,
             'description' => 'Legacy global tax fallback',
         ]);
+    }
+
+    /**
+     * @return array{primaryImage: Media, document: Media, audio: Media}
+     */
+    private function seedMediaFixtures(): array
+    {
+        $marketingFolder = MediaFolder::query()->create([
+            'name' => 'Marketing',
+            'slug' => 'marketing',
+            'description' => 'Marketing assets',
+            'sort_order' => 1,
+        ]);
+
+        $heroFolder = MediaFolder::query()->create([
+            'name' => 'Homepage Hero',
+            'slug' => 'homepage-hero',
+            'description' => 'Homepage hero images',
+            'parent_id' => $marketingFolder->id,
+            'sort_order' => 1,
+        ]);
+
+        Storage::disk('public')->put('uploads/mcp-media/gallery/sunset-banner.jpg', 'sunset-image');
+        Storage::disk('public')->put('uploads/mcp-media/docs/product-specs.pdf', 'product-pdf');
+        Storage::disk('public')->put('uploads/mcp-media/audio/theme-song.mp3', 'audio-track');
+
+        $primaryImage = Media::query()->create([
+            'folder_id' => $heroFolder->id,
+            'title' => 'Homepage Sunset Banner',
+            'description' => 'Primary homepage hero image',
+            'filename' => 'uploads/mcp-media/gallery/sunset-banner.jpg',
+            'media_type' => 'image/jpeg',
+            'rel_type' => 'content',
+            'rel_id' => '1001',
+            'created_by' => 7,
+            'metadata' => [
+                'width' => 1600,
+                'height' => 900,
+                'alt' => 'Homepage sunset banner',
+            ],
+            'cdn_url' => 'https://cdn.example.com/assets/sunset-banner.jpg',
+            'cdn_provider' => 'cloudfront',
+            'cdn_metadata' => [
+                'distribution' => 'dist-123',
+                'cache_status' => 'warm',
+            ],
+            'is_synced_to_cdn' => true,
+            'file_size' => 204800,
+            'file_hash' => 'hash-sunset-banner',
+        ]);
+
+        $document = Media::query()->create([
+            'folder_id' => $marketingFolder->id,
+            'title' => 'Product Specs PDF',
+            'description' => 'Latest product specifications sheet',
+            'filename' => 'uploads/mcp-media/docs/product-specs.pdf',
+            'media_type' => 'application/pdf',
+            'rel_type' => 'product',
+            'rel_id' => '2002',
+            'created_by' => 7,
+            'metadata' => [
+                'pages' => 6,
+                'language' => 'en',
+            ],
+            'file_size' => 51200,
+        ]);
+
+        $audio = Media::query()->create([
+            'folder_id' => null,
+            'title' => 'Theme Song',
+            'description' => 'Brand intro audio',
+            'filename' => 'uploads/mcp-media/audio/theme-song.mp3',
+            'media_type' => 'audio/mpeg',
+            'rel_type' => 'layout',
+            'rel_id' => 'home',
+            'created_by' => 9,
+            'file_size' => 4096,
+        ]);
+
+        return [
+            'primaryImage' => $primaryImage,
+            'document' => $document,
+            'audio' => $audio,
+        ];
     }
 
     /**
