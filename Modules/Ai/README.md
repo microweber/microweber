@@ -151,6 +151,10 @@ Initial MCP tools:
 - `product.lookup`
 - `order.lookup`
 - `settings.read`
+- `newsletter.campaign_lookup`
+- `newsletter.subscriber_lookup`
+- `newsletter.template_lookup`
+- `newsletter.automation_status`
 
 ### MCP contract
 
@@ -418,6 +422,74 @@ Notes:
   "additionalProperties": false
 }
 ```
+
+`newsletter.campaign_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "campaign_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "campaign_type": { "type": "string" },
+    "trigger_event": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`newsletter.subscriber_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "subscriber_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "status": { "type": "string" },
+    "list_id": { "type": "integer" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`newsletter.template_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "template_id": { "type": "integer" },
+    "search_term": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`newsletter.automation_status`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "view": { "type": "string" },
+    "status": { "type": "string" },
+    "trigger_event": { "type": "string" },
+    "workflow_id": { "type": "integer" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+Newsletter-specific safety notes:
+
+- `newsletter.subscriber_lookup` intentionally masks subscriber email addresses in MCP output.
+- `newsletter.automation_status` reports queue/workflow health without exposing raw event payloads or unsanitized secrets from automation errors.
 
 #### Auth header and token format
 

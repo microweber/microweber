@@ -16,6 +16,17 @@ use Modules\Ai\Services\Mcp\McpClientTokenManager;
 use Modules\Ai\Services\Secrets\PassCommandRunner;
 use Modules\Ai\Services\Secrets\PassSecretStore;
 use Modules\Content\Models\Content;
+use Modules\Newsletter\Models\NewsletterAutomationQueue;
+use Modules\Newsletter\Models\NewsletterCampaign;
+use Modules\Newsletter\Models\NewsletterCampaignClickedLink;
+use Modules\Newsletter\Models\NewsletterCampaignPixel;
+use Modules\Newsletter\Models\NewsletterCampaignsSendLog;
+use Modules\Newsletter\Models\NewsletterList;
+use Modules\Newsletter\Models\NewsletterSubscriber;
+use Modules\Newsletter\Models\NewsletterSubscriberList;
+use Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Models\Workflow;
+use Modules\Newsletter\Models\WorkflowExecution;
 use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,6 +40,8 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $missingScopeToken = null;
     protected ?GeneratedMcpClientToken $missingAdminScopeToken = null;
     protected ?GeneratedMcpClientToken $limitedToolToken = null;
+    protected ?McpClient $newsletterClient = null;
+    protected ?GeneratedMcpClientToken $newsletterToken = null;
     protected ?GeneratedMcpClientToken $revokedToken = null;
 
     protected function setUp(): void
@@ -47,14 +60,40 @@ class McpControllerTest extends TestCase
             ]);
         }
 
+        if (! Schema::hasTable('newsletter_campaigns') || ! Schema::hasTable('workflow_executions')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Newsletter/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
         DB::table('mcp_client_token_events')->delete();
         DB::table('mcp_client_tokens')->delete();
         DB::table('mcp_clients')->delete();
+        DB::table('newsletter_campaigns_send_log')->delete();
+        DB::table('newsletter_campaigns_clicked_link')->delete();
+        DB::table('newsletter_campaigns_pixel')->delete();
+        DB::table('newsletter_automation_queue')->delete();
+        if (Schema::hasTable('workflow_execution_steps')) {
+            DB::table('workflow_execution_steps')->delete();
+        }
+        DB::table('workflow_executions')->delete();
+        if (Schema::hasTable('workflow_nodes')) {
+            DB::table('workflow_nodes')->delete();
+        }
+        DB::table('workflows')->delete();
+        DB::table('newsletter_subscribers_lists')->delete();
+        DB::table('newsletter_campaigns')->delete();
+        DB::table('newsletter_templates')->delete();
+        DB::table('newsletter_subscribers')->delete();
+        DB::table('newsletter_lists')->delete();
         RateLimiter::clear('mcp-client-token:1');
         RateLimiter::clear('mcp-client-token:2');
         RateLimiter::clear('mcp-client-token:3');
         RateLimiter::clear('mcp-client-token:4');
         RateLimiter::clear('mcp-client-token:5');
+        RateLimiter::clear('mcp-client-token:6');
 
         config([
             'modules.ai.enabled' => true,
@@ -90,11 +129,25 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->newsletterClient = $manager->createClient([
+            'name' => 'Newsletter MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'newsletter.campaign_lookup',
+                'newsletter.subscriber_lookup',
+                'newsletter.template_lookup',
+                'newsletter.automation_status',
+            ],
+            'allowed_modules' => ['newsletter'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
 
         $this->fullAccessToken = $manager->issueToken($this->fullAccessClient, 'full-access', ['mcp:access', 'mcp:admin']);
         $this->missingScopeToken = $manager->issueToken($this->fullAccessClient, 'missing-scope', ['content:read']);
         $this->missingAdminScopeToken = $manager->issueToken($this->limitedToolClient, 'missing-admin', ['mcp:access']);
         $this->limitedToolToken = $manager->issueToken($this->limitedToolClient, 'limited-tool', ['mcp:access', 'mcp:admin']);
+        $this->newsletterToken = $manager->issueToken($this->newsletterClient, 'newsletter-only', ['mcp:access', 'mcp:admin']);
         $this->revokedToken = $manager->issueToken($this->fullAccessClient, 'revoked', ['mcp:access', 'mcp:admin']);
         $manager->revokeToken($this->revokedToken->token, null, 'Revoked in test setup');
     }
@@ -166,6 +219,10 @@ class McpControllerTest extends TestCase
             'product.lookup',
             'order.lookup',
             'settings.read',
+            'newsletter.campaign_lookup',
+            'newsletter.subscriber_lookup',
+            'newsletter.template_lookup',
+            'newsletter.automation_status',
         ], $tools->pluck('name')->all());
         $this->assertSame('object', data_get($tools->firstWhere('name', 'content.lookup'), 'inputSchema.type'));
         $this->assertTrue((bool) data_get($tools->firstWhere('name', 'settings.read'), 'annotations.readOnlyHint'));
@@ -187,6 +244,26 @@ class McpControllerTest extends TestCase
             ['content.lookup', 'order.lookup'],
             collect($response->json('result.tools'))->pluck('name')->all()
         );
+    }
+
+    #[Test]
+    public function newsletter_client_only_receives_newsletter_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->newsletterToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'newsletter-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'newsletter.campaign_lookup',
+            'newsletter.subscriber_lookup',
+            'newsletter.template_lookup',
+            'newsletter.automation_status',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
     #[Test]
@@ -465,6 +542,184 @@ class McpControllerTest extends TestCase
             ->assertJsonPath('result.isError', true);
 
         $this->assertStringContainsString('sensitive', data_get($response->json(), 'result.content.0.text', ''));
+    }
+
+    #[Test]
+    public function newsletter_campaign_lookup_returns_campaign_metrics(): void
+    {
+        $list = NewsletterList::factory()->create(['name' => 'Launch Audience']);
+        $campaign = NewsletterCampaign::factory()->create([
+            'list_id' => $list->id,
+            'name' => 'Launch Sequence',
+            'subject' => 'Welcome to the launch',
+            'status' => NewsletterCampaign::STATUS_QUEUED,
+            'campaign_type' => NewsletterCampaign::CAMPAIGN_TYPE_AUTOMATION,
+            'trigger_event' => NewsletterCampaign::TRIGGER_CART_ABANDONED,
+            'recipients_from' => 'specific_list',
+        ]);
+
+        $subscriber = NewsletterSubscriber::factory()->create();
+        NewsletterSubscriberList::query()->create([
+            'subscriber_id' => $subscriber->id,
+            'list_id' => $list->id,
+        ]);
+        NewsletterCampaignPixel::query()->create(['campaign_id' => $campaign->id, 'email' => 'reader@example.com']);
+        NewsletterCampaignClickedLink::query()->create([
+            'campaign_id' => $campaign->id,
+            'email' => 'reader@example.com',
+            'link' => 'https://example.com/offer',
+        ]);
+        NewsletterCampaignsSendLog::query()->create([
+            'campaign_id' => $campaign->id,
+            'subscriber_id' => $subscriber->id,
+            'is_sent' => 1,
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->newsletterToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 21,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'newsletter.campaign_lookup',
+                    'arguments' => [
+                        'search_term' => 'Launch Sequence',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Launch Sequence', $text);
+        $this->assertStringContainsString('queued', $text);
+        $this->assertStringContainsString('opened 1', $text);
+        $this->assertStringContainsString('clicked 1', $text);
+    }
+
+    #[Test]
+    public function newsletter_subscriber_lookup_masks_email_addresses(): void
+    {
+        $list = NewsletterList::factory()->create(['name' => 'VIP Readers']);
+        $subscriber = NewsletterSubscriber::factory()->create([
+            'name' => 'Alex Reader',
+            'email' => 'alex.reader@example.com',
+            'status' => 'active',
+        ]);
+        NewsletterSubscriberList::query()->create([
+            'subscriber_id' => $subscriber->id,
+            'list_id' => $list->id,
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->newsletterToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 22,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'newsletter.subscriber_lookup',
+                    'arguments' => [
+                        'search_term' => 'alex.reader@example.com',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Alex Reader', $text);
+        $this->assertStringContainsString('al*********@example.com', $text);
+        $this->assertStringNotContainsString('alex.reader@example.com', $text);
+        $this->assertStringContainsString('VIP Readers', $text);
+    }
+
+    #[Test]
+    public function newsletter_template_lookup_returns_template_usage_counts(): void
+    {
+        $template = NewsletterTemplate::factory()->create([
+            'title' => 'Automation Template',
+            'text' => '<h1>Automation Template</h1><p>Used by campaigns.</p>',
+        ]);
+        NewsletterCampaign::factory()->create([
+            'email_template_id' => $template->id,
+            'name' => 'Template Driven Campaign',
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->newsletterToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 23,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'newsletter.template_lookup',
+                    'arguments' => [
+                        'search_term' => 'Automation Template',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Automation Template', $text);
+        $this->assertStringContainsString('1 linked campaign(s)', $text);
+    }
+
+    #[Test]
+    public function newsletter_automation_status_returns_queue_and_workflow_health(): void
+    {
+        $workflow = Workflow::factory()->create([
+            'name' => 'Cart Recovery Flow',
+            'trigger_event' => Workflow::TRIGGER_CART_ABANDONED,
+        ]);
+        WorkflowExecution::factory()->completed()->create([
+            'workflow_id' => $workflow->id,
+            'current_step' => 3,
+            'total_steps' => 3,
+        ]);
+        WorkflowExecution::factory()->failed()->create([
+            'workflow_id' => $workflow->id,
+            'error_message' => 'API token=secret-value was rejected',
+        ]);
+
+        $campaign = NewsletterCampaign::factory()->create([
+            'name' => 'Recovery Campaign',
+            'trigger_event' => NewsletterCampaign::TRIGGER_CART_ABANDONED,
+        ]);
+        NewsletterAutomationQueue::factory()->forCartAbandoned()->scheduledForPast()->create([
+            'campaign_id' => $campaign->id,
+            'status' => NewsletterAutomationQueue::STATUS_PENDING,
+        ]);
+        NewsletterAutomationQueue::factory()->failed()->forCartAbandoned()->create([
+            'campaign_id' => $campaign->id,
+            'error_message' => 'api_key=very-secret-value timed out',
+        ]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->newsletterToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 24,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'newsletter.automation_status',
+                    'arguments' => [
+                        'view' => 'summary',
+                        'trigger_event' => Workflow::TRIGGER_CART_ABANDONED,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Newsletter automation queue summary', $text);
+        $this->assertStringContainsString('Ready to send', $text);
+        $this->assertStringContainsString('Cart Recovery Flow', $text);
+        $this->assertStringContainsString('api_key=[redacted]', $text);
     }
 
     #[Test]

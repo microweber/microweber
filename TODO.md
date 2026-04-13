@@ -490,7 +490,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 **Priority now — extend MCP with high-signal read-only admin/reporting tools first**
 
-- [ ] **Newsletter MCP domain** (`Modules/Newsletter`) — Add read-only `newsletter.*` tools for campaign search/status, subscriber lookup, template lookup, and workflow/automation queue health so admins can answer delivery and audience questions without entering the panel UI.
+- [x] 2026-04-13  **Newsletter MCP domain** (`Modules/Newsletter`) — Added read-only `newsletter.campaign_lookup`, `newsletter.subscriber_lookup`, `newsletter.template_lookup`, and `newsletter.automation_status` tools in `Modules/Ai`, wired them into the MCP catalog under the `newsletter` module key, masked subscriber emails / sanitized automation errors, and covered the flow with focused MCP feature tests.
 - [ ] **Site stats / analytics MCP domain** (`Modules/SiteStats`) — Add read-only `analytics.*` tools for overview metrics, top pages/content, and traffic/referrer summaries, keeping outputs aggregated and safe for non-destructive admin use.
 - [ ] **Forms / contact submissions MCP domain** (`Modules/ContactForm` and/or `Modules/Form`) — Add read-only `forms.*` tools for form listing, submission search, and submission detail lookup with careful PII handling and strict access gating.
 

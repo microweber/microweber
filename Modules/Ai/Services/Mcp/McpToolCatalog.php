@@ -6,6 +6,10 @@ namespace Modules\Ai\Services\Mcp;
 
 use Modules\Ai\Tools\ContentSearchTool;
 use Modules\Ai\Tools\GetContentTool;
+use Modules\Ai\Tools\NewsletterAutomationStatusTool;
+use Modules\Ai\Tools\NewsletterCampaignLookupTool;
+use Modules\Ai\Tools\NewsletterSubscriberLookupTool;
+use Modules\Ai\Tools\NewsletterTemplateLookupTool;
 use Modules\Ai\Tools\OrderSearchTool;
 use Modules\Ai\Tools\ProductSearchTool;
 use Modules\Ai\Tools\SettingsReadTool;
@@ -44,6 +48,26 @@ class McpToolCatalog
                 'tool' => SettingsReadTool::class,
                 'module' => 'settings',
                 'title' => 'Read non-sensitive Microweber option values by group and key.',
+            ],
+            'newsletter.campaign_lookup' => [
+                'tool' => NewsletterCampaignLookupTool::class,
+                'module' => 'newsletter',
+                'title' => 'Search newsletter campaigns by name, status, type, and engagement summary.',
+            ],
+            'newsletter.subscriber_lookup' => [
+                'tool' => NewsletterSubscriberLookupTool::class,
+                'module' => 'newsletter',
+                'title' => 'Search newsletter subscribers with masked email output and list membership details.',
+            ],
+            'newsletter.template_lookup' => [
+                'tool' => NewsletterTemplateLookupTool::class,
+                'module' => 'newsletter',
+                'title' => 'Search newsletter templates and review their campaign usage.',
+            ],
+            'newsletter.automation_status' => [
+                'tool' => NewsletterAutomationStatusTool::class,
+                'module' => 'newsletter',
+                'title' => 'Review newsletter automation queue health and recent workflow execution status.',
             ],
         ];
     }
