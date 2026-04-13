@@ -204,8 +204,7 @@ li.dropdown {
 
                 &.active {
                     text-decoration: none;
-                    border-bottom: 2px solid currentColor;
-                    padding-bottom: 2px;
+                    opacity: 1;
                 }
             }
         }
