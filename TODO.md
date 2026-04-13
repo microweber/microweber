@@ -412,8 +412,8 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 - [x] 2026-04-13  **Edit Campaign form missing fields** — The resource Edit form now inherits the improved fields (Subject, Sender Account). The primary Edit workflow uses the full wizard page (EditCampaign) which already has all fields.
 - [x] 2026-04-13  **Campaign status badges** — Only "Finished" has a colored badge (green). Add colored badges for other statuses: Draft (gray), Sending (blue/animated), Scheduled (yellow), Failed (red), Canceled (gray strikethrough).
 - [x] 2026-04-13 **Campaign "Edit" link missing for "Sending" status** — Added "View" action for all non-draft campaigns; also fixed Cancel button to handle 'sending' DB status.
-- [ ] **Campaign table — add Subject column** — The campaigns table shows Name, List, Subscribers, Opened, Clicked, Status — but no Subject line column. Add it.
-- [ ] **Duplicate "Create Campaign" buttons** — There's a "+ Create campaign" button in the sidebar AND a "Create Campaign" button in the page header AND a "New Campaigns" button in the table header. Consolidate to reduce confusion.
+- [x] 2026-04-13  **Campaign table — add Subject column** — Added searchable, toggleable Subject column after Name.
+- [x] 2026-04-13  **Duplicate "Create Campaign" buttons** — Removed duplicate CreateAction from table header; page header "Create Campaign" button is the single entry point.
 
 ### Phase 3: Subscriber & List Management
 

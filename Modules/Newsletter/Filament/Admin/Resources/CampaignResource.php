@@ -151,6 +151,7 @@ class CampaignResource extends Resource
             ->modifyQueryUsing(fn ($query) => $query->with('list'))
             ->columns([
                 TextColumn::make('name')->searchable(),
+                TextColumn::make('subject')->searchable()->toggleable(),
                 TextColumn::make('list.name'),
                 TextColumn::make('subscribers')
                     ->color(function () {
@@ -200,7 +201,6 @@ class CampaignResource extends Resource
                         $url = route('filament.admin-newsletter.export.campaigns', ['columns' => $selectedColumns, 'export_multiple' => $exportMultiple]);
                         return redirect()->to($url);
                     }),
-                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
 
