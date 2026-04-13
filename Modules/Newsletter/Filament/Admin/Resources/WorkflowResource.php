@@ -31,7 +31,8 @@ class WorkflowResource extends Resource
     protected static ?string $navigationLabel = 'Automation Workflows';
     protected static ?string $label = 'Workflow';
     protected static ?string $pluralLabel = 'Automation Workflows';
-    protected static ?int $navigationSort = 1;
+    protected static string | \UnitEnum | null $navigationGroup = 'Campaigns';
+    protected static ?int $navigationSort = 3;
 
     public static function getGloballySearchableAttributes(): array
     {

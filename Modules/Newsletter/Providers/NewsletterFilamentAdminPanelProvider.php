@@ -75,17 +75,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 RecentCampaignsWidget::class,
             ])
             ->navigationItems([
-                NavigationItem::make('E-mail Marketing')
-                    ->url(admin_url('newsletter'))
-                    ->group('Shop Settings')
-                    ->sort(2)
-                    ->icon('heroicon-o-megaphone'),
                 NavigationItem::make('Back to admin')
                     ->url(admin_url())
-                    ->group('System Settings')
                     ->sort(20000)
                     ->icon('heroicon-o-arrow-right-end-on-rectangle'),
-
             ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')

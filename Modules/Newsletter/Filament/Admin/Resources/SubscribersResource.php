@@ -39,9 +39,9 @@ class SubscribersResource extends Resource
 
     protected static ?string $label = 'Subscribers';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Mail';
+    protected static string | \UnitEnum | null $navigationGroup = 'Subscribers';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 1;
 
     public static function getGloballySearchableAttributes(): array
     {

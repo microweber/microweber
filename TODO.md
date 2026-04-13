@@ -445,7 +445,7 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 ### Phase 7: Navigation & Information Architecture
 
-- [ ] **Sidebar navigation grouping** — Current groups: "Shop Settings" (E-mail Marketing), "Campaigns" (Campaigns, Lists), "Mail" (Designs, Subscribers), "Email Settings" (Senders), "System Settings" (Back to admin). Simplify to: "Dashboard", "Campaigns" (Campaigns, Lists), "Subscribers" (Subscribers, Import), "Templates" (Designs), "Settings" (Senders, E-mail Marketing), "Back to admin".
+- [x] 2026-04-13  **Sidebar navigation grouping** — Reorganized: Dashboard (ungrouped), Campaigns (Campaigns, Lists, Automation Workflows), Subscribers (Subscribers), Templates (Designs), Settings (Senders), Back to admin (ungrouped, bottom). Removed redundant "E-mail Marketing" link.
 - [ ] **"Back to admin" link** — Should use a distinct style (bottom-pinned, separator line above) to differentiate from regular navigation items.
 - [ ] **Breadcrumbs** — Edit Campaign shows breadcrumbs (Campaigns / Ex est labore. / Edit). Verify all pages have proper breadcrumbs.
 

@@ -34,9 +34,9 @@ class TemplatesResource extends Resource
 
     protected static ?string $label = 'Designs';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Mail';
+    protected static string | \UnitEnum | null $navigationGroup = 'Templates';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     public static function getGloballySearchableAttributes(): array
     {
