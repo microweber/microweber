@@ -154,6 +154,9 @@ Initial MCP tools:
 - `media.lookup`
 - `media.asset_detail`
 - `media.storage_health`
+- `layouts.layout_lookup`
+- `layouts.active_template`
+- `layouts.asset_summary`
 - `analytics.traffic_summary`
 - `analytics.top_pages`
 - `analytics.traffic_referrers`
@@ -789,6 +792,51 @@ Notes:
 }
 ```
 
+`layouts.layout_lookup`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "template_name": { "type": "string" },
+    "layout_file": { "type": "string" },
+    "search_term": { "type": "string" },
+    "category": { "type": "string" },
+    "content_type": { "type": "string" },
+    "include_hidden": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`layouts.active_template`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "template_name": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
+`layouts.asset_summary`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "template_name": { "type": "string" },
+    "asset_type": { "type": "string" },
+    "limit": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
+```
+
 `shipping.method_lookup`
 
 ```json
@@ -924,6 +972,13 @@ Media-specific safety notes:
 - `media.*` tools are read-only and keep the first rollout focused on asset discovery, per-asset summaries, and aggregate storage health.
 - `media.lookup` and `media.asset_detail` return relative media paths, folder labels, and metadata-key summaries only; they intentionally omit raw filesystem paths, direct CDN URLs, and large metadata blobs.
 - `media.storage_health` stays aggregate-only, summarizes public-disk usage and media folder distribution safely, and does not expose write permissions or destructive file-manager actions.
+
+Layouts-specific safety notes:
+
+- `layouts.*` tools are read-only and focus on installed layout discovery, active template usage, and safe asset/reference summaries rather than live-edit mutations.
+- `layouts.layout_lookup` returns relative layout file names, categories, and content-type metadata only; it intentionally omits absolute filesystem paths, preview URLs, and screenshot URLs.
+- `layouts.active_template` summarizes template usage with linked content, layout assignment counts, and style-setting group names, but does not change the active template or expose raw option payloads.
+- `layouts.asset_summary` reports relative asset references and style-setting file links only; it does not expose absolute paths, compiled CSS contents, or write/delete capabilities over template assets.
 
 Analytics-specific safety notes:
 

@@ -30,6 +30,9 @@ use Modules\Ai\Tools\FormActivitySummaryTool;
 use Modules\Ai\Tools\FormLookupTool;
 use Modules\Ai\Tools\FormSubmissionDetailTool;
 use Modules\Ai\Tools\FormSubmissionSearchTool;
+use Modules\Ai\Tools\LayoutActiveTemplateTool;
+use Modules\Ai\Tools\LayoutAssetSummaryTool;
+use Modules\Ai\Tools\LayoutLookupTool;
 use Modules\Ai\Tools\NewsletterAutomationStatusTool;
 use Modules\Ai\Tools\NewsletterCampaignLookupTool;
 use Modules\Ai\Tools\NewsletterSubscriberLookupTool;
@@ -90,6 +93,21 @@ class McpToolCatalog
                 'tool' => MediaStorageHealthTool::class,
                 'module' => 'media',
                 'title' => 'Summarize media-library storage, public disk usage, and folder distribution without write access.',
+            ],
+            'layouts.layout_lookup' => [
+                'tool' => LayoutLookupTool::class,
+                'module' => 'layouts',
+                'title' => 'Search installed template layouts by template, file, category, or content type.',
+            ],
+            'layouts.active_template' => [
+                'tool' => LayoutActiveTemplateTool::class,
+                'module' => 'layouts',
+                'title' => 'Summarize the active template state, linked content usage, and style-setting groups.',
+            ],
+            'layouts.asset_summary' => [
+                'tool' => LayoutAssetSummaryTool::class,
+                'module' => 'layouts',
+                'title' => 'Summarize template asset categories and safe relative design/style references.',
             ],
             'analytics.traffic_summary' => [
                 'tool' => AnalyticsTrafficSummaryTool::class,

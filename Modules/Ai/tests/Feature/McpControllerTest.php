@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Modules\Ai\Models\McpClient;
 use Modules\Ai\Models\McpClientToken;
 use Modules\Ai\Providers\AiServiceProvider;
@@ -77,6 +78,8 @@ class McpControllerTest extends TestCase
     protected ?GeneratedMcpClientToken $billingNoAdminToken = null;
     protected ?McpClient $invoiceClient = null;
     protected ?GeneratedMcpClientToken $invoiceToken = null;
+    protected ?McpClient $layoutsClient = null;
+    protected ?GeneratedMcpClientToken $layoutsToken = null;
     protected ?McpClient $mediaClient = null;
     protected ?GeneratedMcpClientToken $mediaToken = null;
     protected ?McpClient $paymentClient = null;
@@ -322,6 +325,7 @@ class McpControllerTest extends TestCase
         RateLimiter::clear('mcp-client-token:12');
         RateLimiter::clear('mcp-client-token:13');
         RateLimiter::clear('mcp-client-token:14');
+        RateLimiter::clear('mcp-client-token:15');
 
         config([
             'modules.ai.enabled' => true,
@@ -410,6 +414,18 @@ class McpControllerTest extends TestCase
             'rate_limit_per_minute' => 60,
             'is_active' => true,
         ]);
+        $this->layoutsClient = $manager->createClient([
+            'name' => 'Layouts MCP Client',
+            'allowed_scopes' => ['mcp:access', 'mcp:admin'],
+            'allowed_tools' => [
+                'layouts.layout_lookup',
+                'layouts.active_template',
+                'layouts.asset_summary',
+            ],
+            'allowed_modules' => ['layouts'],
+            'rate_limit_per_minute' => 60,
+            'is_active' => true,
+        ]);
         $this->paymentClient = $manager->createClient([
             'name' => 'Payment MCP Client',
             'allowed_scopes' => ['mcp:access', 'mcp:admin'],
@@ -472,6 +488,7 @@ class McpControllerTest extends TestCase
         $this->billingNoAdminToken = $manager->issueToken($this->billingClient, 'billing-no-admin', ['mcp:access']);
         $this->invoiceToken = $manager->issueToken($this->invoiceClient, 'invoice-only', ['mcp:access', 'mcp:admin']);
         $this->mediaToken = $manager->issueToken($this->mediaClient, 'media-only', ['mcp:access', 'mcp:admin']);
+        $this->layoutsToken = $manager->issueToken($this->layoutsClient, 'layouts-only', ['mcp:access', 'mcp:admin']);
         $this->paymentToken = $manager->issueToken($this->paymentClient, 'payment-only', ['mcp:access', 'mcp:admin']);
         $this->shippingTaxToken = $manager->issueToken($this->shippingTaxClient, 'shipping-tax-only', ['mcp:access', 'mcp:admin']);
         $this->formsToken = $manager->issueToken($this->formsClient, 'forms-only', ['mcp:access', 'mcp:admin']);
@@ -550,6 +567,9 @@ class McpControllerTest extends TestCase
             'media.lookup',
             'media.asset_detail',
             'media.storage_health',
+            'layouts.layout_lookup',
+            'layouts.active_template',
+            'layouts.asset_summary',
             'analytics.traffic_summary',
             'analytics.top_pages',
             'analytics.traffic_referrers',
@@ -637,6 +657,25 @@ class McpControllerTest extends TestCase
             'analytics.top_pages',
             'analytics.traffic_referrers',
             'analytics.audience_breakdown',
+        ], collect($response->json('result.tools'))->pluck('name')->all());
+    }
+
+    #[Test]
+    public function layouts_client_only_receives_layout_tools(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->layoutsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'layouts-tools',
+                'method' => 'tools/list',
+            ]);
+
+        $response->assertOk();
+
+        $this->assertSame([
+            'layouts.layout_lookup',
+            'layouts.active_template',
+            'layouts.asset_summary',
         ], collect($response->json('result.tools'))->pluck('name')->all());
     }
 
@@ -1260,6 +1299,96 @@ class McpControllerTest extends TestCase
         $this->assertStringContainsString('Top media folders', $text);
         $this->assertStringContainsString('Top public disk directories', $text);
         $this->assertStringContainsString('Image: 1', $text);
+    }
+
+    #[Test]
+    public function layouts_lookup_returns_bootstrap_layout_rows(): void
+    {
+        $this->seedLayoutFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->layoutsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 33,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'layouts.layout_lookup',
+                    'arguments' => [
+                        'template_name' => 'Bootstrap',
+                        'search_term' => 'contact',
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Layouts lookup', $text);
+        $this->assertStringContainsString('Contact Us', $text);
+        $this->assertStringContainsString('contact_us.blade.php', $text);
+        $this->assertStringNotContainsString(base_path(), $text);
+    }
+
+    #[Test]
+    public function layouts_active_template_returns_usage_and_style_groups(): void
+    {
+        $fixtures = $this->seedLayoutFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->layoutsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 34,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'layouts.active_template',
+                    'arguments' => [
+                        'limit' => 5,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Active template summary', $text);
+        $this->assertStringContainsString('Bootstrap', $text);
+        $this->assertStringContainsString('Templates/Bootstrap', $text);
+        $this->assertStringContainsString($fixtures['home']->title, $text);
+        $this->assertStringContainsString('Predefined Styles', $text);
+        $this->assertStringNotContainsString(base_path(), $text);
+    }
+
+    #[Test]
+    public function layouts_asset_summary_returns_relative_template_references(): void
+    {
+        $this->seedLayoutFixtures();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->layoutsToken->plainTextToken)
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 35,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'layouts.asset_summary',
+                    'arguments' => [
+                        'template_name' => 'Bootstrap',
+                        'asset_type' => 'design',
+                        'limit' => 8,
+                    ],
+                ],
+            ]);
+
+        $response->assertOk()
+            ->assertJsonPath('result.isError', false);
+
+        $text = data_get($response->json(), 'result.content.0.text', '');
+        $this->assertStringContainsString('Template asset summary', $text);
+        $this->assertStringContainsString('style-settings.json', $text);
+        $this->assertStringContainsString('main-full-styles.json', $text);
+        $this->assertStringContainsString('design-styles', $text);
+        $this->assertStringNotContainsString(base_path(), $text);
     }
 
     #[Test]
@@ -2505,6 +2634,42 @@ class McpControllerTest extends TestCase
             'primaryImage' => $primaryImage,
             'document' => $document,
             'audio' => $audio,
+        ];
+    }
+
+    /**
+     * @return array{home: Content, contact: Content}
+     */
+    private function seedLayoutFixtures(): array
+    {
+        save_option('current_template', 'Bootstrap', 'template');
+
+        $suffix = Str::lower(Str::random(6));
+
+        $home = Content::query()->create([
+            'title' => 'MCP Layout Home ' . $suffix,
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'url' => 'mcp-layout-home-' . $suffix,
+            'layout_file' => 'index.blade.php',
+            'active_site_template' => 'Bootstrap',
+            'is_home' => 1,
+            'is_active' => 1,
+        ]);
+
+        $contact = Content::query()->create([
+            'title' => 'MCP Layout Contact ' . $suffix,
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'url' => 'mcp-layout-contact-' . $suffix,
+            'layout_file' => 'contact_us.blade.php',
+            'active_site_template' => 'Bootstrap',
+            'is_active' => 1,
+        ]);
+
+        return [
+            'home' => $home,
+            'contact' => $contact,
         ];
     }
 
