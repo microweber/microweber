@@ -1255,6 +1255,10 @@ select option,
     @apply !rounded-sm;
 }
 
+.fi-select-input-btn {
+    @apply py-[10px];
+}
+
 .fi-ac-select-action:has(select#activeLocale:not(:has(option:nth-of-type(2)))) {
     display: none !important;
 }

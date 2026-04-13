@@ -379,3 +379,5 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-13  on http://127.0.0.1:8000/admin/orders/180/edit the priduct drodown has diferent height htan the text
 [attachment: .autodev/messages/attachments/20260413_134517_1d458312/paste-1776080708333.png]
+
+- [x] 2026-04-13  now the drodown hegiht is ok but thel ine hegith is not correct text is a bit up, evaluete and fix a
