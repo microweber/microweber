@@ -355,3 +355,6 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 - [x] 2026-04-13  ok but now in the template, make the active navi tem undelined
 [attachment: .autodev/messages/attachments/20260413_120032_0ef83e21/paste-1776074430256.png]
+
+- [x] 2026-04-13  ok now style the chkout page , seems the cutom css is not loadng
+[attachment: .autodev/messages/attachments/20260413_120342_7f308dff/paste-1776074619591.png]
