@@ -281,6 +281,10 @@ class SenderAccountsResource extends Resource
                 TextColumn::make('from_name')->searchable(),
                 TextColumn::make('from_email')->searchable(),
                 TextColumn::make('reply_email'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Active')
+                    ->boolean()
+                    ->sortable(),
             ])
             ->filters([
                 //
