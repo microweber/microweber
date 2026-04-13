@@ -138,7 +138,7 @@
         max-width: 15rem !important;
     }
 
-    .mw-menu-skin-com ul > li > a:hover span:after, .mw-menu-skin-com ul > li.active span:after {
+    .mw-menu-skin-com ul > li > a:hover span:after {
         width: 100%;
         opacity: 1;
     }

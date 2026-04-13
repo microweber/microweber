@@ -347,3 +347,8 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 - [x] 2026-04-12  **CustomFields** — bootstrap5 set (primary), bootstrap3/4 sets (legacy check)
 
 - [x] 2026-04-12  Evaluate all modules skins and fix the broken
+
+- [x] 2026-04-13  i still see double undelines, pls fix
+[attachment: .autodev/messages/attachments/20260413_101222_80324823/paste-1776067504790.png]
+
+- [x] 2026-04-13  fix the admin login, the logo must have somep adding and the sign in text must be centered
