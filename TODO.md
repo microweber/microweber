@@ -271,6 +271,7 @@ The local template uses raw Bootstrap 5 example markup (generic jumbotron, "Colu
 
 ---
 
+- [x] 2026-04-13  now the top menu has some double botred bototm or idnerline, pls fix
 ## Module Skins Evaluation — Desktop & Mobile
 
 > **Goal:** Test every module skin on the Bootstrap template at both desktop (1440×900) and mobile (390×844) viewports. Fix layout issues, broken styling, overflow, and Bootstrap 4→5 compatibility problems.

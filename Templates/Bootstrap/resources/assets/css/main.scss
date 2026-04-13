@@ -177,6 +177,7 @@ li.dropdown {
         a {
             display: flex;
             align-items: center;
+            text-decoration: none;
 
             img {
                 max-width: 200px;
@@ -202,8 +203,9 @@ li.dropdown {
                 }
 
                 &.active {
-                    text-decoration: underline;
-                    text-underline-offset: 4px;
+                    text-decoration: none;
+                    border-bottom: 2px solid currentColor;
+                    padding-bottom: 2px;
                 }
             }
         }
