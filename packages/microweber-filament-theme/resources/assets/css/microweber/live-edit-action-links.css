@@ -57,6 +57,19 @@
     @apply !font-bold pb-[5px] text-[14px];
 }
 
+.mw-admin-action-links.mw-liveedit-button-animation-component {
+    @apply inline-flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-2 py-1.5 text-[13px] leading-none dark:bg-gray-700;
+}
+
+.mw-admin-action-links.mw-liveedit-button-animation-component:after {
+    display: none;
+    content: none;
+}
+
+.mw-admin-action-links.mw-liveedit-button-animation-component:not(.mw-admin-action-links.btn) {
+    @apply pb-0;
+}
+
 .mw-admin-action-links.mw-adm-liveedit-tabs:active,
 .mw-admin-action-links.mw-adm-liveedit-tabs:focus,
 .mw-admin-action-links.mw-adm-liveedit-tabs.active,
@@ -70,6 +83,13 @@
 .mw-admin-action-links.mw-adm-liveedit-tabs.text-danger,
 .fi-tabs .fi-tabs-item.text-danger {
     @apply !text-red-500;
+}
+
+.mw-admin-action-links.mw-liveedit-button-animation-component:hover,
+.mw-admin-action-links.mw-liveedit-button-animation-component:active,
+.mw-admin-action-links.mw-liveedit-button-animation-component:focus,
+.mw-admin-action-links.mw-liveedit-button-animation-component.active {
+    @apply !bg-white dark:!bg-gray-800;
 }
 
 .mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:after,
