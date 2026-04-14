@@ -55,7 +55,7 @@
 
 - [x] 2026-04-14  the modules icons are not visible in dark mode the modules icons are not visible in dark mode [attachment: .autodev/messages/attachments/20260414_144356_dec61826/paste-1776170633122.png]
 
-- [ ] checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left [attachment: .autodev/messages/attachments/20260414_145051_504bff30/paste-1776171047789.png]
+- [x] 2026-04-14  checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left [attachment: .autodev/messages/attachments/20260414_145051_504bff30/paste-1776171047789.png]
 
 - [ ] on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left [attachment: .autodev/messages/attachments/20260414_145733_2a1bd31d/paste-1776171442478.png]
 

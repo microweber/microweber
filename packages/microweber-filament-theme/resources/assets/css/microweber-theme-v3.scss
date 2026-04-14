@@ -517,11 +517,11 @@ svg[wire\:loading\.remove] {
   white-space: nowrap !important;
 }
 
-// Selection cell should not truncate and must align header/row checkboxes
+// Selection cell should not truncate and must center checkbox with equal spacing
 .fi-ta-selection-cell {
   overflow: visible !important;
   max-width: none !important;
-  text-align: start !important;
+  text-align: center !important;
 }
 
 // Actions cell should not truncate
