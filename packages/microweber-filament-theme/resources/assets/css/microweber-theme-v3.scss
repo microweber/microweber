@@ -2496,6 +2496,22 @@ html.dark {
     .fi-sidebar-group-label {
       color: #4a5568 !important;
     }
+
+    // Collapsible group buttons (Website, Shop) — light icon/text in dark mode
+    &.fi-collapsible {
+      .fi-sidebar-group-btn {
+        color: #a0aec0 !important;
+
+        svg {
+          color: #a0aec0 !important;
+          stroke: #a0aec0 !important;
+        }
+
+        span {
+          color: #a0aec0 !important;
+        }
+      }
+    }
   }
 
   // Page heading — light text in dark mode
