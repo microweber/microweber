@@ -252,8 +252,12 @@ function runWebpack() {
     const isProd = process.env.NODE_ENV === 'production';
     const mode = isProd ? 'production' : 'development';
     console.log('Running webpack in ' + mode + ' mode...');
+    const isWindows = os.platform() === 'win32';
+    const webpackBin = isWindows
+        ? path.join('node_modules', '.bin', 'webpack.cmd')
+        : path.join('node_modules', '.bin', 'webpack');
     execSync(
-        'node_modules/.bin/webpack --config webpack.config.cjs --mode ' + mode,
+        '"' + webpackBin + '" --config webpack.config.cjs --mode ' + mode,
         { cwd: __dirname, stdio: 'inherit' }
     );
 }

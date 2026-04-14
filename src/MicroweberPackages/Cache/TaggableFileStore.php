@@ -74,10 +74,10 @@ class TaggableFileStore implements Store
     protected $tags = array();
 
     /**
-     * Tags that are deleted
+     * Tags that are deleted (instance-scoped to avoid static memory accumulation)
      * @var array
      */
-    protected static $flushedTags = array();
+    protected $flushedTags = array();
     public $events  = array();
     public $options  = array();
 
@@ -585,7 +585,7 @@ class TaggableFileStore implements Store
         $findTagPath = $this->getPath() . $findTagPath;
 
         if (!empty($this->tags)) {
-            self::$flushedTags = array_merge(self::$flushedTags, $this->tags);
+            $this->flushedTags = array_merge($this->flushedTags, $this->tags);
         }
 
         try {
@@ -665,7 +665,7 @@ class TaggableFileStore implements Store
                     //
                 }
 
-                self::$flushedTags = array_merge(self::$flushedTags, $this->tags);
+                $this->flushedTags = array_merge($this->flushedTags, $this->tags);
 
                 if (isset($this->tags[$tag])) {
                     unset($this->tags[$tag]);
@@ -673,7 +673,7 @@ class TaggableFileStore implements Store
             }
 
             if ($this->emitEvents) {
-                event(new CacheFlushed('global',self::$flushedTags));
+                event(new CacheFlushed('global', $this->flushedTags));
             }
         }
 
@@ -700,8 +700,8 @@ class TaggableFileStore implements Store
 
     private function isTagFlushed()
     {
-        if (self::$flushedTags and $this->tags) {
-            if (in_array($this->tags, self::$flushedTags)) {
+        if ($this->flushedTags && $this->tags) {
+            if (in_array($this->tags, $this->flushedTags)) {
                 return true;
             }
         }
