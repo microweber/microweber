@@ -20,3 +20,5 @@
 [attachment: .autodev/messages/attachments/20260414_111403_3afcab42/paste-1776158040702.png]
 
 - [x] 2026-04-14  now in the background editor the image save is not working
+
+- [x] 2026-04-14  still not workign the save Error 403 - Forbidden - The api function is not defined in the allowed fu [attachment: .autodev/messages/attachments/20260414_121528_dde59a05/paste-1776161725557.png]

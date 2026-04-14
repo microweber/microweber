@@ -4,7 +4,7 @@ use \Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-Route::post('media/upload', function (\Illuminate\Http\Request $request) {
+Route::post('/api/media/upload', function (\Illuminate\Http\Request $request) {
 
     return mw()->media_manager->upload($_POST);
 
