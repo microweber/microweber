@@ -167,7 +167,13 @@
                     return false;
                 }
                 $('#mw_log').hide();
-                installprogress();
+
+
+
+                setTimeout(function () {
+                    installprogress();
+                },7000);
+
                 $('.mw-install-holder').slideUp();
 
                 $data = $('#form_<?php print $rand; ?>').serialize();

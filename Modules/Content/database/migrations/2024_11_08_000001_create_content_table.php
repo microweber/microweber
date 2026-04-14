@@ -27,6 +27,8 @@ return new class extends Migration {
             $table->longText('content')->nullable();
             $table->longText('content_body')->nullable();
             $table->integer('is_active')->default(1)->nullable();
+            $table->integer('is_featured')->default(0)->nullable();
+
             $table->string('subtype_value')->nullable();
             $table->string('custom_type')->nullable();
             $table->string('custom_type_value')->nullable();

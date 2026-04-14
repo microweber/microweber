@@ -4,15 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
+        if (!Schema::hasTable('content')) {
+            return;
+        }
+
+
         Schema::table('content', function (Blueprint $table) {
-            $table->boolean('is_featured')->default(false)->nullable()->after('is_active');
+
+            if (!Schema::hasColumn('content', 'is_featured')) {
+
+                $table->integer('is_featured')->default(0)->nullable()->after('is_active');
+            }
+
         });
     }
 
