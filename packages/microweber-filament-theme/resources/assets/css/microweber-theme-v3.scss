@@ -2219,6 +2219,16 @@ html.dark {
     color: #e2e8f0 !important;
   }
 
+  // Module icons — force light colors in dark mode for inline SVGs
+  .fi-ta-record svg {
+    fill: #e2e8f0 !important;
+    color: #e2e8f0 !important;
+
+    path, g, circle, rect, polygon, polyline, line, ellipse {
+      fill: #e2e8f0 !important;
+    }
+  }
+
   // Product price dark mode
   .fi-ta-record .group .mw-price-current {
     color: #e2e8f0 !important;
