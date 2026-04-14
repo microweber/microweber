@@ -223,7 +223,7 @@ return parent::getEloquentQuery()
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->comment_subject ?: 'Comment by ' . $record->comment_name;
+        return $record->comment_subject ?: 'Comment by ' . ($record->comment_name ?? 'Anonymous');
     }
 
     /**

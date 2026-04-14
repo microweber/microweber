@@ -246,7 +246,7 @@ class CategoryResource extends Resource
 
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->title;
+        return $record->title ?? 'Category #' . $record->id;
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array

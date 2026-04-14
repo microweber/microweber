@@ -1455,7 +1455,7 @@ return \MicroweberPackages\User\Models\User::query()
 
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->title;
+        return $record->title ?? 'Content #' . $record->id;
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array

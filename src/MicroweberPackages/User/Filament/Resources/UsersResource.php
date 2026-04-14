@@ -143,7 +143,7 @@ public static function form(Schema $schema): Schema
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->username;
+        return $record->username ?? $record->email ?? 'User #' . $record->id;
     }
 
     /**

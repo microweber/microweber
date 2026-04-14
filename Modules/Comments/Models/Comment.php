@@ -168,7 +168,7 @@ class Comment extends Model
         } else if (!empty($this->attributes['comment_name'])) {
             return $this->attributes['comment_name'];
         } else {
-            return _e('Anonymous');
+            return _e('Anonymous', true);
         }
     }
 
@@ -179,7 +179,7 @@ class Comment extends Model
         } else if (!empty($this->attributes['comment_email'])) {
             return $this->attributes['comment_email'];
         } else {
-            return _e('Anonymous');
+            return _e('Anonymous', true);
         }
     }
 

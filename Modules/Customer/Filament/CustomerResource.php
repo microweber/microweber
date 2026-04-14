@@ -315,7 +315,7 @@ Forms\Components\Select::make('company_id')
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->name;
+        return $record->name ?? $record->email ?? 'Customer #' . $record->id;
     }
 
     /**
