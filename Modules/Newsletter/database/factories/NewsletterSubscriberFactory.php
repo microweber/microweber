@@ -24,7 +24,7 @@ class NewsletterSubscriberFactory extends Factory
     {
         $firstName = fake()->randomElement($this->firstNames);
         $lastName = fake()->randomElement($this->lastNames);
-        $emailHandle = strtolower($firstName . '.' . $lastName . fake()->unique()->numberBetween(1, 999));
+        $emailHandle = strtolower($firstName . '.' . $lastName . fake()->unique()->numberBetween(1, 999999));
 
         return [
             'list_id' => NewsletterList::factory(),

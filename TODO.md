@@ -26,3 +26,9 @@
 - [x] 2026-04-14  ok but after save media the new image is not commign pls try to edi the image and see
 
 - [x] 2026-04-14  now next in http://127.0.0.1:8000/admin/module-resource/modules when you type in the gloab seach AI
+
+- [~] run and fix the tests one by one
+
+- [ ] the spacinf on the checkboxs is not ok they must have the sape spasing on right and left the spacinf on the checkboxs is not ok they must have the sape spasing on right and left [attachment: .autodev/messages/attachments/20260414_132301_dd8bc28e/paste-1776165777000.png]
+
+- [ ] remove the rounded cotnenrs from the tabs  and make theit title a bit bigger remove the rounded cotnenrs from the tabs  and make theit title a bit bigger [attachment: .autodev/messages/attachments/20260414_132620_a34da1e0/paste-1776165961734.png]

@@ -84,10 +84,10 @@ class ListResourceTest extends TestCase
     public function it_create_action_saves_new_record(): void
     {
         Livewire::test(ManageLists::class)
-            ->callTableAction('create', data: [
+            ->callAction('create', data: [
                 'name' => 'Test Newsletter List',
             ])
-            ->assertHasNoTableActionErrors();
+            ->assertHasNoActionErrors();
 
         $this->assertDatabaseHas('newsletter_lists', [
             'name' => 'Test Newsletter List',

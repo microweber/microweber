@@ -20,6 +20,9 @@ class ModuleDependencyResourceTest extends TestCase
     {
         parent::setUp();
         $this->setUpFilamentPanel();
+        // Clean up all records from previous runs to avoid unique constraint violations
+        // and ensure pagination doesn't hide newly created test records
+        ModuleDependency::query()->delete();
     }
 
     #[Test]
