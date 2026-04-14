@@ -2697,6 +2697,260 @@ html.dark {
     border-color: #1e2330 !important;
     color: #e2e8f0 !important;
   }
+
+  // ── Sections (form cards) — the main white-bg offender ──
+  .fi-section {
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+
+    // Collapsible section header hover
+    &.fi-collapsible .fi-section-header {
+      border-bottom-color: #1e2330 !important;
+    }
+  }
+
+  .fi-section-header {
+    background-color: #161922 !important;
+    border-bottom-color: #1e2330 !important;
+  }
+
+  // ── Form inputs, selects, textareas — unified dark treatment ──
+  .fi-input,
+  .fi-select-input,
+  .fi-textarea,
+  .fi-input-wrp input,
+  .fi-input-wrp select,
+  .fi-input-wrp textarea {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+
+    &::placeholder {
+      color: #4a5568 !important;
+    }
+  }
+
+  // ── Checkboxes and radio buttons ──
+  .form-check-input,
+  .fi-checkbox-input,
+  .fi-radio-input,
+  input[type="checkbox"],
+  input[type="radio"] {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+
+    &:checked {
+      background-color: #4299e1 !important;
+      border-color: #4299e1 !important;
+    }
+  }
+
+  // ── Toggle / switch ──
+  .fi-toggle-input {
+    background-color: #2d3748 !important;
+
+    &:checked {
+      background-color: #4299e1 !important;
+    }
+  }
+
+  // ── Select (native) ──
+  .fi-select-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23718096' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+  }
+
+  // ── Topbar buttons — dark mode ──
+  .fi-btn.admin-toolbar-add,
+  .fi-btn.admin-toolbar-add.fi-color-primary {
+    background-color: rgba(66, 153, 225, 0.15) !important;
+    color: #63b3ed !important;
+
+    span, .fi-btn-label {
+      color: #63b3ed !important;
+    }
+
+    &:hover {
+      background-color: rgba(66, 153, 225, 0.25) !important;
+    }
+  }
+
+  .fi-btn.admin-toolbar-live-edit,
+  .fi-btn.admin-toolbar-live-edit.fi-color-primary {
+    background-color: rgba(72, 187, 120, 0.15) !important;
+    color: #68d391 !important;
+
+    span, .fi-btn-label {
+      color: #68d391 !important;
+    }
+
+    &:hover {
+      background-color: rgba(72, 187, 120, 0.25) !important;
+    }
+  }
+
+  // ── Primary / secondary / danger buttons — dark mode ──
+  .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
+    background-color: #4299e1 !important;
+    color: #fff !important;
+
+    &:hover {
+      background-color: #3182ce !important;
+    }
+  }
+
+  .fi-btn.fi-color-gray {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+    color: #a0aec0 !important;
+
+    &:hover {
+      background-color: #2d3748 !important;
+      color: #e2e8f0 !important;
+    }
+  }
+
+  .fi-btn.fi-color-danger {
+    background-color: rgba(245, 101, 101, 0.15) !important;
+    color: #fc8181 !important;
+    border-color: rgba(245, 101, 101, 0.3) !important;
+
+    &:hover {
+      background-color: rgba(245, 101, 101, 0.25) !important;
+    }
+  }
+
+  // ── Page header / title ──
+  .fi-header {
+    h1 {
+      color: #e2e8f0 !important;
+    }
+  }
+
+  // ── Action buttons in header ──
+  .fi-header-actions .fi-btn {
+    box-shadow: none !important;
+  }
+
+  // ── Dropdown menu items ──
+  .fi-dropdown-list-item {
+    color: #a0aec0 !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+      color: #e2e8f0 !important;
+    }
+  }
+
+  // ── Fieldset / form group borders ──
+  .fi-fieldset {
+    border-color: #1e2330 !important;
+  }
+
+  // ── Info list (key-value display) ──
+  .fi-in-entry-wrp {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-in-entry-wrp-label {
+    color: #718096 !important;
+  }
+
+  // ── Repeater component ──
+  .fi-repeater-item {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+  }
+
+  // ── Global search results ──
+  .fi-global-search-result {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  .fi-global-search-result-title {
+    color: #e2e8f0 !important;
+  }
+
+  .fi-global-search-result-url,
+  .fi-global-search-result-details {
+    color: #718096 !important;
+  }
+
+  // ── Color swatch inputs ──
+  .fi-color-picker-preview {
+    border-color: #2d3748 !important;
+  }
+
+  // ── File upload area ──
+  .fi-fo-file-upload {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+    color: #a0aec0 !important;
+  }
+
+  // ── Date picker ──
+  .fi-date-time-picker-dropdown {
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
+    color: #e2e8f0 !important;
+  }
+
+  // ── Placeholder text in any input ──
+  ::placeholder {
+    color: #4a5568 !important;
+  }
+
+  // ── Horizontal rule / divider ──
+  hr {
+    border-color: #1e2330 !important;
+  }
+
+  // ── Stat card icon backgrounds in dark mode — keep tinted ──
+  .mw-quick-stat-card-icon--blue {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--pink {
+    background-color: rgba(236, 72, 153, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--green {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+  }
+  .mw-quick-stat-card-icon--orange {
+    background-color: rgba(249, 115, 22, 0.15) !important;
+  }
+
+  // ── Table column toggle button ──
+  .fi-ta-col-toggle-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+    }
+  }
+
+  // ── Table filters ──
+  .fi-ta-filters {
+    background-color: #161922 !important;
+    border-color: #1e2330 !important;
+  }
+
+  // ── Action icon buttons in tables ──
+  .fi-icon-btn {
+    color: #718096 !important;
+
+    &:hover {
+      color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  // ── Marketplace card items ──
+  .fi-ta-grid .fi-ta-record {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+  }
 }
 
 // ============================================================================
