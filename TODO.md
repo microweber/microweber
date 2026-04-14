@@ -12,3 +12,6 @@
  
 - [x] 2026-04-14  now the z-index of the filament modal must be bigger than the sidebar settings so we can open the modal
 [attachment: .autodev/messages/attachments/20260414_104009_7b88ad3d/paste-1776156004404.png]
+
+- [x] 2026-04-14  now when i open the background module settings there is some color for the bg it must be white
+[attachment: .autodev/messages/attachments/20260414_104924_114e7474/paste-1776156537116.png]

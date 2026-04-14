@@ -880,6 +880,27 @@ div:focus-visible {
 
 .mw-live-edit-page-wrapper {
     @apply !min-h-full;
+    background-color: #fff !important;
+}
+
+.dark .mw-live-edit-page-wrapper {
+    background-color: rgb(17 24 39) !important;
+}
+
+.mw-live-edit-module-settings-iframe {
+    background-color: #fff !important;
+}
+
+.dark .mw-live-edit-module-settings-iframe {
+    background-color: rgb(17 24 39) !important;
+}
+
+body.fi-body:has(.mw-live-edit-module-settings-iframe) {
+    background-color: #fff !important;
+}
+
+.dark body.fi-body:has(.mw-live-edit-module-settings-iframe) {
+    background-color: rgb(17 24 39) !important;
 }
 
 .mw-dropzone{
