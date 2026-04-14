@@ -18,3 +18,5 @@
 
 - [x] 2026-04-14  ok but fix the active button colors and the top margin
 [attachment: .autodev/messages/attachments/20260414_111403_3afcab42/paste-1776158040702.png]
+
+- [x] 2026-04-14  now in the background editor the image save is not working

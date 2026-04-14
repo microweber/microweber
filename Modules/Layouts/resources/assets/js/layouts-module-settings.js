@@ -182,22 +182,26 @@ window.layoutSettings = function layoutSettings(activeTab, optionGroup) {
             }
 
 
-            let picker = mw.app.singleFilePickerComponent({
+            var _app = mw.top().app || mw.app;
+            let picker = _app.singleFilePickerComponent({
                 element: '#bg--image-picker',
                 accept: 'images',
-                file: bgImage ? bgImage : null
+                file: bgImage ? bgImage : null,
+                document: document
             });
-            let videoPicker = mw.app.singleFilePickerComponent({
+            let videoPicker = _app.singleFilePickerComponent({
                 element: '#bg--video-picker',
                 accept: 'videos',
                 file: bgVideo ? bgVideo : null,
-                canEdit: false
+                canEdit: false,
+                document: document
             });
-            let cursorPicker = mw.app.singleFilePickerComponent({
+            let cursorPicker = _app.singleFilePickerComponent({
                 element: '#bg--cursor-picker',
                 accept: 'images',
                 file: bgCursor ? bgCursor : null,
-                canEdit: false
+                canEdit: false,
+                document: document
             });
             cursorPicker.on('change', () => {
                 const {bg, bgOverlay, bgNode, target} = this.getTargets();

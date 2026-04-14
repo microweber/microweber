@@ -76,6 +76,13 @@ abstract class LiveEditModuleSettings extends Page
 
     public function mount()
     {
+        // Populate params from request query when loaded as an iframe page
+        if (empty($this->params)) {
+            $queryParams = request()->query();
+            if (!empty($queryParams)) {
+                $this->params = $queryParams;
+            }
+        }
 
         $formInstance = $this->form(new Schema($this));
         $formFields = $formInstance->getFlatFields(true);

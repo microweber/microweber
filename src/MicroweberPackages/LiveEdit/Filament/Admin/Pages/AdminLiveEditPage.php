@@ -179,10 +179,14 @@ class AdminLiveEditPage extends Page
                             && method_exists($componentClass, 'getUrl')) {
                             $url = $componentClass::getUrl();
                             if ($url) {
+                                $iframeUrl = $url;
+                                if (!empty($params)) {
+                                    $iframeUrl .= (str_contains($iframeUrl, '?') ? '&' : '?') . http_build_query($params);
+                                }
                                 return [
                                     \Filament\Schemas\Components\View::make('microweber-live-edit::module-settings-iframe')
                                         ->viewData([
-                                            'iframeUrl' => $url,
+                                            'iframeUrl' => $iframeUrl,
                                             'resourceClass' => $componentClass,
                                             'data' => $data,
                                             'params' => $params
