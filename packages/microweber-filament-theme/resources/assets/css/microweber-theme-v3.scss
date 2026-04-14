@@ -33,6 +33,29 @@ $mw-radius-lg: 4px;             // MW v2 exact: cards
 $mw-radius-xl: 8px;             // Modals — slightly rounded
 $mw-radius-pill: 999px;
 
+// --- Golden Ratio Spacing Scale (φ = 1.618, base = 16px) ---
+$mw-space-hair: 4px;    // 3.8px → 4px
+$mw-space-xs:   6px;    // 6.1px → 6px
+$mw-space-sm:   10px;   // 9.9px → 10px
+$mw-space-md:   16px;   // 16px (base)
+$mw-space-lg:   26px;   // 25.9px → 26px
+$mw-space-xl:   42px;   // 41.9px → 42px
+$mw-space-2xl:  68px;   // 67.8px → 68px
+$mw-space-3xl:  110px;  // 109.7px → 110px
+
+// --- Golden Ratio Border Tokens ---
+$mw-border-hair: 1px;   // Thinnest border
+$mw-border-xs:   2px;   // 1.9px → 2px
+$mw-border-sm:   3px;   // 3.1px → 3px
+$mw-border-md:   5px;   // 4.9px → 5px
+
+// --- Golden Ratio Underline Tokens ---
+$mw-underline-thin:   1px;   // Thinnest underline
+$mw-underline-base:   2px;   // 1.9px → 2px (standard)
+$mw-underline-thick:  3px;   // 3.1px → 3px
+$mw-underline-offset-sm: 3px;  // 3.1px → 3px
+$mw-underline-offset-md: 5px;  // 4.9px → 5px
+
 // Shadow — MW v2 exact card shadow
 $mw-shadow-card: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
 
@@ -104,9 +127,9 @@ svg[wire\:loading\.remove] {
   height: auto !important;
   min-height: 49px !important;
   max-height: none !important;
-  padding: 16px 16px !important;  // MW v2: generous vertical + horizontal padding
+  padding: $mw-space-md $mw-space-md !important;  // GR: md (16px)
   align-items: center !important;
-  gap: 12px !important;  // MW v2: consistent spacing between topbar sections
+  gap: $mw-space-sm !important;  // GR: sm (10px)
 
   // Search input — smaller and compact
   .fi-global-search-field {
@@ -114,7 +137,7 @@ svg[wire\:loading\.remove] {
 
     input {
       font-size: 13px !important;
-      padding: 6px 10px !important;
+      padding: $mw-space-xs $mw-space-sm !important;  // GR: xs(6) sm(10)
       height: 34px !important;
     }
   }
@@ -136,10 +159,10 @@ svg[wire\:loading\.remove] {
     margin-left: 0 !important;
   }
 
-  // Right section — MW v2: consistent gap between items
+  // Right section — consistent gap between items
   .fi-topbar-end {
     margin-left: auto !important;
-    gap: 12px !important;  // MW v2: consistent spacing
+    gap: $mw-space-sm !important;  // GR: sm (10px)
   }
 }
 
@@ -151,9 +174,9 @@ svg[wire\:loading\.remove] {
   border: none !important;
   box-shadow: none !important;
   border-radius: $mw-radius-sm !important;
-  height: 36px !important;  // Proportional to 49px topbar
+  height: 36px !important;
   min-height: 36px !important;
-  padding: 0 16px !important;  // Centered text in 36px height
+  padding: 0 $mw-space-md !important;  // GR: md (16px)
   line-height: 36px !important;
 
   &:hover {
@@ -178,9 +201,9 @@ svg[wire\:loading\.remove] {
   border: none !important;
   box-shadow: none !important;
   border-radius: $mw-radius-sm !important;
-  height: 36px !important;  // Proportional to 49px topbar
+  height: 36px !important;
   min-height: 36px !important;
-  padding: 0 16px !important;  // Centered text in 36px height
+  padding: 0 $mw-space-md !important;  // GR: md (16px)
   line-height: 36px !important;
 
   &:hover {
@@ -205,12 +228,12 @@ svg[wire\:loading\.remove] {
 
 .fi-sidebar-header {
   border-bottom: none !important;
-  padding: 31px 15px 5px !important;  // MW v2 exact: 31px 15px 5px
+  padding: $mw-space-lg $mw-space-md $mw-space-xs !important;  // GR: lg(26) md(16) xs(6)
 }
 
 .fi-sidebar-nav-groups {
   gap: 0px !important;
-  padding: 16px 15px !important;  // MW v2: 16px top/bottom to match topbar padding
+  padding: $mw-space-md $mw-space-md !important;  // GR: md(16) md(16)
 
   // Override Filament's default divider (we handle it on .fi-sidebar-group)
   > * + * {
@@ -222,8 +245,8 @@ svg[wire\:loading\.remove] {
 .fi-sidebar-group {
   padding: 0 !important;
   border-top: none !important;
-  margin-top: 4px !important;
-  padding-top: 4px !important;
+  margin-top: $mw-space-hair !important;  // GR: hair(4)
+  padding-top: $mw-space-hair !important;  // GR: hair(4)
 
   &:first-child {
     margin-top: 0 !important;
@@ -242,7 +265,7 @@ svg[wire\:loading\.remove] {
 
 // Group button — match standalone item padding (MW v2: consistent vertical rhythm)
 .fi-sidebar-group-btn {
-  padding: 10px 0px !important;  // Match .fi-sidebar-item-btn with icon
+  padding: $mw-space-sm 0px !important;  // GR: sm(10)
 
   svg {
     color: $mw-text-primary !important;
@@ -260,7 +283,7 @@ svg[wire\:loading\.remove] {
   .fi-sidebar-item-btn {
     border-radius: 4px !important;  // MW v2 exact: 4px
     transition: all 0.15s ease !important;
-    padding: 8px 12px 8px 52px !important;  // MW v2: aligned with parent item labels
+    padding: $mw-space-sm $mw-space-sm $mw-space-sm 52px !important;  // GR: sm(10), left indent kept for alignment
     background-color: transparent !important;
     border: none !important;  // Remove any border/underline on sidebar items
     text-decoration: none !important;
@@ -287,7 +310,7 @@ svg[wire\:loading\.remove] {
     color: $mw-text-primary !important;  // MW v2: same as text rgb(24, 36, 51)
     width: 24px !important;  // MW v2 exact: 24px
     height: 24px !important;
-    margin-right: 16px !important;  // MW v2 exact: 16px
+    margin-right: $mw-space-md !important;  // GR: md(16)
   }
 
   // When item HAS an icon, it's a top-level item — override to primary color & 16px
@@ -299,7 +322,7 @@ svg[wire\:loading\.remove] {
 
   &:has(.fi-sidebar-item-icon) {
     .fi-sidebar-item-btn {
-      padding: 10px 0px !important;  // Condensed: was 15px 0
+      padding: $mw-space-sm 0px !important;  // GR: sm(10)
     }
   }
 
@@ -328,8 +351,8 @@ svg[wire\:loading\.remove] {
 
       .fi-sidebar-item-label {
         text-decoration: underline !important;
-        text-underline-offset: 8px !important;
-        text-decoration-thickness: 2px !important;
+        text-underline-offset: $mw-underline-offset-md !important;  // GR: offset-md(5)
+        text-decoration-thickness: $mw-underline-base !important;  // GR: base(2)
         text-decoration-color: $mw-text-primary !important;
       }
     }
@@ -352,14 +375,14 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-main {
   background-color: transparent !important;  // MW v2: transparent, page bg shows through
-  padding: 64px 5rem 0 !important;  // Desktop: align breadcrumbs with Website sidebar item
+  padding: $mw-space-2xl $mw-space-2xl 0 !important;  // GR: 2xl(68)
 
   @media (max-width: 1440px) {
-    padding: 64px 3rem 0 !important;  // Mid-range screens: moderate padding
+    padding: $mw-space-2xl $mw-space-xl 0 !important;  // GR: 2xl(68) xl(42)
   }
 
   @media (max-width: 1024px) {
-    padding: 64px 1.5rem 0 !important;  // Tablets: tighter padding
+    padding: $mw-space-2xl $mw-space-lg 0 !important;  // GR: 2xl(68) lg(26)
   }
 }
 
@@ -372,8 +395,8 @@ svg[wire\:loading\.remove] {
 // Page body — MW v2: 24px vertical margin
 // ============================================================================
 .fi-page > div {
-  margin: 0 auto 24px !important;  // MW v2: centered, no top margin (header handles spacing)
-  max-width: 1440px !important;  // Cap content width on ultra-wide screens
+  margin: 0 auto $mw-space-lg !important;  // GR: lg(26)
+  max-width: 1440px !important;
 }
 
 // Gap between sections/cards — MW v2: 24px
@@ -381,7 +404,7 @@ svg[wire\:loading\.remove] {
 .fi-page .fi-wi + .fi-wi,
 .fi-page .fi-wi + .fi-section,
 .fi-page .fi-section + .fi-wi {
-  margin-top: 24px !important;  // MW v2 exact: gap between cards
+  margin-top: $mw-space-lg !important;  // GR: lg(26)
 }
 
 // ============================================================================
@@ -404,7 +427,7 @@ svg[wire\:loading\.remove] {
 // MW v2 cards have no header separator — heading is inline in card body
 .fi-section-header {
   border: none !important;  // MW v2: no borders at all (no top, bottom, or left accent line)
-  padding: 20px 28px 0 !important;  // MW v2: match card body horizontal padding
+  padding: $mw-space-lg $mw-space-lg 0 !important;  // GR: lg(26)
   border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
@@ -463,8 +486,8 @@ svg[wire\:loading\.remove] {
 .fi-ta-record {
   border-bottom: 1px solid rgba(4, 32, 69, 0.14) !important;  // MW v2 exact translucent border
   transition: background-color 0.15s ease !important;
-  padding-top: 4px !important;  // MW v2: compact row padding
-  padding-bottom: 4px !important;
+  padding-top: $mw-space-hair !important;  // GR: hair(4)
+  padding-bottom: $mw-space-hair !important;  // GR: hair(4)
 
   &:hover {
     background-color: rgba(66, 153, 225, 0.03) !important;
@@ -488,9 +511,9 @@ svg[wire\:loading\.remove] {
 .fi-ta-selection-cell,
 .fi-ta-selection-cell:first-of-type,
 .fi-ta-selection-cell:last-of-type {
-  padding-inline-start: 12px !important;
-  padding-inline-end: 12px !important;
-  width: 48px !important;
+  padding-inline-start: $mw-space-sm !important;  // GR: sm(10)
+  padding-inline-end: $mw-space-sm !important;  // GR: sm(10)
+  width: $mw-space-xl !important;  // GR: xl(42)
 }
 
 // Custom fields table column widths
@@ -506,7 +529,7 @@ svg[wire\:loading\.remove] {
 // Table actions cell — shrink to fit and prevent wrapping
 .fi-ta-actions-header-cell,
 .fi-ta-cell:has(.fi-ta-actions) {
-  padding-inline-end: 12px !important;
+  padding-inline-end: $mw-space-sm !important;  // GR: sm(10)
   white-space: nowrap !important;
   width: 1% !important;  // shrink to fit content
 }
@@ -553,7 +576,7 @@ svg[wire\:loading\.remove] {
 
 // Grid card row — clean spacing and hover state
 .fi-ta-record .group {
-  padding: 10px 0 !important;
+  padding: $mw-space-sm 0 !important;  // GR: sm(10)
   transition: background-color 0.15s ease !important;
 }
 
@@ -636,7 +659,7 @@ svg[wire\:loading\.remove] {
   text-decoration: line-through !important;
   font-size: 12px !important;
   font-weight: 400 !important;
-  margin-right: 4px !important;
+  margin-right: $mw-space-hair !important;  // GR: hair(4)
 }
 
 .fi-ta-record .group .mw-price-special {
@@ -678,9 +701,9 @@ svg[wire\:loading\.remove] {
   font-size: 14px !important;  // MW v2: 14px
   transition: all 0.15s ease !important;
   box-shadow: rgba(24, 36, 51, 0.04) 0px 1px 0px 0px, rgba(24, 36, 51, 0.2) 0px -1px 0px 0px inset !important;
-  padding: 10.4px 20px !important;  // MW v2 exact: 10.4px 20px
-  height: 48px !important;  // MW v2 exact: ~48.78px
-  min-height: 48px !important;
+  padding: $mw-space-sm $mw-space-lg !important;  // GR: sm(10) lg(26)
+  height: $mw-space-xl !important;  // GR: xl(42)
+  min-height: $mw-space-xl !important;
 
   &:hover {
     opacity: 0.9 !important;
@@ -794,7 +817,7 @@ svg[wire\:loading\.remove] {
   box-shadow: none !important;
   height: auto !important;  // MW v2: outline btns are more compact
   min-height: auto !important;
-  padding: 4px 12px !important;  // MW v2: compact outline padding
+  padding: $mw-space-hair $mw-space-sm !important;  // GR: hair(4) sm(10)
 
   &:hover {
     background-color: $mw-bg-page !important;
@@ -804,14 +827,14 @@ svg[wire\:loading\.remove] {
 
 // Small buttons (table action buttons, Published dropdown)
 .fi-btn.fi-size-sm {
-  padding: 6px 12px !important;  // MW v2: smaller padding for table buttons
+  padding: $mw-space-xs $mw-space-sm !important;  // GR: xs(6) sm(10)
   font-size: 13px !important;
   height: auto !important;
 }
 
 // Extra small buttons
 .fi-btn.fi-size-xs {
-  padding: 4px 8px !important;
+  padding: $mw-space-hair $mw-space-xs !important;  // GR: hair(4) xs(6)
   font-size: 12px !important;
 }
 
@@ -833,7 +856,7 @@ svg[wire\:loading\.remove] {
   font-size: 16px !important;  // MW v2 exact: 16px form labels
   font-weight: 500 !important;  // MW v2 exact: 500
   color: $mw-text-primary !important;
-  margin: 5px 0 !important;  // MW v2 exact: 5px 0 label spacing
+  margin: $mw-space-xs 0 !important;  // GR: xs(6)
 }
 
 // ============================================================================
@@ -843,7 +866,7 @@ svg[wire\:loading\.remove] {
 .fi-fo-helper-text {
   font-size: 12px !important;
   color: $mw-text-muted !important;
-  margin-top: 4px !important;
+  margin-top: $mw-space-hair !important;  // GR: hair(4)
   line-height: 1.4 !important;
 }
 
@@ -856,7 +879,7 @@ svg[wire\:loading\.remove] {
 // Required field asterisk
 .fi-field-wrp-label sup {
   color: #ef4444 !important;
-  margin-left: 2px !important;
+  margin-left: $mw-space-hair !important;  // GR: hair(4)
 }
 
 // ============================================================================
@@ -867,7 +890,7 @@ svg[wire\:loading\.remove] {
   border: 1px solid $mw-border-color !important;
   transition: all 0.15s ease !important;
   background-color: $mw-bg-surface !important;
-  min-height: 44px !important;  // MW v2: ~45px input height
+  min-height: $mw-space-xl !important;  // GR: xl(42)
 
   &:focus-within {
     border-color: rgba(0, 0, 0, 0.5) !important;
@@ -877,7 +900,7 @@ svg[wire\:loading\.remove] {
   // Inner input should fill wrapper height and match radius
   input, textarea, select {
     border-radius: $mw-radius-sm !important;  // Fix 7px Filament default leak
-    padding: 10px 14px !important;  // MW v2 exact: 10.4px 14.4px
+    padding: $mw-space-sm $mw-space-md !important;  // GR: sm(10) md(16)
   }
 }
 
@@ -898,7 +921,7 @@ svg[wire\:loading\.remove] {
 
   .fi-select-input-value-remove-btn {
     flex: 0 0 auto !important;
-    margin-right: 8px !important;
+    margin-right: $mw-space-xs !important;  // GR: xs(6)
   }
 }
 
@@ -929,7 +952,7 @@ svg[wire\:loading\.remove] {
   .fi-modal-content {
     box-shadow: none !important;  // No shadow inside slide-over panel
     border: none !important;
-    padding: 20px 24px !important;  // Content padding for slide-over panels
+    padding: $mw-space-lg $mw-space-lg !important;  // GR: lg(26)
   }
   .fi-modal-footer {
     box-shadow: none !important;
@@ -939,13 +962,13 @@ svg[wire\:loading\.remove] {
 
 // Sidebar-aligned modals — ensure content has padding
 .fi-modal-window.fi-align-start .fi-modal-content {
-  padding: 28px 28px !important;
+  padding: $mw-space-lg $mw-space-lg !important;  // GR: lg(26)
 }
 
 // Modal header — MW v2: 16px heading, consistent padding
 .fi-modal-header {
-  padding: 16px 24px !important;
-  border-bottom: 1px solid $mw-border-color !important;
+  padding: $mw-space-md $mw-space-lg !important;  // GR: md(16) lg(26)
+  border-bottom: $mw-border-hair solid $mw-border-color !important;
 }
 
 .fi-modal-heading {
@@ -972,22 +995,22 @@ svg[wire\:loading\.remove] {
 
 // Modal footer — MW v2: right-aligned buttons, consistent padding
 .fi-modal-footer {
-  padding: 12px 24px !important;
-  border-top: 1px solid $mw-border-color !important;
-  gap: 8px !important;
+  padding: $mw-space-sm $mw-space-lg !important;  // GR: sm(10) lg(26)
+  border-top: $mw-border-hair solid $mw-border-color !important;
+  gap: $mw-space-xs !important;  // GR: xs(6)
   justify-content: flex-end !important;
 
   // Action buttons in modal footer — consistent sizing
   .fi-btn {
     min-height: 36px !important;
-    padding: 8px 16px !important;
+    padding: $mw-space-sm $mw-space-md !important;  // GR: sm(10) md(16)
     font-size: 14px !important;
   }
 }
 
 // Modal body padding — consistent with card body
 .fi-modal-content .fi-section-content {
-  padding: 20px 28px !important;
+  padding: $mw-space-lg $mw-space-lg !important;  // GR: lg(26)
 }
 
 // Confirmation dialog — centered text, reasonable max-width
@@ -999,8 +1022,8 @@ svg[wire\:loading\.remove] {
 // Card body padding — MW v2: 16px
 // ============================================================================
 .fi-section-content {
-  padding: 20px 28px !important;  // Card body padding — generous spacing for readability
-  gap: 18px !important;  // Comfortable gap between form fields
+  padding: $mw-space-lg $mw-space-lg !important;  // GR: lg(26)
+  gap: $mw-space-md !important;  // GR: md(16)
 }
 
 // ============================================================================
@@ -1019,7 +1042,7 @@ svg[wire\:loading\.remove] {
   border-radius: 4px !important;  // MW v2 exact
   font-weight: 600 !important;
   font-size: 10px !important;  // MW v2 exact
-  padding: 2.5px 5px !important;
+  padding: $mw-space-hair $mw-space-xs !important;  // GR: hair(4) xs(6)
 }
 
 // ============================================================================
@@ -1030,7 +1053,7 @@ svg[wire\:loading\.remove] {
   line-height: 1.4 !important;
 
   ol {
-    gap: 6px !important;
+    gap: $mw-space-xs !important;  // GR: xs(6)
     align-items: center !important;
   }
 
@@ -1070,12 +1093,12 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Page header container — reduce Filament's large padding/gap from --spacing * 8
 .fi-page-header-main-ctn {
-  padding-block: 8px !important;  // MW v2: comfortable padding around header area
-  row-gap: 12px !important;  // MW v2: minimal gap between heading row and content
+  padding-block: $mw-space-sm !important;  // GR: sm(10)
+  row-gap: $mw-space-sm !important;  // GR: sm(10)
 }
 
 .fi-header {
-  margin: 0 0 8px !important;  // MW v2: page-header margin with bottom spacing
+  margin: 0 0 $mw-space-sm !important;  // GR: sm(10)
   height: auto !important;
   min-height: 49px !important;  // MW v2 exact: ~49px page-header height
   display: flex !important;
@@ -1118,7 +1141,7 @@ svg[wire\:loading\.remove] {
 .fi-tabs,
 .fi-tabs.fi-contained {
   border-bottom: none !important;  // MW v2: no container border, tabs float above card
-  padding-left: 34px !important;  // Aligns first tab icon with .fi-section-content (24px) inside the card
+  padding-left: $mw-space-lg !important;  // GR: lg(26)
   box-shadow: none !important;  // Remove the inset bottom-line shadow from Filament default
 }
 
@@ -1129,8 +1152,8 @@ svg[wire\:loading\.remove] {
   font-weight: 500 !important;  // MW v2 inactive: 500
   font-size: 15px !important;
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
-  padding: 10px 14px !important;  // 10px vertical matches .fi-sidebar-item-btn padding
-  margin-right: 4px !important;
+  padding: $mw-space-sm $mw-space-md !important;  // GR: sm(10) md(16)
+  margin-right: $mw-space-hair !important;  // GR: hair(4)
   border-bottom: none !important;
   margin-bottom: 0 !important;
   background-color: transparent !important;
@@ -1151,7 +1174,7 @@ svg[wire\:loading\.remove] {
     font-weight: 600 !important;  // MW v2 active: 600
     background-color: #ffffff !important;
     box-shadow: none !important;
-    border-bottom: 2px solid $mw-text-primary !important;
+    border-bottom: $mw-border-xs solid $mw-text-primary !important;  // GR: border-xs(2)
 
     .fi-tabs-item-label {
       font-weight: 600 !important;  // MW v2 active label: 600
@@ -1173,19 +1196,19 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Tabs content panel — match section content padding for alignment
 .fi-tabs > .fi-tabs-tab-content {
-  padding: 16px 24px !important;
+  padding: $mw-space-md $mw-space-lg !important;  // GR: md(16) lg(26)
 }
 
 // 3-column grid layout — tighten gap between main content and sidebar
 .fi-tabs .fi-grid.lg\:fi-grid-cols {
-  gap: 24px !important;
+  gap: $mw-space-lg !important;  // GR: lg(26)
 }
 
 // Sidebar sections (right column) — tighter vertical spacing
 // The right column group contains Published, Parent page, Tags, Menus
 .fi-grid.lg\:fi-grid-cols > .fi-sc-group:last-child {
   .fi-sc-section + .fi-sc-section {
-    margin-top: 16px !important;
+    margin-top: $mw-space-md !important;  // GR: md(16)
   }
 }
 
@@ -1195,7 +1218,7 @@ svg[wire\:loading\.remove] {
   overflow-y: auto !important;
   border: 1px solid $mw-border-subtle !important;
   border-radius: $mw-radius-sm !important;
-  padding: 8px !important;
+  padding: $mw-space-xs !important;  // GR: xs(6)
 
   // On the main categories list page the tree IS the page content — don't constrain it
   .mw-edit-categories-list & {
@@ -1234,13 +1257,13 @@ svg[wire\:loading\.remove] {
 
   // Collapsed state — compact padding
   &.fi-collapsed .fi-section-header {
-    padding-bottom: 16px !important;
+    padding-bottom: $mw-space-md !important;  // GR: md(16)
   }
 }
 
 // SEO tab sections — tighter spacing for collapsible sub-sections
 .fi-section.fi-collapsible + .fi-section.fi-collapsible {
-  margin-top: 8px !important;
+  margin-top: $mw-space-xs !important;  // GR: xs(6)
 }
 
 // Toggle field — MW v2 inline label alignment
@@ -1250,7 +1273,7 @@ svg[wire\:loading\.remove] {
 
 // Header actions — MW v2: right-aligned, consistent button spacing
 .fi-header-actions {
-  gap: 8px !important;
+  gap: $mw-space-xs !important;  // GR: xs(6)
 }
 
 // Page header — tighter bottom margin for edit/create pages
@@ -1261,12 +1284,12 @@ svg[wire\:loading\.remove] {
 
 // Tags input — MW v2: compact pill-style tags
 .fi-tags-input-tags {
-  gap: 4px !important;
+  gap: $mw-space-hair !important;  // GR: hair(4)
 
   .fi-tags-input-tag {
     border-radius: $mw-radius-sm !important;
     font-size: 13px !important;
-    padding: 2px 8px !important;
+    padding: $mw-space-hair $mw-space-xs !important;  // GR: hair(4) xs(6)
     background-color: $mw-accent-light !important;
     color: $mw-text-primary !important;
     border: 1px solid rgba(66, 153, 225, 0.2) !important;
@@ -1277,18 +1300,18 @@ svg[wire\:loading\.remove] {
 .fi-fo-checkbox-list {
   max-height: 240px !important;
   overflow-y: auto !important;
-  gap: 8px !important;
+  gap: $mw-space-xs !important;  // GR: xs(6)
 
   // Custom scrollbar
   &::-webkit-scrollbar {
-    width: 6px;
+    width: $mw-space-xs;
   }
   &::-webkit-scrollbar-track {
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 3px;
+    border-radius: $mw-border-sm;
   }
 
   .fi-checkbox-list-option-label {
@@ -1300,7 +1323,7 @@ svg[wire\:loading\.remove] {
 // Pagination — MW v2: compact "Per page" selector
 // The global .fi-input-wrp { min-height: 44px } rule makes the per-page select too tall for inline pagination use.
 .fi-pagination {
-  padding: 8px 24px !important;
+  padding: $mw-space-sm $mw-space-lg !important;  // GR: sm(10) lg(26)
 
   .fi-input-wrp {
     min-height: 32px !important;
@@ -1308,10 +1331,10 @@ svg[wire\:loading\.remove] {
 
   select.fi-select-input,
   .fi-input-wrp .fi-select-input {
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-    padding-left: 10px !important;
-    padding-right: 28px !important;
+    padding-top: $mw-space-hair !important;  // GR: hair(4)
+    padding-bottom: $mw-space-hair !important;  // GR: hair(4)
+    padding-left: $mw-space-sm !important;  // GR: sm(10)
+    padding-right: $mw-space-lg !important;  // GR: lg(26)
     font-size: 13px !important;
     min-height: 32px !important;
     line-height: 1.2 !important;
@@ -1412,23 +1435,23 @@ svg[wire\:loading\.remove] {
   box-shadow: $mw-shadow-elevated !important;
   background-color: $mw-bg-surface !important;
   border: 1px solid $mw-border-color !important;
-  padding: 12px 16px !important;
+  padding: $mw-space-sm $mw-space-md !important;  // GR: sm(10) md(16)
   min-width: 280px !important;
   max-width: 420px !important;
-  gap: 10px !important;
+  gap: $mw-space-sm !important;  // GR: sm(10)
 
   // Status left-border accent — MW v2 pattern
   &.fi-status-success {
-    border-left: 3px solid #48bb78 !important;
+    border-left: $mw-border-sm solid #48bb78 !important;  // GR: border-sm(3)
   }
   &.fi-status-warning {
-    border-left: 3px solid #ed8936 !important;
+    border-left: $mw-border-sm solid #ed8936 !important;  // GR: border-sm(3)
   }
   &.fi-status-danger {
-    border-left: 3px solid #f56565 !important;
+    border-left: $mw-border-sm solid #f56565 !important;  // GR: border-sm(3)
   }
   &.fi-status-info {
-    border-left: 3px solid $mw-accent !important;
+    border-left: $mw-border-sm solid $mw-accent !important;  // GR: border-sm(3)
   }
 }
 
@@ -1483,7 +1506,7 @@ svg[wire\:loading\.remove] {
 .fi-no-notification-close-btn {
   border-radius: $mw-radius-sm !important;
   color: $mw-text-muted !important;
-  padding: 4px !important;
+  padding: $mw-space-hair !important;  // GR: hair(4)
   opacity: 0.7 !important;
   transition: opacity 0.15s ease !important;
 
@@ -1494,12 +1517,12 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-no-notification-actions {
-  margin-top: 8px !important;
-  gap: 6px !important;
+  margin-top: $mw-space-xs !important;  // GR: xs(6)
+  gap: $mw-space-xs !important;  // GR: xs(6)
 
   .fi-btn {
     font-size: 12px !important;
-    padding: 4px 10px !important;
+    padding: $mw-space-hair $mw-space-sm !important;  // GR: hair(4) sm(10)
     min-height: 28px !important;
     border-radius: $mw-radius-sm !important;
   }
@@ -1507,7 +1530,7 @@ svg[wire\:loading\.remove] {
 
 // Database notifications (bell icon dropdown)
 .fi-no-notification-unread-ctn .fi-no-notification {
-  border-left: 3px solid $mw-accent !important;
+  border-left: $mw-border-sm solid $mw-accent !important;  // GR: border-sm(3)
 }
 
 .fi-no-notification-read-ctn .fi-no-notification {
@@ -1518,7 +1541,7 @@ svg[wire\:loading\.remove] {
 // Stat overview cards — MW v2 style
 // ============================================================================
 .fi-wi-stats-overview-stat {
-  padding: 16px !important;  // MW v2: compact stat cards
+  padding: $mw-space-md !important;  // GR: md(16)
 
   .fi-wi-stats-overview-stat-label {
     font-size: 12px !important;
@@ -1557,7 +1580,7 @@ svg[wire\:loading\.remove] {
 
 .fi-ta-ctn .fi-select-input {
   cursor: pointer !important;
-  padding: 6px 24px 6px 8px !important;  // Extra right padding for the chevron icon
+  padding: $mw-space-xs $mw-space-lg $mw-space-xs $mw-space-xs !important;  // GR: xs(6) lg(26) xs(6) xs(6)
   font-size: 13px !important;
   min-width: 60px !important;
 }
@@ -1600,7 +1623,7 @@ svg[wire\:loading\.remove] {
 .mw-skeleton-text {
   @extend .mw-skeleton;
   height: 14px !important;
-  margin-bottom: 8px !important;
+  margin-bottom: $mw-space-xs !important;  // GR: xs(6)
 
   &:last-child {
     width: 60% !important;
@@ -1695,20 +1718,20 @@ svg[wire\:loading\.remove] {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: $mw-space-sm !important;  // GR: sm(10)
   max-width: 320px !important;
   margin: 0 auto !important;
 }
 
 .fi-empty-state-icon-bg {
-  width: 48px !important;
-  height: 48px !important;
+  width: $mw-space-xl !important;  // GR: xl(42)
+  height: $mw-space-xl !important;  // GR: xl(42)
   border-radius: 50% !important;
   background-color: $mw-accent-light !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin-bottom: 4px !important;
+  margin-bottom: $mw-space-hair !important;  // GR: hair(4)
 
   svg {
     width: 24px !important;
@@ -1733,11 +1756,11 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-empty-state-footer {
-  margin-top: 8px !important;
+  margin-top: $mw-space-xs !important;  // GR: xs(6)
 
   .fi-btn {
     font-size: 13px !important;
-    padding: 8px 16px !important;
+    padding: $mw-space-sm $mw-space-md !important;  // GR: sm(10) md(16)
     min-height: 34px !important;
     border-radius: $mw-radius-sm !important;
   }
@@ -1752,7 +1775,7 @@ svg[wire\:loading\.remove] {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: $mw-space-sm !important;  // GR: sm(10)
   max-width: 320px !important;
   margin: 0 auto !important;
 }
@@ -1766,14 +1789,14 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-ta-empty-state-icon-bg {
-  width: 48px !important;
-  height: 48px !important;
+  width: $mw-space-xl !important;  // GR: xl(42)
+  height: $mw-space-xl !important;  // GR: xl(42)
   border-radius: 50% !important;
   background-color: $mw-accent-light !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin-bottom: 4px !important;
+  margin-bottom: $mw-space-hair !important;  // GR: hair(4)
 
   svg {
     width: 24px !important;
@@ -1863,7 +1886,7 @@ svg[wire\:loading\.remove] {
 
 // Published badge in table — make more compact like MW v2
 .fi-ta-record .fi-btn.fi-size-sm.fi-color-success {
-  padding: 4px 10px !important;  // MW v2: compact badge padding
+  padding: $mw-space-hair $mw-space-sm !important;  // GR: hair(4) sm(10)
   font-size: 12px !important;
   height: 28px !important;  // MW v2 exact: 28px badge height
   min-height: 28px !important;
@@ -1883,7 +1906,7 @@ svg[wire\:loading\.remove] {
 
 // Table row padding — MW v2: more compact rows (~80px height)
 .fi-ta-content > div > div {
-  padding: 10px 0 !important;  // MW v2: tighter row padding (was 16px 0)
+  padding: $mw-space-sm 0 !important;  // GR: sm(10)
 }
 
 // Published button in table — MW v2: green text on light green bg (soft badge style)
@@ -1892,7 +1915,7 @@ svg[wire\:loading\.remove] {
   background-color: #eaf7ec !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  padding: 3px 6px !important;
+  padding: $mw-border-sm $mw-space-xs !important;  // GR: border-sm(3) xs(6)
   border-radius: 4px !important;
   height: 28px !important;
   min-height: 28px !important;
@@ -1935,27 +1958,27 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 @media (max-width: 768px) {
   .fi-page-header-main-ctn {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-    gap: 12px !important;
+    padding-top: $mw-space-sm !important;  // GR: sm(10)
+    padding-bottom: $mw-space-sm !important;
+    gap: $mw-space-sm !important;
   }
 
   .fi-header {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-    gap: 8px !important;
+    padding-top: $mw-space-sm !important;  // GR: sm(10)
+    padding-bottom: $mw-space-sm !important;
+    gap: $mw-space-xs !important;  // GR: xs(6)
   }
 
   .fi-main {
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-    padding-top: 16px !important;  // Reduce top padding on mobile (64px is too much)
+    padding-left: $mw-space-xs !important;  // GR: xs(6)
+    padding-right: $mw-space-xs !important;
+    padding-top: $mw-space-md !important;  // GR: md(16)
   }
 
   // Topbar: hide search text, show only icon; compact Live Edit
   .fi-topbar {
-    padding: 8px 8px !important;
-    gap: 6px !important;
+    padding: $mw-space-xs $mw-space-xs !important;  // GR: xs(6)
+    gap: $mw-space-xs !important;  // GR: xs(6)
     min-height: 44px !important;
   }
 
@@ -1966,7 +1989,7 @@ svg[wire\:loading\.remove] {
 
     input {
       width: 36px !important;
-      padding-left: 28px !important;
+      padding-left: $mw-space-lg !important;  // GR: lg(26)
       padding-right: 0 !important;
       color: transparent !important;
       cursor: pointer !important;
@@ -1982,7 +2005,7 @@ svg[wire\:loading\.remove] {
   // Hide "Live Edit" text label — show icon only
   .fi-topbar-end a[href*="editmode"] {
     font-size: 0 !important;
-    padding: 6px !important;
+    padding: $mw-space-xs !important;  // GR: xs(6)
     min-width: 36px !important;
     height: 36px !important;
     display: inline-flex !important;
@@ -1994,7 +2017,7 @@ svg[wire\:loading\.remove] {
 
   // Compact "Add" button on mobile
   .fi-btn.admin-toolbar-add {
-    padding: 0 8px !important;
+    padding: 0 $mw-space-xs !important;  // GR: xs(6)
     height: 32px !important;
     font-size: 12px !important;
   }
@@ -2039,17 +2062,17 @@ svg[wire\:loading\.remove] {
 
   // --- Generic mw-dialog mobile improvements ---
   .mw-dialog-holder {
-    max-width: calc(100vw - 16px) !important;
-    max-height: calc(100vh - 16px) !important;
+    max-width: calc(100vw - $mw-space-md) !important;
+    max-height: calc(100vh - $mw-space-md) !important;
   }
 
   .mw-dialog-container {
-    padding: 12px !important;
+    padding: $mw-space-sm !important;  // GR: sm(10)
   }
 
   .mw-dialog-footer {
-    padding: 8px 12px !important;
-    gap: 8px !important;
+    padding: $mw-space-xs $mw-space-sm !important;  // GR: xs(6) sm(10)
+    gap: $mw-space-xs !important;  // GR: xs(6)
   }
 
   .mw-dialog-footer .btn {
@@ -2064,8 +2087,8 @@ svg[wire\:loading\.remove] {
 
   // Table rows: increase vertical padding for easier tapping
   .fi-ta-cell {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: $mw-space-sm !important;  // GR: sm(10)
+    padding-bottom: $mw-space-sm !important;
   }
 
   // Filament action buttons — larger touch targets
@@ -2086,38 +2109,38 @@ svg[wire\:loading\.remove] {
 
   // Form sections — tighter padding
   .fi-section-content-ctn {
-    padding: 12px !important;
+    padding: $mw-space-sm !important;  // GR: sm(10)
   }
 
   // Filament modals — full width on mobile
   .fi-modal-content {
-    max-width: calc(100vw - 16px) !important;
-    margin: 8px !important;
+    max-width: calc(100vw - $mw-space-md) !important;
+    margin: $mw-space-xs !important;  // GR: xs(6)
   }
 }
 
 @media (max-width: 480px) {
   .fi-page-header-main-ctn {
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-    gap: 8px !important;
+    padding-top: $mw-space-xs !important;  // GR: xs(6)
+    padding-bottom: $mw-space-xs !important;
+    gap: $mw-space-xs !important;
   }
 
   .fi-header {
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
+    padding-top: $mw-space-xs !important;  // GR: xs(6)
+    padding-bottom: $mw-space-xs !important;
   }
 
   .fi-main {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-    padding-top: 8px !important;
+    padding-left: $mw-space-hair !important;  // GR: hair(4)
+    padding-right: $mw-space-hair !important;
+    padding-top: $mw-space-xs !important;  // GR: xs(6)
   }
 
   // Hide "Add" label, show icon only
   .fi-btn.admin-toolbar-add {
     font-size: 0 !important;
-    padding: 0 8px !important;
+    padding: 0 $mw-space-xs !important;  // GR: xs(6)
     gap: 0 !important;
     svg { font-size: initial; }
   }
@@ -2133,8 +2156,8 @@ svg[wire\:loading\.remove] {
   .fi-ta-cell,
   .fi-ta-header-cell {
     font-size: 12px !important;
-    padding-left: 6px !important;
-    padding-right: 6px !important;
+    padding-left: $mw-space-xs !important;  // GR: xs(6)
+    padding-right: $mw-space-xs !important;
   }
 
   // Modals: full-screen on very small phones
@@ -2148,7 +2171,7 @@ svg[wire\:loading\.remove] {
   // Page action buttons: stack vertically
   .fi-header-actions {
     flex-wrap: wrap !important;
-    gap: 6px !important;
+    gap: $mw-space-xs !important;  // GR: xs(6)
   }
 }
 
@@ -2568,7 +2591,7 @@ html.dark {
       color: #e2e8f0 !important;
       background-color: rgba(255, 255, 255, 0.08) !important;
       box-shadow: none !important;
-      border-bottom: 2px solid #e2e8f0 !important;
+      border-bottom: $mw-border-xs solid #e2e8f0 !important;  // GR: border-xs(2)
     }
   }
 
@@ -2683,8 +2706,8 @@ html.dark {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 8px 0 16px;
-  margin-bottom: 16px;
+  padding: $mw-space-xs 0 $mw-space-md;  // GR: xs(6) md(16)
+  margin-bottom: $mw-space-md;  // GR: md(16)
 }
 
 .mw-welcome-widget-heading {
@@ -2692,7 +2715,7 @@ html.dark {
   font-weight: 700 !important;
   color: $mw-text-primary !important;
   line-height: 1.2 !important;
-  margin: 0 0 4px !important;
+  margin: 0 0 $mw-space-hair !important;  // GR: hair(4)
 }
 
 .mw-welcome-widget-subtitle {
@@ -2708,7 +2731,7 @@ html.dark {
 .mw-quick-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: $mw-space-md;  // GR: md(16)
 }
 
 @media (max-width: 640px) {
@@ -2748,12 +2771,12 @@ html.dark {
 
   // Compact tab labels on mobile so all tabs fit without scrolling.
   .fi-tabs {
-    gap: 2px !important;
+    gap: $mw-border-xs !important;  // GR: border-xs(2)
 
     .fi-tabs-item {
-      padding: 8px 6px !important;
+      padding: $mw-space-xs $mw-space-xs !important;  // GR: xs(6)
       font-size: 12px !important;
-      gap: 4px !important;
+      gap: $mw-space-hair !important;  // GR: hair(4)
       margin-right: 0 !important;
 
       .fi-icon {
@@ -2788,15 +2811,15 @@ html.dark {
 .mw-quick-stat-card-body {
   display: flex;
   align-items: center;
-  padding: 20px 24px;
-  gap: 16px;
+  padding: $mw-space-lg $mw-space-lg;  // GR: lg(26)
+  gap: $mw-space-md;  // GR: md(16)
 }
 
 .mw-quick-stat-card-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  border-radius: 8px;
+  width: $mw-space-xl;  // GR: xl(42)
+  height: $mw-space-xl;
+  min-width: $mw-space-xl;
+  border-radius: $mw-space-xs;  // GR: xs(6)
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2835,7 +2858,7 @@ html.dark {
 .mw-quick-stat-card-label {
   font-size: 14px !important;
   color: $mw-text-secondary !important;
-  margin: 0 0 2px !important;
+  margin: 0 0 $mw-border-xs !important;  // GR: border-xs(2)
   font-weight: 400 !important;
 }
 
@@ -2889,20 +2912,20 @@ html.dark {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px 12px;
+  padding: $mw-space-lg $mw-space-lg $mw-space-sm;  // GR: lg(26) lg(26) sm(10)
 }
 
 .mw-stats-card-header-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: $mw-space-md;  // GR: md(16)
 }
 
 .mw-stats-card-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  border-radius: 8px;
+  width: $mw-space-xl;  // GR: xl(42)
+  height: $mw-space-xl;
+  min-width: $mw-space-xl;
+  border-radius: $mw-space-xs;  // GR: xs(6)
   background-color: #f0f4f8;
   display: flex;
   align-items: center;
@@ -2919,13 +2942,13 @@ html.dark {
   font-size: 14px !important;
   font-weight: 500 !important;
   color: $mw-text-secondary !important;
-  margin: 0 0 2px !important;
+  margin: 0 0 $mw-border-xs !important;  // GR: border-xs(2)
 }
 
 .mw-stats-card-online {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: $mw-space-xs;  // GR: xs(6)
 }
 
 .mw-stats-card-online-count {
@@ -2943,14 +2966,14 @@ html.dark {
 
 .mw-stats-card-header-right {
   display: flex;
-  gap: 4px;
+  gap: $mw-space-hair;  // GR: hair(4)
 }
 
 .mw-stats-card-period-label {
   cursor: pointer;
   font-size: 14px !important;
   color: $mw-text-primary !important;
-  padding: 4px 8px;
+  padding: $mw-space-hair $mw-space-xs;  // GR: hair(4) xs(6)
   border-radius: $mw-radius-sm;
 
   input[type="radio"] {
@@ -2968,8 +2991,8 @@ html.dark {
   input[type="radio"]:checked ~ span {
     font-weight: 600;
     text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 2px;
+    text-underline-offset: $mw-underline-offset-sm;  // GR: offset-sm(3)
+    text-decoration-thickness: $mw-underline-base;  // GR: base(2)
   }
 }
 
@@ -2977,19 +3000,19 @@ html.dark {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px 16px;
+  padding: $mw-space-sm $mw-space-lg $mw-space-md;  // GR: sm(10) lg(26) md(16)
   border-top: 1px solid $mw-border-subtle;
 }
 
 .mw-stats-card-footer-left {
   display: flex;
-  gap: 16px;
+  gap: $mw-space-md;  // GR: md(16)
 }
 
 .mw-stats-card-footer-stat {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: $mw-space-hair;  // GR: hair(4)
   font-size: 14px;
   color: $mw-text-secondary;
 }
@@ -3923,7 +3946,7 @@ html.dark {
   font-size: 13px;
   color: $mw-text-primary;
   cursor: pointer;
-  border-left: 3px solid transparent;
+  border-left: $mw-border-sm solid transparent;  // GR: border-sm(3)
 
   &:hover { background: rgba(0, 0, 0, 0.04); }
   &.active {
@@ -5079,7 +5102,7 @@ html.dark {
   /* Sortable placeholder */
   .ui-sortable-placeholder {
     background: rgba($mw-accent, 0.06);
-    border: 2px dashed $mw-accent;
+    border: $mw-border-xs dashed $mw-accent;  // GR: border-xs(2)
     border-radius: $mw-radius-sm;
     min-height: 44px;
     margin: 3px 0;
@@ -5277,18 +5300,18 @@ html.dark {
 // Settings Hub — MW v2 Design
 // ============================================================================
 .mw-settings-hub {
-  margin-top: -8px;
+  margin-top: -$mw-space-xs;  // GR: xs(6)
 }
 
 .mw-settings-hub-group {
-  margin-bottom: 24px;
+  margin-bottom: $mw-space-lg;  // GR: lg(26)
 }
 
 .mw-settings-hub-group-title {
   font-size: 22px;
   font-weight: 700;
   color: $mw-text-primary;
-  margin: 0 0 12px;
+  margin: 0 0 $mw-space-sm;  // GR: sm(10)
   line-height: 1.3;
 }
 
@@ -5296,13 +5319,13 @@ html.dark {
   background: $mw-bg-surface;
   border-radius: $mw-radius-lg;
   box-shadow: $mw-shadow-card;
-  padding: 14px 18px;
+  padding: $mw-space-md $mw-space-md;  // GR: md(16)
 }
 
 .mw-settings-hub-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: $mw-space-xs;  // GR: xs(6)
 }
 
 @media (max-width: 1280px) {
@@ -5319,9 +5342,9 @@ html.dark {
 
 .mw-settings-hub-item {
   display: flex;
-  gap: 14px;
+  gap: $mw-space-md;  // GR: md(16)
   align-items: center;
-  padding: 18px 16px;
+  padding: $mw-space-md $mw-space-md;  // GR: md(16)
   border-radius: 12px;
   border: 1px solid transparent;
   transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -5339,9 +5362,9 @@ html.dark {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: $mw-space-xl;  // GR: xl(42)
+  height: $mw-space-xl;
+  min-width: $mw-space-xl;
   background: $mw-accent-light;
   border-radius: 12px;
   transition: background-color 0.15s ease;
@@ -5365,7 +5388,7 @@ html.dark {
 .mw-settings-hub-item-description {
   font-size: 13.5px;
   color: $mw-text-muted;
-  margin: 3px 0 0;
+  margin: $mw-border-sm 0 0;  // GR: border-sm(3)
   line-height: 1.4;
 }
 
