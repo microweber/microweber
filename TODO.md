@@ -10,3 +10,5 @@
 
 - [x] 2026-04-14  Fix the live edit sidebar when openin the seggins there is no backgoud color 
  
+- [x] 2026-04-14  now the z-index of the filament modal must be bigger than the sidebar settings so we can open the modal
+[attachment: .autodev/messages/attachments/20260414_104009_7b88ad3d/paste-1776156004404.png]

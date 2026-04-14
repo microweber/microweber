@@ -310,6 +310,14 @@ body {
     @apply flex items-center;
 }
 
+.fi-modal > .fi-modal-close-overlay {
+    z-index: 100 !important;
+}
+
+.fi-modal > .fi-modal-window-ctn {
+    z-index: 100 !important;
+}
+
 .fi-layout .fi-main-ctn {
     @apply !bg-transparent dark:!bg-transparent;
 }
