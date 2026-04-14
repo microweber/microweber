@@ -37,7 +37,7 @@
 
 - [x] 2026-04-14  add hsotrcut to the newsleter nad the billing module i nthe admin setting page if they are isntalled
 
-- [ ] on widows the newslter module is not loading http://127.0.0.1:8000/admin/modules/newsletter
+- [x] 2026-04-14  on widows the newslter module is not loading http://127.0.0.1:8000/admin/modules/newsletter
 
 - [ ] add even more spacing on the settings catds and make hteyt txt a bit bigger add even more spacing on the settings catds and make hteyt txt a bit bigger [attachment: .autodev/messages/attachments/20260414_140338_b53c2b12/paste-1776168214612.png]
 

@@ -29,12 +29,13 @@ Route::name('admin.newsletter.')
         Route::post('/upload-subscribers-list',
             \Modules\Newsletter\Http\Controllers\Admin\NewsletterUploadSubscribersListController::class . '@upload')->name('upload-subscribers-list');
 
-        Route::get('/', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@index')->name('index');
-        Route::get('/subscribers', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@subscribers')->name('subscribers');
-        Route::get('/lists', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@lists')->name('lists');
-        Route::get('/templates', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templates')->name('templates');
-        Route::get('/sender-accounts', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@senderAccounts')->name('sender-accounts');
-        Route::get('/settings', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@settings')->name('settings');
+        // Redirect legacy admin routes to Filament newsletter panel
+        Route::get('/', fn() => redirect(admin_url('newsletter')))->name('index');
+        Route::get('/subscribers', fn() => redirect(admin_url('newsletter/subscribers')))->name('subscribers');
+        Route::get('/lists', fn() => redirect(admin_url('newsletter/lists')))->name('lists');
+        Route::get('/templates', fn() => redirect(admin_url('newsletter/templates')))->name('templates');
+        Route::get('/sender-accounts', fn() => redirect(admin_url('newsletter/sender-accounts')))->name('sender-accounts');
+        Route::get('/settings', fn() => redirect(admin_url('newsletter-module-settings')))->name('settings');
 
         Route::post('/templates/edit/{id}', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templatesEdit')->name('templates.edit');
 
