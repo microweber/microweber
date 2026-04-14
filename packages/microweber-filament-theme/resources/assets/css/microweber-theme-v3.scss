@@ -5270,13 +5270,13 @@ html.dark {
   background: $mw-bg-surface;
   border-radius: $mw-radius-lg;
   box-shadow: $mw-shadow-card;
-  padding: 8px 12px;
+  padding: 14px 18px;
 }
 
 .mw-settings-hub-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  gap: 6px;
 }
 
 @media (max-width: 1280px) {
@@ -5295,7 +5295,7 @@ html.dark {
   display: flex;
   gap: 14px;
   align-items: center;
-  padding: 16px 12px;
+  padding: 18px 16px;
   border-radius: 12px;
   border: 1px solid transparent;
   transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -5329,7 +5329,7 @@ html.dark {
 }
 
 .mw-settings-hub-item-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: $mw-text-primary;
   margin: 0;
@@ -5337,9 +5337,9 @@ html.dark {
 }
 
 .mw-settings-hub-item-description {
-  font-size: 13px;
+  font-size: 13.5px;
   color: $mw-text-muted;
-  margin: 2px 0 0;
+  margin: 3px 0 0;
   line-height: 1.4;
 }
 
