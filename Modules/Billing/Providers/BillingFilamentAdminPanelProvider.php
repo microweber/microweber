@@ -4,7 +4,8 @@ namespace Modules\Billing\Providers;
 
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
-use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 
@@ -14,29 +15,12 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 
     public function panel(Panel $panel): Panel
     {
+        $panel = $this->getBasePanel($panel);
+
         $panel
-            ->id('admin-billing')
             ->path(mw_admin_prefix_url().'/billing')
-            ->globalSearch(true)
-            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
-            ->font('Inter')
-            ->brandLogoHeight('34px')
-
-            ->brandLogo(function () {
-                return mw()->ui->admin_logo();
-            })
-            ->brandName(function () {
-                return mw()->ui->brand_name();
-            })
-
-
-
-            ->unsavedChangesAlerts()
-            ->sidebarWidth('15rem')
-            ->databaseNotifications(true)
-            ->colors([
-                'primary' => Color::Purple,
-            ])
+            ->default(false)
+            ->login(false)
             ->discoverResources(
                 in: __DIR__ . '/../Filament/Admin/Resources',
                 for: 'Modules\\Billing\\Filament\\Admin\\Resources'
@@ -60,21 +44,24 @@ class BillingFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                     ->group('System Settings')
                     ->sort(20000)
                     ->icon('heroicon-o-arrow-right-end-on-rectangle'),
-
             ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
             ->authMiddleware([
-
-                //  Authenticate::class,
                 \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
-                //  Admin::class,
-
             ]);
 
-        $panel->plugin(new MicroweberFilamentTheme());
+        $panel->renderHook(
+            name: PanelsRenderHook::TOPBAR_START,
+            hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
+        );
 
-      //  MicroweberFilamentTheme::configure();
+        $panel->renderHook(
+            name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
+            hook: fn(): string => view('admin::livewire.filament.top-navigation-go-live-edit') . view('admin::livewire.filament.search-quick-nav')
+        );
+
+        $panel->plugin(new MicroweberFilamentTheme());
 
         return $panel;
     }
