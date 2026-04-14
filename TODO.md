@@ -27,7 +27,7 @@
 
 - [x] 2026-04-14  now next in http://127.0.0.1:8000/admin/module-resource/modules when you type in the gloab seach AI
 
-- [~] run and fix the tests one by one
+- [x] 2026-04-14  run and fix the tests one by one
 
 - [ ] the spacinf on the checkboxs is not ok they must have the sape spasing on right and left the spacinf on the checkboxs is not ok they must have the sape spasing on right and left [attachment: .autodev/messages/attachments/20260414_132301_dd8bc28e/paste-1776165777000.png]
 
