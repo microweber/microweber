@@ -320,16 +320,17 @@ svg[wire\:loading\.remove] {
       color: $mw-text-primary !important;
     }
 
-    // Top-level items (with icon): underline on label only, aligned with icon — MW v2 Dashboard style
+    // Top-level items (with icon): text underline on label only — MW v2 Dashboard style
     &:has(.fi-sidebar-item-icon) {
       .fi-sidebar-item-btn {
         background-color: transparent !important;
       }
 
       .fi-sidebar-item-label {
-        text-decoration: none !important;
-        border-bottom: 2px solid $mw-text-primary !important;
-        padding-bottom: 4px !important;
+        text-decoration: underline !important;
+        text-underline-offset: 8px !important;
+        text-decoration-thickness: 2px !important;
+        text-decoration-color: $mw-text-primary !important;
       }
     }
   }
