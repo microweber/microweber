@@ -511,3 +511,6 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 - [x] 2026-04-13  **Per-domain scope and module gating** — Completed across the MCP rollout: each domain now has an explicit module key in `McpToolCatalog`, tool/module client allow-lists, domain permissions in the tool classes, and optional admin-only enforcement via `modules.ai.mcp.auth.admin_only_tools` / `admin_only_modules`.
 - [x] 2026-04-13  **Read-only first policy** — Completed across the first MCP rollout: newsletter, analytics, forms, billing, invoices, payments, shipping, tax, media, and layouts all ship as read-only lookup/summary surfaces with result caps plus masking/redaction for secrets, PII, raw payloads, filesystem paths, and destructive actions.
 - [x] 2026-04-13  **Per-module contract/test/docs updates** — Completed across the module rollout: `Modules/Ai/README.md` now documents each module contract and safety boundary, `Modules/Ai/tests/Feature/McpControllerTest.php` covers `tools/list` and focused `tools/call` flows per module, and the Phase 11 backlog entries were updated as each slice landed.
+
+- [ ] now work on the live edit sidebar, when we open it there is no color on the bar
+[attachment: .autodev/messages/attachments/20260414_094348_8db59529/paste-1776152607827.png]
