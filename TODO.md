@@ -57,6 +57,6 @@
 
 - [x] 2026-04-14  checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left [attachment: .autodev/messages/attachments/20260414_145051_504bff30/paste-1776171047789.png]
 
-- [ ] on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left [attachment: .autodev/messages/attachments/20260414_145733_2a1bd31d/paste-1776171442478.png]
+- [x] 2026-04-14  on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left [attachment: .autodev/messages/attachments/20260414_145733_2a1bd31d/paste-1776171442478.png]
 
 - [ ] the shop and the website icons are not viisble on dark modep ls fix the shop and the website icons are not viisble on dark modep ls fix [attachment: .autodev/messages/attachments/20260414_145827_63638b06/paste-1776171503500.png]
