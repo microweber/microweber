@@ -165,14 +165,14 @@ body {
     @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
 }
 
-.mw-live-edit-sidebar-tabs-wrapper {
-    @apply !bg-white dark:!bg-gray-800;
-    border-inline-end: 1px solid #e5e7eb;
-    box-shadow: none;
+.mw-live-edit-right-sidebar-template-sidebar {
+    background-color: #fff !important;
+    border-inline-start: 1px solid #e5e7eb;
 }
 
-.dark .mw-live-edit-sidebar-tabs-wrapper {
-    border-inline-end-color: #374151;
+.dark .mw-live-edit-right-sidebar-template-sidebar {
+    background-color: rgb(31 41 55) !important;
+    border-inline-start-color: #374151;
 }
 
 
