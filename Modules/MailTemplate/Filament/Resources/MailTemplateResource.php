@@ -29,7 +29,14 @@ class MailTemplateResource extends Resource
 
      protected static string | \UnitEnum | null $navigationGroup = 'Email Settings';
 
+    protected static string $description = 'Manage email notification templates';
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     public static function getGloballySearchableAttributes(): array
     {

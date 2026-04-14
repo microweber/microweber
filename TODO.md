@@ -49,6 +49,8 @@
 
 - [x] 2026-04-14  no now the biteri s on the button but we want ti to be o nthe text and the border now is movibne ght no now the biteri s on the button but we want ti to be o nthe text and the border now is movibne ghte box we maybe can sue undeline jsut make it aigned as now [attachment: .autodev/messages/attachments/20260414_143646_164f32a2/paste-1776170203122.png]
 
-- [ ] in the settings page some modules does not have desctpriopns, pls add the missing desctions
+- [x] 2026-04-14  in the settings page some modules does not have desctpriopns, pls add the missing desctions
 
 - [ ] i canf filed some modules like the lifes and the faqs in the global seach but i can find other modul
+
+- [ ] the modules icons are not visible in dark mode the modules icons are not visible in dark mode [attachment: .autodev/messages/attachments/20260414_144356_dec61826/paste-1776170633122.png]

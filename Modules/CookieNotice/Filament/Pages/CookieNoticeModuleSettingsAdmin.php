@@ -18,6 +18,7 @@ class CookieNoticeModuleSettingsAdmin extends AdminSettingsPage
     protected string $view = 'modules.settings::filament.admin.pages.settings-form';
     protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
     protected static ?string $title = 'Cookie Notice';
+    protected static string $description = 'Configure your cookie consent notice';
     protected static string | null $navigationLabel = 'Cookie Notice';
     protected static ?int $navigationSort = 11;
 

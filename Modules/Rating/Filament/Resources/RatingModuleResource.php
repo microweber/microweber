@@ -23,7 +23,14 @@ class RatingModuleResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
+    protected static string $description = 'Manage user ratings and reviews';
+
     protected static ?int $navigationSort = 100;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     protected static bool $shouldRegisterNavigation = false;
 

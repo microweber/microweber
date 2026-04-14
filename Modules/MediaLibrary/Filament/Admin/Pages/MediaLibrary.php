@@ -25,6 +25,13 @@ class MediaLibrary extends Page
 
     protected static ?string $title = 'Media Library';
 
+    protected static string $description = 'Browse and manage uploaded media files';
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
+
     protected string $view = 'modules.media_library::filament.admin.pages.media-library-page';
 
     // --- View state ---

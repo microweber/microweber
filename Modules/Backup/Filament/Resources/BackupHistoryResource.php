@@ -20,7 +20,14 @@ class BackupHistoryResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
+    protected static string $description = 'View and manage backup history';
+
     protected static ?int $navigationSort = 11;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     public static function getGloballySearchableAttributes(): array
     {

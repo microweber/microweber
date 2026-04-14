@@ -22,7 +22,14 @@ class ModuleDependencyResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Customization Settings';
 
+    protected static string $description = 'Manage module dependency relationships';
+
     protected static ?string $label = 'Module Dependencies';
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     protected static ?int $navigationSort = 121;
 

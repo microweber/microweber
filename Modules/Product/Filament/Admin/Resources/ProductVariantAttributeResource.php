@@ -34,7 +34,14 @@ class ProductVariantAttributeResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
+    protected static string $description = 'Configure product variant attributes';
+
     protected static ?int $navigationSort = 5;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     protected static ?string $label = 'Variant Attribute';
 

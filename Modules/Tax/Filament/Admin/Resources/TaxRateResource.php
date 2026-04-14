@@ -26,7 +26,13 @@ class TaxRateResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-receipt-percent';
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
+    protected static string $description = 'Manage tax rates by region';
     protected static ?string $modelLabel = 'Tax Rate';
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
     protected static ?string $navigationLabel = 'Tax Rates';
     protected static ?int $navigationSort = 8;
 

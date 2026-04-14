@@ -19,7 +19,13 @@ class CommentResource extends Resource
 protected static ?string $model = Comment::class;
 protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
+protected static string $description = 'Manage and moderate user comments';
 protected static ?string $recordTitleAttribute = 'comment_subject';
+
+public static function getDescription(): string
+{
+    return static::$description;
+}
 protected static bool $shouldRegisterNavigation = false;
 
 public static function getEloquentQuery(): Builder

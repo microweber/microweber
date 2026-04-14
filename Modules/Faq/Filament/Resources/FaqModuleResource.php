@@ -26,7 +26,14 @@ class FaqModuleResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Website Settings';
 
+    protected static string $description = 'Manage frequently asked questions';
+
     protected static ?int $navigationSort = 100;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     protected static bool $shouldRegisterNavigation = false;
 

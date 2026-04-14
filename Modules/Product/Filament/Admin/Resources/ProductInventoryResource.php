@@ -34,7 +34,14 @@ class ProductInventoryResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Shop Settings';
 
+    protected static string $description = 'Track product inventory movements';
+
     protected static ?int $navigationSort = 10;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     protected static ?string $model = ProductInventoryMovement::class;
     protected static ?string $recordTitleAttribute = 'notes';

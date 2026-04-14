@@ -20,7 +20,14 @@ class BackupScheduleResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
+    protected static string $description = 'Configure automated backup schedules';
+
     protected static ?int $navigationSort = 10;
+
+    public static function getDescription(): string
+    {
+        return static::$description;
+    }
 
     public static function getGloballySearchableAttributes(): array
     {
