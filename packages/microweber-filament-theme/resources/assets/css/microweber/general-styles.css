@@ -131,12 +131,28 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
 
 .mw-live-edit-resolutions-wrapper,
 .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 dark:!bg-gray-700   dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+    @apply rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+    background-color: #f3f4f6 !important;
+    color: inherit;
+}
+
+.dark .mw-live-edit-resolutions-wrapper,
+.dark .mw-live-edit-right-sidebar-wrapper {
+    background-color: rgb(55 65 81) !important;
+    color: #fff;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 dark:text-white dark:bg-gray-700  text-gray-600 dark:text-white shadow-none border-none;
+    @apply rounded !p-1.5 shadow-none border-none;
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    background-color: rgb(55 65 81);
+    color: #fff;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
@@ -144,12 +160,37 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
 .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
     .mw-admin-action-links:hover,
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus,
-.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus {
+    background-color: #fff !important;
+    border: none;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+    .mw-admin-action-links:hover,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus {
+    background-color: rgb(31 41 55) !important;
+    color: #fff;
+}
+
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
+    background-color: #fff !important;
+    color: #111827 !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+    border: none;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+    background-color: rgb(31 41 55) !important;
+    color: #fff !important;
 }
 
 .mw-live-edit-resolutions-wrapper svg,

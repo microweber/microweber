@@ -15,3 +15,6 @@
 
 - [x] 2026-04-14  now when i open the background module settings there is some color for the bg it must be white
 [attachment: .autodev/messages/attachments/20260414_104924_114e7474/paste-1776156537116.png]
+
+- [x] 2026-04-14  ok but fix the active button colors and the top margin
+[attachment: .autodev/messages/attachments/20260414_111403_3afcab42/paste-1776158040702.png]

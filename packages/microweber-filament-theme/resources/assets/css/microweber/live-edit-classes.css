@@ -879,8 +879,12 @@ div:focus-visible {
 }
 
 .mw-live-edit-page-wrapper {
-    @apply !min-h-full;
+    @apply !min-h-full !pt-0;
     background-color: #fff !important;
+}
+
+.mw-live-edit-module-settings-iframe.mw-live-edit-page-wrapper {
+    @apply !p-2 !pt-0;
 }
 
 .dark .mw-live-edit-page-wrapper {
