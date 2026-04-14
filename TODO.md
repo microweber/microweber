@@ -42,3 +42,5 @@
 - [x] 2026-04-14  add even more spacing on the settings catds and make hteyt txt a bit bigger add even more spacing on the settings catds and make hteyt txt a bit bigger [attachment: .autodev/messages/attachments/20260414_140338_b53c2b12/paste-1776168214612.png]
 
 - [x] 2026-04-14  add shotcuit to th e mnu module in the seggins
+
+- [x] 2026-04-14  the unterline on the active sidebar item is too close to the text, it msut be alignt with hte icon the unterline on the active sidebar item is too close to the text, it msut be alignt with hte icon [attachment: .autodev/messages/attachments/20260414_143018_d68b5471/paste-1776169811911.png]
