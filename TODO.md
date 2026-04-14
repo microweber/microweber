@@ -62,3 +62,5 @@
 - [x] 2026-04-14  the shop and the website icons are not viisble on dark modep ls fix the shop and the website icons are not viisble on dark modep ls fix [attachment: .autodev/messages/attachments/20260414_145827_63638b06/paste-1776171503500.png]
 
 - [x] 2026-04-14  ko all works now the oadfgi here is not ehe same as the gaddding in the chebkco x uthe this skill ht ko all works now the oadfgi here is not ehe same as the gaddding in the chebkco x uthe this skill https://agents.tools.ooyes.net/skills/golden-ratio-spacing/ na makke todo lsit to fox all ratios im admin [attachment: .autodev/messages/attachments/20260414_185705_6438c1bc/paste-1776185473701.png]
+
+- [x] 2026-04-14  okay but now the golden ratio is used on scars e items it must be used everywhere make a plan and im
