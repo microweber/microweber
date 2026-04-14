@@ -1,17 +1,17 @@
 {
     "private": true,
     "type": "module",
-"scripts": {
-    "build": "node run-build.js",
-    "dev": "node run-dev.js",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "security:audit": "npm audit --audit-level=moderate",
-    "security:audit-json": "npm audit --json > npm-security-audit.json || true",
-    "security:fix": "npm audit fix",
-    "security:check": "npm run security:audit"
-  },
+    "scripts": {
+        "build": "node run-build.js",
+        "dev": "node run-dev.js",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
+        "docs:preview": "vitepress preview docs",
+        "security:audit": "npm audit --audit-level=moderate",
+        "security:audit-json": "npm audit --json > npm-security-audit.json || true",
+        "security:fix": "npm audit fix",
+        "security:check": "npm run security:audit"
+    },
     "dependencies": {
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/container-queries": "^0.1.1",
@@ -19,24 +19,25 @@
         "@tailwindcss/typography": "^0.5.13",
         "@vitejs/plugin-vue": "^5.1.4",
         "mix-tailwindcss": "^1.3.0",
-        "postcss-nesting": "^13.0.0"
+        "postcss-nesting": "^13.0.0",
+        "webpack-cli": "^4.10.0"
     },
-"devDependencies": {
-    "autoprefixer": "^10.4.27",
-    "gulp": "^5.0.0",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^4.2.1",
-    "vitepress": "^1.6.4",
-    "webpack": "^5.105.4",
-    "y18n": "^5.0.8"
-  },
-  "overrides": {
-    "esbuild": "^0.25.0",
-    "vite": "^6.1.0",
-    "elliptic": "^6.6.1",
-    "browserify-sign": "^4.2.5",
-    "create-ecdh": "^4.0.4",
-    "crypto-browserify": "^3.12.1",
-    "node-libs-browser": "^2.2.1"
-  }
+    "devDependencies": {
+        "autoprefixer": "^10.4.27",
+        "gulp": "^5.0.0",
+        "postcss": "^8.5.8",
+        "tailwindcss": "^4.2.1",
+        "vitepress": "^1.6.4",
+        "webpack": "^5.106.1",
+        "y18n": "^5.0.8"
+    },
+    "overrides": {
+        "esbuild": "^0.25.0",
+        "vite": "^6.1.0",
+        "elliptic": "^6.6.1",
+        "browserify-sign": "^4.2.5",
+        "create-ecdh": "^4.0.4",
+        "crypto-browserify": "^3.12.1",
+        "node-libs-browser": "^2.2.1"
+    }
 }

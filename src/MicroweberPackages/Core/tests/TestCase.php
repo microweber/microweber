@@ -25,15 +25,15 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     protected function setUp(): void
     {
         ini_set('memory_limit', '4096M');
+        ini_set('max_execution_time', '3000');
         parent::setUp();
 
-        // Force array cache driver to prevent TaggableFileStore from
-        // accumulating data in static::$flushedTags causing OOM
-        Config::set('cache.default', 'array');
     }
 
     protected function setUpTheTestEnvironment(): void
     {
+
+
         parent::setUpTheTestEnvironment();
         $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
         if (!defined('MW_UNIT_TEST')) {
@@ -61,8 +61,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     public function install()
     {
-        ini_set('memory_limit', '4096M');
-        ini_set('max_execution_time', '3000');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -167,10 +165,15 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
 
-            Config::set('mail.driver', 'array');
-            Config::set('queue.driver', 'sync');
-            Config::set('mail.transport', 'array');
-            Config::set('cache.default', 'array');
+            // Persist to the env repository so setUpTheTestEnvironment() and
+            // assertPreConditions() see MW_IS_INSTALLED=1 in all subsequent tests
+            // without re-running the installer.
+            \Illuminate\Support\Env::getRepository()->set('MW_IS_INSTALLED', '1');
+
+//            Config::set('mail.driver', 'array');
+//            Config::set('queue.driver', 'sync');
+//            Config::set('mail.transport', 'array');
+//            Config::set('cache.default', 'array');
         }
 
         return $app;
@@ -270,15 +273,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function tearDown(): void
     {
-        // Clear TaggableFileStore static accumulator before app destruction
-        if (class_exists(\MicroweberPackages\Cache\TaggableFileStore::class, false)) {
-            try {
-                $ref = new \ReflectionProperty(\MicroweberPackages\Cache\TaggableFileStore::class, 'flushedTags');
-                $ref->setValue(null, []);
-            } catch (\Throwable $e) {
-                // Ignore
-            }
-        }
 
         $this->template_name = '';
 
