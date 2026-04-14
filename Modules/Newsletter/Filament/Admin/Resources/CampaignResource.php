@@ -150,30 +150,51 @@ class CampaignResource extends Resource
             ->poll('10s')
             ->modifyQueryUsing(fn ($query) => $query->with('list'))
             ->columns([
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('subject')->searchable()->toggleable(),
-                TextColumn::make('list.name'),
+                TextColumn::make('mobile_summary')
+                    ->label('Campaign')
+                    ->state(fn (NewsletterCampaign $record): string => $record->name)
+                    ->searchable(['name', 'subject'])
+                    ->description(function (NewsletterCampaign $record): string {
+                        return collect([
+                            $record->subject,
+                            $record->list?->name ? 'List: ' . $record->list->name : null,
+                        ])->filter()->implode(' • ');
+                    })
+                    ->hiddenFrom('md'),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->visibleFrom('md'),
+                TextColumn::make('subject')
+                    ->searchable()
+                    ->toggleable()
+                    ->visibleFrom('md'),
+                TextColumn::make('list.name')
+                    ->visibleFrom('sm'),
                 TextColumn::make('subscribers')
                     ->color(function () {
                         return 'gray';
                     })
-                    ->alignCenter(),
+                    ->alignCenter()
+                    ->visibleFrom('md'),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
                 TextColumn::make('opened')
                     ->alignCenter()
                     ->color(function () {
                         return 'success';
-                    }),
+                    })
+                    ->visibleFrom('md'),
                 TextColumn::make('clicked')
                     ->alignCenter()
                     ->color(function () {
                         return 'info';
-                    }),
+                    })
+                    ->visibleFrom('md'),
                 Tables\Columns\ViewColumn::make('status')->alignCenter()
                     ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
 
                 TextColumn::make('status_log')
+                    ->visibleFrom('lg'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

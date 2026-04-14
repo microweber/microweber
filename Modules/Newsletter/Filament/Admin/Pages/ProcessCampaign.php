@@ -25,7 +25,8 @@ class ProcessCampaign extends Page
     {
         return [
             route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
-            '' => 'Processing: ' . ($this->campaign?->name ?? 'Campaign'),
+            $this->campaign?->name ?? 'Campaign',
+            'Processing',
         ];
     }
 

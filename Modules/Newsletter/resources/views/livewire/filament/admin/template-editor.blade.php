@@ -8,8 +8,32 @@
     main {
         padding:0 !important;
     }
+    .newsletter-template-editor-shell {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .newsletter-template-editor-breadcrumbs {
+        border-bottom: 1px solid rgba(229, 231, 235, 1);
+        background: rgba(255, 255, 255, 0.96);
+        padding: 0.75rem 1rem;
+    }
+    .dark .newsletter-template-editor-breadcrumbs {
+        border-bottom-color: rgba(31, 41, 55, 1);
+        background: rgba(3, 7, 18, 0.96);
+    }
+    .newsletter-template-editor-mobile-note {
+        border-bottom: 1px solid rgba(229, 231, 235, 1);
+        background: rgba(249, 250, 251, 0.98);
+        padding: 0.875rem 1rem;
+    }
+    .dark .newsletter-template-editor-mobile-note {
+        border-bottom-color: rgba(31, 41, 55, 1);
+        background: rgba(17, 24, 39, 0.98);
+    }
     #root {
-        height: 100vh;
+        flex: 1 1 auto;
+        min-height: 0;
         width: 100%;
     }
 </style>
@@ -112,7 +136,18 @@
     });
 </script>
 
-<div id="root"></div>
+<div class="newsletter-template-editor-shell">
+    <div class="newsletter-template-editor-breadcrumbs" data-testid="newsletter-template-editor-breadcrumbs">
+        <x-filament::breadcrumbs :breadcrumbs="$this->getBreadcrumbs()" />
+    </div>
+
+    <div class="newsletter-template-editor-mobile-note lg:hidden" data-testid="newsletter-template-editor-mobile-note">
+        <p class="text-sm font-medium text-gray-900 dark:text-white">The email designer works best on a larger screen.</p>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">On mobile you can review the current design, but for full drag-and-drop editing please switch to desktop or tablet.</p>
+    </div>
+
+    <div id="root"></div>
+</div>
 
 </div>
 </div>

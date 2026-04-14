@@ -22,9 +22,9 @@ use CanBeLazy;
 
     protected static ?int $sort = 0;
 
-    protected function getColumns(): int
+    protected function getColumns(): int | array
     {
-        return 2;
+        return ['@xl' => 2, '!@lg' => 1];
     }
 
     private function getSubscribersChart($datesArray)

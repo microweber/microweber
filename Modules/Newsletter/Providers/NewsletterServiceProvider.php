@@ -23,6 +23,7 @@ use Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use Modules\Newsletter\Console\Commands\ProcessCampaignsPerformanceTest;
 use Modules\Newsletter\Console\Commands\ProcessAbandonedCarts;
 use Modules\Newsletter\Console\Commands\ProcessAutomationQueue;
+use Modules\Newsletter\Console\Commands\SeedDemoData;
 use Modules\Newsletter\Listeners\NewsletterAutomationSubscriber;
 class NewsletterServiceProvider extends BaseModuleServiceProvider
 {
@@ -79,6 +80,7 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
         $this->commands(ProcessCampaigns::class);
         $this->commands(ProcessAbandonedCarts::class);
         $this->commands(ProcessAutomationQueue::class);
+        $this->commands(SeedDemoData::class);
 
         // Register event subscriber for automated campaigns
         Event::subscribe(NewsletterAutomationSubscriber::class);

@@ -50,7 +50,7 @@ class CreateCampaign extends Page
     {
         return [
             route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
-            '' => 'Create Campaign',
+            'Create Campaign',
         ];
     }
 

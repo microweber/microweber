@@ -9,7 +9,7 @@
 </head>
 <body>
     <div>
-        @livewire('newsletter-unsubscribe-page')
+        @livewire('newsletter-unsubscribe-page', ['email' => request()->query('email')])
     </div>
     @livewireScripts
 </body>

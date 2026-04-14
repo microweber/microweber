@@ -21,6 +21,13 @@ class Homepage extends BaseDashboard
 
 //    protected static bool $shouldRegisterNavigation = false;
 
+    public function getBreadcrumbs(): array
+    {
+        return [
+            'Dashboard',
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [

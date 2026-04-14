@@ -22,6 +22,11 @@ use CanBeLazy;
 
     protected static ?int $sort = 0;
 
+    protected function getColumns(): int | array | null
+    {
+        return ['@xl' => 3, '!@lg' => 1];
+    }
+
     private function getEmailsSentChart($datesArray)
     {
         $emailsSentCount = NewsletterCampaignsSendLog::count();

@@ -16,6 +16,7 @@ use Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
+use Modules\Newsletter\Filament\Admin\Resources\WorkflowResource;
 use Modules\Newsletter\Filament\Widgets\CampaignsChart;
 use Modules\Newsletter\Filament\Widgets\MailsOverviewWidget;
 use Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
@@ -64,7 +65,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 SubscribersResource::class,
                 TemplatesResource::class,
                 CampaignResource::class,
-                ListResource::class
+                ListResource::class,
+                WorkflowResource::class,
             ])
             ->widgets([
                 StatsOverviewWidget::class,

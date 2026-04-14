@@ -1,36 +1,63 @@
-<div class="flex flex-col justify-center items-center text-center">
+<div class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-4 py-10 text-center sm:px-6">
+    <div class="rounded-xl bg-gray-50 text-left shadow-sm sm:rounded-2xl">
+        <div class="px-6 py-8 sm:px-8">
+            <h1 class="text-2xl font-semibold text-gray-900">
+                Unsubscribe from our newsletter
+            </h1>
 
-    <form class="text-left w-[50rem] mt-8">
-
-        <div class="bg-gray-50 sm:rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Unsubscribe from our newsletter
-                </h3>
-                <div class="mt-2 max-w-xl text-sm text-gray-500">
-                    <p>
-                        You are about to unsubscribe from our newsletter. Are you sure you want to do this?
-                    </p>
+            @if ($pageState === \Modules\Newsletter\Livewire\UnsubscribePage::STATE_CONFIRM)
+                <div class="mt-3 space-y-2 text-sm text-gray-600">
+                    <p>You are about to unsubscribe <span class="font-medium text-gray-900">{{ $email }}</span> from future newsletter emails.</p>
+                    @if ($subscriberName)
+                        <p>Subscriber: <span class="font-medium text-gray-900">{{ $subscriberName }}</span></p>
+                    @endif
+                    <p>Are you sure you want to continue?</p>
                 </div>
-                <div class="mt-5">
 
-                    <a href="{{site_url()}}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <a href="{{ site_url() }}" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-100">
                         Cancel
                     </a>
 
-                    <button wire:click="unsubscribe" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm font-medium rounded-md text-white bg-gray-900 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 sm:text-sm">
-                        <div wire:target="unsubscribe" wire:loading.remove>
-                            Unsubscribe
-                        </div>
-                        <div wire:target="unsubscribe" wire:loading>
-                        Unsubscribing...
-                        </div>
+                    <button wire:click="unsubscribe" type="button" class="inline-flex items-center justify-center rounded-md border border-gray-900 bg-gray-900 px-4 py-2 font-medium text-white hover:bg-gray-800">
+                        <span wire:target="unsubscribe" wire:loading.remove>Unsubscribe</span>
+                        <span wire:target="unsubscribe" wire:loading>Unsubscribing...</span>
                     </button>
-
                 </div>
-            </div>
+            @elseif ($pageState === \Modules\Newsletter\Livewire\UnsubscribePage::STATE_SUCCESS)
+                <div class="mt-3 space-y-2 text-sm text-gray-600">
+                    <p>You have been unsubscribed successfully.</p>
+                    <p><span class="font-medium text-gray-900">{{ $email }}</span> will no longer receive newsletter messages.</p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="{{ site_url() }}" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-100">
+                        Return to site
+                    </a>
+                </div>
+            @elseif ($pageState === \Modules\Newsletter\Livewire\UnsubscribePage::STATE_ALREADY_UNSUBSCRIBED)
+                <div class="mt-3 space-y-2 text-sm text-gray-600">
+                    <p>This email address is already unsubscribed.</p>
+                    <p><span class="font-medium text-gray-900">{{ $email }}</span> is not receiving newsletter messages.</p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="{{ site_url() }}" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-100">
+                        Return to site
+                    </a>
+                </div>
+            @else
+                <div class="mt-3 space-y-2 text-sm text-gray-600">
+                    <p>This unsubscribe link is invalid or has expired.</p>
+                    <p>Please use the latest unsubscribe link from one of our emails.</p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="{{ site_url() }}" class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-100">
+                        Return to site
+                    </a>
+                </div>
+            @endif
         </div>
-
-    </form>
-
+    </div>
 </div>

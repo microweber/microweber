@@ -2,15 +2,18 @@
 
 namespace Modules\Newsletter\Livewire\Admin;
 
-use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterList;
@@ -18,15 +21,16 @@ use Modules\Newsletter\Models\NewsletterTemplate;
 use Modules\Newsletter\Models\Workflow;
 use Modules\Newsletter\Models\WorkflowNode;
 
-class WorkflowBuilder extends Component implements \Filament\Schemas\Components\Forms\Interfaces\HasForms
+class WorkflowBuilder extends Component implements HasForms
 {
-    use \Filament\Schemas\Components\Forms\Concerns\InteractsWithForms;
+    use InteractsWithForms;
 
     public Workflow $workflow;
     public array $nodes = [];
     public array $connections = [];
     public ?string $selectedNodeId = null;
     public bool $showNodePanel = false;
+    public ?string $connectionTargetId = null;
 
     // Node configuration form
     public array $nodeConfig = [];
@@ -48,6 +52,8 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
 
     public function loadNodes(): void
     {
+        $this->workflow->load('nodes');
+
         $this->nodes = $this->workflow->nodes->map(function ($node) {
             return [
                 'id' => $node->node_id,
@@ -81,6 +87,7 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
     {
         $this->selectedNodeId = $nodeId;
         $this->showNodePanel = true;
+        $this->connectionTargetId = null;
 
         // Find the node
         $node = collect($this->nodes)->firstWhere('id', $nodeId);
@@ -100,11 +107,90 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
         $this->showNodePanel = false;
         $this->selectedNodeId = null;
         $this->nodeConfig = [];
+        $this->connectionTargetId = null;
+    }
+
+    public function addNode(string $type, string $key): void
+    {
+        $definition = $this->getNodeDefinition($type, $key);
+
+        if (! $definition) {
+            $this->notify('danger', 'Unable to add the selected node.');
+
+            return;
+        }
+
+        $nodeIndex = count($this->nodes);
+        $nodeId = 'node_' . Str::ulid();
+
+        $this->handleNodeAdded([
+            'id' => $nodeId,
+            'type' => $type,
+            'key' => $key,
+            'name' => $definition['label'],
+            'description' => $definition['description'],
+            'x' => 80 + (($nodeIndex % 2) * 260),
+            'y' => 80 + (intdiv($nodeIndex, 2) * 160),
+        ]);
+
+        $this->selectNode($nodeId);
+    }
+
+    public function deleteNode(string $nodeId): void
+    {
+        $this->handleNodeDeleted($nodeId);
+
+        if ($this->selectedNodeId === $nodeId) {
+            $this->closeNodePanel();
+        }
+
+        $this->notify('success', 'Node deleted successfully.');
+    }
+
+    public function createConnection(): void
+    {
+        if (! $this->selectedNodeId || ! $this->connectionTargetId) {
+            $this->notify('danger', 'Select a source node and a target node first.');
+
+            return;
+        }
+
+        if ($this->selectedNodeId === $this->connectionTargetId) {
+            $this->notify('danger', 'A node cannot connect to itself.');
+
+            return;
+        }
+
+        $existingConnection = collect($this->connections)->first(fn (array $connection): bool => $connection['source'] === $this->selectedNodeId
+            && $connection['target'] === $this->connectionTargetId);
+
+        if ($existingConnection) {
+            $this->notify('warning', 'This connection already exists.');
+
+            return;
+        }
+
+        $this->handleConnectionAdded([
+            'id' => 'conn_' . Str::ulid(),
+            'source' => $this->selectedNodeId,
+            'target' => $this->connectionTargetId,
+            'sourcePort' => 'default',
+        ]);
+
+        $this->connectionTargetId = null;
+        $this->notify('success', 'Connection added successfully.');
+    }
+
+    public function removeConnection(string $connectionId): void
+    {
+        $this->handleConnectionDeleted($connectionId);
+
+        $this->notify('success', 'Connection removed successfully.');
     }
 
     public function handleNodeAdded(array $data): void
     {
-        $node = WorkflowNode::create([
+        WorkflowNode::create([
             'workflow_id' => $this->workflow->id,
             'node_id' => $data['id'],
             'node_type' => $data['type'],
@@ -128,10 +214,7 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
             'y' => $data['y'] ?? 0,
         ];
 
-        $this->dispatch('notify', [
-            'type' => 'success',
-            'message' => 'Node added successfully',
-        ]);
+        $this->notify('success', 'Node added successfully.');
     }
 
     public function handleNodeUpdated(array $data): void
@@ -159,6 +242,23 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
 
     public function handleNodeDeleted(string $nodeId): void
     {
+        foreach ($this->workflow->nodes()->where('node_id', '!=', $nodeId)->get() as $workflowNode) {
+            if (! $workflowNode->connections) {
+                continue;
+            }
+
+            $connections = collect($workflowNode->connections)
+                ->reject(fn (array $connection): bool => ($connection['target'] ?? null) === $nodeId)
+                ->values()
+                ->toArray();
+
+            if (count($connections) !== count($workflowNode->connections)) {
+                $workflowNode->update([
+                    'connections' => $connections,
+                ]);
+            }
+        }
+
         WorkflowNode::where('node_id', $nodeId)
             ->where('workflow_id', $this->workflow->id)
             ->delete();
@@ -203,7 +303,7 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
     public function handleConnectionDeleted(string $connectionId): void
     {
         // Find and remove the connection from nodes
-        foreach ($this->workflow->nodes as $node) {
+        foreach ($this->workflow->nodes()->get() as $node) {
             if ($node->connections) {
                 $connections = collect($node->connections)
                     ->reject(fn ($c) => ($c['id'] ?? '') === $connectionId)
@@ -236,15 +336,14 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
                 ]);
         }
 
-        $this->dispatch('notify', [
-            'type' => 'success',
-            'message' => 'Workflow saved successfully',
-        ]);
+        $this->notify('success', 'Workflow saved successfully.');
     }
 
     public function updateNodeConfig(): void
     {
-        if (!$this->selectedNodeId) {
+        if (! $this->selectedNodeId) {
+            $this->notify('danger', 'Select a node before updating its configuration.');
+
             return;
         }
 
@@ -270,10 +369,7 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
             }
         }
 
-        $this->dispatch('notify', [
-            'type' => 'success',
-            'message' => 'Node configuration updated',
-        ]);
+        $this->notify('success', 'Node configuration updated.');
     }
 
     public function getAvailableNodeTypesProperty(): array
@@ -503,6 +599,35 @@ class WorkflowBuilder extends Component implements \Filament\Schemas\Components\
             ]);
 
         return $schema;
+    }
+
+    protected function getNodeDefinition(string $type, string $key): ?array
+    {
+        $typeDefinition = $this->availableNodeTypes[$type] ?? null;
+
+        if (! $typeDefinition) {
+            return null;
+        }
+
+        $nodeDefinition = collect($typeDefinition['nodes'] ?? [])
+            ->first(fn (array $node): bool => $node['key'] === $key);
+
+        if (! $nodeDefinition) {
+            return null;
+        }
+
+        return [
+            'label' => $nodeDefinition['label'],
+            'description' => $nodeDefinition['description'] ?? null,
+        ];
+    }
+
+    protected function notify(string $type, string $message): void
+    {
+        $this->dispatch('notify', [
+            'type' => $type,
+            'message' => $message,
+        ]);
     }
 
     public function render()

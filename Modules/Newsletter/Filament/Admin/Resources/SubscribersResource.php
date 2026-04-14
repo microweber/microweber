@@ -102,10 +102,21 @@ class SubscribersResource extends Resource
             ->modifyQueryUsing(fn ($query) => $query->with('lists'))
             ->columns([
 
-                    Tables\Columns\TextColumn::make('name')
-                        ->searchable()
+                    Tables\Columns\TextColumn::make('mobile_identity')
+                        ->label('Subscriber')
+                        ->state(fn (NewsletterSubscriber $record): string => $record->name ?: $record->email)
+                        ->searchable(['name', 'email'])
                         ->sortable()
                         ->weight('medium')
+                        ->description(fn (NewsletterSubscriber $record): ?string => $record->email)
+                        ->hiddenFrom('md')
+                        ->alignLeft(),
+
+                    Tables\Columns\TextColumn::make('name')
+                        ->searchable(['name', 'email'])
+                        ->sortable()
+                        ->weight('medium')
+                        ->visibleFrom('md')
                         ->alignLeft(),
 
                     Tables\Columns\TextColumn::make('email')
@@ -113,13 +124,15 @@ class SubscribersResource extends Resource
                         ->searchable()
                         ->sortable()
                         ->color('gray')
+                        ->visibleFrom('md')
                         ->alignLeft(),
 
                     Tables\Columns\TextColumn::make('lists.name')
                         ->label('Lists')
                         ->listWithLineBreaks()
                         ->limitList(2)
-                        ->expandableLimitedList(),
+                        ->expandableLimitedList()
+                        ->visibleFrom('md'),
 
                     Tables\Columns\TextColumn::make('status')
                         ->label('Status')

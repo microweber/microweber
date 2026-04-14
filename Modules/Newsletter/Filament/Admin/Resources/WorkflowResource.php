@@ -143,9 +143,10 @@ class WorkflowResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->actions([
                 Action::make('build')
-                    ->label('Build')
+                    ->label('Builder')
                     ->icon('heroicon-o-pencil-square')
-                    ->url(fn (Workflow $record): string => route('filament.admin-newsletter.pages.edit-workflow', ['record' => $record->id])),
+                    ->color('primary')
+                    ->url(fn (Workflow $record): string => static::getUrl('edit', ['record' => $record])),
 
                 Action::make('execute')
                     ->label('Run Now')

@@ -85,7 +85,8 @@ class EditCampaign extends Page
     {
         return [
             route('filament.admin-newsletter.resources.campaigns.index') => 'Campaigns',
-            '' => $this->model?->name ?? 'Edit Campaign',
+            $this->model?->name ?? 'Campaign',
+            'Edit',
         ];
     }
 
@@ -197,7 +198,7 @@ class EditCampaign extends Page
         if ($getSenderAccounts) {
             foreach ($getSenderAccounts as $senderAccount) {
                 $senderOptions[$senderAccount->id] = $senderAccount->from_name;
-                $senderIcons[$senderAccount->id] = $senderIconsProviders[$senderAccount->account_type];
+                $senderIcons[$senderAccount->id] = $senderIconsProviders[$senderAccount->account_type] ?? 'newsletter-smtp';
                 $senderDescriptions[$senderAccount->id] = $senderAccount->from_email;
             }
         }
@@ -440,7 +441,7 @@ class EditCampaign extends Page
                                     }
                                     return false;
                                 })
-                                ->setCampaignId($this->state['id']),
+                                ->setCampaignId($this->state['id'] ?? $this->model?->id),
                         ]),
 
                     Wizard\Step::make('Schedule')
