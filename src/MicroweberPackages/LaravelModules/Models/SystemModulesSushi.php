@@ -70,11 +70,16 @@ class SystemModulesSushi extends Model
         $rows = [];
 
         foreach ($modules as $module) {
+            $description = $module->getDescription();
+            if (empty($description)) {
+                // Generate readable description from CamelCase module name
+                $description = preg_replace('/([a-z])([A-Z])/', '$1 $2', $module->getName());
+            }
             $rows[] = [
                 'id' => crc32($module->getName()),
                 'name' => $module->getName(),
                 'alias' => $module->getLowerName(),
-                'description' => $module->getDescription(),
+                'description' => $description,
                 'path' => $module->getPath(),
                 'version' => $module->get('version', 'dev'),
                 'type' => $module->get('type', '1'),

@@ -51,6 +51,12 @@
 
 - [x] 2026-04-14  in the settings page some modules does not have desctpriopns, pls add the missing desctions
 
-- [ ] i canf filed some modules like the lifes and the faqs in the global seach but i can find other modul
+- [x] 2026-04-14  i canf filed some modules like the lifes and the faqs in the global seach but i can find other modul
 
 - [ ] the modules icons are not visible in dark mode the modules icons are not visible in dark mode [attachment: .autodev/messages/attachments/20260414_144356_dec61826/paste-1776170633122.png]
+
+- [ ] checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left checkbx paddig in tablems is not even, the spacing hosudl be the same on the right and the left [attachment: .autodev/messages/attachments/20260414_145051_504bff30/paste-1776171047789.png]
+
+- [ ] on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left on all tables the spacng is not contect fot the checkbox  ir must be the same on right and left [attachment: .autodev/messages/attachments/20260414_145733_2a1bd31d/paste-1776171442478.png]
+
+- [ ] the shop and the website icons are not viisble on dark modep ls fix the shop and the website icons are not viisble on dark modep ls fix [attachment: .autodev/messages/attachments/20260414_145827_63638b06/paste-1776171503500.png]

@@ -124,7 +124,7 @@ class ModuleResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name','description'];
+        return ['name', 'alias', 'description'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
