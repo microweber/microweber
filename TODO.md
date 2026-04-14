@@ -44,3 +44,5 @@
 - [x] 2026-04-14  add shotcuit to th e mnu module in the seggins
 
 - [x] 2026-04-14  the unterline on the active sidebar item is too close to the text, it msut be alignt with hte icon the unterline on the active sidebar item is too close to the text, it msut be alignt with hte icon [attachment: .autodev/messages/attachments/20260414_143018_d68b5471/paste-1776169811911.png]
+
+- [x] 2026-04-14  now hteu ndeline is on the full button ib mus be obly in the text now hteu ndeline is on the full button ib mus be obly in the text [attachment: .autodev/messages/attachments/20260414_143236_94a2941b/paste-1776169954387.png]
