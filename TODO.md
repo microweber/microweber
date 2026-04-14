@@ -514,3 +514,6 @@ also checkn on dark mode, also the shoubly selelct driodown in the shipping on t
 
 - [x] 2026-04-14 **Live edit sidebar rail bar** — Stopped the generic `mw-admin-action-links` underline from rendering inside `mw-liveedit-button-animation-component` rail/action buttons, and styled that variant as a compact button so the stray horizontal bar no longer appears in the live edit sidebar.
 [attachment: .autodev/messages/attachments/20260414_094348_8db59529/paste-1776152607827.png]
+
+- [x] 2026-04-14 **Live edit sidebar white background** — Restored the sidebar rail surface by overriding `.mw-live-edit-sidebar-tabs-wrapper` to use the same white panel background as the open live edit sidebar, with a subtle divider so the narrow icon rail no longer shows the missing gray background.
+[attachment: .autodev/messages/attachments/20260414_095406_87b93d84/paste-1776153242977.png]

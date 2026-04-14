@@ -165,6 +165,16 @@ body {
     @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
 }
 
+.mw-live-edit-sidebar-tabs-wrapper {
+    @apply !bg-white dark:!bg-gray-800;
+    border-inline-end: 1px solid #e5e7eb;
+    box-shadow: none;
+}
+
+.dark .mw-live-edit-sidebar-tabs-wrapper {
+    border-inline-end-color: #374151;
+}
+
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons svg,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
