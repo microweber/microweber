@@ -22,3 +22,5 @@
 - [x] 2026-04-14  now in the background editor the image save is not working
 
 - [x] 2026-04-14  still not workign the save Error 403 - Forbidden - The api function is not defined in the allowed fu [attachment: .autodev/messages/attachments/20260414_121528_dde59a05/paste-1776161725557.png]
+
+- [x] 2026-04-14  ok but after save media the new image is not commign pls try to edi the image and see

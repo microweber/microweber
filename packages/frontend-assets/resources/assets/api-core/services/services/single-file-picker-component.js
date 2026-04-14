@@ -183,9 +183,9 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
 
     #eventsHandles = {
         edit: async (event, node, scope) => {
-            var src = await mw.top().app.editImageDialog.editImageUrl(this.file);
-            if(src) {
-                this.file = src;
+            var result = await mw.top().app.editImageDialog.editImageUrl(this.file);
+            if(result) {
+                this.file = result.src || result;
                 this.templatePrepare();
                 this.dispatch('change')
                 this.dispatch('edit')

@@ -187,9 +187,8 @@ export class LiveEditImageDialog extends BaseComponent {
                         sizeChanged,
                         sizeAdjustments: adjustmentsData
                     });
+                    dlg.remove();
                 })
-
-                dlg.remove();
 
             })
             $(dlg).on('remove', () => {
