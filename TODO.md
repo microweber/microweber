@@ -29,6 +29,6 @@
 
 - [x] 2026-04-14  run and fix the tests one by one
 
-- [ ] the spacinf on the checkboxs is not ok they must have the sape spasing on right and left the spacinf on the checkboxs is not ok they must have the sape spasing on right and left [attachment: .autodev/messages/attachments/20260414_132301_dd8bc28e/paste-1776165777000.png]
+- [x] 2026-04-14  the spacinf on the checkboxs is not ok they must have the sape spasing on right and left the spacinf on the checkboxs is not ok they must have the sape spasing on right and left [attachment: .autodev/messages/attachments/20260414_132301_dd8bc28e/paste-1776165777000.png]
 
-- [ ] remove the rounded cotnenrs from the tabs  and make theit title a bit bigger remove the rounded cotnenrs from the tabs  and make theit title a bit bigger [attachment: .autodev/messages/attachments/20260414_132620_a34da1e0/paste-1776165961734.png]
+- [x] 2026-04-14  remove the rounded cotnenrs from the tabs  and make theit title a bit bigger remove the rounded cotnenrs from the tabs  and make theit title a bit bigger [attachment: .autodev/messages/attachments/20260414_132620_a34da1e0/paste-1776165961734.png]

@@ -483,14 +483,14 @@ svg[wire\:loading\.remove] {
   letter-spacing: 0.4px !important;  // MW v2 exact
 }
 
-// Table checkbox column — add spacing so it doesn't stick to the next column
+// Table checkbox column — equal spacing on both sides
 // Must match Filament's :first-of-type/:last-of-type specificity
 .fi-ta-selection-cell,
 .fi-ta-selection-cell:first-of-type,
 .fi-ta-selection-cell:last-of-type {
   padding-inline-start: 12px !important;
-  padding-inline-end: 8px !important;
-  width: 42px !important;
+  padding-inline-end: 12px !important;
+  width: 48px !important;
 }
 
 // Custom fields table column widths
@@ -1125,9 +1125,9 @@ svg[wire\:loading\.remove] {
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
 // Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item)
 .fi-tabs .fi-tabs-item {
-  border-radius: $mw-radius-sm !important;
+  border-radius: 0 !important;
   font-weight: 500 !important;  // MW v2 inactive: 500
-  font-size: 14px !important;  // MW v2 exact: 14px
+  font-size: 15px !important;
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
   padding: 10px 14px !important;  // 10px vertical matches .fi-sidebar-item-btn padding
   margin-right: 4px !important;
@@ -1136,7 +1136,7 @@ svg[wire\:loading\.remove] {
   background-color: transparent !important;
 
   .fi-tabs-item-label {
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;  // MW v2 inactive: 500, override global.css 700
     color: inherit !important;
   }
@@ -1150,7 +1150,7 @@ svg[wire\:loading\.remove] {
     color: $mw-text-primary !important;
     font-weight: 600 !important;  // MW v2 active: 600
     background-color: #ffffff !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: none !important;
     border-bottom: 2px solid $mw-text-primary !important;
 
     .fi-tabs-item-label {
@@ -1875,7 +1875,6 @@ svg[wire\:loading\.remove] {
 .fi-breadcrumbs,
 .fi-ta-record a,
 .fi-ta-record button,
-.fi-tabs-item,
 .fi-pagination-items,
 .fi-ac-btn,
 .fi-dropdown-trigger button {
@@ -2542,7 +2541,7 @@ html.dark {
     &.fi-active {
       color: #e2e8f0 !important;
       background-color: rgba(255, 255, 255, 0.08) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      box-shadow: none !important;
       border-bottom: 2px solid #e2e8f0 !important;
     }
   }
