@@ -34,3 +34,11 @@
 - [x] 2026-04-14  remove the rounded cotnenrs from the tabs  and make theit title a bit bigger remove the rounded cotnenrs from the tabs  and make theit title a bit bigger [attachment: .autodev/messages/attachments/20260414_132620_a34da1e0/paste-1776165961734.png]
 
 - [x] 2026-04-14  now work on the millin module admin , boblulate the todo how to fix the billing module admin panel
+
+- [x] 2026-04-14  add hsotrcut to the newsleter nad the billing module i nthe admin setting page if they are isntalled
+
+- [ ] on widows the newslter module is not loading http://127.0.0.1:8000/admin/modules/newsletter
+
+- [ ] add even more spacing on the settings catds and make hteyt txt a bit bigger add even more spacing on the settings catds and make hteyt txt a bit bigger [attachment: .autodev/messages/attachments/20260414_140338_b53c2b12/paste-1776168214612.png]
+
+- [ ] add shotcuit to th e mnu module in the seggins

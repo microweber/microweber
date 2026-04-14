@@ -164,6 +164,31 @@ class Settings extends Page
 
         }
 
+        // Add shortcuts for modules that run as separate Filament panels
+        if (class_exists(\Modules\Newsletter\Providers\NewsletterFilamentAdminPanelProvider::class)) {
+            $settingsGroups['Email Settings'][] = [
+                'title' => 'Newsletter',
+                'description' => 'Manage email campaigns, subscribers and lists',
+                'heading' => 'Newsletter',
+                'slug' => 'newsletter',
+                'icon' => 'heroicon-o-megaphone',
+                'url' => admin_url('newsletter'),
+                'position' => 50,
+            ];
+        }
+
+        if (class_exists(\Modules\Billing\Providers\BillingFilamentAdminPanelProvider::class)) {
+            $settingsGroups['Shop Settings'][] = [
+                'title' => 'Billing',
+                'description' => 'Manage subscriptions, plans and billing',
+                'heading' => 'Billing',
+                'slug' => 'billing',
+                'icon' => 'heroicon-o-currency-dollar',
+                'url' => admin_url('billing'),
+                'position' => 50,
+            ];
+        }
+
         $topOrder = [
             'Website Settings',
             'Shop Settings',
