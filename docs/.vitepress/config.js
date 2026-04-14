@@ -1,55 +1,148 @@
-import {defineConfig} from 'vitepress'
-import { fileURLToPath, URL } from 'url'
-import path from 'path'
+import { defineConfig } from 'vitepress'
 
-// https://vitepress.dev/reference/site-co nfig
 export default defineConfig({
-    title: "Microweber",
-    lang: 'en-US',
-    description: "Microweber Docs",
-    markdown: {
-        lineNumbers: true
-    },
-    resolve: {
-        preserveSymlinks: true,
-        // alias: { 'Modules': fileURLToPath(new URL('./../README.md', import.meta.url))
-        //
-        // }
-
-    },
-    themeConfig: {
-        // https://vitepress.dev/reference/default-theme-config
-        nav: [
-            {text: 'Home', link: '/'},
-            {text: 'Examples', link: '/markdown-examples'},
-            {text: 'Modules', link: '/Modules'}
-        ],
-
-        sidebar: [
-            {
-                text: 'Examples',
-                items: [
-                    {text: 'Markdown Examples', link: '/markdown-examples'},
-                    {text: 'Runtime API Examples', link: '/api-examples'},
-                    {
-                        text: 'Create a module', link: '/module-create',
-                        items: [
-                            {text: 'Introduction', link: '/module-create'},
-                            {text: 'Getting Started', link: '/module-create'},
-                        ]
-                    }
-
-                ]
-            }
-        ],
-        editLink: {
-            pattern: ({ filePath }) => {
-                return `https://github.com/microweber/microweber/edit/main/docs/${filePath}`
-            }
-        },
-
-        socialLinks: [
-            {icon: 'github', link: 'https://github.com/microweber/microweber'}
-        ]
+  title: 'Microweber',
+  lang: 'en-US',
+  description: 'Documentation for Microweber CMS — drag-and-drop website builder with e-commerce',
+  markdown: {
+    lineNumbers: true
+  },
+  vite: {
+    css: {
+      postcss: {
+        plugins: []
+      }
     }
+  },
+  themeConfig: {
+    logo: '/logo.svg',
+    nav: [
+      { text: 'Guide', link: '/installation' },
+      { text: 'API', link: '/api-authentication' },
+      { text: 'Modules', link: '/module-create' },
+      { text: 'E-commerce', link: '/ECOMMERCE_API' },
+      { text: 'Admin (Filament)', link: '/filament' }
+    ],
+
+    sidebar: [
+      {
+        text: 'Getting Started',
+        collapsed: false,
+        items: [
+          { text: 'Installation', link: '/installation' },
+          { text: 'Architecture Guide', link: '/architecture-guide' },
+          { text: 'Architecture Decisions', link: '/ARCHITECTURE_DECISIONS' },
+          { text: 'Database & Data Model', link: '/database' },
+          { text: 'Data Model & Schema', link: '/data-model' },
+          { text: 'User Manual', link: '/USER_MANUAL' }
+        ]
+      },
+      {
+        text: 'Admin Panel (Filament)',
+        collapsed: false,
+        items: [
+          { text: 'Filament Overview', link: '/filament' },
+          { text: 'Filament Migration', link: '/filament-migration' },
+          {
+            text: 'Features',
+            collapsed: true,
+            items: [
+              { text: 'Media Library', link: '/features/media-library' },
+              { text: 'Filament Resources', link: '/features/filament-resources' }
+            ]
+          }
+        ]
+      },
+      {
+        text: 'Module Development',
+        collapsed: false,
+        items: [
+          { text: 'Creating a Module', link: '/module-create' },
+          { text: 'Livewire Modules', link: '/module-create-livewire' },
+          { text: 'Module Developer Guide', link: '/DEVELOPER_GUIDE_MODULES' },
+          { text: 'Module Commands', link: '/commands' },
+          { text: 'Livewire Registration', link: '/ticket-livewire-component-registration' }
+        ]
+      },
+      {
+        text: 'API Reference',
+        collapsed: false,
+        items: [
+          { text: 'Authentication', link: '/api-authentication' },
+          { text: 'Content API', link: '/API_CONTENT' },
+          { text: 'E-commerce API', link: '/ECOMMERCE_API' },
+          { text: 'API Examples', link: '/api-examples' },
+          { text: 'OpenAPI / Swagger', link: '/OPENAPI_DOCUMENTATION' }
+        ]
+      },
+      {
+        text: 'E-commerce',
+        collapsed: true,
+        items: [
+          { text: 'Coupon / Discount System', link: '/COUPON_DISCOUNT_SYSTEM' },
+          { text: 'Tax Calculation Engine', link: '/TAX_CALCULATION_ENGINE' },
+          { text: 'Stripe Integration', link: '/STRIPE_PAYMENT_INTEGRATION' },
+          { text: 'PayPal Integration', link: '/PAYPAL_PAYMENT_INTEGRATION' }
+        ]
+      },
+      {
+        text: 'Deployment & DevOps',
+        collapsed: true,
+        items: [
+          { text: 'Deployment Guide', link: '/DEPLOYMENT_GUIDE' },
+          { text: 'Staging Deployment', link: '/STAGING-DEPLOYMENT' },
+          { text: 'CI/CD Pipeline', link: '/CI_CD_PIPELINE' },
+          { text: 'Queue Workers', link: '/queue-workers' },
+          { text: 'SSL/TLS Configuration', link: '/SSL_TLS_CONFIGURATION' }
+        ]
+      },
+      {
+        text: 'Security',
+        collapsed: true,
+        items: [
+          { text: 'Security Audit', link: '/security-audit-2026-04-03' },
+          { text: 'Penetration Test Report', link: '/SECURITY_PENETRATION_TEST_REPORT' },
+          { text: 'File Upload Validation', link: '/FILE_UPLOAD_VALIDATION' },
+          { text: 'NPM Security Status', link: '/NPM_SECURITY_STATUS' }
+        ]
+      },
+      {
+        text: 'Performance & Media',
+        collapsed: true,
+        items: [
+          { text: 'Advanced Caching', link: '/ADVANCED_CACHING' },
+          { text: 'Image Optimization', link: '/IMAGE_OPTIMIZATION' },
+          { text: 'Cross-Browser Compatibility', link: '/CROSS_BROWSER_COMPATIBILITY' }
+        ]
+      },
+      {
+        text: 'Testing',
+        collapsed: true,
+        items: [
+          { text: 'Testing Guide', link: '/testing' },
+          { text: 'Module Testing Guide', link: '/testing/module-testing-guide' },
+          { text: 'Test Suite Results', link: '/TEST_SUITE_RESULTS' }
+        ]
+      }
+    ],
+
+    editLink: {
+      pattern: ({ filePath }) => {
+        return `https://github.com/microweber/microweber/edit/filament-5/docs/${filePath}`
+      }
+    },
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/microweber/microweber' }
+    ],
+
+    search: {
+      provider: 'local'
+    },
+
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright Microweber'
+    }
+  }
 })
