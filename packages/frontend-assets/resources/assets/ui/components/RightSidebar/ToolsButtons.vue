@@ -1,9 +1,9 @@
 <template>
-    <ul class="d-grid gap-3 list-unstyled p-3 pb-0">
+    <ul class="d-grid gap-3 list-unstyled p-3 pb-0" role="menu" aria-label="Live edit tools">
 
 
         <li>
-            <a class="mw-live-edit-advanced-settings-popup" v-on:click="openSetupWizard()">
+            <a class="mw-live-edit-advanced-settings-popup" role="menuitem" aria-label="Setup wizard" v-on:click="openSetupWizard()">
                 <v-tooltip activator="parent" location="start">
                     <Lang>Setup wizard</Lang>
                 </v-tooltip>
@@ -17,7 +17,7 @@
 
 
         <li>
-            <a class="mw-live-edit-advanced-settings-popup" v-on:click="showCodeEditor()">
+            <a class="mw-live-edit-advanced-settings-popup" role="menuitem" aria-label="Code editor" v-on:click="showCodeEditor()">
                 <svg class="mb-1 me-2" fill="currentColor" height="24px" viewBox="0 -960 960 960"
                      width="24px" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -32,7 +32,7 @@
 
 
         <li>
-            <a class="mw-live-edit-advanced-settings-popup" title="Reset Content"
+            <a class="mw-live-edit-advanced-settings-popup" role="menuitem" aria-label="Reset content" title="Reset Content"
                v-on:click="openContentResetContent()">
                 <svg class="mb-1 me-2" fill="currentColor" height="24px" viewBox="0 -960 960 960"
                      width="24px" xmlns="http://www.w3.org/2000/svg">

@@ -48,10 +48,10 @@ html.mw-setup-wizard-document .back-to-edit{
 
 </style>
 <template>
-    <div id="toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
+    <div id="toolbar" role="toolbar" aria-label="Live edit toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
 
-            <a id="mw-live-edit-toolbar-back-to-admin-link" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
+            <a id="mw-live-edit-toolbar-back-to-admin-link" aria-label="Back to admin" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                         <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
@@ -92,10 +92,10 @@ html.mw-setup-wizard-document .back-to-edit{
 
 
 
-                    <span id="mw-page-set-back-to-edit-mode"  class="back-to-edit" @click="pagePreviewToggle()" title="Back to edit">
+                    <span id="mw-page-set-back-to-edit-mode" role="button" aria-label="Back to edit mode" class="back-to-edit" @click="pagePreviewToggle()" title="Back to edit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"></path></svg>
                     </span>
-                    <button id="mw-page-set-preview-mode" class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view me-2" @click="pagePreviewToggle()">
+                    <button id="mw-page-set-preview-mode" aria-label="Toggle preview mode" class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view me-2" @click="pagePreviewToggle()">
                         VIEW
                     </button>
                     <SaveButton></SaveButton>
@@ -103,13 +103,13 @@ html.mw-setup-wizard-document .back-to-edit{
             </div>
 
             <div id="user-menu-wrapper" class="align-self-center">
-                <span class="mw-le-hamburger" id="toolbar-user-menu-button" @click="userMenu()">
+                <span class="mw-le-hamburger" id="toolbar-user-menu-button" role="button" aria-label="User menu" aria-haspopup="true" @click="userMenu()">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
                 <div id="user-menu" class="card mw-le-nav-box">
-                    <nav>
+                    <nav aria-label="User navigation">
                         <a v-for="menuItem in menu" :href="menuItem.href" :onclick="menuItem.onclick" :target="menuItem.target" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}

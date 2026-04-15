@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <template>
-    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" @click="save()">
+    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" aria-label="Save page (Ctrl+S)" @click="save()">
             <span class="font-weight-bold">SAVE</span>
      </button>
 </template>

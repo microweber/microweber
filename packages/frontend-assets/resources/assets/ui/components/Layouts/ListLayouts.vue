@@ -10,6 +10,7 @@
     >
 
         <div v-if="showModal"
+             role="dialog" aria-label="Insert layout"
              class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
              style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
         >

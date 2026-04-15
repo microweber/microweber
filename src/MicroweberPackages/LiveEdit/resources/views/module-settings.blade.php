@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div id="settings-container">
+    <div id="settings-container" role="region" aria-label="Module settings">
 
 <div class="alert alert-danger">
 

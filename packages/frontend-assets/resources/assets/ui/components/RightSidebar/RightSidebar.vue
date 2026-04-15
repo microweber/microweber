@@ -2,13 +2,14 @@
     <div v-if="isReady">
 
 
-        <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
+        <div id="general-theme-settings" role="complementary" aria-label="Theme settings sidebar" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between position-relative">
                     <h3 v-show="showTemplateSettings" class="fs-3 font-weight-bold"><Lang>Template Style Editor</Lang></h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
+                          role="button" aria-label="Close sidebar"
                           class="x-close-modal-link" style="top: 5px; right: -5px;">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                              fill="currentColor"><path

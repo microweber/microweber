@@ -111,6 +111,8 @@
                 x-show="$store.sidebar.isOpen"
                 x-transition.opacity.300ms
                 class="fi-sidebar-close-overlay fixed inset-0 z-30 bg-gray-950/50 transition duration-500 dark:bg-gray-950/75 lg:hidden"
+                role="button"
+                aria-label="Close sidebar"
             ></div>
 
             @livewire(filament()->getSidebarLivewireComponent())
