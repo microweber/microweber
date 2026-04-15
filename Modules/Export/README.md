@@ -1,23 +1,40 @@
 # Export
 
-Data export functionality. Export content, products, orders, and other data to CSV, JSON, or XML formats.
+Data export engine. Export content, products, orders, and other site data in multiple formats with batch processing support.
 
-## Structure
+## Key Features
 
-- Service classes
-- Tests
+- Multiple export formats: CSV, JSON, XML, XLSX
+- Zip batch export for large datasets
+- Configurable table selection for export
+- Progress logging during export
+- Trait-based architecture for extending exportable models
+
+## Export Formats
+
+| Format | Class |
+|---|---|
+| CSV | `Formats\CsvExport` |
+| JSON | `Formats\JsonExport` |
+| XML | `Formats\XmlExport` |
+| XLSX | `Formats\XlsxExport` |
+| ZIP (batch) | `Formats\ZipBatchExport` |
+| Default | `Formats\DefaultExport` |
+
+## Key Classes
+
+| Class | Purpose |
+|---|---|
+| `Services\Export` | Main export orchestrator |
+| `Services\ExportTables` | Table selection and data gathering |
+| `Loggers\*` | Progress logging during exports |
+| `Traits\*` | Exportable model traits |
 
 ## Usage
 
-### Module tag
-
-```html
-<module type="export" />
+```php
+$exporter = new \Modules\Export\Services\Export();
+// Configure tables and format, then run export
 ```
 
-### Publish assets
-
-```sh
-php artisan module:publish Export
-```
-
+Formats implement a common interface defined in `Formats\Interfaces\`.

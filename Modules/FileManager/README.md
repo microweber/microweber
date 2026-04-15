@@ -1,25 +1,30 @@
 # FileManager
 
-File browser and manager for uploading, organizing, and selecting files from the server filesystem.
+Server-side file browser and manager. Upload, organize, browse, and select files from the server filesystem through the admin panel.
 
-## Structure
+## Key Features
 
-- Filament admin
-- HTTP controllers
-- Route definitions
-- Tests
+- File browsing with directory navigation
+- File upload support
+- File selection for content editing
+- Integrated into admin panel and settings
+- Web routes for file operations
+
+## Key Classes
+
+| Class | Purpose |
+|---|---|
+| `Filament\Pages\FileManagerPageAdmin` | Admin file manager page |
+| `Http\Controllers\*` | File operation controllers |
+
+## Admin Panel (Filament)
+
+- **FileManagerPageAdmin** -- full file browser page, registered on both the main admin and Settings pages
+
+## Routes
+
+Defined in `routes/web.php` for file browsing and upload operations.
 
 ## Usage
 
-### Module tag
-
-```html
-<module type="file-manager" />
-```
-
-### Publish assets
-
-```sh
-php artisan module:publish FileManager
-```
-
+Access the file manager through the admin panel under the Settings section. It provides a visual interface for managing media and other files on the server.

@@ -1,39 +1,40 @@
 # ContactForm
 
-Contact form builder with customizable fields, email notifications, and submission management.
+Contact form builder module. Renders customizable contact forms with Alpine.js interactivity, email notifications, and submission storage.
 
-## Structure
+## Key Features
 
-- Filament admin
-- Eloquent models
-- HTTP controllers
-- Route definitions
-- Blade views
-- Database migrations
+- Drag-and-drop form builder
+- Form submission storage in database
+- Email notification on submission
+- Alpine.js powered frontend interactivity
+- Configurable form settings per instance
+- Submission management in admin panel
+
+## Key Classes
+
+| Class | Purpose |
+|---|---|
+| `Models\Form` | Form submission record |
+| `Microweber\ContactFormModule` | Microweber module registration |
+
+## Database Tables
+
+- `forms` -- form submission records
+
+## Admin Panel (Filament)
+
+- **ContactFormModuleSettings** -- form configuration and submission viewing
+
+## Routes
+
+Defined in `routes/web.php` for form submission handling.
 
 ## Usage
 
-### Module tag
-
 ```html
+<!-- Place a contact form on any page -->
 <module type="contact_form" />
 ```
 
-### Run migrations
-
-```sh
-php artisan module:migrate ContactForm
-```
-
-### Publish assets
-
-```sh
-php artisan module:publish ContactForm
-```
-
-### Views
-
-```php
-view('modules.contact_form::index')
-```
-
+The module automatically injects `contact-form-alpine.js` into the page head for frontend form handling. Form submissions are stored in the database and can trigger email notifications.

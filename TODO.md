@@ -80,3 +80,5 @@
 - [x] 2026-04-15  Examine the old stats module we want the same type of stats
 
 - [x] 2026-04-15  Yes make the same stats
+
+- [x] 2026-04-15  Expand the readme of each module, now is too bare
