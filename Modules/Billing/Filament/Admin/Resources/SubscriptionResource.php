@@ -134,8 +134,9 @@ class SubscriptionResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('name')
-                    ->label('Name')
+                TextColumn::make('plan.name')
+                    ->label('Plan')
+                    ->placeholder('No plan')
                     ->sortable()
                     ->searchable(),
 
@@ -147,13 +148,8 @@ class SubscriptionResource extends Resource
                 TextColumn::make('customer_id')
                     ->label('Customer ID')
                     ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('plan.name')
-                    ->label('Plan')
-                    ->getStateUsing(fn (Subscription $record) => $record->plan?->name ?? 'N/A')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('stripe_id')
                     ->label('Stripe ID')
@@ -161,48 +157,50 @@ class SubscriptionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-            Tables\Columns\TextColumn::make('stripe_status')
-                ->label('Status')
-                ->badge()
-                ->colors([
-                    'success' => ['active', 'trialing'],
-                    'danger' => ['canceled', 'unpaid', 'incomplete_expired'],
-                    'warning' => ['incomplete', 'past_due'],
-                    'secondary' => ['paused'],
-                ])
-                ->formatStateUsing(fn (string $state): string => match ($state) {
-                    'active' => 'Active',
-                    'canceled' => 'Canceled',
-                    'incomplete' => 'Incomplete',
-                    'incomplete_expired' => 'Expired',
-                    'past_due' => 'Past Due',
-                    'paused' => 'Paused',
-                    'trialing' => 'Trialing',
-                    'unpaid' => 'Unpaid',
-                    default => ucfirst($state),
-                })
-                ->sortable(),
+                TextColumn::make('stripe_status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active', 'trialing' => 'success',
+                        'canceled', 'unpaid', 'incomplete_expired', 'expired' => 'danger',
+                        'incomplete', 'past_due' => 'warning',
+                        'paused' => 'gray',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'active' => 'Active',
+                        'canceled' => 'Canceled',
+                        'incomplete' => 'Incomplete',
+                        'incomplete_expired' => 'Expired',
+                        'expired' => 'Expired',
+                        'past_due' => 'Past Due',
+                        'paused' => 'Paused',
+                        'trialing' => 'Trialing',
+                        'unpaid' => 'Unpaid',
+                        default => ucfirst($state),
+                    })
+                    ->sortable(),
 
-            Tables\Columns\TextColumn::make('trial_status')
-                ->label('Trial')
-                ->badge()
-                ->getStateUsing(function (Subscription $record): string {
-                    if ($record->onTrial()) {
-                        return 'Active';
-                    }
-                    if ($record->trial_ends_at && $record->trial_ends_at->isPast()) {
-                        return 'Expired';
-                    }
-                    return 'None';
-                })
-                ->colors([
-                    'success' => 'Active',
-                    'danger' => 'Expired',
-                    'secondary' => 'None',
-                ])
-                ->sortable(query: function (Builder $query, string $direction) {
-                    return $query->orderBy('trial_ends_at', $direction);
-                }),
+                TextColumn::make('trial_status')
+                    ->label('Trial')
+                    ->badge()
+                    ->getStateUsing(function (Subscription $record): string {
+                        if ($record->onTrial()) {
+                            return 'Active';
+                        }
+                        if ($record->trial_ends_at && $record->trial_ends_at->isPast()) {
+                            return 'Expired';
+                        }
+                        return 'None';
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'Active' => 'success',
+                        'Expired' => 'danger',
+                        default => 'gray',
+                    })
+                    ->sortable(query: function (Builder $query, string $direction) {
+                        return $query->orderBy('trial_ends_at', $direction);
+                    }),
 
                 TextColumn::make('starts_at')
                     ->dateTime('M d, Y')
@@ -234,6 +232,7 @@ class SubscriptionResource extends Resource
                     ->options([
                         'active' => 'Active',
                         'canceled' => 'Canceled',
+                        'expired' => 'Expired',
                         'incomplete' => 'Incomplete',
                         'incomplete_expired' => 'Incomplete Expired',
                         'past_due' => 'Past Due',
@@ -278,7 +277,7 @@ class SubscriptionResource extends Resource
 
                 Filter::make('expired_subscriptions')
                     ->label('Expired Only')
-                    ->query(fn (Builder $query) => $query->where('stripe_status', 'incomplete_expired')),
+                    ->query(fn (Builder $query) => $query->whereIn('stripe_status', ['expired', 'incomplete_expired'])),
             ])
             ->filtersFormColumns(2)
             ->headerActions([
@@ -411,9 +410,9 @@ class SubscriptionResource extends Resource
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'active', 'trialing' => 'success',
-                                'canceled', 'unpaid', 'incomplete_expired' => 'danger',
+                                'canceled', 'unpaid', 'incomplete_expired', 'expired' => 'danger',
                                 'incomplete', 'past_due' => 'warning',
-                                default => 'secondary',
+                                default => 'gray',
                             }),
                     ])
                     ->columns(3),

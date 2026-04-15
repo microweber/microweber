@@ -42,12 +42,13 @@ class SubscriptionsRelationManager extends RelationManager
             Tables\Columns\TextColumn::make('stripe_status')
                 ->label('Status')
                 ->badge()
-                ->colors([
-                    'success' => 'active',
-                    'danger' => 'canceled',
-                    'warning' => 'incomplete',
-                    'secondary' => 'past_due',
-                ])
+                ->color(fn (string $state): string => match ($state) {
+                    'active', 'trialing' => 'success',
+                    'canceled', 'unpaid', 'incomplete_expired', 'expired' => 'danger',
+                    'incomplete', 'past_due' => 'warning',
+                    default => 'gray',
+                })
+                ->formatStateUsing(fn (string $state): string => ucfirst($state))
                 ->sortable(),
                 Tables\Columns\TextColumn::make('stripe_price')
                     ->label('Price ID')
@@ -80,8 +81,11 @@ class SubscriptionsRelationManager extends RelationManager
                     ->options([
                         'active' => 'Active',
                         'canceled' => 'Canceled',
+                        'expired' => 'Expired',
                         'incomplete' => 'Incomplete',
                         'past_due' => 'Past Due',
+                        'trialing' => 'Trialing',
+                        'unpaid' => 'Unpaid',
                     ]),
             ])
             ->headerActions([

@@ -101,8 +101,10 @@
 
 - [x] 2026-04-15  work on the billin modulem ake sute the admin works
 
-- [ ] work on the subsciroipns modulke admin
+- [x] 2026-04-15  work on the subsciroipns modulke admin
 
 - [ ] make a ppan in the todo to evalue all modules and prepeare for rlease
 
 - [ ] test the mobule view on all modules and fix also test in live edit
+
+- [ ] fame filamne tests for allmodules that are missing fiament tests
