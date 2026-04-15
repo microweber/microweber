@@ -56,7 +56,7 @@ return static::$shouldRegisterNavigation;
 
 public static function canAccess(): bool
 {
-return auth()->user()?->can('manage_ai_settings') ?? false;
+return is_admin();
 }
 
 public function updated($propertyName, $value): void

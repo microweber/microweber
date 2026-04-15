@@ -82,3 +82,5 @@
 - [x] 2026-04-15  Yes make the same stats
 
 - [x] 2026-04-15  Expand the readme of each module, now is too bare
+
+- [x] 2026-04-15  I can't access the ai module settings in the admin please fix
