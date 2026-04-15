@@ -98,3 +98,11 @@
 - [x] 2026-04-15  ib admin  they just category in the category page the there is no you wish to text the get category because right now we saw only icon in the users doesn't know edit category we must show edit catreogy tecxt next ot the icon
 
 - [x] 2026-04-15  next to the live edit and Aria control labels and stuff so it's easier to control the scripting so the the AI can easily control the life editors and stuff add to all modules and to live edit
+
+- [x] 2026-04-15  work on the billin modulem ake sute the admin works
+
+- [ ] work on the subsciroipns modulke admin
+
+- [ ] make a ppan in the todo to evalue all modules and prepeare for rlease
+
+- [ ] test the mobule view on all modules and fix also test in live edit

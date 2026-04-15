@@ -74,12 +74,22 @@ class BillingUserResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label('Name')
+                    ->formatStateUsing(fn (BillingUser $record) => trim(($record->first_name ?? '') . ' ' . ($record->last_name ?? '')) ?: '—')
+                    ->searchable(['first_name', 'last_name']),
+
                 Tables\Columns\TextColumn::make('subscription')
                     ->label('Subscription')
-                    ->formatStateUsing(fn (BillingUser $record) => $record->getSubscriptionName())
-                    ->color(fn (BillingUser $record) => $record->hasActiveSubscription() ? 'success' : 'danger')
+                    ->getStateUsing(fn (BillingUser $record) => $record->getSubscriptionName())
+                    ->badge()
+                    ->color(fn (string $state) => $state !== 'No active subscription' ? 'success' : 'gray'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Registered')
+                    ->dateTime('M d, Y')
                     ->sortable()
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
 ->filters([
             SelectFilter::make('subscription_status')

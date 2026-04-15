@@ -21,7 +21,7 @@ use CanBeLazy;
     public function table(Table $table): Table
     {
         return $table
-            ->query(Subscription::query()->latest()->limit(5))
+            ->query(Subscription::query()->with(['plan'])->latest()->limit(5))
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
@@ -29,20 +29,22 @@ use CanBeLazy;
                 Tables\Columns\TextColumn::make('user_id')
                     ->label('User ID')
                     ->searchable(),
-
+                Tables\Columns\TextColumn::make('plan.name')
+                    ->label('Plan')
+                    ->placeholder('N/A'),
                 Tables\Columns\TextColumn::make('stripe_status')
+                    ->label('Status')
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'active' => 'success',
+                        'trialing' => 'info',
                         'canceled' => 'danger',
                         'past_due' => 'warning',
-                        default => 'secondary',
+                        default => 'gray',
                     }),
-                Tables\Columns\TextColumn::make('subscription_plan_id')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Created')
+                    ->dateTime('M d, Y H:i')
                     ->sortable(),
             ])
             ->paginated(false);
