@@ -85,7 +85,7 @@
                     grid: {
                         left: this.expanded ? 50 : 40,
                         right: 40,
-                        top: 10,
+                        top: 25,
                         bottom: this.expanded ? 40 : 30,
                         containLabel: true
                     },
@@ -181,7 +181,7 @@
         </div>
 
         {{-- Chart area --}}
-        <div style="position: relative;">
+        <div style="position: relative; overflow: hidden;">
             <div x-ref="chartContainer" style="width: 100%; height: 200px; transition: height 0.3s ease;"></div>
             <div x-ref="noDataOverlay" style="display: none; position: absolute; inset: 0; align-items: center; justify-content: center; pointer-events: none;">
                 <span style="color: #a0aec0; font-size: 13px; background: rgba(255,255,255,0.8); padding: 4px 12px; border-radius: 6px;">No visitor data for this period</span>
