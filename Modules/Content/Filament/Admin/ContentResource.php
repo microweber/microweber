@@ -442,12 +442,30 @@ class ContentResource extends Resource
                 Forms\Components\CheckboxList::make('menuIds')
                     ->label('Menus')
                     ->helperText('Select menu where this content will appear')
+                    ->searchable()
+                    ->bulkToggleable()
                     ->options(function (?Model $record) {
                         $menus = get_menus();
                         $menusCheckboxes = [];
                         if ($menus) {
+                            // Count items per menu for sorting by most used
+                            $menuItems = [];
                             foreach ($menus as $menu) {
-                                $menusCheckboxes[$menu['id']] = Str::headline($menu['title']);
+                                $itemCount = app()->menu_manager->get_menu_items('count=1&parent_id=' . $menu['id']);
+                                $menuItems[] = [
+                                    'id' => $menu['id'],
+                                    'title' => $menu['title'],
+                                    'count' => (int) $itemCount,
+                                ];
+                            }
+                            // Sort by item count descending (most used first)
+                            usort($menuItems, fn($a, $b) => $b['count'] - $a['count']);
+                            foreach ($menuItems as $menu) {
+                                $label = Str::headline($menu['title']);
+                                if ($menu['count'] > 0) {
+                                    $label .= ' (' . $menu['count'] . ' items)';
+                                }
+                                $menusCheckboxes[$menu['id']] = $label;
                             }
                         }
                         return $menusCheckboxes;
