@@ -246,7 +246,7 @@ class MarketplaceResourceTest extends TestCase
     public function it_has_navigation_icon(): void
     {
         $this->assertEquals(
-            'heroicon-o-shopping-bag',
+            'heroicon-o-building-storefront',
             MarketplaceResource::getNavigationIcon()
         );
     }
@@ -264,7 +264,7 @@ class MarketplaceResourceTest extends TestCase
     public function it_has_navigation_group(): void
     {
         $this->assertEquals(
-            'Customization Settings',
+            'Marketplace',
             MarketplaceResource::getNavigationGroup()
         );
     }
