@@ -95,6 +95,6 @@
 
 - [x] 2026-04-15  when you create page if you have too many menus the drop-down is the book is too high we must have paging and search for the menus and show the most use menu some top
 
-- [ ] ib admin  they just category in the category page the there is no you wish to text the get category because right now we saw only icon in the users doesn't know edit category we must show edit catreogy tecxt next ot the icon
+- [x] 2026-04-15  ib admin  they just category in the category page the there is no you wish to text the get category because right now we saw only icon in the users doesn't know edit category we must show edit catreogy tecxt next ot the icon
 
 - [ ] next to the live edit and Aria control labels and stuff so it's easier to control the scripting so the the AI can easily control the life editors and stuff add to all modules and to live edit

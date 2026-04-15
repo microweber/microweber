@@ -581,15 +581,17 @@ html[dir="rtl"]{
 
     }
     .mw-tree-context-menu-item{
-        font-size: 0;
+        font-size: 13px;
         cursor: pointer;
         display: inline-flex;
-
+        gap: 4px;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        padding: 4px 8px;
+        height: 28px;
         border-radius: 3px;
+        white-space: nowrap;
+        color: inherit;
         &:hover{
             background: #7474743a;
         }
