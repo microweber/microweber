@@ -76,3 +76,5 @@
 - [x] 2026-04-15  now umptove the site statsm odule in the dashabord where w e have viw more on the stats redirec theu ser to the full site stats amin module nd work on it to show all ypyeso f stats and widgets, make a plan nd make it
 
 - [x] 2026-04-15  fix the stats chart in the dashboard [attachment: .autodev/messages/attachments/20260415_182249_b0d811be/paste-1776266566624.png]
+
+- [x] 2026-04-15  Examine the old stats module we want the same type of stats

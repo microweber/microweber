@@ -22,4 +22,15 @@
             @livewire(\Modules\SiteStats\Filament\Widgets\BrowsersWidget::class)
         </div>
     </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div>
+            @livewire(\Modules\SiteStats\Filament\Widgets\LanguagesWidget::class)
+        </div>
+        <div></div>
+    </div>
+
+    <div class="mt-6">
+        @livewire(\Modules\SiteStats\Filament\Widgets\RecentVisitorsWidget::class)
+    </div>
 </x-filament-panels::page>

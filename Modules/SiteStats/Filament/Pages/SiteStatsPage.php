@@ -40,6 +40,8 @@ class SiteStatsPage extends Page
             \Modules\SiteStats\Filament\Widgets\ReferrersWidget::class,
             \Modules\SiteStats\Filament\Widgets\LocationsWidget::class,
             \Modules\SiteStats\Filament\Widgets\BrowsersWidget::class,
+            \Modules\SiteStats\Filament\Widgets\LanguagesWidget::class,
+            \Modules\SiteStats\Filament\Widgets\RecentVisitorsWidget::class,
         ];
     }
 

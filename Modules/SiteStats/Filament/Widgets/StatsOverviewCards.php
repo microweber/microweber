@@ -56,7 +56,44 @@ class StatsOverviewCards extends BaseWidget
                 ->description(number_format($monthViews) . ' page views')
                 ->descriptionIcon('heroicon-m-calendar-days')
                 ->color('info'),
+
+            $this->getOrdersStat($now),
+            $this->getCommentsStat($now),
         ];
+
+        return array_filter($stats);
+    }
+
+    private function getOrdersStat(Carbon $now): ?Stat
+    {
+        try {
+            $monthOrders = \Modules\SiteStats\Models\Orders::where('updated_at', '>=', $now->copy()->subMonth())
+                ->where('order_completed', 1)
+                ->count();
+            return Stat::make('Orders (Month)', number_format($monthOrders))
+                ->description('Completed orders')
+                ->descriptionIcon('heroicon-m-shopping-cart')
+                ->color('primary');
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    private function getCommentsStat(Carbon $now): ?Stat
+    {
+        if (!is_module_installed('comments')) {
+            return null;
+        }
+        try {
+            $monthComments = \Modules\SiteStats\Models\Comments::where('updated_at', '>=', $now->copy()->subMonth())
+                ->count();
+            return Stat::make('Comments (Month)', number_format($monthComments))
+                ->description('User comments')
+                ->descriptionIcon('heroicon-m-chat-bubble-left-right')
+                ->color('primary');
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     private function changeDesc(float $current, float $previous, string $label): string
