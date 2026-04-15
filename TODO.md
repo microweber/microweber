@@ -84,3 +84,17 @@
 - [x] 2026-04-15  Expand the readme of each module, now is too bare
 
 - [x] 2026-04-15  I can't access the ai module settings in the admin please fix
+
+- [x] 2026-04-15  now we weill work on the content, posts and produltscs modules, we want to expand the readme with real scrnarios
+
+- [ ] we want to integrate passport for application management per user so the users can request the API with their API key
+
+- [ ] the tabs sizing is still not going to the golden ratio spacing please fix
+
+- [ ] in the tables and delete button on the end of the table spacing is not the same as the checkbox spacing it must be the same
+
+- [ ] when you create page if you have too many menus the drop-down is the book is too high we must have paging and search for the menus and show the most use menu some top
+
+- [ ] ib admin  they just category in the category page the there is no you wish to text the get category because right now we saw only icon in the users doesn't know edit category we must show edit catreogy tecxt next ot the icon
+
+- [ ] next to the live edit and Aria control labels and stuff so it's easier to control the scripting so the the AI can easily control the life editors and stuff add to all modules and to live edit
