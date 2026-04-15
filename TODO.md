@@ -105,7 +105,7 @@
 
 - [x] 2026-04-15  make a ppan in the todo to evalue all modules and prepeare for rlease
 
-- [ ] test the mobule view on all modules and fix also test in live edit
+- [x] 2026-04-15  test the mobule view on all modules and fix also test in live edit
 
 - [ ] fame filamne tests for allmodules that are missing fiament tests
 

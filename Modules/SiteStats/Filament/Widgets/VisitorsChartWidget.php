@@ -8,13 +8,13 @@ use Modules\SiteStats\Repositories\SiteStatsRepository;
 
 class VisitorsChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Visitors & Bounce Rate';
+    protected ?string $heading = 'Visitors & Bounce Rate';
 
     protected static ?int $sort = 2;
 
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?string $maxHeight = '350px';
+    protected ?string $maxHeight = '350px';
 
     public ?string $filter = 'daily';
 

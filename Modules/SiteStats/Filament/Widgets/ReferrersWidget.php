@@ -5,6 +5,7 @@ namespace Modules\SiteStats\Filament\Widgets;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\SiteStats\Models\Sessions;
 
@@ -17,6 +18,14 @@ class ReferrersWidget extends BaseWidget
     protected int|string|array $columnSpan = 1;
 
     protected int $defaultPaginationPageOption = 10;
+
+    public function getTableRecordKey(Model|array $record): string
+    {
+        if (is_array($record)) {
+            return (string) ($record['referrer_domain_id'] ?? '');
+        }
+        return (string) ($record->referrer_domain_id ?? $record->getKey());
+    }
 
     public function table(Table $table): Table
     {
