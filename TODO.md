@@ -103,8 +103,142 @@
 
 - [x] 2026-04-15  work on the subsciroipns modulke admin
 
-- [ ] make a ppan in the todo to evalue all modules and prepeare for rlease
+- [x] 2026-04-15  make a ppan in the todo to evalue all modules and prepeare for rlease
 
 - [ ] test the mobule view on all modules and fix also test in live edit
 
 - [ ] fame filamne tests for allmodules that are missing fiament tests
+
+---
+
+## Release Preparation Plan — Module Evaluation
+
+### 1. Fix Deprecated Filament v5 API Usage (11 files using old `->colors([])` syntax)
+
+- [ ] fix: Backup module — BackupHistoryResource.php, BackupScheduleResource.php deprecated colors()
+- [ ] fix: Product module — ProductInventoryResource.php deprecated colors()
+- [ ] fix: Newsletter module — NewsletterFilamentAdminPanelProvider.php deprecated colors()
+- [ ] fix: Profile module — FilamentProfilePanelProvider.php deprecated colors()
+- [ ] fix: Checkout module — FilamentCheckoutPanelProvider.php deprecated colors()
+- [ ] fix: Ai module — AgentChatResource.php deprecated colors()
+- [ ] fix: Media module — MediaResource.php deprecated colors()
+- [ ] fix: Invoice module — InvoiceResource.php deprecated colors()
+- [ ] fix: Currency module — ExchangeRateResource.php deprecated colors()
+- [ ] fix: Billing frontend — BillingFilamentFrontendPanelProvider.php deprecated colors()
+
+### 2. Fix Old Filament Form API (5 files still using `Filament\Forms\Form` instead of `Filament\Schemas\Schema`)
+
+- [ ] fix: Product module — ProductsModuleSettings.php old Form import
+- [ ] fix: Slider module — SliderTableList.php old Form import
+- [ ] fix: ImageRollover module — ImageRolloverModuleSettingsFilamentTest.php old Form import
+- [ ] fix: Content module — ContentTableList.php old Form import
+- [ ] fix: clean up PicturesModuleSettings_2.php_old (dead file)
+
+### 3. Admin Panel Modules — Verify CRUD Operations (18 modules with admin resources)
+
+- [ ] test: Content module admin — list, create, edit, delete content
+- [ ] test: Post module admin — list, create, edit, delete posts
+- [ ] test: Product module admin — list, create, edit products + inventory + pricing rules + variants
+- [ ] test: Category module admin — list, create, edit, delete categories (website + shop)
+- [ ] test: Order module admin — list, view, edit orders
+- [ ] test: Payment module admin — list payments + payment providers
+- [ ] test: Shipping module admin — list, create, edit shipping providers
+- [ ] test: Tax module admin — list, create, edit taxes + tax rates
+- [ ] test: Currency module admin — list, create, edit currencies + exchange rates
+- [ ] test: Offer module admin — list, create, edit offers
+- [ ] test: Billing module admin — subscriptions, plans, plan groups, billing users, settings
+- [ ] test: Newsletter module admin — campaigns, lists, subscribers, templates, sender accounts, workflows
+- [ ] test: Ai module admin — agent chat, MCP clients, AI settings
+- [ ] test: Customer module admin — list, view customers
+- [ ] test: Menu module admin — menu management page
+- [ ] test: MediaLibrary module admin — media library page
+- [ ] test: Tag module admin — tags, tag groups, tagged resources
+- [ ] test: Settings module admin — all settings pages (general, SEO, email, templates, etc.)
+
+### 4. Module Settings (Live Edit) — Verify All Module Settings Panels (40+ modules)
+
+- [ ] test: Accordion module settings in live edit
+- [ ] test: Audio module settings in live edit
+- [ ] test: Background module settings in live edit
+- [ ] test: BeforeAfter module settings in live edit
+- [ ] test: Blog module settings in live edit
+- [ ] test: Breadcrumb module settings in live edit
+- [ ] test: Btn module settings in live edit
+- [ ] test: Captcha module settings in live edit
+- [ ] test: Cart module settings in live edit
+- [ ] test: Comments module settings in live edit
+- [ ] test: ContactForm module settings in live edit
+- [ ] test: Content module settings in live edit
+- [ ] test: CookieNotice module settings in live edit
+- [ ] test: CustomFields module settings in live edit
+- [ ] test: Embed module settings in live edit
+- [ ] test: FacebookLike module settings in live edit
+- [ ] test: FacebookPage module settings in live edit
+- [ ] test: Faq module settings in live edit
+- [ ] test: GoogleAnalytics module settings in live edit
+- [ ] test: GoogleMaps module settings in live edit
+- [ ] test: HighlightCode module settings in live edit
+- [ ] test: ImageRollover module settings in live edit
+- [ ] test: LayoutContent module settings in live edit
+- [ ] test: Layouts module settings in live edit
+- [ ] test: Logo module settings in live edit
+- [ ] test: Marquee module settings in live edit
+- [ ] test: Menu module settings in live edit
+- [ ] test: Multilanguage module settings in live edit
+- [ ] test: Newsletter module settings in live edit
+- [ ] test: Pagination module settings in live edit
+- [ ] test: Pdf module settings in live edit
+- [ ] test: Pictures module settings in live edit
+- [ ] test: Rating module settings in live edit
+- [ ] test: Search module settings in live edit
+- [ ] test: Sharer module settings in live edit
+- [ ] test: Shop module settings in live edit
+- [ ] test: Skills module settings in live edit
+- [ ] test: Slider module settings in live edit
+- [ ] test: SocialLinks module settings in live edit
+- [ ] test: Spacer module settings in live edit
+- [ ] test: Tabs module settings in live edit
+- [ ] test: Tag module settings in live edit
+- [ ] test: Teamcard module settings in live edit
+- [ ] test: Testimonials module settings in live edit
+- [ ] test: TextType module settings in live edit
+- [ ] test: TweetEmbed module settings in live edit
+- [ ] test: Video module settings in live edit
+- [ ] test: WhiteLabel module settings in live edit
+
+### 5. Write Filament Tests for Modules Missing Tests
+
+- [ ] test: write Filament tests for Content admin resource
+- [ ] test: write Filament tests for Post admin resource
+- [ ] test: write Filament tests for Product admin resource
+- [ ] test: write Filament tests for Category admin resource
+- [ ] test: write Filament tests for Order admin resource
+- [ ] test: write Filament tests for Payment admin resource
+- [ ] test: write Filament tests for Shipping admin resource
+- [ ] test: write Filament tests for Tax admin resource
+- [ ] test: write Filament tests for Currency admin resource
+- [ ] test: write Filament tests for Offer admin resource
+- [ ] test: write Filament tests for Billing admin resource
+- [ ] test: write Filament tests for Newsletter admin resource
+- [ ] test: write Filament tests for Customer admin resource
+- [ ] test: write Filament tests for Menu admin page
+- [ ] test: write Filament tests for MediaLibrary admin page
+- [ ] test: write Filament tests for Tag admin resource
+- [ ] test: write Filament tests for Settings admin pages
+
+### 6. Dark Mode Verification
+
+- [ ] verify: all admin pages render correctly in dark mode
+- [ ] verify: all module settings panels render correctly in dark mode
+- [ ] verify: all icons visible in dark mode
+
+### 7. Final Release Checks
+
+- [ ] run: full PHPUnit test suite — zero failures
+- [ ] run: PHP syntax check on all modified files
+- [ ] verify: no deprecated Filament v2/v3 API usage remains
+- [ ] verify: all admin sidebar navigation links work
+- [ ] verify: global search returns results for all admin resources
+- [ ] verify: golden ratio spacing consistent across all tables and forms
+- [ ] verify: ARIA labels present on all interactive elements
+- [ ] docs: update CHANGELOG for release
