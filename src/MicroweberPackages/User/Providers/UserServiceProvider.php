@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\View;
 use Laravel\Passport\Passport;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\User\Filament\Pages\ApiApplicationsPage;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
@@ -87,6 +89,8 @@ class UserServiceProvider extends AuthServiceProvider
 
         Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
 
+        FilamentRegistry::registerPage(ApiApplicationsPage::class);
+
         $this->app->register(\MicroweberPackages\User\Providers\UserSocialiteServiceProvider::class);
 
     }
@@ -136,17 +140,17 @@ class UserServiceProvider extends AuthServiceProvider
 
             file_put_contents($publicKey, $publicKeyValue);
             file_put_contents($privateKey, $privateKeyValue);
+            chmod($publicKey, 0600);
+            chmod($privateKey, 0600);
         }
-      //  $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
+        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 
-     //   Passport::ignoreMigrations();
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
-      //  Passport::tokensExpireIn(now()->addDays(15));
-      //  Passport::refreshTokensExpireIn(now()->addDays(30));
-       // Passport::personalAccessTokensExpireIn(now()->addYear());
-    //    Passport::usePersonalAccessClientModel(PersonalAccessToken::class);
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::personalAccessTokensExpireIn(now()->addYear());
 
         // Register Validators
         Validator::extendImplicit(

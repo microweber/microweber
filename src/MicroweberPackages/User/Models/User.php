@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Contracts\OAuthenticatable;
 
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
@@ -39,7 +40,7 @@ use \Illuminate\Support\Facades\Auth;
 
 use carbon\carbon;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName, FilamentSocialiteUserContract, OAuthenticatable
 {
     use HasFactory,
     Notifiable,

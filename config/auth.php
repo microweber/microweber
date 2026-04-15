@@ -40,9 +40,7 @@ return [
 //            'provider' => 'admins',
 //        ],
         'api' => [
-           // 'driver' => 'passport',
-             'driver' => 'token',
-           // 'driver' => 'passport',
+            'driver' => 'passport',
             'provider' => 'users',
         ],
     ],
