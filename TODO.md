@@ -78,3 +78,5 @@
 - [x] 2026-04-15  fix the stats chart in the dashboard [attachment: .autodev/messages/attachments/20260415_182249_b0d811be/paste-1776266566624.png]
 
 - [x] 2026-04-15  Examine the old stats module we want the same type of stats
+
+- [x] 2026-04-15  Yes make the same stats
