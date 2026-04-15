@@ -7,6 +7,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use Modules\SiteStats\Filament\SiteStatsDashboard;
 use Modules\SiteStats\Filament\SiteStatsDashboardChart;
 use Modules\SiteStats\Filament\SiteStatsEchartsWidget;
+use Modules\SiteStats\Filament\Pages\SiteStatsPage;
 
 
 class SiteStatsServiceProvider extends BaseModuleServiceProvider
@@ -58,9 +59,7 @@ class SiteStatsServiceProvider extends BaseModuleServiceProvider
             SiteStatsEchartsWidget::class,
             \App\Filament\Admin\Pages\Dashboard::class);
 
-
-        // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(SiteStatsModuleSettings::class);
+        FilamentRegistry::registerPage(SiteStatsPage::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\SiteStats\Microweber\SiteStatsModule::class);

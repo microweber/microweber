@@ -72,3 +72,7 @@
 - [x] 2026-04-15  make the readme of all the modues, for each of them edit and make the readme dexrtring waht the modu
 
 - [x] 2026-04-15  now works on the AI module we want to be able to set OPENAI_BASE_URL so we can use other openai comp
+
+- [x] 2026-04-15  now umptove the site statsm odule in the dashabord where w e have viw more on the stats redirec theu ser to the full site stats amin module nd work on it to show all ypyeso f stats and widgets, make a plan nd make it
+
+- [ ] fix the stats chart in the dashboard [attachment: .autodev/messages/attachments/20260415_182249_b0d811be/paste-1776266566624.png]

@@ -210,7 +210,7 @@
                 </div>
             </div>
             <div class="mw-stats-card-footer-right">
-                <span class="mw-stats-card-show-more" @click="toggleExpanded()" x-text="expanded ? 'Show less' : 'Show more'"></span>
+                <a href="{{ url('/admin/site-stats') }}" class="mw-stats-card-show-more" style="text-decoration: none; cursor: pointer;">View more</a>
             </div>
         </div>
     </div>
