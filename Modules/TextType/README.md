@@ -1,18 +1,30 @@
-# TextType Module for Microweber CMS
+# TextType
 
-## Description
-The TextType module enables the creation of animated text on websites.
+Typography and text styling module. Set font families, sizes, weights, and text formatting options.
 
-## Installation
-1. Run migrations:
-   ```sh
-   php artisan module:migrate TextType
-   ```
-2. Publish assets:
-   ```sh
-   php artisan module:publish TextType
-   ```
+## Structure
+
+- Filament admin
+- Blade views
+- Tests
 
 ## Usage
-Include the TextType module in your views and configure the text and settings as needed.
+
+### Module tag
+
+```html
+<module type="text_type" />
+```
+
+### Publish assets
+
+```sh
+php artisan module:publish TextType
+```
+
+### Views
+
+```php
+view('modules.text_type::index')
+```
 

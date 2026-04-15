@@ -1,55 +1,32 @@
 # Shop
 
+Core e-commerce module. Provides the shop framework including product display, cart, and checkout.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Livewire components
+- Service classes
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Shop
+## Usage
+
+### Module tag
+
+```html
+<module type="shop" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Shop
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/shop/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/shop/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/shop/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.shop.name')
-```
-
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.shop::layouts.master')
+view('modules.shop::index')
 ```
 
-Use Module view
-
-```php
-view('modules.shop::example')
-```

@@ -1,55 +1,40 @@
 # Rating
 
+Star rating and review system. Let users rate content and products with configurable scales.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="rating" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate Rating
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Rating
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/rating/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/rating/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/rating/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.rating.name')
-```
-
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.rating::layouts.master')
+view('modules.rating::index')
 ```
 
-Use Module view
-
-```php
-view('modules.rating::example')
-```

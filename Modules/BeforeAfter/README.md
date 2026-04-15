@@ -1,20 +1,30 @@
-# BeforeAfter Module
+# BeforeAfter
 
-The BeforeAfter module allows users to create before-and-after image comparisons on their website.
+Before/after image comparison slider. Display two images side by side with a draggable divider to compare them.
 
-## Features
-- **Interactive Slider**: Slide between two images to see differences.
-- **Customizable Images**: Set URLs for before and after images.
-- **Responsive Design**: Works on various screen sizes.
+## Structure
 
-## Installation
+- Filament admin
+- Blade views
+- Tests
 
-### Run module migrations
-```sh
-php artisan module:migrate BeforeAfter
+## Usage
+
+### Module tag
+
+```html
+<module type="before_after" />
 ```
 
-### Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish BeforeAfter
 ```
+
+### Views
+
+```php
+view('modules.before_after::index')
+```
+

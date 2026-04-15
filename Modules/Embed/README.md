@@ -1,18 +1,30 @@
 # Embed
 
+Embed external content via URL or HTML code. Supports oEmbed for YouTube, Vimeo, Twitter, and more.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Embed
+## Usage
+
+### Module tag
+
+```html
+<module type="embed" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Embed
+```
+
+### Views
+
+```php
+view('modules.embed::index')
 ```
 

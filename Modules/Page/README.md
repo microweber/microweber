@@ -1,20 +1,39 @@
 # Page
 
+Page content type management. Create and edit website pages with the live editor.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Route definitions
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Page
+## Usage
+
+### Module tag
+
+```html
+<module type="page" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Page
 ```
 
+### Configuration
 
- 
+```php
+config('modules.page.name')
+```
+
+### Views
+
+```php
+view('modules.page::index')
+```
+

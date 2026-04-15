@@ -1,18 +1,30 @@
 # TweetEmbed
 
+Twitter/X tweet embed module. Display individual tweets or timelines on website pages.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate TweetEmbed
+## Usage
+
+### Module tag
+
+```html
+<module type="tweet_embed" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish TweetEmbed
+```
+
+### Views
+
+```php
+view('modules.tweet_embed::index')
 ```
 

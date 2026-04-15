@@ -1,44 +1,39 @@
 # ContactForm
 
+Contact form builder with customizable fields, email notifications, and submission management.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Route definitions
+- Blade views
+- Database migrations
+
+## Usage
+
+### Module tag
+
+```html
+<module type="contact_form" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate ContactForm
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish ContactForm
 ```
 
-
-Using static assets
-```blade
-{{ asset('modules/contact_form/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.contact_form.name')
-```
-
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.contact_form::layouts.master')
-```
-
-Use Module view
+### Views
 
 ```php
 view('modules.contact_form::index')
 ```
+

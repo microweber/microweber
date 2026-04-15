@@ -1,17 +1,36 @@
 # Pdf
 
+PDF generation from content. Convert pages, invoices, and reports to downloadable PDF files.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Pdf
+## Usage
+
+### Module tag
+
+```html
+<module type="pdf" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Pdf
 ```
+
+### Configuration
+
+```php
+config('modules.pdf.name')
+```
+
+### Views
+
+```php
+view('modules.pdf::index')
+```
+

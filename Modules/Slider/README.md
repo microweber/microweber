@@ -1,29 +1,38 @@
-# Slider Module
+# Slider
 
-The Slider module allows users to create sliders for displaying images or content on their website.
+Image and content slider/carousel. Create responsive slideshows with transitions and autoplay.
 
-## Features
-- **Responsive Design**: Adjusts to different screen sizes.
-- **Customizable Slides**: Add and configure slides easily.
-- **Autoplay and Looping**: Options for automatic sliding.
-- **Navigation and Pagination**: Built-in navigation buttons.
+## Structure
 
-## Installation
+- Filament admin
+- Eloquent models
+- Blade views
+- Database migrations
+- Tests
 
-### Run module migrations
+## Usage
+
+### Module tag
+
+```html
+<module type="slider" />
+```
+
+### Run migrations
+
 ```sh
 php artisan module:migrate Slider
 ```
 
-### Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish Slider
 ```
 
-## Usage
+### Views
 
-Include the Slider module in your views and configure the slides.
+```php
+view('modules.slider::index')
+```
 
-## License
-
-This module is licensed under the MIT License.

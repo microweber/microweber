@@ -1,33 +1,38 @@
-# AI Wizard Module
+# AiWizard
 
-The AI Wizard module provides AI-powered page generation capabilities for Microweber using OpenAI's GPT models. 
-It allows you to quickly create website pages by describing what you want, and the AI will generate appropriate content.
+AI setup wizard that guides users through configuring AI providers and settings for content generation features.
 
-## Features
+## Structure
 
-- AI-powered page content generation
-- Multiple section support (header, content, features, testimonials, contact)
-- Configurable AI models and content tones
-- Integration with existing Microweber pages
-- Easy content regeneration
+- Filament admin
+- Livewire components
+- Route definitions
+- Blade views
+- Tests
 
-## Installation
+## Usage
 
-1. Install the module:
-```bash
-php artisan module:install AiWizard
+### Module tag
+
+```html
+<module type="aiwizard" />
 ```
 
-2. Publish the module configuration:
-```bash
+### Publish assets
+
+```sh
 php artisan module:publish AiWizard
 ```
 
+### Configuration
 
-## Support
+```php
+config('modules.aiwizard.name')
+```
 
-For support with this module, please contact the Microweber team at info@microweber.com.
+### Views
 
-## License
+```php
+view('modules.aiwizard::index')
+```
 
-This module is open-sourced software licensed under the MIT license.

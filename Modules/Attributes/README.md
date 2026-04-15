@@ -1,37 +1,30 @@
-# Attributes Module for Microweber CMS
+# Attributes
 
+Product attribute management for e-commerce. Define custom attributes like size, color, and material for product variants.
 
+## Structure
 
-### Attribute
+- Eloquent models
+- Database migrations
+- Tests
 
-The `Attribute` model is defined in `Models/Attribute.php`. 
+## Usage
 
-#### Attributes
+### Module tag
 
-- `attribute_name`: The name of the attribute.
-- `attribute_value`: The value of the attribute.
-- `rel_type`: The type of relation.
-- `rel_id`: The ID of the related entity.
-- `attribute_type`: The type of the attribute.
-- `session_id`: The session ID associated with the attribute.
-- `created_at`: Timestamp for when the attribute was created.
-- `updated_at`: Timestamp for when the attribute was last updated.
-- `created_by`: The user who created the attribute.
-- `edited_by`: The user who last edited the attribute.
+```html
+<module type="attributes" />
+```
 
-## Repositories
+### Run migrations
 
-### AttributesManager.php
+```sh
+php artisan module:migrate Attributes
+```
 
-The `AttributesManager` class is defined in `Repositories/AttributesManager.php`. It provides methods to manage attributes:
+### Publish assets
 
-- `getValues($params)`: Retrieves attribute values based on the provided parameters.
-- `get($data)`: Fetches attributes based on various criteria.
-- `save($data)`: Saves or updates an attribute.
-- `delete($data)`: Deletes an attribute based on the provided criteria.
+```sh
+php artisan module:publish Attributes
+```
 
-
-
-## License
-
-This module is licensed under the MIT License.

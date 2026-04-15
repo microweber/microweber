@@ -1,19 +1,28 @@
 # Restore
 
+Restore site from backup files. Import and apply previously created backup archives.
 
+## Structure
 
-## Run module migrations
+- Tests
 
-```sh
-php artisan module:migrate Restore
+## Usage
+
+### Module tag
+
+```html
+<module type="restore" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Restore
 ```
 
+### Configuration
+
+```php
+config('modules.restore.name')
+```
 

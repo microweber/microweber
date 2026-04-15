@@ -1,55 +1,23 @@
 # Export
 
+Data export functionality. Export content, products, orders, and other data to CSV, JSON, or XML formats.
 
+## Structure
 
-## Run module migrations
+- Service classes
+- Tests
 
-```sh
-php artisan module:migrate Export
+## Usage
+
+### Module tag
+
+```html
+<module type="export" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Export
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/export/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/export/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/export/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.export.name')
-```
-
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.export::layouts.master')
-```
-
-Use Module view
-
-```php
-view('modules.export::example')
-```

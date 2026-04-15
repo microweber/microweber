@@ -1,21 +1,43 @@
-# Content Data Variant Module for Microweber CMS
+# ContentDataVariant
 
-This module allows you to create and manage different data variants for your content. Based on custom field values.
+Product variant data management. Store variant-specific data like SKU, price, and stock for product options.
 
+## Structure
 
-## Run module migrations
+- Eloquent models
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="contentdatavariant" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate ContentDataVariant
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish ContentDataVariant
 ```
 
+### Configuration
 
+```php
+config('modules.contentdatavariant.name')
+```
+
+### Views
+
+```php
+view('modules.contentdatavariant::index')
+```
 

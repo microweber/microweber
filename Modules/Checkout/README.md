@@ -1,34 +1,34 @@
-# Checkout Module
+# Checkout
 
-E-commerce checkout solution for Microweber that handles contact information, shipping, and payment processing.
+E-commerce checkout process. Handle shipping address, payment method selection, and order placement.
 
-## Installation
+## Structure
+
+- Filament admin
+- Livewire components
+- HTTP controllers
+- Service classes
+- Route definitions
+- Blade views
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="checkout" />
+```
+
+### Publish assets
 
 ```sh
-# Run module migrations
-php artisan module:migrate Checkout
-
-# Publish module assets
 php artisan module:publish Checkout
 ```
 
-## Features
+### Views
 
-- Multi-step checkout process
-- Contact information handling
-- Shipping method selection
-- Payment gateway integration
-- Session management
-- Input validation
-
-## Testing
-
-```bash
-# Run checkout module tests
-php artisan test Modules/Checkout/Tests/Unit
-
+```php
+view('modules.checkout::index')
 ```
-
-
-
 

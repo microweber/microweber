@@ -1,55 +1,39 @@
 # Captcha
 
+CAPTCHA verification for forms to prevent spam submissions. Supports reCAPTCHA and other providers.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Livewire components
+- Service classes
+- Route definitions
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Captcha
+## Usage
+
+### Module tag
+
+```html
+<module type="captcha" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Captcha
 ```
 
+### Configuration
 
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/captcha/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/captcha/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/captcha/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.captcha.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.captcha::layouts.master')
-```
-
-Use Module view
+### Views
 
 ```php
 view('modules.captcha::index')
 ```
+

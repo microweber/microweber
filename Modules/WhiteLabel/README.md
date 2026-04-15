@@ -1,55 +1,36 @@
 # WhiteLabel
 
+White label branding settings. Customize the admin panel branding, logo, and appearance for resellers.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Service classes
+- Blade views
 
-```sh
-php artisan module:migrate WhiteLabel
+## Usage
+
+### Module tag
+
+```html
+<module type="white_label" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish WhiteLabel
 ```
 
+### Configuration
 
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/white_label/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/white_label/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/white_label/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.white_label.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.white_label::layouts.master')
+view('modules.white_label::index')
 ```
 
-Use Module view
-
-```php
-view('modules.white_label::example')
-```

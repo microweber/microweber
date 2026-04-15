@@ -1,39 +1,47 @@
-# Payment Module for Microweber
+# Payment
 
-## Overview
-The Payment module provides a flexible and extensible way to manage payment providers in your application. It supports multiple payment methods, including PayPal, Stripe, and Pay on Delivery.
+Payment gateway integration. Process payments via Stripe, PayPal, and other configured providers.
 
-## Features
-- Add, edit, and delete payment providers.
-- Support for multiple payment methods.
-- Integration with Livewire for dynamic forms.
-- Event-driven architecture for payment processing.
+## Structure
 
-## Installation
-1. Clone the repository or download the module.
-2. Place the module in the `Modules` directory of your Laravel application.
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Service classes
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
 
-## Run module migrations
+## Usage
+
+### Module tag
+
+```html
+<module type="payment" />
+```
+
+### Run migrations
+
 ```sh
 php artisan module:migrate Payment
 ```
 
-## Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish Payment
 ```
 
-## Usage
-- Navigate to the Payment Providers section in the admin panel to manage your payment providers.
-- Use the provided forms to set up new payment methods.
+### Configuration
 
-## Available Payment Providers
-- **PayPal**: A widely used online payment system.
-- **Stripe**: A powerful payment processing platform.
-- **Pay on Delivery**: Allows customers to pay upon receiving their order.
+```php
+config('modules.payment.name')
+```
 
-## Contributing
-Contributions are welcome! Please submit a pull request or open an issue for any enhancements or bug fixes.
+### Views
 
-## License
-This module is licensed under the MIT License.
+```php
+view('modules.payment::index')
+```
+

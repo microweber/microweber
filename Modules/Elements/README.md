@@ -1,35 +1,28 @@
 # Elements
 
-## Publish module assets
+Visual design elements like dividers, icons, and decorative components for page layouts.
+
+## Structure
+
+- Blade views
+
+## Usage
+
+### Module tag
+
+```html
+<module type="elements" />
+```
+
+### Publish assets
 
 ```sh
 php artisan module:publish Elements
 ```
 
-### Use module assets in your .blade.php file
- 
-Using static assets
-
-```blade
-{{ asset('modules/elements/img/icon.svg') }}
- ```
-
-### module config values
+### Views
 
 ```php
-config('modules.elements.name')
+view('modules.elements::index')
 ```
 
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.elements::layouts.master')
-```
-
-Use Module view
-
-```php
-view('modules.elements::example')
-```

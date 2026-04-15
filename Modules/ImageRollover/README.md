@@ -1,46 +1,30 @@
-# ImageRollover Module
+# ImageRollover
 
-The ImageRollover module allows you to create interactive image rollovers where one image changes to another when hovered over.
+Interactive image rollover effect. One image changes to another when the user hovers over it.
 
-## Features
-- Set default and rollover images
-- Customizable image size
-- Optional link with title
-- Smooth transition effects
-- Responsive design
+## Structure
 
-## Installation
+- Filament admin
+- Blade views
+- Tests
 
-### Run module migrations
-```sh
-php artisan module:migrate ImageRollover
+## Usage
+
+### Module tag
+
+```html
+<module type="image_rollover" />
 ```
 
-### Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish ImageRollover
 ```
 
-## Usage
+### Views
 
-### In Templates
 ```php
-<module type="image_rollover" />
+view('modules.image_rollover::index')
 ```
 
-### Module Options
-- `default_image`: The initial image to display
-- `rollover_image`: The image to show on hover
-- `size`: Image size in pixels or 'auto'
-- `text`: Optional link text
-- `href-url`: Optional URL for the link
-
-### Example
-```php
-<module type="image_rollover" 
-    default_image="path/to/default.jpg"
-    rollover_image="path/to/hover.jpg"
-    size="200"
-    text="Click here"
-    href-url="https://example.com"
-/>

@@ -68,3 +68,5 @@
 - [x] 2026-04-14  Ok now fix the dark mode on all modules make a plan in the todo
 
 - [x] 2026-04-14  Make the docs on vitepress in the docs folder
+
+- [x] 2026-04-15  make the readme of all the modues, for each of them edit and make the readme dexrtring waht the modu

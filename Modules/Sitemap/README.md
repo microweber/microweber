@@ -1,29 +1,37 @@
-# Sitemap Module for Microweber
+# Sitemap
 
-This module provides functionality for generating and managing sitemaps for your application. It allows you to create XML sitemaps for various content types, including categories, tags, products, posts, and pages.
+XML sitemap generator for search engine indexing. Auto-generates sitemap.xml from site content.
 
-## Features
+## Structure
 
-- Generates XML sitemaps for different content types.
-- Supports multilingual content.
-- Automatically updates the sitemap when content changes.
-- Provides a structured sitemap index.
+- HTTP controllers
+- Route definitions
+- Blade views
+- Tests
 
 ## Usage
 
-You can access the sitemaps via the following endpoints:
+### Module tag
 
-- `/sitemap.xml` - Returns the main sitemap index.
-- `/sitemap.xml/categories` - Returns the sitemap for categories.
-- `/sitemap.xml/tags` - Returns the sitemap for tags.
-- `/sitemap.xml/products` - Returns the sitemap for products.
-- `/sitemap.xml/posts` - Returns the sitemap for posts.
-- `/sitemap.xml/pages` - Returns the sitemap for pages.
+```html
+<module type="sitemap" />
+```
 
-## Testing
-
-Run the tests using the following command:
+### Publish assets
 
 ```sh
-php artisan test --filter Sitemap
+php artisan module:publish Sitemap
 ```
+
+### Configuration
+
+```php
+config('modules.sitemap.name')
+```
+
+### Views
+
+```php
+view('modules.sitemap::index')
+```
+

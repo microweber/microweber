@@ -1,55 +1,32 @@
 # Multilanguage
 
+Multi-language content translation. Translate pages, posts, products, and UI elements into multiple languages.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Livewire components
+- HTTP controllers
+- Route definitions
+- Blade views
 
-```sh
-php artisan module:migrate Multilanguage
+## Usage
+
+### Module tag
+
+```html
+<module type="multilanguage" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Multilanguage
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/multilanguage/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/multilanguage/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/multilanguage/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.multilanguage.name')
-```
-
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.multilanguage::layouts.master')
+view('modules.multilanguage::index')
 ```
 
-Use Module view
-
-```php
-view('modules.multilanguage::example')
-```

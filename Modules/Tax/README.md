@@ -1,34 +1,39 @@
-# Tax Module for Microweber
+# Tax
 
-## Overview
-The Tax module is designed to manage tax types and calculations within the Microweber framework. It allows for the creation, editing, and deletion of tax types, as well as the application of these taxes during checkout.
+Tax calculation and management. Configure tax rates, rules, and regional tax settings for e-commerce.
 
-## Features
-- Create, read, update, and delete tax types.
-- Support for fixed and percentage-based tax rates.
-- Integration with the checkout process to apply taxes automatically.
+## Structure
 
-## Installation
-To install the Tax module, follow these steps:
+- Filament admin
+- Eloquent models
+- Service classes
+- Route definitions
+- Database migrations
+- Tests
 
-1. Clone the repository or download the module files.
-2. Place the module in the `Modules` directory of your Microweber installation.
+## Usage
 
-## Run module migrations
+### Module tag
+
+```html
+<module type="tax" />
+```
+
+### Run migrations
+
 ```sh
 php artisan module:migrate Tax
 ```
 
-## Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish Tax
 ```
 
-## Usage
-To use the Tax module, you can access the tax management features through the admin panel. You can create new tax types, edit existing ones, and view the applied taxes during the checkout process.
+### Configuration
 
-## Configuration
-You can configure the module settings in the `config/config.php` file. Adjust the settings as needed for your application.
+```php
+config('modules.tax.name')
+```
 
-## License
-This module is part of the Microweber framework and is subject to the same licensing terms. For full license information, please refer to the [LICENSE](https://github.com/microweber/microweber/blob/master/LICENSE) file.

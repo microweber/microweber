@@ -1,52 +1,38 @@
-# Cookie Notice Module for Microweber
+# CookieNotice
 
-A comprehensive cookie consent and notice management module for Microweber CMS, built with Filament v3, Laravel 11, and Livewire v3.
+Cookie consent banner for GDPR compliance. Displays a customizable notice about cookie usage.
 
-## Features
+## Structure
 
-- Modern, customizable cookie notice popup
-- Filament-based admin interface
-
-## Installation
-
-```bash
-composer require microweber-modules/cookie-notice
-php artisan module:migrate CookieNotice
-```
-
-## Configuration
-
-Navigate to Admin Panel > Settings > Cookie Notice to configure:
-
-- Enable/disable cookie notice
-- Set cookie policy URL
-- Customize appearance (colors, position)
+- Filament admin
+- HTTP controllers
+- Route definitions
+- Blade views
+- Tests
 
 ## Usage
 
-The cookie notice will automatically appear to users who haven't set their preferences. Users can:
+### Module tag
 
-- Accept all cookies
-- Customize cookie preferences
-- Access cookie settings via a floating button
-- Review cookie policy
-
-## Development
-
-### Build Assets
-
-```bash
-cd Modules/CookieNotice
-npm install
-npm run build
+```html
+<module type="cookie_notice" />
 ```
 
-### Run Tests
+### Publish assets
 
-```bash
-php artisan test Modules/CookieNotice/Tests
+```sh
+php artisan module:publish CookieNotice
 ```
 
-## License
+### Configuration
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+```php
+config('modules.cookie_notice.name')
+```
+
+### Views
+
+```php
+view('modules.cookie_notice::index')
+```
+

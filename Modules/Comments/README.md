@@ -1,45 +1,47 @@
 # Comments
 
+User comment system for pages and posts. Supports nested replies, moderation, and spam filtering.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Livewire components
+- Eloquent models
+- Service classes
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="comments" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate Comments
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Comments
 ```
 
- 
+### Configuration
 
-Using static assets
-```blade
-{{ asset('modules/comments/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.comments.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.comments::layouts.master')
-```
-
-Use Module view
+### Views
 
 ```php
 view('modules.comments::index')
 ```
+

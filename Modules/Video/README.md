@@ -1,55 +1,31 @@
 # Video
 
+Video embed and player module. Embed videos from YouTube, Vimeo, or upload self-hosted video files.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Route definitions
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate Video
+## Usage
+
+### Module tag
+
+```html
+<module type="video" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Video
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/video/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/video/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/video/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.video.name')
-```
-
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.video::layouts.master')
-```
-
-Use Module view
+### Views
 
 ```php
 view('modules.video::index')
 ```
+

@@ -1,47 +1,46 @@
 # Profile
 
+User profile management with authentication, registration, and profile editing capabilities.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="profile" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate Profile
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Profile
 ```
 
+### Configuration
 
-
-
-
-Using static assets
-```blade
-{{ asset('modules/profile/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.profile.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.profile::layouts.master')
+view('modules.profile::index')
 ```
 
-Use Module view
-
-```php
-view('modules.profile::example')
-```

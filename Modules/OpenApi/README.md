@@ -1,52 +1,31 @@
-# OpenApi Module for Microweber
+# OpenApi
 
-This module provides functionality for generating and serving OpenAPI documentation for your API endpoints.
+OpenAPI/Swagger documentation generator. Auto-generate API docs from route definitions.
 
-## Features
+## Structure
 
-- Automatically generates OpenAPI documentation based on your routes and controllers.
-- Provides a user-friendly interface for accessing API documentation.
+- Eloquent models
+- HTTP controllers
+- Route definitions
+- Tests
 
-## Installation
+## Usage
 
-To install the OpenApi module, run the following command:
+### Module tag
 
-```sh
-php artisan module:install OpenApi
+```html
+<module type="openapi" />
 ```
 
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish OpenApi
 ```
 
+### Configuration
 
-## API Documentation
-
-You can access the generated OpenAPI documentation at the following endpoint:
-```
-/api/documentation
+```php
+config('modules.openapi.name')
 ```
 
-## MCP documentation note
-
-The JSON-RPC MCP endpoint currently lives in `Modules/Ai` at `POST /api/mcp`.
-
-Its implementation contract is documented in `Modules/Ai/README.md` under the `MCP contract` section, including:
-
-- JSON-RPC request/response envelopes
-- authentication header requirements
-- supported MCP methods and tool schemas
-- transport vs JSON-RPC error semantics
-- token rotation expectations
-
-If MCP is later exposed through this OpenAPI module, that section should be used as the baseline contract to mirror into generated documentation.
-
-## Testing
-
-Run the tests using the following command:
-
-```sh
-php artisan test --filter OpenApi
-```

@@ -1,55 +1,29 @@
 # Breadcrumb
 
+Navigation breadcrumb trail showing the current page location within the site hierarchy.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Blade views
 
-```sh
-php artisan module:migrate Breadcrumb
+## Usage
+
+### Module tag
+
+```html
+<module type="breadcrumb" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Breadcrumb
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/breadcrumb/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/breadcrumb/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/breadcrumb/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.breadcrumb.name')
-```
-
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.breadcrumb::layouts.master')
+view('modules.breadcrumb::index')
 ```
 
-Use Module view
-
-```php
-view('modules.breadcrumb::example')
-```

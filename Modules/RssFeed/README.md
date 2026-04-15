@@ -1,28 +1,36 @@
-# RssFeed Module for Microweber
+# RssFeed
 
-This module provides functionality for generating RSS feeds for posts and products.
+RSS feed generator and reader. Publish site content as RSS and display external RSS feeds.
 
-## Features
+## Structure
 
-- Generates RSS feeds in different formats (e.g., Atom, WordPress).
-- Supports multilingual content.
-- Fetches content dynamically from the database.
-
-
+- HTTP controllers
+- Route definitions
+- Blade views
 
 ## Usage
 
-You can access the RSS feeds via the following endpoints:
+### Module tag
 
-- `/rss` - Returns the main RSS feed.
-- `/rss/posts` - Returns the RSS feed for posts.
-- `/rss/products` - Returns the RSS feed for products.
+```html
+<module type="rssfeed" />
+```
 
-## Testing
-
-Run the tests using the following command:
+### Publish assets
 
 ```sh
-php artisan test --filter RssFeed
+php artisan module:publish RssFeed
+```
+
+### Configuration
+
+```php
+config('modules.rssfeed.name')
+```
+
+### Views
+
+```php
+view('modules.rssfeed::index')
 ```
 

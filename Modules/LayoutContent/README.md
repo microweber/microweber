@@ -1,55 +1,38 @@
 # LayoutContent
 
+Layout content wrapper for arranging modules and content blocks within structured page layouts.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- Route definitions
+- Blade views
+- Database migrations
+
+## Usage
+
+### Module tag
+
+```html
+<module type="layout_content" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate LayoutContent
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish LayoutContent
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/layout_content/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/layout_content/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/layout_content/img/icon.svg') }}
- ```
-
-### module config values
-```php
-config('modules.layout_content.name')
-```
-
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.layout_content::layouts.master')
+view('modules.layout_content::index')
 ```
 
-Use Module view
-
-```php
-view('modules.layout_content::example')
-```

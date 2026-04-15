@@ -1,19 +1,29 @@
 # ContentField
 
+Custom content fields for extending content types with additional data fields beyond the defaults.
 
+## Structure
 
-## Run module migrations
+- Eloquent models
+- Database migrations
+
+## Usage
+
+### Module tag
+
+```html
+<module type="contentfield" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate ContentField
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish ContentField
 ```
-
 

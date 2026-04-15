@@ -1,19 +1,30 @@
 # FacebookPage
 
+Facebook Page plugin for embedding a Facebook page feed or timeline on the website.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Blade views
+- Tests
 
-```sh
-php artisan module:migrate FacebookPage
+## Usage
+
+### Module tag
+
+```html
+<module type="facebook_page" />
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish FacebookPage
 ```
 
+### Views
+
+```php
+view('modules.facebook_page::index')
+```
 

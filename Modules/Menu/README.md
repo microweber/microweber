@@ -1,55 +1,46 @@
 # Menu
 
+Navigation menu builder. Create and manage site menus with drag-and-drop ordering and nesting.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Livewire components
+- Eloquent models
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="menu" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate Menu
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Menu
 ```
 
+### Configuration
 
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/menu/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/menu/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/menu/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.menu.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
-
-```php
-@extends('modules.menu::layouts.master')
-```
-
-Use Module view
+### Views
 
 ```php
 view('modules.menu::index')
 ```
+

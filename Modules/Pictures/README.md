@@ -1,32 +1,30 @@
-# Pictures module for Microweber CMS
+# Pictures
 
-## Overview
+Image gallery module. Display collections of images in grid, masonry, or slideshow layouts.
 
-The Pictures module allows you to manage and display images in various formats and layouts within the Microweber CMS. You can create galleries, sliders, and more.
+## Structure
 
-## Features
+- Filament admin
+- Blade views
+- Tests
 
-- Upload and manage images
-- Multiple gallery layouts
-- Responsive design
-- Integration with the Filament admin panel
+## Usage
 
-## Installation
+### Module tag
 
-1. Clone the repository or download the module files.
-2. Place the module in the `Modules` directory of your Microweber installation.
-3. Run the following command to publish the module assets:
+```html
+<module type="pictures" />
+```
+
+### Publish assets
 
 ```sh
 php artisan module:publish Pictures
 ```
 
-4. Configure the module settings in the admin panel.
+### Views
 
-## Usage
+```php
+view('modules.pictures::index')
+```
 
-To use the Pictures module, simply include the relevant template in your views. You can customize the layout and appearance through the module settings.
-
-## License
-
-This module is licensed under the MIT License.

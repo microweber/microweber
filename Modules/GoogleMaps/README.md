@@ -1,36 +1,36 @@
-# Google Maps Module
+# GoogleMaps
 
-## Description
-The Google Maps module allows you to embed Google Maps into your application. You can configure the map settings such as address, zoom level, and dimensions.
+Google Maps embed module. Display interactive maps with custom markers, zoom, and location settings.
 
-## Features
-- Embed Google Maps with customizable settings.
-- Configure map address, zoom, width, and height.
-- Integration with the Filament admin panel for easy configuration.
+## Structure
 
-## Installation
+- Filament admin
+- Blade views
+- Tests
 
-### Run module migrations
-```sh
-php artisan module:migrate GoogleMaps
+## Usage
+
+### Module tag
+
+```html
+<module type="google_maps" />
 ```
 
-### Publish module assets
+### Publish assets
+
 ```sh
 php artisan module:publish GoogleMaps
 ```
 
-## Usage
-To use the Google Maps module, navigate to the settings in the Filament admin panel. You can configure the map's address, zoom level, and dimensions.
+### Configuration
 
-## Configuration
-You can configure the module settings in the `GoogleMapsModuleSettings` class. The settings include options for location details and map display properties.
+```php
+config('modules.google_maps.name')
+```
 
-## License
-This module is licensed under the MIT License.
+### Views
 
-## Author
-Microweber Team - [info@microweber.com](mailto:info@microweber.com)
-
-
+```php
+view('modules.google_maps::index')
+```
 

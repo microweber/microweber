@@ -1,55 +1,47 @@
 # Billing
 
+Subscription billing and plan management. Handle recurring payments, subscription plans, and billing cycles.
 
+## Structure
 
-## Run module migrations
+- Filament admin
+- Eloquent models
+- HTTP controllers
+- Service classes
+- Route definitions
+- Blade views
+- Database migrations
+- Tests
+
+## Usage
+
+### Module tag
+
+```html
+<module type="billing" />
+```
+
+### Run migrations
 
 ```sh
 php artisan module:migrate Billing
 ```
 
-
-
-## Publish module assets
+### Publish assets
 
 ```sh
 php artisan module:publish Billing
 ```
 
+### Configuration
 
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/billing/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/billing/dist', 'resources/assets/sass/app.scss') }}
-```
-
-
-Using static assets
-```blade
-{{ asset('modules/billing/img/icon.svg') }}
- ```
-
-### module config values
 ```php
 config('modules.billing.name')
 ```
 
-
-
-### Module views
-
-Extend master layout
+### Views
 
 ```php
-@extends('modules.billing::layouts.master')
+view('modules.billing::index')
 ```
 
-Use Module view
-
-```php
-view('modules.billing::example')
-```
