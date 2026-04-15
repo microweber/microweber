@@ -178,6 +178,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
             // Load driver-specific settings
             $openAiModel = get_option('openai_model', 'ai');
             $openAiApiKey = $this->resolveAiSecretOption('openai_api_key');
+            $openAiBaseUrl = get_option('openai_base_url', 'ai');
             $openRouterModel = get_option('openrouter_model', 'ai');
             $openRouterApiKey = $this->resolveAiSecretOption('openrouter_api_key');
             $ollamaModel = get_option('ollama_model', 'ai');
@@ -201,6 +202,9 @@ class AiServiceProvider extends BaseModuleServiceProvider
             }
             if ($openAiApiKey) {
                 Config::set('modules.ai.drivers.openai.api_key', $openAiApiKey);
+            }
+            if ($openAiBaseUrl) {
+                Config::set('modules.ai.drivers.openai.base_url', $openAiBaseUrl);
             }
 
             if ($openRouterModel) {

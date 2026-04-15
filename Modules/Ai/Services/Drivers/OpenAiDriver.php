@@ -52,11 +52,17 @@ class OpenAiDriver extends BaseDriver
         $this->cacheDuration = $config['cache_duration'] ?? 600;
 
 
-        $this->client = (new Factory)->withApiKey(
+        $factory = (new Factory)->withApiKey(
             $config['api_key'] ?? env('OPENAI_API_KEY')
         )
-            ->withHttpClient(HttpClientFactory::guzzle(['timeout' => 600]))
-            ->make();
+            ->withHttpClient(HttpClientFactory::guzzle(['timeout' => 600]));
+
+        $baseUrl = $config['base_url'] ?? env('OPENAI_BASE_URL');
+        if (!empty($baseUrl)) {
+            $factory = $factory->withBaseUri($baseUrl);
+        }
+
+        $this->client = $factory->make();
     }
 
     /**

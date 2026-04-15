@@ -70,3 +70,5 @@
 - [x] 2026-04-14  Make the docs on vitepress in the docs folder
 
 - [x] 2026-04-15  make the readme of all the modues, for each of them edit and make the readme dexrtring waht the modu
+
+- [x] 2026-04-15  now works on the AI module we want to be able to set OPENAI_BASE_URL so we can use other openai comp

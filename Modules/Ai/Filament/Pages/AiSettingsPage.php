@@ -194,6 +194,13 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->placeholder('Enter your OpenAI API key')
                             ->helperText(fn() => $this->secretHelperText('openai_api_key', '<small class="mb-2 text-muted"><a href="https://platform.openai.com/signup" target="_blank">Sign up</a> for an OpenAI account to get your API key.</small>')),
+
+                        TextInput::make('options.ai.openai_base_url')
+                            ->live(onBlur: true)
+                            ->label('OpenAI Base URL')
+                            ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
+                            ->placeholder('https://api.openai.com/v1')
+                            ->helperText('Optional. Set a custom base URL to use OpenAI-compatible APIs (e.g. Azure OpenAI, local LLMs, LiteLLM proxy).'),
                     ]),
 
                 Section::make('Google Gemini Settings')
