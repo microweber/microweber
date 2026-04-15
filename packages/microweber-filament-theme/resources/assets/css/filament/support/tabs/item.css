@@ -3,7 +3,7 @@
  */
 
 .fi-tabs-item {
-    @apply px-2 py-3;
+    padding: 10px 16px; /* GR: sm(10) md(16) */
 }
 
 .fi-tabs-item:focus-visible {
