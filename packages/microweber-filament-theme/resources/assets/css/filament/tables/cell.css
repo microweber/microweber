@@ -3,7 +3,7 @@
         @apply !ps-0;
     }
 
-    &:last-of-type {
+    &:last-of-type:not(:has(.fi-ta-actions)) {
         @apply !pe-0;
     }
 }

@@ -526,9 +526,10 @@ svg[wire\:loading\.remove] {
   width: 120px !important;
 }
 
-// Table actions cell — shrink to fit and prevent wrapping
+// Table actions cell — equal spacing matching checkbox column
 .fi-ta-actions-header-cell,
 .fi-ta-cell:has(.fi-ta-actions) {
+  padding-inline-start: $mw-space-sm !important;  // GR: sm(10)
   padding-inline-end: $mw-space-sm !important;  // GR: sm(10)
   white-space: nowrap !important;
   width: 1% !important;  // shrink to fit content

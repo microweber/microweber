@@ -91,7 +91,7 @@
 
 - [x] 2026-04-15  the tabs sizing is still not going to the golden ratio spacing please fix
 
-- [ ] in the tables and delete button on the end of the table spacing is not the same as the checkbox spacing it must be the same
+- [x] 2026-04-15  in the tables and delete button on the end of the table spacing is not the same as the checkbox spacing it must be the same
 
 - [ ] when you create page if you have too many menus the drop-down is the book is too high we must have paging and search for the menus and show the most use menu some top
 
