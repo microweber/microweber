@@ -15,7 +15,6 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -183,19 +182,16 @@ class ProductInventoryResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                BadgeColumn::make('type')
+                TextColumn::make('type')
                     ->label('Type')
-                    ->colors([
-                        'danger' => ProductInventoryMovement::TYPE_SALE,
-                        'success' => ProductInventoryMovement::TYPE_RESTOCK,
-                        'warning' => ProductInventoryMovement::TYPE_ADJUSTMENT,
-                        'info' => ProductInventoryMovement::TYPE_RETURN,
-                        'gray' => [
-                            ProductInventoryMovement::TYPE_DAMAGED,
-                            ProductInventoryMovement::TYPE_LOST,
-                            ProductInventoryMovement::TYPE_INITIAL,
-                        ],
-                    ])
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        ProductInventoryMovement::TYPE_SALE => 'danger',
+                        ProductInventoryMovement::TYPE_RESTOCK => 'success',
+                        ProductInventoryMovement::TYPE_ADJUSTMENT => 'warning',
+                        ProductInventoryMovement::TYPE_RETURN => 'info',
+                        default => 'gray',
+                    })
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
                             ProductInventoryMovement::TYPE_SALE => 'Sale',
