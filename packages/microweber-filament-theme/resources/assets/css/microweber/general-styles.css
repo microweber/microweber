@@ -1289,7 +1289,7 @@ select option,
 .dark .fi-resource-list-records-page .fi-header,
 .dark .fi-resource-create-record-page .fi-header,
 .dark .fi-resource-edit-record-page .fi-header {
-    background-color: rgb(17, 24, 39) !important;
+    background-color: #161922 !important;
 }
 
 .fi-select-input {

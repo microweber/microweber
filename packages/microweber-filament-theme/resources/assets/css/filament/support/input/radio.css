@@ -24,7 +24,7 @@
 
 html.dark .fi-radio-input {
     border-color: rgb(107, 114, 128) !important;
-    background-color: rgb(17, 24, 39) !important;
+    background-color: #161922 !important;
 
     &:checked {
         border-color: var(--primary-500) !important;
