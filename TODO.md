@@ -277,3 +277,15 @@
 - [x] 2026-04-16  in the ai seetigns make it so theu ser can enter the model namesm anually on all
 
 - [x] 2026-04-16  on the ai setting nexto to each provder make a button "test connecton" where we cn test thep rovider reponce
+
+- [x] 2026-04-16  ok now the api test buttons does nto givem enaingful errors on test ,psl ad validator and show the error
+
+- [x] 2026-04-16  trest conection btuon is not very visible  als on dark mode is not [attachment: .autodev/messages/attachments/20260416_131534_6094378d/paste-1776334527378.png]
+
+- [x] 2026-04-16  the links in the help texts are not destriguasable you must have dots unreline [attachment: .autodev/messages/attachments/20260416_131621_63521017/paste-1776334578685.png]
+
+- [x] 2026-04-16  now all styles are gone the npm build is broken
+
+- [x] 2026-04-16  threr is somei nput colro in the dark mode  and the iput siz e is beeding out [attachment: .autodev/messages/attachments/20260416_132201_3618742a/paste-1776334914033.png]
+
+- [x] the dark mode looks inconsisten in terms of design , the lignt mode is ok, pls see how the colros and th e cards are used in thel ight mode and fix the dark mode

@@ -2205,38 +2205,38 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 html.dark {
   .fi-body {
-    background-color: #0f1117 !important;
+    background-color: #0d0f14 !important;
   }
 
   .fi-sidebar {
-    background-color: #161922 !important;
-    border-right: none !important;
+    background-color: #151821 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
   }
 
   .fi-topbar,
   .fi-topbar > nav {
-    background-color: #161922 !important;
-    border-bottom-color: #1e2330 !important;
+    background-color: #151821 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   .fi-section-content-ctn {
-    background-color: #161922 !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
   }
 
   .fi-ta-ctn {
-    background-color: #161922 !important;
+    background-color: #1a1f2b !important;
   }
 
   .fi-ta-content {
-    background-color: #161922 !important;
+    background-color: #1a1f2b !important;
   }
 
   .fi-ta-record {
-    border-bottom-color: #1e2330 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05) !important;
+      background-color: rgba(255, 255, 255, 0.04) !important;
     }
   }
 
@@ -2346,17 +2346,17 @@ html.dark {
   }
 
   .fi-wi {
-    background-color: #161922 !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
   }
 
   .fi-modal-content {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   .fi-modal-header {
-    border-bottom-color: #1e2330 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   .fi-modal-heading {
@@ -2377,13 +2377,13 @@ html.dark {
   }
 
   .fi-modal-footer {
-    border-top-color: #1e2330 !important;
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   // Dark mode notifications / toasts
   .fi-no-notification {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
     box-shadow:
       rgba(0, 0, 0, 0.4) 0px 8px 24px -4px,
       rgba(0, 0, 0, 0.2) 0px 4px 8px -2px !important;
@@ -2469,8 +2469,8 @@ html.dark {
   }
 
   .fi-loading-section {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
   }
 
   .mw-skeleton,
@@ -2482,13 +2482,13 @@ html.dark {
   }
 
   .fi-dropdown-panel {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   .fi-input-wrp {
-    border-color: #2d3748 !important;
-    background-color: #1a1f2e !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: #141822 !important;
 
     &:focus-within {
       border-color: rgba(255, 255, 255, 0.4) !important;
@@ -2541,7 +2541,7 @@ html.dark {
   }
 
   .fi-sidebar-group {
-    border-top-color: rgba(255, 255, 255, 0.06) !important;
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
 
     .fi-sidebar-group-label {
       color: #4a5568 !important;
@@ -2609,7 +2609,7 @@ html.dark {
 
   // Tabs — light text in dark mode
   .fi-tabs {
-    border-bottom-color: #1e2330 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
   }
   .fi-tabs-item {
     color: #a0aec0 !important;
@@ -2629,8 +2629,8 @@ html.dark {
 
   // Table header container dark bg
   .fi-ta-header-ctn {
-    background-color: #161922 !important;
-    border-bottom-color: #1e2330 !important;
+    background-color: #1e2330 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   // Pagination text — visible in dark mode
@@ -2651,8 +2651,8 @@ html.dark {
 
   // Per-page select wrapper in table — dark bg
   .fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   // Form labels in dark mode
@@ -2681,7 +2681,7 @@ html.dark {
 
   // Content create/edit form — dark mode
   .mw--global-admin-tree {
-    border-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
     background-color: rgba(0, 0, 0, 0.15) !important;
 
     &::-webkit-scrollbar-thumb {
@@ -2710,36 +2710,36 @@ html.dark {
   }
 
   .fi-rich-editor {
-    border-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
 
     .fi-rich-editor-toolbar {
-      background-color: #1a1d28 !important;
-      border-bottom-color: #1e2330 !important;
+      background-color: #161b26 !important;
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
     }
   }
 
   // Excerpt textarea — dark mode
   .fi-fo-textarea textarea {
-    background-color: #1a1d28 !important;
-    border-color: #1e2330 !important;
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
     color: #e2e8f0 !important;
   }
 
-  // ── Sections (form cards) — the main white-bg offender ──
+  // ── Sections (form cards) — elevated surface ──
   .fi-section {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
 
     // Collapsible section header hover
     &.fi-collapsible .fi-section-header {
-      border-bottom-color: #1e2330 !important;
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
     }
   }
 
   .fi-section-header {
-    background-color: #161922 !important;
-    border-bottom-color: #1e2330 !important;
+    background-color: #1a1f2b !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   // ── Form inputs, selects, textareas — unified dark treatment ──
@@ -2749,8 +2749,8 @@ html.dark {
   .fi-input-wrp input,
   .fi-input-wrp select,
   .fi-input-wrp textarea {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
     color: #e2e8f0 !important;
 
     &::placeholder {
@@ -2764,8 +2764,8 @@ html.dark {
   .fi-radio-input,
   input[type="checkbox"],
   input[type="radio"] {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
 
     &:checked {
       background-color: #4299e1 !important;
@@ -2836,8 +2836,8 @@ html.dark {
   }
 
   .fi-btn.fi-color-gray {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
     color: #a0aec0 !important;
 
     &:hover {
@@ -2888,7 +2888,7 @@ html.dark {
 
   // ── Fieldset / form group borders ──
   .fi-fieldset {
-    border-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
   }
 
   // ── Info list (key-value display) ──
@@ -2902,8 +2902,8 @@ html.dark {
 
   // ── Repeater component ──
   .fi-repeater-item {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   // ── Global search field — blend with topbar ──
@@ -2928,8 +2928,8 @@ html.dark {
 
   // ── Global search results dropdown ──
   .fi-global-search-results-ctn {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   .fi-global-search-result-group-header {
@@ -2958,20 +2958,20 @@ html.dark {
 
   // ── Color swatch inputs ──
   .fi-color-picker-preview {
-    border-color: #2d3748 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   // ── File upload area ──
   .fi-fo-file-upload {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #141822 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
     color: #a0aec0 !important;
   }
 
   // ── Date picker ──
   .fi-date-time-picker-dropdown {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
     color: #e2e8f0 !important;
   }
 
@@ -2982,7 +2982,7 @@ html.dark {
 
   // ── Horizontal rule / divider ──
   hr {
-    border-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   // ── Stat card icon backgrounds in dark mode — keep tinted ──
@@ -3010,8 +3010,8 @@ html.dark {
 
   // ── Table filters ──
   .fi-ta-filters {
-    background-color: #161922 !important;
-    border-color: #1e2330 !important;
+    background-color: #1e2330 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   // ── Action icon buttons in tables ──
@@ -3026,8 +3026,8 @@ html.dark {
 
   // ── Marketplace card items ──
   .fi-ta-grid .fi-ta-record {
-    background-color: #1a1f2e !important;
-    border-color: #2d3748 !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
   }
 }
 
@@ -3214,8 +3214,9 @@ html.dark {
   }
 
   .mw-quick-stat-card {
-    background-color: #161922 !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
   }
 
   .mw-quick-stat-card-label {
@@ -3368,12 +3369,13 @@ html.dark {
 // Dark mode for statistics card
 html.dark {
   .mw-stats-card {
-    background-color: #161922 !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
   }
 
   .mw-stats-card-icon {
-    background-color: #1e2330 !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   .mw-stats-card-icon-svg {
@@ -3397,7 +3399,7 @@ html.dark {
   }
 
   .mw-stats-card-footer {
-    border-top-color: #1e2330 !important;
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   .mw-stats-card-footer-stat {
@@ -3484,13 +3486,13 @@ html.dark {
 // Dark mode login
 html.dark {
   .fi-simple-layout {
-    background-color: #0f1117 !important;
+    background-color: #0d0f14 !important;
   }
 
   .fi-simple-main {
-    background-color: #161922 !important;
-    border-color: #2d3748 !important;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px 0px !important;
+    background-color: #1a1f2b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
   }
 
   .fi-simple-header {
@@ -4903,15 +4905,15 @@ html.dark {
   }
 
   .mw-media-toolbar {
-    border-bottom-color: #1e2330;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-search-input,
   .mw-media-filter-select,
   .mw-media-filter-date,
   .mw-media-unsplash-input {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #141822;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #e2e8f0;
 
     &::placeholder {
@@ -4924,13 +4926,13 @@ html.dark {
   }
 
   .mw-media-view-toggle {
-    border-color: #2d3748;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .mw-media-view-btn {
-    background: #1a1f2e;
+    background: #1a1f2b;
     color: #a0aec0;
-    border-color: #2d3748;
+    border-color: rgba(255, 255, 255, 0.1);
 
     &.active {
       background: #2d3748;
@@ -4944,12 +4946,12 @@ html.dark {
 
   .mw-media-upload-btn {
     background: #e2e8f0;
-    color: #0f1117;
+    color: #0d0f14;
   }
 
   .mw-media-unsplash-btn {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #a0aec0;
 
     &:hover, &.active {
@@ -4960,8 +4962,8 @@ html.dark {
   }
 
   .mw-media-bulk-bar {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .mw-media-bulk-action {
@@ -4973,21 +4975,21 @@ html.dark {
 
   .mw-media-confirm-bar {
     background: #1e2330;
-    border-color: #2d3748;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #e2e8f0;
   }
 
   .mw-media-panels {
-    border-color: #1e2330;
+    border-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-sidebar {
-    background: #161922;
-    border-right-color: #1e2330;
+    background: #151821;
+    border-right-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-sidebar-header {
-    border-bottom-color: #1e2330;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-sidebar-title {
@@ -5020,18 +5022,18 @@ html.dark {
   }
 
   .mw-media-folder-input {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #141822;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #e2e8f0;
   }
 
   .mw-media-content {
-    background: #0f1117;
+    background: #0d0f14;
   }
 
   .mw-media-grid-item {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
 
     &:hover {
       border-color: #4a5568;
@@ -5050,7 +5052,7 @@ html.dark {
 
   .mw-media-grid-label {
     color: #a0aec0;
-    border-top-color: #2d3748;
+    border-top-color: rgba(255, 255, 255, 0.08);
   }
 
   .mw-media-grid-thumb {
@@ -5069,8 +5071,8 @@ html.dark {
   .mw-media-list {
     table {
       thead tr {
-        background: #161922;
-        border-bottom-color: #1e2330;
+        background: #1e2330;
+        border-bottom-color: rgba(255, 255, 255, 0.06);
       }
 
       th {
@@ -5079,7 +5081,7 @@ html.dark {
 
       td {
         color: #a0aec0;
-        border-bottom-color: #1e2330;
+        border-bottom-color: rgba(255, 255, 255, 0.06);
       }
 
       tbody tr {
@@ -5101,12 +5103,12 @@ html.dark {
 
   // Detail panel dark mode
   .mw-media-detail {
-    background: #161922;
-    border-left-color: #1e2330;
+    background: #1a1f2b;
+    border-left-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-detail-header {
-    border-bottom-color: #1e2330;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
     color: #e2e8f0;
   }
 
@@ -5118,7 +5120,7 @@ html.dark {
   }
 
   .mw-media-detail-preview {
-    background: #0f1117;
+    background: #0d0f14;
   }
 
   .mw-media-detail-fields {
@@ -5128,8 +5130,8 @@ html.dark {
   }
 
   .mw-media-detail-input {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #141822;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #e2e8f0;
 
     &:focus {
@@ -5143,7 +5145,7 @@ html.dark {
   }
 
   .mw-media-detail-info-row {
-    border-bottom-color: #1e2330;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
 
     span:first-child {
       color: #718096;
@@ -5156,7 +5158,7 @@ html.dark {
 
   .mw-media-detail-delete {
     color: #fc8181;
-    border-color: #2d3748;
+    border-color: rgba(255, 255, 255, 0.1);
 
     &:hover {
       background: rgba(252, 129, 129, 0.1);
@@ -5164,8 +5166,8 @@ html.dark {
   }
 
   .mw-media-detail-copy-btn {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.1);
     color: #718096;
 
     &:hover {
@@ -5176,8 +5178,8 @@ html.dark {
 
   // Upload zone dark mode
   .mw-media-upload-zone {
-    background: #161922;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.1);
 
     &.drag-over {
       border-color: #4299e1;
@@ -5196,8 +5198,8 @@ html.dark {
 
   // Unsplash panel dark mode
   .mw-media-unsplash-panel {
-    background: #161922;
-    border-color: #1e2330;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.06);
   }
 
   .mw-media-unsplash-search-btn,
@@ -5372,11 +5374,11 @@ html.dark .mw-media-pagination {
 html.dark {
   @media (max-width: 768px) {
     .mw-media-sidebar {
-      border-bottom-color: #1e2330;
+      border-bottom-color: rgba(255, 255, 255, 0.06);
     }
 
     .mw-media-detail {
-      border-top-color: #1e2330;
+      border-top-color: rgba(255, 255, 255, 0.06);
     }
   }
 }
@@ -5539,16 +5541,16 @@ html.dark {
 /* Dark mode — Menu editor */
 html.dark {
   .mw-menu-editor__toolbar {
-    background: #161922;
-    border-color: #1e2330;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.07);
   }
 
   .mw-menu-editor__tree {
-    background: #0f1117;
-    border-color: #1e2330;
+    background: #0d0f14;
+    border-color: rgba(255, 255, 255, 0.07);
 
     ul ul {
-      border-left-color: #2d3748;
+      border-left-color: rgba(255, 255, 255, 0.08);
     }
 
     .ui-sortable-placeholder {
@@ -5558,13 +5560,13 @@ html.dark {
   }
 
   .mw-menu-editor__empty {
-    background: #0f1117;
-    border-color: #1e2330;
+    background: #0d0f14;
+    border-color: rgba(255, 255, 255, 0.07);
   }
 
   .mw-menu-item__inner {
-    background: #1a1f2e;
-    border-color: #2d3748;
+    background: #1a1f2b;
+    border-color: rgba(255, 255, 255, 0.08);
 
     &:hover {
       border-color: #4a5568;
@@ -5615,8 +5617,8 @@ html.dark {
 
 html.dark {
   .mw-edit-categories-list {
-    border-color: #1e2330;
-    background: #0f1117;
+    border-color: rgba(255, 255, 255, 0.07);
+    background: #0d0f14;
   }
 
   .mw-tree-nav-skin-category-manager {
@@ -5731,9 +5733,9 @@ html.dark {
   }
 
   .mw-settings-hub-card {
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: none;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #1a1f2b;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
   }
 
   .mw-settings-hub-item {
@@ -5770,7 +5772,9 @@ html.dark {
 }
 
 .dark .mw-settings-section {
-  background-color: rgba(255,255,255,0.05);
+  background-color: #1a1f2b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .dark .mw-settings-section-sidebar {
@@ -5792,7 +5796,7 @@ html.dark {
 }
 
 .dark .mw-settings-section-content {
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(255,255,255,0.04);
 }
 
 @media (max-width: 768px) {
