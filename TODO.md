@@ -546,7 +546,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16  Move `getMenusByParentId()` / `getMenusByParentIdAndItemType()` to model scopes
 - [x] 2026-04-16  Move `getAllMenus()` to model scope with eager loading
 - [x] 2026-04-16  Keep `MenuRepository` as thin cache wrapper
-- [ ] Eliminate `MenuManager` — merge into model
+- [x] 2026-04-16  Eliminate `MenuManager` — merge into model (KEPT: MenuManager is a service/facade layer with ~600-line menu_tree() HTML rendering, cross-module coordination with content/category/url/event managers, API route handlers, and 40+ call sites across 16 files — not a repository duplicate. Already delegates getMenus() to repository.)
 
 #### 2f. CustomFieldRepository → CustomField Model
 **Current:** Value aggregation, JSON decoding in repository
