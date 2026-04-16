@@ -128,7 +128,7 @@
 
 ### 2. Fix Old Filament Form API (5 files still using `Filament\Forms\Form` instead of `Filament\Schemas\Schema`)
 
-- [ ] fix: Product module — ProductsModuleSettings.php old Form import
+- [x] 2026-04-16  fix: Product module — ProductsModuleSettings.php old Form import
 - [ ] fix: Slider module — SliderTableList.php old Form import
 - [ ] fix: ImageRollover module — ImageRolloverModuleSettingsFilamentTest.php old Form import
 - [ ] fix: Content module — ContentTableList.php old Form import
