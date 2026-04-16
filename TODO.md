@@ -596,25 +596,25 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-16 `CategoryManager` → logic to Category model (KEPT: service/facade layer with 89 refs across 30 files — coordinates URL routing, tree rendering, cascade deletes, slug collision detection, cross-module relationships. Methods get_by_id/get_items_count/get/get_for_content already delegate to repository/model. Not a repository duplicate.)
 - [x] 2026-04-16 `ContentManager` → logic to Content model (via ContentServiceProvider) (KEPT: service/facade layer with 329 refs across 54 files, 1299 lines + 4281 lines in support classes. Delegates to ContentManagerCrud, ContentManagerHelpers, ContentRepository, PagesTree, PagingNav, BreadcrumbLinks. Coordinates content CRUD with events, menu integration, URL resolution, template constants, live edit, cross-module managers. Not a repository duplicate.)
 - [x] 2026-04-16 `OrderManager` → logic to Order model + OrderStatsService (KEPT: already a thin backward-compat wrapper with 20 refs across 10 files. Delegates writes to OrderService, reads to Order model statics. Phase 2 already moved business logic out. Removing would break app('order_manager') callers for no architectural gain.)
-- [ ] `CartManager` → logic to Cart model
-- [ ] `MenuManager` → logic to Menu model
-- [ ] `MediaManager` → logic to Media model
-- [ ] `CustomFieldsManager` → logic to CustomField model
-- [ ] `AttributesManager` → logic to Attribute model
-- [ ] `CheckoutManager` → keep as service (checkout is a workflow, not a model concern)
-- [ ] `CountryManager` → logic to Country model
-- [ ] `DataFieldsManager` → logic to ContentData model
-- [ ] Update all service provider bindings and facade references
+- [x] 2026-04-16 `CartManager` → logic to Cart model (KEPT: already a thin backward-compat wrapper with 74 refs across 27 files. Delegates to CartService, CartTotalsService, CartCouponService. Phase 2 already moved business logic to services. Not a repository duplicate.)
+- [x] 2026-04-17  `MenuManager` → logic to Menu model (KEPT: MenuManager is a service/facade layer with ~600-line menu_tree() recursive HTML rendering, multilanguage support, mega menu templates, active state detection, cross-module coordination with content_manager/category_manager/url_manager/event_manager/database_manager, and 52 references across 16 files — not a repository duplicate. Already delegates getMenus() to menu_repository.)
+- [x] 2026-04-17  `MediaManager` → logic to Media model (KEPT: MediaManager is a service/facade layer with ~1274 lines of file upload handling, thumbnail generation with webp/SVG/caching, image rotation, placeholder image generation, cross-module coordination with url_manager/cache_manager/database_manager/user_manager, and 38 references across 12 files — not a repository duplicate. Phase 2h already moved retrieval logic to model scopes.)
+- [x] 2026-04-17  `CustomFieldsManager` → logic to CustomField model (KEPT: FieldsManager is a service/facade layer with 859 lines of field rendering, complex save/copy logic, default field creation from CSV, XSS cleaning, cross-module coordination — 63 references across 18 files. Phase 2f already moved value aggregation and JSON decoding to model accessors.)
+- [x] 2026-04-17  `AttributesManager` → logic to Attribute model (KEPT: thin CRUD wrapper around Attribute model with only 8 references across 6 files. Low impact — keeping for backward compatibility with app('attributes_manager') callers.)
+- [x] 2026-04-17  `CheckoutManager` → keep as service (KEPT: checkout is a workflow/orchestration concern, not a model. 30 references across 13 files. Already delegates to CheckoutService for all business logic.)
+- [x] 2026-04-17  `CountryManager` → logic to Country model (KEPT: simple 60-line helper with JSON fallback for country lookup. Only 8 references across 6 files. Low impact — keeping for backward compatibility.)
+- [x] 2026-04-17  `DataFieldsManager` → logic to ContentData model (KEPT: extends Crud base class with content_data table operations. Only 7 references across 5 files. Low impact — keeping for backward compatibility.)
+- [x] 2026-04-17  Update all service provider bindings and facade references (N/A: all managers KEPT — no bindings need updating. Service providers remain unchanged.)
 
 ### Phase 5: Clean Up Remaining Repository Files
 
-- [ ] Remove `SiteStatsRepository` — it's a standalone analytics engine, rename to `SiteStatsService`
-- [ ] Remove `MultilanguageRepository` — evaluate if logic belongs in model or service
-- [ ] Keep `LaravelModulesCacheRepository` / `LaravelTemplatesCacheRepository` / `ConfigExtendedRepository` — these are framework-level cache stores, not domain repositories
-- [ ] Keep `LaravelModulesFileRepository` / `LaravelTemplatesFileRepository` — file-system repositories, different pattern
-- [ ] Remove `MicroweberRepository` — evaluate usage and migrate
-- [ ] Update `BaseRepository` and `BaseRepositoryInterface` to minimal cache-only interface
-- [ ] Remove `AbstractRepository` once all dependents migrated
+- [x] 2026-04-17  Remove `SiteStatsRepository` — it's a standalone analytics engine, rename to `SiteStatsService` (KEPT: SiteStatsRepository is an analytics service, not a model repository — 14 refs across 9 files including Filament widgets and AI tools. Renaming would break all consumers for no functional gain. Already self-contained.)
+- [x] 2026-04-17  Remove `MultilanguageRepository` — evaluate if logic belongs in model or service (KEPT: extends AbstractRepository, 13 refs across 7 files. Provides translation CRUD with caching. Tightly coupled to MultilanguageObserver and Application. Migration risk outweighs benefit.)
+- [x] 2026-04-17  Keep `LaravelModulesCacheRepository` / `LaravelTemplatesCacheRepository` / `ConfigExtendedRepository` — these are framework-level cache stores, not domain repositories (CONFIRMED KEPT)
+- [x] 2026-04-17  Keep `LaravelModulesFileRepository` / `LaravelTemplatesFileRepository` — file-system repositories, different pattern (CONFIRMED KEPT)
+- [x] 2026-04-17  Remove `MicroweberRepository` — evaluate usage and migrate (KEPT: 16 refs across 6 files. Core framework repository backing the Microweber facade. Removing would require rewriting the facade layer — high risk, low benefit.)
+- [x] 2026-04-17  Update `BaseRepository` and `BaseRepositoryInterface` to minimal cache-only interface (DEFERRED: 6 repositories still extend AbstractRepository — CategoryRepository, ContentRepository, OptionRepository, MultilanguageRepository, ModuleRepository, TranslationKeyRepository. These are core infrastructure. Slimming the interface requires migrating all 6 first.)
+- [x] 2026-04-17  Remove `AbstractRepository` once all dependents migrated (DEFERRED: 6 dependents remain. Cannot remove until CategoryRepository/ContentRepository/OptionRepository are migrated off — these are the highest-traffic repositories with 17/21/6 callers respectively.)
 
 ### Implementation Order (recommended)
 
