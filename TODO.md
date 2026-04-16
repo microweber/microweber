@@ -316,7 +316,7 @@
 
 - [x] 2026-04-16  makea plan how to conect the ai chat with our mcp servers that we hav ie itnerlanly now seems its not cnected and doesn ot query our db
 
-- [ ] examine the ai chats and popoulate the todo on how to make full itengreation with the system via the tools, we want to to ble able to ask about stats, proucts, users, billing, subs, etc across the whole system also to be able to make posts, pages content, etc  via the chat make a full plan and populatthe th todo.md with the items fori tnegration
+- [x] 2026-04-16  examine the ai chats and popoulate the todo on how to make full itengreation with the system via the tools, we want to to ble able to ask about stats, proucts, users, billing, subs, etc across the whole system also to be able to make posts, pages content, etc  via the chat make a full plan and populatthe th todo.md with the items fori tnegration
 
 ---
 
@@ -334,21 +334,21 @@ The AI module has **71 tools** and a full MCP server with tool catalog, but the 
 ### Phase 1: Wire ALL MCP Tools into GeneralAgent (the universal chat agent)
 Give the GeneralAgent access to all domain tools so it can answer any question about the system.
 
-- [ ] Wire analytics tools into GeneralAgent: TrafficSummary, TopPages, TrafficReferrers, AudienceBreakdown
-- [ ] Wire billing tools into GeneralAgent: AccountStatus, PlanSummary, SubscriptionLookup, MetricsSummary
-- [ ] Wire invoice tools into GeneralAgent: InvoiceLookup, InvoiceDetail, CustomerHistory, UnpaidSummary
-- [ ] Wire payment tools into GeneralAgent: PaymentLookup, PaymentDetail, ProviderHealth, WebhookHealth
-- [ ] Wire form tools into GeneralAgent: FormLookup, SubmissionDetail, SubmissionSearch, ActivitySummary
-- [ ] Wire newsletter tools into GeneralAgent: CampaignLookup, SubscriberLookup, TemplateLookup, AutomationStatus
-- [ ] Wire layout tools into GeneralAgent: LayoutLookup, ActiveTemplate, AssetSummary
-- [ ] Wire shipping tools into GeneralAgent: MethodLookup, ZoneSummary
-- [ ] Wire tax tools into GeneralAgent: RuleLookup, Preview
-- [ ] Wire settings tool into GeneralAgent: SettingsRead
-- [ ] Wire content tools into GeneralAgent: ContentSearch, GetContent, ContentEdit, CreatePost, CreateProduct
-- [ ] Wire product/order tools into GeneralAgent: ProductSearch, OrderSearch, ProductEdit, CreateProduct
-- [ ] Wire customer tools into GeneralAgent: CustomerLookup
-- [ ] Wire media tools into GeneralAgent: MediaLookup, MediaAssetDetail, MediaStorageHealth
-- [ ] Uncomment and wire RagSearchTool into GeneralAgent for cross-domain search
+- [x] 2026-04-16  Wire analytics tools into GeneralAgent: TrafficSummary, TopPages, TrafficReferrers, AudienceBreakdown
+- [x] 2026-04-16  Wire billing tools into GeneralAgent: AccountStatus, PlanSummary, SubscriptionLookup, MetricsSummary
+- [x] 2026-04-16  Wire invoice tools into GeneralAgent: InvoiceLookup, InvoiceDetail, CustomerHistory, UnpaidSummary
+- [x] 2026-04-16  Wire payment tools into GeneralAgent: PaymentLookup, PaymentDetail, ProviderHealth, WebhookHealth
+- [x] 2026-04-16  Wire form tools into GeneralAgent: FormLookup, SubmissionDetail, SubmissionSearch, ActivitySummary
+- [x] 2026-04-16  Wire newsletter tools into GeneralAgent: CampaignLookup, SubscriberLookup, TemplateLookup, AutomationStatus
+- [x] 2026-04-16  Wire layout tools into GeneralAgent: LayoutLookup, ActiveTemplate, AssetSummary
+- [x] 2026-04-16  Wire shipping tools into GeneralAgent: MethodLookup, ZoneSummary
+- [x] 2026-04-16  Wire tax tools into GeneralAgent: RuleLookup, Preview
+- [x] 2026-04-16  Wire settings tool into GeneralAgent: SettingsRead
+- [x] 2026-04-16  Wire content tools into GeneralAgent: ContentSearch, GetContent, ContentEdit, CreatePost, CreateProduct
+- [x] 2026-04-16  Wire product/order tools into GeneralAgent: ProductSearch, OrderSearch, ProductEdit, CreateProduct
+- [x] 2026-04-16  Wire customer tools into GeneralAgent: CustomerLookup
+- [x] 2026-04-16  Wire media tools into GeneralAgent: MediaLookup, MediaAssetDetail, MediaStorageHealth
+- [x] 2026-04-16  Uncomment and wire RagSearchTool into GeneralAgent for cross-domain search
 
 ### Phase 2: Fix Agent Chat ↔ Tool Execution Pipeline
 The AgentChatComponent calls `$agent->chat()` (NeuronAI) which should use the LLM's tool-calling. Verify and fix:
@@ -382,3 +382,7 @@ Enable users to create and modify content through the chat:
 - [ ] Test content improvement: "Improve the SEO of page #15"
 - [ ] Add confirmation prompts for destructive/write operations (edit, delete)
 - [ ] Add audit logging for write operations triggered via chat
+
+- [ ] make ap lan to use our mpc toosl also ntrnaly in the agnt sssions, make them on a services if enensary so we can use them both as mcp server and in the ai chat as tools
+
+- [ ] the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
