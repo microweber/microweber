@@ -551,7 +551,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 #### 2f. CustomFieldRepository → CustomField Model
 **Current:** Value aggregation, JSON decoding in repository
 - [x] 2026-04-16  Move value aggregation and JSON option decoding to model accessors
-- [ ] Move price modifier aggregation to model method
+- [x] 2026-04-16  Move price modifier aggregation to model method
 - [ ] Keep `CustomFieldRepository` as thin cache wrapper
 - [ ] Eliminate `CustomFieldsManager` — merge into model
 
