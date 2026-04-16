@@ -518,7 +518,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16 Move `getThumbnail()` to `MediaTrait`
 - [x] 2026-04-16 Move `createDefaultShopPage()` / `createDefaultBlogPage()` to model static factory methods
 - [x] 2026-04-16 Move `getFirstShopPage()` / `getAllShopPages()` / `getAllBlogPages()` to model scopes
-- [ ] Keep `ContentRepository` as thin cache wrapper
+- [x] 2026-04-16 Keep `ContentRepository` as thin cache wrapper
 - [ ] Eliminate `ContentRepositoryApi` — merge into repository or use model directly
 
 #### 2c. OrderRepository → Order Model + OrderStatsService

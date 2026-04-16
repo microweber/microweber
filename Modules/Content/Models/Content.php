@@ -924,4 +924,90 @@ class Content extends Model
     {
         return get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1') ?: null;
     }
+
+    /**
+     * Get all media for a content ID as an array.
+     *
+     * @param mixed $contentId
+     * @return array
+     */
+    public static function getMediaByContentId($contentId): array
+    {
+        $media = DB::table('media')
+            ->where('rel_id', $contentId)
+            ->where('rel_type', morph_name(static::class))
+            ->orderBy('position', 'asc')
+            ->get();
+
+        if ($media->isEmpty()) {
+            return [];
+        }
+
+        return $media->map(fn($item) => (array) $item)->toArray();
+    }
+
+    /**
+     * Get related content IDs for a given content ID.
+     *
+     * @param mixed $id
+     * @return array
+     */
+    public static function getRelatedContentIdsByContentId($id): array
+    {
+        $related = DB::table('content_related')
+            ->select('related_content_id')
+            ->where('content_id', $id)
+            ->orderBy('position', 'asc')
+            ->get();
+
+        if ($related->isEmpty()) {
+            return [];
+        }
+
+        return $related->pluck('related_content_id')->toArray();
+    }
+
+    /**
+     * Get custom fields of a specific type for a given relationship ID.
+     *
+     * @param mixed $relId
+     * @param string $type
+     * @return array
+     */
+    public static function getCustomFieldsByRelIdAndType($relId, string $type): array
+    {
+        $fields = static::getCustomFieldsByRelId($relId);
+        if (empty($fields)) {
+            return [];
+        }
+
+        return array_values(array_filter($fields, fn($field) => isset($field['type']) && $field['type'] === $type));
+    }
+
+    /**
+     * Get an editable content field by field name, rel_type, and optional rel_id.
+     *
+     * @param string $field
+     * @param string $rel_type
+     * @param mixed $rel_id
+     * @return array|false
+     */
+    public static function getEditFieldData(string $field, string $rel_type, $rel_id = false): array|false
+    {
+        $check = DB::table('content_fields');
+        $check->where('field', $field);
+        $check->where('rel_type', $rel_type);
+        if ($rel_id) {
+            $check->where('rel_id', $rel_id);
+        }
+        $check = $check->first();
+
+        if ($check && !empty($check)) {
+            $check = (array) $check;
+            $check = app()->url_manager->replace_site_url_back($check);
+            return $check;
+        }
+
+        return false;
+    }
 }

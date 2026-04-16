@@ -3,7 +3,6 @@
 
 namespace Modules\Content\Repositories;
 
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Content\Models\Content;
 
@@ -34,13 +33,7 @@ class ContentRepository extends AbstractRepository
     public function getMedia($contentId): array
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId) {
-            $item = $this->findById($contentId);
-
-            if ($item && $item->media) {
-                return $item->media->toArray();
-            }
-
-            return [];
+            return Content::getMediaByContentId($contentId);
         });
     }
 
@@ -112,20 +105,9 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFieldsByType($relId, $type): array
     {
-        $fields = $this->getCustomFields($relId);
-        if ($fields) {
-            foreach ($fields as $k => $field) {
-                if (isset($field['type']) and $field['type'] == $type) {
-                    // keep the field
-                } else {
-                    unset($fields[$k]);
-                }
-
-            }
-        }
-
-        return $fields;
-
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId, $type) {
+            return Content::getCustomFieldsByRelIdAndType($relId, $type);
+        });
     }
 
 
@@ -139,17 +121,7 @@ class ContentRepository extends AbstractRepository
     public function getRelatedContentIds($id): array
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-            $item = $this->findById($id);
-            if (!$item) {
-                return [];
-            }
-            /** @var Content $item */
-            $related = $item->related;
-            if ($related) {
-                $related = $related->toArray();
-                return array_column($related, 'related_content_id');
-            }
-            return [];
+            return Content::getRelatedContentIdsByContentId($id);
         });
     }
 
@@ -164,28 +136,11 @@ class ContentRepository extends AbstractRepository
      */
     public function getEditField($field, $rel_type, $rel_id = false): bool|array
     {
-
         $locale = current_lang();
         $cacheResponse = $this->cacheCallback(__FUNCTION__ . $locale, func_get_args(), function () use ($field, $rel_type, $rel_id) {
-
-            $check = DB::table('content_fields');
-            $check->where('field', $field);
-            $check->where('rel_type', $rel_type);
-            if ($rel_id) {
-                $check->where('rel_id', $rel_id);
-            }
-            $check = $check->first();
-
-            if ($check and !empty($check)) {
-                $check = (array)$check;
-                $check = app()->url_manager->replace_site_url_back($check);
-                return $check;
-            }
-
-            return false;
+            return Content::getEditFieldData($field, $rel_type, $rel_id);
         });
 
-        //dump($field, $rel_type, $rel_id,$cacheResponse);
         if (!empty($cacheResponse)) {
             $hookParams = [];
             $hookParams['getEditField'] = true;
