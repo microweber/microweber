@@ -578,7 +578,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 
 Create a unified thin cache repository base that all repositories extend:
 
-- [ ] Create `CachingModelRepository` base class with:
+- [x] 2026-04-16  Create `CachingModelRepository` base class with:
   - Constructor takes model class + cache tags
   - `cached($key, Closure $query, $ttl)` — wraps `Cache::remember()` with tags
   - `clearCache()` — flushes by tag
