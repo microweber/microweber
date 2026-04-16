@@ -428,9 +428,9 @@ Enable users to create and modify content through the chat:
 - **Fix option A (override):** Add `"webpack-dev-server": ">=5.2.1"` — **risky**, may break laravel-mix
 - **Fix option B (accept):** This is dev-server only, not production. laravel-mix is a build dependency.
 - **Fix option C (migrate):** Replace `mix-tailwindcss` + `laravel-mix` with direct Vite build (project already uses Vite via vitepress). This is the proper long-term fix but requires build pipeline migration.
-- [ ] Evaluate if laravel-mix can be removed (project may already use Vite for builds)
-- [ ] If laravel-mix still needed: document accepted risk for webpack-dev-server (dev-only)
-- [ ] If removable: migrate build from laravel-mix to Vite, remove mix-tailwindcss dependency
+- [x] 2026-04-16  Evaluate if laravel-mix can be removed — **NO**: 3 sub-packages (`frontend-assets`, `microweber-filament-theme`, `frontend-assets-libs`) + `Templates/Bootstrap` actively use `webpack.mix.cjs`. Migration too large for this scope.
+- [x] 2026-04-16  laravel-mix still needed: **ACCEPTED RISK** for webpack-dev-server (dev-only, not production). The vuln requires visiting a malicious site while dev server runs — low real-world risk for CMS build tooling.
+- [ ] Future: migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)
 
 #### 5. vitepress inherits vite vulnerability — MODERATE
 - Resolved by fixing vite (item #2 above)
@@ -453,7 +453,7 @@ Enable users to create and modify content through the chat:
 2. [ ] **Update existing overrides** — Bump elliptic, vite overrides to latest patch versions
 3. [x] 2026-04-16  **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count (12 → 10)
 4. [ ] **Run `npm run build`** — Verify build still works after dependency changes
-5. [ ] **Evaluate laravel-mix removal** — Check if the project's build pipeline (`run-build.js`) uses laravel-mix or Vite
-6. [ ] **If laravel-mix removable:** Remove mix-tailwindcss + laravel-mix, migrate to Vite (eliminates 4 vulnerabilities at once)
-7. [ ] **If laravel-mix required:** Accept webpack-dev-server risk (dev-only) and add override for follow-redirects
+5. [x] 2026-04-16  **Evaluate laravel-mix removal** — NOT removable: 3 sub-packages + 1 template actively use webpack.mix.cjs
+6. [ ] **Future: migrate build from laravel-mix to Vite** across sub-packages (eliminates 4 vulns)
+7. [x] 2026-04-16  **laravel-mix required:** Accepted webpack-dev-server risk (dev-only)
 8. [ ] **Final audit** — Run `npm audit` and verify zero high/critical, document any accepted moderate/low risks
