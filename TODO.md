@@ -354,7 +354,7 @@ Give the GeneralAgent access to all domain tools so it can answer any question a
 The AgentChatComponent calls `$agent->chat()` (NeuronAI) which should use the LLM's tool-calling. Verify and fix:
 
 - [x] 2026-04-16  Verify NeuronAI tool-calling works with Ollama provider (Ollama may not support function calling with all models)
-- [ ] Test tool execution end-to-end: send "show me traffic stats" → GeneralAgent → LLM calls TrafficSummary tool → response displayed
+- [x] 2026-04-16  Test tool execution end-to-end: send "show me traffic stats" → GeneralAgent → LLM calls TrafficSummary tool → response displayed
 - [x] 2026-04-16  Add error handling for providers that don't support tool-calling (fallback to simpleRouting)
 - [x] 2026-04-16  Store tool call results in AgentChatMessage metadata for debugging
 
@@ -387,4 +387,4 @@ Enable users to create and modify content through the chat:
 
 - [x] 2026-04-16  the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
 
-- [ ] make unittest for the agent vht with lcoal ollama if nabled
+- [x] 2026-04-16  make unittest for the agent vht with lcoal ollama if nabled
