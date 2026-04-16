@@ -511,7 +511,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 
 #### 2b. ContentRepository → Content Model
 **Current:** Data relationships, hierarchy, default page creation in repository
-- [ ] Move `getParents()` / `getChildren()` / `getInheritedParent()` to model (hierarchy is model concern)
+- [x] 2026-04-16 Move `getParents()` / `getChildren()` / `getInheritedParent()` to model (hierarchy is model concern)
 - [ ] Move `getCategories()` / `getTags()` to model (already partially there via traits)
 - [ ] Move `getContentData()` / `getContentDataValues()` to `ContentDataTrait`
 - [ ] Move `getCustomFields()` to `CustomFieldsTrait`

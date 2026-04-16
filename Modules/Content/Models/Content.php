@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Content\Database\Factories\ContentFactory;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -684,5 +685,94 @@ class Content extends Model
             'id',
             'order_id',
         );
+    }
+
+    /**
+     * Get the parent IDs of a given content ID by walking up the parent chain.
+     *
+     * @param int $id
+     * @return array|false
+     */
+    public static function getParentIds($id): array|false
+    {
+        $id = intval($id);
+        if ($id <= 0) {
+            return false;
+        }
+
+        $parentIds = [];
+        $content = DB::table('content')->select('id', 'parent')->where('id', $id)->first();
+
+        if (!$content) {
+            return false;
+        }
+
+        $parentId = intval($content->parent);
+        if ($parentId > 0 && $parentId != $content->id) {
+            $parentIds[] = $parentId;
+            $previousParents = static::getParentIds($parentId);
+            if ($previousParents) {
+                $parentIds = array_merge($parentIds, $previousParents);
+            }
+        }
+
+        $parentIds = array_filter(array_unique($parentIds));
+
+        return $parentIds ?: false;
+    }
+
+    /**
+     * Get all descendant IDs of a given content ID.
+     *
+     * @param int $id
+     * @return array|false
+     */
+    public static function getChildrenIds($id = 0): array|false
+    {
+        if (!intval($id)) {
+            return false;
+        }
+
+        $ids = [$id];
+
+        $children = DB::table('content')->select('id', 'parent')->where('parent', $id)->get();
+
+        foreach ($children as $child) {
+            if ($id != $child->id) {
+                $ids[] = $child->id;
+                if (intval($child->parent) && $child->parent != $child->id) {
+                    $descendantIds = static::getChildrenIds($child->id);
+                    if ($descendantIds) {
+                        $ids = array_merge($ids, $descendantIds);
+                    }
+                }
+            }
+        }
+
+        return $ids ? array_unique($ids) : false;
+    }
+
+    /**
+     * Get the first parent content ID that has a layout template.
+     *
+     * @param int $id
+     * @return int|false
+     */
+    public static function getInheritedParentId($id): int|false
+    {
+        $parentIds = static::getParentIds($id);
+
+        if (empty($parentIds)) {
+            return false;
+        }
+
+        foreach ($parentIds as $parentId) {
+            $parent = DB::table('content')->where('id', $parentId)->first();
+            if ($parent && isset($parent->id)) {
+                return intval($parent->id);
+            }
+        }
+
+        return false;
     }
 }

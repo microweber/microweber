@@ -430,65 +430,23 @@ class ContentRepository extends AbstractRepository
      */
     public function getParents($id): array|false
     {
-        $id = intval($id);
-        if ($id <= 0) {
-            return false;
-        }
-        $parentIds = [];
-
-        $params = [
-            'id' => $id,
-            'limit' => 1,
-            'fields' => 'id,parent',
-        ];
-
-        $content = $this->getByParams($params);
-
-        if (empty($content)) {
-            return false;
-        }
-
-        foreach ($content as $item) {
-            $parentId = $item['parent'];
-            if ($parentId != $item['id'] && $parentId > 0) {
-                $parentIds[] = $parentId;
-                $previousParents = $this->getParents($parentId);
-                if ($previousParents) {
-                    $parentIds = array_merge($parentIds, $previousParents);
-                }
-            }
-        }
-
-        $parentIds = array_filter(array_unique($parentIds));
-
-        return $parentIds ?: false;
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+            return Content::getParentIds($id);
+        });
     }
 
 
     /**
      * Get the ID of the first parent content that has a layout template selected.
      *
-     * This function is used to retrieve the ID of the parent content that has both
-     * 'active_site_template' and 'layout_file' values set in the database field.
-     *
      * @param int $id The ID of the content.
      * @return int|false The ID of the parent content that has a layout, or false if none found.
      */
     public function getInheritedParent($id): int|false
     {
-        $inheritFrom = $this->getParents($id);
-
-        if (empty($inheritFrom)) {
-            return false;
-        }
-        foreach ($inheritFrom as $value) {
-            $parentContent = $this->getById($value);
-            if ($parentContent and isset($parentContent['id'])) {
-                return intval($parentContent['id']);
-            }
-        }
-        return false;
-
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+            return Content::getInheritedParentId($id);
+        });
     }
 
 
@@ -500,28 +458,9 @@ class ContentRepository extends AbstractRepository
      */
     public function getChildren($id = 0): array|false
     {
-        if (!intval($id)) {
-            return false;
-        }
-
-        $ids = array($id);
-
-        $content_ids = $this->getByParams('fields=id&no_limit=1&parent=' . $id);
-        foreach ($content_ids as $n) {
-            if ($id != $n['id']) {
-                $ids[] = $n['id'];
-            }
-        }
-
-        $taxonomies = $this->getByParams(array('parent' => $id));
-        foreach ($taxonomies as $item) {
-            $ids[] = $item['id'];
-            if ($item['parent'] != $item['id'] && intval($item['parent'])) {
-                $ids = array_merge($ids, $this->getChildren($item['id']));
-            }
-        }
-
-        return $ids ? array_unique($ids) : false;
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+            return Content::getChildrenIds($id);
+        });
     }
 
 
