@@ -523,7 +523,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 
 #### 2c. OrderRepository → Order Model + OrderStatsService
 **Current:** Sales analytics, period grouping, best-selling reports in repository
-- [ ] Move `getOrderCurrencies()` to Order model scope
+- [x] 2026-04-16 Move `getOrderCurrencies()` to Order model scope
 - [ ] Extract stats methods to new `OrderStatsService`:
   - `getOrdersTotalSumForPeriod()`
   - `getOrdersCountForPeriod()`

@@ -18,17 +18,9 @@ class OrderRepository extends AbstractRepository
 
     public function getOrderCurrencies($params = [])
     {
-        $orders = $this->getModel()->newQuery();
-        $orders->select('currency');
-        $orders->whereNotNull('currency');
-        $orders->groupBy('currency');
-        // $orders->select('currency', DB::raw('count(*) as orders_count'));
-
-        $data = $orders->get();
-        if ($data) {
-            $data = $data->toArray();
-            return $data;
-        }
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            return Order::getOrderCurrencies();
+        });
     }
 
     public function getOrdersTotalSumForPeriod($params = [])

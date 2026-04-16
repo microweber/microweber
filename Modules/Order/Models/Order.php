@@ -299,4 +299,20 @@ class Order extends Model
             'pending' => 'Pending',
         ];
     }
+
+    /**
+     * Get all distinct currencies used in orders.
+     *
+     * @return array
+     */
+    public static function getOrderCurrencies(): array
+    {
+        $data = static::query()
+            ->select('currency')
+            ->whereNotNull('currency')
+            ->groupBy('currency')
+            ->get();
+
+        return $data ? $data->toArray() : [];
+    }
 }
