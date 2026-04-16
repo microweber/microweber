@@ -10,16 +10,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 use Modules\Content\Http\Resources\ContentResource;
-use Modules\Content\Repositories\ContentRepositoryApi;
+use Modules\Content\Models\Content;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContentApiController extends Controller
 {
-    public function __construct(
-        private readonly ContentRepositoryApi $content
-    ) {
-    }
-
     /**
      * Display a listing of content.
      *
@@ -30,7 +25,7 @@ class ContentApiController extends Controller
     {
         try {
             $limit = $request->get('limit', 30);
-            $query = $this->content->filter($request->all());
+            $query = Content::filter($request->all());
 
             // Handle pagination
             $content = $query->paginate($limit);
@@ -84,7 +79,7 @@ class ContentApiController extends Controller
             if (isset($data['content'])) {
                 $data['content'] = xss_clean($data['content']);
             }
-            $content = $this->content->create($data);
+            $content = Content::create($data);
 
             return response()->json([
                 'success' => true,
@@ -108,7 +103,7 @@ class ContentApiController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $content = $this->content->show($id);
+        $content = Content::find($id);
 
         if (!$content) {
             return response()->json([
@@ -139,7 +134,7 @@ class ContentApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $content = $this->content->show($id);
+        $content = Content::find($id);
 
         if (!$content) {
             return response()->json([
@@ -164,12 +159,12 @@ class ContentApiController extends Controller
         }
 
         try {
-            $updated = $this->content->update($validator->validated(), $id);
+            $content->update($validator->validated());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Content updated successfully',
-                'data' => new ContentResource($updated),
+                'data' => new ContentResource($content),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -195,7 +190,7 @@ class ContentApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $content = $this->content->show($id);
+        $content = Content::find($id);
 
         if (!$content) {
             return response()->json([
@@ -205,7 +200,7 @@ class ContentApiController extends Controller
         }
 
         try {
-            $this->content->delete($id);
+            $content->update(['is_deleted' => 1]);
 
             return response()->json([
                 'success' => true,

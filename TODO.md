@@ -519,7 +519,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16 Move `createDefaultShopPage()` / `createDefaultBlogPage()` to model static factory methods
 - [x] 2026-04-16 Move `getFirstShopPage()` / `getAllShopPages()` / `getAllBlogPages()` to model scopes
 - [x] 2026-04-16 Keep `ContentRepository` as thin cache wrapper
-- [ ] Eliminate `ContentRepositoryApi` — merge into repository or use model directly
+- [x] 2026-04-16 Eliminate `ContentRepositoryApi` — merge into repository or use model directly
 
 #### 2c. OrderRepository → Order Model + OrderStatsService
 **Current:** Sales analytics, period grouping, best-selling reports in repository

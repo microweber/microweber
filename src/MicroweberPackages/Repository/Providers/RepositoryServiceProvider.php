@@ -17,11 +17,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
     public function register() : void
     {
-//        $this->app->bind(
-//            ContentRepositoryInterface::class,
-//            ContentRepositoryApi::class
-//        );
-
         $this->app->afterResolving('cache', function () {
             AbstractRepository::setCacheInstance($this->app['cache']);
         });
