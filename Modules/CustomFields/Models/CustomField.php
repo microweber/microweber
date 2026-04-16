@@ -3,6 +3,7 @@
 namespace Modules\CustomFields\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -67,6 +68,81 @@ class CustomField extends Model
 //
 //        return $query;
 //    }
+
+    /**
+     * Get custom fields with aggregated values, decoded options, and price modifiers.
+     */
+    public static function getWithValues(array $params): array
+    {
+        $query = static::query();
+
+        if (!empty($params['id'])) {
+            $query->where('id', $params['id']);
+        }
+
+        if (isset($params['rel_id'])) {
+            $query->where('rel_id', $params['rel_id']);
+            $query->where('rel_type', $params['rel_type']);
+        }
+
+        if (!empty($params['type'])) {
+            $query->where('type', $params['type']);
+        }
+
+        if (!empty($params['session_id'])) {
+            $query->where('session_id', $params['session_id']);
+        }
+
+        $query->orderBy('position', 'asc');
+
+        $fields = $query->get()->toArray();
+        $customFields = [];
+
+        foreach ($fields as $field) {
+            $readyField = $field;
+
+            $options = [];
+            if (is_string($field['options'])) {
+                $decoded = @json_decode($field['options'], true);
+                if (is_array($decoded)) {
+                    $options = $decoded;
+                }
+            } elseif (is_array($field['options'])) {
+                $options = $field['options'];
+            }
+            $readyField['options'] = $options;
+            $readyField['value'] = '';
+            $readyField['values'] = [];
+            $readyField['values_price_modifiers'] = [];
+            $readyField['values_plain'] = '';
+
+            $fieldValues = DB::table('custom_fields_values')
+                ->where('custom_field_id', $field['id'])
+                ->get()
+                ->map(fn($item) => (array) $item)
+                ->toArray();
+
+            if (isset($fieldValues[0])) {
+                $readyField['value'] = $fieldValues[0]['value'];
+                foreach ($fieldValues as $fieldValue) {
+                    $readyField['values'][] = $fieldValue['value'];
+                    if (isset($options['as_price_modifier']) && $options['as_price_modifier']) {
+                        if (isset($fieldValue['price_modifier']) && $fieldValue['price_modifier']) {
+                            $readyField['values_price_modifiers'][$fieldValue['id']] = $fieldValue['price_modifier'];
+                        }
+                    }
+                }
+            }
+
+            if (!empty($readyField['values'])) {
+                $readyField['values_plain'] = implode(',', $readyField['values']);
+            }
+
+            $customFields[] = $readyField;
+        }
+
+        return $customFields;
+    }
 
     public static function boot()
     {
