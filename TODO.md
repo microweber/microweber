@@ -259,4 +259,6 @@
 
 - [x] 2026-04-16 still the icons are not ok  you mey need to edit the svg files and remove hardcodd colors [attachment: .autodev/messages/attachments/20260416_110241_92c12e69/paste-1776326547183.png]
 
-- [ ] the autor drodpwn still has 2 arros and X pls fix [attachment: .autodev/messages/attachments/20260416_110348_32f59d42/paste-1776326625946.png]
+- [x] 2026-04-16 the autor drodpwn still has 2 arros and X pls fix [attachment: .autodev/messages/attachments/20260416_110348_32f59d42/paste-1776326625946.png]
+
+- [ ] can you make the site stats table condensed see https://filamentphp.com/docs/5.x/schemas/sections#compact-section-styling [attachment: .autodev/messages/attachments/20260416_111128_b4153298/paste-1776327030440.png]
