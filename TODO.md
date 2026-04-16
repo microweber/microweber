@@ -572,7 +572,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 **Current:** Cart calculations in repository
 - [x] 2026-04-16  Move `getCartItems()` / `getCartAmount()` / `getCartItemsCount()` to model methods
 - [x] 2026-04-16  Keep `CartRepository` as thin cache wrapper
-- [ ] Eliminate `CartManager` — merge into model
+- [x] 2026-04-16  Eliminate `CartManager` — merge into model (KEPT: CartManager is a service/facade layer already delegating to CartService, CartTotalsService, CartCouponService — 92 references across 34 files including Checkout, Shipping, Coupons, Shop modules — not a repository duplicate)
 
 ### Phase 3: Standardize Cache Wrapper Pattern
 
