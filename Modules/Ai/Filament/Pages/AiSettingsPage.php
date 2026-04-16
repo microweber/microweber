@@ -6,6 +6,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Artisan;
@@ -199,6 +200,9 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->placeholder('https://api.openai.com/v1')
                             ->helperText('Optional. Set a custom base URL to use OpenAI-compatible APIs (e.g. Azure OpenAI, local LLMs, LiteLLM proxy).'),
+
+                        $this->testConnectionButton('openai')
+                            ->visible(fn(callable $get) => $get('options.ai.openai_enabled')),
                     ]),
 
                 Section::make('Google Gemini Settings')
@@ -229,6 +233,9 @@ Select::make('options.ai.default_driver_images')
                             ->label('Gemini API Key')
                             ->placeholder('Enter your Gemini API key')
                             ->helperText(fn() => $this->secretHelperText('gemini_api_key', '<small class="mb-2 text-muted"><a href="https://makersuite.google.com/app/apikey" target="_blank">Get your API key</a> from Google AI Studio.</small>')),
+
+                        $this->testConnectionButton('gemini')
+                            ->visible(fn(callable $get) => $get('options.ai.gemini_enabled')),
                     ]),
 
                 Section::make('OpenRouter Settings')
@@ -259,6 +266,9 @@ Select::make('options.ai.default_driver_images')
                             ->label('OpenRouter API Key')
                             ->placeholder('Enter your OpenRouter API key')
                             ->helperText(fn() => $this->secretHelperText('openrouter_api_key', '<small class="mb-2 text-muted"><a href="https://openrouter.ai/signup" target="_blank">Sign up</a> for an OpenRouter account.</small>')),
+
+                        $this->testConnectionButton('openrouter')
+                            ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled')),
                     ]),
 
                 Section::make('Ollama Settings')
@@ -294,6 +304,9 @@ Select::make('options.ai.default_driver_images')
                             ->label('API Key (optional)')
                             ->placeholder('Enter API key for remote Ollama')
                             ->helperText(fn() => $this->secretHelperText('ollama_api_key', '<small class="mb-2 text-muted">Optional. Required only for remote Ollama services that need authentication.</small>')),
+
+                        $this->testConnectionButton('ollama')
+                            ->visible(fn(callable $get) => $get('options.ai.ollama_enabled')),
                     ]),
 
                 Section::make('Anthropic/Claude Settings')
@@ -320,6 +333,9 @@ Select::make('options.ai.default_driver_images')
                             ->label('Anthropic API Key')
                             ->placeholder('Enter your Anthropic API key')
                             ->helperText(fn() => $this->secretHelperText('anthropic_api_key', '<small class="mb-2 text-muted">Find your API key in your Anthropic account dashboard.</small>')),
+
+                        $this->testConnectionButton('anthropic')
+                            ->visible(fn(callable $get) => $get('options.ai.anthropic_enabled')),
                     ]),
 
                 Section::make('Replicate Settings')
@@ -348,6 +364,8 @@ Select::make('options.ai.default_driver_images')
                             ->placeholder('Enter your Replicate API token')
                             ->helperText(fn() => $this->secretHelperText('replicate_api_key', '<small class="mb-2 text-muted"><a href="https://replicate.com/account/api-tokens" target="_blank">Get your API token</a> from Replicate.</small>')),
 
+                        $this->testConnectionButton('replicate')
+                            ->visible(fn(callable $get) => $get('options.ai.replicate_enabled')),
                     ]),
 
 Section::make('Supadata Settings')
@@ -475,8 +493,94 @@ Section::make('FAL AI Settings')
                             ->label('FAL API Key')
                             ->placeholder('Enter your FAL API key')
                             ->helperText(fn() => $this->secretHelperText('fal_api_key', '<small class="mb-2 text-muted"><a href="https://fal.ai/dashboard" target="_blank">Get your API key</a> from FAL AI dashboard.</small>')),
+
+                        $this->testConnectionButton('fal')
+                            ->visible(fn(callable $get) => $get('options.ai.fal_enabled')),
                     ]),
             ]);
+    }
+
+    public function testConnection(string $driver): void
+    {
+        try {
+            $config = config("modules.ai.drivers.{$driver}", []);
+
+            if (empty($config)) {
+                Notification::make()
+                    ->title('Configuration missing')
+                    ->body("No configuration found for {$driver}.")
+                    ->danger()
+                    ->send();
+                return;
+            }
+
+            $driverMap = [
+                'openai' => \Modules\Ai\Services\Drivers\OpenAiDriver::class,
+                'gemini' => \Modules\Ai\Services\Drivers\GeminiAiDriver::class,
+                'openrouter' => \Modules\Ai\Services\Drivers\OpenRouterAiDriver::class,
+                'ollama' => \Modules\Ai\Services\Drivers\OllamaAiDriver::class,
+                'replicate' => \Modules\Ai\Services\Drivers\ReplicateAiDriver::class,
+                'fal' => \Modules\Ai\Services\Drivers\FalAiDriver::class,
+            ];
+
+            $driverClass = $driverMap[$driver] ?? null;
+
+            if (!$driverClass || !class_exists($driverClass)) {
+                Notification::make()
+                    ->title('Driver not available')
+                    ->body("The driver for {$driver} is not implemented yet.")
+                    ->warning()
+                    ->send();
+                return;
+            }
+
+            $instance = new $driverClass($config);
+            $response = $instance->sendToChat([
+                ['role' => 'user', 'content' => 'Reply with the single word OK'],
+            ], ['max_tokens' => 10]);
+
+            $responseText = is_array($response) ? json_encode($response) : (string) $response;
+            $preview = mb_substr($responseText, 0, 100);
+
+            Notification::make()
+                ->title('Connection successful')
+                ->body("Response: {$preview}")
+                ->success()
+                ->duration(8000)
+                ->send();
+        } catch (\Throwable $e) {
+            Notification::make()
+                ->title('Connection failed')
+                ->body(mb_substr($e->getMessage(), 0, 200))
+                ->danger()
+                ->duration(10000)
+                ->send();
+        }
+    }
+
+    private function testConnectionButton(string $driver): Placeholder
+    {
+        $label = match ($driver) {
+            'openai' => 'OpenAI',
+            'gemini' => 'Gemini',
+            'openrouter' => 'OpenRouter',
+            'ollama' => 'Ollama',
+            'anthropic' => 'Anthropic',
+            'replicate' => 'Replicate',
+            'fal' => 'FAL AI',
+            default => ucfirst($driver),
+        };
+
+        return Placeholder::make("test_connection_{$driver}")
+            ->hiddenLabel()
+            ->content(fn () => new HtmlString(
+                '<button type="button" wire:click="testConnection(\'' . $driver . '\')" wire:loading.attr="disabled" '
+                . 'class="fi-btn fi-btn-size-sm inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium '
+                . 'text-white bg-primary-600 hover:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400 transition">'
+                . '<span wire:loading.remove wire:target="testConnection(\'' . $driver . '\')">Test Connection</span>'
+                . '<span wire:loading wire:target="testConnection(\'' . $driver . '\')">Testing...</span>'
+                . '</button>'
+            ));
     }
 
     private function extractSecretOptionKey(string $propertyName): ?string

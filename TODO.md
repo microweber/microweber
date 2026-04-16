@@ -276,4 +276,4 @@
 
 - [x] 2026-04-16  in the ai seetigns make it so theu ser can enter the model namesm anually on all
 
-- [ ] on the ai setting nexto to each provder make a button "test connecton" where we cn test thep rovider reponce
+- [x] 2026-04-16  on the ai setting nexto to each provder make a button "test connecton" where we cn test thep rovider reponce
