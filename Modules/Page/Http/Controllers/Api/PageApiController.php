@@ -10,16 +10,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 use Modules\Page\Http\Resources\PageResource;
-use Modules\Page\Repositories\PageApiRepository;
+use Modules\Page\Models\Page;
 use Symfony\Component\HttpFoundation\Response;
 
 class PageApiController extends Controller
 {
-    public function __construct(
-        private readonly PageApiRepository $page
-    ) {
-    }
-
     /**
      * Display a listing of pages.
      *
@@ -30,7 +25,7 @@ class PageApiController extends Controller
     {
         try {
             $limit = $request->get('limit', 30);
-            $query = $this->page->filter($request->all());
+            $query = Page::filter($request->all());
 
             $pages = $query->paginate($limit);
             $pages->appends($request->except('page'));
@@ -87,7 +82,7 @@ class PageApiController extends Controller
         }
 
         try {
-            $page = $this->page->create($validator->validated());
+            $page = Page::create($validator->validated());
 
             $addToMenus = $request->input('add_content_to_menu');
             if (!empty($addToMenus) && is_array($addToMenus)) {
@@ -119,7 +114,7 @@ class PageApiController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $page = $this->page->show($id);
+        $page = Page::find($id);
 
         if (!$page) {
             return response()->json([
@@ -150,7 +145,7 @@ class PageApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $page = $this->page->show($id);
+        $page = Page::find($id);
 
         if (!$page) {
             return response()->json([
@@ -186,12 +181,12 @@ class PageApiController extends Controller
         }
 
         try {
-            $updated = $this->page->update($validator->validated(), $id);
+            $page->update($validator->validated());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Page updated successfully',
-                'data' => new PageResource($updated),
+                'data' => new PageResource($page),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -217,7 +212,7 @@ class PageApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $page = $this->page->show($id);
+        $page = Page::find($id);
 
         if (!$page) {
             return response()->json([
@@ -227,7 +222,7 @@ class PageApiController extends Controller
         }
 
         try {
-            $this->page->delete($id);
+            $page->update(['is_deleted' => 1]);
 
             return response()->json([
                 'success' => true,
