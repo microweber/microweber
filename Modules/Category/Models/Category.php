@@ -232,6 +232,104 @@ class Category extends Model
         })->toArray();
     }
 
+    /**
+     * Get count of in-stock products grouped by category id.
+     *
+     * @return array
+     */
+    public static function getItemsInStockCountAll()
+    {
+        $realTableName = app()->database_manager->real_table_name('content');
+        $query = CategoryItem::query()
+            ->leftJoin('content', function ($join) {
+                $join->on('content.id', '=', 'categories_items.rel_id')
+                    ->where('content.is_deleted', '=', 0)
+                    ->where('content.is_active', '=', 1);
+            })
+            ->select([
+                'categories_items.parent_id',
+                'categories_items.rel_type',
+                DB::raw('count( DISTINCT `' . $realTableName . '`.`id` ) as count'),
+            ])
+            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
+            ->groupBy('categories_items.parent_id');
+
+        $query->whereIn('categories_items.rel_id',
+            \Modules\Product\Models\Product::select(['content.id'])
+                ->filter(['inStock' => 1])
+                ->select(['content.id'])
+        );
+
+        $result = [];
+        $data = $query->get();
+        if ($data) {
+            foreach ($data as $value) {
+                $result[$value->parent_id] = $value->count;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get count of in-stock products for a specific category.
+     *
+     * @param int $categoryId
+     * @return int
+     */
+    public static function getProductsInStockCount($categoryId)
+    {
+        $all = static::getItemsInStockCountAll();
+
+        if (isset($all[$categoryId])) {
+            return $all[$categoryId];
+        }
+
+        return 0;
+    }
+
+    /**
+     * Check if a category (or its children) has products in stock.
+     *
+     * @param int $categoryId
+     * @return bool
+     */
+    public static function hasProductsInStock($categoryId)
+    {
+        $count = static::getProductsInStockCount($categoryId);
+        if ($count > 0) {
+            return true;
+        }
+
+        $children = static::getChildsTree($categoryId);
+        if (static::checkProductsInStockRecursive($children)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Recursively check child categories for in-stock products.
+     *
+     * @param array|false $categories
+     * @return bool
+     */
+    private static function checkProductsInStockRecursive($categories)
+    {
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $count = static::getProductsInStockCount($category['id']);
+                if ($count > 0) {
+                    return true;
+                }
+                if (isset($category['childs']) && !empty($category['childs'])) {
+                    return static::checkProductsInStockRecursive($category['childs']);
+                }
+            }
+        }
+        return false;
+    }
+
     //todo move to repository
     public static function hasActiveProductInSubcategories($category)
     {

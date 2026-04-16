@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Category\Models\Category;
 use Modules\Category\Models\CategoryItem;
-use Modules\Product\Models\Product;
 
 class CategoryRepository extends AbstractRepository
 {
@@ -118,35 +117,7 @@ class CategoryRepository extends AbstractRepository
      */
     public function hasProductsInStock($categoryId)
     {
-
-        $count = $this->getProductsInStockCount($categoryId);
-        if ($count > 0) {
-            return true;
-        }
-
-        $getChildrens = $this->getChildsTree($categoryId);
-
-        $productsInStock = $this->_checkProductsInStockRecursive($getChildrens);
-        if ($productsInStock) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function _checkProductsInStockRecursive($categories)
-    {
-        if (!empty($categories)) {
-            foreach ($categories as $category) {
-                $count = $this->getProductsInStockCount($category['id']);
-                if ($count > 0) {
-                    return true;
-                }
-                if (isset($category['childs']) && !empty($category['childs'])) {
-                    return $this->_checkProductsInStockRecursive($category['childs']);
-                }
-            }
-        }
+        return Category::hasProductsInStock($categoryId);
     }
 
     public function getItemsCountAll()
@@ -170,24 +141,8 @@ class CategoryRepository extends AbstractRepository
     public function getItemsInStockCountAll()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-
-            $categoryItemsCountGroupedByRelType = [];
-            $query = $this->getCategoryItemsCountQueryBuilder();
-            $query->whereIn('categories_items.rel_id',
-                Product::select(['content.id'])
-                    ->filter(['inStock' => 1])
-                    ->select(['content.id'])
-            );
-
-            $categoryItemsCountData = $query->get();
-            if ($categoryItemsCountData) {
-                foreach ($categoryItemsCountData as $key => $value) {
-                    $categoryItemsCountGroupedByRelType[$value->parent_id] = $value->count;
-                }
-            }
-            return $categoryItemsCountGroupedByRelType;
+            return Category::getItemsInStockCountAll();
         });
-
     }
 
     public function getItemsCount($categoryId)
@@ -204,13 +159,7 @@ class CategoryRepository extends AbstractRepository
 
     public function getProductsInStockCount($categoryId)
     {
-        $categoryItemsCountGroupedByRelType = $this->getItemsInStockCountAll();
-
-        if (isset($categoryItemsCountGroupedByRelType) and isset($categoryItemsCountGroupedByRelType[$categoryId])) {
-            return $categoryItemsCountGroupedByRelType[$categoryId];
-        }
-
-        return 0;
+        return Category::getProductsInStockCount($categoryId);
     }
 
     public function getItems($categoryId, $relType = false, $relId = false)
