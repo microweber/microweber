@@ -514,7 +514,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16 Move `getParents()` / `getChildren()` / `getInheritedParent()` to model (hierarchy is model concern)
 - [x] 2026-04-16 Move `getCategories()` / `getTags()` to model (already partially there via traits)
 - [x] 2026-04-16 Move `getContentData()` / `getContentDataValues()` to `ContentDataTrait`
-- [ ] Move `getCustomFields()` to `CustomFieldsTrait`
+- [x] 2026-04-16 Move `getCustomFields()` to `CustomFieldsTrait`
 - [ ] Move `getThumbnail()` to `MediaTrait`
 - [ ] Move `createDefaultShopPage()` / `createDefaultBlogPage()` to model static factory methods
 - [ ] Move `getFirstShopPage()` / `getAllShopPages()` / `getAllBlogPages()` to model scopes

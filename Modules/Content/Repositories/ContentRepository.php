@@ -98,51 +98,7 @@ class ContentRepository extends AbstractRepository
     public function getCustomFields($relId): array
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
-            $customFields = [];
-
-            $getCustomFields = DB::table('custom_fields')
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
-                ->where('rel_id', $relId)
-                ->get();
-
-            if ($getCustomFields->isEmpty()) {
-                return [];
-            }
-
-            // Collect all custom field IDs for batch loading
-            $customFieldIds = [];
-            foreach ($getCustomFields as $customField) {
-                $customFieldIds[] = $customField->id;
-            }
-
-            // Batch load all custom field values in a single query
-            $allValues = DB::table('custom_fields_values')
-                ->select(['custom_field_id', 'value', 'position'])
-                ->whereIn('custom_field_id', $customFieldIds)
-                ->get()
-                ->groupBy('custom_field_id');
-
-            // Process custom fields with pre-loaded values
-            foreach ($getCustomFields as $customField) {
-                $customField = (array)$customField;
-
-                $customFieldValues = [];
-                $fieldId = $customField['id'];
-
-                if (isset($allValues[$fieldId])) {
-                    foreach ($allValues[$fieldId] as $value) {
-                        $customFieldValues[] = $value->value;
-                    }
-                }
-
-                $customField['value'] = $customFieldValues[0] ?? false;
-                $customField['values'] = $customFieldValues;
-                $customField['values_plain'] = implode('|', $customFieldValues);// for the offers module
-
-                $customFields[] = $customField;
-            }
-
-            return $customFields;
+            return Content::getCustomFieldsByRelId($relId);
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Modules\CustomFields\Traits;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
@@ -202,6 +203,57 @@ trait CustomFieldsTrait
         return $this->morphMany(CustomField::class, 'rel', 'rel_type', 'rel_id')
             ->where('custom_fields.rel_type', $this->getMorphClass())
             ->orderBy('custom_fields.position', 'asc');
+    }
+
+    /**
+     * Get custom fields with their values by rel_id, using batch loading.
+     *
+     * @param mixed $relId
+     * @return array
+     */
+    public static function getCustomFieldsByRelId($relId): array
+    {
+        $getCustomFields = DB::table('custom_fields')
+            ->where('rel_type', morph_name(static::class))
+            ->where('rel_id', $relId)
+            ->get();
+
+        if ($getCustomFields->isEmpty()) {
+            return [];
+        }
+
+        $customFieldIds = [];
+        foreach ($getCustomFields as $customField) {
+            $customFieldIds[] = $customField->id;
+        }
+
+        $allValues = DB::table('custom_fields_values')
+            ->select(['custom_field_id', 'value', 'position'])
+            ->whereIn('custom_field_id', $customFieldIds)
+            ->get()
+            ->groupBy('custom_field_id');
+
+        $customFields = [];
+        foreach ($getCustomFields as $customField) {
+            $customField = (array) $customField;
+
+            $customFieldValues = [];
+            $fieldId = $customField['id'];
+
+            if (isset($allValues[$fieldId])) {
+                foreach ($allValues[$fieldId] as $value) {
+                    $customFieldValues[] = $value->value;
+                }
+            }
+
+            $customField['value'] = $customFieldValues[0] ?? false;
+            $customField['values'] = $customFieldValues;
+            $customField['values_plain'] = implode('|', $customFieldValues);
+
+            $customFields[] = $customField;
+        }
+
+        return $customFields;
     }
 
 }
