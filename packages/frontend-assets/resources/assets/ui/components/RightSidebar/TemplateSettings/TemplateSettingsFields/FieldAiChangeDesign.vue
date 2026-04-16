@@ -564,12 +564,19 @@ Critical: If the user specifies new colors for font and background, you must use
 }
 
 /* Dark Mode Support */
+.dark .mw-ai-chat-box,
+html.dark .mw-ai-chat-box {
+    background: #1f2937;
+    border: 1px solid #374151;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
 .dark .mw-ai-chat-box .mw-ai-chat-box-area-field,
 html.dark .mw-ai-chat-box .mw-ai-chat-box-area-field {
-    background: #374151;
+    background: transparent !important;
     border-color: #4b5563;
     color: #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: none !important;
 }
 
 .dark .mw-ai-chat-box .mw-ai-chat-box-area-field::placeholder,

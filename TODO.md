@@ -303,3 +303,7 @@
 - [x] 2026-04-16  in live edit the design sidbar i s not ok in dark more, make a plan to evalue all usses in the dark mode in live edit and populate the todo.md and fix them [attachment: .autodev/messages/attachments/20260416_143913_36a5c7ce/paste-1776339550193.png]
 
 - [x] 2026-04-16  the ad contnet accodion has too smal z index  on the live edit [attachment: .autodev/messages/attachments/20260416_144001_f00817c9/paste-1776339595247.png]
+
+- [x] 2026-04-16  ok now in http://127.0.0.1:8000/admin/live-edit?url=http%253A%252F%252F127.0.0.1%253A8000%252FShipping-Product in dje design sidebar is not ok in dark mode [attachment: .autodev/messages/attachments/20260416_150736_90e5a1cd/paste-1776341253116.png]
+
+- [ ] fix rhw agent chat design on dark mode http://127.0.0.1:8000/admin/agent-chats/116

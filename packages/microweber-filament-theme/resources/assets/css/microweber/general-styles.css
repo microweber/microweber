@@ -1787,3 +1787,82 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     background-color: rgb(31 41 55) !important;
     color: white;
 }
+
+/* Design sidebar — edit mode toggle cards (Template / Layout) */
+.dark .edit-mode-option {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(75 85 99) !important;
+    color: white;
+}
+
+.dark .edit-mode-option:hover {
+    border-color: rgb(59 130 246) !important;
+    background-color: rgb(30 58 138 / 0.2) !important;
+}
+
+.dark .edit-mode-option.active {
+    border-color: rgb(59 130 246) !important;
+    background-color: rgb(55 65 81) !important;
+}
+
+/* Design sidebar — Predefined Styles / Customize Styles action links */
+.dark .mw-admin-action-links.mw-adm-liveedit-tabs {
+    color: white !important;
+}
+
+/* Design sidebar — AI settings wrapper */
+.dark .ai-settings-wrapper {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(75 85 99) !important;
+    color: white;
+}
+
+.dark .ai-settings-wrapper .btn {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(75 85 99) !important;
+    color: rgb(229 231 235) !important;
+}
+
+.dark .ai-settings-wrapper .btn:hover {
+    background-color: rgb(55 65 81) !important;
+}
+
+/* Design sidebar — back button sticky header */
+.dark .mw-template-settings-back-button-sticky {
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+}
+
+/* Design sidebar — form controls and selects */
+.dark .form-control-live-edit-input,
+.dark .form-control-live-edit-input.form-select {
+    background-color: rgb(17 24 39) !important;
+    border-color: rgb(55 65 81) !important;
+    color: white !important;
+}
+
+/* Design sidebar — style pack items and previews */
+.dark #preview-content,
+.dark .style-pack-item {
+    background-color: rgb(17 24 39) !important;
+    color: white;
+}
+
+/* Design sidebar — color palette items */
+.dark .color-palette-item {
+    border-color: rgb(55 65 81) !important;
+}
+
+/* Design sidebar — AI chat input */
+.dark .mw-ai-chat-box-input,
+.dark .mw-ai-chat-box textarea,
+.dark .mw-ai-chat-box input {
+    background-color: rgb(17 24 39) !important;
+    border-color: rgb(55 65 81) !important;
+    color: white !important;
+}
+
+/* Design sidebar — layout display info */
+.dark .bg-light {
+    background-color: rgb(17 24 39) !important;
+}
