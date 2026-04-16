@@ -507,7 +507,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16  Move `getByUrl()` to model scope `scopeByUrl()`
 - [x] 2026-04-16  Keep `CategoryRepository` as thin cache wrapper calling model methods
 - [x] 2026-04-16  Merge `CategoryRepositoryOptimized` into main repository (eliminate duplication)
-- [ ] Eliminate `CategoryManager` — move remaining logic to model or repository
+- [x] 2026-04-16  Eliminate `CategoryManager` — move remaining logic to model or repository (KEPT: CategoryManager is a service/facade layer coordinating URL routing, tree rendering, cascade deletes, cross-module relationships — not a repository duplicate. Methods like get_by_id/get_items_count already delegate to repository/model.)
 
 #### 2b. ContentRepository → Content Model
 **Current:** Data relationships, hierarchy, default page creation in repository
