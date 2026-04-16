@@ -69,20 +69,7 @@ class ContentRepository extends AbstractRepository
     public function getContentDataValues(int $id): array
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-
-            $getContentData = DB::table('content_data')
-                ->select(['field_name', 'field_value'])
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
-                ->where('rel_id', $id)
-                ->get();
-
-            $res = [];
-
-            foreach ($getContentData as $item) {
-                $res[$item->field_name] = $item->field_value;
-            }
-
-            return $res;
+            return Content::getContentDataValuesByRelId($id);
         });
     }
 
@@ -95,29 +82,8 @@ class ContentRepository extends AbstractRepository
      */
     public function getContentData($relId): array
     {
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
-
-            $getContentData = DB::table('content_data')
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class));
-
-            if (is_array($relId)) {
-                $getContentData->whereIn('rel_id', $relId);
-            } else {
-                $getContentData->where('rel_id', $relId);
-            }
-
-            $getContentData = $getContentData->get();
-
-            if (!$getContentData) {
-                return [];
-            }
-
-            $contentData = collect($getContentData)->map(function ($item) {
-                return (array)$item;
-            })->toArray();
-
-            return $contentData;
+            return Content::getContentDataByRelId($relId);
         });
     }
 

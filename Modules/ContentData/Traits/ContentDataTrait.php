@@ -161,4 +161,54 @@ trait ContentDataTrait
 
         return $query;
     }
+
+    /**
+     * Retrieve content data rows by rel_id (single ID or array of IDs).
+     *
+     * @param mixed $relId
+     * @return array
+     */
+    public static function getContentDataByRelId($relId): array
+    {
+        $query = DB::table('content_data')
+            ->where('rel_type', morph_name(static::class));
+
+        if (is_array($relId)) {
+            $query->whereIn('rel_id', $relId);
+        } else {
+            $query->where('rel_id', $relId);
+        }
+
+        $getContentData = $query->get();
+
+        if (!$getContentData) {
+            return [];
+        }
+
+        return collect($getContentData)->map(function ($item) {
+            return (array) $item;
+        })->toArray();
+    }
+
+    /**
+     * Retrieve content data as field_name => field_value map by rel_id.
+     *
+     * @param int $id
+     * @return array
+     */
+    public static function getContentDataValuesByRelId(int $id): array
+    {
+        $getContentData = DB::table('content_data')
+            ->select(['field_name', 'field_value'])
+            ->where('rel_type', morph_name(static::class))
+            ->where('rel_id', $id)
+            ->get();
+
+        $res = [];
+        foreach ($getContentData as $item) {
+            $res[$item->field_name] = $item->field_value;
+        }
+
+        return $res;
+    }
 }

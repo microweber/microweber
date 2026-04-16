@@ -513,7 +513,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 **Current:** Data relationships, hierarchy, default page creation in repository
 - [x] 2026-04-16 Move `getParents()` / `getChildren()` / `getInheritedParent()` to model (hierarchy is model concern)
 - [x] 2026-04-16 Move `getCategories()` / `getTags()` to model (already partially there via traits)
-- [ ] Move `getContentData()` / `getContentDataValues()` to `ContentDataTrait`
+- [x] 2026-04-16 Move `getContentData()` / `getContentDataValues()` to `ContentDataTrait`
 - [ ] Move `getCustomFields()` to `CustomFieldsTrait`
 - [ ] Move `getThumbnail()` to `MediaTrait`
 - [ ] Move `createDefaultShopPage()` / `createDefaultBlogPage()` to model static factory methods
