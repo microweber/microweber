@@ -20,15 +20,8 @@ class CategoryRepository extends AbstractRepository
     public function getByUrl($url)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
-
-            $getCategory = DB::table('categories')->where('url', $url)->get();
-            $getCategory = collect($getCategory)->map(function ($item) {
-                return (array)$item;
-            })->toArray();
-
-            return $getCategory;
+            return Category::getByUrl($url);
         });
-
     }
 
     public function getByColumnNameAndColumnValue($columnName, $columnValue)

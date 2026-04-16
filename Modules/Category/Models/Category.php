@@ -434,6 +434,33 @@ class Category extends Model
         return [];
     }
 
+    /**
+     * Scope to filter categories by URL.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $url
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByUrl($query, $url)
+    {
+        return $query->where('url', $url);
+    }
+
+    /**
+     * Get categories by URL as plain arrays.
+     *
+     * @param string $url
+     * @return array
+     */
+    public static function getByUrl($url)
+    {
+        $categories = DB::table('categories')->where('url', $url)->get();
+
+        return collect($categories)->map(function ($item) {
+            return (array) $item;
+        })->toArray();
+    }
+
     //todo move to repository
     public static function hasActiveProductInSubcategories($category)
     {
