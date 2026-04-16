@@ -1,12 +1,12 @@
 <?php
 namespace Modules\Offer\Repositories;
 
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\Offer\Models\Offer;
 
-class OfferRepository extends AbstractRepository
+class OfferRepository extends CachingModelRepository
 {
-    public $model = Offer::class;
+    protected string $modelClass = Offer::class;
 
     public static function add($offerData)
     {
@@ -15,14 +15,14 @@ class OfferRepository extends AbstractRepository
 
     public function getAll()
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        return $this->cached(__FUNCTION__, func_get_args(), function () {
             return Offer::getAll();
         });
     }
 
     public function getProductIdsThatHaveOfferPrice()
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        return $this->cached(__FUNCTION__, func_get_args(), function () {
             return Offer::getProductIdsThatHaveOfferPrice();
         });
     }
@@ -34,21 +34,21 @@ class OfferRepository extends AbstractRepository
             return [];
         }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId, $priceId) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($productId, $priceId) {
             return Offer::getPrice($productId, $priceId);
         });
     }
 
     public function getByProductId($productId)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($productId) {
             return Offer::getByProductId($productId);
         });
     }
 
     public function getById($offerId)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($offerId) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($offerId) {
             return Offer::getById($offerId);
         });
     }

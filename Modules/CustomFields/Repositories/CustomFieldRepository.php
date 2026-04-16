@@ -2,25 +2,17 @@
 
 namespace Modules\CustomFields\Repositories;
 
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\CustomFields\Models\CustomField;
 
-/**
- * @mixin AbstractRepository
- */
-class CustomFieldRepository extends AbstractRepository
+class CustomFieldRepository extends CachingModelRepository
 {
 
-    /**
-     * Specify Models class name
-     *
-     * @return string
-     */
-    public $model = CustomField::class;
+    protected string $modelClass = CustomField::class;
 
     public function get($params)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($params) {
             return CustomField::getWithValues($params);
         });
     }

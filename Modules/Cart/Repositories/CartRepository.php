@@ -3,20 +3,20 @@
 namespace Modules\Cart\Repositories;
 
 
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\Cart\Models\Cart;
 
 
-class CartRepository extends AbstractRepository
+class CartRepository extends CachingModelRepository
 {
 
-    public string $model = Cart::class;
+    protected string $modelClass = Cart::class;
 
     public function getCartItems()
     {
         $sid = app()->user_manager->session_id();
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($sid) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($sid) {
             return Cart::queryCartItems($sid);
         });
     }

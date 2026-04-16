@@ -2,22 +2,17 @@
 
 namespace Modules\Menu\Repositories;
 
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\Repository\Repositories\CachingModelRepository;
 use Modules\Menu\Models\Menu;
 
-class MenuRepository extends AbstractRepository
+class MenuRepository extends CachingModelRepository
 {
 
-    /**
-     * Specify Models class name
-     *
-     * @return string
-     */
-    public $model = Menu::class;
+    protected string $modelClass = Menu::class;
 
     public static $_getAllMenus = [];
 
-    public function clearCache()
+    public function clearCache(): void
     {
         self::$_getAllMenus = [];
         parent::clearCache();
@@ -29,7 +24,7 @@ class MenuRepository extends AbstractRepository
             return self::$_getAllMenus;
         }
 
-        $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        $menus = $this->cached(__FUNCTION__, func_get_args(), function () {
             return Menu::queryAllOrdered();
         });
 
@@ -65,7 +60,7 @@ class MenuRepository extends AbstractRepository
 
     public function getMenus($params)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        return $this->cached(__FUNCTION__, func_get_args(), function () use ($params) {
             return Menu::getMenus($params);
         });
     }

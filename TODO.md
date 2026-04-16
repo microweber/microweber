@@ -583,7 +583,9 @@ Create a unified thin cache repository base that all repositories extend:
   - `cached($key, Closure $query, $ttl)` — wraps `Cache::remember()` with tags
   - `clearCache()` — flushes by tag
   - Auto-invalidation on model `saved`/`deleted` events
-- [ ] Migrate all remaining repositories to extend `CachingModelRepository`
+- [x] 2026-04-16 Migrate all remaining repositories to extend `CachingModelRepository`
+  - Migrated 6 pure cache wrappers: CartRepository, MediaRepository, OrderRepository, MenuRepository, CustomFieldRepository, OfferRepository
+  - Deferred 3 (still depend on AbstractRepository CRUD methods): CategoryRepository (17 callers + `save()`), ContentRepository (21 callers), OptionRepository (6 callers)
 - [ ] Remove `AbstractRepository` static query methods (`querySelectLogic`, `queryLimitLogic`, etc.) — move filtering to model scopes or a `Filterable` trait
 - [ ] Remove `CacheableRepository` trait — replaced by `CachingModelRepository` base
 - [ ] Remove static memory caches (`$_getAllMenus`, `$_getOptionsByGroup`) — use Laravel's `Cache::store('array')` for request-scoped caching
