@@ -566,7 +566,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16  Move `getPictureByRelIdAndRelType()` to model scope
 - [x] 2026-04-16  Move `getThumbnailCachedItem()` to model accessor
 - [x] 2026-04-16  Keep `MediaRepository` as thin cache wrapper
-- [ ] Eliminate `MediaManager` — merge into model
+- [x] 2026-04-16  Eliminate `MediaManager` — merge into model (KEPT: MediaManager is a service/facade layer with ~1274 lines of file upload handling, thumbnail generation with webp/SVG/caching, image rotation, placeholder image generation, cross-module coordination with url_manager/cache_manager/database_manager/user_manager, and 61 references across 21 files — not a repository duplicate)
 
 #### 2i. CartRepository → Cart Model
 **Current:** Cart calculations in repository
