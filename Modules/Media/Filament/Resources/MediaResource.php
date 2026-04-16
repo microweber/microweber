@@ -130,14 +130,15 @@ class MediaResource extends Resource
                     ->badge()
                     ->color('gray'),
 
-                Tables\Columns\BadgeColumn::make('media_type')
+                Tables\Columns\TextColumn::make('media_type')
                     ->label('Type')
-                    ->colors([
-                        'success' => 'picture',
-                        'warning' => 'video',
-                        'info' => 'audio',
-                        'gray' => 'file',
-                    ]),
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'picture' => 'success',
+                        'video' => 'warning',
+                        'audio' => 'info',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('file_size')
                     ->label('Size')

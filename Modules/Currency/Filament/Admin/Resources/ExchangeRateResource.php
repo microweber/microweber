@@ -149,12 +149,14 @@ class ExchangeRateResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\BadgeColumn::make('source')
-                    ->colors([
-                        'gray' => 'manual',
-                        'primary' => 'api',
-                        'success' => 'import',
-                    ]),
+                Tables\Columns\TextColumn::make('source')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'manual' => 'gray',
+                        'api' => 'primary',
+                        'import' => 'success',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Active'),

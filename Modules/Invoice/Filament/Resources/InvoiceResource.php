@@ -240,19 +240,23 @@ return parent::getEloquentQuery()
                     ->sortable()
                     ->formatStateUsing(fn($state) => $state),
 
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'danger' => Invoice::STATUS_OVERDUE,
-                        'warning' => Invoice::STATUS_DRAFT,
-                        'success' => [Invoice::STATUS_PAID, Invoice::STATUS_COMPLETED],
-                    ]),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        Invoice::STATUS_OVERDUE => 'danger',
+                        Invoice::STATUS_DRAFT => 'warning',
+                        Invoice::STATUS_PAID, Invoice::STATUS_COMPLETED => 'success',
+                        default => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('paid_status')
-                    ->colors([
-                        'danger' => Invoice::STATUS_UNPAID,
-                        'warning' => Invoice::STATUS_PARTIALLY_PAID,
-                        'success' => Invoice::STATUS_PAID,
-                    ]),
+                Tables\Columns\TextColumn::make('paid_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        Invoice::STATUS_UNPAID => 'danger',
+                        Invoice::STATUS_PARTIALLY_PAID => 'warning',
+                        Invoice::STATUS_PAID => 'success',
+                        default => 'gray',
+                    }),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

@@ -98,15 +98,17 @@ class AgentChatResource extends Resource
                     ->sortable()
                     ->weight('bold'),
 
-                Tables\Columns\BadgeColumn::make('agent_type')
+                Tables\Columns\TextColumn::make('agent_type')
                     ->label('Agent Type')
-                    ->colors([
-                        'primary' => 'general',
-                        'success' => 'customer',
-                        'warning' => 'shop',
-                        'info' => 'content',
-                        'secondary' => 'media',
-                    ])
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'general' => 'primary',
+                        'customer' => 'success',
+                        'shop' => 'warning',
+                        'content' => 'info',
+                        'media' => 'gray',
+                        default => 'gray',
+                    })
                     ->formatStateUsing(function (string $state): string {
                         return match ($state) {
                             'general' => '🤖 General',
