@@ -19,8 +19,6 @@ class ModuleRepository extends AbstractRepository
      */
     public $model = \MicroweberPackages\Module\Models\Module::class;
 
-    public static $_getAllModules = [];
-
     /**
      * Get all modules
      *
@@ -158,7 +156,6 @@ class ModuleRepository extends AbstractRepository
 
     public function clearCache()
     {
-        self::$_getAllModules = [];
         parent::clearCache();
     }
 

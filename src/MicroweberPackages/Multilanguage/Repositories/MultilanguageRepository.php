@@ -219,14 +219,8 @@ class MultilanguageRepository extends AbstractRepository
         });
     }
 
-    public static $_getTranslationsByRelTypeAndLocale = [];
-
     public function getTranslationsByRelTypeAndLocale($relType, $locale)
     {
-        if (isset(self::$_getTranslationsByRelTypeAndLocale[$relType][$locale])) {
-            return self::$_getTranslationsByRelTypeAndLocale[$relType][$locale];
-        }
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relType, $locale) {
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
@@ -234,7 +228,6 @@ class MultilanguageRepository extends AbstractRepository
             $getMultilangTranslatesQuery->select(['locale', 'field_name', 'field_value', 'rel_type', 'rel_id']);
             $getMultilangTranslatesQuery->where('locale', $locale);
             $getMultilangTranslatesQuery->where('rel_type', $relType);
-            // $getMultilangTranslatesQuery->whereNotNull('field_value');
 
             $executeQuery = $getMultilangTranslatesQuery->get();
             if ($executeQuery !== null) {
@@ -242,8 +235,6 @@ class MultilanguageRepository extends AbstractRepository
                 $executeQuery = collect($executeQuery)->map(function ($item) {
                     return (array)$item;
                 })->toArray();
-
-                self::$_getTranslationsByRelTypeAndLocale[$relType][$locale] = $executeQuery;
 
                 return $executeQuery;
             }

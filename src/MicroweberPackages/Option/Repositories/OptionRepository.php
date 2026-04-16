@@ -35,25 +35,15 @@ class OptionRepository extends AbstractRepository
 
 
 
-    public static $_getAllExistingOptionGroups = [];
     public function getAllExistingOptionGroups()
     {
-        if (!empty(self::$_getAllExistingOptionGroups)) {
-            return self::$_getAllExistingOptionGroups;
-        }
-
-        $allOptions = [];
         try {
-            $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
                 return Option::queryAllExistingOptionGroups();
             });
         } catch (\Exception $e) {
             return [];
         }
-
-        self::$_getAllExistingOptionGroups = $allOptions;
-
-        return self::$_getAllExistingOptionGroups;
     }
 
     public function optionGroupExists($optionGroup)
@@ -71,33 +61,15 @@ class OptionRepository extends AbstractRepository
         return false;
     }
 
-    public function clearCache()
-    {
-
-        self::$_getOptionsByGroup = [];
-        self::$_getAllExistingOptionGroups = [];
-        self::$_cacheCallbackMemory = [];
-        parent::clearCache();
-    }
-
-    public static $_getOptionsByGroup = [];
     public function getOptionsByGroup($optionGroup)
     {
-        if (isset(self::$_getOptionsByGroup[$optionGroup])) {
-            return self::$_getOptionsByGroup[$optionGroup];
-        }
-
         $isExsitOptionGroup = $this->optionGroupExists($optionGroup);
         if (!$isExsitOptionGroup) {
             return false;
         }
 
-        $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
             return Option::queryOptionsByGroup($optionGroup);
         });
-
-        self::$_getOptionsByGroup[$optionGroup] = $allOptions;
-
-        return $allOptions;
     }
 }

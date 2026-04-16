@@ -10,26 +10,11 @@ class MenuRepository extends CachingModelRepository
 
     protected string $modelClass = Menu::class;
 
-    public static $_getAllMenus = [];
-
-    public function clearCache(): void
-    {
-        self::$_getAllMenus = [];
-        parent::clearCache();
-    }
-
     public function getAllMenus()
     {
-        if (!empty(self::$_getAllMenus)) {
-            return self::$_getAllMenus;
-        }
-
-        $menus = $this->cached(__FUNCTION__, func_get_args(), function () {
+        return $this->cached(__FUNCTION__, func_get_args(), function () {
             return Menu::queryAllOrdered();
         });
-
-        self::$_getAllMenus = $menus;
-        return $menus;
     }
 
     public function getMenusByParentIdAndItemType($parentId, $itemType)
