@@ -306,4 +306,4 @@
 
 - [x] 2026-04-16  ok now in http://127.0.0.1:8000/admin/live-edit?url=http%253A%252F%252F127.0.0.1%253A8000%252FShipping-Product in dje design sidebar is not ok in dark mode [attachment: .autodev/messages/attachments/20260416_150736_90e5a1cd/paste-1776341253116.png]
 
-- [ ] fix rhw agent chat design on dark mode http://127.0.0.1:8000/admin/agent-chats/116
+- [x] 2026-04-16 fix rhw agent chat design on dark mode http://127.0.0.1:8000/admin/agent-chats/116

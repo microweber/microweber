@@ -7,13 +7,13 @@
     <div
         x-show="isOffline"
         x-transition
-        class="bg-red-50 border-l-4 border-red-500 p-4 mb-4 rounded-lg"
+        class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-4 rounded-lg"
     >
         <div class="flex items-center">
             <x-heroicon-o-signal-slash class="w-5 h-5 text-red-500 mr-3"/>
             <div>
-                <p class="font-medium text-red-800">Connection Lost</p>
-                <p class="text-sm text-red-600">Please check your internet connection. Messages will be sent when you reconnect.</p>
+                <p class="font-medium text-red-800 dark:text-red-300">Connection Lost</p>
+                <p class="text-sm text-red-600 dark:text-red-400">Please check your internet connection. Messages will be sent when you reconnect.</p>
             </div>
         </div>
     </div>
@@ -53,14 +53,14 @@
     {{-- Chat Messages Container --}}
     <div
         x-ref="messagesContainer"
-        class="chat-messages mb-4 bg-white rounded-lg border p-4"
+        class="chat-messages mb-4 bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 p-4"
         style="height: 500px; overflow-y: auto;"
     >
         @if(empty($chatMessages))
-            <div class="flex items-center justify-center h-full text-gray-500">
+            <div class="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
                 <div class="text-center">
-                    <x-heroicon-o-chat-bubble-left-right class="w-16 h-16 mx-auto mb-4 text-gray-300"/>
-                    <h4 class="text-lg font-medium mb-2">Start a Conversation</h4>
+                    <x-heroicon-o-chat-bubble-left-right class="w-16 h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600"/>
+                    <h4 class="text-lg font-medium mb-2 dark:text-white">Start a Conversation</h4>
                     <p>Send a message to begin chatting with the AI assistant.</p>
                 </div>
             </div>
@@ -86,9 +86,9 @@
                                 </div>
                             @elseif($message['role'] === 'assistant')
                                 {{-- AI Assistant Message --}}
-                                <div class="bg-gray-100 rounded-lg px-4 py-3">
+                                <div class="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-3">
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="font-medium text-sm text-blue-600 flex items-center">
+                                        <span class="font-medium text-sm text-blue-600 dark:text-blue-400 flex items-center">
                                             @switch($message['agent_type'])
                                                 @case('customer')
                                                     <x-heroicon-o-users class="w-4 h-4 mr-1"/>
@@ -111,14 +111,14 @@
                                                     AI Assistant
                                             @endswitch
                                         </span>
-                                        <div class="text-xs text-gray-500 flex items-center gap-x-2">
+                                        <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-x-2">
                                             <span>{{ $message['created_at'] }}</span>
                                             @if($message['processing_time'])
                                                 <span>• {{ number_format($message['processing_time'], 2) }}s</span>
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="prose prose-sm max-w-full">
+                                    <div class="prose prose-sm dark:prose-invert max-w-full">
                                         {!! $message['content'] !!}
                                     </div>
                                 </div>
@@ -146,13 +146,13 @@
                         class="message-item flex justify-start"
                     >
                         <div class="max-w-3xl">
-                            <div class="bg-gray-100 rounded-lg px-4 py-3">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-3">
                                 <div class="flex items-center gap-x-2 mb-2">
-                                    <span class="font-medium text-sm text-blue-600 flex items-center">
+                                    <span class="font-medium text-sm text-blue-600 dark:text-blue-400 flex items-center">
                                         <x-heroicon-o-sparkles class="w-4 h-4 mr-1"/>
                                         AI Assistant
                                     </span>
-                                    <span class="text-xs text-gray-500">Thinking...</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Thinking...</span>
                                 </div>
                                 <div class="flex items-center gap-x-2">
                                     <div class="flex gap-x-1">
@@ -160,7 +160,7 @@
                                         <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
                                         <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                                     </div>
-                                    <span class="text-sm text-gray-600">AI is processing...</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">AI is processing...</span>
                                 </div>
                             </div>
                         </div>
@@ -172,11 +172,11 @@
 
     {{-- File Upload Preview --}}
     @if(!empty($uploadedFiles))
-        <div class="mb-4 bg-gray-50 rounded-lg border p-3">
-            <div class="text-sm font-medium text-gray-700 mb-2">Attachments:</div>
+        <div class="mb-4 bg-gray-50 dark:bg-gray-800 rounded-lg border dark:border-gray-700 p-3">
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Attachments:</div>
             <div class="flex flex-wrap gap-2">
                 @foreach($uploadedFiles as $index => $file)
-                    <div class="flex items-center bg-white border rounded-lg px-3 py-2 text-sm">
+                    <div class="flex items-center bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:text-gray-200">
                         @if(str_starts_with($file['type'], 'image/'))
                             <img src="{{ $file['temporaryUrl'] }}" alt="Preview" class="w-8 h-8 object-cover rounded mr-2">
                         @else
@@ -184,7 +184,7 @@
                         @endif
                         <div class="flex-1 min-w-0">
                             <div class="truncate max-w-xs">{{ $file['name'] }}</div>
-                            <div class="text-xs text-gray-500">{{ $file['size'] }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $file['size'] }}</div>
                         </div>
                         <button
                             wire:click="removeAttachment({{ $index }})"
@@ -200,15 +200,15 @@
     @endif
 
 {{-- Message Input --}}
-<div class="message-input bg-white rounded-lg border p-4">
+<div class="message-input bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 p-4">
     @if($this->chat && $this->chat->is_active)
             <form wire:submit="sendMessage" class="space-y-3">
                 <div class="form-group">
-                    <label for="userMessage" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                    <label for="userMessage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Message</label>
 
                     {{-- File Upload Button --}}
                     <div class="flex items-center gap-2 mb-2">
-                        <label class="cursor-pointer inline-flex items-center px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                        <label class="cursor-pointer inline-flex items-center px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
                             <x-heroicon-o-paper-clip class="w-4 h-4 mr-1"/>
                             Attach File
                             <input
@@ -219,14 +219,14 @@
                                 accept="image/*,.pdf,.txt,.doc,.docx"
                             >
                         </label>
-                        <span class="text-xs text-gray-500">Max 5MB per file</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Max 5MB per file</span>
                     </div>
 
                     <textarea
                         wire:model="userMessage"
                         id="userMessage"
                         rows="3"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                         placeholder="Type your message here..."
                         @disabled($isProcessing || $isOffline)
                         @keydown.enter.prevent="if (!\$event.shiftKey) { \$wire.sendMessage() }"
@@ -238,7 +238,7 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-            <div class="flex items-center gap-x-2 text-sm text-gray-500">
+            <div class="flex items-center gap-x-2 text-sm text-gray-500 dark:text-gray-400">
                 <x-heroicon-o-information-circle class="w-4 h-4"/>
                 <span>Messages are processed by {{ ucfirst($this->chat?->agent_type ?? 'AI') }} Assistant</span>
             </div>
@@ -262,8 +262,8 @@
                 </div>
             </form>
         @else
-            <div class="text-center py-8 text-gray-500">
-                <x-heroicon-o-lock-closed class="w-10 h-10 mx-auto mb-2 text-gray-400"/>
+            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                <x-heroicon-o-lock-closed class="w-10 h-10 mx-auto mb-2 text-gray-400 dark:text-gray-500"/>
                 <p>This chat is inactive. Activate it to send messages.</p>
             </div>
         @endif
@@ -362,6 +362,18 @@
 
         .chat-messages::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
+        }
+
+        .dark .chat-messages::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        .dark .chat-messages::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        .dark .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
         }
     </style>
 </div>
