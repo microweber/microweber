@@ -250,3 +250,9 @@
 - [x] 2026-04-16  ин тхе дарк моде тхереи с соме блуе бацгроун хере плс реможе ит анд инуфъ ит витх хте лигхт моде   , ежалуе алл дср/вхите моде елементс анд маке тхе дарк моде гоод [attachment: .autodev/messages/attachments/20260416_103140_1bdd71b6/paste-1776324675720.png] [attachment: .autodev/messages/attachments/20260416_103140_b08111fc/paste-1776324698206.png]
 
 - [x] 2026-04-16  there is some bacgond on the dark mode , pls fix [attachment: .autodev/messages/attachments/20260416_103306_876b19c6/paste-1776324675720.png] [attachment: .autodev/messages/attachments/20260416_103306_b4054529/paste-1776324698206.png]
+
+- [x] 2026-04-16  there is some but uwth the dropwn arrow thati s repeading [attachment: .autodev/messages/attachments/20260416_104850_a701735e/paste-1776325725788.png]
+
+- [ ] also otheri cons are broken on dark mode and also the in socp bagde must be bigger [attachment: .autodev/messages/attachments/20260416_105004_67e7631e/paste-1776325800982.png]
+
+- [ ] also the icons in the drodown aren ot ok on dark mode [attachment: .autodev/messages/attachments/20260416_105031_e0b7ac28/paste-1776325829180.png]
