@@ -2846,9 +2846,17 @@ html.dark {
   .fi-dropdown-list-item {
     color: #a0aec0 !important;
 
+    svg {
+      color: #a0aec0 !important;
+    }
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.06) !important;
       color: #e2e8f0 !important;
+
+      svg {
+        color: #e2e8f0 !important;
+      }
     }
   }
 
