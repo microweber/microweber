@@ -595,7 +595,7 @@ Create a unified thin cache repository base that all repositories extend:
 Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-16 `CategoryManager` → logic to Category model (KEPT: service/facade layer with 89 refs across 30 files — coordinates URL routing, tree rendering, cascade deletes, slug collision detection, cross-module relationships. Methods get_by_id/get_items_count/get/get_for_content already delegate to repository/model. Not a repository duplicate.)
 - [x] 2026-04-16 `ContentManager` → logic to Content model (via ContentServiceProvider) (KEPT: service/facade layer with 329 refs across 54 files, 1299 lines + 4281 lines in support classes. Delegates to ContentManagerCrud, ContentManagerHelpers, ContentRepository, PagesTree, PagingNav, BreadcrumbLinks. Coordinates content CRUD with events, menu integration, URL resolution, template constants, live edit, cross-module managers. Not a repository duplicate.)
-- [ ] `OrderManager` → logic to Order model + OrderStatsService
+- [x] 2026-04-16 `OrderManager` → logic to Order model + OrderStatsService (KEPT: already a thin backward-compat wrapper with 20 refs across 10 files. Delegates writes to OrderService, reads to Order model statics. Phase 2 already moved business logic out. Removing would break app('order_manager') callers for no architectural gain.)
 - [ ] `CartManager` → logic to Cart model
 - [ ] `MenuManager` → logic to Menu model
 - [ ] `MediaManager` → logic to Media model
