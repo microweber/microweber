@@ -2906,6 +2906,40 @@ html.dark {
     border-color: #2d3748 !important;
   }
 
+  // ── Global search field ──
+  .fi-global-search-field .fi-input-wrp {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+
+    &:focus-within {
+      background-color: #222838 !important;
+      border-color: #4a5568 !important;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+
+  .fi-global-search-field input {
+    color: #e2e8f0 !important;
+
+    &::placeholder {
+      color: #718096 !important;
+    }
+  }
+
+  // ── Global search results dropdown ──
+  .fi-global-search-results-ctn {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
+  }
+
+  .fi-global-search-result-group-header {
+    color: #a0aec0 !important;
+  }
+
+  .fi-global-search-result-heading {
+    color: #e2e8f0 !important;
+  }
+
   // ── Global search results ──
   .fi-global-search-result {
     &:hover {
