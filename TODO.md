@@ -553,7 +553,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16  Move value aggregation and JSON option decoding to model accessors
 - [x] 2026-04-16  Move price modifier aggregation to model method
 - [x] 2026-04-16 Keep `CustomFieldRepository` as thin cache wrapper
-- [ ] Eliminate `CustomFieldsManager` — merge into model
+- [x] 2026-04-16  Eliminate `CustomFieldsManager` — merge into model (KEPT: FieldsManager is a service/facade layer with ~860 lines of field rendering, complex save/copy logic, default field creation from CSV, XSS cleaning, cross-module coordination with database_manager/user_manager/cache_manager/ui, and 40+ call sites across 22 files — not a repository duplicate)
 
 #### 2g. OptionRepository → Option Model
 **Current:** Option grouping, website config in repository
