@@ -29,6 +29,11 @@ use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\Database\Casts\StrToLowerTrimCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\User\Events\UserIsCreating;
+use MicroweberPackages\User\Events\UserIsUpdating;
+use MicroweberPackages\User\Events\UserWasCreated;
+use MicroweberPackages\User\Events\UserWasDeleted;
+use MicroweberPackages\User\Events\UserWasUpdated;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
 use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
@@ -154,6 +159,23 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         self::creating(function ($model) {
             //$model->is_active = 0;
             $model->is_verified = 0;
+            event(new UserIsCreating($model->getAttributes()));
+        });
+
+        self::created(function ($model) {
+            event(new UserWasCreated($model));
+        });
+
+        self::updating(function ($model) {
+            event(new UserIsUpdating($model));
+        });
+
+        self::updated(function ($model) {
+            event(new UserWasUpdated($model));
+        });
+
+        self::deleting(function ($model) {
+            event(new UserWasDeleted($model));
         });
     }
 

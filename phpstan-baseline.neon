@@ -28555,24 +28555,6 @@ parameters:
 			path: src/MicroweberPackages/User/Providers/UserSocialiteServiceProvider.php
 
 		-
-			message: '#^Class MicroweberPackages\\User\\Events\\UserIsUpdating constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: src/MicroweberPackages/User/Repositories/UserRepository.php
-
-		-
-			message: '#^Class MicroweberPackages\\User\\Events\\UserWasCreated constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: src/MicroweberPackages/User/Repositories/UserRepository.php
-
-		-
-			message: '#^Class MicroweberPackages\\User\\Events\\UserWasUpdated constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: src/MicroweberPackages/User/Repositories/UserRepository.php
-
-		-
 			message: '#^Method MicroweberPackages\\User\\Services\\RSAKeys\:\:toString\(\) should return array\|string but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
