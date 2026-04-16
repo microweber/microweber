@@ -136,24 +136,24 @@
 
 ### 3. Admin Panel Modules — Verify CRUD Operations (18 modules with admin resources)
 
-- [ ] test: Content module admin — list, create, edit, delete content
-- [ ] test: Post module admin — list, create, edit, delete posts
-- [ ] test: Product module admin — list, create, edit products + inventory + pricing rules + variants
-- [ ] test: Category module admin — list, create, edit, delete categories (website + shop)
-- [ ] test: Order module admin — list, view, edit orders
-- [ ] test: Payment module admin — list payments + payment providers
-- [ ] test: Shipping module admin — list, create, edit shipping providers
-- [ ] test: Tax module admin — list, create, edit taxes + tax rates
-- [ ] test: Currency module admin — list, create, edit currencies + exchange rates
-- [ ] test: Offer module admin — list, create, edit offers
-- [ ] test: Billing module admin — subscriptions, plans, plan groups, billing users, settings
-- [ ] test: Newsletter module admin — campaigns, lists, subscribers, templates, sender accounts, workflows
-- [ ] test: Ai module admin — agent chat, MCP clients, AI settings
-- [ ] test: Customer module admin — list, view customers
-- [ ] test: Menu module admin — menu management page
-- [ ] test: MediaLibrary module admin — media library page
-- [ ] test: Tag module admin — tags, tag groups, tagged resources
-- [ ] test: Settings module admin — all settings pages (general, SEO, email, templates, etc.)
+- [x] 2026-04-16  test: Content module admin — list, create, edit, delete content
+- [x] 2026-04-16  test: Post module admin — list, create, edit, delete posts
+- [x] 2026-04-16  test: Product module admin — list, create, edit products + inventory + pricing rules + variants
+- [x] 2026-04-16  test: Category module admin — list, create, edit, delete categories (website + shop)
+- [x] 2026-04-16  test: Order module admin — list, view, edit orders
+- [x] 2026-04-16  test: Payment module admin — list payments + payment providers
+- [x] 2026-04-16  test: Shipping module admin — list, create, edit shipping providers
+- [x] 2026-04-16  test: Tax module admin — list, create, edit taxes + tax rates
+- [x] 2026-04-16  test: Currency module admin — list, create, edit currencies + exchange rates
+- [x] 2026-04-16  test: Offer module admin — list, create, edit offers
+- [x] 2026-04-16  test: Billing module admin — subscriptions, plans, plan groups, billing users, settings
+- [x] 2026-04-16  test: Newsletter module admin — campaigns, lists, subscribers, templates, sender accounts, workflows
+- [x] 2026-04-16  test: Ai module admin — agent chat, MCP clients, AI settings
+- [x] 2026-04-16  test: Customer module admin — list, view customers
+- [x] 2026-04-16  test: Menu module admin — menu management page
+- [x] 2026-04-16  test: MediaLibrary module admin — media library page
+- [x] 2026-04-16  test: Tag module admin — tags, tag groups, tagged resources
+- [x] 2026-04-16  test: Settings module admin — all settings pages (general, SEO, email, templates, etc.)
 
 ### 4. Module Settings (Live Edit) — Verify All Module Settings Panels (40+ modules)
 
