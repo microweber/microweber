@@ -330,6 +330,92 @@ class Category extends Model
         return false;
     }
 
+    /**
+     * Get count of all category items (active, non-deleted content) grouped by category id.
+     *
+     * @return array
+     */
+    public static function getItemsCountAll()
+    {
+        $realTableName = app()->database_manager->real_table_name('content');
+        $query = CategoryItem::query()
+            ->leftJoin('content', function ($join) {
+                $join->on('content.id', '=', 'categories_items.rel_id')
+                    ->where('content.is_deleted', '=', 0)
+                    ->where('content.is_active', '=', 1);
+            })
+            ->select([
+                'categories_items.parent_id',
+                'categories_items.rel_type',
+                DB::raw('count( DISTINCT `' . $realTableName . '`.`id` ) as count'),
+            ])
+            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
+            ->groupBy('categories_items.parent_id');
+
+        $result = [];
+        $data = $query->get();
+        if ($data) {
+            foreach ($data as $value) {
+                $result[$value->parent_id] = $value->count;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get count of items for a specific category.
+     *
+     * @param int $categoryId
+     * @return int
+     */
+    public static function getItemsCount($categoryId)
+    {
+        $all = static::getItemsCountAll();
+
+        if (isset($all[$categoryId])) {
+            return $all[$categoryId];
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get category items by category id, rel type, and rel id.
+     *
+     * @param int|null $categoryId
+     * @param string|false $relType
+     * @param int|false $relId
+     * @return array|false
+     */
+    public static function getItems($categoryId, $relType = false, $relId = false)
+    {
+        if ($relType == 'content' || $relType == 'category') {
+            $relType = app()->database_manager->morphClassFromTable($relType);
+        }
+
+        if (!$relType) {
+            $relType = morph_name(\Modules\Content\Models\Content::class);
+        }
+
+        $model = (new CategoryItem())->newQuery();
+        if ($categoryId) {
+            $model->where('parent_id', $categoryId);
+        }
+        if ($relType) {
+            $model->where('rel_type', $relType);
+        }
+        if ($relId) {
+            $model->where('rel_id', $relId);
+        }
+        $data = $model->get();
+
+        if ($data and $data->count() > 0) {
+            return $data->toArray();
+        } else {
+            return false;
+        }
+    }
+
     //todo move to repository
     public static function hasActiveProductInSubcategories($category)
     {

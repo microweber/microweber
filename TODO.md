@@ -502,7 +502,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 **Current:** Tree building, stock checking, hierarchy traversal, media retrieval all in repository
 - [x] 2026-04-16  Move `tree()` / `getChildsTree()` / `getSubCategories()` to `Category` model as scopes/methods
 - [x] 2026-04-16  Move `hasProductsInStock()` / `getItemsInStockCountAll()` / `getProductsInStockCount()` to model
-- [ ] Move `getItemsCount()` / `getItems()` to model scopes
+- [x] 2026-04-16  Move `getItemsCount()` / `getItems()` to model scopes
 - [ ] Move `getMedia()` to existing `MediaTrait` on model
 - [ ] Move `getByUrl()` to model scope `scopeByUrl()`
 - [ ] Keep `CategoryRepository` as thin cache wrapper calling model methods
