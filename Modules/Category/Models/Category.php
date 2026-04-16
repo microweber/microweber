@@ -5,6 +5,7 @@ namespace Modules\Category\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -151,6 +152,85 @@ class Category extends Model
 //        return 'category';
 //    }
 
+
+    /**
+     * Get the full category tree starting from root categories.
+     *
+     * @return array|false
+     */
+    public static function tree()
+    {
+        $roots = DB::table('categories')
+            ->where('data_type', 'category')
+            ->where('parent_id', 0)
+            ->get();
+
+        if ($roots === null || $roots->isEmpty()) {
+            return false;
+        }
+
+        return $roots->map(function ($item) {
+            $item->childs = static::getChildsTree($item->id);
+            return (array) $item;
+        })->toArray();
+    }
+
+    /**
+     * Recursively get child categories as a nested tree.
+     *
+     * @param int|array $categoryId
+     * @return array|false
+     */
+    public static function getChildsTree($categoryId)
+    {
+        $query = DB::table('categories')->where('data_type', 'category');
+
+        if (is_array($categoryId)) {
+            $query->whereIn('parent_id', $categoryId);
+        } else {
+            $query->where('parent_id', $categoryId);
+        }
+
+        $categories = $query->get();
+
+        if ($categories === null || $categories->isEmpty()) {
+            return false;
+        }
+
+        return $categories->map(function ($item) {
+            $item->childs = static::getChildsTree($item->id);
+            return (array) $item;
+        })->toArray();
+    }
+
+    /**
+     * Get direct sub-categories (id and parent_id only, non-recursive).
+     *
+     * @param int|array $categoryId
+     * @return array|false
+     */
+    public static function getSubCategories($categoryId)
+    {
+        $query = DB::table('categories')
+            ->select(['id', 'parent_id'])
+            ->where('data_type', 'category');
+
+        if (is_array($categoryId)) {
+            $query->whereIn('parent_id', $categoryId);
+        } else {
+            $query->where('parent_id', $categoryId);
+        }
+
+        $categories = $query->get();
+
+        if ($categories === null || $categories->isEmpty()) {
+            return false;
+        }
+
+        return $categories->map(function ($item) {
+            return (array) $item;
+        })->toArray();
+    }
 
     //todo move to repository
     public static function hasActiveProductInSubcategories($category)

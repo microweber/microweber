@@ -87,93 +87,25 @@ class CategoryRepository extends AbstractRepository
     public function tree()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-
-            $getCategory = DB::table('categories')->where('data_type', 'category')->where('parent_id', 0);
-            $getCategory = $getCategory->get();
-
-            if ($getCategory != null) {
-
-                $getCategory = collect($getCategory)->map(function ($item) {
-
-                    $item->childs = $this->getChildsTree($item->id);
-
-                    return (array)$item;
-                })->toArray();
-
-                return $getCategory;
-            }
-
-            return false;
+            return Category::tree();
         });
     }
 
     public function getChildsTree($categoryId)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
-
-            $getCategory = DB::table('categories')->where('data_type', 'category');
-
-            if (is_array($categoryId)) {
-                $getCategory->whereIn('parent_id', $categoryId);
-            } else {
-                $getCategory->where('parent_id', $categoryId);
-            }
-
-            $getCategory = $getCategory->get();
-
-            if ($getCategory != null) {
-
-                $getCategory = collect($getCategory)->map(function ($item) {
-
-                    $item->childs = $this->getChildsTree($item->id);
-
-                    return (array)$item;
-                })->toArray();
-
-
-                return $getCategory;
-
-            }
-
-            return false;
+            return Category::getChildsTree($categoryId);
         });
     }
 
     /**
-     *
      * @param mixed $categoryId
-     *
      * @return boolean|array
      */
     public function getSubCategories($categoryId)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
-
-            $getCategory = DB::table('categories')
-                ->select(['id', 'parent_id'])
-                ->where('data_type', 'category');
-
-            if (is_array($categoryId)) {
-                $getCategory->whereIn('parent_id', $categoryId);
-            } else {
-                $getCategory->where('parent_id', $categoryId);
-            }
-
-            $getCategory = $getCategory->get();
-
-            if ($getCategory != null) {
-
-
-                $getCategory = collect($getCategory)->map(function ($item) {
-                    return (array)$item;
-                })->toArray();
-
-
-                return $getCategory;
-
-            }
-
-            return false;
+            return Category::getSubCategories($categoryId);
         });
     }
 
