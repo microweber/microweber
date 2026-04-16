@@ -177,15 +177,12 @@ Select::make('options.ai.default_driver_images')
 
                         ,
 
-                        Select::make('options.ai.openai_model')
-                            ->live()
+                        TextInput::make('options.ai.openai_model')
+                            ->live(onBlur: true)
                             ->label('OpenAI Model')
                             ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
-                            ->options(config('modules.ai.drivers.openai.models', [
-                                'gpt-3.5-turbo' => 'GPT 3.5 Turbo',
-                                'gpt-4' => 'GPT 4',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://platform.openai.com/docs/models/gpt-4" target="_blank">Learn more</a> about the models.</small>')),
+                            ->placeholder('gpt-4o-mini')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gpt-4o-mini, gpt-4o, gpt-4-turbo). <a href="https://platform.openai.com/docs/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.openai_api_key')
                             ->live(onBlur: true)
@@ -217,15 +214,12 @@ Select::make('options.ai.default_driver_images')
 
                         ,
 
-                        Select::make('options.ai.gemini_model')
+                        TextInput::make('options.ai.gemini_model')
                             ->label('Gemini Model')
-                            ->live()
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
-                            ->options(config('modules.ai.drivers.gemini.models', [
-                                'gemini-pro' => 'Gemini Pro',
-                                'gemini-pro-vision' => 'Gemini Pro Vision',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://ai.google.dev/models/gemini" target="_blank">Learn more</a> about the models.</small>')),
+                            ->placeholder('gemini-pro')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gemini-pro, gemini-2.0-flash, gemini-2.5-pro). <a href="https://ai.google.dev/models/gemini" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.gemini_api_key')
                             ->live(onBlur: true)
@@ -250,15 +244,12 @@ Select::make('options.ai.default_driver_images')
 
                         ,
 
-                        Select::make('options.ai.openrouter_model')
-                            ->live()
+                        TextInput::make('options.ai.openrouter_model')
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                             ->label('OpenRouter Model')
-                            ->options(config('modules.ai.drivers.openrouter.models', [
-                                'meta-llama/llama-3.3-70b-instruct' => 'Meta Llama 3.3 70B Instruct',
-                                'meta-llama/llama-3-8b-instruct' => 'Meta Llama 3 8B Instruct',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://openrouter.ai/" target="_blank">Learn more</a> about the models.</small>')),
+                            ->placeholder('meta-llama/llama-3.3-70b-instruct')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. meta-llama/llama-3.3-70b-instruct, anthropic/claude-3.5-sonnet). <a href="https://openrouter.ai/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.openrouter_api_key')
                             ->live(onBlur: true)
@@ -315,14 +306,12 @@ Select::make('options.ai.default_driver_images')
                             ->live()
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-x-mark'),
-                        Select::make('options.ai.anthropic_model')
-                            ->live()
+                        TextInput::make('options.ai.anthropic_model')
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.anthropic_enabled'))
                             ->label('Anthropic/Claude Model')
-                            ->options(config('modules.ai.drivers.anthropic.models', [
-
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://www.anthropic.com/claude" target="_blank">Learn more</a> about the models.</small>')),
+                            ->placeholder('claude-sonnet-4-6')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. claude-sonnet-4-6, claude-haiku-4-5-20251001). <a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Browse available models</a>.</small>')),
                         TextInput::make('options.ai.anthropic_api_key')
                             ->live(onBlur: true)
                             ->password()
@@ -343,16 +332,12 @@ Select::make('options.ai.default_driver_images')
                             ->live()
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-x-mark'),
-                        Select::make('options.ai.replicate_model')
-                            ->live()
+                        TextInput::make('options.ai.replicate_model')
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Image Generation Model')
-                            ->options(config('modules.ai.drivers.replicate.models', [
-                                'stabilityai/stable-diffusion-xl-base-1.0' => 'Stable Diffusion XL',
-                                'stabilityai/stable-diffusion-xl-1024-v1-0' => 'Stable Diffusion XL 1024',
-                                'stabilityai/stable-diffusion-xl-1024-v1-0-inpainting' => 'Stable Diffusion XL Inpainting',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://replicate.com/collections/text-to-image" target="_blank">Learn more</a> about available models.</small>')),
+                            ->placeholder('stabilityai/stable-diffusion-xl-base-1.0')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. stabilityai/stable-diffusion-xl-base-1.0). <a href="https://replicate.com/collections/text-to-image" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.replicate_api_key')
                             ->live(onBlur: true)
@@ -377,16 +362,12 @@ Toggle::make('options.ai.supadata_enabled')
 ->offIcon('heroicon-m-x-mark')
 ->helperText('Enable Supadata AI service for text generation'),
 
-Select::make('options.ai.supadata_model')
-->live()
+TextInput::make('options.ai.supadata_model')
+->live(onBlur: true)
 ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
 ->label('Supadata Model')
-->options(config('modules.ai.drivers.supadata.models', [
-'supadata-default' => 'Supadata Default',
-'supadata-pro' => 'Supadata Pro',
-'supadata-turbo' => 'Supadata Turbo',
-]))
-->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://supadata.com/" target="_blank">Learn more</a> about available models.</small>')),
+->placeholder('supadata-default')
+->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. supadata-default, supadata-pro, supadata-turbo). <a href="https://supadata.com/" target="_blank">Learn more</a>.</small>')),
 
 TextInput::make('options.ai.supadata_api_key')
 ->live(onBlur: true)
@@ -479,14 +460,12 @@ Section::make('FAL AI Settings')
                             ->offIcon('heroicon-m-x-mark')
                             ->helperText('Enable FAL AI for fast image generation'),
 
-                        Select::make('options.ai.fal_model')
-                            ->live()
+                        TextInput::make('options.ai.fal_model')
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.fal_enabled'))
                             ->label('FAL AI Model')
-                            ->options(config('modules.ai.drivers.fal.models', [
-                                'fal-ai/nano-banana' => 'Nano Banana',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://fal.ai/explore" target="_blank">Learn more</a> about available models.</small>')),
+                            ->placeholder('fal-ai/flux/dev')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. fal-ai/flux/dev, fal-ai/nano-banana). <a href="https://fal.ai/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.fal_api_key')
                             ->live(onBlur: true)
