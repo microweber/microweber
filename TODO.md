@@ -545,7 +545,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 **Current:** Menu hierarchy, filtering in repository
 - [x] 2026-04-16  Move `getMenusByParentId()` / `getMenusByParentIdAndItemType()` to model scopes
 - [x] 2026-04-16  Move `getAllMenus()` to model scope with eager loading
-- [ ] Keep `MenuRepository` as thin cache wrapper
+- [x] 2026-04-16  Keep `MenuRepository` as thin cache wrapper
 - [ ] Eliminate `MenuManager` — merge into model
 
 #### 2f. CustomFieldRepository → CustomField Model

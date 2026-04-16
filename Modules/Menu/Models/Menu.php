@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use MicroweberPackages\Repository\MicroweberQuery;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 
@@ -100,6 +101,50 @@ class Menu extends Model
             }
         }
         return [];
+    }
+
+    /**
+     * Query menus by params with auto-creation support.
+     */
+    public static function getMenus($params)
+    {
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        $params['item_type'] = 'menu';
+        if (is_live_edit()) {
+            $params['no_cache'] = 1;
+        }
+
+        $menus = MicroweberQuery::execute(static::query(), $params);
+
+        if (!empty($menus)) {
+            return $menus;
+        }
+
+        if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
+            if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
+                $check = app()->database_manager->get('no_cache=1&title=' . $params['title']);
+                if (!$check) {
+                    $new_menu = app()->menu_manager->menu_create('title=' . $params['title']);
+                    $params['id'] = $new_menu;
+                    $menus = app()->database_manager->get($params);
+                }
+            }
+            define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
+        }
+
+        if (!empty($menus)) {
+            return $menus;
+        }
+
+        return null;
     }
 
     public function getDisplayTitleAttribute()
