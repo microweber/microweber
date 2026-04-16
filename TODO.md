@@ -557,7 +557,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 
 #### 2g. OptionRepository → Option Model
 **Current:** Option grouping, website config in repository
-- [ ] Move `getWebsiteOptions()` / `getOptionsByGroup()` to model scopes
+- [x] 2026-04-16  Move `getWebsiteOptions()` / `getOptionsByGroup()` to model scopes
 - [ ] Move `getAllExistingOptionGroups()` to model scope
 - [ ] Keep `OptionRepository` as thin cache wrapper
 

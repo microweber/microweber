@@ -2,6 +2,8 @@
 namespace MicroweberPackages\Option\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -93,6 +95,94 @@ class Option extends Model
         }
 
         return $optionsCollection->where('option_key', $key)->pluck('option_value')->first();
+    }
+
+    /**
+     * Get all distinct option groups from the database.
+     */
+    public static function queryAllExistingOptionGroups(): array
+    {
+        if (!Schema::hasTable('options')) {
+            return [];
+        }
+
+        $groups = DB::table('options')
+            ->select('option_group')
+            ->whereNotNull('option_group')
+            ->groupBy('option_group')
+            ->get();
+
+        $groups = collect($groups)->map(fn($option) => (array) $option)->toArray();
+
+        if ($groups && is_array($groups)) {
+            return array_flatten($groups);
+        }
+
+        return [];
+    }
+
+    /**
+     * Get all options for a given option group.
+     */
+    public static function queryOptionsByGroup(string $optionGroup): array
+    {
+        $allOptions = DB::table('options')
+            ->where('option_group', $optionGroup)
+            ->whereNotNull('option_value')
+            ->get();
+
+        if ($allOptions === null) {
+            return [];
+        }
+
+        $allOptions = collect($allOptions)->map(fn($option) => (array) $option)->toArray();
+
+        $allOptions = app()->url_manager->replace_site_url_back($allOptions);
+
+        if ($allOptions === null) {
+            return [];
+        }
+
+        return $allOptions;
+    }
+
+    /**
+     * Get website options with defaults.
+     */
+    public static function queryWebsiteOptions(array $groupOptions): array
+    {
+        $websiteOptions = [
+            'favicon_image' => '',
+            'website_footer' => '',
+            'website_head' => '',
+            'website_title' => '',
+            'website_keywords' => '',
+            'website_description' => '',
+            'date_format' => '',
+            'enable_full_page_cache' => '',
+            'google-site-verification-code' => '',
+            'bing-site-verification-code' => '',
+            'alexa-site-verification-code' => '',
+            'pinterest-site-verification-code' => '',
+            'yandex-site-verification-code' => '',
+            'google-analytics-id' => '',
+            'google-tag-manager-id' => '',
+            'google-tag-manager-enable-events' => '',
+            'facebook-pixel-id' => '',
+            'robots_txt' => '',
+            'app_version' => '',
+            'maintenance_mode' => '',
+            'maintenance_mode_text' => '',
+        ];
+
+        if (!empty($groupOptions)) {
+            foreach ($groupOptions as $websiteOption) {
+                $websiteOption = app()->url_manager->replace_site_url_back($websiteOption);
+                $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];
+            }
+        }
+
+        return $websiteOptions;
     }
 
 }

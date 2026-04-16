@@ -9,9 +9,6 @@
 namespace MicroweberPackages\Option\Repositories;
 
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -27,46 +24,13 @@ class OptionRepository extends AbstractRepository
 
     public function getWebsiteOptions()
     {
-        $websiteOptions = [
-            'favicon_image'=>'',
-            'website_footer'=>'',
-            'website_head'=>'',
-            'website_title'=>'',
-            'website_keywords'=>'',
-            'website_description'=>'',
-            'date_format'=>'',
-            'enable_full_page_cache'=>'',
-            'google-site-verification-code'=>'',
-            'bing-site-verification-code'=>'',
-            'alexa-site-verification-code'=>'',
-            'pinterest-site-verification-code'=>'',
-            'yandex-site-verification-code'=>'',
-            'google-analytics-id'=>'',
-            'google-tag-manager-id'=>'',
-            'google-tag-manager-enable-events'=>'',
-            'facebook-pixel-id'=>'',
-            'robots_txt'=>'' ,
-            'app_version'=>'' ,
-            'maintenance_mode'=>'',
-            'maintenance_mode_text'=>''
-        ];
-
         if (!mw_is_installed()) {
-            return $websiteOptions;
+            return Option::queryWebsiteOptions([]);
         }
+
         $getWebsiteOptions = $this->getOptionsByGroup('website');
 
-      //  $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
-        if (!empty($getWebsiteOptions)) {
-            foreach ($getWebsiteOptions as $websiteOption) {
-
-                $websiteOption  = app()->url_manager->replace_site_url_back($websiteOption);
-
-                $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];
-            }
-        }
-
-        return $websiteOptions;
+        return Option::queryWebsiteOptions($getWebsiteOptions ?: []);
     }
 
 
@@ -81,35 +45,11 @@ class OptionRepository extends AbstractRepository
         $allOptions = [];
         try {
             $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-                if (!Schema::hasTable('options')) {
-                    return [];
-                }
-
-
-
-                $allOptions = [];
-                $getAllOptions = DB::table('options')
-                    ->select('option_group')
-                    ->whereNotNull('option_group')
-                    ->groupBy('option_group')
-                    ->get();
-                $getAllOptions = collect($getAllOptions)->map(function ($option) {
-                    return (array)$option;
-                })->toArray();
-
-                if ($getAllOptions and is_array($getAllOptions)) {
-                    $allOptions = array_flatten($getAllOptions);
-                }
-
-                return $allOptions;
+                return Option::queryAllExistingOptionGroups();
             });
         } catch (\Exception $e) {
             return [];
         }
-
-
-
-
 
         self::$_getAllExistingOptionGroups = $allOptions;
 
@@ -143,8 +83,7 @@ class OptionRepository extends AbstractRepository
     public static $_getOptionsByGroup = [];
     public function getOptionsByGroup($optionGroup)
     {
-
-        if (isset(self::$_getOptionsByGroup[$optionGroup])  ) {
+        if (isset(self::$_getOptionsByGroup[$optionGroup])) {
             return self::$_getOptionsByGroup[$optionGroup];
         }
 
@@ -153,28 +92,10 @@ class OptionRepository extends AbstractRepository
             return false;
         }
 
-
-
-
         $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
-
-            $allOptions = DB::table('options')
-                ->where('option_group', $optionGroup)
-                ->whereNotNull('option_value')
-                ->get();
-            if($allOptions === null){
-                return [];
-            }
-            $allOptions = collect($allOptions)->map(function ($option) {
-                return (array)$option;
-            })->toArray();
-
-            $allOptions  = app()->url_manager->replace_site_url_back($allOptions);
-            if($allOptions === null){
-                return [];
-            }
-            return $allOptions;
+            return Option::queryOptionsByGroup($optionGroup);
         });
+
         self::$_getOptionsByGroup[$optionGroup] = $allOptions;
 
         return $allOptions;
