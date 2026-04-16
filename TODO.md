@@ -117,7 +117,7 @@
 
 - [x] 2026-04-16  fix: Backup module — BackupHistoryResource.php, BackupScheduleResource.php deprecated colors()
 - [x] 2026-04-16  fix: Product module — ProductInventoryResource.php deprecated colors()
-- [ ] fix: Newsletter module — NewsletterFilamentAdminPanelProvider.php deprecated colors()
+- [x] 2026-04-16  fix: Newsletter module — NewsletterFilamentAdminPanelProvider.php deprecated colors()
 - [ ] fix: Profile module — FilamentProfilePanelProvider.php deprecated colors()
 - [ ] fix: Checkout module — FilamentCheckoutPanelProvider.php deprecated colors()
 - [ ] fix: Ai module — AgentChatResource.php deprecated colors()
