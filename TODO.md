@@ -383,10 +383,77 @@ Enable users to create and modify content through the chat:
 - [x] 2026-04-16  Add confirmation prompts for destructive/write operations (edit, delete)
 - [x] 2026-04-16  Add audit logging for write operations triggered via chat
 
-- [ ] make ap lan to use our mpc toosl also ntrnaly in the agnt sssions, make them on a services if enensary so we can use them both as mcp server and in the ai chat as tools
+- [x] 2026-04-16  make a plan to use our MCP tools also internally in the agent sessions, make them on services if necessary so we can use them both as MCP server and in the AI chat as tools
 
 - [x] 2026-04-16  the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
 
 - [x] 2026-04-16  make unittest for the agent vht with lcoal ollama if nabled
 
-- [ ] make a plan how to fix all npm serucry vumrnealbirya that are maked as critical and update the libs and popoluate the todo.md
+- [x] 2026-04-16  make a plan how to fix all npm security vulnerabilities that are marked as critical and update the libs and populate the todo.md
+
+---
+
+## NPM Security Vulnerability Fix Plan
+
+**Audit date:** 2026-04-16 | **Total vulnerabilities:** 12 (0 critical, 2 high, 5 moderate, 5 low)
+
+### High Severity (fix first)
+
+#### 1. picomatch ReDoS (GHSA-c2c7-rcm5-vvqj) — HIGH
+- **Vulnerable:** `picomatch@2.3.1` via `gulp@5 → glob-watcher → chokidar@3 → anymatch/readdirp`
+- **Fixed in:** `picomatch@>=2.3.2` (latest: 4.0.4)
+- **Fix:** Add `"picomatch": ">=2.3.2"` to `overrides` in package.json
+- [ ] Add picomatch override to package.json and run `npm install`
+- [ ] Verify `npm audit` no longer reports picomatch
+
+#### 2. vite Path Traversal + WebSocket File Read (GHSA-4w7w-66w2-5vf9, GHSA-p9ff-h696-f583) — HIGH
+- **Vulnerable:** `vite@6.4.1` via `vitepress@1.6.4` and `@vitejs/plugin-vue`
+- **Fixed in:** `vite@>=6.4.2` — but **6.4.1 is the latest 6.x release**; fix is only in vite 8.x
+- **Current override:** `"vite": "^6.1.0"` already in package.json
+- **Fix:** Update vite override to `"^6.4.1"` (latest 6.x). This is a dev-only dependency (vitepress docs). The vuln is in dev server mode only, not production builds. **Accept risk** until vitepress supports vite 7+/8+, or update to `vitepress@2.0.0-alpha` when stable.
+- [ ] Update vite override to `"^6.4.1"` and monitor for vite 6.4.2+ release
+- [ ] Document accepted risk: vite path traversal only affects dev server, not production
+
+### Moderate Severity
+
+#### 3. follow-redirects Auth Header Leak (GHSA-r4q5-vmmm-2653) — MODERATE
+- **Vulnerable:** `follow-redirects@1.15.11` via `mix-tailwindcss → laravel-mix → webpack-dev-server → http-proxy-middleware → http-proxy`
+- **Fixed in:** `follow-redirects@>=1.16.0`
+- **Fix:** Add `"follow-redirects": ">=1.16.0"` to `overrides`
+- [ ] Add follow-redirects override to package.json and run `npm install`
+
+#### 4. webpack-dev-server Source Code Theft (GHSA-9jgg-88mc-972h, GHSA-4v9v-hfq4-rm2v) — MODERATE
+- **Vulnerable:** `webpack-dev-server@4.15.2` via `laravel-mix@6`
+- **Fixed in:** `webpack-dev-server@>=5.2.1` — but laravel-mix@6 pins `^4.0.0`
+- **Fix option A (override):** Add `"webpack-dev-server": ">=5.2.1"` — **risky**, may break laravel-mix
+- **Fix option B (accept):** This is dev-server only, not production. laravel-mix is a build dependency.
+- **Fix option C (migrate):** Replace `mix-tailwindcss` + `laravel-mix` with direct Vite build (project already uses Vite via vitepress). This is the proper long-term fix but requires build pipeline migration.
+- [ ] Evaluate if laravel-mix can be removed (project may already use Vite for builds)
+- [ ] If laravel-mix still needed: document accepted risk for webpack-dev-server (dev-only)
+- [ ] If removable: migrate build from laravel-mix to Vite, remove mix-tailwindcss dependency
+
+#### 5. vitepress inherits vite vulnerability — MODERATE
+- Resolved by fixing vite (item #2 above)
+
+#### 6. mix-tailwindcss / laravel-mix inherits webpack-dev-server + crypto vulnerabilities — MODERATE
+- Resolved by fixing webpack-dev-server (item #4) or removing laravel-mix
+
+### Low Severity (existing overrides partially cover these)
+
+#### 7. elliptic Risky Crypto Implementation (GHSA-848j-6mx2-7j84) — LOW
+- **Vulnerable:** `elliptic@<=6.6.1` via `crypto-browserify → browserify-sign/create-ecdh`
+- **Current overrides:** Already has `"elliptic": "^6.6.1"`, `"browserify-sign": "^4.2.5"`, etc.
+- **Fix:** The override `^6.6.1` includes 6.6.1 which is vulnerable. Need `>=6.6.2` or `^6.7.0`
+- [ ] Check if `elliptic@>=6.6.2` exists; if so, update override
+- [ ] If no newer version exists, document accepted risk (low severity, crypto implementation detail)
+
+### Implementation Order
+
+1. [ ] **Quick wins** — Add overrides for picomatch and follow-redirects (fixes 2 high + 1 moderate)
+2. [ ] **Update existing overrides** — Bump elliptic, vite overrides to latest patch versions
+3. [ ] **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count
+4. [ ] **Run `npm run build`** — Verify build still works after dependency changes
+5. [ ] **Evaluate laravel-mix removal** — Check if the project's build pipeline (`run-build.js`) uses laravel-mix or Vite
+6. [ ] **If laravel-mix removable:** Remove mix-tailwindcss + laravel-mix, migrate to Vite (eliminates 4 vulnerabilities at once)
+7. [ ] **If laravel-mix required:** Accept webpack-dev-server risk (dev-only) and add override for follow-redirects
+8. [ ] **Final audit** — Run `npm audit` and verify zero high/critical, document any accepted moderate/low risks
