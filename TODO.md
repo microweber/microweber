@@ -544,7 +544,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 #### 2e. MenuRepository → Menu Model
 **Current:** Menu hierarchy, filtering in repository
 - [x] 2026-04-16  Move `getMenusByParentId()` / `getMenusByParentIdAndItemType()` to model scopes
-- [ ] Move `getAllMenus()` to model scope with eager loading
+- [x] 2026-04-16  Move `getAllMenus()` to model scope with eager loading
 - [ ] Keep `MenuRepository` as thin cache wrapper
 - [ ] Eliminate `MenuManager` — merge into model
 

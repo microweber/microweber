@@ -47,11 +47,28 @@ class Menu extends Model
 
 
     /**
-     * Get all menus ordered by position.
+     * Get the content associated with this menu item.
+     */
+    public function content()
+    {
+        return $this->belongsTo(Content::class, 'content_id');
+    }
+
+    /**
+     * Get the category associated with this menu item.
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'categories_id');
+    }
+
+    /**
+     * Get all menus ordered by position with eager-loaded relations.
      */
     public static function queryAllOrdered(): array
     {
         return static::query()
+            ->with(['content:id,title', 'category:id,title'])
             ->orderBy('position', 'asc')
             ->get()
             ->map(fn($menu) => $menu->toArray())
