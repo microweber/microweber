@@ -4,6 +4,7 @@ namespace Modules\Media\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
@@ -49,5 +50,29 @@ class MediaThumbnail extends Model
         });
     }
 
+    /**
+     * Find a cached thumbnail item by filename.
+     *
+     * @return array|false
+     */
+    public static function queryCachedItem(string $filename)
+    {
+        $check = DB::table('media_thumbnails')
+            ->select(['id', 'filename', 'image_options', 'uuid'])
+            ->where('filename', $filename)
+            ->first();
+
+        if ($check && !empty($check)) {
+            $ready = (array) $check;
+
+            if (isset($ready['image_options']) && is_string($ready['image_options'])) {
+                $ready['image_options'] = @json_decode($ready['image_options'], true);
+            }
+
+            return $ready;
+        }
+
+        return false;
+    }
 
 }

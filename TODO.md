@@ -564,7 +564,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 #### 2h. MediaRepository → Media Model
 **Current:** Light retrieval logic in repository
 - [x] 2026-04-16  Move `getPictureByRelIdAndRelType()` to model scope
-- [ ] Move `getThumbnailCachedItem()` to model accessor
+- [x] 2026-04-16  Move `getThumbnailCachedItem()` to model accessor
 - [ ] Keep `MediaRepository` as thin cache wrapper
 - [ ] Eliminate `MediaManager` — merge into model
 
