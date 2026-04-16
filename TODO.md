@@ -245,7 +245,7 @@
 
 - [x] 2026-04-16  fix the lgoo spacing on the login sccreen [attachment: .autodev/messages/attachments/20260416_102336_2488ebc7/paste-1776324201115.png] [attachment: .autodev/messages/attachments/20260416_102336_bb9d9e5f/paste-1776324213675.png]
 
-- [ ] the gol ive edit icon and the + icon aren ot ok on dark mode , pls fix [attachment: .autodev/messages/attachments/20260416_102608_c4bbb7e9/paste-1776324364829.png]
+- [x] 2026-04-16  the gol ive edit icon and the + icon aren ot ok on dark mode , pls fix [attachment: .autodev/messages/attachments/20260416_102608_c4bbb7e9/paste-1776324364829.png]
 
 - [ ] ин тхе дарк моде тхереи с соме блуе бацгроун хере плс реможе ит анд инуфъ ит витх хте лигхт моде   , ежалуе алл дср/вхите моде елементс анд маке тхе дарк моде гоод [attachment: .autodev/messages/attachments/20260416_103140_1bdd71b6/paste-1776324675720.png] [attachment: .autodev/messages/attachments/20260416_103140_b08111fc/paste-1776324698206.png]
 
