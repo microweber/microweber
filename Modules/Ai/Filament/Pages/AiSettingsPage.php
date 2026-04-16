@@ -183,7 +183,7 @@ Select::make('options.ai.default_driver_images')
                             ->label('OpenAI Model')
                             ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->placeholder('gpt-4o-mini')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gpt-4o-mini, gpt-4o, gpt-4-turbo). <a href="https://platform.openai.com/docs/models" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gpt-4o-mini, gpt-4o, gpt-4-turbo). <a style="text-decoration: underline; color: #2563eb;" href="https://platform.openai.com/docs/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.openai_api_key')
                             ->live(onBlur: true)
@@ -192,7 +192,7 @@ Select::make('options.ai.default_driver_images')
                             ->label('OpenAI API Key')
                             ->visible(fn(callable $get) => $get('options.ai.openai_enabled'))
                             ->placeholder('Enter your OpenAI API key')
-                            ->helperText(fn() => $this->secretHelperText('openai_api_key', '<small class="mb-2 text-muted"><a href="https://platform.openai.com/signup" target="_blank">Sign up</a> for an OpenAI account to get your API key.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('openai_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://platform.openai.com/signup" target="_blank">Sign up</a> for an OpenAI account to get your API key.</small>')),
 
                         TextInput::make('options.ai.openai_base_url')
                             ->live(onBlur: true)
@@ -223,7 +223,7 @@ Select::make('options.ai.default_driver_images')
                             ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                             ->placeholder('gemini-pro')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gemini-pro, gemini-2.0-flash, gemini-2.5-pro). <a href="https://ai.google.dev/models/gemini" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. gemini-pro, gemini-2.0-flash, gemini-2.5-pro). <a style="text-decoration: underline; color: #2563eb;" href="https://ai.google.dev/models/gemini" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.gemini_api_key')
                             ->live(onBlur: true)
@@ -232,7 +232,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.gemini_enabled'))
                             ->label('Gemini API Key')
                             ->placeholder('Enter your Gemini API key')
-                            ->helperText(fn() => $this->secretHelperText('gemini_api_key', '<small class="mb-2 text-muted"><a href="https://makersuite.google.com/app/apikey" target="_blank">Get your API key</a> from Google AI Studio.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('gemini_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://makersuite.google.com/app/apikey" target="_blank">Get your API key</a> from Google AI Studio.</small>')),
 
                         $this->testConnectionButton('gemini')
                             ->visible(fn(callable $get) => $get('options.ai.gemini_enabled')),
@@ -256,7 +256,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                             ->label('OpenRouter Model')
                             ->placeholder('meta-llama/llama-3.3-70b-instruct')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. meta-llama/llama-3.3-70b-instruct, anthropic/claude-3.5-sonnet). <a href="https://openrouter.ai/models" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. meta-llama/llama-3.3-70b-instruct, anthropic/claude-3.5-sonnet). <a style="text-decoration: underline; color: #2563eb;" href="https://openrouter.ai/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.openrouter_api_key')
                             ->live(onBlur: true)
@@ -265,7 +265,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled'))
                             ->label('OpenRouter API Key')
                             ->placeholder('Enter your OpenRouter API key')
-                            ->helperText(fn() => $this->secretHelperText('openrouter_api_key', '<small class="mb-2 text-muted"><a href="https://openrouter.ai/signup" target="_blank">Sign up</a> for an OpenRouter account.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('openrouter_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://openrouter.ai/signup" target="_blank">Sign up</a> for an OpenRouter account.</small>')),
 
                         $this->testConnectionButton('openrouter')
                             ->visible(fn(callable $get) => $get('options.ai.openrouter_enabled')),
@@ -287,7 +287,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                             ->label('Ollama Model')
                             ->placeholder('llama3.2')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. llama3.2, mistral, gemma2, codellama). <a href="https://ollama.com/library" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. llama3.2, mistral, gemma2, codellama). <a style="text-decoration: underline; color: #2563eb;" href="https://ollama.com/library" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.ollama_api_url')
                             ->live(onBlur: true)
@@ -324,7 +324,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.anthropic_enabled'))
                             ->label('Anthropic/Claude Model')
                             ->placeholder('claude-sonnet-4-6')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. claude-sonnet-4-6, claude-haiku-4-5-20251001). <a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. claude-sonnet-4-6, claude-haiku-4-5-20251001). <a style="text-decoration: underline; color: #2563eb;" href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Browse available models</a>.</small>')),
                         TextInput::make('options.ai.anthropic_api_key')
                             ->live(onBlur: true)
                             ->password()
@@ -353,7 +353,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Image Generation Model')
                             ->placeholder('stabilityai/stable-diffusion-xl-base-1.0')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. stabilityai/stable-diffusion-xl-base-1.0). <a href="https://replicate.com/collections/text-to-image" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. stabilityai/stable-diffusion-xl-base-1.0). <a style="text-decoration: underline; color: #2563eb;" href="https://replicate.com/collections/text-to-image" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.replicate_api_key')
                             ->live(onBlur: true)
@@ -362,7 +362,7 @@ Select::make('options.ai.default_driver_images')
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled'))
                             ->label('Replicate API Token')
                             ->placeholder('Enter your Replicate API token')
-                            ->helperText(fn() => $this->secretHelperText('replicate_api_key', '<small class="mb-2 text-muted"><a href="https://replicate.com/account/api-tokens" target="_blank">Get your API token</a> from Replicate.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('replicate_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://replicate.com/account/api-tokens" target="_blank">Get your API token</a> from Replicate.</small>')),
 
                         $this->testConnectionButton('replicate')
                             ->visible(fn(callable $get) => $get('options.ai.replicate_enabled')),
@@ -385,7 +385,7 @@ TextInput::make('options.ai.supadata_model')
 ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
 ->label('Supadata Model')
 ->placeholder('supadata-default')
-->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. supadata-default, supadata-pro, supadata-turbo). <a href="https://supadata.com/" target="_blank">Learn more</a>.</small>')),
+->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. supadata-default, supadata-pro, supadata-turbo). <a style="text-decoration: underline; color: #2563eb;" href="https://supadata.com/" target="_blank">Learn more</a>.</small>')),
 
 TextInput::make('options.ai.supadata_api_key')
 ->live(onBlur: true)
@@ -394,7 +394,7 @@ TextInput::make('options.ai.supadata_api_key')
 ->visible(fn(callable $get) => $get('options.ai.supadata_enabled'))
 ->label('Supadata API Key')
 ->placeholder('Enter your Supadata API key')
-->helperText(fn() => $this->secretHelperText('supadata_api_key', '<small class="mb-2 text-muted"><a href="https://supadata.com/api-keys" target="_blank">Get your API key</a> from Supadata dashboard.</small>')),
+->helperText(fn() => $this->secretHelperText('supadata_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://supadata.com/api-keys" target="_blank">Get your API key</a> from Supadata dashboard.</small>')),
 
 TextInput::make('options.ai.supadata_api_endpoint')
 ->live()
@@ -442,7 +442,7 @@ Section::make('TAVILY Search Settings')
                             ->visible(fn(callable $get) => $get('options.ai.tavily_enabled'))
                             ->label('TAVILY API Key')
                             ->placeholder('Enter your TAVILY API key')
-                            ->helperText(fn() => $this->secretHelperText('tavily_api_key', '<small class="mb-2 text-muted"><a href="https://tavily.com/" target="_blank">Sign up</a> for a TAVILY account to get your API key.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('tavily_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://tavily.com/" target="_blank">Sign up</a> for a TAVILY account to get your API key.</small>')),
 
                         Select::make('options.ai.tavily_search_depth')
                             ->live()
@@ -483,7 +483,7 @@ Section::make('FAL AI Settings')
                             ->visible(fn(callable $get) => $get('options.ai.fal_enabled'))
                             ->label('FAL AI Model')
                             ->placeholder('fal-ai/flux/dev')
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. fal-ai/flux/dev, fal-ai/nano-banana). <a href="https://fal.ai/models" target="_blank">Browse available models</a>.</small>')),
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type the model identifier (e.g. fal-ai/flux/dev, fal-ai/nano-banana). <a style="text-decoration: underline; color: #2563eb;" href="https://fal.ai/models" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.fal_api_key')
                             ->live(onBlur: true)
@@ -492,7 +492,7 @@ Section::make('FAL AI Settings')
                             ->visible(fn(callable $get) => $get('options.ai.fal_enabled'))
                             ->label('FAL API Key')
                             ->placeholder('Enter your FAL API key')
-                            ->helperText(fn() => $this->secretHelperText('fal_api_key', '<small class="mb-2 text-muted"><a href="https://fal.ai/dashboard" target="_blank">Get your API key</a> from FAL AI dashboard.</small>')),
+                            ->helperText(fn() => $this->secretHelperText('fal_api_key', '<small class="mb-2 text-muted"><a style="text-decoration: underline; color: #2563eb;" href="https://fal.ai/dashboard" target="_blank">Get your API key</a> from FAL AI dashboard.</small>')),
 
                         $this->testConnectionButton('fal')
                             ->visible(fn(callable $get) => $get('options.ai.fal_enabled')),
@@ -662,9 +662,11 @@ Section::make('FAL AI Settings')
             ->hiddenLabel()
             ->content(fn () => new HtmlString(
                 '<button type="button" wire:click="testConnection(\'' . $driver . '\')" wire:loading.attr="disabled" '
-                . 'class="fi-btn fi-btn-size-sm inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium '
-                . 'text-white bg-primary-600 hover:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400 transition">'
+                . 'style="background-color: #2563eb; color: #fff; padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.375rem; border: none; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: background-color 0.15s;" '
+                . 'onmouseover="this.style.backgroundColor=\'#1d4ed8\'" onmouseout="this.style.backgroundColor=\'#2563eb\'">'
+                . '<svg wire:loading.remove wire:target="testConnection(\'' . $driver . '\')" style="width:1rem;height:1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>'
                 . '<span wire:loading.remove wire:target="testConnection(\'' . $driver . '\')">Test Connection</span>'
+                . '<svg wire:loading wire:target="testConnection(\'' . $driver . '\')" style="width:1rem;height:1rem;" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle style="opacity:0.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path style="opacity:0.75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>'
                 . '<span wire:loading wire:target="testConnection(\'' . $driver . '\')">Testing...</span>'
                 . '</button>'
             ));
