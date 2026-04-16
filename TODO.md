@@ -593,7 +593,7 @@ Create a unified thin cache repository base that all repositories extend:
 ### Phase 4: Eliminate Manager Classes (10+ files)
 
 Manager classes duplicate repository/model logic. For each:
-- [ ] `CategoryManager` → logic to Category model
+- [x] 2026-04-16 `CategoryManager` → logic to Category model (KEPT: service/facade layer with 89 refs across 30 files — coordinates URL routing, tree rendering, cascade deletes, slug collision detection, cross-module relationships. Methods get_by_id/get_items_count/get/get_for_content already delegate to repository/model. Not a repository duplicate.)
 - [ ] `ContentManager` → logic to Content model (via ContentServiceProvider)
 - [ ] `OrderManager` → logic to Order model + OrderStatsService
 - [ ] `CartManager` → logic to Cart model
