@@ -114,6 +114,7 @@
             <directory>Modules/Checkout/Tests</directory>
             <directory>Modules/Attributes/Tests</directory>
             <directory>Modules/AiWizard/Tests</directory>
+            <directory>Modules/Ai/tests</directory>
             <directory>Modules/SiteStats/Tests</directory>
             <directory>Modules/Marketplace/Tests</directory>
             <directory>Modules/FileManager/Tests</directory>

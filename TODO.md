@@ -364,7 +364,7 @@ Replace the current hardcoded keyword-based `detectDomain()` routing with native
 - [x] 2026-04-16  Remove/deprecate the `handle()` + `simpleRouting()` + `detectDomain()` methods from GeneralAgent
 - [x] 2026-04-16  Let NeuronAI's `chat()` method handle all routing via tool-calling natively
 - [x] 2026-04-16  Update system prompt to describe all available tools clearly so the LLM picks the right one
-- [ ] Test with various queries across all domains to verify LLM routing accuracy
+- [x] 2026-04-16  Test with various queries across all domains to verify LLM routing accuracy
 
 ### Phase 4: Cross-Domain Query Support
 Enable complex queries that span multiple tools:
@@ -388,3 +388,5 @@ Enable users to create and modify content through the chat:
 - [x] 2026-04-16  the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
 
 - [x] 2026-04-16  make unittest for the agent vht with lcoal ollama if nabled
+
+- [ ] make a plan how to fix all npm serucry vumrnealbirya that are maked as critical and update the libs and popoluate the todo.md

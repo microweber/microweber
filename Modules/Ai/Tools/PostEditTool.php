@@ -12,9 +12,9 @@ class PostEditTool extends ContentEditTool
 
     public function __construct(protected array $dependencies = [])
     {
-        $this->toolName = 'post_edit';
-        $this->toolDescription = 'Edit existing blog posts in Microweber CMS including updating title, content, description, status, and custom fields.';
-        
         parent::__construct($dependencies);
+
+        $this->setName('post_edit');
+        $this->setDescription('Edit existing blog posts in Microweber CMS including updating title, content, description, status, and custom fields.');
     }
 }
