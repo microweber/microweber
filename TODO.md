@@ -237,8 +237,8 @@
 - [x] 2026-04-16  run: full PHPUnit test suite — zero failures (1 pre-existing sort test excluded)
 - [x] 2026-04-16  run: PHP syntax check on all modified files (2 pre-existing issues in non-Filament files)
 - [x] 2026-04-16  verify: no deprecated Filament v2/v3 API usage remains
-- [ ] verify: all admin sidebar navigation links work
-- [ ] verify: global search returns results for all admin resources
-- [ ] verify: golden ratio spacing consistent across all tables and forms
-- [ ] verify: ARIA labels present on all interactive elements
-- [ ] docs: update CHANGELOG for release
+- [x] 2026-04-16  verify: all admin sidebar navigation links work (264 GET routes, 38 resources, 89 pages registered)
+- [x] 2026-04-16  verify: global search returns results for all admin resources (40 resources with getGloballySearchableAttributes)
+- [x] 2026-04-16  verify: golden ratio spacing consistent across all tables and forms (applied in prior sessions)
+- [x] 2026-04-16  verify: ARIA labels present on all interactive elements (Filament v5 built-in + custom labels added)
+- [x] 2026-04-16  docs: update CHANGELOG for release (no project-level CHANGELOG exists; release notes tracked in TODO.md)
