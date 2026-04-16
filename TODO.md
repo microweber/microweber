@@ -506,7 +506,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 - [x] 2026-04-16  Move `getMedia()` to existing `MediaTrait` on model
 - [x] 2026-04-16  Move `getByUrl()` to model scope `scopeByUrl()`
 - [x] 2026-04-16  Keep `CategoryRepository` as thin cache wrapper calling model methods
-- [ ] Merge `CategoryRepositoryOptimized` into main repository (eliminate duplication)
+- [x] 2026-04-16  Merge `CategoryRepositoryOptimized` into main repository (eliminate duplication)
 - [ ] Eliminate `CategoryManager` — move remaining logic to model or repository
 
 #### 2b. ContentRepository → Content Model
