@@ -531,7 +531,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
   - `getBestSellingCategoriesForPeriod()`
   - `getOrdersCountGroupedByDate()`
   - `getOrderItemsCountForPeriod()`
-- [ ] Keep `OrderRepository` as thin cache wrapper for basic queries
+- [x] 2026-04-16 Keep `OrderRepository` as thin cache wrapper for basic queries
 - [ ] Eliminate `OrderManager` — merge into model/service
 
 #### 2d. OfferRepository → Offer Model
