@@ -12,7 +12,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Actions\BulkAction;
@@ -150,8 +149,9 @@ class TranslationResource extends Resource
                     ->searchable()
                     ->toggleable(),
 
-                BadgeColumn::make('translations_count')
+                TextColumn::make('translations_count')
                     ->label('Languages')
+                    ->badge()
                     ->getStateUsing(function (TranslationKey $record) {
                         return $record->texts()->count();
                     })
