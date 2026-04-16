@@ -54,53 +54,9 @@ class ContentRepository extends AbstractRepository
      */
     public function getCategories($id): array
     {
-        $categoryIds = $this->cacheCallback(__FUNCTION__ . 'categories_items', func_get_args(), function () use ($id) {
-
-            $categoryIds = [];
-            $getCategoryItems = DB::table('categories_items')
-                ->select('parent_id')
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
-                ->where('rel_id', $id)
-                ->groupBy('parent_id')
-                ->get();
-            if ($getCategoryItems) {
-                foreach ($getCategoryItems as $categoryItem) {
-                    $categoryIds[] = $categoryItem->parent_id;
-                }
-            }
-            return $categoryIds;
-
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+            return Content::getCategoriesForContent($id);
         });
-
-        return $this->batchLoadCategoriesByIds($categoryIds);
-    }
-
-    /**
-     * Batch load categories by IDs to prevent N+1 queries
-     *
-     * @param array $categoryIds Array of category IDs
-     * @return array Array of category data
-     */
-    protected function batchLoadCategoriesByIds(array $categoryIds): array
-    {
-        $ready = [];
-        if (empty($categoryIds)) {
-            return $ready;
-        }
-
-        // Batch load all categories in a single query
-        $categories = DB::table('categories')
-            ->whereIn('id', $categoryIds)
-            ->get()
-            ->keyBy('id');
-
-        foreach ($categoryIds as $categoryId) {
-            if ($category = $categories->get($categoryId)) {
-                $ready[] = (array) $category;
-            }
-        }
-
-        return $ready;
     }
 
     /**
@@ -332,28 +288,7 @@ class ContentRepository extends AbstractRepository
     public function tags($contentId = false, $returnFullTagsData = false): array|false
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $returnFullTagsData) {
-
-            $query = DB::table('tagging_tagged');
-            $query->where('taggable_type', morph_name(\Modules\Content\Models\Content::class));
-            if ($contentId) {
-                $query->where('taggable_id', $contentId);
-            }
-
-            $getTagged = $query->get();
-            $getTagged = collect($getTagged)->map(function ($item) {
-                return (array)$item;
-            })->toArray();
-
-            if ($returnFullTagsData) {
-                return $getTagged;
-            }
-            $tagNames = [];
-            foreach ($getTagged as $tagged) {
-                $tagNames[] = $tagged['tag_name'];
-            }
-
-            return $tagNames;
-
+            return Content::getTagsForContent($contentId, $returnFullTagsData);
         });
     }
 

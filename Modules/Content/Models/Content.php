@@ -775,4 +775,77 @@ class Content extends Model
 
         return false;
     }
+
+    /**
+     * Retrieve the categories associated with a given content ID.
+     *
+     * @param mixed $id
+     * @return array
+     */
+    public static function getCategoriesForContent($id): array
+    {
+        $categoryIds = [];
+        $getCategoryItems = DB::table('categories_items')
+            ->select('parent_id')
+            ->where('rel_type', morph_name(Content::class))
+            ->where('rel_id', $id)
+            ->groupBy('parent_id')
+            ->get();
+
+        if ($getCategoryItems) {
+            foreach ($getCategoryItems as $categoryItem) {
+                $categoryIds[] = $categoryItem->parent_id;
+            }
+        }
+
+        if (empty($categoryIds)) {
+            return [];
+        }
+
+        $ready = [];
+        $categories = DB::table('categories')
+            ->whereIn('id', $categoryIds)
+            ->get()
+            ->keyBy('id');
+
+        foreach ($categoryIds as $categoryId) {
+            if ($category = $categories->get($categoryId)) {
+                $ready[] = (array) $category;
+            }
+        }
+
+        return $ready;
+    }
+
+    /**
+     * Retrieve the tags associated with the specified content.
+     *
+     * @param bool|int $contentId
+     * @param bool $returnFullTagsData
+     * @return array|false
+     */
+    public static function getTagsForContent($contentId = false, $returnFullTagsData = false): array|false
+    {
+        $query = DB::table('tagging_tagged');
+        $query->where('taggable_type', morph_name(Content::class));
+        if ($contentId) {
+            $query->where('taggable_id', $contentId);
+        }
+
+        $getTagged = $query->get();
+        $getTagged = collect($getTagged)->map(function ($item) {
+            return (array) $item;
+        })->toArray();
+
+        if ($returnFullTagsData) {
+            return $getTagged;
+        }
+
+        $tagNames = [];
+        foreach ($getTagged as $tagged) {
+            $tagNames[] = $tagged['tag_name'];
+        }
+
+        return $tagNames;
+    }
 }
