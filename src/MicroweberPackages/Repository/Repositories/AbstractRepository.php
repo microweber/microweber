@@ -4,16 +4,18 @@
 namespace MicroweberPackages\Repository\Repositories;
 
 use BadMethodCallException;
+use Carbon\Carbon;
 use Closure;
+use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
-use MicroweberPackages\Repository\Traits\CacheableRepository;
 use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Torann\LaravelRepository\Contracts\Repository;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
@@ -21,13 +23,40 @@ use Torann\LaravelRepository\Exceptions\RepositoryException;
 
 abstract class AbstractRepository implements Repository
 {
-    use CacheableRepository;
-
-
     /**
      * Cache expires constants
      */
     const EXPIRES_END_OF_DAY = 'eod';
+
+    /**
+     * Cache instance
+     */
+    protected static ?CacheManager $cache = null;
+
+    /**
+     * Whether cache is globally disabled.
+     */
+    public static bool $disableCache = false;
+
+    /**
+     * Flush the cache after create/update/delete events.
+     */
+    protected bool $eventFlushCache = true;
+
+    /**
+     * Global lifetime of the cache in seconds.
+     */
+    protected int $cacheSeconds = 60000;
+
+    /**
+     * In-memory request-scoped cache to avoid redundant cache hits.
+     */
+    public static array $_cacheCallbackMemory = [];
+
+    /**
+     * In-memory cache for loaded models by ID.
+     */
+    public static array $_loaded_models_cache_get = [];
 
     /**
      * Searching operator.
@@ -123,6 +152,133 @@ abstract class AbstractRepository implements Repository
 
 
     }
+
+    // ── Cache methods (inlined from former CacheableRepository trait) ──
+
+    public static function setCacheInstance(CacheManager $cache): void
+    {
+        self::$cache = $cache;
+    }
+
+    public static function getCacheInstance(): CacheManager
+    {
+        if (self::$cache === null) {
+            self::$cache = app('cache');
+        }
+
+        return self::$cache;
+    }
+
+    public static function disableCache(): void
+    {
+        self::$disableCache = true;
+    }
+
+    public function skippedCache(): bool
+    {
+        if (self::$disableCache) {
+            return true;
+        }
+
+        if (Config::get('microweber.disable_model_cache')) {
+            return true;
+        }
+
+        return config('repositories.cache_enabled', false) === false
+            || app('request')->has(config('repositories.cache_skip_param', 'skipCache')) === true;
+    }
+
+    public function getCacheKey(string $method, $args = null, array $tag = []): string
+    {
+        if ($method === 'getById' && is_array($args) && isset($args[0]) && is_numeric($args[0])) {
+            return sprintf(
+                '%s-%s--%s-%s-%s',
+                app()->getLocale(),
+                implode('-', $tag),
+                $method,
+                intval($args[0]),
+                intval(is_https())
+            );
+        }
+
+        $hashArgs = [];
+        foreach ($args as $k => $a) {
+            if (is_object($a) && $a instanceof Closure) {
+                $hashArgs[$k] = hashClosure($a);
+            } else {
+                $hashArgs[$k] = $a;
+            }
+        }
+
+        return sprintf(
+            '%s-%s--%s-%s-%s',
+            app()->getLocale(),
+            implode('-', $tag),
+            $method,
+            crc32(json_encode($hashArgs)),
+            intval(is_https())
+        );
+    }
+
+    public function cacheCallback(string $method, $args, Closure $callback, $time = null)
+    {
+        $skipCache = false;
+
+        if ($this->skippedCache() === true) {
+            $skipCache = true;
+        } elseif (is_array($args) && isset($args[0]) && is_array($args[0]) && isset($args[0]['no_cache']) && $args[0]['no_cache']) {
+            $skipCache = true;
+        }
+
+        if ($skipCache === true) {
+            return call_user_func($callback);
+        }
+
+        $tag = $this->generateCacheTags();
+        $cacheKey = $this->getCacheKey($method, $args, $tag);
+        $_cacheCallback_memory_key = implode('-', $tag) . $cacheKey;
+
+        if (isset(self::$_cacheCallbackMemory[$_cacheCallback_memory_key])) {
+            return self::$_cacheCallbackMemory[$_cacheCallback_memory_key];
+        }
+
+        return self::$_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
+            $cacheKey,
+            $this->getCacheExpiresTime($time),
+            $callback
+        );
+    }
+
+    public function generateCacheTags(): array
+    {
+        return ['repositories', $this->getModel()->getTable()];
+    }
+
+    public function clearCache()
+    {
+        self::$_cacheCallbackMemory = [];
+        self::$_loaded_models_cache_get = [];
+
+        if ($this->eventFlushCache === false || config('repositories.cache_enabled', false) === false) {
+            return false;
+        }
+
+        $this->eventFlushCache = false;
+        self::$disableCache = true;
+    }
+
+    protected function getCacheExpiresTime($time = null): int
+    {
+        if ($time === self::EXPIRES_END_OF_DAY) {
+            return class_exists(Carbon::class)
+                ? round(Carbon::now()->secondsUntilEndOfDay() / 60)
+                : $this->cacheSeconds;
+        }
+
+        return $time ?: $this->cacheSeconds;
+    }
+
+    // ── End cache methods ──
 
     /**
      * Return model instance.
@@ -285,9 +441,6 @@ abstract class AbstractRepository implements Repository
 
         return $this->query->get($columns);
     }
-
-
-    public static array $_loaded_models_cache_get = [];
 
 
 //
