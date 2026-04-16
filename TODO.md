@@ -430,7 +430,7 @@ Enable users to create and modify content through the chat:
 - **Fix option C (migrate):** Replace `mix-tailwindcss` + `laravel-mix` with direct Vite build (project already uses Vite via vitepress). This is the proper long-term fix but requires build pipeline migration.
 - [x] 2026-04-16  Evaluate if laravel-mix can be removed — **NO**: 3 sub-packages (`frontend-assets`, `microweber-filament-theme`, `frontend-assets-libs`) + `Templates/Bootstrap` actively use `webpack.mix.cjs`. Migration too large for this scope.
 - [x] 2026-04-16  laravel-mix still needed: **ACCEPTED RISK** for webpack-dev-server (dev-only, not production). The vuln requires visiting a malicious site while dev server runs — low real-world risk for CMS build tooling.
-- [ ] Future: migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)
+- [ ] **FUTURE:** migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)
 
 #### 5. vitepress inherits vite vulnerability — MODERATE
 - Resolved by fixing vite (item #2 above)
@@ -444,16 +444,16 @@ Enable users to create and modify content through the chat:
 - **Vulnerable:** `elliptic@<=6.6.1` via `crypto-browserify → browserify-sign/create-ecdh`
 - **Current overrides:** Already has `"elliptic": "^6.6.1"`, `"browserify-sign": "^4.2.5"`, etc.
 - **Fix:** The override `^6.6.1` includes 6.6.1 which is vulnerable. Need `>=6.6.2` or `^6.7.0`
-- [ ] Check if `elliptic@>=6.6.2` exists; if so, update override
-- [ ] If no newer version exists, document accepted risk (low severity, crypto implementation detail)
+- [x] 2026-04-16  Check if `elliptic@>=6.6.2` exists — **NO**: 6.6.1 is the latest release
+- [x] 2026-04-16  **ACCEPTED RISK:** elliptic 6.6.1 is the latest; low severity crypto implementation detail. Will auto-resolve when 6.6.2+ is released.
 
 ### Implementation Order
 
 1. [x] 2026-04-16  **Quick wins** — Add overrides for picomatch and follow-redirects (fixes 1 high + 1 moderate)
-2. [ ] **Update existing overrides** — Bump elliptic, vite overrides to latest patch versions
+2. [x] 2026-04-16  **Update existing overrides** — vite bumped to ^6.4.1; elliptic 6.6.1 is latest (no newer available)
 3. [x] 2026-04-16  **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count (12 → 10)
-4. [ ] **Run `npm run build`** — Verify build still works after dependency changes
+4. [x] 2026-04-16  **Run `npm run build`** — Build succeeds with updated overrides
 5. [x] 2026-04-16  **Evaluate laravel-mix removal** — NOT removable: 3 sub-packages + 1 template actively use webpack.mix.cjs
 6. [ ] **Future: migrate build from laravel-mix to Vite** across sub-packages (eliminates 4 vulns)
 7. [x] 2026-04-16  **laravel-mix required:** Accepted webpack-dev-server risk (dev-only)
-8. [ ] **Final audit** — Run `npm audit` and verify zero high/critical, document any accepted moderate/low risks
+8. [x] 2026-04-16  **Final audit** — 10 remaining vulns (1 high + 4 moderate + 5 low), all accepted risks: vite dev-server only, webpack-dev-server dev-only, elliptic no fix available. Zero critical.
