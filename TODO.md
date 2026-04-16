@@ -403,8 +403,8 @@ Enable users to create and modify content through the chat:
 - **Vulnerable:** `picomatch@2.3.1` via `gulp@5 → glob-watcher → chokidar@3 → anymatch/readdirp`
 - **Fixed in:** `picomatch@>=2.3.2` (latest: 4.0.4)
 - **Fix:** Add `"picomatch": ">=2.3.2"` to `overrides` in package.json
-- [ ] Add picomatch override to package.json and run `npm install`
-- [ ] Verify `npm audit` no longer reports picomatch
+- [x] 2026-04-16  Add picomatch override to package.json and run `npm install`
+- [x] 2026-04-16  Verify `npm audit` no longer reports picomatch
 
 #### 2. vite Path Traversal + WebSocket File Read (GHSA-4w7w-66w2-5vf9, GHSA-p9ff-h696-f583) — HIGH
 - **Vulnerable:** `vite@6.4.1` via `vitepress@1.6.4` and `@vitejs/plugin-vue`
@@ -420,7 +420,7 @@ Enable users to create and modify content through the chat:
 - **Vulnerable:** `follow-redirects@1.15.11` via `mix-tailwindcss → laravel-mix → webpack-dev-server → http-proxy-middleware → http-proxy`
 - **Fixed in:** `follow-redirects@>=1.16.0`
 - **Fix:** Add `"follow-redirects": ">=1.16.0"` to `overrides`
-- [ ] Add follow-redirects override to package.json and run `npm install`
+- [x] 2026-04-16  Add follow-redirects override to package.json and run `npm install`
 
 #### 4. webpack-dev-server Source Code Theft (GHSA-9jgg-88mc-972h, GHSA-4v9v-hfq4-rm2v) — MODERATE
 - **Vulnerable:** `webpack-dev-server@4.15.2` via `laravel-mix@6`
@@ -449,9 +449,9 @@ Enable users to create and modify content through the chat:
 
 ### Implementation Order
 
-1. [ ] **Quick wins** — Add overrides for picomatch and follow-redirects (fixes 2 high + 1 moderate)
+1. [x] 2026-04-16  **Quick wins** — Add overrides for picomatch and follow-redirects (fixes 1 high + 1 moderate)
 2. [ ] **Update existing overrides** — Bump elliptic, vite overrides to latest patch versions
-3. [ ] **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count
+3. [x] 2026-04-16  **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count (12 → 10)
 4. [ ] **Run `npm run build`** — Verify build still works after dependency changes
 5. [ ] **Evaluate laravel-mix removal** — Check if the project's build pipeline (`run-build.js`) uses laravel-mix or Vite
 6. [ ] **If laravel-mix removable:** Remove mix-tailwindcss + laravel-mix, migrate to Vite (eliminates 4 vulnerabilities at once)

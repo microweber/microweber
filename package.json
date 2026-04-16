@@ -38,6 +38,8 @@
         "browserify-sign": "^4.2.5",
         "create-ecdh": "^4.0.4",
         "crypto-browserify": "^3.12.1",
-        "node-libs-browser": "^2.2.1"
+        "node-libs-browser": "^2.2.1",
+        "picomatch": ">=2.3.2",
+        "follow-redirects": ">=1.16.0"
     }
 }
