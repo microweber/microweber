@@ -183,6 +183,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
             $openRouterApiKey = $this->resolveAiSecretOption('openrouter_api_key');
             $ollamaModel = get_option('ollama_model', 'ai');
             $ollamaApiUrl = get_option('ollama_api_url', 'ai');
+            $ollamaApiKey = $this->resolveAiSecretOption('ollama_api_key');
             $geminiModel = get_option('gemini_model', 'ai');
             $geminiApiKey = $this->resolveAiSecretOption('gemini_api_key');
             $anthropicModel = get_option('anthropic_model', 'ai');
@@ -219,6 +220,9 @@ class AiServiceProvider extends BaseModuleServiceProvider
             }
             if ($ollamaApiUrl) {
                 Config::set('modules.ai.drivers.ollama.url', $ollamaApiUrl);
+            }
+            if ($ollamaApiKey) {
+                Config::set('modules.ai.drivers.ollama.api_key', $ollamaApiKey);
             }
 
             if ($geminiModel) {

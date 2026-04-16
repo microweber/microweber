@@ -41,6 +41,7 @@ public array $optionGroups = [
         'supadata_api_key',
         'tavily_api_key',
         'fal_api_key',
+        'ollama_api_key',
     ];
 
 public static function shouldRegisterNavigation(): bool
@@ -278,25 +279,30 @@ Select::make('options.ai.default_driver_images')
                             ->label('Enable Ollama')
                             ->live()
                             ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-x-mark')
+                            ->offIcon('heroicon-m-x-mark'),
 
-                        ,
-
-                        Select::make('options.ai.ollama_model')
-                            ->live()
+                        TextInput::make('options.ai.ollama_model')
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                             ->label('Ollama Model')
-                            ->options(config('modules.ai.drivers.ollama.models', [
-                                'llama3.2' => 'Llama 3.2',
-                            ]))
-                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted"><a href="https://ollama.com/" target="_blank">Learn more</a> about the models.</small>')),
+                            ->placeholder('llama3.2')
+                            ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Type your model name (e.g. llama3.2, mistral, gemma2, codellama). <a href="https://ollama.com/library" target="_blank">Browse available models</a>.</small>')),
 
                         TextInput::make('options.ai.ollama_api_url')
-                            ->live()
+                            ->live(onBlur: true)
                             ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
                             ->label('Ollama API URL')
                             ->placeholder('http://localhost:11434/api/generate')
                             ->helperText(fn() => new HtmlString('<small class="mb-2 text-muted">Enter the URL for your local or remote Ollama instance.</small>')),
+
+                        TextInput::make('options.ai.ollama_api_key')
+                            ->live(onBlur: true)
+                            ->password()
+                            ->revealable()
+                            ->visible(fn(callable $get) => $get('options.ai.ollama_enabled'))
+                            ->label('API Key (optional)')
+                            ->placeholder('Enter API key for remote Ollama')
+                            ->helperText(fn() => $this->secretHelperText('ollama_api_key', '<small class="mb-2 text-muted">Optional. Required only for remote Ollama services that need authentication.</small>')),
                     ]),
 
                 Section::make('Anthropic/Claude Settings')

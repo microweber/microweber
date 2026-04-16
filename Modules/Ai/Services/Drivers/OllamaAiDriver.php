@@ -23,6 +23,13 @@ class OllamaAiDriver extends BaseDriver
     protected string $defaultModel;
 
     /**
+     * Optional API key for remote Ollama instances
+     *
+     * @var string|null
+     */
+    protected ?string $apiKey;
+
+    /**
      * Whether to use caching
      *
      * @var bool
@@ -47,6 +54,7 @@ class OllamaAiDriver extends BaseDriver
 
         $this->apiUrl = $config['url'] ?? env('OLLAMA_API_URL', 'http://localhost:11434/api/generate');
         $this->defaultModel = $config['model'] ?? env('OLLAMA_MODEL', 'llama3.2');
+        $this->apiKey = $config['api_key'] ?? env('OLLAMA_API_KEY');
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
     }
@@ -181,7 +189,13 @@ class OllamaAiDriver extends BaseDriver
     protected function makeRequest(array $data): array
     {
         $ch = HttpClientFactory::curl($this->apiUrl, 300);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+        $headers = ['Content-Type: application/json'];
+        if (!empty($this->apiKey)) {
+            $headers[] = 'Authorization: Bearer ' . $this->apiKey;
+        }
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 

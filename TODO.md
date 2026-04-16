@@ -272,4 +272,4 @@
 
 - [x] 2026-04-16  the http://127.0.0.1:8000/admin/ai-settings-page  in dark mode is not ok the ttles are not viisble
 
-- [ ] on ollama settigna add api key  optonal so we cna use remote ollama cloud also i nth e dropwn now the models names are hardocded but make it so the user can type their cutom model names [attachment: .autodev/messages/attachments/20260416_114518_47738079/paste-1776329084157.png]
+- [x] 2026-04-16  on ollama settigna add api key  optonal so we cna use remote ollama cloud also i nth e dropwn now the models names are hardocded but make it so the user can type their cutom model names [attachment: .autodev/messages/attachments/20260416_114518_47738079/paste-1776329084157.png]

@@ -86,10 +86,8 @@ return [
         'ollama' => [
             'enabled' => env('OLLAMA_ENABLED', false),
             'url' => env('OLLAMA_API_URL', 'http://localhost:11434/api'),
-            'model' => env('OLLAMA_MODEL', 'llama3.2'), // Specify your default model
-            'models' => [
-                'llama3.2' => 'Llama 3.2'
-            ],
+            'model' => env('OLLAMA_MODEL', 'llama3.2'),
+            'api_key' => env('OLLAMA_API_KEY'),
         ],
 
         'openrouter' => [
