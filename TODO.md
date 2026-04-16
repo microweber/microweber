@@ -538,7 +538,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 **Current:** Price calculations, expiration handling in repository
 - [x] 2026-04-16 Move `getPrice()` / price direction & percentage logic to `Offer` model accessors
 - [x] 2026-04-16 Move `getByProductId()` / `getProductIdsThatHaveOfferPrice()` to model scopes
-- [ ] Move expiration filtering to model scope `scopeActive()`
+- [x] 2026-04-16 Move expiration filtering to model scope `scopeActive()`
 - [ ] Keep `OfferRepository` as thin cache wrapper
 
 #### 2e. MenuRepository → Menu Model

@@ -41,6 +41,21 @@ class Offer extends Model
         return $this->belongsTo(\Modules\Product\Models\Product::class, 'product_id');
     }
 
+    /**
+     * Scope to filter only active, non-expired offers.
+     *
+     * An offer is active if is_active=1 AND (expires_at is null, '0000-00-00 00:00:00', or in the future).
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('offers.is_active', '=', 1)
+            ->where(function ($q) {
+                $q->whereNull('offers.expires_at')
+                    ->orWhere('offers.expires_at', '=', '0000-00-00 00:00:00')
+                    ->orWhere('offers.expires_at', '>', now());
+            });
+    }
+
     public static function add($offerData)
     {
         if (isset($offerData['product_id_with_price_id'])) {
@@ -172,7 +187,7 @@ class Offer extends Model
         )
             ->where('content.id', '=', $productId)
             ->where('content.is_deleted', '=', 0)
-            ->where('offers.is_active', '=', 1)
+            ->active()
             ->where('custom_fields.type', '=', 'price')
             ->leftJoin('content', 'offers.product_id', '=', 'content.id')
             ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
@@ -183,35 +198,29 @@ class Offer extends Model
         $specialOffers = array();
 
         foreach ($offers as $offer) {
+            if (isset($offer['offer_price']) and $offer['offer_price'] and isset($offer['price'])) {
 
-            if (!($offer['expires_at']) || $offer['expires_at'] == '0000-00-00 00:00:00' || (strtotime($offer['expires_at']) > strtotime("now"))) {
-                // converting price_name to lowercase to match key from in FieldsManager function get line 556
+                $price_change_direction = 'decrease';
+                $offer['offer_price'] = floatval($offer['offer_price']);
+                $offer['price'] = floatval($offer['price']);
 
-                if (isset($offer['offer_price']) and $offer['offer_price'] and isset($offer['price'])) {
+                $answer = abs($offer['price'] - $offer['offer_price']);
+                $offer['price_change_direction_sign'] = '-';
+                $offer['offer_value_difference'] = $answer;
 
-                    $price_change_direction = 'decrease';
-                    $offer['offer_price'] = floatval($offer['offer_price']);
-                    $offer['price'] = floatval($offer['price']);
-
+                if ($offer['offer_price'] > $offer['price']) {
+                    $price_change_direction = 'increase';
                     $answer = abs($offer['price'] - $offer['offer_price']);
-                    $offer['price_change_direction_sign'] = '-';
+                    $offer['price_change_direction_sign'] = '+';
                     $offer['offer_value_difference'] = $answer;
-
-                    if ($offer['offer_price'] > $offer['price']) {
-                        $price_change_direction = 'increase';
-                        $answer = abs($offer['price'] - $offer['offer_price']);
-                        $offer['price_change_direction_sign'] = '+';
-                        $offer['offer_value_difference'] = $answer;
-                    }
-
-                    $percent = mw()->format->percent($offer['offer_value_difference'], $offer['price']);
-                    $offer['offer_value_difference_percent'] = $percent;
-                    $offer['price_change_direction'] = $price_change_direction;
                 }
 
-                $specialOffers[strtolower($offer['price_name'])] = $offer;
-
+                $percent = mw()->format->percent($offer['offer_value_difference'], $offer['price']);
+                $offer['offer_value_difference_percent'] = $percent;
+                $offer['price_change_direction'] = $price_change_direction;
             }
+
+            $specialOffers[strtolower($offer['price_name'])] = $offer;
         }
 
         return $specialOffers;
