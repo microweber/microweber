@@ -262,3 +262,5 @@
 - [x] 2026-04-16 the autor drodpwn still has 2 arros and X pls fix [attachment: .autodev/messages/attachments/20260416_110348_32f59d42/paste-1776326625946.png]
 
 - [x] 2026-04-16 can you make the site stats table condensed see https://filamentphp.com/docs/5.x/schemas/sections#compact-section-styling [attachment: .autodev/messages/attachments/20260416_111128_b4153298/paste-1776327030440.png]
+
+- [x] 2026-04-16 if emais for modle exist show in the stats as the dshbaord [attachment: .autodev/messages/attachments/20260416_112250_e5b9bfa7/paste-1776327754612.png]

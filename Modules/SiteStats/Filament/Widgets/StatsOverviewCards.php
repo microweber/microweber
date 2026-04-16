@@ -31,7 +31,7 @@ class StatsOverviewCards extends BaseWidget
 
         $onlineNow = Sessions::where('updated_at', '>=', $now->subMinutes(5))->distinct('session_id')->count('session_id') ?: 0;
 
-        return [
+        $stats = [
             Stat::make('Online Now', number_format($onlineNow))
                 ->description('Active in last 5 minutes')
                 ->descriptionIcon('heroicon-m-signal')
@@ -59,6 +59,7 @@ class StatsOverviewCards extends BaseWidget
 
             $this->getOrdersStat($now),
             $this->getCommentsStat($now),
+            $this->getNewsletterStat($now),
         ];
 
         return array_filter($stats);
@@ -90,6 +91,23 @@ class StatsOverviewCards extends BaseWidget
             return Stat::make('Comments (Month)', number_format($monthComments))
                 ->description('User comments')
                 ->descriptionIcon('heroicon-m-chat-bubble-left-right')
+                ->color('primary');
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    private function getNewsletterStat(Carbon $now): ?Stat
+    {
+        if (!is_module_installed('newsletter')) {
+            return null;
+        }
+        try {
+            $totalSubscribers = \Modules\Newsletter\Models\NewsletterSubscriber::count();
+            $newThisMonth = \Modules\Newsletter\Models\NewsletterSubscriber::where('created_at', '>=', $now->copy()->subMonth())->count();
+            return Stat::make('Subscribers', number_format($totalSubscribers))
+                ->description($newThisMonth . ' new this month')
+                ->descriptionIcon('heroicon-m-envelope')
                 ->color('primary');
         } catch (\Throwable) {
             return null;
