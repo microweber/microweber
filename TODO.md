@@ -430,7 +430,7 @@ Enable users to create and modify content through the chat:
 - **Fix option C (migrate):** Replace `mix-tailwindcss` + `laravel-mix` with direct Vite build (project already uses Vite via vitepress). This is the proper long-term fix but requires build pipeline migration.
 - [x] 2026-04-16  Evaluate if laravel-mix can be removed — **NO**: 3 sub-packages (`frontend-assets`, `microweber-filament-theme`, `frontend-assets-libs`) + `Templates/Bootstrap` actively use `webpack.mix.cjs`. Migration too large for this scope.
 - [x] 2026-04-16  laravel-mix still needed: **ACCEPTED RISK** for webpack-dev-server (dev-only, not production). The vuln requires visiting a malicious site while dev server runs — low real-world risk for CMS build tooling.
-- [ ] **FUTURE:** migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)
+- [x] 2026-04-16  migrate build from laravel-mix to Vite across all sub-packages (eliminates 8 vulns — root went from 10 to 2)
 
 #### 5. vitepress inherits vite vulnerability — MODERATE
 - Resolved by fixing vite (item #2 above)
@@ -454,6 +454,180 @@ Enable users to create and modify content through the chat:
 3. [x] 2026-04-16  **Run `npm install` and `npm audit`** — Verify fixes reduced vulnerability count (12 → 10)
 4. [x] 2026-04-16  **Run `npm run build`** — Build succeeds with updated overrides
 5. [x] 2026-04-16  **Evaluate laravel-mix removal** — NOT removable: 3 sub-packages + 1 template actively use webpack.mix.cjs
-6. [ ] **Future: migrate build from laravel-mix to Vite** across sub-packages (eliminates 4 vulns)
-7. [x] 2026-04-16  **laravel-mix required:** Accepted webpack-dev-server risk (dev-only)
-8. [x] 2026-04-16  **Final audit** — 10 remaining vulns (1 high + 4 moderate + 5 low), all accepted risks: vite dev-server only, webpack-dev-server dev-only, elliptic no fix available. Zero critical.
+6. [x] 2026-04-16  **Migrated from laravel-mix to Vite** across all 4 sub-packages — root vulns dropped from 10 to 2
+7. [x] 2026-04-16  **Final audit (post-migration)** — 2 remaining vulns (1 high + 1 moderate), both vite/vitepress dev-server only. Zero critical, zero webpack-dev-server, zero elliptic/crypto.
+
+- [x] 2026-04-16  Make a plan to improve the models, see where we use the repository pattern and see if we can move the logic to the model where appropriate, and make the repository as a cache wrapper
+
+---
+
+## Repository → Model Refactoring Plan
+
+### Current State Analysis
+
+**44 repository-related classes** found across the codebase with three distinct patterns:
+1. **AbstractRepository** (`src/MicroweberPackages/Repository/`) — feature-rich base with caching via `CacheableRepository` trait, extensive static query logic methods
+2. **BaseRepository** (`src/MicroweberPackages/Core/`) — simple CRUD wrapper with event dispatching
+3. **Manager classes** — parallel to repositories, often duplicating functionality (CategoryManager, ContentManager, OrderManager, etc.)
+
+**Problem:** Business logic is scattered across Repository, Manager, and Model layers with no clear boundaries. Some repositories are pure cache wrappers, some contain domain logic, some are unused CRUD stubs.
+
+### Architecture Goal
+
+```
+Model (business logic + scopes + relationships + accessors)
+  ↕
+CachingRepository (thin cache wrapper around model queries)
+  ↕
+Controller / Service / API
+```
+
+**Principle:** Models own the business logic. Repositories become thin cache wrappers that delegate to model methods. Manager classes are eliminated — their logic moves to models or services.
+
+### Phase 1: Eliminate Pure CRUD Repository Wrappers (6 files)
+
+These repositories add nothing over Eloquent — delete them and use models directly:
+
+- [ ] Remove `ProductRepository` (Modules/Product/Repositories/) — pure BaseRepository CRUD wrapper
+- [ ] Remove `ProductVariantRepository` (Modules/Product/Repositories/) — pure BaseRepository CRUD wrapper
+- [ ] Remove `PageApiRepository` (Modules/Page/Repositories/) — pure BaseRepository CRUD wrapper
+- [ ] Remove `PostApiRepository` (Modules/Post/Repositories/) — pure BaseRepository CRUD wrapper
+- [ ] Remove `OrderApiRepository` (Modules/Order/Repositories/) — pure BaseRepository CRUD wrapper with events (move events to model observers)
+- [ ] Remove `UserRepository` (src/MicroweberPackages/User/Repositories/) — pure CRUD with events (move events to model observers)
+- [ ] Update all references to use models directly; move event dispatching to Eloquent observers
+
+### Phase 2: Move Business Logic from Repositories to Models
+
+#### 2a. CategoryRepository → Category Model
+**Current:** Tree building, stock checking, hierarchy traversal, media retrieval all in repository
+- [ ] Move `tree()` / `getChildsTree()` / `getSubCategories()` to `Category` model as scopes/methods
+- [ ] Move `hasProductsInStock()` / `getItemsInStockCountAll()` / `getProductsInStockCount()` to model
+- [ ] Move `getItemsCount()` / `getItems()` to model scopes
+- [ ] Move `getMedia()` to existing `MediaTrait` on model
+- [ ] Move `getByUrl()` to model scope `scopeByUrl()`
+- [ ] Keep `CategoryRepository` as thin cache wrapper calling model methods
+- [ ] Merge `CategoryRepositoryOptimized` into main repository (eliminate duplication)
+- [ ] Eliminate `CategoryManager` — move remaining logic to model or repository
+
+#### 2b. ContentRepository → Content Model
+**Current:** Data relationships, hierarchy, default page creation in repository
+- [ ] Move `getParents()` / `getChildren()` / `getInheritedParent()` to model (hierarchy is model concern)
+- [ ] Move `getCategories()` / `getTags()` to model (already partially there via traits)
+- [ ] Move `getContentData()` / `getContentDataValues()` to `ContentDataTrait`
+- [ ] Move `getCustomFields()` to `CustomFieldsTrait`
+- [ ] Move `getThumbnail()` to `MediaTrait`
+- [ ] Move `createDefaultShopPage()` / `createDefaultBlogPage()` to model static factory methods
+- [ ] Move `getFirstShopPage()` / `getAllShopPages()` / `getAllBlogPages()` to model scopes
+- [ ] Keep `ContentRepository` as thin cache wrapper
+- [ ] Eliminate `ContentRepositoryApi` — merge into repository or use model directly
+
+#### 2c. OrderRepository → Order Model + OrderStatsService
+**Current:** Sales analytics, period grouping, best-selling reports in repository
+- [ ] Move `getOrderCurrencies()` to Order model scope
+- [ ] Extract stats methods to new `OrderStatsService`:
+  - `getOrdersTotalSumForPeriod()`
+  - `getOrdersCountForPeriod()`
+  - `getBestSellingProductsForPeriod()`
+  - `getBestSellingCategoriesForPeriod()`
+  - `getOrdersCountGroupedByDate()`
+  - `getOrderItemsCountForPeriod()`
+- [ ] Keep `OrderRepository` as thin cache wrapper for basic queries
+- [ ] Eliminate `OrderManager` — merge into model/service
+
+#### 2d. OfferRepository → Offer Model
+**Current:** Price calculations, expiration handling in repository
+- [ ] Move `getPrice()` / price direction & percentage logic to `Offer` model accessors
+- [ ] Move `getByProductId()` / `getProductIdsThatHaveOfferPrice()` to model scopes
+- [ ] Move expiration filtering to model scope `scopeActive()`
+- [ ] Keep `OfferRepository` as thin cache wrapper
+
+#### 2e. MenuRepository → Menu Model
+**Current:** Menu hierarchy, filtering in repository
+- [ ] Move `getMenusByParentId()` / `getMenusByParentIdAndItemType()` to model scopes
+- [ ] Move `getAllMenus()` to model scope with eager loading
+- [ ] Keep `MenuRepository` as thin cache wrapper
+- [ ] Eliminate `MenuManager` — merge into model
+
+#### 2f. CustomFieldRepository → CustomField Model
+**Current:** Value aggregation, JSON decoding in repository
+- [ ] Move value aggregation and JSON option decoding to model accessors
+- [ ] Move price modifier aggregation to model method
+- [ ] Keep `CustomFieldRepository` as thin cache wrapper
+- [ ] Eliminate `CustomFieldsManager` — merge into model
+
+#### 2g. OptionRepository → Option Model
+**Current:** Option grouping, website config in repository
+- [ ] Move `getWebsiteOptions()` / `getOptionsByGroup()` to model scopes
+- [ ] Move `getAllExistingOptionGroups()` to model scope
+- [ ] Keep `OptionRepository` as thin cache wrapper
+
+#### 2h. MediaRepository → Media Model
+**Current:** Light retrieval logic in repository
+- [ ] Move `getPictureByRelIdAndRelType()` to model scope
+- [ ] Move `getThumbnailCachedItem()` to model accessor
+- [ ] Keep `MediaRepository` as thin cache wrapper
+- [ ] Eliminate `MediaManager` — merge into model
+
+#### 2i. CartRepository → Cart Model
+**Current:** Cart calculations in repository
+- [ ] Move `getCartItems()` / `getCartAmount()` / `getCartItemsCount()` to model methods
+- [ ] Keep `CartRepository` as thin cache wrapper
+- [ ] Eliminate `CartManager` — merge into model
+
+### Phase 3: Standardize Cache Wrapper Pattern
+
+Create a unified thin cache repository base that all repositories extend:
+
+- [ ] Create `CachingModelRepository` base class with:
+  - Constructor takes model class + cache tags
+  - `cached($key, Closure $query, $ttl)` — wraps `Cache::remember()` with tags
+  - `clearCache()` — flushes by tag
+  - Auto-invalidation on model `saved`/`deleted` events
+- [ ] Migrate all remaining repositories to extend `CachingModelRepository`
+- [ ] Remove `AbstractRepository` static query methods (`querySelectLogic`, `queryLimitLogic`, etc.) — move filtering to model scopes or a `Filterable` trait
+- [ ] Remove `CacheableRepository` trait — replaced by `CachingModelRepository` base
+- [ ] Remove static memory caches (`$_getAllMenus`, `$_getOptionsByGroup`) — use Laravel's `Cache::store('array')` for request-scoped caching
+
+### Phase 4: Eliminate Manager Classes (10+ files)
+
+Manager classes duplicate repository/model logic. For each:
+- [ ] `CategoryManager` → logic to Category model
+- [ ] `ContentManager` → logic to Content model (via ContentServiceProvider)
+- [ ] `OrderManager` → logic to Order model + OrderStatsService
+- [ ] `CartManager` → logic to Cart model
+- [ ] `MenuManager` → logic to Menu model
+- [ ] `MediaManager` → logic to Media model
+- [ ] `CustomFieldsManager` → logic to CustomField model
+- [ ] `AttributesManager` → logic to Attribute model
+- [ ] `CheckoutManager` → keep as service (checkout is a workflow, not a model concern)
+- [ ] `CountryManager` → logic to Country model
+- [ ] `DataFieldsManager` → logic to ContentData model
+- [ ] Update all service provider bindings and facade references
+
+### Phase 5: Clean Up Remaining Repository Files
+
+- [ ] Remove `SiteStatsRepository` — it's a standalone analytics engine, rename to `SiteStatsService`
+- [ ] Remove `MultilanguageRepository` — evaluate if logic belongs in model or service
+- [ ] Keep `LaravelModulesCacheRepository` / `LaravelTemplatesCacheRepository` / `ConfigExtendedRepository` — these are framework-level cache stores, not domain repositories
+- [ ] Keep `LaravelModulesFileRepository` / `LaravelTemplatesFileRepository` — file-system repositories, different pattern
+- [ ] Remove `MicroweberRepository` — evaluate usage and migrate
+- [ ] Update `BaseRepository` and `BaseRepositoryInterface` to minimal cache-only interface
+- [ ] Remove `AbstractRepository` once all dependents migrated
+
+### Implementation Order (recommended)
+
+1. **Phase 1 first** — removing pure CRUD wrappers is safe and immediate (no logic to move)
+2. **Phase 3 early** — create the `CachingModelRepository` base before migrating others
+3. **Phase 2** — move logic module by module, starting with simplest (Media, Cart, Menu) then complex (Content, Category, Order)
+4. **Phase 4** — eliminate managers after their logic has been relocated
+5. **Phase 5** — final cleanup
+
+### Risk Mitigation
+
+- Each phase should be a separate PR with full test coverage
+- Run full PHPUnit suite after each repository migration
+- The `app('category_repository')` / `app('content_repository')` bindings must be updated in service providers
+- Global helper functions like `get_categories()` / `get_content()` often call repositories — trace all call paths
+- Static memory caches can mask bugs during migration — clear all caches between test runs
+
+- [x] 2026-04-16  yes migrate migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)

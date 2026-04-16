@@ -8,8 +8,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "npx mix",
-        "dev": "npx mix"
+        "build": "node build.mjs",
+        "dev": "node build.mjs"
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
@@ -17,8 +17,6 @@
         "bootstrap-datepicker": "^1.10.0",
         "bxslider": "^4.2.17",
         "codemirror": "^5.65.18",
-        "copy-webpack-plugin": "^12.0.2",
-        "css-loader": "^7.1.2",
         "dompurify": "^3.2.6",
         "easymde": "^2.18.0",
         "flag-icons": "^7.2.3",
@@ -26,32 +24,17 @@
         "highlight.js": "^11.10.0",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3",
-        "laravel-mix": "^6.0.49",
-        "laravel-vite-plugin": "^1.0.5",
         "masonry-layout": "^4.2.2",
         "material-icons": "^1.13.12",
-        "mini-css-extract-plugin": "^2.9.0",
         "moveable": "^0.53.0",
         "nouislider": "^15.8.1",
-        "postcss": "^8.3.7",
-        "postcss-loader": "^8.1.1",
-        "postcss-preset-env": "^10.0.0",
-        "postcss-scss": "^4.0.9",
         "rangy": "^1.3.1",
-        "resolve-url-loader": "^5.0.0",
         "slick-carousel": "^1.8.1",
         "swiper": "^11.1.14",
         "tinymce": "^7.3.0",
         "xss": "^1.0.15"
     },
     "devDependencies": {
-        "browserify": "^17.0.0",
-        "copy-webpack-plugin": "^12.0.2",
-        "gulp": "^5.0.0",
-        "gulp-babel": "^8.0.0",
-        "gulp-copy": "^4.0.1",
-        "sass-loader": "^12.1.0",
-        "vue-loader": "^16.2.0",
         "webfontloader": "^1.6.28"
     }
 }
