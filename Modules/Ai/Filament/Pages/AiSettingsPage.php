@@ -502,38 +502,41 @@ Section::make('FAL AI Settings')
 
     public function testConnection(string $driver): void
     {
+        $driverMap = [
+            'openai' => \Modules\Ai\Services\Drivers\OpenAiDriver::class,
+            'gemini' => \Modules\Ai\Services\Drivers\GeminiAiDriver::class,
+            'openrouter' => \Modules\Ai\Services\Drivers\OpenRouterAiDriver::class,
+            'ollama' => \Modules\Ai\Services\Drivers\OllamaAiDriver::class,
+            'replicate' => \Modules\Ai\Services\Drivers\ReplicateAiDriver::class,
+            'fal' => \Modules\Ai\Services\Drivers\FalAiDriver::class,
+        ];
+
+        $driverClass = $driverMap[$driver] ?? null;
+
+        if (!$driverClass || !class_exists($driverClass)) {
+            Notification::make()
+                ->title('Driver not available')
+                ->body("The driver for {$driver} is not implemented yet.")
+                ->warning()
+                ->send();
+            return;
+        }
+
+        // Validate required fields before attempting connection
+        $config = config("modules.ai.drivers.{$driver}", []);
+        $validationErrors = $this->validateDriverConfig($driver, $config);
+
+        if (!empty($validationErrors)) {
+            Notification::make()
+                ->title('Configuration incomplete')
+                ->body(implode("\n", $validationErrors))
+                ->warning()
+                ->duration(10000)
+                ->send();
+            return;
+        }
+
         try {
-            $config = config("modules.ai.drivers.{$driver}", []);
-
-            if (empty($config)) {
-                Notification::make()
-                    ->title('Configuration missing')
-                    ->body("No configuration found for {$driver}.")
-                    ->danger()
-                    ->send();
-                return;
-            }
-
-            $driverMap = [
-                'openai' => \Modules\Ai\Services\Drivers\OpenAiDriver::class,
-                'gemini' => \Modules\Ai\Services\Drivers\GeminiAiDriver::class,
-                'openrouter' => \Modules\Ai\Services\Drivers\OpenRouterAiDriver::class,
-                'ollama' => \Modules\Ai\Services\Drivers\OllamaAiDriver::class,
-                'replicate' => \Modules\Ai\Services\Drivers\ReplicateAiDriver::class,
-                'fal' => \Modules\Ai\Services\Drivers\FalAiDriver::class,
-            ];
-
-            $driverClass = $driverMap[$driver] ?? null;
-
-            if (!$driverClass || !class_exists($driverClass)) {
-                Notification::make()
-                    ->title('Driver not available')
-                    ->body("The driver for {$driver} is not implemented yet.")
-                    ->warning()
-                    ->send();
-                return;
-            }
-
             $instance = new $driverClass($config);
             $response = $instance->sendToChat([
                 ['role' => 'user', 'content' => 'Reply with the single word OK'],
@@ -549,13 +552,97 @@ Section::make('FAL AI Settings')
                 ->duration(8000)
                 ->send();
         } catch (\Throwable $e) {
+            $errorMessage = $this->parseConnectionError($driver, $e);
+
             Notification::make()
                 ->title('Connection failed')
-                ->body(mb_substr($e->getMessage(), 0, 200))
+                ->body($errorMessage)
                 ->danger()
-                ->duration(10000)
+                ->duration(12000)
                 ->send();
         }
+    }
+
+    private function validateDriverConfig(string $driver, array $config): array
+    {
+        $errors = [];
+
+        // Drivers that require an API key
+        $apiKeyRequired = ['openai', 'gemini', 'openrouter', 'anthropic', 'replicate', 'fal'];
+        if (in_array($driver, $apiKeyRequired) && empty($config['api_key'])) {
+            $labels = [
+                'openai' => 'OpenAI',
+                'gemini' => 'Gemini',
+                'openrouter' => 'OpenRouter',
+                'anthropic' => 'Anthropic',
+                'replicate' => 'Replicate',
+                'fal' => 'FAL AI',
+            ];
+            $label = $labels[$driver] ?? ucfirst($driver);
+            $errors[] = "• API key is not configured. Please enter your {$label} API key and save before testing.";
+        }
+
+        // Drivers that require a model
+        $modelRequired = ['openai', 'gemini', 'openrouter', 'ollama'];
+        if (in_array($driver, $modelRequired) && empty($config['model'])) {
+            $errors[] = '• Model name is empty. Please enter a model name.';
+        }
+
+        // Ollama requires a URL
+        if ($driver === 'ollama' && empty($config['url'])) {
+            $errors[] = '• Ollama API URL is not configured.';
+        }
+
+        return $errors;
+    }
+
+    private function parseConnectionError(string $driver, \Throwable $e): string
+    {
+        $message = $e->getMessage();
+        $code = $e->getCode();
+
+        // Check for cURL / network-level errors
+        if (stripos($message, 'could not resolve host') !== false) {
+            return "DNS resolution failed — the API host could not be found. Check the URL or your network connection.";
+        }
+        if (stripos($message, 'connection refused') !== false) {
+            if ($driver === 'ollama') {
+                return "Connection refused — is Ollama running? Start it with 'ollama serve' or check the API URL.";
+            }
+            return "Connection refused — the server is not accepting connections. Check the URL and that the service is running.";
+        }
+        if (stripos($message, 'timed out') !== false || stripos($message, 'timeout') !== false) {
+            return "Connection timed out — the server took too long to respond. Check your network or try again later.";
+        }
+        if (stripos($message, 'ssl') !== false || stripos($message, 'certificate') !== false) {
+            return "SSL/TLS error — there is a problem with the server's certificate. " . mb_substr($message, 0, 150);
+        }
+
+        // Check for HTTP status codes in the message
+        if (preg_match('/\b401\b/', $message) || stripos($message, 'unauthorized') !== false || stripos($message, 'invalid.*api.?key') !== false || stripos($message, 'incorrect api key') !== false) {
+            return "Authentication failed (401) — your API key is invalid or expired. Please check and re-enter it.";
+        }
+        if (preg_match('/\b403\b/', $message) || stripos($message, 'forbidden') !== false) {
+            return "Access forbidden (403) — your API key doesn't have permission to access this resource. Check your account permissions.";
+        }
+        if (preg_match('/\b404\b/', $message) || stripos($message, 'not found') !== false) {
+            if (stripos($message, 'model') !== false) {
+                return "Model not found (404) — the model name is invalid or not available. Check the model identifier.";
+            }
+            return "Endpoint not found (404) — check the API URL. The service may have changed its endpoint.";
+        }
+        if (preg_match('/\b429\b/', $message) || stripos($message, 'rate limit') !== false || stripos($message, 'too many requests') !== false) {
+            return "Rate limited (429) — too many requests. Wait a moment and try again, or check your plan's usage limits.";
+        }
+        if (preg_match('/\b5\d{2}\b/', $message) || stripos($message, 'internal server error') !== false || stripos($message, 'server error') !== false) {
+            return "Server error — the provider is experiencing issues. Try again later. Details: " . mb_substr($message, 0, 120);
+        }
+        if (stripos($message, 'insufficient') !== false && (stripos($message, 'quota') !== false || stripos($message, 'balance') !== false || stripos($message, 'funds') !== false)) {
+            return "Insufficient quota or balance — your account may need billing setup or has exceeded its limit.";
+        }
+
+        // Fallback: show the raw error, truncated
+        return mb_substr($message, 0, 300);
     }
 
     private function testConnectionButton(string $driver): Placeholder
