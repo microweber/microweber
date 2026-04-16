@@ -848,4 +848,40 @@ class Content extends Model
 
         return $tagNames;
     }
+
+    /**
+     * Get or create the default shop page.
+     *
+     * @return static|array
+     */
+    public static function createDefaultShopPage(): static|array
+    {
+        $shopPage = get_pages('content_type=page&is_shop=1&is_deleted=0&single=1');
+        if (!$shopPage) {
+            $shopPage = new static();
+            $shopPage->title = 'Shop';
+            $shopPage->content_type = 'page';
+            $shopPage->is_shop = 1;
+            $shopPage->save();
+        }
+        return $shopPage;
+    }
+
+    /**
+     * Get or create the default blog page.
+     *
+     * @return static|array|null
+     */
+    public static function createDefaultBlogPage(): static|array|null
+    {
+        $blogPage = get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
+        if (!$blogPage) {
+            $blogPage = new static();
+            $blogPage->title = 'Blog';
+            $blogPage->content_type = 'page';
+            $blogPage->subtype = 'dynamic';
+            $blogPage->save();
+        }
+        return $blogPage;
+    }
 }

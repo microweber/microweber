@@ -307,28 +307,12 @@ class ContentRepository extends AbstractRepository
 
     public function createDefaultShopPage(): Content|array
     {
-        $shopPage = $this->getFirstShopPage();
-        if (!$shopPage) {
-            $shopPage = new Content();
-            $shopPage->title = 'Shop';
-            $shopPage->content_type = 'page';
-            $shopPage->is_shop = 1;
-            $shopPage->save();
-        }
-        return $shopPage;
+        return Content::createDefaultShopPage();
     }
 
     public function createDefaultBlogPage(): Content|array|null
     {
-        $blogPage = $this->getFirstBlogPage();
-        if (!$blogPage) {
-            $blogPage = new Content();
-            $blogPage->title = 'Blog';
-            $blogPage->content_type = 'page';
-            $blogPage->subtype = 'dynamic';
-            $blogPage->save();
-        }
-        return $blogPage;
+        return Content::createDefaultBlogPage();
     }
 
 
