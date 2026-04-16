@@ -416,6 +416,24 @@ class Category extends Model
         }
     }
 
+    /**
+     * Get media for a category by its id.
+     *
+     * @param mixed $id
+     * @return array
+     */
+    public static function getMediaById($id)
+    {
+        $item = static::find($id);
+        if ($item) {
+            $get = $item->media;
+            if ($get) {
+                return $get->toArray();
+            }
+        }
+        return [];
+    }
+
     //todo move to repository
     public static function hasActiveProductInSubcategories($category)
     {
