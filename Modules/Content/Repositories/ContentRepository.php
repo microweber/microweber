@@ -257,25 +257,9 @@ class ContentRepository extends AbstractRepository
      */
     public function getThumbnail($contentId, $width = false, $height = false, $crop = false): string
     {
-        $media_filename = $this->cacheCallback(__FUNCTION__ . '_media__filename', func_get_args(), function () use ($contentId) {
-            $check = DB::table('media')
-                ->select('filename')
-                ->where('rel_id', $contentId)
-                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
-                ->orderBy('position', 'asc')
-                ->limit(1);
-            $media = $check->first();
-            if ($media) {
-                return $media->filename;
-            }
-            return false;
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $width, $height, $crop) {
+            return Content::getThumbnailByRelId($contentId, $width, $height, $crop);
         });
-
-        if ($media_filename && is_string($media_filename)) {
-            return thumbnail($media_filename, $width, $height, $crop);
-        }
-
-        return pixum($width, $height);
     }
 
 

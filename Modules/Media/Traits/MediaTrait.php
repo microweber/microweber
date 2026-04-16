@@ -2,6 +2,7 @@
 
 namespace Modules\Media\Traits;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Modules\Media\Models\Media;
 
@@ -217,6 +218,32 @@ trait MediaTrait
             }
 
         });
+    }
+
+    /**
+     * Get thumbnail URL for a given rel_id by querying the media table directly.
+     *
+     * @param int $relId
+     * @param int|false $width
+     * @param int|false $height
+     * @param bool|string $crop
+     * @return string
+     */
+    public static function getThumbnailByRelId($relId, $width = false, $height = false, $crop = false): string
+    {
+        $media = DB::table('media')
+            ->select('filename')
+            ->where('rel_id', $relId)
+            ->where('rel_type', morph_name(static::class))
+            ->orderBy('position', 'asc')
+            ->limit(1)
+            ->first();
+
+        if ($media && is_string($media->filename)) {
+            return thumbnail($media->filename, $width, $height, $crop);
+        }
+
+        return pixum($width, $height);
     }
 
     public function setMedias($mediaIds)
