@@ -129,10 +129,10 @@
 ### 2. Fix Old Filament Form API (5 files still using `Filament\Forms\Form` instead of `Filament\Schemas\Schema`)
 
 - [x] 2026-04-16  fix: Product module — ProductsModuleSettings.php old Form import
-- [ ] fix: Slider module — SliderTableList.php old Form import
-- [ ] fix: ImageRollover module — ImageRolloverModuleSettingsFilamentTest.php old Form import
-- [ ] fix: Content module — ContentTableList.php old Form import
-- [ ] fix: clean up PicturesModuleSettings_2.php_old (dead file)
+- [x] 2026-04-16  fix: Slider module — SliderTableList.php old Form import
+- [x] 2026-04-16  fix: ImageRollover module — ImageRolloverModuleSettingsFilamentTest.php old Form import
+- [x] 2026-04-16  fix: Content module — ContentTableList.php old Form import
+- [x] 2026-04-16  fix: clean up PicturesModuleSettings_2.php_old (dead file)
 
 ### 3. Admin Panel Modules — Verify CRUD Operations (18 modules with admin resources)
 
