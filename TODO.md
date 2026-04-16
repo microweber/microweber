@@ -264,3 +264,8 @@
 - [x] 2026-04-16 can you make the site stats table condensed see https://filamentphp.com/docs/5.x/schemas/sections#compact-section-styling [attachment: .autodev/messages/attachments/20260416_111128_b4153298/paste-1776327030440.png]
 
 - [x] 2026-04-16 if emais for modle exist show in the stats as the dshbaord [attachment: .autodev/messages/attachments/20260416_112250_e5b9bfa7/paste-1776327754612.png]
+
+## Todo
+- [x] 2026-04-16 there are some files in the dist/vondor foldr , but thye should not bet there should you be pbulishesd to the public/vendor folder
+
+- [ ] the globla seach box is not ok in dark mode [attachment: .autodev/messages/attachments/20260416_114226_642c1a05/paste-1776328940973.png]
