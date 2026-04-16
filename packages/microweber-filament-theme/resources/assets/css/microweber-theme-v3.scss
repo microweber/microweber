@@ -3134,7 +3134,7 @@ html.dark {
   overflow: hidden;
 
   &:hover {
-    border-color: darken($mw-border-color, 10%);
+    border-color: #b8c1cb; // darken($mw-border-color, 10%)
     box-shadow: none;
     text-decoration: none !important;
   }
@@ -4422,7 +4422,7 @@ html.dark {
   transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
   &:hover {
-    border-color: darken($mw-border-color, 8%);
+    border-color: #c0c8d0; // darken($mw-border-color, 8%)
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }

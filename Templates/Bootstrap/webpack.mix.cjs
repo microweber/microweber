@@ -13,10 +13,16 @@ mix.webpackConfig({
 
 
 
+const sassOptions = {
+    sassOptions: {
+        silenceDeprecations: ['import'],
+    },
+};
+
 mix
     .js('resources/assets/js/app.js', 'resources/assets/dist/build')
-    .sass('resources/assets/sass/app.scss', 'resources/assets/dist/build')
-    .sass('resources/assets/sass/app-rtl.scss', 'resources/assets/dist/build').sourceMaps();
+    .sass('resources/assets/sass/app.scss', 'resources/assets/dist/build', sassOptions)
+    .sass('resources/assets/sass/app-rtl.scss', 'resources/assets/dist/build', sassOptions).sourceMaps();
     //.copyDirectory('resources/assets', 'public/templates/bootstrap');
 mix.after(() => {
     fs.copySync(
