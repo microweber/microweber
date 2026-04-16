@@ -13,10 +13,10 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: [ '8.2' ]
+        php-versions: [ '8.3' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         env:
           DEBUG: true
           APP_ENV: "testing"
@@ -24,7 +24,7 @@ jobs:
         with:
           php_version: ${{ matrix.php-versions }}
       - name: Install Composer dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        run: composer install --no-interaction --no-progress
       - name: Copy .env.example to .env
         run: cp .env.example .env
       - name: Set env to testing
@@ -32,7 +32,7 @@ jobs:
           sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
           sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
       - name: Npm install
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
@@ -45,7 +45,7 @@ jobs:
       - name: Setup Apache
         uses: thunder/apache-shiva-php-action@v1
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000

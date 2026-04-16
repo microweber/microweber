@@ -291,3 +291,5 @@
 - [x] the dark mode looks inconsisten in terms of design , the lignt mode is ok, pls see how the colros and th e cards are used in thel ight mode and fix the dark mode
 
 - [x] 2026-04-16 now test the ai integratiion with the local ollama
+
+- [x] 2026-04-16 fix the github ci to support php 8.3 and up

@@ -62,10 +62,10 @@ jobs:
           'microweber-templates/web-designer',
           'microweber-templates/yoga-studio'
         ]
-        php-versions: ['8.2']
+        php-versions: ['8.3']
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
@@ -78,7 +78,7 @@ jobs:
 #        http-port:
 #          8000
     - name: Npm install
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 22
         cache: 'npm'
