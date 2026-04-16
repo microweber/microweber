@@ -256,3 +256,7 @@
 - [x] 2026-04-16  also otheri cons are broken on dark mode and also the in socp bagde must be bigger [attachment: .autodev/messages/attachments/20260416_105004_67e7631e/paste-1776325800982.png]
 
 - [x] 2026-04-16  also the icons in the drodown aren ot ok on dark mode [attachment: .autodev/messages/attachments/20260416_105031_e0b7ac28/paste-1776325829180.png]
+
+- [x] 2026-04-16 still the icons are not ok  you mey need to edit the svg files and remove hardcodd colors [attachment: .autodev/messages/attachments/20260416_110241_92c12e69/paste-1776326547183.png]
+
+- [ ] the autor drodpwn still has 2 arros and X pls fix [attachment: .autodev/messages/attachments/20260416_110348_32f59d42/paste-1776326625946.png]

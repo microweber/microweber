@@ -2236,11 +2236,13 @@ html.dark {
   }
 
   .fi-ta-record .group a svg {
-    color: #718096 !important;
+    color: #cbd5e0 !important;
+    fill: #cbd5e0 !important;
   }
 
   .fi-ta-record .group a:hover svg {
-    color: #e2e8f0 !important;
+    color: #f7fafc !important;
+    fill: #f7fafc !important;
   }
 
   // Module icons — force light colors in dark mode for inline SVGs
@@ -2248,7 +2250,7 @@ html.dark {
     fill: #e2e8f0 !important;
     color: #e2e8f0 !important;
 
-    path, g, circle, rect, polygon, polyline, line, ellipse {
+    path:not([fill="none"]), g, circle, rect:not([fill="none"]), polygon, polyline, line, ellipse {
       fill: #e2e8f0 !important;
     }
   }
