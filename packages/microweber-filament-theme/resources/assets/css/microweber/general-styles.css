@@ -1866,3 +1866,38 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .dark .bg-light {
     background-color: rgb(17 24 39) !important;
 }
+
+/* Agent chat page — cards and containers */
+.dark .agent-chat-container .chat-info-header > div,
+.dark .agent-chat-container .quick-actions > div {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark .agent-chat-container .chat-info-header h3 {
+    color: white !important;
+}
+
+.dark .agent-chat-container .chat-info-header p,
+.dark .agent-chat-container .chat-info-header .text-gray-600,
+.dark .agent-chat-container .chat-info-header .text-gray-500 {
+    color: rgb(156 163 175) !important;
+}
+
+.dark .agent-chat-container .chat-info-header .text-gray-400 {
+    color: rgb(107 114 128) !important;
+}
+
+.dark .agent-chat-container .quick-actions h6 {
+    color: rgb(209 213 219) !important;
+}
+
+.dark .agent-chat-container .quick-actions button {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(75 85 99) !important;
+    color: rgb(209 213 219) !important;
+}
+
+.dark .agent-chat-container .quick-actions button:hover {
+    background-color: rgb(75 85 99) !important;
+}

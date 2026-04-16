@@ -375,5 +375,43 @@
         .dark .chat-messages::-webkit-scrollbar-thumb:hover {
             background: #6b7280;
         }
+
+        /* Dark mode overrides — bypass oklch/rgba Tailwind v4 bug */
+        .dark .agent-chat-component .chat-messages,
+        .dark .agent-chat-component .message-input {
+            background-color: rgb(31 41 55) !important;
+            border-color: rgb(55 65 81) !important;
+        }
+
+        .dark .agent-chat-component .message-input label[for="userMessage"] {
+            color: rgb(209 213 219) !important;
+        }
+
+        .dark .agent-chat-component .message-input label.cursor-pointer {
+            color: rgb(209 213 219) !important;
+            background-color: rgb(55 65 81) !important;
+        }
+
+        .dark .agent-chat-component .message-input label.cursor-pointer:hover {
+            background-color: rgb(75 85 99) !important;
+        }
+
+        .dark .agent-chat-component .message-input textarea {
+            background-color: rgb(17 24 39) !important;
+            border-color: rgb(55 65 81) !important;
+            color: white !important;
+        }
+
+        .dark .agent-chat-component .message-input textarea:focus {
+            border-color: rgb(59 130 246) !important;
+        }
+
+        .dark .agent-chat-component .bg-gray-100 {
+            background-color: rgb(55 65 81) !important;
+        }
+
+        .dark .agent-chat-component .prose {
+            color: rgb(229 231 235) !important;
+        }
     </style>
 </div>
