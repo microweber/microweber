@@ -10,16 +10,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 use Modules\Post\Http\Resources\PostResource;
-use Modules\Post\Repositories\PostApiRepository;
+use Modules\Post\Models\Post;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostApiController extends Controller
 {
-    public function __construct(
-        private readonly PostApiRepository $post
-    ) {
-    }
-
     /**
      * Display a listing of posts.
      *
@@ -30,7 +25,7 @@ class PostApiController extends Controller
     {
         try {
             $limit = $request->get('limit', 30);
-            $query = $this->post->filter($request->all());
+            $query = Post::filter($request->all());
 
             $posts = $query->paginate($limit);
             $posts->appends($request->except('page'));
@@ -87,7 +82,7 @@ class PostApiController extends Controller
         }
 
         try {
-            $post = $this->post->create($validator->validated());
+            $post = Post::create($validator->validated());
 
             return response()->json([
                 'success' => true,
@@ -110,7 +105,7 @@ class PostApiController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $post = $this->post->show($id);
+        $post = Post::find($id);
 
         if (!$post) {
             return response()->json([
@@ -141,7 +136,7 @@ class PostApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $post = $this->post->show($id);
+        $post = Post::find($id);
 
         if (!$post) {
             return response()->json([
@@ -176,12 +171,12 @@ class PostApiController extends Controller
         }
 
         try {
-            $updated = $this->post->update($validator->validated(), $id);
+            $post->update($validator->validated());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Post updated successfully',
-                'data' => new PostResource($updated),
+                'data' => new PostResource($post),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -207,7 +202,7 @@ class PostApiController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $post = $this->post->show($id);
+        $post = Post::find($id);
 
         if (!$post) {
             return response()->json([
@@ -217,7 +212,7 @@ class PostApiController extends Controller
         }
 
         try {
-            $this->post->delete($id);
+            $post->update(['is_deleted' => 1]);
 
             return response()->json([
                 'success' => true,

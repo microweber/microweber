@@ -97,8 +97,7 @@ The `Post` model exposes a `frontendFilter` scope powered by `BlogFilter`, so th
 | Class | Purpose |
 |---|---|
 | `Models\Post` | Eloquent model (extends Content, scoped to posts) |
-| `Http\Controllers\Api\PostApiController` | RESTful CRUD controller |
-| `Repositories\PostApiRepository` | Query/filter layer for the API |
+| `Http\Controllers\Api\PostApiController` | RESTful CRUD controller (uses Post model directly) |
 | `Http\Resources\PostResource` | API JSON resource transformer |
 
 ## Admin Panel (Filament)
