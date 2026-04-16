@@ -31,14 +31,7 @@ class MenuRepository extends AbstractRepository
         }
 
         $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-
-            $getMenu = Menu::query()->orderBy('position', 'asc')->get();
-
-            $allMenus = collect($getMenu)->map(function ($option) {
-                return $option->toArray();
-            })->toArray();
-
-            return $allMenus;
+            return Menu::queryAllOrdered();
         });
 
         self::$_getAllMenus = $menus;
@@ -47,35 +40,16 @@ class MenuRepository extends AbstractRepository
 
     public function getMenusByParentIdAndItemType($parentId, $itemType)
     {
-
         $allMenus = $this->getAllMenus();
-
-        foreach ($allMenus as $menu) {
-            if ($menu['parent_id'] == $parentId && $menu['item_type'] == $itemType) {
-                return $menu;
-            }
-        }
-
-        return [];
-
-        /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId,$itemType) {
-              return $this->getModel()->where('parent_id', $parentId)->where('item_type', $itemType)->orderBy('position', 'ASC')->get()->toArray();
-          });*/
+        return Menu::filterByParentIdAndItemType($allMenus, $parentId, $itemType);
     }
 
     public function getMenusByParentId($parentId)
     {
         $allMenus = $this->getAllMenus();
-
-        $menus = [];
-        foreach ($allMenus as $menu) {
-            if ($menu['parent_id'] == $parentId) {
-                $menus[] = $menu;
-            }
-        }
+        $menus = Menu::filterByParentId($allMenus, $parentId);
 
         if (is_array($menus) && !empty($menus)) {
-
             $hookParams = [];
             $hookParams['data'] = $menus;
             $hookParams['hook_overwrite_type'] = 'multiple';

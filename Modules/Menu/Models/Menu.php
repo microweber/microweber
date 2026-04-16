@@ -46,6 +46,45 @@ class Menu extends Model
     public $cacheTagsToClear = ['menus','repositories','content','categories','menus_item'];
 
 
+    /**
+     * Get all menus ordered by position.
+     */
+    public static function queryAllOrdered(): array
+    {
+        return static::query()
+            ->orderBy('position', 'asc')
+            ->get()
+            ->map(fn($menu) => $menu->toArray())
+            ->toArray();
+    }
+
+    /**
+     * Filter menus array by parent_id.
+     */
+    public static function filterByParentId(array $allMenus, $parentId): array
+    {
+        $menus = [];
+        foreach ($allMenus as $menu) {
+            if ($menu['parent_id'] == $parentId) {
+                $menus[] = $menu;
+            }
+        }
+        return $menus;
+    }
+
+    /**
+     * Filter menus array by parent_id and item_type, returning the first match.
+     */
+    public static function filterByParentIdAndItemType(array $allMenus, $parentId, $itemType): array
+    {
+        foreach ($allMenus as $menu) {
+            if ($menu['parent_id'] == $parentId && $menu['item_type'] == $itemType) {
+                return $menu;
+            }
+        }
+        return [];
+    }
+
     public function getDisplayTitleAttribute()
     {
         $title = $this->title;
