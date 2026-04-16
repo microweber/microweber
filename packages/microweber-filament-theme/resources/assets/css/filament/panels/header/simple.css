@@ -1,13 +1,13 @@
 .fi-simple-header {
-    @apply items-center;
-    padding-top: 1rem;
+    align-items: center;
+    padding-top: 0;
+}
+
+.fi-simple-header .fi-logo {
+    margin-bottom: 0.375rem;
 }
 
 .fi-simple-header-heading,
 .fi-simple-header-subheading {
-    @apply text-center;
-}
-
-.fi-simple-header-logo {
-    margin-bottom: 0.5rem;
+    text-align: center;
 }

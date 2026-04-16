@@ -1,3 +1,16 @@
+/* Login / simple layout — reduce card padding and logo spacing */
+.fi-simple-main {
+    padding-block: calc(var(--spacing) * 8) !important;
+}
+
+.fi-simple-header {
+    padding-top: 0 !important;
+}
+
+.fi-simple-header .fi-logo {
+    margin-bottom: 0.375rem !important;
+}
+
 .fi-main {
     @apply lg:px-[5rem] md:px-[3rem] sm:px-[1rem];
 }
