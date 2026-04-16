@@ -21,6 +21,11 @@ use Modules\Cart\Traits\HasCartItems;
 use Modules\Customer\Models\Customer;
 use Modules\Order\Database\Factories\OrderFactory;
 use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Events\OrderIsCreating;
+use Modules\Order\Events\OrderIsUpdating;
+use Modules\Order\Events\OrderWasCreated;
+use Modules\Order\Events\OrderWasDeleted;
+use Modules\Order\Events\OrderWasUpdated;
 use Modules\Order\Models\ModelFilters\OrderFilter;
 use Modules\Payment\Enums\PaymentStatus;
 
@@ -111,6 +116,10 @@ class Order extends Model
     {
         parent::boot();
 
+        static::creating(function (Order $order) {
+            event(new OrderIsCreating($order->getAttributes()));
+        });
+
         static::created(function (Order $order) {
             if ($order->order_status) {
                 OrderStatusHistory::create([
@@ -120,6 +129,7 @@ class Order extends Model
                     'user_id' => auth()->id(),
                 ]);
             }
+            event(new OrderWasCreated($order));
         });
 
         static::updating(function (Order $order) {
@@ -131,6 +141,15 @@ class Order extends Model
                     'user_id' => auth()->id(),
                 ]);
             }
+            event(new OrderIsUpdating($order));
+        });
+
+        static::updated(function (Order $order) {
+            event(new OrderWasUpdated($order));
+        });
+
+        static::deleting(function (Order $order) {
+            event(new OrderWasDeleted($order));
         });
     }
 

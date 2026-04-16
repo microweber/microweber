@@ -1,31 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 8/19/2020
- * Time: 4:09 PM
- */
 
 namespace Modules\Order\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
-use MicroweberPackages\Order\Http\Requests\OrderRequest;
-use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;
-use Modules\Order\Repositories\OrderApiRepository;
+use Modules\Order\Models\Order;
 
 class OrderApiController extends AdminDefaultController
 {
-    public $order;
-
-    public function __construct(OrderApiRepository $order)
-    {
-        $this->order = $order;
-    }
-
-    /**
     /**
      * Display a listing of the order.
      *
@@ -35,13 +18,10 @@ class OrderApiController extends AdminDefaultController
     public function index(Request $request)
     {
         return (new JsonResource(
-            $this->order
-                ->filter($request->all())
+            Order::filter($request->all())
                 ->paginate($request->get('limit', 30))
                 ->appends($request->except('page'))
-
         ))->response();
-
     }
 
     /**
@@ -52,45 +32,46 @@ class OrderApiController extends AdminDefaultController
      */
     public function store(Request $request)
     {
-        $result = $this->order->create($request->all());
+        $result = Order::create($request->all());
         return (new JsonResource($result))->response();
     }
 
     /**
-     * Display the specified resource.show
+     * Display the specified resource.
      *
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $result = $this->order->show($id);
-
+        $result = Order::find($id);
         return (new JsonResource($result))->response();
     }
-
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  string $order
+     * @param Request $request
+     * @param string $order
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $order)
     {
-
-        $result = $this->order->update($request->all(), $order);
-        return (new JsonResource($result))->response();
+        $record = Order::findOrFail($order);
+        $record->update($request->all());
+        return (new JsonResource($record))->response();
     }
 
     /**
      * Destroy resources by given id.
+     *
      * @param string $id
-     * @return void
+     * @return JsonResource
      */
     public function destroy($id)
     {
-        return (new JsonResource(['id'=>$this->order->delete($id)]));
+        $record = Order::findOrFail($id);
+        $record->delete();
+        return new JsonResource(['id' => $id]);
     }
 }

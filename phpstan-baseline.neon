@@ -11512,24 +11512,6 @@ parameters:
 			path: Modules/Order/Notifications/NewOrderNotification.php
 
 		-
-			message: '#^Class Modules\\Order\\Events\\OrderIsUpdating constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: Modules/Order/Repositories/OrderApiRepository.php
-
-		-
-			message: '#^Class Modules\\Order\\Events\\OrderWasCreated constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: Modules/Order/Repositories/OrderApiRepository.php
-
-		-
-			message: '#^Class Modules\\Order\\Events\\OrderWasUpdated constructor invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: Modules/Order/Repositories/OrderApiRepository.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$order_manager\.$#'
 			identifier: property.notFound
 			count: 1
