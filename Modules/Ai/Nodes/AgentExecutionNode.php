@@ -7,6 +7,7 @@ namespace Modules\Ai\Nodes;
 use Modules\Ai\Events\ProgressEvent;
 use Modules\Ai\Events\SpecializedAgentExecutionEvent;
 use Modules\Ai\Services\AgentFactory;
+use NeuronAI\Chat\Messages\UserMessage;
 use NeuronAI\Workflow\Node;
 use NeuronAI\Workflow\StopEvent;
 use NeuronAI\Workflow\WorkflowState;
@@ -41,8 +42,9 @@ class AgentExecutionNode extends Node
 
             yield new ProgressEvent("💬 Processing your request with {$agentType} agent...");
 
-            // Execute the agent with the user query
-            $response = $agent->handle($userQuery);
+            // Execute the agent with the user query via NeuronAI chat (supports tool-calling)
+            $chatResponse = $agent->chat(new UserMessage($userQuery));
+            $response = $chatResponse->getContent();
 
             yield new ProgressEvent("✅ {$agentType} agent completed successfully");
 

@@ -361,8 +361,8 @@ The AgentChatComponent calls `$agent->chat()` (NeuronAI) which should use the LL
 ### Phase 3: Improve GeneralAgent Routing (remove keyword-based, use LLM tools)
 Replace the current hardcoded keyword-based `detectDomain()` routing with native LLM tool-calling:
 
-- [ ] Remove/deprecate the `handle()` + `simpleRouting()` + `detectDomain()` methods from GeneralAgent
-- [ ] Let NeuronAI's `chat()` method handle all routing via tool-calling natively
+- [x] 2026-04-16  Remove/deprecate the `handle()` + `simpleRouting()` + `detectDomain()` methods from GeneralAgent
+- [x] 2026-04-16  Let NeuronAI's `chat()` method handle all routing via tool-calling natively
 - [x] 2026-04-16  Update system prompt to describe all available tools clearly so the LLM picks the right one
 - [ ] Test with various queries across all domains to verify LLM routing accuracy
 
