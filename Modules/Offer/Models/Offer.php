@@ -5,6 +5,7 @@ namespace Modules\Offer\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Offer\Database\Factories\OfferFactory;
 
@@ -115,6 +116,31 @@ class Offer extends Model
             ->toArray();
 
         return $offers;
+    }
+
+    /**
+     * Get all product IDs that have at least one offer price.
+     *
+     * @return array
+     */
+    public static function getProductIdsThatHaveOfferPrice(): array
+    {
+        $productIds = [];
+
+        $getOffers = DB::table('offers')
+            ->select('product_id')
+            ->groupBy('product_id')
+            ->get();
+
+        if ($getOffers->count() > 0) {
+            foreach ($getOffers as $offer) {
+                if ($offer->product_id > 0) {
+                    $productIds[] = $offer->product_id;
+                }
+            }
+        }
+
+        return $productIds;
     }
 
     public static function getPrice($productId, $priceId)
