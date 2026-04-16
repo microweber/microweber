@@ -1587,6 +1587,30 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
+// Compact table widget styling — condensed rows for dashboard stats
+// ============================================================================
+
+.fi-wi-table {
+  .fi-ta-row {
+    td {
+      padding-top: $mw-space-hair !important;    // GR: hair(4)
+      padding-bottom: $mw-space-hair !important;  // GR: hair(4)
+    }
+  }
+
+  .fi-ta-header-cell {
+    padding-top: $mw-space-xs !important;    // GR: xs(6)
+    padding-bottom: $mw-space-xs !important;  // GR: xs(6)
+  }
+
+  // Compact pagination for widgets
+  .fi-ta-pagination {
+    padding-top: $mw-space-xs !important;
+    padding-bottom: $mw-space-xs !important;
+  }
+}
+
+// ============================================================================
 // Loading states — skeleton screens, spinners (MW v2)
 // ============================================================================
 

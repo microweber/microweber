@@ -15,11 +15,12 @@ class RecentVisitorsWidget extends BaseWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected int $defaultPaginationPageOption = 15;
+    protected int $defaultPaginationPageOption = 10;
 
     public function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->query(
                 Sessions::query()
                     ->select(
@@ -58,6 +59,6 @@ class RecentVisitorsWidget extends BaseWidget
                     ->placeholder('--'),
             ])
             ->defaultSort('updated_at', 'desc')
-            ->paginated([15, 25, 50]);
+            ->paginated([10, 25, 50]);
     }
 }

@@ -17,7 +17,7 @@ class LanguagesWidget extends BaseWidget
 
     protected int|string|array $columnSpan = 1;
 
-    protected int $defaultPaginationPageOption = 10;
+    protected int $defaultPaginationPageOption = 5;
 
     public function getTableRecordKey(Model|array $record): string
     {
@@ -30,6 +30,7 @@ class LanguagesWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->query(
                 Sessions::query()
                     ->select(
@@ -53,6 +54,6 @@ class LanguagesWidget extends BaseWidget
                     ->sortable(),
             ])
             ->defaultSort('visitor_count', 'desc')
-            ->paginated([10, 25, 50]);
+            ->paginated([5, 10, 25]);
     }
 }

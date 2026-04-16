@@ -17,7 +17,7 @@ class TopPagesWidget extends BaseWidget
 
     protected int|string|array $columnSpan = 1;
 
-    protected int $defaultPaginationPageOption = 10;
+    protected int $defaultPaginationPageOption = 5;
 
     public function getTableRecordKey(Model|array $record): string
     {
@@ -30,6 +30,7 @@ class TopPagesWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->query(
                 Log::query()
                     ->select(
@@ -65,6 +66,6 @@ class TopPagesWidget extends BaseWidget
                     ->sortable(),
             ])
             ->defaultSort('total_views', 'desc')
-            ->paginated([10, 25, 50]);
+            ->paginated([5, 10, 25]);
     }
 }
