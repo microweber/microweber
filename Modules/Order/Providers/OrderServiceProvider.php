@@ -7,6 +7,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Order\Filament\Admin\Resources\OrderResource;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
+use Modules\Order\Services\OrderService;
 
 
 class OrderServiceProvider extends BaseModuleServiceProvider
@@ -38,6 +39,8 @@ class OrderServiceProvider extends BaseModuleServiceProvider
         /**
          * @property \Modules\Order\Repositories\OrderManager    $order_manager
          */
+        $this->app->singleton(OrderService::class);
+
         $this->app->singleton('order_manager', function ($app) {
             return new OrderManager();
         });

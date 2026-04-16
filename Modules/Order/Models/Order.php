@@ -305,6 +305,101 @@ class Order extends Model
      *
      * @return array
      */
+    /**
+     * Get order by ID using the database manager.
+     *
+     * @param int|string $order_id
+     * @return array|false
+     */
+    public static function getById($order_id)
+    {
+        $order_id = intval($order_id);
+        if ($order_id == 0) {
+            return false;
+        }
+
+        $params = [
+            'table' => 'cart_orders',
+            'id' => $order_id,
+            'single' => true,
+        ];
+
+        return mw()->database_manager->get($params);
+    }
+
+    /**
+     * Get order items (cart entries) by order ID.
+     *
+     * @param int|string|array $order_id
+     * @return array
+     */
+    public static function getOrderItems($order_id): array
+    {
+        if (is_array($order_id)) {
+            $order_id = $order_id['id'] ?? 0;
+        }
+        $order_id = intval($order_id);
+        if ($order_id == 0) {
+            return [];
+        }
+
+        $params = [
+            'table' => 'cart',
+            'order_id' => $order_id,
+            'limit' => 1000,
+        ];
+
+        $result = mw()->database_manager->get($params);
+        return $result ?: [];
+    }
+
+    /**
+     * Get orders using the database manager.
+     *
+     * @param array|string|false $params
+     * @return array|false
+     */
+    public static function getOrders($params = false)
+    {
+        if ($params == false) {
+            $params = [];
+        }
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+
+        $params['table'] = 'cart_orders';
+
+        return mw()->database_manager->get($params);
+    }
+
+    /**
+     * Delete an order by data.
+     *
+     * @param array|int $data
+     * @return bool
+     */
+    public static function deleteOrder($data)
+    {
+        if (!is_array($data)) {
+            $data = ['id' => intval($data)];
+        }
+
+        $id = $data['id'] ?? 0;
+        if (!$id) {
+            return false;
+        }
+
+        $order = static::find($id);
+        if ($order) {
+            $order->delete();
+            mw()->cache_manager->delete('cart_orders');
+            return true;
+        }
+
+        return false;
+    }
+
     public static function getOrderCurrencies(): array
     {
         $data = static::query()
