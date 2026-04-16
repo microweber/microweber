@@ -369,10 +369,10 @@ Replace the current hardcoded keyword-based `detectDomain()` routing with native
 ### Phase 4: Cross-Domain Query Support
 Enable complex queries that span multiple tools:
 
-- [ ] Test multi-tool queries: "What are our top products and how much revenue did they generate?"
-- [ ] Test queries combining content + analytics: "Which blog posts get the most traffic?"
-- [ ] Test billing + customer queries: "Show unpaid invoices for customer john@example.com"
-- [ ] Ensure the LLM can chain multiple tool calls in a single conversation turn
+- [x] 2026-04-16  Test multi-tool queries: "What are our top products and how much revenue did they generate?"
+- [x] 2026-04-16  Test queries combining content + analytics: "Which blog posts get the most traffic?"
+- [x] 2026-04-16  Test billing + customer queries: "Show unpaid invoices for customer john@example.com"
+- [x] 2026-04-16  Ensure the LLM can chain multiple tool calls in a single conversation turn
 
 ### Phase 5: Write/Create Operations via Chat
 Enable users to create and modify content through the chat:
