@@ -30,7 +30,7 @@
 }
 
 .mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
-    @apply bg-white z-[120];
+    @apply bg-white dark:bg-gray-800 z-[120];
 }
 
 
@@ -75,7 +75,7 @@
 }
 
 .mw-live-edit-toolbar-link--arrowed g {
-    @apply stroke-black;
+    @apply stroke-black dark:stroke-white;
 }
 
 .mw-live-edit-toolbar-link--arrowed .arrow-icon--circle {
@@ -311,11 +311,21 @@ body {
 }
 
 .fi-modal > .fi-modal-close-overlay {
-    z-index: 100 !important;
+    z-index: 200 !important;
 }
 
 .fi-modal > .fi-modal-window-ctn {
-    z-index: 100 !important;
+    z-index: 200 !important;
+}
+
+/* Filament action modals must appear above the live edit sidebar and panels */
+.mw-admin-live-edit-page .fi-modal {
+    z-index: 200 !important;
+}
+
+.mw-admin-live-edit-page .fi-ac {
+    z-index: 200 !important;
+    position: relative;
 }
 
 .fi-layout .fi-main-ctn {
@@ -491,22 +501,22 @@ h1,h2,h3,h4,h5,h6 {
 
 /* Element spacing editor input background */
 .mw-element-spacing-editor-input {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-800;
 }
 
 /* Holder background color */
 .mw-ese-holder {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-800;
 }
 
 /* Padding label color */
 .mw-ese-padding-label {
-    @apply text-black;
+    @apply text-black dark:text-white;
 }
 
 /* v3ti component styles */
 .v3ti {
-    @apply mt-4 ml-1 mr-1 border-white overflow-hidden rounded-[7px];
+    @apply mt-4 ml-1 mr-1 border-white dark:border-gray-700 overflow-hidden rounded-[7px];
 
     &:focus, &:focus-visible {
         @apply !outline-none;
@@ -524,7 +534,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .v3ti-tag-content {
-    @apply text-black;
+    @apply text-black dark:text-white;
 }
 
 div:focus-visible {
@@ -532,7 +542,7 @@ div:focus-visible {
 }
 
 .v3ti-content {
-    @apply bg-white border-none;
+    @apply bg-white dark:bg-gray-800 border-none;
 
     &:focus, &:focus-visible {
         @apply !outline-none;
@@ -934,7 +944,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 }
 
 .mw_modal_live_edit_settings .mw-dialog-holder {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-800;
 
     box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
 }
@@ -964,7 +974,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 }
 
 .mw-ui-box, .mw-ui-box-header{
-   @apply bg-white;
+   @apply bg-white dark:bg-gray-800;
 }
 
 #select_edit_field > li {
@@ -980,11 +990,11 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 }
 
 .mw-ui-box-header {
-    @apply p-4 bg-white overflow-hidden border-b border-gray-300 rounded-t-lg relative;
+    @apply p-4 bg-white dark:bg-gray-800 overflow-hidden border-b border-gray-300 dark:border-gray-700 rounded-t-lg relative;
 }
 
 .mw-ui-box {
-    @apply border border-transparent rounded-lg clear-both bg-white shadow-lg m-2 p-4;
+    @apply border border-transparent rounded-lg clear-both bg-white dark:bg-gray-800 shadow-lg m-2 p-4;
 }
 
 .admin-thumb-item .form-check {
@@ -999,8 +1009,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 
 .mw-live-edit-border-radius {
     input {
-        background-color: #f0f0f0;
-
+        @apply bg-[#f0f0f0] dark:bg-gray-700;
     }
 }
 
@@ -1055,4 +1064,176 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
             @apply hidden;
         }
     }
+}
+
+/*
+ * Dark mode overrides using direct CSS values.
+ * @apply dark:bg-gray-* compiles to rgba(var(--gray-*), 1) which is invalid
+ * when Tailwind v4 uses oklch color values for --gray-* variables.
+ * These rules use hardcoded RGB equivalents to ensure dark mode works.
+ */
+
+/* gray-800 = rgb(31 41 55), gray-700 = rgb(55 65 81), gray-900 = rgb(17 24 39) */
+
+.dark .mw-le-layouts-dialog-col:first-child,
+.dark .modules-list-search-field {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-element-spacing-editor-input {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ese-holder {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ese-padding-label {
+    color: white;
+}
+
+.dark .v3ti {
+    border-color: rgb(55 65 81);
+}
+
+.dark .v3ti-tag-content {
+    color: white;
+}
+
+.dark .v3ti-content {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw_modal_live_edit_settings .mw-dialog-holder {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ui-box,
+.dark .mw-ui-box-header {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ui-box-header {
+    border-bottom-color: rgb(55 65 81);
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list {
+    background-color: rgb(31 41 55);
+    border-color: rgb(55 65 81);
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list a {
+    color: white;
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list a:hover {
+    background-color: rgb(55 65 81);
+}
+
+.dark .mw-live-edit-border-radius input {
+    background-color: rgb(55 65 81);
+}
+
+.dark .js-modules-list-search-input:focus {
+    background-color: rgb(55 65 81) !important;
+}
+
+.dark [type='text'] {
+    background-color: rgb(31 41 55);
+}
+
+.dark .card,
+.dark .noUi-target {
+    color: white !important;
+}
+
+.dark .mw-live-edit-toolbar-link--arrowed g {
+    stroke: white;
+}
+
+.dark .mw-live-edit-search-dropdown {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-search-dropdown-wrapper input,
+.dark .mw-live-edit-search-dropdown-wrapper input::placeholder {
+    color: white;
+}
+
+.dark .mw-live-edit-toolbar-link,
+.dark .mw-live-edit-toolbar-link span {
+    color: white;
+}
+
+.dark .mw-live-edit-toolbar-link-menu {
+    background-color: rgb(31 41 55) !important;
+}
+
+.dark .mw-live-edit-toolbar-link-menu-content {
+    background-color: rgb(31 41 55) !important;
+}
+
+.dark .mw-liveedit-button-action-redo,
+.dark .mw-liveedit-button-action-undo {
+    background-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-save-btn-green {
+    background-color: rgb(22 101 52) !important;
+    color: rgb(187 247 208) !important;
+}
+
+.dark .mw-live-edit-save-btn-green:hover {
+    background-color: rgb(21 128 61) !important;
+}
+
+.dark .mw-live-edit-right-sidebar-wrapper svg {
+    fill: white !important;
+}
+
+.dark .live-edit-module-settings-container {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-module-quick-settings-sidebar .module-quick-settings-sidebar {
+    background-color: rgb(31 41 55) !important;
+}
+
+.dark .mw-element-spacing-editor-input,
+.dark .mw-live-edit-border-radius input {
+    background-color: rgb(55 65 81);
+    color: white;
+}
+
+.dark #mw-live-edit-gui-editor-box {
+    color: white;
+}
+
+/* Toolbar buttons — override !important @apply rules */
+.dark .live-edit-toolbar-buttons-undo-redo,
+.dark .live-edit-toolbar-buttons-view {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    background-color: rgb(55 65 81) !important;
+    border-color: transparent !important;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(31 41 55) !important;
+    color: white !important;
+}
+
+.dark .live-edit-toolbar-buttons-add {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(55 65 81) !important;
 }

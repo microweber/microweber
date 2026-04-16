@@ -293,3 +293,13 @@
 - [x] 2026-04-16 now test the ai integratiion with the local ollama
 
 - [x] 2026-04-16 fix the github ci to support php 8.3 and up
+
+- [x] 2026-04-16  fix the dark modei n live edit [attachment: .autodev/messages/attachments/20260416_142041_ef8304dd/paste-1776338437526.png]
+
+- [x] 2026-04-16  the search drpdown in live edit in dark modei s not ok [attachment: .autodev/messages/attachments/20260416_142734_b68db257/paste-1776338852471.png]
+
+- [x] 2026-04-16  in dark mode in live edit the input have some back border on the white, it msut b e all with whirte borer  also theo ther buttons have the same issue [attachment: .autodev/messages/attachments/20260416_143825_60a977f8/paste-1776339480895.png] [attachment: .autodev/messages/attachments/20260416_143825_22c9ffea/paste-1776339502507.png]
+
+- [x] 2026-04-16  in live edit the design sidbar i s not ok in dark more, make a plan to evalue all usses in the dark mode in live edit and populate the todo.md and fix them [attachment: .autodev/messages/attachments/20260416_143913_36a5c7ce/paste-1776339550193.png]
+
+- [x] 2026-04-16  the ad contnet accodion has too smal z index  on the live edit [attachment: .autodev/messages/attachments/20260416_144001_f00817c9/paste-1776339595247.png]

@@ -73,13 +73,8 @@
 
         <style>
             #mw-element-style-editor-app-container {
-
-
                 display: none;
-
-
                 position: fixed;
-
                 top: calc(var(--toolbar-height) + 2px);
                 bottom: 0;
                 background: white;
@@ -89,6 +84,12 @@
                 padding: 0.5rem;
                 box-shadow: -2px 2px 2px #b1b1b14a;
                 width: calc(var(--sidebar-end-size));
+            }
+
+            .dark #mw-element-style-editor-app-container {
+                background: rgb(31 41 55);
+                box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.3);
+                color: white;
             }
 
 

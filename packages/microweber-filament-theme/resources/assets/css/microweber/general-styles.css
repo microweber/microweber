@@ -1744,3 +1744,46 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .mw-le-handle-menu-button-icon * {
     @apply dark:fill-white dark:invert;
 }
+
+/*
+ * Dark mode overrides — direct CSS to fix oklch incompatibility with rgba()
+ * in @apply dark:bg-gray-* compiled output (Tailwind v4).
+ */
+
+.dark #toolbar {
+    background-color: rgb(31 41 55);
+    color: white;
+}
+
+.dark #general-theme-settings,
+.dark #mw-element-style-editor-app,
+.dark .v3ti .v3ti-content,
+.dark .fi-body {
+    background-color: rgb(31 41 55) !important;
+    color: white;
+}
+
+.dark .mw-control-box-default {
+    background-color: rgb(31 41 55);
+    color: white;
+}
+
+.dark .mw-control-box-bottom.mw-control-box-default {
+    background-color: rgb(31 41 55);
+    color: white;
+    border-color: rgb(55 65 81);
+}
+
+.dark #save-toolbar {
+    background-color: rgb(31 41 55);
+    color: white;
+}
+
+.dark .mw-domtree li.selected > span {
+    background-color: rgb(17 24 39);
+}
+
+.dark .mw-live-edit-slider-small {
+    background-color: rgb(31 41 55) !important;
+    color: white;
+}
