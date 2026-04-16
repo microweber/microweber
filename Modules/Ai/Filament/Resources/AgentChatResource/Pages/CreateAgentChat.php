@@ -2,10 +2,9 @@
 
 namespace Modules\Ai\Filament\Resources\AgentChatResource\Pages;
 
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\CreateRecord;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Modules\Ai\Filament\Resources\AgentChatResource;
 use Modules\Ai\Models\AgentChatMessage;
@@ -28,10 +27,11 @@ class CreateAgentChat extends CreateRecord
                     ->maxLength(255)
                     ->placeholder('Enter chat title'),
 
-                RichEditor::make('initial_prompt')
+                Textarea::make('initial_prompt')
                     ->label('Initial Prompt')
                     ->placeholder('Enter an initial message to start the conversation...')
                     ->helperText('This will be sent as the first message in the chat')
+                    ->rows(4)
                     ->columnSpanFull(),
             ]);
     }
@@ -43,31 +43,25 @@ class CreateAgentChat extends CreateRecord
             $data['user_id'] = auth()->id();
         }
 
-        // Store initial_prompt in metadata for later processing
-        if (!empty($data['initial_prompt'])) {
-            $data['metadata'] = array_merge($data['metadata'] ?? [], [
-                'initial_prompt' => $data['initial_prompt'],
-            ]);
-        }
+        // Set defaults
+        $data['agent_type'] = $data['agent_type'] ?? 'general';
+        $data['is_active'] = $data['is_active'] ?? true;
+
+        // Remove initial_prompt from data (not a model field)
+        unset($data['initial_prompt']);
 
         return $data;
     }
 
     protected function afterCreate(): void
     {
-        // Create the initial message if provided
-        if (!empty($this->data['initial_prompt'])) {
-            $content = $this->data['initial_prompt'];
+        $content = trim($this->data['initial_prompt'] ?? '');
 
-            // Handle RichEditor array format (contains 'content' or 'text' key)
-            if (is_array($content)) {
-                $content = $content['content'] ?? $content['text'] ?? json_encode($content);
-            }
-
+        if (!empty($content)) {
             AgentChatMessage::create([
                 'chat_id' => $this->record->id,
                 'role' => 'user',
-                'content' => is_string($content) ? $content : json_encode($content),
+                'content' => $content,
                 'agent_type' => $this->record->agent_type,
                 'processed_at' => now(),
             ]);

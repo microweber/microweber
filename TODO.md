@@ -312,6 +312,8 @@
 
 - [x] 2026-04-16  try to fix the nodejs watning in the build [attachment: .autodev/messages/attachments/20260416_153529_1a13320d/paste-1776342925687.png]
 
-- [ ] in the agent chats the in shat cht i f iont enter desctpms i get some sjon [attachment: .autodev/messages/attachments/20260416_153928_12ea9b4d/paste-1776342988835.png] [attachment: .autodev/messages/attachments/20260416_153928_5dff01c1/paste-1776343166868.png]
+- [x] 2026-04-16  in the agent chats the in shat cht i f iont enter desctpms i get some sjon [attachment: .autodev/messages/attachments/20260416_153928_12ea9b4d/paste-1776342988835.png] [attachment: .autodev/messages/attachments/20260416_153928_5dff01c1/paste-1776343166868.png]
 
 - [ ] makea plan how to conect the ai chat with our mcp servers that we hav ie itnerlanly now seems its not cnected and doesn ot query our db
+
+- [ ] examine the ai chats and popoulate the todo on how to make full itengreation with the system via the tools, we want to to ble able to ask about stats, proucts, users, billing, subs, etc across the whole system also to be able to make posts, pages content, etc  via the chat make a full plan and populatthe th todo.md with the items fori tnegration
