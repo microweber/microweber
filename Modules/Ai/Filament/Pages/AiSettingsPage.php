@@ -522,8 +522,8 @@ Section::make('FAL AI Settings')
             return;
         }
 
-        // Validate required fields before attempting connection
-        $config = config("modules.ai.drivers.{$driver}", []);
+        // Build config from current form values, falling back to saved config
+        $config = $this->buildDriverConfigFromForm($driver);
         $validationErrors = $this->validateDriverConfig($driver, $config);
 
         if (!empty($validationErrors)) {
@@ -579,7 +579,7 @@ Section::make('FAL AI Settings')
                 'fal' => 'FAL AI',
             ];
             $label = $labels[$driver] ?? ucfirst($driver);
-            $errors[] = "• API key is not configured. Please enter your {$label} API key and save before testing.";
+            $errors[] = "• API key is not configured. Please enter your {$label} API key.";
         }
 
         // Drivers that require a model
@@ -594,6 +594,54 @@ Section::make('FAL AI Settings')
         }
 
         return $errors;
+    }
+
+    private function buildDriverConfigFromForm(string $driver): array
+    {
+        $savedConfig = config("modules.ai.drivers.{$driver}", []);
+        $formData = $this->options['ai'] ?? [];
+
+        // Map form field names to driver config keys
+        $fieldMappings = [
+            'openai' => [
+                'openai_model' => 'model',
+                'openai_api_key' => 'api_key',
+                'openai_base_url' => 'base_url',
+            ],
+            'gemini' => [
+                'gemini_model' => 'model',
+                'gemini_api_key' => 'api_key',
+            ],
+            'openrouter' => [
+                'openrouter_model' => 'model',
+                'openrouter_api_key' => 'api_key',
+            ],
+            'ollama' => [
+                'ollama_model' => 'model',
+                'ollama_api_url' => 'url',
+                'ollama_api_key' => 'api_key',
+            ],
+            'replicate' => [
+                'replicate_model' => 'model',
+                'replicate_api_key' => 'api_key',
+            ],
+            'fal' => [
+                'fal_model' => 'model',
+                'fal_api_key' => 'api_key',
+            ],
+        ];
+
+        $mapping = $fieldMappings[$driver] ?? [];
+        $config = $savedConfig;
+
+        foreach ($mapping as $formKey => $configKey) {
+            $value = $formData[$formKey] ?? null;
+            if (!empty($value)) {
+                $config[$configKey] = $value;
+            }
+        }
+
+        return $config;
     }
 
     private function parseConnectionError(string $driver, \Throwable $e): string

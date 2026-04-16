@@ -185,8 +185,14 @@ class BaseAgent extends Agent
         }
 
         if ($this->providerName == 'ollama') {
+            // NeuronAI's Ollama provider uses base_uri + 'chat' endpoint,
+            // so we need the base API URL (e.g. http://localhost:11434/api)
+            $url = config('modules.ai.drivers.ollama.url', 'http://localhost:11434/api');
+            $url = rtrim($url, '/');
+            // Strip /generate or /chat suffix if present — NeuronAI appends its own
+            $url = preg_replace('#/(generate|chat)$#', '', $url);
             return new Ollama(
-                url: config('modules.ai.drivers.ollama.url'),
+                url: $url,
                 model: $this->model,
             );
         }

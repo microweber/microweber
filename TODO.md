@@ -289,3 +289,5 @@
 - [x] 2026-04-16  threr is somei nput colro in the dark mode  and the iput siz e is beeding out [attachment: .autodev/messages/attachments/20260416_132201_3618742a/paste-1776334914033.png]
 
 - [x] the dark mode looks inconsisten in terms of design , the lignt mode is ok, pls see how the colros and th e cards are used in thel ight mode and fix the dark mode
+
+- [x] 2026-04-16 now test the ai integratiion with the local ollama

@@ -52,8 +52,17 @@ class OllamaAiDriver extends BaseDriver
     {
         parent::__construct($config);
 
-        $this->apiUrl = $config['url'] ?? env('OLLAMA_API_URL', 'http://localhost:11434/api/generate');
-        $this->defaultModel = $config['model'] ?? env('OLLAMA_MODEL', 'llama3.2');
+        $url = $config['url'] ?? env('OLLAMA_API_URL', 'http://localhost:11434/api/generate');
+        // Normalize URL: if user only provided the base URL, append the generate endpoint
+        $url = rtrim($url, '/');
+        if (preg_match('#:\d+$#', $url)) {
+            $url .= '/api/generate';
+        } elseif (str_ends_with($url, '/api')) {
+            $url .= '/generate';
+        }
+        $this->apiUrl = $url;
+
+        $this->defaultModel = $config['model'] ?? env('OLLAMA_MODEL', 'llama3.1');
         $this->apiKey = $config['api_key'] ?? env('OLLAMA_API_KEY');
         $this->useCache = $config['use_cache'] ?? false;
         $this->cacheDuration = $config['cache_duration'] ?? 600;
