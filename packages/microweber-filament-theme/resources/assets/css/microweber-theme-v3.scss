@@ -5658,13 +5658,13 @@ html.dark {
 
 .mw-settings-hub-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $mw-space-xs;  // GR: xs(6)
+  grid-template-columns: repeat(2, 1fr);
+  gap: $mw-space-sm $mw-space-md;  // GR: sm(10) vertical, md(16) horizontal
 }
 
-@media (max-width: 1280px) {
+@media (min-width: 1280px) {
   .mw-settings-hub-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

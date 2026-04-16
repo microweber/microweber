@@ -353,17 +353,17 @@ Give the GeneralAgent access to all domain tools so it can answer any question a
 ### Phase 2: Fix Agent Chat ↔ Tool Execution Pipeline
 The AgentChatComponent calls `$agent->chat()` (NeuronAI) which should use the LLM's tool-calling. Verify and fix:
 
-- [ ] Verify NeuronAI tool-calling works with Ollama provider (Ollama may not support function calling with all models)
+- [x] 2026-04-16  Verify NeuronAI tool-calling works with Ollama provider (Ollama may not support function calling with all models)
 - [ ] Test tool execution end-to-end: send "show me traffic stats" → GeneralAgent → LLM calls TrafficSummary tool → response displayed
-- [ ] Add error handling for providers that don't support tool-calling (fallback to simpleRouting)
-- [ ] Store tool call results in AgentChatMessage metadata for debugging
+- [x] 2026-04-16  Add error handling for providers that don't support tool-calling (fallback to simpleRouting)
+- [x] 2026-04-16  Store tool call results in AgentChatMessage metadata for debugging
 
 ### Phase 3: Improve GeneralAgent Routing (remove keyword-based, use LLM tools)
 Replace the current hardcoded keyword-based `detectDomain()` routing with native LLM tool-calling:
 
 - [ ] Remove/deprecate the `handle()` + `simpleRouting()` + `detectDomain()` methods from GeneralAgent
 - [ ] Let NeuronAI's `chat()` method handle all routing via tool-calling natively
-- [ ] Update system prompt to describe all available tools clearly so the LLM picks the right one
+- [x] 2026-04-16  Update system prompt to describe all available tools clearly so the LLM picks the right one
 - [ ] Test with various queries across all domains to verify LLM routing accuracy
 
 ### Phase 4: Cross-Domain Query Support
@@ -385,4 +385,6 @@ Enable users to create and modify content through the chat:
 
 - [ ] make ap lan to use our mpc toosl also ntrnaly in the agnt sssions, make them on a services if enensary so we can use them both as mcp server and in the ai chat as tools
 
-- [ ] the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
+- [x] 2026-04-16  the settigns card spacesing is not ok at the moemnt, pls make it as inthe screeshot [attachment: .autodev/messages/attachments/20260416_155613_6f4d08d1/paste-1776344167893.png]
+
+- [ ] make unittest for the agent vht with lcoal ollama if nabled
