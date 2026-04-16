@@ -33,7 +33,7 @@
     },
     "overrides": {
         "esbuild": "^0.25.0",
-        "vite": "^6.1.0",
+        "vite": "^6.4.1",
         "elliptic": "^6.6.1",
         "browserify-sign": "^4.2.5",
         "create-ecdh": "^4.0.4",

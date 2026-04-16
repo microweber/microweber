@@ -411,8 +411,8 @@ Enable users to create and modify content through the chat:
 - **Fixed in:** `vite@>=6.4.2` — but **6.4.1 is the latest 6.x release**; fix is only in vite 8.x
 - **Current override:** `"vite": "^6.1.0"` already in package.json
 - **Fix:** Update vite override to `"^6.4.1"` (latest 6.x). This is a dev-only dependency (vitepress docs). The vuln is in dev server mode only, not production builds. **Accept risk** until vitepress supports vite 7+/8+, or update to `vitepress@2.0.0-alpha` when stable.
-- [ ] Update vite override to `"^6.4.1"` and monitor for vite 6.4.2+ release
-- [ ] Document accepted risk: vite path traversal only affects dev server, not production
+- [x] 2026-04-16  Update vite override to `"^6.4.1"` and monitor for vite 6.4.2+ release
+- [x] 2026-04-16  Document accepted risk: vite path traversal only affects dev server, not production. **ACCEPTED RISK:** vite 6.4.1 is the latest 6.x; fix only in vite 8.x. Dev server only, not production builds. Will auto-resolve when `npm install` picks up 6.4.2+.
 
 ### Moderate Severity
 
