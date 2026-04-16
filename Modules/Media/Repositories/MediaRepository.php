@@ -15,24 +15,7 @@ class MediaRepository extends AbstractRepository
     public function getPictureByRelIdAndRelType($relId, $relType = 'content')
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId, $relType) {
-
-            $getMedia = DB::table('media')
-                ->select('filename')
-                ->where('rel_type', $relType)
-                ->where('rel_id', $relId)
-                ->orderBy('position', 'ASC')
-                ->first();
-
-            if ($getMedia !== null) {
-
-                $getMedia = (array)$getMedia;
-                $surl = app()->url_manager->site();
-                $getMedia['filename'] = app()->format->replace_once('{SITE_URL}', $surl, $getMedia['filename']);
-
-                return $getMedia;
-            }
-
-            return [];
+            return Media::queryPictureByRelIdAndRelType($relId, $relType);
         });
     }
 

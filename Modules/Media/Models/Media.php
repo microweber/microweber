@@ -3,6 +3,7 @@ namespace Modules\Media\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
@@ -133,6 +134,29 @@ class Media extends Model
     public function scopeByType($query, string $type)
     {
         return $query->where('media_type', $type);
+    }
+
+    /**
+     * Get the first picture filename for a given rel_id and rel_type.
+     */
+    public static function queryPictureByRelIdAndRelType($relId, string $relType = 'content'): array
+    {
+        $getMedia = DB::table('media')
+            ->select('filename')
+            ->where('rel_type', $relType)
+            ->where('rel_id', $relId)
+            ->orderBy('position', 'ASC')
+            ->first();
+
+        if ($getMedia !== null) {
+            $getMedia = (array) $getMedia;
+            $surl = app()->url_manager->site();
+            $getMedia['filename'] = app()->format->replace_once('{SITE_URL}', $surl, $getMedia['filename']);
+
+            return $getMedia;
+        }
+
+        return [];
     }
 
 }
