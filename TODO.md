@@ -570,7 +570,7 @@ These repositories add nothing over Eloquent — delete them and use models dire
 
 #### 2i. CartRepository → Cart Model
 **Current:** Cart calculations in repository
-- [ ] Move `getCartItems()` / `getCartAmount()` / `getCartItemsCount()` to model methods
+- [x] 2026-04-16  Move `getCartItems()` / `getCartAmount()` / `getCartItemsCount()` to model methods
 - [ ] Keep `CartRepository` as thin cache wrapper
 - [ ] Eliminate `CartManager` — merge into model
 

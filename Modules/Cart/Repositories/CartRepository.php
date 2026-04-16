@@ -3,8 +3,6 @@
 namespace Modules\Cart\Repositories;
 
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Cart\Models\Cart;
 
@@ -18,51 +16,22 @@ class CartRepository extends AbstractRepository
     {
         $sid = app()->user_manager->session_id();
 
-
-            $cartItems = DB::table('cart')
-                // ->select(['id', 'qty'])
-                ->where('order_completed', 0)
-                ->where('session_id', $sid)
-                ->get();
-
-            $cartItems = collect($cartItems)->map(function ($option) {
-                return (array)$option;
-            })->toArray();
-
-            return $cartItems;
-
-
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($sid) {
+            return Cart::queryCartItems($sid);
+        });
     }
 
     public function getCartAmount()
     {
-        $amount = 0;
-        $sumq = $this->getCartItems();
+        $cartItems = $this->getCartItems();
 
-        if (is_array($sumq)) {
-            foreach ($sumq as $value) {
-                $amount = $amount + (intval($value['qty']) * floatval($value['price']));
-            }
-        }
-        return $amount;
+        return Cart::queryCartAmount(is_array($cartItems) ? $cartItems : []);
     }
 
     public function getCartItemsCount()
     {
+        $cartItems = $this->getCartItems();
 
-        $sumq = $this->getCartItems();
-
-        $different_items = 0;
-
-        if (is_array($sumq)) {
-            foreach ($sumq as $value) {
-                $different_items = $different_items + $value['qty'];
-            }
-        }
-
-        return $different_items;
-
+        return Cart::queryCartItemsCount(is_array($cartItems) ? $cartItems : []);
     }
-
-
 }
