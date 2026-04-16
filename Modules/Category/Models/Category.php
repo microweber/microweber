@@ -16,6 +16,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\Category\Models\ModelFilters\CategoryFilter;
 use Modules\Category\Traits\SetParentIdToCategoryTrait;
 use Modules\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
 use Modules\Media\Traits\MediaTrait;
 
@@ -27,6 +28,7 @@ class Category extends Model
     use HasContentFieldTrait;
     use CacheableQueryBuilderTrait;
     use Filterable;
+    use FilterableByParams;
     use HasSearchableTrait;
     use ContentDataTrait;
     use HasCreatedByFieldsTrait;

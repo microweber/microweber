@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
+use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Torann\LaravelRepository\Contracts\Repository;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
@@ -1023,51 +1024,49 @@ abstract class AbstractRepository implements Repository
     {
         $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-            $searchable = [];
             $model = $this->getModel();
-            $table = $model->getTable();
 
-            $params = self::unifyParams($params);
-
-            $columns = $model->getFillable();
-            if (method_exists($model, 'getSearchable')) {
-                $searchable = $model->getSearchable();
-            }
             if (is_string($params)) {
                 $params = parse_params($params);
             }
 
-            $this->newQuery();
-           // $item = $this->getModel()->newInstance()->newQueryWithoutScopes()
-            //$item = $this->getModel()->newInstance()->newQueryWithoutScopes()
-            $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
+            $params = self::unifyParams($params);
 
-            if ($params) {
-                foreach ($params as $paramKey => $paramValue) {
-                    if (isset($this->filterMethods[$paramKey])) {
-                        $whereMethodName = $this->filterMethods[$paramKey];
-                        $this->query->$whereMethodName($paramValue);
-                        unset($params[$paramKey]);
-                    } else {
+            // Delegate filtering to the model's FilterableByParams trait when available
+            if (in_array(FilterableByParams::class, class_uses_recursive($model))) {
+                $this->query = $model->newQuery()->filterByParams($params);
+            } else {
+                // Legacy path for models without the trait
+                $table = $model->getTable();
+                $columns = $model->getFillable();
+                $searchable = method_exists($model, 'getSearchable') ? $model->getSearchable() : [];
 
-                        if (in_array($paramKey, $searchable)) {
+                $this->newQuery();
+                $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
+
+                if ($params) {
+                    foreach ($params as $paramKey => $paramValue) {
+                        if (isset($this->filterMethods[$paramKey])) {
+                            $whereMethodName = $this->filterMethods[$paramKey];
+                            $this->query->$whereMethodName($paramValue);
+                            unset($params[$paramKey]);
+                        } elseif (in_array($paramKey, $searchable)) {
                             $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
                             $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
                         }
                     }
                 }
+
+                $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
+
+                $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
+                $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
             }
-
-            $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
-
-            $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
-            $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
-
 
             $single = false;
             $multiple = false;
@@ -1076,7 +1075,6 @@ abstract class AbstractRepository implements Repository
                 $exec = $this->query->count();
                 $count = true;
             } else if (isset($params['page_count'])) {
-
 
                 $limit = self::$limit;
                 if (isset($params['limit']) and ($params['limit'] != 'no_limit')) {
@@ -1088,7 +1086,6 @@ abstract class AbstractRepository implements Repository
                 } else {
                     $exec = 0;
                 }
-
 
                 $count = true;
             } else if (isset($params['single']) || isset($params['one'])) {
@@ -1173,202 +1170,76 @@ abstract class AbstractRepository implements Repository
         return $params;
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyLimitLogic() on the model instead.
+     */
     public static function queryLimitLogic($model, $table, $columns, $params)
     {
-
-        $limit = self::$limit;
-        $no_limit = false;
-
-        if (isset($params['no_limit'])) {
-            $no_limit = true;
-        }
-        if (!isset($params['page_count'])) {
-            if (!$no_limit) {
-                if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
-                    $no_limit = true;
-                    unset($params['limit']);
-                }
-
-                if (isset($params['limit']) and $params['limit']) {
-                    $limit = intval($params['limit']);
-                }
-            }
-
-            if (!$no_limit) {
-                $model->limit($limit);
-
-                if (isset($params['paging_param']) and $params['paging_param']) {
-                    if (isset($params[$params['paging_param']]) and $params[$params['paging_param']]) {
-                        $params['current_page'] = $params[$params['paging_param']];
-                    }
-                }
-
-
-                if (isset($params['current_page']) and $params['current_page']) {
-
-                    $currentPageValue = intval($params['current_page']);
-                    if ($currentPageValue > 1) {
-                        $criteria = intval($currentPageValue - 1) * intval($limit);
-
-                        $model->skip($criteria);
-                    }
-                }
-
-            }
-        }
-
-        return $model;
+        return FilterableByParams::applyLimitLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyOrderByLogic() on the model instead.
+     */
     public static function queryOrderByLogic($model, $table, $columns, $params)
     {
-
-        if (isset($params['order_by']) and is_string($params['order_by'])) {
-            $orderBy = trim($params['order_by']);
-            $orderByCriteria = explode(',', $orderBy);
-            foreach ($orderByCriteria as $c) {
-                $c = urldecode($c);
-                $c = explode(' ', $c);
-                if (isset($c[0]) and trim($c[0]) != '') {
-                    $c[0] = trim($c[0]);
-                    if (isset($c[1])) {
-                        $c[1] = trim($c[1]);
-                    }
-                    if (isset($c[1]) and ($c[1]) != '') {
-                        $model->orderBy($c[0], $c[1]);
-                    } elseif (isset($c[0])) {
-                        $model->orderBy($c[0]);
-                    }
-                }
-            }
-        }
-
-        return $model;
+        return FilterableByParams::applyOrderByLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyGroupByLogic() on the model instead.
+     */
     public static function queryGroupByLogic($model, $table, $columns, $params)
     {
-
-        if (isset($params['group_by']) and is_string($params['group_by'])) {
-            $groupByCriteria = explode(',', $params['group_by']);
-            if (!empty($groupByCriteria)) {
-                $groupByCriteria = array_map('trim', $groupByCriteria);
-            }
-            if (!empty($groupByCriteria)) {
-                $model->groupBy($groupByCriteria);
-            }
-        }
-
-        return $model;
+        return FilterableByParams::applyGroupByLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyExcludeIdsLogic() on the model instead.
+     */
     public static function queryExcludeIdsLogic($model, $table, $columns, $params)
     {
-
-        $excludeIds = [];
-        if (isset($params['exclude_ids']) and is_string($params['exclude_ids'])) {
-            $excludeIdsMerge = explode(',', $params['exclude_ids']);
-            if ($excludeIdsMerge) {
-                $excludeIds = array_merge($excludeIds, $excludeIdsMerge);
-            }
-        } else if (isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
-            $excludeIds = array_merge($excludeIds, $params['exclude_ids']);
-        }
-        if (!empty($excludeIds)) {
-            $model->whereNotIn($table . '.id', $excludeIds);
-        }
-
-        return $model;
+        return FilterableByParams::applyExcludeIdsLogic($model, $table, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyIncludeIdsLogic() on the model instead.
+     */
     public static function queryIncludeIdsLogic($model, $table, $columns, $params)
     {
-
-        $includeIds = [];
-        if (isset($params['ids']) and is_string($params['ids'])) {
-            $excludeIdsMerge = explode(',', $params['ids']);
-            if ($excludeIdsMerge) {
-                $includeIds = array_merge($includeIds, $excludeIdsMerge);
-            }
-        } else if (isset($params['ids']) and is_array($params['ids'])) {
-            $includeIds = array_merge($includeIds, $params['ids']);
-        }
-        if (!empty($includeIds)) {
-            $model->whereIn($table . '.id', $includeIds);
-        }
-
-        return $model;
+        return FilterableByParams::applyIncludeIdsLogic($model, $table, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyKeywordLogic() on the model instead.
+     */
     public static function queryKeywordLogic($model, $table, $columns, $params)
     {
-
-        if (isset($params['keyword'])) {
-            // FilterByKeywordTrait
-            $model->filter(['keyword' => $params['keyword']]);
-        }
-
-        return $model;
+        return FilterableByParams::applyKeywordLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyTagsLogic() on the model instead.
+     */
     public static function queryTagsLogic($model, $table, $columns, $params)
     {
-
-        if (isset($params['tags'])) {
-            $model->filter(['tags' => $params['tags']]);
-        }
-
-        if (isset($params['tag_names'])) {
-            $model->filter(['tags' => $params['tag_names']]);
-        }
-
-        if (isset($params['all_tags'])) {
-            $model->filter(['allTags' => $params['all_tags']]);
-        }
-
-
-        return $model;
+        return FilterableByParams::applyTagsLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applyClosureLogic() on the model instead.
+     */
     public static function queryClosureLogic($model, $table, $columns, $params)
     {
-
-        foreach ($params as $paramKey => $paramValue) {
-            if (is_object($params[$paramKey]) && ($params[$paramKey] instanceof \Closure)) {
-                $model = call_user_func($params[$paramKey], $model, $params);
-            }
-        }
-
-        return $model;
+        return FilterableByParams::applyClosureLogic($model, $params);
     }
 
+    /**
+     * @deprecated Use FilterableByParams::applySelectLogic() on the model instead.
+     */
     public static function querySelectLogic($model, $table, $columns, $params)
     {
-        if (isset($params['fields']) and $params['fields'] != false) {
-            if (is_string($params['fields'])) {
-                $isFields = explode(',', $params['fields']);
-            } else {
-                $isFields = $params['fields'];
-            }
-            $isFieldsQ = [];
-            if ($isFields) {
-                foreach ($isFields as $isField) {
-                    if (is_string($isField)) {
-                        $isField = trim($isField);
-                        if ($isField != '') {
-                            $isFieldsQ[] = $table . '.' . $isField;
-                        }
-                    }
-                }
-            }
-            if ($isFieldsQ) {
-                $model->select($isFieldsQ);
-            }
-        } else {
-            $model->select($table . '.*');
-        }
-
-        return $model;
+        return FilterableByParams::applySelectLogic($model, $table, $params);
     }
 
     public function getIdsThatHaveRelation($table, $rel_type)

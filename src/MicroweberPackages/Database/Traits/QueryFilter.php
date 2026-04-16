@@ -4,7 +4,7 @@ namespace MicroweberPackages\Database\Traits;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Database\Filter;
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use MicroweberPackages\Repository\Traits\FilterableByParams;
 
 trait QueryFilter
 {
@@ -629,7 +629,7 @@ trait QueryFilter
 
                     $params_filter = [];
                     $params_filter['ids'] = $value;
-                    $query = AbstractRepository::queryIncludeIdsLogic($query, $table, [], $params_filter);
+                    $query = FilterableByParams::applyIncludeIdsLogic($query, $table, $params_filter);
 
 
 //                    $ids = $value;
@@ -657,7 +657,7 @@ trait QueryFilter
 
                     $params_filter = [];
                     $params_filter['exclude_ids'] = $value;
-                    $query = AbstractRepository::queryExcludeIdsLogic($query, $table, [], $params_filter);
+                    $query = FilterableByParams::applyExcludeIdsLogic($query, $table, $params_filter);
 //                    if (is_string($ids)) {
 //                        $ids = explode(',', $ids);
 //                    } elseif (is_int($ids)) {

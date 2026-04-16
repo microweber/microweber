@@ -13,6 +13,7 @@ use MicroweberPackages\Option\Events\OptionWasCreated;
 use MicroweberPackages\Option\Events\OptionWasDeleted;
 use MicroweberPackages\Option\Events\OptionWasRetrieved;
 use MicroweberPackages\Option\Events\OptionWasUpdated;
+use MicroweberPackages\Repository\Traits\FilterableByParams;
 
 class Option extends Model
 {
@@ -21,6 +22,7 @@ class Option extends Model
 
     use CacheableQueryBuilderTrait;
     use HasSearchableTrait;
+    use FilterableByParams;
 
     protected $dispatchesEvents = [
         'retrieved' =>  OptionWasRetrieved::class,

@@ -33,6 +33,7 @@ use Modules\Product\Models\ModelFilters\ProductFilter;
 use Modules\Product\Models\ProductVariant;
 use Modules\Product\Support\CartesianProduct;
 use Modules\Product\Traits\CustomFieldPriceTrait;
+use MicroweberPackages\Repository\Traits\FilterableByParams;
 use Modules\Tag\Traits\TaggableTrait;
 use Spatie\Translatable\HasTranslations;
 
@@ -48,6 +49,7 @@ class Content extends Model
     use HasContentFieldTrait;
     use HasSlugTrait;
     use HasSearchableTrait;
+    use FilterableByParams;
     use HasMenuItem;
     use MediaTrait;
     use Filterable;
@@ -74,6 +76,11 @@ class Content extends Model
 
     protected $table = 'content';
     protected $content_type = 'content';
+
+    protected array $filterMethods = [
+        'category' => 'whereCategoryIds',
+        'categories' => 'whereCategoryIds',
+    ];
     public $additionalData = [];
 
     public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories', 'custom_fields', 'custom_fields_values'];
