@@ -489,7 +489,7 @@ Controller / Service / API
 These repositories add nothing over Eloquent — delete them and use models directly:
 
 - [x] 2026-04-16  Remove `ProductRepository` (Modules/Product/Repositories/) — pure BaseRepository CRUD wrapper
-- [ ] Remove `ProductVariantRepository` (Modules/Product/Repositories/) — pure BaseRepository CRUD wrapper
+- [x] 2026-04-16  Remove `ProductVariantRepository` (Modules/Product/Repositories/) — pure BaseRepository CRUD wrapper
 - [ ] Remove `PageApiRepository` (Modules/Page/Repositories/) — pure BaseRepository CRUD wrapper
 - [ ] Remove `PostApiRepository` (Modules/Post/Repositories/) — pure BaseRepository CRUD wrapper
 - [ ] Remove `OrderApiRepository` (Modules/Order/Repositories/) — pure BaseRepository CRUD wrapper with events (move events to model observers)
