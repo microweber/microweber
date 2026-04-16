@@ -166,25 +166,29 @@ class BackupScheduleResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('type')
+                Tables\Columns\TextColumn::make('type')
                     ->label('Type')
+                    ->badge()
                     ->formatStateUsing(fn (string $state): string => BackupSchedule::getBackupTypeOptions()[$state] ?? $state)
-                    ->colors([
-                        'primary' => 'contentBackup',
-                        'success' => 'fullBackup',
-                        'warning' => 'customBackup',
-                    ]),
+                    ->color(fn (string $state): string => match ($state) {
+                        'contentBackup' => 'primary',
+                        'fullBackup' => 'success',
+                        'customBackup' => 'warning',
+                        default => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('frequency')
+                Tables\Columns\TextColumn::make('frequency')
                     ->label('Frequency')
+                    ->badge()
                     ->formatStateUsing(fn (string $state): string => BackupSchedule::getFrequencyOptions()[$state] ?? $state),
 
                 Tables\Columns\TextColumn::make('time')
                     ->label('Time')
                     ->formatStateUsing(fn (?string $state): string => $state ?? '--:--'),
 
-                Tables\Columns\BadgeColumn::make('retention_days')
+                Tables\Columns\TextColumn::make('retention_days')
                     ->label('Retention')
+                    ->badge()
                     ->formatStateUsing(fn (int $state): string => $state . ' days'),
 
                 Tables\Columns\IconColumn::make('is_active')

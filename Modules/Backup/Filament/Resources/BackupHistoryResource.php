@@ -105,31 +105,37 @@ class BackupHistoryResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('type')
+                Tables\Columns\TextColumn::make('type')
                     ->label('Type')
-                    ->colors([
-                        'primary' => 'manual',
-                        'success' => 'scheduled',
-                    ]),
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'manual' => 'primary',
+                        'scheduled' => 'success',
+                        default => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('backup_type')
+                Tables\Columns\TextColumn::make('backup_type')
                     ->label('Backup Type')
+                    ->badge()
                     ->formatStateUsing(fn (string $state): string => BackupHistory::getBackupTypeOptions()[$state] ?? $state)
-                    ->colors([
-                        'primary' => 'contentBackup',
-                        'success' => 'fullBackup',
-                        'warning' => 'customBackup',
-                    ]),
+                    ->color(fn (string $state): string => match ($state) {
+                        'contentBackup' => 'primary',
+                        'fullBackup' => 'success',
+                        'customBackup' => 'warning',
+                        default => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('Status')
+                    ->badge()
                     ->formatStateUsing(fn (string $state): string => BackupHistory::getStatusOptions()[$state] ?? $state)
-                    ->colors([
-                        'warning' => 'pending',
-                        'info' => 'running',
-                        'success' => 'completed',
-                        'danger' => 'failed',
-                    ]),
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'running' => 'info',
+                        'completed' => 'success',
+                        'failed' => 'danger',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('size')
                     ->label('Size')
