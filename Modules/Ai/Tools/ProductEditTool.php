@@ -147,6 +147,9 @@ class ProductEditTool extends AbstractContentTool
                 return $this->handleError('Failed to update product.');
             }
 
+            // Audit log
+            $this->auditWriteOperation('edit', 'product', $product_id, $updateData);
+
             // Reload to get updated data
             $product->refresh();
 

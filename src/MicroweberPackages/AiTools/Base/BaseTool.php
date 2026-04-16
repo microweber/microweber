@@ -239,6 +239,30 @@ abstract class BaseTool extends Tool implements ToolInterface
     }
 
     /**
+     * Log a write operation for audit trail.
+     * Called by create/edit/delete tools to record what was changed via AI chat.
+     */
+    protected function auditWriteOperation(string $action, string $entityType, int|string|null $entityId, array $data = []): void
+    {
+        $userId = function_exists('user_id') ? user_id() : null;
+
+        $logData = [
+            'action' => $action,
+            'entity_type' => $entityType,
+            'entity_id' => $entityId,
+            'tool' => $this->getName(),
+            'user_id' => $userId,
+            'data_keys' => array_keys($data),
+            'timestamp' => now()->toIso8601String(),
+        ];
+
+        \Illuminate\Support\Facades\Log::channel('single')->info(
+            "[AI Chat Audit] {$action} {$entityType}" . ($entityId ? " #{$entityId}" : ''),
+            $logData
+        );
+    }
+
+    /**
      * Format a monetary amount.
      *
      * @param float $amount

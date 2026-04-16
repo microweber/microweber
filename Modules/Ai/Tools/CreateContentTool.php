@@ -121,6 +121,9 @@ class CreateContentTool extends BaseTool
 
         $newContent = Content::create($contentData);
 
+        // Audit log
+        $this->auditWriteOperation('create', 'content', $newContent->id, $contentData);
+
         // Handle media URLs if provided
         if (!empty($media_urls_array)) {
             $this->attachMediaUrls($newContent->id, $media_urls_array);

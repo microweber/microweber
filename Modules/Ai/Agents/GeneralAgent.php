@@ -54,7 +54,9 @@ class GeneralAgent extends BaseAgent
                 'For shipping questions, use the shipping tools (method lookup, zone summary).',
                 'For tax questions, use the tax tools (rule lookup, preview).',
                 'For settings questions, use the settings read tool.',
+                'For SEO improvement requests, use content_improvement or generate_seo_metadata tools.',
                 'For cross-domain questions, call multiple tools and combine the results.',
+                'For write operations (create, edit, delete): briefly confirm what you are about to do before calling the tool, then call it and report the result.',
                 'Always provide clear, data-driven responses based on tool results.',
             ],
             output: [
@@ -131,6 +133,10 @@ class GeneralAgent extends BaseAgent
         $this->addTool(new \Modules\Ai\Tools\PostEditTool($this->dependencies));
         $this->addTool(new \Modules\Ai\Tools\CreateContentTool($this->dependencies));
         $this->addTool(new \Modules\Ai\Tools\CreatePostTool($this->dependencies));
+
+        // --- Content improvement & SEO tools ---
+        $this->addTool(new \Modules\Ai\Tools\ContentImprovementTool($this->dependencies));
+        $this->addTool(new \Modules\Ai\Tools\GenerateSeoMetadataTool($this->dependencies));
 
         // --- Product & Order tools ---
         $this->addTool(new \Modules\Ai\Tools\ProductSearchTool($this->dependencies));

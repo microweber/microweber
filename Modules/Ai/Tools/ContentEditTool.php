@@ -131,6 +131,9 @@ class ContentEditTool extends AbstractContentTool
                 return $this->handleError('Failed to update content.');
             }
 
+            // Audit log
+            $this->auditWriteOperation('edit', 'content', $content_id, $updateData);
+
             // Handle media URLs if provided
             if (!empty($media_urls_array)) {
                 $this->attachMediaUrls($content->id, $media_urls_array);

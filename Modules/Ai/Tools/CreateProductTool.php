@@ -111,6 +111,9 @@ class CreateProductTool extends CreateContentTool
 
         $product = Product::create($productData);
 
+        // Audit log
+        $this->auditWriteOperation('create', 'product', $product->id, $productData);
+
 //        // Handle price as custom field if provided
         if ($price !== null && function_exists('save_custom_field')) {
             save_custom_field([

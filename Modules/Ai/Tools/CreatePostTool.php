@@ -104,6 +104,9 @@ class CreatePostTool extends CreateContentTool
 
         $post = Post::create($postData);
 
+        // Audit log
+        $this->auditWriteOperation('create', 'post', $post->id, $postData);
+
         // Handle media URLs if provided
         if (!empty($media_urls_array)) {
             $this->attachMediaUrls($post->id, $media_urls_array);
