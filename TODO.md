@@ -314,6 +314,71 @@
 
 - [x] 2026-04-16  in the agent chats the in shat cht i f iont enter desctpms i get some sjon [attachment: .autodev/messages/attachments/20260416_153928_12ea9b4d/paste-1776342988835.png] [attachment: .autodev/messages/attachments/20260416_153928_5dff01c1/paste-1776343166868.png]
 
-- [ ] makea plan how to conect the ai chat with our mcp servers that we hav ie itnerlanly now seems its not cnected and doesn ot query our db
+- [x] 2026-04-16  makea plan how to conect the ai chat with our mcp servers that we hav ie itnerlanly now seems its not cnected and doesn ot query our db
 
 - [ ] examine the ai chats and popoulate the todo on how to make full itengreation with the system via the tools, we want to to ble able to ask about stats, proucts, users, billing, subs, etc across the whole system also to be able to make posts, pages content, etc  via the chat make a full plan and populatthe th todo.md with the items fori tnegration
+
+---
+
+## AI Chat ↔ MCP/Tools Integration Plan
+
+### Problem Analysis
+The AI module has **71 tools** and a full MCP server with tool catalog, but the agent chat is barely connected:
+- **GeneralAgent** has **zero tools** (RagSearchTool commented out) — it can only do keyword-based routing
+- **ShopAgent** has 6 tools (product/order search + edit + create + RAG)
+- **ContentAgent** has ~17 tools (content/page/post CRUD, SEO, images, trends)
+- **CustomerAgent** has 2 tools (customer lookup + RAG)
+- **MediaAgent** has 2-3 tools (media search + RAG + optional YouTube)
+- **40+ MCP tools** (analytics, billing, invoices, payments, forms, layouts, newsletter, shipping, tax, settings) are **only exposed via HTTP MCP API** — chat agents cannot use them
+
+### Phase 1: Wire ALL MCP Tools into GeneralAgent (the universal chat agent)
+Give the GeneralAgent access to all domain tools so it can answer any question about the system.
+
+- [ ] Wire analytics tools into GeneralAgent: TrafficSummary, TopPages, TrafficReferrers, AudienceBreakdown
+- [ ] Wire billing tools into GeneralAgent: AccountStatus, PlanSummary, SubscriptionLookup, MetricsSummary
+- [ ] Wire invoice tools into GeneralAgent: InvoiceLookup, InvoiceDetail, CustomerHistory, UnpaidSummary
+- [ ] Wire payment tools into GeneralAgent: PaymentLookup, PaymentDetail, ProviderHealth, WebhookHealth
+- [ ] Wire form tools into GeneralAgent: FormLookup, SubmissionDetail, SubmissionSearch, ActivitySummary
+- [ ] Wire newsletter tools into GeneralAgent: CampaignLookup, SubscriberLookup, TemplateLookup, AutomationStatus
+- [ ] Wire layout tools into GeneralAgent: LayoutLookup, ActiveTemplate, AssetSummary
+- [ ] Wire shipping tools into GeneralAgent: MethodLookup, ZoneSummary
+- [ ] Wire tax tools into GeneralAgent: RuleLookup, Preview
+- [ ] Wire settings tool into GeneralAgent: SettingsRead
+- [ ] Wire content tools into GeneralAgent: ContentSearch, GetContent, ContentEdit, CreatePost, CreateProduct
+- [ ] Wire product/order tools into GeneralAgent: ProductSearch, OrderSearch, ProductEdit, CreateProduct
+- [ ] Wire customer tools into GeneralAgent: CustomerLookup
+- [ ] Wire media tools into GeneralAgent: MediaLookup, MediaAssetDetail, MediaStorageHealth
+- [ ] Uncomment and wire RagSearchTool into GeneralAgent for cross-domain search
+
+### Phase 2: Fix Agent Chat ↔ Tool Execution Pipeline
+The AgentChatComponent calls `$agent->chat()` (NeuronAI) which should use the LLM's tool-calling. Verify and fix:
+
+- [ ] Verify NeuronAI tool-calling works with Ollama provider (Ollama may not support function calling with all models)
+- [ ] Test tool execution end-to-end: send "show me traffic stats" → GeneralAgent → LLM calls TrafficSummary tool → response displayed
+- [ ] Add error handling for providers that don't support tool-calling (fallback to simpleRouting)
+- [ ] Store tool call results in AgentChatMessage metadata for debugging
+
+### Phase 3: Improve GeneralAgent Routing (remove keyword-based, use LLM tools)
+Replace the current hardcoded keyword-based `detectDomain()` routing with native LLM tool-calling:
+
+- [ ] Remove/deprecate the `handle()` + `simpleRouting()` + `detectDomain()` methods from GeneralAgent
+- [ ] Let NeuronAI's `chat()` method handle all routing via tool-calling natively
+- [ ] Update system prompt to describe all available tools clearly so the LLM picks the right one
+- [ ] Test with various queries across all domains to verify LLM routing accuracy
+
+### Phase 4: Cross-Domain Query Support
+Enable complex queries that span multiple tools:
+
+- [ ] Test multi-tool queries: "What are our top products and how much revenue did they generate?"
+- [ ] Test queries combining content + analytics: "Which blog posts get the most traffic?"
+- [ ] Test billing + customer queries: "Show unpaid invoices for customer john@example.com"
+- [ ] Ensure the LLM can chain multiple tool calls in a single conversation turn
+
+### Phase 5: Write/Create Operations via Chat
+Enable users to create and modify content through the chat:
+
+- [ ] Test creating posts via chat: "Create a blog post about summer sales"
+- [ ] Test editing products via chat: "Update product #42 price to $29.99"
+- [ ] Test content improvement: "Improve the SEO of page #15"
+- [ ] Add confirmation prompts for destructive/write operations (edit, delete)
+- [ ] Add audit logging for write operations triggered via chat
