@@ -708,9 +708,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  Tax rates: create rate with percentage, verify in list
 
 #### 1d. AdminInvoiceWorkflowTest.php — Invoice management
-- [ ] Invoice list (/admin/invoices): table loads with columns
-- [ ] Invoice detail view: loads without 500
-- [ ] Invoice search/filter works
+- [x] 2026-04-17  Invoice list (/admin/invoices): table loads with columns
+- [x] 2026-04-17  Invoice detail view: loads without 500
+- [x] 2026-04-17  Invoice search/filter works
 
 ### Phase 2: AI & MCP Module Tests (HIGH priority — key feature)
 
