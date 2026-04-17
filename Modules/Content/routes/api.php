@@ -29,7 +29,7 @@ Route::name('api.content.')
 // Protected API routes (full CRUD)
 Route::name('api.content.')
     ->prefix('api/content')
-    ->middleware(['api', 'auth:sanctum', 'throttle:api'])
+    ->middleware(['api', 'auth:api', 'throttle:api'])
     ->group(function () {
         Route::post('/', [ContentApiController::class, 'store'])->name('store');
         Route::put('/{content}', [ContentApiController::class, 'update'])->name('update');

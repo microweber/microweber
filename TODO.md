@@ -633,3 +633,7 @@ Manager classes duplicate repository/model logic. For each:
 - Static memory caches can mask bugs during migration — clear all caches between test runs
 
 - [x] 2026-04-16  yes migrate migrate build from laravel-mix to Vite across all sub-packages (eliminates 4 vulns at once)
+
+- [x] 2026-04-17  aftr migrate some pages are broken, run the tests and fix Declaration of MicroweberPackages\Module\Repositories\ModuleRepository::generateCacheTags() must be compatible with MicroweberPackages\Repository\Repositories\AbstractRepository::generateCacheTags(): array
+
+- [~] the page http://127.0.0.1:8000/admin/categories has some errors

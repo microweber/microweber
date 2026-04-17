@@ -10,7 +10,6 @@ use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Tests\TestCase;
 use MicroweberPackages\User\Models\User;
-use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ContentApiTest extends TestCase
@@ -19,8 +18,6 @@ final class ContentApiTest extends TestCase
 
     protected ?User $adminUser = null;
     protected ?User $regularUser = null;
-    protected string $adminToken = '';
-    protected string $userToken = '';
 
     protected function setUp(): void
     {
@@ -41,10 +38,6 @@ final class ContentApiTest extends TestCase
             'is_admin' => 0,
             'is_active' => 1,
         ]);
-
-        // Create tokens for authentication
-        $this->adminToken = $this->adminUser->createToken('api-token', ['*'])->plainTextToken;
-        $this->userToken = $this->regularUser->createToken('api-token', ['*'])->plainTextToken;
     }
 
     #[Test]
@@ -114,7 +107,7 @@ final class ContentApiTest extends TestCase
             'is_active' => true,
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/content', $contentData);
 
         $response->assertStatus(201)
@@ -149,7 +142,7 @@ final class ContentApiTest extends TestCase
     #[Test]
     public function it_validates_required_fields_when_creating_content(): void
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/content', []);
 
         $response->assertStatus(422)
@@ -169,7 +162,7 @@ final class ContentApiTest extends TestCase
             'url' => 'test-url',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/content', $contentData);
 
         $response->assertStatus(422)
@@ -189,7 +182,7 @@ final class ContentApiTest extends TestCase
             'is_active' => false,
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->putJson("/api/content/{$content->id}", $updateData);
 
         $response->assertStatus(200)
@@ -217,7 +210,7 @@ final class ContentApiTest extends TestCase
             'content' => 'Original content',
         ]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->patchJson("/api/content/{$content->id}", [
                 'title' => 'Patched Title',
             ]);
@@ -240,7 +233,7 @@ final class ContentApiTest extends TestCase
     #[Test]
     public function it_returns_404_when_updating_nonexistent_content(): void
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->putJson('/api/content/99999', [
                 'title' => 'New Title',
             ]);
@@ -257,7 +250,7 @@ final class ContentApiTest extends TestCase
     {
         $content = Content::factory()->create();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->deleteJson("/api/content/{$content->id}");
 
         $response->assertStatus(200)
@@ -278,7 +271,7 @@ final class ContentApiTest extends TestCase
     #[Test]
     public function it_returns_404_when_deleting_nonexistent_content(): void
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->deleteJson('/api/content/99999');
 
         $response->assertStatus(404)
@@ -383,7 +376,7 @@ final class ContentApiTest extends TestCase
             'is_active' => true,
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/pages', $pageData);
 
         $response->assertStatus(201)
@@ -403,7 +396,7 @@ final class ContentApiTest extends TestCase
     {
         $page = Page::factory()->create(['title' => 'Original']);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->putJson("/api/pages/{$page->id}", [
                 'title' => 'Updated',
             ]);
@@ -422,7 +415,7 @@ final class ContentApiTest extends TestCase
     {
         $page = Page::factory()->create();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->deleteJson("/api/pages/{$page->id}");
 
         $response->assertStatus(200)
@@ -473,7 +466,7 @@ final class ContentApiTest extends TestCase
             'is_active' => true,
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/posts', $postData);
 
         $response->assertStatus(201)
@@ -493,7 +486,7 @@ final class ContentApiTest extends TestCase
     {
         $post = Post::factory()->create(['title' => 'Original']);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->putJson("/api/posts/{$post->id}", [
                 'title' => 'Updated',
             ]);
@@ -512,7 +505,7 @@ final class ContentApiTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+        $response = $this->actingAs($this->adminUser, 'api')
             ->deleteJson("/api/posts/{$post->id}");
 
         $response->assertStatus(200)

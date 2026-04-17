@@ -160,7 +160,7 @@ class ModuleRepository extends AbstractRepository
     }
 
 
-    public function generateCacheTags()
+    public function generateCacheTags(): array
     {
         $tag = parent::generateCacheTags();
         $tag[] = 'modules';

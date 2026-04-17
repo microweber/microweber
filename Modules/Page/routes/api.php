@@ -25,7 +25,7 @@ Route::name('api.page.')
 // Protected API routes (full CRUD)
 Route::name('api.page.')
     ->prefix('api/pages')
-    ->middleware(['api', 'auth:sanctum', 'throttle:api'])
+    ->middleware(['api', 'auth:api', 'throttle:api'])
     ->group(function () {
         Route::post('/', [PageApiController::class, 'store'])->name('store');
         Route::put('/{page}', [PageApiController::class, 'update'])->name('update');

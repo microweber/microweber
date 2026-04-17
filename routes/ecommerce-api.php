@@ -60,7 +60,7 @@ Route::middleware([])->group(function () {
     // Protected E-commerce API routes (requires authentication)
     Route::name('api.ecommerce.')
         ->prefix('api/ecommerce')
-        ->middleware(['auth:sanctum', 'throttle:api'])
+        ->middleware(['auth:api', 'throttle:api'])
         ->group(function () {
             // Order history for authenticated user
             Route::get('/orders', function () {
