@@ -715,11 +715,11 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 2: AI & MCP Module Tests (HIGH priority — key feature)
 
 #### 2a. AdminAiChatWorkflowTest.php — AI agent chat
-- [ ] Agent chats list (/admin/agent-chats): table loads
-- [ ] Agent chat create: new chat form loads
-- [ ] Agent chat view: existing chat displays messages
-- [ ] AI settings page (/admin/ai-settings-page): provider config form loads, test connection buttons present
-- [ ] AI wizards page (/admin/ai-wizards): list loads
+- [x] 2026-04-17  Agent chats list (/admin/agent-chats): table loads
+- [x] 2026-04-17  Agent chat create: new chat form loads
+- [x] 2026-04-17  Agent chat view: existing chat displays messages
+- [x] 2026-04-17  AI settings page (/admin/ai-settings-page): provider config form loads, test connection buttons present
+- [x] 2026-04-17  AI wizards page (/admin/ai-wizards): list loads
 
 #### 2b. AdminMcpClientWorkflowTest.php — MCP client management
 - [ ] MCP clients list (/admin/mcp-clients): table loads
