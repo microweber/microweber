@@ -690,12 +690,12 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 1: Core Commerce Module Tests (HIGH priority — revenue-critical)
 
 #### 1a. AdminProductWorkflowTest.php — Product management deep testing
-- [ ] Product list page: table, search, filters, pagination
-- [ ] Product create: fill form fields, save, verify in list
-- [ ] Product edit: change title/price, save, verify changes
-- [ ] Product inventory page (/admin/inventory): list, stock levels
-- [ ] Product variant attributes (/admin/product-variant-attributes): list, create
-- [ ] Product module settings (/admin/products-module-settings): form loads, save
+- [x] 2026-04-17  Product list page: table, search, filters, pagination
+- [x] 2026-04-17  Product create: fill form fields, save, verify in list
+- [x] 2026-04-17  Product edit: change title/price, save, verify changes
+- [x] 2026-04-17  Product inventory page (/admin/inventory): list, stock levels
+- [x] 2026-04-17  Product variant attributes (/admin/product-variant-attributes): list, create
+- [x] 2026-04-17  Product module settings (/admin/products-module-settings): form loads, save
 
 #### 1b. AdminPaymentWorkflowTest.php — Payment providers
 - [ ] Payment providers list (/admin/payment-providers): table loads
