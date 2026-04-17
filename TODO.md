@@ -637,3 +637,7 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  aftr migrate some pages are broken, run the tests and fix Declaration of MicroweberPackages\Module\Repositories\ModuleRepository::generateCacheTags() must be compatible with MicroweberPackages\Repository\Repositories\AbstractRepository::generateCacheTags(): array
 
 - [x] 2026-04-17  the page http://127.0.0.1:8000/admin/categories has some errors
+
+- [x] 2026-04-17  in the dahboard on dark mode the backgound is bleeding [attachment: .autodev/messages/attachments/20260417_133735_427309a2/paste-1776422246252.png]
+
+- [ ] the licenses modal is not loafing in the martplace [attachment: .autodev/messages/attachments/20260417_133830_c4392161/paste-1776422305135.png]
