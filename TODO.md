@@ -645,3 +645,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  we migrated a lofof thinks make unit tesf of all fi,ament pafes, put the test per module folder for each module , do not use refresh databas,e and mocks we wanr real tests, after the test is complete delete the test data from the db but nly the data you made, do not use transactions
 
 - [x] 2026-04-17  now make dusk tests for the admin
+
+- [x] 2026-04-17  make dusk test on create pages/posts.plrducts and the seach
