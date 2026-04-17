@@ -698,9 +698,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  Product module settings (/admin/products-module-settings): form loads, save
 
 #### 1b. AdminPaymentWorkflowTest.php — Payment providers
-- [ ] Payment providers list (/admin/payment-providers): table loads
-- [ ] Payment provider configuration: form fields present
-- [ ] Payments list (/admin/payments): table or empty state
+- [x] 2026-04-17  Payment providers list (/admin/payment-providers): table loads
+- [x] 2026-04-17  Payment provider configuration: form fields present
+- [x] 2026-04-17  Payments list (/admin/payments): table or empty state
 
 #### 1c. AdminShippingTaxWorkflowTest.php — Shipping & tax deep testing
 - [ ] Shipping providers: create new provider, verify in list, edit, delete
