@@ -63,8 +63,13 @@
     margin: 0 !important;
     border-radius: 0 !important;
     z-index: 2;
+    background-color: var(--tblr-bg-surface, #ffffff);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
 
-
+html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+    background-color: var(--tblr-bg-surface, #182433);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .live-edit-gui-editor-opened .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
