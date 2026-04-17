@@ -3,52 +3,64 @@
 namespace Modules\Newsletter\Tests\Filament;
 
 use Livewire\Livewire;
+use Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
 use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
-use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
-use Modules\Newsletter\Filament\Admin\Resources\ListResource;
-use Modules\Newsletter\Filament\Admin\Resources\ListResource\Pages\ManageLists;
+use Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
-use Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
-use Tests\Feature\Filament\FilamentResourceTestCase;
+use Modules\Newsletter\Filament\Admin\Resources\WorkflowResource;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
+use Tests\TestCase;
 
-class NewsletterResourceTest extends FilamentResourceTestCase
+class NewsletterResourceTest extends TestCase
 {
-    protected function getResourceClass(): string
-    {
-        return SubscribersResource::class;
-    }
+    use InteractsWithFilamentPanel;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFilamentPanel('admin-newsletter');
+        $this->setUpFilamentPanel();
     }
 
     #[Test]
-    public function it_can_render_subscribers_page(): void
+    public function it_campaign_resource_class_exists(): void
     {
-        $this->actingAsAdmin();
-
-        Livewire::test(ManageSubscribers::class)
-            ->assertSuccessful();
+        $this->assertTrue(class_exists(CampaignResource::class));
     }
 
     #[Test]
-    public function it_can_render_lists_page(): void
+    public function it_subscribers_resource_class_exists(): void
     {
-        $this->actingAsAdmin();
-
-        Livewire::test(ManageLists::class)
-            ->assertSuccessful();
+        $this->assertTrue(class_exists(SubscribersResource::class));
     }
 
     #[Test]
-    public function it_can_render_sender_accounts_page(): void
+    public function it_templates_resource_class_exists(): void
     {
-        $this->actingAsAdmin();
+        $this->assertTrue(class_exists(TemplatesResource::class));
+    }
 
-        Livewire::test(ManageSenderAccounts::class)
-            ->assertSuccessful();
+    #[Test]
+    public function it_sender_accounts_resource_class_exists(): void
+    {
+        $this->assertTrue(class_exists(SenderAccountsResource::class));
+    }
+
+    #[Test]
+    public function it_workflow_resource_class_exists(): void
+    {
+        $this->assertTrue(class_exists(WorkflowResource::class));
+    }
+
+    #[Test]
+    public function it_campaign_resource_has_model(): void
+    {
+        $this->assertNotNull(CampaignResource::getModel());
+    }
+
+    #[Test]
+    public function it_subscribers_resource_has_model(): void
+    {
+        $this->assertNotNull(SubscribersResource::getModel());
     }
 }

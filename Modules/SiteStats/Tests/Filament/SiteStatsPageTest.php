@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Menu\Tests\Filament;
+namespace Modules\SiteStats\Tests\Filament;
 
 use Livewire\Livewire;
-use Modules\Menu\Filament\Admin\Pages\AdminMenusPage;
+use Modules\SiteStats\Filament\Pages\SiteStatsPage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 
-class MenuPageTest extends TestCase
+class SiteStatsPageTest extends TestCase
 {
     use InteractsWithFilamentPanel;
 
@@ -19,15 +19,15 @@ class MenuPageTest extends TestCase
     }
 
     #[Test]
-    public function it_can_render_menus_page(): void
+    public function it_can_render_site_stats_page(): void
     {
         $this->actingAsAdmin();
-        Livewire::test(AdminMenusPage::class)->assertSuccessful();
+        Livewire::test(SiteStatsPage::class)->assertSuccessful();
     }
 
     #[Test]
-    public function it_menus_page_class_exists(): void
+    public function it_page_class_exists(): void
     {
-        $this->assertTrue(class_exists(AdminMenusPage::class));
+        $this->assertTrue(class_exists(SiteStatsPage::class));
     }
 }

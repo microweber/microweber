@@ -1,27 +1,27 @@
 <?php
 
-namespace Modules\Order\Tests\Filament;
+namespace Modules\Faq\Tests\Filament;
 
 use Livewire\Livewire;
-use Modules\Order\Filament\Admin\Resources\OrderResource;
-use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
-use Modules\Order\Models\Order;
+use Modules\Faq\Filament\Resources\FaqModuleResource;
+use Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs;
+use Modules\Faq\Models\Faq;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\FilamentResourceTestCase;
 
-class OrderResourceTest extends FilamentResourceTestCase
+class FaqResourceTest extends FilamentResourceTestCase
 {
     private array $createdIds = [];
 
     protected function getResourceClass(): string
     {
-        return OrderResource::class;
+        return FaqModuleResource::class;
     }
 
     protected function tearDown(): void
     {
         foreach ($this->createdIds as $id) {
-            Order::where('id', $id)->delete();
+            Faq::where('id', $id)->delete();
         }
         parent::tearDown();
     }
@@ -30,12 +30,12 @@ class OrderResourceTest extends FilamentResourceTestCase
     public function it_can_render_list_page(): void
     {
         $this->actingAsAdmin();
-        Livewire::test(ListOrders::class)->assertSuccessful();
+        Livewire::test(ListFaqs::class)->assertSuccessful();
     }
 
     #[Test]
     public function it_resource_has_correct_model(): void
     {
-        $this->assertEquals(Order::class, OrderResource::getModel());
+        $this->assertEquals(Faq::class, FaqModuleResource::getModel());
     }
 }

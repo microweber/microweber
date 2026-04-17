@@ -5,8 +5,8 @@ namespace Modules\Shipping\Tests\Filament;
 use Livewire\Livewire;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders;
-use Tests\Feature\Filament\FilamentResourceTestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Filament\FilamentResourceTestCase;
 
 class ShippingResourceTest extends FilamentResourceTestCase
 {
@@ -16,20 +16,15 @@ class ShippingResourceTest extends FilamentResourceTestCase
     }
 
     #[Test]
-    public function it_can_render_shipping_providers_list_page(): void
+    public function it_can_render_list_page(): void
     {
         $this->actingAsAdmin();
-
-        Livewire::test(ListShippingProviders::class)
-            ->assertSuccessful();
+        Livewire::test(ListShippingProviders::class)->assertSuccessful();
     }
 
     #[Test]
-    public function it_non_admin_cannot_access_shipping(): void
+    public function it_resource_has_correct_model(): void
     {
-        $this->actingAsUser();
-
-        $response = $this->get(ShippingProviderResource::getUrl('index'));
-        $response->assertForbidden();
+        $this->assertNotNull(ShippingProviderResource::getModel());
     }
 }

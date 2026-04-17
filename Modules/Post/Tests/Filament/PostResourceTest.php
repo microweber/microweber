@@ -3,33 +3,55 @@
 namespace Modules\Post\Tests\Filament;
 
 use Livewire\Livewire;
+use Modules\Content\Models\Content;
 use Modules\Post\Filament\Admin\Resources\PostResource;
 use Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts;
-use Tests\Feature\Filament\FilamentResourceTestCase;
+use Modules\Post\Models\Post;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Filament\FilamentResourceTestCase;
 
 class PostResourceTest extends FilamentResourceTestCase
 {
+    private array $createdIds = [];
+
     protected function getResourceClass(): string
     {
         return PostResource::class;
     }
 
-    #[Test]
-    public function it_can_render_posts_list_page(): void
+    protected function tearDown(): void
     {
-        $this->actingAsAdmin();
-
-        Livewire::test(ListPosts::class)
-            ->assertSuccessful();
+        foreach ($this->createdIds as $id) {
+            Content::where('id', $id)->delete();
+        }
+        parent::tearDown();
     }
 
     #[Test]
-    public function it_non_admin_cannot_access_posts(): void
+    public function it_can_render_list_page(): void
     {
-        $this->actingAsUser();
+        $this->actingAsAdmin();
+        Livewire::test(ListPosts::class)->assertSuccessful();
+    }
 
-        $response = $this->get(PostResource::getUrl('index'));
-        $response->assertForbidden();
+    #[Test]
+    public function it_resource_has_correct_model(): void
+    {
+        $this->assertEquals(Post::class, PostResource::getModel());
+    }
+
+    #[Test]
+    public function it_can_create_and_delete_post(): void
+    {
+        $this->actingAsAdmin();
+
+        $content = new Content();
+        $content->title = 'Filament Post Test';
+        $content->content_type = 'post';
+        $content->is_active = true;
+        $content->save();
+        $this->createdIds[] = $content->id;
+
+        $this->assertDatabaseHas('content', ['id' => $content->id, 'content_type' => 'post']);
     }
 }

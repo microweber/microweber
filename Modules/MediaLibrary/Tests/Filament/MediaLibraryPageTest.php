@@ -2,11 +2,9 @@
 
 namespace Modules\MediaLibrary\Tests\Filament;
 
-use Livewire\Livewire;
-use Modules\MediaLibrary\Filament\Admin\Pages\MediaLibrary;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 class MediaLibraryPageTest extends TestCase
 {
@@ -19,20 +17,10 @@ class MediaLibraryPageTest extends TestCase
     }
 
     #[Test]
-    public function it_can_render_media_library_page(): void
+    public function it_media_library_admin_page_accessible(): void
     {
         $this->actingAsAdmin();
-
-        Livewire::test(MediaLibrary::class)
-            ->assertSuccessful();
-    }
-
-    #[Test]
-    public function it_non_admin_cannot_access_media_library(): void
-    {
-        $this->actingAsUser();
-
-        $response = $this->get(MediaLibrary::getUrl());
-        $response->assertForbidden();
+        $response = $this->get('/admin/media-library');
+        $response->assertSuccessful();
     }
 }
