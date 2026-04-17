@@ -654,4 +654,4 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] 2026-04-17  run the full tests suite an fix fialing
 
-- [ ] Go on and make more detailled dusk tests on the main functions
+- [x] 2026-04-17  Go on and make more detailled dusk tests on the main functions
