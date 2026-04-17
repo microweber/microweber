@@ -722,10 +722,10 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  AI wizards page (/admin/ai-wizards): list loads
 
 #### 2b. AdminMcpClientWorkflowTest.php — MCP client management
-- [ ] MCP clients list (/admin/mcp-clients): table loads
-- [ ] MCP client create: form has name, slug, scopes, modules, tools fields
-- [ ] MCP client view: shows connection health, token list
-- [ ] MCP client edit: modify name/scopes, save
+- [x] 2026-04-17  MCP clients list (/admin/mcp-clients): table loads
+- [x] 2026-04-17  MCP client create: form has name, slug, scopes, modules, tools fields
+- [x] 2026-04-17  MCP client view: shows connection health, token list
+- [x] 2026-04-17  MCP client edit: modify name/scopes, save
 
 ### Phase 3: Communication Module Tests (MEDIUM priority)
 
