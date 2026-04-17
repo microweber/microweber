@@ -28,7 +28,7 @@ class AgentChatResource extends Resource
       protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?int $navigationSort = 1100;
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function getGloballySearchableAttributes(): array
     {
