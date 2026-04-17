@@ -655,3 +655,188 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  run the full tests suite an fix fialing
 
 - [x] 2026-04-17  Go on and make more detailled dusk tests on the main functions
+
+- [x] 2026-04-17  make a plan in the todo.md to make dusk tests for all modules
+
+---
+
+## Dusk Browser Tests Plan — Full Module Coverage
+
+**Date:** 2026-04-17 | **Existing tests:** 22 files, ~60 test methods | **Target:** Cover all admin modules
+
+### Current Coverage Summary
+
+| Area | Test File(s) | Status |
+|------|-------------|--------|
+| Login/Logout | AdminLoginTest | ✅ |
+| Navigation/Sidebar | AdminNavigationTest | ✅ |
+| Dashboard/Widgets | AdminDashboardWorkflowTest | ✅ |
+| Content CRUD (pages/posts/products) | AdminContentCreateTest, AdminContentEditTest, AdminContentDeleteTest, AdminContentWorkflowTest | ✅ |
+| Categories | AdminCategoryTest | ✅ |
+| Shop pages | AdminShopTest | ✅ |
+| Orders | AdminOrderWorkflowTest | ✅ |
+| Coupons/Offers | AdminCouponWorkflowTest | ✅ |
+| Users | AdminUserCrudTest, AdminUserManagementTest | ✅ |
+| Settings | AdminSettingsTest, AdminSettingsWorkflowTest | ✅ |
+| Global Search | AdminGlobalSearchTest | ✅ |
+| Media Library | AdminMediaLibraryTest | ✅ |
+| Tags/AI Chats/Backups | AdminModulePagesTest | ✅ (smoke) |
+| Theme UX | AdminThemeTest | ✅ |
+| All Admin Pages Smoke | AdminPagesTest | ✅ |
+| Newsletter pages | AdminDashboardWorkflowTest (partial) | ⚠️ |
+| Billing pages | AdminDashboardWorkflowTest (partial) | ⚠️ |
+| Shipping/Tax | AdminOrderWorkflowTest (partial) | ⚠️ |
+
+### Phase 1: Core Commerce Module Tests (HIGH priority — revenue-critical)
+
+#### 1a. AdminProductWorkflowTest.php — Product management deep testing
+- [ ] Product list page: table, search, filters, pagination
+- [ ] Product create: fill form fields, save, verify in list
+- [ ] Product edit: change title/price, save, verify changes
+- [ ] Product inventory page (/admin/inventory): list, stock levels
+- [ ] Product variant attributes (/admin/product-variant-attributes): list, create
+- [ ] Product module settings (/admin/products-module-settings): form loads, save
+
+#### 1b. AdminPaymentWorkflowTest.php — Payment providers
+- [ ] Payment providers list (/admin/payment-providers): table loads
+- [ ] Payment provider configuration: form fields present
+- [ ] Payments list (/admin/payments): table or empty state
+
+#### 1c. AdminShippingTaxWorkflowTest.php — Shipping & tax deep testing
+- [ ] Shipping providers: create new provider, verify in list, edit, delete
+- [ ] Tax list: create tax, verify in list, edit
+- [ ] Tax rates: create rate with percentage, verify in list
+
+#### 1d. AdminInvoiceWorkflowTest.php — Invoice management
+- [ ] Invoice list (/admin/invoices): table loads with columns
+- [ ] Invoice detail view: loads without 500
+- [ ] Invoice search/filter works
+
+### Phase 2: AI & MCP Module Tests (HIGH priority — key feature)
+
+#### 2a. AdminAiChatWorkflowTest.php — AI agent chat
+- [ ] Agent chats list (/admin/agent-chats): table loads
+- [ ] Agent chat create: new chat form loads
+- [ ] Agent chat view: existing chat displays messages
+- [ ] AI settings page (/admin/ai-settings-page): provider config form loads, test connection buttons present
+- [ ] AI wizards page (/admin/ai-wizards): list loads
+
+#### 2b. AdminMcpClientWorkflowTest.php — MCP client management
+- [ ] MCP clients list (/admin/mcp-clients): table loads
+- [ ] MCP client create: form has name, slug, scopes, modules, tools fields
+- [ ] MCP client view: shows connection health, token list
+- [ ] MCP client edit: modify name/scopes, save
+
+### Phase 3: Communication Module Tests (MEDIUM priority)
+
+#### 3a. AdminNewsletterWorkflowTest.php — Newsletter deep testing
+- [ ] Newsletter campaigns list (/admin/newsletter-campaigns): table loads
+- [ ] Campaign create: form fields present (subject, body, list selection)
+- [ ] Newsletter subscribers (/admin/newsletter-subscribers): table loads, search
+- [ ] Newsletter lists (/admin/newsletter-lists): create list, verify
+- [ ] Sender accounts (/admin/newsletter-sender-accounts): list, create form
+- [ ] Newsletter module page (/admin/modules/newsletter): loads
+
+#### 3b. AdminCommentsWorkflowTest.php — Comments moderation
+- [ ] Comments list (/admin/comments): table or empty state
+- [ ] Comments moderation: approve/reject actions visible
+- [ ] Comment module settings: form loads
+
+#### 3c. AdminFormEntriesWorkflowTest.php — Contact form submissions
+- [ ] Form entries list (/admin/form-entries): table or empty state
+- [ ] Form entry detail view: loads without 500
+- [ ] Form entry search/filter
+
+### Phase 4: Billing & Subscription Tests (MEDIUM priority)
+
+#### 4a. AdminBillingWorkflowTest.php — Billing deep testing
+- [ ] Subscriptions list (/admin/subscriptions): table loads
+- [ ] Billing plans (/admin/billing-plans): list, create form
+- [ ] Plan groups (/admin/billing-plan-groups): list, create form
+- [ ] Billing users (/admin/billing-users): table loads, search
+- [ ] Billing settings page (/admin/billing): form loads
+
+### Phase 5: System & Configuration Module Tests (MEDIUM priority)
+
+#### 5a. AdminBackupWorkflowTest.php — Backup management
+- [ ] Backup page (/admin/backup or /admin/backups): loads with actions
+- [ ] Backup histories (/admin/backup-histories): table loads
+- [ ] Backup schedules (/admin/backup-schedules): list, create form
+- [ ] Create backup button triggers action (doesn't crash)
+
+#### 5b. AdminMailTemplateWorkflowTest.php — Email templates
+- [ ] Mail templates list (/admin/mail-templates): table loads
+- [ ] Mail template edit: form fields present (subject, body, type)
+- [ ] Template preview or content renders
+
+#### 5c. AdminMultilanguageWorkflowTest.php — Translation management
+- [ ] Multilanguage settings (/admin/multilanguage-settings): form loads
+- [ ] Translations page (/admin/translations): table loads, search
+- [ ] Language settings: add/remove language toggle
+
+#### 5d. AdminApiApplicationsWorkflowTest.php — OAuth/Passport apps
+- [ ] API applications list (/admin/api-applications): table or empty state
+- [ ] Create application: form has name, redirect URI fields
+- [ ] Application details: shows client ID/secret
+
+### Phase 6: Content Support Module Tests (LOWER priority)
+
+#### 6a. AdminCurrencyWorkflowTest.php — Currency & exchange rates
+- [ ] Currencies page: list loads (via shop settings or dedicated route)
+- [ ] Exchange rates: table loads
+
+#### 6b. AdminCustomerWorkflowTest.php — Customer management deep testing
+- [ ] Customer list (/admin/customers): table loads, search
+- [ ] Customer detail view: shows order history, profile info
+- [ ] Customer create form (if available)
+
+#### 6c. AdminTagWorkflowTest.php — Tag management deep testing
+- [ ] Tags list (/admin/tags): table loads, search
+- [ ] Tag groups (/admin/tag-groups): list, create
+- [ ] Tagged resources (/admin/taggeds): list loads
+
+### Phase 7: Live Edit & Frontend Module Tests (LOWER priority — requires iframe handling)
+
+#### 7a. AdminLiveEditWorkflowTest.php — Live edit core
+- [ ] Live edit page loads (/admin/live-edit?url=...): iframe renders
+- [ ] Sidebar rail with module icons visible
+- [ ] Design sidebar opens on element click
+- [ ] Add content accordion opens and shows module list
+- [ ] Template settings page (/admin/live-edit-template-settings-page): loads
+
+#### 7b. AdminModuleSettingsWorkflowTest.php — Module settings pages (batch test)
+- [ ] Batch test all 40+ module settings pages load without 500:
+  accordion, audio, background, before-after, blog, breadcrumb, btn, captcha, cart-add,
+  category, code-editor, comments, contact-form, content, cookie-notice, custom-fields,
+  embed, facebook-like, facebook-page, faq, google-maps, highlight-code, image-rollover,
+  layout-content, layouts, logo, marquee, menu, multilanguage, newsletter, page,
+  pagination, pdf, pictures, post, product, rating, search, sharer, shop, skills,
+  slider, social-links, spacer, tabs, tags, teamcard, testimonials, text-type,
+  tweet-embed, video, white-label
+- [ ] Verify each settings page has form inputs (not just a blank page)
+
+### Phase 8: Marketplace & System Module Tests (LOWEST priority)
+
+#### 8a. AdminMarketplaceWorkflowTest.php — Marketplace
+- [ ] Marketplace page (/admin/marketplace): loads, shows modules/templates
+- [ ] Module search in marketplace
+- [ ] License modal functionality
+
+#### 8b. AdminUpdaterWorkflowTest.php — System updater
+- [ ] Updater page (/admin/updater): loads without 500
+- [ ] Shows current version info
+- [ ] Update check button (doesn't crash)
+
+#### 8c. AdminProfileWorkflowTest.php — User profile
+- [ ] Profile edit page: form loads with current user data
+- [ ] Profile save: change name, verify persistence
+
+### Implementation Notes
+
+- **Test pattern:** Each test file should follow the established pattern: `loginAsAdmin()` → `ensureLoggedIn()` → JS script assertions
+- **Rate limiting:** Space login attempts; use `pause(5000)` between tests, retry on "Too many" errors
+- **ChromeDriver stability:** Keep individual test files under 5 tests to avoid session timeout
+- **Error tolerance:** Use try/catch with `$failed[]` array pattern for resilient multi-check tests
+- **No Livewire field setting:** Don't use `window.Livewire.find().set()` for form filling — it's unreliable. Use JS `dispatchEvent` or Dusk's `->type()` on visible inputs
+- **Existing route awareness:** Always verify routes with `php artisan route:list` before writing tests
+- **Pre-existing 500s:** Some pages may return 500 due to missing dependencies — use `markTestSkipped()` or graceful failure counting
