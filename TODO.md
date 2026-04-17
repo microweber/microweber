@@ -647,3 +647,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  now make dusk tests for the admin
 
 - [x] 2026-04-17  make dusk test on create pages/posts.plrducts and the seach
+
+- [x] 2026-04-17  make dusk tests on th e settings pages
