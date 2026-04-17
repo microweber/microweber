@@ -2,6 +2,8 @@
 
 namespace Modules\Marketplace\Filament\Admin;
 
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -16,10 +18,11 @@ use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use MicroweberPackages\App\Models\SystemLicenses;
 
-class ListLicenses extends Component implements HasForms, HasTable
+class ListLicenses extends Component implements HasForms, HasTable, HasActions
 {
     use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithActions;
 
     public function table(Table $table): Table
     {
