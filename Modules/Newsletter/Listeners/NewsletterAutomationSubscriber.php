@@ -63,8 +63,10 @@ class NewsletterAutomationSubscriber
         }
 
         // Mark cart as recovered and cancel pending abandoned cart emails
-        $abandonedCartService = app(AbandonedCartService::class);
-        $abandonedCartService->markCartAsRecovered($order->session_id);
+        if ($order->session_id) {
+            $abandonedCartService = app(AbandonedCartService::class);
+            $abandonedCartService->markCartAsRecovered($order->session_id);
+        }
 
         // Trigger order placed campaign
         $automationService = app(CampaignAutomationService::class);

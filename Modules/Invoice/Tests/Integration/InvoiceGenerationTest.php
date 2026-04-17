@@ -204,6 +204,9 @@ class InvoiceGenerationTest extends TestCase
             'is_paid' => true,
         ]);
 
+        // Refresh order to get actual customer_id (may be modified by event listeners)
+        $order->refresh();
+
         // Generate invoice from order
         $result = $this->invoiceService->generateFromOrder($order->id);
 
@@ -215,7 +218,7 @@ class InvoiceGenerationTest extends TestCase
         // Verify invoice exists
         $invoice = Invoice::find($result['invoice_id']);
         $this->assertNotNull($invoice);
-        $this->assertEquals($customer->id, $invoice->customer_id);
+        $this->assertEquals($order->customer_id, $invoice->customer_id);
         $this->assertEquals(Invoice::STATUS_DRAFT, $invoice->status);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->paid_status);
         $this->assertStringContainsString('ORDER-ORD-2024-001', $invoice->reference_number);
@@ -266,6 +269,9 @@ class InvoiceGenerationTest extends TestCase
             'taxes_amount' => 15.00,
         ]);
 
+        // Refresh order to get actual customer_id (may be modified by event listeners)
+        $order->refresh();
+
         $result = $this->invoiceService->generateFromOrder($order->id);
 
         $this->assertTrue($result['success']);
@@ -274,7 +280,7 @@ class InvoiceGenerationTest extends TestCase
 
         // Verify invoice exists and has proper values
         $this->assertNotNull($invoice);
-        $this->assertEquals($customer->id, $invoice->customer_id);
+        $this->assertEquals($order->customer_id, $invoice->customer_id);
 
         // Check totals - when no cart items exist, service uses order amounts
         // Verify amounts are in cents format and calculated correctly

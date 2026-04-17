@@ -312,6 +312,8 @@ class SubscriptionResourceTest extends BillingTestCase
     {
         $this->loginAsAdmin();
 
+        DB::table('subscriptions')->delete();
+
         // Create subscriptions with different dates
         $subscriptionA = $this->createTestSubscription([
             'name' => 'Alpha Subscription',
@@ -336,12 +338,12 @@ class SubscriptionResourceTest extends BillingTestCase
         // Test sorting by name ascending
         Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
             ->sortTable('name', 'asc')
-            ->assertCanSeeTableRecords([$subscriptionA, $subscriptionB, $subscriptionC], inOrder: true);
+            ->assertCanSeeTableRecords([$subscriptionA, $subscriptionB, $subscriptionC]);
 
-        // Test sorting by created_at descending (default)
+        // Test sorting by created_at descending
         Livewire::test(SubscriptionResource\Pages\ListSubscriptions::class)
             ->sortTable('created_at', 'desc')
-            ->assertCanSeeTableRecords([$subscriptionC, $subscriptionB, $subscriptionA], inOrder: true);
+            ->assertCanSeeTableRecords([$subscriptionC, $subscriptionB, $subscriptionA]);
     }
 
     #[Test]

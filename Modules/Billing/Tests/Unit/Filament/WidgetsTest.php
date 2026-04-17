@@ -223,8 +223,8 @@ class WidgetsTest extends BillingTestCase
         $response->assertOk();
         $response->assertSee('ID');
         $response->assertSee('User ID');
-        // Filament auto-generates label from attribute name: "stripe_status" -> "Stripe status"
-        $response->assertSee('Stripe status');
+        // Column has explicit ->label('Status') in the widget definition
+        $response->assertSee('Status');
         $response->assertSee('active');
     }
 

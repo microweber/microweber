@@ -18,7 +18,7 @@ class ContentApiControllerTest extends TestCase
         $categoryIds = [];
 
         $user = User::where('is_admin','=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
 
         $category = new Category();
@@ -111,7 +111,7 @@ class ContentApiControllerTest extends TestCase
 
     public function it_save_content_from_controller(): void {
         $user = User::where('is_admin','=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
         $title = 'Test add content from api ' . rand();
         $title2 = 'Test update content from api ' . rand();
@@ -190,7 +190,7 @@ class ContentApiControllerTest extends TestCase
 
     public function it_delete_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
         $title = 'Test add content from api ' . rand();
 

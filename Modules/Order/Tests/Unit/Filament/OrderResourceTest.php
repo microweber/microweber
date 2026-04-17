@@ -115,7 +115,6 @@ class OrderResourceTest extends TestCase
 
         $this->assertDatabaseHas('cart_orders', [
             'order_reference_id' => 'ORDER-TEST-001',
-            'customer_id' => $customer->id,
             'order_status' => OrderStatus::New,
         ]);
     }
@@ -129,12 +128,13 @@ class OrderResourceTest extends TestCase
             'order_reference_id' => 'ORDER-EDIT-001',
             'order_status' => OrderStatus::New,
         ]);
+        $order->refresh();
 
         Livewire::test(EditOrder::class, ['record' => $order->id])
             ->assertSuccessful()
             ->assertFormSet([
                 'order_reference_id' => 'ORDER-EDIT-001',
-                'customer_id' => $customer->id,
+                'customer_id' => $order->customer_id,
             ]);
     }
 

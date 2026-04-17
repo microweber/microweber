@@ -193,7 +193,7 @@ trait FilterableByParams
         return $query;
     }
 
-    public static function applyExcludeIdsLogic(Builder $query, string $table, array $params): Builder
+    public static function applyExcludeIdsLogic(Builder|\Illuminate\Database\Query\Builder $query, string $table, array $params): Builder|\Illuminate\Database\Query\Builder
     {
         $excludeIds = [];
         if (isset($params['exclude_ids']) && is_string($params['exclude_ids'])) {
@@ -211,7 +211,7 @@ trait FilterableByParams
         return $query;
     }
 
-    public static function applyIncludeIdsLogic(Builder $query, string $table, array $params): Builder
+    public static function applyIncludeIdsLogic(Builder|\Illuminate\Database\Query\Builder $query, string $table, array $params): Builder|\Illuminate\Database\Query\Builder
     {
         $includeIds = [];
         if (isset($params['ids']) && is_string($params['ids'])) {
