@@ -703,9 +703,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-17  Payments list (/admin/payments): table or empty state
 
 #### 1c. AdminShippingTaxWorkflowTest.php — Shipping & tax deep testing
-- [ ] Shipping providers: create new provider, verify in list, edit, delete
-- [ ] Tax list: create tax, verify in list, edit
-- [ ] Tax rates: create rate with percentage, verify in list
+- [x] 2026-04-17  Shipping providers: create new provider, verify in list, edit, delete
+- [x] 2026-04-17  Tax list: create tax, verify in list, edit
+- [x] 2026-04-17  Tax rates: create rate with percentage, verify in list
 
 #### 1d. AdminInvoiceWorkflowTest.php — Invoice management
 - [ ] Invoice list (/admin/invoices): table loads with columns
