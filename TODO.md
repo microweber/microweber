@@ -798,11 +798,11 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 7: Live Edit & Frontend Module Tests (LOWER priority — requires iframe handling)
 
 #### 7a. AdminLiveEditWorkflowTest.php — Live edit core
-- [ ] Live edit page loads (/admin/live-edit?url=...): iframe renders
-- [ ] Sidebar rail with module icons visible
-- [ ] Design sidebar opens on element click
-- [ ] Add content accordion opens and shows module list
-- [ ] Template settings page (/admin/live-edit-template-settings-page): loads
+- [x] 2026-04-18  Live edit page loads (/admin/live-edit?url=...): iframe renders
+- [x] 2026-04-18  Sidebar rail with module icons visible
+- [x] 2026-04-18  Design sidebar opens on element click
+- [x] 2026-04-18  Add content accordion opens and shows module list
+- [x] 2026-04-18  Template settings page (/admin/live-edit-template-settings-page): loads
 
 #### 7b. AdminModuleSettingsWorkflowTest.php — Module settings pages (batch test)
 - [ ] Batch test all 40+ module settings pages load without 500:
