@@ -730,12 +730,12 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 3: Communication Module Tests (MEDIUM priority)
 
 #### 3a. AdminNewsletterWorkflowTest.php — Newsletter deep testing
-- [ ] Newsletter campaigns list (/admin/newsletter-campaigns): table loads
-- [ ] Campaign create: form fields present (subject, body, list selection)
-- [ ] Newsletter subscribers (/admin/newsletter-subscribers): table loads, search
-- [ ] Newsletter lists (/admin/newsletter-lists): create list, verify
-- [ ] Sender accounts (/admin/newsletter-sender-accounts): list, create form
-- [ ] Newsletter module page (/admin/modules/newsletter): loads
+- [x] 2026-04-18  Newsletter campaigns list (/admin/newsletter-campaigns): table loads
+- [x] 2026-04-18  Campaign create: form fields present (subject, body, list selection)
+- [x] 2026-04-18  Newsletter subscribers (/admin/newsletter-subscribers): table loads, search
+- [x] 2026-04-18  Newsletter lists (/admin/newsletter-lists): create list, verify
+- [x] 2026-04-18  Sender accounts (/admin/newsletter-sender-accounts): list, create form
+- [x] 2026-04-18  Newsletter module page (/admin/modules/newsletter): loads
 
 #### 3b. AdminCommentsWorkflowTest.php — Comments moderation
 - [ ] Comments list (/admin/comments): table or empty state
