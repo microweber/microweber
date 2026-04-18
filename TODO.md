@@ -738,9 +738,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Newsletter module page (/admin/modules/newsletter): loads
 
 #### 3b. AdminCommentsWorkflowTest.php — Comments moderation
-- [ ] Comments list (/admin/comments): table or empty state
-- [ ] Comments moderation: approve/reject actions visible
-- [ ] Comment module settings: form loads
+- [x] 2026-04-18  Comments list (/admin/comments): table or empty state
+- [x] 2026-04-18  Comments moderation: approve/reject actions visible
+- [x] 2026-04-18  Comment module settings: form loads
 
 #### 3c. AdminFormEntriesWorkflowTest.php — Contact form submissions
 - [ ] Form entries list (/admin/form-entries): table or empty state
