@@ -765,9 +765,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Create backup button triggers action (doesn't crash)
 
 #### 5b. AdminMailTemplateWorkflowTest.php — Email templates
-- [ ] Mail templates list (/admin/mail-templates): table loads
-- [ ] Mail template edit: form fields present (subject, body, type)
-- [ ] Template preview or content renders
+- [x] 2026-04-18  Mail templates list (/admin/mail-templates): table loads
+- [x] 2026-04-18  Mail template edit: form fields present (subject, body, type)
+- [x] 2026-04-18  Template preview or content renders
 
 #### 5c. AdminMultilanguageWorkflowTest.php — Translation management
 - [ ] Multilanguage settings (/admin/multilanguage-settings): form loads
