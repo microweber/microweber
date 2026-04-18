@@ -750,11 +750,11 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 4: Billing & Subscription Tests (MEDIUM priority)
 
 #### 4a. AdminBillingWorkflowTest.php — Billing deep testing
-- [ ] Subscriptions list (/admin/subscriptions): table loads
-- [ ] Billing plans (/admin/billing-plans): list, create form
-- [ ] Plan groups (/admin/billing-plan-groups): list, create form
-- [ ] Billing users (/admin/billing-users): table loads, search
-- [ ] Billing settings page (/admin/billing): form loads
+- [x] 2026-04-18  Subscriptions list (/admin/billing/subscriptions): table loads
+- [x] 2026-04-18  Billing plans (/admin/billing/subscription-plans): list, create form
+- [x] 2026-04-18  Plan groups (/admin/billing/subscription-plan-groups): list, create form
+- [x] 2026-04-18  Billing users (/admin/billing/billing-users): table loads, search
+- [x] 2026-04-18  Billing settings page (/admin/billing/settings): form loads
 
 ### Phase 5: System & Configuration Module Tests (MEDIUM priority)
 
