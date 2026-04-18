@@ -770,9 +770,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Template preview or content renders
 
 #### 5c. AdminMultilanguageWorkflowTest.php — Translation management
-- [ ] Multilanguage settings (/admin/multilanguage-settings): form loads
-- [ ] Translations page (/admin/translations): table loads, search
-- [ ] Language settings: add/remove language toggle
+- [x] 2026-04-18  Multilanguage settings (/admin/multilanguage-settings): form loads
+- [x] 2026-04-18  Translations page (/admin/translations): table loads, search
+- [x] 2026-04-18  Language settings: add/remove language toggle
 
 #### 5d. AdminApiApplicationsWorkflowTest.php — OAuth/Passport apps
 - [ ] API applications list (/admin/api-applications): table or empty state
