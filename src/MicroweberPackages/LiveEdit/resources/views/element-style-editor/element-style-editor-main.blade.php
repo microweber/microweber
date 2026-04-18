@@ -160,7 +160,7 @@
     </div>
     <div id="mw-element-style-editor-app-scripts">
 
-        <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"></script>
+        <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}" type="module"></script>
         <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.css') }}">
 
 

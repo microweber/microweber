@@ -53,18 +53,31 @@ mw.require = function(url, inHead, key, defered) {
 
 
 
-      var string = t !== "css" ? "<script "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
+      var isModule = url.includes('/build/') && t !== 'css';
+      var typeAttr = isModule ? " type='module'" : "";
+      var string = t !== "css" ? "<script "+defer+" src='" + url + "'" + typeAttr + "></script>" : "<link "+cssRel+" href='" + url + "' />";
 
           if(typeof $.fn === 'object'){
-              $(document.head).append(string);
+              if (isModule) {
+                  var el = document.createElement('script');
+                  el.src = url;
+                  el.type = 'module';
+                  document.head.appendChild(el);
+              } else {
+                  $(document.head).append(string);
+              }
           }
           else{
               var el;
               if( t !== "css")  {
                   el = document.createElement('script');
                   el.src = url;
-                  el.defer = !!defer;
-                  el.setAttribute('type', 'text/javascript');
+                  if (isModule) {
+                      el.type = 'module';
+                  } else {
+                      el.defer = !!defer;
+                      el.setAttribute('type', 'text/javascript');
+                  }
                   document.head.appendChild(el);
               }
               else{

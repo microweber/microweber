@@ -143,7 +143,7 @@ trait LiveEditTrait
         if ($viteScript) {
 
 
-            $viteScriptSrc = '<script id="mw-live-edit-page-scripts" src="' . $viteScript . '"></script>';
+            $viteScriptSrc = '<script id="mw-live-edit-page-scripts" src="' . $viteScript . '" type="module"></script>';
             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
 
             $viteScriptSrc .= '<link rel="stylesheet" href="' . $viteScriptCss . '">';

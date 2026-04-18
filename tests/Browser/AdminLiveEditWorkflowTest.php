@@ -112,7 +112,57 @@ class AdminLiveEditWorkflowTest extends DuskTestCase
                 $failed['live_edit_loads'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 2: Sidebar rail with module icons ──
+            // ── Check 2: No ES module import errors in console ──
+            try {
+                $browser->visit('/admin/live-edit')->pause(8000);
+                $this->ensureLoggedIn($browser);
+
+                $consoleErrors = $browser->script("
+                    if (!window._mwConsoleErrors) return [];
+                    return window._mwConsoleErrors;
+                ");
+
+                // Inject error listener and reload to catch errors from start
+                $browser->script("
+                    window._mwConsoleErrors = [];
+                    window.addEventListener('error', function(e) {
+                        window._mwConsoleErrors.push(e.message || '');
+                    });
+                ");
+                $browser->visit('/admin/live-edit')->pause(8000);
+
+                $errors = $browser->script("return window._mwConsoleErrors || [];");
+                $errorList = $errors[0] ?? [];
+
+                $hasImportError = false;
+                foreach ($errorList as $err) {
+                    if (str_contains($err, 'Cannot use import statement outside a module')) {
+                        $hasImportError = true;
+                        break;
+                    }
+                }
+
+                $this->assertFalse($hasImportError,
+                    'Live edit should not have "Cannot use import statement outside a module" error');
+
+                // Also verify frontend.js loaded successfully by checking mw object
+                $hasMw = $browser->script("
+                    return typeof window.mw !== 'undefined'
+                        && typeof window.mw.require === 'function';
+                ");
+                // mw object is in the iframe, not top window — check page source instead
+                $pageSource = $browser->driver->getPageSource();
+                $this->assertStringNotContainsString(
+                    'Cannot use import statement outside a module',
+                    $pageSource,
+                    'Page source should not contain import module error'
+                );
+                $checks++;
+            } catch (\Exception $e) {
+                $failed['no_import_errors'] = substr($e->getMessage(), 0, 200);
+            }
+
+            // ── Check 3: Sidebar rail with module icons (renumbered) ──
             try {
                 $browser->visit('/admin/live-edit')->pause(8000);
                 $this->ensureLoggedIn($browser);
@@ -144,7 +194,7 @@ class AdminLiveEditWorkflowTest extends DuskTestCase
                 $failed['sidebar_rail'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 3: Add content / module list area ──
+            // ── Check 4: Add content / module list area ──
             try {
                 $browser->visit('/admin/live-edit')->pause(8000);
                 $this->ensureLoggedIn($browser);
@@ -171,7 +221,7 @@ class AdminLiveEditWorkflowTest extends DuskTestCase
                 $failed['add_content'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 4: Design sidebar (element click) ──
+            // ── Check 5: Design sidebar (element click) ──
             try {
                 $browser->visit('/admin/live-edit')->pause(8000);
                 $this->ensureLoggedIn($browser);
@@ -187,7 +237,7 @@ class AdminLiveEditWorkflowTest extends DuskTestCase
                 $failed['design_sidebar'] = substr($e->getMessage(), 0, 200);
             }
 
-            // ── Check 5: Template settings page loads ──
+            // ── Check 6: Template settings page loads ──
             try {
                 $browser->visit('/admin/live-edit-template-settings-page')->pause(5000);
                 $this->ensureLoggedIn($browser);
@@ -227,7 +277,7 @@ class AdminLiveEditWorkflowTest extends DuskTestCase
                 $this->fail($report);
             }
 
-            $this->assertTrue($checks >= 5, "All 5 live edit checks passed (got {$checks})");
+            $this->assertTrue($checks >= 6, "All 6 live edit checks passed (got {$checks})");
         });
     }
 }

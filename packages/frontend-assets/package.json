@@ -9,7 +9,7 @@
     },
     "private": true,
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && vite build --mode frontend",
         "dev": "vite build --watch"
     },
     "devDependencies": {
