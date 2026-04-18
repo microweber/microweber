@@ -835,3 +835,33 @@ Manager classes duplicate repository/model logic. For each:
 - **Pre-existing 500s:** Some pages may return 500 due to missing dependencies — use `markTestSkipped()` or graceful failure counting
 
 - [x] 2026-04-18  live edit does not work http://127.0.0.1:8000/admin/live-edit?url=http%3A%2F%2F127.0.0.1%3A8000%2F   also make dusk test Uncaught SyntaxError: Cannot use import statement outside a moduleUnderstand this error admin.default.manifest4.0-dev17.json:1 Manifest: property 'start_url' ignored, should be same origin as document.Understand this warning admin.default.manifest4.0-dev17.json:1 Manifest: property 'scope' ignored. Start url should be within scope of scope URL.Understand this warning live-edit?url=http%3?7.0.0.1%3A8000%2F:1 Uncaught SyntaxError: Failed to execute 'appendChild' on 'Node': Cannot use import statement outside a module     at DOMEval (jquery.js:130:12)     at jQuery.globalEval (jquery.js:374:3)     at Object.dataFilter (jquery.js:9715:11)     at ajaxConvert (jquery.js:9044:17)     at done (jquery.js:9577:15)     at XMLHttpRequest. (jquery.js:9888:9)     at Object.send (jquery.js:9940:10)     at ajax (jquery.js:9521:15)     at jQuery.ajax (notification-MnowfaUF.js:1:12485)
+
+- [x] 2026-04-18  live edit is broken — fixed CSS loading (extracted live-edit-app.css), type="module" on all ES module scripts, timing guards for deferred module registration (state, liveEdit, liveEditHelpers), ControlBox import in bootstrap.js
+
+- [x] 2026-04-18  no lvie edit is sill not workimg — resolved by same fix as above (0 console errors, toolbar + iframe render correctly)
+
+- [x] 2026-04-18  isitll see some js errors in live edit, fix all lvie edit erros an the secriy stiff, loosesn the strict seciry moded hot the js http, etc fix the live edit namd make disk tesnt and run until fixed [attachment: .autodev/messages/attachments/20260418_183146_e93dea5f/paste-1776526303034.png]
+
+- [x] 2026-04-18  We must not hard code the urls
+
+- [x] 2026-04-18  tjere is still eror when you slcik on on the drowpdon [attachment: .autodev/messages/attachments/20260418_192533_2d39aed3/paste-1776529529561.png]
+
+- [x] 2026-04-18  make dusk test for the drodownand and all live edit button and fix
+
+- [x] 2026-04-18  the add laout modal is broken [attachment: .autodev/messages/attachments/20260418_195032_f20d558a/paste-1776531028621.png]
+
+- [x] 2026-04-18  tjere are some js erros whole clicnk on elemnt  pls fxix [attachment: .autodev/messages/attachments/20260418_200123_cbf19eef/paste-1776531678255.png]
+
+- [x] 2026-04-18  in the inser layout modal if the conte oesnt have scrreshot try oto redneeeeeeee ir dynamically by iframe modal as see how we rented the templared in design mode
+
+- [x] the lement style edtir dores not dettect the active eleemtn im selelnt an leennt but i days select to edit laos make on dusk test and fix [attachment: .autodev/messages/attachments/20260418_200838_f9935c69/paste-1776532114219.png]
+
+- [x] 2026-04-18  the icon colors are not ok [attachment: .autodev/messages/attachments/20260418_202626_c36a5ef3/paste-1776533183721.png]
+
+- [x] 2026-04-18  useuse lognasadmin in the disk tests [attachment: .autodev/messages/attachments/20260418_215325_93488371/paste-1776538395698.png]
+
+- [x] the add page  carda are not ko in ark mode live edit [attachment: .autodev/messages/attachments/20260418_220140_6fcd5029/paste-1776538897192.png]
+
+- [x] 2026-04-18  make dusk tests for each module in live edit and fix all error found
+
+- [ ] Check what dusk tests we are missing and make them

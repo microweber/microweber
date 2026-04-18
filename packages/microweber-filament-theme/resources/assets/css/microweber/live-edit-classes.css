@@ -175,6 +175,17 @@ body {
     border-inline-start-color: #374151;
 }
 
+.dark .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
+    background-color: rgb(71 85 105) !important;
+    border: 1px solid rgb(100 116 139) !important;
+    border-radius: 8px !important;
+}
+
+.dark .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons:hover {
+    background-color: rgb(100 116 139) !important;
+    border-color: rgb(148 163 184) !important;
+}
+
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons svg,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
