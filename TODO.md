@@ -759,10 +759,10 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 5: System & Configuration Module Tests (MEDIUM priority)
 
 #### 5a. AdminBackupWorkflowTest.php — Backup management
-- [ ] Backup page (/admin/backup or /admin/backups): loads with actions
-- [ ] Backup histories (/admin/backup-histories): table loads
-- [ ] Backup schedules (/admin/backup-schedules): list, create form
-- [ ] Create backup button triggers action (doesn't crash)
+- [x] 2026-04-18  Backup page (/admin/backups): loads with actions
+- [x] 2026-04-18  Backup histories (/admin/backup-histories): table loads
+- [x] 2026-04-18  Backup schedules (/admin/backup-schedules): list, create form
+- [x] 2026-04-18  Create backup button triggers action (doesn't crash)
 
 #### 5b. AdminMailTemplateWorkflowTest.php — Email templates
 - [ ] Mail templates list (/admin/mail-templates): table loads
