@@ -782,18 +782,18 @@ Manager classes duplicate repository/model logic. For each:
 ### Phase 6: Content Support Module Tests (LOWER priority)
 
 #### 6a. AdminCurrencyWorkflowTest.php — Currency & exchange rates
-- [ ] Currencies page: list loads (via shop settings or dedicated route)
-- [ ] Exchange rates: table loads
+- [x] 2026-04-18  Currencies page: N/A — CurrencyResource/ExchangeRateResource not registered with admin panel (no routes)
+- [x] 2026-04-18  Exchange rates: N/A — see above
 
 #### 6b. AdminCustomerWorkflowTest.php — Customer management deep testing
-- [ ] Customer list (/admin/customers): table loads, search
-- [ ] Customer detail view: shows order history, profile info
-- [ ] Customer create form (if available)
+- [x] 2026-04-18  Customer list (/admin/customers): table loads, search
+- [x] 2026-04-18  Customer detail view: shows order history, profile info
+- [x] 2026-04-18  Customer create form (if available)
 
 #### 6c. AdminTagWorkflowTest.php — Tag management deep testing
-- [ ] Tags list (/admin/tags): table loads, search
-- [ ] Tag groups (/admin/tag-groups): list, create
-- [ ] Tagged resources (/admin/taggeds): list loads
+- [x] 2026-04-18  Tags list (/admin/tags): table loads, search
+- [x] 2026-04-18  Tag groups (/admin/tag-groups): list, create
+- [x] 2026-04-18  Tagged resources (/admin/taggeds): list loads
 
 ### Phase 7: Live Edit & Frontend Module Tests (LOWER priority — requires iframe handling)
 
