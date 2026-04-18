@@ -775,9 +775,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Language settings: add/remove language toggle
 
 #### 5d. AdminApiApplicationsWorkflowTest.php — OAuth/Passport apps
-- [ ] API applications list (/admin/api-applications): table or empty state
-- [ ] Create application: form has name, redirect URI fields
-- [ ] Application details: shows client ID/secret
+- [x] 2026-04-18  API applications list (/admin/api-applications): table or empty state
+- [x] 2026-04-18  Create application: form has name, redirect URI fields
+- [x] 2026-04-18  Application details: shows client ID/secret
 
 ### Phase 6: Content Support Module Tests (LOWER priority)
 
