@@ -805,31 +805,24 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Template settings page (/admin/live-edit-template-settings-page): loads
 
 #### 7b. AdminModuleSettingsWorkflowTest.php — Module settings pages (batch test)
-- [ ] Batch test all 40+ module settings pages load without 500:
-  accordion, audio, background, before-after, blog, breadcrumb, btn, captcha, cart-add,
-  category, code-editor, comments, contact-form, content, cookie-notice, custom-fields,
-  embed, facebook-like, facebook-page, faq, google-maps, highlight-code, image-rollover,
-  layout-content, layouts, logo, marquee, menu, multilanguage, newsletter, page,
-  pagination, pdf, pictures, post, product, rating, search, sharer, shop, skills,
-  slider, social-links, spacer, tabs, tags, teamcard, testimonials, text-type,
-  tweet-embed, video, white-label
-- [ ] Verify each settings page has form inputs (not just a blank page)
+- [x] 2026-04-18  Batch test all 48 module settings pages load without 500 (2 batches, all pass)
+- [x] 2026-04-18  Verify each settings page has form inputs (not just a blank page)
 
 ### Phase 8: Marketplace & System Module Tests (LOWEST priority)
 
 #### 8a. AdminMarketplaceWorkflowTest.php — Marketplace
-- [ ] Marketplace page (/admin/marketplace): loads, shows modules/templates
-- [ ] Module search in marketplace
-- [ ] License modal functionality
+- [x] 2026-04-18  Marketplace page (/admin/marketplace): loads, shows modules/templates
+- [x] 2026-04-18  Module search in marketplace
+- [x] 2026-04-18  License modal functionality
 
 #### 8b. AdminUpdaterWorkflowTest.php — System updater
-- [ ] Updater page (/admin/updater): loads without 500
-- [ ] Shows current version info
-- [ ] Update check button (doesn't crash)
+- [x] 2026-04-18  Updater page (/admin/updater): loads without 500
+- [x] 2026-04-18  Shows current version info
+- [x] 2026-04-18  Update check button (doesn't crash)
 
 #### 8c. AdminProfileWorkflowTest.php — User profile
-- [ ] Profile edit page: form loads with current user data
-- [ ] Profile save: change name, verify persistence
+- [x] 2026-04-18  Profile edit page: form loads with current user data
+- [x] 2026-04-18  Profile save: change name, verify persistence
 
 ### Implementation Notes
 
