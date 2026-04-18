@@ -322,6 +322,9 @@ export class LiveEdit {
             }
 
             elementHandle.resizerEnabled(resizerEnabled);
+
+            // Notify the Element Style Editor about the selected element
+            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
         });
 
         this.moduleHandle = new Handle({
@@ -399,6 +402,9 @@ export class LiveEdit {
             scope.handles.get("interactionHandle").hide();
             mw.top().app.richTextEditor?.smallEditor.hide();
             mw.app.liveEdit.play();
+
+            // Notify the Element Style Editor about the selected module
+            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
 
             //mw.app.domTreeSelect(node)
         });

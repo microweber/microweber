@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
+use Tests\Browser\Traits\AdminLoginTrait;
 
 /**
  * Admin Profile Workflow Tests
@@ -20,53 +21,11 @@ use Tests\DuskTestCase;
  */
 class AdminProfileWorkflowTest extends DuskTestCase
 {
+    use AdminLoginTrait;
+
     protected function assertPreConditions(): void
     {
         // Skip parent — we rely on the already-running server's database
-    }
-
-    protected function loginAsAdmin(Browser $browser): void
-    {
-        $browser->visit('/admin/login')->pause(2000);
-
-        $currentUrl = $browser->driver->getCurrentURL();
-        if (!str_contains($currentUrl, '/login')) {
-            return;
-        }
-
-        for ($attempt = 1; $attempt <= 3; $attempt++) {
-            $browser->waitFor('input[type="email"]', 10)
-                ->clear('input[type="email"]')
-                ->type('input[type="email"]', 'admin@admin.com')
-                ->clear('input[type="password"]')
-                ->type('input[type="password"]', 'password123')
-                ->click('button[type="submit"]')
-                ->pause(5000);
-
-            $url = $browser->driver->getCurrentURL();
-            if (!str_contains($url, '/login')) {
-                return;
-            }
-
-            $rateLimited = $browser->script("return document.body.innerText.includes('Too many');");
-            if ($rateLimited[0] ?? false) {
-                $browser->pause(5000);
-                continue;
-            }
-
-            break;
-        }
-
-        $url = $browser->driver->getCurrentURL();
-        $this->assertStringNotContainsString('/login', $url, 'Login failed — still on login page');
-    }
-
-    protected function ensureLoggedIn(Browser $browser): void
-    {
-        $currentUrl = $browser->driver->getCurrentURL();
-        if (str_contains($currentUrl, '/login') || !str_contains($currentUrl, '/admin')) {
-            $this->loginAsAdmin($browser);
-        }
     }
 
     #[Test]

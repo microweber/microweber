@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
+use Tests\Browser\Traits\AdminLoginTrait;
 
 /**
  * Admin Settings Tests
@@ -19,22 +20,11 @@ use Tests\DuskTestCase;
  */
 class AdminSettingsTest extends DuskTestCase
 {
+    use AdminLoginTrait;
+
     protected function assertPreConditions(): void
     {
         // Skip parent — we rely on the already-running server's database
-    }
-
-    protected function loginAsAdmin(Browser $browser): void
-    {
-        $browser->visit('/admin/login')
-            ->waitFor('input[type="email"]', 10)
-            ->type('input[type="email"]', 'admin@admin.com')
-            ->type('input[type="password"]', 'password123')
-            ->click('button[type="submit"]')
-            ->pause(5000);
-
-        $url = $browser->driver->getCurrentURL();
-        $this->assertStringNotContainsString('/login', $url, 'Login failed — still on login page');
     }
 
     #[Test]

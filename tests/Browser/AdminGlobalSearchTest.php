@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
+use Tests\Browser\Traits\AdminLoginTrait;
 
 /**
  * Admin Global Search Tests
@@ -23,6 +24,8 @@ use Tests\DuskTestCase;
  */
 class AdminGlobalSearchTest extends DuskTestCase
 {
+    use AdminLoginTrait;
+
     protected function assertPreConditions(): void
     {
         // Skip parent — we rely on the already-running server's database
@@ -37,17 +40,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Check 1: Login and navigate to admin ──
             try {
-                $browser->visit('/admin/login')
-                    ->waitFor('input[type="email"]', 10)
-                    ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
-                    ->click('button[type="submit"]')
-                    ->pause(5000);
-
-                $currentUrl = $browser->driver->getCurrentURL();
-                $this->assertStringNotContainsString('/login', $currentUrl,
-                    'Should be logged in');
-
+                $this->loginAsAdmin($browser);
                 $checks++;
             } catch (\Exception $e) {
                 $failed['login'] = $e->getMessage();
@@ -138,13 +131,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Check 1: Login ──
             try {
-                $browser->visit('/admin/login')
-                    ->waitFor('input[type="email"]', 10)
-                    ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
-                    ->click('button[type="submit"]')
-                    ->pause(5000);
-
+                $this->loginAsAdmin($browser);
                 $checks++;
             } catch (\Exception $e) {
                 $failed['login'] = $e->getMessage();
@@ -237,13 +224,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Check 1: Login ──
             try {
-                $browser->visit('/admin/login')
-                    ->waitFor('input[type="email"]', 10)
-                    ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
-                    ->click('button[type="submit"]')
-                    ->pause(5000);
-
+                $this->loginAsAdmin($browser);
                 $checks++;
             } catch (\Exception $e) {
                 $failed['login'] = $e->getMessage();
@@ -312,13 +293,7 @@ class AdminGlobalSearchTest extends DuskTestCase
 
             // ── Check 1: Login ──
             try {
-                $browser->visit('/admin/login')
-                    ->waitFor('input[type="email"]', 10)
-                    ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
-                    ->click('button[type="submit"]')
-                    ->pause(5000);
-
+                $this->loginAsAdmin($browser);
                 $checks++;
             } catch (\Exception $e) {
                 $failed['login'] = $e->getMessage();
