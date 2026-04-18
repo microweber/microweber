@@ -61,13 +61,12 @@ class LiveEditDOMTree extends MicroweberBaseClass {
                     return true;
                 }
 
-                var isInaccessible = mw
-                    .top()
-                    .app.liveEdit.liveEditHelpers.targetIsInacesibleModule(
-                        node
-                    );
-                if (isInaccessible) {
-                    return false;
+                var liveEdit = mw.top().app.liveEdit;
+                if (liveEdit && liveEdit.liveEditHelpers) {
+                    var isInaccessible = liveEdit.liveEditHelpers.targetIsInacesibleModule(node);
+                    if (isInaccessible) {
+                        return false;
+                    }
                 }
 
                 return true;
@@ -93,19 +92,32 @@ class LiveEditDOMTree extends MicroweberBaseClass {
             },
         });
 
-        mw.app.state.on("change", (data) => {
-            if (data.active && data.active.target) {
-                if (data.active.target === "$multistate") {
-                    data.active.value.forEach((obj) => {
-                        this.tree.refresh(obj.target);
-                        this.tree.select(obj.target);
-                    });
-                } else if (data.active.target.nodeName) {
-                    this.tree.refresh(data.active.target);
-                    this.tree.select(data.active.target);
+        const bindStateChange = () => {
+            mw.app.state.on("change", (data) => {
+                if (data.active && data.active.target) {
+                    if (data.active.target === "$multistate") {
+                        data.active.value.forEach((obj) => {
+                            this.tree.refresh(obj.target);
+                            this.tree.select(obj.target);
+                        });
+                    } else if (data.active.target.nodeName) {
+                        this.tree.refresh(data.active.target);
+                        this.tree.select(data.active.target);
+                    }
                 }
-            }
-        });
+            });
+        };
+
+        if (mw.app.state) {
+            bindStateChange();
+        } else {
+            // state module registers later when the iframe content loads
+            mw.app.on("register", () => {
+                if (mw.app.state) {
+                    bindStateChange();
+                }
+            });
+        }
 
         let _activeSortStartData = null,
             _activeSortStartStateData = null;
@@ -184,16 +196,29 @@ class LiveEditDOMTree extends MicroweberBaseClass {
             shouldScroll = true;
         };
 
-        mw.top()
-            .app.liveEdit.handles.get("module")
-            .on("targetChange", (target) => {
-                liveEditHandleTargetChange(target);
+        const bindLiveEditHandles = () => {
+            if (!mw.top().app.liveEdit || !mw.top().app.liveEdit.handles) return;
+            mw.top()
+                .app.liveEdit.handles.get("module")
+                .on("targetChange", (target) => {
+                    liveEditHandleTargetChange(target);
+                });
+            mw.top()
+                .app.liveEdit.handles.get("element")
+                .on("targetChange", (target) => {
+                    liveEditHandleTargetChange(target);
+                });
+        };
+
+        if (mw.top().app.liveEdit) {
+            bindLiveEditHandles();
+        } else {
+            mw.top().app.on("register", () => {
+                if (mw.top().app.liveEdit) {
+                    bindLiveEditHandles();
+                }
             });
-        mw.top()
-            .app.liveEdit.handles.get("element")
-            .on("targetChange", (target) => {
-                liveEditHandleTargetChange(target);
-            });
+        }
     }
     init() {
         this.buildBox();

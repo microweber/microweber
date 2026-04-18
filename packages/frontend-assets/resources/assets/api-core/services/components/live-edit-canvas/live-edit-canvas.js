@@ -272,7 +272,6 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         target.innerHTML = "";
         target.appendChild(liveEditIframe);
 
-        window.addEventListener("unload", () => this.#unregisterCurrentURL());
         window.addEventListener("pagehide", () => this.#unregisterCurrentURL());
         window.onbeforeunload = () => {
             if (

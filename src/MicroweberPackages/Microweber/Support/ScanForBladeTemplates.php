@@ -312,19 +312,19 @@ class ScanForBladeTemplates
                 $screenshotPublic = asset($path);
                 $screen2 = public_path($path);
 
-                $to_return_temp['screenshot_public_url'] = $screenshotPublic;
                 $to_return_temp['screenshot_path_lookup'] = $screen2;
                 $to_return_temp['screenshot_path_lookup_public'] = $screen2;
                 $to_return_temp['screenshot_path_for_update_screenshot'] = $img_path_for_update_screenshot;
 
+                // Only set screenshot_public_url if the file actually exists on disk
+                if (is_file($screen2)) {
+                    $to_return_temp['screenshot_public_url'] = $screenshotPublic;
+                    $to_return_temp['screenshot_file'] = $screen2;
+                }
 
                 if (is_file($skin_settings_json)) {
 
                     $to_return_temp['skin_settings_json_file'] = $skin_settings_json;
-                }
-
-                if (is_file($screen2)) {
-                    $to_return_temp['screenshot_file'] = $screen2;
                 }
 
                 /*  elseif (is_file($screen_jpg2)) {

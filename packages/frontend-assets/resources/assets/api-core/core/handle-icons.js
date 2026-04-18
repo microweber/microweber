@@ -153,6 +153,7 @@ export const HandleIcons = function () {
     ];
 
     this.icon = function (iconName, props) {
+        if (!iconName) return '';
         iconName = iconName.trim();
         var iconObject = this.icons.find(icon => icon.name === iconName);
         if(props && iconObject) {

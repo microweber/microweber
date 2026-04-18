@@ -32,10 +32,10 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 
         $save_file = $this->getManifestFilenameToSave();
 
-        if (!is_file($save_file)) {
+        // Regenerate if missing or if the cached manifest has stale URLs
+        if (!is_file($save_file) || $this->manifestHasStaleUrls($save_file)) {
             $this->webAppManifestGenerateCacheFile();
         }
-
 
         if (!is_file($save_file)) {
             return '';
@@ -133,10 +133,37 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
             mkdir_recursive(dirname($save_file));
         }
 
-        if (!is_file($save_file)) {
-            file_put_contents($save_file, $manifestJson);
+        file_put_contents($save_file, $manifestJson);
+
+    }
+
+    /**
+     * Check if the cached manifest has URLs that don't match the current site URL.
+     */
+    private function manifestHasStaleUrls(string $filePath): bool
+    {
+        $content = @file_get_contents($filePath);
+        if (!$content) {
+            return true;
         }
 
+        $manifest = @json_decode($content, true);
+        if (!$manifest) {
+            return true;
+        }
+
+        $currentAdminUrl = admin_url();
+        $currentSiteUrl = site_url();
+
+        if (isset($manifest['start_url']) && $manifest['start_url'] !== $currentAdminUrl) {
+            return true;
+        }
+
+        if (isset($manifest['scope']) && $manifest['scope'] !== $currentSiteUrl) {
+            return true;
+        }
+
+        return false;
     }
 
     private function getManifestFilenameToSave(): string

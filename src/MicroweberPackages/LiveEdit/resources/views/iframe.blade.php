@@ -37,6 +37,7 @@
         $bodyDarkClass = 'theme-dark';
     }
     ?>
+    <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}">
     <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}" type="module"></script>
 
     <?php event_trigger('mw.live_edit.header'); ?>

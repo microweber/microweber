@@ -136,6 +136,7 @@
 
         </script>
 
+        <link rel="stylesheet" href="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.css') }}">
         <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}" type="module"></script>
 
         <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>

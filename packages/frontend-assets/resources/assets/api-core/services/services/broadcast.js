@@ -61,22 +61,14 @@ export class MWBroadcast extends BaseComponent {
                 this.dispatch('remote-' + e.data.action, e.data);
             }
         };
-        globalThis.addEventListener('unload', e => {
-
-
-
+        const cleanupBroadcastData = () => {
              let curr = mw.storage.get('mw-broadcast-data');
-             delete curr[this.getIdentity()];
-             mw.storage.set('mw-broadcast-data', curr);
-
-        });
-        globalThis.addEventListener('beforeunload', e => {
-
-
-             let curr = mw.storage.get('mw-broadcast-data');
-             delete curr[this.getIdentity()];
-             mw.storage.set('mw-broadcast-data', curr);
-
-        });
+             if (curr) {
+                 delete curr[this.getIdentity()];
+                 mw.storage.set('mw-broadcast-data', curr);
+             }
+        };
+        globalThis.addEventListener('pagehide', cleanupBroadcastData);
+        globalThis.addEventListener('beforeunload', cleanupBroadcastData);
     }
 }

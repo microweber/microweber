@@ -1,5 +1,9 @@
 import './index.js'
 
+// Core globals needed by ControlBox and other components (mw.random, mw.id, etc.)
+// These are normally set up by admin.js, but live-edit-app.js may load before admin.js
+import "../../core/@core.js";
+
 import {MWUniversalContainer} from "./containers/container.js";
 
 
@@ -26,6 +30,11 @@ import {MWBroadcast} from './services/broadcast.js';
 import {MWDocumentFocus} from './services/document.focus.service.js';
 import {MWPageAlreadyOpened} from './components/live-edit/page-already-opened.service.js';
 import { HandleIcons } from '../core/handle-icons.js';
+import {ControlBox} from "../../components/control_box.js";
+
+if (!mw.controlBox) {
+    mw.controlBox = ControlBox;
+}
 
 if (!mw.app) {
     mw.app = new MWUniversalContainer();
