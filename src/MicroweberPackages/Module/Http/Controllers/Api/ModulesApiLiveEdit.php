@@ -541,6 +541,14 @@ class ModulesApiLiveEdit extends Controller
 
                         }
                         //  }
+                        // Build a preview URL for layouts without screenshots
+                        $layoutPreviewUrl = '';
+                        if (empty($dynamic_layout['screenshot'])) {
+                            $templateName = $active_site_template ?: template_name();
+                            $layoutFile = $dynamic_layout['layout_file'];
+                            $layoutPreviewUrl = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layoutFile . '&preview_template=' . $templateName;
+                        }
+
                         $moduleListJson['layouts'][] = [
                             // 'group' => 'layouts',
                             'template' => $dynamic_layout['layout_file'],
@@ -549,6 +557,7 @@ class ModulesApiLiveEdit extends Controller
                             'icon' => $dynamic_layout['icon'],
                             'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
                             'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
+                            'preview_url' => $layoutPreviewUrl,
                             'found_modules' => $dynamic_layout['found_modules'] ?? false,
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),

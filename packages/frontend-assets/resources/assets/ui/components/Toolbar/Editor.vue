@@ -213,6 +213,10 @@ export default {
 
             mw.app.editor.on('editNodeRequest', async (element) => {
 
+                if (!element) {
+                    return;
+                }
+
                 if (mw.app.isPreview()) {
                     console.log('Cannot edit in preview mode');
                     return;

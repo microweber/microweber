@@ -123,7 +123,21 @@
                                         v-on:click="insertLayout(item)">
 
                                         <div class="layout-image-container">
-                                            <img :alt="item.title" :src="item.screenshot"/>
+                                            <img v-if="item.screenshot" :alt="item.title" :src="item.screenshot"/>
+                                            <div v-else-if="item.preview_url" class="layout-iframe-preview">
+                                                <iframe
+                                                    :src="item.preview_url"
+                                                    :title="item.title"
+                                                    class="layout-preview-iframe"
+                                                    loading="lazy"
+                                                    scrolling="no"
+                                                    frameborder="0"
+                                                    sandbox="allow-same-origin allow-scripts"
+                                                ></iframe>
+                                            </div>
+                                            <div v-else class="layout-no-preview">
+                                                <span>{{ item.title }}</span>
+                                            </div>
 
                                             <!-- Module icons overlay for masonry view -->
                                             <div
@@ -169,6 +183,7 @@
                                     v-on:click="insertLayout(item)">
 
                                     <div
+                                        v-if="item.screenshot"
                                         :style="'background-image: url('+item.screenshot+');background-size: cover;background-position: center center;'"
                                         class="modules-list-block-item-picture">
 
@@ -193,6 +208,24 @@
                                             </span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div
+                                        v-else-if="item.preview_url"
+                                        class="modules-list-block-item-picture layout-iframe-preview">
+                                        <iframe
+                                            :src="item.preview_url"
+                                            :title="item.title"
+                                            class="layout-preview-iframe"
+                                            loading="lazy"
+                                            scrolling="no"
+                                            frameborder="0"
+                                            sandbox="allow-same-origin allow-scripts"
+                                        ></iframe>
+                                    </div>
+                                    <div
+                                        v-else
+                                        class="modules-list-block-item-picture layout-no-preview">
+                                        <span>{{ item.title }}</span>
                                     </div>
 
                                     <div class="modules-list-block-item-title">{{ item.title }}</div>
@@ -250,6 +283,77 @@
     border: 0;
     transform: scale(.37);
     transform-origin: 0 0;
+}
+
+/* Live iframe preview for layouts without screenshots */
+.layout-iframe-preview {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.modules-list-block-item-picture.layout-iframe-preview {
+    height: 100%;
+}
+
+.layout-preview-iframe {
+    width: 1200px;
+    height: 900px;
+    border: 0;
+    transform: scale(0.25);
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+.modules-list-block-item-masonry .layout-iframe-preview {
+    height: 225px;
+}
+
+.modules-list-block-item-masonry .layout-preview-iframe {
+    width: 1200px;
+    height: 900px;
+    transform: scale(0.25);
+}
+
+.modules-list-block-style-list .layout-iframe-preview {
+    height: 100%;
+}
+
+.modules-list-block-style-list .layout-preview-iframe {
+    width: 1400px;
+    height: 1000px;
+    transform: scale(0.2);
+}
+
+.modules-list-block-style-full .layout-iframe-preview {
+    height: 300px;
+}
+
+.modules-list-block-style-full .layout-preview-iframe {
+    width: 1400px;
+    height: 1200px;
+    transform: scale(0.25);
+}
+
+/* Fallback for layouts with no screenshot and no preview */
+.layout-no-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px;
+    min-height: 120px;
+    border-radius: 4px;
+}
+
+.modules-list-block-item-picture.layout-no-preview {
+    height: 100%;
 }
 
 /* Layout image container positioning */

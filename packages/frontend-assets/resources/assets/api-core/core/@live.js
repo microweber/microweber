@@ -574,7 +574,7 @@ export class LiveEdit {
     }
 
     selectNode(target, event) {
-        if (target.nodeName === "BODY") {
+        if (!target || target.nodeName === "BODY") {
             return;
         }
         const element = target && target?.closest(".element");
