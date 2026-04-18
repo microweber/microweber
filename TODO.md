@@ -743,9 +743,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Comment module settings: form loads
 
 #### 3c. AdminFormEntriesWorkflowTest.php — Contact form submissions
-- [ ] Form entries list (/admin/form-entries): table or empty state
-- [ ] Form entry detail view: loads without 500
-- [ ] Form entry search/filter
+- [x] 2026-04-18  Form entries list (/admin/form-entries): table or empty state
+- [x] 2026-04-18  Form entry detail view: loads without 500
+- [x] 2026-04-18  Form entry search/filter
 
 ### Phase 4: Billing & Subscription Tests (MEDIUM priority)
 
