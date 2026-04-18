@@ -864,4 +864,4 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] 2026-04-18  make dusk tests for each module in live edit and fix all error found
 
-- [ ] Check what dusk tests we are missing and make them
+- [x] 2026-04-18  Check what dusk tests we are missing and make them
