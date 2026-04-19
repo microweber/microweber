@@ -747,7 +747,7 @@ class FrontendController extends Controller
                                     $render_file_for_module = $td_base . $file_for_module;
                                     if (is_file($render_file_for_module)) {
                                         $file_for_module = 'module.php';
-                                    } else if (is_file($render_file_for_module)) {
+                                    } else if (is_file($td_base . 'clean.php')) {
                                         $file_for_module = 'clean.php';
                                     }
 

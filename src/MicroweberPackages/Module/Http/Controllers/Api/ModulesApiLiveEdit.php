@@ -542,11 +542,13 @@ class ModulesApiLiveEdit extends Controller
                         }
                         //  }
                         // Build a preview URL for layouts without screenshots
+                        // Uses a dedicated endpoint to render just the layout module
+                        // with the specific skin template in a minimal standalone page
                         $layoutPreviewUrl = '';
                         if (empty($dynamic_layout['screenshot'])) {
-                            $templateName = $active_site_template ?: template_name();
                             $layoutFile = $dynamic_layout['layout_file'];
-                            $layoutPreviewUrl = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layoutFile . '&preview_template=' . $templateName;
+                            $encodedTemplate = module_name_encode($layoutFile);
+                            $layoutPreviewUrl = route('api.module.layout-preview') . '?template=' . $encodedTemplate;
                         }
 
                         $moduleListJson['layouts'][] = [
@@ -712,5 +714,57 @@ class ModulesApiLiveEdit extends Controller
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')');
         return strtr(rawurlencode($str), $revert);
+    }
+
+    /**
+     * Render a layout module skin as a standalone preview page.
+     * Used for layout thumbnails when no screenshot image exists.
+     */
+    public function layoutPreview(Request $request)
+    {
+        $template = $request->get('template');
+        if (!$template) {
+            return response('Missing template parameter', 400);
+        }
+
+        // Decode module name (e.g., ecommerce__skin-1 → ecommerce/skin-1)
+        $template = module_name_decode($template);
+
+        // Security: only allow layout module templates
+        if (!is_module('layouts')) {
+            return response('Layouts module not found', 404);
+        }
+
+        $previewId = 'layout-preview-' . md5($template);
+
+        // Render the layout module with the specified skin template
+        $moduleHtml = load_module('layouts', [
+            'template' => $template,
+            'id' => $previewId,
+        ]);
+
+        // Get template CSS for proper styling
+        $the_active_site_template = app()->option_manager->get('current_template', 'template');
+        $templateUrl = templates_url() . $the_active_site_template . '/';
+
+        // Build a minimal standalone HTML page with the module rendered
+        $html = '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="' . site_url('vendor/microweber-packages/frontend-assets/build/default.css') . '">
+    <link rel="stylesheet" href="' . $templateUrl . 'dist/build/app.css' . '">
+    <style>
+        body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
+        .layout-preview-wrapper { pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div class="layout-preview-wrapper">' . $moduleHtml . '</div>
+</body>
+</html>';
+
+        return response($html)->header('Content-Type', 'text/html');
     }
 }

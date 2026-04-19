@@ -867,3 +867,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  Check what dusk tests we are missing and make them
 
 - [x] the add layoit modal does not have any background, it must not be transparent [attachment: .autodev/messages/attachments/20260419_110602_e8bd0674/paste-1776585933407.png]
+
+- [x] 2026-04-19  the preview laoyt while doesn ot have scrreshot doesn ot work  http://127.0.0.1:8000/new-content-preview-69e4965cc392a?content_id=0&no_editmode=true&preview_layout=ecommerce/skin-1&preview_template=Bootstrap    we msut have the laoyts modle so make it like   see the url for the module layts screeshots test to get the url for the module skin render

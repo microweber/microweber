@@ -11,6 +11,7 @@ Route::name('api.module.')
 
             Route::get('list', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@index')->name('list');  //api.module.list
             Route::get('getSkins', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@getSkins')->name('getSkins'); //api.module.getSkins
+            Route::get('layout-preview', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@layoutPreview')->name('layout-preview'); //api.module.layout-preview
 
     // if (config('modules.restore.allow_php_files_upload')) {
 //            Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
