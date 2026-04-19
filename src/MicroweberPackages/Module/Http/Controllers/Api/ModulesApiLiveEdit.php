@@ -774,6 +774,9 @@ class ModulesApiLiveEdit extends Controller
     <style>
         body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
         .layout-preview-wrapper { pointer-events: none; }
+        .layout-preview-wrapper .navigation-holder { display: none; }
+        .layout-preview-wrapper .navigation-holder,
+        .layout-preview-wrapper .footer-holder { display: none; }
     </style>
 </head>
 <body>
@@ -781,7 +784,7 @@ class ModulesApiLiveEdit extends Controller
         <div class="main">
             <div class="navigation-holder">' . $headerHtml . '</div>
             ' . $moduleHtml . '
-            ' . $footerHtml . '
+            <div class="footer-holder">' . $footerHtml . '</div>
         </div>
     </div>
     <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
