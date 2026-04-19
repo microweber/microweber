@@ -204,3 +204,24 @@
     clear: both;
     display: block;
 }
+
+/* Dark mode for icon picker dialog */
+.dark .mwiconlist-icon {
+    color: #b0b0b0;
+}
+
+.dark .mwiconlist-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .mwiconlist-settings-section-block-item + .mwiconlist-settings-section-block-item {
+    border-top-color: oklch(0.371 0 0); /* gray-700 */
+}
+
+.dark .mwiconlist-settings-section-color-picker {
+    background: oklch(0.269 0 0); /* gray-800 */
+}
+
+.dark .mw-dialog-holder {
+    background-color: oklch(0.205 0 0); /* gray-900 */
+}

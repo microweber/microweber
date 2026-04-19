@@ -878,6 +878,6 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] 2026-04-19  now hte mduile settigns have some double bkaground which is bleedings pls inify it [attachment: .autodev/messages/attachments/20260419_151700_32a2e305/paste-1776601015936.png]
 
-- [ ] on the buton mobule settings the icon picker does not have backgroud [attachment: .autodev/messages/attachments/20260419_151737_f32e9695/paste-1776601053302.png]
+- [x] 2026-04-19  on the buton mobule settings the icon picker does not have backgroud [attachment: .autodev/messages/attachments/20260419_151737_f32e9695/paste-1776601053302.png]
 
-- [ ] the link pickr does not have  a bacglund pls fix [attachment: .autodev/messages/attachments/20260419_152611_8f5f89e3/paste-1776601568556.png]
+- [x] 2026-04-19  the link pickr does not have  a bacglund pls fix [attachment: .autodev/messages/attachments/20260419_152611_8f5f89e3/paste-1776601568556.png]

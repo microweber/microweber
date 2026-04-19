@@ -506,11 +506,17 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-container {
-    @apply bg-white dark:bg-gray-900 dark:text-white;
+    @apply bg-white dark:text-white;
+}
+.dark .mw-dialog-container {
+    background-color: oklch(0.205 0 0); /* gray-900 */
 }
 
 .mw-dialog-header {
-    @apply bg-white dark:!bg-gray-900 dark:text-white;
+    @apply bg-white dark:text-white;
+}
+.dark .mw-dialog-header {
+    background-color: oklch(0.205 0 0) !important; /* gray-900 */
 }
 
 .mw-dialog-skin-default .mw-dialog-close:after {
@@ -518,7 +524,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-footer {
-    @apply bg-white dark:bg-gray-900 dark:text-white !p-6 !border-0 flex items-center justify-end gap-3 !m-0;
+    @apply bg-white dark:text-white !p-6 !border-0 flex items-center justify-end gap-3 !m-0;
+}
+.dark .mw-dialog-footer {
+    background-color: oklch(0.205 0 0); /* gray-900 */
 }
 
 .mw-dialog-footer .btn {
@@ -554,7 +563,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input {
-    @apply w-full !rounded-lg !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800;
+    @apply w-full !rounded-lg !border !border-gray-300 !bg-white;
     @apply text-sm text-gray-900 dark:text-white;
     @apply transition-colors duration-150;
     padding: 8px 12px !important;
@@ -563,6 +572,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     box-shadow: none !important;
     border-bottom-style: solid !important;
     border-bottom-width: 1px !important;
+}
+.dark .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important; /* gray-600 ~approx */
 }
 
 .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
@@ -581,8 +594,14 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-dialog-skin-default .mw-dialog-footer .btn {
     @apply !rounded-lg !px-4 !py-2 !text-sm !font-medium !cursor-pointer transition-colors duration-150;
     @apply !border-0;
-    @apply !text-gray-700 dark:!text-gray-300 !bg-gray-100 dark:!bg-gray-800;
-    @apply hover:!bg-gray-200 dark:hover:!bg-gray-700;
+    @apply !text-gray-700 dark:!text-gray-300;
+    background-color: oklch(0.967 0 0) !important; /* gray-100 */
+}
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+}
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:hover {
+    background-color: oklch(0.371 0 0) !important; /* gray-700 */
 }
 
 .mw-dialog-skin-default .mw-dialog-footer .btn-primary,
