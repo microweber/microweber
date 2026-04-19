@@ -520,10 +520,19 @@ html.preview #preview-button {
     height: calc(100vh - 60px);
     min-height: 100px;
     width: 1650px;
-    background-color: #ececec;
+    background-color: #ececec !important;
 }
 html.dark .mw-le-layouts-dialog {
-    @apply bg-gray-800 text-white;
+    @apply text-white;
+    background-color: rgb(31 41 55) !important;
+}
+
+.mw-le-layouts-dialog .modules-list {
+    background-color: #ececec;
+    height: 100%;
+}
+html.dark .mw-le-layouts-dialog .modules-list {
+    background-color: rgb(31 41 55);
 }
 
 .mw-le-layouts-dialog-row {
@@ -651,8 +660,8 @@ html.dark .mw-le-layouts-dialog {
 .mw-le-overlay {
     position: fixed;
     inset: 0;
-    z-index: 4;
-    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .mw-le-layouts-dialog .modules-list-block {

@@ -865,3 +865,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-18  make dusk tests for each module in live edit and fix all error found
 
 - [x] 2026-04-18  Check what dusk tests we are missing and make them
+
+- [x] the add layoit modal does not have any background, it must not be transparent [attachment: .autodev/messages/attachments/20260419_110602_e8bd0674/paste-1776585933407.png]
