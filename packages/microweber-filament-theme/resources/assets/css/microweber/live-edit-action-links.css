@@ -49,12 +49,12 @@
 
 .mw-admin-action-links:not(.mw-admin-action-links.btn),
 .fi-tabs .fi-tabs-item:not(.fi-tabs .fi-tabs-item.btn) {
-    @apply pb-[12px] leading-6;
+    @apply pb-[10px] leading-6;
 }
 
 .mw-admin-action-links.mw-adm-liveedit-tabs,
 .fi-tabs .fi-tabs-item {
-    @apply !font-bold pb-[5px] text-[14px];
+    @apply !font-bold pb-[10px] pt-[10px] text-[15px];
 }
 
 .mw-admin-action-links.mw-liveedit-button-animation-component {
