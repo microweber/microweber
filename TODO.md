@@ -320,6 +320,7 @@
 
 ---
 
+- [x] now module skin preview works, nut the iframe is without styling, we msut add the header and footer from the template partills
 ## AI Chat ↔ MCP/Tools Integration Plan
 
 ### Problem Analysis

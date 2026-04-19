@@ -743,25 +743,49 @@ class ModulesApiLiveEdit extends Controller
             'id' => $previewId,
         ]);
 
-        // Get template CSS for proper styling
-        $the_active_site_template = app()->option_manager->get('current_template', 'template');
-        $templateUrl = templates_url() . $the_active_site_template . '/';
+        // Render header and footer from the template's master layout
+        $headerHtml = load_module('layouts', [
+            'template' => 'menus/skin-1',
+            'id' => 'header-layout',
+        ]);
 
-        // Build a minimal standalone HTML page with the module rendered
+        $footerHtml = load_module('layouts', [
+            'template' => 'footers/skin-1',
+            'id' => 'footer-layout',
+        ]);
+
+        // Get template CSS/JS for proper styling
+        $the_active_site_template = app()->option_manager->get('current_template', 'template');
+        $templateUrlLower = strtolower($the_active_site_template);
+        $templateAssetBase = 'templates/' . $templateUrlLower . '/';
+
+        // Build a standalone HTML page matching the master layout structure
         $html = '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="' . site_url('vendor/microweber-packages/frontend-assets/build/default.css') . '">
-    <link rel="stylesheet" href="' . $templateUrl . 'dist/build/app.css' . '">
+    <link rel="stylesheet" href="' . asset($templateAssetBase . 'dist/build/app.css') . '">
+    ' . meta_tags_head() . '
     <style>
         body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
         .layout-preview-wrapper { pointer-events: none; }
     </style>
 </head>
 <body>
-    <div class="layout-preview-wrapper">' . $moduleHtml . '</div>
+    <div class="layout-preview-wrapper">
+        <div class="main">
+            <div class="navigation-holder">' . $headerHtml . '</div>
+            ' . $moduleHtml . '
+            ' . $footerHtml . '
+        </div>
+    </div>
+    <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
+    ' . meta_tags_footer() . '
 </body>
 </html>';
 
