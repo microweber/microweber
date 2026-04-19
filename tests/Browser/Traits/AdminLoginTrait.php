@@ -27,7 +27,7 @@ trait AdminLoginTrait
                 ->clear('input[type="email"]')
                 ->type('input[type="email"]', 'admin@admin.com')
                 ->clear('input[type="password"]')
-                ->type('input[type="password"]', 'password123')
+                ->type('input[type="password"]', 'admin')
                 ->click('button[type="submit"]')
                 ->pause(5000);
 

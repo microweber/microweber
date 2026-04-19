@@ -995,3 +995,5 @@ Spot-checked module settings in browser (dark mode):
 | tweet_embed | TweetEmbedModuleSettings | LiveEditModuleSettings | ✅ |
 | video | VideoModuleSettings | LiveEditModuleSettings | ✅ |
 | white_label | WhiteLabelSettingsAdminSettingsPage | AdminSettingsPage | ✅ |
+
+- [x] 2026-04-19  Make dusk tests for all live edit modules settings and valudate
