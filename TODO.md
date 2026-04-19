@@ -873,3 +873,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  the preview laoyt while doesn ot have scrreshot doesn ot work  http://127.0.0.1:8000/new-content-preview-69e4965cc392a?content_id=0&no_editmode=true&preview_layout=ecommerce/skin-1&preview_template=Bootstrap    we msut have the laoyts modle so make it like   see the url for the module layts screeshots test to get the url for the module skin render
 
 - [x] 2026-04-19  the menu hambuger does not have backgound in live edit pls fix  http://127.0.0.1:8000/admin/live-edit?url=http%253A%252F%252F127.0.0.1%253A8000%252F [attachment: .autodev/messages/attachments/20260419_141656_bfe3d90b/paste-1776597409157.png]
+
+- [x] all owkr, now in insert laoyt modal where the iframe prvrew i there is some white gap on the right. pls fix it [attachment: .autodev/messages/attachments/20260419_143318_ce4fefb6/paste-1776598394691.png]
