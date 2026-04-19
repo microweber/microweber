@@ -87,6 +87,13 @@
    #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 {
         margin-bottom: 10px;
         padding: 20px;
+        overflow: hidden;
+    }
+
+   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 h3,
+   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 p {
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
 
    #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1:hover {
