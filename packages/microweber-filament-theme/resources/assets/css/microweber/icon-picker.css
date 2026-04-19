@@ -46,17 +46,17 @@
 }
 
 .mwiconlist-icon {
-    margin: 6px 0;
-    transition: opacity 0.3s, transform 0.3s;
-    padding: 6px;
+    margin: 4px 0;
+    transition: opacity 0.3s, transform 0.3s, background-color 0.15s;
+    padding: 8px;
     overflow: hidden;
     text-align: center;
     position: relative;
     z-index: 1;
     font-size: 22px !important;
-    border-radius: 3px;
+    border-radius: 6px;
     width: 12%;
-    color: #939393;
+    color: #636363;
     display: inline-block;
     cursor: pointer;
     font-style: normal;
@@ -205,6 +205,88 @@
     display: block;
 }
 
+/* Icon picker dialog - overall modal styling */
+.mw-icon-selector-root .mw-tab-accordion {
+    border: none !important;
+}
+
+.mw-icon-selector-root .mw-accordion-item {
+    border: none !important;
+    background: transparent;
+}
+
+.mw-icon-selector-root .mw-accordion-title {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 0 6px;
+    border-bottom: none !important;
+    background: transparent !important;
+}
+
+.mw-icon-selector-root .mw-accordion-content {
+    padding: 0 !important;
+}
+
+/* Icon picker pagination styling */
+.mw-icon-selector-root .pagination {
+    justify-content: center;
+    padding: 12px 0 4px;
+    gap: 2px;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link {
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6b7280;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+    border-color: transparent;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link.active {
+    background-color: #e5e7eb;
+    color: #111827;
+    font-weight: 600;
+    border-color: transparent;
+}
+
+/* Prev/next arrow buttons in pagination */
+.mw-icon-selector-root .pagination .mw-paging-prev,
+.mw-icon-selector-root .pagination .mw-paging-next {
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.mw-icon-selector-root .pagination .mw-paging-prev:hover,
+.mw-icon-selector-root .pagination .mw-paging-next:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
 /* Dark mode for icon picker dialog */
 .dark .mwiconlist-icon {
     color: #b0b0b0;
@@ -224,4 +306,36 @@
 
 .dark .mw-dialog-holder {
     background-color: oklch(0.205 0 0); /* gray-900 */
+}
+
+/* Dark mode - icon picker pagination */
+.dark .mw-icon-selector-root .pagination .page-item .page-link {
+    color: #9ca3af;
+    background: transparent;
+}
+
+.dark .mw-icon-selector-root .pagination .page-item .page-link:hover {
+    background-color: oklch(0.269 0 0); /* gray-800 */
+    color: white;
+}
+
+.dark .mw-icon-selector-root .pagination .page-item .page-link.active {
+    background-color: oklch(0.371 0 0); /* gray-700 */
+    color: white;
+}
+
+.dark .mw-icon-selector-root .pagination .mw-paging-prev,
+.dark .mw-icon-selector-root .pagination .mw-paging-next {
+    color: #9ca3af;
+}
+
+.dark .mw-icon-selector-root .pagination .mw-paging-prev:hover,
+.dark .mw-icon-selector-root .pagination .mw-paging-next:hover {
+    background-color: oklch(0.269 0 0); /* gray-800 */
+    color: white;
+}
+
+/* Dark mode - accordion titles */
+.dark .mw-icon-selector-root .mw-accordion-title {
+    color: #d1d5db;
 }
