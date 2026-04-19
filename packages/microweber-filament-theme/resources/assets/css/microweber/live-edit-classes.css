@@ -48,8 +48,15 @@
 
 .list-layouts-search-bar-icon.input-icon-addon {
     @apply left-0;
-
     right: unset;
+}
+
+.dark .list-layouts-search-bar-icon.input-icon-addon {
+    color: #d1d5db; /* gray-300 — visible on dark backgrounds */
+}
+
+.dark .mw-le-dialog-close-btn {
+    color: #d1d5db;
 }
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {

@@ -891,3 +891,7 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  now the insert module modal does not have any bnacglund in live edit pls fix [attachment: .autodev/messages/attachments/20260419_165423_30574962/paste-1776606858887.png]
 
 - [x] the insert module modal pointer and scroll events are not working seems there is some overlay pls fix and also make dusk test [attachment: .autodev/messages/attachments/20260419_172931_bfab30d1/paste-1776608967530.png]
+
+- [x] 2026-04-19  now the insert layts mmodal have 2 cclear seach bttons  and rhe each icon is not visible on dark mode [attachment: .autodev/messages/attachments/20260419_174219_6efbaf08/paste-1776609720416.png]
+
+- [ ] on the bacgkoud module settigns modal tjhe icons are not visible on dark mode  and rhe image previwes cicles are cut off , we need more markng on top [attachment: .autodev/messages/attachments/20260419_174337_ffd34006/paste-1776609788582.png]

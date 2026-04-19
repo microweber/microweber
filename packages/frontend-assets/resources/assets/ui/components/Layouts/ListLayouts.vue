@@ -264,8 +264,6 @@
         </div>
     </Transition>
 
-    <div v-if="showModal" class="mw-le-dialog-close active" v-on:click="showModal = false"></div>
-
 </template>
 
 <style>
