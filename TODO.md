@@ -908,4 +908,4 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] 2026-04-19  template tesstign need work  evalue all prefeined  stiles and fox the template [attachment: .autodev/messages/attachments/20260419_193208_b1a095ce/paste-1776616308774.png]
 
-- [ ] on insert layt the x and the search are not visible on adkr mode [attachment: .autodev/messages/attachments/20260419_194711_8a361807/paste-1776617228147.png]
+- [x] 2026-04-19  on insert layt the x and the search are not visible on adkr mode [attachment: .autodev/messages/attachments/20260419_194711_8a361807/paste-1776617228147.png]
