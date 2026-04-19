@@ -202,6 +202,9 @@ html.preview #toolbar {
     transform-origin: right top;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    background-color: #fff !important;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 #user-menu-header {
@@ -221,6 +224,15 @@ html.preview #toolbar {
     opacity: 1;
     transform: scale(1) translateY(0px);
     pointer-events: auto;
+}
+
+html.dark #user-menu {
+    background-color: #1f2937 !important;
+    color: #e5e7eb;
+}
+
+html.dark #user-menu nav a {
+    color: #e5e7eb;
 }
 
 html[dir="rtl"] #user-menu {

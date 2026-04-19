@@ -306,7 +306,11 @@ body {
 }
 
 #user-menu-wrapper.active #user-menu {
-    @apply !bg-white dark:!bg-gray-800;
+    background-color: #fff !important;
+}
+
+html.dark #user-menu-wrapper.active #user-menu {
+    background-color: #1f2937 !important;
 }
 
 .active>.mw-le-hamburger>span:nth-child(2) {

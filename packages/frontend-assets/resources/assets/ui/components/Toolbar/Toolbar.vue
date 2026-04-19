@@ -108,7 +108,7 @@ html.mw-setup-wizard-document .back-to-edit{
                     <span></span>
                     <span></span>
                 </span>
-                <div id="user-menu" class="card mw-le-nav-box">
+                <div id="user-menu" class="mw-le-nav-box">
                     <nav aria-label="User navigation">
                         <a v-for="menuItem in menu" :href="menuItem.href" :onclick="menuItem.onclick" :target="menuItem.target" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
                             <span v-html="menuItem.icon_html"></span>
