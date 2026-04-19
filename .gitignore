@@ -179,3 +179,4 @@ dashboard-snapshot.yml
 .claude/settings.json
 .claude/settings.json
 /dist
+/.claude
