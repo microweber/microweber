@@ -900,4 +900,6 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] 2026-04-19  now in the posts lists on the bootrap templre text break is not ok [attachment: .autodev/messages/attachments/20260419_191514_f2987a63/paste-1776615306558.png]
 
-- [ ] also there are isues with thit menu  pls fix [attachment: .autodev/messages/attachments/20260419_191615_591d81cc/paste-1776615362922.png]
+- [x] 2026-04-19  also there are isues with thit menu  pls fix [attachment: .autodev/messages/attachments/20260419_191615_591d81cc/paste-1776615362922.png]
+
+- [ ] the add enw content models is saill not ok on dark mode pls fix [attachment: .autodev/messages/attachments/20260419_192359_a3186f4c/paste-1776615834262.png]

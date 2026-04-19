@@ -5546,16 +5546,24 @@ html.dark {
 /* Dark mode — Menu editor */
 html.dark {
   .mw-menu-editor__toolbar {
-    background: #1a1f2b;
-    border-color: rgba(255, 255, 255, 0.07);
+    background: #1f2937;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    h3 {
+      color: #e5e7eb !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
   }
 
   .mw-menu-editor__tree {
-    background: #0d0f14;
-    border-color: rgba(255, 255, 255, 0.07);
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.1);
 
     ul ul {
-      border-left-color: rgba(255, 255, 255, 0.08);
+      border-left-color: rgba(255, 255, 255, 0.1);
     }
 
     .ui-sortable-placeholder {
@@ -5565,26 +5573,38 @@ html.dark {
   }
 
   .mw-menu-editor__empty {
-    background: #0d0f14;
-    border-color: rgba(255, 255, 255, 0.07);
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    h3 {
+      color: #d1d5db !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+
+    svg {
+      color: #6b7280 !important;
+    }
   }
 
   .mw-menu-item__inner {
-    background: #1a1f2b;
-    border-color: rgba(255, 255, 255, 0.08);
+    background: #1f2937;
+    border-color: rgba(255, 255, 255, 0.1);
 
     &:hover {
-      border-color: #4a5568;
+      border-color: #4b5563;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     }
   }
 
   .mw-menu-item__type-icon {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .mw-menu-item__handle {
-    color: #4a5568;
+    color: #6b7280;
   }
 
   .mw-menu-item__title {
@@ -5592,7 +5612,7 @@ html.dark {
   }
 
   .mw-menu-item__url {
-    color: #4a5568;
+    color: #9ca3af;
   }
 }
 
