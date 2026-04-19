@@ -884,4 +884,4 @@ Manager classes duplicate repository/model logic. For each:
 
 - [x] almost ok now make the icon picker styles  the paging style is on ok there is no paddings, the phole modal is not good, pls style it propelty on white and dark  mode [attachment: .autodev/messages/attachments/20260419_162411_9425e211/paste-1776605015732.png]
 
-- [ ] therei s some border onthe module seddings cards, pls remove the borders and unify the bg color [attachment: .autodev/messages/attachments/20260419_162544_04d55e77/paste-1776605136446.png]
+- [x] 2026-04-19  therei s some border onthe module seddings cards, pls remove the borders and unify the bg color [attachment: .autodev/messages/attachments/20260419_162544_04d55e77/paste-1776605136446.png]
