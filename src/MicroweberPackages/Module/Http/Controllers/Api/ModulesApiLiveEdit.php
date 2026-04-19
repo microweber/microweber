@@ -743,17 +743,7 @@ class ModulesApiLiveEdit extends Controller
             'id' => $previewId,
         ]);
 
-        // Render header and footer from the template's master layout
-        $headerHtml = load_module('layouts', [
-            'template' => 'menus/skin-1',
-            'id' => 'header-layout',
-        ]);
-
-        $footerHtml = load_module('layouts', [
-            'template' => 'footers/skin-1',
-            'id' => 'footer-layout',
-        ]);
-
+        $moduleHtml = app()->parser->process($moduleHtml);
         // Get template CSS/JS for proper styling
         $the_active_site_template = app()->option_manager->get('current_template', 'template');
         $templateUrlLower = strtolower($the_active_site_template);
@@ -782,9 +772,9 @@ class ModulesApiLiveEdit extends Controller
 <body>
     <div class="layout-preview-wrapper">
         <div class="main">
-            <div class="navigation-holder">' . $headerHtml . '</div>
+
             ' . $moduleHtml . '
-            <div class="footer-holder">' . $footerHtml . '</div>
+
         </div>
     </div>
     <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
@@ -792,6 +782,6 @@ class ModulesApiLiveEdit extends Controller
 </body>
 </html>';
 
-        return response($html)->header('Content-Type', 'text/html');
+        return response($html)->header('Content-Type', 'text/html')->setEtag(md5($html));
     }
 }
