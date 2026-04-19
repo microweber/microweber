@@ -14,6 +14,12 @@
                         max-width: 90%;
                     }
 
+                    .mw-live-edit-resolutions-wrapper.d-flex {
+                        overflow: visible !important;
+                        padding-top: 16px !important;
+                        max-height: none !important;
+                    }
+
                     .tab-indicator {
                         position: relative;
                         overflow: visible;
@@ -32,6 +38,11 @@
                         background-position: center;
                         display: none;
                         z-index: 10;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                    }
+
+                    html.dark .tab-indicator::after {
+                        border-color: #9ca3af;
                     }
 
                     .tab-indicator.has-image::after {
@@ -77,6 +88,14 @@
                         object-fit: contain;
                     }
 
+                    html.dark .module-icon svg {
+                        fill: #d1d5db;
+                    }
+
+                    html.dark .module-icon img {
+                        filter: brightness(0) invert(0.85);
+                    }
+
                     .current-template-modules-list .btn {
                         transition: all 0.2s ease;
                     }
@@ -84,6 +103,22 @@
                     .current-template-modules-list .btn:hover {
                         transform: translateY(-1px);
                         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+
+                    html.dark .current-template-modules-list .btn {
+                        color: #d1d5db;
+                        border-color: #6b7280;
+                    }
+
+                    html.dark .current-template-modules-list .btn:hover {
+                        color: #f3f4f6;
+                        border-color: #9ca3af;
+                    }
+
+                    /* File picker action icons dark mode */
+                    html.dark .mw-filepicker-component .mw-filepicker-component-preview-actions button,
+                    html.dark .mw-filepicker-component .mw-filepicker-component-preview-actions a {
+                        color: #d1d5db;
                     }
                 </style>
 
