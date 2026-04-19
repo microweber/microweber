@@ -895,3 +895,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  now the insert layts mmodal have 2 cclear seach bttons  and rhe each icon is not visible on dark mode [attachment: .autodev/messages/attachments/20260419_174219_6efbaf08/paste-1776609720416.png]
 
 - [x] 2026-04-19  on the bacgkoud module settigns modal tjhe icons are not visible on dark mode  and rhe image previwes cicles are cut off , we need more markng on top [attachment: .autodev/messages/attachments/20260419_174337_ffd34006/paste-1776609788582.png]
+
+- [x] 2026-04-19  still the icons are not ok on dark mode [attachment: .autodev/messages/attachments/20260419_190701_4b79fb0c/paste-1776614781691.png]

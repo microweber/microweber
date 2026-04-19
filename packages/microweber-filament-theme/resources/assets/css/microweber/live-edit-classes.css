@@ -1010,6 +1010,14 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     @apply bg-transparent;
 }
 
+.dark .mw-liveedit-button-actions-component {
+    color: #d1d5db;
+}
+
+.dark .mw-liveedit-button-actions-component svg:not([fill="red"]) {
+    fill: #d1d5db;
+}
+
 #select_edit_field{
     @apply p-[20px];
 }

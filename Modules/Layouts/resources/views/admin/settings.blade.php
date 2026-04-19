@@ -116,9 +116,12 @@
                     }
 
                     /* File picker action icons dark mode */
-                    html.dark .mw-filepicker-component .mw-filepicker-component-preview-actions button,
-                    html.dark .mw-filepicker-component .mw-filepicker-component-preview-actions a {
+                    html.dark .mw-filepicker-component .mw-liveedit-button-actions-component {
                         color: #d1d5db;
+                    }
+
+                    html.dark .mw-filepicker-component .mw-liveedit-button-actions-component svg:not([fill="red"]) {
+                        fill: #d1d5db;
                     }
                 </style>
 
