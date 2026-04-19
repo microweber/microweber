@@ -1286,3 +1286,24 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: rgb(55 65 81) !important;
     border-color: rgb(55 65 81) !important;
 }
+
+/* Add content modal cards — dark mode */
+.dark .mw-add-content-modal-action-wrapper {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .font-bold {
+    color: #e5e7eb !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .text-sm {
+    color: #9ca3af !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper svg {
+    color: #d1d5db !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .w-20 {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
