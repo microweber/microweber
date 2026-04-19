@@ -889,3 +889,5 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  add some padding on the ciin picker modal  you must open it from the live edit buton settings [attachment: .autodev/messages/attachments/20260419_164822_d0720859/paste-1776606490356.png]
 
 - [x] 2026-04-19  now the insert module modal does not have any bnacglund in live edit pls fix [attachment: .autodev/messages/attachments/20260419_165423_30574962/paste-1776606858887.png]
+
+- [x] the insert module modal pointer and scroll events are not working seems there is some overlay pls fix and also make dusk test [attachment: .autodev/messages/attachments/20260419_172931_bfab30d1/paste-1776608967530.png]

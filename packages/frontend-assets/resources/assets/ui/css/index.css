@@ -515,7 +515,7 @@ html.preview #preview-button {
 
 .mw-le-dialog-block {
     position: fixed;
-    z-index: 120;
+    z-index: 1000;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
         rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
         rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -770,7 +770,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
     max-width: 95%;
     max-height: 400px;
 
-    z-index: 5;
+    z-index: 1000;
 
     @apply bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white;
 }
@@ -896,7 +896,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
 }
 
 .mw-le-dialog-close {
-    z-index: 6;
+    z-index: 1001;
     opacity: 0;
     transform: scale(0);
     transition: 0.2s;
