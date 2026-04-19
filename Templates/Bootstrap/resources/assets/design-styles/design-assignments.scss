@@ -127,7 +127,7 @@ a i:before {
     &:hover, &:focus, &.active, &:active {
         outline: 0 none !important;
         box-shadow: none !important;
-        border-color: color-mix(in srgb, var(--form-control-background) 50%, transparent);
+        border-color: color-mix(in srgb, var(--mw-btn-border-color) 50%, transparent);
         color: var(--mw-btn-text-hover-color);
 
         i {
@@ -213,7 +213,7 @@ body {
     h1,h2,h3,h4,h5,h6 {
         color: var(--mw-heading-color);
         text-transform: var(--mw-text-transform);
-        font-weight: var(--mw-font-weight);
+        font-weight: var(--mw-heading-font-weight, var(--mw-font-weight));
         letter-spacing: var(--mw-letter-spacing);
         line-height: var(--mw-line-height);
         font-family: var(--mw-body-font-family);
@@ -221,11 +221,11 @@ body {
 
     p {
         color: var(--mw-paragraph-color);
-        font-size: var(--mw-paragraph-size);
+        font-size: var(--mw-paragraph-font-size, var(--mw-paragraph-size));
+        font-weight: var(--mw-paragraph-font-weight, var(--mw-font-weight));
         line-height: var(--mw-line-height);
         letter-spacing: var(--mw-letter-spacing);
         font-family: var(--mw-body-font-family);
-
     }
 
 }

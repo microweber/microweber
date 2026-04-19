@@ -177,9 +177,15 @@ $mw-text-on-dark-background-color: $mw-white-color !default;
     --mw-heading-six: #{$mw-heading-six};
 
     --mw-body-font-family: #{$mw-font-family-sans-serif};
-    --mw-body-font-family: #{$mw-heading-font-family};
+
+    --mw-heading-font-weight: 700;
+    --mw-heading-font-size: 36px;
+    --mw-paragraph-font-weight: 400;
+    --mw-paragraph-font-size: #{$mw-paragraph-size};
 
     --text-on-dark-background: #{$text-on-dark-background};
+
+    --mw-link-hover-color: #{$mw-link-color};
 
 
     --mw-btn-border-radius: #{$mw-btn-border-radius};
@@ -219,6 +225,7 @@ $mw-text-on-dark-background-color: $mw-white-color !default;
     --mw-form-control-text-color: #{$mw-form-control-text-color};
     --mw-form-control-text-hover-color: #{$mw-form-control-text-hover-color};
     --mw-form-label-color: #{$mw-form-label-color};
+    --mw-form-control-border-color: #dee2e6;
 
     --mw-text-on-dark-background-color: #{$mw-text-on-dark-background-color};
 

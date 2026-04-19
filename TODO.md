@@ -905,3 +905,7 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  the add enw content models is saill not ok on dark mode pls fix [attachment: .autodev/messages/attachments/20260419_192359_a3186f4c/paste-1776615834262.png]
 
 - [x] 2026-04-19  the tabs are too small  make tme mre spacous acocotrin to the golden ui [attachment: .autodev/messages/attachments/20260419_192536_08f64f51/paste-1776615918913.png]
+
+- [x] 2026-04-19  template tesstign need work  evalue all prefeined  stiles and fox the template [attachment: .autodev/messages/attachments/20260419_193208_b1a095ce/paste-1776616308774.png]
+
+- [ ] on insert layt the x and the search are not visible on adkr mode [attachment: .autodev/messages/attachments/20260419_194711_8a361807/paste-1776617228147.png]
