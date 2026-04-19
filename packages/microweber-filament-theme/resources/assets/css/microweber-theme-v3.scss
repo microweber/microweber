@@ -954,6 +954,7 @@ svg[wire\:loading\.remove] {
     box-shadow: none !important;  // No shadow inside slide-over panel
     border: none !important;
     padding: $mw-space-lg $mw-space-lg !important;  // GR: lg(26)
+    background-color: transparent !important;  // Inherit from .fi-modal-window to avoid double background
   }
   .fi-modal-footer {
     box-shadow: none !important;
@@ -2353,6 +2354,10 @@ html.dark {
   .fi-modal-content {
     background-color: #1e2330 !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .fi-modal-slide-over .fi-modal-content {
+    background-color: transparent !important;  // Inherit from .fi-modal-window to avoid double background
   }
 
   .fi-modal-header {

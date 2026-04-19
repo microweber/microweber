@@ -875,3 +875,9 @@ Manager classes duplicate repository/model logic. For each:
 - [x] 2026-04-19  the menu hambuger does not have backgound in live edit pls fix  http://127.0.0.1:8000/admin/live-edit?url=http%253A%252F%252F127.0.0.1%253A8000%252F [attachment: .autodev/messages/attachments/20260419_141656_bfe3d90b/paste-1776597409157.png]
 
 - [x] all owkr, now in insert laoyt modal where the iframe prvrew i there is some white gap on the right. pls fix it [attachment: .autodev/messages/attachments/20260419_143318_ce4fefb6/paste-1776598394691.png]
+
+- [x] 2026-04-19  now hte mduile settigns have some double bkaground which is bleedings pls inify it [attachment: .autodev/messages/attachments/20260419_151700_32a2e305/paste-1776601015936.png]
+
+- [ ] on the buton mobule settings the icon picker does not have backgroud [attachment: .autodev/messages/attachments/20260419_151737_f32e9695/paste-1776601053302.png]
+
+- [ ] the link pickr does not have  a bacglund pls fix [attachment: .autodev/messages/attachments/20260419_152611_8f5f89e3/paste-1776601568556.png]
