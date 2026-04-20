@@ -997,3 +997,7 @@ Spot-checked module settings in browser (dark mode):
 | white_label | WhiteLabelSettingsAdminSettingsPage | AdminSettingsPage | ✅ |
 
 - [x] 2026-04-19  Make dusk tests for all live edit modules settings and valudate
+
+- [x] 2026-04-20 contnuew orkin on dark mode fixses on live edit, see all models and settignd and fix errors
+
+- [x] 2026-04-20  add more perm odule dusk tests to cover general use caes for each module
