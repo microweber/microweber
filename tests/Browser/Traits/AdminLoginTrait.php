@@ -22,7 +22,7 @@ trait AdminLoginTrait
             return;
         }
 
-        for ($attempt = 1; $attempt <= 3; $attempt++) {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
             $browser->waitFor('input[type="email"]', 10)
                 ->clear('input[type="email"]')
                 ->type('input[type="email"]', 'admin@admin.com')
@@ -36,9 +36,9 @@ trait AdminLoginTrait
                 return;
             }
 
-            $rateLimited = $browser->script("return document.body.innerText.includes('Too many');");
+            $rateLimited = $browser->script("return document.body.innerText.includes('Too many') || document.body.innerText.includes('throttle');");
             if ($rateLimited[0] ?? false) {
-                $browser->pause(5000);
+                $browser->pause(10000);
                 continue;
             }
 

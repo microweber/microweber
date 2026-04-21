@@ -236,6 +236,67 @@ abstract class DuskTestCase extends BaseTestCase
         }
     }
 
+    /**
+     * Override to detect dead browser sessions and replace them with fresh ones.
+     */
+    protected function createBrowsersFor(\Closure $callback)
+    {
+        if (count(static::$browsers) > 0) {
+            try {
+                $browser = static::$browsers->first();
+                $browser->driver->getWindowHandles();
+            } catch (\Exception) {
+                // Browser session is dead — clear so a fresh one is created
+                static::$browsers = collect();
+            }
+        }
+
+        return parent::createBrowsersFor($callback);
+    }
+
+    /**
+     * Override to prevent dead sessions from crashing console log collection.
+     */
+    protected function storeConsoleLogsFor($browsers)
+    {
+        $browsers->each(function ($browser, $key) {
+            try {
+                $name = $this->getCallerName();
+                $browser->storeConsoleLog($name . '-' . $key);
+            } catch (\Exception) {
+                // Session dead — skip console log storage
+            }
+        });
+    }
+
+    protected function captureFailuresFor($browsers)
+    {
+        $browsers->each(function ($browser, $key) {
+            try {
+                if (property_exists($browser, 'fitOnFailure') && $browser->fitOnFailure) {
+                    $browser->fitContent();
+                }
+                $name = $this->getCallerName();
+                $browser->screenshot('failure-' . $name . '-' . $key);
+            } catch (\Exception) {
+                // Session dead — skip failure screenshot
+            }
+        });
+    }
+
+    protected function storeSourceLogsFor($browsers)
+    {
+        $browsers->each(function ($browser, $key) {
+            try {
+                if (property_exists($browser, 'madeSourceAssertion') && $browser->madeSourceAssertion) {
+                    $browser->storeSource($this->getCallerName() . '-' . $key);
+                }
+            } catch (\Exception) {
+                // Session dead — skip source log storage
+            }
+        });
+    }
+
     protected function assertPostConditions(): void
     {
         self::collectCoverage();
@@ -256,13 +317,16 @@ abstract class DuskTestCase extends BaseTestCase
 
     public static function collectCoverage(): void
     {
-
         foreach (static::$browsers as $browser) {
-            $window = collect($browser->driver->getWindowHandles())->last();
-            $browser->driver->switchTo()->window($window);
-            $coverage = $browser->driver->executeScript('return window.__coverage__');
-            if ($coverage) {
-                self::saveCoverage($coverage);
+            try {
+                $window = collect($browser->driver->getWindowHandles())->last();
+                $browser->driver->switchTo()->window($window);
+                $coverage = $browser->driver->executeScript('return window.__coverage__');
+                if ($coverage) {
+                    self::saveCoverage($coverage);
+                }
+            } catch (\Exception) {
+                // Session may have died — skip coverage collection
             }
         }
     }

@@ -14,7 +14,7 @@ use Tests\DuskTestCase;
  *
  * Prerequisites:
  *   - A running dev server at http://127.0.0.1:8000
- *   - An admin user with email admin@admin.com / password123
+ *   - An admin user with email admin@admin.com / admin
  *   - Login captcha disabled
  */
 class AdminLoginTest extends DuskTestCase
@@ -85,7 +85,7 @@ class AdminLoginTest extends DuskTestCase
                 $browser->visit('/admin/login')
                     ->waitFor('input[type="email"]', 10)
                     ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
+                    ->type('input[type="password"]', 'admin')
                     ->click('button[type="submit"]')
                     ->pause(5000);
 
