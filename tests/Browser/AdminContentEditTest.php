@@ -85,7 +85,7 @@ class AdminContentEditTest extends DuskTestCase
             // 1. Create and then Edit a Page
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/pages/create')->pause(3000);
+                $browser->visit('/admin/pages/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Verify form loaded properly
@@ -100,7 +100,7 @@ class AdminContentEditTest extends DuskTestCase
                 $this->clickSave($browser);
 
                 // Extra wait for redirect
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $createUrl = $browser->driver->getCurrentURL();
 
@@ -119,7 +119,7 @@ class AdminContentEditTest extends DuskTestCase
                 $this->assertNotNull($pageId, 'Should extract page ID from URL');
 
                 // Visit the edit page fresh
-                $browser->visit("/admin/pages/{$pageId}/edit")->pause(3000);
+                $browser->visit("/admin/pages/{$pageId}/edit")->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Verify edit page loads without errors
@@ -161,7 +161,7 @@ class AdminContentEditTest extends DuskTestCase
             // 2. Create and then Edit a Post
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/posts/create')->pause(3000);
+                $browser->visit('/admin/posts/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
                 $this->livewireSet($browser, 'data.title', "Edit Test Post {$ts}");
                 $this->clickSave($browser);
@@ -173,7 +173,7 @@ class AdminContentEditTest extends DuskTestCase
                 $this->assertNotNull($postId, 'Should extract post ID from URL');
 
                 // Visit the edit page fresh
-                $browser->visit("/admin/posts/{$postId}/edit")->pause(3000);
+                $browser->visit("/admin/posts/{$postId}/edit")->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Verify edit page loads without errors
@@ -211,7 +211,7 @@ class AdminContentEditTest extends DuskTestCase
             // 3. Create and then Edit a Product
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/products/create')->pause(3000);
+                $browser->visit('/admin/products/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
                 $this->livewireSet($browser, 'data.title', "Edit Test Product {$ts}");
                 $this->livewireSet($browser, 'data.price', '99.99');
@@ -224,7 +224,7 @@ class AdminContentEditTest extends DuskTestCase
                 $this->assertNotNull($productId, 'Should extract product ID from URL');
 
                 // Visit the edit page fresh
-                $browser->visit("/admin/products/{$productId}/edit")->pause(3000);
+                $browser->visit("/admin/products/{$productId}/edit")->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Verify edit page loads without errors
@@ -270,7 +270,7 @@ class AdminContentEditTest extends DuskTestCase
             // 4. Edit page form tabs are correct
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/pages')->pause(3000);
+                $browser->visit('/admin/pages')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Click the first row in the table
@@ -278,7 +278,7 @@ class AdminContentEditTest extends DuskTestCase
                     var row = document.querySelector('table tbody tr');
                     if (row) row.click();
                 ");
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/edit')) {
@@ -300,14 +300,14 @@ class AdminContentEditTest extends DuskTestCase
             // 5. Edit page SEO tab loads fields
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/pages')->pause(3000);
+                $browser->visit('/admin/pages')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $browser->script("
                     var rows = document.querySelectorAll('table tbody tr');
                     if (rows.length > 0) rows[0].click();
                 ");
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/edit')) {

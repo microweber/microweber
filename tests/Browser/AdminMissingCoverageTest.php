@@ -44,7 +44,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 1: FAQ list page loads ──
             try {
-                $browser->visit('/admin/faq-modules')->pause(3000);
+                $browser->visit('/admin/faq-modules')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -66,7 +66,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 2: FAQ create form loads ──
             try {
-                $browser->visit('/admin/faq-modules/create')->pause(3000);
+                $browser->visit('/admin/faq-modules/create')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -109,7 +109,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 1: Template customization loads ──
             try {
-                $browser->visit('/admin/template-customization')->pause(3000);
+                $browser->visit('/admin/template-customization')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -162,7 +162,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 1: File manager page loads ──
             try {
-                $browser->visit('/admin/file-manager-page-admin')->pause(3000);
+                $browser->visit('/admin/file-manager-page-admin')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -191,7 +191,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 2: Site stats page loads ──
             try {
-                $browser->visit('/admin/site-stats')->pause(3000);
+                $browser->visit('/admin/site-stats')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -216,7 +216,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 3: Contents (general) list loads ──
             try {
-                $browser->visit('/admin/contents')->pause(3000);
+                $browser->visit('/admin/contents')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -238,7 +238,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 4: Offers list loads ──
             try {
-                $browser->visit('/admin/offers')->pause(3000);
+                $browser->visit('/admin/offers')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -274,7 +274,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 1: Setup wizard loads ──
             try {
-                $browser->visit('/admin/setup-wizard')->pause(3000);
+                $browser->visit('/admin/setup-wizard')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -290,7 +290,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 2: Blog settings page loads ──
             try {
-                $browser->visit('/admin/blog-settings')->pause(3000);
+                $browser->visit('/admin/blog-settings')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -304,7 +304,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 3: Search settings page loads ──
             try {
-                $browser->visit('/admin/search-settings')->pause(3000);
+                $browser->visit('/admin/search-settings')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -318,7 +318,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 4: Settings menus page loads ──
             try {
-                $browser->visit('/admin/settings/menus')->pause(3000);
+                $browser->visit('/admin/settings/menus')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -332,7 +332,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 5: Settings Google Analytics page loads ──
             try {
-                $browser->visit('/admin/settings/google-analytics')->pause(3000);
+                $browser->visit('/admin/settings/google-analytics')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -368,7 +368,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 1: Shop categories page loads ──
             try {
-                $browser->visit('/admin/shop-categories')->pause(3000);
+                $browser->visit('/admin/shop-categories')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -390,7 +390,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 2: Shop categories create loads ──
             try {
-                $browser->visit('/admin/shop-categories/create')->pause(3000);
+                $browser->visit('/admin/shop-categories/create')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -411,7 +411,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 3: Inventory create form loads ──
             try {
-                $browser->visit('/admin/inventory/create')->pause(3000);
+                $browser->visit('/admin/inventory/create')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -425,7 +425,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 4: Rating modules page loads ──
             try {
-                $browser->visit('/admin/rating-modules')->pause(3000);
+                $browser->visit('/admin/rating-modules')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -439,7 +439,7 @@ class AdminMissingCoverageTest extends DuskTestCase
 
             // ── Check 5: White label settings page loads ──
             try {
-                $browser->visit('/admin/white-label-settings-admin-settings-page')->pause(3000);
+                $browser->visit('/admin/white-label-settings-admin-settings-page')->pause(1200);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();

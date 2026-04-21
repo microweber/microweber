@@ -28,49 +28,6 @@ class AdminModuleSpecializedUseCasesTest extends DuskTestCase
         // Skip parent — we rely on the already-running server's database
     }
 
-    private function visitAndAssertNoErrors(Browser $browser, string $slug): void
-    {
-        $browser->visit("/admin/{$slug}")->pause(3000);
-        $this->ensureLoggedIn($browser);
-
-        $pageSource = $browser->driver->getPageSource();
-        $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-            "Page /admin/{$slug} returned 500");
-        $this->assertStringNotContainsString('Whoops', $pageSource,
-            "Page /admin/{$slug} shows Whoops error");
-    }
-
-    private function getFormStats(Browser $browser): array
-    {
-        $check = $browser->script("
-            try {
-                var inputs = document.querySelectorAll('input:not([type=\"hidden\"]), select, textarea, .fi-toggle, .fi-input');
-                var tabs = document.querySelectorAll('[role=\"tab\"]');
-                return {
-                    inputCount: inputs.length,
-                    tabCount: tabs.length,
-                    hasWireId: document.querySelector('[wire\\\\:id]') !== null
-                };
-            } catch(e) { return {inputCount: 0, tabCount: 0, hasWireId: false}; }
-        ");
-        return $check[0] ?? [];
-    }
-
-    private function clickThroughTabs(Browser $browser, int $tabCount, string $context): void
-    {
-        for ($i = 0; $i < min($tabCount, 6); $i++) {
-            $browser->script("
-                var tabs = document.querySelectorAll('[role=\"tab\"]');
-                if (tabs[{$i}]) tabs[{$i}].click();
-            ");
-            $browser->pause(1500);
-
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-                "{$context} tab {$i} should not cause 500");
-        }
-    }
-
     #[Test]
     public function google_maps_marquee_pdf_settings(): void
     {
@@ -210,7 +167,7 @@ class AdminModuleSpecializedUseCasesTest extends DuskTestCase
             $noWire = [];
 
             foreach ($slugs as $slug) {
-                $browser->visit("/admin/{$slug}")->pause(2000);
+                $browser->visit("/admin/{$slug}")->pause(700);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();

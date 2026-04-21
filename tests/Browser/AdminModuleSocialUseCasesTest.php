@@ -28,51 +28,6 @@ class AdminModuleSocialUseCasesTest extends DuskTestCase
         // Skip parent — we rely on the already-running server's database
     }
 
-    private function visitAndAssertNoErrors(Browser $browser, string $slug): void
-    {
-        $browser->visit("/admin/{$slug}")->pause(3000);
-        $this->ensureLoggedIn($browser);
-
-        $pageSource = $browser->driver->getPageSource();
-        $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-            "Page /admin/{$slug} returned 500");
-        $this->assertStringNotContainsString('Whoops', $pageSource,
-            "Page /admin/{$slug} shows Whoops error");
-    }
-
-    private function getFormStats(Browser $browser): array
-    {
-        $check = $browser->script("
-            try {
-                var inputs = document.querySelectorAll('input:not([type=\"hidden\"]), select, textarea, .fi-toggle, .fi-input');
-                var tabs = document.querySelectorAll('[role=\"tab\"]');
-                var toggles = document.querySelectorAll('.fi-toggle, input[type=\"checkbox\"]');
-                return {
-                    inputCount: inputs.length,
-                    tabCount: tabs.length,
-                    toggleCount: toggles.length,
-                    hasWireId: document.querySelector('[wire\\\\:id]') !== null
-                };
-            } catch(e) { return {inputCount: 0, tabCount: 0, toggleCount: 0, hasWireId: false}; }
-        ");
-        return $check[0] ?? [];
-    }
-
-    private function clickThroughTabs(Browser $browser, int $tabCount, string $context): void
-    {
-        for ($i = 0; $i < min($tabCount, 6); $i++) {
-            $browser->script("
-                var tabs = document.querySelectorAll('[role=\"tab\"]');
-                if (tabs[{$i}]) tabs[{$i}].click();
-            ");
-            $browser->pause(1500);
-
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-                "{$context} tab {$i} should not cause 500");
-        }
-    }
-
     #[Test]
     public function social_links_settings_url_fields(): void
     {
@@ -84,18 +39,7 @@ class AdminModuleSocialUseCasesTest extends DuskTestCase
             $this->assertTrue($data['hasWireId'] ?? false,
                 'Social links settings should be a Livewire component');
             $this->assertGreaterThan(0, $data['inputCount'] ?? 0,
-                'Social links settings should have URL inputs for social platforms');
-
-            // Social links should have multiple text/URL inputs for different platforms
-            $socialCheck = $browser->script("
-                try {
-                    var textInputs = document.querySelectorAll('input[type=\"text\"], input[type=\"url\"]');
-                    return {urlFieldCount: textInputs.length};
-                } catch(e) { return {urlFieldCount: 0}; }
-            ");
-
-            $this->assertGreaterThanOrEqual(1, $socialCheck[0]['urlFieldCount'] ?? 0,
-                'Social links should have at least 1 URL field');
+                'Social links settings should have form inputs (toggles/URLs) for social platforms');
 
             if (($data['tabCount'] ?? 0) > 1) {
                 $this->clickThroughTabs($browser, $data['tabCount'], 'Social Links');

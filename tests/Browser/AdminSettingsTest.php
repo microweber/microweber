@@ -39,7 +39,7 @@ class AdminSettingsTest extends DuskTestCase
             // ── Check 1: Settings hub page loads with links ──
             try {
                 $browser->visit('/admin/settings')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringNotContainsString('/login', $currentUrl,
@@ -167,11 +167,11 @@ class AdminSettingsTest extends DuskTestCase
                         }
                     ");
 
-                    $browser->pause(3000); // Wait for auto-save
+                    $browser->pause(1500); // Wait for auto-save
 
                     // Reload the page and check if value persisted
                     $browser->visit('/admin/settings/general')
-                        ->pause(3000);
+                        ->pause(1500);
 
                     $savedValue = $browser->script("
                         var inputs = document.querySelectorAll('input[type=\"text\"]');
@@ -204,12 +204,12 @@ class AdminSettingsTest extends DuskTestCase
             // ── Check 4: SEO settings page loads ──
             try {
                 $browser->visit('/admin/settings/seo-page')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/login') || !str_contains($currentUrl, '/admin')) {
                     $this->loginAsAdmin($browser);
-                    $browser->visit('/admin/settings/seo-page')->pause(3000);
+                    $browser->visit('/admin/settings/seo-page')->pause(1500);
                 }
 
                 $pageSource = $browser->driver->getPageSource();
@@ -225,12 +225,12 @@ class AdminSettingsTest extends DuskTestCase
             // ── Check 5: Email settings page loads ──
             try {
                 $browser->visit('/admin/admin-email')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/login') || !str_contains($currentUrl, '/admin')) {
                     $this->loginAsAdmin($browser);
-                    $browser->visit('/admin/admin-email')->pause(3000);
+                    $browser->visit('/admin/admin-email')->pause(1500);
                 }
 
                 $pageSource = $browser->driver->getPageSource();
@@ -246,12 +246,12 @@ class AdminSettingsTest extends DuskTestCase
             // ── Check 6: Shop general settings page loads ──
             try {
                 $browser->visit('/admin/admin-shop-general')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/login') || !str_contains($currentUrl, '/admin')) {
                     $this->loginAsAdmin($browser);
-                    $browser->visit('/admin/admin-shop-general')->pause(3000);
+                    $browser->visit('/admin/admin-shop-general')->pause(1500);
                 }
 
                 $pageSource = $browser->driver->getPageSource();

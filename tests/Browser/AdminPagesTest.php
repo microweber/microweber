@@ -29,15 +29,13 @@ class AdminPagesTest extends DuskTestCase
 
     protected function assertPageLoads(Browser $browser, string $url, string $pageName): void
     {
-        $browser->visit($url)->pause(3000);
+        $browser->visit($url)->pause(800);
 
         $currentUrl = $browser->driver->getCurrentURL();
 
-        // Allow redirect to login only if it was a permission issue (403-like)
         if (str_contains($currentUrl, '/login')) {
-            // Re-login and retry
             $this->loginAsAdmin($browser);
-            $browser->visit($url)->pause(3000);
+            $browser->visit($url)->pause(800);
             $currentUrl = $browser->driver->getCurrentURL();
         }
 

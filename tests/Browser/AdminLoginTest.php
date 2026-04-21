@@ -63,7 +63,7 @@ class AdminLoginTest extends DuskTestCase
                     ->type('input[type="email"]', 'wrong@wrong.com')
                     ->type('input[type="password"]', 'wrongpassword')
                     ->click('button[type="submit"]')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $pageSource = $browser->driver->getPageSource();
@@ -104,7 +104,7 @@ class AdminLoginTest extends DuskTestCase
             // ── Check 4: Session persists across page navigations ──
             try {
                 $browser->visit('/admin/pages')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringNotContainsString('/login', $currentUrl,
@@ -115,7 +115,7 @@ class AdminLoginTest extends DuskTestCase
                     'Pages list should not return 500');
 
                 $browser->visit('/admin/posts')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringNotContainsString('/login', $currentUrl,
@@ -130,7 +130,7 @@ class AdminLoginTest extends DuskTestCase
             // ── Check 5: User menu shows current user ──
             try {
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertTrue(
@@ -184,13 +184,13 @@ class AdminLoginTest extends DuskTestCase
                             }
                         }
                     ");
-                    $browser->pause(3000);
+                    $browser->pause(1500);
                 } elseif (isset($logoutWorked[0]) && $logoutWorked[0] === 'form') {
-                    $browser->pause(3000);
+                    $browser->pause(1500);
                 } else {
                     // Direct navigation to logout endpoint as fallback
                     $browser->visit('/admin/logout');
-                    $browser->pause(3000);
+                    $browser->pause(1500);
                 }
 
                 $currentUrl = $browser->driver->getCurrentURL();
@@ -201,7 +201,7 @@ class AdminLoginTest extends DuskTestCase
 
                 // Verify access to admin is now denied
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 $afterLogoutUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/login', $afterLogoutUrl,

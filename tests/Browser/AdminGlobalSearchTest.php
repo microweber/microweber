@@ -50,7 +50,7 @@ class AdminGlobalSearchTest extends DuskTestCase
             // ── Check 2: Global search input is visible ──
             try {
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 // Look for search trigger button (magnifying glass icon or "Search" text)
                 $hasSearch = $browser->script("return document.querySelector('[data-slot=\"trigger\"]') !== null || document.querySelector('input[placeholder*=\"Search\"]') !== null || document.querySelector('button[title*=\"Search\"]') !== null;");
@@ -141,7 +141,7 @@ class AdminGlobalSearchTest extends DuskTestCase
             // ── Check 2: Search for common terms and verify results appear ──
             try {
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 // Open search
                 $browser->script("
@@ -163,7 +163,7 @@ class AdminGlobalSearchTest extends DuskTestCase
                     }
                 ");
 
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 // Check if results container appears
                 $hasResults = $browser->script("return document.querySelector('[data-slot=\"content\"]') !== null || document.querySelector('[class*=\"results\"]') !== null || document.querySelector('li') !== null;");
@@ -190,7 +190,7 @@ class AdminGlobalSearchTest extends DuskTestCase
                     return 'no_results';
                 ");
 
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringNotContainsString('/admin#', $currentUrl,
@@ -234,7 +234,7 @@ class AdminGlobalSearchTest extends DuskTestCase
             // ── Check 2: Search for non-existent term ──
             try {
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 // Open search
                 $browser->script("
@@ -256,7 +256,7 @@ class AdminGlobalSearchTest extends DuskTestCase
                     }
                 ");
 
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 // Verify page doesn't crash
                 $pageSource = $browser->driver->getPageSource();
@@ -303,7 +303,7 @@ class AdminGlobalSearchTest extends DuskTestCase
             // ── Check 2: Cmd/Ctrl+K opens search ──
             try {
                 $browser->visit('/admin')
-                    ->pause(3000);
+                    ->pause(1500);
 
                 // Press Ctrl+K via JavaScript keyboard event
                 $browser->script("

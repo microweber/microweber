@@ -44,7 +44,7 @@ class AdminThemeTest extends DuskTestCase
             // ════════════════════════════════════════════════════════════
             // 1. Theme Stylesheet & Design Tokens
             // ════════════════════════════════════════════════════════════
-            $browser->visit('/admin')->pause(3000);
+            $browser->visit('/admin')->pause(1200);
 
             try {
                 $hasTheme = $browser->script("
@@ -100,7 +100,7 @@ class AdminThemeTest extends DuskTestCase
                 $failed['wire_loading_hidden'] = $e->getMessage();
             }
 
-            $browser->visit('/admin/pages')->pause(3000);
+            $browser->visit('/admin/pages')->pause(1200);
 
             try {
                 $removeState = $browser->script("
@@ -121,7 +121,7 @@ class AdminThemeTest extends DuskTestCase
             // ════════════════════════════════════════════════════════════
             // 3. Component Styling
             // ════════════════════════════════════════════════════════════
-            $browser->visit('/admin')->pause(3000);
+            $browser->visit('/admin')->pause(1200);
 
             try {
                 $sidebarBg = $browser->script("
@@ -165,7 +165,7 @@ class AdminThemeTest extends DuskTestCase
             }
 
             // Section containers on desktop
-            $browser->visit('/admin/orders')->pause(3000);
+            $browser->visit('/admin/orders')->pause(1200);
 
             try {
                 $radius = $browser->script("
@@ -181,7 +181,7 @@ class AdminThemeTest extends DuskTestCase
             }
 
             // Active sidebar item styling
-            $browser->visit('/admin/pages')->pause(3000);
+            $browser->visit('/admin/pages')->pause(1200);
 
             try {
                 $activeStyle = $browser->script("
@@ -229,7 +229,7 @@ class AdminThemeTest extends DuskTestCase
 
             // Mobile (375px)
             $browser->resize(375, 812);
-            $browser->visit('/admin/orders')->pause(3000);
+            $browser->visit('/admin/orders')->pause(1200);
 
             try {
                 $mobilePadding = $browser->script("
@@ -264,7 +264,7 @@ class AdminThemeTest extends DuskTestCase
 
             // Tablet (768px)
             $browser->resize(768, 1024);
-            $browser->visit('/admin')->pause(3000);
+            $browser->visit('/admin')->pause(1200);
 
             try {
                 $tabletPadding = $browser->script("
@@ -281,7 +281,7 @@ class AdminThemeTest extends DuskTestCase
 
             // Desktop (1440px) — padding should be unchanged
             $browser->resize(1440, 900);
-            $browser->visit('/admin/orders')->pause(3000);
+            $browser->visit('/admin/orders')->pause(1200);
 
             try {
                 $desktopPadding = $browser->script("
@@ -299,7 +299,7 @@ class AdminThemeTest extends DuskTestCase
             // ════════════════════════════════════════════════════════════
             // 5. Dark Mode
             // ════════════════════════════════════════════════════════════
-            $browser->visit('/admin')->pause(3000);
+            $browser->visit('/admin')->pause(1200);
 
             try {
                 $browser->script("document.documentElement.classList.add('dark');");
@@ -330,7 +330,7 @@ class AdminThemeTest extends DuskTestCase
             // ════════════════════════════════════════════════════════════
             // 6. Empty State & Input Focus
             // ════════════════════════════════════════════════════════════
-            $browser->visit('/admin/tags')->pause(3000);
+            $browser->visit('/admin/tags')->pause(1200);
 
             try {
                 $emptyState = $browser->script("
@@ -351,7 +351,7 @@ class AdminThemeTest extends DuskTestCase
                 $failed['empty_state_styling'] = $e->getMessage();
             }
 
-            $browser->visit('/admin/tags/create')->pause(3000);
+            $browser->visit('/admin/tags/create')->pause(1200);
 
             try {
                 $browser->script("
@@ -391,12 +391,12 @@ class AdminThemeTest extends DuskTestCase
 
             $pageErrors = [];
             foreach ($pages as $url => $name) {
-                $browser->visit($url)->pause(3000);
+                $browser->visit($url)->pause(1200);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 if (str_contains($currentUrl, '/login')) {
                     $this->loginAsAdmin($browser);
-                    $browser->visit($url)->pause(3000);
+                    $browser->visit($url)->pause(1200);
                 }
 
                 $pageSource = $browser->driver->getPageSource();

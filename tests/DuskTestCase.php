@@ -27,6 +27,26 @@ abstract class DuskTestCase extends BaseTestCase
 
     public $template_name = 'Big2';
 
+    /**
+     * Tracks whether the shared chrome profile dir has been initialized
+     * (and the process shutdown hook registered) for this PHP process.
+     */
+    protected static bool $sharedProfileInitialized = false;
+
+    /**
+     * Monotonically-increasing suffix for the shared chrome profile dir.
+     * Incremented whenever we detect a dead chrome session so the next
+     * browser starts with a clean, unlocked profile.
+     */
+    protected static int $sharedProfileSequence = 0;
+
+    /**
+     * Shared admin-login cache, accessed from {@see Browser\Traits\AdminLoginTrait}.
+     * A single static on the base DuskTestCase makes the flag visible across
+     * every child test class so one login covers the whole run.
+     */
+    protected static bool $adminLoggedIn = false;
+
     use CreatesApplication;
 
 
@@ -58,11 +78,49 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Create the RemoteWebDriver instance.
      *
+     * One chrome instance is shared across all tests in a single `php artisan
+     * dusk` run. A stable per-PID profile path means the same chrome process
+     * (and its login cookies) are reused across test classes. The profile dir
+     * is wiped at the start of each run and cleaned up at process exit.
+     *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
     protected function driver()
     {
-        $tempDir = storage_path('app/chrome-profiles/' . time() . rand(1, 1000));
+        $tempDir = $this->sharedChromeProfileDir();
+
+        if (!self::$sharedProfileInitialized) {
+            if (is_dir($tempDir)) {
+                self::removeDirectory($tempDir);
+            }
+            @mkdir($tempDir, 0755, true);
+            self::$sharedProfileInitialized = true;
+
+            $pid = getmypid();
+            static $shutdownRegistered = false;
+            if (!$shutdownRegistered) {
+                $shutdownRegistered = true;
+
+                // Close chrome + wipe any shared-{pid}-* profile dirs on exit.
+                register_shutdown_function(static function () use ($pid) {
+                    foreach (static::$browsers as $browser) {
+                        try {
+                            $browser->quit();
+                        } catch (\Throwable) {
+                            // ignore
+                        }
+                    }
+                    static::$browsers = collect();
+
+                    $glob = storage_path('app/chrome-profiles/shared-' . $pid . '-*');
+                    foreach (glob($glob) ?: [] as $dir) {
+                        if (is_dir($dir)) {
+                            self::removeDirectory($dir);
+                        }
+                    }
+                });
+            }
+        }
 
         $arguments = [];
         $arguments[] = '--disable-web-security';
@@ -238,6 +296,8 @@ abstract class DuskTestCase extends BaseTestCase
 
     /**
      * Override to detect dead browser sessions and replace them with fresh ones.
+     * On dead-session detection we also rotate the chrome profile dir and drop
+     * the shared login cache so the next browser starts clean.
      */
     protected function createBrowsersFor(\Closure $callback)
     {
@@ -246,12 +306,46 @@ abstract class DuskTestCase extends BaseTestCase
                 $browser = static::$browsers->first();
                 $browser->driver->getWindowHandles();
             } catch (\Exception) {
-                // Browser session is dead — clear so a fresh one is created
-                static::$browsers = collect();
+                $this->resetSharedBrowserState();
             }
         }
 
         return parent::createBrowsersFor($callback);
+    }
+
+    /**
+     * Drop the shared browser/profile/login state so a fresh chrome can be
+     * started. Used when the previous session died unexpectedly.
+     */
+    protected function resetSharedBrowserState(): void
+    {
+        foreach (static::$browsers as $browser) {
+            try {
+                $browser->quit();
+            } catch (\Throwable) {
+                // ignore — session is already dead
+            }
+        }
+        static::$browsers = collect();
+
+        // Wipe the old profile (may contain lock files) and rotate to a new one.
+        $oldDir = $this->sharedChromeProfileDir();
+        if (is_dir($oldDir)) {
+            self::removeDirectory($oldDir);
+        }
+        self::$sharedProfileSequence++;
+        self::$sharedProfileInitialized = false;
+        self::$adminLoggedIn = false;
+    }
+
+    /**
+     * Path to the shared chrome user-data-dir for this PHP process.
+     */
+    protected function sharedChromeProfileDir(): string
+    {
+        return storage_path(
+            'app/chrome-profiles/shared-' . getmypid() . '-' . self::$sharedProfileSequence
+        );
     }
 
     /**
@@ -307,6 +401,39 @@ abstract class DuskTestCase extends BaseTestCase
     {
         self::collectCoverage();
         parent::tearDownAfterClass();
+    }
+
+    /**
+     * Override Dusk's per-class teardown so the shared browser survives
+     * between test classes. Browsers are closed at process exit by the
+     * shutdown function registered in {@see driver()}.
+     */
+    #[\PHPUnit\Framework\Attributes\AfterClass]
+    public static function tearDownDuskClass(): void
+    {
+        // Intentionally left blank — chrome is reused across the whole
+        // `php artisan dusk` run.
+    }
+
+    private static function removeDirectory(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $items = @scandir($dir) ?: [];
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+            $path = $dir . DIRECTORY_SEPARATOR . $item;
+            if (is_dir($path) && !is_link($path)) {
+                self::removeDirectory($path);
+            } else {
+                @unlink($path);
+            }
+        }
+        @rmdir($dir);
     }
 
     protected function tearDown(): void

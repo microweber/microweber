@@ -151,7 +151,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 3: Page appears in global search ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 // Open search modal
                 $browser->script("
@@ -256,7 +256,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 3: Post appears in global search ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 $browser->script("
                     var trigger = document.querySelector('[data-slot=\"trigger\"] button')
@@ -356,7 +356,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 3: Product appears in global search ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 $browser->script("
                     var trigger = document.querySelector('[data-slot=\"trigger\"] button')
@@ -449,7 +449,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 1: Search for existing pages ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 $browser->script("
                     var trigger = document.querySelector('[data-slot=\"trigger\"] button')
@@ -496,7 +496,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 2: Search result navigation ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 $browser->script("
                     var trigger = document.querySelector('[data-slot=\"trigger\"] button')
@@ -542,7 +542,7 @@ class AdminContentWorkflowTest extends DuskTestCase
 
             // ── Check 3: Search with no results doesn't crash ──
             try {
-                $browser->visit('/admin')->pause(3000);
+                $browser->visit('/admin')->pause(1500);
 
                 $browser->script("
                     var trigger = document.querySelector('[data-slot=\"trigger\"] button')
@@ -560,7 +560,7 @@ class AdminContentWorkflowTest extends DuskTestCase
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     }
                 ");
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $pageSource = $browser->driver->getPageSource();
                 $this->assertStringNotContainsString('Internal Server Error', $pageSource,

@@ -98,7 +98,7 @@ class AdminContentCreateTest extends DuskTestCase
             $pageTitle = "Dusk Page {$ts}";
 
             try {
-                $browser->visit('/admin/pages/create')->pause(3000);
+                $browser->visit('/admin/pages/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -143,7 +143,7 @@ class AdminContentCreateTest extends DuskTestCase
             $postTitle = "Dusk Post {$ts}";
 
             try {
-                $browser->visit('/admin/posts/create')->pause(3000);
+                $browser->visit('/admin/posts/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -187,7 +187,7 @@ class AdminContentCreateTest extends DuskTestCase
             $productPrice = '49.99';
 
             try {
-                $browser->visit('/admin/products/create')->pause(3000);
+                $browser->visit('/admin/products/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -241,7 +241,7 @@ class AdminContentCreateTest extends DuskTestCase
             // 4. Validation: empty title should not save
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/pages/create')->pause(3000);
+                $browser->visit('/admin/pages/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 // Click Save without filling title
@@ -259,7 +259,7 @@ class AdminContentCreateTest extends DuskTestCase
             // 5. Navigation: "New page" button works
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/pages')->pause(3000);
+                $browser->visit('/admin/pages')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $browser->script("
@@ -269,7 +269,7 @@ class AdminContentCreateTest extends DuskTestCase
                     );
                     if (newBtn) newBtn.click();
                 ");
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/create', $currentUrl,
@@ -284,7 +284,7 @@ class AdminContentCreateTest extends DuskTestCase
             // 6. Navigation: "New product" button works
             // ════════════════════════════════════════════════════════════
             try {
-                $browser->visit('/admin/products')->pause(3000);
+                $browser->visit('/admin/products')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $browser->script("
@@ -294,7 +294,7 @@ class AdminContentCreateTest extends DuskTestCase
                     );
                     if (newBtn) newBtn.click();
                 ");
-                $browser->pause(3000);
+                $browser->pause(1500);
 
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertStringContainsString('/create', $currentUrl,
@@ -310,7 +310,7 @@ class AdminContentCreateTest extends DuskTestCase
             // ════════════════════════════════════════════════════════════
             try {
                 // Page tabs
-                $browser->visit('/admin/pages/create')->pause(3000);
+                $browser->visit('/admin/pages/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $pageTabs = $browser->script("
@@ -322,7 +322,7 @@ class AdminContentCreateTest extends DuskTestCase
                 $this->assertContains('Advanced', $pageTabs[0], 'Page form should have Advanced tab');
 
                 // Product tabs
-                $browser->visit('/admin/products/create')->pause(3000);
+                $browser->visit('/admin/products/create')->pause(1500);
                 $this->ensureLoggedIn($browser);
 
                 $productTabs = $browser->script("

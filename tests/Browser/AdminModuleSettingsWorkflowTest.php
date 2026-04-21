@@ -35,7 +35,7 @@ class AdminModuleSettingsWorkflowTest extends DuskTestCase
 
         foreach ($routes as $route) {
             try {
-                $browser->visit($route)->pause(3000);
+                $browser->visit($route)->pause(800);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
