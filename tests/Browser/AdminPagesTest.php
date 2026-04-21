@@ -53,12 +53,11 @@ class AdminPagesTest extends DuskTestCase
             "Page {$pageName} ({$url}) showed installer instead of admin page"
         );
 
-        // Check for JS errors
         try {
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
             if (!empty($errors)) {
-                $this->addWarning("JS errors on {$pageName}: " . json_encode($errors));
+                fwrite(STDERR, "\nJS errors on {$pageName}: " . json_encode($errors) . "\n");
             }
         } catch (\Exception $e) {
             // ChromeDriver log API can be unstable

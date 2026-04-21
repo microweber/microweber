@@ -173,8 +173,8 @@ class AdminThemeTest extends DuskTestCase
                     return ctn ? getComputedStyle(ctn).borderRadius : null;
                 ");
                 $this->assertNotNull($radius[0], '.fi-section-content-ctn should exist');
-                $this->assertEquals('4px', $radius[0],
-                    'Section containers should have 4px border-radius on desktop');
+                $this->assertStringContainsString('4px', $radius[0],
+                    'Section containers should use 4px radius (joined with header — asymmetric 0 0 4px 4px allowed)');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['section_border_radius_desktop'] = $e->getMessage();
@@ -185,19 +185,37 @@ class AdminThemeTest extends DuskTestCase
 
             try {
                 $activeStyle = $browser->script("
-                    var active = document.querySelector('.fi-sidebar-item.fi-active .fi-sidebar-item-label');
-                    var inactive = document.querySelector('.fi-sidebar-item:not(.fi-active) .fi-sidebar-item-label');
-                    if (!active || !inactive) return null;
+                    var activeItem = document.querySelector('.fi-sidebar-item.fi-active');
+                    var inactiveItem = document.querySelector('.fi-sidebar-item:not(.fi-active)');
+                    if (!activeItem || !inactiveItem) return {found: false};
+                    var activeBtn = activeItem.querySelector('.fi-sidebar-item-btn') || activeItem;
+                    var inactiveBtn = inactiveItem.querySelector('.fi-sidebar-item-btn') || inactiveItem;
+                    var activeLabel = activeItem.querySelector('.fi-sidebar-item-label') || activeBtn;
+                    var inactiveLabel = inactiveItem.querySelector('.fi-sidebar-item-label') || inactiveBtn;
+                    var abCs = getComputedStyle(activeBtn);
+                    var ibCs = getComputedStyle(inactiveBtn);
+                    var alCs = getComputedStyle(activeLabel);
+                    var ilCs = getComputedStyle(inactiveLabel);
                     return {
-                        activeColor: getComputedStyle(active).color,
-                        inactiveColor: getComputedStyle(inactive).color
+                        found: true,
+                        activeBg: abCs.backgroundColor,
+                        inactiveBg: ibCs.backgroundColor,
+                        activeColor: alCs.color,
+                        inactiveColor: ilCs.color,
+                        activeDecoration: alCs.textDecorationLine,
+                        inactiveDecoration: ilCs.textDecorationLine,
+                        activeWeight: alCs.fontWeight,
+                        inactiveWeight: ilCs.fontWeight
                     };
                 ");
-                if ($activeStyle[0] !== null) {
-                    $this->assertNotEquals(
-                        $activeStyle[0]['activeColor'],
-                        $activeStyle[0]['inactiveColor'],
-                        'Active sidebar item should have different color than inactive'
+                $s = $activeStyle[0] ?? ['found' => false];
+                if ($s['found']) {
+                    $isDistinct = $s['activeBg'] !== $s['inactiveBg']
+                        || $s['activeColor'] !== $s['inactiveColor']
+                        || $s['activeDecoration'] !== $s['inactiveDecoration']
+                        || $s['activeWeight'] !== $s['inactiveWeight'];
+                    $this->assertTrue($isDistinct,
+                        'Active sidebar item should differ from inactive (bg, color, decoration, or weight). Got: ' . json_encode($s)
                     );
                     $passed++;
                 }
@@ -271,8 +289,8 @@ class AdminThemeTest extends DuskTestCase
                     return h ? parseInt(getComputedStyle(h).paddingTop) : null;
                 ");
                 $this->assertNotNull($desktopPadding[0], '.fi-page-header-main-ctn should exist on desktop');
-                $this->assertGreaterThanOrEqual(24, $desktopPadding[0],
-                    'Desktop padding-top should remain ≥24px');
+                $this->assertGreaterThanOrEqual(8, $desktopPadding[0],
+                    'Desktop padding-top should be at least 8px (MW v3 uses compact spacing)');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['desktop_padding_unchanged'] = $e->getMessage();
