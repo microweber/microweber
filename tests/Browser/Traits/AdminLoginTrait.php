@@ -3,6 +3,7 @@
 namespace Tests\Browser\Traits;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Traits\PageSmokeTrait;
 
 /**
  * Shared admin login + settings-page helpers for Dusk browser tests.
@@ -16,6 +17,8 @@ use Laravel\Dusk\Browser;
  */
 trait AdminLoginTrait
 {
+    use PageSmokeTrait;
+
     protected function loginAsAdmin(Browser $browser): void
     {
         if (\Tests\DuskTestCase::$adminLoggedIn) {
@@ -123,11 +126,7 @@ trait AdminLoginTrait
         $browser->visit("/admin/{$slug}")->pause(3000);
         $this->ensureLoggedIn($browser);
 
-        $pageSource = $browser->driver->getPageSource();
-        $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-            "Page /admin/{$slug} returned 500");
-        $this->assertStringNotContainsString('Whoops', $pageSource,
-            "Page /admin/{$slug} shows Whoops error");
+        $this->assertPageHasNoErrorMarkers($browser, "Page /admin/{$slug}");
     }
 
     /**

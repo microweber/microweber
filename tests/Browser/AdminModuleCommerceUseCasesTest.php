@@ -34,9 +34,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
             $browser->visit('/admin/shop-module-settings')->pause(3000);
             $this->ensureLoggedIn($browser);
 
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource);
-            $this->assertStringNotContainsString('Whoops', $pageSource);
+            $this->assertPageHasNoErrorMarkers($browser, 'Shop module settings');
 
             // Verify shop-specific form elements exist
             $formCheck = $browser->script("
@@ -67,9 +65,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
                 ");
                 $browser->pause(1500);
 
-                $afterTab = $browser->driver->getPageSource();
-                $this->assertStringNotContainsString('Internal Server Error', $afterTab,
-                    'Switching tabs in shop settings should not cause 500');
+                $this->assertPageHasNoErrorMarkers($browser, 'Shop module settings (after tab switch)');
             }
         });
     }
@@ -82,8 +78,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
             $browser->visit('/admin/cart-add-module-settings')->pause(3000);
             $this->ensureLoggedIn($browser);
 
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource);
+            $this->assertPageHasNoErrorMarkers($browser, 'Cart-add module settings');
 
             $formCheck = $browser->script("
                 try {
@@ -107,9 +102,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
             $browser->visit('/admin/products-module-settings')->pause(3000);
             $this->ensureLoggedIn($browser);
 
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource);
-            $this->assertStringNotContainsString('Whoops', $pageSource);
+            $this->assertPageHasNoErrorMarkers($browser, 'Products module settings');
 
             // Products settings should have content type / display configuration
             $formCheck = $browser->script("
@@ -138,9 +131,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
                 ");
                 $browser->pause(1500);
 
-                $tabPage = $browser->driver->getPageSource();
-                $this->assertStringNotContainsString('Internal Server Error', $tabPage,
-                    "Products settings tab {$i} should not cause 500");
+                $this->assertPageHasNoErrorMarkers($browser, "Products settings tab {$i}");
             }
         });
     }
@@ -153,8 +144,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
             $browser->visit('/admin/products')->pause(3000);
             $this->ensureLoggedIn($browser);
 
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource);
+            $this->assertPageHasNoErrorMarkers($browser, 'Product list page');
 
             // Verify Filament table components are present
             $tableCheck = $browser->script("
@@ -187,9 +177,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
                 ");
                 $browser->pause(2000);
 
-                $afterSearch = $browser->driver->getPageSource();
-                $this->assertStringNotContainsString('Internal Server Error', $afterSearch,
-                    'Searching products should not cause 500');
+                $this->assertPageHasNoErrorMarkers($browser, 'Product list page (after search)');
             }
         });
     }
@@ -202,9 +190,7 @@ class AdminModuleCommerceUseCasesTest extends DuskTestCase
             $browser->visit('/admin/orders')->pause(3000);
             $this->ensureLoggedIn($browser);
 
-            $pageSource = $browser->driver->getPageSource();
-            $this->assertStringNotContainsString('Internal Server Error', $pageSource);
-            $this->assertStringNotContainsString('Whoops', $pageSource);
+            $this->assertPageHasNoErrorMarkers($browser, 'Order list page');
 
             // Verify orders page structure
             $pageCheck = $browser->script("

@@ -154,17 +154,13 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                     $stats = $this->getSettingsFormStats($browser);
 
                     // Verify the page didn't crash
-                    $pageSource = $browser->driver->getPageSource();
-                    $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-                        "Module '{$type}' settings should not cause 500");
+                    $this->assertPageHasNoErrorMarkers($browser, "Module '{$type}' settings");
 
                     // Try switching to Design tab
                     $this->clickDesignTab($browser);
                     $browser->pause(1500);
 
-                    $afterDesign = $browser->driver->getPageSource();
-                    $this->assertStringNotContainsString('Internal Server Error', $afterDesign,
-                        "Design tab for '{$type}' should not cause 500");
+                    $this->assertPageHasNoErrorMarkers($browser, "Design tab for '{$type}'");
 
                     $checked++;
                 } catch (\Exception $e) {
@@ -221,16 +217,12 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
 
                     $stats = $this->getSettingsFormStats($browser);
 
-                    $pageSource = $browser->driver->getPageSource();
-                    $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-                        "Module '{$type}' settings should not cause 500");
+                    $this->assertPageHasNoErrorMarkers($browser, "Module '{$type}' settings");
 
                     $this->clickDesignTab($browser);
                     $browser->pause(1500);
 
-                    $afterDesign = $browser->driver->getPageSource();
-                    $this->assertStringNotContainsString('Internal Server Error', $afterDesign,
-                        "Design tab for '{$type}' should not cause 500");
+                    $this->assertPageHasNoErrorMarkers($browser, "Design tab for '{$type}'");
 
                     $checked++;
                 } catch (\Exception $e) {
@@ -341,9 +333,7 @@ class AdminModuleLiveEditUseCasesTest extends DuskTestCase
                         continue;
                     }
 
-                    $pageSource = $browser->driver->getPageSource();
-                    $this->assertStringNotContainsString('Internal Server Error', $pageSource,
-                        "Module '{$type}' on shop page should not cause 500");
+                    $this->assertPageHasNoErrorMarkers($browser, "Module '{$type}' on shop page");
 
                     $checked++;
                 } catch (\Exception $e) {
