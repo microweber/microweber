@@ -1048,7 +1048,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Dusk test for end-to-end token creation → API call → revocation
 
 ### Phase 7 — Hardening
-- [ ] Per-token rate limits separate from IP-based `throttle:api`
+- [x] 2026-04-22  Per-token rate limits separate from IP-based `throttle:api`
 - [ ] Audit log of token usage (last-used timestamp on `oauth_access_tokens`)
 - [ ] CORS configuration for third-party frontends
 
