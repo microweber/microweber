@@ -32,10 +32,13 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
             return [
                 'body' => '',
                 'http_code' => 0,
+                'headers' => [],
                 'error' => "FakeHttpProbeFetcher: no scripted response for URL '{$url}'",
             ];
         }
-        return $this->table[$url];
+        $resp = $this->table[$url];
+        $resp['headers'] = $resp['headers'] ?? [];
+        return $resp;
     }
 
     public static function rest(string $url, int $posts, int $pages): self
@@ -79,8 +82,9 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
     private static function okWithWpTotal(int $total, string $body): array
     {
         return [
-            'body' => "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nX-WP-Total: {$total}\r\n\r\n{$body}",
+            'body' => $body,
             'http_code' => 200,
+            'headers' => ['x-wp-total' => (string)$total],
             'error' => '',
         ];
     }

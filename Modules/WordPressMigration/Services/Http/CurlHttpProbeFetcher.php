@@ -29,11 +29,25 @@ class CurlHttpProbeFetcher implements HttpProbeFetcher
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, min(10, $timeout));
         curl_setopt($ch, CURLOPT_ACCEPT_ENCODING, '');
 
+        $headers = [];
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function ($_ch, string $line) use (&$headers): int {
+            $colon = strpos($line, ':');
+            if ($colon !== false) {
+                $name = strtolower(trim(substr($line, 0, $colon)));
+                $value = trim(substr($line, $colon + 1));
+                if ($name !== '') {
+                    $headers[$name] = $value;
+                }
+            }
+            return strlen($line);
+        });
+
         $result = HttpClientFactory::executeCurl($ch);
 
         return [
             'body' => is_string($result['body']) ? $result['body'] : '',
             'http_code' => (int)$result['http_code'],
+            'headers' => $headers,
             'error' => (string)$result['error'],
         ];
     }

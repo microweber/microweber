@@ -438,9 +438,12 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
             return [
                 'body' => '',
                 'http_code' => 0,
+                'headers' => [],
                 'error' => "FakeHttpProbeFetcher: no scripted response for URL '{$url}'",
             ];
         }
-        return $this->table[$url];
+        $resp = $this->table[$url];
+        $resp['headers'] = $resp['headers'] ?? [];
+        return $resp;
     }
 }

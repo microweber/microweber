@@ -239,15 +239,26 @@ class WordPressSiteProbe
     }
 
     /**
-     * Inspect the REST posts/pages endpoint response for the
-     * `X-WP-Total` header. Without access to response headers (our
-     * fetcher returns body only for now), fall back to counting the
-     * JSON array. Returns null when the body isn't a JSON array.
+     * Read the `X-WP-Total` header the WP REST API sets on list
+     * endpoints — it's the authoritative post/page count and is
+     * preferred over counting the returned array (which is capped
+     * at `per_page=1` for a cheap probe). Header names are
+     * normalized lowercase by the fetcher.
      *
-     * @param array{body: string, http_code: int, error: string} $resp
+     * Back-compat: some older tests still bake the header into the
+     * body as a pseudo-HTTP response. The regex fallback preserves
+     * that behaviour so the existing unit tests keep passing
+     * without modification.
+     *
+     * @param array{body: string, http_code: int, headers?: array<string, string>, error: string} $resp
      */
     private static function extractWpTotal(array $resp): ?int
     {
+        $headers = $resp['headers'] ?? [];
+        if (isset($headers['x-wp-total']) && ctype_digit((string)$headers['x-wp-total'])) {
+            return (int)$headers['x-wp-total'];
+        }
+
         if (!preg_match('/^\s*(?:HTTP\/[\d.]+\s+\d+[^\r\n]*\r?\n)?(?:[^\r\n]+\r?\n)*x-wp-total:\s*(\d+)\b/mi', $resp['body'], $m)) {
             return null;
         }
@@ -255,7 +266,7 @@ class WordPressSiteProbe
     }
 
     /**
-     * @param array{body: string, http_code: int, error: string} $resp
+     * @param array{body: string, http_code: int, headers?: array<string, string>, error: string} $resp
      */
     private static function countJsonArray(array $resp): ?int
     {
