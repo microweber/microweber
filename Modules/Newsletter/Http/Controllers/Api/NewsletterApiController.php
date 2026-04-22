@@ -21,6 +21,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NewsletterApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/newsletter",
+     *     operationId="api.module.newsletter.index",
+     *     tags={"Newsletter"},
+     *     summary="List subscribers",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -61,6 +71,18 @@ class NewsletterApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/newsletter",
+     *     operationId="api.module.newsletter.store",
+     *     tags={"Newsletter"},
+     *     summary="Create a new subscriber",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -124,6 +146,22 @@ class NewsletterApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/newsletter/{id}",
+     *     operationId="api.module.newsletter.id.show",
+     *     tags={"Newsletter"},
+     *     summary="Show a single subscriber",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -145,6 +183,24 @@ class NewsletterApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/newsletter/{id}",
+     *     operationId="api.module.newsletter.id.update",
+     *     tags={"Newsletter"},
+     *     summary="Update a subscriber",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -196,6 +252,24 @@ class NewsletterApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/newsletter/{id}",
+     *     operationId="api.module.newsletter.id.destroy",
+     *     tags={"Newsletter"},
+     *     summary="Delete a subscriber",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -228,9 +302,25 @@ class NewsletterApiController extends Controller
     }
 
     /**
-     * Public self-unsubscribe endpoint. Accepts email + optional list_id
-     * and marks matching subscribers inactive without requiring auth —
-     * the confirmation_code is what gates abuse in production.
+     * @OA\Post(
+     *     path="/api/module/newsletter/unsubscribe",
+     *     operationId="api.module.newsletter.unsubscribe.unsubscribe",
+     *     tags={"Newsletter"},
+     *     summary="Self-unsubscribe by email",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"email"},
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="list_id", type="integer"),
+     *                 @OA\Property(property="confirmation_code", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function unsubscribe(Request $request): JsonResponse
     {

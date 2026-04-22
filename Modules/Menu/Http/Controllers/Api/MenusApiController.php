@@ -16,6 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MenusApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/menus",
+     *     operationId="api.module.menus.index",
+     *     tags={"Menus"},
+     *     summary="List menus",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -59,6 +69,18 @@ class MenusApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/menus",
+     *     operationId="api.module.menus.store",
+     *     tags={"Menus"},
+     *     summary="Create a new menu",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -116,6 +138,22 @@ class MenusApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/menus/{id}",
+     *     operationId="api.module.menus.id.show",
+     *     tags={"Menus"},
+     *     summary="Show a single menu",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $menu = Menu::find($id);
@@ -143,6 +181,24 @@ class MenusApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/menus/{id}",
+     *     operationId="api.module.menus.id.update",
+     *     tags={"Menus"},
+     *     summary="Update a menu",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -208,6 +264,24 @@ class MenusApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/menus/{id}",
+     *     operationId="api.module.menus.id.destroy",
+     *     tags={"Menus"},
+     *     summary="Delete a menu",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

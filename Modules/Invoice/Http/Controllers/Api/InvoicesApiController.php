@@ -16,6 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InvoicesApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/invoices",
+     *     operationId="api.module.invoices.index",
+     *     tags={"Invoices"},
+     *     summary="List invoices",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         // Invoices always require admin — they contain billing/customer data
@@ -67,6 +77,18 @@ class InvoicesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/invoices",
+     *     operationId="api.module.invoices.store",
+     *     tags={"Invoices"},
+     *     summary="Create a new invoice",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user()) {
@@ -136,6 +158,22 @@ class InvoicesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/invoices/{id}",
+     *     operationId="api.module.invoices.id.show",
+     *     tags={"Invoices"},
+     *     summary="Show a single invoice",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {
@@ -166,6 +204,24 @@ class InvoicesApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/invoices/{id}",
+     *     operationId="api.module.invoices.id.update",
+     *     tags={"Invoices"},
+     *     summary="Update a invoice",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {
@@ -230,6 +286,24 @@ class InvoicesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/invoices/{id}",
+     *     operationId="api.module.invoices.id.destroy",
+     *     tags={"Invoices"},
+     *     summary="Delete a invoice",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {

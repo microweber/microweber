@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MediaApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/media",
+     *     operationId="api.module.media.index",
+     *     tags={"Media"},
+     *     summary="List media items",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -62,6 +72,18 @@ class MediaApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/media",
+     *     operationId="api.module.media.store",
+     *     tags={"Media"},
+     *     summary="Create a new media item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -114,6 +136,22 @@ class MediaApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/media/{id}",
+     *     operationId="api.module.media.id.show",
+     *     tags={"Media"},
+     *     summary="Show a single media item",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $media = Media::find($id);
@@ -131,6 +169,24 @@ class MediaApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/media/{id}",
+     *     operationId="api.module.media.id.update",
+     *     tags={"Media"},
+     *     summary="Update a media item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -192,6 +248,24 @@ class MediaApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/media/{id}",
+     *     operationId="api.module.media.id.destroy",
+     *     tags={"Media"},
+     *     summary="Delete a media item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductsApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/products",
+     *     operationId="api.module.products.index",
+     *     tags={"Products"},
+     *     summary="List products",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -56,6 +66,18 @@ class ProductsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/products",
+     *     operationId="api.module.products.store",
+     *     tags={"Products"},
+     *     summary="Create a new product",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -103,6 +125,22 @@ class ProductsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/products/{id}",
+     *     operationId="api.module.products.id.show",
+     *     tags={"Products"},
+     *     summary="Show a single product",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $product = Product::find($id);
@@ -130,6 +168,24 @@ class ProductsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/products/{id}",
+     *     operationId="api.module.products.id.update",
+     *     tags={"Products"},
+     *     summary="Update a product",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -185,6 +241,24 @@ class ProductsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/products/{id}",
+     *     operationId="api.module.products.id.destroy",
+     *     tags={"Products"},
+     *     summary="Delete a product",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

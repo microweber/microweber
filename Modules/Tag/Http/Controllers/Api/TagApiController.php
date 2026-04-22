@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TagApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/tags",
+     *     operationId="api.module.tags.index",
+     *     tags={"Content"},
+     *     summary="List tags",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -50,6 +60,18 @@ class TagApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/tags",
+     *     operationId="api.module.tags.store",
+     *     tags={"Content"},
+     *     summary="Create a new tag",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || !$request->user()->is_admin) {
@@ -97,6 +119,22 @@ class TagApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/tags/{id}",
+     *     operationId="api.module.tags.id.show",
+     *     tags={"Content"},
+     *     summary="Show a single tag",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(int $id): JsonResponse
     {
         $tag = Tag::find($id);
@@ -114,6 +152,24 @@ class TagApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/tags/{id}",
+     *     operationId="api.module.tags.id.update",
+     *     tags={"Content"},
+     *     summary="Update a tag",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || !$request->user()->is_admin) {
@@ -167,6 +223,24 @@ class TagApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/tags/{id}",
+     *     operationId="api.module.tags.id.destroy",
+     *     tags={"Content"},
+     *     summary="Delete a tag",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || !$request->user()->is_admin) {

@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrdersApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/orders",
+     *     operationId="api.module.orders.index",
+     *     tags={"Orders"},
+     *     summary="List orders",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         if (!$request->user()) {
@@ -69,6 +79,18 @@ class OrdersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/orders",
+     *     operationId="api.module.orders.store",
+     *     tags={"Orders"},
+     *     summary="Create a new order",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user()) {
@@ -135,6 +157,22 @@ class OrdersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/orders/{id}",
+     *     operationId="api.module.orders.id.show",
+     *     tags={"Orders"},
+     *     summary="Show a single order",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {
@@ -165,6 +203,24 @@ class OrdersApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/orders/{id}",
+     *     operationId="api.module.orders.id.update",
+     *     tags={"Orders"},
+     *     summary="Update a order",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {
@@ -235,6 +291,24 @@ class OrdersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/orders/{id}",
+     *     operationId="api.module.orders.id.destroy",
+     *     tags={"Orders"},
+     *     summary="Delete a order",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user()) {

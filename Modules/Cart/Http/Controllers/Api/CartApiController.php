@@ -21,10 +21,14 @@ class CartApiController extends Controller
     }
 
     /**
-     * Get the current cart.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/cart",
+     *     operationId="api.module.cart.index",
+     *     tags={"Cart"},
+     *     summary="List cart items",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function index(Request $request): JsonResponse
     {
@@ -49,10 +53,14 @@ class CartApiController extends Controller
     }
 
     /**
-     * Add item to cart.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/cart",
+     *     operationId="api.module.cart.store",
+     *     tags={"Cart"},
+     *     summary="Create a new cart item",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -99,11 +107,20 @@ class CartApiController extends Controller
     }
 
     /**
-     * Update cart item quantity.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/module/cart/{id}",
+     *     operationId="api.module.cart.id.update",
+     *     tags={"Cart"},
+     *     summary="Update a cart item",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -149,10 +166,20 @@ class CartApiController extends Controller
     }
 
     /**
-     * Remove item from cart.
-     *
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/module/cart/{id}",
+     *     operationId="api.module.cart.id.destroy",
+     *     tags={"Cart"},
+     *     summary="Delete a cart item",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function destroy(int $id): JsonResponse
     {
@@ -181,9 +208,14 @@ class CartApiController extends Controller
     }
 
     /**
-     * Empty the cart.
-     *
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/module/cart/empty",
+     *     operationId="api.module.cart.empty.empty",
+     *     tags={"Cart"},
+     *     summary="Empty the cart",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function empty(): JsonResponse
     {
@@ -205,9 +237,14 @@ class CartApiController extends Controller
     }
 
     /**
-     * Get cart totals.
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/cart/totals",
+     *     operationId="api.module.cart.totals.totals",
+     *     tags={"Cart"},
+     *     summary="Compute cart totals",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function totals(): JsonResponse
     {
@@ -228,10 +265,23 @@ class CartApiController extends Controller
     }
 
     /**
-     * Apply coupon to cart.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/cart/coupon",
+     *     operationId="api.module.cart.coupon.applycoupon",
+     *     tags={"Cart"},
+     *     summary="Apply a coupon to the cart",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"code"},
+     *                 @OA\Property(property="code", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function applyCoupon(Request $request): JsonResponse
     {
@@ -281,9 +331,14 @@ class CartApiController extends Controller
     }
 
     /**
-     * Remove coupon from cart.
-     *
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/module/cart/coupon",
+     *     operationId="api.module.cart.coupon.removecoupon",
+     *     tags={"Cart"},
+     *     summary="Remove the applied coupon",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function removeCoupon(): JsonResponse
     {

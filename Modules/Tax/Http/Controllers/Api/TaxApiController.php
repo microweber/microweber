@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TaxApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/tax",
+     *     operationId="api.module.tax.index",
+     *     tags={"Tax"},
+     *     summary="List tax rates",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -51,6 +61,18 @@ class TaxApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/tax",
+     *     operationId="api.module.tax.store",
+     *     tags={"Tax"},
+     *     summary="Create a new tax rate",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -101,6 +123,22 @@ class TaxApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/tax/{id}",
+     *     operationId="api.module.tax.id.show",
+     *     tags={"Tax"},
+     *     summary="Show a single tax rate",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $rate = TaxRate::find($id);
@@ -128,6 +166,24 @@ class TaxApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/tax/{id}",
+     *     operationId="api.module.tax.id.update",
+     *     tags={"Tax"},
+     *     summary="Update a tax rate",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -187,6 +243,24 @@ class TaxApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/tax/{id}",
+     *     operationId="api.module.tax.id.destroy",
+     *     tags={"Tax"},
+     *     summary="Delete a tax rate",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

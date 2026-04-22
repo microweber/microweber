@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/categories",
+     *     operationId="api.module.categories.index",
+     *     tags={"Categories"},
+     *     summary="List categorys",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -60,6 +70,18 @@ class CategoriesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/categories",
+     *     operationId="api.module.categories.store",
+     *     tags={"Categories"},
+     *     summary="Create a new category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -114,6 +136,22 @@ class CategoriesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/categories/{id}",
+     *     operationId="api.module.categories.id.show",
+     *     tags={"Categories"},
+     *     summary="Show a single category",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $category = Category::find($id);
@@ -143,6 +181,24 @@ class CategoriesApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/categories/{id}",
+     *     operationId="api.module.categories.id.update",
+     *     tags={"Categories"},
+     *     summary="Update a category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -205,6 +261,24 @@ class CategoriesApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/categories/{id}",
+     *     operationId="api.module.categories.id.destroy",
+     *     tags={"Categories"},
+     *     summary="Delete a category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

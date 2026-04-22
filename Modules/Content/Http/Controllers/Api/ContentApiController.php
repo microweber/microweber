@@ -16,10 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 class ContentApiController extends Controller
 {
     /**
-     * Display a listing of content.
-     *
-     * @param Request $request
-     * @return AnonymousResourceCollection|JsonResponse
+     * @OA\Get(
+     *     path="/api/module/content",
+     *     operationId="api.module.content.index",
+     *     tags={"Content"},
+     *     summary="List content items",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
@@ -42,10 +46,16 @@ class ContentApiController extends Controller
     }
 
     /**
-     * Store content in database.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/content",
+     *     operationId="api.module.content.store",
+     *     tags={"Content"},
+     *     summary="Create a new content item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -96,10 +106,20 @@ class ContentApiController extends Controller
     }
 
     /**
-     * Display the specified content.
-     *
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/content/{id}",
+     *     operationId="api.module.content.id.show",
+     *     tags={"Content"},
+     *     summary="Show a single content item",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function show(int $id): JsonResponse
     {
@@ -119,11 +139,22 @@ class ContentApiController extends Controller
     }
 
     /**
-     * Update the specified content.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/module/content/{id}",
+     *     operationId="api.module.content.id.update",
+     *     tags={"Content"},
+     *     summary="Update a content item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -176,10 +207,22 @@ class ContentApiController extends Controller
     }
 
     /**
-     * Remove the specified content.
-     *
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/module/content/{id}",
+     *     operationId="api.module.content.id.destroy",
+     *     tags={"Content"},
+     *     summary="Delete a content item",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
      */
     public function destroy(Request $request, int $id): JsonResponse
     {

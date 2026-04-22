@@ -16,6 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UsersApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/users",
+     *     operationId="api.module.users.index",
+     *     tags={"Users"},
+     *     summary="List users",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -55,6 +65,18 @@ class UsersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/users",
+     *     operationId="api.module.users.store",
+     *     tags={"Users"},
+     *     summary="Create a new user",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -104,6 +126,22 @@ class UsersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/users/{id}",
+     *     operationId="api.module.users.id.show",
+     *     tags={"Users"},
+     *     summary="Show a single user",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -125,6 +163,24 @@ class UsersApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/users/{id}",
+     *     operationId="api.module.users.id.update",
+     *     tags={"Users"},
+     *     summary="Update a user",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -186,6 +242,24 @@ class UsersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/users/{id}",
+     *     operationId="api.module.users.id.destroy",
+     *     tags={"Users"},
+     *     summary="Delete a user",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {

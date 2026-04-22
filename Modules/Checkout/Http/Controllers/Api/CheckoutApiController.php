@@ -20,10 +20,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Get checkout session data.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/checkout",
+     *     operationId="api.module.checkout.index",
+     *     tags={"Checkout"},
+     *     summary="Get the current checkout state",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function index(Request $request): JsonResponse
     {
@@ -61,10 +65,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Process checkout.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/checkout",
+     *     operationId="api.module.checkout.store",
+     *     tags={"Checkout"},
+     *     summary="Place the order",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -127,10 +135,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Update checkout session data.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/module/checkout",
+     *     operationId="api.module.checkout.update",
+     *     tags={"Checkout"},
+     *     summary="Update checkout fields",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function update(Request $request): JsonResponse
     {
@@ -162,10 +174,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Validate checkout data.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/checkout/validate",
+     *     operationId="api.module.checkout.validate.validate",
+     *     tags={"Checkout"},
+     *     summary="Validate checkout before placing the order",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function validate(Request $request): JsonResponse
     {
@@ -242,9 +258,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Get shipping methods.
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/checkout/shipping-methods",
+     *     operationId="api.module.checkout.shipping.methods.shippingmethods",
+     *     tags={"Checkout"},
+     *     summary="List available shipping methods",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function shippingMethods(): JsonResponse
     {
@@ -265,9 +286,14 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Get payment methods.
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/checkout/payment-methods",
+     *     operationId="api.module.checkout.payment.methods.paymentmethods",
+     *     tags={"Checkout"},
+     *     summary="List available payment methods",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function paymentMethods(): JsonResponse
     {
@@ -288,10 +314,23 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Calculate shipping cost.
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/module/checkout/calculate-shipping",
+     *     operationId="api.module.checkout.calculate.shipping.calculateshipping",
+     *     tags={"Checkout"},
+     *     summary="Calculate shipping cost for a cart",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="country", type="string"),
+     *                 @OA\Property(property="zip", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function calculateShipping(Request $request): JsonResponse
     {
@@ -338,10 +377,20 @@ class CheckoutApiController extends Controller
     }
 
     /**
-     * Get order status.
-     *
-     * @param string $orderReferenceId
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/module/checkout/order/{orderReferenceId}",
+     *     operationId="api.module.checkout.order.orderreferenceid.orderstatus",
+     *     tags={"Checkout"},
+     *     summary="Look up the status of a placed order",
+     *     @OA\Parameter(
+     *         name="orderReferenceId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function orderStatus(string $orderReferenceId): JsonResponse
     {

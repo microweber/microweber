@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CouponsApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/coupons",
+     *     operationId="api.module.coupons.index",
+     *     tags={"Coupons"},
+     *     summary="List coupons",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -61,6 +71,18 @@ class CouponsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/coupons",
+     *     operationId="api.module.coupons.store",
+     *     tags={"Coupons"},
+     *     summary="Create a new coupon",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -110,6 +132,22 @@ class CouponsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/coupons/{id}",
+     *     operationId="api.module.coupons.id.show",
+     *     tags={"Coupons"},
+     *     summary="Show a single coupon",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $coupon = Coupon::find($id);
@@ -137,6 +175,24 @@ class CouponsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/coupons/{id}",
+     *     operationId="api.module.coupons.id.update",
+     *     tags={"Coupons"},
+     *     summary="Update a coupon",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -195,6 +251,24 @@ class CouponsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/coupons/{id}",
+     *     operationId="api.module.coupons.id.destroy",
+     *     tags={"Coupons"},
+     *     summary="Delete a coupon",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

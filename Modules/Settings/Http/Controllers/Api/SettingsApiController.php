@@ -51,6 +51,16 @@ class SettingsApiController extends Controller
         'timezone',
     ];
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/settings",
+     *     operationId="api.module.settings.index",
+     *     tags={"Settings"},
+     *     summary="List settings",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): JsonResponse
     {
         $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
@@ -82,6 +92,22 @@ class SettingsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/settings/{key}",
+     *     operationId="api.module.settings.key.show",
+     *     tags={"Settings"},
+     *     summary="Show a single setting",
+     *     @OA\Parameter(
+     *         name="key",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, string $key): JsonResponse
     {
         $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
@@ -119,6 +145,18 @@ class SettingsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/settings",
+     *     operationId="api.module.settings.store",
+     *     tags={"Settings"},
+     *     summary="Create a new setting",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -191,6 +229,24 @@ class SettingsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/settings/{key}",
+     *     operationId="api.module.settings.key.update",
+     *     tags={"Settings"},
+     *     summary="Update a setting",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="key",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, string $key): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -252,6 +308,24 @@ class SettingsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/settings/{key}",
+     *     operationId="api.module.settings.key.destroy",
+     *     tags={"Settings"},
+     *     summary="Delete a setting",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="key",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, string $key): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {

@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentsApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/comments",
+     *     operationId="api.module.comments.index",
+     *     tags={"Comments"},
+     *     summary="List comments",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -52,6 +62,18 @@ class CommentsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/comments",
+     *     operationId="api.module.comments.store",
+     *     tags={"Comments"},
+     *     summary="Create a new comment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -100,6 +122,22 @@ class CommentsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/comments/{id}",
+     *     operationId="api.module.comments.id.show",
+     *     tags={"Comments"},
+     *     summary="Show a single comment",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $comment = Comment::find($id);
@@ -128,6 +166,24 @@ class CommentsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/comments/{id}",
+     *     operationId="api.module.comments.id.update",
+     *     tags={"Comments"},
+     *     summary="Update a comment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -182,6 +238,24 @@ class CommentsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/comments/{id}",
+     *     operationId="api.module.comments.id.destroy",
+     *     tags={"Comments"},
+     *     summary="Delete a comment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

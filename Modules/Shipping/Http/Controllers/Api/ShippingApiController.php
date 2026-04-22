@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShippingApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/shipping",
+     *     operationId="api.module.shipping.index",
+     *     tags={"Shipping"},
+     *     summary="List shipping methods",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -49,6 +59,18 @@ class ShippingApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/shipping",
+     *     operationId="api.module.shipping.store",
+     *     tags={"Shipping"},
+     *     summary="Create a new shipping method",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -96,6 +118,22 @@ class ShippingApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/shipping/{id}",
+     *     operationId="api.module.shipping.id.show",
+     *     tags={"Shipping"},
+     *     summary="Show a single shipping method",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $provider = ShippingProvider::find($id);
@@ -123,6 +161,24 @@ class ShippingApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/shipping/{id}",
+     *     operationId="api.module.shipping.id.update",
+     *     tags={"Shipping"},
+     *     summary="Update a shipping method",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -179,6 +235,24 @@ class ShippingApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/shipping/{id}",
+     *     operationId="api.module.shipping.id.destroy",
+     *     tags={"Shipping"},
+     *     summary="Delete a shipping method",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

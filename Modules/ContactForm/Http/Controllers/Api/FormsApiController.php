@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FormsApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/forms",
+     *     operationId="api.module.forms.index",
+     *     tags={"Forms"},
+     *     summary="List form submissions",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
@@ -58,6 +68,18 @@ class FormsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/forms",
+     *     operationId="api.module.forms.store",
+     *     tags={"Forms"},
+     *     summary="Create a new form submission",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -106,6 +128,22 @@ class FormsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/forms/{id}",
+     *     operationId="api.module.forms.id.show",
+     *     tags={"Forms"},
+     *     summary="Show a single form submission",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         $form = Form::find($id);
@@ -133,6 +171,24 @@ class FormsApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/forms/{id}",
+     *     operationId="api.module.forms.id.update",
+     *     tags={"Forms"},
+     *     summary="Update a form submission",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {
@@ -191,6 +247,24 @@ class FormsApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/forms/{id}",
+     *     operationId="api.module.forms.id.destroy",
+     *     tags={"Forms"},
+     *     summary="Delete a form submission",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if (!$request->user() || (int) $request->user()->is_admin !== 1) {

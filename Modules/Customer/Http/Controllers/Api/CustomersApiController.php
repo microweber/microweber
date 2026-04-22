@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomersApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/module/customers",
+     *     operationId="api.module.customers.index",
+     *     tags={"Customers"},
+     *     summary="List customers",
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -55,6 +65,18 @@ class CustomersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/module/customers",
+     *     operationId="api.module.customers.store",
+     *     tags={"Customers"},
+     *     summary="Create a new customer",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -102,6 +124,22 @@ class CustomersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/module/customers/{id}",
+     *     operationId="api.module.customers.id.show",
+     *     tags={"Customers"},
+     *     summary="Show a single customer",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -123,6 +161,24 @@ class CustomersApiController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/module/customers/{id}",
+     *     operationId="api.module.customers.id.update",
+     *     tags={"Customers"},
+     *     summary="Update a customer",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
@@ -176,6 +232,24 @@ class CustomersApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/module/customers/{id}",
+     *     operationId="api.module.customers.id.destroy",
+     *     tags={"Customers"},
+     *     summary="Delete a customer",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=401, description="Unauthenticated"),
+     *     @OA\Response(response=403, description="Forbidden — admin required")
+     * )
+     */
     public function destroy(Request $request, int $id): JsonResponse
     {
         if ($deny = $this->requireAdmin($request)) {
