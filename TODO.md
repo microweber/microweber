@@ -1075,7 +1075,7 @@ compose into one golden-path suite `LiveEditFullLandingPageTest`.
 
 ### Phase 1 — Fixture & harness
 - [x] 2026-04-22  Add a trait `LiveEditPageBuilderTrait` under `tests/Browser/Traits/` exposing: `createBlankPage(Browser, string $title): int` (creates an empty page via API/DB and returns its id), `openInLiveEdit(Browser, int $pageId)`, `insertLayoutByCategory(Browser, string $category, string $skin)`, `editInlineText(Browser, string $fieldSelector, string $text)`, `saveLiveEdit(Browser)`, `assertPublicPageContains(Browser, string $slug, string $needle)`
-- [ ] Add `LandingPageFactory` in `tests/Browser/Factories/` that seeds an admin user + a clean "landing-test-<ts>" page and guarantees the active template is Bootstrap
+- [x] 2026-04-22  Add `LandingPageFactory` in `tests/Browser/Factories/` that seeds an admin user + a clean "landing-test-<ts>" page and guarantees the active template is Bootstrap
 - [ ] Wire a tearDown cleanup that deletes any `landing-test-*` pages and their content rows, so reruns don't accumulate
 
 ### Phase 2 — Section-by-section build (golden path)
