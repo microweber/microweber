@@ -1103,7 +1103,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 
 ### Phase 4 — Inline editing & module settings
 - [x] 2026-04-22  Double-click a pricing `.price` amount → inline editor opens; typed value survives Save
-- [ ] Open settings panel for inserted Pricing module; toggle "popular plan" option; assert option persists via `options` table
+- [x] 2026-04-22  Open settings panel for inserted Pricing module; toggle "popular plan" option; assert option persists via `options` table
 - [ ] Use background module color picker on jumbotron hero; assert `background-color` inline style saved
 - [ ] Drag a card from position 3 to position 1 (Sortable/jQuery UI); assert new order in saved HTML
 
