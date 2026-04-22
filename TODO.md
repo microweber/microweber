@@ -1113,7 +1113,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [x] 2026-04-22  Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
 
 ### Phase 6 — Template-switch safety
-- [ ] Switch `current_template` option from Bootstrap → Big2, reload public page, assert page still renders (modules fall back gracefully)
+- [x] 2026-04-22  Switch `current_template` option from Bootstrap → Big2, reload public page, assert page still renders (modules fall back gracefully)
 - [ ] Switch back to Bootstrap; assert Bootstrap-specific skins render again (regression guard for adapter state leak)
 
 ### Phase 7 — CI wiring
