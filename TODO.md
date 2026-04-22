@@ -1215,7 +1215,7 @@ should also work when the active template is a sibling (Big, Big2,
 Dream). This guards against `colorPaletteFromTemplateFolderLibrary`
 accidentally being hardcoded to Bootstrap.
 - [x] 2026-04-23  `tests/Browser/LiveEditColorPaletteCrossTemplateTest.php` — for each active template that ships color packs (currently Bootstrap only, but scaffold for Big/Big2/Dream additions), enumerate available packs via the same trait and sanity-check that at least one applies and survives public render
-- [ ] Assert switching `current_template` Bootstrap→Big2→Bootstrap (piggyback on the existing Phase-6 regression harness) preserves palette state on pages where `content.active_site_template` pins Bootstrap
+- [x] 2026-04-23  Assert switching `current_template` Bootstrap→Big2→Bootstrap (piggyback on the existing Phase-6 regression harness) preserves palette state on pages where `content.active_site_template` pins Bootstrap
 - [ ] Assert no JS error when the active template has zero color packs (Big2 currently) — the picker section should simply not render, not throw
 
 ### Phase 9 — CI wiring
