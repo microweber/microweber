@@ -1097,7 +1097,7 @@ survives a save→reload.
 Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [x] 2026-04-22  Assert every iframe `preview_url` contains `active_site_template=Bootstrap` (regression guard for blank-thumbnail bug fixed in 36a0e6b)
 - [x] 2026-04-22  Assert no iframe renders an empty fallback (`grep` for `field="layout-skin-1-"` in iframe body across a random sample of 5)
-- [ ] Assert category filter narrows the visible cards (pricing category shows exactly 3 cards)
+- [x] 2026-04-22  Assert category filter narrows the visible cards (pricing category shows exactly 3 cards)
 - [ ] Assert keyword search finds "hosting" → Pricing skin-2 and hosting-compare page layout
 - [ ] Assert switching Insert-Top vs Insert-Bottom places the new section in the correct DOM position
 
