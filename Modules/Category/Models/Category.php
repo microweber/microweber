@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Modules\Category\Database\Factories\CategoryFactory;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -39,6 +40,11 @@ class Category extends Model
     use SetParentIdToCategoryTrait;
 
     protected $table = 'categories';
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
+    }
 
     //  public $timestamps = false;
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Country\Models\Country;
+use Modules\Tax\Database\Factories\TaxRateFactory;
 
 /**
  * Tax Rate Model
@@ -42,6 +43,11 @@ class TaxRate extends Model
     use HasFactory;
 
     protected $table = 'tax_rates';
+
+    protected static function newFactory(): TaxRateFactory
+    {
+        return TaxRateFactory::new();
+    }
 
     protected $fillable = [
         'name',

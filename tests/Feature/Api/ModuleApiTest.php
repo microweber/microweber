@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace Tests\Feature\Api;
 
 use MicroweberPackages\User\Models\User;
+use Modules\Category\Models\Category;
 use Modules\Comments\Models\Comment;
 use Modules\ContactForm\Models\Form;
 use Modules\Content\Models\Content;
+use Modules\Coupons\Models\Coupon;
+use Modules\Invoice\Models\Invoice;
 use Modules\Media\Models\Media;
 use Modules\Menu\Models\Menu;
+use Modules\Order\Models\Order;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
+use Modules\Product\Models\Product;
+use Modules\Shipping\Models\ShippingProvider;
 use Modules\Tag\Models\Tag;
+use Modules\Tax\Models\TaxRate;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -745,6 +752,227 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function products_index_is_public(): void
+    {
+        Product::factory()->count(2)->create();
+
+        $this->getJson('/api/module/products')
+            ->assertStatus(200)
+            ->assertJsonStructure(['data', 'links', 'meta']);
+    }
+
+    #[Test]
+    public function products_store_requires_admin(): void
+    {
+        $payload = ['title' => 'API Product ' . uniqid()];
+
+        $this->postJson('/api/module/products', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/products', $payload)
+            ->assertStatus(403);
+
+        $response = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/products', $payload);
+
+        $response->assertStatus(201)
+            ->assertJson(['success' => true, 'data' => ['title' => $payload['title']]]);
+    }
+
+    #[Test]
+    public function products_destroy_requires_admin(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->deleteJson("/api/module/products/{$product->id}")->assertStatus(401);
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/products/{$product->id}")->assertStatus(403);
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/products/{$product->id}")->assertStatus(200);
+    }
+
+    #[Test]
+    public function categories_crud_roundtrip(): void
+    {
+        $category = Category::factory()->create(['title' => 'Public Cat']);
+
+        $this->getJson("/api/module/categories/{$category->id}")
+            ->assertStatus(200)
+            ->assertJson(['data' => ['id' => $category->id, 'title' => 'Public Cat']]);
+
+        $created = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/categories', [
+                'title' => 'API Category ' . uniqid(),
+                'data_type' => 'category',
+                'rel_type' => 'Modules\\Content\\Models\\Content',
+            ])
+            ->assertStatus(201)
+            ->json('data');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/categories/{$created['id']}", ['title' => 'Renamed Category'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('categories', ['id' => $created['id'], 'title' => 'Renamed Category']);
+    }
+
+    #[Test]
+    public function orders_index_is_admin_only(): void
+    {
+        Order::factory()->count(2)->create();
+
+        // Orders hold PII — even index is gated to admin, unlike content-type
+        // modules where public reads are fine.
+        $this->getJson('/api/module/orders')->assertStatus(401);
+        $this->actingAs($this->regularUser, 'api')
+            ->getJson('/api/module/orders')->assertStatus(403);
+        $this->actingAs($this->adminUser, 'api')
+            ->getJson('/api/module/orders')->assertStatus(200);
+    }
+
+    #[Test]
+    public function orders_store_and_update_require_admin(): void
+    {
+        $payload = [
+            'email' => 'buyer-' . uniqid() . '@example.com',
+            'first_name' => 'Buyer',
+            'last_name' => 'Test',
+            'amount' => 99.99,
+            'currency' => 'USD',
+        ];
+
+        $created = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/orders', $payload)
+            ->assertStatus(201)
+            ->json('data');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/orders/{$created['id']}", ['order_status' => 'shipped'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('cart_orders', ['id' => $created['id'], 'order_status' => 'shipped']);
+    }
+
+    #[Test]
+    public function coupons_public_index_hides_expired(): void
+    {
+        Coupon::factory()->create(['is_active' => true, 'coupon_code' => 'ACTIVE-' . uniqid()]);
+        Coupon::factory()->create(['is_active' => false, 'coupon_code' => 'INACTIVE-' . uniqid()]);
+
+        $response = $this->getJson('/api/module/coupons')->assertStatus(200);
+        $codes = collect($response->json('data'))->pluck('coupon_code')->all();
+
+        foreach ($codes as $code) {
+            $this->assertStringStartsWith('ACTIVE-', $code);
+        }
+    }
+
+    #[Test]
+    public function coupons_writes_require_admin(): void
+    {
+        $payload = [
+            'coupon_code' => 'APITEST-' . uniqid(),
+            'discount_type' => 'percentage',
+            'discount_value' => 10,
+        ];
+
+        $this->postJson('/api/module/coupons', $payload)->assertStatus(401);
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/coupons', $payload)->assertStatus(403);
+        $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/coupons', $payload)->assertStatus(201);
+    }
+
+    #[Test]
+    public function shipping_providers_public_reads_admin_writes(): void
+    {
+        $provider = ShippingProvider::factory()->create(['is_active' => true]);
+
+        $this->getJson('/api/module/shipping')->assertStatus(200);
+        $this->getJson("/api/module/shipping/{$provider->id}")
+            ->assertStatus(200)
+            ->assertJson(['data' => ['id' => $provider->id]]);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/shipping', ['name' => 'X', 'provider' => 'flat_rate'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/shipping', ['name' => 'Admin Provider', 'provider' => 'flat_rate'])
+            ->assertStatus(201);
+    }
+
+    #[Test]
+    public function shipping_provider_settings_are_admin_only(): void
+    {
+        $provider = ShippingProvider::factory()->create([
+            'is_active' => true,
+            'settings' => json_encode(['api_key' => 'secret-key-123']),
+        ]);
+
+        // Public reader must not see provider settings (which can hold secrets).
+        $publicData = $this->getJson("/api/module/shipping/{$provider->id}")->json('data');
+        $this->assertArrayNotHasKey('settings', $publicData);
+
+        $adminData = $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/shipping/{$provider->id}")->json('data');
+        $this->assertArrayHasKey('settings', $adminData);
+    }
+
+    #[Test]
+    public function tax_rates_crud(): void
+    {
+        TaxRate::factory()->count(2)->create(['is_active' => true]);
+        $this->getJson('/api/module/tax')->assertStatus(200);
+
+        $created = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/tax', [
+                'name' => 'VAT ' . uniqid(),
+                'country_code' => 'BG',
+                'type' => 'percentage',
+                'rate' => 20,
+            ])
+            ->assertStatus(201)
+            ->json('data');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/tax/{$created['id']}")->assertStatus(200);
+    }
+
+    #[Test]
+    public function invoices_are_admin_only_on_every_verb(): void
+    {
+        $invoice = Invoice::factory()->create();
+
+        // actingAs() persists across subsequent requests on the same test
+        // instance, so all anonymous assertions must run before any login.
+        $this->getJson('/api/module/invoices')->assertStatus(401);
+        $this->getJson("/api/module/invoices/{$invoice->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api');
+        $this->getJson('/api/module/invoices')->assertStatus(403);
+        $this->getJson("/api/module/invoices/{$invoice->id}")->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api');
+        $this->getJson('/api/module/invoices')->assertStatus(200);
+        $this->getJson("/api/module/invoices/{$invoice->id}")->assertStatus(200);
+    }
+
+    #[Test]
+    public function cart_and_checkout_endpoints_are_public(): void
+    {
+        // Both endpoints are session-backed — anonymous callers should reach
+        // the controller and get a 200 (or a 4xx from the service layer, but
+        // never an auth failure).
+        $this->getJson('/api/module/cart')->assertStatus(200);
+
+        // Checkout returns 400 "Cart is empty" for fresh sessions — that's
+        // still the controller talking, not auth middleware.
+        $this->getJson('/api/module/checkout')->assertStatus(400)
+            ->assertJson(['success' => false]);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -790,6 +1018,57 @@ final class ModuleApiTest extends TestCase
             'api.module.contact-form.show',
             'api.module.contact-form.update',
             'api.module.contact-form.destroy',
+            'api.module.products.index',
+            'api.module.products.store',
+            'api.module.products.show',
+            'api.module.products.update',
+            'api.module.products.destroy',
+            'api.module.categories.index',
+            'api.module.categories.store',
+            'api.module.categories.show',
+            'api.module.categories.update',
+            'api.module.categories.destroy',
+            'api.module.orders.index',
+            'api.module.orders.store',
+            'api.module.orders.show',
+            'api.module.orders.update',
+            'api.module.orders.destroy',
+            'api.module.coupons.index',
+            'api.module.coupons.store',
+            'api.module.coupons.show',
+            'api.module.coupons.update',
+            'api.module.coupons.destroy',
+            'api.module.shipping.index',
+            'api.module.shipping.store',
+            'api.module.shipping.show',
+            'api.module.shipping.update',
+            'api.module.shipping.destroy',
+            'api.module.tax.index',
+            'api.module.tax.store',
+            'api.module.tax.show',
+            'api.module.tax.update',
+            'api.module.tax.destroy',
+            'api.module.invoices.index',
+            'api.module.invoices.store',
+            'api.module.invoices.show',
+            'api.module.invoices.update',
+            'api.module.invoices.destroy',
+            'api.module.cart.index',
+            'api.module.cart.store',
+            'api.module.cart.totals',
+            'api.module.cart.empty',
+            'api.module.cart.coupon.apply',
+            'api.module.cart.coupon.remove',
+            'api.module.cart.update',
+            'api.module.cart.destroy',
+            'api.module.checkout.index',
+            'api.module.checkout.store',
+            'api.module.checkout.update',
+            'api.module.checkout.validate',
+            'api.module.checkout.shipping.methods',
+            'api.module.checkout.payment.methods',
+            'api.module.checkout.shipping.calculate',
+            'api.module.checkout.order.status',
         ];
 
         foreach ($expected as $name) {

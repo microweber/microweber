@@ -1031,7 +1031,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Wire `/api/module/forms` / `/api/module/contact-form` to ContactForm module
 
 ### Phase 3 — Commerce modules
-- [ ] Wire `/api/module/products`, `/api/module/categories` (shop), `/api/module/orders`, `/api/module/cart`, `/api/module/checkout`, `/api/module/coupons`, `/api/module/shipping`, `/api/module/tax`, `/api/module/invoices` to their existing Api controllers
+- [x] 2026-04-22  Wire `/api/module/products`, `/api/module/categories` (shop), `/api/module/orders`, `/api/module/cart`, `/api/module/checkout`, `/api/module/coupons`, `/api/module/shipping`, `/api/module/tax`, `/api/module/invoices` to their existing Api controllers
 
 ### Phase 4 — User & settings
 - [ ] Wire `/api/module/users`, `/api/module/customers`, `/api/module/profile`, `/api/module/newsletter`, `/api/module/settings`
