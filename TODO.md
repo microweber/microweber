@@ -1008,3 +1008,5 @@ Spot-checked module settings in browser (dark mode):
 
 - [x] 2026-04-22  fix dusk failing tests php artisan dusk
 
+
+- [x] 2026-04-22  now work on the bootrap templat, add few more payuts and test if all color shcemems work
