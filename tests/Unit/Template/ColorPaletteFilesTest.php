@@ -536,6 +536,84 @@ class ColorPaletteFilesTest extends TestCase
         }
     }
 
+    /**
+     * Filename ↔ title parity. The picker's swatch label comes from
+     * `settings[0].title` and the apply-click handler is keyed by the
+     * pack's filename-derived slug. If a contributor renames the file
+     * without updating the title (or vice versa), the sidebar shows
+     * "Apple Shine" for a pack the JS applies as `arctic-frost` —
+     * silently serving the wrong palette. Normalize both sides to
+     * kebab-case and compare.
+     */
+    #[Test]
+    #[DataProvider('colorPackProvider')]
+    public function pack_title_kebab_case_matches_filename_slug(string $slug): void
+    {
+        $settings = $this->readSettingsZero($slug);
+
+        $this->assertArrayHasKey('title', $settings, "Pack '{$slug}' settings[0] must declare a title");
+        $this->assertIsString($settings['title'], "Pack '{$slug}' title must be a string");
+
+        $normalizedTitle = self::toKebabCase($settings['title']);
+
+        $this->assertSame(
+            $slug,
+            $normalizedTitle,
+            sprintf(
+                "Pack '%s' filename does not match its title after kebab-case normalization. Title '%s' normalizes to '%s'; either rename the file or fix settings[0].title so picker-label and apply-slug stay in sync.",
+                $slug,
+                $settings['title'],
+                $normalizedTitle
+            )
+        );
+    }
+
+    /**
+     * Kebab-case normalization used for slug↔title parity. Matches the
+     * picker's expectation that a pack's visible label is a straight
+     * Title-Case rendering of its file-slug: lowercases, strips
+     * diacritics, collapses non-alphanumeric runs to single hyphens,
+     * and trims leading/trailing hyphens.
+     */
+    public static function toKebabCase(string $input): string
+    {
+        $value = trim($input);
+        if ($value === '') {
+            return '';
+        }
+
+        if (function_exists('iconv')) {
+            $converted = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+            if (is_string($converted) && $converted !== '') {
+                $value = $converted;
+            }
+        }
+
+        $value = strtolower($value);
+        $value = preg_replace('/[^a-z0-9]+/', '-', $value) ?? '';
+        $value = trim($value, '-');
+
+        return $value;
+    }
+
+    #[Test]
+    public function kebab_case_normalizer_is_stable_across_common_inputs(): void
+    {
+        // Lock in the normalizer contract — if this test fails after a
+        // change to toKebabCase(), the filename↔title parity test's
+        // meaning has shifted and must be reviewed.
+        $this->assertSame('apple-shine', self::toKebabCase('Apple Shine'));
+        $this->assertSame('apple-shine', self::toKebabCase('APPLE SHINE'));
+        $this->assertSame('apple-shine', self::toKebabCase('  Apple   Shine  '));
+        $this->assertSame('apple-shine', self::toKebabCase('Apple-Shine'));
+        $this->assertSame('robocop', self::toKebabCase('Robocop'));
+        $this->assertSame('sunset-boulevard', self::toKebabCase('Sunset Boulevard'));
+        $this->assertSame('coral-pop', self::toKebabCase('Coral_Pop'));
+        $this->assertSame('a-b', self::toKebabCase('A & B'));
+        $this->assertSame('', self::toKebabCase(''));
+        $this->assertSame('', self::toKebabCase('---'));
+    }
+
     #[Test]
     public function gradient_paint_is_only_allowed_on_background_color_properties(): void
     {

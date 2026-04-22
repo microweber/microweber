@@ -1151,7 +1151,7 @@ Unit-level guards that fail fast if a palette file drifts out of spec.
 - [x] 2026-04-22  Add `tests/Unit/Template/ColorPaletteFilesTest.php` that iterates all 17 pack files and asserts each has `settings[0].fieldType === "stylePack"`, `settings[0].selectors` contains `:root`, and `styleProperties[0].properties` is a non-empty assoc array
 - [x] 2026-04-22  Assert every palette defines the **core** property set required by skins: `--mw-background-color`, `--mw-primary-color`, `--mw-body-color`, `--mw-heading-color`, `--mw-paragraph-color`, `--mw-link-color` (regression guard — missing a core variable leaves the previous palette's value bleeding through)
 - [x] 2026-04-22  Assert every property value parses as a valid CSS color (hex, rgb/rgba, hsl/hsla, or CSS-named color); fail with the offending `pack:property` so drift is pinpointable
-- [ ] Assert all 17 palette filenames match the `settings[0].title` after kebab-case normalization (catches accidental renames that would desync the picker label from the filename-derived slug)
+- [x] 2026-04-22  Assert all 17 palette filenames match the `settings[0].title` after kebab-case normalization (catches accidental renames that would desync the picker label from the filename-derived slug)
 
 ### Phase 3 — Picker discovery & application (Dusk, one test per palette)
 Driven by a data provider over `listColorPalettes()` so adding a new
