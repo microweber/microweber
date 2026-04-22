@@ -1050,6 +1050,8 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 ### Phase 7 — Hardening
 - [x] 2026-04-22  Per-token rate limits separate from IP-based `throttle:api`
 - [x] 2026-04-22  Audit log of token usage (last-used timestamp on `oauth_access_tokens`)
-- [ ] CORS configuration for third-party frontends
+- [x] 2026-04-22  CORS configuration for third-party frontends
 
 - [x] 2026-04-22  now work on the API Application and tokens, we want each module to also have headless api which can be access via the api token  for example api/module/content/.... etc api/module/categories/....  and for all modules andm ake swagger also , make a big plan and populate the TODO.md and work on it
+
+- [ ] next huge task is to epand the bootrap template with laouts , see   https://www.superhosting.bg/web-hosting-compare-hosting-plans.php?tab=advantages   we want simolar type of payount, analyze all pages    use skill from  https://agents.tools.ooyes.net/skills/clone-website/
