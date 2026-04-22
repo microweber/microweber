@@ -1108,7 +1108,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [x] 2026-04-22  Drag a card from position 3 to position 1 (Sortable/jQuery UI); assert new order in saved HTML
 
 ### Phase 5 — Public render parity
-- [ ] Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
+- [x] 2026-04-22  Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
 - [ ] Assert no broken asset (screenshot, CSS) returns non-200
 - [ ] Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
 
@@ -1129,3 +1129,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [ ] make a hige plan in the todo.md to test a full workflow of website treation and make dusk teste for it
 
 - [ ] also make a plan in the todo.md to test all module skins on dusk
+
+- [ ] now oppulate the todo to cover more tests adn feach module that are not covered
+
+- [ ] populate the todo to test the coroos chmes on all layouts
