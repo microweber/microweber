@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use MicroweberPackages\User\Models\User;
-use Modules\Page\Models\Page;
+use Tests\Browser\Support\LandingTestContentPurger;
 
 /**
  * Fixture builder for live-edit landing-page Dusk tests.
@@ -162,27 +162,20 @@ class LandingPageFactory
     }
 
     /**
-     * Delete this factory's own page row (best-effort).
+     * Delete this factory's own page row plus its satellite content
+     * rows (content_data, content_fields, revisions, …).
      */
     public function cleanup(): void
     {
-        try {
-            Page::where('id', $this->pageId)->delete();
-        } catch (\Throwable) {
-            // best-effort — already gone / connection closed
-        }
+        LandingTestContentPurger::purge($this->pageId);
     }
 
     /**
-     * Delete every leftover "landing-test-*" page. Safe to call from
-     * setUp/tearDown hooks to scrub state from previous runs.
+     * Cascade-delete every leftover "landing-test-*" page and its
+     * satellite rows. Safe to call from setUp/tearDown hooks.
      */
     public static function cleanupAll(): void
     {
-        try {
-            Page::where('url', 'like', self::SLUG_PREFIX . '%')->delete();
-        } catch (\Throwable) {
-            // best-effort
-        }
+        LandingTestContentPurger::purge();
     }
 }

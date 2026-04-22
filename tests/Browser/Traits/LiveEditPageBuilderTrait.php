@@ -4,7 +4,7 @@ namespace Tests\Browser\Traits;
 
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
-use Modules\Page\Models\Page;
+use Tests\Browser\Support\LandingTestContentPurger;
 
 /**
  * Shared helpers for Dusk tests that build full landing pages through
@@ -371,25 +371,18 @@ trait LiveEditPageBuilderTrait
     }
 
     /**
-     * Remove any pages the current test created plus any stale
-     * "landing-test-*" rows left behind by earlier runs.
+     * Cascade-delete any pages the current test created plus any
+     * stale "landing-test-*" rows left behind by earlier runs.
+     * Delegates to {@see LandingTestContentPurger} so the trait and
+     * the factory share the same scrub logic.
      */
     protected function cleanupLandingTestPages(): void
     {
-        $ids = array_unique($this->liveEditCreatedPageIds);
-        foreach ($ids as $id) {
-            try {
-                Page::where('id', $id)->delete();
-            } catch (\Throwable) {
-                // best-effort — fall through
-            }
+        if (!empty($this->liveEditCreatedPageIds)) {
+            LandingTestContentPurger::purge($this->liveEditCreatedPageIds);
+            $this->liveEditCreatedPageIds = [];
         }
-        $this->liveEditCreatedPageIds = [];
 
-        try {
-            Page::where('url', 'like', 'landing-test-%')->delete();
-        } catch (\Throwable) {
-            // best-effort
-        }
+        LandingTestContentPurger::purge();
     }
 }

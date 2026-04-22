@@ -6,6 +6,7 @@ use Laravel\Dusk\Browser;
 use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
 
@@ -25,17 +26,12 @@ use Tests\DuskTestCase;
 class LiveEditPageBuilderTraitSmokeTest extends DuskTestCase
 {
     use AdminLoginTrait;
+    use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
     protected function assertPreConditions(): void
     {
         // Rely on the already-running dev server and database
-    }
-
-    protected function tearDown(): void
-    {
-        $this->cleanupLandingTestPages();
-        parent::tearDown();
     }
 
     #[Test]

@@ -9,6 +9,7 @@ use MicroweberPackages\User\Models\User;
 use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
+use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\TestCase;
 
 /**
@@ -23,11 +24,7 @@ use Tests\TestCase;
  */
 final class LandingPageFactoryTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        LandingPageFactory::cleanupAll();
-        parent::tearDown();
-    }
+    use CleansLandingTestPages;
 
     #[Test]
     public function make_returns_a_page_with_bootstrap_template_and_slug_prefix(): void
