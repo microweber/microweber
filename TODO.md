@@ -1221,7 +1221,7 @@ accidentally being hardcoded to Bootstrap.
 ### Phase 9 — CI wiring
 - [x] 2026-04-23  Add a new `<testsuite name="LiveEditColorPalettes">` group in `phpunit.dusk.xml` pointing at `tests/Browser/LiveEditColorPalette*Test.php` — keeps palette suite independently runnable and lets CI parallelize it
 - [x] 2026-04-23  Add a `Color palettes` step to `.github/workflows/dusk.yml` and `dusk_apache.yml` that runs `php artisan dusk --group=color-palettes` (tag each palette test with `#[Group('color-palettes')]`) so a palette regression is visible as a discrete red check
-- [ ] Reuse the existing screenshot/console/storage/config artifact uploads (names already deduplicated with `github.run_attempt` in commit `fa022f84c4`) — blank-swatch-style regressions are the primary signal, so screenshot capture on failure is load-bearing here
+- [x] 2026-04-23  Reuse the existing screenshot/console/storage/config artifact uploads (names already deduplicated with `github.run_attempt` in commit `fa022f84c4`) — blank-swatch-style regressions are the primary signal, so screenshot capture on failure is load-bearing here
 - [ ] Add `LiveEditColorPaletteSwitchNoBleedTest` to a bleed-guard testsuite (pattern established by `LiveEditAdminLoginCacheBleedGuard`) that runs it *after* `LiveEditColorPalettePublicRenderTest` to catch static-state bleed across tests
 
 ### Phase 10 — Documentation & contributor guide

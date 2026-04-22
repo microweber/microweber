@@ -81,6 +81,13 @@ jobs:
       # 250+ test Browser suite). `--group=color-palettes` targets every
       # LiveEditColorPalette*Test tagged with `#[Group('color-palettes')]`
       # and nothing else.
+      #
+      # A failure here is captured by the `if: failure()` upload steps
+      # below — no palette-specific upload needed. Those uploads are
+      # load-bearing for blank-swatch-style regressions (the Dusk
+      # screenshot is the only signal that distinguishes "pack didn't
+      # apply" from "pack applied with the wrong colors"), so do NOT
+      # remove or narrow them when editing this workflow.
       - name: Run Dusk Tests (Color palettes)
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
@@ -94,6 +101,14 @@ jobs:
       # duplicate names). Screenshots are the primary signal for
       # blank-thumbnail-style visual regressions — keeping them
       # uploadable on every failure is the point of this step.
+      #
+      # `if: failure()` fires whenever *any* prior step failed, so this
+      # covers BOTH the `Run Dusk Tests (Color palettes)` step (added in
+      # Phase-9) and the general `Run Dusk Tests` step. The Phase-9
+      # task intentionally reuses these uploads instead of introducing
+      # palette-specific ones — the screenshot/console/log corpus is
+      # shared on disk (`tests/Browser/screenshots`, etc.), so a single
+      # zip per run captures both flows.
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v4
