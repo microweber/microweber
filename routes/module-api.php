@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Comments\Http\Controllers\Api\CommentsApiController;
+use Modules\ContactForm\Http\Controllers\Api\FormsApiController;
 use Modules\Content\Http\Controllers\Api\ContentApiController;
 use Modules\Media\Http\Controllers\Api\MediaApiController;
 use Modules\Menu\Http\Controllers\Api\MenusApiController;
@@ -34,6 +35,10 @@ $modules = [
     'comments' => [CommentsApiController::class, 'comment'],
     'menus' => [MenusApiController::class, 'menu'],
     'media' => [MediaApiController::class, 'media'],
+    // `forms` and `contact-form` are aliases onto the same Form resource
+    // so clients can use either legacy (`contact-form`) or plural (`forms`).
+    'forms' => [FormsApiController::class, 'form'],
+    'contact-form' => [FormsApiController::class, 'form'],
 ];
 
 foreach ($modules as $slug => [$controller, $binding]) {

@@ -4,9 +4,11 @@ namespace Modules\ContactForm\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\ContactForm\Database\Factories\FormFactory;
 
 class Form extends Model
 {
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -23,4 +25,8 @@ class Form extends Model
         'is_active',
     ];
 
+    protected static function newFactory()
+    {
+        return FormFactory::new();
+    }
 }

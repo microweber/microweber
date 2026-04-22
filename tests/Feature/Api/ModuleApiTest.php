@@ -6,6 +6,7 @@ namespace Tests\Feature\Api;
 
 use MicroweberPackages\User\Models\User;
 use Modules\Comments\Models\Comment;
+use Modules\ContactForm\Models\Form;
 use Modules\Content\Models\Content;
 use Modules\Media\Models\Media;
 use Modules\Menu\Models\Menu;
@@ -619,6 +620,131 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function forms_index_is_public_under_module_namespace(): void
+    {
+        Form::factory()->count(2)->create(['is_active' => 1]);
+
+        $response = $this->getJson('/api/module/forms');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'name', 'slug', 'module_id', 'is_active']]]);
+    }
+
+    #[Test]
+    public function forms_index_hides_inactive_from_public(): void
+    {
+        Form::factory()->create(['name' => 'Active Form', 'is_active' => 1]);
+        Form::factory()->create(['name' => 'Disabled Form', 'is_active' => 0]);
+
+        $data = $this->getJson('/api/module/forms?limit=200')
+            ->assertStatus(200)
+            ->json('data');
+
+        $names = array_column($data, 'name');
+        $this->assertContains('Active Form', $names);
+        $this->assertNotContains('Disabled Form', $names);
+    }
+
+    #[Test]
+    public function forms_resource_hides_recipient_emails_from_public_callers(): void
+    {
+        $form = Form::factory()->create([
+            'emails_notifications' => 'staff@example.com',
+            'emails_notifications_subject' => 'New contact submission',
+        ]);
+
+        $publicJson = $this->getJson("/api/module/forms/{$form->id}")->json('data');
+        $this->assertArrayNotHasKey('emails_notifications', $publicJson);
+        $this->assertArrayNotHasKey('emails_notifications_subject', $publicJson);
+
+        $adminJson = $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/forms/{$form->id}")
+            ->json('data');
+        $this->assertSame('staff@example.com', $adminJson['emails_notifications']);
+        $this->assertSame('New contact submission', $adminJson['emails_notifications_subject']);
+    }
+
+    #[Test]
+    public function forms_store_requires_admin_passport_token(): void
+    {
+        $payload = [
+            'name' => 'Created via module API form ' . uniqid(),
+            'confirmation_message' => 'Thanks!',
+        ];
+
+        $this->postJson('/api/module/forms', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/forms', $payload)
+            ->assertStatus(403);
+
+        $response = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/forms', $payload);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'name' => $payload['name'],
+                    'confirmation_message' => 'Thanks!',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('forms', ['name' => $payload['name']]);
+    }
+
+    #[Test]
+    public function forms_update_requires_admin_passport_token(): void
+    {
+        $form = Form::factory()->create(['name' => 'Before']);
+
+        $this->putJson("/api/module/forms/{$form->id}", ['name' => 'After'])
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson("/api/module/forms/{$form->id}", ['name' => 'After'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/forms/{$form->id}", ['name' => 'After'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('forms', ['id' => $form->id, 'name' => 'After']);
+    }
+
+    #[Test]
+    public function forms_destroy_requires_admin_passport_token(): void
+    {
+        $form = Form::factory()->create();
+
+        $this->deleteJson("/api/module/forms/{$form->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/forms/{$form->id}")
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/forms/{$form->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('forms', ['id' => $form->id]);
+    }
+
+    #[Test]
+    public function contact_form_alias_resolves_to_same_controller(): void
+    {
+        $form = Form::factory()->create(['name' => 'Alias Test Form']);
+
+        // Both slugs share the same controller — hitting either endpoint
+        // should return the same resource.
+        $plural = $this->getJson("/api/module/forms/{$form->id}")->json('data');
+        $alias = $this->getJson("/api/module/contact-form/{$form->id}")->json('data');
+
+        $this->assertSame($plural, $alias);
+        $this->assertSame('Alias Test Form', $alias['name']);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -654,6 +780,16 @@ final class ModuleApiTest extends TestCase
             'api.module.media.show',
             'api.module.media.update',
             'api.module.media.destroy',
+            'api.module.forms.index',
+            'api.module.forms.store',
+            'api.module.forms.show',
+            'api.module.forms.update',
+            'api.module.forms.destroy',
+            'api.module.contact-form.index',
+            'api.module.contact-form.store',
+            'api.module.contact-form.show',
+            'api.module.contact-form.update',
+            'api.module.contact-form.destroy',
         ];
 
         foreach ($expected as $name) {
