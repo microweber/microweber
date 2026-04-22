@@ -1110,7 +1110,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 ### Phase 5 — Public render parity
 - [x] 2026-04-22  Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
 - [x] 2026-04-22  Assert no broken asset (screenshot, CSS) returns non-200
-- [ ] Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
+- [x] 2026-04-22  Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
 
 ### Phase 6 — Template-switch safety
 - [ ] Switch `current_template` option from Bootstrap → Big2, reload public page, assert page still renders (modules fall back gracefully)
