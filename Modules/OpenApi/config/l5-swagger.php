@@ -28,13 +28,47 @@ return [
                 'docs_yaml' => 'api-docs.yaml',
 
                 /*
-                 * Absolute paths to directory containing the swagger annotations are stored.
+                 * Paths scanned for zircote/swagger-php @OA annotations.
+                 *
+                 * Accepts directories or individual files. We list the
+                 * headless /api/module/* controllers explicitly because
+                 * scanning the entire src/MicroweberPackages and Modules
+                 * trees runs into PHP files whose parent classes have
+                 * been removed upstream — zircote's ReflectionAnalyser
+                 * triggers the autoloader on every scanned file, so one
+                 * broken import anywhere aborts the whole generate.
+                 *
+                 * Anything outside this list that wants docs can be
+                 * annotated and added here.
                 */
                 'annotations' => [
-                   // base_path('src/MicroweberPackages/OpenApi'),
-                     base_path('src/MicroweberPackages'),
-                     base_path('Modules'),
-                     base_path('Templates'),
+                    base_path('Modules/OpenApi/OpenApiSpec.php'),
+
+                    base_path('Modules/Content/Http/Controllers/Api/ContentApiController.php'),
+                    base_path('Modules/Page/Http/Controllers/Api/PageApiController.php'),
+                    base_path('Modules/Post/Http/Controllers/Api/PostApiController.php'),
+                    base_path('Modules/Tag/Http/Controllers/Api/TagApiController.php'),
+                    base_path('Modules/Comments/Http/Controllers/Api/CommentsApiController.php'),
+                    base_path('Modules/Menu/Http/Controllers/Api/MenusApiController.php'),
+                    base_path('Modules/Media/Http/Controllers/Api/MediaApiController.php'),
+                    base_path('Modules/ContactForm/Http/Controllers/Api/FormsApiController.php'),
+
+                    base_path('Modules/Product/Http/Controllers/Api/ProductsApiController.php'),
+                    base_path('Modules/Category/Http/Controllers/Api/CategoriesApiController.php'),
+                    base_path('Modules/Order/Http/Controllers/Api/OrdersApiController.php'),
+                    base_path('Modules/Cart/Http/Controllers/Api/CartApiController.php'),
+                    base_path('Modules/Checkout/Http/Controllers/Api/CheckoutApiController.php'),
+                    base_path('Modules/Coupons/Http/Controllers/Api/CouponsApiController.php'),
+                    base_path('Modules/Shipping/Http/Controllers/Api/ShippingApiController.php'),
+                    base_path('Modules/Tax/Http/Controllers/Api/TaxApiController.php'),
+                    base_path('Modules/Invoice/Http/Controllers/Api/InvoicesApiController.php'),
+
+                    base_path('Modules/Customer/Http/Controllers/Api/CustomersApiController.php'),
+                    base_path('Modules/Profile/Http/Controllers/Api/ProfileApiController.php'),
+                    base_path('Modules/Newsletter/Http/Controllers/Api/NewsletterApiController.php'),
+                    base_path('Modules/Settings/Http/Controllers/Api/SettingsApiController.php'),
+
+                    base_path('src/MicroweberPackages/User/Http/Controllers/Api/UsersApiController.php'),
                 ],
 
             ],

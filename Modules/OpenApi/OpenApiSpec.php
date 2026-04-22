@@ -9,8 +9,10 @@ namespace Modules\OpenApi;
  *
  * Scanned by zircote/swagger-php via the `base_path('Modules')` annotation
  * path in Modules/OpenApi/config/l5-swagger.php. Per-endpoint operation
- * annotations (@OA\Get, @OA\Post, etc.) live on the individual
- * *ApiController classes in each module.
+ * annotations (OA\Get, OA\Post, etc. — noted without the leading `@`
+ * here so the docblock parser doesn't try to materialise them as
+ * separate operations) live on the individual *ApiController classes in
+ * each module.
  *
  * Two security schemes are declared:
  *
