@@ -1081,7 +1081,7 @@ compose into one golden-path suite `LiveEditFullLandingPageTest`.
 ### Phase 2 — Section-by-section build (golden path)
 Each step asserts the card inserts, its field is editable, and it
 survives a save→reload.
-- [ ] Insert **Jumbotron / skin-1** hero at top; edit H1 to "Microweber Landing" and CTA button copy; assert DOM + saved `content.content_body`
+- [x] 2026-04-22  Insert **Jumbotron / skin-1** hero at top; edit H1 to "Microweber Landing" and CTA button copy; assert DOM + saved `content.content_body`
 - [ ] Insert **Titles / skin-1** "Why choose us" intro under hero; verify inline heading edit persists
 - [ ] Insert **Features / skin-2** (advantages grid added in 7d388b9); edit 2 feature labels; assert `features-skin-2-advantages` marker in saved HTML
 - [ ] Insert **Content / skin-1** two-column story block; edit paragraph text
@@ -1125,3 +1125,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [ ] Make a plan to test all color schemes and populate todo.md
 
 - [ ] See in the layouts wot mention worpdress and laravle, but since we are in microwebebr we should put Micorweber isntaf of wordpress and make a plan in the Todo.md to import a worpdress wdite by url from the RSS feed and sitemp aml and othet merods s user can migrate and put Easey Worpdress Migration
+
+- [ ] make a hige plan in the todo.md to test a full workflow of website treation and make dusk teste for it
+
+- [ ] also make a plan in the todo.md to test all module skins on dusk
