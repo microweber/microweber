@@ -59,27 +59,40 @@ jobs:
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
           composer test-dusk
+      # Artifact names include the PHP version + workflow run-attempt
+      # so re-runs don't collide with earlier uploads (v4 errors on
+      # duplicate names). Screenshots are the primary signal for
+      # blank-thumbnail-style visual regressions — keeping them
+      # uploadable on every failure is the point of this step.
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
+          name: screenshots-bigtheme-php${{ matrix.php-versions }}-attempt${{ github.run_attempt }}
           path: tests/Browser/screenshots
+          if-no-files-found: warn
+          retention-days: 14
       - name: Upload Console Logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: console
+          name: console-bigtheme-php${{ matrix.php-versions }}-attempt${{ github.run_attempt }}
           path: tests/Browser/console
+          if-no-files-found: warn
+          retention-days: 14
       - name: Upload Laravel Storage Logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: storage-logs
+          name: storage-logs-bigtheme-php${{ matrix.php-versions }}-attempt${{ github.run_attempt }}
           path: storage/logs
+          if-no-files-found: warn
+          retention-days: 14
       - name: Upload Laravel config
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: config
+          name: config-bigtheme-php${{ matrix.php-versions }}-attempt${{ github.run_attempt }}
           path: config
+          if-no-files-found: warn
+          retention-days: 14

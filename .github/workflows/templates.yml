@@ -124,31 +124,50 @@ jobs:
       run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
     - name: Run Dusk Browse test
       run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
+    # Artifact names are disambiguated by matrix template + attempt so
+    # every matrix row's failure lands in its own zip. Without this,
+    # actions/upload-artifact@v4 errors on duplicate names and blank-
+    # thumbnail-style visual regressions (the exact class of bug fixed
+    # in 36a0e6b) can't be diagnosed from the CI summary alone.
+    # Template slugs contain a slash ('microweber-templates/big') which
+    # is not a valid artifact-name character, so we flatten it to a
+    # single slug in an env var and reuse that in every upload step.
+    - name: Compute artifact slug
+      if: failure()
+      run: |
+        echo "ARTIFACT_SLUG=$(echo '${{ matrix.templates }}' | tr '/' '-')-attempt${{ github.run_attempt }}" >> $GITHUB_ENV
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: screenshots
+        name: screenshots-${{ env.ARTIFACT_SLUG }}
         path: tests/Browser/screenshots
+        if-no-files-found: warn
+        retention-days: 14
     - name: Upload Console Logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: console
+        name: console-${{ env.ARTIFACT_SLUG }}
         path: tests/Browser/console
+        if-no-files-found: warn
+        retention-days: 14
     - name: Upload Laravel Storage Logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: storage-logs
+        name: storage-logs-${{ env.ARTIFACT_SLUG }}
         path: storage/logs
+        if-no-files-found: warn
+        retention-days: 14
     - name: Upload Laravel config
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: config
-        path:
-          config
+        name: config-${{ env.ARTIFACT_SLUG }}
+        path: config
+        if-no-files-found: warn
+        retention-days: 14
 
 
 
