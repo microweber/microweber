@@ -1254,7 +1254,7 @@ for scripted/bulk use.
 ### Phase 2 — Import-by-URL (the "easy" path)
 
 - [x] 2026-04-23  Build a URL prober (`WordPressSiteProbe`) that hits `<url>/wp-json`, `<url>/feed`, `<url>/sitemap.xml`, `<url>/sitemap_index.xml`, `<url>/robots.txt` and classifies the source (REST-enabled / feed-only / sitemap-only / scrape-only) so the admin UI can show the user "we can pull N posts via REST" before committing
-- [ ] Persist prober results in a `wp_migration_jobs` table keyed by source URL so re-probing an in-flight job is idempotent and the UI can resume after a page refresh
+- [x] 2026-04-23  Persist prober results in a `wp_migration_jobs` table keyed by source URL so re-probing an in-flight job is idempotent and the UI can resume after a page refresh
 - [ ] Surface the probe as a single Filament form field (URL input + "Check" button) that renders the detected capabilities, estimated item count, and a "Start import" confirm CTA
 - [ ] Dusk: `LiveAdminWordPressMigrationProbeTest` — paste a public WP URL (fixture served via PHP built-in server against `tests/fixtures/wp/`), assert the probe surfaces the right capabilities and count
 
