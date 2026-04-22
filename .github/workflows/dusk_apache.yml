@@ -49,10 +49,19 @@ jobs:
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
+      # Phase-9 discrete-check: run the palette group first so a color
+      # regression shows up as a separate red step (not buried inside the
+      # 250+ test Browser suite). `--group=color-palettes` targets every
+      # LiveEditColorPalette*Test tagged with `#[Group('color-palettes')]`
+      # and nothing else.
+      - name: Run Dusk Tests (Color palettes)
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --group=color-palettes
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          composer test-dusk
+          php artisan dusk --exclude-group=color-palettes
       # Artifact names include the PHP version + workflow run-attempt
       # so re-runs don't collide with earlier uploads (v4 errors on
       # duplicate names). Screenshots are the primary signal for

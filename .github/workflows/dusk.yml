@@ -76,10 +76,19 @@ jobs:
         #run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
        # run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
         run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
+      # Phase-9 discrete-check: run the palette group first so a color
+      # regression shows up as a separate red step (not buried inside the
+      # 250+ test Browser suite). `--group=color-palettes` targets every
+      # LiveEditColorPalette*Test tagged with `#[Group('color-palettes')]`
+      # and nothing else.
+      - name: Run Dusk Tests (Color palettes)
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --group=color-palettes
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk
+          php artisan dusk --exclude-group=color-palettes
       # Artifact names include the PHP version + workflow run-attempt
       # so re-runs don't collide with earlier uploads (v4 errors on
       # duplicate names). Screenshots are the primary signal for

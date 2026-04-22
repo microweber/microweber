@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\ColorPaletteFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
@@ -42,6 +43,7 @@ use Tests\DuskTestCase;
  *
  * Prereqs: dev server at 127.0.0.1:8000; admin admin@admin.com/admin.
  */
+#[Group('color-palettes')]
 class LiveEditColorPalettePickerSwatchLabelsTest extends DuskTestCase
 {
     use AdminLoginTrait;
