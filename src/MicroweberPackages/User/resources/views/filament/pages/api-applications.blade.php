@@ -82,6 +82,7 @@
                                     <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Name</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Scopes</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Created</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Last Used</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Expires</th>
                                     <th class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Actions</th>
                                 </tr>
@@ -92,6 +93,12 @@
                                         <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $token['name'] }}</td>
                                         <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{{ $token['scopes'] }}</td>
                                         <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{{ $token['created_at'] }}</td>
+                                        <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                                            {{ $token['last_used_at'] }}
+                                            @if(!empty($token['last_used_ip']))
+                                                <span class="block text-xs text-gray-400 dark:text-gray-500">{{ $token['last_used_ip'] }}</span>
+                                            @endif
+                                        </td>
                                         <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{{ $token['expires_at'] }}</td>
                                         <td class="px-4 py-3 text-right">
                                             <x-filament::button size="sm" color="danger" wire:click="revokeToken('{{ $token['id'] }}')" icon="heroicon-o-trash">

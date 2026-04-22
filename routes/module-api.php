@@ -80,7 +80,7 @@ foreach ($modules as $slug => $entry) {
         });
 
     Route::prefix("api/module/{$slug}")
-        ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', "scope:{$scope}:write"])
+        ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', "scope:{$scope}:write"])
         ->name("api.module.{$slug}.")
         ->group(function () use ($controller, $binding) {
             Route::post('/', [$controller, 'store'])->name('store');
@@ -131,14 +131,14 @@ Route::prefix('api/module/checkout')
 | and update their own record.
 */
 Route::prefix('api/module/profile')
-    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'scope:profile:read'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:profile:read'])
     ->name('api.module.profile.')
     ->group(function () {
         Route::get('/', [ProfileApiController::class, 'show'])->name('show');
     });
 
 Route::prefix('api/module/profile')
-    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'scope:profile:write'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:profile:write'])
     ->name('api.module.profile.')
     ->group(function () {
         Route::put('/', [ProfileApiController::class, 'update'])->name('update');
@@ -163,7 +163,7 @@ Route::prefix('api/module/newsletter')
     });
 
 Route::prefix('api/module/newsletter')
-    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'scope:newsletter:write'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:newsletter:write'])
     ->name('api.module.newsletter.')
     ->group(function () {
         Route::put('/{id}', [NewsletterApiController::class, 'update'])->whereNumber('id')->name('update');
@@ -185,7 +185,7 @@ Route::prefix('api/module/settings')
     });
 
 Route::prefix('api/module/settings')
-    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'scope:settings:write'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:settings:write'])
     ->name('api.module.settings.')
     ->group(function () {
         Route::post('/', [SettingsApiController::class, 'store'])->name('store');

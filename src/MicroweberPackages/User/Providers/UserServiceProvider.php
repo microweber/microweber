@@ -159,6 +159,7 @@ class UserServiceProvider extends AuthServiceProvider
         $router = $this->app['router'];
         $router->aliasMiddleware('scope', \Laravel\Passport\Http\Middleware\CheckToken::class);
         $router->aliasMiddleware('scopes', \Laravel\Passport\Http\Middleware\CheckTokenForAnyScope::class);
+        $router->aliasMiddleware('token.audit', \MicroweberPackages\User\Http\Middleware\StampTokenLastUsed::class);
 
         // Register Validators
         Validator::extendImplicit(

@@ -75,12 +75,23 @@ class ApiApplicationsPage extends Page
             ->get();
 
         $this->personalTokens = $tokens->map(function ($token) {
+            // `last_used_at` is stamped by the `token.audit` middleware
+            // after each authenticated /api/module/* request. Fall through
+            // to the Eloquent attribute so tokens that have never been
+            // used display "Never" instead of "updated_at" (which is the
+            // revocation timestamp and was misleading in practice).
+            $lastUsedAt = $token->last_used_at ?? null;
+            if (is_string($lastUsedAt)) {
+                $lastUsedAt = \Carbon\Carbon::parse($lastUsedAt);
+            }
+
             return [
                 'id' => $token->id,
                 'name' => $token->client->name ?? 'Personal Access Token',
                 'scopes' => $token->scopes ? implode(', ', $token->scopes) : 'All',
                 'created_at' => $token->created_at->format('Y-m-d H:i'),
-                'last_used_at' => $token->updated_at?->format('Y-m-d H:i') ?? 'Never',
+                'last_used_at' => $lastUsedAt?->format('Y-m-d H:i') ?? 'Never',
+                'last_used_ip' => $token->last_used_ip ?? null,
                 'expires_at' => $token->expires_at?->format('Y-m-d H:i') ?? 'Never',
             ];
         })->toArray();
