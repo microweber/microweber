@@ -1183,7 +1183,7 @@ fresh tab → assert the published page renders with those exact
 the iframe but the save pipeline drops the customize-styles write.
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPalettePublicRenderTest.php` — single Dusk test that data-provides over all 17 palettes, saves each, reopens the page as guest, and asserts `document.documentElement`'s computed CSS vars match (allow #hex→rgb normalization). **One failing palette fails one row, not the whole test.**
 - [x] 2026-04-23  Assert that the public-render DOM shows the palette-derived colors on real targets (not just root vars): body `color` matches `--mw-body-color`, primary button `background-color` matches `--mw-btn-background-color`, heading `color` matches `--mw-heading-color`
-- [ ] Assert zero console errors on the public page under each palette (regression guard — a palette with a malformed var should not break client-side JS that reads `getComputedStyle`)
+- [x] 2026-04-23  Assert zero console errors on the public page under each palette (regression guard — a palette with a malformed var should not break client-side JS that reads `getComputedStyle`)
 
 ### Phase 5 — Palette-switch bleed safety
 Makes sure clicking a second palette fully overrides the first — no
