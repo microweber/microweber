@@ -1197,7 +1197,7 @@ Defensive tests around the sidebar itself so a rendering bug in
 `template-setting-render-color-palette-item.blade.php` or in
 `colorPaletteFromTemplateFolderLibrary` glob can't silently reduce
 visible palettes.
-- [ ] Assert the color-palette picker shows exactly 17 swatches (one per pack file) — a missing filesystem entry or a glob misconfiguration cuts this count and should page us
+- [x] 2026-04-23  Assert the color-palette picker shows exactly 17 swatches (one per pack file) — a missing filesystem entry or a glob misconfiguration cuts this count and should page us
 - [ ] Assert each swatch's visible label matches the pack JSON's `settings[0].title` (catches localization/escaping regressions)
 - [ ] Assert each swatch's preview thumbnail uses the pack's `--mw-background-color` + `--mw-primary-color` + `--mw-body-color` (guards the mini preview in `colorPaletteFromTemplateFolderLibrary` shape vs. the full stylePack shape)
 - [ ] Assert the picker is keyboard-navigable: Tab onto first swatch, arrow-right moves focus, Enter applies the pack (accessibility guard)
