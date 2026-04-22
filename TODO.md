@@ -1058,7 +1058,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 
 - [x] 2026-04-22  seems the inser layout is nof fixed the repviews is not loading pls fix [attachment: .autodev/messages/attachments/20260422_190300_9e3eaa93/paste-1776873770441.png]
 
-- [ ] Make dusk tests for the insert layout
+- [x] 2026-04-22  Make dusk tests for the insert layout
 
 - [ ] Make a plan in the todo.md for tests on the live edit by creating full landing page for microweber
 
