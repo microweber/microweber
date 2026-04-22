@@ -36,6 +36,10 @@
     <directory>tests/Browser</directory>
 </testsuite>
 
+        <testsuite name="LiveEditFullPage">
+            <file>tests/Browser/LiveEditFullLandingPageTest.php</file>
+        </testsuite>
+
         <testsuite name="ModulesBrowserTests">
             <directory>Modules/*/Tests/Browser</directory>
 
