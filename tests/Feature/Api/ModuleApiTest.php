@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Api;
 
 use MicroweberPackages\User\Models\User;
+use Modules\Comments\Models\Comment;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
@@ -195,9 +196,11 @@ final class ModuleApiTest extends TestCase
     #[Test]
     public function tags_store_accepts_admin_passport_token(): void
     {
+        $uniqueName = 'Created via module API ' . uniqid();
+
         $response = $this->actingAs($this->adminUser, 'api')
             ->postJson('/api/module/tags', [
-                'name' => 'Created via module API',
+                'name' => $uniqueName,
                 'description' => 'Test tag description',
                 'suggest' => true,
             ]);
@@ -206,12 +209,12 @@ final class ModuleApiTest extends TestCase
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'name' => 'Created via module API',
+                    'name' => $uniqueName,
                     'suggest' => true,
                 ],
             ]);
 
-        $this->assertDatabaseHas('tagging_tags', ['name' => 'Created via module API']);
+        $this->assertDatabaseHas('tagging_tags', ['name' => $uniqueName]);
     }
 
     #[Test]
@@ -256,6 +259,140 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function comments_index_is_public_under_module_namespace(): void
+    {
+        Comment::factory()->count(2)->create([
+            'is_moderated' => true,
+            'is_spam' => false,
+        ]);
+
+        $response = $this->getJson('/api/module/comments');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'rel_type', 'rel_id', 'comment_body']]]);
+    }
+
+    #[Test]
+    public function comments_index_hides_unmoderated_from_public(): void
+    {
+        Comment::factory()->create([
+            'comment_subject' => 'Moderated OK',
+            'is_moderated' => true,
+            'is_spam' => false,
+        ]);
+        Comment::factory()->create([
+            'comment_subject' => 'Pending Moderation',
+            'is_moderated' => false,
+            'is_spam' => false,
+        ]);
+
+        $response = $this->getJson('/api/module/comments');
+
+        $response->assertStatus(200);
+        $data = $response->json('data');
+        $subjects = array_column($data, 'comment_subject');
+        $this->assertContains('Moderated OK', $subjects);
+        $this->assertNotContains('Pending Moderation', $subjects);
+    }
+
+    #[Test]
+    public function comments_show_404s_unmoderated_for_public(): void
+    {
+        $pending = Comment::factory()->create(['is_moderated' => false, 'is_spam' => false]);
+
+        $this->getJson("/api/module/comments/{$pending->id}")->assertStatus(404);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/comments/{$pending->id}")
+            ->assertStatus(200);
+    }
+
+    #[Test]
+    public function comments_resource_hides_pii_from_public_callers(): void
+    {
+        $comment = Comment::factory()->create([
+            'comment_email' => 'secret@example.com',
+            'user_ip' => '203.0.113.42',
+            'is_moderated' => true,
+            'is_spam' => false,
+        ]);
+
+        $publicJson = $this->getJson("/api/module/comments/{$comment->id}")->json('data');
+        $this->assertArrayNotHasKey('comment_email', $publicJson);
+        $this->assertArrayNotHasKey('user_ip', $publicJson);
+
+        $adminJson = $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/comments/{$comment->id}")
+            ->json('data');
+        $this->assertSame('secret@example.com', $adminJson['comment_email']);
+        $this->assertSame('203.0.113.42', $adminJson['user_ip']);
+    }
+
+    #[Test]
+    public function comments_store_requires_admin_passport_token(): void
+    {
+        $payload = [
+            'rel_type' => 'content',
+            'rel_id' => '1',
+            'comment_body' => 'Hello world',
+        ];
+
+        $this->postJson('/api/module/comments', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/comments', $payload)
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/comments', $payload)
+            ->assertStatus(201)
+            ->assertJson(['success' => true, 'data' => ['comment_body' => 'Hello world']]);
+
+        $this->assertDatabaseHas('comments', ['comment_body' => 'Hello world']);
+    }
+
+    #[Test]
+    public function comments_update_requires_admin_passport_token(): void
+    {
+        $comment = Comment::factory()->create([
+            'comment_subject' => 'Before',
+            'is_moderated' => true,
+            'is_spam' => false,
+        ]);
+
+        $this->putJson("/api/module/comments/{$comment->id}", ['comment_subject' => 'After'])
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson("/api/module/comments/{$comment->id}", ['comment_subject' => 'After'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/comments/{$comment->id}", ['comment_subject' => 'After'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('comments', ['id' => $comment->id, 'comment_subject' => 'After']);
+    }
+
+    #[Test]
+    public function comments_destroy_requires_admin_passport_token(): void
+    {
+        $comment = Comment::factory()->create(['is_moderated' => true, 'is_spam' => false]);
+
+        $this->deleteJson("/api/module/comments/{$comment->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/comments/{$comment->id}")
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/comments/{$comment->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -276,6 +413,11 @@ final class ModuleApiTest extends TestCase
             'api.module.tags.show',
             'api.module.tags.update',
             'api.module.tags.destroy',
+            'api.module.comments.index',
+            'api.module.comments.store',
+            'api.module.comments.show',
+            'api.module.comments.update',
+            'api.module.comments.destroy',
         ];
 
         foreach ($expected as $name) {

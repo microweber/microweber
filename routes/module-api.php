@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Modules\Comments\Http\Controllers\Api\CommentsApiController;
 use Modules\Content\Http\Controllers\Api\ContentApiController;
 use Modules\Page\Http\Controllers\Api\PageApiController;
 use Modules\Post\Http\Controllers\Api\PostApiController;
@@ -28,6 +29,7 @@ $modules = [
     'pages' => [PageApiController::class, 'page'],
     'posts' => [PostApiController::class, 'post'],
     'tags' => [TagApiController::class, 'tag'],
+    'comments' => [CommentsApiController::class, 'comment'],
 ];
 
 foreach ($modules as $slug => [$controller, $binding]) {
