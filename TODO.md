@@ -1037,7 +1037,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Wire `/api/module/users`, `/api/module/customers`, `/api/module/profile`, `/api/module/newsletter`, `/api/module/settings`
 
 ### Phase 5 — OpenAPI/Swagger
-- [ ] Add `@OA\Info` and `@OA\SecurityScheme` (passport/bearer) root annotations
+- [x] 2026-04-22  Add `@OA\Info` and `@OA\SecurityScheme` (passport/bearer) root annotations
 - [ ] Annotate each `*ApiController` with `@OA\Get/Post/Put/Delete` per endpoint
 - [ ] Regenerate swagger JSON and confirm `/api/documentation` renders all module routes
 - [ ] Link from `ApiApplicationsPage` "API Usage Guide" panel to `/api/documentation`
