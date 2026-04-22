@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\User\Models\User;
 use Modules\Category\Models\Category;
 use Modules\Comments\Models\Comment;
 use Modules\ContactForm\Models\Form;
 use Modules\Content\Models\Content;
 use Modules\Coupons\Models\Coupon;
+use Modules\Customer\Models\Customer;
 use Modules\Invoice\Models\Invoice;
 use Modules\Media\Models\Media;
 use Modules\Menu\Models\Menu;
+use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Order\Models\Order;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
@@ -47,6 +50,36 @@ final class ModuleApiTest extends TestCase
             'email' => 'module-api-user-' . uniqid() . '@example.com',
             'is_admin' => 0,
             'is_active' => 1,
+        ]);
+    }
+
+    /**
+     * Insert or update an `options` row via the query builder. The Option
+     * Eloquent model's $fillable silently drops option_key, so we bypass
+     * it for test fixtures.
+     */
+    private function seedOption(string $key, string $value, ?string $group = null): void
+    {
+        $existing = DB::table('options')
+            ->where('option_key', $key)
+            ->when($group, fn ($q, $g) => $q->where('option_group', $g))
+            ->first();
+
+        if ($existing) {
+            DB::table('options')->where('id', $existing->id)->update([
+                'option_value' => $value,
+                'updated_at' => now(),
+            ]);
+
+            return;
+        }
+
+        DB::table('options')->insert([
+            'option_key' => $key,
+            'option_value' => $value,
+            'option_group' => $group,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 
@@ -959,6 +992,292 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function users_are_admin_only_on_every_verb(): void
+    {
+        $target = User::factory()->create();
+
+        $this->getJson('/api/module/users')->assertStatus(401);
+        $this->getJson("/api/module/users/{$target->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api');
+        $this->getJson('/api/module/users')->assertStatus(403);
+        $this->getJson("/api/module/users/{$target->id}")->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api');
+        $this->getJson('/api/module/users')->assertStatus(200);
+        $this->getJson("/api/module/users/{$target->id}")->assertStatus(200)
+            ->assertJsonPath('data.id', $target->id);
+    }
+
+    #[Test]
+    public function users_create_update_and_delete_require_admin(): void
+    {
+        $payload = [
+            'email' => 'users-api-' . uniqid() . '@example.com',
+            'password' => 'secret-password-123',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+        ];
+
+        // Unauthenticated write → 401
+        $this->postJson('/api/module/users', $payload)->assertStatus(401);
+
+        // Regular user → 403
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/users', $payload)->assertStatus(403);
+
+        // Admin → 201
+        $created = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/users', $payload)
+            ->assertStatus(201)
+            ->json('data');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/users/{$created['id']}", ['first_name' => 'Renamed'])
+            ->assertStatus(200)
+            ->assertJsonPath('data.first_name', 'Renamed');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/users/{$created['id']}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('users', ['id' => $created['id']]);
+    }
+
+    #[Test]
+    public function users_cannot_delete_themselves_via_api(): void
+    {
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/users/{$this->adminUser->id}")
+            ->assertStatus(409);
+    }
+
+    #[Test]
+    public function customers_are_admin_only_on_every_verb(): void
+    {
+        $customer = Customer::factory()->create();
+
+        $this->getJson('/api/module/customers')->assertStatus(401);
+        $this->getJson("/api/module/customers/{$customer->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api');
+        $this->getJson('/api/module/customers')->assertStatus(403);
+        $this->getJson("/api/module/customers/{$customer->id}")->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api');
+        $this->getJson('/api/module/customers')->assertStatus(200);
+        $this->getJson("/api/module/customers/{$customer->id}")
+            ->assertStatus(200)
+            ->assertJsonPath('data.id', $customer->id);
+    }
+
+    #[Test]
+    public function customers_crud_roundtrip_for_admin(): void
+    {
+        $created = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/customers', [
+                'email' => 'cust-' . uniqid() . '@example.com',
+                'first_name' => 'Test',
+                'last_name' => 'Customer',
+                'phone' => '555-1234',
+            ])
+            ->assertStatus(201)
+            ->json('data');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/customers/{$created['id']}", ['status' => 'inactive'])
+            ->assertStatus(200)
+            ->assertJsonPath('data.status', 'inactive');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/customers/{$created['id']}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('customers', ['id' => $created['id']]);
+    }
+
+    #[Test]
+    public function profile_requires_authentication(): void
+    {
+        $this->getJson('/api/module/profile')->assertStatus(401);
+        $this->putJson('/api/module/profile', ['first_name' => 'X'])->assertStatus(401);
+        $this->postJson('/api/module/profile/change-password', [
+            'current_password' => 'x',
+            'new_password' => 'x',
+        ])->assertStatus(401);
+    }
+
+    #[Test]
+    public function profile_returns_authenticated_user(): void
+    {
+        $this->actingAs($this->regularUser, 'api')
+            ->getJson('/api/module/profile')
+            ->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => ['id' => $this->regularUser->id, 'email' => $this->regularUser->email],
+            ]);
+    }
+
+    #[Test]
+    public function profile_update_edits_own_record_not_admin_flags(): void
+    {
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson('/api/module/profile', [
+                'first_name' => 'Renamed',
+                // Smuggle is_admin — it must be ignored because the controller
+                // validator doesn't accept it.
+                'is_admin' => 1,
+            ])
+            ->assertStatus(200)
+            ->assertJsonPath('data.first_name', 'Renamed')
+            ->assertJsonPath('data.is_admin', 0);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $this->regularUser->id,
+            'first_name' => 'Renamed',
+            'is_admin' => 0,
+        ]);
+    }
+
+    #[Test]
+    public function profile_change_password_requires_current_password(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'pw-' . uniqid() . '@example.com',
+            'password' => bcrypt('current-password'),
+        ]);
+
+        $this->actingAs($user, 'api')
+            ->postJson('/api/module/profile/change-password', [
+                'current_password' => 'wrong-password',
+                'new_password' => 'new-password-123',
+            ])
+            ->assertStatus(422);
+
+        $this->actingAs($user, 'api')
+            ->postJson('/api/module/profile/change-password', [
+                'current_password' => 'current-password',
+                'new_password' => 'new-password-123',
+            ])
+            ->assertStatus(200);
+    }
+
+    #[Test]
+    public function newsletter_subscribe_is_public(): void
+    {
+        $email = 'subscriber-' . uniqid() . '@example.com';
+
+        $this->postJson('/api/module/newsletter', ['email' => $email, 'name' => 'Anon'])
+            ->assertStatus(201)
+            ->assertJsonPath('success', true);
+
+        $this->assertDatabaseHas('newsletter_subscribers', [
+            'email' => $email,
+            'status' => 'active',
+        ]);
+    }
+
+    #[Test]
+    public function newsletter_resubscribe_returns_200_not_duplicate(): void
+    {
+        $email = 'resub-' . uniqid() . '@example.com';
+
+        $this->postJson('/api/module/newsletter', ['email' => $email])->assertStatus(201);
+        $this->postJson('/api/module/newsletter', ['email' => $email])->assertStatus(200);
+
+        $this->assertSame(
+            1,
+            NewsletterSubscriber::where('email', $email)->count(),
+            'Re-subscribing should not create a duplicate record'
+        );
+    }
+
+    #[Test]
+    public function newsletter_index_is_admin_only(): void
+    {
+        $this->getJson('/api/module/newsletter')->assertStatus(401);
+        $this->actingAs($this->regularUser, 'api')
+            ->getJson('/api/module/newsletter')->assertStatus(403);
+        $this->actingAs($this->adminUser, 'api')
+            ->getJson('/api/module/newsletter')->assertStatus(200);
+    }
+
+    #[Test]
+    public function newsletter_unsubscribe_is_public_and_flips_status(): void
+    {
+        $subscriber = NewsletterSubscriber::factory()->create([
+            'email' => 'unsub-' . uniqid() . '@example.com',
+            'is_subscribed' => true,
+            'status' => 'active',
+        ]);
+
+        $this->postJson('/api/module/newsletter/unsubscribe', ['email' => $subscriber->email])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('newsletter_subscribers', [
+            'id' => $subscriber->id,
+            'status' => 'unsubscribed',
+            'is_subscribed' => 0,
+        ]);
+    }
+
+    #[Test]
+    public function settings_public_index_only_exposes_whitelisted_keys(): void
+    {
+        $this->seedOption('website_title', 'Headless API Site', 'website');
+        $this->seedOption('stripe_secret_key', 'sk_test_shouldnotleak', 'payments');
+
+        $response = $this->getJson('/api/module/settings')->assertStatus(200);
+        $keys = collect($response->json('data'))->pluck('option_key')->all();
+
+        $this->assertContains('website_title', $keys);
+        $this->assertNotContains('stripe_secret_key', $keys,
+            'Public index must never expose non-whitelisted option keys');
+    }
+
+    #[Test]
+    public function settings_show_blocks_non_whitelisted_keys_for_anonymous(): void
+    {
+        $this->seedOption('stripe_secret_key', 'sk_test_shouldnotleak', 'payments');
+
+        $this->getJson('/api/module/settings/stripe_secret_key')->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->getJson('/api/module/settings/stripe_secret_key')
+            ->assertStatus(200)
+            ->assertJsonPath('data.option_value', 'sk_test_shouldnotleak');
+    }
+
+    #[Test]
+    public function settings_write_requires_admin(): void
+    {
+        $key = 'test_setting_' . uniqid();
+        $payload = ['option_key' => $key, 'option_value' => 'Initial'];
+
+        $this->postJson('/api/module/settings', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/settings', $payload)->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/settings', $payload)
+            ->assertStatus(201)
+            ->assertJsonPath('data.option_value', 'Initial');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/settings/{$key}", ['option_value' => 'Updated'])
+            ->assertStatus(200)
+            ->assertJsonPath('data.option_value', 'Updated');
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/settings/{$key}")
+            ->assertStatus(200);
+
+        $this->assertSame(0, DB::table('options')->where('option_key', $key)->count());
+    }
+
+    #[Test]
     public function cart_and_checkout_endpoints_are_public(): void
     {
         // Both endpoints are session-backed — anonymous callers should reach
@@ -1069,6 +1388,30 @@ final class ModuleApiTest extends TestCase
             'api.module.checkout.payment.methods',
             'api.module.checkout.shipping.calculate',
             'api.module.checkout.order.status',
+            'api.module.users.index',
+            'api.module.users.store',
+            'api.module.users.show',
+            'api.module.users.update',
+            'api.module.users.destroy',
+            'api.module.customers.index',
+            'api.module.customers.store',
+            'api.module.customers.show',
+            'api.module.customers.update',
+            'api.module.customers.destroy',
+            'api.module.profile.show',
+            'api.module.profile.update',
+            'api.module.profile.change-password',
+            'api.module.newsletter.index',
+            'api.module.newsletter.store',
+            'api.module.newsletter.show',
+            'api.module.newsletter.update',
+            'api.module.newsletter.destroy',
+            'api.module.newsletter.unsubscribe',
+            'api.module.settings.index',
+            'api.module.settings.show',
+            'api.module.settings.store',
+            'api.module.settings.update',
+            'api.module.settings.destroy',
         ];
 
         foreach ($expected as $name) {

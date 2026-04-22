@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\User\Http\Controllers\Api\UsersApiController;
 use Modules\Cart\Http\Controllers\Api\CartApiController;
 use Modules\Category\Http\Controllers\Api\CategoriesApiController;
 use Modules\Checkout\Http\Controllers\Api\CheckoutApiController;
@@ -10,13 +11,17 @@ use Modules\Comments\Http\Controllers\Api\CommentsApiController;
 use Modules\ContactForm\Http\Controllers\Api\FormsApiController;
 use Modules\Content\Http\Controllers\Api\ContentApiController;
 use Modules\Coupons\Http\Controllers\Api\CouponsApiController;
+use Modules\Customer\Http\Controllers\Api\CustomersApiController;
 use Modules\Invoice\Http\Controllers\Api\InvoicesApiController;
 use Modules\Media\Http\Controllers\Api\MediaApiController;
 use Modules\Menu\Http\Controllers\Api\MenusApiController;
+use Modules\Newsletter\Http\Controllers\Api\NewsletterApiController;
 use Modules\Order\Http\Controllers\Api\OrdersApiController;
 use Modules\Page\Http\Controllers\Api\PageApiController;
 use Modules\Post\Http\Controllers\Api\PostApiController;
 use Modules\Product\Http\Controllers\Api\ProductsApiController;
+use Modules\Profile\Http\Controllers\Api\ProfileApiController;
+use Modules\Settings\Http\Controllers\Api\SettingsApiController;
 use Modules\Shipping\Http\Controllers\Api\ShippingApiController;
 use Modules\Tag\Http\Controllers\Api\TagApiController;
 use Modules\Tax\Http\Controllers\Api\TaxApiController;
@@ -55,6 +60,8 @@ $modules = [
     'shipping' => [ShippingApiController::class, 'shipping'],
     'tax' => [TaxApiController::class, 'tax'],
     'invoices' => [InvoicesApiController::class, 'invoice'],
+    'users' => [UsersApiController::class, 'user'],
+    'customers' => [CustomersApiController::class, 'customer'],
 ];
 
 foreach ($modules as $slug => [$controller, $binding]) {
@@ -110,4 +117,67 @@ Route::prefix('api/module/checkout')
         Route::get('/payment-methods', [CheckoutApiController::class, 'paymentMethods'])->name('payment.methods');
         Route::post('/calculate-shipping', [CheckoutApiController::class, 'calculateShipping'])->name('shipping.calculate');
         Route::get('/order/{orderReferenceId}', [CheckoutApiController::class, 'orderStatus'])->name('order.status');
+    });
+
+/*
+| Profile operates on the authenticated caller, not a collection — there
+| is no `{id}` route param. Any authenticated user (admin or not) can read
+| and update their own record.
+*/
+Route::prefix('api/module/profile')
+    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->name('api.module.profile.')
+    ->group(function () {
+        Route::get('/', [ProfileApiController::class, 'show'])->name('show');
+        Route::put('/', [ProfileApiController::class, 'update'])->name('update');
+        Route::patch('/', [ProfileApiController::class, 'update'])->name('update.partial');
+        Route::post('/change-password', [ProfileApiController::class, 'changePassword'])->name('change-password');
+    });
+
+/*
+| Newsletter subscribing is public (self-subscribe by email). Listing,
+| show, update and destroy are admin-gated by the controller. Self-
+| unsubscribe is exposed at /unsubscribe and is also public so users can
+| opt out without an account.
+*/
+Route::prefix('api/module/newsletter')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.newsletter.')
+    ->group(function () {
+        Route::get('/', [NewsletterApiController::class, 'index'])->name('index');
+        Route::post('/', [NewsletterApiController::class, 'store'])->name('store');
+        Route::post('/unsubscribe', [NewsletterApiController::class, 'unsubscribe'])->name('unsubscribe');
+        Route::get('/{id}', [NewsletterApiController::class, 'show'])->whereNumber('id')->name('show');
+    });
+
+Route::prefix('api/module/newsletter')
+    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->name('api.module.newsletter.')
+    ->group(function () {
+        Route::put('/{id}', [NewsletterApiController::class, 'update'])->whereNumber('id')->name('update');
+        Route::patch('/{id}', [NewsletterApiController::class, 'update'])->whereNumber('id')->name('update.partial');
+        Route::delete('/{id}', [NewsletterApiController::class, 'destroy'])->whereNumber('id')->name('destroy');
+    });
+
+/*
+| Settings (options). Reads are public for a whitelist of safe keys;
+| writes require admin. Using `{key}` rather than `{id}` since option
+| keys are stable identifiers whereas ids are not.
+*/
+Route::prefix('api/module/settings')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.settings.')
+    ->group(function () {
+        Route::get('/', [SettingsApiController::class, 'index'])->name('index');
+        Route::get('/{key}', [SettingsApiController::class, 'show'])->where('key', '[A-Za-z0-9_\-.]+')->name('show');
+    });
+
+Route::prefix('api/module/settings')
+    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->name('api.module.settings.')
+    ->group(function () {
+        Route::post('/', [SettingsApiController::class, 'store'])->name('store');
+        Route::put('/{key}', [SettingsApiController::class, 'update'])->where('key', '[A-Za-z0-9_\-.]+')->name('update');
+        Route::patch('/{key}', [SettingsApiController::class, 'update'])->where('key', '[A-Za-z0-9_\-.]+')->name('update.partial');
+        Route::delete('/{key}', [SettingsApiController::class, 'destroy'])->where('key', '[A-Za-z0-9_\-.]+')->name('destroy');
     });

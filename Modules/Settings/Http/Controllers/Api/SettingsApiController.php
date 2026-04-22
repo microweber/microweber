@@ -1,0 +1,308 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Modules\Settings\Http\Controllers\Api;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Exposes the site-wide `options` table under /api/module/settings.
+ *
+ * Reads are public but restricted to a whitelist of safe keys so that
+ * nothing sensitive (mail credentials, payment provider keys, api
+ * secrets) ever leaks. Writes require admin.
+ *
+ * Uses DB::table directly rather than the Option Eloquent model because
+ * the model's $fillable only exposes option_group/option_value — going
+ * through the query builder is simpler and avoids silently dropping the
+ * option_key we set here.
+ */
+class SettingsApiController extends Controller
+{
+    /**
+     * Keys that are safe to expose anonymously (website branding, seo,
+     * analytics IDs, maintenance mode flags).
+     *
+     * @var array<int, string>
+     */
+    private const PUBLIC_KEYS = [
+        'website_title',
+        'website_description',
+        'website_keywords',
+        'website_footer',
+        'website_head',
+        'favicon_image',
+        'logo_image',
+        'date_format',
+        'maintenance_mode',
+        'maintenance_mode_text',
+        'google-analytics-id',
+        'google-tag-manager-id',
+        'facebook-pixel-id',
+        'app_version',
+        'default_currency',
+        'language',
+        'timezone',
+    ];
+
+    public function index(Request $request): JsonResponse
+    {
+        $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
+        $group = $request->input('group');
+
+        $query = DB::table('options');
+
+        if (!empty($group)) {
+            $query->where('option_group', (string) $group);
+        }
+
+        if (!$isAdmin) {
+            $query->whereIn('option_key', self::PUBLIC_KEYS);
+        }
+
+        $options = $query->orderBy('option_key')->get();
+
+        $data = $options->map(fn ($o) => [
+            'id' => (int) $o->id,
+            'option_key' => $o->option_key,
+            'option_value' => $o->option_value,
+            'option_group' => $o->option_group,
+            'module' => $o->module,
+        ])->values();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
+    public function show(Request $request, string $key): JsonResponse
+    {
+        $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
+
+        if (!$isAdmin && !in_array($key, self::PUBLIC_KEYS, true)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $group = $request->input('group');
+        $query = DB::table('options')->where('option_key', $key);
+        if (!empty($group)) {
+            $query->where('option_group', (string) $group);
+        }
+        $option = $query->first();
+
+        if (!$option) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Option not found',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => (int) $option->id,
+                'option_key' => $option->option_key,
+                'option_value' => $option->option_value,
+                'option_group' => $option->option_group,
+                'module' => $option->module,
+            ],
+        ]);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        if ($deny = $this->requireAdmin($request)) {
+            return $deny;
+        }
+
+        $validator = Validator::make($request->all(), [
+            'option_key' => 'required|string|max:255',
+            'option_value' => 'nullable',
+            'option_group' => 'nullable|string|max:255',
+            'module' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        try {
+            $data = $validator->validated();
+            $match = ['option_key' => $data['option_key']];
+            if (!empty($data['option_group'])) {
+                $match['option_group'] = $data['option_group'];
+            }
+
+            $existing = DB::table('options')->where($match)->first();
+            $now = now();
+
+            if ($existing) {
+                DB::table('options')->where('id', $existing->id)->update([
+                    'option_value' => $data['option_value'] ?? null,
+                    'module' => $data['module'] ?? $existing->module,
+                    'updated_at' => $now,
+                ]);
+                $id = (int) $existing->id;
+                $created = false;
+            } else {
+                $id = (int) DB::table('options')->insertGetId([
+                    'option_key' => $data['option_key'],
+                    'option_value' => $data['option_value'] ?? null,
+                    'option_group' => $data['option_group'] ?? null,
+                    'module' => $data['module'] ?? null,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+                $created = true;
+            }
+
+            $row = DB::table('options')->where('id', $id)->first();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Setting saved successfully',
+                'data' => [
+                    'id' => (int) $row->id,
+                    'option_key' => $row->option_key,
+                    'option_value' => $row->option_value,
+                    'option_group' => $row->option_group,
+                    'module' => $row->module,
+                ],
+            ], $created ? Response::HTTP_CREATED : Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to save setting',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function update(Request $request, string $key): JsonResponse
+    {
+        if ($deny = $this->requireAdmin($request)) {
+            return $deny;
+        }
+
+        $validator = Validator::make($request->all(), [
+            'option_value' => 'nullable',
+            'option_group' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $data = $validator->validated();
+        $group = $data['option_group'] ?? $request->input('group');
+
+        $query = DB::table('options')->where('option_key', $key);
+        if (!empty($group)) {
+            $query->where('option_group', (string) $group);
+        }
+        $option = $query->first();
+
+        if (!$option) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Option not found',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            DB::table('options')->where('id', $option->id)->update([
+                'option_value' => $data['option_value'] ?? null,
+                'updated_at' => now(),
+            ]);
+            $row = DB::table('options')->where('id', $option->id)->first();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Setting updated successfully',
+                'data' => [
+                    'id' => (int) $row->id,
+                    'option_key' => $row->option_key,
+                    'option_value' => $row->option_value,
+                    'option_group' => $row->option_group,
+                    'module' => $row->module,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update setting',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function destroy(Request $request, string $key): JsonResponse
+    {
+        if ($deny = $this->requireAdmin($request)) {
+            return $deny;
+        }
+
+        $group = $request->input('group');
+        $query = DB::table('options')->where('option_key', $key);
+        if (!empty($group)) {
+            $query->where('option_group', (string) $group);
+        }
+        $option = $query->first();
+
+        if (!$option) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Option not found',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            DB::table('options')->where('id', $option->id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Setting deleted successfully',
+                'data' => ['id' => (int) $option->id],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete setting',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function requireAdmin(Request $request): ?JsonResponse
+    {
+        if (!$request->user()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Authentication required.',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+        if ((int) $request->user()->is_admin !== 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin access required.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        return null;
+    }
+}
