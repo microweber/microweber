@@ -1225,7 +1225,7 @@ accidentally being hardcoded to Bootstrap.
 - [x] 2026-04-23  Add `LiveEditColorPaletteSwitchNoBleedTest` to a bleed-guard testsuite (pattern established by `LiveEditAdminLoginCacheBleedGuard`) that runs it *after* `LiveEditColorPalettePublicRenderTest` to catch static-state bleed across tests
 
 ### Phase 10 — Documentation & contributor guide
-- [ ] Document the pack JSON shape (`settings[0].fieldType`, `selectors`, `fieldSettings.styleProperties[0].properties`, core variable checklist) in `docs/templates/color-palettes.md` so new packs are authored against the same contract tests in Phase 2 enforce
+- [x] 2026-04-23  Document the pack JSON shape (`settings[0].fieldType`, `selectors`, `fieldSettings.styleProperties[0].properties`, core variable checklist) in `docs/templates/color-palettes.md` so new packs are authored against the same contract tests in Phase 2 enforce
 - [ ] Add a "How to add a new color pack" recipe covering: drop file under `Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/<slug>.json`, run `php artisan test --filter ColorPaletteFilesTest` to validate metadata, scaffold a per-palette Dusk test via a generator (`php artisan make:dusk:color-palette-test <slug>`) — keeps Phase 3's per-palette test growth zero-effort for contributors
 
 
