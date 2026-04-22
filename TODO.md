@@ -1045,7 +1045,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 ### Phase 6 — Token UX polish
 - [x] 2026-04-22  Allow token scopes per module (e.g. `content:read`, `products:write`)
 - [x] 2026-04-22  Revoke-all-tokens button on the ApiApplicationsPage
-- [ ] Dusk test for end-to-end token creation → API call → revocation
+- [x] 2026-04-22  Dusk test for end-to-end token creation → API call → revocation
 
 ### Phase 7 — Hardening
 - [ ] Per-token rate limits separate from IP-based `throttle:api`
