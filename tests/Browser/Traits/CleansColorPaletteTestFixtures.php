@@ -4,6 +4,7 @@ namespace Tests\Browser\Traits;
 
 use Illuminate\Support\Facades\DB;
 use Tests\Browser\Factories\ColorPaletteFactory;
+use Tests\Browser\Factories\ColorPaletteSkinMatrixFactory;
 use Tests\DuskTestCase;
 
 /**
@@ -64,9 +65,10 @@ trait CleansColorPaletteTestFixtures
     }
 
     /**
-     * Sweep every `color-palette-test-*` page row (plus satellites).
-     * Delegates to the factory's own `cleanupAll()` so the deletion
-     * cascade lives in exactly one place.
+     * Sweep every `color-palette-test-*` and `color-palette-skin-test-*`
+     * page row (plus satellites). Delegates to each factory's own
+     * `cleanupAll()` so the deletion cascade lives in exactly one place
+     * per fixture class.
      */
     protected function purgeColorPaletteTestPages(): void
     {
@@ -74,6 +76,11 @@ trait CleansColorPaletteTestFixtures
             ColorPaletteFactory::cleanupAll();
         } catch (\Throwable) {
             // best-effort: teardown must never mask a test failure
+        }
+        try {
+            ColorPaletteSkinMatrixFactory::cleanupAll();
+        } catch (\Throwable) {
+            // best-effort
         }
     }
 
