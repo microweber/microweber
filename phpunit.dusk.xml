@@ -76,6 +76,38 @@
             <file>tests/Browser/LiveEditFullLandingPageTest.php</file>
         </testsuite>
 
+        <!--
+            Phase-9 bleed guard for the palette apply/save pipeline.
+
+            File order matters: `LiveEditColorPalettePublicRenderTest`
+            runs first and, for each of the 17 Bootstrap color packs,
+            drives `cssEditor.publishIfChanged()` →
+            `/api/current_template_save_custom_css`, persisting the
+            final pack as the active template's custom CSS. Left
+            unreverted on disk (or in a process-static cache like
+            `TemplateCustomCss`'s in-memory map, or the options-cache
+            bucket for the custom-CSS URL), those writes would bleed
+            into any subsequent live-edit test — the next run would
+            open live-edit with the last palette already painted on
+            :root, and `LiveEditColorPaletteSwitchNoBleedTest`'s A→B
+            apply-and-assert flow would see B's expected values masked
+            by the residual C from the prior test.
+
+            Running these two files back-to-back in one PHP process
+            exercises that exact bleed path. Both tests passing is the
+            proof that the Public-Render teardown (or the factory's
+            per-page custom-CSS scoping, or the Switch-No-Bleed
+            clickPalette() driver itself) absorbs the static state and
+            doesn't let it leak across the boundary.
+
+            Matches the shape of `LiveEditAdminLoginCacheBleedGuard`
+            above — a narrow ordered pair, not a general suite.
+        -->
+        <testsuite name="LiveEditColorPaletteSwitchNoBleedGuard">
+            <file>tests/Browser/LiveEditColorPalettePublicRenderTest.php</file>
+            <file>tests/Browser/LiveEditColorPaletteSwitchNoBleedTest.php</file>
+        </testsuite>
+
         <testsuite name="ModulesBrowserTests">
             <directory>Modules/*/Tests/Browser</directory>
 
