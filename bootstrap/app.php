@@ -18,6 +18,9 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
         Route::middleware('api')->group(function () {
             require __DIR__.'/../routes/ecommerce-api.php';
         });
+
+        // Headless module API — /api/module/{module}/* namespace
+        require __DIR__.'/../routes/module-api.php';
     }
   )
 ->withMiddleware(function (Middleware $middleware) {
