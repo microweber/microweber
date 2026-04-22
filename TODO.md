@@ -322,6 +322,7 @@
 
 - [x] now module skin preview works, nut the iframe is without styling, we msut add the header and footer from the template partills
 - [x] 2026-04-19  ok it works jsut no in rpeview mode hide the header and footer with css so we can seeo nly the module skin
+- [x] 2026-04-22  improve the smoke teses, check if he pages error code is not 500 etc
 ## AI Chat ↔ MCP/Tools Integration Plan
 
 ### Problem Analysis
