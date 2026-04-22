@@ -1105,7 +1105,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [x] 2026-04-22  Double-click a pricing `.price` amount → inline editor opens; typed value survives Save
 - [x] 2026-04-22  Open settings panel for inserted Pricing module; toggle "popular plan" option; assert option persists via `options` table
 - [x] 2026-04-22  Use background module color picker on jumbotron hero; assert `background-color` inline style saved
-- [ ] Drag a card from position 3 to position 1 (Sortable/jQuery UI); assert new order in saved HTML
+- [x] 2026-04-22  Drag a card from position 3 to position 1 (Sortable/jQuery UI); assert new order in saved HTML
 
 ### Phase 5 — Public render parity
 - [ ] Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
