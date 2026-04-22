@@ -42,7 +42,7 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
 
             // ── Check 1: Newsletter campaigns list page loads ──
             try {
-                $browser->visit('/admin/newsletter-campaigns')->pause(5000);
+                $browser->visit('/admin/newsletter/campaigns')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -75,7 +75,7 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
 
             // ── Check 2: Campaign create page has form ──
             try {
-                $browser->visit('/admin/newsletter-campaigns/create')->pause(5000);
+                $browser->visit('/admin/newsletter/campaigns/create')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -127,7 +127,7 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
 
             // ── Check 1: Newsletter subscribers list loads ──
             try {
-                $browser->visit('/admin/newsletter-subscribers')->pause(5000);
+                $browser->visit('/admin/newsletter/subscribers')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -159,7 +159,7 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
 
             // ── Check 2: Newsletter lists page loads ──
             try {
-                $browser->visit('/admin/newsletter-lists')->pause(5000);
+                $browser->visit('/admin/newsletter/lists')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();
@@ -212,7 +212,7 @@ class AdminNewsletterWorkflowTest extends DuskTestCase
 
             // ── Check 1: Sender accounts list loads ──
             try {
-                $browser->visit('/admin/newsletter-sender-accounts')->pause(5000);
+                $browser->visit('/admin/newsletter/sender-accounts')->pause(5000);
                 $this->ensureLoggedIn($browser);
 
                 $pageSource = $browser->driver->getPageSource();

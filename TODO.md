@@ -1004,5 +1004,5 @@ Spot-checked module settings in browser (dark mode):
 - 
 - [x] 2026-04-21  fix dusk tests php artisan dusk now each test in laucung new chmrme sintaces, we want to reuse signel isntange and move rpeating code to traits and reuse single login and instance
 
-- [~] fix dusk failing tests php artisan dusk
+- [x] 2026-04-22  fix dusk failing tests php artisan dusk
 

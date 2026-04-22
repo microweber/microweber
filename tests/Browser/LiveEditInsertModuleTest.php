@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\DuskTestCase;
 
 /**
@@ -16,10 +17,12 @@ use Tests\DuskTestCase;
  *
  * Prerequisites:
  *   - A running dev server at http://127.0.0.1:8000
- *   - An admin user with email admin@admin.com / password123
+ *   - An admin user with email admin@admin.com
  */
 class LiveEditInsertModuleTest extends DuskTestCase
 {
+    use AdminLoginTrait;
+
     protected function assertPreConditions(): void
     {
         // Skip parent — we rely on the already-running server's database
@@ -32,21 +35,7 @@ class LiveEditInsertModuleTest extends DuskTestCase
             $checks = 0;
             $failed = [];
 
-            // ── Login first ──
-            try {
-                $browser->visit('/admin/login')
-                    ->waitFor('input[type="email"]', 10)
-                    ->type('input[type="email"]', 'admin@admin.com')
-                    ->type('input[type="password"]', 'password123')
-                    ->click('button[type="submit"]')
-                    ->pause(5000);
-
-                $currentUrl = $browser->driver->getCurrentURL();
-                $this->assertStringNotContainsString('/login', $currentUrl,
-                    'Should be logged in');
-            } catch (\Exception $e) {
-                $this->fail('Login failed: ' . $e->getMessage());
-            }
+            $this->loginAsAdmin($browser);
 
             // ── Navigate to live edit ──
             try {

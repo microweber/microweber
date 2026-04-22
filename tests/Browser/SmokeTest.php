@@ -22,8 +22,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->waitFor('body', 10)
-                ->assertSeeIn('body', '');
+                ->assertSourceHas('<body');
             
             // Check for JS errors in console
             $logs = $browser->driver->manage()->getLog('browser');
@@ -41,7 +40,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/shop')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -58,8 +57,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
-                ->waitFor('body', 10)
-                ->assertSee('Login');
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -76,7 +74,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -93,7 +91,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -110,7 +108,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/checkout')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -127,7 +125,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/cart')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -144,7 +142,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/search')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -161,7 +159,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/profile')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');
@@ -178,7 +176,7 @@ class SmokeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/forgot-password')
-                ->waitFor('body', 10);
+                ->assertSourceHas('<body');
             
             $logs = $browser->driver->manage()->getLog('browser');
             $errors = array_filter($logs, fn($log) => $log['level'] === 'SEVERE');

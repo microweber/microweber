@@ -47,6 +47,20 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected static bool $adminLoggedIn = false;
 
+    /**
+     * Running count of Dusk tests that have entered createBrowsersFor.
+     * Used to trigger a proactive browser recycle before chrome gets flaky
+     * after long runs.
+     */
+    protected static int $testCount = 0;
+
+    /**
+     * Recycle the shared chrome process after this many tests. Empirically,
+     * chrome becomes unstable after ~40 min of continuous use on this host,
+     * so we pre-emptively bounce it to avoid mid-run SessionNotCreatedException.
+     */
+    protected static int $recycleEvery = 10;
+
     use CreatesApplication;
 
 
@@ -301,13 +315,29 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function createBrowsersFor(\Closure $callback)
     {
+        static::$testCount++;
+
+        $needsReset = false;
+
         if (count(static::$browsers) > 0) {
             try {
                 $browser = static::$browsers->first();
                 $browser->driver->getWindowHandles();
-            } catch (\Exception) {
-                $this->resetSharedBrowserState();
+            } catch (\Throwable) {
+                $needsReset = true;
             }
+        }
+
+        // Proactive recycle: bounce chrome every N tests before it gets flaky.
+        if (!$needsReset
+            && static::$testCount > 1
+            && (static::$testCount - 1) % static::$recycleEvery === 0
+            && count(static::$browsers) > 0) {
+            $needsReset = true;
+        }
+
+        if ($needsReset) {
+            $this->resetSharedBrowserState();
         }
 
         return parent::createBrowsersFor($callback);
@@ -328,14 +358,55 @@ abstract class DuskTestCase extends BaseTestCase
         }
         static::$browsers = collect();
 
-        // Wipe the old profile (may contain lock files) and rotate to a new one.
+        // Kill any chrome processes still tied to the old profile dir.
+        // Dead-session quits sometimes leave zombie chrome children that hold
+        // file locks and accumulate memory over long runs.
         $oldDir = $this->sharedChromeProfileDir();
+        @exec('pkill -9 -f ' . escapeshellarg('user-data-dir=' . $oldDir) . ' 2>/dev/null');
+        usleep(200_000);
+
+        // Wipe the old profile (may contain lock files) and rotate to a new one.
         if (is_dir($oldDir)) {
             self::removeDirectory($oldDir);
         }
         self::$sharedProfileSequence++;
         self::$sharedProfileInitialized = false;
         self::$adminLoggedIn = false;
+
+        // If chromedriver itself has died (not just chrome), start a fresh one
+        // that can bind to port 9515 before the next driver() call POSTs there.
+        if (!$this->isChromeDriverResponding()) {
+            if (static::$chromeProcess) {
+                try {
+                    static::$chromeProcess->stop(0);
+                } catch (\Throwable) {
+                    // ignore — already stopped
+                }
+                static::$chromeProcess = null;
+            }
+            static::startChromeDriver(['--port=9515']);
+
+            // Wait for the new chromedriver to accept connections.
+            for ($i = 0; $i < 20; $i++) {
+                if ($this->isChromeDriverResponding()) {
+                    break;
+                }
+                usleep(250_000);
+            }
+        }
+    }
+
+    /**
+     * Check whether chromedriver is accepting TCP connections on port 9515.
+     */
+    protected function isChromeDriverResponding(): bool
+    {
+        $fp = @fsockopen('127.0.0.1', 9515, $errno, $errstr, 1);
+        if ($fp) {
+            fclose($fp);
+            return true;
+        }
+        return false;
     }
 
     /**

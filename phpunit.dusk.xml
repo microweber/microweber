@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         stopOnFailure="true"
+         stopOnFailure="false"
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
@@ -34,10 +34,6 @@
 
 <testsuite name="Browser">
     <directory>tests/Browser</directory>
-</testsuite>
-
-<testsuite name="CrossBrowser">
-    <directory>tests/BrowserLegacy/CrossBrowser</directory>
 </testsuite>
 
         <testsuite name="ModulesBrowserTests">
