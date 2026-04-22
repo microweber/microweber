@@ -1091,7 +1091,7 @@ survives a save→reload.
 - [x] 2026-04-22  Insert **E-commerce / skin-1** products grid; verify it lists real products
 - [x] 2026-04-22  Insert **Footers / skin-1** at bottom; edit company-name span
 - [x] 2026-04-22  Click Save; assert single `POST /live-edit/save` → 200 with non-empty body
-- [ ] Reload live-edit, confirm all 9 sections still present in correct order
+- [x] 2026-04-22  Reload live-edit, confirm all 9 sections still present in correct order
 
 ### Phase 3 — Insert Layout picker regressions
 Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
