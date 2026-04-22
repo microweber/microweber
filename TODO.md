@@ -1206,7 +1206,7 @@ visible palettes.
 Proves a palette applies correctly to *every skin* the Bootstrap
 template ships, not just the page we used for harness.
 - [x] 2026-04-23  Extend `LandingPageFactory` into a `ColorPaletteSkinMatrixFactory` that produces one page per skin family (Jumbotron skin-1/2, Features skin-1/2, Pricing skin-1/2/3, Titles skin-1, Content skin-1, Blog skin-1, E-commerce skin-1, Footers skin-1)
-- [ ] `tests/Browser/LiveEditColorPaletteSkinMatrixTest.php` — for a representative palette (neon-night — high-contrast dark theme that exposes missing variable fallbacks) iterate every skin page, apply the palette, assert the skin's visible primary accents (button bg, heading color, body color) match the palette's declared values
+- [x] 2026-04-23  `tests/Browser/LiveEditColorPaletteSkinMatrixTest.php` — for a representative palette (neon-night — high-contrast dark theme that exposes missing variable fallbacks) iterate every skin page, apply the palette, assert the skin's visible primary accents (button bg, heading color, body color) match the palette's declared values
 - [ ] Assert no skin keeps a previous-palette or default-template fallback color after apply (CSS specificity regression guard — hardcoded hex in a skin's SCSS would show up here)
 
 ### Phase 8 — Template portability
