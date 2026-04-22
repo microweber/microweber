@@ -1074,7 +1074,7 @@ blog, footers, footer_cart). Each check runs in isolation but they
 compose into one golden-path suite `LiveEditFullLandingPageTest`.
 
 ### Phase 1 — Fixture & harness
-- [ ] Add a trait `LiveEditPageBuilderTrait` under `tests/Browser/Traits/` exposing: `createBlankPage(Browser, string $title): int` (creates an empty page via API/DB and returns its id), `openInLiveEdit(Browser, int $pageId)`, `insertLayoutByCategory(Browser, string $category, string $skin)`, `editInlineText(Browser, string $fieldSelector, string $text)`, `saveLiveEdit(Browser)`, `assertPublicPageContains(Browser, string $slug, string $needle)`
+- [x] 2026-04-22  Add a trait `LiveEditPageBuilderTrait` under `tests/Browser/Traits/` exposing: `createBlankPage(Browser, string $title): int` (creates an empty page via API/DB and returns its id), `openInLiveEdit(Browser, int $pageId)`, `insertLayoutByCategory(Browser, string $category, string $skin)`, `editInlineText(Browser, string $fieldSelector, string $text)`, `saveLiveEdit(Browser)`, `assertPublicPageContains(Browser, string $slug, string $needle)`
 - [ ] Add `LandingPageFactory` in `tests/Browser/Factories/` that seeds an admin user + a clean "landing-test-<ts>" page and guarantees the active template is Bootstrap
 - [ ] Wire a tearDown cleanup that deletes any `landing-test-*` pages and their content rows, so reruns don't accumulate
 
@@ -1123,3 +1123,5 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 
 
 - [ ] Make a plan to test all color schemes and populate todo.md
+
+- [ ] See in the layouts wot mention worpdress and laravle, but since we are in microwebebr we should put Micorweber isntaf of wordpress and make a plan in the Todo.md to import a worpdress wdite by url from the RSS feed and sitemp aml and othet merods s user can migrate and put Easey Worpdress Migration
