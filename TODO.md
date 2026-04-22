@@ -1164,7 +1164,7 @@ on `:root` matches the pack JSON's `properties` map.
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteCitrusSplashTest.php` — citrus-splash pack applies every CSS custom property to `:root`
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteCoralPopTest.php` — coral-pop pack applies every CSS custom property to `:root`
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteCyberMintTest.php` — cyber-mint pack applies every CSS custom property to `:root`
-- [ ] `tests/Browser/LiveEditColorPaletteForestHazeTest.php` — forest-haze pack applies every CSS custom property to `:root`
+- [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteForestHazeTest.php` — forest-haze pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteGoldenHourTest.php` — golden-hour pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteLavenderFieldsTest.php` — lavender-fields pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteMidnightIndigoTest.php` — midnight-indigo pack applies every CSS custom property to `:root`
