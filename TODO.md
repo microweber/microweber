@@ -1082,7 +1082,7 @@ compose into one golden-path suite `LiveEditFullLandingPageTest`.
 Each step asserts the card inserts, its field is editable, and it
 survives a save→reload.
 - [x] 2026-04-22  Insert **Jumbotron / skin-1** hero at top; edit H1 to "Microweber Landing" and CTA button copy; assert DOM + saved `content.content_body`
-- [ ] Insert **Titles / skin-1** "Why choose us" intro under hero; verify inline heading edit persists
+- [x] 2026-04-22  Insert **Titles / skin-1** "Why choose us" intro under hero; verify inline heading edit persists
 - [ ] Insert **Features / skin-2** (advantages grid added in 7d388b9); edit 2 feature labels; assert `features-skin-2-advantages` marker in saved HTML
 - [ ] Insert **Content / skin-1** two-column story block; edit paragraph text
 - [ ] Insert **Pricing / skin-2** (hosting plans added in 7d388b9); edit "Plus" plan price "$5.99" → "$6.99"; assert new price in saved `content_body`
