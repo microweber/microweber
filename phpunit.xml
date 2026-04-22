@@ -160,6 +160,10 @@
             <directory>Modules/TweetEmbed/Tests</directory>
         </testsuite>
 
+        <testsuite name="Modules-WordPressMigration">
+            <directory>Modules/WordPressMigration/Tests</directory>
+        </testsuite>
+
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
             <directory>Templates/*/Tests</directory>

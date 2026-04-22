@@ -1,0 +1,11 @@
+{
+    "name": "WordPressMigration",
+    "alias": "wordpressmigration",
+    "description": "Migrate a WordPress site into Microweber via URL probe, RSS, sitemap, REST API, or WXR file upload.",
+    "keywords": ["wordpress", "migration", "import"],
+    "priority": 100,
+    "providers": [
+        "Modules\\WordPressMigration\\Providers\\WordPressMigrationServiceProvider"
+    ],
+    "files": []
+}

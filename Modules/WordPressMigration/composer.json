@@ -1,0 +1,26 @@
+{
+    "name": "microweber-modules/wordpress-migration",
+    "description": "Migrate a WordPress site into Microweber via URL probe, RSS, sitemap, REST API, or WXR file upload.",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\WordPressMigration\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\WordPressMigration\\Tests\\": "Tests/"
+        }
+    }
+}
