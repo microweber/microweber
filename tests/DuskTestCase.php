@@ -41,11 +41,15 @@ abstract class DuskTestCase extends BaseTestCase
     protected static int $sharedProfileSequence = 0;
 
     /**
-     * Shared admin-login cache, accessed from {@see Browser\Traits\AdminLoginTrait}.
-     * A single static on the base DuskTestCase makes the flag visible across
-     * every child test class so one login covers the whole run.
+     * Shared admin-login cache, accessed from {@see Browser\Traits\AdminLoginTrait}
+     * and reset from {@see Browser\Traits\CleansColorPaletteTestFixtures} plus
+     * the per-test `logoutToGuest()` helpers. A single static on the base
+     * DuskTestCase makes the flag visible across every child test class so
+     * one login covers the whole run; `public` (rather than `protected`)
+     * lets non-Dusk Feature tests that exercise teardown traits flip the
+     * flag directly without reflection.
      */
-    protected static bool $adminLoggedIn = false;
+    public static bool $adminLoggedIn = false;
 
     /**
      * Running count of Dusk tests that have entered createBrowsersFor.
