@@ -863,6 +863,67 @@ export default {
                 stylePackDiv.classList.add('active');
             }
 
+            // Accessibility: expose swatches as a roving-tabindex group of buttons
+            // so the picker is keyboard-navigable. The first swatch (or the
+            // active one, if any) owns `tabindex=0`; the rest get `-1` and
+            // are reached by arrow keys. Enter/Space applies the pack.
+            stylePackDiv.setAttribute('role', 'button');
+            stylePackDiv.setAttribute('aria-label', stylePack.label || ('Style pack ' + (index + 1)));
+            stylePackDiv.setAttribute(
+                'aria-pressed',
+                this.activeStylePackIndex === index ? 'true' : 'false'
+            );
+            const desiredTabIndex =
+                this.activeStylePackIndex === index ||
+                (this.activeStylePackIndex === null && index === 0)
+                    ? '0'
+                    : '-1';
+            stylePackDiv.setAttribute('tabindex', desiredTabIndex);
+
+            stylePackDiv.addEventListener('keydown', (event) => {
+                const key = event.key;
+                const items = Array.from(
+                    iframeDoc.querySelectorAll('.style-pack-item')
+                );
+                const currentIdx = items.indexOf(stylePackDiv);
+                if (currentIdx < 0) {
+                    return;
+                }
+                const focusItem = (nextIndex) => {
+                    const target = items[nextIndex];
+                    if (!target) return;
+                    items.forEach((el) => el.setAttribute('tabindex', '-1'));
+                    target.setAttribute('tabindex', '0');
+                    target.focus();
+                };
+                switch (key) {
+                    case 'Enter':
+                    case ' ':
+                    case 'Spacebar':
+                        event.preventDefault();
+                        this.applyStylePack(stylePack, index);
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        focusItem((currentIdx + 1) % items.length);
+                        break;
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        focusItem((currentIdx - 1 + items.length) % items.length);
+                        break;
+                    case 'Home':
+                        event.preventDefault();
+                        focusItem(0);
+                        break;
+                    case 'End':
+                        event.preventDefault();
+                        focusItem(items.length - 1);
+                        break;
+                }
+            });
+
             stylePackDiv.onclick = () => this.applyStylePack(stylePack, index);
 
             const innerDiv = iframeDoc.createElement('div');
