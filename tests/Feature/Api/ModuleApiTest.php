@@ -7,6 +7,7 @@ namespace Tests\Feature\Api;
 use MicroweberPackages\User\Models\User;
 use Modules\Comments\Models\Comment;
 use Modules\Content\Models\Content;
+use Modules\Menu\Models\Menu;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Modules\Tag\Models\Tag;
@@ -393,6 +394,114 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function menus_index_is_public_under_module_namespace(): void
+    {
+        Menu::factory()->count(2)->create(['is_active' => 1]);
+
+        $response = $this->getJson('/api/module/menus');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'title', 'item_type', 'is_active']]]);
+    }
+
+    #[Test]
+    public function menus_index_hides_inactive_from_public(): void
+    {
+        Menu::factory()->create(['title' => 'Active Menu', 'is_active' => 1]);
+        Menu::factory()->create(['title' => 'Disabled Menu', 'is_active' => 0]);
+
+        $data = $this->getJson('/api/module/menus?limit=200')
+            ->assertStatus(200)
+            ->json('data');
+
+        $titles = array_column($data, 'title');
+        $this->assertContains('Active Menu', $titles);
+        $this->assertNotContains('Disabled Menu', $titles);
+    }
+
+    #[Test]
+    public function menus_show_404s_inactive_for_public(): void
+    {
+        $disabled = Menu::factory()->create(['is_active' => 0]);
+
+        $this->getJson("/api/module/menus/{$disabled->id}")->assertStatus(404);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/menus/{$disabled->id}")
+            ->assertStatus(200);
+    }
+
+    #[Test]
+    public function menus_store_requires_admin_passport_token(): void
+    {
+        $payload = [
+            'title' => 'Created via module API menu',
+            'item_type' => 'menu',
+        ];
+
+        $this->postJson('/api/module/menus', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/menus', $payload)
+            ->assertStatus(403);
+
+        $response = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/menus', $payload);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'title' => 'Created via module API menu',
+                    'item_type' => 'menu',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('menus', ['title' => 'Created via module API menu']);
+    }
+
+    #[Test]
+    public function menus_update_requires_admin_passport_token(): void
+    {
+        $menu = Menu::factory()->create(['title' => 'Before']);
+
+        $this->putJson("/api/module/menus/{$menu->id}", ['title' => 'After'])
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson("/api/module/menus/{$menu->id}", ['title' => 'After'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/menus/{$menu->id}", ['title' => 'After'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('menus', ['id' => $menu->id, 'title' => 'After']);
+    }
+
+    #[Test]
+    public function menus_destroy_cascades_to_items_for_admin(): void
+    {
+        $menu = Menu::factory()->create(['item_type' => 'menu']);
+        $item = Menu::factory()->item()->create([
+            'parent_id' => $menu->id,
+        ]);
+
+        $this->deleteJson("/api/module/menus/{$menu->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/menus/{$menu->id}")
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/menus/{$menu->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('menus', ['id' => $menu->id]);
+        $this->assertDatabaseMissing('menus', ['id' => $item->id]);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -418,6 +527,11 @@ final class ModuleApiTest extends TestCase
             'api.module.comments.show',
             'api.module.comments.update',
             'api.module.comments.destroy',
+            'api.module.menus.index',
+            'api.module.menus.store',
+            'api.module.menus.show',
+            'api.module.menus.update',
+            'api.module.menus.destroy',
         ];
 
         foreach ($expected as $name) {

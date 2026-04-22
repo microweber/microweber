@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Menu\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -8,11 +9,18 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use MicroweberPackages\Repository\MicroweberQuery;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
+use Modules\Menu\Database\Factories\MenuFactory;
 
 class Menu extends Model
 {
     use CacheableQueryBuilderTrait;
+    use HasFactory;
     use HasMultilanguageTrait;
+
+    protected static function newFactory()
+    {
+        return MenuFactory::new();
+    }
 
     protected $casts = [
          'url' => ReplaceSiteUrlCast::class,
