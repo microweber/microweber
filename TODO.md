@@ -1109,7 +1109,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 
 ### Phase 5 — Public render parity
 - [x] 2026-04-22  Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
-- [ ] Assert no broken asset (screenshot, CSS) returns non-200
+- [x] 2026-04-22  Assert no broken asset (screenshot, CSS) returns non-200
 - [ ] Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
 
 ### Phase 6 — Template-switch safety
