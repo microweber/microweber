@@ -1011,8 +1011,6 @@ Spot-checked module settings in browser (dark mode):
 
 - [x] 2026-04-22  now work on the bootrap templat, add few more payuts and test if all color shcemems work
 
-- [~] now work on the API Application and tokens, we want each module to also have headless api which can be access via the api token  for example api/module/content/.... etc api/module/categories/....  and for all modules andm ake swagger also , make a big plan and populate the TODO.md and work on it [attachment: .autodev/messages/attachments/20260422_154225_82468cb5/paste-1776861678173.png]
-
 ## Headless Module API Plan
 
 URL namespace: `/api/module/{module-slug}/*`, authenticated with Passport (`auth:api`)
@@ -1026,7 +1024,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Feature test asserting unauthenticated writes return 401 and reads succeed
 
 ### Phase 2 — Remaining content modules
-- [ ] Wire `/api/module/tags` to Tag module
+- [x] 2026-04-22  Wire `/api/module/tags` to Tag module
 - [ ] Wire `/api/module/comments` to Comments module
 - [ ] Wire `/api/module/menus` to Menu module
 - [ ] Wire `/api/module/media` to Media module

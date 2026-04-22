@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Content\Http\Controllers\Api\ContentApiController;
 use Modules\Page\Http\Controllers\Api\PageApiController;
 use Modules\Post\Http\Controllers\Api\PostApiController;
+use Modules\Tag\Http\Controllers\Api\TagApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ $modules = [
     'content' => [ContentApiController::class, 'content'],
     'pages' => [PageApiController::class, 'page'],
     'posts' => [PostApiController::class, 'post'],
+    'tags' => [TagApiController::class, 'tag'],
 ];
 
 foreach ($modules as $slug => [$controller, $binding]) {

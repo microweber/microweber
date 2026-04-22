@@ -8,6 +8,7 @@ use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
+use Modules\Tag\Models\Tag;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -151,6 +152,110 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function tags_index_is_public_under_module_namespace(): void
+    {
+        Tag::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/module/tags');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'name', 'slug']]]);
+    }
+
+    #[Test]
+    public function tags_show_is_public_under_module_namespace(): void
+    {
+        $tag = Tag::factory()->create(['name' => 'Module API Tag']);
+
+        $response = $this->getJson("/api/module/tags/{$tag->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => ['id' => $tag->id, 'name' => 'Module API Tag'],
+            ]);
+    }
+
+    #[Test]
+    public function tags_store_requires_passport_authentication(): void
+    {
+        $this->postJson('/api/module/tags', ['name' => 'Unauth Tag'])
+            ->assertStatus(401);
+    }
+
+    #[Test]
+    public function tags_store_rejects_non_admin_passport_user(): void
+    {
+        $response = $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/tags', ['name' => 'Regular User Tag']);
+
+        $response->assertStatus(403);
+    }
+
+    #[Test]
+    public function tags_store_accepts_admin_passport_token(): void
+    {
+        $response = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/tags', [
+                'name' => 'Created via module API',
+                'description' => 'Test tag description',
+                'suggest' => true,
+            ]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'name' => 'Created via module API',
+                    'suggest' => true,
+                ],
+            ]);
+
+        $this->assertDatabaseHas('tagging_tags', ['name' => 'Created via module API']);
+    }
+
+    #[Test]
+    public function tags_update_requires_admin_passport_token(): void
+    {
+        $tag = Tag::factory()->create(['name' => 'Before Update']);
+
+        $this->putJson("/api/module/tags/{$tag->id}", ['description' => 'After'])
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson("/api/module/tags/{$tag->id}", ['description' => 'After'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/tags/{$tag->id}", ['description' => 'After'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('tagging_tags', [
+            'id' => $tag->id,
+            'description' => 'After',
+        ]);
+    }
+
+    #[Test]
+    public function tags_destroy_requires_admin_passport_token(): void
+    {
+        $tag = Tag::factory()->create();
+
+        $this->deleteJson("/api/module/tags/{$tag->id}")
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/tags/{$tag->id}")
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/tags/{$tag->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('tagging_tags', ['id' => $tag->id]);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -166,6 +271,11 @@ final class ModuleApiTest extends TestCase
             'api.module.pages.store',
             'api.module.posts.index',
             'api.module.posts.store',
+            'api.module.tags.index',
+            'api.module.tags.store',
+            'api.module.tags.show',
+            'api.module.tags.update',
+            'api.module.tags.destroy',
         ];
 
         foreach ($expected as $name) {
