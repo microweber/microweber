@@ -19,6 +19,30 @@
                     </x-filament::button>
                 </div>
 
+                {{-- Scope Picker --}}
+                <details class="rounded-lg border border-gray-200 dark:border-gray-700">
+                    <summary class="cursor-pointer px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Scopes
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            — leave empty for full access (<code>*</code>) or pick specific <code>module:read</code> / <code>module:write</code> permissions.
+                        </span>
+                    </summary>
+                    <div class="border-t border-gray-200 p-3 dark:border-gray-700">
+                        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                            @foreach($availableScopes as $scopeId => $scopeDescription)
+                                <label class="flex items-start gap-2 text-sm">
+                                    <input type="checkbox" wire:model="newTokenScopes" value="{{ $scopeId }}"
+                                        class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700" />
+                                    <span class="min-w-0">
+                                        <code class="text-xs font-medium text-gray-900 dark:text-gray-100">{{ $scopeId }}</code>
+                                        <span class="block text-xs text-gray-500 dark:text-gray-400">{{ $scopeDescription }}</span>
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+                </details>
+
                 {{-- Newly Created Token --}}
                 @if($newTokenValue)
                     <div class="rounded-lg border border-yellow-300 bg-yellow-50 p-4 dark:border-yellow-600 dark:bg-yellow-900/20">

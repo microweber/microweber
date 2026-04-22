@@ -1043,7 +1043,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Link from `ApiApplicationsPage` "API Usage Guide" panel to `/api/documentation`
 
 ### Phase 6 — Token UX polish
-- [ ] Allow token scopes per module (e.g. `content:read`, `products:write`)
+- [x] 2026-04-22  Allow token scopes per module (e.g. `content:read`, `products:write`)
 - [ ] Revoke-all-tokens button on the ApiApplicationsPage
 - [ ] Dusk test for end-to-end token creation → API call → revocation
 

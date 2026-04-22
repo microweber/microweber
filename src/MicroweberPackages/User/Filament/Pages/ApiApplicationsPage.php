@@ -26,6 +26,8 @@ class ApiApplicationsPage extends Page
 
     public array $applications = [];
     public array $personalTokens = [];
+    public array $newTokenScopes = [];
+    public array $availableScopes = [];
     public ?string $newTokenValue = null;
     public ?string $newClientSecret = null;
     public ?string $newClientId = null;
@@ -39,6 +41,9 @@ class ApiApplicationsPage extends Page
     {
         $this->loadApplications();
         $this->loadPersonalTokens();
+        $this->availableScopes = Passport::scopes()
+            ->mapWithKeys(fn ($scope) => [$scope->id => $scope->description])
+            ->toArray();
     }
 
     protected function loadApplications(): void
@@ -86,9 +91,20 @@ class ApiApplicationsPage extends Page
         $name = $this->newTokenName ?? 'API Token';
         $user = auth()->user();
 
-        $result = $user->createToken($name);
+        // Empty selection means "full access" — `*` is Passport's wildcard
+        // scope and bypasses every scope:<name> middleware check.
+        $scopes = array_values(array_filter(
+            Passport::validScopes($this->newTokenScopes),
+            fn ($s) => $s !== ''
+        ));
+        if (empty($scopes)) {
+            $scopes = ['*'];
+        }
+
+        $result = $user->createToken($name, $scopes);
         $this->newTokenValue = $result->accessToken;
 
+        $this->newTokenScopes = [];
         $this->loadPersonalTokens();
 
         Notification::make()

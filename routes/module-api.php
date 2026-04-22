@@ -41,6 +41,9 @@ use Modules\Tax\Http\Controllers\Api\TaxApiController;
 |
 */
 
+// Third tuple element is the scope prefix and defaults to the slug. It
+// lets aliased slugs (e.g. `contact-form`) reuse a canonical scope
+// (`forms:write`) instead of each slug declaring its own.
 $modules = [
     'content' => [ContentApiController::class, 'content'],
     'pages' => [PageApiController::class, 'page'],
@@ -52,7 +55,7 @@ $modules = [
     // `forms` and `contact-form` are aliases onto the same Form resource
     // so clients can use either legacy (`contact-form`) or plural (`forms`).
     'forms' => [FormsApiController::class, 'form'],
-    'contact-form' => [FormsApiController::class, 'form'],
+    'contact-form' => [FormsApiController::class, 'form', 'forms'],
     'products' => [ProductsApiController::class, 'product'],
     'categories' => [CategoriesApiController::class, 'category'],
     'orders' => [OrdersApiController::class, 'order'],
@@ -64,7 +67,10 @@ $modules = [
     'customers' => [CustomersApiController::class, 'customer'],
 ];
 
-foreach ($modules as $slug => [$controller, $binding]) {
+foreach ($modules as $slug => $entry) {
+    [$controller, $binding] = $entry;
+    $scope = $entry[2] ?? $slug;
+
     Route::prefix("api/module/{$slug}")
         ->middleware(['api', 'throttle:public'])
         ->name("api.module.{$slug}.")
@@ -74,7 +80,7 @@ foreach ($modules as $slug => [$controller, $binding]) {
         });
 
     Route::prefix("api/module/{$slug}")
-        ->middleware(['api', 'auth:api', 'throttle:api'])
+        ->middleware(['api', 'auth:api', 'throttle:api', "scope:{$scope}:write"])
         ->name("api.module.{$slug}.")
         ->group(function () use ($controller, $binding) {
             Route::post('/', [$controller, 'store'])->name('store');
@@ -125,10 +131,16 @@ Route::prefix('api/module/checkout')
 | and update their own record.
 */
 Route::prefix('api/module/profile')
-    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'scope:profile:read'])
     ->name('api.module.profile.')
     ->group(function () {
         Route::get('/', [ProfileApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/profile')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'scope:profile:write'])
+    ->name('api.module.profile.')
+    ->group(function () {
         Route::put('/', [ProfileApiController::class, 'update'])->name('update');
         Route::patch('/', [ProfileApiController::class, 'update'])->name('update.partial');
         Route::post('/change-password', [ProfileApiController::class, 'changePassword'])->name('change-password');
@@ -151,7 +163,7 @@ Route::prefix('api/module/newsletter')
     });
 
 Route::prefix('api/module/newsletter')
-    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'scope:newsletter:write'])
     ->name('api.module.newsletter.')
     ->group(function () {
         Route::put('/{id}', [NewsletterApiController::class, 'update'])->whereNumber('id')->name('update');
@@ -173,7 +185,7 @@ Route::prefix('api/module/settings')
     });
 
 Route::prefix('api/module/settings')
-    ->middleware(['api', 'auth:api', 'throttle:api'])
+    ->middleware(['api', 'auth:api', 'throttle:api', 'scope:settings:write'])
     ->name('api.module.settings.')
     ->group(function () {
         Route::post('/', [SettingsApiController::class, 'store'])->name('store');

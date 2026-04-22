@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
+use Laravel\Passport\Passport;
 use MicroweberPackages\User\Models\User;
 use Modules\Category\Models\Category;
 use Modules\Comments\Models\Comment;
@@ -51,6 +53,25 @@ final class ModuleApiTest extends TestCase
             'is_admin' => 0,
             'is_active' => 1,
         ]);
+    }
+
+    /**
+     * Shim the `api` guard through Passport::actingAs so the request
+     * carries a synthetic AccessToken with the `*` scope. Without this,
+     * the scope:<module>:write middleware has no AccessToken to inspect
+     * and rejects every write with 403. Scope-enforcement cases that
+     * need narrower scopes live in ModuleApiScopesTest and call
+     * Passport::actingAs directly.
+     */
+    public function actingAs(Authenticatable $user, $guard = null): static
+    {
+        if ($guard === 'api') {
+            Passport::actingAs($user, ['*'], 'api');
+
+            return $this;
+        }
+
+        return parent::actingAs($user, $guard);
     }
 
     /**

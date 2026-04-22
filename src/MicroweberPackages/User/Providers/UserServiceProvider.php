@@ -152,6 +152,14 @@ class UserServiceProvider extends AuthServiceProvider
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addYear());
 
+        Passport::tokensCan(self::headlessApiScopes());
+        Passport::setDefaultScope(['*']);
+
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $this->app['router'];
+        $router->aliasMiddleware('scope', \Laravel\Passport\Http\Middleware\CheckToken::class);
+        $router->aliasMiddleware('scopes', \Laravel\Passport\Http\Middleware\CheckTokenForAnyScope::class);
+
         // Register Validators
         Validator::extendImplicit(
             'terms',
@@ -162,5 +170,49 @@ class UserServiceProvider extends AuthServiceProvider
             'MicroweberPackages\User\Validators\TemporaryEmailCheckValidator@validate',
             'You cannot register with email from this domain.');
 
+    }
+
+    /**
+     * Passport scopes for the /api/module/* headless API.
+     *
+     * Each module exposes `<slug>:read` and `<slug>:write` so personal
+     * tokens can be narrowed to the subset of endpoints they actually
+     * need. Tokens issued without explicit scopes default to `['*']`
+     * (full access), which preserves pre-scoping token behaviour.
+     *
+     * @return array<string, string>
+     */
+    public static function headlessApiScopes(): array
+    {
+        $modules = [
+            'content' => 'Content',
+            'pages' => 'Pages',
+            'posts' => 'Posts',
+            'tags' => 'Tags',
+            'comments' => 'Comments',
+            'menus' => 'Menus',
+            'media' => 'Media files',
+            'forms' => 'Contact forms',
+            'products' => 'Products',
+            'categories' => 'Categories',
+            'orders' => 'Orders',
+            'coupons' => 'Coupons',
+            'shipping' => 'Shipping options',
+            'tax' => 'Tax rules',
+            'invoices' => 'Invoices',
+            'users' => 'Users',
+            'customers' => 'Customers',
+            'profile' => 'The authenticated user profile',
+            'newsletter' => 'Newsletter subscribers',
+            'settings' => 'Site settings',
+        ];
+
+        $scopes = [];
+        foreach ($modules as $slug => $label) {
+            $scopes["{$slug}:read"] = "Read {$label}";
+            $scopes["{$slug}:write"] = "Create, update and delete {$label}";
+        }
+
+        return $scopes;
     }
 }
