@@ -1055,3 +1055,11 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  now work on the API Application and tokens, we want each module to also have headless api which can be access via the api token  for example api/module/content/.... etc api/module/categories/....  and for all modules andm ake swagger also , make a big plan and populate the TODO.md and work on it
 
 - [x] 2026-04-22  next huge task is to epand the bootrap template with laouts , see   https://www.superhosting.bg/web-hosting-compare-hosting-plans.php?tab=advantages   we want simolar type of payount, analyze all pages    use skill from  https://agents.tools.ooyes.net/skills/clone-website/
+
+- [x] 2026-04-22  seems the inser layout is nof fixed the repviews is not loading pls fix [attachment: .autodev/messages/attachments/20260422_190300_9e3eaa93/paste-1776873770441.png]
+
+- [ ] Make dusk tests for the insert layout
+
+- [ ] Make a plan in the todo.md for tests on the live edit by creating full landing page for microweber
+
+- [ ] Make a plan to test all color schemes and populate todo.md

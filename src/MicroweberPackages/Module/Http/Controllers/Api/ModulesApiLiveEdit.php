@@ -549,6 +549,9 @@ class ModulesApiLiveEdit extends Controller
                             $layoutFile = $dynamic_layout['layout_file'];
                             $encodedTemplate = module_name_encode($layoutFile);
                             $layoutPreviewUrl = route('api.module.layout-preview') . '?template=' . $encodedTemplate;
+                            if ($active_site_template) {
+                                $layoutPreviewUrl .= '&active_site_template=' . rawurlencode($active_site_template);
+                            }
                         }
 
                         $moduleListJson['layouts'][] = [
@@ -735,19 +738,39 @@ class ModulesApiLiveEdit extends Controller
             return response('Layouts module not found', 404);
         }
 
-        $previewId = 'layout-preview-' . md5($template);
+        // load_module() internally triggers define_constants(), which resets
+        // the adapter's templateFolderName from the current_template option.
+        // Force it to run now so our override below survives the render.
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            app()->content_manager->define_constants();
+        }
 
-        // Render the layout module with the specified skin template
-        $moduleHtml = load_module('layouts', [
-            'template' => $template,
-            'id' => $previewId,
-        ]);
+        $requestedTemplate = $request->get('active_site_template');
+        $templateAdapter = app()->template_manager->templateAdapter;
+        $originalTemplate = $templateAdapter->getTemplateFolderName();
+        $switchedTemplate = false;
+        if ($requestedTemplate && $requestedTemplate !== $originalTemplate) {
+            $candidate = templates_dir() . $requestedTemplate . DS;
+            if (is_dir(normalize_path($candidate, true))) {
+                $templateAdapter->templateFolderName = $requestedTemplate;
+                $switchedTemplate = true;
+            }
+        }
 
-        $moduleHtml = app()->parser->process($moduleHtml);
-        // Get template CSS/JS for proper styling
-        $the_active_site_template = app()->option_manager->get('current_template', 'template');
-        $templateUrlLower = strtolower($the_active_site_template);
-        $templateAssetBase = 'templates/' . $templateUrlLower . '/';
+        try {
+            $previewId = 'layout-preview-' . md5($template);
+
+            // Render the layout module with the specified skin template
+            $moduleHtml = load_module('layouts', [
+                'template' => $template,
+                'id' => $previewId,
+            ]);
+
+            $moduleHtml = app()->parser->process($moduleHtml);
+            // Get template CSS/JS for proper styling
+            $the_active_site_template = $templateAdapter->getTemplateFolderName();
+            $templateUrlLower = strtolower($the_active_site_template);
+            $templateAssetBase = 'templates/' . $templateUrlLower . '/';
 
         // Build a standalone HTML page matching the master layout structure
         $html = '<!DOCTYPE html>
@@ -782,6 +805,11 @@ class ModulesApiLiveEdit extends Controller
 </body>
 </html>';
 
-        return response($html)->header('Content-Type', 'text/html')->setEtag(md5($html));
+            return response($html)->header('Content-Type', 'text/html')->setEtag(md5($html));
+        } finally {
+            if ($switchedTemplate) {
+                $templateAdapter->templateFolderName = $originalTemplate;
+            }
+        }
     }
 }
