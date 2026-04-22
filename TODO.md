@@ -1060,6 +1060,66 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 
 - [x] 2026-04-22  Make dusk tests for the insert layout
 
-- [ ] Make a plan in the todo.md for tests on the live edit by creating full landing page for microweber
+- [x] 2026-04-22  Make a plan in the todo.md for tests on the live edit by creating full landing page for microweber
+
+## Live Edit Landing Page Test Plan
+
+Goal: end-to-end Dusk coverage of the live-edit flow that builds a full
+marketing landing page from scratch using the Insert Layout picker, so
+regressions in the picker, drag-and-drop, inline editing, module
+settings, save pipeline, or public render are caught early. Target
+template: **Bootstrap** (has the widest skin coverage — jumbotron,
+features skin-1/2, pricing skin-1/2/3, titles, content, ecommerce,
+blog, footers, footer_cart). Each check runs in isolation but they
+compose into one golden-path suite `LiveEditFullLandingPageTest`.
+
+### Phase 1 — Fixture & harness
+- [ ] Add a trait `LiveEditPageBuilderTrait` under `tests/Browser/Traits/` exposing: `createBlankPage(Browser, string $title): int` (creates an empty page via API/DB and returns its id), `openInLiveEdit(Browser, int $pageId)`, `insertLayoutByCategory(Browser, string $category, string $skin)`, `editInlineText(Browser, string $fieldSelector, string $text)`, `saveLiveEdit(Browser)`, `assertPublicPageContains(Browser, string $slug, string $needle)`
+- [ ] Add `LandingPageFactory` in `tests/Browser/Factories/` that seeds an admin user + a clean "landing-test-<ts>" page and guarantees the active template is Bootstrap
+- [ ] Wire a tearDown cleanup that deletes any `landing-test-*` pages and their content rows, so reruns don't accumulate
+
+### Phase 2 — Section-by-section build (golden path)
+Each step asserts the card inserts, its field is editable, and it
+survives a save→reload.
+- [ ] Insert **Jumbotron / skin-1** hero at top; edit H1 to "Microweber Landing" and CTA button copy; assert DOM + saved `content.content_body`
+- [ ] Insert **Titles / skin-1** "Why choose us" intro under hero; verify inline heading edit persists
+- [ ] Insert **Features / skin-2** (advantages grid added in 7d388b9); edit 2 feature labels; assert `features-skin-2-advantages` marker in saved HTML
+- [ ] Insert **Content / skin-1** two-column story block; edit paragraph text
+- [ ] Insert **Pricing / skin-2** (hosting plans added in 7d388b9); edit "Plus" plan price "$5.99" → "$6.99"; assert new price in saved `content_body`
+- [ ] Insert **Pricing / skin-3** (compare grid added in 7d388b9) as a secondary plan teaser; assert `pricing-skin-3` marker
+- [ ] Insert **Blog / skin-1** latest-posts teaser; verify it lists real posts from the DB
+- [ ] Insert **E-commerce / skin-1** products grid; verify it lists real products
+- [ ] Insert **Footers / skin-1** at bottom; edit company-name span
+- [ ] Click Save; assert single `POST /live-edit/save` → 200 with non-empty body
+- [ ] Reload live-edit, confirm all 9 sections still present in correct order
+
+### Phase 3 — Insert Layout picker regressions
+Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
+- [ ] Assert every iframe `preview_url` contains `active_site_template=Bootstrap` (regression guard for blank-thumbnail bug fixed in 36a0e6b)
+- [ ] Assert no iframe renders an empty fallback (`grep` for `field="layout-skin-1-"` in iframe body across a random sample of 5)
+- [ ] Assert category filter narrows the visible cards (pricing category shows exactly 3 cards)
+- [ ] Assert keyword search finds "hosting" → Pricing skin-2 and hosting-compare page layout
+- [ ] Assert switching Insert-Top vs Insert-Bottom places the new section in the correct DOM position
+
+### Phase 4 — Inline editing & module settings
+- [ ] Double-click a pricing `.price` amount → inline editor opens; typed value survives Save
+- [ ] Open settings panel for inserted Pricing module; toggle "popular plan" option; assert option persists via `options` table
+- [ ] Use background module color picker on jumbotron hero; assert `background-color` inline style saved
+- [ ] Drag a card from position 3 to position 1 (Sortable/jQuery UI); assert new order in saved HTML
+
+### Phase 5 — Public render parity
+- [ ] Visit the page's public URL (not admin); assert every section marker from Phase 2 appears in the public HTML
+- [ ] Assert no broken asset (screenshot, CSS) returns non-200
+- [ ] Lighthouse-lite: no console errors, no uncaught promise rejections while loading public page
+
+### Phase 6 — Template-switch safety
+- [ ] Switch `current_template` option from Bootstrap → Big2, reload public page, assert page still renders (modules fall back gracefully)
+- [ ] Switch back to Bootstrap; assert Bootstrap-specific skins render again (regression guard for adapter state leak)
+
+### Phase 7 — CI wiring
+- [ ] Add `LiveEditFullLandingPageTest` to the `LiveEditFullPage` group in `phpunit.dusk.xml`
+- [ ] Run test in isolation + in the full Dusk suite (verify no cross-test state bleed via `DuskTestCase::$adminLoggedIn` cache)
+- [ ] Add CI artifact upload for `tests/Browser/screenshots/` on failure so blank-thumbnail-style regressions are self-diagnosing
+
 
 - [ ] Make a plan to test all color schemes and populate todo.md
