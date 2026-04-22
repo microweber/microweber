@@ -1173,7 +1173,7 @@ on `:root` matches the pack JSON's `properties` map.
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPalettePastelDreamTest.php` — pastel-dream pack applies every CSS custom property to `:root`
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteRobocopTest.php` — robocop pack applies every CSS custom property to `:root`
 - [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteSakuraBloomTest.php` — sakura-bloom pack applies every CSS custom property to `:root`
-- [ ] `tests/Browser/LiveEditColorPaletteSunsetBoulevardTest.php` — sunset-boulevard pack applies every CSS custom property to `:root`
+- [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteSunsetBoulevardTest.php` — sunset-boulevard pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteUrbanConcreteTest.php` — urban-concrete pack applies every CSS custom property to `:root`
 
 ### Phase 4 — Save → public-render parity (golden path, per palette)
