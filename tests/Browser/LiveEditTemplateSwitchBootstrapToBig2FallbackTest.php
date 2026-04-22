@@ -324,6 +324,11 @@ class LiveEditTemplateSwitchBootstrapToBig2FallbackTest extends DuskTestCase
         $browser->pause(1500);
         $browser->driver->manage()->deleteAllCookies();
         $browser->pause(300);
+
+        // Invalidate the shared admin-login cache — see the twin reset
+        // in LiveEditPublicPageConsoleCleanTest::logoutToGuest for the
+        // bleed-path rationale.
+        \Tests\DuskTestCase::$adminLoggedIn = false;
     }
 
     private function insertSkinWithCategoryWait(

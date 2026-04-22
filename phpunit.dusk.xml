@@ -40,6 +40,24 @@
             <file>tests/Browser/LiveEditFullLandingPageTest.php</file>
         </testsuite>
 
+        <!--
+            Regression guard for DuskTestCase::$adminLoggedIn cache bleed.
+
+            The file order matters: PublicPageConsoleClean logs the admin
+            session out mid-test (fetch /api/logout + deleteAllCookies).
+            If a logout helper forgets to reset the static $adminLoggedIn
+            flag, the subsequent FullLandingPage test's loginAsAdmin()
+            early-returns on the stale cache and every admin action that
+            follows fails on the /login redirect.
+
+            Running this suite in one PHP process exercises that exact
+            bleed path; both tests passing back-to-back is the proof.
+        -->
+        <testsuite name="LiveEditAdminLoginCacheBleedGuard">
+            <file>tests/Browser/LiveEditPublicPageConsoleCleanTest.php</file>
+            <file>tests/Browser/LiveEditFullLandingPageTest.php</file>
+        </testsuite>
+
         <testsuite name="ModulesBrowserTests">
             <directory>Modules/*/Tests/Browser</directory>
 

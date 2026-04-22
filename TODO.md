@@ -1118,7 +1118,7 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 
 ### Phase 7 — CI wiring
 - [x] 2026-04-22  Add `LiveEditFullLandingPageTest` to the `LiveEditFullPage` group in `phpunit.dusk.xml`
-- [ ] Run test in isolation + in the full Dusk suite (verify no cross-test state bleed via `DuskTestCase::$adminLoggedIn` cache)
+- [x] 2026-04-22  Run test in isolation + in the full Dusk suite (verify no cross-test state bleed via `DuskTestCase::$adminLoggedIn` cache)
 - [ ] Add CI artifact upload for `tests/Browser/screenshots/` on failure so blank-thumbnail-style regressions are self-diagnosing
 
 

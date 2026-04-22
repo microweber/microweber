@@ -196,6 +196,13 @@ class LiveEditPublicPageConsoleCleanTest extends DuskTestCase
         $browser->pause(1500);
         $browser->driver->manage()->deleteAllCookies();
         $browser->pause(300);
+
+        // Invalidate the shared admin-login cache so the next test's
+        // loginAsAdmin() actually re-logs in. Without this reset, the
+        // static $adminLoggedIn flag would lie about the session (we
+        // just torched the cookies) and the next test in the same PHP
+        // process would skip login and then fail on /login redirects.
+        \Tests\DuskTestCase::$adminLoggedIn = false;
     }
 
     /**
