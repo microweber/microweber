@@ -7,6 +7,7 @@ namespace Tests\Feature\Api;
 use MicroweberPackages\User\Models\User;
 use Modules\Comments\Models\Comment;
 use Modules\Content\Models\Content;
+use Modules\Media\Models\Media;
 use Modules\Menu\Models\Menu;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
@@ -502,6 +503,122 @@ final class ModuleApiTest extends TestCase
     }
 
     #[Test]
+    public function media_index_is_public_under_module_namespace(): void
+    {
+        Media::factory()->count(2)->create();
+
+        $response = $this->getJson('/api/module/media');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'title', 'filename', 'media_type', 'is_synced_to_cdn']]]);
+    }
+
+    #[Test]
+    public function media_index_filters_by_rel_type_and_rel_id(): void
+    {
+        Media::factory()->create(['rel_type' => 'content', 'rel_id' => '42', 'title' => 'Media For 42']);
+        Media::factory()->create(['rel_type' => 'content', 'rel_id' => '99', 'title' => 'Media For 99']);
+
+        $data = $this->getJson('/api/module/media?rel_type=content&rel_id=42')
+            ->assertStatus(200)
+            ->json('data');
+
+        $titles = array_column($data, 'title');
+        $this->assertContains('Media For 42', $titles);
+        $this->assertNotContains('Media For 99', $titles);
+    }
+
+    #[Test]
+    public function media_resource_hides_upload_trail_from_public_callers(): void
+    {
+        $media = Media::factory()->create([
+            'file_hash' => 'sha256-fingerprint',
+            'session_id' => 'session-abc-123',
+        ]);
+
+        $publicJson = $this->getJson("/api/module/media/{$media->id}")->json('data');
+        $this->assertArrayNotHasKey('file_hash', $publicJson);
+        $this->assertArrayNotHasKey('session_id', $publicJson);
+
+        $adminJson = $this->actingAs($this->adminUser, 'api')
+            ->getJson("/api/module/media/{$media->id}")
+            ->json('data');
+        $this->assertSame('sha256-fingerprint', $adminJson['file_hash']);
+        $this->assertSame('session-abc-123', $adminJson['session_id']);
+    }
+
+    #[Test]
+    public function media_store_requires_admin_passport_token(): void
+    {
+        $payload = [
+            'filename' => '{SITE_URL}userfiles/media/default/uploaded-' . uniqid() . '.jpg',
+            'title' => 'Uploaded via module API',
+            'media_type' => 'picture',
+            'rel_type' => 'content',
+            'rel_id' => '123',
+        ];
+
+        $this->postJson('/api/module/media', $payload)->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->postJson('/api/module/media', $payload)
+            ->assertStatus(403);
+
+        $response = $this->actingAs($this->adminUser, 'api')
+            ->postJson('/api/module/media', $payload);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'title' => 'Uploaded via module API',
+                    'media_type' => 'picture',
+                    'rel_type' => 'content',
+                    'rel_id' => '123',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('media', ['title' => 'Uploaded via module API']);
+    }
+
+    #[Test]
+    public function media_update_requires_admin_passport_token(): void
+    {
+        $media = Media::factory()->create(['title' => 'Before']);
+
+        $this->putJson("/api/module/media/{$media->id}", ['title' => 'After'])
+            ->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->putJson("/api/module/media/{$media->id}", ['title' => 'After'])
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->putJson("/api/module/media/{$media->id}", ['title' => 'After'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('media', ['id' => $media->id, 'title' => 'After']);
+    }
+
+    #[Test]
+    public function media_destroy_requires_admin_passport_token(): void
+    {
+        $media = Media::factory()->create();
+
+        $this->deleteJson("/api/module/media/{$media->id}")->assertStatus(401);
+
+        $this->actingAs($this->regularUser, 'api')
+            ->deleteJson("/api/module/media/{$media->id}")
+            ->assertStatus(403);
+
+        $this->actingAs($this->adminUser, 'api')
+            ->deleteJson("/api/module/media/{$media->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('media', ['id' => $media->id]);
+    }
+
+    #[Test]
     public function module_api_routes_are_registered(): void
     {
         $router = app('router');
@@ -532,6 +649,11 @@ final class ModuleApiTest extends TestCase
             'api.module.menus.show',
             'api.module.menus.update',
             'api.module.menus.destroy',
+            'api.module.media.index',
+            'api.module.media.store',
+            'api.module.media.show',
+            'api.module.media.update',
+            'api.module.media.destroy',
         ];
 
         foreach ($expected as $name) {

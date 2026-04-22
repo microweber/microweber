@@ -1027,7 +1027,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Wire `/api/module/tags` to Tag module
 - [x] 2026-04-22  Wire `/api/module/comments` to Comments module
 - [x] 2026-04-22  Wire `/api/module/menus` to Menu module
-- [ ] Wire `/api/module/media` to Media module
+- [x] 2026-04-22  Wire `/api/module/media` to Media module
 - [ ] Wire `/api/module/forms` / `/api/module/contact-form` to ContactForm module
 
 ### Phase 3 — Commerce modules

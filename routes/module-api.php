@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Modules\Comments\Http\Controllers\Api\CommentsApiController;
 use Modules\Content\Http\Controllers\Api\ContentApiController;
+use Modules\Media\Http\Controllers\Api\MediaApiController;
 use Modules\Menu\Http\Controllers\Api\MenusApiController;
 use Modules\Page\Http\Controllers\Api\PageApiController;
 use Modules\Post\Http\Controllers\Api\PostApiController;
@@ -32,6 +33,7 @@ $modules = [
     'tags' => [TagApiController::class, 'tag'],
     'comments' => [CommentsApiController::class, 'comment'],
     'menus' => [MenusApiController::class, 'menu'],
+    'media' => [MediaApiController::class, 'media'],
 ];
 
 foreach ($modules as $slug => [$controller, $binding]) {

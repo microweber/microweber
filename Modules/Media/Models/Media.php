@@ -1,12 +1,14 @@
 <?php
 namespace Modules\Media\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
+use Modules\Media\Database\Factories\MediaFactory;
 
 class Media extends Model
 {
@@ -15,6 +17,12 @@ class Media extends Model
 
     use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
+    use HasFactory;
+
+    protected static function newFactory()
+    {
+        return MediaFactory::new();
+    }
 
     public $table = 'media';
 
