@@ -255,6 +255,77 @@ class ColorPaletteFilesTest extends TestCase
     }
 
     /**
+     * Core CSS custom properties every skin reads. If any of these is
+     * missing from a pack, the previous palette's value bleeds through
+     * when a user picks this pack — the top-level bug that motivates
+     * this whole test file.
+     *
+     * Kept as a private constant instead of a provider so the failure
+     * message can list every missing variable for a single pack at once
+     * instead of producing one failing data-set per missing key.
+     *
+     * @var string[]
+     */
+    private const CORE_VARIABLES = [
+        '--mw-background-color',
+        '--mw-primary-color',
+        '--mw-body-color',
+        '--mw-heading-color',
+        '--mw-paragraph-color',
+        '--mw-link-color',
+    ];
+
+    #[Test]
+    #[DataProvider('colorPackProvider')]
+    public function pack_declares_every_core_css_variable(string $slug): void
+    {
+        $properties = $this->readSettingsZero($slug)['fieldSettings']['styleProperties'][0]['properties'];
+
+        $missing = [];
+        foreach (self::CORE_VARIABLES as $var) {
+            if (!array_key_exists($var, $properties)) {
+                $missing[] = $var;
+                continue;
+            }
+            $value = $properties[$var];
+            if (!is_string($value) || trim($value) === '') {
+                $missing[] = $var . ' (empty value)';
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $missing,
+            sprintf(
+                "Pack '%s' is missing core CSS variables: %s. A palette that omits one of these leaves the previous palette's value bleeding through when the picker applies it.",
+                $slug,
+                implode(', ', $missing)
+            )
+        );
+    }
+
+    #[Test]
+    public function core_variable_list_is_stable_and_non_empty(): void
+    {
+        // Lock the contract: changing the core variable list is a
+        // breaking change that must show up as a deliberate edit in
+        // this test file, not an accidental drift.
+        $this->assertSame(
+            [
+                '--mw-background-color',
+                '--mw-primary-color',
+                '--mw-body-color',
+                '--mw-heading-color',
+                '--mw-paragraph-color',
+                '--mw-link-color',
+            ],
+            self::CORE_VARIABLES,
+            'Core CSS variable list must stay in the documented order and size'
+        );
+        $this->assertCount(6, self::CORE_VARIABLES);
+    }
+
+    /**
      * Load settings[0] for a given slug. Returns an array (never null)
      * or fails the current test with a descriptive message.
      */
