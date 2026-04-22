@@ -1085,7 +1085,7 @@ survives a save→reload.
 - [x] 2026-04-22  Insert **Titles / skin-1** "Why choose us" intro under hero; verify inline heading edit persists
 - [x] 2026-04-22  Insert **Features / skin-2** (advantages grid added in 7d388b9); edit 2 feature labels; assert `features-skin-2-advantages` marker in saved HTML
 - [x] 2026-04-22  Insert **Content / skin-1** two-column story block; edit paragraph text
-- [ ] Insert **Pricing / skin-2** (hosting plans added in 7d388b9); edit "Plus" plan price "$5.99" → "$6.99"; assert new price in saved `content_body`
+- [x] 2026-04-22  Insert **Pricing / skin-2** (hosting plans added in 7d388b9); edit "Plus" plan price "$5.99" → "$6.99"; assert new price in saved `content_body`
 - [ ] Insert **Pricing / skin-3** (compare grid added in 7d388b9) as a secondary plan teaser; assert `pricing-skin-3` marker
 - [ ] Insert **Blog / skin-1** latest-posts teaser; verify it lists real posts from the DB
 - [ ] Insert **E-commerce / skin-1** products grid; verify it lists real products
