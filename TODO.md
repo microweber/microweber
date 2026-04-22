@@ -1188,7 +1188,7 @@ the iframe but the save pipeline drops the customize-styles write.
 ### Phase 5 — Palette-switch bleed safety
 Makes sure clicking a second palette fully overrides the first — no
 variable from the previous palette leaks through.
-- [ ] `tests/Browser/LiveEditColorPaletteSwitchNoBleedTest.php` — click palette A → snapshot vars → click palette B → assert **every** var that B defines equals B's value, and no var carries A's value forward. Use a pair (apple-shine → neon-night) that has maximal contrast so a bleed is obvious
+- [x] 2026-04-23  `tests/Browser/LiveEditColorPaletteSwitchNoBleedTest.php` — click palette A → snapshot vars → click palette B → assert **every** var that B defines equals B's value, and no var carries A's value forward. Use a pair (apple-shine → neon-night) that has maximal contrast so a bleed is obvious
 - [ ] Assert picker state (the "active" class on the selected swatch in `template-setting-render-color-palette-item.blade.php`) updates to B after the switch; the old "active" swatch must lose its indicator
 - [ ] Round-trip through Save: apply A → Save → reload → apply B → Save → reload → assert only B's values persist in `:root` and in the stored customize-styles options row
 
