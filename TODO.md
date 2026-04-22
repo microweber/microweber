@@ -1122,7 +1122,114 @@ Piggyback on `LiveEditInsertLayoutTest` but exercise the full edge set.
 - [x] 2026-04-22  Add CI artifact upload for `tests/Browser/screenshots/` on failure so blank-thumbnail-style regressions are self-diagnosing
 
 
-- [ ] Make a plan to test all color schemes and populate todo.md
+## Color Scheme Coverage Test Plan
+
+Goal: end-to-end Dusk coverage for every color palette shipped under
+`Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/`
+(17 JSON packs: apple-shine, arctic-frost, blueberry-pie, citrus-splash,
+coral-pop, cyber-mint, forest-haze, golden-hour, lavender-fields,
+midnight-indigo, minty-fresh, neon-night, pastel-dream, robocop,
+sakura-bloom, sunset-boulevard, urban-concrete). Each pack declares a
+`settings[0].fieldSettings.styleProperties[0].properties` map of CSS
+custom properties (`--mw-background-color`, `--mw-primary-color`,
+`--mw-body-color`, `--mw-heading-color`, `--mw-paragraph-color`,
+`--mw-link-color`, `--mw-btn-*`, `--mw-form-control-*`,
+`--mw-top-header-*`, `--mw-header-*`, `--mw-section-background-color`,
+etc.) that are pushed at `:root` via
+`mw.top().app.cssEditor.setMultiplePropertiesForSelector(selector, [...], true, true)`.
+Regressions here show up as palettes silently not applying, pages
+rendering in a stale palette after save, or the picker hanging
+on one palette and leaking state into the next.
+
+### Phase 1 — Fixture & harness
+- [ ] Add a trait `LiveEditColorPaletteTrait` under `tests/Browser/Traits/` exposing: `listColorPalettes(): array` (reads every `*.json` under `Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/` and returns `['slug' => <filename-without-ext>, 'title' => settings[0].title, 'properties' => settings[0].fieldSettings.styleProperties[0].properties]`), `openColorPaletteSidebar(Browser, int $pageId)`, `clickPalette(Browser, string $slug)`, `snapshotRootCssVars(Browser): array` (reads every `--mw-*` computed style off `document.documentElement`), `assertPaletteApplied(Browser, array $expected)`, `saveLiveEdit(Browser)`
+- [ ] Add a `ColorPaletteFactory` under `tests/Browser/Factories/` that seeds an admin user + a pre-populated `color-palette-test-<ts>` page built with a single Jumbotron + Content + Pricing + Footer (covers header, body, primary-button, section-background touchpoints)
+- [ ] Wire a tearDown cleanup that (a) deletes all `color-palette-test-*` pages, (b) clears `options.template` group entries mutated during the run, (c) invalidates `app()->option_repository->clearCache()` and `app()->cache_manager->delete('options')`, and (d) resets `DuskTestCase::$adminLoggedIn = false` after any logout
+
+### Phase 2 — Palette metadata discovery (non-browser)
+Unit-level guards that fail fast if a palette file drifts out of spec.
+- [ ] Add `tests/Unit/Template/ColorPaletteFilesTest.php` that iterates all 17 pack files and asserts each has `settings[0].fieldType === "stylePack"`, `settings[0].selectors` contains `:root`, and `styleProperties[0].properties` is a non-empty assoc array
+- [ ] Assert every palette defines the **core** property set required by skins: `--mw-background-color`, `--mw-primary-color`, `--mw-body-color`, `--mw-heading-color`, `--mw-paragraph-color`, `--mw-link-color` (regression guard — missing a core variable leaves the previous palette's value bleeding through)
+- [ ] Assert every property value parses as a valid CSS color (hex, rgb/rgba, hsl/hsla, or CSS-named color); fail with the offending `pack:property` so drift is pinpointable
+- [ ] Assert all 17 palette filenames match the `settings[0].title` after kebab-case normalization (catches accidental renames that would desync the picker label from the filename-derived slug)
+
+### Phase 3 — Picker discovery & application (Dusk, one test per palette)
+Driven by a data provider over `listColorPalettes()` so adding a new
+pack automatically extends coverage. Each test: open live-edit →
+palette sidebar → click the palette → assert every `--mw-*` variable
+on `:root` matches the pack JSON's `properties` map.
+- [ ] `tests/Browser/LiveEditColorPaletteAppleShineTest.php` — apple-shine pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteArcticFrostTest.php` — arctic-frost pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteBlueberryPieTest.php` — blueberry-pie pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteCitrusSplashTest.php` — citrus-splash pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteCoralPopTest.php` — coral-pop pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteCyberMintTest.php` — cyber-mint pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteForestHazeTest.php` — forest-haze pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteGoldenHourTest.php` — golden-hour pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteLavenderFieldsTest.php` — lavender-fields pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteMidnightIndigoTest.php` — midnight-indigo pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteMintyFreshTest.php` — minty-fresh pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteNeonNightTest.php` — neon-night pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPalettePastelDreamTest.php` — pastel-dream pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteRobocopTest.php` — robocop pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteSakuraBloomTest.php` — sakura-bloom pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteSunsetBoulevardTest.php` — sunset-boulevard pack applies every CSS custom property to `:root`
+- [ ] `tests/Browser/LiveEditColorPaletteUrbanConcreteTest.php` — urban-concrete pack applies every CSS custom property to `:root`
+
+### Phase 4 — Save → public-render parity (golden path, per palette)
+For each palette: click pack → Save → navigate to the public URL in a
+fresh tab → assert the published page renders with those exact
+`--mw-*` values on `:root`. This catches cases where the picker paints
+the iframe but the save pipeline drops the customize-styles write.
+- [ ] `tests/Browser/LiveEditColorPalettePublicRenderTest.php` — single Dusk test that data-provides over all 17 palettes, saves each, reopens the page as guest, and asserts `document.documentElement`'s computed CSS vars match (allow #hex→rgb normalization). **One failing palette fails one row, not the whole test.**
+- [ ] Assert that the public-render DOM shows the palette-derived colors on real targets (not just root vars): body `color` matches `--mw-body-color`, primary button `background-color` matches `--mw-btn-background-color`, heading `color` matches `--mw-heading-color`
+- [ ] Assert zero console errors on the public page under each palette (regression guard — a palette with a malformed var should not break client-side JS that reads `getComputedStyle`)
+
+### Phase 5 — Palette-switch bleed safety
+Makes sure clicking a second palette fully overrides the first — no
+variable from the previous palette leaks through.
+- [ ] `tests/Browser/LiveEditColorPaletteSwitchNoBleedTest.php` — click palette A → snapshot vars → click palette B → assert **every** var that B defines equals B's value, and no var carries A's value forward. Use a pair (apple-shine → neon-night) that has maximal contrast so a bleed is obvious
+- [ ] Assert picker state (the "active" class on the selected swatch in `template-setting-render-color-palette-item.blade.php`) updates to B after the switch; the old "active" swatch must lose its indicator
+- [ ] Round-trip through Save: apply A → Save → reload → apply B → Save → reload → assert only B's values persist in `:root` and in the stored customize-styles options row
+
+### Phase 6 — Picker UX regressions
+Defensive tests around the sidebar itself so a rendering bug in
+`template-setting-render-color-palette-item.blade.php` or in
+`colorPaletteFromTemplateFolderLibrary` glob can't silently reduce
+visible palettes.
+- [ ] Assert the color-palette picker shows exactly 17 swatches (one per pack file) — a missing filesystem entry or a glob misconfiguration cuts this count and should page us
+- [ ] Assert each swatch's visible label matches the pack JSON's `settings[0].title` (catches localization/escaping regressions)
+- [ ] Assert each swatch's preview thumbnail uses the pack's `--mw-background-color` + `--mw-primary-color` + `--mw-body-color` (guards the mini preview in `colorPaletteFromTemplateFolderLibrary` shape vs. the full stylePack shape)
+- [ ] Assert the picker is keyboard-navigable: Tab onto first swatch, arrow-right moves focus, Enter applies the pack (accessibility guard)
+
+### Phase 7 — Cross-skin palette matrix
+Proves a palette applies correctly to *every skin* the Bootstrap
+template ships, not just the page we used for harness.
+- [ ] Extend `LandingPageFactory` into a `ColorPaletteSkinMatrixFactory` that produces one page per skin family (Jumbotron skin-1/2, Features skin-1/2, Pricing skin-1/2/3, Titles skin-1, Content skin-1, Blog skin-1, E-commerce skin-1, Footers skin-1)
+- [ ] `tests/Browser/LiveEditColorPaletteSkinMatrixTest.php` — for a representative palette (neon-night — high-contrast dark theme that exposes missing variable fallbacks) iterate every skin page, apply the palette, assert the skin's visible primary accents (button bg, heading color, body color) match the palette's declared values
+- [ ] Assert no skin keeps a previous-palette or default-template fallback color after apply (CSS specificity regression guard — hardcoded hex in a skin's SCSS would show up here)
+
+### Phase 8 — Template portability
+Color packs live in the Bootstrap template but the live-edit picker
+should also work when the active template is a sibling (Big, Big2,
+Dream). This guards against `colorPaletteFromTemplateFolderLibrary`
+accidentally being hardcoded to Bootstrap.
+- [ ] `tests/Browser/LiveEditColorPaletteCrossTemplateTest.php` — for each active template that ships color packs (currently Bootstrap only, but scaffold for Big/Big2/Dream additions), enumerate available packs via the same trait and sanity-check that at least one applies and survives public render
+- [ ] Assert switching `current_template` Bootstrap→Big2→Bootstrap (piggyback on the existing Phase-6 regression harness) preserves palette state on pages where `content.active_site_template` pins Bootstrap
+- [ ] Assert no JS error when the active template has zero color packs (Big2 currently) — the picker section should simply not render, not throw
+
+### Phase 9 — CI wiring
+- [ ] Add a new `<testsuite name="LiveEditColorPalettes">` group in `phpunit.dusk.xml` pointing at `tests/Browser/LiveEditColorPalette*Test.php` — keeps palette suite independently runnable and lets CI parallelize it
+- [ ] Add a `Color palettes` step to `.github/workflows/dusk.yml` and `dusk_apache.yml` that runs `php artisan dusk --group=color-palettes` (tag each palette test with `#[Group('color-palettes')]`) so a palette regression is visible as a discrete red check
+- [ ] Reuse the existing screenshot/console/storage/config artifact uploads (names already deduplicated with `github.run_attempt` in commit `fa022f84c4`) — blank-swatch-style regressions are the primary signal, so screenshot capture on failure is load-bearing here
+- [ ] Add `LiveEditColorPaletteSwitchNoBleedTest` to a bleed-guard testsuite (pattern established by `LiveEditAdminLoginCacheBleedGuard`) that runs it *after* `LiveEditColorPalettePublicRenderTest` to catch static-state bleed across tests
+
+### Phase 10 — Documentation & contributor guide
+- [ ] Document the pack JSON shape (`settings[0].fieldType`, `selectors`, `fieldSettings.styleProperties[0].properties`, core variable checklist) in `docs/templates/color-palettes.md` so new packs are authored against the same contract tests in Phase 2 enforce
+- [ ] Add a "How to add a new color pack" recipe covering: drop file under `Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/<slug>.json`, run `php artisan test --filter ColorPaletteFilesTest` to validate metadata, scaffold a per-palette Dusk test via a generator (`php artisan make:dusk:color-palette-test <slug>`) — keeps Phase 3's per-palette test growth zero-effort for contributors
+
+
+- [x] 2026-04-22  Make a plan to test all color schemes and populate todo.md
 
 - [ ] See in the layouts wot mention worpdress and laravle, but since we are in microwebebr we should put Micorweber isntaf of wordpress and make a plan in the Todo.md to import a worpdress wdite by url from the RSS feed and sitemp aml and othet merods s user can migrate and put Easey Worpdress Migration
 
