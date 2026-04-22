@@ -82,10 +82,15 @@ in `wordpress-audit.md` §5 — never raw inserts.
 
 ### 2.3 Taxonomies — WP categories & tags
 
+Both WP categories and WP tags land in the same Microweber table
+(`categories`); WP tags become **flat** (depth-0) categories under
+the `Blog` page. See `docs/migration/wordpress-mapping.md` §3 for the
+full reasoning.
+
 | WP concept      | Microweber target                                  | Notes                                                  |
 |-----------------|----------------------------------------------------|--------------------------------------------------------|
 | `category`      | Microweber category under the `Blog` page          | Nested categories walk via `DatabaseSave::getOrInsertCategories` |
-| `post_tag`      | Microweber tag on the target content               | Deduped by name, case-insensitive                      |
+| `post_tag`      | Microweber category under the `Blog` page (flat)   | Name-deduped; namespaced by slug prefix on collision with a like-named category (§ mapping doc) |
 | `category` slug | category slug                                      | Preserved verbatim so `/category/foo/` URLs resolve    |
 | custom taxonomy | §3.3 — **deferred**                                 |                                                        |
 
@@ -308,8 +313,8 @@ The migration job's final summary must show counts in these buckets.
 Anything the importer silently dropped is a bug.
 
 - `imported_posts`, `imported_pages`, `imported_media`,
-  `imported_categories`, `imported_tags`, `imported_authors`,
-  `imported_comments`, `imported_menus`
+  `imported_categories` (includes WP tags; see mapping doc §3),
+  `imported_authors`, `imported_comments`, `imported_menus`
 - `skipped_cpt` (aggregate + per-cpt breakdown)
 - `skipped_taxonomy` (aggregate + per-taxonomy breakdown)
 - `skipped_status_trash`, `skipped_status_spam`
