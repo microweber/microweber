@@ -1087,7 +1087,7 @@ survives a save→reload.
 - [x] 2026-04-22  Insert **Content / skin-1** two-column story block; edit paragraph text
 - [x] 2026-04-22  Insert **Pricing / skin-2** (hosting plans added in 7d388b9); edit "Plus" plan price "$5.99" → "$6.99"; assert new price in saved `content_body`
 - [x] 2026-04-22  Insert **Pricing / skin-3** (compare grid added in 7d388b9) as a secondary plan teaser; assert `pricing-skin-3` marker
-- [ ] Insert **Blog / skin-1** latest-posts teaser; verify it lists real posts from the DB
+- [x] 2026-04-22  Insert **Blog / skin-1** latest-posts teaser; verify it lists real posts from the DB
 - [ ] Insert **E-commerce / skin-1** products grid; verify it lists real products
 - [ ] Insert **Footers / skin-1** at bottom; edit company-name span
 - [ ] Click Save; assert single `POST /live-edit/save` → 200 with non-empty body
