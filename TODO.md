@@ -1158,7 +1158,7 @@ Driven by a data provider over `listColorPalettes()` so adding a new
 pack automatically extends coverage. Each test: open live-edit →
 palette sidebar → click the palette → assert every `--mw-*` variable
 on `:root` matches the pack JSON's `properties` map.
-- [ ] `tests/Browser/LiveEditColorPaletteAppleShineTest.php` — apple-shine pack applies every CSS custom property to `:root`
+- [x] 2026-04-22  `tests/Browser/LiveEditColorPaletteAppleShineTest.php` — apple-shine pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteArcticFrostTest.php` — arctic-frost pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteBlueberryPieTest.php` — blueberry-pie pack applies every CSS custom property to `:root`
 - [ ] `tests/Browser/LiveEditColorPaletteCitrusSplashTest.php` — citrus-splash pack applies every CSS custom property to `:root`

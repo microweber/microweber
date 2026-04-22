@@ -150,24 +150,37 @@ trait LiveEditColorPaletteTrait
     }
 
     /**
-     * Snapshot every `--mw-*` CSS custom property currently in effect
-     * on the top document's `:root`. Returns a flat associative array
-     * of property => computed value (trimmed, no surrounding whitespace).
+     * Snapshot every `--mw-*` CSS custom property currently in effect on
+     * the canvas document's `:root`. The live-edit picker writes to the
+     * canvas iframe (via `mw.top().app.cssEditor` → `mw.app.canvas.getDocument()`),
+     * not the admin frame, so the computed styles must be read from the
+     * canvas iframe's `document.documentElement`.
      *
      * @return array<string, string>
      */
     protected function snapshotRootCssVars(Browser $browser): array
     {
         $result = $browser->script(
-            "var styles = getComputedStyle(document.documentElement);
-            var out = {};
-            for (var i = 0; i < styles.length; i++) {
-                var prop = styles[i];
-                if (prop && prop.indexOf('--mw-') === 0) {
-                    out[prop] = (styles.getPropertyValue(prop) || '').trim();
+            "try {
+                var doc = (window.mw && mw.top && mw.top().app && mw.top().app.canvas
+                    && typeof mw.top().app.canvas.getDocument === 'function')
+                    ? mw.top().app.canvas.getDocument()
+                    : null;
+                if (!doc || !doc.documentElement) {
+                    return {};
                 }
-            }
-            return out;"
+                var styles = doc.defaultView.getComputedStyle(doc.documentElement);
+                var out = {};
+                for (var i = 0; i < styles.length; i++) {
+                    var prop = styles[i];
+                    if (prop && prop.indexOf('--mw-') === 0) {
+                        out[prop] = (styles.getPropertyValue(prop) || '').trim();
+                    }
+                }
+                return out;
+            } catch (e) {
+                return {};
+            }"
         );
 
         $vars = $result[0] ?? [];
