@@ -135,6 +135,46 @@ class ApiApplicationsPage extends Page
             ->send();
     }
 
+    public function revokeAllPersonalTokens(): int
+    {
+        $user = auth()->user();
+
+        $tokenIds = $user->tokens()
+            ->where('revoked', false)
+            ->pluck('id');
+
+        $count = $tokenIds->count();
+
+        if ($count === 0) {
+            Notification::make()
+                ->title('No active tokens to revoke')
+                ->info()
+                ->send();
+
+            $this->loadPersonalTokens();
+
+            return 0;
+        }
+
+        $user->tokens()
+            ->whereIn('id', $tokenIds)
+            ->update(['revoked' => true]);
+
+        \DB::table('oauth_refresh_tokens')
+            ->whereIn('access_token_id', $tokenIds)
+            ->update(['revoked' => true]);
+
+        $this->loadPersonalTokens();
+
+        Notification::make()
+            ->title('All Personal Tokens Revoked')
+            ->body("Revoked {$count} active token" . ($count === 1 ? '' : 's') . '.')
+            ->success()
+            ->send();
+
+        return $count;
+    }
+
     public function createApplication(): void
     {
         $name = $this->newAppName ?? 'My Application';

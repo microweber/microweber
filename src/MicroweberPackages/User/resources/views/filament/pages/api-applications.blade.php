@@ -61,6 +61,20 @@
 
                 {{-- Existing Tokens Table --}}
                 @if(count($personalTokens) > 0)
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            {{ count($personalTokens) }} active token{{ count($personalTokens) === 1 ? '' : 's' }}
+                        </p>
+                        <x-filament::button
+                            size="sm"
+                            color="danger"
+                            icon="heroicon-o-trash"
+                            wire:click="revokeAllPersonalTokens"
+                            wire:confirm="Revoke every personal access token? This immediately logs out every API client using one of your tokens and cannot be undone."
+                        >
+                            Revoke all tokens
+                        </x-filament::button>
+                    </div>
                     <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-800">
