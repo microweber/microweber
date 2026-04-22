@@ -41,6 +41,24 @@
         </testsuite>
 
         <!--
+            Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
+            under a single suite so `php artisan dusk` with a testsuite
+            argument of LiveEditColorPalettes (or phpunit equivalent)
+            runs the palette-specific harness in isolation. Keeps the
+            suite independently runnable locally and lets CI parallelize
+            it from the broader Browser suite.
+
+            `prefix` + `suffix` on <directory> is the phpunit-native way
+            to glob `LiveEditColorPalette*Test.php`. A file-per-test list
+            would require a manual edit every time a new palette is
+            added under Phase 3's per-palette test growth, which is the
+            exact friction Phase 9 is meant to remove.
+        -->
+        <testsuite name="LiveEditColorPalettes">
+            <directory prefix="LiveEditColorPalette" suffix="Test.php">tests/Browser</directory>
+        </testsuite>
+
+        <!--
             Regression guard for DuskTestCase::$adminLoggedIn cache bleed.
 
             The file order matters: PublicPageConsoleClean logs the admin
