@@ -25,6 +25,7 @@ use MicroweberPackages\Console\Commands\ModuleCommand;
 use MicroweberPackages\Console\Commands\PackageInstallCommand;
 use MicroweberPackages\Console\Commands\ReloadDatabaseCommand;
 use MicroweberPackages\Console\Commands\UpdateCommand;
+use MicroweberPackages\Console\Commands\MakeDuskColorPaletteTestCommand;
 use MicroweberPackages\Console\Commands\VendorAssetsSymlinkCommand;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
@@ -543,6 +544,7 @@ class AppServiceProvider extends ServiceProvider
                 $this->commands(PackageInstallCommand::class);
                 $this->commands(AddLicenseKeyCommand::class);
                 $this->commands(VendorAssetsSymlinkCommand::class);
+                $this->commands(MakeDuskColorPaletteTestCommand::class);
                 $this->commands(InstallCommand::class);
 
             }

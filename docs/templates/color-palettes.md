@@ -230,11 +230,27 @@ Live examples of the allowed case live in `golden-hour.json` and
 
    points straight at the offending pack.
 
-6. **Add the Dusk per-palette test.** Phase 3 has one Dusk test per
-   pack asserting the pack applies every `--mw-*` variable to `:root`
-   via the live-edit picker. The generator recipe lives in this folder
-   alongside this doc (coming in the Phase-10 "How to add a new color
-   pack" entry).
+6. **Scaffold the per-palette Dusk test.** Phase 3 has one Dusk test
+   per pack asserting the pack applies every `--mw-*` variable to
+   `:root` via the live-edit picker. Use the generator — it reads the
+   same slug from disk, normalises it (kebab-case), and writes a test
+   with the conventional class name and assertion shape:
+
+   ```bash
+   php artisan make:dusk:color-palette-test my-slug
+   ```
+
+   Output lands at `tests/Browser/LiveEditColorPaletteMySlugTest.php`.
+   The generated file is already tagged `#[Group('color-palettes')]`
+   and is picked up automatically by:
+   - the `LiveEditColorPalettes` phpunit suite (glob-matched)
+   - the `Color palettes` step in `.github/workflows/dusk.yml` and
+     `dusk_apache.yml` (`--group=color-palettes`)
+
+   The generator refuses to overwrite an existing file without
+   `--force`, and refuses to run at all if the pack JSON isn't on disk
+   — you must drop the pack first so the slug↔title parity test in
+   step 5 has something to validate.
 
 7. **Run the palette Dusk group.**
 
