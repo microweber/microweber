@@ -157,6 +157,18 @@
         <x-filament::section collapsible collapsed>
             <x-slot name="heading">API Usage Guide</x-slot>
 
+            <div class="mb-4">
+                <a href="{{ url('api/documentation') }}" target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                    <x-heroicon-o-book-open class="h-5 w-5" />
+                    Open interactive API documentation
+                    <x-heroicon-o-arrow-top-right-on-square class="h-4 w-4" />
+                </a>
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Browse every <code>/api/module/*</code> endpoint, inspect request/response schemas, and try requests directly from the Swagger UI.
+                </p>
+            </div>
+
             <div class="prose dark:prose-invert max-w-none text-sm">
                 <h4>Authentication with Personal Access Token</h4>
                 <p>Include the token in the <code>Authorization</code> header:</p>

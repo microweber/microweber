@@ -1040,7 +1040,7 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 - [x] 2026-04-22  Add `@OA\Info` and `@OA\SecurityScheme` (passport/bearer) root annotations
 - [x] 2026-04-22  Annotate each `*ApiController` with `@OA\Get/Post/Put/Delete` per endpoint
 - [x] 2026-04-22  Regenerate swagger JSON and confirm `/api/documentation` renders all module routes
-- [ ] Link from `ApiApplicationsPage` "API Usage Guide" panel to `/api/documentation`
+- [x] 2026-04-22  Link from `ApiApplicationsPage` "API Usage Guide" panel to `/api/documentation`
 
 ### Phase 6 — Token UX polish
 - [ ] Allow token scopes per module (e.g. `content:read`, `products:write`)
