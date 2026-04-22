@@ -16,9 +16,22 @@ class TemplateStyleEditorSettingsController
     public function templateStyleSettings()
     {
         $getTemplateConfig = app()->template_manager->get_config();
+        if (!is_array($getTemplateConfig)) {
+            // Active template directory is missing or its config
+            // couldn't be parsed (e.g. options.current_template points
+            // at a theme that has since been uninstalled). Return an
+            // empty-but-well-formed payload so the Vue sidebar simply
+            // renders nothing — throwing an ErrorException on the
+            // array-offset access below would break the whole
+            // live-edit sidebar, not just the style picker.
+            $getTemplateConfig = [];
+        }
 
-        $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
-        $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
+        $templateDirName = isset($getTemplateConfig['dir_name'])
+            ? (string)$getTemplateConfig['dir_name']
+            : '';
+        $optionGroup = 'mw-template-' . $templateDirName . '-settings';
+        $optionGroupLess = 'mw-template-' . $templateDirName;
 
         $options = [];
         $settingGroups = [];

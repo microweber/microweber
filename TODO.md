@@ -1216,7 +1216,7 @@ Dream). This guards against `colorPaletteFromTemplateFolderLibrary`
 accidentally being hardcoded to Bootstrap.
 - [x] 2026-04-23  `tests/Browser/LiveEditColorPaletteCrossTemplateTest.php` — for each active template that ships color packs (currently Bootstrap only, but scaffold for Big/Big2/Dream additions), enumerate available packs via the same trait and sanity-check that at least one applies and survives public render
 - [x] 2026-04-23  Assert switching `current_template` Bootstrap→Big2→Bootstrap (piggyback on the existing Phase-6 regression harness) preserves palette state on pages where `content.active_site_template` pins Bootstrap
-- [ ] Assert no JS error when the active template has zero color packs (Big2 currently) — the picker section should simply not render, not throw
+- [x] 2026-04-23 Assert no JS error when the active template has zero color packs (Big2 currently) — the picker section should simply not render, not throw
 
 ### Phase 9 — CI wiring
 - [ ] Add a new `<testsuite name="LiveEditColorPalettes">` group in `phpunit.dusk.xml` pointing at `tests/Browser/LiveEditColorPalette*Test.php` — keeps palette suite independently runnable and lets CI parallelize it
