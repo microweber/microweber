@@ -84,7 +84,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                 <div class="p-3">
                     <i class="features-skin-2-icons mb-3 safe-element no-typing mw-micon-Database-SQL d-block fs-1 text-primary"></i>
                     <h5 class="fw-semibold" data-mwplaceholder="Enter title here">One-click installs</h5>
-                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Spin up WordPress, Laravel, Drupal, Joomla and 100+ other apps in seconds.</p>
+                    <p class="text-muted small regular-mode" data-mwplaceholder="Enter text here">Spin up Microweber, Drupal, Joomla and 100+ other apps in seconds.</p>
                 </div>
             </div>
 

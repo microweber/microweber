@@ -1231,7 +1231,103 @@ accidentally being hardcoded to Bootstrap.
 
 - [x] 2026-04-22  Make a plan to test all color schemes and populate todo.md
 
-- [ ] See in the layouts wot mention worpdress and laravle, but since we are in microwebebr we should put Micorweber isntaf of wordpress and make a plan in the Todo.md to import a worpdress wdite by url from the RSS feed and sitemp aml and othet merods s user can migrate and put Easey Worpdress Migration
+- [x] 2026-04-23  See in the layouts wot mention worpdress and laravle, but since we are in microwebebr we should put Micorweber isntaf of wordpress and make a plan in the Todo.md to import a worpdress wdite by url from the RSS feed and sitemp aml and othet merods s user can migrate and put Easey Worpdress Migration
+
+## Easy WordPress Migration — import a WordPress site into Microweber
+
+Goal: let a user point Microweber at an existing WordPress site (by URL or
+export file) and pull the content — posts, pages, media, taxonomies,
+menus, author metadata — into a live Microweber install with a
+preview-before-commit step, so migrating off WordPress is a few clicks
+rather than a manual copy-paste job. Ships under a new
+`MicroweberPackages\Migration\WordPress` package with a Filament-5 admin
+panel entry-point and a CLI (`php artisan mw:migrate:wordpress <url>`)
+for scripted/bulk use.
+
+### Phase 1 — Discovery & scoping
+
+- [ ] Audit existing importer code (`MicroweberPackages\Import\*`, `ContentImport`, feed readers) so the WordPress migrator reuses the content-write pipeline instead of reimplementing insert logic
+- [ ] Document the WordPress surface we target (`self-hosted WP >= 5.0`, posts/pages/media/categories/tags/authors/comments/menus) and the surface we explicitly defer (plugins, widgets, custom post types beyond a generic mapper, Gutenberg block HTML fidelity)
+- [ ] Decide Microweber target mapping: WP post → `content_type=post`, WP page → `content_type=page`, WP category/tag → Microweber categories, WP author → Microweber user (match-by-email with skip-if-missing + manual-map UI)
+- [ ] Write an ADR under `docs/adr/wordpress-migration.md` covering auth strategy per import mode, rate-limit posture, idempotency key (WP post GUID → Microweber content meta), and conflict policy (skip / overwrite / create-new revision)
+
+### Phase 2 — Import-by-URL (the "easy" path)
+
+- [ ] Build a URL prober (`WordPressSiteProbe`) that hits `<url>/wp-json`, `<url>/feed`, `<url>/sitemap.xml`, `<url>/sitemap_index.xml`, `<url>/robots.txt` and classifies the source (REST-enabled / feed-only / sitemap-only / scrape-only) so the admin UI can show the user "we can pull N posts via REST" before committing
+- [ ] Persist prober results in a `wp_migration_jobs` table keyed by source URL so re-probing an in-flight job is idempotent and the UI can resume after a page refresh
+- [ ] Surface the probe as a single Filament form field (URL input + "Check" button) that renders the detected capabilities, estimated item count, and a "Start import" confirm CTA
+- [ ] Dusk: `LiveAdminWordPressMigrationProbeTest` — paste a public WP URL (fixture served via PHP built-in server against `tests/fixtures/wp/`), assert the probe surfaces the right capabilities and count
+
+### Phase 3 — RSS/Atom feed importer
+
+- [ ] Implement `RssFeedImporter` reading `/feed/` (RSS 2.0) and `/feed/atom/` fallback; normalize to a shared `MigrationItemDTO` (guid, title, html, excerpt, author, categories, tags, pubDate, canonical URL)
+- [ ] Walk paginated feeds (`?paged=N`) until an empty page or a guid we've already seen; cap at `max_items` job-config
+- [ ] Map each DTO to `content` rows with `import_source=wordpress_rss`, `source_guid=<wp:post_id or guid>` stored on content meta for idempotent re-runs
+- [ ] Download referenced `<img src>` and `<a href>` assets into Microweber media via the existing media pipeline, rewriting URLs in the HTML before insert
+- [ ] Unit: `RssFeedImporterTest` with recorded fixtures (`tests/fixtures/wp/feed-*.xml`) covering RSS 2.0, RSS w/ `content:encoded`, Atom, and a broken/partial feed
+- [ ] Dusk: `LiveAdminWordPressMigrationRssTest` — feed URL → completes → imported posts render on the public frontend with correct HTML
+
+### Phase 4 — Sitemap XML importer (full page tree)
+
+- [ ] Implement `SitemapImporter` understanding `sitemap.xml`, `sitemap_index.xml` (nested), and Yoast/RankMath/AIOSEO flavors (`post-sitemap.xml`, `page-sitemap.xml`, `category-sitemap.xml`)
+- [ ] For each sitemap URL, fetch the page, strip chrome via a readability pass (Dom-based extractor already in the `Import` package, or bring in `fivefilters/readability.php`), and map `<title>` + extracted body + og:image + published time
+- [ ] Preserve URL slugs: insert with the same path (`/category/slug/`) so internal links in imported post bodies resolve without rewrites
+- [ ] Fall back to RSS data for fields the page doesn't expose (`author`, `categories`, `tags`) when both signals are available
+- [ ] Unit: `SitemapImporterTest` for flat sitemap, index-of-sitemaps, and lastmod-based incremental re-run
+- [ ] Dusk: `LiveAdminWordPressMigrationSitemapTest` — sitemap URL → pages imported with their original slugs
+
+### Phase 5 — WP REST API importer (richest path)
+
+- [ ] Implement `WpRestImporter` consuming `/wp-json/wp/v2/posts`, `/pages`, `/media`, `/categories`, `/tags`, `/users`, `/comments`, `/menus` (if available)
+- [ ] Support optional application-password auth (WP 5.6+) stored per job, plus anon for public-only content
+- [ ] Page with `per_page=100&page=N` + `X-WP-TotalPages` header; retry-with-backoff on 429/5xx
+- [ ] Map `featured_media` → Microweber content featured image; preserve `excerpt.rendered`/`content.rendered` HTML verbatim (the renderer is the source of truth for Gutenberg output)
+- [ ] Build a taxonomy-first pass (categories, tags, users) so post inserts can attach by local id without a second pass
+- [ ] Unit: `WpRestImporterTest` with recorded fixtures (`tests/fixtures/wp/wp-json/*.json`) for public + authed modes
+- [ ] Dusk: `LiveAdminWordPressMigrationRestTest` — URL + app password → posts/pages/media all land; taxonomies preserved
+
+### Phase 6 — WXR file importer (offline path)
+
+- [ ] Implement `WxrImporter` reading a WordPress eXtended RSS (`.xml`) export uploaded via the Filament form — same DTO, no HTTP
+- [ ] Support the large-file case via a streaming `XMLReader` pass (don't `simplexml_load_file` a 400MB WXR)
+- [ ] Unit: `WxrImporterTest` against the canonical `tests/fixtures/wp/wxr-sample.xml` (ship a tiny sanitized WXR)
+- [ ] Dusk: `LiveAdminWordPressMigrationWxrTest` — upload WXR → import runs → posts visible on frontend
+
+### Phase 7 — Media rehosting
+
+- [ ] Shared `MediaRehoster` service: accepts (sourceUrl, contextHtml) → downloads file once, deduplicates by content hash, stores under `userfiles/media/imported/wordpress/<job-id>/`, returns Microweber media id + public URL
+- [ ] HTML rewriter pass (`HtmlMediaRewriter`) walks imported HTML and replaces every `<img src>`, `<a href>` to the old `wp-content/uploads/` origin with the rehosted URL; leaves off-site links alone
+- [ ] Handle redirects and protocol-relative URLs (`//example.com/...`); skip obvious non-asset links (anchors, mailto:, tel:)
+- [ ] Unit: `MediaRehosterTest` covering dedupe, redirect-following, mime-sniffing fallback, and the protocol-relative case
+
+### Phase 8 — Preview-before-commit
+
+- [ ] Dry-run mode: run the entire import into a staging table (`wp_migration_staging_content`, `wp_migration_staging_media`) with zero writes to live `content`/`media`
+- [ ] Filament preview page: paginated list of staged items, "view rendered" modal with frontend preview iframe, per-item checkboxes + bulk "exclude from commit"
+- [ ] "Commit" button promotes staged rows → live tables in a single DB transaction per batch; failed batches roll back cleanly
+- [ ] Dusk: `LiveAdminWordPressMigrationPreviewCommitTest` — exclude one item in preview, commit, assert excluded item never reaches live `content`
+
+### Phase 9 — Admin UX (Filament 5)
+
+- [ ] New Filament resource `WordPressMigrationResource` with pages: Index (list jobs + status), Create (URL/WXR/REST form), View (job detail + preview), Logs (per-item success/fail)
+- [ ] Real-time progress via Livewire polling on the job View page (`processed / total / failed` counters, ETA)
+- [ ] "Retry failed items" action that re-runs only the rows with status=failed
+- [ ] Sidebar menu entry under "Content" → "Import from WordPress"
+- [ ] Dusk: `LiveAdminWordPressMigrationUxTest` — full click-through of create → progress → preview → commit
+
+### Phase 10 — CLI & automation
+
+- [ ] `php artisan mw:migrate:wordpress <url> {--mode=rest|rss|sitemap|wxr} {--dry-run} {--yes}` driving the same importers
+- [ ] `php artisan mw:migrate:wordpress:status <job-id>` + `mw:migrate:wordpress:commit <job-id>` for headless flows
+- [ ] Document scripted use in `docs/migration/wordpress.md` with a full end-to-end example
+- [ ] CI smoke: a single GitHub Actions step runs `mw:migrate:wordpress http://127.0.0.1:9876 --mode=rss --dry-run --yes` against a WordPress fixture served by PHP's built-in server, asserts non-zero items staged
+
+### Phase 11 — Docs & marketing copy
+
+- [ ] Author `docs/migration/wordpress.md` — user-facing walkthrough covering all four modes with screenshots
+- [ ] Author `docs/migration/wordpress-architecture.md` — contributor reference linking to the ADR + each importer's unit tests
+- [ ] Add a "Migrating from WordPress?" CTA tile in the admin dashboard empty-state (shown only when `content` is empty) linking to the migration resource
+- [ ] Update the public Microweber marketing site's "vs WordPress" page with a "One-click import" line once Phase 8 ships
 
 - [ ] make a hige plan in the todo.md to test a full workflow of website treation and make dusk teste for it
 
