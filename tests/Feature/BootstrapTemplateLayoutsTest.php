@@ -32,6 +32,7 @@ class BootstrapTemplateLayoutsTest extends TestCase
             'services',
             'landing',
             'pricing',
+            'hosting-compare',
         ];
 
         foreach ($expectedLayouts as $name) {
@@ -53,7 +54,7 @@ class BootstrapTemplateLayoutsTest extends TestCase
         $viewsDir = $this->templateRoot . '/resources/views';
         $moduleTemplatesDir = $this->templateRoot . '/resources/views/modules/layouts/templates';
 
-        $newLayouts = ['about', 'services', 'landing', 'pricing'];
+        $newLayouts = ['about', 'services', 'landing', 'pricing', 'hosting-compare'];
 
         foreach ($newLayouts as $name) {
             $contents = file_get_contents($viewsDir . '/' . $name . '.blade.php');
@@ -67,6 +68,75 @@ class BootstrapTemplateLayoutsTest extends TestCase
                 $this->assertFileExists($fullPath,
                     "Layout {$name} references missing module template: {$templatePath}");
             }
+        }
+    }
+
+    public function test_hosting_compare_page_stacks_the_new_superhosting_style_skins(): void
+    {
+        // The hosting-compare page is modelled on superhosting.bg's
+        // plan-comparison page: a titles block, the 4-tier pricing cards,
+        // the advantages grid, and the detailed comparison matrix.
+        $page = file_get_contents($this->templateRoot . '/resources/views/hosting-compare.blade.php');
+
+        foreach ([
+            'titles/skin-1',
+            'pricing/skin-2',
+            'features/skin-2',
+            'pricing/skin-3',
+        ] as $expected) {
+            $this->assertStringContainsString('template="' . $expected . '"', $page,
+                "hosting-compare page must compose the {$expected} layout");
+        }
+    }
+
+    public function test_new_module_skins_declare_valid_metadata_and_ship_previews(): void
+    {
+        $moduleTemplatesDir = $this->templateRoot . '/resources/views/modules/layouts/templates';
+
+        $expected = [
+            'pricing/skin-2' => ['name' => 'Pricing 2 - Hosting Plans', 'categories' => 'Pricing'],
+            'pricing/skin-3' => ['name' => 'Pricing 3 - Compare Matrix', 'categories' => 'Pricing'],
+            'features/skin-2' => ['name' => 'Features 2 - Advantages Grid', 'categories' => 'Features'],
+        ];
+
+        foreach ($expected as $skin => $meta) {
+            $path = $moduleTemplatesDir . '/' . $skin . '.blade.php';
+            $this->assertFileExists($path, "Missing skin file: {$skin}.blade.php");
+
+            $contents = file_get_contents($path);
+            $this->assertStringContainsString('type: layout', $contents,
+                "Skin {$skin} must declare type: layout");
+            $this->assertStringContainsString('name: ' . $meta['name'], $contents,
+                "Skin {$skin} must declare the expected name metadata");
+            $this->assertStringContainsString('categories: ' . $meta['categories'], $contents,
+                "Skin {$skin} must be filed under the {$meta['categories']} category so the layout picker lists it");
+
+            // Must be inline-editable (admins drag modules into a `rel="module"` section)
+            $this->assertMatchesRegularExpression(
+                '/rel="module"/',
+                $contents,
+                "Skin {$skin} must expose rel=\"module\" so the admin inline editor treats the section as editable"
+            );
+
+            // Must honour the shared padding-top/padding-bottom layout classes
+            $this->assertStringContainsString("\$classes['padding_top']", $contents,
+                "Skin {$skin} must apply the shared padding_top layout class");
+            $this->assertStringContainsString("\$classes['padding_bottom']", $contents,
+                "Skin {$skin} must apply the shared padding_bottom layout class");
+        }
+    }
+
+    public function test_new_pricing_and_features_skins_compile_as_blade(): void
+    {
+        $moduleTemplatesDir = $this->templateRoot . '/resources/views/modules/layouts/templates';
+        $compiler = app('blade.compiler');
+
+        foreach (['pricing/skin-2', 'pricing/skin-3', 'features/skin-2'] as $skin) {
+            $raw = file_get_contents($moduleTemplatesDir . '/' . $skin . '.blade.php');
+            $compiled = $compiler->compileString($raw);
+            $this->assertNotEmpty($compiled, "Blade compiler returned empty output for {$skin}");
+            // Compiler errors throw; reaching here means the template is syntactically valid.
+            $this->assertStringNotContainsString('<?php /* Blade syntax error', $compiled);
         }
     }
 

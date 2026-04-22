@@ -1054,4 +1054,4 @@ via the tokens issued from `/admin/api-applications`. OpenAPI docs at `/api/docu
 
 - [x] 2026-04-22  now work on the API Application and tokens, we want each module to also have headless api which can be access via the api token  for example api/module/content/.... etc api/module/categories/....  and for all modules andm ake swagger also , make a big plan and populate the TODO.md and work on it
 
-- [ ] next huge task is to epand the bootrap template with laouts , see   https://www.superhosting.bg/web-hosting-compare-hosting-plans.php?tab=advantages   we want simolar type of payount, analyze all pages    use skill from  https://agents.tools.ooyes.net/skills/clone-website/
+- [x] 2026-04-22  next huge task is to epand the bootrap template with laouts , see   https://www.superhosting.bg/web-hosting-compare-hosting-plans.php?tab=advantages   we want simolar type of payount, analyze all pages    use skill from  https://agents.tools.ooyes.net/skills/clone-website/
