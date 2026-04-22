@@ -1249,7 +1249,7 @@ for scripted/bulk use.
 - [x] 2026-04-23  Audit existing importer code (`MicroweberPackages\Import\*`, `ContentImport`, feed readers) so the WordPress migrator reuses the content-write pipeline instead of reimplementing insert logic
 - [x] 2026-04-23  Document the WordPress surface we target (`self-hosted WP >= 5.0`, posts/pages/media/categories/tags/authors/comments/menus) and the surface we explicitly defer (plugins, widgets, custom post types beyond a generic mapper, Gutenberg block HTML fidelity)
 - [x] 2026-04-23  Decide Microweber target mapping: WP post → `content_type=post`, WP page → `content_type=page`, WP category/tag → Microweber categories, WP author → Microweber user (match-by-email with skip-if-missing + manual-map UI)
-- [ ] Write an ADR under `docs/adr/wordpress-migration.md` covering auth strategy per import mode, rate-limit posture, idempotency key (WP post GUID → Microweber content meta), and conflict policy (skip / overwrite / create-new revision)
+- [x] 2026-04-23  Write an ADR under `docs/adr/wordpress-migration.md` covering auth strategy per import mode, rate-limit posture, idempotency key (WP post GUID → Microweber content meta), and conflict policy (skip / overwrite / create-new revision)
 
 ### Phase 2 — Import-by-URL (the "easy" path)
 
