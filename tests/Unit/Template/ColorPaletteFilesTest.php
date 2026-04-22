@@ -326,6 +326,235 @@ class ColorPaletteFilesTest extends TestCase
     }
 
     /**
+     * Every value in every pack must parse as a valid CSS paint value:
+     * a color literal (hex / rgb(a) / hsl(a) / named color) or, for
+     * the decorative `*-background-color` properties only, a CSS
+     * `<image>` expression (currently only `linear-gradient(...)` is
+     * used — golden-hour and robocop). Anything else (typos, trailing
+     * whitespace, accidental "red orange", an unquoted url) indicates
+     * drift and fails with the offending `pack:property` so the exact
+     * culprit is pinpointable from the CI log without grepping JSON.
+     */
+    #[Test]
+    #[DataProvider('colorPackProvider')]
+    public function pack_property_values_parse_as_valid_css_color(string $slug): void
+    {
+        $properties = $this->readSettingsZero($slug)['fieldSettings']['styleProperties'][0]['properties'];
+
+        $offenders = [];
+        foreach ($properties as $prop => $value) {
+            if (!is_string($value)) {
+                $offenders[] = sprintf("%s:%s (non-string value)", $slug, $prop);
+                continue;
+            }
+            $trimmed = trim($value);
+            if ($trimmed === '') {
+                $offenders[] = sprintf("%s:%s (empty value)", $slug, $prop);
+                continue;
+            }
+            // Preserve untrimmed-ness as its own failure: a sneaky
+            // trailing space is a real bug (the CSS parser would keep
+            // it, but JSON diffs won't notice).
+            if ($trimmed !== $value) {
+                $offenders[] = sprintf("%s:%s (leading/trailing whitespace in value)", $slug, $prop);
+                continue;
+            }
+
+            if (!self::isValidCssPaintValue($trimmed, (string)$prop)) {
+                $offenders[] = sprintf("%s:%s (unrecognized value: %s)", $slug, $prop, $value);
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $offenders,
+            sprintf(
+                "Pack '%s' contains properties whose values did not parse as valid CSS paint tokens:\n  - %s",
+                $slug,
+                implode("\n  - ", $offenders)
+            )
+        );
+    }
+
+    /**
+     * Return true if $value is accepted as a CSS paint value for the
+     * property $prop. Gradients are only accepted on the property
+     * names that semantically paint a fill ("*-background-color");
+     * properties like `--mw-heading-color` must be a true color.
+     */
+    private static function isValidCssPaintValue(string $value, string $prop): bool
+    {
+        if (self::isValidCssColor($value)) {
+            return true;
+        }
+
+        // Gradients and url() images are only meaningful for
+        // background-type tokens — a `--mw-link-color: linear-gradient(...)`
+        // would still be an error.
+        if (self::allowsImagePaint($prop) && self::isCssImageFunction($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function allowsImagePaint(string $prop): bool
+    {
+        return (bool)preg_match('/background(-hover)?-color$/', $prop);
+    }
+
+    private static function isCssImageFunction(string $value): bool
+    {
+        $lower = strtolower($value);
+        foreach (['linear-gradient(', 'radial-gradient(', 'conic-gradient(',
+                 'repeating-linear-gradient(', 'repeating-radial-gradient(',
+                 'repeating-conic-gradient(', 'url('] as $prefix) {
+            if (str_starts_with($lower, $prefix) && str_ends_with($lower, ')')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Literal CSS `<color>` check. Accepts:
+     *   - #rgb, #rgba, #rrggbb, #rrggbbaa
+     *   - rgb(r, g, b) / rgba(r, g, b, a) — legacy comma syntax
+     *   - rgb(r g b / a)                  — modern slash syntax
+     *   - hsl(h, s%, l%) / hsla(h, s%, l%, a)
+     *   - hsl(h s% l% / a)
+     *   - CSS named color (see NAMED_COLORS)
+     *   - transparent / currentColor / inherit / initial / unset / revert
+     *   - var(--…)                        — since packs that chain
+     *     vars are still applying to `:root` via the cssEditor call,
+     *     this is indirect but legal.
+     */
+    public static function isValidCssColor(string $raw): bool
+    {
+        $v = strtolower(trim($raw));
+        if ($v === '') {
+            return false;
+        }
+
+        if (in_array($v, ['transparent', 'currentcolor', 'inherit', 'initial', 'unset', 'revert', 'none'], true)) {
+            return true;
+        }
+
+        if (preg_match('/^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/', $v) === 1) {
+            return true;
+        }
+
+        if (preg_match('/^rgba?\(\s*[^)]+\s*\)$/', $v) === 1) {
+            return true;
+        }
+
+        if (preg_match('/^hsla?\(\s*[^)]+\s*\)$/', $v) === 1) {
+            return true;
+        }
+
+        if (preg_match('/^var\(\s*--[a-z0-9_-]+\s*(?:,\s*[^)]+\s*)?\)$/', $v) === 1) {
+            return true;
+        }
+
+        if (in_array($v, self::NAMED_COLORS, true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * CSS4 named color keywords. Covers the 148 standard names.
+     * (system colors like `Canvas` and `CanvasText` are intentionally
+     * omitted — packs should ship concrete paints, not UA-themed ones.)
+     *
+     * @var string[]
+     */
+    private const NAMED_COLORS = [
+        'aliceblue','antiquewhite','aqua','aquamarine','azure','beige','bisque','black','blanchedalmond','blue',
+        'blueviolet','brown','burlywood','cadetblue','chartreuse','chocolate','coral','cornflowerblue','cornsilk',
+        'crimson','cyan','darkblue','darkcyan','darkgoldenrod','darkgray','darkgreen','darkgrey','darkkhaki',
+        'darkmagenta','darkolivegreen','darkorange','darkorchid','darkred','darksalmon','darkseagreen','darkslateblue',
+        'darkslategray','darkslategrey','darkturquoise','darkviolet','deeppink','deepskyblue','dimgray','dimgrey',
+        'dodgerblue','firebrick','floralwhite','forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod',
+        'gray','green','greenyellow','grey','honeydew','hotpink','indianred','indigo','ivory','khaki','lavender',
+        'lavenderblush','lawngreen','lemonchiffon','lightblue','lightcoral','lightcyan','lightgoldenrodyellow',
+        'lightgray','lightgreen','lightgrey','lightpink','lightsalmon','lightseagreen','lightskyblue','lightslategray',
+        'lightslategrey','lightsteelblue','lightyellow','lime','limegreen','linen','magenta','maroon',
+        'mediumaquamarine','mediumblue','mediumorchid','mediumpurple','mediumseagreen','mediumslateblue',
+        'mediumspringgreen','mediumturquoise','mediumvioletred','midnightblue','mintcream','mistyrose','moccasin',
+        'navajowhite','navy','oldlace','olive','olivedrab','orange','orangered','orchid','palegoldenrod','palegreen',
+        'paleturquoise','palevioletred','papayawhip','peachpuff','peru','pink','plum','powderblue','purple',
+        'rebeccapurple','red','rosybrown','royalblue','saddlebrown','salmon','sandybrown','seagreen','seashell',
+        'sienna','silver','skyblue','slateblue','slategray','slategrey','snow','springgreen','steelblue','tan',
+        'teal','thistle','tomato','turquoise','violet','wheat','white','whitesmoke','yellow','yellowgreen',
+    ];
+
+    /**
+     * Self-test: lock in the accepted/rejected CSS color formats so
+     * the validator itself can't silently broaden or narrow over time.
+     */
+    #[Test]
+    public function css_color_validator_accepts_standard_forms_and_rejects_drift(): void
+    {
+        $accepted = [
+            '#fff', '#FFFFFF', '#abcd', '#aabbccdd',
+            'rgb(255, 255, 255)', 'rgb(255 255 255 / 0.5)',
+            'rgba(0,0,0,0.5)', 'rgba(255, 255, 255, 1)',
+            'hsl(120, 100%, 50%)', 'hsla(0, 0%, 0%, 0.5)',
+            'hsl(120 100% 50% / 0.5)',
+            'transparent', 'currentColor', 'inherit', 'initial', 'unset', 'revert', 'none',
+            'red', 'rebeccapurple', 'whitesmoke',
+            'var(--mw-primary-color)',
+            'var(--mw-primary-color, #fff)',
+        ];
+        foreach ($accepted as $v) {
+            $this->assertTrue(
+                self::isValidCssColor($v),
+                "Validator must accept '{$v}' as a valid CSS color"
+            );
+        }
+
+        $rejected = [
+            '',
+            '#',
+            '#ff',
+            '#gggggg',
+            'notacolor',
+            'red orange',
+            '123456',
+            'rgb',
+            'rgb()',
+            'url(foo.png)',
+            'linear-gradient(45deg, red, blue)', // only allowed on *-background-color via allowsImagePaint
+        ];
+        foreach ($rejected as $v) {
+            $this->assertFalse(
+                self::isValidCssColor($v),
+                "Validator must reject '{$v}' as a CSS color"
+            );
+        }
+    }
+
+    #[Test]
+    public function gradient_paint_is_only_allowed_on_background_color_properties(): void
+    {
+        $grad = 'linear-gradient(45deg, #ff4d8d, #ff8a32)';
+
+        // Allowed targets — the background-paint group.
+        $this->assertTrue(self::isValidCssPaintValue($grad, '--mw-btn-background-color'));
+        $this->assertTrue(self::isValidCssPaintValue($grad, '--mw-btn-background-hover-color'));
+        $this->assertTrue(self::isValidCssPaintValue($grad, '--mw-top-header-button-background-color'));
+        $this->assertTrue(self::isValidCssPaintValue($grad, '--mw-section-background-color'));
+
+        // Disallowed targets — true color properties.
+        $this->assertFalse(self::isValidCssPaintValue($grad, '--mw-heading-color'));
+        $this->assertFalse(self::isValidCssPaintValue($grad, '--mw-link-color'));
+        $this->assertFalse(self::isValidCssPaintValue($grad, '--mw-body-color'));
+        $this->assertFalse(self::isValidCssPaintValue($grad, '--mw-primary-color'));
+    }
+
+    /**
      * Load settings[0] for a given slug. Returns an array (never null)
      * or fails the current test with a descriptive message.
      */
