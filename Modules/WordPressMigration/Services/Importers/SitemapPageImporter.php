@@ -63,9 +63,17 @@ class SitemapPageImporter
 
     /**
      * @param list<string> $seenGuids URLs already imported in previous runs
+     * @param list<MigrationItemDTO> $rssFallback Optional RSS/Atom items for the same site, used to fill in
+     *     taxonomy + author metadata the sitemap page HTML doesn't expose.
+     *     Match is by canonical URL (trailing-slash / host-case tolerant).
+     *     Pages that weren't in the RSS feed are mapped unchanged.
      */
-    public function walk(string $sitemapUrl, array $seenGuids = [], int $maxItems = 1000): SitemapImportResult
-    {
+    public function walk(
+        string $sitemapUrl,
+        array $seenGuids = [],
+        int $maxItems = 1000,
+        array $rssFallback = [],
+    ): SitemapImportResult {
         $crawl = $this->crawler->crawl($sitemapUrl, $maxItems);
         if ($crawl->urls === []) {
             return new SitemapImportResult(
@@ -81,6 +89,8 @@ class SitemapPageImporter
                 $seen[$g] = true;
             }
         }
+
+        $rssByUrl = $this->indexRssByCanonicalUrl($rssFallback);
 
         $items = [];
         $pagesFetched = 0;
@@ -110,7 +120,8 @@ class SitemapPageImporter
                 continue;
             }
 
-            $items[] = $this->toMigrationItem($entry, $extracted);
+            $fallback = $rssByUrl[$this->normalizeUrl($entry->loc) ?? ''] ?? null;
+            $items[] = $this->toMigrationItem($entry, $extracted, $fallback);
             $seen[$entry->loc] = true;
         }
 
@@ -123,8 +134,11 @@ class SitemapPageImporter
         );
     }
 
-    private function toMigrationItem(SitemapUrlEntry $entry, ExtractedPageDTO $page): MigrationItemDTO
-    {
+    private function toMigrationItem(
+        SitemapUrlEntry $entry,
+        ExtractedPageDTO $page,
+        ?MigrationItemDTO $rssFallback = null,
+    ): MigrationItemDTO {
         $host = (string)parse_url($entry->loc, PHP_URL_HOST) ?: null;
 
         // Prefer the extractor's published_at (article meta is more
@@ -143,19 +157,80 @@ class SitemapPageImporter
             $html = '<img src="' . htmlspecialchars($page->ogImage, ENT_QUOTES | ENT_HTML5) . '" alt="" />' . $html;
         }
 
+        // When an RSS DTO exists for the same canonical URL, fill in
+        // fields the page extractor can't surface reliably (taxonomy
+        // terms aren't usually rendered on the article page; author
+        // is missing more often than not). Page-derived values always
+        // win when present — the RSS data is a fallback, not an
+        // override — because page meta reflects what the publisher
+        // showed their readers.
+        $author = $page->author ?? $rssFallback?->author;
+        $categories = ($rssFallback !== null && $rssFallback->categories !== [])
+            ? $rssFallback->categories
+            : [];
+        $tags = ($rssFallback !== null && $rssFallback->tags !== [])
+            ? $rssFallback->tags
+            : [];
+
         return new MigrationItemDTO(
             guid: $entry->loc,
             title: $page->title,
             html: $html,
             excerpt: $page->excerpt,
-            author: $page->author,
-            categories: [],
-            tags: [],
+            author: $author,
+            categories: $categories,
+            tags: $tags,
             publishedAt: $publishedAt,
             canonicalUrl: $entry->loc,
             source: self::SOURCE,
             sourceHost: $host,
         );
+    }
+
+    /**
+     * Build a URL-keyed index of the RSS fallback items so each
+     * sitemap URL can look up its match in O(1). The key is a
+     * normalized form (lowercased scheme+host, trailing slash
+     * stripped) so RSS feeds that emit `https://Wp.Example/post/`
+     * still match a sitemap entry of `https://wp.example/post`.
+     *
+     * @param list<MigrationItemDTO> $rss
+     * @return array<string, MigrationItemDTO>
+     */
+    private function indexRssByCanonicalUrl(array $rss): array
+    {
+        $index = [];
+        foreach ($rss as $dto) {
+            if (!$dto instanceof MigrationItemDTO) {
+                continue;
+            }
+            $url = $dto->canonicalUrl;
+            if (!is_string($url) || $url === '') {
+                continue;
+            }
+            $key = $this->normalizeUrl($url);
+            if ($key === null) {
+                continue;
+            }
+            // First-wins so a duplicated RSS row (e.g. cross-posted
+            // category + post feed merge) doesn't silently swap its
+            // metadata mid-run.
+            $index[$key] ??= $dto;
+        }
+        return $index;
+    }
+
+    private function normalizeUrl(string $url): ?string
+    {
+        $parsed = parse_url(trim($url));
+        if (!is_array($parsed) || empty($parsed['host'])) {
+            return null;
+        }
+        $scheme = strtolower((string)($parsed['scheme'] ?? 'https'));
+        $host = strtolower((string)$parsed['host']);
+        $port = isset($parsed['port']) ? ':' . $parsed['port'] : '';
+        $path = rtrim((string)($parsed['path'] ?? ''), '/');
+        return "{$scheme}://{$host}{$port}{$path}";
     }
 
     private function htmlMentionsImage(string $html, string $src): bool

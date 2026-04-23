@@ -2,6 +2,8 @@
 
 namespace Modules\WordPressMigration\Tests\Unit;
 
+use DateTimeImmutable;
+use Modules\WordPressMigration\DTOs\MigrationItemDTO;
 use Modules\WordPressMigration\DTOs\SitemapCrawlResult;
 use Modules\WordPressMigration\Services\Importers\SitemapPageImporter;
 use Modules\WordPressMigration\Tests\Support\FakeHttpProbeFetcher;
@@ -267,5 +269,183 @@ HTML;
         $this->assertSame(SitemapCrawlResult::STOP_UNREACHABLE, $result->stopReason);
         $this->assertSame([], $result->items);
         $this->assertSame(0, $result->pagesFetched);
+    }
+
+    #[Test]
+    public function rss_fallback_fills_missing_author_and_taxonomy_fields(): void
+    {
+        // The sitemap page HTML exposes the article body/title/hero
+        // but doesn't render the author byline or category/tag chips
+        // — exactly the gap RSS enrichment is meant to close.
+        $sitemap = $this->minimalSitemap(['https://ex.com/post-x']);
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $sitemap, 'http_code' => 200, 'error' => ''],
+            'https://ex.com/post-x' => [
+                'body' => $this->articleHtml(
+                    'Post X title',
+                    'Body long enough to clear the extractor minimum body length gate; lorem ipsum dolor sit amet enim.',
+                ),
+                'http_code' => 200,
+                'error' => '',
+            ],
+        ]);
+
+        $rss = [$this->rssDto(
+            canonicalUrl: 'https://ex.com/post-x',
+            author: 'Jane Doe',
+            categories: ['News', 'Updates'],
+            tags: ['launch', 'featured'],
+        )];
+
+        $result = (new SitemapPageImporter(fetcher: $fetcher))->walk(
+            'https://ex.com/sitemap.xml',
+            rssFallback: $rss,
+        );
+
+        $this->assertCount(1, $result->items);
+        $item = $result->items[0];
+        $this->assertSame('Jane Doe', $item->author);
+        $this->assertSame(['News', 'Updates'], $item->categories);
+        $this->assertSame(['launch', 'featured'], $item->tags);
+    }
+
+    #[Test]
+    public function page_extracted_author_beats_rss_fallback_author(): void
+    {
+        // When both signals exist, the page's own meta wins — it's
+        // what the publisher showed readers, which is the
+        // authoritative value. RSS is a fallback, not an override.
+        $sitemap = $this->minimalSitemap(['https://ex.com/post-a']);
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $sitemap, 'http_code' => 200, 'error' => ''],
+            'https://ex.com/post-a' => [
+                'body' => $this->articleHtml(
+                    'Post A',
+                    'Body long enough to clear the extractor min body length gate; lorem ipsum dolor sit amet enim.',
+                    ['author' => 'Page Author'],
+                ),
+                'http_code' => 200,
+                'error' => '',
+            ],
+        ]);
+
+        $rss = [$this->rssDto(
+            canonicalUrl: 'https://ex.com/post-a',
+            author: 'RSS Author',
+            categories: ['Tech'],
+            tags: [],
+        )];
+
+        $result = (new SitemapPageImporter(fetcher: $fetcher))->walk(
+            'https://ex.com/sitemap.xml',
+            rssFallback: $rss,
+        );
+
+        $this->assertCount(1, $result->items);
+        $this->assertSame(
+            'Page Author',
+            $result->items[0]->author,
+            'Page-extracted author must not be overridden by RSS data'
+        );
+        // But RSS categories still fill in — the page has none to defend.
+        $this->assertSame(['Tech'], $result->items[0]->categories);
+    }
+
+    #[Test]
+    public function rss_fallback_matches_across_trailing_slash_and_host_case_variants(): void
+    {
+        // Real publisher feeds frequently differ from sitemap entries
+        // by a trailing slash or mixed-case hostname. The importer
+        // normalizes both sides before the lookup so the match works.
+        $sitemap = $this->minimalSitemap(['https://ex.com/post-match']);
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $sitemap, 'http_code' => 200, 'error' => ''],
+            'https://ex.com/post-match' => [
+                'body' => $this->articleHtml(
+                    'Post Match',
+                    'Body long enough to clear the extractor min body length gate; lorem ipsum dolor sit amet enim.',
+                ),
+                'http_code' => 200,
+                'error' => '',
+            ],
+        ]);
+
+        $rss = [$this->rssDto(
+            canonicalUrl: 'https://EX.com/post-match/',
+            author: 'Normalized Match',
+            categories: [],
+            tags: ['hit'],
+        )];
+
+        $result = (new SitemapPageImporter(fetcher: $fetcher))->walk(
+            'https://ex.com/sitemap.xml',
+            rssFallback: $rss,
+        );
+
+        $this->assertCount(1, $result->items);
+        $this->assertSame('Normalized Match', $result->items[0]->author);
+        $this->assertSame(['hit'], $result->items[0]->tags);
+    }
+
+    #[Test]
+    public function rss_fallback_without_a_matching_url_is_a_noop(): void
+    {
+        // RSS carries posts the sitemap doesn't list (or vice versa)
+        // — unmatched entries must leave the sitemap-produced item
+        // untouched, not bleed their metadata into a different post.
+        $sitemap = $this->minimalSitemap(['https://ex.com/only-in-sitemap']);
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $sitemap, 'http_code' => 200, 'error' => ''],
+            'https://ex.com/only-in-sitemap' => [
+                'body' => $this->articleHtml(
+                    'Only in sitemap',
+                    'Body long enough to clear the extractor min body length gate; lorem ipsum dolor sit amet enim.',
+                ),
+                'http_code' => 200,
+                'error' => '',
+            ],
+        ]);
+
+        $rss = [$this->rssDto(
+            canonicalUrl: 'https://ex.com/different-post',
+            author: 'Unrelated Author',
+            categories: ['Unrelated'],
+            tags: ['bleed'],
+        )];
+
+        $result = (new SitemapPageImporter(fetcher: $fetcher))->walk(
+            'https://ex.com/sitemap.xml',
+            rssFallback: $rss,
+        );
+
+        $this->assertCount(1, $result->items);
+        $this->assertNull($result->items[0]->author);
+        $this->assertSame([], $result->items[0]->categories);
+        $this->assertSame([], $result->items[0]->tags);
+    }
+
+    private function rssDto(
+        string $canonicalUrl,
+        ?string $author,
+        array $categories,
+        array $tags,
+    ): MigrationItemDTO {
+        return new MigrationItemDTO(
+            guid: $canonicalUrl,
+            title: 'RSS title',
+            html: '<p>RSS body</p>',
+            excerpt: null,
+            author: $author,
+            categories: $categories,
+            tags: $tags,
+            publishedAt: new DateTimeImmutable('2026-04-15T12:00:00+00:00'),
+            canonicalUrl: $canonicalUrl,
+            source: 'rss',
+            sourceHost: (string)parse_url($canonicalUrl, PHP_URL_HOST) ?: null,
+        );
     }
 }
