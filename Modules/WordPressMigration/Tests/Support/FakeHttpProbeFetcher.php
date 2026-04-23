@@ -32,6 +32,17 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
     public array $fetchedAuth = [];
 
     /**
+     * Per-URL response queues. When a URL has entries here, each
+     * `fetch()` call dequeues the next one; callers use this to
+     * script transient-failure-then-success sequences (retry tests).
+     * Once the queue is empty the static `$table` takes over so a
+     * test doesn't have to enumerate every follow-on request.
+     *
+     * @var array<string, list<array{body: string, http_code: int, error: string, headers?: array<string, string>}>>
+     */
+    public array $queues = [];
+
+    /**
      * @param array<string, array{body: string, http_code: int, error: string}> $table
      */
     public function __construct(private array $table) {}
@@ -40,6 +51,11 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
     {
         $this->fetched[] = $url;
         $this->fetchedAuth[] = $authorization;
+        if (isset($this->queues[$url]) && $this->queues[$url] !== []) {
+            $resp = array_shift($this->queues[$url]);
+            $resp['headers'] = $resp['headers'] ?? [];
+            return $resp;
+        }
         if (!array_key_exists($url, $this->table)) {
             return [
                 'body' => '',
@@ -51,6 +67,19 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
         $resp = $this->table[$url];
         $resp['headers'] = $resp['headers'] ?? [];
         return $resp;
+    }
+
+    /**
+     * Queue a sequence of responses for the given URL; the first
+     * response in the list is returned on the first call, the second
+     * on the second call, and so on. Useful for modeling a 429 →
+     * 200 retry flow in a single test without fussing with counters.
+     *
+     * @param list<array{body: string, http_code: int, error: string, headers?: array<string, string>}> $responses
+     */
+    public function queue(string $url, array $responses): void
+    {
+        $this->queues[$url] = array_values($responses);
     }
 
     public static function rest(string $url, int $posts, int $pages): self

@@ -334,6 +334,232 @@ class WpRestImporterTest extends TestCase
     }
 
     #[Test]
+    public function x_wp_totalpages_header_stops_walk_without_fetching_past_the_reported_end(): void
+    {
+        // Server says "1 total page" even though page 1 returned 100
+        // rows (perfectly filling per_page). Without the header, the
+        // short-page heuristic would force a page-2 request to notice
+        // the end. With the header, we must stop immediately and the
+        // unscripted page-2 URL must never be called.
+        $base = 'https://wp.example';
+
+        $page1 = [];
+        for ($i = 1; $i <= 100; $i++) {
+            $page1[] = self::minimalPostRow($i);
+        }
+
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = [
+            'body' => json_encode($page1, JSON_UNESCAPED_SLASHES),
+            'http_code' => 200,
+            'error' => '',
+            'headers' => ['x-wp-totalpages' => '1'],
+        ];
+        // Deliberately no page=2 entry — requesting it would fail
+        // the "no scripted response" guard and flunk the test.
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $result = (new WpRestImporter($fetcher))->walk($base);
+
+        $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertCount(100, $result->items);
+        foreach ($fetcher->fetched as $url) {
+            $this->assertStringNotContainsString('posts?per_page=100&page=2', $url);
+        }
+    }
+
+    #[Test]
+    public function x_wp_totalpages_header_walks_through_all_reported_pages(): void
+    {
+        // Two pages reported, both full — importer must fetch both
+        // and NOT peek at page 3. Proves totalPages is used as a
+        // stop condition rather than ignored once we've seen page 1.
+        $base = 'https://wp.example';
+        $page1 = [];
+        for ($i = 1; $i <= 100; $i++) {
+            $page1[] = self::minimalPostRow($i);
+        }
+        $page2 = [];
+        for ($i = 101; $i <= 150; $i++) {
+            $page2[] = self::minimalPostRow($i);
+        }
+
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = [
+            'body' => json_encode($page1, JSON_UNESCAPED_SLASHES),
+            'http_code' => 200,
+            'error' => '',
+            'headers' => ['x-wp-totalpages' => '2'],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=2"] = [
+            'body' => json_encode($page2, JSON_UNESCAPED_SLASHES),
+            'http_code' => 200,
+            'error' => '',
+            'headers' => ['x-wp-totalpages' => '2'],
+        ];
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $result = (new WpRestImporter($fetcher))->walk($base);
+
+        $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertCount(150, $result->items);
+        foreach ($fetcher->fetched as $url) {
+            $this->assertStringNotContainsString('posts?per_page=100&page=3', $url);
+        }
+    }
+
+    #[Test]
+    public function retries_transient_5xx_on_posts_page_and_succeeds_after_backoff(): void
+    {
+        // Two 503s in a row should not abort the walk — the third
+        // attempt succeeds and items land. Backoff is captured via
+        // the sleeper so we can also pin the schedule (500 → 1000ms).
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        unset($table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"]);
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $fetcher->queue("{$base}/wp-json/wp/v2/posts?per_page=100&page=1", [
+            ['body' => 'upstream 503', 'http_code' => 503, 'error' => ''],
+            ['body' => 'upstream 503', 'http_code' => 503, 'error' => ''],
+            self::okJson([self::minimalPostRow(1)]),
+        ]);
+
+        $sleeps = [];
+        $sleeper = function (int $ms) use (&$sleeps): void {
+            $sleeps[] = $ms;
+        };
+
+        $result = (new WpRestImporter($fetcher, null, $sleeper))->walk($base);
+
+        $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertCount(1, $result->items);
+        $this->assertSame([500, 1000], $sleeps, 'exponential backoff: 500ms then 1000ms');
+    }
+
+    #[Test]
+    public function retries_429_honors_retry_after_header_for_delay(): void
+    {
+        // WP rate limiters emit Retry-After in seconds; the importer
+        // must use that value (in ms) rather than the exponential
+        // default, because the server's pacing is authoritative.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        unset($table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"]);
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $fetcher->queue("{$base}/wp-json/wp/v2/posts?per_page=100&page=1", [
+            ['body' => '', 'http_code' => 429, 'error' => '', 'headers' => ['retry-after' => '2']],
+            self::okJson([self::minimalPostRow(1)]),
+        ]);
+
+        $sleeps = [];
+        $sleeper = function (int $ms) use (&$sleeps): void {
+            $sleeps[] = $ms;
+        };
+
+        $result = (new WpRestImporter($fetcher, null, $sleeper))->walk($base);
+
+        $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertCount(1, $result->items);
+        $this->assertSame([2000], $sleeps, 'Retry-After: 2 seconds → 2000ms sleep');
+    }
+
+    #[Test]
+    public function retry_exhausts_after_max_attempts_and_gives_up(): void
+    {
+        // Three 500s in a row = MAX_RETRIES reached. The walk must
+        // not hang; the endpoint is treated as unavailable and the
+        // walk continues to pages/menus.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        unset($table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"]);
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $fetcher->queue("{$base}/wp-json/wp/v2/posts?per_page=100&page=1", [
+            ['body' => '', 'http_code' => 500, 'error' => ''],
+            ['body' => '', 'http_code' => 500, 'error' => ''],
+            ['body' => '', 'http_code' => 500, 'error' => ''],
+        ]);
+
+        $sleeps = [];
+        $result = (new WpRestImporter($fetcher, null, function (int $ms) use (&$sleeps): void {
+            $sleeps[] = $ms;
+        }))->walk($base);
+
+        $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertSame([], $result->items, 'posts unreachable → nothing collected');
+        $this->assertCount(2, $sleeps, 'two sleeps between three attempts');
+    }
+
+    #[Test]
+    public function permanent_4xx_does_not_retry(): void
+    {
+        // 401 (auth denied) and 404 (endpoint missing) are permanent
+        // for the duration of a walk. Retrying them burns budget on
+        // a response that will never change. Only one fetch attempt
+        // should be recorded for the posts URL.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = [
+            'body' => '', 'http_code' => 401, 'error' => '',
+        ];
+
+        $sleeps = [];
+        $fetcher = new FakeHttpProbeFetcher($table);
+        (new WpRestImporter($fetcher, null, function (int $ms) use (&$sleeps): void {
+            $sleeps[] = $ms;
+        }))->walk($base);
+
+        $this->assertSame([], $sleeps, '401 must not trigger a retry');
+        $postsHits = array_filter(
+            $fetcher->fetched,
+            fn (string $u) => str_contains($u, 'wp/v2/posts?per_page=100&page=1')
+        );
+        $this->assertCount(1, $postsHits, 'exactly one attempt for a permanent 4xx');
+    }
+
+    #[Test]
+    public function transport_failure_is_retried_then_gives_up(): void
+    {
+        // DNS / TLS / connection-reset errors surface as http_code=0
+        // with a non-empty `error`. Those are usually transient so
+        // they get the retry treatment, but the budget still caps.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        unset($table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"]);
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        $fetcher->queue("{$base}/wp-json/wp/v2/posts?per_page=100&page=1", [
+            ['body' => '', 'http_code' => 0, 'error' => 'connection reset'],
+            ['body' => '', 'http_code' => 0, 'error' => 'connection reset'],
+            self::okJson([self::minimalPostRow(7)]),
+        ]);
+
+        $sleeps = [];
+        $result = (new WpRestImporter($fetcher, null, function (int $ms) use (&$sleeps): void {
+            $sleeps[] = $ms;
+        }))->walk($base);
+
+        $this->assertCount(1, $result->items);
+        $this->assertSame([500, 1000], $sleeps);
+    }
+
+    #[Test]
     public function rendered_title_handles_both_wrapped_and_raw_string_shapes(): void
     {
         // Some fixtures (older WP, custom endpoints) emit raw strings
