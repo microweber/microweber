@@ -7,6 +7,7 @@ use Modules\WordPressMigration\DTOs\MigrationItemDTO;
 use Modules\WordPressMigration\DTOs\WpRestImportResult;
 use Modules\WordPressMigration\Services\Http\CurlHttpProbeFetcher;
 use Modules\WordPressMigration\Services\Http\HttpProbeFetcher;
+use Modules\WordPressMigration\Services\Http\WpAppPasswordCredential;
 
 /**
  * WordPress REST API importer — the "authoritative" Phase 3 source.
@@ -63,10 +64,21 @@ class WpRestImporter
     private const SOURCE = 'rest';
 
     private HttpProbeFetcher $fetcher;
+    private ?WpAppPasswordCredential $credential;
 
-    public function __construct(?HttpProbeFetcher $fetcher = null)
+    /**
+     * @param WpAppPasswordCredential|null $credential When supplied,
+     *        every REST request gets the credential's Authorization
+     *        header. null = anon mode, which is correct for sites
+     *        that expose the REST API publicly (the 5.6-era default).
+     *        The importer never inspects the credential beyond asking
+     *        it for its header — storage and decryption live on the
+     *        repository side.
+     */
+    public function __construct(?HttpProbeFetcher $fetcher = null, ?WpAppPasswordCredential $credential = null)
     {
         $this->fetcher = $fetcher ?? new CurlHttpProbeFetcher();
+        $this->credential = $credential;
     }
 
     /**
@@ -401,7 +413,7 @@ class WpRestImporter
     private function fetchJson(string $url, array &$fetched): ?array
     {
         $fetched[] = $url;
-        $resp = $this->fetcher->fetch($url, self::FETCH_TIMEOUT_SECONDS);
+        $resp = $this->fetcher->fetch($url, self::FETCH_TIMEOUT_SECONDS, $this->credential?->authorizationHeader());
         if (!$this->isSuccess($resp)) {
             return null;
         }

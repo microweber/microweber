@@ -30,7 +30,14 @@ interface HttpProbeFetcher
      * if the server sent duplicates. Callers index with lowercase
      * names (e.g. `$resp['headers']['x-wp-total']`).
      *
+     * $authorization, when non-null, is sent verbatim as the request's
+     * `Authorization:` header value. The WP REST importer uses it to
+     * attach a WpAppPasswordCredential's `Basic ...` line; anon callers
+     * (probe, RSS, sitemap) pass null and get the existing anon
+     * behavior. The third param is optional so the 90% anon path
+     * stays boilerplate-free.
+     *
      * @return ProbeHttpResult
      */
-    public function fetch(string $url, int $timeout): array;
+    public function fetch(string $url, int $timeout, ?string $authorization = null): array;
 }

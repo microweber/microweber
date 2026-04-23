@@ -21,13 +21,25 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
     public array $fetched = [];
 
     /**
+     * Per-call Authorization header, indexed by the position in
+     * `$fetched`. null means "the caller did not pass an auth header"
+     * (anon mode). Exposed so tests can assert that authed importers
+     * actually attach the header on every request rather than just
+     * the first.
+     *
+     * @var list<?string>
+     */
+    public array $fetchedAuth = [];
+
+    /**
      * @param array<string, array{body: string, http_code: int, error: string}> $table
      */
     public function __construct(private array $table) {}
 
-    public function fetch(string $url, int $timeout): array
+    public function fetch(string $url, int $timeout, ?string $authorization = null): array
     {
         $this->fetched[] = $url;
+        $this->fetchedAuth[] = $authorization;
         if (!array_key_exists($url, $this->table)) {
             return [
                 'body' => '',

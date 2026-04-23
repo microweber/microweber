@@ -431,7 +431,7 @@ final class FakeHttpProbeFetcher implements HttpProbeFetcher
      */
     public function __construct(private array $table) {}
 
-    public function fetch(string $url, int $timeout): array
+    public function fetch(string $url, int $timeout, ?string $authorization = null): array
     {
         $this->fetched[] = $url;
         if (!array_key_exists($url, $this->table)) {

@@ -3,6 +3,7 @@
 namespace Modules\WordPressMigration\Tests\Unit;
 
 use Modules\WordPressMigration\DTOs\WpRestImportResult;
+use Modules\WordPressMigration\Services\Http\WpAppPasswordCredential;
 use Modules\WordPressMigration\Services\Importers\WpRestImporter;
 use Modules\WordPressMigration\Tests\Support\FakeHttpProbeFetcher;
 use PHPUnit\Framework\Attributes\Test;
@@ -285,6 +286,51 @@ class WpRestImporterTest extends TestCase
 
         $this->assertSame(WpRestImportResult::STOP_COMPLETE, $result->stopReason);
         $this->assertCount(103, $result->items);
+    }
+
+    #[Test]
+    public function anonymous_importer_sends_no_authorization_header_on_any_request(): void
+    {
+        // Public-only WP sites don't need credentials — the importer
+        // must remain usable without any auth and MUST NOT synthesize
+        // a header on its own.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+
+        $fetcher = new FakeHttpProbeFetcher($table);
+        (new WpRestImporter($fetcher))->walk($base);
+
+        $this->assertNotEmpty($fetcher->fetched, 'sanity: the walk actually hit endpoints');
+        $this->assertSame(
+            array_fill(0, count($fetcher->fetched), null),
+            $fetcher->fetchedAuth,
+            'every fetch must be unauthenticated when no credential is supplied'
+        );
+    }
+
+    #[Test]
+    public function authenticated_importer_attaches_basic_authorization_header_to_every_request(): void
+    {
+        // WP 5.6+ app-password path: every request (enrichers + paginated
+        // posts/pages) must carry the Basic header. Attaching it only to
+        // the root probe would silently fail against sites that protect
+        // /wp-json/wp/v2/* behind auth while leaving /wp-json public.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+
+        $credential = WpAppPasswordCredential::of('admin', 'abcd efgh ijkl mnop qrst uvwx');
+        $fetcher = new FakeHttpProbeFetcher($table);
+        (new WpRestImporter($fetcher, $credential))->walk($base);
+
+        $this->assertNotEmpty($fetcher->fetched);
+        $expected = 'Basic ' . base64_encode('admin:abcdefghijklmnopqrstuvwx');
+        foreach ($fetcher->fetchedAuth as $authHeader) {
+            $this->assertSame($expected, $authHeader, 'every request must be authenticated');
+        }
     }
 
     #[Test]

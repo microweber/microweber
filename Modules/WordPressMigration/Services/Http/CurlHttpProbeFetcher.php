@@ -20,7 +20,7 @@ class CurlHttpProbeFetcher implements HttpProbeFetcher
 {
     private const USER_AGENT = 'Microweber-WP-Migration/1.0 (+https://microweber.com)';
 
-    public function fetch(string $url, int $timeout): array
+    public function fetch(string $url, int $timeout, ?string $authorization = null): array
     {
         $ch = HttpClientFactory::curl($url, $timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -28,6 +28,13 @@ class CurlHttpProbeFetcher implements HttpProbeFetcher
         curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENT);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, min(10, $timeout));
         curl_setopt($ch, CURLOPT_ACCEPT_ENCODING, '');
+
+        if ($authorization !== null && $authorization !== '') {
+            // CURLOPT_USERPWD would also work but it forces cURL to
+            // do its own auth negotiation dance. Sending the header
+            // directly gives WP exactly what it asks for.
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: ' . $authorization]);
+        }
 
         $headers = [];
         curl_setopt($ch, CURLOPT_HEADERFUNCTION, function ($_ch, string $line) use (&$headers): int {
