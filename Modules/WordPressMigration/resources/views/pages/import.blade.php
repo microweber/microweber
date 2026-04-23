@@ -7,6 +7,42 @@
         {{ $this->form }}
     </form>
 
+    {{-- Offline WXR path: upload a WordPress export (.xml) and import
+         directly without a probe. The outer data-testid gives the Dusk
+         suite a stable anchor so the test isn't coupled to FilePond's
+         internal DOM. --}}
+    <div class="mt-6 rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900"
+         data-testid="wxr-upload-section">
+        <div class="text-sm font-semibold mb-1">Or upload a WXR file</div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+            WordPress eXtended RSS export (<span class="font-mono">.xml</span>). Imports directly — no probe needed.
+        </p>
+
+        <input type="file"
+               wire:model="wxrUpload"
+               accept=".xml,application/xml,text/xml"
+               data-testid="wxr-upload-input"
+               class="block text-sm text-gray-600 dark:text-gray-300" />
+
+        <div class="mt-2 text-sm text-gray-500" wire:loading wire:target="wxrUpload">
+            Uploading…
+        </div>
+
+        @if($wxrUpload)
+            <div class="mt-3 flex items-center gap-3">
+                <x-filament::button
+                    wire:click="importWxrFile"
+                    wire:confirm="Import this WXR file into Microweber? Existing rows with matching WP post ids will be updated."
+                    color="primary"
+                    icon="heroicon-o-document-arrow-up"
+                    data-testid="wxr-import-button">
+                    Import WXR
+                </x-filament::button>
+                <span class="text-sm text-gray-500 font-mono">{{ $wxrUpload->getClientOriginalName() }}</span>
+            </div>
+        @endif
+    </div>
+
     @if($summary)
         <div class="mt-6 space-y-4">
             <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">

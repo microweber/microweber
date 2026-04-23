@@ -7,12 +7,16 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
+use Modules\WordPressMigration\DTOs\WxrImportResult;
 use Modules\WordPressMigration\Models\WordPressMigrationJob;
 use Modules\WordPressMigration\Services\Http\HttpProbeFetcher;
 use Modules\WordPressMigration\Services\Http\WpAppPasswordCredential;
 use Modules\WordPressMigration\Services\Importers\RssFeedImporter;
 use Modules\WordPressMigration\Services\Importers\SitemapPageImporter;
 use Modules\WordPressMigration\Services\Importers\WpRestImporter;
+use Modules\WordPressMigration\Services\Importers\WxrImporter;
 use Modules\WordPressMigration\Services\Taxonomy\TaxonomyIndex;
 use Modules\WordPressMigration\Services\WordPressContentMapper;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +47,8 @@ use Modules\WordPressMigration\Services\WordPressSiteProbeResult;
  */
 class WordPressMigrationImportPage extends Page
 {
+    use WithFileUploads;
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
     protected static ?string $title = 'Import from WordPress';
     protected static ?string $navigationLabel = 'WordPress Migration';
@@ -55,6 +61,17 @@ class WordPressMigrationImportPage extends Page
     ];
 
     public ?int $jobId = null;
+
+    /**
+     * Livewire-managed temporary upload for the offline WXR path.
+     * Hydrates into a {@see TemporaryUploadedFile} once the browser
+     * has pushed the `.xml` bytes to the Livewire temp endpoint.
+     * Cleared back to null after a successful import so a second
+     * upload starts from a blank slate.
+     */
+    public $wxrUpload = null;
+
+    public ?int $wxrJobId = null;
 
     public function mount(): void
     {
@@ -200,6 +217,137 @@ class WordPressMigrationImportPage extends Page
                 ->danger()
                 ->send();
         }
+    }
+
+    /**
+     * Run the offline WXR path: parse the uploaded `.xml` export,
+     * prime the taxonomy index from its channel blocks, then map
+     * each item through {@see WordPressContentMapper} with
+     * `importSource=wordpress_wxr` so later re-runs (REST or WXR)
+     * can dedupe against the same `(import_source, source_guid)`
+     * pair.
+     *
+     * Unlike the URL-probe path this never calls {@see WordPressSiteProbe}
+     * — a WXR export is authoritative by itself, and the operator
+     * may not even have the origin site still reachable. We still
+     * persist a {@see WordPressMigrationJob} row (mode=`wxr`) so the
+     * history surface and the Dusk test have something to assert
+     * against.
+     */
+    public function importWxrFile(): void
+    {
+        if (!($this->wxrUpload instanceof TemporaryUploadedFile)) {
+            $this->dangerNotification('Choose a WXR file first.');
+            return;
+        }
+
+        $path = $this->wxrUpload->getRealPath();
+        if ($path === false || !is_file($path)) {
+            $this->dangerNotification('Uploaded WXR file is no longer accessible.');
+            return;
+        }
+
+        $result = (new WxrImporter())->import($path);
+
+        if ($result->stopReason === WxrImportResult::STOP_UNREACHABLE) {
+            $this->dangerNotification(
+                'WXR file could not be parsed: ' . ($result->warnings[0] ?? 'unknown format')
+            );
+            return;
+        }
+
+        $repository = app(WordPressMigrationJobRepository::class);
+        $filename = $this->wxrUpload->getClientOriginalName();
+        $job = $this->upsertWxrJob($result, $filename);
+        $repository->markRunning($job);
+
+        try {
+            $taxonomy = (new TaxonomyIndex())->prime(
+                $result->categories,
+                $result->tags,
+                $result->users,
+            );
+
+            $mapper = new WordPressContentMapper(
+                importSource: 'wordpress_wxr',
+                taxonomy: $taxonomy,
+            );
+
+            $count = 0;
+            foreach ($result->items as $dto) {
+                $mapper->map($dto);
+                $count++;
+            }
+
+            $repository->updateProgress($job, [
+                'imported' => $count,
+                'items_seen' => $result->itemsSeen,
+                'media_count' => count($result->media),
+                'stop_reason' => $result->stopReason,
+                'warnings' => $result->warnings,
+                'source_filename' => $filename,
+            ]);
+            $repository->markFinished($job);
+
+            $this->wxrJobId = $job->id;
+            $this->wxrUpload = null;
+
+            Notification::make()
+                ->title('Import finished')
+                ->body("Imported {$count} items from {$filename}.")
+                ->success()
+                ->send();
+        } catch (\Throwable $e) {
+            $repository->markFailed($job, $e->getMessage());
+            Notification::make()
+                ->title('Import failed')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
+        }
+    }
+
+    /**
+     * Upsert a migration job row for the WXR import.
+     *
+     * WXR has no URL to probe against, so we derive a synthetic
+     * identity `wxr://{host-or-filename}`. When the file's channel
+     * carried a `<wp:base_site_url>` (surfaced on DTOs as sourceHost),
+     * we key on that so a subsequent REST re-sync over the same
+     * origin can reconcile; otherwise we fall back to the uploaded
+     * filename so two distinct uploads don't collide.
+     */
+    private function upsertWxrJob(WxrImportResult $result, string $filename): WordPressMigrationJob
+    {
+        $sourceHost = null;
+        foreach ($result->items as $dto) {
+            if ($dto->sourceHost !== null && $dto->sourceHost !== '') {
+                $sourceHost = $dto->sourceHost;
+                break;
+            }
+        }
+
+        $sourceUrl = $sourceHost !== null
+            ? 'wxr://' . $sourceHost
+            : 'wxr://' . $filename;
+        $hash = WordPressMigrationJobRepository::hashUrl($sourceUrl);
+
+        $job = WordPressMigrationJob::query()
+            ->where('source_url_hash', $hash)
+            ->first();
+
+        if ($job === null) {
+            $job = new WordPressMigrationJob();
+            $job->source_url = $sourceUrl;
+            $job->source_url_hash = $hash;
+        }
+        $job->source_host = $sourceHost ?? $filename;
+        $job->mode = 'wxr';
+        $job->status = WordPressMigrationJob::STATUS_READY;
+        $job->last_probed_at = now();
+        $job->save();
+
+        return $job;
     }
 
     /**
