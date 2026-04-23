@@ -149,7 +149,16 @@ class WordPressMigrationPreviewPage extends Page
      * a fake (e.g. a mapper that throws on a marker title) without
      * touching the page's signature.
      */
-    public function commit(): void
+    /**
+     * Method name note: we deliberately avoid `commit()` because
+     * Livewire v4 reserves that slot on `$wire` (it maps to the
+     * internal `$commit` which flushes the queued update). A
+     * component method named `commit` works over a wire:click
+     * round-trip but silently falls through to Livewire's internal
+     * handler when driven from JS via `$wire.commit()` — which the
+     * Dusk path relies on.
+     */
+    public function commitStaged(): void
     {
         if ($this->jobId === null) {
             return;

@@ -34,7 +34,7 @@
                     Exclude all
                 </x-filament::button>
                 <x-filament::button
-                    wire:click="commit"
+                    wire:click="commitStaged"
                     wire:confirm="Commit {{ $stats['total'] - $stats['excluded'] }} staged items to live content? This cannot be undone."
                     color="success"
                     icon="heroicon-o-rocket-launch"

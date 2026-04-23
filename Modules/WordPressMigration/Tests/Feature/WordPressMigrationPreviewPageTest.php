@@ -165,7 +165,7 @@ class WordPressMigrationPreviewPageTest extends TestCase
         DB::table('wp_migration_staging_content')->where('id', $rows[1]->id)->update(['excluded' => true]);
 
         Livewire::test(WordPressMigrationPreviewPage::class, ['job' => self::JOB_ID])
-            ->call('commit');
+            ->call('commitStaged');
 
         $liveGuids = DB::table('content_data')
             ->where('field_name', WordPressContentMapper::META_SOURCE_GUID)
