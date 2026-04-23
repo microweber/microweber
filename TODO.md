@@ -1269,7 +1269,7 @@ for scripted/bulk use.
 
 ### Phase 4 — Sitemap XML importer (full page tree)
 
-- [ ] Implement `SitemapImporter` understanding `sitemap.xml`, `sitemap_index.xml` (nested), and Yoast/RankMath/AIOSEO flavors (`post-sitemap.xml`, `page-sitemap.xml`, `category-sitemap.xml`)
+- [x] 2026-04-23  Implement `SitemapImporter` understanding `sitemap.xml`, `sitemap_index.xml` (nested), and Yoast/RankMath/AIOSEO flavors (`post-sitemap.xml`, `page-sitemap.xml`, `category-sitemap.xml`)
 - [ ] For each sitemap URL, fetch the page, strip chrome via a readability pass (Dom-based extractor already in the `Import` package, or bring in `fivefilters/readability.php`), and map `<title>` + extracted body + og:image + published time
 - [ ] Preserve URL slugs: insert with the same path (`/category/slug/`) so internal links in imported post bodies resolve without rewrites
 - [ ] Fall back to RSS data for fields the page doesn't expose (`author`, `categories`, `tags`) when both signals are available
