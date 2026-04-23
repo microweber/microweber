@@ -8,8 +8,12 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Modules\WordPressMigration\Models\WordPressMigrationJob;
+use Modules\WordPressMigration\Services\Http\HttpProbeFetcher;
+use Modules\WordPressMigration\Services\Http\WpAppPasswordCredential;
 use Modules\WordPressMigration\Services\Importers\RssFeedImporter;
 use Modules\WordPressMigration\Services\Importers\SitemapPageImporter;
+use Modules\WordPressMigration\Services\Importers\WpRestImporter;
+use Modules\WordPressMigration\Services\Taxonomy\TaxonomyIndex;
 use Modules\WordPressMigration\Services\WordPressContentMapper;
 use Illuminate\Support\Facades\DB;
 use Modules\WordPressMigration\Services\WordPressMigrationJobRepository;
@@ -155,18 +159,20 @@ class WordPressMigrationImportPage extends Page
         $repository = app(WordPressMigrationJobRepository::class);
         $capabilities = (array)($job->probe_result['capabilities'] ?? []);
 
-        // Mode selection: prefer RSS because it carries stable guids
-        // and rich `<content:encoded>` bodies. Fall back to sitemap
-        // mode for sites that only expose /sitemap.xml (no RSS feed,
-        // or a REST endpoint we can't auth against). REST + WXR
-        // importers register their capability in the probe but don't
-        // have an execution path here yet.
+        // Mode selection: prefer REST when the source exposes it —
+        // REST carries strictly more than RSS (term slugs, media ids,
+        // accurate author display names, featured_media, etc.) AND
+        // produces stable `wp:{id}` guids, so the old "RSS wins because
+        // of stable guids" reasoning no longer applies. RSS is the
+        // middle fallback, sitemap is the last resort. WXR is still
+        // unwired — file upload lives in a later phase.
+        $hasRest = in_array(WordPressSiteProbeResult::MODE_REST, $capabilities, true);
         $hasRss = in_array(WordPressSiteProbeResult::MODE_RSS, $capabilities, true);
         $hasSitemap = in_array(WordPressSiteProbeResult::MODE_SITEMAP, $capabilities, true);
 
-        if (!$hasRss && !$hasSitemap) {
+        if (!$hasRest && !$hasRss && !$hasSitemap) {
             $this->dangerNotification(
-                'No RSS feed or sitemap was detected on this source. REST/WXR import modes are coming in later phases.'
+                'No REST, RSS or sitemap was detected on this source. WXR import is coming in a later phase.'
             );
             return;
         }
@@ -174,9 +180,11 @@ class WordPressMigrationImportPage extends Page
         $repository->markRunning($job);
 
         try {
-            $count = $hasRss
-                ? $this->runRssImport($job, $repository)
-                : $this->runSitemapImport($job, $repository);
+            $count = match (true) {
+                $hasRest => $this->runRestImport($job, $repository),
+                $hasRss => $this->runRssImport($job, $repository),
+                default => $this->runSitemapImport($job, $repository),
+            };
             $repository->markFinished($job);
 
             Notification::make()
@@ -192,6 +200,82 @@ class WordPressMigrationImportPage extends Page
                 ->danger()
                 ->send();
         }
+    }
+
+    /**
+     * Run the REST path end-to-end against `/wp-json/wp/v2/*`.
+     *
+     * The shape mirrors {@see runRssImport()} — walk, map, record
+     * progress — but with two extra moves unique to REST:
+     *
+     *   1. App-password credential hydration. When the job was probed
+     *      with a password, we decrypt it off the model (the cast
+     *      auto-decrypts on read) and build a {@see WpAppPasswordCredential}
+     *      so every list request carries a Basic header. A malformed
+     *      or missing credential drops us back to anon mode; we never
+     *      fail the import just because auth is unusable — public
+     *      posts/pages can still land.
+     *   2. Taxonomy-first pass. Before mapping posts, we prime a
+     *      {@see TaxonomyIndex} with the raw categories/tags/users
+     *      the walker surfaced. The produced lookup is handed to the
+     *      mapper so each post's categories_items / tagging_tagged
+     *      rows attach by local id on the same save that writes the
+     *      content row — no second pass required.
+     *
+     * The import_source string for this path is `wordpress_rest` so
+     * later re-runs (and the purge logic in both sibling Dusk tests)
+     * can tell REST-imported rows apart from RSS/sitemap-imported ones.
+     */
+    private function runRestImport(WordPressMigrationJob $job, WordPressMigrationJobRepository $repository): int
+    {
+        $maxItems = (int)($job->options['max_items'] ?? 100);
+
+        $credential = null;
+        $raw = (string)($job->encrypted_credentials ?? '');
+        if ($raw !== '' && $job->hasValidCredentials()) {
+            try {
+                $credential = WpAppPasswordCredential::fromString($raw);
+            } catch (\InvalidArgumentException) {
+                // Malformed stored credential — fall through to anon.
+            }
+        }
+
+        // Resolve the fetcher through the container so tests can swap
+        // in a FakeHttpProbeFetcher. `new WpRestImporter(null, ...)`
+        // would hard-wire CurlHttpProbeFetcher and defeat the bind.
+        $importer = new WpRestImporter(app(HttpProbeFetcher::class), $credential);
+        $result = $importer->walk(
+            (string)$job->source_url,
+            $this->alreadyImportedGuids(),
+            $maxItems,
+        );
+
+        $taxonomy = (new TaxonomyIndex())->prime(
+            $result->categories,
+            $result->tags,
+            $result->users,
+        );
+
+        $mapper = new WordPressContentMapper(
+            importSource: 'wordpress_rest',
+            taxonomy: $taxonomy,
+        );
+
+        $count = 0;
+        foreach ($result->items as $dto) {
+            $mapper->map($dto);
+            $count++;
+        }
+
+        $repository->updateProgress($job, [
+            'imported' => $count,
+            'pages_fetched' => $result->pagesFetched,
+            'stop_reason' => $result->stopReason,
+            'media_count' => count($result->media),
+            'warnings' => $result->warnings,
+        ]);
+
+        return $count;
     }
 
     /**

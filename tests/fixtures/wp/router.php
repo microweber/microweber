@@ -22,6 +22,7 @@
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
+$query = $_SERVER['QUERY_STRING'] ?? '';
 
 // Mode switch: when the fixture server is started with
 // `WP_FIXTURE_MODE=sitemap-only`, the RSS feed and REST endpoints
@@ -29,7 +30,18 @@ $path = rtrim($path, '/') ?: '/';
 // `sitemap`. This lets LiveAdminWordPressMigrationSitemapTest exercise
 // the sitemap import path without the probe preferring the RSS feed
 // that the default fixture serves.
+//
+// `WP_FIXTURE_MODE=rest-authed` narrows the other way: the /feed and
+// /sitemap endpoints 404, and the /wp-json/* endpoints serve the full
+// recorded REST payloads — but every /wp/v2/* request is gated behind
+// a Basic Authorization header. Requests without the expected header
+// get a 401 with a real WP-shaped error body, so the authed-flow Dusk
+// test exercises the exact branch that hardened production sites hit.
 $fixtureMode = getenv('WP_FIXTURE_MODE') ?: 'default';
+$restAuthedUser = getenv('WP_FIXTURE_REST_USER') ?: 'editor';
+$restAuthedPass = getenv('WP_FIXTURE_REST_PASS') ?: 'abcdefghijklmnopqrstuvwx';
+$expectedAuthHeader = 'Basic ' . base64_encode($restAuthedUser . ':' . $restAuthedPass);
+
 if ($fixtureMode === 'sitemap-only'
     && (str_starts_with($path, '/wp-json') || $path === '/feed')) {
     http_response_code(404);
@@ -38,31 +50,116 @@ if ($fixtureMode === 'sitemap-only'
     return true;
 }
 
-switch ($path) {
-    case '/wp-json':
+if ($fixtureMode === 'rest-authed'
+    && ($path === '/feed' || $path === '/sitemap.xml' || $path === '/sitemap_index.xml')) {
+    // Force the probe to rank REST as its only real capability by
+    // taking RSS and sitemap off the table.
+    http_response_code(404);
+    header('Content-Type: text/plain');
+    echo "404 rest-authed mode";
+    return true;
+}
+
+$requireRestAuth = $fixtureMode === 'rest-authed' && str_starts_with($path, '/wp-json/wp/v2/');
+if ($requireRestAuth) {
+    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+    if ($auth !== $expectedAuthHeader) {
+        http_response_code(401);
         header('Content-Type: application/json');
         echo json_encode([
-            'name' => 'Fixture WP Site',
-            'description' => 'Dusk probe fixture',
-            'url' => 'http://' . ($_SERVER['HTTP_HOST'] ?? '127.0.0.1'),
-            'namespaces' => ['oembed/1.0', 'wp/v2'],
-            'routes' => new stdClass(),
+            'code' => 'rest_cannot_view',
+            'message' => 'Sorry, you are not allowed to do that.',
+            'data' => ['status' => 401],
         ]);
         return true;
+    }
+}
 
-    case '/wp-json/wp/v2/posts':
-        header('Content-Type: application/json');
-        header('X-WP-Total: 42');
-        header('X-WP-TotalPages: 42');
-        echo '[{"id":1,"title":{"rendered":"Hello"}}]';
-        return true;
+// Shared helper: locate the canonical wp-json fixture file for a
+// given /wp/v2/* path. Returns null when there's no recording.
+$wpJsonFixture = function (string $wpPath) {
+    $dir = __DIR__ . '/wp-json';
+    $map = [
+        '/wp-json' => 'root.json',
+        '/wp-json/wp/v2/posts' => 'posts-page-1.json',
+        '/wp-json/wp/v2/pages' => 'pages.json',
+        '/wp-json/wp/v2/media' => 'media.json',
+        '/wp-json/wp/v2/categories' => 'categories.json',
+        '/wp-json/wp/v2/tags' => 'tags.json',
+        '/wp-json/wp/v2/users' => 'users.json',
+        '/wp-json/wp/v2/comments' => 'comments.json',
+        '/wp-json/wp/v2/menus' => 'menus.json',
+    ];
+    $name = $map[$wpPath] ?? null;
+    if ($name === null) {
+        return null;
+    }
+    $file = $dir . '/' . $name;
+    return is_file($file) ? file_get_contents($file) : null;
+};
 
-    case '/wp-json/wp/v2/pages':
+// Route the REST endpoints via the shared fixture loader first so
+// they work in both default and rest-authed modes. The body is the
+// recorded JSON at rest; WP_FIXTURE_REST_BASE rewrites URLs inside
+// so imported content links resolve back at the fixture host rather
+// than the placeholder wp.example domain used in the recording.
+if (str_starts_with($path, '/wp-json')) {
+    $restBase = getenv('WP_FIXTURE_REST_BASE') ?: '';
+
+    // Probe short-circuit: the prober calls list endpoints with
+    // per_page=1 solely to read X-WP-Total. The older switch-based
+    // router emitted synthetic totals (42 posts / 5 pages) for that
+    // probe; preserve the same bytes so the sibling
+    // LiveAdminWordPressMigrationProbeTest keeps passing against the
+    // recorded fixtures we added for the REST importer path.
+    if ($fixtureMode !== 'rest-authed' && str_contains($query, 'per_page=1') && !str_contains($query, 'per_page=10')) {
+        if ($path === '/wp-json/wp/v2/posts') {
+            header('Content-Type: application/json');
+            header('X-WP-Total: 42');
+            header('X-WP-TotalPages: 42');
+            echo '[{"id":1,"title":{"rendered":"Hello"}}]';
+            return true;
+        }
+        if ($path === '/wp-json/wp/v2/pages') {
+            header('Content-Type: application/json');
+            header('X-WP-Total: 5');
+            header('X-WP-TotalPages: 5');
+            echo '[{"id":2,"title":{"rendered":"About"}}]';
+            return true;
+        }
+    }
+
+    $body = $wpJsonFixture($path);
+    if ($body === null) {
+        http_response_code(404);
         header('Content-Type: application/json');
-        header('X-WP-Total: 5');
-        header('X-WP-TotalPages: 5');
-        echo '[{"id":2,"title":{"rendered":"About"}}]';
+        echo json_encode([
+            'code' => 'rest_no_route',
+            'message' => 'No route matched fixture path ' . $path,
+            'data' => ['status' => 404],
+        ]);
         return true;
+    }
+    if ($restBase !== '') {
+        $body = str_replace('https://wp.example', $restBase, $body);
+    }
+    header('Content-Type: application/json');
+    // Any page beyond 1 resolves to an empty array so the importer's
+    // pagination loop terminates after the single fixture page.
+    if ($path !== '/wp-json' && preg_match('/\bpage=(\d+)/', $query, $m) && (int)$m[1] > 1) {
+        echo '[]';
+        return true;
+    }
+    header('X-WP-TotalPages: 1');
+    echo $body;
+    return true;
+}
+
+switch ($path) {
+    // All /wp-json/* routes are now handled by the top-level block
+    // above so both the probe short-circuit and the full fixture
+    // payloads share a single code path — keep any new case under
+    // /wp-json there, not here.
 
     case '/feed':
         // Rich WordPress-style RSS 2.0 so the LiveAdmin RSS import

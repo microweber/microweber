@@ -219,13 +219,61 @@ XML;
     }
 
     #[Test]
-    public function start_import_refuses_when_source_has_no_rss_capability(): void
+    public function start_import_runs_rest_pipeline_when_rest_is_advertised(): void
     {
-        // REST-only source: the probe advertises the `rest` mode but
-        // Phase 3 only wires the RSS importer. Clicking Start import
-        // must surface a clear "coming soon" message rather than
-        // silently flipping the job to running.
-        $this->bindFakeFetcher(FakeHttpProbeFetcher::rest('https://wp.example', posts: 5, pages: 1));
+        // REST-only source: probe advertises the `rest` mode, /feed
+        // and /sitemap are absent. The page's mode-selection picks
+        // REST over RSS/sitemap and the WpRestImporter walks
+        // /wp-json/wp/v2/* end-to-end. We script every list endpoint
+        // the walker touches so no transport errors leak into the
+        // pipeline and the test asserts the REST-specific progress
+        // shape (media_count, warnings) that RSS never produces.
+        $root = json_encode(['name' => 'Test WP Site', 'namespaces' => ['wp/v2']]);
+        $postBody = json_encode([
+            [
+                'id' => 1001,
+                'date_gmt' => '2026-04-10T12:00:00',
+                'guid' => ['rendered' => 'https://wp.example/?p=1001'],
+                'slug' => 'hello-rest',
+                'status' => 'publish',
+                'type' => 'post',
+                'link' => 'https://wp.example/2026/04/hello-rest/',
+                'title' => ['rendered' => 'Hello REST'],
+                'content' => ['rendered' => '<p>Body from the REST importer.</p>'],
+                'excerpt' => ['rendered' => ''],
+                'author' => 5,
+                'featured_media' => 0,
+                'categories' => [],
+                'tags' => [],
+            ],
+        ]);
+        $this->bindFakeFetcher(new FakeHttpProbeFetcher([
+            // Probe
+            'https://wp.example/wp-json' => ['body' => $root, 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/posts?per_page=1' => [
+                'body' => '[]', 'http_code' => 200, 'error' => '', 'headers' => ['x-wp-total' => '1', 'x-wp-totalpages' => '1'],
+            ],
+            'https://wp.example/wp-json/wp/v2/pages?per_page=1' => [
+                'body' => '[]', 'http_code' => 200, 'error' => '', 'headers' => ['x-wp-total' => '0', 'x-wp-totalpages' => '0'],
+            ],
+            'https://wp.example/feed' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/sitemap.xml' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/sitemap_index.xml' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/robots.txt' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            // Walker enrichers — all empty; the point here is that
+            // the page wires REST, not that it carries taxonomy data.
+            'https://wp.example/wp-json/wp/v2/categories?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/tags?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/users?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/media?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/comments?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/menus?per_page=100' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+            // Walker content
+            'https://wp.example/wp-json/wp/v2/posts?per_page=100&page=1' => ['body' => $postBody, 'http_code' => 200, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/pages?per_page=100&page=1' => ['body' => '[]', 'http_code' => 200, 'error' => ''],
+        ]));
+
+        $this->cleanupImportedContent();
 
         Livewire::test(WordPressMigrationImportPage::class)
             ->set('data.source_url', 'https://wp.example')
@@ -233,21 +281,37 @@ XML;
             ->call('startImport');
 
         $job = WordPressMigrationJob::query()->first();
-        $this->assertSame(WordPressMigrationJob::STATUS_READY, $job->status,
-            'REST-only sources stay ready until their importer ships in a later phase'
+        $this->assertSame(WordPressMigrationJob::STATUS_FINISHED, $job->status,
+            'REST-advertising source should finish cleanly via the REST importer'
         );
+        $this->assertSame(1, (int)($job->progress['imported'] ?? 0));
+        // media_count is a REST-only progress key — its presence
+        // proves mode selection actually chose runRestImport().
+        $this->assertArrayHasKey('media_count', $job->progress);
+
+        $this->assertDatabaseHas('content_data', [
+            'field_name' => 'import_source',
+            'field_value' => 'wordpress_rest',
+        ]);
+        $this->assertDatabaseHas('content_data', [
+            'field_name' => 'source_guid',
+            'field_value' => 'wp:1001',
+        ]);
+
+        $this->cleanupImportedContent();
     }
 
     /**
      * Remove any content rows that previous test runs (or the happy
-     * path above) left behind, so assertions against a clean slate
-     * don't depend on test ordering.
+     * paths above) left behind, so assertions against a clean slate
+     * don't depend on test ordering. Covers both RSS- and REST-imported
+     * rows since either importer can run in a given test.
      */
     private function cleanupImportedContent(): void
     {
         $contentIds = DB::table('content_data')
             ->where('field_name', 'import_source')
-            ->where('field_value', 'wordpress_rss')
+            ->whereIn('field_value', ['wordpress_rss', 'wordpress_rest', 'wordpress_sitemap'])
             ->pluck('rel_id');
 
         if ($contentIds->isNotEmpty()) {
