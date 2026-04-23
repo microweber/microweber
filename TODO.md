@@ -1295,7 +1295,7 @@ for scripted/bulk use.
 
 ### Phase 7 — Media rehosting
 
-- [ ] Shared `MediaRehoster` service: accepts (sourceUrl, contextHtml) → downloads file once, deduplicates by content hash, stores under `userfiles/media/imported/wordpress/<job-id>/`, returns Microweber media id + public URL
+- [x] 2026-04-23  Shared `MediaRehoster` service: accepts (sourceUrl, contextHtml) → downloads file once, deduplicates by content hash, stores under `userfiles/media/imported/wordpress/<job-id>/`, returns Microweber media id + public URL
 - [ ] HTML rewriter pass (`HtmlMediaRewriter`) walks imported HTML and replaces every `<img src>`, `<a href>` to the old `wp-content/uploads/` origin with the rehosted URL; leaves off-site links alone
 - [ ] Handle redirects and protocol-relative URLs (`//example.com/...`); skip obvious non-asset links (anchors, mailto:, tel:)
 - [ ] Unit: `MediaRehosterTest` covering dedupe, redirect-following, mime-sniffing fallback, and the protocol-relative case
