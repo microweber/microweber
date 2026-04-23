@@ -23,6 +23,21 @@
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
 
+// Mode switch: when the fixture server is started with
+// `WP_FIXTURE_MODE=sitemap-only`, the RSS feed and REST endpoints
+// answer 404 so the site probe's capability list contains only
+// `sitemap`. This lets LiveAdminWordPressMigrationSitemapTest exercise
+// the sitemap import path without the probe preferring the RSS feed
+// that the default fixture serves.
+$fixtureMode = getenv('WP_FIXTURE_MODE') ?: 'default';
+if ($fixtureMode === 'sitemap-only'
+    && (str_starts_with($path, '/wp-json') || $path === '/feed')) {
+    http_response_code(404);
+    header('Content-Type: text/plain');
+    echo "404 sitemap-only mode";
+    return true;
+}
+
 switch ($path) {
     case '/wp-json':
         header('Content-Type: application/json');
@@ -95,14 +110,54 @@ XML;
         return true;
 
     case '/sitemap.xml':
+        // Absolute URLs in <loc> must point back at whichever host
+        // the Dusk fixture server was started on (127.0.0.1:<port>)
+        // so the sitemap page importer actually fetches the fixture
+        // endpoints below, not a real-internet origin. A static
+        // `127.0.0.1` without the port sneaks into the RSS test's
+        // content bodies (it's harmless there — we don't crawl it),
+        // but the sitemap importer does crawl this list.
+        $origin = 'http://' . ($_SERVER['HTTP_HOST'] ?? '127.0.0.1');
         header('Content-Type: application/xml; charset=UTF-8');
-        echo <<<'XML'
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>http://127.0.0.1/one</loc></url>
-  <url><loc>http://127.0.0.1/two</loc></url>
-</urlset>
-XML;
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
+            . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n"
+            . "  <url><loc>{$origin}/dusk-sitemap-alpha</loc><lastmod>2026-04-20T09:00:00+00:00</lastmod></url>\n"
+            . "  <url><loc>{$origin}/dusk-sitemap-beta</loc><lastmod>2026-04-21T09:00:00+00:00</lastmod></url>\n"
+            . '</urlset>';
+        return true;
+
+    case '/dusk-sitemap-alpha':
+    case '/dusk-sitemap-beta':
+        // Minimal article-shaped HTML so the SitemapPageExtractor
+        // picks up the title via `<meta og:title>` and the body via
+        // the `<article>` tag. The body paragraph is intentionally
+        // long enough to clear the extractor's minimum-body-length
+        // gate — anything shorter is treated as a non-usable page
+        // and silently skipped.
+        $slug = ltrim($path, '/');
+        $title = $slug === 'dusk-sitemap-alpha'
+            ? 'Dusk sitemap alpha page'
+            : 'Dusk sitemap beta page';
+        header('Content-Type: text/html; charset=UTF-8');
+        echo <<<HTML
+<!doctype html>
+<html>
+  <head>
+    <title>{$title}</title>
+    <meta property="og:title" content="{$title}">
+    <meta property="article:published_time" content="2026-04-21T09:00:00+00:00">
+  </head>
+  <body>
+    <article>
+      <h1>{$title}</h1>
+      <p>This is the body of the fixture article for the Dusk sitemap import round-trip test.
+      It has to be long enough that the SitemapPageExtractor accepts the page as a real
+      article rather than a navigation stub. Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </article>
+  </body>
+</html>
+HTML;
         return true;
 
     case '/sitemap_index.xml':

@@ -1274,7 +1274,7 @@ for scripted/bulk use.
 - [x] 2026-04-23  Preserve URL slugs: insert with the same path (`/category/slug/`) so internal links in imported post bodies resolve without rewrites
 - [x] 2026-04-23  Fall back to RSS data for fields the page doesn't expose (`author`, `categories`, `tags`) when both signals are available
 - [x] 2026-04-23  Unit: `SitemapImporterTest` for flat sitemap, index-of-sitemaps, and lastmod-based incremental re-run
-- [ ] Dusk: `LiveAdminWordPressMigrationSitemapTest` — sitemap URL → pages imported with their original slugs
+- [x] 2026-04-23  Dusk: `LiveAdminWordPressMigrationSitemapTest` — sitemap URL → pages imported with their original slugs
 
 ### Phase 5 — WP REST API importer (richest path)
 

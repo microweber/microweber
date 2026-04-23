@@ -9,6 +9,7 @@ use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Modules\WordPressMigration\Models\WordPressMigrationJob;
 use Modules\WordPressMigration\Services\Importers\RssFeedImporter;
+use Modules\WordPressMigration\Services\Importers\SitemapPageImporter;
 use Modules\WordPressMigration\Services\WordPressContentMapper;
 use Illuminate\Support\Facades\DB;
 use Modules\WordPressMigration\Services\WordPressMigrationJobRepository;
@@ -154,13 +155,18 @@ class WordPressMigrationImportPage extends Page
         $repository = app(WordPressMigrationJobRepository::class);
         $capabilities = (array)($job->probe_result['capabilities'] ?? []);
 
-        // Phase 3 scope: only the RSS importer is wired end-to-end.
-        // REST/WXR/sitemap importers register their capability in the
-        // probe but don't have an execution path here yet — surface a
-        // clear message instead of silently falling through to RSS.
-        if (!in_array(WordPressSiteProbeResult::MODE_RSS, $capabilities, true)) {
+        // Mode selection: prefer RSS because it carries stable guids
+        // and rich `<content:encoded>` bodies. Fall back to sitemap
+        // mode for sites that only expose /sitemap.xml (no RSS feed,
+        // or a REST endpoint we can't auth against). REST + WXR
+        // importers register their capability in the probe but don't
+        // have an execution path here yet.
+        $hasRss = in_array(WordPressSiteProbeResult::MODE_RSS, $capabilities, true);
+        $hasSitemap = in_array(WordPressSiteProbeResult::MODE_SITEMAP, $capabilities, true);
+
+        if (!$hasRss && !$hasSitemap) {
             $this->dangerNotification(
-                'No RSS feed was detected on this source. REST/WXR/sitemap import modes are coming in later phases.'
+                'No RSS feed or sitemap was detected on this source. REST/WXR import modes are coming in later phases.'
             );
             return;
         }
@@ -168,7 +174,9 @@ class WordPressMigrationImportPage extends Page
         $repository->markRunning($job);
 
         try {
-            $count = $this->runRssImport($job, $repository);
+            $count = $hasRss
+                ? $this->runRssImport($job, $repository)
+                : $this->runSitemapImport($job, $repository);
             $repository->markFinished($job);
 
             Notification::make()
@@ -184,6 +192,41 @@ class WordPressMigrationImportPage extends Page
                 ->danger()
                 ->send();
         }
+    }
+
+    /**
+     * Run the sitemap path end-to-end against the probed sitemap URL.
+     *
+     * {@see SitemapPageImporter::walk()} takes care of the
+     * crawl-then-extract chain; we hand it the full list of previously
+     * imported guids so a re-run skips pages already in the content
+     * table instead of re-scraping them.
+     */
+    private function runSitemapImport(WordPressMigrationJob $job, WordPressMigrationJobRepository $repository): int
+    {
+        $probe = (array)($job->probe_result ?? []);
+        $sitemapUrl = (string)($probe['sitemap_index_url']
+            ?? ($job->source_url . '/sitemap.xml'));
+        $maxItems = (int)($job->options['max_items'] ?? 100);
+
+        $importer = app(SitemapPageImporter::class);
+        $result = $importer->walk($sitemapUrl, $this->alreadyImportedGuids(), $maxItems);
+
+        $mapper = new WordPressContentMapper(importSource: 'wordpress_sitemap');
+        $count = 0;
+        foreach ($result->items as $dto) {
+            $mapper->map($dto);
+            $count++;
+        }
+
+        $repository->updateProgress($job, [
+            'imported' => $count,
+            'pages_fetched' => $result->pagesFetched,
+            'pages_skipped' => $result->pagesSkipped,
+            'stop_reason' => $result->stopReason,
+        ]);
+
+        return $count;
     }
 
     /**
