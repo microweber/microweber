@@ -253,6 +253,102 @@ XML;
         $this->assertNotEmpty($result->warnings);
     }
 
+    #[Test]
+    public function streaming_parse_halts_mid_file_when_max_items_is_reached(): void
+    {
+        // Regression guard for the "400MB WXR must not OOM" promise:
+        // build a 2000-item synthetic WXR and cap the importer at 5.
+        // `itemsSeen == 5` proves the parser stopped advancing the
+        // reader at the cap. A `simplexml_load_file` regression (or
+        // any full-document parse) would have materialized all 2000
+        // items before $maxItems could filter, so itemsSeen would be
+        // 2000 — that's the sentinel we're watching for.
+        $path = $this->makeSyntheticWxr(2000);
+        try {
+            $result = (new WxrImporter())->import($path, maxItems: 5);
+
+            $this->assertCount(5, $result->items);
+            $this->assertSame(5, $result->itemsSeen,
+                'itemsSeen must equal the cap; a larger value means the reader advanced past its halt point'
+            );
+            $this->assertSame(WxrImportResult::STOP_MAX_ITEMS, $result->stopReason);
+        } finally {
+            @unlink($path);
+        }
+    }
+
+    #[Test]
+    public function streaming_parse_handles_a_multi_megabyte_file_without_exhausting_memory(): void
+    {
+        // Full traversal over a ~3MB / 3000-item file. The assertion
+        // is loose on purpose — libxml allocates the reader's buffer
+        // outside of PHP's emalloc tracking, so we can't measure DOM
+        // loading via memory_get_peak_usage() directly. But a
+        // catastrophic retain-all-DTOs regression would blow past
+        // this ceiling, and the test also doubles as a smoke for
+        // "the parser actually completes on a non-trivial file".
+        $path = $this->makeSyntheticWxr(3000);
+        try {
+            gc_collect_cycles();
+            memory_reset_peak_usage();
+            $baseline = memory_get_usage(false);
+
+            $result = (new WxrImporter())->import($path);
+
+            $peakDelta = memory_get_peak_usage(false) - $baseline;
+
+            $this->assertCount(3000, $result->items);
+            $this->assertSame(3000, $result->itemsSeen);
+            $this->assertSame(WxrImportResult::STOP_COMPLETE, $result->stopReason);
+            $this->assertLessThan(64 * 1024 * 1024, $peakDelta,
+                sprintf('Peak emalloc delta was %.2fMB on a %.2fMB file — streaming must keep allocations bounded',
+                    $peakDelta / 1024 / 1024,
+                    filesize($path) / 1024 / 1024,
+                )
+            );
+        } finally {
+            @unlink($path);
+        }
+    }
+
+    /**
+     * Build a deterministic synthetic WXR with `$count` published
+     * posts. Body is a fixed ~1KB blob so the file's size is
+     * predictable (~1KB per item × count + tiny channel preamble).
+     */
+    private function makeSyntheticWxr(int $count): string
+    {
+        $path = tempnam(sys_get_temp_dir(), 'wxr_synth_');
+        $fh = fopen($path, 'w');
+        fwrite($fh, '<?xml version="1.0" encoding="UTF-8"?>'
+            . '<rss version="2.0"'
+            . ' xmlns:content="http://purl.org/rss/1.0/modules/content/"'
+            . ' xmlns:dc="http://purl.org/dc/elements/1.1/"'
+            . ' xmlns:wp="http://wordpress.org/export/1.2/">'
+            . '<channel>'
+            . '<title>Synthetic</title>'
+            . '<link>https://synthetic.example</link>'
+            . '<wp:wxr_version>1.2</wp:wxr_version>'
+        );
+        $body = str_repeat('<p>lorem ipsum dolor sit amet.</p>', 20);
+        for ($i = 1; $i <= $count; $i++) {
+            fwrite($fh, "<item>"
+                . "<title>Post {$i}</title>"
+                . "<link>https://synthetic.example/p/{$i}</link>"
+                . "<dc:creator>admin</dc:creator>"
+                . "<content:encoded><![CDATA[{$body}]]></content:encoded>"
+                . "<wp:post_id>{$i}</wp:post_id>"
+                . "<wp:post_date_gmt>2026-04-01 12:00:00</wp:post_date_gmt>"
+                . "<wp:status>publish</wp:status>"
+                . "<wp:post_type>post</wp:post_type>"
+                . "</item>"
+            );
+        }
+        fwrite($fh, '</channel></rss>');
+        fclose($fh);
+        return $path;
+    }
+
     /**
      * @param list<MigrationItemDTO> $items
      */
