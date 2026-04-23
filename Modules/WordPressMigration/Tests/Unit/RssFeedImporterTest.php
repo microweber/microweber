@@ -264,6 +264,9 @@ XML;
             'source' => 'rss',
             'source_host' => 'example.com',
             'featured_image_url' => null,
+            'category_slugs' => [],
+            'tag_slugs' => [],
+            'author_slug' => null,
         ], $dto->toArray());
     }
 

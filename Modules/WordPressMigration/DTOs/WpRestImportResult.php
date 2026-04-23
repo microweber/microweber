@@ -46,6 +46,12 @@ final class WpRestImportResult
      * @param list<array<string, mixed>>|null $menus Raw menu rows, or null if the endpoint isn't exposed
      * @param list<string> $fetchedUrls URLs actually requested, in order — useful for logging
      * @param list<string> $warnings Operator-facing notices (e.g. "users endpoint 401 — falling back to post.author.slug")
+     * @param list<array<string, mixed>> $categories Raw WP `/wp/v2/categories` rows, surfaced so a
+     *        taxonomy-first pass (see TaxonomyIndex) can pre-upsert them before the mapper runs
+     *        and attach posts by local id.
+     * @param list<array<string, mixed>> $tags Raw WP `/wp/v2/tags` rows — same purpose.
+     * @param list<array<string, mixed>> $users Raw WP `/wp/v2/users` rows — the TaxonomyIndex
+     *        uses these to probe (NOT create) local Microweber users.
      */
     public function __construct(
         public readonly array $items,
@@ -56,5 +62,8 @@ final class WpRestImportResult
         public readonly ?array $menus = null,
         public readonly array $fetchedUrls = [],
         public readonly array $warnings = [],
+        public readonly array $categories = [],
+        public readonly array $tags = [],
+        public readonly array $users = [],
     ) {}
 }

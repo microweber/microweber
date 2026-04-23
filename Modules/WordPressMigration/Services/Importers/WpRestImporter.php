@@ -136,9 +136,9 @@ class WpRestImporter
         // Enrichers first; posts + pages rely on the lookup tables
         // they populate. Cost is bounded by PER_PAGE × WALKER_MAX_PAGES,
         // a budget most WP installs don't come close to exhausting.
-        [$categories, $pCat] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/categories', $fetched, $warnings, 'categories');
-        [$tags, $pTag] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/tags', $fetched, $warnings, 'tags');
-        [$users, $pUser] = $this->collectUsersIndexed($base . '/wp-json/wp/v2/users', $fetched, $warnings);
+        [$rawCategories, $categories, $pCat] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/categories', $fetched, $warnings, 'categories');
+        [$rawTags, $tags, $pTag] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/tags', $fetched, $warnings, 'tags');
+        [$rawUsers, $users, $pUser] = $this->collectUsersIndexed($base . '/wp-json/wp/v2/users', $fetched, $warnings);
         [$media, $mediaBySourceUrl, $pMedia] = $this->collectMediaIndexed($base . '/wp-json/wp/v2/media', $fetched, $warnings);
         [$comments, $pCmt] = $this->collectList($base . '/wp-json/wp/v2/comments', $fetched, $warnings, 'comments');
         $menus = $this->collectMenus($base . '/wp-json/wp/v2/menus', $fetched, $warnings, $pagesFetched);
@@ -196,6 +196,9 @@ class WpRestImporter
             menus: $menus,
             fetchedUrls: $fetched,
             warnings: $warnings,
+            categories: array_values($rawCategories),
+            tags: array_values($rawTags),
+            users: array_values($rawUsers),
         );
     }
 
@@ -207,7 +210,7 @@ class WpRestImporter
      *
      * @param array<int, array{name: string, slug: string}> $categoriesIdx
      * @param array<int, array{name: string, slug: string}> $tagsIdx
-     * @param array<int, string> $usersIdx
+     * @param array<int, array{name: string, slug: string}> $usersIdx
      * @param array<int, string> $mediaIdx Map of media post ID → origin source_url
      * @param array<string, true> $seen
      * @param list<MigrationItemDTO> $collected
@@ -281,7 +284,7 @@ class WpRestImporter
      * @param array<string, mixed> $row
      * @param array<int, array{name: string, slug: string}> $categoriesIdx
      * @param array<int, array{name: string, slug: string}> $tagsIdx
-     * @param array<int, string> $usersIdx
+     * @param array<int, array{name: string, slug: string}> $usersIdx
      * @param array<int, string> $mediaIdx Map of media post ID → origin source_url
      */
     private function toMigrationItem(
@@ -308,10 +311,18 @@ class WpRestImporter
         $publishedAt = self::parseDate((string)($row['date_gmt'] ?? $row['date'] ?? ''));
 
         $authorId = (int)($row['author'] ?? 0);
-        $author = $usersIdx[$authorId] ?? null;
+        $authorEntry = $usersIdx[$authorId] ?? null;
+        $author = $authorEntry !== null && $authorEntry['name'] !== ''
+            ? $authorEntry['name']
+            : ($authorEntry !== null ? $authorEntry['slug'] : null);
+        $authorSlug = $authorEntry !== null && $authorEntry['slug'] !== ''
+            ? $authorEntry['slug']
+            : null;
 
         $categories = self::namesForIds($row['categories'] ?? [], $categoriesIdx);
         $tags = self::namesForIds($row['tags'] ?? [], $tagsIdx);
+        $categorySlugs = self::slugsForIds($row['categories'] ?? [], $categoriesIdx);
+        $tagSlugs = self::slugsForIds($row['tags'] ?? [], $tagsIdx);
 
         $link = is_string($row['link'] ?? null) && $row['link'] !== '' ? (string)$row['link'] : null;
 
@@ -341,6 +352,9 @@ class WpRestImporter
             source: self::SOURCE,
             sourceHost: $host,
             featuredImageUrl: $featuredImageUrl,
+            categorySlugs: $categorySlugs,
+            tagSlugs: $tagSlugs,
+            authorSlug: $authorSlug,
         );
     }
 
@@ -391,7 +405,7 @@ class WpRestImporter
     /**
      * @param list<string> $fetched
      * @param list<string> $warnings
-     * @return array{0: array<int, array{name: string, slug: string}>, 1: int}
+     * @return array{0: list<array<string, mixed>>, 1: array<int, array{name: string, slug: string}>, 2: int}
      */
     private function collectTermsIndexed(string $url, array &$fetched, array &$warnings, string $label): array
     {
@@ -407,7 +421,7 @@ class WpRestImporter
                 'slug' => is_string($row['slug'] ?? null) ? (string)$row['slug'] : '',
             ];
         }
-        return [$index, $pages];
+        return [$rows, $index, $pages];
     }
 
     /**
@@ -445,7 +459,7 @@ class WpRestImporter
     /**
      * @param list<string> $fetched
      * @param list<string> $warnings
-     * @return array{0: array<int, string>, 1: int}
+     * @return array{0: list<array<string, mixed>>, 1: array<int, array{name: string, slug: string}>, 2: int}
      */
     private function collectUsersIndexed(string $url, array &$fetched, array &$warnings): array
     {
@@ -461,11 +475,12 @@ class WpRestImporter
             $name = is_string($row['name'] ?? null) && $row['name'] !== ''
                 ? (string)$row['name']
                 : (string)($row['slug'] ?? '');
-            if ($name !== '') {
-                $index[$id] = $name;
+            $slug = is_string($row['slug'] ?? null) ? (string)$row['slug'] : '';
+            if ($name !== '' || $slug !== '') {
+                $index[$id] = ['name' => $name, 'slug' => $slug];
             }
         }
-        return [$index, $pages];
+        return [$rows, $index, $pages];
     }
 
     /**
@@ -649,6 +664,32 @@ class WpRestImporter
                 $name = $index[$key]['name'];
                 if ($name !== '') {
                     $out[] = $name;
+                }
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @param array<int, array{name: string, slug: string}> $index
+     * @param mixed $ids
+     * @return list<string>
+     */
+    private static function slugsForIds(mixed $ids, array $index): array
+    {
+        if (!is_array($ids)) {
+            return [];
+        }
+        $out = [];
+        foreach ($ids as $id) {
+            $key = (int)$id;
+            if ($key <= 0) {
+                continue;
+            }
+            if (isset($index[$key])) {
+                $slug = $index[$key]['slug'];
+                if ($slug !== '') {
+                    $out[] = $slug;
                 }
             }
         }

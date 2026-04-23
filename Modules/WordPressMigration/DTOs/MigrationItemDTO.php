@@ -54,6 +54,16 @@ final class MigrationItemDTO
      *        currently leaves it null because RSS has no equivalent first-class field. The mapper
      *        uses it to attach a Microweber `picture` media row to the content row so frontends
      *        that render via `content_picture($id)` display the WP featured image.
+     * @param list<string> $categorySlugs WP-side slug (`news`, `tech-news`) for each entry in
+     *        `$categories`, positionally aligned. The TaxonomyIndex primes categories keyed by
+     *        slug so the mapper can attach by local id without a second name-based lookup; RSS
+     *        and sitemap importers that have no slug channel default to a slugified copy of the
+     *        display name.
+     * @param list<string> $tagSlugs Same relationship to `$tags` as `$categorySlugs` has to
+     *        `$categories`.
+     * @param string|null $authorSlug WP-side author slug (`jane-doe`) — keyed against the user
+     *        lookup by TaxonomyIndex so the mapper can set `content.created_by` to a local user
+     *        id when one matches, without auto-creating accounts from untrusted external data.
      */
     public function __construct(
         public readonly string $guid,
@@ -68,6 +78,9 @@ final class MigrationItemDTO
         public readonly string $source = 'unknown',
         public readonly ?string $sourceHost = null,
         public readonly ?string $featuredImageUrl = null,
+        public readonly array $categorySlugs = [],
+        public readonly array $tagSlugs = [],
+        public readonly ?string $authorSlug = null,
     ) {}
 
     /**
@@ -93,6 +106,9 @@ final class MigrationItemDTO
             'source' => $this->source,
             'source_host' => $this->sourceHost,
             'featured_image_url' => $this->featuredImageUrl,
+            'category_slugs' => $this->categorySlugs,
+            'tag_slugs' => $this->tagSlugs,
+            'author_slug' => $this->authorSlug,
         ];
     }
 }

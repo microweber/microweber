@@ -2,10 +2,12 @@
 
 namespace Modules\WordPressMigration\Services;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Content\Models\Content;
 use Modules\WordPressMigration\DTOs\MigrationItemDTO;
 use Modules\WordPressMigration\Services\Media\HtmlMediaRewriter;
 use Modules\WordPressMigration\Services\Media\MediaRehoster;
+use Modules\WordPressMigration\Services\Taxonomy\TaxonomyLookup;
 
 /**
  * Turn a normalized {@see MigrationItemDTO} into a row on the
@@ -76,6 +78,7 @@ class WordPressContentMapper
         private readonly ?MediaRehoster $rehoster = null,
         ?HtmlMediaRewriter $rewriter = null,
         ?SourceSlugResolver $slugResolver = null,
+        private readonly ?TaxonomyLookup $taxonomy = null,
     ) {
         $this->rewriter = $rewriter ?? new HtmlMediaRewriter();
         $this->slugResolver = $slugResolver ?? new SourceSlugResolver();
@@ -107,6 +110,8 @@ class WordPressContentMapper
             // if the featured image also appears inline.
             $this->rehostFeaturedImage($existing, $dto);
             $this->rewriteMediaInto($existing, $dto);
+            $this->attachTaxonomies($existing, $dto);
+            $this->applyAuthor($existing, $dto);
             return $existing->refresh();
         }
 
@@ -128,7 +133,97 @@ class WordPressContentMapper
         $content->save();
         $this->rehostFeaturedImage($content, $dto);
         $this->rewriteMediaInto($content, $dto);
+        $this->attachTaxonomies($content, $dto);
+        $this->applyAuthor($content, $dto);
         return $content->refresh();
+    }
+
+    /**
+     * Set `content.created_by` from the taxonomy lookup when the WP
+     * author maps to an existing local user. We NEVER auto-create a
+     * user from imported data — a public WP export could otherwise
+     * register attacker-controlled accounts. Unmatched authors leave
+     * `created_by` untouched; the original display name is still
+     * preserved on `content_data` via {@see metaFields()} as
+     * source_author (see below) so admins can reconcile later.
+     *
+     * Called AFTER save() because Microweber's CreatedByObserver
+     * overwrites `created_by` in the creating/created hooks based on
+     * `auth()->id()`. Setting it on the model pre-save would be
+     * silently discarded. We write via DB::table() rather than
+     * $content->save() again to skip those observer hooks entirely.
+     */
+    private function applyAuthor(Content $content, MigrationItemDTO $dto): void
+    {
+        if ($this->taxonomy === null || $dto->authorSlug === null) {
+            return;
+        }
+        $localId = $this->taxonomy->userLocalId($dto->authorSlug);
+        if ($localId === null) {
+            return;
+        }
+        $contentId = (int)$content->id;
+        if ($contentId <= 0) {
+            return;
+        }
+        DB::table('content')->where('id', $contentId)->update(['created_by' => $localId]);
+        $content->created_by = $localId;
+    }
+
+    /**
+     * Attach `categories_items` + `tagging_tagged` rows pointing at
+     * the local ids resolved by the taxonomy-first pass. Idempotent:
+     * we `upsert` against the natural keys (rel_id+parent_id for
+     * categories, taggable_id+tag_slug for tags) so re-running the
+     * map against an existing content row doesn't duplicate
+     * attachments.
+     *
+     * If there's no taxonomy lookup (RSS path, or the REST runner
+     * decided to skip priming), this is a no-op — the DTO's
+     * `categories`/`tags` name strings are still preserved on
+     * `content_data` for a later backfill.
+     */
+    private function attachTaxonomies(Content $content, MigrationItemDTO $dto): void
+    {
+        if ($this->taxonomy === null) {
+            return;
+        }
+        $contentId = (int)$content->id;
+        if ($contentId <= 0) {
+            return;
+        }
+
+        $now = date('Y-m-d H:i:s');
+        foreach ($dto->categorySlugs as $slug) {
+            $categoryId = $this->taxonomy->categoryLocalId($slug);
+            if ($categoryId === null) {
+                continue;
+            }
+            DB::table('categories_items')->updateOrInsert(
+                ['rel_id' => $contentId, 'parent_id' => $categoryId],
+                [
+                    'rel_type' => Content::class,
+                    'updated_at' => $now,
+                    'created_at' => $now,
+                ]
+            );
+        }
+
+        foreach ($dto->tagSlugs as $index => $slug) {
+            $tagId = $this->taxonomy->tagLocalId($slug);
+            if ($tagId === null) {
+                continue;
+            }
+            $tagName = $dto->tags[$index] ?? $slug;
+            DB::table('tagging_tagged')->updateOrInsert(
+                [
+                    'taggable_id' => $contentId,
+                    'taggable_type' => Content::class,
+                    'tag_slug' => $slug,
+                ],
+                ['tag_name' => $tagName]
+            );
+        }
     }
 
     /**
