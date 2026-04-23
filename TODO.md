@@ -1263,7 +1263,7 @@ for scripted/bulk use.
 - [x] 2026-04-23  Implement `RssFeedImporter` reading `/feed/` (RSS 2.0) and `/feed/atom/` fallback; normalize to a shared `MigrationItemDTO` (guid, title, html, excerpt, author, categories, tags, pubDate, canonical URL)
 - [x] 2026-04-23  Walk paginated feeds (`?paged=N`) until an empty page or a guid we've already seen; cap at `max_items` job-config
 - [x] 2026-04-23  Map each DTO to `content` rows with `import_source=wordpress_rss`, `source_guid=<wp:post_id or guid>` stored on content meta for idempotent re-runs
-- [ ] Download referenced `<img src>` and `<a href>` assets into Microweber media via the existing media pipeline, rewriting URLs in the HTML before insert
+- [x] 2026-04-23  Download referenced `<img src>` and `<a href>` assets into Microweber media via the existing media pipeline, rewriting URLs in the HTML before insert
 - [ ] Unit: `RssFeedImporterTest` with recorded fixtures (`tests/fixtures/wp/feed-*.xml`) covering RSS 2.0, RSS w/ `content:encoded`, Atom, and a broken/partial feed
 - [ ] Dusk: `LiveAdminWordPressMigrationRssTest` — feed URL → completes → imported posts render on the public frontend with correct HTML
 

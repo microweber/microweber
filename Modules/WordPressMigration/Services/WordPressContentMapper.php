@@ -4,6 +4,8 @@ namespace Modules\WordPressMigration\Services;
 
 use Modules\Content\Models\Content;
 use Modules\WordPressMigration\DTOs\MigrationItemDTO;
+use Modules\WordPressMigration\Services\Media\HtmlMediaRewriter;
+use Modules\WordPressMigration\Services\Media\MediaRehoster;
 
 /**
  * Turn a normalized {@see MigrationItemDTO} into a row on the
@@ -34,13 +36,27 @@ use Modules\WordPressMigration\DTOs\MigrationItemDTO;
  * `source_guid` — are queried together via `whereContentData`,
  * which already indexes on (field_name, field_value).
  *
+ * Media handling
+ * --------------
+ * When a {@see MediaRehoster} is supplied, the mapper rewrites
+ * every `<img src>` and `<a href>` in the DTO's HTML *before*
+ * the content row is finalized, so imported posts render with
+ * locally-hosted assets rather than hotlinks to the origin site.
+ * See {@see HtmlMediaRewriter} for the substitution rules.
+ *
+ * Because the rehoster's media record needs `rel_id` pointing at
+ * the new content row, we save a placeholder row first, then
+ * rewrite with that id in scope, then update. This two-step save
+ * is intentional: rehosting before a row exists would orphan the
+ * media rows if the content insert later failed, and a single
+ * monolithic save would force the rehoster to guess the id.
+ *
  * What this class does NOT do
  * ---------------------------
- * It does not download or rewrite embedded media (that's the
- * Phase 7 MediaRehoster + HtmlMediaRewriter), and it does not
- * attach categories/tags/author as taxonomies (Phase 3 has a
- * separate task for the taxonomy pass). Those enrichments layer
- * on top of the content row this class produces.
+ * It does not attach categories/tags/author as taxonomies
+ * (Phase 3 has a separate task for the taxonomy pass). Those
+ * enrichments layer on top of the content row this class
+ * produces.
  */
 class WordPressContentMapper
 {
@@ -50,11 +66,17 @@ class WordPressContentMapper
 
     public const IMPORT_SOURCE_WORDPRESS_RSS = 'wordpress_rss';
 
+    private readonly HtmlMediaRewriter $rewriter;
+
     public function __construct(
         private readonly string $importSource = self::IMPORT_SOURCE_WORDPRESS_RSS,
         private readonly string $contentType = 'post',
         private readonly string $subtype = 'post',
-    ) {}
+        private readonly ?MediaRehoster $rehoster = null,
+        ?HtmlMediaRewriter $rewriter = null,
+    ) {
+        $this->rewriter = $rewriter ?? new HtmlMediaRewriter();
+    }
 
     /**
      * Upsert the DTO onto `content`. Returns the persisted row so
@@ -76,13 +98,48 @@ class WordPressContentMapper
             // rather than leaves stale provenance behind.
             $existing->setContentData($this->metaFields($dto));
             $existing->save();
+            $this->rewriteMediaInto($existing, $dto);
             return $existing->refresh();
         }
 
         $content = new Content($fields);
         $content->setContentData($this->metaFields($dto));
         $content->save();
+        $this->rewriteMediaInto($content, $dto);
         return $content->refresh();
+    }
+
+    /**
+     * Run the media rewriter against the content's freshly-saved
+     * HTML. No-op when no rehoster was supplied, or when the
+     * rewritten HTML is byte-identical to the original (so we
+     * don't gratuitously bump `updated_at`).
+     */
+    private function rewriteMediaInto(Content $content, MigrationItemDTO $dto): void
+    {
+        if ($this->rehoster === null) {
+            return;
+        }
+        $original = (string)$content->content;
+        if ($original === '') {
+            return;
+        }
+
+        $context = [
+            'rel_type' => Content::class,
+            'rel_id' => (int)$content->id,
+        ];
+        if ($dto->sourceHost !== null && $dto->sourceHost !== '') {
+            $context['host'] = $dto->sourceHost;
+        }
+
+        $rewritten = $this->rewriter->rewrite($original, $this->rehoster, $context);
+        if ($rewritten === $original) {
+            return;
+        }
+
+        $content->content = $rewritten;
+        $content->save();
     }
 
     /**
