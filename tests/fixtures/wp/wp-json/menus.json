@@ -1,0 +1,11 @@
+[
+    {
+        "id": 7,
+        "description": "",
+        "name": "Primary",
+        "slug": "primary",
+        "meta": [],
+        "locations": ["primary"],
+        "auto_add": false
+    }
+]

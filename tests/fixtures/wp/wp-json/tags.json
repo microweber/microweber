@@ -1,0 +1,22 @@
+[
+    {
+        "id": 31,
+        "count": 2,
+        "description": "",
+        "link": "https://wp.example/tag/launch/",
+        "name": "Launch",
+        "slug": "launch",
+        "taxonomy": "post_tag",
+        "meta": []
+    },
+    {
+        "id": 32,
+        "count": 1,
+        "description": "",
+        "link": "https://wp.example/tag/featured/",
+        "name": "Featured",
+        "slug": "featured",
+        "taxonomy": "post_tag",
+        "meta": []
+    }
+]

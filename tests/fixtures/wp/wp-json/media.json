@@ -1,0 +1,44 @@
+[
+    {
+        "id": 101,
+        "date": "2026-04-01T10:00:00",
+        "date_gmt": "2026-04-01T10:00:00",
+        "guid": {"rendered": "https://wp.example/?attachment_id=101"},
+        "slug": "hero-image",
+        "status": "inherit",
+        "type": "attachment",
+        "link": "https://wp.example/hero-image/",
+        "title": {"rendered": "Hero image"},
+        "author": 5,
+        "comment_status": "open",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "description": {"rendered": "<p>Hero image used on the launch post.</p>"},
+        "caption": {"rendered": ""},
+        "alt_text": "Launch artwork",
+        "media_type": "image",
+        "mime_type": "image/jpeg",
+        "media_details": {
+            "width": 1600,
+            "height": 900,
+            "file": "2026/04/hero.jpg"
+        },
+        "post": 1001,
+        "source_url": "https://wp.example/wp-content/uploads/2026/04/hero.jpg"
+    },
+    {
+        "id": 102,
+        "date": "2026-03-20T08:45:00",
+        "date_gmt": "2026-03-20T08:45:00",
+        "slug": "chart",
+        "status": "inherit",
+        "type": "attachment",
+        "title": {"rendered": "Chart inline image"},
+        "author": 7,
+        "media_type": "image",
+        "mime_type": "image/png",
+        "post": 1002,
+        "source_url": "https://wp.example/wp-content/uploads/2026/03/chart.png"
+    }
+]

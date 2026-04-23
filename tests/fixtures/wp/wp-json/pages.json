@@ -1,0 +1,25 @@
+[
+    {
+        "id": 2001,
+        "date": "2026-01-01T00:00:00",
+        "date_gmt": "2026-01-01T00:00:00",
+        "guid": {"rendered": "https://wp.example/?page_id=2001"},
+        "slug": "about",
+        "status": "publish",
+        "type": "page",
+        "link": "https://wp.example/about/",
+        "title": {"rendered": "About"},
+        "content": {"rendered": "<p>About this site.</p>", "protected": false},
+        "excerpt": {"rendered": "", "protected": false},
+        "author": 5,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "categories": [],
+        "tags": []
+    }
+]

@@ -1,0 +1,53 @@
+[
+    {
+        "id": 1001,
+        "date": "2026-04-10T12:00:00",
+        "date_gmt": "2026-04-10T12:00:00",
+        "guid": {"rendered": "https://wp.example/?p=1001"},
+        "modified": "2026-04-10T12:30:00",
+        "modified_gmt": "2026-04-10T12:30:00",
+        "slug": "post-one",
+        "status": "publish",
+        "type": "post",
+        "link": "https://wp.example/2026/04/post-one/",
+        "title": {"rendered": "Launch day: what shipped"},
+        "content": {"rendered": "<!-- wp:paragraph -->\n<p>We shipped the launch today &mdash; read on.</p>\n<!-- /wp:paragraph -->", "protected": false},
+        "excerpt": {"rendered": "<p>A rundown of everything that went live.</p>", "protected": false},
+        "author": 5,
+        "featured_media": 101,
+        "comment_status": "open",
+        "ping_status": "open",
+        "sticky": false,
+        "template": "",
+        "format": "standard",
+        "meta": [],
+        "categories": [11, 12],
+        "tags": [31, 32],
+        "_links": {
+            "self": [{"href": "https://wp.example/wp-json/wp/v2/posts/1001"}]
+        }
+    },
+    {
+        "id": 1002,
+        "date": "2026-03-20T09:00:00",
+        "date_gmt": "2026-03-20T09:00:00",
+        "guid": {"rendered": "https://wp.example/?p=1002"},
+        "slug": "chart-essay",
+        "status": "publish",
+        "type": "post",
+        "link": "https://wp.example/2026/03/chart-essay/",
+        "title": {"rendered": "Reading the chart"},
+        "content": {"rendered": "<p>Body with an inline <img src=\"https://wp.example/wp-content/uploads/2026/03/chart.png\" alt=\"chart\"/>.</p>", "protected": false},
+        "excerpt": {"rendered": "", "protected": false},
+        "author": 7,
+        "featured_media": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "sticky": false,
+        "template": "",
+        "format": "standard",
+        "meta": [],
+        "categories": [12],
+        "tags": [31]
+    }
+]

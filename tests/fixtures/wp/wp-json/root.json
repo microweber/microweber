@@ -1,0 +1,26 @@
+{
+    "name": "Example WP Site",
+    "description": "Recorded fixture site used by WordPressMigration tests.",
+    "url": "https://wp.example",
+    "home": "https://wp.example",
+    "gmt_offset": "0",
+    "timezone_string": "",
+    "namespaces": ["oembed/1.0", "wp/v2"],
+    "authentication": {
+        "application-passwords": {
+            "endpoints": {
+                "authorization": "https://wp.example/wp-admin/authorize-application.php"
+            }
+        }
+    },
+    "routes": {
+        "/wp/v2/posts": {"namespace": "wp/v2"},
+        "/wp/v2/pages": {"namespace": "wp/v2"},
+        "/wp/v2/media": {"namespace": "wp/v2"},
+        "/wp/v2/categories": {"namespace": "wp/v2"},
+        "/wp/v2/tags": {"namespace": "wp/v2"},
+        "/wp/v2/users": {"namespace": "wp/v2"},
+        "/wp/v2/comments": {"namespace": "wp/v2"},
+        "/wp/v2/menus": {"namespace": "wp/v2"}
+    }
+}

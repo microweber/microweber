@@ -1283,7 +1283,7 @@ for scripted/bulk use.
 - [x] 2026-04-23  Page with `per_page=100&page=N` + `X-WP-TotalPages` header; retry-with-backoff on 429/5xx
 - [x] 2026-04-23  Map `featured_media` → Microweber content featured image; preserve `excerpt.rendered`/`content.rendered` HTML verbatim (the renderer is the source of truth for Gutenberg output)
 - [x] 2026-04-23  Build a taxonomy-first pass (categories, tags, users) so post inserts can attach by local id without a second pass
-- [ ] Unit: `WpRestImporterTest` with recorded fixtures (`tests/fixtures/wp/wp-json/*.json`) for public + authed modes
+- [x] 2026-04-23  Unit: `WpRestImporterTest` with recorded fixtures (`tests/fixtures/wp/wp-json/*.json`) for public + authed modes
 - [ ] Dusk: `LiveAdminWordPressMigrationRestTest` — URL + app password → posts/pages/media all land; taxonomies preserved
 
 ### Phase 6 — WXR file importer (offline path)

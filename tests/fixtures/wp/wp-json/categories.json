@@ -1,0 +1,41 @@
+[
+    {
+        "id": 11,
+        "count": 3,
+        "description": "General news and announcements.",
+        "link": "https://wp.example/category/news/",
+        "name": "News",
+        "slug": "news",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": [],
+        "_links": {
+            "self": [{"href": "https://wp.example/wp-json/wp/v2/categories/11"}]
+        }
+    },
+    {
+        "id": 12,
+        "count": 1,
+        "description": "Deep technical writing.",
+        "link": "https://wp.example/category/tech/",
+        "name": "Tech",
+        "slug": "tech",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": [],
+        "_links": {
+            "self": [{"href": "https://wp.example/wp-json/wp/v2/categories/12"}]
+        }
+    },
+    {
+        "id": 13,
+        "count": 0,
+        "description": "",
+        "link": "https://wp.example/category/uncategorized/",
+        "name": "Uncategorized",
+        "slug": "uncategorized",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": []
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "id": 201,
+        "post": 1001,
+        "parent": 0,
+        "author": 0,
+        "author_name": "Visitor",
+        "author_url": "",
+        "date": "2026-04-11T12:00:00",
+        "date_gmt": "2026-04-11T12:00:00",
+        "content": {"rendered": "<p>Really enjoyed the launch piece.</p>"},
+        "link": "https://wp.example/2026/04/post-one/#comment-201",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/x?s=24"
+        },
+        "meta": []
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+        "id": 5,
+        "name": "Jane Doe",
+        "url": "https://wp.example/",
+        "description": "Managing editor.",
+        "link": "https://wp.example/author/jane/",
+        "slug": "jane",
+        "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/abc?s=24",
+            "48": "https://secure.gravatar.com/avatar/abc?s=48",
+            "96": "https://secure.gravatar.com/avatar/abc?s=96"
+        },
+        "meta": []
+    },
+    {
+        "id": 7,
+        "name": "John Smith",
+        "url": "",
+        "description": "",
+        "link": "https://wp.example/author/john/",
+        "slug": "john",
+        "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/def?s=24"
+        },
+        "meta": []
+    }
+]
