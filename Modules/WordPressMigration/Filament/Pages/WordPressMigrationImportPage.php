@@ -8,6 +8,9 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Modules\WordPressMigration\Models\WordPressMigrationJob;
+use Modules\WordPressMigration\Services\Importers\RssFeedImporter;
+use Modules\WordPressMigration\Services\WordPressContentMapper;
+use Illuminate\Support\Facades\DB;
 use Modules\WordPressMigration\Services\WordPressMigrationJobRepository;
 use Modules\WordPressMigration\Services\WordPressSiteProbe;
 use Modules\WordPressMigration\Services\WordPressSiteProbeResult;
@@ -148,13 +151,94 @@ class WordPressMigrationImportPage extends Page
             return;
         }
 
-        app(WordPressMigrationJobRepository::class)->markRunning($job);
+        $repository = app(WordPressMigrationJobRepository::class);
+        $capabilities = (array)($job->probe_result['capabilities'] ?? []);
 
-        Notification::make()
-            ->title('Import started')
-            ->body('We have queued the import. You can close this page — progress resumes automatically.')
-            ->success()
-            ->send();
+        // Phase 3 scope: only the RSS importer is wired end-to-end.
+        // REST/WXR/sitemap importers register their capability in the
+        // probe but don't have an execution path here yet — surface a
+        // clear message instead of silently falling through to RSS.
+        if (!in_array(WordPressSiteProbeResult::MODE_RSS, $capabilities, true)) {
+            $this->dangerNotification(
+                'No RSS feed was detected on this source. REST/WXR/sitemap import modes are coming in later phases.'
+            );
+            return;
+        }
+
+        $repository->markRunning($job);
+
+        try {
+            $count = $this->runRssImport($job, $repository);
+            $repository->markFinished($job);
+
+            Notification::make()
+                ->title('Import finished')
+                ->body("Imported {$count} items from " . (string)$job->source_host . '.')
+                ->success()
+                ->send();
+        } catch (\Throwable $e) {
+            $repository->markFailed($job, $e->getMessage());
+            Notification::make()
+                ->title('Import failed')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
+        }
+    }
+
+    /**
+     * Run the RSS path end-to-end against `$job->source_url`.
+     *
+     * We call {@see RssFeedImporter::walk()} rather than `import()`
+     * so pagination + dedupe against previously-imported guids are
+     * respected on re-runs. The walker already caps at `max_items`;
+     * we default to the configured limit but fall back to a safe
+     * 100 when no per-job override has been set.
+     *
+     * Synchronous on purpose. Phase 9 will move this behind a queue
+     * worker with live progress polling; for now a single blocking
+     * call keeps the admin UX coherent — the operator clicks, waits,
+     * sees a finished notification — without introducing queue
+     * infrastructure this early.
+     */
+    private function runRssImport(WordPressMigrationJob $job, WordPressMigrationJobRepository $repository): int
+    {
+        $maxItems = (int)($job->options['max_items'] ?? 100);
+        $importer = app(RssFeedImporter::class);
+        $result = $importer->walk((string)$job->source_url, $this->alreadyImportedGuids(), $maxItems);
+
+        $mapper = new WordPressContentMapper();
+        $count = 0;
+        foreach ($result->items as $dto) {
+            $mapper->map($dto);
+            $count++;
+        }
+
+        $repository->updateProgress($job, [
+            'imported' => $count,
+            'pages_fetched' => $result->pagesFetched,
+            'stop_reason' => $result->stopReason,
+        ]);
+
+        return $count;
+    }
+
+    /**
+     * Guids we've already imported (from any prior run) so the
+     * walker can short-circuit as soon as it sees one. Loading them
+     * up-front is O(n) over the content_data rows we wrote, which
+     * is fine at any plausible per-site scale.
+     *
+     * @return list<string>
+     */
+    private function alreadyImportedGuids(): array
+    {
+        return DB::table('content_data')
+            ->where('field_name', WordPressContentMapper::META_SOURCE_GUID)
+            ->pluck('field_value')
+            ->map(fn ($v) => (string)$v)
+            ->values()
+            ->all();
     }
 
     public function getJob(): ?WordPressMigrationJob

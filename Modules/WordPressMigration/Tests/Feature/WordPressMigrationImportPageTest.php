@@ -161,18 +161,99 @@ class WordPressMigrationImportPageTest extends TestCase
     }
 
     #[Test]
-    public function start_import_transitions_a_ready_job_to_running(): void
+    public function start_import_runs_rss_pipeline_and_finishes_when_feed_is_available(): void
     {
-        $this->bindFakeFetcher(FakeHttpProbeFetcher::rest('https://wp.example', posts: 5, pages: 1));
+        // Wire both the probe and the importer through the same
+        // scripted fetcher — app(RssFeedImporter::class) picks up
+        // the bound HttpProbeFetcher via constructor injection.
+        $rssBody = <<<'XML'
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>WP Example</title>
+    <item>
+      <title>Feature test post</title>
+      <link>https://wp.example/feature-test-post</link>
+      <guid>https://wp.example/?p=777</guid>
+      <content:encoded><![CDATA[<p>Feature body.</p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>
+XML;
+        $this->bindFakeFetcher(new FakeHttpProbeFetcher([
+            'https://wp.example/wp-json' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/posts?per_page=1' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/wp-json/wp/v2/pages?per_page=1' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/feed' => ['body' => $rssBody, 'http_code' => 200, 'error' => ''],
+            // Walker keeps paging until an empty page or 404.
+            'https://wp.example/feed/' => ['body' => $rssBody, 'http_code' => 200, 'error' => ''],
+            'https://wp.example/feed/?paged=2' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/sitemap.xml' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/sitemap_index.xml' => ['body' => '', 'http_code' => 404, 'error' => ''],
+            'https://wp.example/robots.txt' => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ]));
 
-        $component = Livewire::test(WordPressMigrationImportPage::class)
+        $this->cleanupImportedContent();
+
+        Livewire::test(WordPressMigrationImportPage::class)
             ->set('data.source_url', 'https://wp.example')
             ->call('check')
             ->call('startImport');
 
         $job = WordPressMigrationJob::query()->first();
-        $this->assertSame(WordPressMigrationJob::STATUS_RUNNING, $job->status);
+        $this->assertSame(WordPressMigrationJob::STATUS_FINISHED, $job->status);
         $this->assertNotNull($job->started_at);
+        $this->assertNotNull($job->finished_at);
+        $this->assertSame(1, (int)($job->progress['imported'] ?? 0));
+
+        $this->assertDatabaseHas('content', [
+            'title' => 'Feature test post',
+            'content_type' => 'post',
+        ]);
+        $this->assertDatabaseHas('content_data', [
+            'field_name' => 'source_guid',
+            'field_value' => 'https://wp.example/?p=777',
+        ]);
+
+        $this->cleanupImportedContent();
+    }
+
+    #[Test]
+    public function start_import_refuses_when_source_has_no_rss_capability(): void
+    {
+        // REST-only source: the probe advertises the `rest` mode but
+        // Phase 3 only wires the RSS importer. Clicking Start import
+        // must surface a clear "coming soon" message rather than
+        // silently flipping the job to running.
+        $this->bindFakeFetcher(FakeHttpProbeFetcher::rest('https://wp.example', posts: 5, pages: 1));
+
+        Livewire::test(WordPressMigrationImportPage::class)
+            ->set('data.source_url', 'https://wp.example')
+            ->call('check')
+            ->call('startImport');
+
+        $job = WordPressMigrationJob::query()->first();
+        $this->assertSame(WordPressMigrationJob::STATUS_READY, $job->status,
+            'REST-only sources stay ready until their importer ships in a later phase'
+        );
+    }
+
+    /**
+     * Remove any content rows that previous test runs (or the happy
+     * path above) left behind, so assertions against a clean slate
+     * don't depend on test ordering.
+     */
+    private function cleanupImportedContent(): void
+    {
+        $contentIds = DB::table('content_data')
+            ->where('field_name', 'import_source')
+            ->where('field_value', 'wordpress_rss')
+            ->pluck('rel_id');
+
+        if ($contentIds->isNotEmpty()) {
+            DB::table('content_data')->whereIn('rel_id', $contentIds)->delete();
+            DB::table('content')->whereIn('id', $contentIds)->delete();
+        }
     }
 
     #[Test]

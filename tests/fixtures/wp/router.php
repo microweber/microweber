@@ -50,17 +50,45 @@ switch ($path) {
         return true;
 
     case '/feed':
+        // Rich WordPress-style RSS 2.0 so the LiveAdmin RSS import
+        // test has meaningful <content:encoded> bodies + wp:post_id
+        // stable identities to import. The probe test only cares
+        // that <rss> shows up (to count the RSS capability), so it
+        // doesn't matter to the probe whether items are rich or bare.
         header('Content-Type: application/rss+xml; charset=UTF-8');
         echo <<<'XML'
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
     <title>Fixture WP Site</title>
     <link>http://127.0.0.1/</link>
     <description>Dusk probe fixture</description>
-    <item><title>One</title><link>http://127.0.0.1/one</link><guid>http://127.0.0.1/?p=1</guid></item>
-    <item><title>Two</title><link>http://127.0.0.1/two</link><guid>http://127.0.0.1/?p=2</guid></item>
-    <item><title>Three</title><link>http://127.0.0.1/three</link><guid>http://127.0.0.1/?p=3</guid></item>
+    <item>
+      <title>Dusk fixture hello</title>
+      <link>http://127.0.0.1/dusk-fixture-hello</link>
+      <guid>http://127.0.0.1/?p=1001</guid>
+      <wp:post_id>1001</wp:post_id>
+      <pubDate>Thu, 23 Apr 2026 09:00:00 +0000</pubDate>
+      <dc:creator>Fixture Author</dc:creator>
+      <description>Short teaser for the hello post.</description>
+      <content:encoded><![CDATA[<p>Dusk <strong>hello</strong> body with a <a href="http://127.0.0.1/related">related link</a>.</p>]]></content:encoded>
+      <category>News</category>
+      <category domain="post_tag">imported</category>
+    </item>
+    <item>
+      <title>Dusk fixture world</title>
+      <link>http://127.0.0.1/dusk-fixture-world</link>
+      <guid>http://127.0.0.1/?p=1002</guid>
+      <wp:post_id>1002</wp:post_id>
+      <pubDate>Thu, 23 Apr 2026 09:15:00 +0000</pubDate>
+      <dc:creator>Fixture Author</dc:creator>
+      <description>Second teaser.</description>
+      <content:encoded><![CDATA[<p>World body with <em>emphasis</em>.</p>]]></content:encoded>
+      <category>Essays</category>
+    </item>
   </channel>
 </rss>
 XML;
