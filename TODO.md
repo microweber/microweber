@@ -1304,7 +1304,7 @@ for scripted/bulk use.
 
 - [x] 2026-04-23  Dry-run mode: run the entire import into a staging table (`wp_migration_staging_content`, `wp_migration_staging_media`) with zero writes to live `content`/`media`
 - [x] 2026-04-23  Filament preview page: paginated list of staged items, "view rendered" modal with frontend preview iframe, per-item checkboxes + bulk "exclude from commit"
-- [ ] "Commit" button promotes staged rows → live tables in a single DB transaction per batch; failed batches roll back cleanly
+- [x] 2026-04-23  "Commit" button promotes staged rows → live tables in a single DB transaction per batch; failed batches roll back cleanly
 - [ ] Dusk: `LiveAdminWordPressMigrationPreviewCommitTest` — exclude one item in preview, commit, assert excluded item never reaches live `content`
 
 ### Phase 9 — Admin UX (Filament 5)

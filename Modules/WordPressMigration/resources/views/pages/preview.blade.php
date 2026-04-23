@@ -33,6 +33,15 @@
                     data-testid="preview-bulk-exclude">
                     Exclude all
                 </x-filament::button>
+                <x-filament::button
+                    wire:click="commit"
+                    wire:confirm="Commit {{ $stats['total'] - $stats['excluded'] }} staged items to live content? This cannot be undone."
+                    color="success"
+                    icon="heroicon-o-rocket-launch"
+                    size="sm"
+                    data-testid="preview-commit">
+                    Commit to live
+                </x-filament::button>
             </div>
         </div>
 

@@ -7,6 +7,8 @@ use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
 use Modules\WordPressMigration\Models\StagingContent;
 use Modules\WordPressMigration\Models\WordPressMigrationJob;
+use Modules\WordPressMigration\Services\StagingCommitter;
+use Modules\WordPressMigration\Services\WordPressContentMapper;
 
 /**
  * Preview page for Phase 8 "preview before commit".
@@ -134,6 +136,41 @@ class WordPressMigrationPreviewPage extends Page
     public function closePreview(): void
     {
         $this->previewStagingId = null;
+    }
+
+    /**
+     * Promote every non-excluded staged row for this job onto the
+     * live `content` table via {@see StagingCommitter}. Each batch
+     * runs in its own DB transaction, so a failure in one batch
+     * rolls back just that batch and the operator gets a summary
+     * notification of committed / failed / skipped counts.
+     *
+     * The committer is resolved via the container so tests can bind
+     * a fake (e.g. a mapper that throws on a marker title) without
+     * touching the page's signature.
+     */
+    public function commit(): void
+    {
+        if ($this->jobId === null) {
+            return;
+        }
+
+        $committer = app()->bound(StagingCommitter::class)
+            ? app(StagingCommitter::class)
+            : new StagingCommitter(new WordPressContentMapper());
+
+        $report = $committer->commit($this->jobId);
+
+        $committed = $report->committedCount();
+        $failed = $report->failedCount();
+        $skipped = $report->skipped;
+
+        $notification = Notification::make()
+            ->title($report->isSuccessful() ? 'Commit complete' : 'Commit finished with errors')
+            ->body("Committed {$committed}, skipped {$skipped} excluded, {$failed} failed.");
+
+        $report->isSuccessful() ? $notification->success() : $notification->danger();
+        $notification->send();
     }
 
     /**

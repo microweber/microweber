@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 use Modules\WordPressMigration\Filament\Pages\WordPressMigrationPreviewPage;
 use Modules\WordPressMigration\Models\StagingContent;
+use Modules\WordPressMigration\Services\WordPressContentMapper;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
@@ -36,6 +37,8 @@ class WordPressMigrationPreviewPageTest extends TestCase
 
         DB::table('wp_migration_staging_media')->where('job_id', self::JOB_ID)->delete();
         DB::table('wp_migration_staging_content')->where('job_id', self::JOB_ID)->delete();
+
+        $this->purgeLiveContentForGuids(['preview:' . self::JOB_ID . ':1', 'preview:' . self::JOB_ID . ':2', 'preview:' . self::JOB_ID . ':3', 'preview:' . self::JOB_ID . ':4']);
 
         $this->setUpFilamentPanel();
     }
@@ -153,6 +156,60 @@ class WordPressMigrationPreviewPageTest extends TestCase
             ->call('closePreview');
 
         $this->assertNull($component->get('previewStagingId'));
+    }
+
+    #[Test]
+    public function commit_button_promotes_non_excluded_rows_and_excluded_row_never_reaches_live(): void
+    {
+        $rows = $this->seedStagedRows(3);
+        DB::table('wp_migration_staging_content')->where('id', $rows[1]->id)->update(['excluded' => true]);
+
+        Livewire::test(WordPressMigrationPreviewPage::class, ['job' => self::JOB_ID])
+            ->call('commit');
+
+        $liveGuids = DB::table('content_data')
+            ->where('field_name', WordPressContentMapper::META_SOURCE_GUID)
+            ->whereIn('field_value', [
+                'preview:' . self::JOB_ID . ':1',
+                'preview:' . self::JOB_ID . ':2',
+                'preview:' . self::JOB_ID . ':3',
+            ])
+            ->pluck('field_value')
+            ->all();
+
+        sort($liveGuids);
+        $this->assertSame([
+            'preview:' . self::JOB_ID . ':1',
+            'preview:' . self::JOB_ID . ':3',
+        ], $liveGuids, 'The excluded row must not reach live content');
+
+        // Committed rows are removed from staging; the excluded one stays.
+        $stagingIds = StagingContent::where('job_id', self::JOB_ID)->pluck('id')->all();
+        $this->assertSame([(int)$rows[1]->id], array_map('intval', $stagingIds));
+
+        $this->purgeLiveContentForGuids(['preview:' . self::JOB_ID . ':1', 'preview:' . self::JOB_ID . ':3']);
+    }
+
+    /**
+     * @param list<string> $guids
+     */
+    private function purgeLiveContentForGuids(array $guids): void
+    {
+        $contentIds = DB::table('content_data')
+            ->where('field_name', WordPressContentMapper::META_SOURCE_GUID)
+            ->whereIn('field_value', $guids)
+            ->pluck('rel_id')
+            ->all();
+
+        if (empty($contentIds)) {
+            return;
+        }
+        DB::table('content_data')->whereIn('rel_id', $contentIds)->delete();
+        DB::table('content')->whereIn('id', $contentIds)->delete();
+        DB::table('media')
+            ->where('rel_type', 'Modules\\Content\\Models\\Content')
+            ->whereIn('rel_id', $contentIds)
+            ->delete();
     }
 
     /**
