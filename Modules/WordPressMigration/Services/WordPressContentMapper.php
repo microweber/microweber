@@ -67,6 +67,7 @@ class WordPressContentMapper
     public const IMPORT_SOURCE_WORDPRESS_RSS = 'wordpress_rss';
 
     private readonly HtmlMediaRewriter $rewriter;
+    private readonly SourceSlugResolver $slugResolver;
 
     public function __construct(
         private readonly string $importSource = self::IMPORT_SOURCE_WORDPRESS_RSS,
@@ -74,8 +75,10 @@ class WordPressContentMapper
         private readonly string $subtype = 'post',
         private readonly ?MediaRehoster $rehoster = null,
         ?HtmlMediaRewriter $rewriter = null,
+        ?SourceSlugResolver $slugResolver = null,
     ) {
         $this->rewriter = $rewriter ?? new HtmlMediaRewriter();
+        $this->slugResolver = $slugResolver ?? new SourceSlugResolver();
     }
 
     /**
@@ -103,6 +106,19 @@ class WordPressContentMapper
         }
 
         $content = new Content($fields);
+        // Preserve the source slug (last path segment of the
+        // canonical URL) BEFORE save so that HasSlugTrait's
+        // `creating` hook sees our value as the pre-assigned url and
+        // skips the title-based generator. We resolve collisions
+        // ourselves so the hook's `checkSlugExists` check passes
+        // without triggering its `YmdHis` timestamp fallback — see
+        // SourceSlugResolver for the -2/-3 strategy.
+        $preservedSlug = $dto->canonicalUrl !== null
+            ? $this->slugResolver->resolve((string)$dto->canonicalUrl)
+            : null;
+        if ($preservedSlug !== null) {
+            $content->url = $preservedSlug;
+        }
         $content->setContentData($this->metaFields($dto));
         $content->save();
         $this->rewriteMediaInto($content, $dto);

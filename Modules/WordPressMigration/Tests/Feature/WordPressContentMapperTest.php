@@ -171,6 +171,110 @@ class WordPressContentMapperTest extends TestCase
         $this->assertArrayHasKey(WordPressContentMapper::META_SOURCE_GUID, $meta);
     }
 
+    #[Test]
+    public function canonical_url_last_segment_is_preserved_as_the_content_slug(): void
+    {
+        // Microweber's permalink resolver keys off the last URL
+        // segment, so an imported WP link like
+        // `<a href="/category/my-post/">` still lands on this row
+        // once the host is rewritten to the destination site.
+        $slug = 'wp-slug-' . uniqid();
+        $dto = $this->dto([
+            'guid' => 'wp:slug-preserved',
+            'title' => 'Totally unrelated title',
+            'canonicalUrl' => 'https://wp.example/category/' . $slug . '/',
+        ]);
+
+        $content = $this->mapper->map($dto);
+
+        $this->assertSame(
+            $slug,
+            $content->url,
+            'The slug from the origin URL must win over the title-based default'
+        );
+    }
+
+    #[Test]
+    public function colliding_slugs_across_sources_get_deterministic_dash_suffix(): void
+    {
+        // Two different origin sites publish posts that happen to
+        // share the same last-segment slug. The second import must
+        // disambiguate deterministically with a `-2` suffix rather
+        // than getting the generic `YmdHis` timestamp HasSlugTrait
+        // would otherwise fall back to.
+        $slug = 'clash-' . uniqid();
+        $first = $this->mapper->map($this->dto([
+            'guid' => 'wp:clash-a',
+            'title' => 'First',
+            'canonicalUrl' => 'https://siteA.example/' . $slug,
+            'sourceHost' => 'siteA.example',
+        ]));
+
+        $second = $this->mapper->map($this->dto([
+            'guid' => 'wp:clash-b',
+            'title' => 'Second',
+            'canonicalUrl' => 'https://siteB.example/' . $slug,
+            'sourceHost' => 'siteB.example',
+        ]));
+
+        $this->assertSame($slug, $first->url);
+        $this->assertSame($slug . '-2', $second->url);
+        $this->assertNotSame($first->id, $second->id);
+    }
+
+    #[Test]
+    public function null_canonical_url_falls_back_to_title_based_slug_generation(): void
+    {
+        // Nothing to preserve — let HasSlugTrait derive from the
+        // title as it always did pre-import-pipeline. This is the
+        // regression guard for DTOs that never had a permalink
+        // (e.g. hand-built fixtures or a feed that omits the link).
+        $dto = $this->dto([
+            'guid' => 'wp:no-canonical',
+            'title' => 'Title Only Slug',
+            'canonicalUrl' => null,
+        ]);
+
+        $content = $this->mapper->map($dto);
+
+        $this->assertNotEmpty($content->url);
+        // HasSlugTrait preserves the title's case (it has the
+        // strtolower step commented out) and may append a timestamp
+        // disambiguator if another row already owns this slug, so
+        // assert only that the url starts with the expected stem
+        // rather than pinning the exact value.
+        $this->assertStringStartsWith('Title-Only-Slug', $content->url);
+    }
+
+    #[Test]
+    public function re_importing_the_same_guid_does_not_change_the_existing_slug(): void
+    {
+        // Idempotency contract: the URL is pinned on first insert.
+        // A later re-import with the same guid (whether the canonical
+        // URL has moved on the origin or not) must leave `content.url`
+        // alone so external/internal links stay valid.
+        $slug = 'keep-' . uniqid();
+        $first = $this->mapper->map($this->dto([
+            'guid' => 'wp:idem-slug',
+            'title' => 'Original',
+            'canonicalUrl' => 'https://wp.example/' . $slug,
+        ]));
+        $this->assertSame($slug, $first->url);
+
+        $second = $this->mapper->map($this->dto([
+            'guid' => 'wp:idem-slug',
+            'title' => 'Origin renamed on the upstream site',
+            'canonicalUrl' => 'https://wp.example/some-other-path',
+        ]));
+
+        $this->assertSame($first->id, $second->id);
+        $this->assertSame(
+            $slug,
+            $second->url,
+            'Re-import must not rewrite the pinned slug even if the upstream URL changed'
+        );
+    }
+
     /**
      * @param array<string, mixed> $overrides
      */
