@@ -3,6 +3,7 @@
 namespace Modules\WordPressMigration\Services\Importers;
 
 use DateTimeImmutable;
+use Modules\WordPressMigration\DTOs\FeedWalkResult;
 use Modules\WordPressMigration\DTOs\MigrationItemDTO;
 use Modules\WordPressMigration\Services\Http\CurlHttpProbeFetcher;
 use Modules\WordPressMigration\Services\Http\HttpProbeFetcher;
@@ -33,6 +34,16 @@ class RssFeedImporter
 {
     private const FETCH_TIMEOUT_SECONDS = 30;
     private const SOURCE = 'rss';
+
+    /**
+     * Safety cap on the number of `?paged=N` HTTP hops the walker
+     * will make before giving up. At 10 items/page (the WP default
+     * for `/feed/`) this tops out at 1000 items regardless of the
+     * caller's max_items — we rely on max_items to actually size
+     * the walk and use this only to break runaway loops against a
+     * source whose feed doesn't paginate correctly.
+     */
+    private const WALKER_MAX_PAGES = 100;
 
     private HttpProbeFetcher $fetcher;
 
@@ -77,6 +88,138 @@ class RssFeedImporter
         }
 
         return $items;
+    }
+
+    /**
+     * Walk a paginated feed, following `?paged=N` until the feed
+     * runs out, we hit a guid the caller told us was already
+     * imported, or we reach the configured items cap.
+     *
+     * WordPress feeds are ordered newest-first. That ordering is
+     * what makes the `$seenGuids` short-circuit safe: the first
+     * already-seen item signals that everything older is also
+     * already imported, so we can stop without walking the tail.
+     *
+     * Ordering contract:
+     *   1. `$maxItems <= 0` — immediate stop (empty result, reason
+     *      `max_items`).
+     *   2. Page 1 unreachable/unparseable — stop with `unreachable`.
+     *   3. Items on this page:
+     *        a. Already-seen guid → stop with `seen_guid` (the
+     *           item itself is NOT included in the result).
+     *        b. Otherwise collect; if collection reaches
+     *           `$maxItems` stop with `max_items` mid-page.
+     *   4. Empty page → stop with `empty_page`.
+     *   5. Safety cap `WALKER_MAX_PAGES` → stop with `max_pages`.
+     *
+     * Within-run duplicates (same guid on two pages of the same
+     * walk — pathological, but possible on a misconfigured feed)
+     * are treated as `seen_guid`: we stop rather than loop forever.
+     *
+     * @param list<string> $seenGuids GUIDs already imported in previous runs — usually loaded from `content` meta
+     * @param int $maxItems Hard upper bound on collected items (job-config `max_items`)
+     */
+    public function walk(string $baseUrl, array $seenGuids = [], int $maxItems = 1000): FeedWalkResult
+    {
+        $base = self::normalizeBase($baseUrl);
+        if ($base === null || $maxItems <= 0) {
+            return new FeedWalkResult([], 0, FeedWalkResult::STOP_MAX_ITEMS);
+        }
+        $host = (string)parse_url($base, PHP_URL_HOST) ?: null;
+
+        $feedUrl = $base . '/feed/';
+        $format = 'rss';
+        $firstResp = $this->fetcher->fetch($feedUrl, self::FETCH_TIMEOUT_SECONDS);
+        $fetched = [$feedUrl];
+
+        if (!$this->isSuccess($firstResp) || !self::looksLikeRss($firstResp['body'])) {
+            $feedUrl = $base . '/feed/atom/';
+            $format = 'atom';
+            $firstResp = $this->fetcher->fetch($feedUrl, self::FETCH_TIMEOUT_SECONDS);
+            $fetched[] = $feedUrl;
+            if (!$this->isSuccess($firstResp) || !self::looksLikeAtom($firstResp['body'])) {
+                return new FeedWalkResult([], 0, FeedWalkResult::STOP_UNREACHABLE, $fetched);
+            }
+        }
+
+        // O(1) lookup; union of caller-supplied seenGuids and the
+        // guids we collect during this walk.
+        $seen = [];
+        foreach ($seenGuids as $g) {
+            if (is_string($g) && $g !== '') {
+                $seen[$g] = true;
+            }
+        }
+
+        $collected = [];
+        $pagesFetched = 0;
+
+        $pageItems = $format === 'rss'
+            ? $this->parseRss($firstResp['body'], $host)
+            : $this->parseAtom($firstResp['body'], $host);
+        $pagesFetched = 1;
+
+        // Page 1 is already in hand; merge into the per-page loop.
+        $result = $this->absorbPage($pageItems, $seen, $collected, $maxItems);
+        if ($result !== null) {
+            return new FeedWalkResult($collected, $pagesFetched, $result, $fetched);
+        }
+        if ($pageItems === []) {
+            return new FeedWalkResult($collected, $pagesFetched, FeedWalkResult::STOP_EMPTY_PAGE, $fetched);
+        }
+
+        for ($page = 2; $page <= self::WALKER_MAX_PAGES; $page++) {
+            $pagedUrl = $feedUrl . '?paged=' . $page;
+            $resp = $this->fetcher->fetch($pagedUrl, self::FETCH_TIMEOUT_SECONDS);
+            $fetched[] = $pagedUrl;
+
+            // A paginator walking past the end legitimately 404s on
+            // some WordPress themes. Treat any non-success response
+            // after page 1 as "feed exhausted" rather than an error.
+            if (!$this->isSuccess($resp)) {
+                return new FeedWalkResult($collected, $pagesFetched, FeedWalkResult::STOP_EMPTY_PAGE, $fetched);
+            }
+            $pageItems = $format === 'rss'
+                ? $this->parseRss($resp['body'], $host)
+                : $this->parseAtom($resp['body'], $host);
+            $pagesFetched++;
+
+            if ($pageItems === []) {
+                return new FeedWalkResult($collected, $pagesFetched, FeedWalkResult::STOP_EMPTY_PAGE, $fetched);
+            }
+
+            $result = $this->absorbPage($pageItems, $seen, $collected, $maxItems);
+            if ($result !== null) {
+                return new FeedWalkResult($collected, $pagesFetched, $result, $fetched);
+            }
+        }
+
+        return new FeedWalkResult($collected, $pagesFetched, FeedWalkResult::STOP_MAX_PAGES, $fetched);
+    }
+
+    /**
+     * Merge one page's items into the running collection.
+     *
+     * Returns null to mean "keep walking", or a STOP_* constant
+     * when a short-circuit condition fires mid-page.
+     *
+     * @param list<MigrationItemDTO> $pageItems
+     * @param array<string, true> $seen
+     * @param list<MigrationItemDTO> $collected
+     */
+    private function absorbPage(array $pageItems, array &$seen, array &$collected, int $maxItems): ?string
+    {
+        foreach ($pageItems as $dto) {
+            if (isset($seen[$dto->guid])) {
+                return FeedWalkResult::STOP_SEEN_GUID;
+            }
+            $collected[] = $dto;
+            $seen[$dto->guid] = true;
+            if (count($collected) >= $maxItems) {
+                return FeedWalkResult::STOP_MAX_ITEMS;
+            }
+        }
+        return null;
     }
 
     /**
