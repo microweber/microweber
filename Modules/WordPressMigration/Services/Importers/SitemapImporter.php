@@ -71,10 +71,23 @@ class SitemapImporter
      * hits the cap mid-urlset returns the partial set with
      * {@see SitemapCrawlResult::STOP_MAX_URLS}.
      *
+     * Incremental re-runs: pass `$modifiedSince` to drop URL entries
+     * whose `<lastmod>` timestamp is at or before the cutoff. Entries
+     * that have no parseable lastmod are kept — a missing signal
+     * means "unknown, re-check" rather than "assume unchanged", so
+     * the caller's downstream dedupe (by guid in the seenGuids pass)
+     * still gets a chance to decide. This mirrors how Yoast and
+     * RankMath populate lastmod for posts but leave it off for
+     * taxonomy archives that rarely carry a meaningful timestamp.
+     *
      * @param int $maxUrls Hard upper bound on URLs returned (0 → immediate unreachable stop)
+     * @param DateTimeImmutable|null $modifiedSince If set, entries with lastmod <= this are filtered out before collection
      */
-    public function crawl(string $sitemapUrl, int $maxUrls = 10000): SitemapCrawlResult
-    {
+    public function crawl(
+        string $sitemapUrl,
+        int $maxUrls = 10000,
+        ?DateTimeImmutable $modifiedSince = null,
+    ): SitemapCrawlResult {
         $root = self::normalizeUrl($sitemapUrl);
         if ($root === null || $maxUrls <= 0) {
             return new SitemapCrawlResult([], 0, SitemapCrawlResult::STOP_UNREACHABLE);
@@ -161,6 +174,15 @@ class SitemapImporter
                         continue;
                     }
                     if (isset($seenLocs[$entry->loc])) {
+                        continue;
+                    }
+                    if ($modifiedSince !== null
+                        && $entry->lastmod !== null
+                        && $entry->lastmod <= $modifiedSince) {
+                        // Entry has a lastmod that's not newer than
+                        // the cutoff — skip without marking it seen
+                        // (so a later re-crawl with a different cutoff
+                        // can still pick it up).
                         continue;
                     }
                     $seenLocs[$entry->loc] = true;

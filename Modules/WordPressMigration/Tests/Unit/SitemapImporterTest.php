@@ -2,6 +2,7 @@
 
 namespace Modules\WordPressMigration\Tests\Unit;
 
+use DateTimeImmutable;
 use Modules\WordPressMigration\DTOs\SitemapCrawlResult;
 use Modules\WordPressMigration\DTOs\SitemapUrlEntry;
 use Modules\WordPressMigration\Services\Importers\SitemapImporter;
@@ -515,5 +516,208 @@ XML;
         $result2 = (new SitemapImporter($fetcher))->crawl('ftp://example.com/sitemap.xml');
         $this->assertSame(SitemapCrawlResult::STOP_UNREACHABLE, $result2->stopReason);
         $this->assertSame([], $fetcher->fetched);
+    }
+
+    #[Test]
+    public function incremental_crawl_drops_entries_with_lastmod_before_the_cutoff(): void
+    {
+        // Canonical incremental-run scenario: the operator ran the
+        // crawl at 2026-04-10 and now wants a refresh — only URLs
+        // whose sitemap lastmod is NEWER than that cutoff should
+        // come back. Older entries are dropped before collection so
+        // the downstream page fetcher doesn't waste HTTP on them.
+        $urlset = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/older</loc>
+    <lastmod>2026-04-01T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/at-the-cutoff</loc>
+    <lastmod>2026-04-10T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/newer</loc>
+    <lastmod>2026-04-15T00:00:00+00:00</lastmod>
+  </url>
+</urlset>
+XML;
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://example.com/sitemap.xml' => ['body' => $urlset, 'http_code' => 200, 'error' => ''],
+        ]);
+
+        $result = (new SitemapImporter($fetcher))->crawl(
+            'https://example.com/sitemap.xml',
+            modifiedSince: new DateTimeImmutable('2026-04-10T00:00:00+00:00'),
+        );
+
+        $this->assertSame(SitemapCrawlResult::STOP_COMPLETE, $result->stopReason);
+        $this->assertCount(1, $result->urls);
+        $this->assertSame(
+            'https://example.com/newer',
+            $result->urls[0]->loc,
+            'Only urls strictly newer than the cutoff survive an incremental re-run',
+        );
+    }
+
+    #[Test]
+    public function incremental_crawl_keeps_entries_without_parseable_lastmod(): void
+    {
+        // A missing lastmod is an "unknown" signal, not "unchanged".
+        // Dropping such entries during an incremental re-run would
+        // silently starve sites whose sitemap plugin doesn't emit
+        // lastmod (common on AIOSEO taxonomy sub-sitemaps).
+        // Downstream dedupe by guid still prevents reprocessing
+        // already-imported rows, so the conservative "keep" rule is
+        // safe even if the sitemap is mostly stale.
+        $urlset = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://example.com/no-lastmod</loc></url>
+  <url>
+    <loc>https://example.com/unparseable</loc>
+    <lastmod>definitely not a date</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/old</loc>
+    <lastmod>2020-01-01T00:00:00+00:00</lastmod>
+  </url>
+</urlset>
+XML;
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://example.com/sitemap.xml' => ['body' => $urlset, 'http_code' => 200, 'error' => ''],
+        ]);
+
+        $result = (new SitemapImporter($fetcher))->crawl(
+            'https://example.com/sitemap.xml',
+            modifiedSince: new DateTimeImmutable('2026-04-10T00:00:00+00:00'),
+        );
+
+        $locs = array_map(fn (SitemapUrlEntry $e) => $e->loc, $result->urls);
+        $this->assertContains('https://example.com/no-lastmod', $locs);
+        $this->assertContains('https://example.com/unparseable', $locs);
+        $this->assertNotContains('https://example.com/old', $locs,
+            'Entries with a real lastmod older than the cutoff are still dropped');
+    }
+
+    #[Test]
+    public function incremental_filter_spans_index_of_sitemaps(): void
+    {
+        // The cutoff applies per-entry in each urlset, regardless of
+        // where the urlset lives in the index hierarchy. Yoast-style
+        // re-runs need this to produce a small delta for a large site.
+        $index = <<<'XML'
+<?xml version="1.0"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://wp.example/post-sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://wp.example/page-sitemap.xml</loc></sitemap>
+</sitemapindex>
+XML;
+        $postSm = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://wp.example/fresh-post</loc>
+    <lastmod>2026-04-20</lastmod>
+  </url>
+  <url>
+    <loc>https://wp.example/stale-post</loc>
+    <lastmod>2026-03-01</lastmod>
+  </url>
+</urlset>
+XML;
+        $pageSm = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://wp.example/stale-page</loc>
+    <lastmod>2026-02-14</lastmod>
+  </url>
+  <url>
+    <loc>https://wp.example/fresh-page</loc>
+    <lastmod>2026-04-22</lastmod>
+  </url>
+</urlset>
+XML;
+
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://wp.example/sitemap_index.xml' => ['body' => $index, 'http_code' => 200, 'error' => ''],
+            'https://wp.example/post-sitemap.xml' => ['body' => $postSm, 'http_code' => 200, 'error' => ''],
+            'https://wp.example/page-sitemap.xml' => ['body' => $pageSm, 'http_code' => 200, 'error' => ''],
+        ]);
+
+        $result = (new SitemapImporter($fetcher))->crawl(
+            'https://wp.example/sitemap_index.xml',
+            modifiedSince: new DateTimeImmutable('2026-04-10T00:00:00+00:00'),
+        );
+
+        $locs = array_map(fn (SitemapUrlEntry $e) => $e->loc, $result->urls);
+        $this->assertSame([
+            'https://wp.example/fresh-post',
+            'https://wp.example/fresh-page',
+        ], $locs);
+
+        // And the inferred content type from the sub-sitemap names
+        // still rides along on the filtered entries.
+        $byLoc = [];
+        foreach ($result->urls as $entry) {
+            $byLoc[$entry->loc] = $entry;
+        }
+        $this->assertSame('post', $byLoc['https://wp.example/fresh-post']->contentType);
+        $this->assertSame('page', $byLoc['https://wp.example/fresh-page']->contentType);
+    }
+
+    #[Test]
+    public function incremental_crawl_without_cutoff_is_equivalent_to_full_crawl(): void
+    {
+        // Passing null (the default) must not accidentally filter
+        // anything — this is the regression guard for callers that
+        // haven't opted into incremental mode yet.
+        $urlset = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ex.com/a</loc><lastmod>2020-01-01</lastmod></url>
+  <url><loc>https://ex.com/b</loc></url>
+</urlset>
+XML;
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $urlset, 'http_code' => 200, 'error' => ''],
+        ]);
+
+        $result = (new SitemapImporter($fetcher))->crawl('https://ex.com/sitemap.xml');
+
+        $this->assertCount(2, $result->urls);
+    }
+
+    #[Test]
+    public function incremental_cutoff_is_inclusive_of_equal_timestamps(): void
+    {
+        // `<=` rather than `<`: an entry whose lastmod is exactly
+        // the previous run's timestamp is assumed already-imported.
+        // Strict `<` would re-process a boundary entry on every
+        // run if operators passed the previous run's own timestamp.
+        $urlset = <<<'XML'
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ex.com/at-boundary</loc>
+    <lastmod>2026-04-10T12:00:00+00:00</lastmod>
+  </url>
+</urlset>
+XML;
+        $fetcher = new FakeHttpProbeFetcher([
+            'https://ex.com/sitemap.xml' => ['body' => $urlset, 'http_code' => 200, 'error' => ''],
+        ]);
+
+        $result = (new SitemapImporter($fetcher))->crawl(
+            'https://ex.com/sitemap.xml',
+            modifiedSince: new DateTimeImmutable('2026-04-10T12:00:00+00:00'),
+        );
+
+        $this->assertCount(0, $result->urls,
+            'Entries whose lastmod equals the cutoff are treated as already-imported');
     }
 }
