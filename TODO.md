@@ -1290,7 +1290,7 @@ for scripted/bulk use.
 
 - [x] 2026-04-23  Implement `WxrImporter` reading a WordPress eXtended RSS (`.xml`) export uploaded via the Filament form — same DTO, no HTTP
 - [x] 2026-04-23  Support the large-file case via a streaming `XMLReader` pass (don't `simplexml_load_file` a 400MB WXR)
-- [ ] Unit: `WxrImporterTest` against the canonical `tests/fixtures/wp/wxr-sample.xml` (ship a tiny sanitized WXR)
+- [x] 2026-04-23  Unit: `WxrImporterTest` against the canonical `tests/fixtures/wp/wxr-sample.xml` (ship a tiny sanitized WXR)
 - [ ] Dusk: `LiveAdminWordPressMigrationWxrTest` — upload WXR → import runs → posts visible on frontend
 
 ### Phase 7 — Media rehosting
