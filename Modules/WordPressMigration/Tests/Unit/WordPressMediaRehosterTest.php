@@ -35,12 +35,61 @@ class WordPressMediaRehosterTest extends TestCase
     }
 
     #[Test]
-    public function protocol_relative_url_is_rejected(): void
+    public function protocol_relative_url_is_promoted_via_context_scheme(): void
     {
-        $rehoster = $this->makeRehoster();
+        // The rewriter normally promotes these before calling us,
+        // but the rehoster should handle them itself too — callers
+        // that use the rehoster directly (CLI, feature tests) need
+        // the same behavior without reproducing the scheme logic.
+        $rehoster = $this->makeRehoster(
+            downloader: $this->fakeDownloader([
+                'https://cdn.example/hero.jpg' => 'CDN-BYTES',
+            ]),
+        );
 
-        $this->assertNull($rehoster->fetch('//wp.example/hero.jpg'));
-        $this->assertNull($rehoster->rehost('//wp.example/hero.jpg'));
+        $receipt = $rehoster->fetch('//cdn.example/hero.jpg', ['scheme' => 'https']);
+
+        $this->assertNotNull($receipt);
+        $this->assertStringEndsWith('.jpg', $receipt->url);
+    }
+
+    #[Test]
+    public function protocol_relative_url_defaults_to_https_without_scheme_context(): void
+    {
+        $rehoster = $this->makeRehoster(
+            downloader: $this->fakeDownloader([
+                'https://cdn.example/hero.jpg' => 'CDN-BYTES',
+            ]),
+        );
+
+        $this->assertNotNull($rehoster->fetch('//cdn.example/hero.jpg'));
+    }
+
+    #[Test]
+    public function protocol_relative_and_promoted_url_share_the_same_receipt_cache(): void
+    {
+        // Once we've rehosted `//cdn/x.jpg` (which promotes to
+        // https://cdn/x.jpg), a later direct call with the promoted
+        // URL must hit the cache — otherwise we'd double-download
+        // bytes the caller already paid for.
+        $downloadCount = 0;
+        $rehoster = $this->makeRehoster(
+            downloader: function (string $url, string $target) use (&$downloadCount): bool {
+                $downloadCount++;
+                file_put_contents($target, 'SHARED');
+                return true;
+            },
+        );
+
+        $first = $rehoster->fetch('//cdn.example/hero.jpg');
+        $second = $rehoster->fetch('https://cdn.example/hero.jpg');
+
+        $this->assertNotNull($first);
+        $this->assertNotNull($second);
+        $this->assertSame($first->mediaId, $second->mediaId);
+        $this->assertSame(1, $downloadCount,
+            'Promoted form must hit the URL cache populated by the `//`-form call'
+        );
     }
 
     #[Test]
@@ -182,6 +231,52 @@ class WordPressMediaRehosterTest extends TestCase
         );
 
         $this->assertNull($rehoster->fetch('https://wp.example/empty.jpg'));
+    }
+
+    #[Test]
+    public function redirect_following_is_delegated_to_the_downloader(): void
+    {
+        // The production downloader follows HTTP redirects via
+        // Microweber's HTTP client. At the rehoster level we just
+        // need to prove the contract holds: whatever bytes the
+        // downloader writes, we hash and store.
+        //
+        // This fake simulates a redirect chain by writing the
+        // *redirected-to* resource's bytes regardless of which URL
+        // in the chain was originally requested. Content-hash
+        // dedupe then means a second call through a different
+        // entry in the chain reuses the same media row.
+        $hostRedirects = [
+            'https://wp.example/photo.jpg'     => 'FINAL-PHOTO-BYTES',
+            'https://cdn.example/photo.jpg'    => 'FINAL-PHOTO-BYTES', // redirects to wp.example
+        ];
+        $saves = [];
+        $rehoster = $this->makeRehoster(
+            downloader: function (string $url, string $target) use ($hostRedirects): bool {
+                if (!isset($hostRedirects[$url])) {
+                    return false;
+                }
+                file_put_contents($target, $hostRedirects[$url]);
+                return true;
+            },
+            saver: function (array $data) use (&$saves): int {
+                $saves[] = $data;
+                return 500 + count($saves);
+            },
+        );
+
+        $direct    = $rehoster->fetch('https://wp.example/photo.jpg');
+        $viaRedir  = $rehoster->fetch('https://cdn.example/photo.jpg');
+
+        $this->assertNotNull($direct);
+        $this->assertNotNull($viaRedir);
+        $this->assertSame($direct->mediaId, $viaRedir->mediaId,
+            'Two URLs resolving to the same content must dedupe by hash — this is what the '
+            . 'redirect-aware production downloader effectively produces'
+        );
+        $this->assertCount(1, $saves,
+            'Exactly one media row for the deduped bytes'
+        );
     }
 
     #[Test]

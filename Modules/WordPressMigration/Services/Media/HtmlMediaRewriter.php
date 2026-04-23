@@ -44,13 +44,26 @@ namespace Modules\WordPressMigration\Services\Media;
  *     3. It has no host at all — relative URL, defer to rehoster
  *   Omit the host and the rewriter stays permissive (delegates
  *   every URL), which is the old behavior.
+ * - **Protocol-relative promotion.** URLs like `//cdn.example/x.jpg`
+ *   are promoted to `<scheme>://cdn.example/x.jpg` before scoping
+ *   and rehosting, using `$context['scheme']` (defaults to `https`
+ *   — a safe default for any modern WP export). Without promotion
+ *   the rehoster would reject them (no scheme) and the rewriter
+ *   would silently leave broken markup behind.
+ * - **Obvious non-asset links are skipped at the rewriter.** Any
+ *   `href` that starts with `#`, `mailto:`, `tel:`, `javascript:`,
+ *   or `data:` is recognised as non-rehostable and dropped before
+ *   the rehoster is consulted. The rehoster would return null
+ *   anyway, but short-circuiting here keeps the call count honest
+ *   (no noise in traces, no wasted work for feeds with dozens of
+ *   in-page anchors).
  *
  * What this class does NOT do
  * ---------------------------
- * - Resolve relative URLs: WordPress feeds emit absolute URLs
- *   for imports, and invoking URL resolution here would require
- *   parsing the whole document's `<base>` which isn't worth it
- *   for this use case.
+ * - Resolve relative URLs (`/path/x.jpg`): WordPress feeds emit
+ *   absolute URLs for imports, and invoking URL resolution here
+ *   would require parsing the whole document's `<base>` which
+ *   isn't worth it for this use case.
  * - Decide whether a URL is "an asset" — that's the rehoster's
  *   call. A link to `/category/news/` might legitimately return
  *   null (not an asset) or a rewritten in-Microweber URL, and
@@ -66,12 +79,22 @@ final class HtmlMediaRewriter
     ];
 
     /**
+     * Prefixes of URLs that are never assets and never worth
+     * rehosting. Matched case-insensitively against the trimmed
+     * URL. Anchors (`#foo`) and opaque schemes (`mailto:`, `tel:`,
+     * `javascript:`, `data:`) all fall in here.
+     */
+    private const SKIP_PREFIXES = ['#', 'mailto:', 'tel:', 'javascript:', 'data:'];
+
+    /**
      * Rewrite `$html` by asking `$rehoster` to resolve every
      * in-scope `<img src>` and `<a href>`. Returns the new HTML.
      *
      * @param array<string, mixed> $context forwarded to the rehoster on every call.
      *   Recognised keys:
      *     - `host` (string) — origin WP site host; enables scoping
+     *     - `scheme` (string) — origin scheme, used to promote
+     *        protocol-relative URLs. Defaults to `https` when absent.
      *     - `rel_type`, `rel_id` — forwarded verbatim (not read here)
      */
     public function rewrite(string $html, MediaRehoster $rehoster, array $context = []): string
@@ -84,10 +107,12 @@ final class HtmlMediaRewriter
             ? strtolower($context['host'])
             : null;
 
+        $originScheme = self::normalizeScheme($context['scheme'] ?? null);
+
         /** @var array<string, string|null> $cache */
         $cache = [];
 
-        $resolve = function (string $url) use ($rehoster, $context, $originHost, &$cache): ?string {
+        $resolve = function (string $url) use ($rehoster, $context, $originHost, $originScheme, &$cache): ?string {
             // Normalize whitespace to preserve leading/trailing
             // spaces intentionally used in some rare feeds, but
             // cache by the trimmed URL so semantically identical
@@ -99,11 +124,27 @@ final class HtmlMediaRewriter
             if (array_key_exists($key, $cache)) {
                 return $cache[$key];
             }
-            if ($originHost !== null && !self::isInScope($key, $originHost)) {
+
+            // Short-circuit obvious non-asset links BEFORE caching:
+            // #fragment, mailto:, tel:, javascript:, data:. These
+            // can't be rehosted and shouldn't clutter the rehoster's
+            // call log.
+            if (self::isSkipScheme($key)) {
                 $cache[$key] = null;
                 return null;
             }
-            $result = $rehoster->rehost($key, $context);
+
+            // Promote protocol-relative URLs to absolute using the
+            // origin scheme. `//cdn.example/x.jpg` → `https://cdn…`.
+            // Done before scoping so the host filter sees a real
+            // URL and before the rehoster so it actually fetches.
+            $resolved = self::promoteProtocolRelative($key, $originScheme);
+
+            if ($originHost !== null && !self::isInScope($resolved, $originHost)) {
+                $cache[$key] = null;
+                return null;
+            }
+            $result = $rehoster->rehost($resolved, $context);
             $cache[$key] = $result;
             return $result;
         };
@@ -161,6 +202,34 @@ final class HtmlMediaRewriter
         }
 
         return false;
+    }
+
+    private static function isSkipScheme(string $url): bool
+    {
+        $lower = strtolower($url);
+        foreach (self::SKIP_PREFIXES as $prefix) {
+            if (str_starts_with($lower, $prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static function promoteProtocolRelative(string $url, string $scheme): string
+    {
+        if (str_starts_with($url, '//')) {
+            return $scheme . ':' . $url;
+        }
+        return $url;
+    }
+
+    private static function normalizeScheme(mixed $scheme): string
+    {
+        if (!is_string($scheme) || $scheme === '') {
+            return 'https';
+        }
+        $lower = strtolower($scheme);
+        return in_array($lower, ['http', 'https'], true) ? $lower : 'https';
     }
 
     /**

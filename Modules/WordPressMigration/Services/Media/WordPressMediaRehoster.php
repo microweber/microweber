@@ -42,12 +42,24 @@ namespace Modules\WordPressMigration\Services\Media;
  *
  * Assets this class WILL rehost (returns a receipt):
  *   - http(s) URLs whose path ends in a whitelisted image/doc ext
+ *   - protocol-relative URLs (`//host/file.jpg`) — promoted using
+ *     `$context['scheme']` (defaults to `https`)
  *
  * Assets this class WON'T rehost (returns null):
  *   - non-http(s) schemes (mailto:, tel:, javascript:, data:)
- *   - protocol-relative URLs (`//host/file.jpg`) — caller must resolve
  *   - paths without a usable extension
  *   - URLs whose download fails or returns zero bytes
+ *
+ * Redirects
+ * ---------
+ * The injected downloader is expected to follow HTTP redirects
+ * transparently. The default downloader (`mw()->http->url($url)->
+ * download($target)`) uses Microweber's HTTP client, which does
+ * follow redirects. Two URLs redirecting to the same final
+ * resource are still downloaded twice (once per unique request URL)
+ * but content-hash dedupe catches the duplicate bytes and
+ * collapses them into a single on-disk file + media row — exactly
+ * the behavior the spec asks for.
  */
 final class WordPressMediaRehoster implements MediaRehoster
 {
@@ -149,7 +161,20 @@ final class WordPressMediaRehoster implements MediaRehoster
             return $this->byUrl[$trimmed];
         }
 
-        $parsed = parse_url($trimmed);
+        // Protocol-relative URLs (`//host/file.jpg`) get promoted
+        // using the origin scheme carried on $context. The default
+        // is https — safe for any modern WP export and matches the
+        // rewriter's own default. We cache both the original and
+        // the promoted key below so the second caller hitting the
+        // same `//host/...` URL short-circuits without a second
+        // parse.
+        $resolved = $trimmed;
+        if (str_starts_with($resolved, '//')) {
+            $scheme = $this->normalizeScheme($context['scheme'] ?? null);
+            $resolved = $scheme . ':' . $resolved;
+        }
+
+        $parsed = parse_url($resolved);
         if (!is_array($parsed) || !isset($parsed['scheme'], $parsed['host'])) {
             return null;
         }
@@ -165,7 +190,7 @@ final class WordPressMediaRehoster implements MediaRehoster
         }
 
         $tmp = $this->makeTempPath($ext);
-        if (!$this->download($trimmed, $tmp)) {
+        if (!$this->download($resolved, $tmp)) {
             @unlink($tmp);
             return null;
         }
@@ -183,6 +208,7 @@ final class WordPressMediaRehoster implements MediaRehoster
             @unlink($tmp);
             $existing = $this->byHash[$hash];
             $this->byUrl[$trimmed] = $existing;
+            $this->byUrl[$resolved] = $existing;
             return $existing;
         }
 
@@ -212,7 +238,17 @@ final class WordPressMediaRehoster implements MediaRehoster
         $receipt = new RehostReceipt($mediaId, $publicUrl);
         $this->byHash[$hash] = $receipt;
         $this->byUrl[$trimmed] = $receipt;
+        $this->byUrl[$resolved] = $receipt;
         return $receipt;
+    }
+
+    private function normalizeScheme(mixed $scheme): string
+    {
+        if (!is_string($scheme) || $scheme === '') {
+            return 'https';
+        }
+        $lower = strtolower($scheme);
+        return in_array($lower, ['http', 'https'], true) ? $lower : 'https';
     }
 
     /**

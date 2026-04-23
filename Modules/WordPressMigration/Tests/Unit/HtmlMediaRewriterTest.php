@@ -258,6 +258,75 @@ class HtmlMediaRewriterTest extends TestCase
     }
 
     #[Test]
+    public function protocol_relative_url_is_promoted_via_origin_scheme_before_rehost(): void
+    {
+        // WP themes often embed `//cdn.host/x.jpg` to let the browser
+        // pick http vs https. After migration we need to rewrite
+        // these same as any absolute URL, using the origin's scheme.
+        $rehoster = new FakeMediaRehoster([
+            'https://cdn.example.com/hero.jpg' => '/userfiles/media/hero.jpg',
+        ]);
+
+        $html = '<img src="//cdn.example.com/hero.jpg">';
+        $out = (new HtmlMediaRewriter())->rewrite($html, $rehoster, [
+            'host' => 'example.com',
+            'scheme' => 'https',
+        ]);
+
+        $this->assertStringContainsString('src="/userfiles/media/hero.jpg"', $out);
+        $this->assertSame(['https://cdn.example.com/hero.jpg'], $rehoster->calls,
+            'Rehoster must see the promoted absolute URL, not the //-prefixed form'
+        );
+    }
+
+    #[Test]
+    public function protocol_relative_defaults_to_https_when_context_has_no_scheme(): void
+    {
+        $rehoster = new FakeMediaRehoster([
+            'https://example.com/wp-content/uploads/x.jpg' => '/userfiles/media/x.jpg',
+        ]);
+
+        $html = '<img src="//example.com/wp-content/uploads/x.jpg">';
+        $out = (new HtmlMediaRewriter())->rewrite($html, $rehoster, ['host' => 'example.com']);
+
+        $this->assertStringContainsString('src="/userfiles/media/x.jpg"', $out);
+    }
+
+    #[Test]
+    public function anchor_href_is_skipped_without_consulting_rehoster(): void
+    {
+        $rehoster = new FakeMediaRehoster([]);
+
+        $html = '<p><a href="#toc">Table of contents</a></p>';
+        $out = (new HtmlMediaRewriter())->rewrite($html, $rehoster);
+
+        $this->assertSame($html, $out);
+        $this->assertSame([], $rehoster->calls,
+            'Fragment anchors must never reach the rehoster'
+        );
+    }
+
+    #[Test]
+    public function mailto_and_tel_and_javascript_and_data_urls_are_skipped(): void
+    {
+        $rehoster = new FakeMediaRehoster([]);
+
+        $html = '<p>'
+            . '<a href="mailto:hi@example.com">mail</a>'
+            . '<a href="tel:+15551234">call</a>'
+            . '<a href="javascript:alert(1)">js</a>'
+            . '<img src="data:image/png;base64,AAA">'
+            . '</p>';
+
+        $out = (new HtmlMediaRewriter())->rewrite($html, $rehoster);
+
+        $this->assertSame($html, $out);
+        $this->assertSame([], $rehoster->calls,
+            'Opaque / non-asset schemes must never reach the rehoster'
+        );
+    }
+
+    #[Test]
     public function without_origin_host_legacy_permissive_mode_delegates_everything(): void
     {
         // Backwards compat: callers that don't supply host (older
