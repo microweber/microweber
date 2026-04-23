@@ -5,6 +5,7 @@ namespace Modules\WordPressMigration\Providers;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\WordPressMigration\Filament\Pages\WordPressMigrationImportPage;
+use Modules\WordPressMigration\Filament\Pages\WordPressMigrationPreviewPage;
 use Modules\WordPressMigration\Services\Http\CurlHttpProbeFetcher;
 use Modules\WordPressMigration\Services\Http\HttpProbeFetcher;
 
@@ -26,5 +27,6 @@ class WordPressMigrationServiceProvider extends BaseModuleServiceProvider
         $this->app->bind(HttpProbeFetcher::class, CurlHttpProbeFetcher::class);
 
         FilamentRegistry::registerPage(WordPressMigrationImportPage::class);
+        FilamentRegistry::registerPage(WordPressMigrationPreviewPage::class);
     }
 }
