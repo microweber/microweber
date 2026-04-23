@@ -8,13 +8,18 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit coverage for {@see WordPressMediaRehoster}.
+ * Unit coverage for {@see WordPressMediaRehoster} — the media
+ * rehoster referenced as `MediaRehosterTest` in the phase-7 plan.
  *
  * These tests inject fake downloader + saver closures so nothing
- * hits the network or the database. The comprehensive line-1303
- * cases (redirect following, mime-sniff fallback, CDN variants)
- * live in their own fixture test; this file just nails down the
- * core contract: download once, hash, dedupe, return receipt.
+ * hits the network or the database. The four focal cases the plan
+ * calls out are explicitly covered:
+ *
+ *  - dedupe              → {@see two_urls_with_identical_bytes_dedupe_to_one_file_and_one_media_row}
+ *  - redirect-following  → {@see redirect_following_is_delegated_to_the_downloader}
+ *  - mime-sniff fallback → {@see extensionless_url_is_rehosted_via_mime_sniff} and
+ *                          {@see mime_sniff_picks_correct_extension_per_signature}
+ *  - protocol-relative   → {@see protocol_relative_url_is_promoted_via_context_scheme}
  */
 class WordPressMediaRehosterTest extends TestCase
 {
@@ -103,12 +108,90 @@ class WordPressMediaRehosterTest extends TestCase
     }
 
     #[Test]
-    public function urls_without_a_recognised_extension_are_rejected(): void
+    public function urls_whose_downloads_fail_and_lack_sniffable_bytes_are_rejected(): void
     {
+        // Default fake downloader has nothing in its table, so
+        // every download fails. That's the only way a URL without
+        // a recognised extension can be rejected now — we always
+        // try to sniff bytes before giving up.
         $rehoster = $this->makeRehoster();
 
         $this->assertNull($rehoster->fetch('https://wp.example/category/news/'));
         $this->assertNull($rehoster->fetch('https://wp.example/wp-json/wp/v2/posts'));
+    }
+
+    #[Test]
+    public function extensionless_url_is_rehosted_via_mime_sniff(): void
+    {
+        // WP CDNs rewrite asset URLs to extensionless signed forms.
+        // The downloader still returns bytes; we must sniff them
+        // and rehost under the correct extension.
+        $jpegBytes = "\xFF\xD8\xFF\xE0" . str_repeat('x', 128);
+        $saves = [];
+        $rehoster = $this->makeRehoster(
+            downloader: $this->fakeDownloader([
+                'https://cdn.example/signed/abc123' => $jpegBytes,
+            ]),
+            saver: function (array $data) use (&$saves): int {
+                $saves[] = $data;
+                return 42;
+            },
+        );
+
+        $receipt = $rehoster->fetch('https://cdn.example/signed/abc123');
+
+        $this->assertNotNull($receipt);
+        $this->assertStringEndsWith('.jpg', $receipt->url);
+        $this->assertSame('picture', $saves[0]['media_type']);
+    }
+
+    #[Test]
+    public function extensionless_url_without_recognised_magic_is_rejected(): void
+    {
+        // Random bytes that match no signature → null, no file
+        // left on disk, no media row inserted.
+        $saves = [];
+        $rehoster = $this->makeRehoster(
+            downloader: $this->fakeDownloader([
+                'https://wp.example/mystery' => 'NOT-A-RECOGNISED-FILE',
+            ]),
+            saver: function (array $data) use (&$saves): int {
+                $saves[] = $data;
+                return 1;
+            },
+        );
+
+        $this->assertNull($rehoster->fetch('https://wp.example/mystery'));
+        $this->assertSame([], $saves);
+    }
+
+    #[Test]
+    public function mime_sniff_picks_correct_extension_per_signature(): void
+    {
+        $cases = [
+            'https://cdn.example/a' => ["\xFF\xD8\xFF\xE0\x00\x10JFIF", 'jpg'],
+            'https://cdn.example/b' => ["\x89PNG\r\n\x1A\n" . str_repeat('p', 16), 'png'],
+            'https://cdn.example/c' => ['GIF89a' . str_repeat('g', 16), 'gif'],
+            'https://cdn.example/d' => ['%PDF-1.7' . str_repeat('x', 16), 'pdf'],
+            'https://cdn.example/e' => ['RIFF' . "\x00\x00\x00\x00" . 'WEBP' . str_repeat('x', 8), 'webp'],
+            'https://cdn.example/f' => ['RIFF' . "\x00\x00\x00\x00" . 'WAVE' . str_repeat('x', 8), 'wav'],
+            'https://cdn.example/g' => ['<?xml version="1.0"?><svg></svg>', 'svg'],
+        ];
+
+        $table = [];
+        foreach ($cases as $url => [$bytes, $_]) {
+            $table[$url] = $bytes;
+        }
+
+        $rehoster = $this->makeRehoster(
+            downloader: $this->fakeDownloader($table),
+        );
+
+        foreach ($cases as $url => [$_, $expectedExt]) {
+            $receipt = $rehoster->fetch($url);
+            $this->assertNotNull($receipt, "signature for {$url} must be sniffable");
+            $this->assertStringEndsWith('.' . $expectedExt, $receipt->url);
+        }
     }
 
     #[Test]

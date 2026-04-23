@@ -184,13 +184,27 @@ final class WordPressMediaRehoster implements MediaRehoster
         }
 
         $path = $parsed['path'] ?? '';
-        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        if ($ext === '' || !in_array($ext, self::ASSET_EXTENSIONS, true)) {
+        $urlExt = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        // URL-derived extension is the fast path. We accept it if
+        // the path ends in a recognised image/doc ext. Otherwise we
+        // still attempt a download and sniff the mime type of the
+        // bytes — WP sites increasingly serve extensionless asset
+        // URLs (CDN rewrites, signed URLs), and rejecting them on
+        // path shape alone loses real images.
+        $hasUrlExt = $urlExt !== '' && in_array($urlExt, self::ASSET_EXTENSIONS, true);
+
+        $tmp = $this->makeTempPath($hasUrlExt ? $urlExt : 'bin');
+        if (!$this->download($resolved, $tmp)) {
+            @unlink($tmp);
             return null;
         }
 
-        $tmp = $this->makeTempPath($ext);
-        if (!$this->download($resolved, $tmp)) {
+        // If the URL gave us no usable extension, sniff it from the
+        // downloaded bytes. Anything we can't classify gets dropped
+        // here (not an asset we'd want to rehost).
+        $ext = $hasUrlExt ? $urlExt : $this->sniffExtension($tmp);
+        if ($ext === null) {
             @unlink($tmp);
             return null;
         }
@@ -327,6 +341,56 @@ final class WordPressMediaRehoster implements MediaRehoster
 
         $rel = substr($absolutePath, strlen($this->storageRoot));
         return '/userfiles/media/' . str_replace(DIRECTORY_SEPARATOR, '/', $rel);
+    }
+
+    /**
+     * Best-effort extension sniff for URLs where the path didn't
+     * carry a usable extension. We peek at the first few bytes of
+     * the downloaded file and map recognised image/audio/video
+     * magic numbers to extensions; anything unknown returns null,
+     * which the caller treats as "don't rehost this".
+     *
+     * Why not `mime_content_type()` / `finfo`: both are available
+     * on most PHP builds but their exact mapping varies by system
+     * (`image/svg` vs `image/svg+xml`, PDF magic length, etc.)
+     * and the fixture test wants deterministic behaviour. Sniffing
+     * by the handful of signatures we actually care about is
+     * simpler and faster.
+     */
+    private function sniffExtension(string $path): ?string
+    {
+        $fh = @fopen($path, 'rb');
+        if ($fh === false) {
+            return null;
+        }
+        $head = fread($fh, 16) ?: '';
+        fclose($fh);
+        if ($head === '') {
+            return null;
+        }
+
+        // Binary signatures
+        if (str_starts_with($head, "\xFF\xD8\xFF"))             return 'jpg';
+        if (str_starts_with($head, "\x89PNG\r\n\x1A\n"))        return 'png';
+        if (str_starts_with($head, 'GIF87a') || str_starts_with($head, 'GIF89a')) return 'gif';
+        if (str_starts_with($head, '%PDF'))                     return 'pdf';
+        if (str_starts_with($head, "ID3") || (isset($head[0], $head[1]) && $head[0] === "\xFF" && (ord($head[1]) & 0xE0) === 0xE0)) return 'mp3';
+
+        // RIFF-wrapped families (WebP, WAV) share a 4-byte magic;
+        // disambiguate with the trailing 4-byte form code.
+        if (str_starts_with($head, 'RIFF') && strlen($head) >= 12) {
+            $form = substr($head, 8, 4);
+            if ($form === 'WEBP') return 'webp';
+            if ($form === 'WAVE') return 'wav';
+        }
+
+        // Textual SVG sniff — first non-whitespace bytes are '<'.
+        $ltrim = ltrim($head);
+        if (stripos($ltrim, '<?xml') === 0 || stripos($ltrim, '<svg') === 0) {
+            return 'svg';
+        }
+
+        return null;
     }
 
     private function guessMediaType(string $ext): string
