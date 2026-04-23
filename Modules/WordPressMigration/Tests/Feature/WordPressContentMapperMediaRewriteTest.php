@@ -47,14 +47,14 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
     public function mapper_rewrites_img_and_a_urls_into_content_column(): void
     {
         $rehoster = new RecordingRehoster([
-            'https://wp.example/hero.jpg' => '/userfiles/media/hero.jpg',
-            'https://wp.example/doc.pdf' => '/userfiles/media/doc.pdf',
+            'https://example.com/wp-content/uploads/hero.jpg' => '/userfiles/media/hero.jpg',
+            'https://example.com/wp-content/uploads/doc.pdf' => '/userfiles/media/doc.pdf',
         ]);
 
         $mapper = new WordPressContentMapper(rehoster: $rehoster);
 
-        $html = '<p><img src="https://wp.example/hero.jpg" alt="h"> '
-            . '<a href="https://wp.example/doc.pdf">PDF</a></p>';
+        $html = '<p><img src="https://example.com/wp-content/uploads/hero.jpg" alt="h"> '
+            . '<a href="https://example.com/wp-content/uploads/doc.pdf">PDF</a></p>';
 
         $content = $mapper->map($this->dto([
             'guid' => 'wp:media-1',
@@ -63,20 +63,20 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
 
         $this->assertStringContainsString('src="/userfiles/media/hero.jpg"', $content->content);
         $this->assertStringContainsString('href="/userfiles/media/doc.pdf"', $content->content);
-        $this->assertStringNotContainsString('wp.example', $content->content);
+        $this->assertStringNotContainsString('wp-content/uploads', $content->content);
     }
 
     #[Test]
     public function rehoster_receives_rel_id_of_the_freshly_saved_row(): void
     {
         $rehoster = new RecordingRehoster([
-            'https://wp.example/pic.jpg' => '/userfiles/media/pic.jpg',
+            'https://example.com/wp-content/uploads/pic.jpg' => '/userfiles/media/pic.jpg',
         ]);
 
         $mapper = new WordPressContentMapper(rehoster: $rehoster);
         $content = $mapper->map($this->dto([
             'guid' => 'wp:media-ctx',
-            'html' => '<img src="https://wp.example/pic.jpg">',
+            'html' => '<img src="https://example.com/wp-content/uploads/pic.jpg">',
         ]));
 
         $this->assertNotEmpty($rehoster->contexts);
@@ -97,7 +97,7 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
 
         $content = $mapper->map($this->dto([
             'guid' => 'wp:no-change',
-            'html' => '<p><img src="https://off-site.example/x.png"></p>',
+            'html' => '<p><img src="https://example.com/wp-content/uploads/x.png"></p>',
         ]));
 
         $firstUpdatedAt = (string)$content->updated_at;
@@ -108,7 +108,7 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
         sleep(1); // timestamp granularity is seconds
         $again = $mapper->map($this->dto([
             'guid' => 'wp:no-change',
-            'html' => '<p><img src="https://off-site.example/x.png"></p>',
+            'html' => '<p><img src="https://example.com/wp-content/uploads/x.png"></p>',
         ]));
 
         $this->assertSame($content->id, $again->id);
@@ -117,7 +117,9 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
         // the media-rewrite pass itself must not trigger an extra
         // save — we assert that by counting rehoster invocations
         // per URL: same URL across two map()s, one rehost call
-        // per run, not double.
+        // per run, not double. Using an in-scope wp-content/uploads
+        // URL so the rewriter's origin filter doesn't short-circuit
+        // the rehoster call — that's what we want to count here.
         $this->assertSame(2, count($rehoster->calls),
             'Each map() asks the rehoster once; cache is per-call, not persistent'
         );

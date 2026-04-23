@@ -28,6 +28,22 @@ namespace Modules\WordPressMigration\Services\Media;
  *   `<img>` inside the body and an `<a href>` wrapping it. We
  *   cache the rehost result per URL so both end up pointing at
  *   the same new media record without a second download.
+ * - **Origin-scoped rewriting.** When `$context['host']` is
+ *   supplied, the rewriter filters URLs to the WP uploads origin
+ *   *before* calling the rehoster — anything off-site is left
+ *   alone without even asking. This matches the Phase 7 brief
+ *   ("replaces every `<img src>`, `<a href>` to the old
+ *   `wp-content/uploads/` origin with the rehosted URL; leaves
+ *   off-site links alone"). A URL is in-scope if:
+ *     1. Its path contains `/wp-content/uploads/` — WP uploads
+ *        regardless of host (covers Jetpack/CDN rewrites like
+ *        `i0.wp.com/site.example/wp-content/uploads/...`)
+ *     2. Its host equals `$context['host']` or is a subdomain of
+ *        it — catches non-upload same-site assets (theme images,
+ *        legacy `/files/` paths)
+ *     3. It has no host at all — relative URL, defer to rehoster
+ *   Omit the host and the rewriter stays permissive (delegates
+ *   every URL), which is the old behavior.
  *
  * What this class does NOT do
  * ---------------------------
@@ -51,9 +67,12 @@ final class HtmlMediaRewriter
 
     /**
      * Rewrite `$html` by asking `$rehoster` to resolve every
-     * `<img src>` and `<a href>`. Returns the new HTML.
+     * in-scope `<img src>` and `<a href>`. Returns the new HTML.
      *
-     * @param array<string, mixed> $context forwarded to the rehoster on every call
+     * @param array<string, mixed> $context forwarded to the rehoster on every call.
+     *   Recognised keys:
+     *     - `host` (string) — origin WP site host; enables scoping
+     *     - `rel_type`, `rel_id` — forwarded verbatim (not read here)
      */
     public function rewrite(string $html, MediaRehoster $rehoster, array $context = []): string
     {
@@ -61,10 +80,14 @@ final class HtmlMediaRewriter
             return $html;
         }
 
+        $originHost = isset($context['host']) && is_string($context['host']) && $context['host'] !== ''
+            ? strtolower($context['host'])
+            : null;
+
         /** @var array<string, string|null> $cache */
         $cache = [];
 
-        $resolve = function (string $url) use ($rehoster, $context, &$cache): ?string {
+        $resolve = function (string $url) use ($rehoster, $context, $originHost, &$cache): ?string {
             // Normalize whitespace to preserve leading/trailing
             // spaces intentionally used in some rare feeds, but
             // cache by the trimmed URL so semantically identical
@@ -75,6 +98,10 @@ final class HtmlMediaRewriter
             }
             if (array_key_exists($key, $cache)) {
                 return $cache[$key];
+            }
+            if ($originHost !== null && !self::isInScope($key, $originHost)) {
+                $cache[$key] = null;
+                return null;
             }
             $result = $rehoster->rehost($key, $context);
             $cache[$key] = $result;
@@ -96,6 +123,44 @@ final class HtmlMediaRewriter
         }
 
         return $html;
+    }
+
+    /**
+     * Decide whether a URL should be handed to the rehoster when
+     * the caller has declared an origin host. The three gates:
+     *   1. Path contains `/wp-content/uploads/` — always yes
+     *   2. URL host == originHost or subdomain thereof — yes
+     *   3. URL has no host (relative path, or non-http scheme like
+     *      mailto:/tel:) — yes, let the rehoster decide
+     * Anything else is off-site and we bail out without a rehost
+     * call.
+     */
+    private static function isInScope(string $url, string $originHost): bool
+    {
+        if (stripos($url, '/wp-content/uploads/') !== false) {
+            return true;
+        }
+
+        $parsed = parse_url($url);
+        if (!is_array($parsed) || !isset($parsed['host'])) {
+            // No host — relative URL or opaque scheme. Rehoster
+            // will return null for opaque schemes anyway; the
+            // rewriter's job here is just not to pre-filter them.
+            return true;
+        }
+
+        $urlHost = strtolower((string)$parsed['host']);
+        if ($urlHost === $originHost) {
+            return true;
+        }
+        // Subdomain match: urlHost ends in ".originHost" — keeps
+        // example.com from matching evil-example.com while still
+        // accepting cdn.example.com.
+        if (str_ends_with($urlHost, '.' . $originHost)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
