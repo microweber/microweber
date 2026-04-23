@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Truncated RSS 2.0 feed — the kind of response you get from an
+  origin site that dies mid-stream (proxy timeout, backend 500 that
+  happened after the first flush, etc.). Channel opens, the first
+  item opens, and the file cuts off before the closing tags.
+
+  Parser MUST NOT throw. The importer's contract is to return an
+  empty list and let the caller decide whether to retry.
+-->
+<rss version="2.0">
+  <channel>
+    <title>Broken Site</title>
+    <link>https://broken.example</link>
+    <item>
+      <title>Cut off mid-item
+      <link>https://broken.example/x</link>
+      <guid>https://broken.example/x</guid>
+      <description>partial

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atom 1.0 feed. The Atom fallback path runs only when `/feed/`
+  doesn't exist or doesn't look like RSS; the importer hits
+  `/feed/atom/` and parses this shape.
+
+  Covers:
+    - `<link rel="alternate">` is preferred over `<link rel="self">`
+      for the canonical URL.
+    - `<content type="html">` CDATA body wins; `<summary>` becomes
+      the excerpt when both are present.
+    - `<author><name>` extracts the author.
+    - `<category term="…">` fills categories (Atom has no tag/
+      category split the way RSS does).
+    - `<published>` over `<updated>` for publishedAt.
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atom Example</title>
+  <link rel="self" href="https://example.com/feed/atom/"/>
+  <link rel="alternate" href="https://example.com/"/>
+  <updated>2026-03-06T10:00:00+00:00</updated>
+  <id>tag:example.com,2026:feed</id>
+
+  <entry>
+    <id>tag:example.com,2026:post-7</id>
+    <title>Atom post</title>
+    <link rel="self" href="https://example.com/feed/atom/7"/>
+    <link rel="alternate" href="https://example.com/atom-post"/>
+    <published>2026-03-05T08:15:00+00:00</published>
+    <updated>2026-03-05T09:00:00+00:00</updated>
+    <author><name>Bob</name></author>
+    <category term="Essays" label="essays"/>
+    <category term="Writing"/>
+    <summary>Short Atom summary.</summary>
+    <content type="html"><![CDATA[<p>Atom body <strong>content</strong>.</p>]]></content>
+  </entry>
+
+  <entry>
+    <id>tag:example.com,2026:post-8</id>
+    <title>Second Atom entry</title>
+    <link rel="alternate" href="https://example.com/second-atom"/>
+    <published>2026-03-06T10:00:00+00:00</published>
+    <content type="html">Plain body without CDATA.</content>
+  </entry>
+</feed>

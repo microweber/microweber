@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Plain RSS 2.0 feed — the shape the `RssFeedImporter` sees against
+  a non-WordPress site that happens to publish to `/feed/`. No
+  `content:encoded`, no `wp:post_id`, so the parser falls back to
+  `<description>` for the body and the `<guid>` element for identity.
+
+  Two items, one of which uses `domain="post_tag"` on a category so
+  the split-into-tags path is exercised.
+-->
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Example Site</title>
+    <link>https://example.com</link>
+    <description>A non-WordPress site publishing RSS.</description>
+    <language>en-US</language>
+
+    <item>
+      <title>First post</title>
+      <link>https://example.com/first</link>
+      <guid isPermaLink="true">https://example.com/?p=1</guid>
+      <pubDate>Wed, 15 Apr 2026 10:30:00 +0000</pubDate>
+      <dc:creator>Alice</dc:creator>
+      <description>Short teaser for the first post.</description>
+      <category>News</category>
+      <category domain="post_tag">announcement</category>
+    </item>
+
+    <item>
+      <title>Second post</title>
+      <link>https://example.com/second</link>
+      <guid isPermaLink="false">urn:uuid:7f1a</guid>
+      <pubDate>Thu, 16 Apr 2026 09:00:00 +0000</pubDate>
+      <description>Body of the second post.</description>
+    </item>
+  </channel>
+</rss>

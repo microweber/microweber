@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  WordPress-flavored RSS 2.0. When a site runs WordPress the feed
+  ships both `<description>` (short excerpt) AND `<content:encoded>`
+  (full post HTML). The importer MUST take the full body from
+  content:encoded and keep description as the excerpt.
+
+  Two additional WP-isms exercised here:
+    - `<wp:post_id>` overrides the url-shaped <guid> as the stable
+      identity; we prefer it because it survives permalink changes.
+    - Multiple `<category domain="post_tag">` entries split into
+      the `tags` array while bare `<category>` becomes `categories`.
+-->
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:wp="http://wordpress.org/export/1.2/">
+  <channel>
+    <title>WP Blog</title>
+    <link>https://wp.example</link>
+    <description>WordPress-powered example site.</description>
+
+    <item>
+      <title>Full article</title>
+      <link>https://wp.example/full-article</link>
+      <guid>https://wp.example/?p=9</guid>
+      <wp:post_id>42</wp:post_id>
+      <pubDate>Fri, 17 Apr 2026 12:00:00 +0000</pubDate>
+      <dc:creator>Carol</dc:creator>
+      <description>This is the short excerpt that appears in feed readers.</description>
+      <content:encoded><![CDATA[<p>The <em>full</em> article body with an image <img src="https://wp.example/img/a.png" alt="a" /> and a <a href="https://wp.example/related">related link</a>.</p>]]></content:encoded>
+      <category>Essays</category>
+      <category domain="post_tag">longform</category>
+      <category domain="post_tag">featured</category>
+    </item>
+
+    <item>
+      <title>Another post</title>
+      <link>https://wp.example/another</link>
+      <guid>https://wp.example/?p=10</guid>
+      <wp:post_id>43</wp:post_id>
+      <pubDate>Sat, 18 Apr 2026 08:15:00 +0000</pubDate>
+      <dc:creator>Dave</dc:creator>
+      <description>Teaser.</description>
+      <content:encoded><![CDATA[<p>Body.</p>]]></content:encoded>
+      <category>News</category>
+    </item>
+  </channel>
+</rss>
