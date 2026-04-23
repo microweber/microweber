@@ -139,7 +139,7 @@ class WpRestImporter
         [$categories, $pCat] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/categories', $fetched, $warnings, 'categories');
         [$tags, $pTag] = $this->collectTermsIndexed($base . '/wp-json/wp/v2/tags', $fetched, $warnings, 'tags');
         [$users, $pUser] = $this->collectUsersIndexed($base . '/wp-json/wp/v2/users', $fetched, $warnings);
-        [$media, $pMedia] = $this->collectList($base . '/wp-json/wp/v2/media', $fetched, $warnings, 'media');
+        [$media, $mediaBySourceUrl, $pMedia] = $this->collectMediaIndexed($base . '/wp-json/wp/v2/media', $fetched, $warnings);
         [$comments, $pCmt] = $this->collectList($base . '/wp-json/wp/v2/comments', $fetched, $warnings, 'comments');
         $menus = $this->collectMenus($base . '/wp-json/wp/v2/menus', $fetched, $warnings, $pagesFetched);
 
@@ -162,6 +162,7 @@ class WpRestImporter
             categoriesIdx: $categories,
             tagsIdx: $tags,
             usersIdx: $users,
+            mediaIdx: $mediaBySourceUrl,
             seen: $seen,
             collected: $collected,
             maxItems: $maxItems,
@@ -176,6 +177,7 @@ class WpRestImporter
                 categoriesIdx: $categories,
                 tagsIdx: $tags,
                 usersIdx: $users,
+                mediaIdx: $mediaBySourceUrl,
                 seen: $seen,
                 collected: $collected,
                 maxItems: $maxItems,
@@ -206,6 +208,7 @@ class WpRestImporter
      * @param array<int, array{name: string, slug: string}> $categoriesIdx
      * @param array<int, array{name: string, slug: string}> $tagsIdx
      * @param array<int, string> $usersIdx
+     * @param array<int, string> $mediaIdx Map of media post ID → origin source_url
      * @param array<string, true> $seen
      * @param list<MigrationItemDTO> $collected
      * @param list<string> $fetched
@@ -217,6 +220,7 @@ class WpRestImporter
         array $categoriesIdx,
         array $tagsIdx,
         array $usersIdx,
+        array $mediaIdx,
         array &$seen,
         array &$collected,
         int $maxItems,
@@ -245,7 +249,7 @@ class WpRestImporter
                 if (!is_array($row)) {
                     continue;
                 }
-                $dto = $this->toMigrationItem($row, $contentType, $host, $categoriesIdx, $tagsIdx, $usersIdx);
+                $dto = $this->toMigrationItem($row, $contentType, $host, $categoriesIdx, $tagsIdx, $usersIdx, $mediaIdx);
                 if ($dto === null) {
                     continue;
                 }
@@ -278,6 +282,7 @@ class WpRestImporter
      * @param array<int, array{name: string, slug: string}> $categoriesIdx
      * @param array<int, array{name: string, slug: string}> $tagsIdx
      * @param array<int, string> $usersIdx
+     * @param array<int, string> $mediaIdx Map of media post ID → origin source_url
      */
     private function toMigrationItem(
         array $row,
@@ -286,6 +291,7 @@ class WpRestImporter
         array $categoriesIdx,
         array $tagsIdx,
         array $usersIdx,
+        array $mediaIdx,
     ): ?MigrationItemDTO {
         $postId = isset($row['id']) ? (int)$row['id'] : 0;
         if ($postId <= 0) {
@@ -309,6 +315,15 @@ class WpRestImporter
 
         $link = is_string($row['link'] ?? null) && $row['link'] !== '' ? (string)$row['link'] : null;
 
+        // `featured_media` is a post ID referencing the /media collection.
+        // 0 (WP's sentinel for "no featured image") or an ID we didn't
+        // collect (media endpoint hardened / auth-gated) both resolve to
+        // null, which the DTO treats as "publisher never set one".
+        $featuredMediaId = (int)($row['featured_media'] ?? 0);
+        $featuredImageUrl = $featuredMediaId > 0 && isset($mediaIdx[$featuredMediaId])
+            ? $mediaIdx[$featuredMediaId]
+            : null;
+
         // The mapper's idempotency key is (import_source, source_guid).
         // `wp:{post_id}` is stable across re-runs and distinct from the
         // RSS importer's feed-guid format so a later RSS re-probe of the
@@ -325,6 +340,7 @@ class WpRestImporter
             canonicalUrl: $link,
             source: self::SOURCE,
             sourceHost: $host,
+            featuredImageUrl: $featuredImageUrl,
         );
     }
 
@@ -392,6 +408,38 @@ class WpRestImporter
             ];
         }
         return [$index, $pages];
+    }
+
+    /**
+     * Fetch the media collection and return both the flat row list
+     * (consumed by the Phase 7 media rehoster via
+     * {@see WpRestImportResult::$media}) and a compact id→source_url
+     * index the post mapper uses to resolve `featured_media`.
+     *
+     * Falling back to just the flat list would force every post
+     * lookup to scan the full media set; building the index once
+     * keeps per-post cost constant.
+     *
+     * @param list<string> $fetched
+     * @param list<string> $warnings
+     * @return array{0: list<array<string, mixed>>, 1: array<int, string>, 2: int}
+     */
+    private function collectMediaIndexed(string $url, array &$fetched, array &$warnings): array
+    {
+        [$rows, $pages] = $this->collectList($url, $fetched, $warnings, 'media');
+        $index = [];
+        foreach ($rows as $row) {
+            $id = isset($row['id']) ? (int)$row['id'] : 0;
+            if ($id <= 0) {
+                continue;
+            }
+            $sourceUrl = is_string($row['source_url'] ?? null) ? trim((string)$row['source_url']) : '';
+            if ($sourceUrl === '') {
+                continue;
+            }
+            $index[$id] = $sourceUrl;
+        }
+        return [$rows, $index, $pages];
     }
 
     /**

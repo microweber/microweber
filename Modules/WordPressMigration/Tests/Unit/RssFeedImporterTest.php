@@ -263,6 +263,7 @@ XML;
             'canonical_url' => 'https://example.com/r',
             'source' => 'rss',
             'source_host' => 'example.com',
+            'featured_image_url' => null,
         ], $dto->toArray());
     }
 

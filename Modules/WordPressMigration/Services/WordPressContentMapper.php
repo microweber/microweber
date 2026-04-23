@@ -101,6 +101,11 @@ class WordPressContentMapper
             // rather than leaves stale provenance behind.
             $existing->setContentData($this->metaFields($dto));
             $existing->save();
+            // Featured image first so the rehoster sees an empty
+            // media attachment set for this content row; the HTML
+            // rewriter runs second and will dedupe on content hash
+            // if the featured image also appears inline.
+            $this->rehostFeaturedImage($existing, $dto);
             $this->rewriteMediaInto($existing, $dto);
             return $existing->refresh();
         }
@@ -121,8 +126,46 @@ class WordPressContentMapper
         }
         $content->setContentData($this->metaFields($dto));
         $content->save();
+        $this->rehostFeaturedImage($content, $dto);
         $this->rewriteMediaInto($content, $dto);
         return $content->refresh();
+    }
+
+    /**
+     * Rehost the WP `featured_media` URL (if the importer found one)
+     * so a `media` row is attached to the newly-saved content with
+     * `rel_type` = Content::class and `rel_id` = the content's id.
+     * That row is what `content_picture($id)` reaches for when a
+     * frontend template renders the thumbnail — effectively Microweber's
+     * "featured image" slot.
+     *
+     * We do this as a separate rehoster call (not via the HTML
+     * rewriter) because the featured image may not appear in the
+     * post body at all — many WP themes render it from the
+     * featured slot only. Skipping it would leave the thumbnail empty
+     * even though WP had one configured.
+     */
+    private function rehostFeaturedImage(Content $content, MigrationItemDTO $dto): void
+    {
+        if ($this->rehoster === null) {
+            return;
+        }
+        $url = $dto->featuredImageUrl;
+        if ($url === null || $url === '') {
+            return;
+        }
+        $context = [
+            'rel_type' => Content::class,
+            'rel_id' => (int)$content->id,
+            'role' => 'featured',
+        ];
+        if ($dto->sourceHost !== null && $dto->sourceHost !== '') {
+            $context['host'] = $dto->sourceHost;
+        }
+        // Rehoster's return value is the new URL; we don't write it
+        // back onto the content row because Microweber's thumbnail
+        // lookup goes through the media table, not a dedicated column.
+        $this->rehoster->rehost($url, $context);
     }
 
     /**

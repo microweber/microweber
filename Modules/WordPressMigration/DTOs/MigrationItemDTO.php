@@ -48,6 +48,12 @@ final class MigrationItemDTO
      * @param string|null $canonicalUrl Permalink on the origin site
      * @param string $source The importer that produced this DTO ("rss", "rest", "wxr", "sitemap", "scrape")
      * @param string|null $sourceHost Hostname of the origin site — handy for logging/diagnostics
+     * @param string|null $featuredImageUrl Origin URL of the featured/hero image, or null if the
+     *        publisher never attached one. The REST importer populates this by resolving
+     *        `featured_media` (post ID) against the `/wp-json/wp/v2/media` index; the RSS importer
+     *        currently leaves it null because RSS has no equivalent first-class field. The mapper
+     *        uses it to attach a Microweber `picture` media row to the content row so frontends
+     *        that render via `content_picture($id)` display the WP featured image.
      */
     public function __construct(
         public readonly string $guid,
@@ -61,6 +67,7 @@ final class MigrationItemDTO
         public readonly ?string $canonicalUrl = null,
         public readonly string $source = 'unknown',
         public readonly ?string $sourceHost = null,
+        public readonly ?string $featuredImageUrl = null,
     ) {}
 
     /**
@@ -85,6 +92,7 @@ final class MigrationItemDTO
             'canonical_url' => $this->canonicalUrl,
             'source' => $this->source,
             'source_host' => $this->sourceHost,
+            'featured_image_url' => $this->featuredImageUrl,
         ];
     }
 }

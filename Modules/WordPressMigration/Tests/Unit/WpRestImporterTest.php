@@ -289,6 +289,164 @@ class WpRestImporterTest extends TestCase
     }
 
     #[Test]
+    public function featured_media_resolves_to_source_url_via_media_index(): void
+    {
+        // A post carrying `featured_media: 101` must surface the
+        // matching media row's `source_url` on the DTO — this is the
+        // input the mapper needs to attach a Microweber picture row.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/media?per_page=100&page=1"] = self::okJson([
+            ['id' => 101, 'source_url' => 'https://wp.example/wp-content/uploads/hero.jpg'],
+            ['id' => 202, 'source_url' => 'https://wp.example/wp-content/uploads/other.png'],
+        ]);
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = self::okJson([
+            [
+                'id' => 7,
+                'date_gmt' => '2026-04-01T00:00:00',
+                'title' => ['rendered' => 'Featured'],
+                'content' => ['rendered' => '<p>body</p>'],
+                'excerpt' => ['rendered' => ''],
+                'link' => 'https://wp.example/featured/',
+                'author' => 0,
+                'categories' => [],
+                'tags' => [],
+                'featured_media' => 101,
+            ],
+        ]);
+
+        $result = (new WpRestImporter(new FakeHttpProbeFetcher($table)))->walk($base);
+
+        $this->assertCount(1, $result->items);
+        $this->assertSame(
+            'https://wp.example/wp-content/uploads/hero.jpg',
+            $result->items[0]->featuredImageUrl
+        );
+    }
+
+    #[Test]
+    public function featured_media_zero_sentinel_yields_null_featured_image(): void
+    {
+        // WP encodes "no featured image" as `featured_media: 0`. The
+        // DTO must treat that as null rather than "look up media 0".
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = self::okJson([
+            [
+                'id' => 8,
+                'date_gmt' => '2026-04-01T00:00:00',
+                'title' => ['rendered' => 'No image'],
+                'content' => ['rendered' => '<p>body</p>'],
+                'excerpt' => ['rendered' => ''],
+                'link' => 'https://wp.example/no-image/',
+                'author' => 0,
+                'categories' => [],
+                'tags' => [],
+                'featured_media' => 0,
+            ],
+        ]);
+
+        $result = (new WpRestImporter(new FakeHttpProbeFetcher($table)))->walk($base);
+
+        $this->assertNull($result->items[0]->featuredImageUrl);
+    }
+
+    #[Test]
+    public function featured_media_with_unknown_id_leaves_featured_image_null(): void
+    {
+        // A hardened `/media` endpoint returning 401 (or a post
+        // referencing a media row WP later deleted) means the
+        // lookup misses — the DTO must degrade gracefully to null
+        // instead of carrying a stale or fabricated URL.
+        $base = 'https://wp.example';
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/media?per_page=100&page=1"] = ['body' => '', 'http_code' => 401, 'error' => ''];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = self::okJson([
+            [
+                'id' => 9,
+                'date_gmt' => '2026-04-01T00:00:00',
+                'title' => ['rendered' => 'Orphan featured'],
+                'content' => ['rendered' => '<p>body</p>'],
+                'excerpt' => ['rendered' => ''],
+                'link' => 'https://wp.example/orphan-featured/',
+                'author' => 0,
+                'categories' => [],
+                'tags' => [],
+                'featured_media' => 99999,
+            ],
+        ]);
+
+        $result = (new WpRestImporter(new FakeHttpProbeFetcher($table)))->walk($base);
+
+        $this->assertNull($result->items[0]->featuredImageUrl);
+    }
+
+    #[Test]
+    public function rendered_content_html_is_preserved_verbatim_including_gutenberg_markup(): void
+    {
+        // The Gutenberg renderer is authoritative — the importer
+        // must not strip block comments, normalize whitespace,
+        // re-encode entities, or filter tags. This test pins the
+        // passthrough by feeding a payload carrying the three
+        // most commonly-eaten constructs (block comments,
+        // <pre> whitespace, HTML entities) and asserting byte
+        // equality after a trim of leading/trailing whitespace
+        // only (the WP renderer itself trims edges).
+        $base = 'https://wp.example';
+        $gutenberg = <<<'HTML'
+<!-- wp:paragraph -->
+<p class="has-text-align-center">Hello &mdash; world &amp; friends.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">line1
+    indented
+        deeper</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:html -->
+<script>/* do not strip me */</script>
+<!-- /wp:html -->
+HTML;
+        $table = self::minimalTable($base) + [
+            "{$base}/wp-json/wp/v2/menus?per_page=100" => ['body' => '', 'http_code' => 404, 'error' => ''],
+        ];
+        $table["{$base}/wp-json/wp/v2/posts?per_page=100&page=1"] = self::okJson([
+            [
+                'id' => 42,
+                'date_gmt' => '2026-04-01T00:00:00',
+                'title' => ['rendered' => 'Gutenberg post'],
+                'content' => ['rendered' => $gutenberg],
+                'excerpt' => ['rendered' => '<p>summary with <em>emphasis</em> &amp; symbols</p>'],
+                'link' => 'https://wp.example/gutenberg/',
+                'author' => 0,
+                'categories' => [],
+                'tags' => [],
+                'featured_media' => 0,
+            ],
+        ]);
+
+        $result = (new WpRestImporter(new FakeHttpProbeFetcher($table)))->walk($base);
+
+        $this->assertCount(1, $result->items);
+        $this->assertSame(trim($gutenberg), $result->items[0]->html);
+        $this->assertStringContainsString('<!-- wp:paragraph -->', $result->items[0]->html);
+        $this->assertStringContainsString('<!-- /wp:html -->', $result->items[0]->html);
+        $this->assertStringContainsString("line1\n    indented\n        deeper", $result->items[0]->html);
+        $this->assertStringContainsString('<script>', $result->items[0]->html);
+        $this->assertSame(
+            '<p>summary with <em>emphasis</em> &amp; symbols</p>',
+            $result->items[0]->excerpt
+        );
+    }
+
+    #[Test]
     public function anonymous_importer_sends_no_authorization_header_on_any_request(): void
     {
         // Public-only WP sites don't need credentials — the importer

@@ -124,6 +124,57 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
     }
 
     #[Test]
+    public function mapper_rehosts_featured_image_with_featured_role_context(): void
+    {
+        // When the DTO carries a featuredImageUrl, the mapper must
+        // dispatch a dedicated rehost call with rel_type = Content
+        // and the freshly-saved content id, so a picture media row
+        // is attached. The `role = featured` hint lets the rehoster
+        // implementation decide whether to bump it to position=0.
+        $rehoster = new RecordingRehoster([
+            'https://wp.example/hero.jpg' => '/userfiles/media/hero.jpg',
+        ]);
+
+        $mapper = new WordPressContentMapper(rehoster: $rehoster);
+        $content = $mapper->map($this->dto([
+            'guid' => 'wp:featured-1',
+            'html' => '<p>body without the hero inline</p>',
+            'featuredImageUrl' => 'https://wp.example/hero.jpg',
+        ]));
+
+        $this->assertContains('https://wp.example/hero.jpg', $rehoster->calls);
+        $featuredCtx = null;
+        foreach ($rehoster->contexts as $ctx) {
+            if (($ctx['role'] ?? null) === 'featured') {
+                $featuredCtx = $ctx;
+                break;
+            }
+        }
+        $this->assertNotNull($featuredCtx, 'one rehost call must carry role=featured');
+        $this->assertSame((int)$content->id, $featuredCtx['rel_id']);
+        $this->assertSame(\Modules\Content\Models\Content::class, $featuredCtx['rel_type']);
+    }
+
+    #[Test]
+    public function mapper_skips_featured_image_rehost_when_dto_has_none(): void
+    {
+        // No featuredImageUrl → no extra rehost call (the HTML
+        // rewriter still runs and may emit its own calls).
+        $rehoster = new RecordingRehoster([]);
+        $mapper = new WordPressContentMapper(rehoster: $rehoster);
+
+        $mapper->map($this->dto([
+            'guid' => 'wp:no-featured',
+            'html' => '<p>no images at all</p>',
+            'featuredImageUrl' => null,
+        ]));
+
+        foreach ($rehoster->contexts as $ctx) {
+            $this->assertNotSame('featured', $ctx['role'] ?? null);
+        }
+    }
+
+    #[Test]
     public function mapper_without_rehoster_leaves_html_untouched(): void
     {
         $mapper = new WordPressContentMapper(); // no rehoster
@@ -154,6 +205,7 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
             'canonicalUrl' => null,
             'source' => 'rss',
             'sourceHost' => 'example.com',
+            'featuredImageUrl' => null,
         ];
         $merged = array_replace($defaults, $overrides);
 
@@ -169,6 +221,7 @@ class WordPressContentMapperMediaRewriteTest extends TestCase
             canonicalUrl: $merged['canonicalUrl'],
             source: $merged['source'],
             sourceHost: $merged['sourceHost'],
+            featuredImageUrl: $merged['featuredImageUrl'],
         );
     }
 }
