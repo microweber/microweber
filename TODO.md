@@ -1278,7 +1278,7 @@ for scripted/bulk use.
 
 ### Phase 5 — WP REST API importer (richest path)
 
-- [ ] Implement `WpRestImporter` consuming `/wp-json/wp/v2/posts`, `/pages`, `/media`, `/categories`, `/tags`, `/users`, `/comments`, `/menus` (if available)
+- [x] 2026-04-23  Implement `WpRestImporter` consuming `/wp-json/wp/v2/posts`, `/pages`, `/media`, `/categories`, `/tags`, `/users`, `/comments`, `/menus` (if available)
 - [ ] Support optional application-password auth (WP 5.6+) stored per job, plus anon for public-only content
 - [ ] Page with `per_page=100&page=N` + `X-WP-TotalPages` header; retry-with-backoff on 429/5xx
 - [ ] Map `featured_media` → Microweber content featured image; preserve `excerpt.rendered`/`content.rendered` HTML verbatim (the renderer is the source of truth for Gutenberg output)
