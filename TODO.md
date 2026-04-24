@@ -1325,7 +1325,7 @@ for scripted/bulk use.
 ### Phase 11 — Docs & marketing copy
 
 - [x] 2026-04-24  Author `docs/migration/wordpress.md` — user-facing walkthrough covering all four modes with screenshots
-- [ ] Author `docs/migration/wordpress-architecture.md` — contributor reference linking to the ADR + each importer's unit tests
+- [x] 2026-04-24  Author `docs/migration/wordpress-architecture.md` — contributor reference linking to the ADR + each importer's unit tests
 - [ ] Add a "Migrating from WordPress?" CTA tile in the admin dashboard empty-state (shown only when `content` is empty) linking to the migration resource
 - [ ] Update the public Microweber marketing site's "vs WordPress" page with a "One-click import" line once Phase 8 ships
 
