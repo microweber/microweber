@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\WorkflowFixturePurger;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\CleansWorkflowFixtures;
+use Tests\Browser\Traits\WorkflowStageAssertions;
 use Tests\DuskTestCase;
 
 /**
@@ -45,6 +46,7 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
 {
     use AdminLoginTrait;
     use CleansWorkflowFixtures;
+    use WorkflowStageAssertions;
 
     protected function assertPreConditions(): void
     {
@@ -117,15 +119,68 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         // zero residue. No further asserts needed here.
     }
 
+    #[Test]
+    public function stage_contract_db_invariant_plus_dom_signal_both_fire(): void
+    {
+        // Demonstrates the Plan A.1 third-bullet contract that every
+        // A.3 stage method will follow: DB assertion first (source
+        // of truth), DOM assertion second (operator-visible signal).
+        //
+        // Seed a publishable page with a workflow-fixture marker so
+        // the purger reaches it on tearDown. The URL slug is the
+        // marker; the public URL `/workflow-fixture-stage-contract`
+        // should render it.
+        $slug = WorkflowFixturePurger::FIXTURE_MARKER . '-stage-contract';
+        $title = 'Stage contract demo — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+
+        DB::table('content')->insert([
+            'title' => $title,
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'url' => $slug,
+            'is_active' => 1,
+            'is_home' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->browse(function (Browser $browser) use ($slug, $title) {
+            $browser->visit('/' . $slug)->pause(2000);
+
+            $this->assertStageCompleted(
+                stageName: 'stage_contract_db_invariant_plus_dom_signal_both_fire',
+                dbInvariant: fn (): bool => $this->workflowRowExists('content', [
+                    'url' => $slug,
+                    'content_type' => 'page',
+                    'is_active' => 1,
+                ]),
+                dbFailureMessage: "content row with url '{$slug}' must exist and be active",
+                // `document.title` is the robust operator-visible
+                // signal for a Microweber page that has no layout
+                // modules yet — the title lands in <head> regardless
+                // of whether any body layout is assigned.
+                domSignal: fn (Browser $b): bool => str_contains(
+                    (string) ($b->script('return document.title;')[0] ?? ''),
+                    $title,
+                ),
+                domFailureMessage: "Public page at /{$slug} must render the page title in <title>",
+                browser: $browser,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
-    // Each stage MUST:
-    //   - create only rows carrying a workflow-fixture marker so the
-    //     tearDown purger can reach them
-    //   - assert its primary DB-level invariant (source of truth)
-    //   - assert at least one rendered-DOM marker (operator-visible)
+    // Each stage MUST follow the Plan A.1 contract:
+    //   1. Create only rows carrying a workflow-fixture marker so
+    //      the tearDown purger can reach them.
+    //   2. Use `$this->assertStageCompleted(...)` to run the
+    //      DB-invariant assertion first and the DOM-signal
+    //      assertion second. Never assert DOM without DB —
+    //      DOM-only assertions can lie under caching / skin drift.
     //
-    // Add them one per commit — the foundation + fixture harness
-    // above are enough to satisfy the first two Plan A.1 acceptance
-    // bullets while the stage methods are authored.
+    // Add them one per commit — the foundation + fixture harness +
+    // stage-contract demonstration above already satisfy Plan A.1's
+    // three acceptance bullets; Plan A.3 stages inherit the same
+    // contract for free.
 }

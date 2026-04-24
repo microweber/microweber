@@ -31,7 +31,7 @@
 - [x] 2026-04-24  Seeds and purges its own fixture — no global install state is
       required; leaves zero residue on `pages`, `content`, `media`,
       `options`, or `users` after tear-down.
-- [ ] Golden-path stage assertions are at the DB level (source of
+- [x] 2026-04-24  Golden-path stage assertions are at the DB level (source of
       truth) with the rendered-DOM assertions as signal for "the
       operator sees it."
 - [ ] Runs headless; fixture URLs (admin creds, port) come from
