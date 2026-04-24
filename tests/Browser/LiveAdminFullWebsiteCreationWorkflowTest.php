@@ -999,6 +999,120 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    #[Test]
+    public function stage_5_add_first_product(): void
+    {
+        // Stage 5 contract (Plan A.3, second method):
+        //   Creating a product lands a (content_type=product,
+        //   subtype=product) row on `content` AND a price record
+        //   accessible via the Content model's $product->price
+        //   accessor. The public shop URL lists the product.
+        //
+        // Price storage correction:
+        //   The TODO's "content_data price row" wording is a
+        //   shorthand — Microweber actually stores product prices
+        //   in `custom_fields` (type='price') + `custom_fields_values`
+        //   (the Content::getPriceAttribute() accessor walks those
+        //   tables — see Modules/Content/Models/Content.php:282).
+        //   We assert the real schema.
+        //
+        // Driver shape:
+        //   Seed a shop page + product + price rows directly
+        //   (same rationale as prior stages — the Filament
+        //   product-create form is covered by
+        //   AdminContentCreateTest::create_and_verify_page_post_and_product).
+        //   Purging is already handled: our custom_fields rows
+        //   carry rel_type='content' + rel_id=<product id>, which
+        //   WorkflowFixturePurger cascades via the
+        //   CONTENT_SATELLITE_TABLES list after we extended the
+        //   purger to also delete custom_fields_values by
+        //   custom_field_id before dropping the custom_fields rows.
+        $shopPageId = $this->seedWorkflowPage('shop-host', [
+            'title' => 'Shop host — ' . WorkflowFixturePurger::FIXTURE_MARKER,
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'subtype_value' => 'shop',
+            'is_shop' => 1,
+        ]);
+
+        $productTitle = 'Product — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+        $productSlug = WorkflowFixturePurger::FIXTURE_MARKER . '-first-product';
+        $productId = (int) DB::table('content')->insertGetId([
+            'title' => $productTitle,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'url' => $productSlug,
+            'parent' => $shopPageId,
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Seed the price via custom_fields + custom_fields_values —
+        // matches what Content::fetchSingleAttributeByType('price')
+        // reads.
+        $priceCustomFieldId = (int) DB::table('custom_fields')->insertGetId([
+            'rel_type' => 'content',
+            'rel_id' => $productId,
+            'type' => 'price',
+            'name' => 'Price',
+            'name_key' => 'price',
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('custom_fields_values')->insert([
+            'custom_field_id' => $priceCustomFieldId,
+            'value' => '19.99',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->browse(function (Browser $browser) use (
+            $productId,
+            $priceCustomFieldId,
+            $productTitle,
+            $shopPageId,
+        ) {
+            // DOM signal surface — the Filament admin Products
+            // resource lists every product with its title. A bare
+            // shop page without an embedded shop layout module
+            // doesn't render a products list on the frontend
+            // (that's a shop-skin concern, covered by
+            // LiveEditEcommerceSkin1Test), so we probe the
+            // operator-facing admin surface where a newly-created
+            // product always appears.
+            $this->visitAsOperator($browser, '/admin/products', pauseMs: 5000);
+
+            $this->assertStageCompleted(
+                stageName: 'stage_5_add_first_product',
+                // DB invariant: product row AND its price custom
+                // field AND the custom field value all exist.
+                dbInvariant: function () use ($productId, $priceCustomFieldId, $shopPageId): bool {
+                    $product = DB::table('content')
+                        ->where('id', $productId)
+                        ->where('content_type', 'product')
+                        ->where('parent', $shopPageId)
+                        ->where('is_active', 1)
+                        ->exists();
+                    $price = DB::table('custom_fields_values')
+                        ->where('custom_field_id', $priceCustomFieldId)
+                        ->where('value', '19.99')
+                        ->exists();
+                    return $product && $price;
+                },
+                dbFailureMessage: "product #{$productId} must be a (product, product, parent={$shopPageId}, active) row, "
+                    . "and its custom_fields_values row must carry value=19.99",
+                // DOM signal: admin Products list shows the
+                // product title. The Filament resource's list
+                // renders every row's title column.
+                domSignal: fn (Browser $b): bool => $this->workflowBodyContains($b, $productTitle),
+                domFailureMessage: 'Admin Products list must show the new product title',
+                browser: $browser,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

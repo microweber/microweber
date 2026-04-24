@@ -117,7 +117,7 @@
 - [x] 2026-04-24  `stage_5_shop_page_is_created_with_shop_content_type` — same
       as Stage 3 but with `content_type='page'`,
       `subtype='dynamic'`, `is_shop=1`; the sidebar now shows **Shop**.
-- [ ] `stage_5_add_first_product` — create a product via
+- [x] 2026-04-24  `stage_5_add_first_product` — create a product via
       **Content → Products → New**; assert the `content` +
       `content_data` price row exists; public shop URL lists it.
 - [ ] `stage_5_add_to_cart_round_trip` — on the public frontend,

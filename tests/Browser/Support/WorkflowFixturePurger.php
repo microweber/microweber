@@ -123,6 +123,25 @@ final class WorkflowFixturePurger
             ->all();
 
         foreach ($ids as $id) {
+            // custom_fields_values are keyed by custom_field_id
+            // (not rel_id), so delete them FIRST to avoid orphan
+            // rows after the custom_fields cascade below.
+            try {
+                $customFieldIds = DB::table('custom_fields')
+                    ->where('rel_type', 'content')
+                    ->where('rel_id', $id)
+                    ->pluck('id')
+                    ->map(fn ($v) => (int) $v)
+                    ->all();
+                if (! empty($customFieldIds)) {
+                    DB::table('custom_fields_values')
+                        ->whereIn('custom_field_id', $customFieldIds)
+                        ->delete();
+                }
+            } catch (\Throwable) {
+                // custom_fields_values absent on a stripped-down DB
+            }
+
             foreach (self::CONTENT_SATELLITE_TABLES as $table) {
                 try {
                     DB::table($table)
