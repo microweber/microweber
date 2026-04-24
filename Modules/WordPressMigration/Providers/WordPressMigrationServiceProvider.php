@@ -4,6 +4,7 @@ namespace Modules\WordPressMigration\Providers;
 
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\WordPressMigration\Console\Commands\ImportWordPressCommand;
 use Modules\WordPressMigration\Filament\Pages\WordPressMigrationImportPage;
 use Modules\WordPressMigration\Filament\Pages\WordPressMigrationPreviewPage;
 use Modules\WordPressMigration\Filament\Resources\WordPressMigrationResource;
@@ -30,5 +31,11 @@ class WordPressMigrationServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(WordPressMigrationImportPage::class);
         FilamentRegistry::registerPage(WordPressMigrationPreviewPage::class);
         FilamentRegistry::registerResource(WordPressMigrationResource::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ImportWordPressCommand::class,
+            ]);
+        }
     }
 }
