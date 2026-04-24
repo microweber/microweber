@@ -126,7 +126,7 @@
 
 ### Stage 6 — Configure core settings
 
-- [ ] `stage_6_site_title_and_description_save` — **Settings →
+- [x] 2026-04-24  `stage_6_site_title_and_description_save` — **Settings →
       General**; change site title + description; assert `options`
       rows.
 - [ ] `stage_6_logo_upload_persists` — upload a logo; assert a

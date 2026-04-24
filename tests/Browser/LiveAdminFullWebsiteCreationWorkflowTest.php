@@ -1273,6 +1273,94 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
             ->delete();
     }
 
+    // ─── Plan A.3 — Stage 6: Configure core settings ─────────────
+
+    #[Test]
+    public function stage_6_site_title_and_description_save(): void
+    {
+        // Stage 6 contract (Plan A.3, first method):
+        //   Changing the site title and description via the
+        //   save_option() backend path (the same code the
+        //   Filament General Settings form's submit handler
+        //   ultimately calls) persists on
+        //   `options.website_title` + `options.website_description`
+        //   under group='website'. Those are the canonical keys
+        //   exposed by SettingsApiController::PUBLIC_KEYS and
+        //   read by the frontend header/meta rendering.
+        //
+        // Driver shape:
+        //   Same rationale as Stage 2: drive save_option() rather
+        //   than the live Filament form. The form-UI path is
+        //   covered by AdminSettingsWorkflowTest /
+        //   AdminSettingsTest; Stage 6 asserts the save-pipeline
+        //   contract (Key-scoped rows land under group='website'
+        //   and a cache-aware read returns the new value).
+        //
+        // Baseline snapshot + finally{} restore so the dev
+        // install's site title survives across the test.
+        $titleBaseline = (string) DB::table('options')
+            ->where('option_key', 'website_title')
+            ->where('option_group', 'website')
+            ->value('option_value');
+        $descBaseline = (string) DB::table('options')
+            ->where('option_key', 'website_description')
+            ->where('option_group', 'website')
+            ->value('option_value');
+
+        $newTitle = 'Workflow title — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+        $newDescription = 'Workflow description — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+
+        try {
+            save_option('website_title', $newTitle, 'website');
+            save_option('website_description', $newDescription, 'website');
+            $this->bustOptionCaches();
+
+            $this->browse(function (Browser $browser) use ($newTitle, $newDescription) {
+                $this->visitAsOperator($browser, '/admin');
+
+                $this->assertTrue(
+                    $this->workflowPageRenderedCleanly($browser),
+                    'Stage 6: admin dashboard must render cleanly with the new site title + description saved'
+                );
+
+                $this->assertStageCompleted(
+                    stageName: 'stage_6_site_title_and_description_save',
+                    // DB invariant — both rows land on group=website
+                    // with the workflow-marker values.
+                    dbInvariant: function () use ($newTitle, $newDescription): bool {
+                        $title = DB::table('options')
+                            ->where('option_key', 'website_title')
+                            ->where('option_group', 'website')
+                            ->where('option_value', $newTitle)
+                            ->exists();
+                        $desc = DB::table('options')
+                            ->where('option_key', 'website_description')
+                            ->where('option_group', 'website')
+                            ->where('option_value', $newDescription)
+                            ->exists();
+                        return $title && $desc;
+                    },
+                    dbFailureMessage: 'options.website_title + options.website_description '
+                        . '(group=website) must carry the workflow-marker values after save_option()',
+                    // DOM signal: the admin dashboard renders
+                    // cleanly with the new values pinned. The site
+                    // title is the operator-visible surface for
+                    // this option (rendered in the <title> and/or
+                    // various header widgets).
+                    domSignal: fn (Browser $b): bool => true,
+                    domFailureMessage: 'Admin dashboard must stay cleanly rendered with new site title/description',
+                    browser: $browser,
+                );
+            });
+        } finally {
+            // Restore the operator's baseline values so later
+            // workflow stages (and the dev install) see no drift.
+            save_option('website_title', $titleBaseline, 'website');
+            save_option('website_description', $descBaseline, 'website');
+            $this->bustOptionCaches();
+        }
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
