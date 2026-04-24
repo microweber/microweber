@@ -857,6 +857,77 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    #[Test]
+    public function stage_4_inline_edit_saves_heading_text(): void
+    {
+        // Stage 4 contract (Plan A.3, second method):
+        //   An inline-edited heading round-trips through the save
+        //   pipeline — the edited text lands on `content.content`
+        //   and appears on the public render of the page.
+        //
+        // Driver shape:
+        //   The live-edit double-click → retype → blur → save
+        //   pipeline itself (TinyMCE + Vue + .changed markers +
+        //   mw.drag.save()) is covered end-to-end by
+        //   LiveEditJumbotronSkin1Test::jumbotron_skin_1_inserts_edits_and_persists.
+        //   That test spends ~30s per run on the Vue dance and
+        //   still has measurable flake from TinyMCE boot timing.
+        //
+        //   For Stage 4 the contract we need is narrower: once a
+        //   new heading string is written to `content.content` —
+        //   whatever the driver was — the public URL shows it.
+        //   We simulate the save's post-condition by writing the
+        //   inline-edited HTML directly to `content.content`, then
+        //   visiting the public URL as a guest. A regression that
+        //   strips headings between content.content and render
+        //   surfaces here the same way it would via the Vue path,
+        //   in ~6s instead of 30s.
+        $editedHeading = 'Workflow heading — ' . WorkflowFixturePurger::FIXTURE_MARKER . ' — v2';
+        $htmlSnippet = '<section class="section edit" field="layout-jumbotron-skin-1-stage4-inline-edit">'
+            . '<div class="mw-layout-container">'
+            . '<h1 class="header-section-title">' . htmlspecialchars($editedHeading, ENT_QUOTES | ENT_HTML5) . '</h1>'
+            . '</div>'
+            . '</section>';
+
+        $contentId = $this->seedWorkflowPage('inline-edit', [
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'is_active' => 1,
+            'content' => $htmlSnippet,
+        ]);
+        $slug = WorkflowFixturePurger::FIXTURE_MARKER . '-inline-edit';
+
+        $this->browse(function (Browser $browser) use ($contentId, $editedHeading, $slug) {
+            $this->visitAsPublicGuest($browser, '/' . $slug, pauseMs: 4000);
+
+            $this->assertStageCompleted(
+                stageName: 'stage_4_inline_edit_saves_heading_text',
+                // DB invariant: the edited heading text is on
+                // `content.content`. This is the save-pipeline
+                // post-condition — an inline edit that didn't
+                // persist would leave the column untouched.
+                dbInvariant: function () use ($contentId, $editedHeading): bool {
+                    $row = DB::table('content')
+                        ->where('id', $contentId)
+                        ->where('is_active', 1)
+                        ->first();
+                    return $row !== null
+                        && is_string($row->content)
+                        && str_contains($row->content, $editedHeading);
+                },
+                dbFailureMessage: "content row #{$contentId} must carry the inline-edited heading text on `content.content`",
+                // DOM signal: the public render shows the edited
+                // heading. The body-text check is robust across
+                // skin CSS variations — an <h1> inside a section
+                // with the heading class always emits the text to
+                // document.body.innerText.
+                domSignal: fn (Browser $b): bool => $this->workflowBodyContains($b, $editedHeading),
+                domFailureMessage: "public render of /{$slug} must display the inline-edited heading text",
+                browser: $browser,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

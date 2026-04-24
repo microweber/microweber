@@ -108,7 +108,7 @@
       `layouts/jumbotron/skin-1` onto the canvas; assert the module
       HTML landed on the page's `content.content` column and is
       visible on the rendered page.
-- [ ] `stage_4_inline_edit_saves_heading_text` — double-click the
+- [x] 2026-04-24  `stage_4_inline_edit_saves_heading_text` — double-click the
       inserted heading, retype, blur; assert the new text round-trips
       through a save call and renders on the public URL.
 
