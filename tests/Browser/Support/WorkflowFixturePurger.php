@@ -74,11 +74,32 @@ final class WorkflowFixturePurger
             'content' => (int) DB::table('content')->count(),
             'content_data' => (int) DB::table('content_data')->count(),
             'media' => (int) DB::table('media')->count(),
-            'options' => (int) DB::table('options')->count(),
+            'options' => self::countNonTransientOptions(),
             'users' => (int) DB::table('users')->count(),
             'menus' => self::safeCount('menus'),
             'menus_items' => self::safeCount('menus_items'),
         ];
+    }
+
+    /**
+     * Count `options` rows excluding the auto-generated module-default
+     * rows that Microweber's frontend renderer creates lazily on
+     * first visit (e.g. testimonials/social-links modules call
+     * saveOption('getXCreatedDefault', '1') the first time their
+     * skin renders). These rows are NOT under workflow-test control
+     * — any frontend visit can trip them — so the leak guard
+     * ignores them. Real workflow-fixture leaks still surface
+     * because workflow rows carry the FIXTURE_OPTION_KEY_PREFIX
+     * marker, which sits outside the `module-layouts-` group.
+     */
+    private static function countNonTransientOptions(): int
+    {
+        return (int) DB::table('options')
+            ->where(function ($q) {
+                $q->where('option_group', 'not like', 'module-layouts-%')
+                    ->orWhereNull('option_group');
+            })
+            ->count();
     }
 
     private static function safeCount(string $table): int
@@ -143,17 +164,33 @@ final class WorkflowFixturePurger
 
     private static function purgeMenus(): void
     {
+        $menuIds = [];
         try {
             $menuIds = DB::table('menus')
                 ->where('title', 'like', '%' . self::FIXTURE_MARKER . '%')
                 ->pluck('id')
                 ->map(fn ($v) => (int) $v)
                 ->all();
+        } catch (\Throwable) {
+            // `menus` itself is absent — nothing to purge.
+            return;
+        }
 
-            if (! empty($menuIds)) {
-                DB::table('menus_items')->whereIn('parent_id', $menuIds)->delete();
-                DB::table('menus')->whereIn('id', $menuIds)->delete();
-            }
+        if (empty($menuIds)) {
+            return;
+        }
+
+        // `menus_items` may not exist on installs where the menu
+        // module stores items in `menus` itself (parent_id linked).
+        // Swallow this independently so the subsequent menus delete
+        // still runs and the leak guard sees a clean count.
+        try {
+            DB::table('menus_items')->whereIn('parent_id', $menuIds)->delete();
+        } catch (\Throwable) {
+        }
+
+        try {
+            DB::table('menus')->whereIn('id', $menuIds)->delete();
         } catch (\Throwable) {
         }
     }

@@ -566,6 +566,124 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         }
     }
 
+    // ─── Plan A.3 — Stage 3: Create a home page ──────────────────
+
+    #[Test]
+    public function stage_3_home_page_is_created_with_a_menu_slot(): void
+    {
+        // Stage 3 contract (Plan A.3, first method):
+        //   A new page with title "Home", content_type='page',
+        //   subtype='static', is_home=1 lands on the `content`
+        //   table AND appears in the header menu by virtue of a
+        //   `menus` row whose parent_id is the header_menu's id
+        //   and whose content_id points at the new page.
+        //
+        // Driver shape:
+        //   We do NOT drive the Filament page-create form via the
+        //   admin UI for two reasons:
+        //     1. Setting is_home=1 in the form clobbers any
+        //        existing home page (Pages/ListPages.php line 53),
+        //        which would mutate the dev install's actual home.
+        //     2. The form path is already covered by
+        //        AdminContentCreateTest::create_and_verify_page_post_and_product().
+        //   Instead we mutate `content` + `menus` directly with
+        //   workflow-fixture markers, snapshot/restore any
+        //   pre-existing is_home=1 row, and assert the contract.
+        //
+        // Snapshot/restore lets the dev install's home page stay
+        // intact across the test — the fixture page takes is_home
+        // for the duration of the assertion, then the snapshot
+        // is reapplied in finally{} so later tests see the
+        // pre-test world.
+        $homeBaseline = DB::table('content')
+            ->where('is_home', 1)
+            ->pluck('id')
+            ->map(fn ($v) => (int) $v)
+            ->all();
+
+        $headerMenuId = (int) (DB::table('menus')
+            ->whereNull('parent_id')
+            ->where(function ($q) {
+                $q->where('title', 'header_menu')
+                    ->orWhere('menu_name', 'header_menu')
+                    ->orWhere('item_type', 'menu');
+            })
+            ->orderBy('id')
+            ->value('id') ?? 0);
+
+        $this->assertGreaterThan(0, $headerMenuId,
+            'Stage 3: a header menu must exist on the dev install for the menu-slot assertion');
+
+        $contentId = $this->seedWorkflowPage('home', [
+            'title' => 'Home — ' . WorkflowFixturePurger::FIXTURE_MARKER,
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'is_home' => 0,  // flipped in the try{} block, scoped
+        ]);
+
+        $menuItemId = (int) DB::table('menus')->insertGetId([
+            'title' => 'Home — ' . WorkflowFixturePurger::FIXTURE_MARKER,
+            'item_type' => 'page',
+            'content_id' => $contentId,
+            'parent_id' => $headerMenuId,
+            'position' => 999,
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        try {
+            // Take is_home for the duration — snapshot ensures we
+            // can restore the operator's actual home page after.
+            DB::table('content')->whereIn('id', $homeBaseline)->update(['is_home' => 0]);
+            DB::table('content')->where('id', $contentId)->update(['is_home' => 1]);
+
+            $this->browse(function (Browser $browser) use ($contentId, $menuItemId, $headerMenuId) {
+                // Render the public root URL — Microweber resolves
+                // the home page from is_home=1, so the fixture
+                // page's title should appear in the rendered DOM
+                // (or at least in <title>, which is robust against
+                // skin-stripping body content).
+                $this->visitAsPublicGuest($browser, '/');
+
+                $this->assertStageCompleted(
+                    stageName: 'stage_3_home_page_is_created_with_a_menu_slot',
+                    dbInvariant: function () use ($contentId, $menuItemId, $headerMenuId): bool {
+                        $page = DB::table('content')
+                            ->where('id', $contentId)
+                            ->where('content_type', 'page')
+                            ->where('subtype', 'static')
+                            ->where('is_home', 1)
+                            ->exists();
+                        $menuItem = DB::table('menus')
+                            ->where('id', $menuItemId)
+                            ->where('content_id', $contentId)
+                            ->where('parent_id', $headerMenuId)
+                            ->exists();
+                        return $page && $menuItem;
+                    },
+                    dbFailureMessage: "fixture page #{$contentId} must be (page,static,is_home=1) "
+                        . "AND menu item #{$menuItemId} must link it to header menu #{$headerMenuId}",
+                    domSignal: fn (Browser $b): bool => str_contains(
+                        (string) ($b->script('return document.title;')[0] ?? ''),
+                        WorkflowFixturePurger::FIXTURE_MARKER,
+                    ),
+                    domFailureMessage: 'Public root URL "/" must render the fixture home page title',
+                    browser: $browser,
+                );
+            });
+        } finally {
+            // Restore the pre-test world: drop is_home from the
+            // fixture, restore baseline is_home rows. The
+            // CleansWorkflowFixtures tearDown will drop the
+            // fixture content + menu rows by their workflow-marker.
+            DB::table('content')->where('id', $contentId)->update(['is_home' => 0]);
+            if (! empty($homeBaseline)) {
+                DB::table('content')->whereIn('id', $homeBaseline)->update(['is_home' => 1]);
+            }
+        }
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

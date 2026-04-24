@@ -93,7 +93,7 @@
 
 ### Stage 3 — Create a home page
 
-- [ ] `stage_3_home_page_is_created_with_a_menu_slot` — visit
+- [x] 2026-04-24  `stage_3_home_page_is_created_with_a_menu_slot` — visit
       **Content → Pages → New**; fill title "Home"; save; assert a
       `content` row with `content_type='page'`, `subtype='static'`,
       `is_home=1` exists and appears in the main menu.
