@@ -28,7 +28,7 @@
       `tests/Browser/LiveAdminFullWebsiteCreationWorkflowTest.php`,
       under ≤15 minutes end-to-end, deterministic, and part of the
       default `php artisan dusk` run.
-- [ ] Seeds and purges its own fixture — no global install state is
+- [x] 2026-04-24  Seeds and purges its own fixture — no global install state is
       required; leaves zero residue on `pages`, `content`, `media`,
       `options`, or `users` after tear-down.
 - [ ] Golden-path stage assertions are at the DB level (source of
