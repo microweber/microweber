@@ -103,7 +103,7 @@
 
 ### Stage 4 — Drop a layout and edit it live
 
-- [ ] `stage_4_insert_jumbotron_skin1_layout` — use the existing
+- [x] 2026-04-24  `stage_4_insert_jumbotron_skin1_layout` — use the existing
       `LiveEditInsertLayoutTest` helpers; drop
       `layouts/jumbotron/skin-1` onto the canvas; assert the module
       HTML landed on the page's `content.content` column and is

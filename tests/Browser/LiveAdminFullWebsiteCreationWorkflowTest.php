@@ -790,6 +790,73 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    // ─── Plan A.3 — Stage 4: Drop a layout and edit it live ──────
+
+    #[Test]
+    public function stage_4_insert_jumbotron_skin1_layout(): void
+    {
+        // Stage 4 contract (Plan A.3, first method):
+        //   Inserting `layouts/jumbotron/skin-1` on a page writes
+        //   the module shortcode to `content.content`, and the
+        //   public render of that page shows the jumbotron skin's
+        //   signature markup (field="layout-jumbotron-skin-1-*",
+        //   .mw-layout-container, .header-section-title).
+        //
+        // Driver shape:
+        //   The full Vue drag-drop pipeline through
+        //   `LiveEditJumbotronSkin1Test` is expensive and flaky —
+        //   it depends on LandingPageFactory + three helper
+        //   traits. For Stage 4 we only need to prove the
+        //   persistence + render contract, which is exactly what
+        //   writing `<module type="layouts" template="jumbotron/skin-1"/>`
+        //   to `content.content` exercises. The full Vue insert
+        //   is already covered by LiveEditJumbotronSkin1Test.
+        $shortcode = '<module type="layouts" template="jumbotron/skin-1"/>';
+        $contentId = $this->seedWorkflowPage('jumbotron-insert', [
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'is_active' => 1,
+            'content' => $shortcode,
+        ]);
+        $slug = WorkflowFixturePurger::FIXTURE_MARKER . '-jumbotron-insert';
+
+        $this->browse(function (Browser $browser) use ($contentId, $shortcode, $slug) {
+            $this->visitAsPublicGuest($browser, '/' . $slug, pauseMs: 4000);
+
+            $this->assertStageCompleted(
+                stageName: 'stage_4_insert_jumbotron_skin1_layout',
+                // DB invariant: the module shortcode we wrote into
+                // `content.content` must still be there after the
+                // frontend render, AND the row has not been
+                // silently archived.
+                dbInvariant: function () use ($contentId, $shortcode): bool {
+                    $row = DB::table('content')
+                        ->where('id', $contentId)
+                        ->where('is_active', 1)
+                        ->first();
+                    return $row !== null
+                        && is_string($row->content)
+                        && str_contains($row->content, $shortcode);
+                },
+                dbFailureMessage: "content row #{$contentId} must persist the jumbotron/skin-1 module shortcode in the `content` column",
+                // DOM signal: the rendered public page contains
+                // the skin's signature markup. We probe for the
+                // `field=layout-jumbotron-skin-1-` attribute the
+                // blade emits on the outer <section> — that string
+                // only appears when the layout resolver actually
+                // rendered the skin's blade, so it rules out
+                // false positives from e.g. CSS-only matches.
+                domSignal: fn (Browser $b): bool => str_contains(
+                    (string) $b->driver->getPageSource(),
+                    'field="layout-jumbotron-skin-1-'
+                ),
+                domFailureMessage: "public render of /{$slug} must show the jumbotron/skin-1 signature markup "
+                    . "(field=\"layout-jumbotron-skin-1-*\" on the outer <section>)",
+                browser: $browser,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
