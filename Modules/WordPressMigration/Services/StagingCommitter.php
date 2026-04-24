@@ -73,11 +73,32 @@ final class StagingCommitter
      */
     public function commit(int $jobId): CommitReport
     {
+        return $this->commitInternal($jobId, onlyFailed: false);
+    }
+
+    /**
+     * Retry-only variant of {@see commit()}: walks only the staging
+     * rows where `last_commit_error` is set from a prior failed pass.
+     *
+     * Rows that succeeded previously were deleted by the committer on
+     * batch success, so they can't be re-processed — `commitFailedOnly`
+     * is strictly narrower than `commit`. Before processing, the
+     * stored error is cleared; if the retry fails again, the new
+     * message overwrites it, giving the operator fresh context.
+     */
+    public function commitFailedOnly(int $jobId): CommitReport
+    {
+        return $this->commitInternal($jobId, onlyFailed: true);
+    }
+
+    private function commitInternal(int $jobId, bool $onlyFailed): CommitReport
+    {
         $report = new CommitReport();
 
         $report->skipped = StagingContent::query()
             ->where('job_id', $jobId)
             ->where('excluded', true)
+            ->when($onlyFailed, fn ($q) => $q->whereNotNull('last_commit_error'))
             ->count();
 
         $lastId = 0;
@@ -86,6 +107,7 @@ final class StagingCommitter
                 ->where('job_id', $jobId)
                 ->where('excluded', false)
                 ->where('id', '>', $lastId)
+                ->when($onlyFailed, fn ($q) => $q->whereNotNull('last_commit_error'))
                 ->orderBy('id')
                 ->limit($this->batchSize)
                 ->get();
@@ -106,6 +128,16 @@ final class StagingCommitter
      */
     private function commitBatch(array $rows, CommitReport $report): void
     {
+        // Clear any stale per-row error from a previous failed pass
+        // so a retry starts from a clean slate — otherwise a
+        // successful retry would land on `content` but the staging
+        // row (which we delete anyway on success) would still carry
+        // the old error for the brief moment before deletion.
+        $batchIds = array_map(static fn (StagingContent $r) => (int)$r->id, $rows);
+        StagingContent::query()
+            ->whereIn('id', $batchIds)
+            ->update(['last_commit_error' => null]);
+
         try {
             $idMap = DB::transaction(function () use ($rows): array {
                 $map = [];
@@ -117,9 +149,14 @@ final class StagingCommitter
             });
         } catch (Throwable $e) {
             // Whole-batch rollback — everything this batch wrote is
-            // gone, including partial content rows. Flag every row
-            // in the batch as failed so the operator sees the full
-            // blast radius, not just the row that threw.
+            // gone, including partial content rows. Persist the
+            // error on every row in the batch so a future "Retry
+            // failed items" action can target exactly these rows
+            // without having to re-walk the whole staging set.
+            StagingContent::query()
+                ->whereIn('id', $batchIds)
+                ->update(['last_commit_error' => $e->getMessage()]);
+
             foreach ($rows as $row) {
                 $report->fail((int)$row->id, $e->getMessage());
             }

@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $categories
  * @property array|null $tags
  * @property bool $excluded
+ * @property string|null $last_commit_error   Error text from the last failed Commit pass, if any.
+ * @property \Illuminate\Support\Carbon|null $last_committed_at  Set when the row was successfully re-read during a retry.
  */
 class StagingContent extends Model
 {
@@ -50,12 +52,15 @@ class StagingContent extends Model
         'categories',
         'tags',
         'excluded',
+        'last_commit_error',
+        'last_committed_at',
     ];
 
     protected $casts = [
         'job_id' => 'integer',
         'excluded' => 'boolean',
         'posted_at' => 'datetime',
+        'last_committed_at' => 'datetime',
         'categories' => 'array',
         'tags' => 'array',
     ];

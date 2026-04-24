@@ -156,6 +156,96 @@ class StagingCommitterTest extends TestCase
     }
 
     #[Test]
+    public function a_failed_batch_persists_last_commit_error_on_its_rows(): void
+    {
+        $this->stage('commit:a', 'Alpha post');
+        $this->stage('commit:boom', 'BOOM post');
+
+        $this->throwingCommitter('BOOM')->commit(self::JOB_ID);
+
+        $errors = StagingContent::where('job_id', self::JOB_ID)
+            ->orderBy('source_guid')
+            ->pluck('last_commit_error', 'source_guid')
+            ->all();
+
+        $this->assertArrayHasKey('commit:a', $errors);
+        $this->assertArrayHasKey('commit:boom', $errors);
+        $this->assertStringContainsString('BOOM', (string) $errors['commit:a']);
+        $this->assertStringContainsString('BOOM', (string) $errors['commit:boom']);
+    }
+
+    #[Test]
+    public function retry_failed_only_walks_rows_flagged_with_last_commit_error(): void
+    {
+        // First stage: 3 rows, the boom one will fail.
+        $this->stage('commit:a', 'Alpha post');
+        $this->stage('commit:b', 'Beta post');
+        $this->stage('commit:boom', 'BOOM post');
+
+        // Ship all three through the committer with batchSize=1 so
+        // only the offending row trips, not its neighbours.
+        $this->throwingCommitter('BOOM', batchSize: 1)->commit(self::JOB_ID);
+
+        // Alpha + Beta should have landed; boom is still in staging
+        // with a persisted error.
+        $this->assertSame(1, StagingContent::where('job_id', self::JOB_ID)->count(),
+            'Only the failing row should remain in staging');
+        $this->assertNotNull(StagingContent::where('job_id', self::JOB_ID)->value('last_commit_error'));
+
+        // Fix the "bug" (use a non-throwing committer) and retry.
+        $report = $this->committer()->commitFailedOnly(self::JOB_ID);
+
+        $this->assertSame(1, $report->committedCount());
+        $this->assertSame(0, $report->failedCount());
+
+        // The retried row should now be live content.
+        $hit = Content::query()
+            ->whereContentData([
+                WordPressContentMapper::META_IMPORT_SOURCE => WordPressContentMapper::IMPORT_SOURCE_WORDPRESS_RSS,
+                WordPressContentMapper::META_SOURCE_GUID => 'commit:boom',
+            ])
+            ->first();
+        $this->assertNotNull($hit, 'Retry should have promoted the failed row to live content');
+
+        // Staging is now empty for this job.
+        $this->assertSame(0, StagingContent::where('job_id', self::JOB_ID)->count());
+    }
+
+    #[Test]
+    public function retry_failed_only_ignores_rows_without_a_commit_error(): void
+    {
+        $this->stage('commit:a', 'Alpha post');
+        $this->stage('commit:b', 'Beta post');
+
+        // No failure has occurred — nothing has last_commit_error set.
+        $report = $this->committer()->commitFailedOnly(self::JOB_ID);
+
+        $this->assertSame(0, $report->committedCount(),
+            'Retry with no prior failures should be a no-op');
+
+        // Staging rows stay untouched.
+        $this->assertSame(2, StagingContent::where('job_id', self::JOB_ID)->count());
+    }
+
+    #[Test]
+    public function a_successful_retry_clears_the_previous_error_before_running(): void
+    {
+        $this->stage('commit:boom', 'BOOM post');
+        $this->throwingCommitter('BOOM')->commit(self::JOB_ID);
+
+        // Confirm the error is persisted.
+        $row = StagingContent::where('job_id', self::JOB_ID)->firstOrFail();
+        $this->assertNotNull($row->last_commit_error);
+
+        // Retry with a non-throwing committer — should succeed and
+        // delete the staging row entirely.
+        $this->committer()->commitFailedOnly(self::JOB_ID);
+
+        $this->assertSame(0, StagingContent::where('job_id', self::JOB_ID)->count(),
+            'Successful retry should delete the staging row just like a normal commit');
+    }
+
+    #[Test]
     public function re_committing_the_same_staged_dto_upserts_on_the_live_row(): void
     {
         // Prove idempotency: if a prior Commit left a content row,

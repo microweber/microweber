@@ -15,6 +15,11 @@
                 Job <span class="font-mono">#{{ $jobId }}</span> ·
                 <span data-testid="preview-stats-total">{{ $stats['total'] }}</span> staged ·
                 <span data-testid="preview-stats-excluded">{{ $stats['excluded'] }}</span> excluded
+                @if(($stats['failed'] ?? 0) > 0)
+                    · <span class="text-red-600 dark:text-red-400 font-medium" data-testid="preview-stats-failed">
+                        {{ $stats['failed'] }}
+                    </span> failed
+                @endif
             </div>
             <div class="flex items-center gap-2">
                 <x-filament::button
@@ -33,6 +38,17 @@
                     data-testid="preview-bulk-exclude">
                     Exclude all
                 </x-filament::button>
+                @if(($stats['failed'] ?? 0) > 0)
+                    <x-filament::button
+                        wire:click="retryFailed"
+                        wire:confirm="Retry {{ $stats['failed'] }} failed staging rows?"
+                        color="danger"
+                        icon="heroicon-o-arrow-path"
+                        size="sm"
+                        data-testid="preview-retry-failed">
+                        Retry failed ({{ $stats['failed'] }})
+                    </x-filament::button>
+                @endif
                 <x-filament::button
                     wire:click="commitStaged"
                     wire:confirm="Commit {{ $stats['total'] - $stats['excluded'] }} staged items to live content? This cannot be undone."

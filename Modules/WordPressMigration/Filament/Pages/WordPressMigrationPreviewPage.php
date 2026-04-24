@@ -183,6 +183,51 @@ class WordPressMigrationPreviewPage extends Page
     }
 
     /**
+     * Re-run the Commit step against ONLY the staging rows that
+     * failed in the previous pass (where `last_commit_error IS NOT
+     * NULL`). Rows that succeeded previously were deleted on batch
+     * success, so they can't participate — the retry is strictly
+     * narrower than a full commit.
+     *
+     * This keeps the retry surface small: the operator can fix a
+     * root cause (bad taxonomy mapping, transient media host)
+     * without re-walking the whole staging set, and rows that the
+     * first commit already landed on `content` aren't double-
+     * written by a full second commit.
+     */
+    public function retryFailed(): void
+    {
+        if ($this->jobId === null) {
+            return;
+        }
+
+        $committer = app()->bound(StagingCommitter::class)
+            ? app(StagingCommitter::class)
+            : new StagingCommitter(new WordPressContentMapper());
+
+        $report = $committer->commitFailedOnly($this->jobId);
+
+        $committed = $report->committedCount();
+        $failed = $report->failedCount();
+
+        if ($committed === 0 && $failed === 0) {
+            Notification::make()
+                ->title('Nothing to retry')
+                ->body('No staging rows are currently flagged as failed.')
+                ->warning()
+                ->send();
+            return;
+        }
+
+        $notification = Notification::make()
+            ->title($report->isSuccessful() ? 'Retry complete' : 'Retry finished with errors')
+            ->body("Re-committed {$committed}, {$failed} still failing.");
+
+        $report->isSuccessful() ? $notification->success() : $notification->danger();
+        $notification->send();
+    }
+
+    /**
      * Paginated slice of the staging snapshot for the view.
      * Rendered by the blade template; kept as a method rather than
      * a public property so it re-queries on every Livewire render
@@ -213,6 +258,7 @@ class WordPressMigrationPreviewPage extends Page
         return [
             'total' => (clone $base)->count(),
             'excluded' => (clone $base)->where('excluded', true)->count(),
+            'failed' => (clone $base)->whereNotNull('last_commit_error')->count(),
         ];
     }
 

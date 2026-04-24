@@ -190,6 +190,65 @@ class WordPressMigrationPreviewPageTest extends TestCase
         $this->purgeLiveContentForGuids(['preview:' . self::JOB_ID . ':1', 'preview:' . self::JOB_ID . ':3']);
     }
 
+    #[Test]
+    public function retry_failed_is_a_noop_when_no_rows_have_errors(): void
+    {
+        $this->seedStagedRows(2);
+
+        Livewire::test(WordPressMigrationPreviewPage::class, ['job' => self::JOB_ID])
+            ->call('retryFailed')
+            ->assertSuccessful();
+
+        // Rows should still be in staging — no commit took place.
+        $this->assertSame(2, StagingContent::where('job_id', self::JOB_ID)->count());
+    }
+
+    #[Test]
+    public function retry_failed_re_commits_only_rows_flagged_with_last_commit_error(): void
+    {
+        $rows = $this->seedStagedRows(2);
+
+        // Row 0 succeeded a prior pass (no error); row 1 carries
+        // a persisted commit error from an earlier failed batch.
+        DB::table('wp_migration_staging_content')
+            ->where('id', $rows[1]->id)
+            ->update(['last_commit_error' => 'previous attempt raised a taxonomy mismatch']);
+
+        Livewire::test(WordPressMigrationPreviewPage::class, ['job' => self::JOB_ID])
+            ->call('retryFailed')
+            ->assertSuccessful();
+
+        // Only the flagged row should have been committed; row 0
+        // stays because retry is strictly scoped to failed rows.
+        $this->assertNull(StagingContent::find($rows[1]->id),
+            'Retried row must be deleted from staging after a successful commit');
+        $this->assertNotNull(StagingContent::find($rows[0]->id),
+            'Non-failed rows are not touched by retryFailed');
+
+        $liveGuid = DB::table('content_data')
+            ->where('field_name', WordPressContentMapper::META_SOURCE_GUID)
+            ->where('field_value', 'preview:' . self::JOB_ID . ':2')
+            ->value('field_value');
+        $this->assertSame('preview:' . self::JOB_ID . ':2', $liveGuid);
+
+        $this->purgeLiveContentForGuids(['preview:' . self::JOB_ID . ':2']);
+    }
+
+    #[Test]
+    public function stats_expose_a_failed_count_for_rows_with_persisted_errors(): void
+    {
+        $rows = $this->seedStagedRows(3);
+        DB::table('wp_migration_staging_content')
+            ->whereIn('id', [$rows[0]->id, $rows[2]->id])
+            ->update(['last_commit_error' => 'boom']);
+
+        $stats = Livewire::test(WordPressMigrationPreviewPage::class, ['job' => self::JOB_ID])
+            ->get('stats');
+
+        $this->assertSame(3, $stats['total']);
+        $this->assertSame(2, $stats['failed']);
+    }
+
     /**
      * @param list<string> $guids
      */
