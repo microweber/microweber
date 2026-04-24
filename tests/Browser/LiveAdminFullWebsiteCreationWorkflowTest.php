@@ -333,6 +333,51 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    #[Test]
+    public function stage_1_welcome_widget_greets_the_admin_by_name(): void
+    {
+        // Stage 1 contract (Plan A.3, second method):
+        //   The Phase-9 WelcomeWidget reads the authenticated user
+        //   and greets them by name. The precedence is the same one
+        //   the widget itself uses:
+        //     first_name → username → email → 'Admin' (fallback)
+        //   This mirrors {@see \App\Filament\Admin\Widgets\WelcomeWidget::getGreeting()}
+        //   so a regression that changes the precedence on either
+        //   side fails this test.
+        //
+        // The expected name is resolved from the live `users` row
+        // matching DUSK_ADMIN_EMAIL. We do not seed a workflow user
+        // because the existing dev admin is the one the operator
+        // actually logs in as — re-greeting a different name would
+        // be a UX bug.
+        $adminEmail = $this->workflowAdminEmail();
+        $admin = DB::table('users')
+            ->where('email', $adminEmail)
+            ->where('is_admin', 1)
+            ->first();
+
+        $this->assertNotNull($admin,
+            "Stage 1: admin user with email '{$adminEmail}' must exist for the greeting assertion to be meaningful");
+
+        $expectedName = $admin->first_name
+            ?: ($admin->username ?: ($admin->email ?: 'Admin'));
+        $expectedGreeting = "Welcome back, {$expectedName}";
+
+        $this->browse(function (Browser $browser) use ($expectedGreeting) {
+            $this->visitAsOperator($browser, '/admin');
+
+            $this->assertTrue(
+                $this->workflowPageRenderedCleanly($browser),
+                'Stage 1 greeting: dashboard must render cleanly before the welcome assertion'
+            );
+
+            $this->assertTrue(
+                $this->workflowBodyContains($browser, $expectedGreeting),
+                "Stage 1 greeting: WelcomeWidget must render '{$expectedGreeting}' for the authenticated admin"
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

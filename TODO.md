@@ -78,7 +78,7 @@
       CTA tile is visible (Phase 11 feature); login as admin; assert
       `/admin` returns 200 and contains the "Migrating from
       WordPress?" CTA tile.
-- [ ] `stage_1_welcome_widget_greets_the_admin_by_name` — asserts
+- [x] 2026-04-24  `stage_1_welcome_widget_greets_the_admin_by_name` — asserts
       the greeting matches the admin's first_name / username.
 
 ### Stage 2 — Pick a template
