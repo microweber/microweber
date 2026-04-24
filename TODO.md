@@ -24,7 +24,7 @@
 
 ## A.1 Acceptance criteria
 
-- [ ] `LiveAdminFullWebsiteCreationWorkflowTest` exists at
+- [x] 2026-04-24  `LiveAdminFullWebsiteCreationWorkflowTest` exists at
       `tests/Browser/LiveAdminFullWebsiteCreationWorkflowTest.php`,
       under ≤15 minutes end-to-end, deterministic, and part of the
       default `php artisan dusk` run.
