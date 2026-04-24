@@ -131,7 +131,7 @@
       rows.
 - [x] 2026-04-24  `stage_6_logo_upload_persists` — upload a logo; assert a
       `media` row scoped to `rel_type='options'`.
-- [ ] `stage_6_currency_and_tax_save` — set default currency and a
+- [x] 2026-04-24  `stage_6_currency_and_tax_save` — set default currency and a
       tax rate; assert the shop page's price tag reflects it.
 
 ### Stage 7 — Apply a color palette

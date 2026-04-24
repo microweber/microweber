@@ -59,6 +59,18 @@ final class WorkflowFixturePurger
         self::purgeOptions();
         self::purgeMenus();
         self::purgeUsers();
+        self::purgeTaxRates();
+    }
+
+    private static function purgeTaxRates(): void
+    {
+        try {
+            DB::table('tax_rates')
+                ->where('name', 'like', '%' . self::FIXTURE_MARKER . '%')
+                ->delete();
+        } catch (\Throwable) {
+            // tax_rates absent on a stripped-down install
+        }
     }
 
     /**
@@ -79,6 +91,7 @@ final class WorkflowFixturePurger
             'menus' => self::safeCount('menus'),
             'menus_items' => self::safeCount('menus_items'),
             'cart' => self::safeCount('cart'),
+            'tax_rates' => self::safeCount('tax_rates'),
         ];
     }
 

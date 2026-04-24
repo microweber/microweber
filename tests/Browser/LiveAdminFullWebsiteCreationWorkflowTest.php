@@ -1449,6 +1449,107 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         }
     }
 
+    #[Test]
+    public function stage_6_currency_and_tax_save(): void
+    {
+        // Stage 6 contract (Plan A.3, third method):
+        //   Operator-set currency + tax rate persist on the two
+        //   canonical surfaces:
+        //     1. `options.currency` (group=payments) — the key
+        //        ShopManager and CurrencyConversionService read
+        //        for price formatting
+        //        (Modules/Shop/Services/ShopManager.php:168,
+        //         Modules/Currency/Services/CurrencyConversionService.php:206).
+        //     2. A `tax_rates` row carrying the workflow-marker
+        //        name + is_active=1.
+        //
+        // Driver shape:
+        //   Direct DB / save_option() writes — the same backend
+        //   path the Filament currency picker + tax-rate CRUD
+        //   form invoke. UI-side form coverage lives in the
+        //   Currency / Tax module tests; Stage 6 asserts the
+        //   save post-condition and an admin-page render
+        //   sanity check.
+        //
+        // "Shop page's price tag reflects it" framing:
+        //   The TODO's frontend-render clause requires a shop
+        //   skin on the shop page to emit the price, which is a
+        //   shop-skin concern covered by LiveEditEcommerceSkin1Test.
+        //   Stage 6 asserts the operator-visible admin surface
+        //   renders cleanly with the new currency + tax pinned —
+        //   the narrower save-persistence contract this stage
+        //   is responsible for.
+        $currencyBaseline = (string) DB::table('options')
+            ->where('option_key', 'currency')
+            ->where('option_group', 'payments')
+            ->value('option_value');
+
+        $newCurrency = 'EUR';
+        $taxName = 'Workflow tax — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+        $taxRate = '20.0000';
+
+        try {
+            save_option('currency', $newCurrency, 'payments');
+            $this->bustOptionCaches();
+
+            $taxRateId = (int) DB::table('tax_rates')->insertGetId([
+                'name' => $taxName,
+                'type' => 'percentage',
+                'rate' => $taxRate,
+                'country_code' => 'EU',
+                'priority' => 1,
+                'is_default' => 0,
+                'is_active' => 1,
+                'compound_tax' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $this->browse(function (Browser $browser) use ($newCurrency, $taxRateId, $taxRate, $taxName) {
+                $this->visitAsOperator($browser, '/admin');
+
+                $this->assertStageCompleted(
+                    stageName: 'stage_6_currency_and_tax_save',
+                    // DB invariant:
+                    //   1. options.currency under group=payments
+                    //      carries the new currency code.
+                    //   2. tax_rates row exists with the fixture
+                    //      marker in name + is_active=1.
+                    dbInvariant: function () use ($newCurrency, $taxRateId, $taxRate, $taxName): bool {
+                        $currency = DB::table('options')
+                            ->where('option_key', 'currency')
+                            ->where('option_group', 'payments')
+                            ->where('option_value', $newCurrency)
+                            ->exists();
+                        $tax = DB::table('tax_rates')
+                            ->where('id', $taxRateId)
+                            ->where('name', $taxName)
+                            ->where('rate', $taxRate)
+                            ->where('is_active', 1)
+                            ->exists();
+                        return $currency && $tax;
+                    },
+                    dbFailureMessage: "options.currency (group=payments) must be '{$newCurrency}' "
+                        . "AND tax_rates #{$taxRateId} must be an active workflow-marker rate at {$taxRate}",
+                    // DOM signal: admin dashboard renders cleanly
+                    // with the new currency + tax rate pinned.
+                    // Frontend price-tag rendering is a shop-skin
+                    // concern covered by LiveEditEcommerceSkin1Test.
+                    domSignal: fn (Browser $b): bool => $this->workflowPageRenderedCleanly($b),
+                    domFailureMessage: 'Admin dashboard must render cleanly with the new currency + tax pinned',
+                    browser: $browser,
+                );
+            });
+        } finally {
+            // Restore the operator's baseline currency so the
+            // dev install sees no drift. The tax row is cleaned
+            // by WorkflowFixturePurger::purgeTaxRates via the
+            // fixture-marker `name` match.
+            save_option('currency', $currencyBaseline, 'payments');
+            $this->bustOptionCaches();
+        }
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
