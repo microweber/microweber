@@ -78,6 +78,7 @@ final class WorkflowFixturePurger
             'users' => (int) DB::table('users')->count(),
             'menus' => self::safeCount('menus'),
             'menus_items' => self::safeCount('menus_items'),
+            'cart' => self::safeCount('cart'),
         ];
     }
 

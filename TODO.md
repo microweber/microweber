@@ -120,7 +120,7 @@
 - [x] 2026-04-24  `stage_5_add_first_product` — create a product via
       **Content → Products → New**; assert the `content` +
       `content_data` price row exists; public shop URL lists it.
-- [ ] `stage_5_add_to_cart_round_trip` — on the public frontend,
+- [x] 2026-04-24  `stage_5_add_to_cart_round_trip` — on the public frontend,
       add the product to the cart; assert a `cart` row persists with
       the right rel_id.
 

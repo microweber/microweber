@@ -1113,6 +1113,166 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    #[Test]
+    public function stage_5_add_to_cart_round_trip(): void
+    {
+        // Stage 5 contract (Plan A.3, third method):
+        //   As a public guest, add the fixture product to the
+        //   cart and assert a `cart` row persists with the right
+        //   rel_id/rel_type + order_completed=0.
+        //
+        // Driver shape:
+        //   The shop frontend's add-to-cart button wraps
+        //   POST /api/update_cart with `for=content&for_id=<id>`
+        //   (see CartService::updateCart at line 320). Clicking
+        //   a rendered add-to-cart button depends on a shop skin
+        //   being on the page, which as Stage 5 method 2 noted is
+        //   a shop-skin concern — and already covered by
+        //   LiveEditEcommerceSkin1Test. For Stage 5 we drive the
+        //   API directly from the guest's browser session via
+        //   fetch(), which exercises the same CartService code
+        //   path a click would.
+        //
+        // CSRF handling:
+        //   We first visit a public URL to establish a session +
+        //   pick up the csrf-token meta. The subsequent fetch
+        //   passes it through the X-CSRF-TOKEN header — Microweber
+        //   gates /api/update_cart via the 'web' middleware which
+        //   enforces CSRF.
+        $shopPageId = $this->seedWorkflowPage('cart-shop-host', [
+            'title' => 'Cart shop host — ' . WorkflowFixturePurger::FIXTURE_MARKER,
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'subtype_value' => 'shop',
+            'is_shop' => 1,
+        ]);
+
+        $productTitle = 'Cart product — ' . WorkflowFixturePurger::FIXTURE_MARKER;
+        $productSlug = WorkflowFixturePurger::FIXTURE_MARKER . '-cart-product';
+        $productId = (int) DB::table('content')->insertGetId([
+            'title' => $productTitle,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'url' => $productSlug,
+            'parent' => $shopPageId,
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $priceCustomFieldId = (int) DB::table('custom_fields')->insertGetId([
+            'rel_type' => 'content',
+            'rel_id' => $productId,
+            'type' => 'price',
+            'name' => 'Price',
+            'name_key' => 'price',
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('custom_fields_values')->insert([
+            'custom_field_id' => $priceCustomFieldId,
+            'value' => '29.99',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Baseline: remember the highest existing cart row id so
+        // our post-assertion only considers rows created by this
+        // test. A session-scoped cart row is harder to target
+        // precisely (Dusk sessions vary per run), so we rely on
+        // rel_id matching the workflow-fixture product id instead.
+        $cartBaselineMax = (int) (DB::table('cart')->max('id') ?? 0);
+
+        $this->browse(function (Browser $browser) use ($shopPageId, $productId, $cartBaselineMax) {
+            $shopSlug = (string) DB::table('content')->where('id', $shopPageId)->value('url');
+
+            // Step 1 — establish a guest session + CSRF token
+            // by visiting a public URL. Any page that renders
+            // the <meta name="csrf-token"> works; the shop page
+            // does.
+            $this->visitAsPublicGuest($browser, '/' . $shopSlug, pauseMs: 3000);
+
+            // Step 2 — drive POST /api/update_cart via fetch().
+            // `for=content` + `for_id=<product id>` is the
+            // CartService::updateCart contract (line 320). The
+            // fetch waits for the response before returning so
+            // our post-fetch pause sees a persisted cart row.
+            $browser->script(<<<JS
+                (async function () {
+                    var token = document.querySelector('meta[name="csrf-token"]');
+                    var csrf = token ? token.getAttribute('content') : '';
+                    var body = new URLSearchParams();
+                    body.append('for', 'content');
+                    body.append('for_id', '{$productId}');
+                    body.append('qty', '1');
+                    try {
+                        var r = await fetch('/api/update_cart', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-CSRF-TOKEN': csrf,
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: body
+                        });
+                        window.__workflowCartStatus = r.status;
+                        window.__workflowCartBody = await r.text();
+                    } catch (e) {
+                        window.__workflowCartStatus = -1;
+                        window.__workflowCartBody = String(e && e.message ? e.message : e);
+                    }
+                })();
+            JS);
+            $browser->pause(4000);
+
+            $this->assertStageCompleted(
+                stageName: 'stage_5_add_to_cart_round_trip',
+                // DB invariant: a cart row was created after our
+                // baseline max id, scoped to our fixture product.
+                dbInvariant: function () use ($productId, $cartBaselineMax): bool {
+                    return DB::table('cart')
+                        ->where('id', '>', $cartBaselineMax)
+                        ->where('rel_id', $productId)
+                        ->where('rel_type', 'Modules\\Content\\Models\\Content')
+                        ->where(function ($q) {
+                            $q->where('order_completed', 0)
+                                ->orWhereNull('order_completed');
+                        })
+                        ->exists();
+                },
+                dbFailureMessage: "a new `cart` row must exist for product #{$productId} "
+                    . "with rel_type=Modules\\Content\\Models\\Content and order_completed=0 "
+                    . "(id > baseline {$cartBaselineMax})",
+                // DOM signal: the fetch returned a 2xx. Microweber's
+                // update_cart returns a JSON payload that Cart-UI
+                // widgets consume; the workflow is satisfied by
+                // the API honouring the request end-to-end.
+                domSignal: fn (Browser $b): bool => (int) (($b->script(
+                    'return window.__workflowCartStatus || 0;'
+                )[0] ?? 0)) >= 200 && (int) (($b->script(
+                    'return window.__workflowCartStatus || 0;'
+                )[0] ?? 0)) < 400,
+                domFailureMessage: 'POST /api/update_cart must return a 2xx — '
+                    . 'a CSRF failure / 5xx here means the add-to-cart API is broken for guests',
+                browser: $browser,
+            );
+        });
+
+        // Manual purge of the cart row — `cart` isn't in the
+        // WorkflowFixturePurger snapshot (it doesn't follow the
+        // rel_type='content' pattern the content-satellites list
+        // uses), so we clean our own row here. The fixture product
+        // + shop page + custom_fields will be purged by the
+        // standard tearDown hook.
+        DB::table('cart')
+            ->where('id', '>', $cartBaselineMax)
+            ->where('rel_id', $productId)
+            ->where('rel_type', 'Modules\\Content\\Models\\Content')
+            ->delete();
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
