@@ -39,11 +39,32 @@
 
 ## A.2 Pre-flight
 
-- [ ] Inventory existing admin-creation Dusk coverage (see
+- [x] 2026-04-24  Inventory existing admin-creation Dusk coverage (see
       `AdminContentCreateTest.php`, `AdminModulePagesTest.php`,
       `LiveEditInsertLayoutTest.php`, `LiveEditInsertModuleTest.php`)
       and mark which stages below can reuse a helper vs need a new
       one.
+
+      **Inventory results — existing helpers we can lift into the workflow trait:**
+
+      | File                                      | Reusable helpers                                                                   | Reuse target (Plan A.3 stage)                 |
+      |-------------------------------------------|------------------------------------------------------------------------------------|-----------------------------------------------|
+      | `AdminContentCreateTest.php`              | `livewireType($browser, $selector, $value)`, `livewireSet($browser, $prop, $val)`, `clickSave($browser)` — Livewire-v4-safe form drivers for page/post/product CRUD | Stage 3 (home page create), Stage 5 (product create) |
+      | `AdminModulePagesTest.php`                | `assertPageLoadsWithoutError($browser, $url, $name)` — 200-plus-no-Whoops probe applied across every admin module page | Stages 1, 2, 5, 6 — every `visit /admin/...` sanity check |
+      | `LiveEditInsertLayoutTest.php`            | Single test method (`insert_layout_dialog_is_interactive`) — no extracted helpers; the JS `mw.app.editor.insertLayoutRequestOnTop` dispatch pattern is worth copying verbatim | Stage 4 (insert jumbotron/skin-1) — copy the dispatch snippet into a new `insertLayoutOnCanvas()` helper |
+      | `LiveEditInsertModuleTest.php`            | Single test method (`insert_module_dialog_is_interactive`) — same shape as above | Stage 4 supplement — module insertion into an already-opened layout slot |
+      | `AdminLoginTrait`                         | `loginAsAdmin($browser)`, `ensureLoggedIn($browser)` — already in use by the workflow scaffold | All stages |
+      | `CleansLandingTestPages` + `LandingTestContentPurger` | Precedent for marker-scoped fixture purge (`landing-test-*`) — already mirrored by the workflow's own `WorkflowFixturePurger` / `CleansWorkflowFixtures` | All stages (landed) |
+
+      **Stages that need NEW helpers (no existing source to lift from):**
+      - Stage 2 (template-switch) — `LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest` exists but it tests no-bleed, not a clean switch-and-persist. Need a `selectTemplateInAppearance($browser, $templateName)` helper.
+      - Stage 4's `stage_4_inline_edit_saves_heading_text` — no existing double-click + blur driver; copy from `AdminLiveEditElementStyleEditorTest` patterns.
+      - Stage 5's `stage_5_add_to_cart_round_trip` — `AdminModuleCommerceUseCasesTest` exercises the admin shop admin but not the public-frontend add-to-cart; need a new `addToCartAsGuest()` helper.
+      - Stage 6 (settings) — `AdminSettingsWorkflowTest` + `AdminSettingsTest` have the patterns; a `saveGeneralSettings($browser, $overrides)` helper would factor them out.
+      - Stage 7 (palette apply) — already thoroughly helper-served by `LiveEditColorPaletteTrait` and `CleansColorPaletteTestFixtures`; direct reuse, no new helpers.
+      - Stage 8 (guest checkout) — nothing lift-able; need a `completeCheckoutAsGuest($browser, $paymentMethod)` helper.
+
+      **Decision:** the big-test scaffold remains composed of small trait-shaped helpers. Lift the three Livewire form drivers from `AdminContentCreateTest` into a new `WorkflowFormDrivers` trait before Stage 3; lift the 200-probe helper from `AdminModulePagesTest` as it stands.
 - [ ] Add a new trait `tests/Browser/Traits/WebsiteWorkflowTrait.php`
       for stage-scoped helpers (`assertStageACompleted(...)`) so the
       big test stays readable.
