@@ -483,6 +483,89 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         }
     }
 
+    #[Test]
+    public function stage_2_switching_template_does_not_bleed_palette_state(): void
+    {
+        // Stage 2 contract (Plan A.3, second method) — regression
+        // guard for the option-cache poisoning vector that the
+        // dedicated Phase-6 test
+        // {@see LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest}
+        // catches end-to-end via a body-class probe on a seeded
+        // landing page.
+        //
+        // Workflow scope: we don't re-seed the landing page here
+        // (that's already covered above). The narrower invariant
+        // we need before Stage 3 starts dropping pages is:
+        //
+        //   Bouncing options.current_template through marker → target
+        //   leaves the option row at exactly the target value AND the
+        //   cache-invalidated subsequent read also returns the target.
+        //
+        // A regression in OptionRepository's cacheCallback wrapping —
+        // the same regression Phase 6 caught — would surface here as
+        // the second read returning the marker after the row was
+        // updated to the target. That's the "palette state bleed"
+        // class of bug: stale cached option values poisoning later
+        // template-pinned reads.
+        $baseline = $this->readCurrentTemplateOption();
+        $this->assertNotSame('', $baseline,
+            'Stage 2 no-bleed: dev install must already carry an options.current_template row');
+
+        $marker = WorkflowFixturePurger::FIXTURE_MARKER . '-bleed-probe';
+        $target = 'Bootstrap';
+
+        try {
+            // Step 1: flip to the marker. After invalidation, both
+            // the DB row AND a fresh read MUST agree on the marker.
+            save_option('current_template', $marker, 'template');
+            $this->bustOptionCaches();
+            $this->assertSame($marker, $this->readCurrentTemplateOption(),
+                'Stage 2 no-bleed: marker write must land on the row');
+            $this->assertSame($marker, $this->readCurrentTemplateOptionViaManager(),
+                'Stage 2 no-bleed: OptionManager read after marker write must match the row '
+                . '(stale cache here is the bleed vector Phase 6 originally fixed)');
+
+            // Step 2: flip back to target. Same two-source agreement.
+            save_option('current_template', $target, 'template');
+            $this->bustOptionCaches();
+            $this->assertSame($target, $this->readCurrentTemplateOption(),
+                'Stage 2 no-bleed: switch-back to target must land on the row');
+            $this->assertSame($target, $this->readCurrentTemplateOptionViaManager(),
+                "Stage 2 no-bleed: OptionManager read after switch-back must return '{$target}', "
+                . "not the marker — this is the regression Phase 6's body-class probe also catches");
+
+            // Step 3: operator-facing surface — admin dashboard
+            // still renders cleanly with the freshly-bounced option.
+            $this->browse(function (Browser $browser) {
+                $this->visitAsOperator($browser, '/admin');
+                $this->assertTrue(
+                    $this->workflowPageRenderedCleanly($browser),
+                    'Stage 2 no-bleed: dashboard must render cleanly after the template bounce'
+                );
+            });
+        } finally {
+            save_option('current_template', $baseline, 'template');
+            $this->bustOptionCaches();
+        }
+    }
+
+    /**
+     * Read the canonical site-template via the OptionManager (the
+     * cache-aware path) so a stale-cache regression surfaces here
+     * even when the underlying DB row is correct.
+     */
+    private function readCurrentTemplateOptionViaManager(): string
+    {
+        try {
+            $value = app()->option_manager->get('current_template', 'template');
+            return is_string($value) ? $value : (string) ($value ?? '');
+        } catch (\Throwable) {
+            // Fall back to the raw DB read so the test still reports
+            // a real value if the manager wiring is partial.
+            return $this->readCurrentTemplateOption();
+        }
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

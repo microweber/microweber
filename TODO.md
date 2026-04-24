@@ -87,7 +87,7 @@
       visit **Settings → Appearance / Templates**, pick Bootstrap
       (the default shipped template), submit; assert
       `options.template == 'bootstrap'` in DB.
-- [ ] `stage_2_switching_template_does_not_bleed_palette_state` —
+- [x] 2026-04-24  `stage_2_switching_template_does_not_bleed_palette_state` —
       regression guard; reuses the pattern from
       `LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest`.
 
