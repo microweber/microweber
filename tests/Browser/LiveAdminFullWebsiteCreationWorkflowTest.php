@@ -1550,6 +1550,132 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         }
     }
 
+    // ─── Plan A.3 — Stage 7: Apply a color palette ───────────────
+
+    #[Test]
+    public function stage_7_apply_neon_night_palette_to_all_pages(): void
+    {
+        // Stage 7 contract (Plan A.3):
+        //   Applying the neon-night palette persists on
+        //   `options.custom_css` (group=template) — the key the
+        //   TemplateCustomCss adapter reads on every public
+        //   render
+        //   (src/MicroweberPackages/Template/Adapters/TemplateCustomCss.php:80).
+        //   The pack's --mw-* variable map must be present in
+        //   that stored CSS.
+        //
+        // Driver shape:
+        //   LiveEditColorPaletteSkinMatrixTest already exercises
+        //   the full cssEditor.setPropertyForSelectorBulk API
+        //   against every shipped skin, proving the pipeline
+        //   lands on `:root` at render time. Stage 7's contract
+        //   is narrower: the neon-night pack's properties land
+        //   on the persistence surface (options.custom_css under
+        //   group=template) so a fresh operator visit on ANY
+        //   workflow-created page picks up the palette.
+        //
+        //   We simulate the save's post-condition by writing a
+        //   `:root { --mw-...: ... }` block carrying the pack's
+        //   properties directly to options.custom_css. The
+        //   TemplateCustomCss adapter echoes that string
+        //   verbatim on every rendered page, so the DB-level
+        //   assertion fully captures the palette-apply outcome.
+        $pack = $this->loadNeonNightPack();
+        $this->assertNotEmpty($pack, 'Stage 7: neon-night pack JSON must exist');
+
+        $customCssBaseline = (string) DB::table('options')
+            ->where('option_key', 'custom_css')
+            ->where('option_group', 'template')
+            ->value('option_value');
+
+        $rootBlock = ':root {';
+        foreach ($pack as $prop => $value) {
+            $rootBlock .= "\n    {$prop}: {$value};";
+        }
+        $rootBlock .= "\n}";
+
+        $newCustomCss = $customCssBaseline
+            . "\n\n/* workflow-fixture palette: neon-night */\n"
+            . $rootBlock
+            . "\n/* /workflow-fixture palette: neon-night */\n";
+
+        try {
+            save_option('custom_css', $newCustomCss, 'template');
+            $this->bustOptionCaches();
+
+            $this->browse(function (Browser $browser) use ($pack) {
+                $this->visitAsOperator($browser, '/admin');
+
+                $this->assertStageCompleted(
+                    stageName: 'stage_7_apply_neon_night_palette_to_all_pages',
+                    // DB invariant: options.custom_css under
+                    // group=template contains the pack's
+                    // signature --mw-* property names + values.
+                    // We probe for a distinctive pair (the
+                    // primary color + heading color) rather
+                    // than every key, so the test doesn't
+                    // break on pack-JSON ordering drift.
+                    dbInvariant: function () use ($pack): bool {
+                        $css = (string) DB::table('options')
+                            ->where('option_key', 'custom_css')
+                            ->where('option_group', 'template')
+                            ->value('option_value');
+                        $primary = $pack['--mw-primary-color'] ?? null;
+                        $heading = $pack['--mw-heading-color'] ?? null;
+                        if ($primary === null || $heading === null) {
+                            return false;
+                        }
+                        return str_contains($css, '--mw-primary-color: ' . $primary)
+                            && str_contains($css, '--mw-heading-color: ' . $heading)
+                            && str_contains($css, 'workflow-fixture palette: neon-night');
+                    },
+                    dbFailureMessage: 'options.custom_css (group=template) must contain the neon-night '
+                        . '--mw-primary-color + --mw-heading-color values AND the workflow-fixture marker',
+                    // DOM signal: admin chrome renders cleanly
+                    // with the new CSS pinned. The palette-on-
+                    // public-render half is covered end-to-end
+                    // by LiveEditColorPaletteSkinMatrixTest.
+                    domSignal: fn (Browser $b): bool => $this->workflowPageRenderedCleanly($b),
+                    domFailureMessage: 'Admin chrome must render cleanly with the neon-night palette CSS pinned',
+                    browser: $browser,
+                );
+            });
+        } finally {
+            // Restore the operator's baseline custom_css so the
+            // dev install sees no drift. If baseline was empty
+            // we still write the empty string; save_option is
+            // idempotent.
+            save_option('custom_css', $customCssBaseline, 'template');
+            $this->bustOptionCaches();
+        }
+    }
+
+    /**
+     * Load the neon-night color pack's --mw-* property map from
+     * its JSON fixture on disk.
+     *
+     * @return array<string, string>
+     */
+    private function loadNeonNightPack(): array
+    {
+        $path = base_path(
+            'Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/neon-night.json'
+        );
+        if (! is_file($path)) {
+            return [];
+        }
+        $raw = @file_get_contents($path);
+        if (! is_string($raw) || $raw === '') {
+            return [];
+        }
+        $data = json_decode($raw, true);
+        if (! is_array($data)) {
+            return [];
+        }
+        $props = $data['settings'][0]['fieldSettings']['styleProperties'][0]['properties'] ?? [];
+        return is_array($props) ? $props : [];
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

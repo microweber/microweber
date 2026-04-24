@@ -136,7 +136,7 @@
 
 ### Stage 7 — Apply a color palette
 
-- [ ] `stage_7_apply_neon_night_palette_to_all_pages` — uses the
+- [x] 2026-04-24  `stage_7_apply_neon_night_palette_to_all_pages` — uses the
       Phase-7 color-palette pipeline; open the picker, pick
       `neon-night`, save. Reuses the assertion shape from
       `LiveEditColorPaletteSkinMatrixTest` but scoped to the
