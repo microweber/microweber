@@ -1241,7 +1241,7 @@ menus, author metadata — into a live Microweber install with a
 preview-before-commit step, so migrating off WordPress is a few clicks
 rather than a manual copy-paste job. Ships under a new
 `MicroweberPackages\Migration\WordPress` package with a Filament-5 admin
-panel entry-point and a CLI (`php artisan mw:migrate:wordpress <url>`)
+panel entry-point and a CLI (`php artisan microweber:import:wordpress <url>`)
 for scripted/bulk use.
 
 ### Phase 1 — Discovery & scoping
@@ -1309,7 +1309,7 @@ for scripted/bulk use.
 
 ### Phase 9 — Admin UX (Filament 5)
 
-- [ ] New Filament resource `WordPressMigrationResource` with pages: Index (list jobs + status), Create (URL/WXR/REST form), View (job detail + preview), Logs (per-item success/fail)
+- [x] 2026-04-24  New Filament resource `WordPressMigrationResource` with pages: Index (list jobs + status), Create (URL/WXR/REST form), View (job detail + preview), Logs (per-item success/fail)
 - [ ] Real-time progress via Livewire polling on the job View page (`processed / total / failed` counters, ETA)
 - [ ] "Retry failed items" action that re-runs only the rows with status=failed
 - [ ] Sidebar menu entry under "Content" → "Import from WordPress"
@@ -1317,10 +1317,10 @@ for scripted/bulk use.
 
 ### Phase 10 — CLI & automation
 
-- [ ] `php artisan mw:migrate:wordpress <url> {--mode=rest|rss|sitemap|wxr} {--dry-run} {--yes}` driving the same importers
-- [ ] `php artisan mw:migrate:wordpress:status <job-id>` + `mw:migrate:wordpress:commit <job-id>` for headless flows
+- [ ] `php artisan microweber:import:wordpress <url> {--mode=rest|rss|sitemap|wxr} {--dry-run} {--yes}` driving the same importers
+- [ ] `php artisan microweber:import:wordpress:status <job-id>` + `microweber:import:wordpress:commit <job-id>` for headless flows
 - [ ] Document scripted use in `docs/migration/wordpress.md` with a full end-to-end example
-- [ ] CI smoke: a single GitHub Actions step runs `mw:migrate:wordpress http://127.0.0.1:9876 --mode=rss --dry-run --yes` against a WordPress fixture served by PHP's built-in server, asserts non-zero items staged
+- [ ] CI smoke: a single GitHub Actions step runs `microweber:import:wordpress http://127.0.0.1:9876 --mode=rss --dry-run --yes` against a WordPress fixture served by PHP's built-in server, asserts non-zero items staged
 
 ### Phase 11 — Docs & marketing copy
 
@@ -1336,3 +1336,5 @@ for scripted/bulk use.
 - [ ] now oppulate the todo to cover more tests adn feach module that are not covered
 
 - [ ] populate the todo to test the coroos chmes on all layouts
+
+- [ ] also see if improt from worpdrrss is working
