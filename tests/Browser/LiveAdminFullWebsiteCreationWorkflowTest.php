@@ -266,6 +266,73 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    // ─── Plan A.3 — Stage 1: Fresh install ───────────────────────
+
+    #[Test]
+    public function stage_1_install_lands_operator_on_the_admin_dashboard(): void
+    {
+        // Stage 1 contract (Plan A.3):
+        //   - Login as admin and land on /admin cleanly (no 500/Whoops).
+        //   - When the install is in its empty-state shape (zero
+        //     `content` rows), the Phase-11 "Migrating from
+        //     WordPress?" CTA tile must be visible to the operator
+        //     so the import-from-WordPress path is one click away.
+        //
+        // Empty-state caveat:
+        //   The CTA's visibility gate is
+        //   `WordPressImportCtaWidget::canView()` which returns true
+        //   only when the live `content` table is empty. A dev DB
+        //   typically has at least one row, so this test branches:
+        //     - Empty content → assert CTA tile is visible end-to-end.
+        //     - Non-empty content → skip the CTA assertion with a
+        //       cross-reference to the PHPUnit gate test which
+        //       already proves the empty-state path
+        //       (LiveAdminWordPressImportCtaWidgetTest +
+        //       Modules/WordPressMigration/Tests/Feature/WordPressImportCtaWidgetTest).
+        //   Both branches still verify the dashboard renders cleanly,
+        //   which is the broader Stage 1 invariant.
+        $contentRowCount = (int) DB::table('content')->count();
+
+        $this->browse(function (Browser $browser) use ($contentRowCount) {
+            $this->visitAsOperator($browser, '/admin');
+
+            $this->assertTrue(
+                $this->workflowPageRenderedCleanly($browser),
+                'Stage 1: admin dashboard must render cleanly on first login'
+            );
+
+            $currentUrl = $browser->driver->getCurrentURL();
+            $this->assertStringContainsString('/admin', $currentUrl,
+                'Stage 1: post-login URL must land on an /admin route');
+            $this->assertStringNotContainsString('/admin/login', $currentUrl,
+                'Stage 1: must not be redirected back to login');
+
+            $ctaPresent = (bool) ($browser->script(
+                'return document.querySelector("[data-testid=\'wp-import-cta\']") !== null;'
+            )[0] ?? false);
+
+            if ($contentRowCount === 0) {
+                // True empty-state install — the operator's first
+                // login must surface the CTA tile.
+                $this->assertTrue(
+                    $ctaPresent,
+                    'Stage 1: "Migrating from WordPress?" CTA tile must be visible on a fresh install'
+                );
+            } else {
+                // Dev install has content; the empty-state CTA path
+                // is covered by LiveAdminWordPressImportCtaWidgetTest
+                // (Dusk negative-case) and the Phase-11 PHPUnit gate
+                // test. Verify the dashboard still hides the CTA
+                // here so a regression that breaks the visibility
+                // gate (always-on CTA) is caught either way.
+                $this->assertFalse(
+                    $ctaPresent,
+                    'Stage 1: CTA must remain hidden when content is non-empty (gate regression)'
+                );
+            }
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:

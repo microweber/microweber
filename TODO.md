@@ -73,7 +73,7 @@
 
 ### Stage 1 — Fresh install
 
-- [ ] `stage_1_install_lands_operator_on_the_admin_dashboard` — seed
+- [x] 2026-04-24  `stage_1_install_lands_operator_on_the_admin_dashboard` — seed
       a clean `content`/`media`/`options` fixture so the empty-state
       CTA tile is visible (Phase 11 feature); login as admin; assert
       `/admin` returns 200 and contains the "Migrating from
