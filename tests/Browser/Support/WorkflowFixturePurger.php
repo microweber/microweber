@@ -60,6 +60,34 @@ final class WorkflowFixturePurger
         self::purgeMenus();
         self::purgeUsers();
         self::purgeTaxRates();
+        self::purgeCartOrders();
+        self::purgeCart();
+    }
+
+    private static function purgeCartOrders(): void
+    {
+        try {
+            DB::table('cart_orders')
+                ->where(function ($q) {
+                    $q->where('order_reference_id', 'like', '%' . self::FIXTURE_MARKER . '%')
+                        ->orWhere('email', 'like', '%' . self::FIXTURE_EMAIL_DOMAIN);
+                })
+                ->delete();
+        } catch (\Throwable) {
+        }
+    }
+
+    private static function purgeCart(): void
+    {
+        try {
+            DB::table('cart')
+                ->where(function ($q) {
+                    $q->where('session_id', 'like', '%' . self::FIXTURE_MARKER . '%')
+                        ->orWhere('title', 'like', '%' . self::FIXTURE_MARKER . '%');
+                })
+                ->delete();
+        } catch (\Throwable) {
+        }
     }
 
     private static function purgeTaxRates(): void
@@ -92,6 +120,7 @@ final class WorkflowFixturePurger
             'menus_items' => self::safeCount('menus_items'),
             'cart' => self::safeCount('cart'),
             'tax_rates' => self::safeCount('tax_rates'),
+            'cart_orders' => self::safeCount('cart_orders'),
         ];
     }
 

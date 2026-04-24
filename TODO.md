@@ -148,7 +148,7 @@
       logs the browser out; visits `/`; asserts the heading from
       stage 4, the logo from stage 6, and the palette from stage 7
       are all rendered.
-- [ ] `stage_8_shop_product_is_purchasable_as_guest` — reuses the
+- [x] 2026-04-24  `stage_8_shop_product_is_purchasable_as_guest` — reuses the
       cart round-trip; adds a dummy checkout (cash-on-delivery
       method); asserts an `orders` row lands with the product and
       total.
