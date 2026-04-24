@@ -1,0 +1,179 @@
+name: WordPress Import CLI Smoke
+
+# Phase 10 smoke test for the headless WordPress importer.
+#
+# Boots the existing tests/fixtures/wp/router.php on 127.0.0.1:9876
+# (the same PHP built-in server the Dusk probe/rss/sitemap tests use),
+# runs the CLI driver in dry-run mode against it, and asserts that
+# the staging table ended up with at least one row.
+#
+# Why a dedicated workflow rather than a step tacked onto ci.yml:
+#   - the smoke-test step needs a real MySQL (the importer writes
+#     jobs + staging rows through Eloquent), so it has to bring up
+#     the service itself
+#   - keeping the pipeline minimal means a regression in this step
+#     shows up as a separate red check on the PR instead of being
+#     buried inside the 100+-step main CI run
+#
+# The contract the step checks is narrow on purpose: "CLI + fixture
+# → non-zero staged rows." Per-importer correctness is already
+# covered by LiveAdminWordPressMigrationRssTest / ProbeTest /
+# RestTest / SitemapTest / WxrTest in the Dusk suite.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: microweber:import:wordpress --mode=rss --dry-run
+    runs-on: ubuntu-latest
+    env:
+      COMPOSER_ALLOW_SUPERUSER: 1
+      FIXTURE_HOST: 127.0.0.1
+      FIXTURE_PORT: 9876
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: microweber_testing
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv, pdo_mysql
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-composer-downloads-
+
+      - name: Cache vendor directory
+        id: vendor-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php8.3-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8.3-vendor-
+
+      - name: Install Composer dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Regenerate autoload
+        if: steps.vendor-cache.outputs.cache-hit == 'true'
+        run: composer dump-autoload --optimize
+
+      - name: Prepare .env for MySQL
+        run: |
+          rm -f .env
+          cp .env.example .env
+          sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+          sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
+          sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=mysql|g' .env
+          sed -i 's|DB_HOST=.*|DB_HOST=127.0.0.1|g' .env
+          sed -i 's|DB_PORT=.*|DB_PORT=3306|g' .env
+          sed -i 's|DB_DATABASE=.*|DB_DATABASE=microweber_testing|g' .env
+          sed -i 's|DB_USERNAME=.*|DB_USERNAME=root|g' .env
+          sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=root|g' .env
+          php artisan key:generate --ansi
+
+      - name: Install Microweber (runs migrations)
+        run: |
+          php artisan microweber:install \
+            --email=admin@admin.com \
+            --username=admin \
+            --password=admin \
+            --db-driver=mysql \
+            --db-host=127.0.0.1 \
+            --db-name=microweber_testing \
+            --db-username=root \
+            --db-password=root \
+            --default-content=default \
+            --no-interaction
+
+      - name: Ensure WordPressMigration module is migrated
+        run: php artisan module:migrate WordPressMigration || true
+
+      - name: Start WordPress fixture (PHP built-in server)
+        run: |
+          php -S "${FIXTURE_HOST}:${FIXTURE_PORT}" \
+              -t tests/fixtures/wp \
+              tests/fixtures/wp/router.php \
+              > /tmp/wp-fixture.log 2>&1 &
+          echo $! > /tmp/wp-fixture.pid
+          # Wait for the server to accept connections.
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -fsS "http://${FIXTURE_HOST}:${FIXTURE_PORT}/feed" -o /dev/null 2>/dev/null; then
+              echo "Fixture up."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Fixture never responded." >&2
+          cat /tmp/wp-fixture.log >&2
+          exit 1
+
+      - name: Smoke-test — microweber:import:wordpress --mode=rss --dry-run
+        run: |
+          set -euo pipefail
+          php artisan microweber:import:wordpress \
+            "http://${FIXTURE_HOST}:${FIXTURE_PORT}" \
+            --mode=rss --dry-run --yes --max=50
+
+          # Authority is the DB: the CLI is a success if at least
+          # one staging row landed. `staging.staged` is the stable
+          # JSON key exposed by the status command for exactly this
+          # kind of machine-parsed gate.
+          LATEST_JOB_ID=$(mysql -h 127.0.0.1 -uroot -proot microweber_testing \
+            -N -e "SELECT MAX(id) FROM wp_migration_jobs;")
+          echo "Latest job id: $LATEST_JOB_ID"
+
+          STATUS_JSON=$(php artisan microweber:import:wordpress:status \
+            "$LATEST_JOB_ID" --json)
+          echo "$STATUS_JSON"
+
+          STAGED=$(echo "$STATUS_JSON" | php -r 'echo json_decode(stream_get_contents(STDIN), true)["staging"]["staged"] ?? -1;')
+          if [ "$STAGED" -lt 1 ]; then
+            echo "FAIL: expected at least 1 staged row, got $STAGED" >&2
+            exit 1
+          fi
+          echo "PASS: $STAGED row(s) staged."
+
+      - name: Stop WordPress fixture
+        if: always()
+        run: |
+          if [ -f /tmp/wp-fixture.pid ]; then
+            kill "$(cat /tmp/wp-fixture.pid)" || true
+          fi
+
+      - name: Upload fixture log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-fixture-log
+          path: /tmp/wp-fixture.log
+          if-no-files-found: ignore
+          retention-days: 7
