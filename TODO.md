@@ -192,7 +192,7 @@
 
 ## B.2 Per-skin test stubs to author
 
-- [ ] `LiveEditJumbotronSkin2Test` — mirror the existing
+- [x] 2026-04-24  `LiveEditJumbotronSkin2Test` — mirror the existing
       `LiveEditJumbotronSkin1Test` shape for `jumbotron/skin-2`.
 - [ ] `LiveEditFeaturesSkin1Test` — mirror
       `LiveEditFeaturesSkin2Test` shape for `features/skin-1`.
