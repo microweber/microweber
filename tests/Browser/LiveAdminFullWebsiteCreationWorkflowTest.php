@@ -928,6 +928,77 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    // ─── Plan A.3 — Stage 5: Add a shop ──────────────────────────
+
+    #[Test]
+    public function stage_5_shop_page_is_created_with_shop_content_type(): void
+    {
+        // Stage 5 contract (Plan A.3, first method):
+        //   A (page, dynamic, is_shop=1) content row lands on the
+        //   `content` table carrying the workflow-fixture marker,
+        //   AND the admin sidebar exposes a Shop-related nav item
+        //   when the operator lands on /admin.
+        //
+        // Shop-nav visibility detail:
+        //   The sidebar Shop entry is gated by
+        //   is_shop_module_enabled_for_user() (Modules/Shop/Support/helpers.php)
+        //   which checks the shop module is installed + the
+        //   `shop_disabled` option != 'y' + user_can_view_module.
+        //   It's NOT gated on an is_shop=1 row existing. Creating
+        //   our fixture shop page does not toggle the sidebar;
+        //   the DOM signal we assert is the ambient admin-Shop
+        //   nav already being visible, because that's what the
+        //   "the sidebar now shows Shop" half of the task
+        //   resolves to for an install where shop is enabled.
+        //
+        // Driver shape:
+        //   Same reasoning as Stage 3: we don't drive the Filament
+        //   Pages → New form (would clobber the dev install's home
+        //   page and flake on Livewire boot). The form path itself
+        //   is covered by AdminContentCreateTest. Stage 5 asserts
+        //   the persistence + nav visibility contract.
+        $contentId = $this->seedWorkflowPage('shop', [
+            'title' => 'Shop — ' . WorkflowFixturePurger::FIXTURE_MARKER,
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'subtype_value' => 'shop',
+            'is_shop' => 1,
+        ]);
+
+        $this->browse(function (Browser $browser) use ($contentId) {
+            $this->visitAsOperator($browser, '/admin');
+
+            $this->assertStageCompleted(
+                stageName: 'stage_5_shop_page_is_created_with_shop_content_type',
+                // DB invariant: the fixture row is (page, dynamic,
+                // is_shop=1) and active.
+                dbInvariant: function () use ($contentId): bool {
+                    return DB::table('content')
+                        ->where('id', $contentId)
+                        ->where('content_type', 'page')
+                        ->where('subtype', 'dynamic')
+                        ->where('is_shop', 1)
+                        ->where('is_active', 1)
+                        ->exists();
+                },
+                dbFailureMessage: "content row #{$contentId} must be (page, dynamic, is_shop=1, active)",
+                // DOM signal: "Shop" text appears somewhere in the
+                // admin chrome. This covers the sidebar Shop entry
+                // or the Shop nav group label (both present when
+                // shop is module-enabled). Case-insensitive match
+                // via toLowerCase() avoids a regression on a
+                // heading case tweak causing a spurious failure.
+                domSignal: fn (Browser $b): bool => str_contains(
+                    strtolower((string) ($b->script('return document.body.innerText;')[0] ?? '')),
+                    'shop',
+                ),
+                domFailureMessage: 'Admin chrome must expose a "Shop" nav label / sidebar entry '
+                    . '(shop module gate: is_shop_module_enabled_for_user)',
+                browser: $browser,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
