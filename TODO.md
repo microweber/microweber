@@ -65,7 +65,7 @@
       - Stage 8 (guest checkout) — nothing lift-able; need a `completeCheckoutAsGuest($browser, $paymentMethod)` helper.
 
       **Decision:** the big-test scaffold remains composed of small trait-shaped helpers. Lift the three Livewire form drivers from `AdminContentCreateTest` into a new `WorkflowFormDrivers` trait before Stage 3; lift the 200-probe helper from `AdminModulePagesTest` as it stands.
-- [ ] Add a new trait `tests/Browser/Traits/WebsiteWorkflowTrait.php`
+- [x] 2026-04-24  Add a new trait `tests/Browser/Traits/WebsiteWorkflowTrait.php`
       for stage-scoped helpers (`assertStageACompleted(...)`) so the
       big test stays readable.
 

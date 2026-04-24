@@ -9,6 +9,7 @@ use Tests\Browser\Support\WorkflowFixturePurger;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\CleansWorkflowFixtures;
 use Tests\Browser\Traits\ResolvesWorkflowEnvironment;
+use Tests\Browser\Traits\WebsiteWorkflowTrait;
 use Tests\Browser\Traits\WorkflowStageAssertions;
 use Tests\DuskTestCase;
 
@@ -57,6 +58,7 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
     use AdminLoginTrait;
     use CleansWorkflowFixtures;
     use ResolvesWorkflowEnvironment;
+    use WebsiteWorkflowTrait;
     use WorkflowStageAssertions;
 
     protected function assertPreConditions(): void
@@ -219,18 +221,66 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    #[Test]
+    public function workflow_trait_helpers_compose_with_the_stage_contract(): void
+    {
+        // Demonstrates the WebsiteWorkflowTrait helpers in the
+        // exact shape every Plan A.3 stage method will use:
+        //   1. seedWorkflowPage() creates a marker-tagged row.
+        //   2. visitAsOperator() handles login + admin nav.
+        //   3. workflowPageRenderedCleanly() catches a 500 before
+        //      the stage's real assertions can run.
+        //   4. visitAsPublicGuest() drops the admin session and
+        //      hits the public URL.
+        //   5. assertStageOutcome() unifies the DB + DOM contract
+        //      check into one call.
+        $localSuffix = 'trait-compose-' . substr((string) microtime(true), -6);
+        $contentId = $this->seedWorkflowPage($localSuffix);
+        $slug = WorkflowFixturePurger::FIXTURE_MARKER . '-' . $localSuffix;
+
+        $this->browse(function (Browser $browser) use ($contentId, $slug) {
+            // 1. Operator-mode visit lands cleanly on /admin.
+            $this->visitAsOperator($browser, '/admin');
+            $this->assertTrue(
+                $this->workflowPageRenderedCleanly($browser),
+                'Admin dashboard must render cleanly via the workflow trait visitAsOperator helper'
+            );
+
+            // 2. Drop the admin session and visit the seeded
+            // page's public URL — every Plan A.3 publish stage
+            // ends with this kind of guest check.
+            $this->visitAsPublicGuest($browser, '/' . $slug);
+
+            // 3. The trait's one-call DB+DOM helper.
+            $this->assertStageOutcome(
+                browser: $browser,
+                stageName: 'workflow_trait_helpers_compose_with_the_stage_contract',
+                table: 'content',
+                whereRow: [
+                    'id' => $contentId,
+                    'url' => $slug,
+                    'is_active' => 1,
+                ],
+                expectInDom: WorkflowFixturePurger::FIXTURE_MARKER,
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
     //   1. Create only rows carrying a workflow-fixture marker so
-    //      the tearDown purger can reach them.
-    //   2. Use `$this->assertStageCompleted(...)` to run the
-    //      DB-invariant assertion first and the DOM-signal
-    //      assertion second. Never assert DOM without DB —
-    //      DOM-only assertions can lie under caching / skin drift.
+    //      the tearDown purger can reach them. Use
+    //      `seedWorkflowPage()` from WebsiteWorkflowTrait.
+    //   2. Visit admin pages via `visitAsOperator()` and public
+    //      pages via `visitAsPublicGuest()` so login/logout state
+    //      is consistent across stages.
+    //   3. Use `assertStageOutcome()` (or the lower-level
+    //      `assertStageCompleted()`) to run the DB-invariant
+    //      assertion first and the DOM-signal assertion second.
     //
-    // Add them one per commit — the foundation + fixture harness +
-    // stage-contract demonstration above already satisfy Plan A.1's
-    // three acceptance bullets; Plan A.3 stages inherit the same
-    // contract for free.
+    // Add them one per commit — the foundation, fixture harness,
+    // stage-contract demonstration, and trait-compose demonstration
+    // above already satisfy Plan A.1 + A.2 acceptance bullets;
+    // Plan A.3 stages inherit the same contract for free.
 }
