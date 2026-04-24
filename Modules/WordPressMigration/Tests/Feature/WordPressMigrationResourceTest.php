@@ -97,6 +97,22 @@ class WordPressMigrationResourceTest extends TestCase
     }
 
     #[Test]
+    public function sidebar_entry_sits_in_the_content_group_with_the_import_label(): void
+    {
+        $this->assertSame('Content', WordPressMigrationResource::getNavigationGroup());
+        $this->assertSame('Import from WordPress', WordPressMigrationResource::getNavigationLabel());
+    }
+
+    #[Test]
+    public function standalone_import_and_preview_pages_do_not_register_their_own_nav_entries(): void
+    {
+        // The resource is the single sidebar entry — the stateful
+        // import and preview pages stay routable but hidden.
+        $this->assertFalse(\Modules\WordPressMigration\Filament\Pages\WordPressMigrationImportPage::shouldRegisterNavigation());
+        $this->assertFalse(\Modules\WordPressMigration\Filament\Pages\WordPressMigrationPreviewPage::shouldRegisterNavigation());
+    }
+
+    #[Test]
     public function list_page_renders_for_authenticated_admins(): void
     {
         $this->seedJob();

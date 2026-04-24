@@ -1312,7 +1312,7 @@ for scripted/bulk use.
 - [x] 2026-04-24  New Filament resource `WordPressMigrationResource` with pages: Index (list jobs + status), Create (URL/WXR/REST form), View (job detail + preview), Logs (per-item success/fail)
 - [x] 2026-04-24  Real-time progress via Livewire polling on the job View page (`processed / total / failed` counters, ETA)
 - [x] 2026-04-24  "Retry failed items" action that re-runs only the rows with status=failed
-- [ ] Sidebar menu entry under "Content" → "Import from WordPress"
+- [x] 2026-04-24  Sidebar menu entry under "Content" → "Import from WordPress"
 - [ ] Dusk: `LiveAdminWordPressMigrationUxTest` — full click-through of create → progress → preview → commit
 
 ### Phase 10 — CLI & automation

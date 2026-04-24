@@ -40,8 +40,19 @@ class WordPressMigrationPreviewPage extends Page
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-eye';
     protected static ?string $title = 'Preview WordPress import';
     protected static ?string $navigationLabel = 'Preview WordPress import';
-    protected static string | \UnitEnum | null $navigationGroup = 'Tools';
+    protected static string | \UnitEnum | null $navigationGroup = 'Content';
     protected string $view = 'microweber-module-wordpressmigration::pages.preview';
+
+    /**
+     * Hidden from the sidebar — the resource at
+     * {@see \Modules\WordPressMigration\Filament\Resources\WordPressMigrationResource}
+     * is the single "Import from WordPress" entry; this page is
+     * reached via the Preview row/header actions on the resource.
+     */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 
     /**
      * The staging snapshot belongs to one job at a time. `jobId` is

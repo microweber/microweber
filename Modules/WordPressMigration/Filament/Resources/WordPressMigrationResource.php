@@ -43,9 +43,9 @@ class WordPressMigrationResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Tools';
+    protected static string | \UnitEnum | null $navigationGroup = 'Content';
 
-    protected static ?string $navigationLabel = 'WordPress imports';
+    protected static ?string $navigationLabel = 'Import from WordPress';
 
     protected static ?string $modelLabel = 'WordPress import';
 

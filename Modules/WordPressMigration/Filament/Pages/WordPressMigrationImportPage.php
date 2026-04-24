@@ -551,9 +551,15 @@ class WordPressMigrationImportPage extends Page
         ];
     }
 
+    /**
+     * The resource at {@see \Modules\WordPressMigration\Filament\Resources\WordPressMigrationResource}
+     * is now the single "Import from WordPress" sidebar entry. This
+     * standalone page stays routable (the Create action on the
+     * resource redirects here) but doesn't duplicate the nav slot.
+     */
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check() && (auth()->user()->is_admin ?? false);
+        return false;
     }
 
     private function summaryLine(WordPressSiteProbeResult $result): string
