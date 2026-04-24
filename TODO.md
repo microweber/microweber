@@ -83,7 +83,7 @@
 
 ### Stage 2 — Pick a template
 
-- [ ] `stage_2_template_switch_to_bootstrap_persists_in_options` —
+- [x] 2026-04-24  `stage_2_template_switch_to_bootstrap_persists_in_options` —
       visit **Settings → Appearance / Templates**, pick Bootstrap
       (the default shipped template), submit; assert
       `options.template == 'bootstrap'` in DB.

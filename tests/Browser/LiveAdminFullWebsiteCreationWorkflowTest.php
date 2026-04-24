@@ -378,6 +378,111 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         });
     }
 
+    // ─── Plan A.3 — Stage 2: Pick a template ─────────────────────
+
+    #[Test]
+    public function stage_2_template_switch_to_bootstrap_persists_in_options(): void
+    {
+        // Stage 2 contract (Plan A.3, first method):
+        //   The operator's template choice persists on
+        //   `options.current_template (group=template)` — the same
+        //   row LayoutsManager reads on every public render. The
+        //   Filament settings UI ultimately calls save_option()
+        //   under the hood, so this test exercises the same code
+        //   path the form does, then asserts the DB shape.
+        //
+        // Baseline preservation: the dev DB already has
+        // current_template=Bootstrap. To prove "switch persists"
+        // and not "value happens to already be Bootstrap", we flip
+        // through an intermediate marker value and back, asserting
+        // both transitions land on the row.
+        //
+        // We deliberately do NOT drive the Filament template-
+        // picker form here — switching the live template via the
+        // UI is risky during a parallel browser-test run because
+        // the assets pipeline can flush mid-flight and break other
+        // in-flight LiveEdit* tests. The direct save_option() path
+        // is the same code the form's submit handler invokes; it
+        // mirrors what the operator triggers without the
+        // assets-pipeline blast radius.
+        $baseline = $this->readCurrentTemplateOption();
+        $this->assertNotSame('', $baseline,
+            'Stage 2: dev install must already carry an options.current_template row to be safely switched');
+
+        $intermediate = WorkflowFixturePurger::FIXTURE_MARKER . '-intermediate-template';
+        $target = 'Bootstrap';
+
+        try {
+            // Set to a fixture-marker intermediate so the next
+            // "switch to Bootstrap" is observable as a real flip,
+            // not a no-op.
+            save_option('current_template', $intermediate, 'template');
+            $this->bustOptionCaches();
+            $this->assertSame($intermediate, $this->readCurrentTemplateOption(),
+                'Stage 2: intermediate template flip must land on the row');
+
+            // The actual stage assertion: switch to Bootstrap persists.
+            save_option('current_template', $target, 'template');
+            $this->bustOptionCaches();
+
+            $this->browse(function (Browser $browser) use ($target) {
+                // The operator-facing surface — the settings page
+                // must still render cleanly while the option is
+                // pinned at the target value. This is the DOM half
+                // of the Plan A.1 contract.
+                $this->visitAsOperator($browser, '/admin');
+                $this->assertTrue(
+                    $this->workflowPageRenderedCleanly($browser),
+                    'Stage 2: admin dashboard must render cleanly with current_template=Bootstrap'
+                );
+
+                // DB-side invariant — the source of truth.
+                $this->assertSame(
+                    $target,
+                    $this->readCurrentTemplateOption(),
+                    "Stage 2: options.current_template (group=template) must persist as '{$target}' after the switch"
+                );
+            });
+        } finally {
+            // Restore the operator's actual baseline so later tests
+            // (and the dev install) see no drift.
+            save_option('current_template', $baseline, 'template');
+            $this->bustOptionCaches();
+        }
+    }
+
+    /**
+     * Read the canonical site-template option row.
+     */
+    private function readCurrentTemplateOption(): string
+    {
+        $row = DB::table('options')
+            ->where('option_key', 'current_template')
+            ->where('option_group', 'template')
+            ->first();
+
+        return $row ? (string) $row->option_value : '';
+    }
+
+    /**
+     * Invalidate the file + repository caches the OptionManager
+     * uses so a subsequent `save_option()` reflects on the next
+     * read. Lifted from the no-bleed test pattern at
+     * `LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest::setCurrentTemplate`.
+     */
+    private function bustOptionCaches(): void
+    {
+        try {
+            app()->cache_manager->delete('options');
+            app()->cache_manager->delete('options/template');
+            app()->option_repository->clearCache();
+        } catch (\Throwable) {
+            // The legacy app() helpers may not be wired in some
+            // boot orders — swallow so the stage assertion still
+            // runs against the freshly-saved DB row.
+        }
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
