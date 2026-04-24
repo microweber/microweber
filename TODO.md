@@ -155,7 +155,7 @@
 
 ## A.4 Cleanup & determinism
 
-- [ ] `setUp()` + `tearDown()` purge every row created by this test
+- [x] 2026-04-24  `setUp()` + `tearDown()` purge every row created by this test
       by `source_url`-style markers (pattern borrowed from the
       WordPressMigration Dusk tests — see `purgeFixture()` in
       `LiveAdminWordPressMigrationUxTest`).
