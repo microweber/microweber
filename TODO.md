@@ -159,7 +159,7 @@
       by `source_url`-style markers (pattern borrowed from the
       WordPressMigration Dusk tests — see `purgeFixture()` in
       `LiveAdminWordPressMigrationUxTest`).
-- [ ] Admin login reuses the existing `AdminLoginTrait`.
+- [x] 2026-04-24  Admin login reuses the existing `AdminLoginTrait`.
 
 ---
 

@@ -71,6 +71,13 @@ trait WebsiteWorkflowTrait
      * Visit a path as the authenticated admin. Logs in on first
      * call and reuses the cached session. Pauses long enough for
      * Filament/Livewire hydration to land.
+     *
+     * Login is always delegated to {@see AdminLoginTrait::loginAsAdmin}
+     * + {@see AdminLoginTrait::ensureLoggedIn} — Plan A.4's
+     * "admin login reuses the existing AdminLoginTrait" contract is
+     * enforced here: if any stage needs an authenticated admin
+     * session, it must route through this helper. Stages never
+     * re-implement login logic.
      */
     protected function visitAsOperator(Browser $browser, string $path, int $pauseMs = 3000): Browser
     {
