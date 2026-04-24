@@ -1319,7 +1319,7 @@ for scripted/bulk use.
 
 - [x] 2026-04-24  `php artisan microweber:import:wordpress <url> {--mode=rest|rss|sitemap|wxr} {--dry-run} {--yes}` driving the same importers
 - [x] 2026-04-24  `php artisan microweber:import:wordpress:status <job-id>` + `microweber:import:wordpress:commit <job-id>` for headless flows
-- [ ] Document scripted use in `docs/migration/wordpress.md` with a full end-to-end example
+- [x] 2026-04-24  Document scripted use in `docs/migration/wordpress.md` with a full end-to-end example
 - [ ] CI smoke: a single GitHub Actions step runs `microweber:import:wordpress http://127.0.0.1:9876 --mode=rss --dry-run --yes` against a WordPress fixture served by PHP's built-in server, asserts non-zero items staged
 
 ### Phase 11 — Docs & marketing copy
