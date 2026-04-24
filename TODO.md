@@ -34,7 +34,7 @@
 - [x] 2026-04-24  Golden-path stage assertions are at the DB level (source of
       truth) with the rendered-DOM assertions as signal for "the
       operator sees it."
-- [ ] Runs headless; fixture URLs (admin creds, port) come from
+- [x] 2026-04-24  Runs headless; fixture URLs (admin creds, port) come from
       `.env.dusk` — no hard-coded absolute paths.
 
 ## A.2 Pre-flight

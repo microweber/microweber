@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Support\WorkflowFixturePurger;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\CleansWorkflowFixtures;
+use Tests\Browser\Traits\ResolvesWorkflowEnvironment;
 use Tests\Browser\Traits\WorkflowStageAssertions;
 use Tests\DuskTestCase;
 
@@ -30,6 +31,12 @@ use Tests\DuskTestCase;
  *      {@see CleansWorkflowFixtures} trait asserts zero residue on
  *      `content`, `content_data`, `media`, `options`, `users`, and
  *      `menus` after every test method.
+ *   5. **DB-first, DOM-second assertions** — via
+ *      {@see WorkflowStageAssertions}.
+ *   6. **Headless + env-sourced fixture values** — admin creds
+ *      and app URL come from `.env.dusk` via
+ *      {@see ResolvesWorkflowEnvironment}; no hard-coded hosts,
+ *      ports, emails, or passwords live in this file.
  *
  * Fixture contract:
  *   Every row this test creates MUST carry a
@@ -40,17 +47,60 @@ use Tests\DuskTestCase;
  *   cross-checks the snapshot before and after every method; a
  *   stage that creates a row without a marker FAILS the test.
  *
- * Prereqs: dev server at 127.0.0.1:8000; admin admin@admin.com/admin.
+ * Prereqs: a running dev server reachable at `APP_URL` (configured
+ * in `.env.dusk`); admin user whose creds are in
+ * `DUSK_ADMIN_EMAIL` / `DUSK_ADMIN_PASSWORD` (defaults:
+ * admin@admin.com / admin).
  */
 class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
 {
     use AdminLoginTrait;
     use CleansWorkflowFixtures;
+    use ResolvesWorkflowEnvironment;
     use WorkflowStageAssertions;
 
     protected function assertPreConditions(): void
     {
         // Rely on an already-running dev server.
+    }
+
+    #[Test]
+    public function environment_values_come_from_dot_env_dusk_not_hard_coded(): void
+    {
+        // Lock in Plan A.1's last acceptance bullet: the workflow
+        // test MUST source fixture values from `.env.dusk`, not
+        // constants in PHP source. If a contributor hard-codes a
+        // host/port/email/password back into this test file, this
+        // assertion fails loudly: either the env var was scrubbed
+        // or the hard-coded value drifts from `.env.dusk`.
+
+        $email = $this->workflowAdminEmail();
+        $password = $this->workflowAdminPassword();
+        $appUrl = $this->workflowAppUrl();
+
+        $this->assertNotSame('', $email,
+            'DUSK_ADMIN_EMAIL resolver must return a non-empty string');
+        $this->assertStringContainsString('@', $email,
+            'DUSK_ADMIN_EMAIL must look like an email address');
+
+        $this->assertNotSame('', $password,
+            'DUSK_ADMIN_PASSWORD resolver must return a non-empty string');
+
+        $this->assertStringStartsWith('http', $appUrl,
+            'APP_URL must be a full http(s) URL');
+        $this->assertStringNotContainsString(
+            '//',
+            substr($appUrl, 8),
+            'workflowAppUrl() must strip the trailing slash so relative-path concatenation is safe'
+        );
+
+        // Headless default is true — CI runs and the default
+        // `composer test:browser` script do not opt out. If a
+        // contributor runs `composer test:browser:headed`, the
+        // runner sets DUSK_HEADLESS_DISABLED=1 and this flips
+        // to false.
+        $this->assertIsBool($this->workflowIsHeadless(),
+            'workflowIsHeadless() must return a boolean');
     }
 
     #[Test]
