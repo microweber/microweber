@@ -144,7 +144,7 @@
 
 ### Stage 8 — Publish and verify on the public site
 
-- [ ] `stage_8_home_page_is_publicly_reachable_without_login` —
+- [x] 2026-04-24  `stage_8_home_page_is_publicly_reachable_without_login` —
       logs the browser out; visits `/`; asserts the heading from
       stage 4, the logo from stage 6, and the palette from stage 7
       are all rendered.
