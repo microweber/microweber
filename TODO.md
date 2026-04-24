@@ -97,7 +97,7 @@
       **Content → Pages → New**; fill title "Home"; save; assert a
       `content` row with `content_type='page'`, `subtype='static'`,
       `is_home=1` exists and appears in the main menu.
-- [ ] `stage_3_home_page_opens_in_live_edit` — click the **Edit**
+- [x] 2026-04-24  `stage_3_home_page_opens_in_live_edit` — click the **Edit**
       row action; assert `/admin/live-edit?url=/` loads and the
       edit-mode markers are visible in the iframe.
 

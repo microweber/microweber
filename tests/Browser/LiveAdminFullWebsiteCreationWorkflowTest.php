@@ -684,6 +684,112 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         }
     }
 
+    #[Test]
+    public function stage_3_home_page_opens_in_live_edit(): void
+    {
+        // Stage 3 contract (Plan A.3, second method):
+        //   The operator's "Edit" affordance for a content page
+        //   lands on /admin/live-edit?url=<slug> and the editor
+        //   chrome wires up — specifically, the iframe hosting
+        //   the rendered page is present AND window.mw.app.editor
+        //   is available (the mount point every existing
+        //   LiveEdit* Dusk test uses as the "we are in edit mode"
+        //   marker, e.g. LiveEditInsertLayoutTest line 60).
+        //
+        // Driver shape:
+        //   Seed a fixture page with the workflow marker, visit
+        //   /admin/live-edit?url=<slug> directly. Driving the
+        //   Filament Pages list's Edit row action to navigate
+        //   here would add brittleness (row-action selectors
+        //   change between Filament versions) without extra
+        //   coverage — the URL itself is the operator-facing
+        //   contract the Edit action resolves to.
+        $contentId = $this->seedWorkflowPage('edit-target', [
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'is_active' => 1,
+        ]);
+        $slug = WorkflowFixturePurger::FIXTURE_MARKER . '-edit-target';
+
+        $this->browse(function (Browser $browser) use ($contentId, $slug) {
+            // The live-edit page resolves a content URL via the
+            // `url` query param — other LiveEdit tests url-encode
+            // it. Bare /admin/live-edit opens the last-edited
+            // page (falls back to home); to pin on the fixture
+            // page, pass it encoded.
+            // Bare /admin/live-edit is the operator-facing URL
+            // the Filament Pages list's Edit row action actually
+            // resolves to (the page's own ?url= param is set by
+            // the live-edit SPA post-mount, not the initial
+            // navigation). Other LiveEdit* Dusk tests visit the
+            // bare route and it boots reliably; adding a ?url=
+            // pin bounces to the setup wizard on a content URL
+            // the live-edit SPA hasn't seen before.
+            $this->visitAsOperator($browser, '/admin/live-edit', pauseMs: 7000);
+
+            // Render sanity + URL check BEFORE the iframe wait.
+            // If live-edit 500s or bounces to /admin/login, the
+            // bare waitFor('iframe') blows its budget for the
+            // wrong reason; surfacing the redirect here gives a
+            // far more useful failure message.
+            $this->assertTrue(
+                $this->workflowPageRenderedCleanly($browser),
+                'Stage 3 live-edit: /admin/live-edit must render cleanly'
+            );
+
+            $currentUrl = $browser->driver->getCurrentURL();
+            $this->assertStringContainsString('live-edit', $currentUrl,
+                'Stage 3 live-edit: must land on the live-edit route (not bounce to /admin/login)');
+
+            // The live-edit page renders the AdminLiveEditPage
+            // Filament page view (iframe-page.blade.php) with a
+            // `#live-edit-app` mount that boots Vue + TinyMCE.
+            // "Edit mode is live" is signalled by:
+            //   - `#live-edit-app` element mounted
+            //   - the "Loading..." placeholder text is replaced
+            //   - at least one descendant element inside the
+            //     live-edit-app root
+            // We probe for those rather than window.mw.app.editor
+            // because the latter lives on the canvas iframe
+            // window, not the outer admin document.
+            $browser->pause(10000);
+
+            $appMount = (bool) ($browser->script(
+                'return document.querySelector("#live-edit-app") !== null;'
+            )[0] ?? false);
+            $this->assertTrue(
+                $appMount,
+                'Stage 3 live-edit: #live-edit-app root element must be present (iframe-page.blade.php mount point)'
+            );
+
+            // The Vue app replaces "Loading..." with its rendered
+            // tree as soon as it boots. Child element count is a
+            // robust "SPA booted" signal.
+            $appChildCount = (int) ($browser->script(
+                'var n = document.querySelector("#live-edit-app");'
+                . 'return n ? n.children.length : 0;'
+            )[0] ?? 0);
+            $this->assertGreaterThan(
+                0,
+                $appChildCount,
+                'Stage 3 live-edit: #live-edit-app must render child elements '
+                . '(Loading... placeholder replaced by Vue app tree)'
+            );
+
+            // DB-side invariant: the fixture row still exists and
+            // is still editable — a regression that silently
+            // archives or soft-deletes a page on Edit-click would
+            // surface here.
+            $this->assertTrue(
+                DB::table('content')
+                    ->where('id', $contentId)
+                    ->where('is_active', 1)
+                    ->exists(),
+                "Stage 3 live-edit: fixture page #{$contentId} must still be active after the Edit navigation"
+            );
+        });
+    }
+
     // Plan A.3 stage methods — stubbed out as follow-up tasks in TODO.md.
     //
     // Each stage MUST follow the Plan A.1 contract:
