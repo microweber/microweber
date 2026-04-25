@@ -262,7 +262,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleBtnSmokeTest` — button module settings form.
 - [x] 2026-04-25  `LiveAdminModuleCaptchaSmokeTest` — captcha settings; form submits with token.
 - [x] 2026-04-25  `LiveAdminModuleCartSmokeTest` — cart admin view + manual line-item edit.
-- [ ] `LiveAdminModuleCheckoutSmokeTest` — checkout form fields.
+- [x] 2026-04-25  `LiveAdminModuleCheckoutSmokeTest` — checkout form fields.
 - [ ] `LiveAdminModuleCloudflareSmokeTest` — Cloudflare integration form.
 - [ ] `LiveAdminModuleCompanySmokeTest` — company details form.
 - [ ] `LiveAdminModuleComponentsSmokeTest` — components palette.
