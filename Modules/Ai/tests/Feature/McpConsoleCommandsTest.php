@@ -152,6 +152,52 @@ class McpConsoleCommandsTest extends TestCase
     }
 
     #[Test]
+    public function token_default_ttl_applies_when_caller_does_not_pin_expiry(): void
+    {
+        config(['modules.ai.mcp.token_default_ttl_days' => 30]);
+
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'TTL Default Client',
+            '--scopes' => 'mcp:access',
+        ]);
+
+        $token = \Modules\Ai\Models\McpClientToken::orderByDesc('id')->first()->refresh();
+        $this->assertNotNull(
+            $token->expires_at,
+            'With token_default_ttl_days=30 set, an issued token without an '
+            . 'explicit --token-ttl-days flag must inherit a non-null expires_at — '
+            . 'forever-tokens are now opt-in via AI_MCP_TOKEN_DEFAULT_TTL_DAYS=0.'
+        );
+        $this->assertEqualsWithDelta(
+            now()->addDays(30)->getTimestamp(),
+            $token->expires_at->getTimestamp(),
+            5,
+            'Default TTL must land within ~5s of now+30d (5s tolerance for the '
+            . 'tiny gap between the helper now() in the production code and the '
+            . 'now() here).'
+        );
+    }
+
+    #[Test]
+    public function token_default_ttl_zero_keeps_forever_tokens(): void
+    {
+        config(['modules.ai.mcp.token_default_ttl_days' => 0]);
+
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'TTL Disabled Client',
+            '--scopes' => 'mcp:access',
+        ]);
+
+        $token = \Modules\Ai\Models\McpClientToken::orderByDesc('id')->first()->refresh();
+        $this->assertNull(
+            $token->expires_at,
+            'With token_default_ttl_days=0 set, the default-TTL branch must NOT '
+            . 'apply — operators who explicitly opt out via the env var get '
+            . 'forever-tokens back.'
+        );
+    }
+
+    #[Test]
     public function token_without_override_inherits_client_rate_limit(): void
     {
         Artisan::call('ai:mcp:client:create', [

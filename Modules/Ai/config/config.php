@@ -30,6 +30,13 @@ return [
                 '2024-11-05,2025-03-26,2025-06-18'
             ))
         )),
+        // Default token TTL in days. Tokens issued without an
+        // explicit expires_at inherit this lifetime so forever-
+        // tokens are an opt-in choice (set the env var to 0 to
+        // disable). Backward-compat: any token already in the DB
+        // with NULL expires_at stays null — only newly-issued
+        // tokens pick up the default.
+        'token_default_ttl_days' => (int) env('AI_MCP_TOKEN_DEFAULT_TTL_DAYS', 90),
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),

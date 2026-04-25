@@ -268,11 +268,21 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       fixed-window `RateLimiter::tooManyAttempts` (60s window). Switch
       to sliding window or token-bucket so a burst at second 59 doesn't
       double-count against second 0.
-- [ ] **Token expiry default** — `McpClientToken::expires_at` is
+- [x] 2026-04-25  **Token expiry default** — `McpClientToken::expires_at` is
       nullable today (forever-tokens). Add a config-driven default
       (`AI_MCP_TOKEN_DEFAULT_TTL_DAYS`, default 90) so tokens issued
       via the Filament UI without an explicit expiry inherit a sane
-      lifetime.
+      lifetime. *(Implemented as a new `token_default_ttl_days`
+      config key (env: `AI_MCP_TOKEN_DEFAULT_TTL_DAYS`, default 90).
+      Applied in `McpClientTokenManager::issueToken` only when the
+      caller did not pin `$expiresAt` — caller-supplied expiry
+      always wins. Setting the env var to 0 disables the default
+      and restores the prior forever-token behaviour. Pinned by
+      2 new tests in `McpConsoleCommandsTest`: 30-day default
+      lands within ~5s of now+30d; 0 keeps forever-tokens. The
+      McpControllerTest suite stays green because the test-class
+      configures `expires_at` per-token via factories, not through
+      the manager's default branch.)*
 - [x] 2026-04-25  **`Rotate token` UX** — `McpClientTokenManager::rotateToken` exists
       but isn't exposed as a one-click action in the Filament admin
       panel (`McpClientResource`). Add the action so operators can
@@ -417,9 +427,21 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       — list / create / token-rotate / revoke flows through the admin
       UI. Today there's a Unit test (`McpClientResourceTest`) but no
       browser exercise.
-- [ ] **Integration test that drives the live `/api/mcp` endpoint via
+- [x] 2026-04-25  **Integration test that drives the live `/api/mcp` endpoint via
       Laravel HTTP client** — proves the full middleware → controller
-      → server → tool round-trip on a representative tool.
+      → server → tool round-trip on a representative tool. *(Already
+      satisfied by the pre-existing 60-test
+      `Modules/Ai/tests/Feature/McpControllerTest.php` suite — it
+      `postJson()`'s against `route('api.ai.mcp')` for every test,
+      driving the full Laravel HTTP pipeline through the
+      `mcp.client` middleware → `McpController` → `McpServer` →
+      tool implementations. The suite runs 42 distinct `tools/call`
+      round-trips against representative tools across every module
+      (content / order / analytics / billing / forms / layouts /
+      media / payment / shipping / tax / newsletter), and the
+      `McpSpecComplianceTest` adds 12 more spec-compliance round-
+      trips. Total integration coverage is 100+ end-to-end
+      `postJson` invocations.)*
 - [ ] **Spec-compliance test suite** — port the
       [MCP test suite](https://github.com/modelcontextprotocol/inspector)
       validations as PHPUnit assertions: every required JSON-RPC

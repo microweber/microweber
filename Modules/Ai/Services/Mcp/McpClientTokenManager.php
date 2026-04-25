@@ -51,6 +51,17 @@ class McpClientTokenManager
         ?int $rotatedFromTokenId = null,
         ?int $rateLimitPerMinute = null,
     ): GeneratedMcpClientToken {
+        // Apply the configured default-TTL when the caller didn't
+        // pin an expiry. AI_MCP_TOKEN_DEFAULT_TTL_DAYS=0 disables
+        // the default — tokens issued under that config stay
+        // forever-valid. Caller-supplied expiresAt always wins.
+        if ($expiresAt === null) {
+            $defaultTtlDays = (int) config('modules.ai.mcp.token_default_ttl_days', 90);
+            if ($defaultTtlDays > 0) {
+                $expiresAt = \Carbon\CarbonImmutable::now()->addDays($defaultTtlDays);
+            }
+        }
+
         return DB::transaction(function () use ($client, $name, $abilities, $expiresAt, $actor, $rotatedFromTokenId, $rateLimitPerMinute): GeneratedMcpClientToken {
             $secret = Str::random(64);
 
