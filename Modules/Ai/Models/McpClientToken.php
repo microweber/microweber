@@ -24,6 +24,7 @@ class McpClientToken extends Model
         'token_hash',
         'token_last_eight',
         'abilities',
+        'rate_limit_per_minute',
         'last_used_at',
         'last_used_ip',
         'last_used_user_agent',
@@ -36,6 +37,7 @@ class McpClientToken extends Model
 
     protected $casts = [
         'abilities' => 'array',
+        'rate_limit_per_minute' => 'integer',
         'last_used_at' => 'datetime',
         'expires_at' => 'datetime',
         'revoked_at' => 'datetime',
@@ -117,5 +119,34 @@ class McpClientToken extends Model
         }
 
         return in_array('*', $abilities, true) || in_array($scope, $abilities, true);
+    }
+
+    /**
+     * Resolve the rate limit that applies to this token. The
+     * per-token override (`rate_limit_per_minute` on this row) wins
+     * when set; otherwise the value falls back to the parent
+     * client's `rate_limit_per_minute`. Either may be NULL (= no
+     * rate limit) or 0 (= no rate limit, alternative spelling).
+     *
+     * Lets one client issue both a low-rate "browse" token and a
+     * high-rate "service" token without splitting clients.
+     *
+     * Returns null when rate-limiting is disabled at every level
+     * the middleware should consult.
+     */
+    public function effectiveRateLimitPerMinute(): ?int
+    {
+        if ($this->rate_limit_per_minute !== null) {
+            return $this->rate_limit_per_minute > 0 ? $this->rate_limit_per_minute : null;
+        }
+
+        $client = $this->relationLoaded('client') ? $this->client : $this->client()->first();
+        $clientLimit = $client?->rate_limit_per_minute;
+
+        if ($clientLimit === null || $clientLimit < 1) {
+            return null;
+        }
+
+        return (int) $clientLimit;
     }
 }

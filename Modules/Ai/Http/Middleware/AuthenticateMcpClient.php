@@ -198,9 +198,9 @@ class AuthenticateMcpClient
 
     private function isRateLimited(Request $request, McpClientToken $token): bool
     {
-        $maxAttempts = $token->client->rate_limit_per_minute;
+        $maxAttempts = $token->effectiveRateLimitPerMinute();
 
-        if ($maxAttempts === null || $maxAttempts < 1) {
+        if ($maxAttempts === null) {
             return false;
         }
 
@@ -209,9 +209,9 @@ class AuthenticateMcpClient
 
     private function hitRateLimiter(McpClientToken $token): void
     {
-        $maxAttempts = $token->client->rate_limit_per_minute;
+        $maxAttempts = $token->effectiveRateLimitPerMinute();
 
-        if ($maxAttempts === null || $maxAttempts < 1) {
+        if ($maxAttempts === null) {
             return;
         }
 

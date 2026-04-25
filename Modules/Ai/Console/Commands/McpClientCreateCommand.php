@@ -22,9 +22,10 @@ class McpClientCreateCommand extends Command
         {--scopes=mcp:access : Comma-separated abilities for the issued token (default: mcp:access)}
         {--tools= : Comma-separated tool allow-list ("*" to allow any; omit for unrestricted)}
         {--modules= : Comma-separated module allow-list ("*" to allow any; omit for unrestricted)}
-        {--rate-limit=60 : Requests per minute per token (set 0 for unlimited)}
+        {--rate-limit=60 : Client-level requests per minute (set 0 for unlimited; per-token override available below)}
         {--token-name=initial : Display name for the issued token}
         {--token-ttl-days= : Token expiry in days (omit for no expiry)}
+        {--token-rate-limit= : Per-token override for the rate limit (omit to inherit from --rate-limit; set 0 to disable for this token only)}
         {--print-token : Print the plain-text token on stdout (default: print only)}';
 
     protected $description = 'Create an MCP client and issue an initial bearer token.';
@@ -64,11 +65,18 @@ class McpClientCreateCommand extends Command
             $expiresAt = CarbonImmutable::now()->addDays((int) $ttl);
         }
 
+        $tokenRateLimitRaw = $this->option('token-rate-limit');
+        $tokenRateLimit = null;
+        if ($tokenRateLimitRaw !== null && $tokenRateLimitRaw !== '') {
+            $tokenRateLimit = (int) $tokenRateLimitRaw;
+        }
+
         $generated = $tokenManager->issueToken(
             client: $client,
             name: (string) $this->option('token-name'),
             abilities: $scopes,
             expiresAt: $expiresAt,
+            rateLimitPerMinute: $tokenRateLimit,
         );
 
         $this->info("Created MCP client #{$client->id} '{$client->name}' (slug: {$client->slug}).");
@@ -79,7 +87,8 @@ class McpClientCreateCommand extends Command
         $this->line('Allowed scopes:  ' . $this->renderAllowList($scopes));
         $this->line('Allowed tools:   ' . $this->renderAllowList($tools));
         $this->line('Allowed modules: ' . $this->renderAllowList($modules));
-        $this->line('Rate limit:      ' . ($rateLimitNullable === null ? 'unlimited' : $rateLimitNullable . '/min'));
+        $this->line('Client rate:     ' . ($rateLimitNullable === null ? 'unlimited' : $rateLimitNullable . '/min'));
+        $this->line('Token rate:      ' . $this->renderTokenRateLimit($tokenRateLimit, $rateLimitNullable));
         $this->newLine();
         $this->warn(
             'The plain-text token is shown ONLY on this line — it is hashed in the '
@@ -129,5 +138,20 @@ class McpClientCreateCommand extends Command
         }
 
         return implode(', ', $list);
+    }
+
+    private function renderTokenRateLimit(?int $tokenRateLimit, ?int $clientRateLimit): string
+    {
+        if ($tokenRateLimit === null) {
+            return $clientRateLimit === null
+                ? 'inherit (unlimited via client)'
+                : "inherit ({$clientRateLimit}/min via client)";
+        }
+
+        if ($tokenRateLimit < 1) {
+            return 'unlimited (token override disables rate-limit)';
+        }
+
+        return $tokenRateLimit . '/min (token override)';
     }
 }

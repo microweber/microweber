@@ -242,11 +242,25 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### D.1 Auth & rate limiting
 
-- [ ] **Per-token rate limit overrides** — today rate limit is set on the
+- [x] 2026-04-25  **Per-token rate limit overrides** — today rate limit is set on the
       client (`McpClient::rate_limit_per_minute`), not the token. A
       per-token override would let one client issue both a low-rate
       "browse" token and a high-rate "service" token without splitting
-      clients.
+      clients. *(Implemented as a nullable `rate_limit_per_minute`
+      column on `mcp_client_tokens` (new migration
+      `2026_04_25_000000_add_rate_limit_per_minute_to_mcp_client_tokens`),
+      a new `McpClientToken::effectiveRateLimitPerMinute()` method
+      that reads the per-token override first and falls back to the
+      parent client's value, and a `--token-rate-limit=N` flag on
+      `ai:mcp:client:create`. The middleware's
+      AuthenticateMcpClient::isRateLimited / hitRateLimiter now
+      consult the new helper instead of the client-level value
+      directly. Rotation preserves the override (rotating a token
+      that had a 600/min cap produces a replacement with the same
+      cap). Pinned by 2 new tests in `McpConsoleCommandsTest`:
+      override persists + is honoured in
+      effectiveRateLimitPerMinute; null token-rate falls back to
+      client-rate. The 60-test McpControllerTest suite stays green.)*
 - [ ] **Per-tool rate limits** — expensive tools (analytics summaries,
       newsletter campaign queries) should be rate-limited tighter
       than cheap lookups.

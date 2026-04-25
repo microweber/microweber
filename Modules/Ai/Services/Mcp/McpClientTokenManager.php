@@ -49,8 +49,9 @@ class McpClientTokenManager
         ?CarbonInterface $expiresAt = null,
         ?User $actor = null,
         ?int $rotatedFromTokenId = null,
+        ?int $rateLimitPerMinute = null,
     ): GeneratedMcpClientToken {
-        return DB::transaction(function () use ($client, $name, $abilities, $expiresAt, $actor, $rotatedFromTokenId): GeneratedMcpClientToken {
+        return DB::transaction(function () use ($client, $name, $abilities, $expiresAt, $actor, $rotatedFromTokenId, $rateLimitPerMinute): GeneratedMcpClientToken {
             $secret = Str::random(64);
 
             $token = $client->tokens()->create([
@@ -58,6 +59,7 @@ class McpClientTokenManager
                 'token_hash' => Hash::make($secret),
                 'token_last_eight' => substr($secret, -8),
                 'abilities' => array_values(array_unique($abilities !== [] ? $abilities : ($client->allowed_scopes ?? []))),
+                'rate_limit_per_minute' => $rateLimitPerMinute,
                 'expires_at' => $expiresAt,
                 'created_by_user_id' => $actor?->id,
                 'rotated_from_token_id' => $rotatedFromTokenId,
@@ -72,6 +74,7 @@ class McpClientTokenManager
                     'token_name' => $token->name,
                     'token_last_eight' => $token->token_last_eight,
                     'abilities' => $token->abilities,
+                    'rate_limit_per_minute' => $token->rate_limit_per_minute,
                     'expires_at' => $token->expires_at?->toIso8601String(),
                     'rotated_from_token_id' => $rotatedFromTokenId,
                 ],
@@ -94,6 +97,12 @@ class McpClientTokenManager
         return DB::transaction(function () use ($token, $name, $abilities, $expiresAt, $actor): GeneratedMcpClientToken {
             $token->loadMissing('client');
 
+            // Capture the per-token rate limit before revoking so
+            // the rotated replacement inherits the same override.
+            // Otherwise rotation would silently widen / narrow the
+            // limit to the parent client's value.
+            $existingRateLimit = $token->rate_limit_per_minute;
+
             $this->revokeToken($token, $actor, 'Rotated');
 
             return $this->issueToken(
@@ -103,6 +112,7 @@ class McpClientTokenManager
                 expiresAt: $expiresAt ?? $token->expires_at,
                 actor: $actor,
                 rotatedFromTokenId: $token->id,
+                rateLimitPerMinute: $existingRateLimit,
             );
         });
     }

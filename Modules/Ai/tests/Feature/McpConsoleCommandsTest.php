@@ -47,6 +47,16 @@ class McpConsoleCommandsTest extends TestCase
             ]);
         }
 
+        // Per-token rate-limit override migration — apply if the
+        // tokens table exists but the column isn't there yet.
+        if (Schema::hasTable('mcp_client_tokens') && ! Schema::hasColumn('mcp_client_tokens', 'rate_limit_per_minute')) {
+            Artisan::call('migrate', [
+                '--path' => base_path('Modules/Ai/database/migrations'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+        }
+
         DB::table('mcp_client_token_events')->delete();
         DB::table('mcp_client_tokens')->delete();
         DB::table('mcp_clients')->delete();
@@ -102,6 +112,70 @@ class McpConsoleCommandsTest extends TestCase
         $this->assertSame(['*'], $client->allowed_modules);
         $this->assertSame(['mcp:access', 'mcp:admin'], $client->allowed_scopes);
         $this->assertSame(120, (int) $client->rate_limit_per_minute);
+    }
+
+    #[Test]
+    public function client_create_command_persists_per_token_rate_limit_override(): void
+    {
+        $exitCode = Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Override Rate Client',
+            '--scopes' => 'mcp:access',
+            '--rate-limit' => '60',
+            '--token-rate-limit' => '600',
+        ]);
+        $this->assertSame(0, $exitCode);
+
+        $output = Artisan::output();
+        $this->assertStringContainsString('Client rate:', $output);
+        $this->assertStringContainsString('Token rate:', $output);
+        $this->assertStringContainsString('600/min (token override)', $output);
+
+        $token = \Modules\Ai\Models\McpClientToken::orderByDesc('id')->first();
+        $this->assertNotNull($token);
+        $this->assertSame(
+            600,
+            (int) $token->rate_limit_per_minute,
+            'Per-token rate-limit override must persist on the tokens row — '
+            . 'McpClientToken::effectiveRateLimitPerMinute() reads this column first '
+            . 'and only falls back to the client-level value when the override is null. '
+            . 'A regression that drops the column from the issue pipeline would silently '
+            . 'collapse every issued token to the client-level limit.'
+        );
+
+        $this->assertSame(
+            600,
+            $token->effectiveRateLimitPerMinute(),
+            'Effective rate limit must reflect the override — without this the '
+            . 'AuthenticateMcpClient middleware would still apply the client-level '
+            . 'limit, defeating the whole purpose of the override.'
+        );
+    }
+
+    #[Test]
+    public function token_without_override_inherits_client_rate_limit(): void
+    {
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Inherit Rate Client',
+            '--scopes' => 'mcp:access',
+            '--rate-limit' => '120',
+        ]);
+
+        $token = \Modules\Ai\Models\McpClientToken::orderByDesc('id')->first()->refresh();
+
+        $this->assertNull(
+            $token->rate_limit_per_minute,
+            'Without --token-rate-limit, the token row\'s override column must stay '
+            . 'null so effectiveRateLimitPerMinute() falls back to the client-level '
+            . 'value. A regression that copies the client-level limit into the column '
+            . 'would defeat future client-level rate-limit changes (the operator would '
+            . 'have to update every token row instead of just the parent client).'
+        );
+        $this->assertSame(
+            120,
+            $token->effectiveRateLimitPerMinute(),
+            'Effective rate limit must fall back to the client-level value when the '
+            . 'token-level override is null — the documented inheritance semantics.'
+        );
     }
 
     #[Test]
