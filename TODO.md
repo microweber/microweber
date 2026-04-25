@@ -373,11 +373,18 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
       sequential runs. Each chunk processes 17 packs × 3-4 skins
       = 51-68 pair-applies in roughly equal time, ~80-105s each
       sequentially.)*
-- [ ] Add a matrix drift test `LiveEditColorPaletteTargetSkinDriftTest`
+- [x] 2026-04-25  Add a matrix drift test `LiveEditColorPaletteTargetSkinDriftTest`
       that asserts `ColorPaletteSkinMatrixFactory::TARGET_SKINS`
       stays in sync with the actual blade files in
       `Templates/Bootstrap/resources/views/modules/layouts/templates/`
-      — silently-missing skins are the biggest miss risk.
+      — silently-missing skins are the biggest miss risk. *(Lives
+      under tests/Feature/. Walks every `<family>/skin-<N>.blade.php`
+      under the bootstrap layouts tree and asserts the canonical
+      tag is either in `TARGET_SKINS` or in this test's
+      `DOCUMENTED_EXCLUSIONS` constant. Pairs with
+      ColorPaletteSkinMatrixFactoryTargetSkinsContractTest, which
+      guards the per-test → constant direction; this guards the
+      shipped-blade → constant direction.)*
 - [ ] Per-palette public-render tests (`LiveEditColorPalette<Pack>PublicRenderMatrixTest`)
       already exist for some packs — ensure every pack in §D.1 has one.
 
