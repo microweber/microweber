@@ -45,3 +45,21 @@ Route::name('api.menu.')
     });
 
 
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (menus)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/menus/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'menus',
+    \Modules\Menu\Http\Controllers\Api\MenusApiController::class,
+    'menu'
+);

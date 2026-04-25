@@ -33,3 +33,21 @@ Route::name('api.')
         Route::apiResource('category', 'CategoryApiController');
 
     });
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (categories)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/categories/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'categories',
+    \Modules\Category\Http\Controllers\Api\CategoriesApiController::class,
+    'category'
+);

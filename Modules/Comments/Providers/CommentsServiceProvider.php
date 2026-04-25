@@ -42,6 +42,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         $this->app->singleton('comments_manager', function () {

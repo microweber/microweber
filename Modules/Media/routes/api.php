@@ -52,3 +52,21 @@ Route::post('/api/save_media', function (\Illuminate\Http\Request $request) {
 
 })->middleware(['api', 'admin', 'xss'])->name('api.save_media');
 
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (media)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/media/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'media',
+    \Modules\Media\Http\Controllers\Api\MediaApiController::class,
+    'media'
+);

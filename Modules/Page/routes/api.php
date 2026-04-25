@@ -40,3 +40,21 @@ Route::name('api.')
     ->group(function () {
         Route::apiResource('page', PageApiController::class);
     });
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (pages)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/pages/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'pages',
+    \Modules\Page\Http\Controllers\Api\PageApiController::class,
+    'page'
+);

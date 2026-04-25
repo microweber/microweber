@@ -135,3 +135,19 @@ Route::name('api.')
         });
 
     });
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (products)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php $modules loop. Reads
+| are public; writes require a Passport admin-scoped token.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'products',
+    \Modules\Product\Http\Controllers\Api\ProductsApiController::class,
+    'product'
+);

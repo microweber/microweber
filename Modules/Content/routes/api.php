@@ -210,3 +210,21 @@ Route::name('api.')
             return get_content_field($request->all());
         })->name('content.get_content_field');
     });
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (content)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/content/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'content',
+    \Modules\Content\Http\Controllers\Api\ContentApiController::class,
+    'content'
+);

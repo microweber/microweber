@@ -44,6 +44,7 @@ class TagServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/tagging.php'), 'tagging');
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(TagsModuleSettings::class);

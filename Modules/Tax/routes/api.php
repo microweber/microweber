@@ -20,3 +20,21 @@ Route::name('api.')
         });
 
     });
+
+/*
+|--------------------------------------------------------------------------
+| Headless Module API (tax)
+|--------------------------------------------------------------------------
+|
+| Migrated from the global routes/module-api.php  loop. Reads
+| are public (rate-limited); writes require a Passport admin-scoped
+| token. Same controller as the legacy /api/tax/* surface above so
+| both clients keep working through one implementation.
+|
+*/
+
+\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
+    'tax',
+    \Modules\Tax\Http\Controllers\Api\TaxApiController::class,
+    'tax'
+);
