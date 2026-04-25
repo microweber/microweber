@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use MicroweberPackages\Module\Routing\ModuleApiRoutes;
+use Illuminate\Support\Facades\Route;
 use MicroweberPackages\User\Http\Controllers\Api\UsersApiController;
 
 /*
@@ -12,10 +12,9 @@ use MicroweberPackages\User\Http\Controllers\Api\UsersApiController;
 |
 | Per-module REST blocks have been migrated into each module's own
 | `routes/api.php`, loaded by the module's service provider via
-| `$this->loadRoutesFrom(...)`. The migrated blocks call
-| `ModuleApiRoutes::register('<slug>', <controller>, '<binding>')`
-| to keep the standardised `/api/module/{slug}/*` shape while moving
-| the registration into the owning module.
+| `$this->loadRoutesFrom(...)`. Each migrated block uses standard
+| Laravel route declarations — see any `Modules/<X>/routes/api.php`
+| for the canonical shape.
 |
 | Adding a new module here is a code smell — add it to the new
 | module's `routes/api.php` instead.
@@ -29,4 +28,20 @@ use MicroweberPackages\User\Http\Controllers\Api\UsersApiController;
 |
 */
 
-ModuleApiRoutes::register('users', UsersApiController::class, 'user');
+Route::prefix('api/module/users')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.users.')
+    ->group(function () {
+        Route::get('/', [UsersApiController::class, 'index'])->name('index');
+        Route::get('/{user}', [UsersApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/users')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:users:write'])
+    ->name('api.module.users.')
+    ->group(function () {
+        Route::post('/', [UsersApiController::class, 'store'])->name('store');
+        Route::put('/{user}', [UsersApiController::class, 'update'])->name('update');
+        Route::patch('/{user}', [UsersApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{user}', [UsersApiController::class, 'destroy'])->name('destroy');
+    });

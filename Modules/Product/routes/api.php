@@ -1,5 +1,6 @@
 <?php
 use  \Illuminate\Support\Facades\Route;
+use Modules\Product\Http\Controllers\Api\ProductsApiController;
 
 
 
@@ -146,8 +147,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'products',
-    \Modules\Product\Http\Controllers\Api\ProductsApiController::class,
-    'product'
-);
+Route::prefix('api/module/products')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.products.')
+    ->group(function () {
+        Route::get('/', [ProductsApiController::class, 'index'])->name('index');
+        Route::get('/{product}', [ProductsApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/products')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:products:write'])
+    ->name('api.module.products.')
+    ->group(function () {
+        Route::post('/', [ProductsApiController::class, 'store'])->name('store');
+        Route::put('/{product}', [ProductsApiController::class, 'update'])->name('update');
+        Route::patch('/{product}', [ProductsApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{product}', [ProductsApiController::class, 'destroy'])->name('destroy');
+    });
+

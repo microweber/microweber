@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Tax\Http\Controllers\Api\TaxApiController;
 
 Route::name('api.')
 
@@ -33,8 +34,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'tax',
-    \Modules\Tax\Http\Controllers\Api\TaxApiController::class,
-    'tax'
-);
+Route::prefix('api/module/tax')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.tax.')
+    ->group(function () {
+        Route::get('/', [TaxApiController::class, 'index'])->name('index');
+        Route::get('/{tax}', [TaxApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/tax')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:tax:write'])
+    ->name('api.module.tax.')
+    ->group(function () {
+        Route::post('/', [TaxApiController::class, 'store'])->name('store');
+        Route::put('/{tax}', [TaxApiController::class, 'update'])->name('update');
+        Route::patch('/{tax}', [TaxApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{tax}', [TaxApiController::class, 'destroy'])->name('destroy');
+    });
+

@@ -2,6 +2,7 @@
 
 
 use  \Illuminate\Support\Facades\Route;
+use Modules\Category\Http\Controllers\Api\CategoriesApiController;
 
 Route::name('api.')
     ->prefix('api')
@@ -46,8 +47,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'categories',
-    \Modules\Category\Http\Controllers\Api\CategoriesApiController::class,
-    'category'
-);
+Route::prefix('api/module/categories')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.categories.')
+    ->group(function () {
+        Route::get('/', [CategoriesApiController::class, 'index'])->name('index');
+        Route::get('/{category}', [CategoriesApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/categories')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:categories:write'])
+    ->name('api.module.categories.')
+    ->group(function () {
+        Route::post('/', [CategoriesApiController::class, 'store'])->name('store');
+        Route::put('/{category}', [CategoriesApiController::class, 'update'])->name('update');
+        Route::patch('/{category}', [CategoriesApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{category}', [CategoriesApiController::class, 'destroy'])->name('destroy');
+    });
+

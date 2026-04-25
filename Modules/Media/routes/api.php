@@ -3,6 +3,7 @@
 use \Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Modules\Media\Http\Controllers\Api\MediaApiController;
 
 Route::post('/api/media/upload', function (\Illuminate\Http\Request $request) {
 
@@ -65,8 +66,21 @@ Route::post('/api/save_media', function (\Illuminate\Http\Request $request) {
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'media',
-    \Modules\Media\Http\Controllers\Api\MediaApiController::class,
-    'media'
-);
+Route::prefix('api/module/media')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.media.')
+    ->group(function () {
+        Route::get('/', [MediaApiController::class, 'index'])->name('index');
+        Route::get('/{media}', [MediaApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/media')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:media:write'])
+    ->name('api.module.media.')
+    ->group(function () {
+        Route::post('/', [MediaApiController::class, 'store'])->name('store');
+        Route::put('/{media}', [MediaApiController::class, 'update'])->name('update');
+        Route::patch('/{media}', [MediaApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{media}', [MediaApiController::class, 'destroy'])->name('destroy');
+    });
+

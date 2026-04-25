@@ -223,8 +223,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'content',
-    \Modules\Content\Http\Controllers\Api\ContentApiController::class,
-    'content'
-);
+Route::prefix('api/module/content')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.content.')
+    ->group(function () {
+        Route::get('/', [ContentApiController::class, 'index'])->name('index');
+        Route::get('/{content}', [ContentApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/content')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:content:write'])
+    ->name('api.module.content.')
+    ->group(function () {
+        Route::post('/', [ContentApiController::class, 'store'])->name('store');
+        Route::put('/{content}', [ContentApiController::class, 'update'])->name('update');
+        Route::patch('/{content}', [ContentApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{content}', [ContentApiController::class, 'destroy'])->name('destroy');
+    });
+

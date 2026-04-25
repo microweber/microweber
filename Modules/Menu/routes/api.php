@@ -8,6 +8,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Modules\Menu\Http\Controllers\Api\MenusApiController;
 
 Route::name('api.menu.')
     ->prefix('api/menu')
@@ -58,8 +59,21 @@ Route::name('api.menu.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'menus',
-    \Modules\Menu\Http\Controllers\Api\MenusApiController::class,
-    'menu'
-);
+Route::prefix('api/module/menus')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.menus.')
+    ->group(function () {
+        Route::get('/', [MenusApiController::class, 'index'])->name('index');
+        Route::get('/{menu}', [MenusApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/menus')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:menus:write'])
+    ->name('api.module.menus.')
+    ->group(function () {
+        Route::post('/', [MenusApiController::class, 'store'])->name('store');
+        Route::put('/{menu}', [MenusApiController::class, 'update'])->name('update');
+        Route::patch('/{menu}', [MenusApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{menu}', [MenusApiController::class, 'destroy'])->name('destroy');
+    });
+

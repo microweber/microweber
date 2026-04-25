@@ -53,8 +53,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'pages',
-    \Modules\Page\Http\Controllers\Api\PageApiController::class,
-    'page'
-);
+Route::prefix('api/module/pages')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.pages.')
+    ->group(function () {
+        Route::get('/', [PageApiController::class, 'index'])->name('index');
+        Route::get('/{page}', [PageApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/pages')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:pages:write'])
+    ->name('api.module.pages.')
+    ->group(function () {
+        Route::post('/', [PageApiController::class, 'store'])->name('store');
+        Route::put('/{page}', [PageApiController::class, 'update'])->name('update');
+        Route::patch('/{page}', [PageApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{page}', [PageApiController::class, 'destroy'])->name('destroy');
+    });
+

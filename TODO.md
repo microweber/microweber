@@ -104,6 +104,8 @@
 >   (Modules/Ai/tests/Feature/Mcp*Test.php); the 12 tool-owning modules
 >   have no `Tests/Unit/Mcp/` directory.
 
+- [x] 2026-04-25  [task-2026-04-25-28a470] dot use \MicroweberPackages\Module\Routing\ModuleApiRoutes::register(  use styandarl paravel regsitering *(Done: every `ModuleApiRoutes::register(...)` call expanded inline into the equivalent two `Route::prefix(...)->middleware(...)->name(...)->group(...)` blocks (one public read, one admin write) using standard Laravel route declarations. The helper class `src/MicroweberPackages/Module/Routing/ModuleApiRoutes.php` is deleted and `composer dump-autoload` ran clean. Affects 17 files: 16 module `routes/api.php` files plus `routes/module-api.php` (the residual `users` block). Route smoke check still reports 144 routes — zero diff vs baseline. Page/Cart API controller tests + the seeded SettingsReadToolUnitTest all stay green (12 tests / 44 assertions).)*
+- [ ] [task-2026-04-25-1cffe4] make a plan and populaye the todo to mkake docs for each modules in itd folder. Analyze eachch module andm ake docs/ folder in each and extrpact the data model, table and apis for each , 1st make the plan inthe todo.md
 ## RTM.1 — Route migration foundations
 
 - [x] 2026-04-25  **Add a route registration shape comment to `routes/module-api.php`**

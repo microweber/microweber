@@ -53,8 +53,21 @@ Route::name('api.')
 |
 */
 
-\MicroweberPackages\Module\Routing\ModuleApiRoutes::register(
-    'posts',
-    \Modules\Post\Http\Controllers\Api\PostApiController::class,
-    'post'
-);
+Route::prefix('api/module/posts')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.posts.')
+    ->group(function () {
+        Route::get('/', [PostApiController::class, 'index'])->name('index');
+        Route::get('/{post}', [PostApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/posts')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:posts:write'])
+    ->name('api.module.posts.')
+    ->group(function () {
+        Route::post('/', [PostApiController::class, 'store'])->name('store');
+        Route::put('/{post}', [PostApiController::class, 'update'])->name('update');
+        Route::patch('/{post}', [PostApiController::class, 'update'])->name('update.partial');
+        Route::delete('/{post}', [PostApiController::class, 'destroy'])->name('destroy');
+    });
+
