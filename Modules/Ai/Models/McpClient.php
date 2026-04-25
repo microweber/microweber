@@ -103,9 +103,34 @@ class McpClient extends Model
         return $this->allowsValue($this->allowed_scopes, $scope);
     }
 
+    /**
+     * Allow-list semantics for tools / modules / scopes.
+     *
+     *   - `null`              → unrestricted (allow any candidate). Same
+     *                           "no restriction declared" pattern Sanctum's
+     *                           tokens and most OAuth-style allow lists use,
+     *                           and what an operator naturally infers when
+     *                           they leave the field empty in the Filament
+     *                           admin form.
+     *   - `[]` (empty array)  → explicit deny-all. Differs from `null` so an
+     *                           operator can persist "this client has been
+     *                           narrowed to nothing" without it collapsing
+     *                           to "unrestricted".
+     *   - `['*', ...]`        → wildcard match — allow any candidate.
+     *   - `['foo', 'bar']`    → only the listed values.
+     *
+     * Authoritative reference: Modules/Ai/README.md "MCP server" section.
+     * If you change this policy, update the README + the Filament form
+     * description on McpClientResource so operators see the new contract
+     * up-front.
+     */
     private function allowsValue(?array $allowedValues, string $candidate): bool
     {
-        if (empty($allowedValues)) {
+        if ($allowedValues === null) {
+            return true;
+        }
+
+        if ($allowedValues === []) {
             return false;
         }
 

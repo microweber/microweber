@@ -98,17 +98,22 @@ treats both `null` AND `[]` AND `['*']`-aware as allow-list-empty; only `['*']`
 or an explicit whitelist passes. Most operators reading the schema would assume
 `null = unrestricted`.
 
-- [ ] **Decide the policy** — either:
-      a. `null = unrestricted` (most common allowlist pattern; matches Sanctum
-         `abilities=['*']` ergonomics), OR
-      b. Keep "deny by default" but rename the column to `allowed_tools_whitelist`
-         + update the Filament admin form to default to `['*']` and surface a
-         "leave empty to deny everything" hint.
-- [ ] **Document the chosen semantics** in `McpClient` PHPDoc + the README
+- [x] 2026-04-25  **Decide the policy** — `null = unrestricted` (matches Sanctum
+      `abilities=['*']` ergonomics + matches operator intuition; an explicit
+      `[]` empty array is "deny everything" so the difference is preserved
+      for clients that need to persist "narrowed to nothing").
+- [x] 2026-04-25  **Document the chosen semantics** in `McpClient` PHPDoc + the README
       "MCP server" section + the Filament resource's form description.
-- [ ] **Add a regression test** covering both directions: a client created with
+      *(Added an inline contract on `McpClient::allowsValue()`, an
+      "Allow-list semantics" table to `Modules/Ai/README.md`, and per-field
+      helperText + a section description on `McpClientResource`.)*
+- [x] 2026-04-25  **Add a regression test** covering both directions: a client created with
       `null` allowlists must yield the documented behaviour (0 tools or all
-      tools), and a client with `['*']` must yield all tools.
+      tools), and a client with `['*']` must yield all tools. *(Lives at
+      `Modules/Ai/tests/Feature/McpClientAllowlistSemanticsTest.php` —
+      4 tests / 21 assertions covering null=unrestricted, []=deny-all,
+      ['*']=wildcard, specific=least-privilege. The 60-test
+      McpControllerTest suite stays green under the new semantics.)*
 
 ## C. Tool catalog — coverage + UX
 

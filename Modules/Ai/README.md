@@ -55,6 +55,42 @@ Environment variables are also supported (`AI_ENABLED`, `OPENAI_API_KEY`, etc.).
 - **AgentChatResource** -- browse AI chat sessions
 - **McpClientResource** -- manage MCP clients and tokens
 
+## MCP server
+
+The module ships a JSON-RPC MCP server at `POST /api/mcp`. Enable it via
+`AI_ENABLED=true` + `AI_MCP_ENABLED=true` (both default to `false`).
+Authentication uses bearer tokens issued through `McpClientResource` or the
+`McpClientTokenManager` service.
+
+### Allow-list semantics
+
+Each MCP client carries three independent allow-lists — `allowed_tools`,
+`allowed_modules`, `allowed_scopes`. They share one contract:
+
+| Value                | Meaning                                              |
+|----------------------|------------------------------------------------------|
+| `null`               | **Unrestricted** — allow any candidate.              |
+| `[]` (empty array)   | **Explicit deny-all** — reject every candidate.      |
+| `['*', ...]`         | Wildcard — allow any candidate.                      |
+| `['foo', 'bar']`     | Allow only the listed values.                        |
+
+The `null` ↔ `[]` distinction lets an operator persist the difference
+between "I haven't narrowed this client" (null) and "I narrowed it to
+nothing" (empty array). Authoritative reference: the inline contract on
+`McpClient::allowsValue()`.
+
+### Endpoint summary
+
+| Method   | Description                                       |
+|----------|---------------------------------------------------|
+| `initialize`  | Handshake. Returns the negotiated protocol version + server info + capabilities. |
+| `tools/list`  | Enumerate the tools allowed for the calling client / token.                       |
+| `tools/call`  | Execute a tool by name with the schema-declared arguments.                        |
+
+Each request is gated by `mcp:access` scope by default; tools / modules
+listed in `AI_MCP_ADMIN_ONLY_TOOLS` / `AI_MCP_ADMIN_ONLY_MODULES` also
+require the `mcp:admin` scope on the calling token.
+
 ## Usage
 
 ```php

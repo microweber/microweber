@@ -67,21 +67,31 @@ class McpClientResource extends Resource
                 ])
                 ->columns(2),
             Section::make('Access Policy')
+                ->description(
+                    'Each list applies a least-privilege filter on the calling token. '
+                    . 'Selecting nothing in the database (NULL) is treated as "unrestricted"; '
+                    . 'an explicit empty array denies everything. The form below requires '
+                    . 'at least one selection so admin-created clients always carry an '
+                    . 'audit-friendly explicit policy.'
+                )
                 ->schema([
                     CheckboxList::make('allowed_scopes')
                         ->label('Allowed scopes')
+                        ->helperText('mcp:access is required for any call; mcp:admin is required for admin-only tools / modules.')
                         ->options(static::scopeOptions())
                         ->required()
                         ->columns(2)
                         ->bulkToggleable(),
                     CheckboxList::make('allowed_modules')
                         ->label('Allowed modules')
+                        ->helperText('Modules the client may dispatch tool calls into (the prefix before the `.` in the tool name).')
                         ->options(static::moduleOptions())
                         ->required()
                         ->columns(2)
                         ->bulkToggleable(),
                     CheckboxList::make('allowed_tools')
                         ->label('Allowed tools')
+                        ->helperText('Specific tool names this client may invoke. Bulk-toggle to grant the entire catalog.')
                         ->options(static::toolOptions())
                         ->required()
                         ->columns(2)
