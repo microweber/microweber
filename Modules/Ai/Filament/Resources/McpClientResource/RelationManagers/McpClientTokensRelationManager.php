@@ -62,6 +62,25 @@ class McpClientTokensRelationManager extends RelationManager
                     }),
             ])
             ->actions([
+                Tables\Actions\Action::make('rotateToken')
+                    ->label('Rotate')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Rotate MCP token')
+                    ->modalDescription(
+                        'A fresh secret will be issued under the same client + name + abilities. '
+                        . 'The current token will be revoked immediately. The replacement key is shown '
+                        . 'once and cannot be recovered later.'
+                    )
+                    ->visible(fn (McpClientToken $record): bool => $record->isActive())
+                    ->action(function (McpClientToken $record): void {
+                        $generated = app(McpClientTokenManager::class)->rotateToken(
+                            token: $record,
+                            actor: auth()->user(),
+                        );
+                        McpClientResource::notifyTokenIssued($generated, $record->client);
+                    }),
                 Tables\Actions\Action::make('revokeToken')
                     ->label('Revoke')
                     ->icon('heroicon-o-no-symbol')

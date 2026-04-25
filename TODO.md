@@ -311,7 +311,13 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       (old row marked revoked, new row resolves + is active, secrets
       differ) and unknown-token-id failure path. The Filament
       one-click action is a smaller follow-up — the CLI is now the
-      authoritative path for emergency rotation.)*
+      authoritative path for emergency rotation. **Filament action
+      shipped 2026-04-25**: `McpClientTokensRelationManager` now
+      exposes a "Rotate" row action (visible only on active tokens)
+      that delegates to `McpClientTokenManager::rotateToken` and
+      surfaces the new plain-text replacement via the same
+      persistent admin notification used by "Issue key". The
+      revoke action is unchanged.)*
 
 ### D.2 Audit log
 
