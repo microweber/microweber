@@ -1,19 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
-use Modules\Profile\Http\Controllers\ProfileController;
+use Modules\Profile\Http\Controllers\Api\ProfileApiController;
 
 /*
- *--------------------------------------------------------------------------
- * API Routes
- *--------------------------------------------------------------------------
- *
- * Here is where you can register API routes for your application. These
- * routes are loaded by the RouteServiceProvider within a group which
- * is assigned the "api" middleware group. Enjoy building your API!
- *
+|--------------------------------------------------------------------------
+| Profile Module API Routes
+|--------------------------------------------------------------------------
+|
+| Migrated from routes/module-api.php (lines 132-147). Profile operates
+| on the authenticated caller, not a collection — there is no `{id}`
+| route param. Any authenticated user (admin or not) can read and
+| update their own record, gated by Passport scopes.
+|
 */
 
-//Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-//    Route::apiResource('profile', ProfileController::class)->names('profile');
-//});
+Route::prefix('api/module/profile')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:profile:read'])
+    ->name('api.module.profile.')
+    ->group(function () {
+        Route::get('/', [ProfileApiController::class, 'show'])->name('show');
+    });
+
+Route::prefix('api/module/profile')
+    ->middleware(['api', 'auth:api', 'throttle:api', 'throttle:token', 'token.audit', 'scope:profile:write'])
+    ->name('api.module.profile.')
+    ->group(function () {
+        Route::put('/', [ProfileApiController::class, 'update'])->name('update');
+        Route::patch('/', [ProfileApiController::class, 'update'])->name('update.partial');
+        Route::post('/change-password', [ProfileApiController::class, 'changePassword'])->name('change-password');
+    });

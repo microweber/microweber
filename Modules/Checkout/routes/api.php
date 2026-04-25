@@ -1,17 +1,32 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 11/25/2020
- * Time: 11:13 AM
- */
-use  \Illuminate\Support\Facades\Route;
 
+declare(strict_types=1);
 
-// Route::name('api.checkout.')
-//    ->prefix('api/checkout')
-//   // ->middleware(['web'])
-//
-//    ->group(function () {
-//        Route::post('validate', Modules\Checkout\Http\Controllers\CheckoutController::class.'@validate');
-//    });
+use Illuminate\Support\Facades\Route;
+use Modules\Checkout\Http\Controllers\Api\CheckoutApiController;
+
+/*
+|--------------------------------------------------------------------------
+| Checkout Module API Routes
+|--------------------------------------------------------------------------
+|
+| Migrated from routes/module-api.php (lines 114-126). Checkout exposes
+| action verbs (validate, shipping-methods, calculate-shipping, …) that
+| don't fit the standard REST shape so it doesn't go through the loop.
+| Session-backed, intentionally public.
+|
+*/
+
+Route::prefix('api/module/checkout')
+    ->middleware(['api', 'throttle:public'])
+    ->name('api.module.checkout.')
+    ->group(function () {
+        Route::get('/', [CheckoutApiController::class, 'index'])->name('index');
+        Route::post('/', [CheckoutApiController::class, 'store'])->name('store');
+        Route::put('/', [CheckoutApiController::class, 'update'])->name('update');
+        Route::post('/validate', [CheckoutApiController::class, 'validate'])->name('validate');
+        Route::get('/shipping-methods', [CheckoutApiController::class, 'shippingMethods'])->name('shipping.methods');
+        Route::get('/payment-methods', [CheckoutApiController::class, 'paymentMethods'])->name('payment.methods');
+        Route::post('/calculate-shipping', [CheckoutApiController::class, 'calculateShipping'])->name('shipping.calculate');
+        Route::get('/order/{orderReferenceId}', [CheckoutApiController::class, 'orderStatus'])->name('order.status');
+    });
