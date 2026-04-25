@@ -239,7 +239,7 @@ Each test MUST assert, in order:
 
 ## C.1 Conventions
 
-- [ ] Every new test file named
+- [x] 2026-04-25  Every new test file named
       `LiveAdminModule<ModuleName>SmokeTest.php`.
 - [ ] Tests reuse `AdminLoginTrait` and live under
       `tests/Browser/`.
