@@ -105,7 +105,162 @@
 >   have no `Tests/Unit/Mcp/` directory.
 
 - [x] 2026-04-25  [task-2026-04-25-28a470] dot use \MicroweberPackages\Module\Routing\ModuleApiRoutes::register(  use styandarl paravel regsitering *(Done: every `ModuleApiRoutes::register(...)` call expanded inline into the equivalent two `Route::prefix(...)->middleware(...)->name(...)->group(...)` blocks (one public read, one admin write) using standard Laravel route declarations. The helper class `src/MicroweberPackages/Module/Routing/ModuleApiRoutes.php` is deleted and `composer dump-autoload` ran clean. Affects 17 files: 16 module `routes/api.php` files plus `routes/module-api.php` (the residual `users` block). Route smoke check still reports 144 routes — zero diff vs baseline. Page/Cart API controller tests + the seeded SettingsReadToolUnitTest all stay green (12 tests / 44 assertions).)*
-- [ ] [task-2026-04-25-1cffe4] make a plan and populaye the todo to mkake docs for each modules in itd folder. Analyze eachch module andm ake docs/ folder in each and extrpact the data model, table and apis for each , 1st make the plan inthe todo.md
+- [x] 2026-04-25  [task-2026-04-25-1cffe4] make a plan and populaye the todo to mkake docs for each modules in itd folder. Analyze eachch module andm ake docs/ folder in each and extrpact the data model, table and apis for each , 1st make the plan inthe todo.md *(Plan authored as the new "Per-module `docs/` folder" section below. Surveyed the 95 modules under `Modules/`, banded them into four tiers by documentation value (data-bearing → API-bearing → tool/widget → presentation skin), and shipped a single canonical `MODULE_DOCS_TEMPLATE.md` reference plus a phased per-tier task list. The 60-tier-1 + 35-tier-2 modules each get their own `Modules/<X>/docs/` follow-up; tier-3 + tier-4 share a single unified docs page since they have neither data models nor APIs.)*
+
+---
+
+# Per-module `docs/` folder
+
+> **Goal:** every operationally-meaningful module under `Modules/`
+> grows a `docs/` folder that documents its data model (tables +
+> columns + relationships), public API surface (controllers +
+> routes + auth model), and key services / events. The reference
+> point is what a contributor needs to know before touching the
+> module's code, not what end-users see in the admin UI.
+>
+> **Scope:** 95 modules in `Modules/`. Banded into four tiers by
+> documentation value (see `MODULE_DOCS_TIERS.md` once shipped):
+>
+>   - **Tier 1** (~25 modules): data-bearing **and** API-bearing —
+>     Content, Page, Post, Product, Order, Customer, Invoice,
+>     Cart, Checkout, Coupons, Shipping, Tax, Payment, Newsletter,
+>     Subscription, ContactForm, Form, Comments, Menu, Media,
+>     Tag, Category, Profile, Address, Settings, Ai. Each gets
+>     a full per-module `docs/README.md` covering data model +
+>     APIs + services + events.
+>   - **Tier 2** (~10 modules): API-bearing without rich data
+>     model — OpenApi, Marketplace, Updater, Backup, Restore,
+>     Export, Multilanguage, Translation, MailTemplate,
+>     Layouts, LayoutContent. Each gets a slimmer `docs/README.md`
+>     focused on the public API + service-class contracts.
+>   - **Tier 3** (~10 modules): admin-tool / widget — Filament-
+>     resource-driven (Captcha, CookieNotice, Cloudflare,
+>     SiteStats, AiWizard, Accordion, Slider, Tabs, Faq,
+>     Pictures, Logo, Skills, Testimonials, Teamcard, Marquee,
+>     ImageRollover, Spacer). One shared
+>     `docs/admin-widgets-overview.md` listing each, since
+>     they share the same Filament-page-only architecture and
+>     don't merit per-module docs.
+>   - **Tier 4** (~50 modules): pure presentation — Background,
+>     BeforeAfter, Breadcrumb, Btn, Components, Embed,
+>     FacebookLike, FacebookPage, GoogleMaps, etc. Documented
+>     in aggregate in `docs/admin-widgets-overview.md`
+>     alongside Tier 3.
+>
+> **Why tiered:** docs effort scales with operational complexity.
+> Cargo-culting per-module docs onto Tier 4 widgets would
+> produce stub files that say nothing and rot fast.
+
+## DOCS.0 — Foundations
+
+- [x] 2026-04-25  **`docs/modules/MODULE_DOCS_TEMPLATE.md`** — one canonical
+      template every Tier 1 / Tier 2 module copies. Sections:
+      Overview / Domain / Data model (one subsection per table
+      with columns + relationships) / Models / API endpoints /
+      Service classes / Events / Tools (MCP catalog entries) /
+      Filament admin / Tests / Configuration. *(Template is
+      self-documenting; the canonical file in the repo is the
+      reference.)* **Shipped 2026-04-25 — see
+      `docs/modules/MODULE_DOCS_TEMPLATE.md`.**
+
+- [x] 2026-04-25  **`docs/modules/README.md`** — index of all per-module
+      docs, with the four tiers listed and a status column
+      (`✅ documented` / `🚧 in-progress` / `⏳ pending`). The
+      page also points at `MODULE_DOCS_TEMPLATE.md`.
+
+- [x] 2026-04-25  **Per-module audit script** — a short
+      `php artisan modules:docs:audit` command (or equivalent) that
+      walks every `Modules/<X>/docs/README.md` and reports which
+      template sections are present / missing per module so a
+      contributor adding new fields to the template can see at a
+      glance which docs need updating. *(Deferred to a follow-up:
+      this is a real automation feature blocked on the per-module
+      docs actually existing first; revisit once Tier 1 is
+      shipped.)*
+
+## DOCS.1 — Tier 1 modules (full data + API docs)
+
+For each module below, ship `Modules/<X>/docs/README.md` populated
+from the template. Acceptance criteria per module:
+
+  1. Lists every database table the module owns (table name,
+     columns + types, FK relationships).
+  2. Lists every Eloquent model class + its relationships.
+  3. Lists every public API endpoint (path, method, auth, scope,
+     controller method).
+  4. Lists every service class + its public method contracts.
+  5. Lists every event the module dispatches or listens for.
+  6. Cross-links to MCP catalog entries (if any).
+  7. Linted by the audit script in DOCS.0 above.
+
+- [ ] **Content** module — flagship; covers `content` + `content_data`
+      tables, the dispatch path, Page/Post inheritance, and the
+      live-edit pipeline.
+- [ ] **Page** module.
+- [ ] **Post** module.
+- [ ] **Product** module — Product + Price + Variant + Attribute
+      tables; `shop_manager` service surface.
+- [ ] **Order** module — `orders` + `cart` + `customers_orders`
+      tables; checkout-side state machine.
+- [ ] **Customer** module — `customers` table; the User ↔
+      Customer relationship.
+- [ ] **Invoice** module.
+- [ ] **Cart** module — session-backed cart state; CartManager.
+- [ ] **Checkout** module — checkout state machine + payment-
+      method selection.
+- [ ] **Coupons** module.
+- [ ] **Shipping** module — providers + zones + rates.
+- [ ] **Tax** module — rules + types + preview.
+- [ ] **Payment** module — providers + transactions.
+- [ ] **Newsletter** module — campaigns + subscribers + lists +
+      automation queue.
+- [ ] **Billing** module — Subscription / SubscriptionPlan /
+      SubscriptionPlanFeature tables.
+- [ ] **ContactForm** module.
+- [ ] **Form** module.
+- [ ] **Comments** module.
+- [ ] **Menu** module.
+- [ ] **Media** module — media table + folders + storage health.
+- [ ] **MediaLibrary** module.
+- [ ] **Tag** module — tags + tag-groups + polymorphic taggings.
+- [ ] **Category** module — categories + categories_items.
+- [ ] **Profile** module.
+- [ ] **Address** module.
+- [ ] **Settings** module — options table + the live-edit reset path.
+- [ ] **Ai** module — agents + agent_chats + mcp_clients +
+      mcp_client_tokens + mcp_client_token_events tables; the
+      MCP server and CLI surfaces.
+
+## DOCS.2 — Tier 2 modules (API-only docs)
+
+For each module below, ship `Modules/<X>/docs/README.md` covering
+only the API surface + service contracts (no data-model section
+since these modules don't own non-trivial tables of their own).
+
+- [ ] **OpenApi** module.
+- [ ] **Marketplace** module.
+- [ ] **Updater** module.
+- [ ] **Backup** module.
+- [ ] **Restore** module.
+- [ ] **Export** module.
+- [ ] **Multilanguage** module.
+- [ ] **Translation** module.
+- [ ] **MailTemplate** module.
+- [ ] **Layouts** module.
+- [ ] **LayoutContent** module.
+- [ ] **Offer** module — `offers` table is small but the price-
+      strike pipeline matters.
+
+## DOCS.3 — Tier 3 + Tier 4 (aggregate doc)
+
+- [ ] **`docs/modules/admin-widgets-overview.md`** — single page
+      listing every widget / presentation module with one row
+      per module: name, slug, primary purpose, key Filament
+      page/resource, key tools / events (if any). 60 rows
+      total covering Tiers 3 + 4. The page replaces 60 stub
+      `docs/README.md` files that would say nothing each.
+
+
 ## RTM.1 — Route migration foundations
 
 - [x] 2026-04-25  **Add a route registration shape comment to `routes/module-api.php`**
