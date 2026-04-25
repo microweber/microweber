@@ -179,6 +179,48 @@ class McpConsoleCommandsTest extends TestCase
     }
 
     #[Test]
+    public function serve_command_rejects_when_mcp_is_disabled(): void
+    {
+        config(['modules.ai.mcp.enabled' => false]);
+
+        $exitCode = Artisan::call('ai:mcp:serve', ['--token' => 'mcp_1|whatever']);
+
+        $this->assertSame(
+            1,
+            $exitCode,
+            'ai:mcp:serve must short-circuit when AI_MCP_ENABLED is false. Otherwise '
+            . 'a stdio client (Claude Desktop, Cursor) would block waiting for replies '
+            . 'that never come, with no signal pointing at the disabled flag.'
+        );
+    }
+
+    #[Test]
+    public function serve_command_rejects_when_no_token_supplied(): void
+    {
+        config(['modules.ai.mcp.enabled' => true]);
+
+        $exitCode = Artisan::call('ai:mcp:serve');
+
+        $this->assertSame(1, $exitCode);
+    }
+
+    #[Test]
+    public function serve_command_rejects_unknown_token(): void
+    {
+        config(['modules.ai.mcp.enabled' => true]);
+
+        $exitCode = Artisan::call('ai:mcp:serve', ['--token' => 'mcp_999999|nonexistent-secret']);
+
+        $this->assertSame(
+            1,
+            $exitCode,
+            'A token that does not resolve through findToken must reject the stdio '
+            . 'session immediately — otherwise a forged or stale token would silently '
+            . 'fail later on the first request.'
+        );
+    }
+
+    #[Test]
     public function token_default_ttl_zero_keeps_forever_tokens(): void
     {
         config(['modules.ai.mcp.token_default_ttl_days' => 0]);

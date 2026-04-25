@@ -13,6 +13,7 @@ use Modules\Ai\Console\Commands\McpClientCreateCommand;
 use Modules\Ai\Console\Commands\McpClientListCommand;
 use Modules\Ai\Console\Commands\McpHealthCommand;
 use Modules\Ai\Console\Commands\McpPruneAuditCommand;
+use Modules\Ai\Console\Commands\McpServeCommand;
 use Modules\Ai\Console\Commands\McpTokenRevokeCommand;
 use Modules\Ai\Console\Commands\McpTokenRotateCommand;
 use Modules\Ai\Console\Commands\McpToolsListCommand;
@@ -101,6 +102,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 McpTokenRotateCommand::class,
                 McpTokenRevokeCommand::class,
                 McpPruneAuditCommand::class,
+                McpServeCommand::class,
             ]);
         }
 

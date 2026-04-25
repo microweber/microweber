@@ -68,6 +68,10 @@ Other CLI commands:
 | `php artisan ai:mcp:tools:list [--module=foo]`       | List the tool catalog (name / module / title). Same source the wire's `tools/list` reads from. |
 | `php artisan ai:mcp:health [--base-url=URL]`         | Issue an ephemeral 5-min-TTL token, run `initialize` → `ping` → `tools/list` against the configured base URL, report a green / red verdict. Revokes the ephemeral token in `finally`. |
 | `php artisan ai:mcp:token:rotate <token-id>`         | Revoke a token in place and issue a fresh secret under the same client. The old row is revoked, not deleted, so the middleware can audit-log denial reasons on any leaked-token reuse. |
+| `php artisan ai:mcp:token:revoke <token-id>`         | Revoke a single token without issuing a replacement. Idempotent on already-revoked tokens (re-revoke prints a warning, exits 0). |
+| `php artisan ai:mcp:client:list [--all]`             | Tabular client overview with token counts (active/total) + last-used. `--all` includes disabled clients. |
+| `php artisan ai:mcp:prune-audit [--older-than=N] [--dry-run]` | Prune `mcp_client_token_events` older than N days (default 90). Use `--dry-run` to preview. |
+| `php artisan ai:mcp:serve --token=...`               | Run the server over **stdio** so Claude Desktop / Cursor / Cline can launch it as a subprocess. One JSON-RPC envelope per line on STDIN, response on STDOUT. See "Connecting AI clients → stdio" below. |
 
 ### Filament admin UI
 
@@ -223,8 +227,13 @@ swap can't happen silently.
 
 ### Claude Desktop
 
+Two paths: HTTP (newer Claude Desktop builds, 2025-03-26+) or
+stdio (older builds, also Cursor / Cline default).
+
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json`
 (macOS) or the equivalent on Windows / Linux:
+
+#### HTTP (preferred)
 
 ```json
 {
@@ -242,9 +251,31 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`
 }
 ```
 
-> Claude Desktop's HTTP-transport support landed with the
-> 2025-03-26 protocol revision. Older builds default to stdio —
-> we don't ship an stdio shim today (see Plan F's stdio task).
+#### stdio (older clients)
+
+```json
+{
+  "mcpServers": {
+    "microweber": {
+      "command": "php",
+      "args": [
+        "/path/to/microweber/artisan",
+        "ai:mcp:serve",
+        "--token=mcp_42|secret..."
+      ]
+    }
+  }
+}
+```
+
+The stdio command (`ai:mcp:serve`) reads JSON-RPC envelopes one
+per line from STDIN, dispatches each through the same
+`McpServer::handle()` pipeline the HTTP controller uses, and
+writes the response envelope one per line on STDOUT.
+Notifications (`notifications/*`) emit no STDOUT line, matching
+the HTTP 204 behaviour. Authentication uses the same bearer
+token format; pass it via `--token=` or the `MW_MCP_TOKEN` env
+var.
 
 ### Cursor / Cline / Continue
 

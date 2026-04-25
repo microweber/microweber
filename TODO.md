@@ -480,11 +480,31 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       probes returned HTTP 200 and the overall verdict reported PASS.
       Not unit-tested because Http::post against APP_URL inside PHPUnit
       would deadlock the runner — verified manually instead.)*
-- [ ] **stdio transport command** — `php artisan ai:mcp:serve --stdio`
+- [x] 2026-04-25  **stdio transport command** — `php artisan ai:mcp:serve --stdio`
       that speaks JSON-RPC over stdio, so Claude Desktop / Cursor (which
       prefer stdio) can launch the server directly without an HTTP
       hop. Wraps the existing `McpServer::handle()` with a JSON-RPC-
-      over-stdio shim.
+      over-stdio shim. *(Implemented as
+      `Modules/Ai/Console/Commands/McpServeCommand.php` —
+      `php artisan ai:mcp:serve --token=mcp_NN|secret`. Reads
+      JSON-RPC envelopes one per line from STDIN, dispatches each
+      through the same `McpServer::handle()` pipeline the HTTP
+      controller uses, writes responses one per line on STDOUT.
+      Notifications emit no STDOUT line (matches HTTP 204).
+      Token-resolution path mirrors the middleware's
+      `McpClientTokenManager::findToken` + `isActive()` checks so
+      no auth-path drift between HTTP and stdio. Smoke-verified
+      against the live dev server: `initialize` (with
+      protocolVersion negotiation), `ping`, `notifications/initialized`,
+      and a `tools/call` against `settings.read` all round-trip
+      cleanly. Pinned by 3 new tests in `McpConsoleCommandsTest`:
+      MCP-disabled rejection, missing-token rejection, unknown-
+      token rejection. The JSON-RPC dispatch path is covered by
+      `McpControllerTest`'s 60-test HTTP suite; both transports
+      go through the same `McpServer::handle` pipeline so
+      stdio inherits the spec compliance for free. Documented in
+      `docs/mcp/README.md` under Claude Desktop → stdio section
+      and the CLI command table.)*
 
 ## G. Testing
 
