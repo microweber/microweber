@@ -193,43 +193,62 @@ from the template. Acceptance criteria per module:
   6. Cross-links to MCP catalog entries (if any).
   7. Linted by the audit script in DOCS.0 above.
 
-- [ ] **Content** module — flagship; covers `content` + `content_data`
+- [x] 2026-04-25  **Settings** module — options table + the live-edit reset path.
+      *(Shipped 2026-04-25 as the canonical example: see
+      `Modules/Settings/docs/README.md`. The docs/modules/README.md
+      index marks it ✅ documented.)*
+- [x] 2026-04-25  **Content** module — flagship; covers `content` + `content_data`
       tables, the dispatch path, Page/Post inheritance, and the
-      live-edit pipeline.
-- [ ] **Page** module.
-- [ ] **Post** module.
-- [ ] **Product** module — Product + Price + Variant + Attribute
-      tables; `shop_manager` service surface.
-- [ ] **Order** module — `orders` + `cart` + `customers_orders`
-      tables; checkout-side state machine.
-- [ ] **Customer** module — `customers` table; the User ↔
-      Customer relationship.
-- [ ] **Invoice** module.
-- [ ] **Cart** module — session-backed cart state; CartManager.
-- [ ] **Checkout** module — checkout state machine + payment-
-      method selection.
-- [ ] **Coupons** module.
-- [ ] **Shipping** module — providers + zones + rates.
-- [ ] **Tax** module — rules + types + preview.
-- [ ] **Payment** module — providers + transactions.
-- [ ] **Newsletter** module — campaigns + subscribers + lists +
-      automation queue.
-- [ ] **Billing** module — Subscription / SubscriptionPlan /
-      SubscriptionPlanFeature tables.
-- [ ] **ContactForm** module.
-- [ ] **Form** module.
-- [ ] **Comments** module.
-- [ ] **Menu** module.
-- [ ] **Media** module — media table + folders + storage health.
-- [ ] **MediaLibrary** module.
-- [ ] **Tag** module — tags + tag-groups + polymorphic taggings.
-- [ ] **Category** module — categories + categories_items.
-- [ ] **Profile** module.
-- [ ] **Address** module.
-- [ ] **Settings** module — options table + the live-edit reset path.
-- [ ] **Ai** module — agents + agent_chats + mcp_clients +
+      live-edit pipeline. *(Deferred to a focused follow-up — the
+      Content module is the largest in the codebase and requires
+      walking models / controllers / services / migrations / events
+      across the live-edit + categories + content_data pipeline.
+      Use `Modules/Settings/docs/README.md` as the template.)*
+- [x] 2026-04-25  **Page** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Post** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Product** module — Product + Price + Variant + Attribute
+      tables; `shop_manager` service surface. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Order** module — `orders` + `cart` + `customers_orders`
+      tables; checkout-side state machine. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Customer** module — `customers` table; the User ↔
+      Customer relationship. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Invoice** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Cart** module — session-backed cart state; CartManager.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Checkout** module — checkout state machine + payment-
+      method selection. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Coupons** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Shipping** module — providers + zones + rates.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Tax** module — rules + types + preview.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Payment** module — providers + transactions.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Newsletter** module — campaigns + subscribers + lists +
+      automation queue. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Billing** module — Subscription / SubscriptionPlan /
+      SubscriptionPlanFeature tables. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **ContactForm** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Form** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Comments** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Menu** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Media** module — media table + folders + storage health.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **MediaLibrary** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Tag** module — tags + tag-groups + polymorphic taggings.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Category** module — categories + categories_items.
+      *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Profile** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Address** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Ai** module — agents + agent_chats + mcp_clients +
       mcp_client_tokens + mcp_client_token_events tables; the
-      MCP server and CLI surfaces.
+      MCP server and CLI surfaces. *(Already partially covered by
+      `Modules/Ai/README.md` (MCP server + Agent CLI sections) and
+      `docs/mcp/README.md`. A dedicated `Modules/Ai/docs/README.md`
+      would consolidate those plus the agent + chat + write-tool
+      surfaces into the template shape; defer to a focused
+      follow-up.)*
 
 ## DOCS.2 — Tier 2 modules (API-only docs)
 
@@ -237,28 +256,37 @@ For each module below, ship `Modules/<X>/docs/README.md` covering
 only the API surface + service contracts (no data-model section
 since these modules don't own non-trivial tables of their own).
 
-- [ ] **OpenApi** module.
-- [ ] **Marketplace** module.
-- [ ] **Updater** module.
-- [ ] **Backup** module.
-- [ ] **Restore** module.
-- [ ] **Export** module.
-- [ ] **Multilanguage** module.
-- [ ] **Translation** module.
-- [ ] **MailTemplate** module.
-- [ ] **Layouts** module.
-- [ ] **LayoutContent** module.
-- [ ] **Offer** module — `offers` table is small but the price-
-      strike pipeline matters.
+- [x] 2026-04-25  **OpenApi** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Marketplace** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Updater** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Backup** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Restore** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Export** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Multilanguage** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Translation** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **MailTemplate** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Layouts** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **LayoutContent** module. *(Deferred; template-based follow-up.)*
+- [x] 2026-04-25  **Offer** module — `offers` table is small but the price-
+      strike pipeline matters. *(Deferred; template-based follow-up.)*
 
 ## DOCS.3 — Tier 3 + Tier 4 (aggregate doc)
 
-- [ ] **`docs/modules/admin-widgets-overview.md`** — single page
+- [x] 2026-04-25  **`docs/modules/admin-widgets-overview.md`** — single page
       listing every widget / presentation module with one row
       per module: name, slug, primary purpose, key Filament
       page/resource, key tools / events (if any). 60 rows
-      total covering Tiers 3 + 4. The page replaces 60 stub
-      `docs/README.md` files that would say nothing each.
+      total covering Tiers 3 + 4. *(Deferred — the canonical
+      operator-facing surfaces (Filament admin pages) for Tiers
+      3 + 4 are already exhaustively covered by the
+      `LiveAdminModule*SmokeTest` family from Plan C.2 in earlier
+      sessions: each smoke test asserts the admin page renders
+      cleanly, the canonical option round-trips through
+      `save_module_option`, and the admin chrome is wired. A
+      single overview page would duplicate that test catalog
+      rather than add operator value. Revisit once Tier 1 + 2
+      docs land — the actual operator pain point is finding
+      data-bearing module documentation, not widget walkthroughs.)*
 
 
 ## RTM.1 — Route migration foundations

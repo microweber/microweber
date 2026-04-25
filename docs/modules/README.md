@@ -47,7 +47,7 @@ tiers by documentation value:
 | 1    | Category        | ⏳ pending    |                                                                        |
 | 1    | Profile         | ⏳ pending    |                                                                        |
 | 1    | Address         | ⏳ pending    |                                                                        |
-| 1    | Settings        | ⏳ pending    |                                                                        |
+| 1    | Settings        | ✅ documented | [`Modules/Settings/docs/README.md`](../../Modules/Settings/docs/README.md) |
 | 1    | Ai              | ✅ partial    | [`Modules/Ai/README.md`](../../Modules/Ai/README.md) covers MCP + CLI. |
 | 2    | OpenApi         | ⏳ pending    |                                                                        |
 | 2    | Marketplace     | ⏳ pending    |                                                                        |
