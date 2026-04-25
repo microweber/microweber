@@ -64,6 +64,13 @@ class ColorPaletteSkinMatrixFactory
      * array in sync with the Bootstrap template's
      * `modules/layouts/templates/<family>/skin-*.blade.php` files.
      *
+     * Plan B.4 first-bullet contract: this constant is the single
+     * hook point for keeping {@see \Tests\Browser\LiveEditColorPaletteSkinMatrixTest}
+     * green across new skins. Whenever a new per-skin Dusk test
+     * lands under tests/Browser/LiveEdit*Skin*Test.php, the matching
+     * `<family>/<skin>` tag MUST be added here so the cross-skin
+     * palette matrix exercises the new skin too.
+     *
      * @var list<string>
      */
     public const TARGET_SKINS = [
@@ -79,6 +86,8 @@ class ColorPaletteSkinMatrixFactory
         'blog/skin-1',
         'ecommerce/skin-1',
         'footers/skin-1',
+        'text-block/skin-1',
+        'menus/skin-1',
     ];
 
     public int $pageId;

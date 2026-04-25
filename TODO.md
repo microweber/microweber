@@ -219,7 +219,7 @@ Each test MUST assert, in order:
 
 ## B.4 Matrix-level guards (already present — keep green)
 
-- [ ] Keep `LiveEditColorPaletteSkinMatrixTest` green across new
+- [x] 2026-04-25  Keep `LiveEditColorPaletteSkinMatrixTest` green across new
       skins; updating the factory's `TARGET_SKINS` constant is the
       hook point.
 - [ ] Keep `LiveEditColorPaletteSkinMatrixNoLeakTest` green after
