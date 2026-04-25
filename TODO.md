@@ -359,14 +359,20 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
 
 ## D.2 Deliverables
 
-- [ ] `LiveEditColorPaletteLayoutMatrixTest` — parameterized over
+- [x] 2026-04-25  `LiveEditColorPaletteLayoutMatrixTest` — parameterized over
       the 17 × 13 = 221 (palette, skin) pairs. Runs headless; must
       finish in ≤20 min. Applies the pack, asserts three computed
       styles per skin (body, heading, button) match the pack's
-      declared values.
-- [ ] Split the matrix into chunks that Dusk can run in parallel
+      declared values. *(17 packs × 14 available skins = 238 pairs
+      across 4 chunks; full run 332s / 2680 assertions.)*
+- [x] 2026-04-25  Split the matrix into chunks that Dusk can run in parallel
       via `--group=palette-layout-chunk-N` so the full run stays
-      under CI time budget.
+      under CI time budget. *(Implemented as 4 #[Group(...)]-tagged
+      chunks: `color-palette-layout-chunk-1` through `…-chunk-4`,
+      plus the umbrella `color-palette-layout-matrix` group for
+      sequential runs. Each chunk processes 17 packs × 3-4 skins
+      = 51-68 pair-applies in roughly equal time, ~80-105s each
+      sequentially.)*
 - [ ] Add a matrix drift test `LiveEditColorPaletteTargetSkinDriftTest`
       that asserts `ColorPaletteSkinMatrixFactory::TARGET_SKINS`
       stays in sync with the actual blade files in
