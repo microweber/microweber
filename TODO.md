@@ -291,7 +291,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleLogoSmokeTest` — logo upload form.
 - [x] 2026-04-25  `LiveAdminModuleMarqueeSmokeTest` — marquee module insertion.
 - [x] 2026-04-25  `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.
-- [ ] `LiveAdminModuleOfferSmokeTest` — offer CRUD.
+- [x] 2026-04-25  `LiveAdminModuleOfferSmokeTest` — offer CRUD.
 - [ ] `LiveAdminModuleOpenApiSmokeTest` — OpenAPI docs route.
 - [x] 2026-04-25  `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
 - [x] 2026-04-25  `LiveAdminModulePdfSmokeTest` — PDF export smoke.
