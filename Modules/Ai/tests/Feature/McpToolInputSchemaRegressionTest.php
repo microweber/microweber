@@ -140,6 +140,62 @@ class McpToolInputSchemaRegressionTest extends TestCase
     }
 
     #[Test]
+    public function input_schema_promotes_format_pattern_minimum_maximum_default_when_declared(): void
+    {
+        // Plan C.2 follow-up: the schema builder must copy the
+        // optional JSON-Schema decorators (format, pattern,
+        // minimum, maximum, default) from the underlying property
+        // class verbatim. No catalog tool today uses these, so we
+        // exercise the branch via a synthetic tool — a regression
+        // that drops any of these from the builder would silently
+        // strip future tools' schema hints.
+        $catalog = app(McpToolCatalog::class);
+
+        $syntheticTool = new class implements \MicroweberPackages\AiTools\Contracts\ToolInterface {
+            public function __invoke(...$args): string { return ''; }
+            public function getName(): string { return 'synthetic.decorators'; }
+            public function getDescription(): string { return 'pin'; }
+            public function getDomain(): string { return 'test'; }
+            public function getRequiredPermissions(): array { return []; }
+            public function getMaxTries(): ?int { return null; }
+            public function isAuthorized(): bool { return true; }
+            public function getProperties(): array
+            {
+                return [
+                    new class {
+                        public string $name = 'callback_url';
+                        public string $type = 'string';
+                        public string $description = 'Webhook callback.';
+                        public bool $required = false;
+                        public string $format = 'uri';
+                        public string $pattern = '^https://.+';
+                    },
+                    new class {
+                        public string $name = 'page_size';
+                        public string $type = 'integer';
+                        public string $description = 'Rows per page.';
+                        public bool $required = false;
+                        public int $minimum = 1;
+                        public int $maximum = 100;
+                        public int $default = 20;
+                    },
+                ];
+            }
+        };
+
+        $method = new ReflectionMethod($catalog, 'buildInputSchema');
+        $method->setAccessible(true);
+        $schema = (array) $method->invoke($catalog, $syntheticTool);
+
+        $this->assertSame('uri', $schema['properties']['callback_url']['format']);
+        $this->assertSame('^https://.+', $schema['properties']['callback_url']['pattern']);
+
+        $this->assertSame(1, $schema['properties']['page_size']['minimum']);
+        $this->assertSame(100, $schema['properties']['page_size']['maximum']);
+        $this->assertSame(20, $schema['properties']['page_size']['default']);
+    }
+
+    #[Test]
     public function settings_read_input_schema_pins_required_option_group(): void
     {
         // settings.read requires option_group — every consumer of

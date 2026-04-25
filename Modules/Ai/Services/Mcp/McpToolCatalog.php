@@ -346,6 +346,17 @@ class McpToolCatalog
                 $schema['enum'] = $propertyData['enum'];
             }
 
+            // Promote optional JSON-Schema decorators when the
+            // underlying property class declares them. Lets a
+            // future tool emit richer schemas (URL format hints,
+            // numeric ranges, default values) without changing the
+            // catalog wire format.
+            foreach (['format', 'pattern', 'minimum', 'maximum', 'default'] as $decorator) {
+                if (array_key_exists($decorator, $propertyData) && $propertyData[$decorator] !== null) {
+                    $schema[$decorator] = $propertyData[$decorator];
+                }
+            }
+
             $properties[$propertyName] = $schema;
 
             if (($propertyData['required'] ?? false) === true) {
@@ -367,20 +378,27 @@ class McpToolCatalog
     }
 
     /**
-     * @return array{name?: string, type?: string, description?: string, required?: bool, enum?: array<int, mixed>}
+     * @return array{name?: string, type?: string, description?: string, required?: bool, enum?: array<int, mixed>, format?: string, pattern?: string, minimum?: int|float, maximum?: int|float, default?: mixed}
      */
     private function extractToolPropertyData(object $property): array
     {
         $reflection = new ReflectionClass($property);
         $data = [];
 
-        foreach (['name', 'type', 'description', 'required', 'enum'] as $field) {
+        foreach (['name', 'type', 'description', 'required', 'enum', 'format', 'pattern', 'minimum', 'maximum', 'default'] as $field) {
             if (! $reflection->hasProperty($field)) {
                 continue;
             }
 
             $reflectionProperty = $reflection->getProperty($field);
             $reflectionProperty->setAccessible(true);
+            if (! $reflectionProperty->isInitialized($property)) {
+                // Untyped properties default to null on instantiation,
+                // but a typed property without an explicit default is
+                // uninitialised — accessing it throws. Skip silently
+                // so partial declarations don't crash the catalog.
+                continue;
+            }
             $value = $reflectionProperty->getValue($property);
 
             if ($field === 'type' && $value instanceof \UnitEnum) {

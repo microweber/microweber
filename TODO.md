@@ -228,10 +228,22 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       `string`, drops a required marker, leaks
       `additionalProperties: true`, or breaks the enum branch fails
       this test loudly.)*
-- [ ] **`additionalProperties: false`** is good, but the per-property
+- [x] 2026-04-25  **`additionalProperties: false`** is good, but the per-property
       schema currently lacks `format`, `pattern`, `minimum` / `maximum`,
       `default`. Promote those from the underlying tool's `Property`
-      class so MCP clients can build richer prompts.
+      class so MCP clients can build richer prompts. *(Implemented:
+      `McpToolCatalog::buildInputSchema()` now copies any of
+      `format`, `pattern`, `minimum`, `maximum`, `default` from the
+      property class to the JSON-Schema entry whenever the
+      underlying property declares them. Reflection-based extraction
+      gracefully skips uninitialized typed properties so partial
+      declarations don't crash. No catalog tool today uses these,
+      so a synthetic tool exercises the branch in a new
+      `McpToolInputSchemaRegressionTest` test that pins all five
+      decorators on URL-style and numeric-range examples. The
+      catalog contract test (5 tests / 477 assertions) and full
+      schema regression suite (5 tests / 181 assertions) both
+      stay green.)*
 - [x] 2026-04-25  **Output schema** — MCP 2025-06-18 adds `outputSchema`. Tools today
       return free-form HTML-stripped text. Either declare the
       semi-structured shape via `outputSchema`, or commit to plain text
