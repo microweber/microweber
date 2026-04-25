@@ -287,7 +287,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
 - [x] 2026-04-25  `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
 - [x] 2026-04-25  `LiveAdminModuleLayoutContentSmokeTest` — layout-content picker.
-- [ ] `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
+- [x] 2026-04-25  `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
 - [x] 2026-04-25  `LiveAdminModuleLogoSmokeTest` — logo upload form.
 - [x] 2026-04-25  `LiveAdminModuleMarqueeSmokeTest` — marquee module insertion.
 - [x] 2026-04-25  `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.

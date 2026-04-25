@@ -48,14 +48,38 @@ window.layoutSettings = function layoutSettings(activeTab, optionGroup) {
                 this.changeBackgroundSize(size);
             });
 
+            // The downstream handler reads the live-edit handle's
+            // target node + layoutBackground helpers; when the
+            // settings page is opened standalone (no live-edit host)
+            // the target is null and these helpers would throw. The
+            // settings tab is not interactive without a live-edit
+            // host anyway — skip the binding to keep the page clean.
+            if (!targets.target) {
+                return;
+            }
             this.handleReadyLayoutSettingLoaded();
         },
         getTargets() {
 
+            // The Layouts settings page is normally opened inside the
+            // live-edit iframe, where `mw.top().app.liveEdit` is the
+            // parent live-edit instance. When the settings page is opened
+            // directly via /admin/layouts-module-settings (no live-edit
+            // host), liveEdit is undefined — bail out with an empty
+            // targets object so the page still renders without throwing.
+            const liveEdit = (window.mw && typeof window.mw.top === 'function')
+                ? window.mw.top().app?.liveEdit
+                : null;
+            if (!liveEdit) {
+                return { bg: null, bgOverlay: null, bgNode: null, target: null, modulesList: [] };
+            }
 
-            let target = window.mw.top().app.liveEdit.getSelectedLayoutNode();
-            if (!target) {
-                target = mw.top().app.liveEdit.handles.get('layout').getTarget();
+            let target = liveEdit.getSelectedLayoutNode
+                ? liveEdit.getSelectedLayoutNode()
+                : null;
+            if (!target && liveEdit.handles && typeof liveEdit.handles.get === 'function') {
+                const layoutHandle = liveEdit.handles.get('layout');
+                target = layoutHandle ? layoutHandle.getTarget() : null;
             }
 
 
