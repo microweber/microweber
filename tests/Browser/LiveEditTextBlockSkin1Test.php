@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -55,11 +56,11 @@ use Tests\DuskTestCase;
 class LiveEditTextBlockSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
     private const SKIN_TAG = 'text-block/skin-1';
-    private const SKIN_BLADE_PATH = 'Templates/Bootstrap/resources/views/modules/layouts/templates/text-block/skin-1.blade.php';
     private const FIELD_PREFIX = 'layout-text-block-skin-1-';
     private const INSERT_CATEGORY = 'Text block';
     private const ORIGINAL_HEADING = 'Pictures In The Sky';
@@ -72,12 +73,7 @@ class LiveEditTextBlockSkin1Test extends DuskTestCase
     #[Test]
     public function text_block_skin_1_inserts_edits_and_persists(): void
     {
-        // Plan B.3 first-bullet gate: skin blade must exist before
-        // any insert path makes sense.
-        $this->assertFileExists(
-            base_path(self::SKIN_BLADE_PATH),
-            'text-block/skin-1 blade file must exist on disk before this test can drive the live-edit pipeline'
-        );
+        $this->assertSkinBladeExists(self::SKIN_TAG);
 
         $landing = LandingPageFactory::make('Text-block centred copy skin 1');
         $suffix = uniqid();

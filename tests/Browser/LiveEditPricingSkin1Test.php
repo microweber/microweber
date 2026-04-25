@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -45,11 +46,11 @@ use Tests\DuskTestCase;
 class LiveEditPricingSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
     private const SKIN_TAG = 'pricing/skin-1';
-    private const SKIN_BLADE_PATH = 'Templates/Bootstrap/resources/views/modules/layouts/templates/pricing/skin-1.blade.php';
     private const FIELD_PREFIX = 'layout-pricing-skin-1-';
     private const TARGET_PLAN = 'Pro';
     private const ORIGINAL_PRO_PRICE = '$15';
@@ -63,12 +64,7 @@ class LiveEditPricingSkin1Test extends DuskTestCase
     #[Test]
     public function pricing_skin_1_pro_plan_price_edit_persists(): void
     {
-        // Plan B.3 first-bullet gate: skin blade must exist before
-        // any insert path makes sense.
-        $this->assertFileExists(
-            base_path(self::SKIN_BLADE_PATH),
-            'pricing/skin-1 blade file must exist on disk before this test can drive the live-edit pipeline'
-        );
+        $this->assertSkinBladeExists(self::SKIN_TAG);
 
         $landing = LandingPageFactory::make('Pricing plans skin 1');
 

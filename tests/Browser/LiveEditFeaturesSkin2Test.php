@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -34,6 +35,7 @@ use Tests\DuskTestCase;
 class LiveEditFeaturesSkin2Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -47,6 +49,8 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
     #[Test]
     public function features_skin_2_inserts_edits_and_persists(): void
     {
+        $this->assertSkinBladeExists('features/skin-2');
+
         $landing = LandingPageFactory::make('Features advantages grid');
         $suffix = uniqid();
         $newLabels = [

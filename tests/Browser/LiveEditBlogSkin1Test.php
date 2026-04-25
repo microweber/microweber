@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -38,6 +39,7 @@ use Tests\DuskTestCase;
 class LiveEditBlogSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -49,6 +51,8 @@ class LiveEditBlogSkin1Test extends DuskTestCase
     #[Test]
     public function blog_skin_1_lists_real_posts_from_db(): void
     {
+        $this->assertSkinBladeExists('blog/skin-1');
+
         $landing = LandingPageFactory::make('Blog latest teaser');
 
         $suffix = uniqid();

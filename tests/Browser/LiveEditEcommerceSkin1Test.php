@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -43,6 +44,7 @@ use Tests\DuskTestCase;
 class LiveEditEcommerceSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -54,6 +56,8 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
     #[Test]
     public function ecommerce_skin_1_lists_real_products_from_db(): void
     {
+        $this->assertSkinBladeExists('ecommerce/skin-1');
+
         $landing = LandingPageFactory::make('Ecommerce products grid');
 
         $suffix = uniqid();

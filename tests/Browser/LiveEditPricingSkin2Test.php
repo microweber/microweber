@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -43,6 +44,7 @@ use Tests\DuskTestCase;
 class LiveEditPricingSkin2Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -57,6 +59,8 @@ class LiveEditPricingSkin2Test extends DuskTestCase
     #[Test]
     public function pricing_skin_2_plus_plan_price_edit_persists(): void
     {
+        $this->assertSkinBladeExists('pricing/skin-2');
+
         $landing = LandingPageFactory::make('Pricing hosting grid');
 
         $this->browse(function (Browser $browser) use ($landing) {

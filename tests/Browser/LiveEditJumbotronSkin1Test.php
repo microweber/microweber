@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\Browser\Traits\AssertsSkinBladeExists;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -36,6 +37,7 @@ use Tests\DuskTestCase;
 class LiveEditJumbotronSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
+    use AssertsSkinBladeExists;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -49,6 +51,8 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
     #[Test]
     public function jumbotron_skin_1_inserts_edits_and_persists(): void
     {
+        $this->assertSkinBladeExists('jumbotron/skin-1');
+
         $landing = LandingPageFactory::make('Jumbotron hero');
         $newCta = 'Get started ' . uniqid();
 

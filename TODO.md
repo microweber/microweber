@@ -207,7 +207,7 @@
 
 Each test MUST assert, in order:
 
-- [ ] The skin blade file exists before attempting to insert (fail
+- [x] 2026-04-25  The skin blade file exists before attempting to insert (fail
       early with a useful message otherwise).
 - [ ] Inserting the skin on an empty live-edit canvas persists a
       `<module type="layouts" template="<family>/<skin>">` tag in
