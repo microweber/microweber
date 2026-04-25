@@ -123,20 +123,37 @@ class McpToolCallLoggingTest extends TestCase
     #[Test]
     public function tool_call_emits_slow_warning_when_duration_exceeds_threshold(): void
     {
-        // Threshold=1ms — every real tool call exceeds 1ms by far.
-        config(['modules.ai.mcp.slow_tool_warn_ms' => 1]);
+        // Threshold=-1 — guarantees the duration_ms (int >= 0)
+        // exceeds the threshold regardless of how fast the tool
+        // happens to run on a warm container. The implementation
+        // treats `> 0` as the enabled gate, so we use the smallest
+        // negative value that still satisfies the > 0 enabled
+        // check. Wait: the implementation gates on `> 0`, so a
+        // negative value disables the warning. Use threshold=0
+        // → the implementation explicitly disables that branch
+        // (operator opt-out). The only way to reliably exercise
+        // the warning branch in a test is to assert against the
+        // FACT of the threshold check, not against the duration.
+        //
+        // Pin via reflection on the helper instead — call
+        // logToolCall with a known startedAt that's >= 1 second
+        // in the past so duration_ms is guaranteed to be >> any
+        // threshold the test cares about.
+        config(['modules.ai.mcp.slow_tool_warn_ms' => 5]);
 
         $captured = $this->captureLogs(function () {
-            $this->withHeader('Authorization', 'Bearer ' . $this->token->plainTextToken)
-                ->postJson(route('api.ai.mcp'), [
-                    'jsonrpc' => '2.0',
-                    'id' => 'log-slow',
-                    'method' => 'tools/call',
-                    'params' => [
-                        'name' => 'settings.read',
-                        'arguments' => ['option_group' => 'website'],
-                    ],
-                ]);
+            // Synthetic context so we don't need the live HTTP
+            // pipeline (which warms caches and runs fast).
+            $context = new \Modules\Ai\Services\Mcp\McpRequestContext(
+                client: $this->client,
+                token: $this->token->token,
+            );
+            $startedAt = microtime(true) - 1.0; // 1000 ms in the past
+
+            $server = app(\Modules\Ai\Services\McpServer::class);
+            $method = new \ReflectionMethod($server, 'logToolCall');
+            $method->setAccessible(true);
+            $method->invoke($server, $context, 'settings.read', $startedAt, 'ok', null);
         });
 
         $slowEntries = array_values(array_filter(
@@ -146,14 +163,21 @@ class McpToolCallLoggingTest extends TestCase
         $this->assertCount(
             1,
             $slowEntries,
-            'slow_tool_warn_ms=1 with a real tool dispatch must emit exactly one '
-            . '`mcp.tool.slow` warning line — the operator-visible signal that a '
-            . 'tool regressed past its expected latency.'
+            'slow_tool_warn_ms=5 with a synthetic 1000 ms duration must emit '
+            . 'exactly one `mcp.tool.slow` warning line — the operator-visible '
+            . 'signal that a tool regressed past its expected latency.'
         );
 
         $entry = $slowEntries[0];
         $this->assertSame('warning', $entry['level']);
-        $this->assertSame(1, $entry['context']['slow_threshold_ms']);
+        $this->assertSame(5, $entry['context']['slow_threshold_ms']);
+        $this->assertGreaterThanOrEqual(
+            5,
+            $entry['context']['duration_ms'],
+            'Recorded duration_ms must be >= the threshold that triggered the warning '
+            . '— the math gates on > threshold, so the recorded value must respect that '
+            . 'invariant. A regression that double-rounds duration_ms could trip this.'
+        );
     }
 
     #[Test]

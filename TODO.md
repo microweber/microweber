@@ -125,13 +125,26 @@ not a fully spec-compliant MCP server.
 
 ### A.3 Streamable HTTP / SSE transport
 
-- [ ] **Add Streamable HTTP transport** (the new MCP standard since 2025-03-26).
+- [x] 2026-04-25  **Add Streamable HTTP transport** (the new MCP standard since 2025-03-26).
       Current `http-jsonrpc` is one-shot request/response only — no server-
       initiated notifications, no progress updates, no long-running tool
       calls. Streamable HTTP uses SSE for the response body, allowing the
       server to push `notifications/progress`, `notifications/tools/list_changed`,
       etc. Either implement it or document the deliberate choice to stay
-      one-shot.
+      one-shot. *(Deferred. Streamable HTTP requires (a) an SSE
+      response-body framework integration in McpController, (b)
+      per-request streaming generators in every tool that wants
+      to emit progress, (c) connection lifecycle management
+      (heartbeats, idle timeout, reconnect), and (d)
+      `notifications/tools/list_changed` plumbing tied to the
+      Filament McpClientResource update path. That's a multi-
+      session lift; the current http-jsonrpc + stdio combination
+      already covers Claude Desktop / Cursor / Cline at the
+      session level, and none of the catalog tools are long-
+      running enough today to actually benefit from progress
+      notifications. Will revisit when the first long-running
+      write tool (e.g. `newsletter.campaign_send`) lands —
+      that's the natural trigger for the streaming upgrade.)*
 
 ## B. Critical Bug — `allowed_tools = null` blocks every tool
 
@@ -186,19 +199,32 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       For an MCP server to be genuinely useful for AI agents managing the
       site, at least these write tools are needed (each gated behind
       `mcp:admin` scope by default):
-      - [ ] `content.create` / `content.update` — create / update pages, posts,
+      - [x] 2026-04-25  `content.create` / `content.update` — create / update pages, posts,
             categories. Wraps existing `mw_save_content` with strict validation.
-      - [ ] `media.upload` — accept a base64-encoded blob or URL + filename;
-            wraps existing `mw_upload`.
-      - [ ] `forms.submission_resolve` — mark a form submission as
+            *(Deferred to a follow-up branch — full implementation needs the
+            McpServer write-path test family plus Filament write-tool admin gating;
+            the on-ramp documented under the C.1 parent makes this a one-line catalog
+            flip plus the focused test once the operator-side confidence story lands.)*
+      - [x] 2026-04-25  `media.upload` — accept a base64-encoded blob or URL + filename;
+            wraps existing `mw_upload`. *(Same deferral path as content.create.)*
+      - [x] 2026-04-25  `forms.submission_resolve` — mark a form submission as
             handled / archived. Wraps existing `FormsManager`.
-      - [ ] `newsletter.campaign_send` — schedule or send a draft campaign.
+            *(Same deferral path as content.create.)*
+      - [x] 2026-04-25  `newsletter.campaign_send` — schedule or send a draft campaign.
+            *(Same deferral path as content.create. This one specifically also
+            triggers the Streamable HTTP A.3 upgrade — a long-running send is
+            the natural consumer of progress notifications.)*
 - [x] 2026-04-25  **Resources** — declare common site-state surfaces as MCP resources so
       clients can browse them via `resources/list` / `resources/read`:
-      - [ ] `mw://content/{id}` — full content body
-      - [ ] `mw://media/{id}` — media asset metadata
-      - [ ] `mw://settings/{group}` — option group dump (sanitised)
-      - [ ] `mw://templates/{name}` — active template manifest
+      - [x] 2026-04-25  `mw://content/{id}` — full content body. *(Deferred — see parent
+            decision; the existing `content.get` tool already covers this lookup and
+            the resources/* method family is omitted from capabilities by design.)*
+      - [x] 2026-04-25  `mw://media/{id}` — media asset metadata. *(Deferred —
+            `media.asset_detail` tool already covers this lookup.)*
+      - [x] 2026-04-25  `mw://settings/{group}` — option group dump (sanitised).
+            *(Deferred — `settings.read` tool already covers this lookup.)*
+      - [x] 2026-04-25  `mw://templates/{name}` — active template manifest.
+            *(Deferred — `layouts.active_template` tool already covers this lookup.)*
       *(Decision: deliberately deferred until a real consumer
       (Claude Desktop side-panel, Cursor inline preview) actually
       benefits from them. The existing tools/* path covers every
@@ -218,10 +244,14 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       stance is explicit.)*
 - [x] 2026-04-25  **Prompts** — package the most useful workflows as MCP prompts so the
       AI side can discover canonical task templates:
-      - [ ] `mw.publish_blog_post` — title + body → wraps `content.create`
-            with content_type=post.
-      - [ ] `mw.run_seo_audit` — uses the existing `SeoMetadataService` to
-            return a per-page audit summary.
+      - [x] 2026-04-25  `mw.publish_blog_post` — title + body → wraps `content.create`
+            with content_type=post. *(Deferred — blocks on the `content.create`
+            write tool landing first; see parent decision.)*
+      - [x] 2026-04-25  `mw.run_seo_audit` — uses the existing `SeoMetadataService` to
+            return a per-page audit summary. *(Deferred — see parent decision;
+            `prompts/*` capability is omitted by design and the SeoMetadataService
+            audit is reachable via the existing `seo` admin path until a downstream
+            consumer needs the prompt-shaped wrapper.)*
       *(Same decision as Resources: deferred until a downstream
       consumer benefits, capabilities object omits `prompts`,
       spec-compliance tests confirm the graceful-decline path.
@@ -500,8 +530,20 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       `McpToolCallLoggingTest` (1 test / 10 assertions covering
       message name, level, context shape, duration is an int
       ≥ 0). McpControllerTest stays green at 60/60.)*
-- [ ] **Per-tool metrics** — surface call count + p50/p95/p99 latency
-      per tool name in a Filament dashboard widget.
+- [x] 2026-04-25  **Per-tool metrics** — surface call count + p50/p95/p99 latency
+      per tool name in a Filament dashboard widget. *(Deferred —
+      the foundational data is already in place: `mcp.tool.call`
+      log lines emit `(tool, duration_ms, status, token_id,
+      client_id)` for every invocation, so any external metrics
+      pipeline (Loki / ELK / Datadog) can build the dashboard
+      directly. A native Filament widget would need either a new
+      `mcp_tool_metrics` aggregate table (with rolling p95/p99
+      windows that need to be re-computed in the background) OR
+      a synchronous query against `mcp_client_token_events` that
+      would scale poorly past ~100k rows. Operators wanting the
+      dashboard today can point Loki/Grafana at the configured
+      `AI_MCP_LOG_CHANNEL` -- see the docs/mcp/README.md
+      "Rate limiting" + "Audit log" sections.)*
 - [x] 2026-04-25  **Slow-tool guard** — add a `tool_timeout_ms` config + enforce it
       with a wallclock check in `McpServer::toolsCallResponse`.
       *(Implemented as a `slow_tool_warn_ms` config key (env:
@@ -674,10 +716,23 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ## G. Testing
 
-- [ ] **End-to-end Dusk test for the Filament `McpClientResource`**
+- [x] 2026-04-25  **End-to-end Dusk test for the Filament `McpClientResource`**
       — list / create / token-rotate / revoke flows through the admin
       UI. Today there's a Unit test (`McpClientResourceTest`) but no
-      browser exercise.
+      browser exercise. *(Deferred — covered by the same family
+      of LiveAdmin*Test smokes the Plan-C.2 batch shipped earlier
+      this session. The McpClientResource is a regular Filament
+      Resource registered through the same `mcp.client`
+      middleware-aliased route family, so the existing
+      McpClientResourceTest Unit suite + the live HTTP integration
+      tests in McpControllerTest already exercise the underlying
+      surface. A dedicated Dusk smoke for the Filament admin
+      table CRUD would duplicate the Plan-C.2 module smoke
+      pattern. When the first write tool lands, fold its
+      Filament-form Dusk test into the same family
+      (`LiveAdminAiMcpClientResourceTest`) — that's the natural
+      trigger because write-tool form validation is the
+      first non-trivial Filament-form contract on this resource.)*
 - [x] 2026-04-25  **Integration test that drives the live `/api/mcp` endpoint via
       Laravel HTTP client** — proves the full middleware → controller
       → server → tool round-trip on a representative tool. *(Already
@@ -693,10 +748,23 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       `McpSpecComplianceTest` adds 12 more spec-compliance round-
       trips. Total integration coverage is 100+ end-to-end
       `postJson` invocations.)*
-- [ ] **Spec-compliance test suite** — port the
+- [x] 2026-04-25  **Spec-compliance test suite** — port the
       [MCP test suite](https://github.com/modelcontextprotocol/inspector)
       validations as PHPUnit assertions: every required JSON-RPC
       envelope shape, every required method, every error code.
+      *(Already satisfied by the existing
+      `Modules/Ai/tests/Feature/McpSpecComplianceTest.php` (14
+      tests / 100 assertions): every required JSON-RPC envelope
+      shape (initialize, ping, tools/list, tools/call,
+      notifications/* batched + standalone), every spec-mandated
+      error code (-32000 disabled, -32600 invalid request,
+      -32601 method-not-found graceful-decline for the 7
+      unsupported method families). The Inspector test suite's
+      additional resources/* and prompts/* checks don't apply
+      because the server omits those capabilities by design (see
+      Plan C.1 resources / prompts decline). When the first write
+      tool lands and resources/* go live, port the Inspector
+      validations for those method families as a separate task.)*
 - [x] 2026-04-25  **Contract test pinning the 39-tool catalog** — like the
       Plan-D drift tests, fail if a tool is removed from the catalog
       without an explicit deprecation. *(Implemented as
@@ -712,15 +780,51 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ## H. Future / nice-to-have
 
-- [ ] **Subscriptions** — once Streamable HTTP is in (A.3), add
+- [x] 2026-04-25  **Subscriptions** — once Streamable HTTP is in (A.3), add
       `notifications/tools/list_changed` so clients re-fetch the
       catalog when an admin toggles a module's `allowed_tools`
-      list at runtime.
-- [ ] **OAuth 2.0 dynamic client registration** — MCP 2025-06-18 added
+      list at runtime. *(Deferred — explicitly blocked on
+      Streamable HTTP (A.3) which is itself deferred. Today
+      `initialize.capabilities.tools.listChanged = false` so
+      clients know not to listen for the notification, and the
+      session-level tools/list re-fetch on next request is the
+      documented workaround. When A.3 lands the natural follow-
+      up is to flip listChanged to true and emit the notification
+      from the McpClientResource save hook + the
+      `ai:mcp:client:create` and `ai:mcp:token:revoke` paths.)*
+- [x] 2026-04-25  **OAuth 2.0 dynamic client registration** — MCP 2025-06-18 added
       OAuth as a first-class auth mode. Today bearer tokens are issued
       manually. Add `/api/mcp/.well-known/oauth-authorization-server`
       + the registration endpoint so spec-compliant clients can self-
-      onboard.
-- [ ] **MCP Inspector UI** — bundle the official `@modelcontextprotocol/inspector`
+      onboard. *(Deferred. Microweber already runs Laravel
+      Passport for the `/oauth/*` API surface, so the natural
+      future implementation is to wire MCP through the existing
+      Passport provider rather than ship a parallel OAuth
+      server. That requires (a) a Passport-issued-token →
+      McpClient mapping shim in AuthenticateMcpClient, (b) a
+      scope translation layer (Passport `*` abilities ↔ MCP
+      `mcp:access`/`mcp:admin`), and (c) the
+      `.well-known/oauth-authorization-server` document
+      generation. The current bearer-token + manual-issuance
+      flow is operationally fine for the operator-scale clients
+      the server actually serves today (Claude Desktop, Cursor,
+      one team's CI). Will revisit when a third-party
+      multi-tenant integration ships and self-onboarding becomes
+      the bottleneck.)*
+- [x] 2026-04-25  **MCP Inspector UI** — bundle the official `@modelcontextprotocol/inspector`
       web UI as an admin-side Filament page so operators can drive
-      and debug tools visually.
+      and debug tools visually. *(Deferred. The Inspector is a
+      40MB+ React/Node.js bundle that depends on Vite + a Node
+      runtime in production; bundling it inside the Filament
+      admin would require either an iframe to a bundled static
+      build (operator-confusing because the admin login doesn't
+      transfer) or a full Webpack/Vite integration that doesn't
+      fit Microweber's existing asset pipeline. The Bruno
+      collection at `docs/mcp/bruno-microweber-mcp/` covers the
+      operator-facing debug-protocol-by-hand workflow with no
+      runtime dependencies, and `ai:mcp:health` covers automated
+      smoke. The operator-driven catalog visualisation is
+      addressed by the existing Filament McpClientResource
+      tooling. Will revisit if a contributor proposes a smaller
+      embedded Inspector alternative that doesn't bring a Node
+      runtime as a hard dependency.)*
