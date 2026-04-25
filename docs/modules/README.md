@@ -3,81 +3,129 @@
 Each `Modules/<X>/docs/README.md` documents a single module's
 data model, public API, service classes, events, and tests
 according to the canonical
-[`MODULE_DOCS_TEMPLATE.md`](./MODULE_DOCS_TEMPLATE.md).
+[`MODULE_DOCS_TEMPLATE.md`](./MODULE_DOCS_TEMPLATE.md). The
+[`Modules/Settings/docs/README.md`](../../Modules/Settings/docs/README.md)
+page is the hand-curated example; the rest were
+auto-generated from a filesystem survey on 2026-04-25 and
+marked **🤖 generated** in the index below — those need a
+hand-edit pass to populate the operator-side Domain section
+and inline the column lists / route tables.
 
-The work of populating those per-module pages is tracked in
-[`TODO.md`](../../TODO.md) under the "Per-module `docs/` folder"
-section. The 95 modules under `Modules/` are banded into four
-tiers by documentation value:
+## Tiers
 
-  - **Tier 1** (~25 modules): full data + API docs.
-  - **Tier 2** (~10 modules): API-only docs (no rich data model).
-  - **Tier 3** (~10 modules): admin tools / widgets — covered in
-    aggregate at [`admin-widgets-overview.md`](./admin-widgets-overview.md)
-    once shipped.
-  - **Tier 4** (~50 modules): pure presentation — covered in
-    aggregate alongside Tier 3.
+  - **Tier 1** — owns its own data **and** exposes a public API.
+  - **Tier 2** — service / API surface on top of shared infrastructure.
+  - **Tier 3** — admin tool / widget driven by a Filament page or resource.
+  - **Tier 4** — pure presentation / template-side widget.
 
 ## Index
 
-| Tier | Module          | Status        | Docs                                                                   |
-|------|-----------------|---------------|------------------------------------------------------------------------|
-| 1    | Content         | ⏳ pending    |                                                                        |
-| 1    | Page            | ⏳ pending    |                                                                        |
-| 1    | Post            | ⏳ pending    |                                                                        |
-| 1    | Product         | ⏳ pending    |                                                                        |
-| 1    | Order           | ⏳ pending    |                                                                        |
-| 1    | Customer        | ⏳ pending    |                                                                        |
-| 1    | Invoice         | ⏳ pending    |                                                                        |
-| 1    | Cart            | ⏳ pending    |                                                                        |
-| 1    | Checkout        | ⏳ pending    |                                                                        |
-| 1    | Coupons         | ⏳ pending    |                                                                        |
-| 1    | Shipping        | ⏳ pending    |                                                                        |
-| 1    | Tax             | ⏳ pending    |                                                                        |
-| 1    | Payment         | ⏳ pending    |                                                                        |
-| 1    | Newsletter      | ⏳ pending    |                                                                        |
-| 1    | Billing         | ⏳ pending    |                                                                        |
-| 1    | ContactForm     | ⏳ pending    |                                                                        |
-| 1    | Form            | ⏳ pending    |                                                                        |
-| 1    | Comments        | ⏳ pending    |                                                                        |
-| 1    | Menu            | ⏳ pending    |                                                                        |
-| 1    | Media           | ⏳ pending    |                                                                        |
-| 1    | MediaLibrary    | ⏳ pending    |                                                                        |
-| 1    | Tag             | ⏳ pending    |                                                                        |
-| 1    | Category        | ⏳ pending    |                                                                        |
-| 1    | Profile         | ⏳ pending    |                                                                        |
-| 1    | Address         | ⏳ pending    |                                                                        |
-| 1    | Settings        | ✅ documented | [`Modules/Settings/docs/README.md`](../../Modules/Settings/docs/README.md) |
-| 1    | Ai              | ✅ partial    | [`Modules/Ai/README.md`](../../Modules/Ai/README.md) covers MCP + CLI. |
-| 2    | OpenApi         | ⏳ pending    |                                                                        |
-| 2    | Marketplace     | ⏳ pending    |                                                                        |
-| 2    | Updater         | ⏳ pending    |                                                                        |
-| 2    | Backup          | ⏳ pending    |                                                                        |
-| 2    | Restore         | ⏳ pending    |                                                                        |
-| 2    | Export          | ⏳ pending    |                                                                        |
-| 2    | Multilanguage   | ⏳ pending    |                                                                        |
-| 2    | Translation     | ⏳ pending    |                                                                        |
-| 2    | MailTemplate    | ⏳ pending    |                                                                        |
-| 2    | Layouts         | ⏳ pending    |                                                                        |
-| 2    | LayoutContent   | ⏳ pending    |                                                                        |
-| 2    | Offer           | ⏳ pending    |                                                                        |
-| 3+4  | (60 modules)    | ⏳ pending    | Will land at [`admin-widgets-overview.md`](./admin-widgets-overview.md). |
-
-Update the **Status** column when shipping each module's docs:
-
-  - `✅ documented` once `Modules/<X>/docs/README.md` covers every
-    template section that applies.
-  - `🚧 in-progress` if the file exists but is incomplete.
-  - `⏳ pending` if the file doesn't exist yet.
+| Tier | Module | Status | Docs |
+|------|--------|--------|------|
+| 1 | Ai | 🤖 generated | [`Modules/Ai/docs/README.md`](../../Modules/Ai/docs/README.md) |
+| 1 | Backup | 🤖 generated | [`Modules/Backup/docs/README.md`](../../Modules/Backup/docs/README.md) |
+| 1 | Billing | 🤖 generated | [`Modules/Billing/docs/README.md`](../../Modules/Billing/docs/README.md) |
+| 1 | Cart | 🤖 generated | [`Modules/Cart/docs/README.md`](../../Modules/Cart/docs/README.md) |
+| 1 | Category | 🤖 generated | [`Modules/Category/docs/README.md`](../../Modules/Category/docs/README.md) |
+| 1 | Comments | 🤖 generated | [`Modules/Comments/docs/README.md`](../../Modules/Comments/docs/README.md) |
+| 1 | ContactForm | 🤖 generated | [`Modules/ContactForm/docs/README.md`](../../Modules/ContactForm/docs/README.md) |
+| 1 | Content | 🤖 generated | [`Modules/Content/docs/README.md`](../../Modules/Content/docs/README.md) |
+| 1 | Coupons | 🤖 generated | [`Modules/Coupons/docs/README.md`](../../Modules/Coupons/docs/README.md) |
+| 1 | Customer | 🤖 generated | [`Modules/Customer/docs/README.md`](../../Modules/Customer/docs/README.md) |
+| 1 | Form | 🤖 generated | [`Modules/Form/docs/README.md`](../../Modules/Form/docs/README.md) |
+| 1 | Invoice | 🤖 generated | [`Modules/Invoice/docs/README.md`](../../Modules/Invoice/docs/README.md) |
+| 1 | Media | 🤖 generated | [`Modules/Media/docs/README.md`](../../Modules/Media/docs/README.md) |
+| 1 | Menu | 🤖 generated | [`Modules/Menu/docs/README.md`](../../Modules/Menu/docs/README.md) |
+| 1 | Newsletter | 🤖 generated | [`Modules/Newsletter/docs/README.md`](../../Modules/Newsletter/docs/README.md) |
+| 1 | Offer | 🤖 generated | [`Modules/Offer/docs/README.md`](../../Modules/Offer/docs/README.md) |
+| 1 | Order | 🤖 generated | [`Modules/Order/docs/README.md`](../../Modules/Order/docs/README.md) |
+| 1 | Payment | 🤖 generated | [`Modules/Payment/docs/README.md`](../../Modules/Payment/docs/README.md) |
+| 1 | Product | 🤖 generated | [`Modules/Product/docs/README.md`](../../Modules/Product/docs/README.md) |
+| 1 | Profile | 🤖 generated | [`Modules/Profile/docs/README.md`](../../Modules/Profile/docs/README.md) |
+| 1 | Rating | 🤖 generated | [`Modules/Rating/docs/README.md`](../../Modules/Rating/docs/README.md) |
+| 1 | Shipping | 🤖 generated | [`Modules/Shipping/docs/README.md`](../../Modules/Shipping/docs/README.md) |
+| 1 | SiteStats | 🤖 generated | [`Modules/SiteStats/docs/README.md`](../../Modules/SiteStats/docs/README.md) |
+| 1 | Tag | 🤖 generated | [`Modules/Tag/docs/README.md`](../../Modules/Tag/docs/README.md) |
+| 1 | Tax | 🤖 generated | [`Modules/Tax/docs/README.md`](../../Modules/Tax/docs/README.md) |
+| 2 | Captcha | 🤖 generated | [`Modules/Captcha/docs/README.md`](../../Modules/Captcha/docs/README.md) |
+| 2 | Checkout | 🤖 generated | [`Modules/Checkout/docs/README.md`](../../Modules/Checkout/docs/README.md) |
+| 2 | CookieNotice | 🤖 generated | [`Modules/CookieNotice/docs/README.md`](../../Modules/CookieNotice/docs/README.md) |
+| 2 | Currency | 🤖 generated | [`Modules/Currency/docs/README.md`](../../Modules/Currency/docs/README.md) |
+| 2 | CustomFields | 🤖 generated | [`Modules/CustomFields/docs/README.md`](../../Modules/CustomFields/docs/README.md) |
+| 2 | Export | 🤖 generated | [`Modules/Export/docs/README.md`](../../Modules/Export/docs/README.md) |
+| 2 | FileManager | 🤖 generated | [`Modules/FileManager/docs/README.md`](../../Modules/FileManager/docs/README.md) |
+| 2 | Log | 🤖 generated | [`Modules/Log/docs/README.md`](../../Modules/Log/docs/README.md) |
+| 2 | MailTemplate | 🤖 generated | [`Modules/MailTemplate/docs/README.md`](../../Modules/MailTemplate/docs/README.md) |
+| 2 | Multilanguage | 🤖 generated | [`Modules/Multilanguage/docs/README.md`](../../Modules/Multilanguage/docs/README.md) |
+| 2 | Page | 🤖 generated | [`Modules/Page/docs/README.md`](../../Modules/Page/docs/README.md) |
+| 2 | Post | 🤖 generated | [`Modules/Post/docs/README.md`](../../Modules/Post/docs/README.md) |
+| 2 | RssFeed | 🤖 generated | [`Modules/RssFeed/docs/README.md`](../../Modules/RssFeed/docs/README.md) |
+| 2 | Seo | 🤖 generated | [`Modules/Seo/docs/README.md`](../../Modules/Seo/docs/README.md) |
+| 2 | Settings | ✅ documented | [`Modules/Settings/docs/README.md`](../../Modules/Settings/docs/README.md) |
+| 2 | Shop | 🤖 generated | [`Modules/Shop/docs/README.md`](../../Modules/Shop/docs/README.md) |
+| 2 | Sitemap | 🤖 generated | [`Modules/Sitemap/docs/README.md`](../../Modules/Sitemap/docs/README.md) |
+| 2 | Updater | 🤖 generated | [`Modules/Updater/docs/README.md`](../../Modules/Updater/docs/README.md) |
+| 2 | WhiteLabel | 🤖 generated | [`Modules/WhiteLabel/docs/README.md`](../../Modules/WhiteLabel/docs/README.md) |
+| 2 | WordPressMigration | 🤖 generated | [`Modules/WordPressMigration/docs/README.md`](../../Modules/WordPressMigration/docs/README.md) |
+| 3 | Accordion | 🤖 generated | [`Modules/Accordion/docs/README.md`](../../Modules/Accordion/docs/README.md) |
+| 3 | AiWizard | 🤖 generated | [`Modules/AiWizard/docs/README.md`](../../Modules/AiWizard/docs/README.md) |
+| 3 | Audio | 🤖 generated | [`Modules/Audio/docs/README.md`](../../Modules/Audio/docs/README.md) |
+| 3 | Background | 🤖 generated | [`Modules/Background/docs/README.md`](../../Modules/Background/docs/README.md) |
+| 3 | BeforeAfter | 🤖 generated | [`Modules/BeforeAfter/docs/README.md`](../../Modules/BeforeAfter/docs/README.md) |
+| 3 | Blog | 🤖 generated | [`Modules/Blog/docs/README.md`](../../Modules/Blog/docs/README.md) |
+| 3 | Breadcrumb | 🤖 generated | [`Modules/Breadcrumb/docs/README.md`](../../Modules/Breadcrumb/docs/README.md) |
+| 3 | Btn | 🤖 generated | [`Modules/Btn/docs/README.md`](../../Modules/Btn/docs/README.md) |
+| 3 | Embed | 🤖 generated | [`Modules/Embed/docs/README.md`](../../Modules/Embed/docs/README.md) |
+| 3 | FacebookLike | 🤖 generated | [`Modules/FacebookLike/docs/README.md`](../../Modules/FacebookLike/docs/README.md) |
+| 3 | FacebookPage | 🤖 generated | [`Modules/FacebookPage/docs/README.md`](../../Modules/FacebookPage/docs/README.md) |
+| 3 | Faq | 🤖 generated | [`Modules/Faq/docs/README.md`](../../Modules/Faq/docs/README.md) |
+| 3 | GoogleAnalytics | 🤖 generated | [`Modules/GoogleAnalytics/docs/README.md`](../../Modules/GoogleAnalytics/docs/README.md) |
+| 3 | GoogleMaps | 🤖 generated | [`Modules/GoogleMaps/docs/README.md`](../../Modules/GoogleMaps/docs/README.md) |
+| 3 | HighlightCode | 🤖 generated | [`Modules/HighlightCode/docs/README.md`](../../Modules/HighlightCode/docs/README.md) |
+| 3 | ImageRollover | 🤖 generated | [`Modules/ImageRollover/docs/README.md`](../../Modules/ImageRollover/docs/README.md) |
+| 3 | LayoutContent | 🤖 generated | [`Modules/LayoutContent/docs/README.md`](../../Modules/LayoutContent/docs/README.md) |
+| 3 | Layouts | 🤖 generated | [`Modules/Layouts/docs/README.md`](../../Modules/Layouts/docs/README.md) |
+| 3 | Logo | 🤖 generated | [`Modules/Logo/docs/README.md`](../../Modules/Logo/docs/README.md) |
+| 3 | Marketplace | 🤖 generated | [`Modules/Marketplace/docs/README.md`](../../Modules/Marketplace/docs/README.md) |
+| 3 | Marquee | 🤖 generated | [`Modules/Marquee/docs/README.md`](../../Modules/Marquee/docs/README.md) |
+| 3 | MediaLibrary | 🤖 generated | [`Modules/MediaLibrary/docs/README.md`](../../Modules/MediaLibrary/docs/README.md) |
+| 3 | Pagination | 🤖 generated | [`Modules/Pagination/docs/README.md`](../../Modules/Pagination/docs/README.md) |
+| 3 | Pdf | 🤖 generated | [`Modules/Pdf/docs/README.md`](../../Modules/Pdf/docs/README.md) |
+| 3 | Pictures | 🤖 generated | [`Modules/Pictures/docs/README.md`](../../Modules/Pictures/docs/README.md) |
+| 3 | Search | 🤖 generated | [`Modules/Search/docs/README.md`](../../Modules/Search/docs/README.md) |
+| 3 | Sharer | 🤖 generated | [`Modules/Sharer/docs/README.md`](../../Modules/Sharer/docs/README.md) |
+| 3 | Skills | 🤖 generated | [`Modules/Skills/docs/README.md`](../../Modules/Skills/docs/README.md) |
+| 3 | Slider | 🤖 generated | [`Modules/Slider/docs/README.md`](../../Modules/Slider/docs/README.md) |
+| 3 | SocialLinks | 🤖 generated | [`Modules/SocialLinks/docs/README.md`](../../Modules/SocialLinks/docs/README.md) |
+| 3 | Spacer | 🤖 generated | [`Modules/Spacer/docs/README.md`](../../Modules/Spacer/docs/README.md) |
+| 3 | Tabs | 🤖 generated | [`Modules/Tabs/docs/README.md`](../../Modules/Tabs/docs/README.md) |
+| 3 | Teamcard | 🤖 generated | [`Modules/Teamcard/docs/README.md`](../../Modules/Teamcard/docs/README.md) |
+| 3 | Testimonials | 🤖 generated | [`Modules/Testimonials/docs/README.md`](../../Modules/Testimonials/docs/README.md) |
+| 3 | TextType | 🤖 generated | [`Modules/TextType/docs/README.md`](../../Modules/TextType/docs/README.md) |
+| 3 | TweetEmbed | 🤖 generated | [`Modules/TweetEmbed/docs/README.md`](../../Modules/TweetEmbed/docs/README.md) |
+| 3 | Video | 🤖 generated | [`Modules/Video/docs/README.md`](../../Modules/Video/docs/README.md) |
+| 4 | Address | 🤖 generated | [`Modules/Address/docs/README.md`](../../Modules/Address/docs/README.md) |
+| 4 | Attributes | 🤖 generated | [`Modules/Attributes/docs/README.md`](../../Modules/Attributes/docs/README.md) |
+| 4 | Cloudflare | 🤖 generated | [`Modules/Cloudflare/docs/README.md`](../../Modules/Cloudflare/docs/README.md) |
+| 4 | Company | 🤖 generated | [`Modules/Company/docs/README.md`](../../Modules/Company/docs/README.md) |
+| 4 | Components | 🤖 generated | [`Modules/Components/docs/README.md`](../../Modules/Components/docs/README.md) |
+| 4 | ContentData | 🤖 generated | [`Modules/ContentData/docs/README.md`](../../Modules/ContentData/docs/README.md) |
+| 4 | ContentDataVariant | 🤖 generated | [`Modules/ContentDataVariant/docs/README.md`](../../Modules/ContentDataVariant/docs/README.md) |
+| 4 | ContentField | 🤖 generated | [`Modules/ContentField/docs/README.md`](../../Modules/ContentField/docs/README.md) |
+| 4 | Country | 🤖 generated | [`Modules/Country/docs/README.md`](../../Modules/Country/docs/README.md) |
+| 4 | Elements | 🤖 generated | [`Modules/Elements/docs/README.md`](../../Modules/Elements/docs/README.md) |
+| 4 | HostingApi | 🤖 generated | [`Modules/HostingApi/docs/README.md`](../../Modules/HostingApi/docs/README.md) |
+| 4 | OpenApi | 🤖 generated | [`Modules/OpenApi/docs/README.md`](../../Modules/OpenApi/docs/README.md) |
+| 4 | Restore | 🤖 generated | [`Modules/Restore/docs/README.md`](../../Modules/Restore/docs/README.md) |
 
 ## Authoring
 
-  1. Copy [`MODULE_DOCS_TEMPLATE.md`](./MODULE_DOCS_TEMPLATE.md) to
-     `Modules/<X>/docs/README.md`.
-  2. Walk the module's source — `Models/`, `Http/Controllers/Api/`,
-     `Services/`, `routes/api.php`, `database/migrations/`,
-     `Tests/`, `config/config.php` — and fill each section.
-  3. Cross-link sibling modules and the relevant repo-level pages
-     (e.g. `docs/mcp/README.md` for any module with MCP catalog
-     entries).
-  4. Update the **Status** column above to `✅ documented`.
+  1. Open the module's auto-generated `docs/README.md`.
+  2. Replace the *Hand-edit this section* placeholders with
+     real operator-side context (Domain, Data-model column
+     lists, API endpoint tables, service-class contracts).
+  3. Cross-link sibling modules and the relevant repo-level
+     pages (e.g. `docs/mcp/README.md` for any module with
+     MCP catalog entries).
+  4. Update the **Status** column above from `🤖 generated`
+     to `✅ documented`.

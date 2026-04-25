@@ -151,6 +151,8 @@
 > Cargo-culting per-module docs onto Tier 4 widgets would
 > produce stub files that say nothing and rot fast.
 
+- [x] 2026-04-25  [task-2026-04-25-a3d070] docuemnt all modules *(Done: shipped 94 auto-generated `Modules/<X>/docs/README.md` pages from a filesystem survey covering migrations, models, controllers, services, events, Filament resources, tests, providers, and routes per module. Tier classification computed automatically (T1=25 with data + API, T2=19 service/API, T3=37 admin widgets, T4=13 pure presentation). The hand-curated `Modules/Settings/docs/README.md` is preserved as the canonical example. The `docs/modules/README.md` index lists every module with its tier + status (✅ documented for Settings, 🤖 generated for the 94 auto-generated pages) so future hand-edit passes can flip rows from generated to documented as they get cleaned up.)*
+- [ ] [task-2026-04-25-f721d4] remove wospressi port from sidbar movei t in the seggins page also group with the backup modules and otheri mports if w e hvae
 ## DOCS.0 — Foundations
 
 - [x] 2026-04-25  **`docs/modules/MODULE_DOCS_TEMPLATE.md`** — one canonical
