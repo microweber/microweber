@@ -278,8 +278,8 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleEmbedSmokeTest` — embed module accepts common providers.
 - [x] 2026-04-25  `LiveAdminModuleExportSmokeTest` — content export page.
 - [x] 2026-04-25  `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
-- [ ] `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
-- [ ] `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
+- [~] `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
+- [x] 2026-04-25  `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
 - [ ] `LiveAdminModuleFileManagerSmokeTest` — file manager view + upload.
 - [ ] `LiveAdminModuleGoogleAnalyticsSmokeTest` — GA property field.
 - [ ] `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
