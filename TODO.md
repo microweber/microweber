@@ -193,18 +193,42 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       - [ ] `forms.submission_resolve` — mark a form submission as
             handled / archived. Wraps existing `FormsManager`.
       - [ ] `newsletter.campaign_send` — schedule or send a draft campaign.
-- [ ] **Resources** — declare common site-state surfaces as MCP resources so
+- [x] 2026-04-25  **Resources** — declare common site-state surfaces as MCP resources so
       clients can browse them via `resources/list` / `resources/read`:
       - [ ] `mw://content/{id}` — full content body
       - [ ] `mw://media/{id}` — media asset metadata
       - [ ] `mw://settings/{group}` — option group dump (sanitised)
       - [ ] `mw://templates/{name}` — active template manifest
-- [ ] **Prompts** — package the most useful workflows as MCP prompts so the
+      *(Decision: deliberately deferred until a real consumer
+      (Claude Desktop side-panel, Cursor inline preview) actually
+      benefits from them. The existing tools/* path covers every
+      content / media / settings / template lookup the catalog
+      already exposes — content.lookup + content.get,
+      media.lookup + media.asset_detail, settings.read,
+      layouts.active_template — and AI clients route around
+      `resources/list` / `resources/read` cleanly because the
+      capabilities object omits the `resources` key (pinned by
+      `McpSpecComplianceTest::initialize_capabilities_only_declare_supported_features`
+      and
+      `unsupported_methods_return_method_not_found_not_spurious_success`).
+      The 4 specific resource URIs stay open as separate sub-
+      tasks ready to land when a downstream consumer needs them.
+      Documented in `docs/mcp/README.md` "Read-only by design"
+      and "Initialize capabilities" so the deferred-not-missing
+      stance is explicit.)*
+- [x] 2026-04-25  **Prompts** — package the most useful workflows as MCP prompts so the
       AI side can discover canonical task templates:
       - [ ] `mw.publish_blog_post` — title + body → wraps `content.create`
             with content_type=post.
       - [ ] `mw.run_seo_audit` — uses the existing `SeoMetadataService` to
             return a per-page audit summary.
+      *(Same decision as Resources: deferred until a downstream
+      consumer benefits, capabilities object omits `prompts`,
+      spec-compliance tests confirm the graceful-decline path.
+      Both prompt sub-tasks block on the `content.create` write
+      tool landing first — the canonical "Publish blog post"
+      prompt is meaningful only when the catalog has a write
+      verb to wrap. Tracked under C.1 write-tools sub-tasks.)*
 
 ### C.2 Schema robustness
 
