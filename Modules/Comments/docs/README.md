@@ -3,78 +3,148 @@
 > **Slug:** `comments`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Comments/database/migrations/`:
+### `comments` table
 
-  - `database/migrations/2024_01_02_000000_create_comments_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `comment_subject` | `string` | nullable |
+  | `comment_body` | `longText` | nullable |
+  | `comment_name` | `string` | nullable |
+  | `comment_email` | `string` | nullable |
+  | `comment_website` | `string` | nullable |
+  | `user_agent` | `string` | nullable |
+  | `reply_to_comment_id` | `integer` | nullable |
+  | `created_by` | `integer` | nullable |
+  | `session_id` | `string` | nullable |
+  | `user_ip` | `string` | nullable |
+  | `is_new` | `integer` | nullable, has-default |
+  | `is_moderated` | `integer` | nullable, has-default |
+  | `is_spam` | `integer` | nullable |
+  | `is_reported` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Comments\Models\Comment` | `Models/Comment.php` |
-| `Modules\Comments\Models\GatedComment` | `Models/GatedComment.php` |
+### `Modules\Comments\Models\Comment`
+
+Source: `Models/Comment.php`. Table: `comments`. 
+
+**Fillable:** `comment_subject`, `comment_name`, `comment_email`, `comment_website`, `comment_body`, `rel_type`, `rel_id`, `reply_to_comment_id`, `is_moderated`, `is_new`, `is_spam`, `user_ip`, `session_id`, `created_by`
+
+**Casts:**
+
+  - `rel_type` → `string`
+  - `rel_id` → `string`
+  - `reply_to_comment_id` → `integer`
+  - `is_moderated` → `boolean`
+  - `is_new` → `boolean`
+  - `is_spam` → `boolean`
+  - `is_reported` → `boolean`
+  - `created_by` → `integer`
+  - `user_ip` → `string`
+  - `session_id` → `string`
+  - `user_agent` → `string`
+  - `comment_body` → `string`
+  - `comment_name` → `string`
+  - `comment_email` → `string`
+  - `comment_website` → `string`
+  - `comment_subject` → `string`
+  - `created_at` → `datetime`
+  - `updated_at` → `datetime`
+
+### `Modules\Comments\Models\GatedComment`
+
+Source: `Models/GatedComment.php`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-  - `routes/web.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `CommentsApiController::index` |
+  | `GET` | `/{comment}` | `CommentsApiController::show` |
+  | `POST` | `/` | `CommentsApiController::store` |
+  | `PUT` | `/{comment}` | `CommentsApiController::update` |
+  | `PATCH` | `/{comment}` | `CommentsApiController::update` |
+  | `DELETE` | `/{comment}` | `CommentsApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Comments\Http\Controllers\Api\CommentsApiController`
+### `Modules\Comments\Http\Controllers\Api\CommentsApiController`
+
+Source: `Http/Controllers/Api/CommentsApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(Request $request, int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
 
 ## Service classes
 
-  - `Modules\Comments\Services\AvatarProvider`
-  - `Modules\Comments\Services\CommentsManager`
+### `Modules\Comments\Services\AvatarProvider`
+
+Source: `Services/AvatarProvider.php`.
+
+  - `getAvatarUrl($comment)`
+
+### `Modules\Comments\Services\CommentsManager`
+
+Source: `Services/CommentsManager.php`.
+
+  - `getConfig($key = null)`
+  - `get($params = [])`
+  - `create($data)`
+  - `update($id, $data)`
+  - `delete($id)`
+  - `markAsSpam($id)`
+  - `approve($id)`
 
 ## Filament admin
 
-  - `Modules\Comments\Filament\CommentsModuleSettings`
-  - `Modules\Comments\Filament\Pages\CommentsModuleSettingsAdmin`
-  - `Modules\Comments\Filament\Resources\CommentResource`
-  - `Modules\Comments\Filament\Resources\CommentResource\Pages\CreateComment`
-  - `Modules\Comments\Filament\Resources\CommentResource\Pages\EditComment`
-  - `Modules\Comments\Filament\Resources\CommentResource\Pages\ListComments`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Comments\Filament\CommentsModuleSettings` | — | — |
+  | `Modules\Comments\Filament\Pages\CommentsModuleSettingsAdmin` | Settings | Comments |
+  | `Modules\Comments\Filament\Resources\CommentResource` | Website Settings | — |
+  | `Modules\Comments\Filament\Resources\CommentResource\Pages\CreateComment` | — | — |
+  | `Modules\Comments\Filament\Resources\CommentResource\Pages\EditComment` | — | — |
+  | `Modules\Comments\Filament\Resources\CommentResource\Pages\ListComments` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Comments/Tests`
 
-Test files:
+### `Tests/Filament/CommentResourceTest.php`
 
-  - `Tests/Filament/CommentResourceTest.php`
-  - `Tests/Unit/CommentModelTest.php`
-  - `Tests/Unit/CommentPolicyTest.php`
-  - `Tests/Unit/CommentsManagerTest.php`
-  - `Tests/Unit/CommentsModuleSettingsTest.php`
-  - `Tests/Unit/Filament/CommentResourceTest.php`
-  - `Tests/Unit/UserCommentListComponentTest.php`
-  - `Tests/Unit/UserCommentReplyComponentTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/CommentsModuleSettingsTest.php`
+
+  - `it_settingssaving`
+
+### `Tests/Unit/Filament/CommentResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_table_has_required_columns`
+  - `it_bulk_mark_as_spam_action_exists`
 
 ## Service providers
 

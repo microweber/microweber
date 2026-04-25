@@ -3,64 +3,98 @@
 > **Slug:** `menu`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Menu/database/migrations/`:
+### `menus` table
 
-  - `database/migrations/2022_07_04_130209_create_menus_table.php`
-  - `database/migrations/2024_07_04_130209_add_mega_menu_column_to_menus_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `title` | `text` | nullable |
+  | `item_type` | `text` | nullable |
+  | `description` | `text` | nullable |
+  | `url` | `longText` | nullable |
+  | `url_target` | `text` | nullable |
+  | `parent_id` | `integer` | nullable |
+  | `content_id` | `integer` | nullable |
+  | `categories_id` | `integer` | nullable |
+  | `position` | `integer` | nullable |
+  | `is_active` | `integer` | nullable |
+  | `auto_populate` | `integer` | nullable |
+  | `size` | `text` | nullable |
+  | `default_image` | `text` | nullable |
+  | `rollover_image` | `text` | nullable |
+  | `timestamps` | `timestamps` | — |
+  | `(unnamed)` | `dropColumn` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Menu\Models\Menu` | `Models/Menu.php` |
-| `Modules\Menu\Models\MenuItem` | `Models/MenuItem.php` |
+### `Modules\Menu\Models\Menu`
+
+Source: `Models/Menu.php`. 
+
+**Casts:**
+
+  - `mega_menu_settings` → `array`
+
+### `Modules\Menu\Models\MenuItem`
+
+Source: `Models/MenuItem.php`. Table: `menus`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `MenusApiController::index` |
+  | `GET` | `/{menu}` | `MenusApiController::show` |
+  | `POST` | `/` | `MenusApiController::store` |
+  | `PUT` | `/{menu}` | `MenusApiController::update` |
+  | `PATCH` | `/{menu}` | `MenusApiController::update` |
+  | `DELETE` | `/{menu}` | `MenusApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Menu\Http\Controllers\Api\MenusApiController`
+### `Modules\Menu\Http\Controllers\Api\MenusApiController`
+
+Source: `Http/Controllers/Api/MenusApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(Request $request, int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
 
 ## Filament admin
 
-  - `Modules\Menu\Filament\Admin\Pages\AdminMenusPage`
-  - `Modules\Menu\Filament\MenuModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Menu\Filament\Admin\Pages\AdminMenusPage` | Website Settings | — |
+  | `Modules\Menu\Filament\MenuModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Menu/Tests`
 
-Test files:
+### `Tests/Filament/MenuPageTest.php`
 
-  - `Tests/Filament/MenuPageTest.php`
-  - `Tests/Unit/MenuContentModelTest.php`
-  - `Tests/Unit/MenuManagerTest.php`
+  - `it_menus_page_class_exists`
+
+### `Tests/Unit/MenuContentModelTest.php`
+
+  - `it_if_menu_ids_attrbute_is_saved_from_set_menu_ids_method`
 
 ## Service providers
 

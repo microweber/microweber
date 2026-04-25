@@ -3,79 +3,154 @@
 > **Slug:** `category`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Category/database/migrations/`:
+### `categories` table
 
-  - `database/migrations/2024_11_20_000001_create_categories_table.php`
-  - `database/migrations/2024_11_20_000002_create_categories_items_table.php`
-  - `database/migrations/2026_03_23_000001_add_indexes_to_categories.php`
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `updated_at` | `dateTime` | nullable |
+  | `created_at` | `dateTime` | nullable |
+  | `created_by` | `integer` | nullable |
+  | `edited_by` | `integer` | nullable |
+  | `data_type` | `string` | nullable |
+  | `title` | `text` | nullable |
+  | `url` | `longText` | nullable |
+  | `parent_id` | `integer` | nullable |
+  | `description` | `text` | nullable |
+  | `content` | `longText` | nullable |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `integer` | nullable |
+  | `position` | `integer` | nullable |
+  | `is_deleted` | `integer` | nullable, has-default |
+  | `is_hidden` | `integer` | nullable, has-default |
+  | `is_active` | `integer` | nullable, has-default |
+  | `users_can_create_subcategories` | `integer` | nullable |
+  | `users_can_create_content` | `integer` | nullable |
+  | `users_can_create_content_allowed_usergroups` | `string` | nullable |
+  | `category_meta_title` | `text` | nullable |
+  | `category_meta_keywords` | `text` | nullable |
+  | `category_meta_description` | `text` | nullable |
+  | `category_subtype` | `string` | nullable |
+  | `category_subtype_settings` | `longText` | nullable |
+  | `parent_id` | `index` | — |
+  | `is_active` | `index` | — |
+  | `(unnamed)` | `dropIndex` | — |
 
-*Hand-edit to inline the column lists + relationships per
-table.*
+### `categories_items` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `parent_id` | `integer` | nullable |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Category\Models\Category` | `Models/Category.php` |
-| `Modules\Category\Models\CategoryItem` | `Models/CategoryItem.php` |
-| `Modules\Category\Models\ModelFilters\CategoryFilter` | `Models/ModelFilters/CategoryFilter.php` |
-| `Modules\Category\Models\ModelFilters\Traits\FilterByAvailableProductsByCategoryTrait` | `Models/ModelFilters/Traits/FilterByAvailableProductsByCategoryTrait.php` |
+### `Modules\Category\Models\Category`
+
+Source: `Models/Category.php`. Table: `categories`. 
+
+### `Modules\Category\Models\CategoryItem`
+
+Source: `Models/CategoryItem.php`. 
+
+### `Modules\Category\Models\ModelFilters\CategoryFilter`
+
+Source: `Models/ModelFilters/CategoryFilter.php`. 
+
+### `Modules\Category\Models\ModelFilters\Traits\FilterByAvailableProductsByCategoryTrait`
+
+Source: `Models/ModelFilters/Traits/FilterByAvailableProductsByCategoryTrait.php`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `CategoriesApiController::index` |
+  | `GET` | `/{category}` | `CategoriesApiController::show` |
+  | `POST` | `/` | `CategoriesApiController::store` |
+  | `PUT` | `/{category}` | `CategoriesApiController::update` |
+  | `PATCH` | `/{category}` | `CategoriesApiController::update` |
+  | `DELETE` | `/{category}` | `CategoriesApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Category\Http\Controllers\Api\CategoriesApiController`
-  - `Modules\Category\Http\Controllers\Api\CategoryApiController`
+### `Modules\Category\Http\Controllers\Api\CategoriesApiController`
+
+Source: `Http/Controllers/Api/CategoriesApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(Request $request, int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
+
+### `Modules\Category\Http\Controllers\Api\CategoryApiController`
+
+Source: `Http/Controllers/Api/CategoryApiController.php`.
+
+  - `index(CategoryRequest $request)`
+  - `store(CategoryRequest $request)`
+  - `show($id)`
+  - `update(CategoryRequest $request, $id)`
+  - `delete(CategoryRequest $request, $id)`
+  - `destroy(CategoryRequest $request)`
+  - `hiddenBulk(CategoryRequest $request)`
+  - `visibleBulk(CategoryRequest $request)`
+  - `moveBulk(CategoryRequest $request)`
 
 ## Filament admin
 
-  - `Modules\Category\Filament\Admin\Resources\CategoryResource`
-  - `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\CreateCategory`
-  - `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory`
-  - `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\ListCategories`
-  - `Modules\Category\Filament\Admin\Resources\ShopCategoryResource`
-  - `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\CreateShopCategory`
-  - `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\EditShopCategory`
-  - `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\ListShopCategories`
-  - `Modules\Category\Filament\CategoryModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Category\Filament\Admin\Resources\CategoryResource` | Website | — |
+  | `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\CreateCategory` | — | — |
+  | `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory` | — | — |
+  | `Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\ListCategories` | — | — |
+  | `Modules\Category\Filament\Admin\Resources\ShopCategoryResource` | Shop | — |
+  | `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\CreateShopCategory` | — | — |
+  | `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\EditShopCategory` | — | — |
+  | `Modules\Category\Filament\Admin\Resources\ShopCategoryResource\Pages\ListShopCategories` | — | — |
+  | `Modules\Category\Filament\CategoryModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Category/Tests`
 
-Test files:
+### `Tests/Filament/CategoryResourceTest.php`
 
-  - `Tests/Filament/CategoryResourceTest.php`
-  - `Tests/Unit/CategoryApiControllerTest.php`
-  - `Tests/Unit/CategoryManagerTest.php`
-  - `Tests/Unit/CategoryTest.php`
-  - `Tests/Unit/ContentTestModelForCategories.php`
-  - `Tests/Unit/Filament/CategoryResourceTest.php`
-  - `Tests/Unit/Filament/ShopCategoryResourceTest.php`
+  - `it_can_render_shop_categories_list_page`
+  - `it_can_create_and_delete_category`
+
+### `Tests/Unit/CategoryTest.php`
+
+  - `it_categories_same_slug`
+
+### `Tests/Unit/Filament/CategoryResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_global_search_returns_results`
+
+### `Tests/Unit/Filament/ShopCategoryResourceTest.php`
+
+  - `it_pages_exist`
 
 ## Service providers
 

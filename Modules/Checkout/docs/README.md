@@ -3,19 +3,16 @@
 > **Slug:** `checkout`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,23 +20,71 @@ This module owns no migrations of its own.
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-  - `routes/web.php`
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `CheckoutApiController::index` |
+  | `POST` | `/` | `CheckoutApiController::store` |
+  | `PUT` | `/` | `CheckoutApiController::update` |
+  | `POST` | `/validate` | `CheckoutApiController::validate` |
+  | `GET` | `/shipping-methods` | `CheckoutApiController::shippingMethods` |
+  | `GET` | `/payment-methods` | `CheckoutApiController::paymentMethods` |
+  | `POST` | `/calculate-shipping` | `CheckoutApiController::calculateShipping` |
+  | `GET` | `/order/{orderReferenceId}` | `CheckoutApiController::orderStatus` |
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+### `routes/web.php`
+
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `api/checkout/payment/return` | `CheckoutPaymentController::return` |
+  | `GET` | `api/checkout/payment/cancel` | `CheckoutPaymentController::cancel` |
+  | `POST` | `api/checkout/payment/notify` | `CheckoutPaymentController::notify` |
 
 ## Controllers
 
-  - `Modules\Checkout\Http\Controllers\Api\CheckoutApiController`
-  - `Modules\Checkout\Http\Controllers\CheckoutPaymentController`
+### `Modules\Checkout\Http\Controllers\Api\CheckoutApiController`
+
+Source: `Http/Controllers/Api/CheckoutApiController.php`.
+
+  - `index(Request $request): JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `update(Request $request): JsonResponse`
+  - `validate(Request $request): JsonResponse`
+  - `shippingMethods(): JsonResponse`
+  - `paymentMethods(): JsonResponse`
+  - `calculateShipping(Request $request): JsonResponse`
+  - `orderStatus(string $orderReferenceId): JsonResponse`
+
+### `Modules\Checkout\Http\Controllers\CheckoutPaymentController`
+
+Source: `Http/Controllers/CheckoutPaymentController.php`.
+
+  - `return(Request $request)`
+  - `cancel(Request $request)`
+  - `notify(Request $request)`
 
 ## Service classes
 
-  - `Modules\Checkout\Services\CheckoutService`
-  - `Modules\Checkout\Services\PaymentService`
+### `Modules\Checkout\Services\CheckoutService`
+
+Source: `Services/CheckoutService.php`.
+
+  - `addItem($product, $quantity)`
+  - `checkout(array $data)`
+  - `setUserInfo($key, $value): void`
+  - `getUserInfo($key = false)`
+  - `confirmEmailSend($order_id, $to = false, $no_cache = true, $skip_enabled_check = false): bool`
+  - `markOrderAsPaid($orderId)`
+  - `updateQuantities($orderId)`
+  - `getShippingCost(array $data = [])`
+
+### `Modules\Checkout\Services\PaymentService`
+
+Source: `Services/PaymentService.php`.
+
+  - `initiatePayment(array $data)`
+  - `getAvailablePaymentMethods()`
 
 ## Events
 
@@ -49,23 +94,32 @@ Controller) table for each route group.*
 
 ## Filament admin
 
-  - `Modules\Checkout\Filament\Resources\CheckoutResource`
-  - `Modules\Checkout\Filament\Resources\Pages\CheckoutCancelledPage`
-  - `Modules\Checkout\Filament\Resources\Pages\CheckoutFailedPage`
-  - `Modules\Checkout\Filament\Resources\Pages\CheckoutPage`
-  - `Modules\Checkout\Filament\Resources\Pages\CheckoutSuccessPage`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Checkout\Filament\Resources\CheckoutResource` | — | Checkout |
+  | `Modules\Checkout\Filament\Resources\Pages\CheckoutCancelledPage` | — | — |
+  | `Modules\Checkout\Filament\Resources\Pages\CheckoutFailedPage` | — | — |
+  | `Modules\Checkout\Filament\Resources\Pages\CheckoutPage` | — | — |
+  | `Modules\Checkout\Filament\Resources\Pages\CheckoutSuccessPage` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Checkout/Tests`
 
-Test files:
+### `Tests/Unit/Filament/CheckoutResourceTest.php`
 
-  - `Tests/Feature/CheckoutCompleteEndToEndTest.php`
-  - `Tests/Feature/CheckoutWizardEndToEndTest.php`
-  - `Tests/Unit/CheckoutControllerTest.php`
-  - `Tests/Unit/Filament/CheckoutResourceTest.php`
-  - `Tests/Unit/Livewire/CheckoutWizardTest.php`
+  - `it_form_contains_personal_info_section`
+  - `it_form_contains_payment_method_section`
+
+### `Tests/Unit/Livewire/CheckoutWizardTest.php`
+
+  - `it_has_five_wizard_steps`
+  - `it_displays_shipping_methods_in_third_step`
+  - `it_shows_order_review_in_final_step`
+  - `it_validates_email_format`
+  - `it_redirects_when_cart_is_empty`
+  - `it_displays_order_summary_with_shipping_costs`
+  - `it_requires_terms_acceptance_when_enabled`
 
 ## Service providers
 

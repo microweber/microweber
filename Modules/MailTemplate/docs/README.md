@@ -3,55 +3,91 @@
 > **Slug:** `mail-template`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/MailTemplate/database/migrations/`:
+### `mail_templates` table
 
-  - `database/migrations/2024_03_19_000001_create_mail_templates_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `name` | `string` | nullable |
+  | `type` | `string` | nullable |
+  | `from_name` | `string` | nullable |
+  | `from_email` | `string` | nullable |
+  | `copy_to` | `string` | nullable |
+  | `subject` | `string` | nullable |
+  | `message` | `text` | nullable |
+  | `is_active` | `boolean` | has-default |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\MailTemplate\Models\MailTemplate` | `Models/MailTemplate.php` |
+### `Modules\MailTemplate\Models\MailTemplate`
+
+Source: `Models/MailTemplate.php`. 
+
+**Fillable:** `name`, `type`, `from_name`, `from_email`, `copy_to`, `subject`, `message`, `is_active`
+
+**Casts:**
+
+  - `is_active` → `boolean`
 
 ## Service classes
 
-  - `Modules\MailTemplate\Services\MailTemplateService`
+### `Modules\MailTemplate\Services\MailTemplateService`
+
+Source: `Services/MailTemplateService.php`.
+
+  - `registerMailTemplatePath(string $path): bool`
+  - `getMailTemplateFiles(): array`
+  - `getTemplateContent(string $name): ?string`
+  - `getTemplateByType(string $type): ?MailTemplate`
+  - `getTemplateById($id): ?MailTemplate`
+  - `parseTemplate(MailTemplate $template, array $variables = []): string`
+  - `createMailable(MailTemplate $template, array $variables = [], array $attachments = []): TemplateBasedMail`
+  - `send(MailTemplate $template, string $to, array $variables = [], array $attachments = []): void`
+  - `getAvailableVariables(string $type): array`
+  - `getTemplateTypes(): array`
+  - `getDefaultFromName(): string`
+  - `getDefaultFromEmail(): string`
+  - `getTemplateFormSchema(): array`
 
 ## Filament admin
 
-  - `Modules\MailTemplate\Filament\Resources\MailTemplateResource`
-  - `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\CreateMailTemplate`
-  - `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\EditMailTemplate`
-  - `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\ListMailTemplates`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\MailTemplate\Filament\Resources\MailTemplateResource` | Email Settings | — |
+  | `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\CreateMailTemplate` | — | — |
+  | `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\EditMailTemplate` | — | — |
+  | `Modules\MailTemplate\Filament\Resources\MailTemplateResource\Pages\ListMailTemplates` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/MailTemplate/Tests`
 
-Test files:
+### `Tests/Filament/MailTemplateResourceTest.php`
 
-  - `Tests/Filament/MailTemplateResourceTest.php`
-  - `Tests/Unit/Filament/MailTemplateResourceTest.php`
-  - `Tests/Unit/MailTemplatesTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/Filament/MailTemplateResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_sorting_by_column_changes_order`
+
+### `Tests/Unit/MailTemplatesTest.php`
+
+  - `it_default_email_settings`
 
 ## Service providers
 

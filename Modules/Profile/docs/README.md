@@ -3,72 +3,99 @@
 > **Slug:** `profile`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Profile/database/migrations/`:
+### `users` table
 
-  - `database/migrations/2024_01_24_095154_add_two_factor_confirmed_at_to_users_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `two_factor_confirmed_at` | `timestamp` | nullable |
+  | `two_factor_confirmed_at` | `dropColumn` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Profile\Models\User` | `Models/User.php` |
+### `Modules\Profile\Models\User`
+
+Source: `Models/User.php`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-  - `routes/web.php`
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `ProfileApiController::show` |
+  | `PUT` | `/` | `ProfileApiController::update` |
+  | `PATCH` | `/` | `ProfileApiController::update` |
+  | `POST` | `/change-password` | `ProfileApiController::changePassword` |
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+### `routes/web.php`
+
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/enable` | `TwoFactorAuth::enableTwoFactorAuthentication` |
+  | `POST` | `/confirm` | `TwoFactorAuth::confirmTwoFactorAuthentication` |
+  | `POST` | `/disable` | `TwoFactorAuth::disableTwoFactorAuthentication` |
+  | `GET` | `/recovery-codes` | `TwoFactorAuth::showRecoveryCodes` |
+  | `POST` | `/regenerate-recovery-codes` | `TwoFactorAuth::regenerateRecoveryCodes` |
 
 ## Controllers
 
-  - `Modules\Profile\Http\Controllers\Api\ProfileApiController`
+### `Modules\Profile\Http\Controllers\Api\ProfileApiController`
+
+Source: `Http/Controllers/Api/ProfileApiController.php`.
+
+  - `show(Request $request): JsonResponse`
+  - `update(Request $request): JsonResponse`
+  - `changePassword(Request $request): JsonResponse`
 
 ## Filament admin
 
-  - `Modules\Profile\Filament\Pages\ChangePassword`
-  - `Modules\Profile\Filament\Pages\EditProfile`
-  - `Modules\Profile\Filament\Pages\ForgotPassword`
-  - `Modules\Profile\Filament\Pages\Login`
-  - `Modules\Profile\Filament\Pages\OrderHistory`
-  - `Modules\Profile\Filament\Pages\Register`
-  - `Modules\Profile\Filament\Pages\SavedAddresses`
-  - `Modules\Profile\Filament\Pages\TwoFactorAuth`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Profile\Filament\Pages\ChangePassword` | — | — |
+  | `Modules\Profile\Filament\Pages\EditProfile` | — | — |
+  | `Modules\Profile\Filament\Pages\ForgotPassword` | — | — |
+  | `Modules\Profile\Filament\Pages\Login` | — | — |
+  | `Modules\Profile\Filament\Pages\OrderHistory` | — | — |
+  | `Modules\Profile\Filament\Pages\Register` | — | — |
+  | `Modules\Profile\Filament\Pages\SavedAddresses` | — | — |
+  | `Modules\Profile\Filament\Pages\TwoFactorAuth` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Profile/Tests`
 
-Test files:
+### `Tests/Feature/OrderHistoryTest.php`
 
-  - `Tests/Feature/AuthenticationTest.php`
-  - `Tests/Feature/OrderHistoryTest.php`
-  - `Tests/Feature/ProfileManagementTest.php`
-  - `Tests/Feature/SavedAddressesTest.php`
-  - `Tests/Feature/TwoFactorAuthenticationTest.php`
-  - `Tests/Unit/ProfileModuleTest.php`
+  - `it_displays_orders_for_logged_in_customer`
+
+### `Tests/Feature/ProfileManagementTest.php`
+
+  - `it_user_can_change_password`
+
+### `Tests/Feature/SavedAddressesTest.php`
+
+  - `it_displays_saved_addresses_for_customer`
+
+### `Tests/Feature/TwoFactorAuthenticationTest.php`
+
+  - `it_two_factor_recovery_codes`
+
+### `Tests/Unit/ProfileModuleTest.php`
+
+  - `it_usermodelhasfillablefields`
 
 ## Service providers
 

@@ -3,41 +3,93 @@
 > **Slug:** `custom-fields`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/CustomFields/database/migrations/`:
+### `custom_fields` table
 
-  - `database/migrations/2024_11_20_000001_create_custom_fields_table.php`
-  - `database/migrations/2024_11_20_000002_create_custom_fields_values_table.php`
-  - `database/migrations/2026_03_23_000001_add_indexes_to_custom_fields_values.php`
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `position` | `integer` | nullable |
+  | `type` | `string` | nullable |
+  | `name` | `text` | nullable |
+  | `name_key` | `text` | nullable |
+  | `placeholder` | `text` | nullable |
+  | `error_text` | `text` | nullable |
+  | `updated_at` | `dateTime` | nullable |
+  | `created_at` | `dateTime` | nullable |
+  | `created_by` | `integer` | nullable |
+  | `edited_by` | `integer` | nullable |
+  | `session_id` | `string` | nullable |
+  | `options` | `longText` | nullable |
+  | `show_label` | `integer` | nullable |
+  | `is_active` | `integer` | nullable |
+  | `required` | `integer` | nullable |
+  | `copy_of_field` | `integer` | nullable |
 
-*Hand-edit to inline the column lists + relationships per
-table.*
+### `custom_fields_values` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `custom_field_id` | `integer` | nullable |
+  | `value` | `text` | nullable |
+  | `price_modifier` | `integer` | nullable |
+  | `position` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
+  | `custom_field_id` | `index` | — |
+  | `(unnamed)` | `dropIndex` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\CustomFields\Models\CustomField` | `Models/CustomField.php` |
-| `Modules\CustomFields\Models\CustomFieldValue` | `Models/CustomFieldValue.php` |
+### `Modules\CustomFields\Models\CustomField`
+
+Source: `Models/CustomField.php`. Table: `custom_fields`. 
+
+**Fillable:** `rel_id`, `rel_type`, `type`, `options`, `name`, `name_key`, `value`, `session_id`, `position`, `created_by`
+
+### `Modules\CustomFields\Models\CustomFieldValue`
+
+Source: `Models/CustomFieldValue.php`. Table: `custom_fields_values`. 
+
+**Fillable:** `custom_field_id`, `value`, `position`
 
 ## Service classes
 
-  - `Modules\CustomFields\Services\FieldsManager`
+### `Modules\CustomFields\Services\FieldsManager`
+
+Source: `Services/FieldsManager.php`.
+
+  - `getById($field_id)`
+  - `parseFieldSettings($fieldParse)`
+  - `parseFieldsHtml($fieldParseInput)`
+  - `makeDefault($rel, $rel_id, $fields_csv_str)`
+  - `save($fieldData)`
+  - `generateFieldNameValues($fieldData)`
+  - `getFieldNameByType($type)`
+  - `getValues($custom_field_id)`
+  - `getValue($content_id, $field_name, $return_full = false, $table = 'content')`
+  - `getAll($params)`
+  - `get($params)`
+  - `decodeArrayVals($it)`
+  - `reorder($data)`
+  - `delete($id)`
+  - `makeField($field_id = 0)`
+  - `make($params, $field_type = 'text', $settings = false)`
+  - `instanceField($type)`
 
 ## Events
 
@@ -48,17 +100,24 @@ table.*
 
 ## Filament admin
 
-  - `Modules\CustomFields\Filament\Admin\ListCustomFields`
-  - `Modules\CustomFields\Filament\CustomFieldsModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\CustomFields\Filament\Admin\ListCustomFields` | — | — |
+  | `Modules\CustomFields\Filament\CustomFieldsModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/CustomFields/Tests`
 
-Test files:
+### `Tests/Unit/CustomFieldModelTest.php`
 
-  - `Tests/Unit/CustomFieldModelTest.php`
-  - `Tests/Unit/CustomFieldRenderTest.php`
+  - `it_custom_field_model_values_attribute`
+
+### `Tests/Unit/CustomFieldRenderTest.php`
+
+  - `it_rendering_text_area_field`
+  - `it_rendering_number_field`
+  - `it_rendering_color_field`
 
 ## Service providers
 

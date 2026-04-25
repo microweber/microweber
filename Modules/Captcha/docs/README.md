@@ -3,19 +3,16 @@
 > **Slug:** `captcha`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,29 +20,32 @@ This module owns no migrations of its own.
 
 ## API endpoints
 
-Route files:
+Route files exist but no parseable `Route::method` calls were
+found:
 
   - `routes/api.php`
   - `routes/web.php`
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
-
 ## Service classes
 
-  - `Modules\Captcha\Services\CaptchaManager`
+### `Modules\Captcha\Services\CaptchaManager`
+
+Source: `Services/CaptchaManager.php`.
+
+  - `validate($key, $captcha_id = null, $unset_if_found = true)`
+  - `render($params = array()`
+  - `reset($captcha_id = null)`
+  - `setAdapter($adapter)`
 
 ## Filament admin
 
-  - `Modules\Captcha\Filament\CaptchaModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Captcha\Filament\CaptchaModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Captcha/Tests`
-
-Test files:
-
-  - `Tests/Unit/Fakers/FakeCaptcha.php`
 
 ## Service providers
 

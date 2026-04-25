@@ -3,19 +3,16 @@
 > **Slug:** `open-api`
 > **Tier:** 4
 >
-> Tier-4 module — pure presentation / template-side widget.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,20 +20,21 @@ This module owns no migrations of its own.
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\OpenApi\Models\AnnotationParser` | `Models/AnnotationParser.php` |
-| `Modules\OpenApi\Models\RouteDTO` | `Models/RouteDTO.php` |
-| `Modules\OpenApi\Models\SwGen` | `Models/SwGen.php` |
+### `Modules\OpenApi\Models\AnnotationParser`
+
+Source: `Models/AnnotationParser.php`. 
+
+### `Modules\OpenApi\Models\RouteDTO`
+
+Source: `Models/RouteDTO.php`. 
+
+### `Modules\OpenApi\Models\SwGen`
+
+Source: `Models/SwGen.php`. 
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/OpenApi/Tests`
-
-Test files:
-
-  - `Tests/OpenApiSpecTest.php`
-  - `Tests/SwaggerControllerTest.php`
 
 ## Service providers
 

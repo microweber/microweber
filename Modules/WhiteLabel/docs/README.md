@@ -3,19 +3,16 @@
 > **Slug:** `white-label`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,12 +20,20 @@ This module owns no migrations of its own.
 
 ## Service classes
 
-  - `Modules\WhiteLabel\Services\WhiteLabelService`
+### `Modules\WhiteLabel\Services\WhiteLabelService`
+
+Source: `Services/WhiteLabelService.php`.
+
+  - `applyWhiteLabelSettings()`
+  - `saveWhiteLabelConfig($params)`
+  - `getWhiteLabelConfig()`
 
 ## Filament admin
 
-  - `Modules\WhiteLabel\Filament\Admin\WhiteLabelLicenseManager`
-  - `Modules\WhiteLabel\Filament\Pages\WhiteLabelSettingsAdminSettingsPage`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\WhiteLabel\Filament\Admin\WhiteLabelLicenseManager` | — | — |
+  | `Modules\WhiteLabel\Filament\Pages\WhiteLabelSettingsAdminSettingsPage` | Customization Settings | — |
 
 ## Service providers
 

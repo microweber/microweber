@@ -3,54 +3,67 @@
 > **Slug:** `faq`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Faq/database/migrations/`:
+### `faqs` table
 
-  - `database/migrations/2024_02_06_000002_create_faqs_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `question` | `string` | nullable |
+  | `answer` | `text` | nullable |
+  | `position` | `integer` | nullable, has-default |
+  | `is_active` | `integer` | nullable, has-default |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Faq\Models\Faq` | `Models/Faq.php` |
+### `Modules\Faq\Models\Faq`
+
+Source: `Models/Faq.php`. Table: `faqs`. 
+
+**Fillable:** `question`, `answer`, `position`, `rel_id`, `rel_type`, `is_active`, `updated_at`, `created_at`
+
+**Casts:**
+
+  - `is_active` → `boolean`
 
 ## Filament admin
 
-  - `Modules\Faq\Filament\FaqModuleSettings`
-  - `Modules\Faq\Filament\FaqTableList`
-  - `Modules\Faq\Filament\Resources\FaqModuleResource`
-  - `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\CreateFaq`
-  - `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\EditFaq`
-  - `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Faq\Filament\FaqModuleSettings` | — | — |
+  | `Modules\Faq\Filament\FaqTableList` | — | — |
+  | `Modules\Faq\Filament\Resources\FaqModuleResource` | Website Settings | — |
+  | `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\CreateFaq` | — | — |
+  | `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\EditFaq` | — | — |
+  | `Modules\Faq\Filament\Resources\FaqModuleResource\Pages\ListFaqs` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Faq/Tests`
 
-Test files:
+### `Tests/Filament/FaqResourceTest.php`
 
-  - `Tests/Filament/FaqResourceTest.php`
-  - `Tests/Unit/FaqModuleFrontendTest.php`
-  - `Tests/Unit/FaqSettingsFilamentTest.php`
-  - `Tests/Unit/Filament/FaqModuleResourceTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/Filament/FaqModuleResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_can_sort_by_position`
 
 ## Service providers
 

@@ -3,40 +3,52 @@
 > **Slug:** `log`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Log/database/migrations/`:
+### `logs` table
 
-  - `database/migrations/2025_03_27_111054_create_logs_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `level` | `string` | nullable |
+  | `message` | `text` | nullable |
+  | `rel_type` | `text` | nullable |
+  | `rel_id` | `text` | nullable |
+  | `channel` | `string` | nullable, has-default |
+  | `logged_at` | `timestamp` | nullable |
+  | `is_system` | `text` | nullable |
+  | `field` | `text` | nullable |
+  | `rel` | `text` | nullable |
+  | `value` | `text` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Service classes
 
-  - `Modules\Log\Services\LogManager`
+### `Modules\Log\Services\LogManager`
+
+Source: `Services/LogManager.php`.
+
+  - `get_entry_by_id($id)`
+  - `get($params)`
+  - `reset()`
+  - `delete($params)`
+  - `save($params)`
+  - `delete_entry($data)`
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Log/Tests`
-
-Test files:
-
-  - `Tests/LogTest.php`
 
 ## Service providers
 

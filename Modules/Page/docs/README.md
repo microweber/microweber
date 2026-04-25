@@ -3,19 +3,16 @@
 > **Slug:** `page`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,40 +20,65 @@ This module owns no migrations of its own.
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Page\Models\Page` | `Models/Page.php` |
+### `Modules\Page\Models\Page`
+
+Source: `Models/Page.php`. Table: `content`. 
+
+**Fillable:** `subtype`, `subtype_value`, `content_type`, `parent`, `layout_file`, `active_site_template`, `title`, `url`, `content_meta_title`, `content`, `description`, `content_body`, `content_meta_keywords`, `original_link`, `require_login`, `created_by`, `is_home`, `is_shop`, `is_active`, `updated_at`, `created_at`, `position`
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `PageApiController::index` |
+  | `GET` | `/{page}` | `PageApiController::show` |
+  | `POST` | `/` | `PageApiController::store` |
+  | `PUT` | `/{page}` | `PageApiController::update` |
+  | `PATCH` | `/{page}` | `PageApiController::update` |
+  | `DELETE` | `/{page}` | `PageApiController::destroy` |
+  | `GET` | `/` | `PageApiController::index` |
+  | `GET` | `/{page}` | `PageApiController::show` |
+  | `POST` | `/` | `PageApiController::store` |
+  | `PUT` | `/{page}` | `PageApiController::update` |
+  | `PATCH` | `/{page}` | `PageApiController::update` |
+  | `DELETE` | `/{page}` | `PageApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Page\Http\Controllers\Api\PageApiController`
+### `Modules\Page\Http\Controllers\Api\PageApiController`
+
+Source: `Http/Controllers/Api/PageApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
 
 ## Filament admin
 
-  - `Modules\Page\Filament\PageModuleSettings`
-  - `Modules\Page\Filament\Resources\PageResource`
-  - `Modules\Page\Filament\Resources\PageResource\Pages\CreatePage`
-  - `Modules\Page\Filament\Resources\PageResource\Pages\EditPage`
-  - `Modules\Page\Filament\Resources\PageResource\Pages\ListPages`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Page\Filament\PageModuleSettings` | — | — |
+  | `Modules\Page\Filament\Resources\PageResource` | Website | — |
+  | `Modules\Page\Filament\Resources\PageResource\Pages\CreatePage` | — | — |
+  | `Modules\Page\Filament\Resources\PageResource\Pages\EditPage` | — | — |
+  | `Modules\Page\Filament\Resources\PageResource\Pages\ListPages` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Page/Tests`
 
-Test files:
+### `Tests/Filament/PageResourceTest.php`
 
-  - `Tests/Filament/PageResourceTest.php`
-  - `Tests/Unit/Filament/PageResourceTest.php`
-  - `Tests/Unit/PageApiControllerTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/Filament/PageResourceTest.php`
+
+  - `it_factory_creates_page`
+  - `it_has_correct_model`
 
 ## Service providers
 

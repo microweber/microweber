@@ -3,50 +3,55 @@
 > **Slug:** `tabs`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Tabs/database/migrations/`:
+### `tabs` table
 
-  - `database/migrations/2024_10_29_093609_create_tabs_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `title` | `string` | nullable |
+  | `icon` | `string` | nullable |
+  | `content` | `longText` | nullable |
+  | `position` | `integer` | nullable |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `settings` | `longText` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Tabs\Models\Tab` | `Models/Tab.php` |
+### `Modules\Tabs\Models\Tab`
+
+Source: `Models/Tab.php`. 
+
+**Fillable:** `id`, `title`, `icon`, `position`, `rel_id`, `rel_type`, `settings`, `content`
+
+**Casts:**
+
+  - `settings` → `array`
 
 ## Filament admin
 
-  - `Modules\Tabs\Filament\TabsModuleSettings`
-  - `Modules\Tabs\Filament\TabsTableList`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Tabs\Filament\TabsModuleSettings` | — | — |
+  | `Modules\Tabs\Filament\TabsTableList` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Tabs/Tests`
-
-Test files:
-
-  - `Tests/Unit/TabsModuleFrontendTest.php`
-  - `Tests/Unit/TabsModuleSettingsTest.php`
-  - `Tests/Unit/TabsModuleTest.php`
-  - `Tests/Unit/TabsTableListFilamentTest.php`
 
 ## Service providers
 

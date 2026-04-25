@@ -3,19 +3,16 @@
 > **Slug:** `media-library`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,25 +20,32 @@ This module owns no migrations of its own.
 
 ## API endpoints
 
-Route files:
+Route files exist but no parseable `Route::method` calls were
+found:
 
   - `routes/web.php`
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
-
 ## Filament admin
 
-  - `Modules\MediaLibrary\Filament\Admin\Pages\MediaLibrary`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\MediaLibrary\Filament\Admin\Pages\MediaLibrary` | Website Settings | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/MediaLibrary/Tests`
 
-Test files:
+### `Tests/Unit/Livewire/MediaLibraryTest.php`
 
-  - `Tests/Filament/MediaLibraryPageTest.php`
-  - `Tests/Unit/Livewire/MediaLibraryTest.php`
+  - `it_defaults_to_grid_view_mode`
+  - `it_does_not_create_folder_with_whitespace_only_name`
+  - `it_can_toggle_to_list_view`
+  - `it_ignores_invalid_view_mode`
+  - `it_can_clear_all_filters`
+  - `it_can_delete_a_media_item`
+  - `it_can_switch_back_to_library_tab`
+  - `it_filters_media_by_folder_including_subfolders`
+  - `it_warns_when_cdn_is_not_configured`
 
 ## Service providers
 

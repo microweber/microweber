@@ -3,48 +3,58 @@
 > **Slug:** `slider`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Slider/database/migrations/`:
+### `sliders` table
 
-  - `database/migrations/2025_01_15_083825_create_sliders_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `name` | `string` | nullable |
+  | `description` | `text` | nullable |
+  | `media` | `string` | nullable |
+  | `link` | `string` | nullable |
+  | `button_text` | `string` | nullable |
+  | `settings` | `longText` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `rel_type` | `string` | nullable |
+  | `position` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Slider\Models\Slider` | `Models/Slider.php` |
+### `Modules\Slider\Models\Slider`
+
+Source: `Models/Slider.php`. 
+
+**Fillable:** `name`, `description`, `media`, `link`, `button_text`, `settings`, `rel_id`, `rel_type`, `position`
+
+**Casts:**
+
+  - `settings` → `array`
+  - `position` → `integer`
 
 ## Filament admin
 
-  - `Modules\Slider\Filament\SliderModuleSettings`
-  - `Modules\Slider\Filament\SliderTableList`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Slider\Filament\SliderModuleSettings` | — | — |
+  | `Modules\Slider\Filament\SliderTableList` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Slider/Tests`
-
-Test files:
-
-  - `Tests/Unit/SliderModuleFrontendTest.php`
-  - `Tests/Unit/SliderSettingsFilamentTest.php`
 
 ## Service providers
 

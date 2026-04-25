@@ -3,53 +3,91 @@
 > **Slug:** `contact-form`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/ContactForm/database/migrations/`:
+### `forms` table
 
-  - `database/migrations/2024_10_30_134505_create_forms_table.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `name` | `string` | nullable |
+  | `slug` | `string` | nullable |
+  | `list_id` | `integer` | nullable |
+  | `module_id` | `integer` | nullable |
+  | `description` | `longText` | nullable |
+  | `confirmation_message` | `longText` | nullable |
+  | `emails_notifications` | `longText` | nullable |
+  | `emails_notifications_subject` | `longText` | nullable |
+  | `is_active` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\ContactForm\Models\Form` | `Models/Form.php` |
+### `Modules\ContactForm\Models\Form`
+
+Source: `Models/Form.php`. 
+
+**Fillable:** `name`, `slug`, `list_id`, `module_id`, `description`, `confirmation_message`, `emails_notifications`, `emails_notifications_subject`, `is_active`
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-  - `routes/web.php`
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `FormsApiController::index` |
+  | `GET` | `/{form}` | `FormsApiController::show` |
+  | `POST` | `/` | `FormsApiController::store` |
+  | `PUT` | `/{form}` | `FormsApiController::update` |
+  | `PATCH` | `/{form}` | `FormsApiController::update` |
+  | `DELETE` | `/{form}` | `FormsApiController::destroy` |
+  | `GET` | `/` | `FormsApiController::index` |
+  | `GET` | `/{form}` | `FormsApiController::show` |
+  | `POST` | `/` | `FormsApiController::store` |
+  | `PUT` | `/{form}` | `FormsApiController::update` |
+  | `PATCH` | `/{form}` | `FormsApiController::update` |
+  | `DELETE` | `/{form}` | `FormsApiController::destroy` |
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+### `routes/web.php`
+
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `POST` | `api/contact_form_submit` | `ContactFormController::submit` |
 
 ## Controllers
 
-  - `Modules\ContactForm\Http\Controllers\Api\FormsApiController`
-  - `Modules\ContactForm\Http\Controllers\ContactFormController`
+### `Modules\ContactForm\Http\Controllers\Api\FormsApiController`
+
+Source: `Http/Controllers/Api/FormsApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(Request $request, int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
+
+### `Modules\ContactForm\Http\Controllers\ContactFormController`
+
+Source: `Http/Controllers/ContactFormController.php`.
+
+  - `submit()`
 
 ## Filament admin
 
-  - `Modules\ContactForm\Filament\ContactFormModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\ContactForm\Filament\ContactFormModuleSettings` | — | — |
 
 ## Service providers
 

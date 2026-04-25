@@ -3,76 +3,114 @@
 > **Slug:** `form`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Form/database/migrations/`:
+### `forms` table
 
-  - `database/migrations/2020_00_00_000001_create_forms_table.php`
-  - `database/migrations/2020_00_00_000002_create_forms_data_table.php`
-  - `database/migrations/2021_03_17_000000_create_forms_recipients_table.php`
-  - `database/migrations/2021_10_21_000000_create_forms_data_values_table.php`
-  - `database/migrations/2021_10_22_000000_add_is_read_in_forms_data.php`
-  - `database/migrations/2021_10_22_000000_add_updated_at_in_forms_data.php`
-  - `database/migrations/2021_10_22_000000_migrate_old_forms_data.php`
-  - `database/migrations/2024_10_31_000001_add_module_id_in_forms.php`
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `name` | `string` | nullable |
+  | `slug` | `string` | nullable |
+  | `list_id` | `integer` | nullable |
+  | `module_id` | `integer` | nullable |
+  | `description` | `longText` | nullable |
+  | `confirmation_message` | `longText` | nullable |
+  | `emails_notifications` | `longText` | nullable |
+  | `emails_notifications_subject` | `longText` | nullable |
+  | `is_active` | `integer` | nullable |
+  | `timestamps` | `timestamps` | — |
+  | `module_id` | `string` | nullable |
+  | `module_id` | `dropColumn` | — |
 
-*Hand-edit to inline the column lists + relationships per
-table.*
+### `forms_recipients` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `bigIncrements` | — |
+  | `name` | `string` | nullable |
+  | `email` | `string` | nullable |
+  | `timestamps` | `timestamps` | — |
+
+### `forms_data_values` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `bigIncrements` | — |
+  | `form_data_id` | `integer` | nullable |
+  | `field_type` | `string` | nullable |
+  | `field_key` | `string` | nullable |
+  | `field_name` | `string` | nullable |
+  | `field_value` | `longText` | nullable |
+  | `field_value_json` | `longText` | nullable |
+
+### `forms_data` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `is_read` | `integer` | nullable |
+  | `is_read` | `dropColumn` | — |
+  | `updated_at` | `timestamp` | nullable |
+  | `updated_at` | `dropColumn` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Form\Models\FormData` | `Models/FormData.php` |
-| `Modules\Form\Models\FormDataValue` | `Models/FormDataValue.php` |
-| `Modules\Form\Models\FormList` | `Models/FormList.php` |
-| `Modules\Form\Models\FormRecipient` | `Models/FormRecipient.php` |
+### `Modules\Form\Models\FormData`
+
+Source: `Models/FormData.php`. Table: `forms_data`. 
+
+### `Modules\Form\Models\FormDataValue`
+
+Source: `Models/FormDataValue.php`. Table: `forms_data_values`. 
+
+### `Modules\Form\Models\FormList`
+
+Source: `Models/FormList.php`. Table: `forms_lists`. 
+
+### `Modules\Form\Models\FormRecipient`
+
+Source: `Models/FormRecipient.php`. 
 
 ## API endpoints
 
-Route files:
+Route files exist but no parseable `Route::method` calls were
+found:
 
   - `routes/api.php`
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
-
 ## Controllers
 
-  - `Modules\Form\Http\Controllers\ApiPublic\FormController`
+### `Modules\Form\Http\Controllers\ApiPublic\FormController`
+
+Source: `Http/Controllers/ApiPublic/FormController.php`.
+
+  - `post(Request $request)`
 
 ## Filament admin
 
-  - `Modules\Form\Filament\Resources\FormEntryResource`
-  - `Modules\Form\Filament\Resources\FormEntryResource\Pages\ListFormEntries`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Form\Filament\Resources\FormEntryResource` | — | — |
+  | `Modules\Form\Filament\Resources\FormEntryResource\Pages\ListFormEntries` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Form/Tests`
 
-Test files:
+### `Tests/Filament/FormEntryResourceTest.php`
 
-  - `Tests/ContactFormQuickEmailsTest.php`
-  - `Tests/ContactFormSkipSavingEmailsTest.php`
-  - `Tests/ContactFormTest.php`
-  - `Tests/CustomFieldsTemplatesTest.php`
-  - `Tests/CustomFieldsTest.php`
-  - `Tests/Filament/FormEntryResourceTest.php`
-  - `Tests/FormControllerTest.php`
+  - `it_resource_has_correct_model`
 
 ## Service providers
 

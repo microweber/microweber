@@ -3,19 +3,16 @@
 > **Slug:** `video`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,30 +20,36 @@ This module owns no migrations of its own.
 
 ## API endpoints
 
-Route files:
+Route files exist but no parseable `Route::method` calls were
+found:
 
   - `routes/api.php`
   - `routes/web.php`
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
-
 ## Filament admin
 
-  - `Modules\Video\Filament\VideoModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Video\Filament\VideoModuleSettings` | — | Video |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Video/Tests`
 
-Test files:
+### `Tests/Unit/VideoEmbedIntegrationTest.php`
 
-  - `Tests/Unit/VideoEmbedIntegrationTest.php`
-  - `Tests/Unit/VideoEmbedModernTest.php`
-  - `Tests/Unit/VideoEmbedTest.php`
-  - `Tests/Unit/VideoModuleSettingsFilamentTest.php`
-  - `Tests/Unit/VideoModuleTest.php`
-  - `Tests/Unit/VideoTemplatesTest.php`
+  - `it_vimeo_embed_rendering`
+  - `it_uploaded_video_rendering`
+
+### `Tests/Unit/VideoEmbedModernTest.php`
+
+  - `vimeo_embed_rendering`
+  - `uploaded_video_rendering`
+
+### `Tests/Unit/VideoEmbedTest.php`
+
+  - `it_vimeo_embed`
+  - `it_embed_options`
 
 ## Service providers
 

@@ -3,75 +3,126 @@
 > **Slug:** `shipping`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Shipping/database/migrations/`:
+### `shipping_providers` table
 
-  - `database/migrations/2024_07_18_00001_create_shipping_providers_table.php`
-  - `database/migrations/2026_03_21_000001_add_weight_based_columns_to_shipping_providers.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `name` | `string` | nullable |
+  | `provider` | `string` | nullable |
+  | `is_active` | `integer` | nullable |
+  | `position` | `integer` | nullable |
+  | `settings` | `text` | nullable |
+  | `timestamps` | `timestamps` | — |
+  | `is_default` | `integer` | nullable |
+  | `description` | `text` | nullable |
+  | `icon` | `string` | nullable |
+  | `is_default` | `dropColumn` | — |
+  | `description` | `dropColumn` | — |
+  | `icon` | `dropColumn` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Shipping\Models\ShippingProvider` | `Models/ShippingProvider.php` |
+### `Modules\Shipping\Models\ShippingProvider`
+
+Source: `Models/ShippingProvider.php`. 
+
+**Fillable:** `id`, `name`, `provider`, `is_active`, `is_default`, `settings`, `position`
+
+**Casts:**
+
+  - `settings` → `array`
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `ShippingApiController::index` |
+  | `GET` | `/{shipping}` | `ShippingApiController::show` |
+  | `POST` | `/` | `ShippingApiController::store` |
+  | `PUT` | `/{shipping}` | `ShippingApiController::update` |
+  | `PATCH` | `/{shipping}` | `ShippingApiController::update` |
+  | `DELETE` | `/{shipping}` | `ShippingApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Shipping\Http\Controllers\Api\ShippingApiController`
+### `Modules\Shipping\Http\Controllers\Api\ShippingApiController`
+
+Source: `Http/Controllers/Api/ShippingApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(Request $request, int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
 
 ## Service classes
 
-  - `Modules\Shipping\Services\ShippingMethodManager`
+### `Modules\Shipping\Services\ShippingMethodManager`
+
+Source: `Services/ShippingMethodManager.php`.
+
+  - `getDefaultDriver()`
+  - `driverExists($driver)`
+  - `getDrivers()`
+  - `getProviders(): array`
+  - `getProviderById($providerId): ShippingProvider|null`
+  - `hasProviders(): bool`
+  - `getForm($providerId): array|null`
+  - `getShippingCost($providerId, $data): float|int`
 
 ## Filament admin
 
-  - `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource`
-  - `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\CreateShippingProvider`
-  - `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\EditShippingProvider`
-  - `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource` | Shop Settings | Shipping Providers |
+  | `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\CreateShippingProvider` | — | — |
+  | `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\EditShippingProvider` | — | — |
+  | `Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\ListShippingProviders` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Shipping/Tests`
 
-Test files:
+### `Tests/Filament/ShippingResourceTest.php`
 
-  - `Tests/Filament/ShippingResourceTest.php`
-  - `Tests/Unit/Drivers/FlatRateTest.php`
-  - `Tests/Unit/Drivers/PickupFromAddressTest.php`
-  - `Tests/Unit/Drivers/ShippingToCountryTest.php`
-  - `Tests/Unit/Drivers/WeightBasedTest.php`
-  - `Tests/Unit/Filament/ShippingProviderResourceTest.php`
-  - `Tests/Unit/FlatRateFilamentResourceTest.php`
-  - `Tests/Unit/PickupFromAddressFilamentResourceTest.php`
-  - `Tests/Unit/ShippingManagerTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/Drivers/FlatRateTest.php`
+
+  - `it_defaultshippingcost`
+
+### `Tests/Unit/Drivers/PickupFromAddressTest.php`
+
+  - `it_defaultaddress`
+
+### `Tests/Unit/Drivers/ShippingToCountryTest.php`
+
+  - `it_defaultcountryrates`
+
+### `Tests/Unit/Drivers/WeightBasedTest.php`
+
+  - `it_default_cost_without_model`
+
+### `Tests/Unit/Filament/ShippingProviderResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_delete_action_removes_record`
 
 ## Service providers
 

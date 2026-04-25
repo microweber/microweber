@@ -3,19 +3,16 @@
 > **Slug:** `cookie-notice`
 > **Tier:** 2
 >
-> Tier-2 module — service / API surface on top of shared infrastructure.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,28 +20,29 @@ This module owns no migrations of its own.
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `POST` | `api/cookie-notice/set-cookie` | `CookieNoticeController::setCookie` |
 
 ## Controllers
 
-  - `Modules\CookieNotice\Http\Controllers\Api\CookieNoticeController`
+### `Modules\CookieNotice\Http\Controllers\Api\CookieNoticeController`
+
+Source: `Http/Controllers/Api/CookieNoticeController.php`.
+
+  - `setCookie(Request $request): JsonResponse`
 
 ## Filament admin
 
-  - `Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\CookieNotice\Filament\Pages\CookieNoticeModuleSettingsAdmin` | Website Settings | Cookie Notice |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/CookieNotice/Tests`
-
-Test files:
-
-  - `Tests/Unit/CookieNoticeModuleFrontendTest.php`
 
 ## Service providers
 

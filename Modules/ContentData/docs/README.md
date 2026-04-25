@@ -3,46 +3,56 @@
 > **Slug:** `content-data`
 > **Tier:** 4
 >
-> Tier-4 module — pure presentation / template-side widget.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/ContentData/database/migrations/`:
+### `content_data` table
 
-  - `database/migrations/2020_00_00_000000_create_content_data_table.php`
-  - `database/migrations/2022_10_04_000001_add_index_content_data_table.php`
-  - `database/migrations/2026_03_23_000001_add_indexes_to_content_data.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `rel_type` | `string` | nullable |
+  | `rel_id` | `string` | nullable |
+  | `field_name` | `text` | nullable |
+  | `field_value` | `longText` | nullable |
+  | `updated_at` | `dateTime` | nullable |
+  | `created_at` | `dateTime` | nullable |
+  | `created_by` | `integer` | nullable |
+  | `edited_by` | `integer` | nullable |
+  | `rel_type` | `index` | — |
+  | `rel_id` | `index` | — |
+  | `field_name` | `index` | — |
+  | `field_value` | `fullText` | — |
+  | `(unnamed)` | `dropIndex` | — |
+  | `(unnamed)` | `dropIndex` | — |
+  | `(unnamed)` | `dropIndex` | — |
+  | `(unnamed)` | `dropFullText` | — |
+  | `rel_type` | `index` | — |
+  | `rel_id` | `index` | — |
+  | `field_name` | `index` | — |
+  | `(unnamed)` | `dropIndex` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\ContentData\Models\ContentData` | `Models/ContentData.php` |
+### `Modules\ContentData\Models\ContentData`
+
+Source: `Models/ContentData.php`. Table: `content_data`. 
+
+**Fillable:** `id`, `rel_type`, `rel_id`, `field_value`, `field_name`, `content_id`, `created_at`, `updated_at`, `edited_by`, `created_by`
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/ContentData/Tests`
-
-Test files:
-
-  - `Tests/Unit/ContentDataTest.php`
-  - `Tests/Unit/CustomModelContentDataTest.php`
-  - `Tests/Unit/TestModel.php`
 
 ## Service providers
 

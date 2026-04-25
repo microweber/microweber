@@ -3,82 +3,159 @@
 > **Slug:** `tag`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Tag/database/migrations/`:
+### `tagging_tagged` table
 
-  - `database/migrations/2014_01_07_073615_create_tagged_table.php`
-  - `database/migrations/2024_03_20_000001_create_tag_groups_table.php`
-  - `database/migrations/2024_03_20_000002_create_tags_table.php`
-  - `database/migrations/2024_03_20_000003_create_tagged_table.php`
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `taggable_id` | `string` | — |
+  | `taggable_id` | `integer` | — |
+  | `taggable_type` | `string` | — |
+  | `tag_name` | `string` | — |
+  | `tag_slug` | `string` | — |
+  | `tag_name` | `index` | — |
+  | `tag_slug` | `index` | — |
+  | `taggable_type` | `index` | — |
+  | `taggable_id` | `index` | — |
+  | `id` | `increments` | — |
+  | `taggable_id` | `string` | indexed |
+  | `taggable_id` | `integer` | indexed |
+  | `taggable_type` | `string` | indexed |
+  | `tag_name` | `string` | — |
+  | `tag_slug` | `string` | indexed |
+  | `timestamps` | `timestamps` | — |
 
-*Hand-edit to inline the column lists + relationships per
-table.*
+### `tagging_tag_groups` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `slug` | `string` | — |
+  | `name` | `string` | — |
+  | `timestamps` | `timestamps` | — |
+  | `slug` | `index` | — |
+
+### `tagging_tags` table
+
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `slug` | `string` | indexed |
+  | `name` | `string` | nullable |
+  | `description` | `text` | nullable |
+  | `suggest` | `boolean` | has-default |
+  | `count` | `integer` | has-default |
+  | `tag_group_id` | `integer` | nullable |
+  | `locale` | `string` | nullable |
+  | `timestamps` | `timestamps` | — |
+  | `slug` | `index` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Tag\Models\Tag` | `Models/Tag.php` |
-| `Modules\Tag\Models\TagGroup` | `Models/TagGroup.php` |
-| `Modules\Tag\Models\Tagged` | `Models/Tagged.php` |
-| `Modules\Tag\Models\TranslateTaggingTagged` | `Models/TranslateTaggingTagged.php` |
-| `Modules\Tag\Models\TranslateTaggingTags` | `Models/TranslateTaggingTags.php` |
+### `Modules\Tag\Models\Tag`
+
+Source: `Models/Tag.php`. 
+
+### `Modules\Tag\Models\TagGroup`
+
+Source: `Models/TagGroup.php`. 
+
+### `Modules\Tag\Models\Tagged`
+
+Source: `Models/Tagged.php`. 
+
+**Fillable:** `tag_name`, `tag_slug`, `taggable_id`, `taggable_type`
+
+### `Modules\Tag\Models\TranslateTaggingTagged`
+
+Source: `Models/TranslateTaggingTagged.php`. 
+
+### `Modules\Tag\Models\TranslateTaggingTags`
+
+Source: `Models/TranslateTaggingTags.php`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `TagApiController::index` |
+  | `GET` | `/{tag}` | `TagApiController::show` |
+  | `POST` | `/` | `TagApiController::store` |
+  | `PUT` | `/{tag}` | `TagApiController::update` |
+  | `PATCH` | `/{tag}` | `TagApiController::update` |
+  | `DELETE` | `/{tag}` | `TagApiController::destroy` |
 
 ## Controllers
 
-  - `Modules\Tag\Http\Controllers\Api\TagApiController`
+### `Modules\Tag\Http\Controllers\Api\TagApiController`
+
+Source: `Http/Controllers/Api/TagApiController.php`.
+
+  - `index(Request $request): AnonymousResourceCollection|JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `show(int $id): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(Request $request, int $id): JsonResponse`
 
 ## Filament admin
 
-  - `Modules\Tag\Filament\Resources\TagGroupResource`
-  - `Modules\Tag\Filament\Resources\TagGroupResource\Pages\CreateTagGroup`
-  - `Modules\Tag\Filament\Resources\TagGroupResource\Pages\EditTagGroup`
-  - `Modules\Tag\Filament\Resources\TagGroupResource\Pages\ListTagGroups`
-  - `Modules\Tag\Filament\Resources\TagResource`
-  - `Modules\Tag\Filament\Resources\TagResource\Pages\CreateTag`
-  - `Modules\Tag\Filament\Resources\TagResource\Pages\EditTag`
-  - `Modules\Tag\Filament\Resources\TagResource\Pages\ListTags`
-  - `Modules\Tag\Filament\Resources\TaggedResource`
-  - `Modules\Tag\Filament\Resources\TaggedResource\Pages\CreateTagged`
-  - `Modules\Tag\Filament\Resources\TaggedResource\Pages\EditTagged`
-  - `Modules\Tag\Filament\Resources\TaggedResource\Pages\ListTagged`
-  - `Modules\Tag\Filament\TagsModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Tag\Filament\Resources\TagGroupResource` | Content | — |
+  | `Modules\Tag\Filament\Resources\TagGroupResource\Pages\CreateTagGroup` | — | — |
+  | `Modules\Tag\Filament\Resources\TagGroupResource\Pages\EditTagGroup` | — | — |
+  | `Modules\Tag\Filament\Resources\TagGroupResource\Pages\ListTagGroups` | — | — |
+  | `Modules\Tag\Filament\Resources\TagResource` | Content | — |
+  | `Modules\Tag\Filament\Resources\TagResource\Pages\CreateTag` | — | — |
+  | `Modules\Tag\Filament\Resources\TagResource\Pages\EditTag` | — | — |
+  | `Modules\Tag\Filament\Resources\TagResource\Pages\ListTags` | — | — |
+  | `Modules\Tag\Filament\Resources\TaggedResource` | Content | — |
+  | `Modules\Tag\Filament\Resources\TaggedResource\Pages\CreateTagged` | — | — |
+  | `Modules\Tag\Filament\Resources\TaggedResource\Pages\EditTagged` | — | — |
+  | `Modules\Tag\Filament\Resources\TaggedResource\Pages\ListTagged` | — | — |
+  | `Modules\Tag\Filament\TagsModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Tag/Tests`
 
-Test files:
+### `Tests/Filament/TagResourceTest.php`
 
-  - `Tests/Filament/TagResourceTest.php`
-  - `Tests/TagsTest.php`
-  - `Tests/Unit/Filament/TagGroupResourceTest.php`
-  - `Tests/Unit/Filament/TagResourceTest.php`
-  - `Tests/Unit/Filament/TaggedResourceTest.php`
+  - `it_can_render_tag_groups_list_page`
+  - `it_resource_has_correct_model`
+
+### `Tests/TagsTest.php`
+
+  - `it_tag_content_model_with_array`
+
+### `Tests/Unit/Filament/TagGroupResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+
+### `Tests/Unit/Filament/TagResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_index_page_supports_search`
+  - `it_create_page_validates_required_fields`
+
+### `Tests/Unit/Filament/TaggedResourceTest.php`
+
+  - `it_index_page_shows_all_records`
 
 ## Service providers
 

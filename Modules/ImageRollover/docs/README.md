@@ -3,19 +3,16 @@
 > **Slug:** `image-rollover`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,17 +20,25 @@ This module owns no migrations of its own.
 
 ## Filament admin
 
-  - `Modules\ImageRollover\Filament\ImageRolloverModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\ImageRollover\Filament\ImageRolloverModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/ImageRollover/Tests`
 
-Test files:
+### `Tests/Unit/ImageRolloverFrontendTest.php`
 
-  - `Tests/Unit/ImageRolloverFrontendTest.php`
-  - `Tests/Unit/ImageRolloverModuleSettingsFilamentTest.php`
-  - `Tests/Unit/ImageRolloverModuleTest.php`
+  - `it_module_accepts_parameters`
+
+### `Tests/Unit/ImageRolloverModuleSettingsFilamentTest.php`
+
+  - `it_settings_has_correct_module_identifier`
+
+### `Tests/Unit/ImageRolloverModuleTest.php`
+
+  - `it_module_initialization`
 
 ## Service providers
 

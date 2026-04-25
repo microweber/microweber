@@ -3,58 +3,161 @@
 > **Slug:** `cart`
 > **Tier:** 1
 >
-> Tier-1 module — owns its own data + exposes a public API.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Cart/database/migrations/`:
+### `cart` table
 
-  - `database/migrations/2024_11_20_000001_create_cart_table.php`
-  - `database/migrations/2026_03_23_000001_add_indexes_to_cart.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `id` | — |
+  | `title` | `longText` | nullable |
+  | `is_active` | `string` | nullable |
+  | `rel_id` | `integer` | nullable |
+  | `rel_type` | `string` | nullable |
+  | `order_id` | `string` | nullable |
+  | `qty` | `integer` | nullable |
+  | `price` | `float` | nullable |
+  | `currency` | `string` | nullable |
+  | `order_completed` | `integer` | nullable, has-default |
+  | `session_id` | `string` | nullable |
+  | `other_info` | `longText` | nullable |
+  | `skip_promo_code` | `string` | nullable |
+  | `item_image` | `string` | nullable |
+  | `link` | `string` | nullable |
+  | `description` | `longText` | nullable |
+  | `custom_fields_data` | `longText` | nullable |
+  | `custom_fields_json` | `longText` | nullable |
+  | `created_by` | `integer` | nullable |
+  | `updated_at` | `dateTime` | nullable |
+  | `created_at` | `dateTime` | nullable |
+  | `deleted_at` | `dateTime` | nullable |
+  | `session_id` | `index` | — |
+  | `order_id` | `index` | — |
+  | `rel_id` | `index` | — |
+  | `(unnamed)` | `dropIndex` | — |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Cart\Models\Cart` | `Models/Cart.php` |
-| `Modules\Cart\Models\ModelFilters\CartFilter` | `Models/ModelFilters/CartFilter.php` |
-| `Modules\Cart\Models\UserCart` | `Models/UserCart.php` |
+### `Modules\Cart\Models\Cart`
+
+Source: `Models/Cart.php`. 
+
+**Casts:**
+
+  - `custom_fields_data` → `array`
+
+### `Modules\Cart\Models\ModelFilters\CartFilter`
+
+Source: `Models/ModelFilters/CartFilter.php`. 
+
+### `Modules\Cart\Models\UserCart`
+
+Source: `Models/UserCart.php`. 
 
 ## API endpoints
 
-Route files:
+### `routes/api.php`
 
-  - `routes/api.php`
-  - `routes/web.php`
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `GET` | `/` | `CartApiController::index` |
+  | `POST` | `/` | `CartApiController::store` |
+  | `GET` | `/totals` | `CartApiController::totals` |
+  | `DELETE` | `/empty` | `CartApiController::empty` |
+  | `POST` | `/coupon` | `CartApiController::applyCoupon` |
+  | `DELETE` | `/coupon` | `CartApiController::removeCoupon` |
+  | `PUT` | `/{id}` | `CartApiController::update` |
+  | `DELETE` | `/{id}` | `CartApiController::destroy` |
 
-*Hand-edit to inline the (Method / Path / Auth / Scope /
-Controller) table for each route group.*
+### `routes/web.php`
+
+  | Method | Path | Action |
+  |--------|------|--------|
+  | `POST` | `api/update_cart` | `CartApiController::updateCart` |
+  | `POST` | `api/remove_cart_item` | `CartApiController::removeCartItem` |
+  | `POST` | `api/update_cart_item_qty` | `CartApiController::updateCartItemQty` |
+  | `POST` | `api/cart_sum` | `CartApiController::sumCart` |
+  | `POST` | `api/empty_cart` | `CartApiController::emptyCart` |
 
 ## Controllers
 
-  - `Modules\Cart\Http\Controllers\Api\CartApiController`
-  - `Modules\Cart\Http\Controllers\CartApiController`
+### `Modules\Cart\Http\Controllers\Api\CartApiController`
+
+Source: `Http/Controllers/Api/CartApiController.php`.
+
+  - `index(Request $request): JsonResponse`
+  - `store(Request $request): JsonResponse`
+  - `update(Request $request, int $id): JsonResponse`
+  - `destroy(int $id): JsonResponse`
+  - `empty(): JsonResponse`
+  - `totals(): JsonResponse`
+  - `applyCoupon(Request $request): JsonResponse`
+  - `removeCoupon(): JsonResponse`
+
+### `Modules\Cart\Http\Controllers\CartApiController`
+
+Source: `Http/Controllers/CartApiController.php`.
+
+  - `updateCart(Request $request)`
+  - `emptyCart(Request $request)`
+  - `removeCartItem(Request $request)`
+  - `sumCart(Request $request)`
+  - `updateCartItemQty(Request $request)`
 
 ## Service classes
 
-  - `Modules\Cart\Services\CartCouponService`
-  - `Modules\Cart\Services\CartService`
-  - `Modules\Cart\Services\CartTotalsService`
+### `Modules\Cart\Services\CartCouponService`
+
+Source: `Services/CartCouponService.php`.
+
+  - `getDiscountValue(): float|false`
+  - `getDiscountType(): string|false`
+  - `getDiscountText(): string`
+  - `isCouponValid(string $couponCode): bool`
+  - `getCouponDataFromSession(): array|false`
+  - `clearCouponSession(): void`
+  - `applyCoupon(string $couponCode, ?string $customerEmail = null, ?string $customerIp = null): array`
+  - `consumeCoupon(string $couponCode, string $customerEmail, string $customerIp): void`
+
+### `Modules\Cart\Services\CartService`
+
+Source: `Services/CartService.php`.
+
+  - `getCart($params = []): array`
+  - `getByOrderId(int $orderId): array`
+  - `removeItem($data): array`
+  - `updateItemQty(array $data): array`
+  - `emptyCart(): array`
+  - `deleteCart($params): void`
+  - `updateCart(array $data): array`
+  - `recoverCart($orderId = false): void`
+  - `isProductInStock(int $contentId): bool`
+  - `getCartItemImage(int $cartItemId)`
+
+### `Modules\Cart\Services\CartTotalsService`
+
+Source: `Services/CartTotalsService.php`.
+
+  - `totals(string $return = 'all', array $location = []): array`
+  - `total(): float`
+  - `sum(bool $returnAmount = true): float|int`
+  - `getTax(array $location = []): float`
+  - `getTaxBreakdown(array $location = []): array`
+  - `getDiscount(): float|false`
+  - `getDiscountText(): string`
+  - `getDiscountType(): string|false`
+  - `getDiscountValue(): float|false`
 
 ## Events
 
@@ -64,21 +167,42 @@ Controller) table for each route group.*
 
 ## Filament admin
 
-  - `Modules\Cart\Filament\CartAddModuleSettings`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Cart\Filament\CartAddModuleSettings` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Cart/Tests`
 
-Test files:
+### `Tests/Unit/CartCouponServiceTest.php`
 
-  - `Tests/Unit/CartApiControllerTest.php`
-  - `Tests/Unit/CartCouponServiceTest.php`
-  - `Tests/Unit/CartModelTest.php`
-  - `Tests/Unit/CartRepositoryTest.php`
-  - `Tests/Unit/CartTest.php`
-  - `Tests/Unit/CartTotalsServiceTest.php`
-  - `Tests/Unit/UserCartTest.php`
+  - `it_returns_false_for_discount_type_when_no_coupon_in_session`
+  - `it_returns_false_for_coupon_data_when_no_coupon_in_session`
+  - `it_gets_discount_type_from_session`
+  - `it_returns_discount_text_for_fixed_amount`
+  - `it_clears_coupon_session`
+  - `it_returns_percentage_discount_text_even_with_zero`
+  - `it_returns_false_when_coupon_service_null`
+  - `it_gets_discount_value_for_cart_above_minimum`
+  - `it_applies_coupon_and_returns_error_for_invalid_coupon`
+
+### `Tests/Unit/CartModelTest.php`
+
+  - `it_products_relationship`
+
+### `Tests/Unit/CartTotalsServiceTest.php`
+
+  - `it_counts_cart_items`
+  - `it_handles_multiple_products`
+  - `it_returns_labels_for_total_components`
+  - `it_returns_discount_text_when_no_coupon`
+  - `it_returns_false_for_discount_type_when_no_coupon`
+  - `it_handles_float_precision_in_calculations`
+
+### `Tests/Unit/UserCartTest.php`
+
+  - `it_user_cart_has_same_attributes_as_cart`
 
 ## Service providers
 

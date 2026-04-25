@@ -3,44 +3,43 @@
 > **Slug:** `country`
 > **Tier:** 4
 >
-> Tier-4 module — pure presentation / template-side widget.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
-Migrations under `Modules/Country/database/migrations/`:
+### `countries` table
 
-  - `database/migrations/2017_05_06_173745_create_countries_table.php`
-  - `database/migrations/2021_02_24_000000_insert_countries.php`
-
-*Hand-edit to inline the column lists + relationships per
-table.*
+  | Column | Type | Modifiers |
+  |--------|------|-----------|
+  | `id` | `increments` | — |
+  | `code` | `string` | nullable |
+  | `name` | `string` | nullable |
+  | `phonecode` | `integer` | nullable |
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Country\Models\Country` | `Models/Country.php` |
+### `Modules\Country\Models\Country`
+
+Source: `Models/Country.php`. 
+
+**Fillable:** `code`, `name`, `phonecode`
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Country/Tests`
 
-Test files:
+### `Tests/CountryTest.php`
 
-  - `Tests/CountryModelTest.php`
-  - `Tests/CountryTest.php`
+  - `it_countries_list_from_json`
 
 ## Service providers
 

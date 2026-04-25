@@ -3,19 +3,16 @@
 > **Slug:** `marketplace`
 > **Tier:** 3
 >
-> Tier-3 module — admin tool / widget driven by a Filament page or resource.
->
-> *(Auto-generated from filesystem survey on 2026-04-25;
-> hand-edit to add operator-side context. The canonical
-> shape lives in [`docs/modules/MODULE_DOCS_TEMPLATE.md`](../../../docs/modules/MODULE_DOCS_TEMPLATE.md);
-> use `Modules/Settings/docs/README.md` as the
-> hand-curated example.)*
+> *Auto-generated from filesystem survey on 2026-04-25 with
+> column / route / method extraction. Domain section is
+> the only hand-edit needed; the rest of this file is
+> regenerable from source.*
 
 ## Domain
 
-*Hand-edit this section to describe what the module does
-operationally and which sibling modules it interacts
-with.*
+*Hand-edit this section: describe what the module does
+operationally, who consumes it, and which sibling modules
+it interacts with.*
 
 ## Data model
 
@@ -23,24 +20,39 @@ This module owns no migrations of its own.
 
 ## Models
 
-| Eloquent class | File |
-|---|---|
-| `Modules\Marketplace\Models\MarketplaceItem` | `Models/MarketplaceItem.php` |
+### `Modules\Marketplace\Models\MarketplaceItem`
+
+Source: `Models/MarketplaceItem.php`. 
 
 ## Filament admin
 
-  - `Modules\Marketplace\Filament\Admin\ListLicenses`
-  - `Modules\Marketplace\Filament\Admin\MarketplaceResource`
-  - `Modules\Marketplace\Filament\Admin\MarketplaceResource\Pages\ListMarketplaces`
+  | Class | Navigation group | Label |
+  |-------|------------------|-------|
+  | `Modules\Marketplace\Filament\Admin\ListLicenses` | — | — |
+  | `Modules\Marketplace\Filament\Admin\MarketplaceResource` | Marketplace | Marketplace |
+  | `Modules\Marketplace\Filament\Admin\MarketplaceResource\Pages\ListMarketplaces` | — | — |
 
 ## Tests
 
 Run: `php vendor/bin/phpunit Modules/Marketplace/Tests`
 
-Test files:
+### `Tests/Filament/MarketplaceResourceTest.php`
 
-  - `Tests/Filament/MarketplaceResourceTest.php`
-  - `Tests/Unit/Filament/MarketplaceResourceTest.php`
+  - `it_resource_has_correct_model`
+
+### `Tests/Unit/Filament/MarketplaceResourceTest.php`
+
+  - `it_index_page_shows_all_records`
+  - `it_table_displays_as_grid`
+  - `it_has_update_action_for_installed_modules_with_updates`
+  - `it_has_refresh_cache_action`
+  - `it_has_bulk_update_action`
+  - `it_has_type_filter`
+  - `it_has_pricing_filter`
+  - `it_has_templates_tab`
+  - `it_has_installed_tab`
+  - `it_has_reload_packages_header_action`
+  - …7 more.
 
 ## Service providers
 
