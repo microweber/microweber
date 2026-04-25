@@ -52,7 +52,10 @@ class WordPressMigrationImportPage extends Page
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
     protected static ?string $title = 'Import from WordPress';
     protected static ?string $navigationLabel = 'WordPress Migration';
-    protected static string | \UnitEnum | null $navigationGroup = 'Tools';
+    // Grouped under "System Settings" alongside Backup + the
+    // sibling WordPressMigrationResource so every data-movement
+    // tool is in one place.
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected string $view = 'microweber-module-wordpressmigration::pages.import';
 
     public ?array $data = [

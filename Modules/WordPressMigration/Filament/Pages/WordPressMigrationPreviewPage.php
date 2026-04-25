@@ -40,7 +40,12 @@ class WordPressMigrationPreviewPage extends Page
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-eye';
     protected static ?string $title = 'Preview WordPress import';
     protected static ?string $navigationLabel = 'Preview WordPress import';
-    protected static string | \UnitEnum | null $navigationGroup = 'Content';
+    // Grouped under "System Settings" to match the sibling
+    // WordPressMigrationResource — this page is hidden via
+    // shouldRegisterNavigation() below, but keeping the group
+    // string consistent means a future un-hide lands in the right
+    // section without re-touching this property.
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected string $view = 'microweber-module-wordpressmigration::pages.preview';
 
     /**

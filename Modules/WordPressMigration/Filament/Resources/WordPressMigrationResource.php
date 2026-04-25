@@ -43,7 +43,13 @@ class WordPressMigrationResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Content';
+    // Grouped under "System Settings" alongside Backup and the
+    // other import / restore tools so operators find every
+    // data-movement action in one place. Was previously under
+    // "Content", competing with editorial tools — but a one-shot
+    // WordPress import is closer to a Backup restore than to a
+    // content edit.
+    protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
 
     protected static ?string $navigationLabel = 'Import from WordPress';
 
