@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -41,6 +42,7 @@ class LiveEditBlogSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -82,6 +84,16 @@ class LiveEditBlogSkin1Test extends DuskTestCase
 
                 $this->assertCanvasLoadedPosts($browser, $field, $postTitle);
                 $this->assertPublicPageCarriesPost($browser, $landing->slug, $postTitle, $postDescription);
+
+                // Public-render gate runs LAST: it re-navigates to the
+                // public slug — already on it from the post-carries call,
+                // but harmless — and any canvas-touching call after this
+                // would crash since mw.app.canvas is admin-only.
+                $this->assertSkinPublicSignatureRendered(
+                    $browser,
+                    $landing->slug,
+                    ['field="layout-blog-skin-1-'],
+                );
             });
         } finally {
             // Remove the seed post even if an assertion above failed;

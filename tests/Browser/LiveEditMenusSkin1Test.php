@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -68,6 +69,7 @@ class LiveEditMenusSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -106,6 +108,17 @@ class LiveEditMenusSkin1Test extends DuskTestCase
 
             $this->assertCanvasReflectsMenuSkin($browser);
             $this->assertSavedContentBodyContainsSkinTag($landing->pageId);
+
+            // Public-render gate runs LAST — it navigates away from the
+            // canvas, so any canvas-touching call after this would crash.
+            // menus/skin-1 has no `field="layout-…"` attribute on the
+            // outer wrapper; the unique signatures are the marker classes
+            // the blade emits on the header skin's div + section.
+            $this->assertSkinPublicSignatureRendered(
+                $browser,
+                $landing->slug,
+                [self::SKIN_OUTER_CLASS, self::SKIN_MARKER_CLASS],
+            );
             $this->assertPublicPageRendersMenuLinks($browser, $landing->slug);
         });
     }

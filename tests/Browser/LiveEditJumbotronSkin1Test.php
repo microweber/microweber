@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -39,6 +40,7 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -79,6 +81,14 @@ class LiveEditJumbotronSkin1Test extends DuskTestCase
 
             $this->assertCanvasReflectsEdits($browser, $field, self::NEW_H1, $newCta);
             $this->assertSavedContentBodyContains($landing->pageId, self::NEW_H1, $newCta);
+
+            // Public-render gate runs LAST — it navigates away from the
+            // canvas, so any canvas-touching call after this would crash.
+            $this->assertSkinPublicSignatureRendered(
+                $browser,
+                $landing->slug,
+                ['field="layout-jumbotron-skin-1-', 'mw-layout-dark-background'],
+            );
         });
     }
 

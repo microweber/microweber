@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -48,6 +49,7 @@ class LiveEditPricingSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -92,6 +94,15 @@ class LiveEditPricingSkin1Test extends DuskTestCase
 
             $this->assertCanvasReflectsEdits($browser, $field, self::NEW_PRO_PRICE);
             $this->assertSavedContentBodyContains($landing->pageId, self::NEW_PRO_PRICE);
+
+            // Public-render assertion intentionally runs LAST: it navigates
+            // away from the live-edit canvas (no mw.app.canvas on public pages),
+            // so any canvas-touching assertion after it would crash.
+            $this->assertSkinPublicSignatureRendered(
+                $browser,
+                $landing->slug,
+                ['field="layout-pricing-skin-1-'],
+            );
             $this->assertPublicPageCarriesMarker($browser, $landing->slug, self::NEW_PRO_PRICE);
         });
     }

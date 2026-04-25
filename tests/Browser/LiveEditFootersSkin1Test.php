@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -47,6 +48,7 @@ class LiveEditFootersSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -86,6 +88,18 @@ class LiveEditFootersSkin1Test extends DuskTestCase
 
             $this->assertCanvasReflectsCompanyName($browser, $field, $newCompanyName);
             $this->assertSavedContentCarriesCompanyName($landing->pageId, $newCompanyName);
+
+            // Public-render gate runs LAST — it navigates away from the
+            // canvas, so any canvas-touching call after this would crash.
+            // The footers/skin-1 blade emits `field="layout-footer-skin-1-…"`
+            // (singular `footer`) — distinct from the SKIN_TAG `footers/skin-1`
+            // (plural). Marker also includes the unique `footer-background`
+            // outer-section class shipped only by this skin.
+            $this->assertSkinPublicSignatureRendered(
+                $browser,
+                $landing->slug,
+                ['field="layout-footer-skin-1-', 'footer-background'],
+            );
         });
     }
 

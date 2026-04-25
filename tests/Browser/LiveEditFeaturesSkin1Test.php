@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -50,6 +51,7 @@ class LiveEditFeaturesSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -97,6 +99,14 @@ class LiveEditFeaturesSkin1Test extends DuskTestCase
 
             $this->assertCanvasReflectsEdits($browser, $field, $newLabels);
             $this->assertSavedContentBodyContains($landing->pageId, $newLabels);
+
+            // Public-render gate runs LAST — it navigates away from the
+            // canvas, so any canvas-touching call after this would crash.
+            $this->assertSkinPublicSignatureRendered(
+                $browser,
+                $landing->slug,
+                ['field="layout-features-skin-1-', self::MARKER_CLASS],
+            );
             $this->assertPublicPageCarriesMarker($browser, $landing->slug, $newLabels);
         });
     }

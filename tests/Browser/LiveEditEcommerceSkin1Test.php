@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
@@ -46,6 +47,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
@@ -85,6 +87,17 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 
                 $this->assertCanvasLoadedProducts($browser, $productTitle);
                 $this->assertPublicPageCarriesProduct($browser, $landing->slug, $productTitle);
+
+                // Public-render gate runs LAST. ecommerce/skin-1 has no
+                // field="layout-…" attribute on its outer section; the
+                // structural fingerprint is the sidebar widget wrapper
+                // that hosts the categories module — unique to this skin
+                // among the Bootstrap shop layouts.
+                $this->assertSkinPublicSignatureRendered(
+                    $browser,
+                    $landing->slug,
+                    ['sidebar__widget'],
+                );
             });
         } finally {
             // Remove the seed product even if an assertion above failed;
