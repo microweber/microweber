@@ -282,7 +282,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
 - [x] 2026-04-25  `LiveAdminModuleFileManagerSmokeTest` — file manager view + upload.
 - [x] 2026-04-25  `LiveAdminModuleGoogleAnalyticsSmokeTest` — GA property field.
-- [ ] `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
+- [x] 2026-04-25  `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
 - [ ] `LiveAdminModuleHighlightCodeSmokeTest` — code-block insertion.
 - [ ] `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
 - [ ] `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
