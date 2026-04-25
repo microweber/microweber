@@ -249,4 +249,194 @@ class McpConsoleCommandsTest extends TestCase
         $this->assertSame(1, $exitCode);
         $this->assertStringContainsString('not found', Artisan::output());
     }
+
+    #[Test]
+    public function client_list_command_renders_clients_with_token_counts(): void
+    {
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Listing Sample',
+            '--scopes' => 'mcp:access',
+        ]);
+
+        $exitCode = Artisan::call('ai:mcp:client:list');
+        $this->assertSame(0, $exitCode);
+
+        $output = Artisan::output();
+        $this->assertStringContainsString('Listing Sample', $output);
+        $this->assertStringContainsString(
+            '1/1',
+            $output,
+            'client:list must render the active/total token count column. The created '
+            . 'client has exactly one token (the initial issuance), so the column '
+            . 'should report 1/1. A regression in the count subqueries would surface '
+            . 'as 0/0 (silently breaking the operator-side overview).'
+        );
+    }
+
+    #[Test]
+    public function client_list_command_warns_on_empty_inventory(): void
+    {
+        // No clients in setUp's truncated tables — the command must
+        // emit a clear remediation hint, not a silent empty table.
+        $exitCode = Artisan::call('ai:mcp:client:list');
+
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('No MCP clients registered', Artisan::output());
+    }
+
+    #[Test]
+    public function token_revoke_command_marks_the_row_revoked(): void
+    {
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Revoke Test Client',
+            '--scopes' => 'mcp:access',
+        ]);
+        $createOutput = Artisan::output();
+        preg_match('/Token id:\s+(\d+)/', $createOutput, $idMatch);
+        preg_match('/Token:\s+(mcp_\d+\|[A-Za-z0-9]+)/', $createOutput, $tokenMatch);
+        $tokenId = (int) ($idMatch[1] ?? 0);
+        $plainTextToken = $tokenMatch[1] ?? '';
+
+        $manager = app(McpClientTokenManager::class);
+        $this->assertNotNull($manager->findToken($plainTextToken));
+
+        $exitCode = Artisan::call('ai:mcp:token:revoke', [
+            'token-id' => (string) $tokenId,
+            '--reason' => 'pin test',
+        ]);
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Revoked token', Artisan::output());
+
+        $resolved = $manager->findToken($plainTextToken);
+        $this->assertNotNull(
+            $resolved,
+            'Post-revoke: the row must still resolve so the middleware can audit-log '
+            . 'the denial reason on any leaked-token reuse — revocation is logical, '
+            . 'not physical deletion.'
+        );
+        $this->assertTrue(
+            $resolved->isRevoked(),
+            'Post-revoke: isRevoked() must return true so AuthenticateMcpClient '
+            . 'rejects further use of the leaked token.'
+        );
+    }
+
+    #[Test]
+    public function token_revoke_command_is_idempotent_on_already_revoked(): void
+    {
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Idempotent Revoke Client',
+            '--scopes' => 'mcp:access',
+        ]);
+        preg_match('/Token id:\s+(\d+)/', Artisan::output(), $idMatch);
+        $tokenId = (int) ($idMatch[1] ?? 0);
+
+        Artisan::call('ai:mcp:token:revoke', ['token-id' => (string) $tokenId]);
+
+        $exitCode = Artisan::call('ai:mcp:token:revoke', ['token-id' => (string) $tokenId]);
+        $this->assertSame(
+            0,
+            $exitCode,
+            'Re-revoking an already-revoked token must succeed (the operator does '
+            . 'not need to know whether the token was already revoked) and emit a '
+            . 'descriptive warning, not an error. A regression that fails the second '
+            . 'invocation would surface as a confusing CI failure for any rotation '
+            . 'script that sweeps tokens periodically.'
+        );
+        $this->assertStringContainsString('already revoked', Artisan::output());
+    }
+
+    private function seedClient(string $name = 'Audit Seed Client'): \Modules\Ai\Models\McpClient
+    {
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => $name,
+            '--scopes' => 'mcp:access',
+        ]);
+
+        $client = \Modules\Ai\Models\McpClient::where('name', $name)->firstOrFail();
+
+        // Bump the create event's timestamp to "now" so the only
+        // pre-existing event row doesn't trip the prune logic.
+        DB::table('mcp_client_token_events')
+            ->where('mcp_client_id', $client->id)
+            ->update(['created_at' => now(), 'updated_at' => now()]);
+
+        return $client;
+    }
+
+    #[Test]
+    public function prune_audit_command_dry_runs_without_writing(): void
+    {
+        $client = $this->seedClient('Audit Dry Run Client');
+
+        // Seed an old event row by hand so the cutoff actually
+        // catches something. Created_at is a datetime — set it 100
+        // days in the past so a default --older-than=90 catches it.
+        DB::table('mcp_client_token_events')->insert([
+            'mcp_client_id' => $client->id,
+            'mcp_client_token_id' => null,
+            'action' => 'token.used',
+            'metadata' => json_encode(['source' => 'pin']),
+            'created_at' => now()->subDays(100),
+            'updated_at' => now()->subDays(100),
+        ]);
+
+        $beforeCount = (int) DB::table('mcp_client_token_events')->count();
+        $exitCode = Artisan::call('ai:mcp:prune-audit', ['--dry-run' => true]);
+        $this->assertSame(0, $exitCode);
+
+        $output = Artisan::output();
+        $this->assertStringContainsString('Dry run', $output);
+        $this->assertStringContainsString('1 mcp_client_token_events row', $output);
+
+        // Row must still exist (dry-run guarantees zero deletes).
+        $this->assertSame(
+            $beforeCount,
+            (int) DB::table('mcp_client_token_events')->count(),
+            'Dry-run must not delete anything — the audit-log table count must be '
+            . 'unchanged after the command exits. A regression that secretly deletes '
+            . 'on dry-run would silently break the audit trail.'
+        );
+    }
+
+    #[Test]
+    public function prune_audit_command_deletes_rows_older_than_horizon(): void
+    {
+        $client = $this->seedClient('Audit Real Run Client');
+
+        // One old, one fresh — only the old one should be deleted.
+        DB::table('mcp_client_token_events')->insert([
+            [
+                'mcp_client_id' => $client->id,
+                'mcp_client_token_id' => null,
+                'action' => 'token.used',
+                'metadata' => json_encode(['age' => 'old']),
+                'created_at' => now()->subDays(100),
+                'updated_at' => now()->subDays(100),
+            ],
+            [
+                'mcp_client_id' => $client->id,
+                'mcp_client_token_id' => null,
+                'action' => 'token.used',
+                'metadata' => json_encode(['age' => 'fresh']),
+                'created_at' => now()->subDays(5),
+                'updated_at' => now()->subDays(5),
+            ],
+        ]);
+
+        $beforeCount = (int) DB::table('mcp_client_token_events')->count();
+        $exitCode = Artisan::call('ai:mcp:prune-audit', ['--older-than' => '90']);
+        $this->assertSame(0, $exitCode);
+
+        $output = Artisan::output();
+        $this->assertStringContainsString('Pruned 1', $output);
+        $this->assertSame(
+            $beforeCount - 1,
+            (int) DB::table('mcp_client_token_events')->count(),
+            'Prune must keep rows newer than the cutoff — exactly 1 old row should '
+            . 'be deleted, the rest (the fresh one + the create-client event from '
+            . 'seedClient()) must survive. A regression that deletes everything '
+            . 'would erase recent operator-visible audit context.'
+        );
+    }
 }

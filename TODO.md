@@ -285,8 +285,18 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       and tokens but not the token-event audit log. Add a relation
       manager so operators can see denial reasons, rate-limit hits,
       and tool calls per token.
-- [ ] **Audit retention** — no pruning policy. Add an artisan command
-      `php artisan ai:mcp:prune-audit --older-than=90d`.
+- [x] 2026-04-25  **Audit retention** — no pruning policy. Add an artisan command
+      `php artisan ai:mcp:prune-audit --older-than=90d`. *(Implemented
+      as `Modules/Ai/Console/Commands/McpPruneAuditCommand.php` with
+      `--older-than=N` (default 90 days) and `--dry-run` flags. Pinned
+      by 2 tests: dry-run preserves the table count exactly while
+      reporting the would-be deletions; real run removes only rows
+      older than the cutoff. Fresh rows + the create-client audit
+      events survive. Plus 4 additional CLI commands shipped in the
+      same batch — `ai:mcp:client:list` (with token counts and last-
+      used timestamps), `ai:mcp:token:revoke` (single revoke without
+      replacement, idempotent on already-revoked tokens) — both
+      pinned by their own focused tests.)*
 
 ### D.3 Observability
 
