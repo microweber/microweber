@@ -15,7 +15,8 @@ use Tests\Browser\Support\LandingTestContentPurger;
  *   1. An admin user `admin@admin.com` / `admin` exists with
  *      `is_admin=1` (mirrors AdminLoginTrait credentials).
  *   2. The globally-active site template is "Bootstrap" — the only
- *      template that currently ships the 17 style-pack color JSONs.
+ *      template that currently ships the 42 style-pack color JSONs
+ *      (17 native MW packs + 25 Bootswatch v5 palettes).
  *   3. A fresh `color-palette-test-<ts>-<rand>` Page row exists with
  *      the clean layout and its `content` body pre-populated with the
  *      four layout modules that together exercise the palette's

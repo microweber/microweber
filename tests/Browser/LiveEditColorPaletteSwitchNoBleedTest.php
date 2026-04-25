@@ -17,7 +17,7 @@ use Tests\DuskTestCase;
  * When a user clicks palette B after palette A, every `--mw-*` variable
  * that B declares must end up with B's value on `:root`. A's value must
  * not linger on any property B defines, and A-only properties (none
- * currently exist — the 17 packs share an identical key set — but the
+ * currently exist — the shipped packs share an identical key set — but the
  * test is shape-tolerant to future divergence) must not keep A's value
  * if B's value for the shared property would override them.
  *

@@ -38,17 +38,52 @@ class LiveEditColorPaletteTraitTest extends TestCase
     }
 
     #[Test]
-    public function list_color_palettes_returns_all_seventeen_bootstrap_packs(): void
+    public function list_color_palettes_returns_every_bootstrap_pack(): void
     {
         $packs = $this->harness->palettes();
 
-        $this->assertCount(17, $packs, 'Bootstrap ships with 17 style-pack color palettes');
+        // Bootstrap ships 17 native MW packs + 25 Bootswatch v5 packs
+        // (`bootswatch-*.json`) added 2026-04-25 — total 42. Counting
+        // and listing every slug is intentional: a glob regression that
+        // silently drops a pack would otherwise sail through the
+        // browser-level swatch-count test (which derives expected from
+        // the same on-disk count).
+        $this->assertCount(
+            42,
+            $packs,
+            'Bootstrap ships 17 native MW packs + 25 Bootswatch palettes (42 total)'
+        );
 
         $slugs = array_column($packs, 'slug');
         $expected = [
             'apple-shine',
             'arctic-frost',
             'blueberry-pie',
+            'bootswatch-cerulean',
+            'bootswatch-cosmo',
+            'bootswatch-cyborg',
+            'bootswatch-darkly',
+            'bootswatch-flatly',
+            'bootswatch-journal',
+            'bootswatch-litera',
+            'bootswatch-lumen',
+            'bootswatch-lux',
+            'bootswatch-materia',
+            'bootswatch-minty',
+            'bootswatch-morph',
+            'bootswatch-pulse',
+            'bootswatch-quartz',
+            'bootswatch-sandstone',
+            'bootswatch-simplex',
+            'bootswatch-sketchy',
+            'bootswatch-slate',
+            'bootswatch-solar',
+            'bootswatch-spacelab',
+            'bootswatch-superhero',
+            'bootswatch-united',
+            'bootswatch-vapor',
+            'bootswatch-yeti',
+            'bootswatch-zephyr',
             'citrus-splash',
             'coral-pop',
             'cyber-mint',
@@ -66,6 +101,59 @@ class LiveEditColorPaletteTraitTest extends TestCase
         ];
 
         $this->assertSame($expected, $slugs, 'Palette slugs must be sorted alphabetically and match the shipped set');
+    }
+
+    #[Test]
+    public function list_color_palettes_includes_every_bootswatch_v5_palette(): void
+    {
+        $bootswatchSlugs = array_filter(
+            array_column($this->harness->palettes(), 'slug'),
+            static fn (string $slug): bool => str_starts_with($slug, 'bootswatch-'),
+        );
+
+        // Source of truth: the 25 official Bootswatch v5 themes shipped
+        // 2026-04-25 under task-2026-04-25-be7458. A regression that
+        // accidentally deletes a pack file (or renames its slug) would
+        // be invisible to the count assertion if a different pack was
+        // added in the same change — so we additionally pin the exact
+        // Bootswatch coverage set here.
+        $expected = [
+            'bootswatch-cerulean',
+            'bootswatch-cosmo',
+            'bootswatch-cyborg',
+            'bootswatch-darkly',
+            'bootswatch-flatly',
+            'bootswatch-journal',
+            'bootswatch-litera',
+            'bootswatch-lumen',
+            'bootswatch-lux',
+            'bootswatch-materia',
+            'bootswatch-minty',
+            'bootswatch-morph',
+            'bootswatch-pulse',
+            'bootswatch-quartz',
+            'bootswatch-sandstone',
+            'bootswatch-simplex',
+            'bootswatch-sketchy',
+            'bootswatch-slate',
+            'bootswatch-solar',
+            'bootswatch-spacelab',
+            'bootswatch-superhero',
+            'bootswatch-united',
+            'bootswatch-vapor',
+            'bootswatch-yeti',
+            'bootswatch-zephyr',
+        ];
+
+        sort($bootswatchSlugs);
+        $this->assertSame(
+            $expected,
+            array_values($bootswatchSlugs),
+            'All 25 Bootswatch v5 palettes (cerulean…zephyr) must remain '
+            . 'discoverable on disk — these power the live-edit Style '
+            . 'Editor "Website colors" picker for users who want a '
+            . 'familiar Bootstrap aesthetic out of the box.'
+        );
     }
 
     #[Test]

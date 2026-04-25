@@ -7,8 +7,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Structural contract tests for the 17 Bootstrap color-pack JSON files
- * under `Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/`.
+ * Structural contract tests for the 42 Bootstrap color-pack JSON files
+ * (17 native MW packs + 25 Bootswatch v5 palettes) under
+ * `Templates/Bootstrap/resources/assets/design-styles/style-packs/colors/`.
  *
  * These packs are consumed by the Vue live-edit picker at runtime via
  * `setPropertyForSelectorBulk(':root', <properties>, ...)`. If a pack's
@@ -31,8 +32,14 @@ class ColorPaletteFilesTest extends TestCase
 
     /**
      * Shipped slugs. Kept inline (not discovered from disk) so that a
-     * pack being accidentally deleted causes {@see test_seventeen_shipped_color_packs_are_present_on_disk()}
-     * to fail rather than the suite silently shrinking with the repo.
+     * pack being accidentally deleted causes
+     * {@see all_shipped_color_packs_are_present_on_disk()} to fail
+     * rather than the suite silently shrinking with the repo.
+     *
+     * Composition (42 packs total):
+     *   - 17 native MW packs (apple-shine … urban-concrete)
+     *   - 25 Bootswatch v5 palettes (bootswatch-cerulean … bootswatch-zephyr),
+     *     shipped 2026-04-25 under task-2026-04-25-be7458.
      *
      * @var string[]
      */
@@ -40,6 +47,31 @@ class ColorPaletteFilesTest extends TestCase
         'apple-shine',
         'arctic-frost',
         'blueberry-pie',
+        'bootswatch-cerulean',
+        'bootswatch-cosmo',
+        'bootswatch-cyborg',
+        'bootswatch-darkly',
+        'bootswatch-flatly',
+        'bootswatch-journal',
+        'bootswatch-litera',
+        'bootswatch-lumen',
+        'bootswatch-lux',
+        'bootswatch-materia',
+        'bootswatch-minty',
+        'bootswatch-morph',
+        'bootswatch-pulse',
+        'bootswatch-quartz',
+        'bootswatch-sandstone',
+        'bootswatch-simplex',
+        'bootswatch-sketchy',
+        'bootswatch-slate',
+        'bootswatch-solar',
+        'bootswatch-spacelab',
+        'bootswatch-superhero',
+        'bootswatch-united',
+        'bootswatch-vapor',
+        'bootswatch-yeti',
+        'bootswatch-zephyr',
         'citrus-splash',
         'coral-pop',
         'cyber-mint',
@@ -76,7 +108,7 @@ class ColorPaletteFilesTest extends TestCase
     }
 
     #[Test]
-    public function seventeen_shipped_color_packs_are_present_on_disk(): void
+    public function all_shipped_color_packs_are_present_on_disk(): void
     {
         $dir = self::repoRoot() . '/' . self::COLOR_PACK_DIR;
         $this->assertDirectoryExists(
@@ -96,7 +128,8 @@ class ColorPaletteFilesTest extends TestCase
         $this->assertSame(
             $expected,
             $found,
-            'Shipped color-pack set drifted from the expected 17 slugs'
+            'Shipped color-pack set drifted from the expected ' . count($expected) . ' slugs '
+            . '(17 native MW packs + 25 Bootswatch v5 palettes)'
         );
     }
 
