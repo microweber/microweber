@@ -278,6 +278,16 @@ class McpToolCatalog
                     'module' => $definition['module'],
                     'domain' => $tool->getDomain(),
                     'readOnlyHint' => true,
+                    // Documented output contract: every tool today
+                    // returns one `content[0].text` item carrying
+                    // HTML-stripped, whitespace-collapsed plain text
+                    // (see McpServer::normalizeToolOutput). Declaring
+                    // this in the annotations bag lets MCP 2025-06-18
+                    // clients reason about the response shape without
+                    // a per-tool outputSchema; once any tool starts
+                    // emitting structured JSON, swap this for a real
+                    // outputSchema on that tool.
+                    'outputFormat' => 'text',
                 ],
             ];
         }

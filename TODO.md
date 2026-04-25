@@ -219,10 +219,26 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       schema currently lacks `format`, `pattern`, `minimum` / `maximum`,
       `default`. Promote those from the underlying tool's `Property`
       class so MCP clients can build richer prompts.
-- [ ] **Output schema** — MCP 2025-06-18 adds `outputSchema`. Tools today
+- [x] 2026-04-25  **Output schema** — MCP 2025-06-18 adds `outputSchema`. Tools today
       return free-form HTML-stripped text. Either declare the
       semi-structured shape via `outputSchema`, or commit to plain text
-      and document it.
+      and document it. *(Documented decision: every catalog tool
+      today returns plain text via `McpServer::normalizeToolOutput`,
+      so the right move is to advertise that explicitly rather than
+      ship a misleading per-tool outputSchema. Added an
+      `annotations.outputFormat = "text"` field per tool in
+      `McpToolCatalog::listTools()` so MCP 2025-06-18 clients can
+      reason about the response shape without per-tool schemas.
+      Documented in `docs/mcp/README.md` under "Output format".
+      Pinned by a new test in `McpToolCatalogContractTest`
+      (`tools_list_response_declares_output_format_for_every_tool`)
+      that asserts every catalog tool's annotations bag carries
+      both `outputFormat='text'` and `readOnlyHint=true` — a
+      regression that adds a write tool without flipping the
+      readOnlyHint or that drops the outputFormat annotation
+      surfaces here loudly. When a future tool starts emitting
+      structured JSON, swap that tool's annotation for a real
+      `outputSchema`.)*
 
 ### C.3 Tool output normalisation
 

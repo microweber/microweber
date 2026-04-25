@@ -184,6 +184,67 @@ class McpToolCatalogContractTest extends TestCase
     }
 
     #[Test]
+    public function tools_list_response_declares_output_format_for_every_tool(): void
+    {
+        // Plan C.3 follow-up: every tool's tools/list entry must
+        // carry an `annotations.outputFormat` field so MCP
+        // 2025-06-18 clients can reason about the response shape
+        // without a per-tool outputSchema. Today every tool emits
+        // text; a regression that drops the annotation would leave
+        // newer clients guessing.
+        $catalog = app(McpToolCatalog::class);
+        $context = $this->fakeAdminContext();
+
+        $tools = $catalog->listTools($context);
+
+        $this->assertNotEmpty($tools);
+
+        foreach ($tools as $entry) {
+            $this->assertArrayHasKey(
+                'annotations',
+                $entry,
+                "Tool '{$entry['name']}' must include an annotations bag in tools/list."
+            );
+            $this->assertSame(
+                'text',
+                $entry['annotations']['outputFormat'] ?? null,
+                "Tool '{$entry['name']}' must declare annotations.outputFormat='text' "
+                . 'until any tool starts emitting structured JSON. A regression that '
+                . 'drops the field would silently regress MCP 2025-06-18 clients to '
+                . 'guessing the response shape.'
+            );
+            $this->assertTrue(
+                $entry['annotations']['readOnlyHint'] ?? false,
+                "Tool '{$entry['name']}' must declare annotations.readOnlyHint=true — "
+                . 'every tool in the current catalog is strictly read-only. A '
+                . 'regression that adds a write tool without flipping this hint would '
+                . 'silently surface the new tool as safe-by-default to AI clients.'
+            );
+        }
+    }
+
+    /**
+     * Minimal admin-shaped context that bypasses the per-token
+     * scope gates in McpToolCatalog::listTools so the iteration
+     * sees every registered tool.
+     */
+    private function fakeAdminContext(): \Modules\Ai\Services\Mcp\McpRequestContext
+    {
+        $client = new \Modules\Ai\Models\McpClient();
+        $client->id = 1;
+        $client->allowed_tools = ['*'];
+        $client->allowed_modules = ['*'];
+        $client->allowed_scopes = ['mcp:access', 'mcp:admin'];
+
+        $token = new \Modules\Ai\Models\McpClientToken();
+        $token->id = 1;
+        $token->abilities = ['mcp:access', 'mcp:admin'];
+        $token->setRelation('client', $client);
+
+        return new \Modules\Ai\Services\Mcp\McpRequestContext($client, $token);
+    }
+
+    #[Test]
     public function expected_inventory_has_no_duplicates(): void
     {
         $tags = self::EXPECTED_TOOLS;

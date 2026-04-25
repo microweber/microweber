@@ -187,6 +187,19 @@ The `isError: true` flag flips when the tool emits the
 when the legacy `class="alert alert-danger"` opening-tag fallback
 matches.
 
+#### Output format
+
+Every tool in the catalog today returns one `content[0].text` item
+carrying HTML-stripped, whitespace-collapsed plain text. The
+`tools/list` response advertises this via the
+`annotations.outputFormat = "text"` field per tool, so MCP
+2025-06-18 clients can reason about the response shape without a
+per-tool `outputSchema`. When a future tool starts emitting
+structured JSON, that tool should swap the annotation for a real
+`outputSchema` covering the JSON shape — the
+`McpToolCatalogContractTest` pins the current contract so the
+swap can't happen silently.
+
 ### Utility methods
 
 | Method                            | Purpose                                                                                  |
