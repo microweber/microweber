@@ -222,7 +222,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  Keep `LiveEditColorPaletteSkinMatrixTest` green across new
       skins; updating the factory's `TARGET_SKINS` constant is the
       hook point.
-- [ ] Keep `LiveEditColorPaletteSkinMatrixNoLeakTest` green after
+- [x] 2026-04-25  Keep `LiveEditColorPaletteSkinMatrixNoLeakTest` green after
       any new skin test lands (proves the matrix is leak-proof per
       skin).
 
