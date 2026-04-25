@@ -369,9 +369,18 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       [MCP test suite](https://github.com/modelcontextprotocol/inspector)
       validations as PHPUnit assertions: every required JSON-RPC
       envelope shape, every required method, every error code.
-- [ ] **Contract test pinning the 39-tool catalog** — like the
+- [x] 2026-04-25  **Contract test pinning the 39-tool catalog** — like the
       Plan-D drift tests, fail if a tool is removed from the catalog
-      without an explicit deprecation.
+      without an explicit deprecation. *(Implemented as
+      `Modules/Ai/tests/Feature/McpToolCatalogContractTest.php` — pins
+      the 39-tool inventory as of 2026-04-25 in an `EXPECTED_TOOLS`
+      constant, and asserts the actual catalog matches exactly (no
+      missing, no unexpected). Three additional regression guards in
+      the same file: every tool definition has the required shape
+      (tool / module / title keys, all non-empty strings); every tool
+      name follows `<module>.<verb>` convention with snake_case ASCII
+      halves; the EXPECTED_TOOLS list has no duplicates. Ran 4 tests
+      / 358 assertions — all green.)*
 
 ## H. Future / nice-to-have
 
