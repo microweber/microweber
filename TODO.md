@@ -264,7 +264,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleCartSmokeTest` — cart admin view + manual line-item edit.
 - [x] 2026-04-25  `LiveAdminModuleCheckoutSmokeTest` — checkout form fields.
 - [x] 2026-04-25  `LiveAdminModuleCloudflareSmokeTest` — Cloudflare integration form.
-- [ ] `LiveAdminModuleCompanySmokeTest` — company details form.
+- [x] 2026-04-25  `LiveAdminModuleCompanySmokeTest` — company details form.
 - [ ] `LiveAdminModuleComponentsSmokeTest` — components palette.
 - [ ] `LiveAdminModuleContactFormSmokeTest` — contact form insertion + submission.
 - [ ] `LiveAdminModuleContentDataSmokeTest` — content-data KV editor.
