@@ -6,457 +6,312 @@
 
 ---
 
-- [x] 2026-04-24  Add a "Migrating from WordPress?" CTA tile in the admin dashboard empty-state (shown only when `content` is empty) linking to the migration resource
 
-- [x] 2026-04-24  make a hige plan in the todo.md to test a full workflow of website treation and make dusk teste for it  also make a plan in the todo.md to test all module skins on dusk oppulate the todo to cover more tests adn feach module that are not covered populate the todo to test the coroos chmes on all layouts
 
----
 
-# Plan A — Full website-creation Dusk workflow
-
-> **Goal:** a single end-to-end Dusk test (or small suite) that walks
-> a first-time operator from a fresh install to a published,
-> publicly-rendered site. Every stage a real user hits — install,
-> pick template, create pages, edit with live-edit, add shop items,
-> configure settings, publish — must be exercised in a real browser
-> and its DB effect verified. The test doubles as the acceptance
-> harness for the whole admin rewrite.
-
-## A.1 Acceptance criteria
-
-- [x] 2026-04-24  `LiveAdminFullWebsiteCreationWorkflowTest` exists at
-      `tests/Browser/LiveAdminFullWebsiteCreationWorkflowTest.php`,
-      under ≤15 minutes end-to-end, deterministic, and part of the
-      default `php artisan dusk` run.
-- [x] 2026-04-24  Seeds and purges its own fixture — no global install state is
-      required; leaves zero residue on `pages`, `content`, `media`,
-      `options`, or `users` after tear-down.
-- [x] 2026-04-24  Golden-path stage assertions are at the DB level (source of
-      truth) with the rendered-DOM assertions as signal for "the
-      operator sees it."
-- [x] 2026-04-24  Runs headless; fixture URLs (admin creds, port) come from
-      `.env.dusk` — no hard-coded absolute paths.
-
-## A.2 Pre-flight
-
-- [x] 2026-04-24  Inventory existing admin-creation Dusk coverage (see
-      `AdminContentCreateTest.php`, `AdminModulePagesTest.php`,
-      `LiveEditInsertLayoutTest.php`, `LiveEditInsertModuleTest.php`)
-      and mark which stages below can reuse a helper vs need a new
-      one.
-
-      **Inventory results — existing helpers we can lift into the workflow trait:**
-
-      | File                                      | Reusable helpers                                                                   | Reuse target (Plan A.3 stage)                 |
-      |-------------------------------------------|------------------------------------------------------------------------------------|-----------------------------------------------|
-      | `AdminContentCreateTest.php`              | `livewireType($browser, $selector, $value)`, `livewireSet($browser, $prop, $val)`, `clickSave($browser)` — Livewire-v4-safe form drivers for page/post/product CRUD | Stage 3 (home page create), Stage 5 (product create) |
-      | `AdminModulePagesTest.php`                | `assertPageLoadsWithoutError($browser, $url, $name)` — 200-plus-no-Whoops probe applied across every admin module page | Stages 1, 2, 5, 6 — every `visit /admin/...` sanity check |
-      | `LiveEditInsertLayoutTest.php`            | Single test method (`insert_layout_dialog_is_interactive`) — no extracted helpers; the JS `mw.app.editor.insertLayoutRequestOnTop` dispatch pattern is worth copying verbatim | Stage 4 (insert jumbotron/skin-1) — copy the dispatch snippet into a new `insertLayoutOnCanvas()` helper |
-      | `LiveEditInsertModuleTest.php`            | Single test method (`insert_module_dialog_is_interactive`) — same shape as above | Stage 4 supplement — module insertion into an already-opened layout slot |
-      | `AdminLoginTrait`                         | `loginAsAdmin($browser)`, `ensureLoggedIn($browser)` — already in use by the workflow scaffold | All stages |
-      | `CleansLandingTestPages` + `LandingTestContentPurger` | Precedent for marker-scoped fixture purge (`landing-test-*`) — already mirrored by the workflow's own `WorkflowFixturePurger` / `CleansWorkflowFixtures` | All stages (landed) |
-
-      **Stages that need NEW helpers (no existing source to lift from):**
-      - Stage 2 (template-switch) — `LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest` exists but it tests no-bleed, not a clean switch-and-persist. Need a `selectTemplateInAppearance($browser, $templateName)` helper.
-      - Stage 4's `stage_4_inline_edit_saves_heading_text` — no existing double-click + blur driver; copy from `AdminLiveEditElementStyleEditorTest` patterns.
-      - Stage 5's `stage_5_add_to_cart_round_trip` — `AdminModuleCommerceUseCasesTest` exercises the admin shop admin but not the public-frontend add-to-cart; need a new `addToCartAsGuest()` helper.
-      - Stage 6 (settings) — `AdminSettingsWorkflowTest` + `AdminSettingsTest` have the patterns; a `saveGeneralSettings($browser, $overrides)` helper would factor them out.
-      - Stage 7 (palette apply) — already thoroughly helper-served by `LiveEditColorPaletteTrait` and `CleansColorPaletteTestFixtures`; direct reuse, no new helpers.
-      - Stage 8 (guest checkout) — nothing lift-able; need a `completeCheckoutAsGuest($browser, $paymentMethod)` helper.
-
-      **Decision:** the big-test scaffold remains composed of small trait-shaped helpers. Lift the three Livewire form drivers from `AdminContentCreateTest` into a new `WorkflowFormDrivers` trait before Stage 3; lift the 200-probe helper from `AdminModulePagesTest` as it stands.
-- [x] 2026-04-24  Add a new trait `tests/Browser/Traits/WebsiteWorkflowTrait.php`
-      for stage-scoped helpers (`assertStageACompleted(...)`) so the
-      big test stays readable.
-
-## A.3 Stage-by-stage test plan
-
-### Stage 1 — Fresh install
-
-- [x] 2026-04-24  `stage_1_install_lands_operator_on_the_admin_dashboard` — seed
-      a clean `content`/`media`/`options` fixture so the empty-state
-      CTA tile is visible (Phase 11 feature); login as admin; assert
-      `/admin` returns 200 and contains the "Migrating from
-      WordPress?" CTA tile.
-- [x] 2026-04-24  `stage_1_welcome_widget_greets_the_admin_by_name` — asserts
-      the greeting matches the admin's first_name / username.
-
-### Stage 2 — Pick a template
-
-- [x] 2026-04-24  `stage_2_template_switch_to_bootstrap_persists_in_options` —
-      visit **Settings → Appearance / Templates**, pick Bootstrap
-      (the default shipped template), submit; assert
-      `options.template == 'bootstrap'` in DB.
-- [x] 2026-04-24  `stage_2_switching_template_does_not_bleed_palette_state` —
-      regression guard; reuses the pattern from
-      `LiveEditTemplateSwitchBackToBootstrapNoStateLeakTest`.
-
-### Stage 3 — Create a home page
-
-- [x] 2026-04-24  `stage_3_home_page_is_created_with_a_menu_slot` — visit
-      **Content → Pages → New**; fill title "Home"; save; assert a
-      `content` row with `content_type='page'`, `subtype='static'`,
-      `is_home=1` exists and appears in the main menu.
-- [x] 2026-04-24  `stage_3_home_page_opens_in_live_edit` — click the **Edit**
-      row action; assert `/admin/live-edit?url=/` loads and the
-      edit-mode markers are visible in the iframe.
-
-### Stage 4 — Drop a layout and edit it live
-
-- [x] 2026-04-24  `stage_4_insert_jumbotron_skin1_layout` — use the existing
-      `LiveEditInsertLayoutTest` helpers; drop
-      `layouts/jumbotron/skin-1` onto the canvas; assert the module
-      HTML landed on the page's `content.content` column and is
-      visible on the rendered page.
-- [x] 2026-04-24  `stage_4_inline_edit_saves_heading_text` — double-click the
-      inserted heading, retype, blur; assert the new text round-trips
-      through a save call and renders on the public URL.
-
-### Stage 5 — Add a shop
-
-- [x] 2026-04-24  `stage_5_shop_page_is_created_with_shop_content_type` — same
-      as Stage 3 but with `content_type='page'`,
-      `subtype='dynamic'`, `is_shop=1`; the sidebar now shows **Shop**.
-- [x] 2026-04-24  `stage_5_add_first_product` — create a product via
-      **Content → Products → New**; assert the `content` +
-      `content_data` price row exists; public shop URL lists it.
-- [x] 2026-04-24  `stage_5_add_to_cart_round_trip` — on the public frontend,
-      add the product to the cart; assert a `cart` row persists with
-      the right rel_id.
-
-### Stage 6 — Configure core settings
-
-- [x] 2026-04-24  `stage_6_site_title_and_description_save` — **Settings →
-      General**; change site title + description; assert `options`
-      rows.
-- [x] 2026-04-24  `stage_6_logo_upload_persists` — upload a logo; assert a
-      `media` row scoped to `rel_type='options'`.
-- [x] 2026-04-24  `stage_6_currency_and_tax_save` — set default currency and a
-      tax rate; assert the shop page's price tag reflects it.
-
-### Stage 7 — Apply a color palette
-
-- [x] 2026-04-24  `stage_7_apply_neon_night_palette_to_all_pages` — uses the
-      Phase-7 color-palette pipeline; open the picker, pick
-      `neon-night`, save. Reuses the assertion shape from
-      `LiveEditColorPaletteSkinMatrixTest` but scoped to the
-      workflow's own pages.
-
-### Stage 8 — Publish and verify on the public site
-
-- [x] 2026-04-24  `stage_8_home_page_is_publicly_reachable_without_login` —
-      logs the browser out; visits `/`; asserts the heading from
-      stage 4, the logo from stage 6, and the palette from stage 7
-      are all rendered.
-- [x] 2026-04-24  `stage_8_shop_product_is_purchasable_as_guest` — reuses the
-      cart round-trip; adds a dummy checkout (cash-on-delivery
-      method); asserts an `orders` row lands with the product and
-      total.
-
-## A.4 Cleanup & determinism
-
-- [x] 2026-04-24  `setUp()` + `tearDown()` purge every row created by this test
-      by `source_url`-style markers (pattern borrowed from the
-      WordPressMigration Dusk tests — see `purgeFixture()` in
-      `LiveAdminWordPressMigrationUxTest`).
-- [x] 2026-04-24  Admin login reuses the existing `AdminLoginTrait`.
+## Todo
+- [x] 2026-04-25  [task-2026-04-25-6a0e59] all works, now we want to work on the MCP server, pls evaluet and test the mcp sever and poplate the todo.md on how to improve the mcp and work on it *(Evaluation done 2026-04-25 — full report and prioritised improvement plan authored as the "MCP Server — Improvement Plan" section below. Existing 60-test feature suite green; live server handshake + tools/list (39 tools) + tools/call all verified end-to-end through the real /api/mcp endpoint with a freshly-issued bearer token.)*
 
 ---
 
-# Plan B — All layout skins on Dusk
+# MCP Server — Improvement Plan
 
-> **Goal:** one dedicated Dusk test per shipped layout skin that
-> inserts it, asserts the frontend rendered markup is sane, and
-> checks the skin doesn't console-error. `LiveEditColorPaletteSkinMatrixTest`
-> already proves the palette pipeline lands on all skins; these
-> per-skin tests prove each skin renders correctly on its own.
+> **Server location:** `Modules/Ai/Services/McpServer.php` + `Modules/Ai/Http/Controllers/McpController.php`
+> **Endpoint:** POST `/api/mcp` (env-overridable via `AI_MCP_ENDPOINT`)
+> **Transport:** http-jsonrpc only (no stdio, no SSE, no streamable-http)
+> **Protocol version reported:** `2025-03-26`
+> **Tool catalog:** 39 read-only tools across 12 modules (content, product, order, settings, media, layouts, analytics, forms, billing, shipping, tax, newsletter)
+> **Auth:** custom bearer-token middleware `mcp.client` → `AuthenticateMcpClient` (sees Sanctum guard config but does its own `McpClientTokenManager::findToken` lookup)
+> **Existing tests:** `Modules/Ai/tests/Feature/McpControllerTest.php` (60 tests / 329 assertions, all green on 2026-04-25)
+> **Verified live:** initialize handshake + tools/list (39 tools) + content.lookup tool call all worked against the live dev server with a freshly-issued bearer token
 
-## B.1 Target skin inventory (matches `ColorPaletteSkinMatrixFactory::TARGET_SKINS`)
+## A. MCP Spec Compliance Gaps (high priority — interop risk)
 
-| Family         | Skin path            | Current Dusk coverage                          |
-|----------------|----------------------|------------------------------------------------|
-| jumbotron      | `jumbotron/skin-1`   | `LiveEditJumbotronSkin1Test` ✅                |
-| jumbotron      | `jumbotron/skin-2`   | — (skin-2 test missing)                        |
-| features       | `features/skin-1`    | — (skin-1 test missing, skin-2 exists)         |
-| features       | `features/skin-2`    | `LiveEditFeaturesSkin2Test` ✅                 |
-| pricing        | `pricing/skin-1`     | — (skin-1 test missing, 2+3 exist)             |
-| pricing        | `pricing/skin-2`     | `LiveEditPricingSkin2Test` ✅                  |
-| pricing        | `pricing/skin-3`     | `LiveEditPricingSkin3Test` ✅                  |
-| titles         | `titles/skin-1`      | `LiveEditTitlesSkin1Test` ✅                   |
-| content        | `content/skin-1`     | `LiveEditContentSkin1Test` ✅                  |
-| blog           | `blog/skin-1`        | `LiveEditBlogSkin1Test` ✅                     |
-| ecommerce      | `ecommerce/skin-1`   | `LiveEditEcommerceSkin1Test` ✅                |
-| footers        | `footers/skin-1`     | `LiveEditFootersSkin1Test` ✅                  |
-| text-block     | `text-block/skin-1`  | — (missing)                                    |
-| menus          | `menus/skin-1`       | — (missing)                                    |
+Each of these is a deviation from the [MCP spec](https://spec.modelcontextprotocol.io/) that
+will cause real MCP clients (Claude Desktop, Cursor, Cline, Continue, etc.) to fail
+in subtle / loud ways. The current server is a "JSON-RPC server with tools/* methods",
+not a fully spec-compliant MCP server.
 
-## B.2 Per-skin test stubs to author
+### A.1 Required protocol methods
 
-- [x] 2026-04-24  `LiveEditJumbotronSkin2Test` — mirror the existing
-      `LiveEditJumbotronSkin1Test` shape for `jumbotron/skin-2`.
-- [x] 2026-04-25  `LiveEditFeaturesSkin1Test` — mirror
-      `LiveEditFeaturesSkin2Test` shape for `features/skin-1`.
-- [x] 2026-04-25  `LiveEditPricingSkin1Test` — mirror
-      `LiveEditPricingSkin2Test` shape for `pricing/skin-1`.
-- [x] 2026-04-25  `LiveEditTextBlockSkin1Test` — text-block is a content skin;
-      insert, assert rendered `<p>`/heading markers are in the DOM.
-- [x] 2026-04-25  `LiveEditMenusSkin1Test` — insert the menu skin; assert links
-      to the current menu entries are rendered.
+- [ ] **`ping` method** — every spec-compliant client may send `ping` to check
+      liveness. Server currently returns `-32601 Method not found.` Add a
+      `ping` handler that returns an empty `result: {}`.
+- [ ] **`notifications/initialized`** — clients send this notification *after*
+      receiving the `initialize` response, before sending any other request.
+      Server currently rejects it as method-not-found. Notifications carry no
+      `id` so the response should be HTTP 204 / empty body, NOT a JSON-RPC
+      error envelope.
+- [ ] **`logging/setLevel`** — optional but standard; clients use it to control
+      server-side log verbosity. Decline gracefully with a documented capability,
+      or implement it.
+- [ ] **`completion/complete`** (resource/prompt completions) — declare
+      explicitly unsupported in `capabilities` instead of silent `-32601`.
+- [ ] **JSON-RPC batch request handling** — the spec says servers MUST handle
+      arrays of requests. Sending `[{...},{...}]` to `/api/mcp` currently
+      302-redirects to `/` (Laravel's `Request::json()` chokes on array root,
+      then the route falls through). Either accept and process the batch, or
+      respond with a single proper JSON-RPC error envelope.
+- [ ] **Empty / malformed request envelope** — POSTing `{"jsonrpc":"2.0","id":6}`
+      (no `method`) returns HTTP 302 redirect, not the spec-mandated
+      `-32600 Invalid Request`. Add an early-input-validation guard in
+      `McpController::handle` that returns a proper JSON-RPC error envelope for
+      every invalid envelope shape (no jsonrpc field, no method, wrong jsonrpc
+      version, malformed JSON).
 
-## B.3 Shared contract for every per-skin test
+### A.2 Capability negotiation
 
-Each test MUST assert, in order:
+- [ ] **Honor client's `protocolVersion` from `initialize` params** — current
+      `initializeResponse()` ignores the inbound `params.protocolVersion` and
+      always returns the server's configured version. Spec says: echo back the
+      client's version if supported, otherwise return the highest version the
+      server can speak. Clients that send `2024-11-05` today will get
+      `2025-03-26` back and may legitimately abort.
+- [ ] **Declare unsupported capabilities explicitly** — `capabilities.resources`,
+      `capabilities.prompts`, `capabilities.logging` are missing entirely. Spec-
+      compliant clients infer these as "unsupported", which is correct, but
+      adding `'resources' => null, 'prompts' => null` is the documented way to
+      be explicit and catches future support-toggle drift in tests.
 
-- [x] 2026-04-25  The skin blade file exists before attempting to insert (fail
-      early with a useful message otherwise).
-- [x] 2026-04-25  Inserting the skin on an empty live-edit canvas persists a
-      `<module type="layouts" template="<family>/<skin>">` tag in
-      the page's `content.content` column.
-- [x] 2026-04-25  The public render of the page contains the skin's signature
-      markup class (family-specific, e.g. `.mw-layout-jumbotron`).
-- [x] 2026-04-25  No console error fires during insert OR public render
-      (`browser.script("return window.__consoleErrors || []")`).
+### A.3 Streamable HTTP / SSE transport
 
-## B.4 Matrix-level guards (already present — keep green)
+- [ ] **Add Streamable HTTP transport** (the new MCP standard since 2025-03-26).
+      Current `http-jsonrpc` is one-shot request/response only — no server-
+      initiated notifications, no progress updates, no long-running tool
+      calls. Streamable HTTP uses SSE for the response body, allowing the
+      server to push `notifications/progress`, `notifications/tools/list_changed`,
+      etc. Either implement it or document the deliberate choice to stay
+      one-shot.
 
-- [x] 2026-04-25  Keep `LiveEditColorPaletteSkinMatrixTest` green across new
-      skins; updating the factory's `TARGET_SKINS` constant is the
-      hook point.
-- [x] 2026-04-25  Keep `LiveEditColorPaletteSkinMatrixNoLeakTest` green after
-      any new skin test lands (proves the matrix is leak-proof per
-      skin).
+## B. Critical Bug — `allowed_tools = null` blocks every tool
 
----
+Reproduced live on 2026-04-25:
 
-# Plan C — Cover modules with zero Dusk coverage
+  1. Created an MCP client with `allowed_tools = null`, `allowed_modules = null`,
+     `allowed_scopes = ['mcp:access', 'mcp:admin']`.
+  2. Issued a token, called `tools/list` — returned **0 tools**.
+  3. Updated the client to `allowed_tools = ['*']`, `allowed_modules = ['*']`
+     — `tools/list` returned all 39 tools.
 
-> **Goal:** every admin-facing module in `Modules/` has at least
-> one Dusk smoke that asserts (a) its admin page loads without
-> error, (b) its save flow round-trips through Livewire, and (c)
-> no Filament 5 migration regressed its settings form. Modules
-> with no admin UI get an explicit note so new contributors don't
-> wonder why their module has no test.
+Root cause: `McpClient::allowsValue()` (Modules/Ai/Models/McpClient.php:106-113)
+treats both `null` AND `[]` AND `['*']`-aware as allow-list-empty; only `['*']`
+or an explicit whitelist passes. Most operators reading the schema would assume
+`null = unrestricted`.
 
-## C.1 Conventions
+- [ ] **Decide the policy** — either:
+      a. `null = unrestricted` (most common allowlist pattern; matches Sanctum
+         `abilities=['*']` ergonomics), OR
+      b. Keep "deny by default" but rename the column to `allowed_tools_whitelist`
+         + update the Filament admin form to default to `['*']` and surface a
+         "leave empty to deny everything" hint.
+- [ ] **Document the chosen semantics** in `McpClient` PHPDoc + the README
+      "MCP server" section + the Filament resource's form description.
+- [ ] **Add a regression test** covering both directions: a client created with
+      `null` allowlists must yield the documented behaviour (0 tools or all
+      tools), and a client with `['*']` must yield all tools.
 
-- [x] 2026-04-25  Every new test file named
-      `LiveAdminModule<ModuleName>SmokeTest.php`.
-- [x] 2026-04-25  Tests reuse `AdminLoginTrait` and live under
-      `tests/Browser/`.
-- [x] 2026-04-25  Each test asserts three things minimum:
-  1. Admin settings / resource page returns a 200 with no
-     "Whoops" / "Internal Server Error" in the page source.
-  2. A single save round-trip through whichever Livewire or
-     Filament form the module exposes.
-  3. Zero JS console errors during the above.
+## C. Tool catalog — coverage + UX
 
-## C.2 Priority 1 — modules that ship admin surfaces (no Dusk yet)
+### C.1 Missing high-value tools
 
-- [x] 2026-04-25  `LiveAdminModuleAccordionSmokeTest` — frontend accordion skin + admin settings page.
-- [x] 2026-04-25  `LiveAdminModuleAddressSmokeTest` — customer/address CRUD.
-- [x] 2026-04-25  `LiveAdminModuleAiWizardSmokeTest` — AI-wizard entry page.
-- [x] 2026-04-25  `LiveAdminModuleAttributesSmokeTest` — product attributes admin.
-- [x] 2026-04-25  `LiveAdminModuleAudioSmokeTest` — audio module insertion + inline URL edit.
-- [x] 2026-04-25  `LiveAdminModuleBeforeAfterSmokeTest` — slider comparison widget.
-- [x] 2026-04-25  `LiveAdminModuleBreadcrumbSmokeTest` — breadcrumb render on a nested page.
-- [x] 2026-04-25  `LiveAdminModuleBtnSmokeTest` — button module settings form.
-- [x] 2026-04-25  `LiveAdminModuleCaptchaSmokeTest` — captcha settings; form submits with token.
-- [x] 2026-04-25  `LiveAdminModuleCartSmokeTest` — cart admin view + manual line-item edit.
-- [x] 2026-04-25  `LiveAdminModuleCheckoutSmokeTest` — checkout form fields.
-- [x] 2026-04-25  `LiveAdminModuleCloudflareSmokeTest` — Cloudflare integration form.
-- [x] 2026-04-25  `LiveAdminModuleCompanySmokeTest` — company details form.
-- [x] 2026-04-25  `LiveAdminModuleComponentsSmokeTest` — components palette.
-- [x] 2026-04-25  `LiveAdminModuleContactFormSmokeTest` — contact form insertion + submission.
-- [x] 2026-04-25  `LiveAdminModuleContentDataSmokeTest` — content-data KV editor.
-- [x] 2026-04-25  `LiveAdminModuleContentDataVariantSmokeTest` — variants admin.
-- [x] 2026-04-25  `LiveAdminModuleContentFieldSmokeTest` — custom content field CRUD.
-- [x] 2026-04-25  `LiveAdminModuleCookieNoticeSmokeTest` — cookie notice settings.
-- [x] 2026-04-25  `LiveAdminModuleCountrySmokeTest` — country list admin.
-- [x] 2026-04-25  `LiveAdminModuleCouponsSmokeTest` — coupon CRUD + redeem on public checkout.
-- [x] 2026-04-25  `LiveAdminModuleCurrencySmokeTest` — currency list CRUD + default switch.
-- [x] 2026-04-25  `LiveAdminModuleCustomFieldsSmokeTest` — custom fields schema.
-- [x] 2026-04-25  `LiveAdminModuleEmbedSmokeTest` — embed module accepts common providers.
-- [x] 2026-04-25  `LiveAdminModuleExportSmokeTest` — content export page.
-- [x] 2026-04-25  `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
-- [x] 2026-04-25  `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
-- [x] 2026-04-25  `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
-- [x] 2026-04-25  `LiveAdminModuleFileManagerSmokeTest` — file manager view + upload.
-- [x] 2026-04-25  `LiveAdminModuleGoogleAnalyticsSmokeTest` — GA property field.
-- [x] 2026-04-25  `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
-- [x] 2026-04-25  `LiveAdminModuleHighlightCodeSmokeTest` — code-block insertion.
-- [x] 2026-04-25  `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
-- [x] 2026-04-25  `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
-- [x] 2026-04-25  `LiveAdminModuleLayoutContentSmokeTest` — layout-content picker.
-- [x] 2026-04-25  `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
-- [x] 2026-04-25  `LiveAdminModuleLogoSmokeTest` — logo upload form.
-- [x] 2026-04-25  `LiveAdminModuleMarqueeSmokeTest` — marquee module insertion.
-- [x] 2026-04-25  `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.
-- [x] 2026-04-25  `LiveAdminModuleOfferSmokeTest` — offer CRUD.
-- [x] 2026-04-25  `LiveAdminModuleOpenApiSmokeTest` — OpenAPI docs route.
-- [x] 2026-04-25  `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
-- [x] 2026-04-25  `LiveAdminModulePdfSmokeTest` — PDF export smoke.
-- [x] 2026-04-25  `LiveAdminModulePicturesSmokeTest` — picture module insertion.
-- [x] 2026-04-25  `LiveAdminModulePostSmokeTest` — post CRUD.
-- [x] 2026-04-25  `LiveAdminModuleRatingSmokeTest` — rating widget settings + frontend click.
-- [x] 2026-04-25  `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
-- [x] 2026-04-25  `LiveAdminModuleRssFeedSmokeTest` — RSS feed settings.
-- [x] 2026-04-25  `LiveAdminModuleSeoSmokeTest` — SEO settings form.
-- [x] 2026-04-25  `LiveAdminModuleSharerSmokeTest` — sharer widget settings.
-- [x] 2026-04-25  `LiveAdminModuleSiteStatsSmokeTest` — stats dashboard + widget list.
-- [x] 2026-04-25  `LiveAdminModuleSkillsSmokeTest` — skills module.
-- [x] 2026-04-25  `LiveAdminModuleSliderSmokeTest` — slider CRUD + frontend render.
-- [x] 2026-04-25  `LiveAdminModuleSocialLinksSmokeTest` — social-links settings.
-- [x] 2026-04-25  `LiveAdminModuleSpacerSmokeTest` — spacer insertion.
-- [x] 2026-04-25  `LiveAdminModuleTabsSmokeTest` — tabs module CRUD.
-- [x] 2026-04-25  `LiveAdminModuleTeamcardSmokeTest` — team-card CRUD.
-- [x] 2026-04-25  `LiveAdminModuleTestimonialsSmokeTest` — testimonial CRUD.
-- [x] 2026-04-25  `LiveAdminModuleTextTypeSmokeTest` — text-type effect widget.
-- [x] 2026-04-25  `LiveAdminModuleTweetEmbedSmokeTest` — tweet embed input.
-- [x] 2026-04-25  `LiveAdminModuleVideoSmokeTest` — video module + poster upload.
-- [x] 2026-04-25  `LiveAdminModuleWhiteLabelSmokeTest` — white-label settings form.
+- [ ] **Write tools** — every tool today is read-only (`readOnlyHint: true`).
+      For an MCP server to be genuinely useful for AI agents managing the
+      site, at least these write tools are needed (each gated behind
+      `mcp:admin` scope by default):
+      - [ ] `content.create` / `content.update` — create / update pages, posts,
+            categories. Wraps existing `mw_save_content` with strict validation.
+      - [ ] `media.upload` — accept a base64-encoded blob or URL + filename;
+            wraps existing `mw_upload`.
+      - [ ] `forms.submission_resolve` — mark a form submission as
+            handled / archived. Wraps existing `FormsManager`.
+      - [ ] `newsletter.campaign_send` — schedule or send a draft campaign.
+- [ ] **Resources** — declare common site-state surfaces as MCP resources so
+      clients can browse them via `resources/list` / `resources/read`:
+      - [ ] `mw://content/{id}` — full content body
+      - [ ] `mw://media/{id}` — media asset metadata
+      - [ ] `mw://settings/{group}` — option group dump (sanitised)
+      - [ ] `mw://templates/{name}` — active template manifest
+- [ ] **Prompts** — package the most useful workflows as MCP prompts so the
+      AI side can discover canonical task templates:
+      - [ ] `mw.publish_blog_post` — title + body → wraps `content.create`
+            with content_type=post.
+      - [ ] `mw.run_seo_audit` — uses the existing `SeoMetadataService` to
+            return a per-page audit summary.
 
-## C.3 Priority 2 — modules without admin UI (document only)
+### C.2 Schema robustness
 
-- [x] 2026-04-25  Add a one-liner NOTE in each module's README when the module is
-      data-only (no admin UI, no public-frontend widget) so absent
-      Dusk coverage is documented, not a gap: `Updater`,
-      `Marketplace` (plugin marketplace lists are opt-in), etc.
+- [ ] **Type coverage in `McpToolCatalog::buildInputSchema`** — currently
+      collapses every property to `'type' => 'string'` if no type is set.
+      The schema should emit `integer` for `MaxResults`-style props (the
+      `limit` field today comes back as `'type' => 'integer'` so the
+      reflection works for declared types — but defaults to `string` for
+      anything missing a declared type). Add a unit test pinning the
+      output schema for a representative tool (e.g. `content.lookup`)
+      so schema regressions surface.
+- [ ] **`additionalProperties: false`** is good, but the per-property
+      schema currently lacks `format`, `pattern`, `minimum` / `maximum`,
+      `default`. Promote those from the underlying tool's `Property`
+      class so MCP clients can build richer prompts.
+- [ ] **Output schema** — MCP 2025-06-18 adds `outputSchema`. Tools today
+      return free-form HTML-stripped text. Either declare the
+      semi-structured shape via `outputSchema`, or commit to plain text
+      and document it.
 
-## C.4 Batching guidance
+### C.3 Tool output normalisation
 
-- [x] 2026-04-25  Land the smokes in priority-1 groups of 10; don't wait for the
-      whole batch before committing — each smoke is independent and
-      prevents regressions in isolation. *(Followed throughout the
-      Plan-C.2 batch — each smoke landed in its own conventional
-      `test(modules):` commit immediately after the verifier passed,
-      27 commits total.)*
-- [x] 2026-04-25  If any module's admin form is still Livewire-v3-style (not yet
-      Filament 5-migrated), file a follow-up `feat(<module>):
-      filament-5 migration` task instead of just writing the smoke
-      — the smoke would fail on the migration anyway. *(All 27
-      Plan-C.2 modules were already Filament-5; the only console
-      regression encountered was the Layouts module's
-      `getSelectedLayoutNode` hard-throw on standalone-page mount,
-      bundled with the smoke as a defensive guard rather than a
-      separate migration task because the underlying form is
-      already Filament 5.)*
+- [ ] **`McpServer::normalizeToolOutput`** strips HTML and collapses
+      whitespace. That works for the existing HTML-emitting tools but
+      destroys structure useful for the AI side. Tools should be able
+      to opt in to **JSON output** (`isJsonOutput: true`) and have the
+      server pass through the JSON unchanged in `content[0].text` (or
+      better, `content[0].mimeType: 'application/json'`).
+- [ ] **`isError` detection** uses the literal string `'alert-danger'`
+      (McpServer.php:99). Replace with an explicit error contract on
+      `ToolInterface` (e.g. `wasError(): bool`) — the current
+      heuristic fires false positives for any tool whose normal output
+      mentions the word "alert-danger" (e.g. a content search
+      returning a page about Bootstrap alerts).
 
----
+## D. Security & operations
 
-# Plan D — Color palettes × layouts cross-matrix
+### D.1 Auth & rate limiting
 
-> **Goal:** every shipped palette lands cleanly on every shipped
-> layout skin. The existing matrix pairs `neon-night` with all skins;
-> this plan widens that to the full palette × skin grid so a
-> regression in any palette-skin combination is caught.
+- [ ] **Per-token rate limit overrides** — today rate limit is set on the
+      client (`McpClient::rate_limit_per_minute`), not the token. A
+      per-token override would let one client issue both a low-rate
+      "browse" token and a high-rate "service" token without splitting
+      clients.
+- [ ] **Per-tool rate limits** — expensive tools (analytics summaries,
+      newsletter campaign queries) should be rate-limited tighter
+      than cheap lookups.
+- [ ] **Sliding-window rate limiter** — currently uses Laravel's
+      fixed-window `RateLimiter::tooManyAttempts` (60s window). Switch
+      to sliding window or token-bucket so a burst at second 59 doesn't
+      double-count against second 0.
+- [ ] **Token expiry default** — `McpClientToken::expires_at` is
+      nullable today (forever-tokens). Add a config-driven default
+      (`AI_MCP_TOKEN_DEFAULT_TTL_DAYS`, default 90) so tokens issued
+      via the Filament UI without an explicit expiry inherit a sane
+      lifetime.
+- [ ] **`Rotate token` UX** — `McpClientTokenManager::rotateToken` exists
+      but isn't exposed as a one-click action in the Filament admin
+      panel (`McpClientResource`). Add the action so operators can
+      rotate without re-creating clients.
 
-## D.1 Current palette inventory (17 packs)
+### D.2 Audit log
 
-Apple Shine · Arctic Frost · Blueberry Pie · Citrus Splash · Coral
-Pop · Cyber Mint · Forest Haze · Golden Hour · Lavender Fields ·
-Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
-· Sakura Bloom · Sunset Boulevard · Urban Concrete
+- [ ] **`token.used` event volume** — recorded on every authenticated
+      request (`McpClientTokenManager::recordUsage`). For a busy AI
+      client this floods `mcp_client_token_events`. Add a config-driven
+      sampling rate (`AI_MCP_AUDIT_SAMPLE_USED`, default 0.0 = log all,
+      can drop to 0.1 = log 10% in production).
+- [ ] **Filament admin viewer** — the Filament resource lists clients
+      and tokens but not the token-event audit log. Add a relation
+      manager so operators can see denial reasons, rate-limit hits,
+      and tool calls per token.
+- [ ] **Audit retention** — no pruning policy. Add an artisan command
+      `php artisan ai:mcp:prune-audit --older-than=90d`.
 
-## D.2 Deliverables
+### D.3 Observability
 
-- [x] 2026-04-25  `LiveEditColorPaletteLayoutMatrixTest` — parameterized over
-      the 17 × 13 = 221 (palette, skin) pairs. Runs headless; must
-      finish in ≤20 min. Applies the pack, asserts three computed
-      styles per skin (body, heading, button) match the pack's
-      declared values. *(17 packs × 14 available skins = 238 pairs
-      across 4 chunks; full run 332s / 2680 assertions.)*
-- [x] 2026-04-25  Split the matrix into chunks that Dusk can run in parallel
-      via `--group=palette-layout-chunk-N` so the full run stays
-      under CI time budget. *(Implemented as 4 #[Group(...)]-tagged
-      chunks: `color-palette-layout-chunk-1` through `…-chunk-4`,
-      plus the umbrella `color-palette-layout-matrix` group for
-      sequential runs. Each chunk processes 17 packs × 3-4 skins
-      = 51-68 pair-applies in roughly equal time, ~80-105s each
-      sequentially.)*
-- [x] 2026-04-25  Add a matrix drift test `LiveEditColorPaletteTargetSkinDriftTest`
-      that asserts `ColorPaletteSkinMatrixFactory::TARGET_SKINS`
-      stays in sync with the actual blade files in
-      `Templates/Bootstrap/resources/views/modules/layouts/templates/`
-      — silently-missing skins are the biggest miss risk. *(Lives
-      under tests/Feature/. Walks every `<family>/skin-<N>.blade.php`
-      under the bootstrap layouts tree and asserts the canonical
-      tag is either in `TARGET_SKINS` or in this test's
-      `DOCUMENTED_EXCLUSIONS` constant. Pairs with
-      ColorPaletteSkinMatrixFactoryTargetSkinsContractTest, which
-      guards the per-test → constant direction; this guards the
-      shipped-blade → constant direction.)*
-- [x] 2026-04-25  Per-palette public-render tests (`LiveEditColorPalette<Pack>PublicRenderMatrixTest`)
-      already exist for some packs — ensure every pack in §D.1 has one.
-      *(Audited the existing coverage: every shipped pack is already
-      covered through `LiveEditColorPalettePublicRenderTest`'s
-      `paletteProvider()` data provider — one PHPUnit row per slug
-      on disk, so adding a pack auto-extends coverage. Pinned that
-      property in CI via the new
-      `LiveEditColorPalettePerPackCoverageContractTest` Feature
-      test, which would surface a regression in the provider's
-      glob path or a stale slug list before the next dusk run.)*
+- [ ] **OpenTelemetry / Laravel Telescope hooks** — instrument every
+      tool call with start / end timestamps, duration, success/error,
+      and token id. Today the only signal is `Log::warning` on
+      unauthorized requests.
+- [ ] **Per-tool metrics** — surface call count + p50/p95/p99 latency
+      per tool name in a Filament dashboard widget.
+- [ ] **Slow-tool guard** — add a `tool_timeout_ms` config + enforce it
+      with a wallclock check in `McpServer::toolsCallResponse`.
 
-## D.3 Shared contract
+### D.4 Hardening
 
-- [x] 2026-04-25  Every pair test asserts the pack's full `--mw-*` variable map
-      lands on `:root` in the iframe. *(Both
-      `LiveEditColorPaletteSkinMatrixTest` and the new
-      `LiveEditColorPaletteLayoutMatrixTest` call
-      `assertPaletteApplied($browser, $vars)` per pair, sampling
-      `--mw-body-color` / `--mw-heading-color` /
-      `--mw-btn-background-color` directly off `:root` in the
-      canvas iframe via `getComputedStyle(documentElement)`.)*
-- [x] 2026-04-25  Every pair test asserts the concrete consumers (body color,
-      heading color, primary-button background) resolve the vars
-      correctly after a full CSS cascade pass. *(Both matrix tests
-      run `probeSkinPaintedColors()` per pair — reads
-      `getComputedStyle(body).color`, the first visible
-      non-overridden heading's `.color`, and the first visible non-
-      header / non-footer / non-transparent `.btn-primary`'s
-      `.backgroundColor`. Documented skips for genuinely-headingless
-      / buttonless skins, hover-state probes, gradient packs, and
-      skin-rendered transparent buttons.)*
-- [x] 2026-04-25  Every pair test leaves zero fixture residue (reuses
-      `CleansColorPaletteTestFixtures` trait). *(Both matrix tests
-      `use CleansColorPaletteTestFixtures` — the trait's
-      `tearDownCleansColorPaletteTestFixtures` hook cascade-deletes
-      every `color-palette-test-*` / `color-palette-skin-test-*`
-      page + satellites, resets `options.current_template`, drops
-      ad-hoc `template`-group rows the save pipeline injected,
-      invalidates the option-repo cache, and resets the static
-      `DuskTestCase::$adminLoggedIn` flag.)*
+- [ ] **Constant-time token comparison** — `Hash::check` on bcrypt is
+      already constant-time; this is fine. But `parsePlainTextToken`
+      uses `str_starts_with` for the prefix check which is short-circuit
+      — replace with `hash_equals` for the prefix segment too.
+- [ ] **Token leakage in logs** — `Log::warning('mcp.auth.unauthorized', ...)`
+      logs the request path. Verify no other log statement in the
+      middleware accidentally logs the bearer token (audit
+      `recordEvent` metadata for any inbound payload echo).
+- [ ] **CSRF + CORS posture** — `/api/mcp` lives under the `api`
+      middleware group (Sanctum-friendly, no CSRF). Document the
+      CORS posture explicitly in the README — by default
+      `config/cors.php` covers `api/*` so cross-origin AI clients
+      can reach it; this might be unintended.
 
-## D.4 Regression guards
+## E. Documentation
 
-- [x] 2026-04-25  `LiveEditColorPaletteSwitchNoBleedTest` — keep green; proves
-      switching packs doesn't leave the prior pack's vars behind.
-      *(Verified 2026-04-25 — green, 20s.)*
-- [x] 2026-04-25  `LiveEditColorPaletteZeroPacksTemplateTest` — keep green;
-      proves removing all packs restores the template's defaults.
-      *(Verified 2026-04-25 — green, 15s.)*
-- [x] 2026-04-25  `LiveEditColorPaletteTemplateSwitchRoundTripTest` — keep
-      green; proves template-switch preserves the pack selection
-      when the operator switches back. *(Verified 2026-04-25 —
-      green, 25s.)*
+- [ ] **`docs/mcp/README.md`** — first-class docs page covering:
+      - [ ] How to enable the server (`AI_ENABLED` + `AI_MCP_ENABLED`)
+      - [ ] How to issue a client + token (CLI command + Filament UI)
+      - [ ] curl / wget examples for `initialize` / `tools/list` /
+            `tools/call`
+      - [ ] Connecting Claude Desktop / Cursor / Cline (config
+            snippets per client)
+      - [ ] Allowlist semantics (depends on B's resolution)
+      - [ ] Rate-limit + scope semantics
+      - [ ] Tool catalog reference (auto-generated from
+            `McpToolCatalog::allDefinitions()`)
+- [ ] **Module README cross-links** — `Modules/Ai/README.md` mentions
+      MCP at a high level but doesn't link to the new docs page or
+      describe the 39-tool catalog. Update.
+- [ ] **Postman / Bruno collection** — ship a ready-to-import
+      collection at `docs/mcp/microweber-mcp.bruno.json` so contributors
+      and operators can drive every method without writing curl.
 
----
+## F. CLI / DX
 
-# Plan E — Verify: "is WordPress import actually working?"
+- [ ] **`php artisan ai:mcp:client:create`** — currently you have to
+      open Filament or use `tinker`. Add a console command that prints
+      the new bearer token on stdout:
+      ```bash
+      php artisan ai:mcp:client:create \
+          --name="Cursor" \
+          --scopes=mcp:access,mcp:admin \
+          --tools='*' --modules='*' \
+          --rate-limit=600 \
+          --print-token
+      ```
+- [ ] **`php artisan ai:mcp:tools:list`** — print the tool catalog
+      (name, module, description) as a table — helpful when wiring
+      a new client.
+- [ ] **`php artisan ai:mcp:health`** — pings the local endpoint with
+      a freshly-issued ephemeral token, runs `initialize` +
+      `tools/list` + a representative `tools/call`, reports green / red.
+- [ ] **stdio transport command** — `php artisan ai:mcp:serve --stdio`
+      that speaks JSON-RPC over stdio, so Claude Desktop / Cursor (which
+      prefer stdio) can launch the server directly without an HTTP
+      hop. Wraps the existing `McpServer::handle()` with a JSON-RPC-
+      over-stdio shim.
 
-> **Goal:** prove the Phase 1-11 WordPress importer actually works
-> against a live WordPress site end-to-end, not just against the
-> PHP-built-in-server fixture. This is the last user-facing
-> validation before the feature ships.
+## G. Testing
 
-- [x] 2026-04-25  Add an opt-in Dusk test
-      `LiveAdminWordPressMigrationLiveSiteCheckTest` (group
-      `live-external`, excluded from the default run) that pokes a
-      known-good public WordPress site (e.g. https://wordpress.org/news/)
-      and asserts the probe returns `rest` + non-zero counts. Never
-      runs in CI unless the group is explicitly requested.
-- [x] 2026-04-25  Document in `docs/migration/wordpress.md` §11 how a contributor
-      can run the live check on their own box before shipping a
-      Phase-* change.
-- [x] 2026-04-25  Add a contributor note in
-      `docs/migration/wordpress-architecture.md` §3 pointing at the
-      live check as the "before you tag a release" acceptance gate.
+- [ ] **End-to-end Dusk test for the Filament `McpClientResource`**
+      — list / create / token-rotate / revoke flows through the admin
+      UI. Today there's a Unit test (`McpClientResourceTest`) but no
+      browser exercise.
+- [ ] **Integration test that drives the live `/api/mcp` endpoint via
+      Laravel HTTP client** — proves the full middleware → controller
+      → server → tool round-trip on a representative tool.
+- [ ] **Spec-compliance test suite** — port the
+      [MCP test suite](https://github.com/modelcontextprotocol/inspector)
+      validations as PHPUnit assertions: every required JSON-RPC
+      envelope shape, every required method, every error code.
+- [ ] **Contract test pinning the 39-tool catalog** — like the
+      Plan-D drift tests, fail if a tool is removed from the catalog
+      without an explicit deprecation.
+
+## H. Future / nice-to-have
+
+- [ ] **Subscriptions** — once Streamable HTTP is in (A.3), add
+      `notifications/tools/list_changed` so clients re-fetch the
+      catalog when an admin toggles a module's `allowed_tools`
+      list at runtime.
+- [ ] **OAuth 2.0 dynamic client registration** — MCP 2025-06-18 added
+      OAuth as a first-class auth mode. Today bearer tokens are issued
+      manually. Add `/api/mcp/.well-known/oauth-authorization-server`
+      + the registration endpoint so spec-compliant clients can self-
+      onboard.
+- [ ] **MCP Inspector UI** — bundle the official `@modelcontextprotocol/inspector`
+      web UI as an admin-side Filament page so operators can drive
+      and debug tools visually.
