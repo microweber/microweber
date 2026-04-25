@@ -284,7 +284,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleGoogleAnalyticsSmokeTest` — GA property field.
 - [x] 2026-04-25  `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
 - [x] 2026-04-25  `LiveAdminModuleHighlightCodeSmokeTest` — code-block insertion.
-- [ ] `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
+- [x] 2026-04-25  `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
 - [ ] `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
 - [ ] `LiveAdminModuleLayoutContentSmokeTest` — layout-content picker.
 - [ ] `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
