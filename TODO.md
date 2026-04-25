@@ -385,8 +385,16 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
       ColorPaletteSkinMatrixFactoryTargetSkinsContractTest, which
       guards the per-test → constant direction; this guards the
       shipped-blade → constant direction.)*
-- [ ] Per-palette public-render tests (`LiveEditColorPalette<Pack>PublicRenderMatrixTest`)
+- [x] 2026-04-25  Per-palette public-render tests (`LiveEditColorPalette<Pack>PublicRenderMatrixTest`)
       already exist for some packs — ensure every pack in §D.1 has one.
+      *(Audited the existing coverage: every shipped pack is already
+      covered through `LiveEditColorPalettePublicRenderTest`'s
+      `paletteProvider()` data provider — one PHPUnit row per slug
+      on disk, so adding a pack auto-extends coverage. Pinned that
+      property in CI via the new
+      `LiveEditColorPalettePerPackCoverageContractTest` Feature
+      test, which would surface a regression in the provider's
+      glob path or a stale slug list before the next dusk run.)*
 
 ## D.3 Shared contract
 
