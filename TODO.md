@@ -49,11 +49,26 @@ not a fully spec-compliant MCP server.
       controller turns into `response()->noContent()`. Covered by 3 tests in
       McpSpecComplianceTest including a representative non-`initialized`
       notification name.)*
-- [ ] **`logging/setLevel`** — optional but standard; clients use it to control
+- [x] 2026-04-25  **`logging/setLevel`** — optional but standard; clients use it to control
       server-side log verbosity. Decline gracefully with a documented capability,
-      or implement it.
-- [ ] **`completion/complete`** (resource/prompt completions) — declare
+      or implement it. *(Documented graceful-decline contract: the
+      capabilities pin asserts `logging` is NOT advertised in the
+      initialize response, so spec-compliant clients route around it
+      without sending the call. If a client does send it anyway, the
+      server's default JSON-RPC fall-through returns `-32601 Method
+      not found.` — this is the spec-mandated response when a
+      capability is undeclared. Pinned by the new
+      `unsupported_methods_return_method_not_found_not_spurious_success`
+      test in McpSpecComplianceTest.)*
+- [x] 2026-04-25  **`completion/complete`** (resource/prompt completions) — declare
       explicitly unsupported in `capabilities` instead of silent `-32601`.
+      *(Same approach as logging/setLevel: the capabilities object
+      omits `completion`, so spec-compliant clients route around it.
+      The -32601 fall-through is the spec-mandated response when a
+      capability is undeclared — declaring `completion: null` in the
+      response would be a misleading "I support this but with no
+      methods" hint. Same pin test catches a future regression that
+      adds the key without wiring the methods.)*
 - [x] 2026-04-25  **JSON-RPC batch request handling** — the spec says servers MUST handle
       arrays of requests. Sending `[{...},{...}]` to `/api/mcp` currently
       302-redirects to `/` (Laravel's `Request::json()` chokes on array root,

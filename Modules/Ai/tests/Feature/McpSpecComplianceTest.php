@@ -307,6 +307,53 @@ class McpSpecComplianceTest extends TestCase
     }
 
     #[Test]
+    public function unsupported_methods_return_method_not_found_not_spurious_success(): void
+    {
+        // Plan A.1 gracefully-decline contract: methods whose
+        // capability is NOT advertised in initialize MUST return
+        // a -32601 'Method not found' envelope, not a fake 200.
+        // This is the documented "decline gracefully" path that
+        // works for every spec-compliant client without bespoke
+        // server-side handlers — clients read the capabilities
+        // object and route around it.
+        $unsupportedMethods = [
+            'logging/setLevel',
+            'completion/complete',
+            'resources/list',
+            'resources/read',
+            'prompts/list',
+            'prompts/get',
+            'sampling/createMessage',
+        ];
+
+        foreach ($unsupportedMethods as $method) {
+            $response = $this->withHeaders($this->authHeaders())
+                ->postJson(route('api.ai.mcp'), [
+                    'jsonrpc' => '2.0',
+                    'id' => 'unsupported-' . $method,
+                    'method' => $method,
+                ]);
+
+            $response->assertOk()
+                ->assertJsonPath('jsonrpc', '2.0')
+                ->assertJsonPath('id', 'unsupported-' . $method)
+                ->assertJsonPath('error.code', -32601);
+
+            // Reject the temptation to silently 200 with `result: {}`
+            // — clients that strict-validate would treat that as a
+            // fake success and assume the capability exists.
+            $body = $response->json();
+            $this->assertArrayNotHasKey(
+                'result',
+                $body,
+                "Unsupported method {$method} must return an error envelope, "
+                . "not a result. A regression that fakes success would silently "
+                . "lie to spec-compliant clients about the server's capabilities."
+            );
+        }
+    }
+
+    #[Test]
     public function initialize_capabilities_only_declare_supported_features(): void
     {
         // Spec: a server's `capabilities` object MUST only contain
