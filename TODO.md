@@ -307,7 +307,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleSliderSmokeTest` — slider CRUD + frontend render.
 - [ ] `LiveAdminModuleSocialLinksSmokeTest` — social-links settings.
 - [x] 2026-04-25  `LiveAdminModuleSpacerSmokeTest` — spacer insertion.
-- [ ] `LiveAdminModuleTabsSmokeTest` — tabs module CRUD.
+- [x] 2026-04-25  `LiveAdminModuleTabsSmokeTest` — tabs module CRUD.
 - [ ] `LiveAdminModuleTeamcardSmokeTest` — team-card CRUD.
 - [ ] `LiveAdminModuleTestimonialsSmokeTest` — testimonial CRUD.
 - [ ] `LiveAdminModuleTextTypeSmokeTest` — text-type effect widget.
