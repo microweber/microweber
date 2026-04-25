@@ -342,10 +342,22 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       client this floods `mcp_client_token_events`. Add a config-driven
       sampling rate (`AI_MCP_AUDIT_SAMPLE_USED`, default 0.0 = log all,
       can drop to 0.1 = log 10% in production).
-- [ ] **Filament admin viewer** — the Filament resource lists clients
+- [x] 2026-04-25  **Filament admin viewer** — the Filament resource lists clients
       and tokens but not the token-event audit log. Add a relation
       manager so operators can see denial reasons, rate-limit hits,
-      and tool calls per token.
+      and tool calls per token. *(Pre-existing
+      `McpClientTokenEventsRelationManager` already wired into the
+      McpClientResource via `getRelations()` (it lists action /
+      key / actor / ip_address / occurred-at). Enriched 2026-04-25
+      with: action-coloured badges (`token.denied` and
+      `token.rate_limited` flagged red, `token.issued` /
+      `client.created` green, `token.rotated` warning, `token.used`
+      neutral grey), a new `Detail` column that renders the
+      operationally-useful keys from the `metadata` JSON column
+      (`reason=...`, `tool=...`, `rate_limited=...`, etc.) so
+      denial reasons are scannable without expanding rows, an
+      action filter, and a 100-row pagination tier for
+      drilldowns.)*
 - [x] 2026-04-25  **Audit retention** — no pruning policy. Add an artisan command
       `php artisan ai:mcp:prune-audit --older-than=90d`. *(Implemented
       as `Modules/Ai/Console/Commands/McpPruneAuditCommand.php` with
