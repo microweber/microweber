@@ -366,6 +366,26 @@ Set `rate_limit_per_minute` to `0` (CLI: `--rate-limit=0`) or
 NULL (database) to disable rate limiting for a high-volume
 integration.
 
+### Per-tool rate limits
+
+Expensive tools can be capped tighter than the token-level
+budget so a single client can't burn the entire per-minute
+allowance on one slow query (e.g. `analytics.traffic_summary`,
+`newsletter.campaign_lookup`). Configure via env:
+
+```env
+# 60-second window per (token-id, tool) pair
+AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC_SUMMARY=10
+AI_MCP_TOOL_RATE_NEWSLETTER_CAMPAIGN_LOOKUP=5
+```
+
+The middleware checks the per-tool gate first, then the
+token-level gate. A request that survives both gates increments
+both buckets. Per-tool denials record `scope=per_tool` in the
+audit-log metadata so operators can distinguish them from
+token-level denials in the Filament events viewer. Tools not
+listed in the config map fall back to the token-level cap.
+
 ### Fixed-window trade-off
 
 The rate limiter uses Laravel's fixed-60-second window because

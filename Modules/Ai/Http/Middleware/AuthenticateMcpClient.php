@@ -88,6 +88,34 @@ class AuthenticateMcpClient
             return $this->forbidden('MCP token lacks the admin scope required for this tool.');
         }
 
+        // Per-tool rate-limit gate runs first so a tool-specific
+        // cap (e.g. 10/min on analytics.traffic_summary) wins
+        // over the token-level cap. A request that survives
+        // both gates increments both buckets.
+        if ($toolName !== null && $this->isToolRateLimited($token, $toolName)) {
+            $retryAfter = RateLimiter::availableIn($this->toolRateLimitKey($token, $toolName));
+
+            $this->tokenManager->recordAuditEvent(
+                client: $client,
+                token: $token,
+                action: 'token.rate_limited',
+                metadata: [
+                    'retry_after' => $retryAfter,
+                    'method' => $method,
+                    'tool' => $toolName,
+                    'scope' => 'per_tool',
+                ],
+                ipAddress: $request->ip(),
+                userAgent: $request->userAgent(),
+            );
+
+            return response()->json([
+                'error' => 'Too many requests',
+                'message' => 'MCP per-tool rate limit exceeded for ' . $toolName . '.',
+                'retry_after' => $retryAfter,
+            ], 429);
+        }
+
         if ($this->isRateLimited($request, $token)) {
             $retryAfter = RateLimiter::availableIn($this->rateLimitKey($token));
 
@@ -99,6 +127,7 @@ class AuthenticateMcpClient
                     'retry_after' => $retryAfter,
                     'method' => $method,
                     'tool' => $toolName,
+                    'scope' => 'token',
                 ],
                 ipAddress: $request->ip(),
                 userAgent: $request->userAgent(),
@@ -112,6 +141,9 @@ class AuthenticateMcpClient
         }
 
         $this->hitRateLimiter($token);
+        if ($toolName !== null) {
+            $this->hitToolRateLimiter($token, $toolName);
+        }
         $this->tokenManager->recordUsage($token, $request->ip(), $request->userAgent());
 
         $context = new McpRequestContext(
@@ -221,5 +253,45 @@ class AuthenticateMcpClient
     private function rateLimitKey(McpClientToken $token): string
     {
         return 'mcp-client-token:' . $token->id;
+    }
+
+    /**
+     * Per-tool rate-limit gate. Reads the tool's cap from the
+     * `per_tool_rate_limits` config map; returns false (= no limit)
+     * when the tool isn't listed.
+     */
+    private function isToolRateLimited(McpClientToken $token, string $toolName): bool
+    {
+        $maxAttempts = $this->perToolRateLimit($toolName);
+        if ($maxAttempts === null) {
+            return false;
+        }
+
+        return RateLimiter::tooManyAttempts($this->toolRateLimitKey($token, $toolName), $maxAttempts);
+    }
+
+    private function hitToolRateLimiter(McpClientToken $token, string $toolName): void
+    {
+        if ($this->perToolRateLimit($toolName) === null) {
+            return;
+        }
+
+        RateLimiter::hit($this->toolRateLimitKey($token, $toolName), 60);
+    }
+
+    private function toolRateLimitKey(McpClientToken $token, string $toolName): string
+    {
+        return 'mcp-client-token:' . $token->id . ':tool:' . $toolName;
+    }
+
+    private function perToolRateLimit(string $toolName): ?int
+    {
+        $map = (array) config('modules.ai.mcp.per_tool_rate_limits', []);
+        if (! isset($map[$toolName])) {
+            return null;
+        }
+
+        $limit = (int) $map[$toolName];
+        return $limit > 0 ? $limit : null;
     }
 }

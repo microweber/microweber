@@ -67,6 +67,33 @@ return [
             // updates).
             'sample_used' => (float) env('AI_MCP_AUDIT_SAMPLE_USED', 1.0),
         ],
+        // Per-tool rate-limit overrides. The token-level rate
+        // (effectiveRateLimitPerMinute) is the cap for cheap
+        // lookups; expensive tools (analytics summaries,
+        // newsletter campaign queries) can be capped tighter
+        // here so a single client can't burn the per-minute
+        // budget on one slow query. Map of tool-name => max
+        // calls per 60s window per (token-id, tool) pair.
+        // Falls back to the token-level cap when a tool isn't
+        // listed.
+        //
+        // Configure via:
+        //   AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC=10
+        //   AI_MCP_TOOL_RATE_NEWSLETTER_CAMPAIGN=5
+        //
+        // (the convention is uppercased + dot→underscore: the
+        // tool key 'analytics.traffic_summary' would set
+        // AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC_SUMMARY=N).
+        'per_tool_rate_limits' => array_filter([
+            'analytics.traffic_summary' => env('AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC_SUMMARY'),
+            'analytics.top_pages' => env('AI_MCP_TOOL_RATE_ANALYTICS_TOP_PAGES'),
+            'analytics.traffic_referrers' => env('AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC_REFERRERS'),
+            'analytics.audience_breakdown' => env('AI_MCP_TOOL_RATE_ANALYTICS_AUDIENCE_BREAKDOWN'),
+            'newsletter.campaign_lookup' => env('AI_MCP_TOOL_RATE_NEWSLETTER_CAMPAIGN_LOOKUP'),
+            'newsletter.subscriber_lookup' => env('AI_MCP_TOOL_RATE_NEWSLETTER_SUBSCRIBER_LOOKUP'),
+            'newsletter.template_lookup' => env('AI_MCP_TOOL_RATE_NEWSLETTER_TEMPLATE_LOOKUP'),
+            'newsletter.automation_status' => env('AI_MCP_TOOL_RATE_NEWSLETTER_AUTOMATION_STATUS'),
+        ], static fn ($v) => $v !== null && $v !== ''),
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),

@@ -355,9 +355,25 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       override persists + is honoured in
       effectiveRateLimitPerMinute; null token-rate falls back to
       client-rate. The 60-test McpControllerTest suite stays green.)*
-- [ ] **Per-tool rate limits** — expensive tools (analytics summaries,
+- [x] 2026-04-25  **Per-tool rate limits** — expensive tools (analytics summaries,
       newsletter campaign queries) should be rate-limited tighter
-      than cheap lookups.
+      than cheap lookups. *(Implemented as
+      `modules.ai.mcp.per_tool_rate_limits` config map + per-tool
+      env knobs (e.g. `AI_MCP_TOOL_RATE_ANALYTICS_TRAFFIC_SUMMARY=10`).
+      Pre-seeded entries for the four analytics tools and four
+      newsletter tools (the operationally expensive ones) so
+      operators only need to set values, not add keys. The
+      middleware now checks the per-tool gate before the token-
+      level gate; a request that survives both increments both
+      buckets. Per-tool denials record `scope=per_tool` in the
+      audit metadata so the Filament events viewer can
+      distinguish them from token-level denials. Pinned by 3
+      new tests in `McpPerToolRateLimitTest`: per-tool cap
+      rejects after threshold while token-level stays unaffected;
+      tools not in the config map are unaffected by the per-tool
+      gate; audit metadata records `scope=per_tool`. The
+      McpControllerTest 60-test suite stays green because the
+      default config map is empty.)*
 - [x] 2026-04-25  **Sliding-window rate limiter** — currently uses Laravel's
       fixed-window `RateLimiter::tooManyAttempts` (60s window). Switch
       to sliding window or token-bucket so a burst at second 59 doesn't
