@@ -398,13 +398,33 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
 
 ## D.3 Shared contract
 
-- [ ] Every pair test asserts the pack's full `--mw-*` variable map
-      lands on `:root` in the iframe.
-- [ ] Every pair test asserts the concrete consumers (body color,
+- [x] 2026-04-25  Every pair test asserts the pack's full `--mw-*` variable map
+      lands on `:root` in the iframe. *(Both
+      `LiveEditColorPaletteSkinMatrixTest` and the new
+      `LiveEditColorPaletteLayoutMatrixTest` call
+      `assertPaletteApplied($browser, $vars)` per pair, sampling
+      `--mw-body-color` / `--mw-heading-color` /
+      `--mw-btn-background-color` directly off `:root` in the
+      canvas iframe via `getComputedStyle(documentElement)`.)*
+- [x] 2026-04-25  Every pair test asserts the concrete consumers (body color,
       heading color, primary-button background) resolve the vars
-      correctly after a full CSS cascade pass.
-- [ ] Every pair test leaves zero fixture residue (reuses
-      `CleansColorPaletteTestFixtures` trait).
+      correctly after a full CSS cascade pass. *(Both matrix tests
+      run `probeSkinPaintedColors()` per pair — reads
+      `getComputedStyle(body).color`, the first visible
+      non-overridden heading's `.color`, and the first visible non-
+      header / non-footer / non-transparent `.btn-primary`'s
+      `.backgroundColor`. Documented skips for genuinely-headingless
+      / buttonless skins, hover-state probes, gradient packs, and
+      skin-rendered transparent buttons.)*
+- [x] 2026-04-25  Every pair test leaves zero fixture residue (reuses
+      `CleansColorPaletteTestFixtures` trait). *(Both matrix tests
+      `use CleansColorPaletteTestFixtures` — the trait's
+      `tearDownCleansColorPaletteTestFixtures` hook cascade-deletes
+      every `color-palette-test-*` / `color-palette-skin-test-*`
+      page + satellites, resets `options.current_template`, drops
+      ad-hoc `template`-group rows the save pipeline injected,
+      invalidates the option-repo cache, and resets the static
+      `DuskTestCase::$adminLoggedIn` flag.)*
 
 ## D.4 Regression guards
 
