@@ -16,7 +16,7 @@ use Tests\Browser\Traits\AdminLoginTrait;
  *
  * Prerequisites:
  *   - A running dev server at http://127.0.0.1:8000
- *   - An admin user with email admin@admin.com / password123
+ *   - An admin user with email admin@admin.com / admin (canonical AdminLoginTrait credentials)
  *   - Login captcha disabled
  */
 class AdminContentWorkflowTest extends DuskTestCase

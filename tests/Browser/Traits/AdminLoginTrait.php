@@ -18,12 +18,22 @@ use Tests\Browser\Traits\PageSmokeTrait;
 trait AdminLoginTrait
 {
     use PageSmokeTrait;
+    use ResolvesWorkflowEnvironment;
 
     protected function loginAsAdmin(Browser $browser): void
     {
         if (\Tests\DuskTestCase::$adminLoggedIn) {
             return;
         }
+
+        // Source admin credentials from `.env.dusk` via the
+        // ResolvesWorkflowEnvironment trait so the canonical Dusk
+        // creds are configurable per-environment without editing
+        // every test. Defaults still match the dev-install
+        // (admin@admin.com / admin) so a missing .env.dusk doesn't
+        // break the suite.
+        $email = $this->workflowAdminEmail();
+        $password = $this->workflowAdminPassword();
 
         $browser->visit('/admin/login')->pause(2000);
 
@@ -36,9 +46,9 @@ trait AdminLoginTrait
         for ($attempt = 1; $attempt <= 5; $attempt++) {
             $browser->waitFor('input[type="email"]', 10)
                 ->clear('input[type="email"]')
-                ->type('input[type="email"]', 'admin@admin.com')
+                ->type('input[type="email"]', $email)
                 ->clear('input[type="password"]')
-                ->type('input[type="password"]', 'admin')
+                ->type('input[type="password"]', $password)
                 ->click('button[type="submit"]')
                 ->pause(5000);
 
