@@ -97,6 +97,19 @@ A PR that touches auth, idempotency keys, retry budgets, or the
 rollback shape should link to the ADR section it is amending in the
 PR description.
 
+> **Before-you-tag-a-release acceptance gate:** the in-repo Dusk
+> coverage drives the importer against a static PHP-built-in-server
+> fixture, which proves internal consistency but does NOT cover
+> upstream variance from a real WordPress site (REST shape,
+> redirect chains, TLS quirks). The opt-in
+> `tests/Browser/LiveAdminWordPressMigrationLiveSiteCheckTest`
+> (group `live-external`) is the last user-facing validation gate
+> before a Phase-* change ships — run it locally against
+> https://wordpress.org/news/ (or your own staging WordPress URL
+> via `MW_LIVE_WP_SITE_URL`) before tagging a release that touches
+> anything under `Modules/WordPressMigration/`. See
+> `docs/migration/wordpress.md` §11 for the full runbook.
+
 ---
 
 ## 4. Service → test index

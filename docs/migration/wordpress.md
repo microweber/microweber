@@ -479,3 +479,54 @@ The CLI and the admin UI are both thin orchestration layers over
 these services — every invariant (idempotency, transactional commit,
 whole-batch rollback, persisted-error retry scope) is enforced by
 the same code regardless of which surface drives it.
+
+---
+
+## 11. Running the live-site check before shipping
+
+Every Phase-1-through-11 test in `tests/Browser/LiveAdminWordPressMigration*Test.php`
+drives the importer against the in-repo PHP-built-in-server fixture
+under `tests/fixtures/wp/`. That covers internal consistency but
+does NOT cover real-world upstream variance — a real WordPress
+site can disagree with the fixture in REST shape, response headers,
+redirect chains, or TLS setup.
+
+Before tagging a release that includes any change under
+`Modules/WordPressMigration/`, run the opt-in live-site check
+against a real public WordPress install:
+
+```bash
+# Terminal 1
+php artisan serve --host=127.0.0.1 --port=8000
+
+# Terminal 2 — opt-in live-site probe
+MW_RUN_LIVE_EXTERNAL=1 \
+    php artisan dusk \
+    --group=live-external \
+    tests/Browser/LiveAdminWordPressMigrationLiveSiteCheckTest.php
+```
+
+The default target is https://wordpress.org/news/ — a canonical
+REST-enabled wordpress.org install with five-nines availability
+over the lifetime of the importer. Override with your own staging
+WordPress URL when you need to triangulate:
+
+```bash
+MW_RUN_LIVE_EXTERNAL=1 \
+    MW_LIVE_WP_SITE_URL=https://staging.example.com \
+    php artisan dusk \
+    --group=live-external \
+    tests/Browser/LiveAdminWordPressMigrationLiveSiteCheckTest.php
+```
+
+Two safety gates are wired into the test:
+
+  - The PHPUnit `live-external` group must be requested explicitly.
+  - The `MW_RUN_LIVE_EXTERNAL=1` env var must be set in the dusk
+    process. Without it the test silently skips, even if the
+    group is requested by mistake.
+
+A failure against the wordpress.org default is almost certainly a
+real regression in our REST importer (NOT wordpress.org becoming
+unreachable). Rerun against an alternate site via
+`MW_LIVE_WP_SITE_URL` to confirm before reverting any changes.
