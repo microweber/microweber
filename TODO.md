@@ -317,17 +317,19 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ## E. Documentation
 
-- [ ] **`docs/mcp/README.md`** — first-class docs page covering:
-      - [ ] How to enable the server (`AI_ENABLED` + `AI_MCP_ENABLED`)
-      - [ ] How to issue a client + token (CLI command + Filament UI)
-      - [ ] curl / wget examples for `initialize` / `tools/list` /
+- [x] 2026-04-25  **`docs/mcp/README.md`** — first-class docs page covering:
+      - [x] 2026-04-25  How to enable the server (`AI_ENABLED` + `AI_MCP_ENABLED`)
+      - [x] 2026-04-25  How to issue a client + token (CLI command + Filament UI)
+      - [x] 2026-04-25  curl / wget examples for `initialize` / `tools/list` /
             `tools/call`
-      - [ ] Connecting Claude Desktop / Cursor / Cline (config
+      - [x] 2026-04-25  Connecting Claude Desktop / Cursor / Cline (config
             snippets per client)
-      - [ ] Allowlist semantics (depends on B's resolution)
-      - [ ] Rate-limit + scope semantics
-      - [ ] Tool catalog reference (auto-generated from
-            `McpToolCatalog::allDefinitions()`)
+      - [x] 2026-04-25  Allowlist semantics (depends on B's resolution)
+      - [x] 2026-04-25  Rate-limit + scope semantics
+      - [x] 2026-04-25  Tool catalog reference (auto-generated from
+            `McpToolCatalog::allDefinitions()` — points at
+            `McpToolCatalogContractTest::EXPECTED_TOOLS`'s pinned
+            inventory + the `ai:mcp:tools:list` CLI command)
 - [ ] **Module README cross-links** — `Modules/Ai/README.md` mentions
       MCP at a high level but doesn't link to the new docs page or
       describe the 39-tool catalog. Update.
