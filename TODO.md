@@ -25,6 +25,258 @@
 > **Existing tests:** `Modules/Ai/tests/Feature/McpControllerTest.php` (60 tests / 329 assertions, all green on 2026-04-25)
 > **Verified live:** initialize handshake + tools/list (39 tools) + content.lookup tool call all worked against the live dev server with a freshly-issued bearer token
 
+- [x] 2026-04-25  [task-2026-04-25-16994e] next populaye the todo with the microweber:ai   ariscan comand creation we want to be able to call the ai agent via the cli adn tell it to add psots, etc and make unit tests for it , make i plnai n the todo *(Plan authored as the new "AI Agent CLI — `microweber:ai` artisan command" section below. Surveyed the existing AI agent infrastructure first: BaseAgent + AgentFactory entry points, the 6 catalog write tools (CreatePostTool / CreateContentTool / CreateProductTool plus the three Edit variants), the AgentWriteOperationsTest pattern, the Filament chat UI, and the user-context auth requirements. Plan organised into 6 prioritised tracks: foundations (the command itself + agent dispatch), write-action coverage (post / content / product / edit), UX polish (streaming, history, tone), security & operations (auth context, rate-limit, audit), testing, and documentation. Every track has acceptance criteria and a focused test contract.)*
+
+---
+
+# AI Agent CLI — `microweber:ai` artisan command
+
+> **Goal:** ship `php artisan microweber:ai "add a blog post about cats"`
+> so operators can drive the existing Microweber AI agent from the
+> shell — same agent + same tool catalog as the Filament chat UI,
+> just no browser. The command is the natural CLI peer to the
+> `ai:mcp:*` family; it lets contributors prototype write actions,
+> CI script content seeding, and operators automate routine
+> editorial work without leaving the terminal.
+>
+> **Existing infrastructure** (audited 2026-04-25):
+> - **Agent entry point:** `BaseAgent` (extends NeuronAI\Agent) at
+>   `Modules/Ai/Agents/BaseAgent.php` line 1; invocation is
+>   `$agent->chat(UserMessage)` returning a synchronous string reply
+>   that the BaseAgent appends to its chat history.
+> - **Factory:** `AgentFactory` at `Modules/Ai/Services/AgentFactory.php`
+>   provides `agent(name)`, `agentWithChat(AgentChat)`,
+>   `agentWithSession(type, title, userId, ...)`. Each agent
+>   auto-loads its domain-specific tool set via `setupTools()`.
+> - **Write tools:** 6 catalog tools today —
+>   `CreatePostTool` (Modules/Ai/Tools/CreatePostTool.php),
+>   `CreateContentTool`, `CreateProductTool`, `PostEditTool`,
+>   `ContentEditTool`, `ProductEditTool`. `BaseTool::handleError()`
+>   marks failures with `<!--mw-ai-tool-error-->` (the same MCP
+>   error contract from Plan C.3).
+> - **User context:** every write tool calls `user_id()` and
+>   `BaseTool::auditWriteOperation()` — the artisan command MUST
+>   set an authenticated user context before the dispatch.
+> - **Existing test pattern:** `tests/Unit/AgentWriteOperationsTest.php`
+>   creates agent + chat + admin user (line 62-74) and asserts
+>   the tool catalog includes the 6 write verbs (line 173).
+> - **Greenfield:** no non-MCP artisan command exists in the AI
+>   module today, so no existing code to refactor.
+
+## CLI.1 — Foundations
+
+- [ ] **`Modules/Ai/Console/Commands/MicroweberAiCommand.php`** —
+      registered via the existing `runningInConsole()` block in
+      `AiServiceProvider`. Signature:
+
+      ```bash
+      php artisan microweber:ai "add a blog post about cats"
+          [--agent=general]
+          [--user=admin@admin.com]
+          [--session=NN]
+          [--json]
+      ```
+
+      Accepts the prompt as a positional argument so `php artisan
+      microweber:ai "..."` is the canonical invocation. Options:
+
+      - `--agent=NAME` — named agent type (defaults to `general`).
+        Allow-list pulled from the AgentFactory's registered types
+        so unknown names reject with a list of valid options.
+      - `--user=EMAIL` — operator to run as (defaults to the first
+        admin user; falls back to a `--user-id=N` form for CI use).
+        The command resolves the user via `User::where('email', $email)`,
+        seats them as the authenticated user via `Auth::login()`, and
+        threads the resulting user-id through every write-tool's
+        `user_id()` lookup so audit-log entries land under the
+        correct actor.
+      - `--session=NN` — optional `mcp_chats.id` to continue an
+        existing chat. Without it, the command opens a fresh
+        ephemeral session (or persists a new `AgentChat` row when
+        `--persist-session` is added in CLI.3).
+      - `--json` — emit the agent's reply (and any tool-call
+        side-effects) as a JSON envelope on stdout instead of the
+        default human-readable text. Useful for shell-pipelines.
+
+- [ ] **Dispatch path** — instantiate the agent through
+      `AgentFactory::agent($agentType)`, wrap the prompt in a
+      `UserMessage`, call `->chat()`, then pipe the reply to stdout.
+      Exit 0 on a clean reply, exit 1 when the reply text contains
+      `BaseTool::ERROR_OUTPUT_MARKER` (so CI can detect "tool
+      reported an error" without parsing the full text).
+
+- [ ] **Output format** — default human-readable mode:
+      1. Echo the resolved agent + user + session header (one
+         per line, prefixed with `→`).
+      2. Stream the reply on STDOUT as it lands (the agent's
+         `chat()` is synchronous today, but emit the final reply
+         in one block so a future streaming-aware refactor can
+         drop in without breaking the CLI contract).
+      3. If any write tools were invoked during the dispatch, list
+         the resulting record IDs (`post_id`, `content_id`, etc.)
+         on STDERR so operators see them even when piping STDOUT.
+
+- [ ] **`--json` mode** — emit a single JSON envelope:
+      ```json
+      {
+        "agent": "general",
+        "user_id": 1,
+        "session_id": 42,
+        "reply": "I created the post 'Top 5 Things About Cats' (id: 7831).",
+        "tool_calls": [
+          {"tool": "create_post", "args": {...}, "result_id": 7831, "ok": true}
+        ],
+        "duration_ms": 4837,
+        "is_error": false
+      }
+      ```
+      The `tool_calls` list is collected by tapping
+      `BaseTool::auditWriteOperation()` during the dispatch.
+
+## CLI.2 — Write-action coverage
+
+These sub-tasks each surface one of the 6 catalog write tools as a
+first-class CLI sub-command **once** the foundation lands. Each
+sub-command is a thin adapter that pre-fills the agent's prompt
+template so operators get a deterministic invocation contract
+instead of having to remember free-text phrasing.
+
+- [ ] **`microweber:ai post:create --title=... --body=...`** —
+      adapter for `CreatePostTool`. Equivalent to running
+      `microweber:ai "create a blog post titled '...' with body
+      '...' "` but with explicit args + early validation. Defaults
+      `category` to `null`; reads `--published-at`, `--tags`,
+      `--seo-meta-description` as optional flags that map to the
+      tool's input schema.
+
+- [ ] **`microweber:ai content:create --type=page --title=...`** —
+      adapter for `CreateContentTool`. `--type` accepts
+      `page` / `post` / `product` / `category` (the same set the
+      tool's input schema enumerates).
+
+- [ ] **`microweber:ai product:create --title=... --price=...`** —
+      adapter for `CreateProductTool`. Adds `--sku`, `--quantity`,
+      `--currency` flags.
+
+- [ ] **`microweber:ai post:edit ID --field=value`** —
+      adapter for `PostEditTool`. Repeated `--field=value` pairs
+      build the partial update payload.
+
+- [ ] **`microweber:ai content:edit ID --field=value`** —
+      adapter for `ContentEditTool`. Same shape as post:edit.
+
+- [ ] **`microweber:ai product:edit ID --field=value`** —
+      adapter for `ProductEditTool`. Same shape as post:edit.
+
+## CLI.3 — UX polish
+
+- [ ] **Persistent sessions** — `--persist-session` creates an
+      `AgentChat` row before the dispatch and prints the
+      `session_id` on the header line so subsequent invocations
+      can pass `--session=N` to continue the conversation. Without
+      the flag, the chat is purely ephemeral (no DB write).
+
+- [ ] **Interactive REPL mode** — `microweber:ai --interactive`
+      drops into a readline loop where each line is dispatched as
+      a new prompt within the same session. Exit on Ctrl-D / `:q`.
+      Useful for prototyping multi-turn flows without scripting.
+
+- [ ] **Tone of operator output** — the agent's `chat()` reply is
+      already markdown-like; pipe it through a Filament-aware
+      ANSI renderer so headings render bold, code blocks render in
+      a different colour, and tool-call summaries render with a
+      `→` glyph prefix. Borrow the rendering pattern from
+      `Symfony\Component\Console\Style\SymfonyStyle`.
+
+- [ ] **`--dry-run`** — flag that flips every write-capable tool
+      into a "describe what you would do" mode (already supported
+      by `BaseTool` via the existing `dryRun` workflow-state flag —
+      the CLI just sets it). Useful for previewing the agent's
+      plan before letting it touch the DB.
+
+## CLI.4 — Security & operations
+
+- [ ] **Auth context required** — the command MUST resolve a real
+      user (default: first `is_admin=1` user, override via `--user`
+      or `--user-id`) before dispatch. Reject with a pointed error
+      when no admin user exists ("Run `php artisan
+      microweber:install` first" hint). Audit-log every dispatch
+      with `cli_user_id`, `agent`, `prompt_first_80_chars` so
+      operator-driven CLI use is distinguishable from chat-UI use.
+
+- [ ] **Rate-limit** — reuse the MCP per-tool rate-limit config
+      (`modules.ai.mcp.per_tool_rate_limits`) so a CI script that
+      slams `post:create` 100 times per minute trips the same
+      ceiling that protects the HTTP MCP endpoint. Different
+      bucket key (`microweber-ai-cli:<user-id>:tool:<name>`) so
+      CLI traffic doesn't bleed into MCP traffic.
+
+- [ ] **Per-prompt audit row** — every `microweber:ai` invocation
+      writes one `mcp_client_token_events` row with `action='cli.ai.dispatched'`
+      (or a new dedicated `ai_cli_events` table if Plan D.2's
+      schema doesn't fit). Records: cli_user_id, agent, prompt,
+      session_id, tool_calls (JSON), reply_first_200_chars,
+      duration_ms, is_error.
+
+- [ ] **Dangerous prompt guard** — if the resolved prompt would
+      cause more than N write tool invocations in a single
+      dispatch (default N=5, env-overridable via
+      `AI_CLI_MAX_WRITES_PER_DISPATCH`), emit a confirmation
+      prompt (`echo y | php artisan ...` to skip in CI). Prevents
+      a single mis-aimed prompt from rewriting half the catalog.
+
+## CLI.5 — Testing
+
+- [ ] **`Modules/Ai/tests/Feature/MicroweberAiCommandTest.php`** —
+      pin the foundations:
+      - happy path: `microweber:ai "create a post titled 'CLI
+        Test'"` exits 0, prints the reply, persists a `content`
+        row with `content_type='post'` and `title='CLI Test'`.
+      - `--user=...` resolution: unknown email exits 1 with a
+        descriptive error.
+      - `--agent=...` validation: unknown agent name exits 1 and
+        lists valid options.
+      - `--json` mode: stdout parses as JSON, contains the
+        documented envelope keys.
+      - error-marker detection: a prompt that triggers
+        `BaseTool::handleError` exits 1, even if the agent's text
+        reply looks superficially successful.
+
+- [ ] **`MicroweberAiSubCommandsTest`** — pin every CLI.2 sub-
+      command:
+      - `post:create --title=X --body=Y` writes the row, prints
+        the resulting id.
+      - `post:edit ID --title=Z` updates the row.
+      - Negative paths: missing `--title`, unknown id, etc.
+
+- [ ] **`MicroweberAiAuthContextTest`** — pin CLI.4 auth:
+      - dispatch without an admin user errors out with the
+        install-hint message.
+      - dispatch with `--user-id=NN` runs as that user and the
+        audit row records the right `cli_user_id`.
+
+- [ ] **`MicroweberAiRateLimitTest`** — pin CLI.4 rate-limit:
+      - exceeding the per-tool limit on the CLI bucket returns
+        the same 429-shaped error a HTTP MCP request would, with
+        a CLI-friendly message.
+      - CLI traffic doesn't increment the HTTP MCP bucket
+        (different rate-limit keys).
+
+## CLI.6 — Documentation
+
+- [ ] **`docs/ai/cli.md`** — first-class operator manual covering:
+      - command surface (foundations + 6 sub-commands + REPL).
+      - auth model + the `--user` / `--user-id` flags.
+      - audit retention contract (lives alongside MCP audit).
+      - example invocations for the four most common workflows
+        (seed a blog post; bulk-edit product prices; preview
+        what the agent would do via `--dry-run`; resume an
+        existing session via `--session=NN`).
+
+- [ ] **Modules/Ai/README.md cross-link** — add a top-level
+      "CLI" subsection pointing at `docs/ai/cli.md`, mirroring
+      the MCP cross-link already in place.
+
 ## A. MCP Spec Compliance Gaps (high priority — interop risk)
 
 Each of these is a deviation from the [MCP spec](https://spec.modelcontextprotocol.io/) that
