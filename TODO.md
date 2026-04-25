@@ -253,7 +253,7 @@ Each test MUST assert, in order:
 ## C.2 Priority 1 — modules that ship admin surfaces (no Dusk yet)
 
 - [x] 2026-04-25  `LiveAdminModuleAccordionSmokeTest` — frontend accordion skin + admin settings page.
-- [ ] `LiveAdminModuleAddressSmokeTest` — customer/address CRUD.
+- [x] 2026-04-25  `LiveAdminModuleAddressSmokeTest` — customer/address CRUD.
 - [ ] `LiveAdminModuleAiWizardSmokeTest` — AI-wizard entry page.
 - [ ] `LiveAdminModuleAttributesSmokeTest` — product attributes admin.
 - [ ] `LiveAdminModuleAudioSmokeTest` — audio module insertion + inline URL edit.
