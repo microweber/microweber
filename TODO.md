@@ -278,15 +278,15 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleEmbedSmokeTest` — embed module accepts common providers.
 - [x] 2026-04-25  `LiveAdminModuleExportSmokeTest` — content export page.
 - [x] 2026-04-25  `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
-- [~] `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
+- [x] 2026-04-25  `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
 - [x] 2026-04-25  `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
 - [x] 2026-04-25  `LiveAdminModuleFileManagerSmokeTest` — file manager view + upload.
 - [x] 2026-04-25  `LiveAdminModuleGoogleAnalyticsSmokeTest` — GA property field.
 - [x] 2026-04-25  `LiveAdminModuleGoogleMapsSmokeTest` — map widget settings.
 - [x] 2026-04-25  `LiveAdminModuleHighlightCodeSmokeTest` — code-block insertion.
 - [x] 2026-04-25  `LiveAdminModuleHostingApiSmokeTest` — hosting API landing page.
-- [ ] `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
-- [ ] `LiveAdminModuleLayoutContentSmokeTest` — layout-content picker.
+- [x] 2026-04-25  `LiveAdminModuleImageRolloverSmokeTest` — image rollover admin.
+- [x] 2026-04-25  `LiveAdminModuleLayoutContentSmokeTest` — layout-content picker.
 - [ ] `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
 - [ ] `LiveAdminModuleLogoSmokeTest` — logo upload form.
 - [ ] `LiveAdminModuleMarqueeSmokeTest` — marquee module insertion.
