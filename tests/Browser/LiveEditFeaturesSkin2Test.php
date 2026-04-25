@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinConsoleClean;
 use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
@@ -38,6 +39,7 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinConsoleClean;
     use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
@@ -66,6 +68,10 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
             $this->loginAsAdmin($browser);
             $this->openInLiveEdit($browser, $landing->pageId);
 
+            // Plan B.3 fourth-bullet — install the in-page error guard
+            // before any insert work fires JS.
+            $this->installInPageErrorGuard($browser);
+
             $this->primeLayoutHandleOnMainContent($browser);
             $this->insertLayoutByCategory($browser, 'Features', 'features/skin-2');
 
@@ -83,6 +89,11 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
             $this->assertCanvasReflectsEdits($browser, $field, $newLabels);
             $this->assertSavedContentBodyContains($landing->pageId, $newLabels);
 
+            // Plan B.3 fourth-bullet — read insert-phase console state
+            // BEFORE navigating away.
+            $this->assertNoConsoleErrors($browser, 'insert phase (canvas + save)');
+            $this->drainBrowserLog($browser);
+
             // Public-render gate runs LAST — it navigates away from the
             // canvas, so any canvas-touching call after this would crash.
             $this->assertSkinPublicSignatureRendered(
@@ -91,6 +102,12 @@ class LiveEditFeaturesSkin2Test extends DuskTestCase
                 ['field="layout-features-skin-2-', 'features-skin-2-advantages'],
             );
             $this->assertPublicPageCarriesMarker($browser, $landing->slug, $newLabels);
+
+            // Re-install the guard on the public window after the
+            // signature visit + settle pause, then read both channels.
+            $this->installInPageErrorGuard($browser);
+            $browser->pause(1500);
+            $this->assertNoConsoleErrors($browser, 'public render');
         });
     }
 

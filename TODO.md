@@ -214,7 +214,7 @@ Each test MUST assert, in order:
       the page's `content.content` column.
 - [x] 2026-04-25  The public render of the page contains the skin's signature
       markup class (family-specific, e.g. `.mw-layout-jumbotron`).
-- [ ] No console error fires during insert OR public render
+- [x] 2026-04-25  No console error fires during insert OR public render
       (`browser.script("return window.__consoleErrors || []")`).
 
 ## B.4 Matrix-level guards (already present — keep green)

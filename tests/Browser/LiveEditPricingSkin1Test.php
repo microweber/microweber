@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinConsoleClean;
 use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
@@ -49,6 +50,7 @@ class LiveEditPricingSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinConsoleClean;
     use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
@@ -76,6 +78,11 @@ class LiveEditPricingSkin1Test extends DuskTestCase
             $this->loginAsAdmin($browser);
             $this->openInLiveEdit($browser, $landing->pageId);
 
+            // Plan B.3 fourth-bullet gate: install the in-page error
+            // guard before any insert work fires JS. SEVERE browser-log
+            // entries are captured separately by ChromeDriver itself.
+            $this->installInPageErrorGuard($browser);
+
             $this->primeLayoutHandleOnMainContent($browser);
             $this->insertLayoutByCategory($browser, 'Pricing', self::SKIN_TAG);
 
@@ -95,6 +102,12 @@ class LiveEditPricingSkin1Test extends DuskTestCase
             $this->assertCanvasReflectsEdits($browser, $field, self::NEW_PRO_PRICE);
             $this->assertSavedContentBodyContains($landing->pageId, self::NEW_PRO_PRICE);
 
+            // Plan B.3 fourth-bullet — read insert-phase console state
+            // BEFORE navigating away. The in-page guard lives on the
+            // canvas-page window and gets torn down by the public visit.
+            $this->assertNoConsoleErrors($browser, 'insert phase (canvas + save)');
+            $this->drainBrowserLog($browser);
+
             // Public-render assertion intentionally runs LAST: it navigates
             // away from the live-edit canvas (no mw.app.canvas on public pages),
             // so any canvas-touching assertion after it would crash.
@@ -104,6 +117,13 @@ class LiveEditPricingSkin1Test extends DuskTestCase
                 ['field="layout-pricing-skin-1-'],
             );
             $this->assertPublicPageCarriesMarker($browser, $landing->slug, self::NEW_PRO_PRICE);
+
+            // Re-install the guard on the new (public) window AFTER the
+            // signature visit + settle pause, give late-fired bootstrap
+            // a chance, then read both channels.
+            $this->installInPageErrorGuard($browser);
+            $browser->pause(1500);
+            $this->assertNoConsoleErrors($browser, 'public render');
         });
     }
 

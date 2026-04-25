@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinConsoleClean;
 use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
@@ -47,6 +48,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinConsoleClean;
     use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
@@ -75,6 +77,10 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
                 $this->loginAsAdmin($browser);
                 $this->openInLiveEdit($browser, $landing->pageId);
 
+                // Plan B.3 fourth-bullet — install the in-page error guard
+                // before any insert work fires JS.
+                $this->installInPageErrorGuard($browser);
+
                 $this->primeLayoutHandleOnMainContent($browser);
                 $this->insertLayoutByCategory($browser, 'Ecommerce', 'ecommerce/skin-1');
 
@@ -86,6 +92,12 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
                 $this->assertSkinTagPersisted($landing->pageId, 'ecommerce/skin-1');
 
                 $this->assertCanvasLoadedProducts($browser, $productTitle);
+
+                // Plan B.3 fourth-bullet — read insert-phase console state
+                // BEFORE navigating away.
+                $this->assertNoConsoleErrors($browser, 'insert phase (canvas + save)');
+                $this->drainBrowserLog($browser);
+
                 $this->assertPublicPageCarriesProduct($browser, $landing->slug, $productTitle);
 
                 // Public-render gate runs LAST. ecommerce/skin-1 has no
@@ -98,6 +110,12 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
                     $landing->slug,
                     ['sidebar__widget'],
                 );
+
+                // Re-install the guard on the public window after the
+                // signature visit + settle pause, then read both channels.
+                $this->installInPageErrorGuard($browser);
+                $browser->pause(1500);
+                $this->assertNoConsoleErrors($browser, 'public render');
             });
         } finally {
             // Remove the seed product even if an assertion above failed;

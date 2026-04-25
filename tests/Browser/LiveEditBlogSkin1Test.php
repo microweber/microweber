@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinConsoleClean;
 use Tests\Browser\Traits\AssertsSkinPublicSignatureRendered;
 use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
@@ -42,6 +43,7 @@ class LiveEditBlogSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinConsoleClean;
     use AssertsSkinPublicSignatureRendered;
     use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
@@ -70,6 +72,10 @@ class LiveEditBlogSkin1Test extends DuskTestCase
                 $this->loginAsAdmin($browser);
                 $this->openInLiveEdit($browser, $landing->pageId);
 
+                // Plan B.3 fourth-bullet — install the in-page error guard
+                // before any insert work fires JS.
+                $this->installInPageErrorGuard($browser);
+
                 $this->primeLayoutHandleOnMainContent($browser);
                 $this->insertLayoutByCategory($browser, 'Blog', 'blog/skin-1');
 
@@ -83,6 +89,13 @@ class LiveEditBlogSkin1Test extends DuskTestCase
                 $this->assertSkinTagPersisted($landing->pageId, 'blog/skin-1');
 
                 $this->assertCanvasLoadedPosts($browser, $field, $postTitle);
+
+                // Plan B.3 fourth-bullet — read insert-phase console state
+                // BEFORE navigating away. The in-page guard lives on the
+                // canvas-page window and gets torn down by the public visit.
+                $this->assertNoConsoleErrors($browser, 'insert phase (canvas + save)');
+                $this->drainBrowserLog($browser);
+
                 $this->assertPublicPageCarriesPost($browser, $landing->slug, $postTitle, $postDescription);
 
                 // Public-render gate runs LAST: it re-navigates to the
@@ -94,6 +107,12 @@ class LiveEditBlogSkin1Test extends DuskTestCase
                     $landing->slug,
                     ['field="layout-blog-skin-1-'],
                 );
+
+                // Re-install the guard on the public window after the
+                // signature visit + settle pause, then read both channels.
+                $this->installInPageErrorGuard($browser);
+                $browser->pause(1500);
+                $this->assertNoConsoleErrors($browser, 'public render');
             });
         } finally {
             // Remove the seed post even if an assertion above failed;
