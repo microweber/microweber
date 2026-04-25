@@ -296,7 +296,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
 - [x] 2026-04-25  `LiveAdminModulePdfSmokeTest` — PDF export smoke.
 - [x] 2026-04-25  `LiveAdminModulePicturesSmokeTest` — picture module insertion.
-- [ ] `LiveAdminModulePostSmokeTest` — post CRUD.
+- [x] 2026-04-25  `LiveAdminModulePostSmokeTest` — post CRUD.
 - [ ] `LiveAdminModuleRatingSmokeTest` — rating widget settings + frontend click.
 - [ ] `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
 - [ ] `LiveAdminModuleRssFeedSmokeTest` — RSS feed settings.
