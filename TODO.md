@@ -301,7 +301,7 @@ Each test MUST assert, in order:
 - [ ] `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
 - [ ] `LiveAdminModuleRssFeedSmokeTest` — RSS feed settings.
 - [ ] `LiveAdminModuleSeoSmokeTest` — SEO settings form.
-- [ ] `LiveAdminModuleSharerSmokeTest` — sharer widget settings.
+- [x] 2026-04-25  `LiveAdminModuleSharerSmokeTest` — sharer widget settings.
 - [ ] `LiveAdminModuleSiteStatsSmokeTest` — stats dashboard + widget list.
 - [ ] `LiveAdminModuleSkillsSmokeTest` — skills module.
 - [ ] `LiveAdminModuleSliderSmokeTest` — slider CRUD + frontend render.
