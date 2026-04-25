@@ -303,7 +303,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleSeoSmokeTest` — SEO settings form.
 - [x] 2026-04-25  `LiveAdminModuleSharerSmokeTest` — sharer widget settings.
 - [x] 2026-04-25  `LiveAdminModuleSiteStatsSmokeTest` — stats dashboard + widget list.
-- [ ] `LiveAdminModuleSkillsSmokeTest` — skills module.
+- [x] 2026-04-25  `LiveAdminModuleSkillsSmokeTest` — skills module.
 - [x] 2026-04-25  `LiveAdminModuleSliderSmokeTest` — slider CRUD + frontend render.
 - [ ] `LiveAdminModuleSocialLinksSmokeTest` — social-links settings.
 - [x] 2026-04-25  `LiveAdminModuleSpacerSmokeTest` — spacer insertion.
