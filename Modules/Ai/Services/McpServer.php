@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Services;
 
+use MicroweberPackages\AiTools\Base\BaseTool;
 use Modules\Ai\Services\Mcp\McpRequestContext;
 use Modules\Ai\Services\Mcp\McpToolCatalog;
 
@@ -170,7 +171,7 @@ class McpServer
 
         try {
             $rawResult = $this->mcpToolCatalog->callTool($toolName, $arguments);
-            $isError = str_contains($rawResult, 'alert-danger');
+            $isError = $this->detectToolError($rawResult);
 
             return [
                 'jsonrpc' => '2.0',
@@ -186,6 +187,27 @@ class McpServer
         } catch (\Throwable $exception) {
             return $this->errorResponse($id, -32603, $exception->getMessage());
         }
+    }
+
+    /**
+     * Detect tool error output by looking for the explicit marker
+     * BaseTool::handleError emits (an HTML comment that survives
+     * normalization because normalizeToolOutput() strips it). Falls
+     * back to the legacy `alert-danger` class scan only when the
+     * marker is absent — for tools that bypass BaseTool::handleError
+     * and assemble their own error markup. The legacy scan is also
+     * tightened to require the literal `class="alert alert-danger"`
+     * opening tag so it doesn't false-positive on body text that
+     * happens to mention the class name.
+     */
+    private function detectToolError(string $rawResult): bool
+    {
+        if (str_contains($rawResult, BaseTool::ERROR_OUTPUT_MARKER)) {
+            return true;
+        }
+
+        return str_contains($rawResult, 'class="alert alert-danger"')
+            || str_contains($rawResult, "class='alert alert-danger'");
     }
 
     /**

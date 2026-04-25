@@ -205,12 +205,26 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       to opt in to **JSON output** (`isJsonOutput: true`) and have the
       server pass through the JSON unchanged in `content[0].text` (or
       better, `content[0].mimeType: 'application/json'`).
-- [ ] **`isError` detection** uses the literal string `'alert-danger'`
+- [x] 2026-04-25  **`isError` detection** uses the literal string `'alert-danger'`
       (McpServer.php:99). Replace with an explicit error contract on
       `ToolInterface` (e.g. `wasError(): bool`) — the current
       heuristic fires false positives for any tool whose normal output
       mentions the word "alert-danger" (e.g. a content search
-      returning a page about Bootstrap alerts).
+      returning a page about Bootstrap alerts). *(Implemented as a
+      stable internal HTML-comment marker
+      `BaseTool::ERROR_OUTPUT_MARKER` (`<!--mw-ai-tool-error-->`) that
+      `BaseTool::handleError()` prepends to every error response.
+      `McpServer::detectToolError()` reads that marker as the
+      authoritative isError signal; falls back to the legacy
+      `class="alert alert-danger"` opening-tag scan for tools that
+      assemble their own error markup. Body text mentioning
+      `alert-danger` (e.g. a content lookup returning a page about
+      Bootstrap) is no longer flagged. Pinned by 5 tests in
+      `McpServerErrorDetectionTest`. The pre-existing 60-test
+      McpControllerTest suite stays green and the 17-test
+      RagSearchToolTest also stays green — backward-compat held
+      because the alert-danger div is still emitted alongside the
+      marker.)*
 
 ## D. Security & operations
 

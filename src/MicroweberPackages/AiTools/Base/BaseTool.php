@@ -208,6 +208,19 @@ abstract class BaseTool extends Tool implements ToolInterface
     }
 
     /**
+     * Marker emitted as an HTML comment alongside every error
+     * response. McpServer reads this to flip the JSON-RPC response's
+     * `isError` flag — markedly more robust than scanning for the
+     * `alert-danger` CSS class string, which can legitimately appear
+     * in non-error tool output (e.g. a content lookup returning a
+     * page that mentions Bootstrap alerts).
+     *
+     * Treat as a public contract for any other framework code that
+     * needs to detect tool errors out-of-band.
+     */
+    public const ERROR_OUTPUT_MARKER = '<!--mw-ai-tool-error-->';
+
+    /**
      * Handle an error condition.
      *
      * @param string $message Error message
@@ -220,7 +233,8 @@ abstract class BaseTool extends Tool implements ToolInterface
             $this->state->set(static::class . '_finished', $shouldFinish);
         }
 
-        return '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
+        return self::ERROR_OUTPUT_MARKER
+            . '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
     }
 
     /**
