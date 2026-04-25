@@ -85,7 +85,18 @@ trait CacheableQueryBuilderTrait
             $relatedTables = array_merge($relatedTables, $tags);
         }
 
-        \Cache::tags($relatedTables)->flush();
+        $store = \Cache::getStore();
+        if (method_exists($store, 'tags') || $store instanceof \Illuminate\Contracts\Cache\Store && method_exists($store, 'tags')) {
+            try {
+                \Cache::tags($relatedTables)->flush();
+            } catch (\BadMethodCallException $e) {
+                // Cache driver does not support tagging (e.g. file, database).
+                // Fall back to a full flush so stale rows are not served.
+                \Cache::flush();
+            }
+        } else {
+            \Cache::flush();
+        }
 
     }
 

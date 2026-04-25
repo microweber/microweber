@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // On a fresh install, the parent Category migration that creates
+        // the categories table may run later in the boot order — bail out
+        // so the install doesn't crash. The next module:migrate pass picks
+        // the indexes up.
+        if (!Schema::hasTable('categories')) {
+            return;
+        }
         Schema::table('categories', function (Blueprint $table) {
             // Index for parent_id lookups (tree operations)
             if (!Schema::hasIndex('categories', 'categories_parent_id_index')) {
@@ -39,6 +46,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!Schema::hasTable('categories')) {
+            return;
+        }
         Schema::table('categories', function (Blueprint $table) {
             $indexes = [
                 'categories_parent_id_index',

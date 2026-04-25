@@ -117,15 +117,33 @@ php artisan test --coverage-html coverage/
 
 #### Optional Arguments
 
-| Argument        | Description                          |
-| --------------- | ------------------------------------ |
-| db-host         | Database host (default: localhost)   |
-| db-user         | Database username                    |
-| db-pass         | Database password                    |
-| db-prefix       | Table prefix                         |
-| template        | Default template to install          |
-| default-content | Install demo content (1/0)           |
-| config-only     | Prepare config without install (1/0) |
+| Argument        | Description                                   |
+| --------------- | --------------------------------------------- |
+| db-host         | Database host (default: localhost)            |
+| db-username     | Database username                             |
+| db-password     | Database password                             |
+| db-prefix       | Table prefix (e.g. `mw_`)                     |
+| template        | Default template to install (e.g. `Bootstrap`) |
+| default-content | Install demo content (1/0)                    |
+| config-only     | Prepare config without install (1/0)          |
+| language        | Site language code (e.g. `en`)                |
+| app-url         | Application URL written to `APP_URL`          |
+| app-debug       | `APP_DEBUG` flag (1/0)                        |
+
+#### Environment Variable Fallbacks
+
+Each option also falls back to a matching environment variable so the
+command can be driven from a CI pipeline without long arg lists:
+
+| Option          | Env var                           |
+| --------------- | --------------------------------- |
+| db-host         | `DB_HOST`                         |
+| db-username     | `DB_USER`                         |
+| db-password     | `DB_PASS`                         |
+| db-name         | `DB_NAME`                         |
+| db-driver       | `DB_ENGINE` (default `sqlite`)    |
+| db-prefix       | `DB_PREFIX` then `TABLE_PREFIX`   |
+| template        | `DEFAULT_TEMPLATE`                |
 
 #### Command Options
 
@@ -196,4 +214,50 @@ php artisan microweber:update --branch=dev
 * Check the error log at `storage/logs/laravel.log`
 * Ensure `storage` and `bootstrap/cache` have correct write permissions
 * Run `php artisan storage:link` if media is not loading
+
+### Lazy install (zero-arg)
+
+`php artisan microweber:install` with **no options** triggers a "lazy
+install" that reads everything from the environment (or its built-in
+fallbacks: SQLite at `storage/database.sqlite`, `Bootstrap` template,
+demo content enabled). Useful for Dockerfile `RUN` lines and CI
+bootstrap scripts:
+
+```bash
+DB_ENGINE=sqlite DB_NAME=storage/database.sqlite \
+  php artisan microweber:install
+```
+
+### Verifying the install
+
+After `microweber:install` finishes, check:
+
+* `storage/database.sqlite` (or your MySQL DB) contains the prefixed
+  schema — for example, the admin user lands in `<prefix>users`.
+* `userfiles/config/microweber.php` exists and reports `installed=>1`.
+* `php artisan serve` boots without errors and the homepage renders the
+  installed template.
+
+### Sandbox testing
+
+To smoke-test the installer without touching your existing site:
+
+```bash
+# 1. Copy the project to a scratch dir
+cp -r your_project_name /tmp/mw-sandbox
+
+# 2. Reset its storage + caches
+rm -f /tmp/mw-sandbox/storage/database.sqlite
+find /tmp/mw-sandbox/bootstrap/cache -mindepth 1 -delete
+find /tmp/mw-sandbox/storage/framework/views -mindepth 1 -delete
+
+# 3. Run the install against a throw-away SQLite file
+cd /tmp/mw-sandbox && touch storage/database.sqlite
+php artisan microweber:install \
+  --email=admin@example.com --username=admin --password=admin \
+  --db-name=storage/database.sqlite --db-driver=sqlite \
+  --db-prefix=mw_ --template=Bootstrap --default-content=0
+```
+
+The last line of a successful install reads `done`.
 

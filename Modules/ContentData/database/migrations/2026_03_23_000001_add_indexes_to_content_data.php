@@ -11,15 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Add composite index using raw SQL to support TEXT column prefix
+        // On a fresh install, the parent ContentData migration that creates
+        // the content_data table may run later in the boot order — bail out
+        // here so the install doesn't crash on CREATE INDEX for a missing
+        // table. The next module:migrate pass picks the indexes up.
+        if (!Schema::hasTable('content_data')) {
+            return;
+        }
+        // Add composite index using raw SQL to support TEXT column prefix.
+        // Honour the connection's table prefix (the install command exposes
+        // it via --db-prefix, so the raw statement must include it or it
+        // would target the unprefixed name and fail with "no such table").
+        $prefix = \Illuminate\Support\Facades\DB::connection()->getTablePrefix();
+        $table = $prefix . 'content_data';
         if (!Schema::hasIndex('content_data', 'content_data_rel_lookup_index')) {
             if (\Illuminate\Support\Facades\DB::getDriverName() === 'mysql') {
                 \Illuminate\Support\Facades\DB::statement(
-                    'CREATE INDEX content_data_rel_lookup_index ON content_data (rel_type(191), rel_id(191), field_name(191))'
+                    "CREATE INDEX content_data_rel_lookup_index ON {$table} (rel_type(191), rel_id(191), field_name(191))"
                 );
             } else {
                 \Illuminate\Support\Facades\DB::statement(
-                    'CREATE INDEX content_data_rel_lookup_index ON content_data (rel_type, rel_id, field_name)'
+                    "CREATE INDEX content_data_rel_lookup_index ON {$table} (rel_type, rel_id, field_name)"
                 );
             }
         }
@@ -45,6 +57,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!Schema::hasTable('content_data')) {
+            return;
+        }
         Schema::table('content_data', function (Blueprint $table) {
             $indexes = [
                 'content_data_rel_lookup_index',

@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // On a fresh install, the parent Cart migration that creates the
+        // cart table may run later in the boot order — bail out so the
+        // install doesn't crash. The next module:migrate pass picks the
+        // indexes up.
+        if (!Schema::hasTable('cart')) {
+            return;
+        }
         Schema::table('cart', function (Blueprint $table) {
             // Index for session-based cart lookups
             if (!Schema::hasIndex('cart', 'cart_session_id_index')) {
@@ -44,6 +51,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!Schema::hasTable('cart')) {
+            return;
+        }
         Schema::table('cart', function (Blueprint $table) {
             $indexes = [
                 'cart_session_id_index',
