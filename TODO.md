@@ -295,7 +295,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleOpenApiSmokeTest` — OpenAPI docs route.
 - [x] 2026-04-25  `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
 - [x] 2026-04-25  `LiveAdminModulePdfSmokeTest` — PDF export smoke.
-- [ ] `LiveAdminModulePicturesSmokeTest` — picture module insertion.
+- [x] 2026-04-25  `LiveAdminModulePicturesSmokeTest` — picture module insertion.
 - [ ] `LiveAdminModulePostSmokeTest` — post CRUD.
 - [ ] `LiveAdminModuleRatingSmokeTest` — rating widget settings + frontend click.
 - [ ] `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
