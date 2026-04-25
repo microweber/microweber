@@ -92,11 +92,21 @@ not a fully spec-compliant MCP server.
       preferred version when the client sends an unsupported one. Covered
       by 3 tests in McpSpecComplianceTest: client-supplied supported,
       client-supplied unsupported, and no protocolVersion at all.)*
-- [ ] **Declare unsupported capabilities explicitly** — `capabilities.resources`,
+- [x] 2026-04-25  **Declare unsupported capabilities explicitly** — `capabilities.resources`,
       `capabilities.prompts`, `capabilities.logging` are missing entirely. Spec-
       compliant clients infer these as "unsupported", which is correct, but
       adding `'resources' => null, 'prompts' => null` is the documented way to
-      be explicit and catches future support-toggle drift in tests.
+      be explicit and catches future support-toggle drift in tests. *(After
+      reviewing the MCP spec more carefully: omitting an unsupported
+      capability key is the spec-compliant move — declaring `resources: {}`
+      promises support the server doesn't have, and clients that read it
+      will issue resources/* requests the server returns -32601 for. So the
+      implementation already correctly omits them; this slot is now closed
+      by a regression test
+      `McpSpecComplianceTest::initialize_capabilities_only_declare_supported_features`
+      that fails if anyone adds `resources` / `prompts` / `logging` /
+      `sampling` / `completion` to the capabilities response without wiring
+      up the matching methods.)*
 
 ### A.3 Streamable HTTP / SSE transport
 

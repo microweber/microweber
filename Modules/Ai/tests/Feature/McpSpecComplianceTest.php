@@ -305,4 +305,57 @@ class McpSpecComplianceTest extends TestCase
         $response->assertStatus(400)
             ->assertJsonPath('error.code', -32600);
     }
+
+    #[Test]
+    public function initialize_capabilities_only_declare_supported_features(): void
+    {
+        // Spec: a server's `capabilities` object MUST only contain
+        // keys for features the server actually supports. Today we
+        // only ship the `tools` capability — the catalog is fully
+        // tools-driven, no resources / prompts / logging / sampling /
+        // completion. Pin this so a future contributor who adds
+        // `resources: {}` to the response without wiring up the
+        // resources/list and resources/read methods fails this test.
+        $response = $this->withHeaders($this->authHeaders())
+            ->postJson(route('api.ai.mcp'), [
+                'jsonrpc' => '2.0',
+                'id' => 'caps-1',
+                'method' => 'initialize',
+            ]);
+
+        $response->assertOk();
+
+        $caps = $response->json('result.capabilities');
+        $this->assertIsArray(
+            $caps,
+            'initialize result.capabilities must be an object — every spec-compliant '
+            . 'MCP client reads this to decide which methods are safe to call.'
+        );
+        $this->assertArrayHasKey(
+            'tools',
+            $caps,
+            'tools is the canonical capability this server actually supports — '
+            . 'a regression that drops it would mean every MCP client (Claude Desktop, '
+            . 'Cursor, Cline) would refuse to call tools/list because the server '
+            . 'just told them the server doesn\'t support it.'
+        );
+
+        // Reject every spec-defined capability key the server does
+        // NOT yet implement. Adding a new key here when shipping a
+        // real implementation is the documented path; declaring it
+        // before wiring up the methods produces a server that lies
+        // to clients about its capabilities.
+        $unimplemented = ['resources', 'prompts', 'logging', 'sampling', 'completion'];
+        foreach ($unimplemented as $key) {
+            $this->assertArrayNotHasKey(
+                $key,
+                $caps,
+                "initialize must NOT advertise capabilities.{$key} until the matching "
+                . "MCP methods are implemented — otherwise spec-compliant clients will "
+                . "issue {$key}/* requests the server can't honour, and the server's "
+                . "-32601 'Method not found' replies become a footgun where clients "
+                . "trusted the capabilities object."
+            );
+        }
+    }
 }
