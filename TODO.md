@@ -196,7 +196,7 @@
       `LiveEditJumbotronSkin1Test` shape for `jumbotron/skin-2`.
 - [x] 2026-04-25  `LiveEditFeaturesSkin1Test` — mirror
       `LiveEditFeaturesSkin2Test` shape for `features/skin-1`.
-- [ ] `LiveEditPricingSkin1Test` — mirror
+- [x] 2026-04-25  `LiveEditPricingSkin1Test` — mirror
       `LiveEditPricingSkin2Test` shape for `pricing/skin-1`.
 - [ ] `LiveEditTextBlockSkin1Test` — text-block is a content skin;
       insert, assert rendered `<p>`/heading markers are in the DOM.
