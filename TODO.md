@@ -325,10 +325,17 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### D.4 Hardening
 
-- [ ] **Constant-time token comparison** — `Hash::check` on bcrypt is
+- [x] 2026-04-25  **Constant-time token comparison** — `Hash::check` on bcrypt is
       already constant-time; this is fine. But `parsePlainTextToken`
       uses `str_starts_with` for the prefix check which is short-circuit
-      — replace with `hash_equals` for the prefix segment too.
+      — replace with `hash_equals` for the prefix segment too. *(Done:
+      replaced the `str_starts_with` short-circuit with a length
+      check + `hash_equals` of the prefix slice. The prefix itself
+      (`mcp_` by default) is public, so this is paranoia rather than
+      a real attack vector, but pinning the constant-time path keeps
+      the security posture explicit for future token-format changes.
+      Also dropped the `Str::after` fallback in favour of `substr`
+      so the prefix length is computed exactly once.)*
 - [ ] **Token leakage in logs** — `Log::warning('mcp.auth.unauthorized', ...)`
       logs the request path. Verify no other log statement in the
       middleware accidentally logs the bearer token (audit

@@ -238,12 +238,23 @@ class McpClientTokenManager
     private function parsePlainTextToken(string $plainTextToken): array
     {
         $prefix = (string) config('modules.ai.mcp.client_token_prefix', 'mcp_');
+        $prefixLength = strlen($prefix);
 
-        if (! str_starts_with($plainTextToken, $prefix)) {
+        // hash_equals is constant-time over equal-length inputs;
+        // length-mismatch reject still reveals "wrong size" but not
+        // which prefix bytes differ. The prefix itself is public
+        // (it's `mcp_` by default — clients literally see it in the
+        // token they're handed) so this is paranoia rather than a
+        // real attack vector, but pinning it keeps the security
+        // posture explicit for future-token-format changes.
+        if (strlen($plainTextToken) < $prefixLength) {
+            return [null, null];
+        }
+        if (! hash_equals($prefix, substr($plainTextToken, 0, $prefixLength))) {
             return [null, null];
         }
 
-        $payload = Str::after($plainTextToken, $prefix);
+        $payload = substr($plainTextToken, $prefixLength);
 
         if (! str_contains($payload, '|')) {
             return [null, null];
