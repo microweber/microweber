@@ -298,7 +298,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModulePicturesSmokeTest` — picture module insertion.
 - [x] 2026-04-25  `LiveAdminModulePostSmokeTest` — post CRUD.
 - [x] 2026-04-25  `LiveAdminModuleRatingSmokeTest` — rating widget settings + frontend click.
-- [ ] `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
+- [x] 2026-04-25  `LiveAdminModuleRestoreSmokeTest` — restore page entry point.
 - [ ] `LiveAdminModuleRssFeedSmokeTest` — RSS feed settings.
 - [ ] `LiveAdminModuleSeoSmokeTest` — SEO settings form.
 - [x] 2026-04-25  `LiveAdminModuleSharerSmokeTest` — sharer widget settings.
