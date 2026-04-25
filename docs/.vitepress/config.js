@@ -61,7 +61,15 @@ export default defineConfig({
           { text: 'Livewire Modules', link: '/module-create-livewire' },
           { text: 'Module Developer Guide', link: '/DEVELOPER_GUIDE_MODULES' },
           { text: 'Module Commands', link: '/commands' },
-          { text: 'Livewire Registration', link: '/ticket-livewire-component-registration' }
+          { text: 'Livewire Registration', link: '/ticket-livewire-component-registration' },
+          { text: 'Legacy Helpers (options/api/events)', link: '/legacy-helpers' }
+        ]
+      },
+      {
+        text: 'Operations',
+        collapsed: true,
+        items: [
+          { text: 'Multisite (per-domain config)', link: '/multisite' }
         ]
       },
       {

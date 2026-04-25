@@ -158,6 +158,7 @@
 - [x] 2026-04-25  [task-2026-04-25-cd7995] now the ducks tests use s difetent passwrud inufey them and put coment on teash test and use the trait *(Done: audited 44 Dusk test files for password drift. Actual login code already used the centralised `AdminLoginTrait::loginAsAdmin()` helper via `use AdminLoginTrait;` — but 43 files had stale docblock prereqs claiming `admin@admin.com / password123` even though the trait used `admin`. Bulk-replaced every docblock instance to `admin@admin.com / admin (canonical AdminLoginTrait credentials)`. Rewired `AdminLoginTrait` itself to read credentials from `.env.dusk` via the existing `ResolvesWorkflowEnvironment` trait so canonical credentials are configurable per-environment without editing tests. Defaults still match dev install. The two outliers (`AdminLoginTest`, `SmokeTest`) legitimately don't need the trait.)*
 - [x] 2026-04-25  [task-2026-04-25-e48518] the seach imnput in the admin has some color preeding from the rounded corenrd on dark mode pls fix [attachment: .autodev/messages/attachments/task-2026-04-25-e48518/paste-1777126744589.png] *(Done: root cause was the `.fi-global-search-field .fi-input-wrp` rounded pill not clipping its inner `<input>`. The wrapper carried `border-radius` + dark `background-color` but `overflow: visible` (default), so the inner input's UA-default rectangular background showed through past the rounded corners — visible on the dark theme as a pale halo at the top-right + bottom-right of the search pill (matching the screenshot). Fix: added `overflow: hidden !important` to `.fi-global-search-field .fi-input-wrp` in `packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss` with an explanatory comment, then `npm run build` to recompile the theme. Verified via Playwright in dark mode: `getComputedStyle(.fi-input-wrp).overflow === 'hidden'` and the post-fix screenshot shows clean rounded corners with no light bleed.)*
 - [x] 2026-04-25  [task-2026-04-25-8039d5] test if the comandl ine isntlation is wodkng and make docs *(Done: stood up an isolated `/tmp/mw-install-sandbox` copy of the project and ran `php artisan microweber:install` with sqlite + `--db-prefix=mw_`. End-to-end install works — admin user persists, option rows write, all module migrations + asset publish run cleanly, last line is `done`. The pass uncovered FOUR real install regressions that broke fresh installs and are now fixed: (1) `.env.example` line 230 had an unquoted SVG data URI containing whitespace which made `vlucas/phpdotenv` reject the file with "unexpected whitespace" — quoted the value; (2) `CacheableQueryBuilderTrait::clearModelCache()` called `Cache::tags(...)->flush()` unconditionally, which throws on the default `database`/`file` cache stores during the very first model write — added a tags-support probe with a `Cache::flush()` fallback; (3) four 2026-03-23 index migrations (ContentData, Cart, CustomFields, Category) called `Schema::table(...)`/`DB::statement(...)` against tables that may not yet exist in module-migration ordering on a fresh boot — added `Schema::hasTable(...)` short-circuit guards in both `up()` and `down()`; (4) the ContentData + CustomFields migrations' raw `CREATE INDEX` statements hard-coded the unprefixed table name, so any `--db-prefix=mw_` install crashed with "no such table" — switched the raw SQL to use the connection's runtime prefix. Documented the env-var fallbacks (`DB_HOST`/`DB_USER`/`DB_PASS`/`DB_NAME`/`DB_ENGINE`/`DB_PREFIX`/`TABLE_PREFIX`/`DEFAULT_TEMPLATE`), the lazy zero-arg install, the verification checklist, and a copy-paste sandbox-test recipe in `docs/installation.md`. Added `src/MicroweberPackages/Install/tests/InstallCommandRegistrationTest.php` (2 tests, 19 assertions, both pass) to guard against the command being un-registered or losing a documented option.)*
+- [x] 2026-04-25  [task-2026-04-25-d817e1] see what we can salvage from the old docs at /home/headless/Documents/GitHub/microweber-docs and enright the cudrent ocs and across modules, but very all as the old docs are outdated, make a plan in the todo for docs enrighment batches see the old /home/headless/Documents/GitHub/microweber-docs *(Done: surveyed the old book at `/home/headless/Documents/GitHub/microweber-docs` (SUMMARY.md + guides/ + integration/ + functions/ + classes/ + components/ + js-css/ + ui/) against the current docs, classified every section as **salvageable / superseded / obsolete**, and shipped the four high-ROI salvage pieces verified against the actual current source. New docs: `docs/legacy-helpers.md` (consolidates the still-alive `save_option`/`get_option`/`save_module_option` family, the `api_expose`/`api_expose_admin`/`api_expose_user` REST exposure pattern, and the `event_trigger`/`event_bind` synchronous bus — every helper grep-confirmed against the current code, every event in the "stable events" table grep-confirmed via `event_trigger(...)` call sites in `ExtendedSave`, `InstallController`, `TemplateManager`, `TemplateCustomCss`); `docs/multisite.md` (the per-domain `config/<domain>/microweber.php` setup, verified against the still-shipping `AppServiceProvider::detectEnvironment()` callback). Wired both new pages into `docs/.vitepress/config.js` (legacy-helpers under "Module Development", multisite under a new "Operations" section). The full salvage plan is recorded in TODO.md as **DOCS.4 — Legacy doc salvage** below: each old book section is listed with its disposition (salvaged / superseded / obsolete) so future contributors can see at a glance what's already been mined and what was deliberately left behind. Sections marked **superseded** are already covered by other current docs; sections marked **obsolete** describe pre-Filament UI / pre-Laravel helpers that have no current equivalent. No stub docs were emitted.)*
 ## DOCS.0 — Foundations
 
 - [x] 2026-04-25  **`docs/modules/MODULE_DOCS_TEMPLATE.md`** — one canonical
@@ -295,6 +296,97 @@ since these modules don't own non-trivial tables of their own).
       docs land — the actual operator pain point is finding
       data-bearing module documentation, not widget walkthroughs.)*
 
+
+## DOCS.4 — Legacy doc salvage (from `microweber-docs`)
+
+> Source surveyed: `/home/headless/Documents/GitHub/microweber-docs/`
+> (SUMMARY.md table of contents). Each old section is classified
+> below; **salvaged** items shipped 2026-04-25, **superseded** items
+> already exist in the current docs, **obsolete** items describe
+> pre-Filament UI / pre-Laravel helpers that have no current
+> equivalent and were not salvaged.
+
+- [x] 2026-04-25  **`guides/modules_options.md` → `docs/legacy-helpers.md`** —
+      `save_option` / `get_option` / `save_module_option` /
+      `get_module_option` / `delete_option` / `get_options`. Salvaged.
+
+- [x] 2026-04-25  **`guides/rest_api.md` → `docs/legacy-helpers.md`** —
+      `api_expose` / `api_expose_admin` / `api_expose_user`. Salvaged.
+
+- [x] 2026-04-25  **`guides/framework_events.md` + `guides/events.md` →
+      `docs/legacy-helpers.md`** — `event_bind` / `event_trigger`
+      with a "stable events" table grep-confirmed against current
+      `event_trigger(...)` call sites. Old event names referencing
+      removed `src/Microweber/...` paths flagged as historical.
+      Salvaged.
+
+- [x] 2026-04-25  **`integration/multisite.md` → `docs/multisite.md`** —
+      per-domain `config/<domain>/microweber.php` setup, verified
+      against `AppServiceProvider::detectEnvironment()`. Salvaged.
+
+- [x] 2026-04-25  **`guides/installation.md` + `guides/installation_cli.md` +
+      `guides/cli.md` → `docs/installation.md`** — already
+      covered by the install-doc enrichment that shipped under
+      `task-2026-04-25-8039d5` (env-var fallbacks, lazy install,
+      sandbox-test recipe). Superseded.
+
+- [x] 2026-04-25  **`guides/configuration.md` → `docs/multisite.md` +
+      `docs/installation.md`** — the only still-relevant content
+      is the per-domain config layout, which is now in
+      `docs/multisite.md`. The rest references the old non-Laravel
+      config bootstrap. Superseded.
+
+- [x] 2026-04-25  **`functions/*.md` (auto-generated function reference)** —
+      replaced by the per-module `Modules/<X>/docs/README.md`
+      pages generated under `task-2026-04-25-76ebfc` (94 modules,
+      with extracted method signatures, route tables, schema
+      tables). Superseded.
+
+- [x] 2026-04-25  **`classes/*.md` (auto-generated class reference)** —
+      Same disposition as `functions/*.md` — covered by per-module
+      docs that include public method signatures. Superseded.
+
+- [x] 2026-04-25  **`developer-guide/02-Modules.md` + `guides/modules_101.md`
+      + `guides/modules_back_end.md` + `guides/modules_front_end.md`
+      + `guides/modules_crud.md`** — already covered by
+      `docs/module-create.md` and `docs/DEVELOPER_GUIDE_MODULES.md`,
+      which target the current Filament/Livewire path rather than
+      the legacy `userfiles/modules/<x>/index.php` pattern.
+      Superseded.
+
+- [x] 2026-04-25  **`guides/templates_*.md`** — template architecture
+      changed too radically (Bootstrap-based template + Filament
+      live-edit) for the old samples to be useful. Future work to
+      ship a current-template guide should start from a clean read
+      of `templates/Bootstrap/` rather than salvaging the old
+      pages. Obsolete.
+
+- [x] 2026-04-25  **`components/*.md`** (box, button, form, etc.) — old
+      non-Filament admin UI components that were replaced by
+      Filament Forms / Tailwind. Visit `/admin/kitchen-sink` to see
+      the current component set. Obsolete.
+
+- [x] 2026-04-25  **`js-css/*.md`** (`mw.tabs`, `mw.modal`, `mw.wysiwyg`,
+      etc.) — the legacy in-house JS framework. Replaced by
+      Livewire + Alpine + Tailwind in the Filament admin. Obsolete.
+
+- [x] 2026-04-25  **`ui/`, `book.json`, `index.php`, `search.php`,
+      `composer.json`, `vendor/`, `assets/`** — book infrastructure
+      (the static-site generator and its dependencies), not
+      knowledge. Obsolete.
+
+- [x] 2026-04-25  **`integration/whitelabel.md`** — single-line stub in
+      the old book, no extractable content. Obsolete.
+
+- [x] 2026-04-25  **`guides/sql_schema.md`** — superseded by
+      `docs/database.md` + `docs/data-model.md` and per-module
+      schema tables under `Modules/<X>/docs/README.md`. Superseded.
+
+- [x] 2026-04-25  **`guides/framework.md` + `guides/framework_managers.md`
+      + `guides/framework_models.md`** — old Microweber-flavoured
+      service container documentation. The current code is plain
+      Laravel + Filament service providers; readers should consult
+      Laravel's own docs for the underlying mechanics. Obsolete.
 
 ## RTM.1 — Route migration foundations
 
