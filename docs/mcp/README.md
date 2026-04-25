@@ -313,6 +313,62 @@ envelope — clients should back off and retry.
 Set `rate_limit_per_minute` to `0` (CLI) or NULL (database) to
 disable rate limiting for a high-volume integration.
 
+## Security posture
+
+### CSRF
+
+The endpoint lives under the `api` middleware group. Laravel's
+`VerifyCsrfToken` runs only on the `web` group, so `/api/mcp` is
+**not** CSRF-protected — the bearer token is the only auth
+credential. This matches the pattern Sanctum / Passport
+endpoints use, and is intentional: MCP clients don't carry the
+session cookie, so a CSRF token check would always fail.
+
+A leaked token is therefore the entire compromise surface; rotate
+via `php artisan ai:mcp:token:rotate <id>` (or the Filament
+"Rotate" row action) the moment a leak is suspected.
+
+### CORS
+
+`/api/mcp` matches the default `paths` glob in `config/cors.php`
+(`api/*`), so the browser CORS preflight runs against the same
+allow-list every other API endpoint uses:
+
+```env
+# .env
+CORS_ALLOWED_ORIGINS=https://your.site,https://admin.your.site
+CORS_ALLOWED_ORIGIN_PATTERNS=#^https://.*\.your\.site$#
+```
+
+For server-to-server MCP clients (Claude Desktop, Cursor, the
+Anthropic SDK) CORS doesn't apply — only browser-based clients
+need to appear in the allow-list. **Do not** expose the endpoint
+to `*` origins unless you intend any web page to be able to
+attempt cross-origin calls (the bearer token is still required
+to succeed, but every preflight + body read becomes a mostly-
+free probe).
+
+### What never lands in logs
+
+The middleware is audited end-to-end:
+
+  * `Log::warning('mcp.auth.unauthorized', ...)` records
+    `{message, ip, user_agent, path}` — no `Authorization`
+    header, no token bytes, no inbound JSON-RPC body echo.
+  * Every `recordEvent` metadata blob (token-issued / rotated /
+    revoked / used / denied) records `token_name` and
+    `token_last_eight` only. The plain-text token never lands
+    in `mcp_client_token_events.metadata`.
+  * The `mcp.tool.call` / `mcp.tool.slow` log lines emitted by
+    `McpServer::logToolCall` carry `(tool, duration_ms, status,
+    token_id, client_id)` — the token id is a row primary key,
+    not the secret.
+
+If you need to grep audit logs for "what happened to token X",
+use `token_last_eight` (printed once at issuance) plus the
+client/token id surfaced in the Filament "MCP Clients →
+[client] → Audit log" relation manager.
+
 ## Audit log
 
 Every authentication, denial, tool call, and rotation lands in

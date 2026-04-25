@@ -423,15 +423,39 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       the security posture explicit for future token-format changes.
       Also dropped the `Str::after` fallback in favour of `substr`
       so the prefix length is computed exactly once.)*
-- [ ] **Token leakage in logs** — `Log::warning('mcp.auth.unauthorized', ...)`
+- [x] 2026-04-25  **Token leakage in logs** — `Log::warning('mcp.auth.unauthorized', ...)`
       logs the request path. Verify no other log statement in the
       middleware accidentally logs the bearer token (audit
       `recordEvent` metadata for any inbound payload echo).
-- [ ] **CSRF + CORS posture** — `/api/mcp` lives under the `api`
+      *(Audited every `Log::*` and `recordEvent` call site:
+      `mcp.auth.unauthorized` records only `{message, ip,
+      user_agent, path}` — no bearer header, no JSON-RPC body
+      echo. Every `recordEvent` metadata blob in
+      `McpClientTokenManager` (token-issued / rotated / revoked
+      / used / denied) records `token_name` + `token_last_eight`
+      only — the plain-text token never lands in
+      `mcp_client_token_events.metadata`. The middleware's
+      `auditDenied` calls extract only safe payload metadata
+      (method name, tool/module names, required scope) —
+      no inbound payload echo. The `mcp.tool.call` /
+      `mcp.tool.slow` log lines carry only IDs, not secrets.
+      Documented in `docs/mcp/README.md` under "Security posture
+      → What never lands in logs" so future contributors who add
+      logging know the contract up-front.)*
+- [x] 2026-04-25  **CSRF + CORS posture** — `/api/mcp` lives under the `api`
       middleware group (Sanctum-friendly, no CSRF). Document the
       CORS posture explicitly in the README — by default
       `config/cors.php` covers `api/*` so cross-origin AI clients
-      can reach it; this might be unintended.
+      can reach it; this might be unintended. *(Documented in
+      `docs/mcp/README.md` under "Security posture → CSRF" and
+      "Security posture → CORS". The CSRF section explains why
+      MCP intentionally bypasses the web-group CSRF token (no
+      session cookie, bearer token is the credential). The CORS
+      section walks through the existing
+      `CORS_ALLOWED_ORIGINS` / `CORS_ALLOWED_ORIGIN_PATTERNS`
+      env knobs, calls out that server-to-server clients
+      (Claude Desktop, Cursor, the Anthropic SDK) bypass CORS
+      entirely, and warns against the `*` origin trap.)*
 
 ## E. Documentation
 
