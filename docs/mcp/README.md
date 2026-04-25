@@ -304,14 +304,40 @@ php artisan ai:mcp:tools:list --module=billing  # filter to one module
 ## Rate limiting
 
 Each client carries a `rate_limit_per_minute` (nullable, default
-60). Hits are accumulated against
-`mcp-client-token:<token-id>` keys via Laravel's RateLimiter; a
-60-second fixed window applies. When the limit is exhausted, the
-middleware returns HTTP 429 with the standard JSON-RPC error
-envelope — clients should back off and retry.
+60). Per-token overrides via `rate_limit_per_minute` on the
+token row let one client issue both a low-rate "browse" token
+and a high-rate "service" token without splitting clients —
+see `McpClientToken::effectiveRateLimitPerMinute()`. The
+override resolves first; falls back to the client-level value
+when null.
 
-Set `rate_limit_per_minute` to `0` (CLI) or NULL (database) to
-disable rate limiting for a high-volume integration.
+Hits are accumulated against `mcp-client-token:<token-id>` keys
+via Laravel's `RateLimiter`; a **60-second fixed window**
+applies. When the limit is exhausted, the middleware returns
+HTTP 429 with the standard JSON-RPC error envelope — clients
+should back off and retry.
+
+Set `rate_limit_per_minute` to `0` (CLI: `--rate-limit=0`) or
+NULL (database) to disable rate limiting for a high-volume
+integration.
+
+### Fixed-window trade-off
+
+The rate limiter uses Laravel's fixed-60-second window because
+it's the simplest reliable backing store. The trade-off: a burst
+at second 59 followed immediately by another burst at second 0
+of the next window can double the per-minute peak. For most
+operator-scale integrations (a single Claude Desktop user, a
+Cursor project, a few Cline sessions) this is fine — the
+absolute peak is still bounded.
+
+For high-throughput service integrations where the doubling at
+window boundaries matters, the limit should be set to half the
+desired effective rate (e.g. 300/min to enforce a true peak of
+~600/min worst-case). A future sliding-window or token-bucket
+implementation would close this gap; the contract for that
+upgrade is documented as Plan D.1 in `TODO.md` under "Sliding-
+window rate limiter".
 
 ## Security posture
 

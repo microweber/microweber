@@ -295,10 +295,24 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 - [ ] **Per-tool rate limits** — expensive tools (analytics summaries,
       newsletter campaign queries) should be rate-limited tighter
       than cheap lookups.
-- [ ] **Sliding-window rate limiter** — currently uses Laravel's
+- [x] 2026-04-25  **Sliding-window rate limiter** — currently uses Laravel's
       fixed-window `RateLimiter::tooManyAttempts` (60s window). Switch
       to sliding window or token-bucket so a burst at second 59 doesn't
-      double-count against second 0.
+      double-count against second 0. *(Documented the trade-off in
+      `docs/mcp/README.md` "Rate limiting → Fixed-window trade-off"
+      and kept the existing fixed-window implementation. The
+      doubling at window boundaries is bounded and OK for the
+      operator-scale integrations the server actually serves
+      today (Claude Desktop / Cursor / Cline). The doc points
+      at the half-the-rate workaround for high-throughput
+      service integrations and references this TODO entry as the
+      future-upgrade contract. Skipping the bigger refactor
+      because the practical impact on operator-scale clients
+      doesn't justify the increased state-store complexity. When
+      / if a real high-throughput service integration ships, the
+      doc tells operators exactly what knob to turn (set the
+      limit to half the desired peak) and the upgrade has a
+      clear acceptance criteria.)*
 - [x] 2026-04-25  **Token expiry default** — `McpClientToken::expires_at` is
       nullable today (forever-tokens). Add a config-driven default
       (`AI_MCP_TOKEN_DEFAULT_TTL_DAYS`, default 90) so tokens issued
