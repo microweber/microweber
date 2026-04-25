@@ -428,13 +428,16 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
 
 ## D.4 Regression guards
 
-- [ ] `LiveEditColorPaletteSwitchNoBleedTest` — keep green; proves
+- [x] 2026-04-25  `LiveEditColorPaletteSwitchNoBleedTest` — keep green; proves
       switching packs doesn't leave the prior pack's vars behind.
-- [ ] `LiveEditColorPaletteZeroPacksTemplateTest` — keep green;
+      *(Verified 2026-04-25 — green, 20s.)*
+- [x] 2026-04-25  `LiveEditColorPaletteZeroPacksTemplateTest` — keep green;
       proves removing all packs restores the template's defaults.
-- [ ] `LiveEditColorPaletteTemplateSwitchRoundTripTest` — keep
+      *(Verified 2026-04-25 — green, 15s.)*
+- [x] 2026-04-25  `LiveEditColorPaletteTemplateSwitchRoundTripTest` — keep
       green; proves template-switch preserves the pack selection
-      when the operator switches back.
+      when the operator switches back. *(Verified 2026-04-25 —
+      green, 25s.)*
 
 ---
 
