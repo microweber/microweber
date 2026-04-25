@@ -23,6 +23,13 @@ return [
         'endpoint' => env('AI_MCP_ENDPOINT', '/api/mcp'),
         'transport' => env('AI_MCP_TRANSPORT', 'http-jsonrpc'),
         'protocol_version' => env('AI_MCP_PROTOCOL_VERSION', '2025-03-26'),
+        'supported_protocol_versions' => array_filter(array_map(
+            static fn (string $v): string => trim($v),
+            explode(',', (string) env(
+                'AI_MCP_SUPPORTED_PROTOCOL_VERSIONS',
+                '2024-11-05,2025-03-26,2025-06-18'
+            ))
+        )),
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),

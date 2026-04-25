@@ -17,16 +17,38 @@ class McpServer
     /**
      * @param array<string, mixed> $payload
      * @param McpRequestContext|null $context
-     * @return array<string, mixed>
+     * @return array<string, mixed>|null  null when the payload is a
+     *   JSON-RPC notification (method starting with `notifications/`,
+     *   or any request without an `id`) — the controller MUST NOT emit
+     *   a response body in that case (per JSON-RPC 2.0 §4.1).
      */
-    public function handle(array $payload, ?McpRequestContext $context = null): array
+    public function handle(array $payload, ?McpRequestContext $context = null): ?array
     {
         if (! (bool) config('modules.ai.mcp.enabled', false)) {
+            // Disabled-server short-circuit. Notifications still get
+            // null-returned so the controller never replies, otherwise
+            // a notification-shaped probe could detect server state.
+            if ($this->isNotification($payload)) {
+                return null;
+            }
+
             return $this->errorResponse($payload['id'] ?? null, -32000, 'MCP server is disabled.');
         }
 
-        return match ($payload['method']) {
-            'initialize' => $this->initializeResponse($payload['id'] ?? null),
+        $method = (string) ($payload['method'] ?? '');
+
+        if ($this->isNotification($payload)) {
+            // MCP / JSON-RPC 2.0: notifications carry no `id` and the
+            // server MUST NOT respond. We accept every notification
+            // (notifications/initialized, notifications/cancelled, etc.)
+            // and silently drop them — the controller turns the null
+            // return into HTTP 204.
+            return null;
+        }
+
+        return match ($method) {
+            'initialize' => $this->initializeResponse($payload['id'] ?? null, $payload),
+            'ping' => $this->pingResponse($payload['id'] ?? null),
             'tools/list' => $this->toolsListResponse($payload['id'] ?? null, $context),
             'tools/call' => $this->toolsCallResponse(
                 $payload['id'] ?? null,
@@ -39,16 +61,50 @@ class McpServer
     }
 
     /**
+     * A JSON-RPC payload is a notification when its method starts with
+     * `notifications/` (MCP convention, e.g. `notifications/initialized`)
+     * OR when the `id` field is entirely absent (JSON-RPC 2.0 §4.1).
+     * `id: null` is a valid request id for compatibility with older
+     * clients, so the absence check uses array_key_exists, not isset.
+     */
+    private function isNotification(array $payload): bool
+    {
+        $method = (string) ($payload['method'] ?? '');
+
+        if (str_starts_with($method, 'notifications/')) {
+            return true;
+        }
+
+        return ! array_key_exists('id', $payload);
+    }
+
+    /**
      * @param mixed $id
+     * @param array<string, mixed> $payload  Full request payload — used to
+     *   read the client-advertised `params.protocolVersion` so the
+     *   negotiated version can be echoed back per the MCP spec.
      * @return array<string, mixed>
      */
-    private function initializeResponse(mixed $id): array
+    private function initializeResponse(mixed $id, array $payload = []): array
     {
+        $clientVersion = data_get($payload, 'params.protocolVersion');
+        $serverVersion = (string) config('modules.ai.mcp.protocol_version');
+        $supported = (array) config('modules.ai.mcp.supported_protocol_versions', [$serverVersion]);
+
+        // Per MCP spec: if the client-advertised version is one we
+        // support, echo it back (the client will use that version
+        // for the rest of the session). Otherwise fall back to the
+        // server's preferred version — clients are required to handle
+        // a mismatch and decide whether to continue.
+        $negotiated = (is_string($clientVersion) && $clientVersion !== '' && in_array($clientVersion, $supported, true))
+            ? $clientVersion
+            : $serverVersion;
+
         return [
             'jsonrpc' => '2.0',
             'id' => $id,
             'result' => [
-                'protocolVersion' => config('modules.ai.mcp.protocol_version'),
+                'protocolVersion' => $negotiated,
                 'serverInfo' => [
                     'name' => config('modules.ai.mcp.server_name'),
                     'version' => config('modules.ai.mcp.server_version'),
@@ -60,6 +116,24 @@ class McpServer
                 ],
                 'transport' => config('modules.ai.mcp.transport'),
             ],
+        ];
+    }
+
+    /**
+     * MCP / JSON-RPC `ping` — utility liveness probe. Spec mandates an
+     * empty `result` object so clients can distinguish liveness from
+     * actual data. See https://spec.modelcontextprotocol.io/ utility
+     * methods.
+     *
+     * @param mixed $id
+     * @return array<string, mixed>
+     */
+    private function pingResponse(mixed $id): array
+    {
+        return [
+            'jsonrpc' => '2.0',
+            'id' => $id,
+            'result' => (object) [],
         ];
     }
 

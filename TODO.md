@@ -34,39 +34,64 @@ not a fully spec-compliant MCP server.
 
 ### A.1 Required protocol methods
 
-- [ ] **`ping` method** — every spec-compliant client may send `ping` to check
+- [x] 2026-04-25  **`ping` method** — every spec-compliant client may send `ping` to check
       liveness. Server currently returns `-32601 Method not found.` Add a
-      `ping` handler that returns an empty `result: {}`.
-- [ ] **`notifications/initialized`** — clients send this notification *after*
+      `ping` handler that returns an empty `result: {}`. *(Implemented in
+      `McpServer::pingResponse()` returning an empty object. Covered by
+      `McpSpecComplianceTest::ping_method_returns_an_empty_result_envelope`.)*
+- [x] 2026-04-25  **`notifications/initialized`** — clients send this notification *after*
       receiving the `initialize` response, before sending any other request.
       Server currently rejects it as method-not-found. Notifications carry no
       `id` so the response should be HTTP 204 / empty body, NOT a JSON-RPC
-      error envelope.
+      error envelope. *(Implemented as a generic notification handler in
+      `McpServer::handle()` — any method matching `notifications/*` OR any
+      payload missing the `id` key returns null from the server, which the
+      controller turns into `response()->noContent()`. Covered by 3 tests in
+      McpSpecComplianceTest including a representative non-`initialized`
+      notification name.)*
 - [ ] **`logging/setLevel`** — optional but standard; clients use it to control
       server-side log verbosity. Decline gracefully with a documented capability,
       or implement it.
 - [ ] **`completion/complete`** (resource/prompt completions) — declare
       explicitly unsupported in `capabilities` instead of silent `-32601`.
-- [ ] **JSON-RPC batch request handling** — the spec says servers MUST handle
+- [x] 2026-04-25  **JSON-RPC batch request handling** — the spec says servers MUST handle
       arrays of requests. Sending `[{...},{...}]` to `/api/mcp` currently
       302-redirects to `/` (Laravel's `Request::json()` chokes on array root,
       then the route falls through). Either accept and process the batch, or
-      respond with a single proper JSON-RPC error envelope.
-- [ ] **Empty / malformed request envelope** — POSTing `{"jsonrpc":"2.0","id":6}`
+      respond with a single proper JSON-RPC error envelope. *(Implemented in
+      `McpController::handleBatch()` — list-array bodies are dispatched per
+      entry, the response is an array of corresponding envelopes (per
+      JSON-RPC 2.0 §6), and a batch composed entirely of notifications
+      returns 204 No Content. Covered by 3 batch tests in McpSpecComplianceTest
+      including a mixed request+notification batch.)*
+- [x] 2026-04-25  **Empty / malformed request envelope** — POSTing `{"jsonrpc":"2.0","id":6}`
       (no `method`) returns HTTP 302 redirect, not the spec-mandated
       `-32600 Invalid Request`. Add an early-input-validation guard in
       `McpController::handle` that returns a proper JSON-RPC error envelope for
       every invalid envelope shape (no jsonrpc field, no method, wrong jsonrpc
-      version, malformed JSON).
+      version, malformed JSON). *(Implemented as
+      `McpController::validateEnvelopeShape()` — guards every JSON-RPC §4
+      shape requirement (jsonrpc=="2.0", method is non-empty string, params
+      is array if present) and returns a proper -32600 error envelope. The
+      old FormRequest-based McpRequest class was deleted since the new
+      controller handles validation inline. Covered by 2 envelope tests
+      (missing method, wrong jsonrpc version) in McpSpecComplianceTest.)*
 
 ### A.2 Capability negotiation
 
-- [ ] **Honor client's `protocolVersion` from `initialize` params** — current
+- [x] 2026-04-25  **Honor client's `protocolVersion` from `initialize` params** — current
       `initializeResponse()` ignores the inbound `params.protocolVersion` and
       always returns the server's configured version. Spec says: echo back the
       client's version if supported, otherwise return the highest version the
       server can speak. Clients that send `2024-11-05` today will get
-      `2025-03-26` back and may legitimately abort.
+      `2025-03-26` back and may legitimately abort. *(Implemented:
+      `McpServer::initializeResponse()` now reads `params.protocolVersion`
+      and echoes it back when listed in the new `supported_protocol_versions`
+      config (defaults: `2024-11-05,2025-03-26,2025-06-18`, env-overridable
+      via `AI_MCP_SUPPORTED_PROTOCOL_VERSIONS`). Falls back to the server's
+      preferred version when the client sends an unsupported one. Covered
+      by 3 tests in McpSpecComplianceTest: client-supplied supported,
+      client-supplied unsupported, and no protocolVersion at all.)*
 - [ ] **Declare unsupported capabilities explicitly** — `capabilities.resources`,
       `capabilities.prompts`, `capabilities.logging` are missing entirely. Spec-
       compliant clients infer these as "unsupported", which is correct, but
