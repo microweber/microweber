@@ -77,6 +77,28 @@ newsletter modules. The pinned inventory lives in
 `Modules/Ai/tests/Feature/McpToolCatalogContractTest::EXPECTED_TOOLS`;
 list it from the CLI with `php artisan ai:mcp:tools:list`.
 
+## Agent CLI (`microweber:ai`)
+
+Drive the same agent the Filament chat UI uses, from the shell:
+
+```bash
+php artisan microweber:ai "add a blog post about cats"
+php artisan microweber:ai "summarise our top 5 products" --agent=shop --json
+php artisan microweber:ai "draft a homepage" --user=editor@example.com --session=42
+```
+
+Foundations are the `MicroweberAiCommand` shipped under
+`Modules/Ai/Console/Commands/MicroweberAiCommand.php`. Use cases:
+operator automation, CI seed scripts, contributor prototyping. The
+command resolves an admin user (or the operator-supplied `--user` /
+`--user-id`), wraps the prompt in a `UserMessage`, dispatches to the
+named agent (default: `general`), and prints the agent's reply.
+Detects `BaseTool::ERROR_OUTPUT_MARKER` in the reply and exits 1
+when a tool error fires so CI can fail fast. The full plan
+(write-action sub-commands, REPL mode, dry-run, audit retention)
+lives in `TODO.md` under "AI Agent CLI — `microweber:ai` artisan
+command".
+
 ### Allow-list semantics
 
 Each MCP client carries three independent allow-lists — `allowed_tools`,

@@ -17,6 +17,7 @@ use Modules\Ai\Console\Commands\McpServeCommand;
 use Modules\Ai\Console\Commands\McpTokenRevokeCommand;
 use Modules\Ai\Console\Commands\McpTokenRotateCommand;
 use Modules\Ai\Console\Commands\McpToolsListCommand;
+use Modules\Ai\Console\Commands\MicroweberAiCommand;
 use Modules\Ai\Filament\Resources\McpClientResource;
 use Modules\Ai\Http\Middleware\AuthenticateMcpClient;
 use Modules\Ai\Filament\Resources\AgentChatResource;
@@ -103,6 +104,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 McpTokenRevokeCommand::class,
                 McpPruneAuditCommand::class,
                 McpServeCommand::class,
+                MicroweberAiCommand::class,
             ]);
         }
 

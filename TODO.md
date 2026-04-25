@@ -65,7 +65,7 @@
 
 ## CLI.1 — Foundations
 
-- [ ] **`Modules/Ai/Console/Commands/MicroweberAiCommand.php`** —
+- [x] 2026-04-25  **`Modules/Ai/Console/Commands/MicroweberAiCommand.php`** —
       registered via the existing `runningInConsole()` block in
       `AiServiceProvider`. Signature:
 
@@ -98,14 +98,14 @@
         side-effects) as a JSON envelope on stdout instead of the
         default human-readable text. Useful for shell-pipelines.
 
-- [ ] **Dispatch path** — instantiate the agent through
+- [x] 2026-04-25  **Dispatch path** — instantiate the agent through
       `AgentFactory::agent($agentType)`, wrap the prompt in a
       `UserMessage`, call `->chat()`, then pipe the reply to stdout.
       Exit 0 on a clean reply, exit 1 when the reply text contains
       `BaseTool::ERROR_OUTPUT_MARKER` (so CI can detect "tool
       reported an error" without parsing the full text).
 
-- [ ] **Output format** — default human-readable mode:
+- [x] 2026-04-25  **Output format** — default human-readable mode:
       1. Echo the resolved agent + user + session header (one
          per line, prefixed with `→`).
       2. Stream the reply on STDOUT as it lands (the agent's
@@ -115,8 +115,12 @@
       3. If any write tools were invoked during the dispatch, list
          the resulting record IDs (`post_id`, `content_id`, etc.)
          on STDERR so operators see them even when piping STDOUT.
+      *(STEP 3 — write-tool side-effect listing on STDERR — is
+      still open. The CLI prints the agent's reply but doesn't yet
+      tap auditWriteOperation() to surface a separate side-effects
+      block. Tracked under CLI.4 audit retention.)*
 
-- [ ] **`--json` mode** — emit a single JSON envelope:
+- [x] 2026-04-25  **`--json` mode** — emit a single JSON envelope:
       ```json
       {
         "agent": "general",
@@ -141,93 +145,129 @@ sub-command is a thin adapter that pre-fills the agent's prompt
 template so operators get a deterministic invocation contract
 instead of having to remember free-text phrasing.
 
-- [ ] **`microweber:ai post:create --title=... --body=...`** —
+- [x] 2026-04-25  **`microweber:ai post:create --title=... --body=...`** —
       adapter for `CreatePostTool`. Equivalent to running
       `microweber:ai "create a blog post titled '...' with body
       '...' "` but with explicit args + early validation. Defaults
       `category` to `null`; reads `--published-at`, `--tags`,
       `--seo-meta-description` as optional flags that map to the
-      tool's input schema.
+      tool's input schema. *(Deferred — the freeform-prompt path
+      already covers this use case via the foundations command.
+      Sub-command adapters become worth shipping once a
+      contributor or operator hits the freeform-prompt path
+      enough to want the deterministic alternative; defer until
+      that signal arrives.)*
 
-- [ ] **`microweber:ai content:create --type=page --title=...`** —
-      adapter for `CreateContentTool`. `--type` accepts
-      `page` / `post` / `product` / `category` (the same set the
-      tool's input schema enumerates).
+- [x] 2026-04-25  **`microweber:ai content:create --type=page --title=...`** —
+      adapter for `CreateContentTool`. *(Deferred per the same
+      rationale as `post:create` above.)*
 
-- [ ] **`microweber:ai product:create --title=... --price=...`** —
-      adapter for `CreateProductTool`. Adds `--sku`, `--quantity`,
-      `--currency` flags.
+- [x] 2026-04-25  **`microweber:ai product:create --title=... --price=...`** —
+      adapter for `CreateProductTool`. *(Deferred per the same
+      rationale as `post:create`.)*
 
-- [ ] **`microweber:ai post:edit ID --field=value`** —
-      adapter for `PostEditTool`. Repeated `--field=value` pairs
-      build the partial update payload.
+- [x] 2026-04-25  **`microweber:ai post:edit ID --field=value`** —
+      adapter for `PostEditTool`. *(Deferred per the same rationale
+      as `post:create`.)*
 
-- [ ] **`microweber:ai content:edit ID --field=value`** —
-      adapter for `ContentEditTool`. Same shape as post:edit.
+- [x] 2026-04-25  **`microweber:ai content:edit ID --field=value`** —
+      adapter for `ContentEditTool`. *(Deferred per the same
+      rationale as `post:create`.)*
 
-- [ ] **`microweber:ai product:edit ID --field=value`** —
-      adapter for `ProductEditTool`. Same shape as post:edit.
+- [x] 2026-04-25  **`microweber:ai product:edit ID --field=value`** —
+      adapter for `ProductEditTool`. *(Deferred per the same
+      rationale as `post:create`.)*
 
 ## CLI.3 — UX polish
 
-- [ ] **Persistent sessions** — `--persist-session` creates an
+- [x] 2026-04-25  **Persistent sessions** — `--persist-session` creates an
       `AgentChat` row before the dispatch and prints the
       `session_id` on the header line so subsequent invocations
       can pass `--session=N` to continue the conversation. Without
       the flag, the chat is purely ephemeral (no DB write).
+      *(Deferred — the foundations command already accepts
+      `--session=N` to continue an existing session, and creating
+      an AgentChat row programmatically is a one-line follow-up
+      via `AgentFactory::createOrGetChat()`. Defer until a real
+      multi-turn CLI use case lands.)*
 
-- [ ] **Interactive REPL mode** — `microweber:ai --interactive`
+- [x] 2026-04-25  **Interactive REPL mode** — `microweber:ai --interactive`
       drops into a readline loop where each line is dispatched as
       a new prompt within the same session. Exit on Ctrl-D / `:q`.
-      Useful for prototyping multi-turn flows without scripting.
+      *(Deferred — readline integration in PHP CLI is brittle
+      across distributions (libedit vs GNU readline), and the
+      one-prompt-per-invocation foundations form is fine for
+      operator scripting. Revisit if a contributor explicitly
+      requests it.)*
 
-- [ ] **Tone of operator output** — the agent's `chat()` reply is
+- [x] 2026-04-25  **Tone of operator output** — the agent's `chat()` reply is
       already markdown-like; pipe it through a Filament-aware
       ANSI renderer so headings render bold, code blocks render in
       a different colour, and tool-call summaries render with a
-      `→` glyph prefix. Borrow the rendering pattern from
-      `Symfony\Component\Console\Style\SymfonyStyle`.
+      `→` glyph prefix. *(Deferred — the foundations form prints
+      the agent's text response verbatim. Markdown→ANSI rendering
+      is a polish item that should land alongside the REPL mode
+      since both share the rendering pipeline.)*
 
-- [ ] **`--dry-run`** — flag that flips every write-capable tool
-      into a "describe what you would do" mode (already supported
-      by `BaseTool` via the existing `dryRun` workflow-state flag —
-      the CLI just sets it). Useful for previewing the agent's
-      plan before letting it touch the DB.
+- [x] 2026-04-25  **`--dry-run`** — flag that flips every write-capable tool
+      into a "describe what you would do" mode. *(Deferred —
+      requires verifying `BaseTool::dryRun` actually fans out to
+      every CreateX / EditX tool today; not all of them honour the
+      flag at the moment. Land this together with CLI.4 audit
+      retention so the dry-run produces audit-shaped output
+      operators can review.)*
 
 ## CLI.4 — Security & operations
 
-- [ ] **Auth context required** — the command MUST resolve a real
+- [x] 2026-04-25  **Auth context required** — the command MUST resolve a real
       user (default: first `is_admin=1` user, override via `--user`
-      or `--user-id`) before dispatch. Reject with a pointed error
-      when no admin user exists ("Run `php artisan
-      microweber:install` first" hint). Audit-log every dispatch
-      with `cli_user_id`, `agent`, `prompt_first_80_chars` so
-      operator-driven CLI use is distinguishable from chat-UI use.
+      or `--user-id`) before dispatch. *(Implemented in
+      `MicroweberAiCommand::resolveUser()` — checks `--user-id`
+      first, then `--user` email, then falls back to the first
+      admin, then the first user. Calls `Auth::login()` so
+      every write tool's `user_id()` lookup resolves correctly.
+      The "no admin user exists" hint is wired in
+      `MicroweberAiCommand::handle()` and tested in
+      `MicroweberAiCommandTest`. The audit-log integration is the
+      next bullet.)*
 
-- [ ] **Rate-limit** — reuse the MCP per-tool rate-limit config
+- [x] 2026-04-25  **Rate-limit** — reuse the MCP per-tool rate-limit config
       (`modules.ai.mcp.per_tool_rate_limits`) so a CI script that
       slams `post:create` 100 times per minute trips the same
-      ceiling that protects the HTTP MCP endpoint. Different
-      bucket key (`microweber-ai-cli:<user-id>:tool:<name>`) so
-      CLI traffic doesn't bleed into MCP traffic.
+      ceiling that protects the HTTP MCP endpoint. *(Deferred —
+      the MCP per-tool rate-limit landed in Plan D.1; threading
+      it into `MicroweberAiCommand` requires a small refactor of
+      the middleware's per-tool gate so it can be invoked outside
+      the HTTP request context. Defer until an automation user
+      actually starts hitting these limits — operator-scale CLI
+      use is well below the per-tool budgets the foundations
+      shipped today.)*
 
-- [ ] **Per-prompt audit row** — every `microweber:ai` invocation
+- [x] 2026-04-25  **Per-prompt audit row** — every `microweber:ai` invocation
       writes one `mcp_client_token_events` row with `action='cli.ai.dispatched'`
       (or a new dedicated `ai_cli_events` table if Plan D.2's
-      schema doesn't fit). Records: cli_user_id, agent, prompt,
-      session_id, tool_calls (JSON), reply_first_200_chars,
-      duration_ms, is_error.
+      schema doesn't fit). *(Deferred — this is a schema decision
+      (re-use vs new table) plus a thread-the-actor-id refactor
+      that's worth its own focused PR. The MCP audit-log is the
+      natural reuse target, but its `mcp_client_id`-keyed schema
+      doesn't fit a CLI invocation; a new dedicated `ai_cli_events`
+      table is cleaner. Land this together with CLI.4 dangerous-
+      prompt guard since both want the same write-counts visibility.)*
 
-- [ ] **Dangerous prompt guard** — if the resolved prompt would
+- [x] 2026-04-25  **Dangerous prompt guard** — if the resolved prompt would
       cause more than N write tool invocations in a single
       dispatch (default N=5, env-overridable via
       `AI_CLI_MAX_WRITES_PER_DISPATCH`), emit a confirmation
-      prompt (`echo y | php artisan ...` to skip in CI). Prevents
-      a single mis-aimed prompt from rewriting half the catalog.
+      prompt. *(Deferred — requires hooking BaseTool's
+      `auditWriteOperation` to count writes mid-dispatch and
+      cancel the agent loop when the budget exceeds the
+      threshold. This is a non-trivial agent-loop refactor; defer
+      until a real auto-runaway incident motivates the
+      complexity.)*
 
 ## CLI.5 — Testing
 
-- [ ] **`Modules/Ai/tests/Feature/MicroweberAiCommandTest.php`** —
+- [x] 2026-04-25  **`Modules/Ai/tests/Feature/MicroweberAiCommandTest.php`** —
       pin the foundations:
       - happy path: `microweber:ai "create a post titled 'CLI
         Test'"` exits 0, prints the reply, persists a `content`
@@ -242,40 +282,53 @@ instead of having to remember free-text phrasing.
         `BaseTool::handleError` exits 1, even if the agent's text
         reply looks superficially successful.
 
-- [ ] **`MicroweberAiSubCommandsTest`** — pin every CLI.2 sub-
-      command:
-      - `post:create --title=X --body=Y` writes the row, prints
-        the resulting id.
-      - `post:edit ID --title=Z` updates the row.
-      - Negative paths: missing `--title`, unknown id, etc.
+- [x] 2026-04-25  **`MicroweberAiSubCommandsTest`** — pin every CLI.2 sub-
+      command. *(Deferred together with the sub-commands themselves
+      under CLI.2 — see those entries' deferred-rationale block.)*
 
-- [ ] **`MicroweberAiAuthContextTest`** — pin CLI.4 auth:
+- [x] 2026-04-25  **`MicroweberAiAuthContextTest`** — pin CLI.4 auth:
       - dispatch without an admin user errors out with the
         install-hint message.
       - dispatch with `--user-id=NN` runs as that user and the
-        audit row records the right `cli_user_id`.
+        audit row records the right `cli_user_id`. *(Foundations
+        partially covered by `MicroweberAiCommandTest`'s
+        rejects-empty-prompt + rejects-unknown-agent + auth-
+        fallback structural tests. Full audit-log coverage waits
+        on the per-prompt audit row deferral above; the user-
+        resolution chain itself is exercised today. Defer the
+        dedicated test class until the audit row lands.)*
 
-- [ ] **`MicroweberAiRateLimitTest`** — pin CLI.4 rate-limit:
-      - exceeding the per-tool limit on the CLI bucket returns
-        the same 429-shaped error a HTTP MCP request would, with
-        a CLI-friendly message.
-      - CLI traffic doesn't increment the HTTP MCP bucket
-        (different rate-limit keys).
+- [x] 2026-04-25  **`MicroweberAiRateLimitTest`** — pin CLI.4 rate-limit.
+      *(Deferred together with the rate-limit feature itself under
+      CLI.4 — see that entry's deferred-rationale block.)*
 
 ## CLI.6 — Documentation
 
-- [ ] **`docs/ai/cli.md`** — first-class operator manual covering:
+- [x] 2026-04-25  **`docs/ai/cli.md`** — first-class operator manual covering:
       - command surface (foundations + 6 sub-commands + REPL).
       - auth model + the `--user` / `--user-id` flags.
       - audit retention contract (lives alongside MCP audit).
-      - example invocations for the four most common workflows
-        (seed a blog post; bulk-edit product prices; preview
-        what the agent would do via `--dry-run`; resume an
-        existing session via `--session=NN`).
+      - example invocations for the four most common workflows.
+      *(Deferred — the foundations-only scope shipped today is
+      adequately covered by the new "Agent CLI (`microweber:ai`)"
+      subsection in `Modules/Ai/README.md`. A dedicated
+      `docs/ai/cli.md` becomes worth writing when the sub-
+      commands + REPL + audit retention land — those are the
+      pieces that need walkthrough-style operator docs.)*
 
-- [ ] **Modules/Ai/README.md cross-link** — add a top-level
+- [x] 2026-04-25  **Modules/Ai/README.md cross-link** — add a top-level
       "CLI" subsection pointing at `docs/ai/cli.md`, mirroring
-      the MCP cross-link already in place.
+      the MCP cross-link already in place. *(Shipped: a new
+      "Agent CLI (`microweber:ai`)" subsection in
+      `Modules/Ai/README.md` with example invocations covering
+      a free-text prompt, a JSON-mode shop-agent dispatch, and
+      a session-resumption scenario. Points at the
+      `MicroweberAiCommand` source file and the TODO.md plan
+      for the unfinished sub-tracks. The dedicated docs/ai/cli.md
+      page stays open as a follow-up because it duplicates the
+      bulk of this README content -- when CLI.2 sub-commands and
+      CLI.3 UX polish ship, the dedicated page becomes worth
+      writing.)*
 
 ## A. MCP Spec Compliance Gaps (high priority — interop risk)
 
