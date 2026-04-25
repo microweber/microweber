@@ -337,11 +337,28 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### D.2 Audit log
 
-- [ ] **`token.used` event volume** — recorded on every authenticated
+- [x] 2026-04-25  **`token.used` event volume** — recorded on every authenticated
       request (`McpClientTokenManager::recordUsage`). For a busy AI
       client this floods `mcp_client_token_events`. Add a config-driven
       sampling rate (`AI_MCP_AUDIT_SAMPLE_USED`, default 0.0 = log all,
-      can drop to 0.1 = log 10% in production).
+      can drop to 0.1 = log 10% in production). *(Implemented as
+      `modules.ai.mcp.audit.sample_used` (env:
+      `AI_MCP_AUDIT_SAMPLE_USED`, default `1.0` = full fidelity to
+      preserve historic behaviour). The `recordUsage()` path now
+      consults `shouldSampleTokenUsedEvent()` before recording the
+      audit row; values between 0 and 1 are treated as a
+      probabilistic gate (e.g. `0.1` = ~10% sampling). The
+      per-token `last_used_at` timestamps always update regardless
+      of sampling — operators rely on them to spot inactive
+      tokens, and the sampler only controls audit-table volume.
+      Lifecycle events (`token.issued` / `revoked` / `denied` /
+      `rotated`) are NEVER sampled — they're rare and security-
+      relevant. Pinned by 3 new tests in `McpAuditSamplingTest`:
+      sample_used=1.0 records every invocation; sample_used=0.0
+      skips every row but still updates last_used_at; lifecycle
+      events bypass the sampler. The 60-test McpControllerTest
+      suite stays green because the default 1.0 keeps the
+      historic full-fidelity behaviour.)*
 - [x] 2026-04-25  **Filament admin viewer** — the Filament resource lists clients
       and tokens but not the token-event audit log. Add a relation
       manager so operators can see denial reasons, rate-limit hits,

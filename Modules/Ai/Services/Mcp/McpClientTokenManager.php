@@ -174,6 +174,10 @@ class McpClientTokenManager
         $token->loadMissing('client');
         $usedAt = now();
 
+        // Last-used timestamps always update — operators rely on
+        // them to spot inactive tokens regardless of audit
+        // sampling. Only the audit-event row goes through the
+        // sampler.
         $token->forceFill([
             'last_used_at' => $usedAt,
             'last_used_ip' => $ipAddress,
@@ -183,6 +187,10 @@ class McpClientTokenManager
         $token->client->forceFill([
             'last_used_at' => $usedAt,
         ])->save();
+
+        if (! $this->shouldSampleTokenUsedEvent()) {
+            return;
+        }
 
         $this->recordEvent(
             client: $token->client,
@@ -195,6 +203,41 @@ class McpClientTokenManager
                 'token_name' => $token->name,
             ],
         );
+    }
+
+    /**
+     * Probabilistic sampler for `token.used` audit events.
+     *
+     * Reads the `audit.sample_used` config (env:
+     * `AI_MCP_AUDIT_SAMPLE_USED`):
+     *
+     *   - `1.0` (default) → record every request (full-fidelity
+     *     audit trail; matches the historic behaviour).
+     *   - `0.1`            → record ~10% of requests (1-in-10
+     *     sampling; recommended for high-throughput integrations
+     *     where the audit-table growth is the bottleneck).
+     *   - `0.0`            → never record token.used events
+     *     (still keeps the per-token last_used_at timestamp).
+     *
+     * Other event types (`token.issued`, `token.revoked`,
+     * `token.denied`, etc.) are NEVER sampled — they're rare and
+     * security-relevant. Only the high-volume `token.used` path
+     * goes through this sampler.
+     */
+    private function shouldSampleTokenUsedEvent(): bool
+    {
+        $rate = (float) config('modules.ai.mcp.audit.sample_used', 1.0);
+
+        if ($rate >= 1.0) {
+            return true;
+        }
+        if ($rate <= 0.0) {
+            return false;
+        }
+
+        // mt_rand is sufficient for sampling — this is not a
+        // security boundary, just a probabilistic gate.
+        return (mt_rand() / mt_getrandmax()) < $rate;
     }
 
     public function recordAuditEvent(

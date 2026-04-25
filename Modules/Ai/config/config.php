@@ -55,6 +55,18 @@ return [
         // than enforcement -- the warning line is the signal that
         // a tool is regressing past its expected p95 latency.
         'slow_tool_warn_ms' => (int) env('AI_MCP_SLOW_TOOL_WARN_MS', 5000),
+        // Audit-event sampling. Today only the high-volume
+        // `token.used` event consults the sampler; rare events
+        // (token.issued / revoked / denied / rotated) are always
+        // recorded.
+        'audit' => [
+            // 1.0 = record every authenticated request (default).
+            // 0.1 = record ~10% (recommended for high-throughput
+            // integrations to keep mcp_client_token_events small).
+            // 0.0 = never record token.used (last_used_at still
+            // updates).
+            'sample_used' => (float) env('AI_MCP_AUDIT_SAMPLE_USED', 1.0),
+        ],
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),
