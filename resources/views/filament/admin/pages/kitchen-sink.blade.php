@@ -59,17 +59,22 @@
         </x-filament::tabs>
 
         <div x-show="activeTab == 'icons'" class="mt-4">
-            <div>
-                Icons path: /src/MicroweberPackages/Admin/resources/mw-svg/
+            <div class="text-sm text-gray-600 dark:text-gray-300">
+                Icons path: <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">/src/MicroweberPackages/Admin/resources/mw-svg/</code>
             </div>
-            <div class="grid grid-cols-4 gap-4 mt-2">
+            <div class="grid grid-cols-4 gap-4 mt-3">
                 @foreach($this->getIcons() as $icon)
+                    {{-- Hover state intentionally same-direction in
+                         both modes: brighten the tile, do not invert
+                         to white in dark mode (the previous
+                         group-hover:bg-white made tiles glow white
+                         on hover under the dark theme). --}}
                     <div
-                        class="flex flex-col bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
-                        <div class="flex items-center justify-center ">
-                            @svg('mw-'.$icon, "h-12 w-12 text-black/90 dark:text-white")
+                        class="group flex flex-col items-center justify-center rounded-xl p-4 bg-blue-500/10 dark:bg-white/5 hover:bg-blue-500/20 dark:hover:bg-white/10 transition duration-150">
+                        <div class="flex items-center justify-center">
+                            @svg('mw-'.$icon, "h-12 w-12 text-gray-900 dark:text-white")
                         </div>
-                        <div class="w-full text-center mt-2">
+                        <div class="w-full text-center mt-2 text-xs font-medium text-gray-900 dark:text-white break-words leading-tight">
                             mw-{{$icon}}
                         </div>
                     </div>
@@ -82,10 +87,10 @@
             {{$this->form}}
         </div>
 
-    <div x-show="activeTab == 'other'" class="mt-4">
-        <h2>
+    <div x-show="activeTab == 'other'" class="mt-4 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 space-y-4 text-gray-900 dark:text-gray-100">
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Modal
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 mw.dialog({
     content: 'dialog'
 })
@@ -98,11 +103,11 @@ mw.dialog({
             </x-filament::button>
         </h2>
 
-        <hr>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             File picker
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 mw.filePickerDialog( (url) => {
     console.log(url)
 });
@@ -114,10 +119,10 @@ mw.filePickerDialog( (url) => {
             </x-filament::button>
         </h2>
 
-        <hr>
-        <h2>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Url picker
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 var linkEditor = new mw.LinkEditor({
     mode: 'dialog',
 });
@@ -155,11 +160,11 @@ linkEditor.promise().then(function (data){
             </x-filament::button>
         </h2>
 
-        <hr>
-        <h2>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Tree
 
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 mw.widget.tree('.my-element');
 mw.widget.tree(nodeElement);
             </pre>
@@ -194,13 +199,13 @@ mw.widget.tree(nodeElement);
             </script>
         </h2>
 
-        <hr>
-        <h2>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Editor
 
             <div class="richtext-example"></div>
 
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 const editor = mw.richTextEditor({
     target: '.richtext-example'
 });
@@ -227,12 +232,12 @@ editor.on('change', val => {
             </script>
         </h2>
 
-        <hr>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Confirm dialog
 
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 const dialogConfirm = await mw.confirm('Confirm your choice?').promise();
 console.log(dialogConfirm);
 
@@ -244,9 +249,9 @@ console.log(dialogConfirm);
             </x-filament::button>
         </h2>
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Alert dialog
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 mw.alert('Hello world');
 
 
@@ -257,10 +262,10 @@ mw.alert('Hello world');
             </x-filament::button>
         </h2>
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Prompt dialog
 
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 const dialogPrompt = await mw.prompt('Enter your name').promise();
 console.log(dialogPrompt);
 
@@ -273,12 +278,12 @@ console.log(dialogPrompt);
         </h2>
 
 
-        <hr>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Iframe auto height
 
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 <code>
 mw.tools.iframeAutoHeight(document.querySelector('.mw-dialog iframe'))
 </code>
@@ -297,12 +302,12 @@ mw.tools.iframeAutoHeight(document.querySelector('.mw-dialog iframe'))
 
         </h2>
 
-        <hr>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
 
 
-        <h2>
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Icon picker
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 addEventListener('DOMContentLoaded', e => {
     mw.iconLoader()
     .addIconSet('iconsMindLine')
@@ -340,10 +345,10 @@ addEventListener('DOMContentLoaded', e => {
 
         </h2>
 
-        <hr>
-        <h2>
+        <hr class="my-6 border-gray-200 dark:border-gray-700">
+        <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
             Schema Form
-            <pre>
+            <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 
 const exampleData = [
     {
@@ -405,11 +410,11 @@ console.log(schemaForm.getValue());
             </pre>
         </h2>
 
-            <hr>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 File picker
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 mw.filePickerDialog( (url) => {
     console.log(url)
 });
@@ -421,10 +426,10 @@ mw.filePickerDialog( (url) => {
                 </x-filament::button>
             </h2>
 
-            <hr>
-            <h2>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Url picker
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 var linkEditor = new mw.LinkEditor({
     mode: 'dialog',
 });
@@ -462,11 +467,11 @@ linkEditor.promise().then(function (data){
                 </x-filament::button>
             </h2>
 
-            <hr>
-            <h2>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Tree
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
      mw.widget.tree('.my-element');
      mw.widget.tree(nodeElement);
         </pre>
@@ -501,13 +506,13 @@ linkEditor.promise().then(function (data){
                 </script>
             </h2>
 
-            <hr>
-            <h2>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Editor
 
                 <div class="richtext-example"></div>
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
             const editor = mw.richTextEditor({
                 target: '.richtext-example'
             });
@@ -534,12 +539,12 @@ linkEditor.promise().then(function (data){
                 </script>
             </h2>
 
-            <hr>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Confirm dialog
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
     const dialogConfirm = await mw.confirm('Confirm your choice?').promise();
     console.log(dialogConfirm);
 
@@ -551,10 +556,10 @@ linkEditor.promise().then(function (data){
                 </x-filament::button>
             </h2>
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Alert dialog
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
  mw.alert('Hello world');
 
 
@@ -565,10 +570,10 @@ linkEditor.promise().then(function (data){
                 </x-filament::button>
             </h2>
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Prompt dialog
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 const dialogPrompt = await mw.prompt('Enter your name').promise();
 console.log(dialogPrompt);
 
@@ -581,13 +586,13 @@ console.log(dialogPrompt);
             </h2>
 
 
-            <hr>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
 
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Iframe auto height
 
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 <code>
     mw.tools.iframeAutoHeight(document.querySelector('.mw-dialog iframe'))
 </code>
@@ -606,12 +611,12 @@ console.log(dialogPrompt);
 
             </h2>
 
-            <hr>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
 
 
-            <h2>
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Icon picker
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
     addEventListener('DOMContentLoaded', e => {
         mw.iconLoader()
             .addIconSet('iconsMindLine')
@@ -649,10 +654,10 @@ console.log(dialogPrompt);
 
             </h2>
 
-            <hr>
-            <h2>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">
                 Schema Form
-                <pre>
+                <pre class="my-2 p-3 text-xs rounded-md bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 overflow-x-auto whitespace-pre-wrap break-words">
 
     const exampleData = [
             {
@@ -789,8 +794,8 @@ console.log(dialogPrompt);
             <button type="submit" form="schema-form" class="btn">Submit</button>
 
 
-            <hr>
-            <h2>Other elements with Tailwind classes</h2>
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+            <h2 class="mt-6 mb-3 text-base font-semibold tracking-tight text-gray-900 dark:text-white">Other elements with Tailwind classes</h2>
             <img src="{{ public_asset('modules/payment/img/paypal.png') }}"
                  style="height: 36px; width: 36px;"
                  class="max-w-none object-cover object-center ring-white dark:ring-gray-900  !object-contain">
