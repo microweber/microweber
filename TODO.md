@@ -269,7 +269,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleContactFormSmokeTest` — contact form insertion + submission.
 - [x] 2026-04-25  `LiveAdminModuleContentDataSmokeTest` — content-data KV editor.
 - [x] 2026-04-25  `LiveAdminModuleContentDataVariantSmokeTest` — variants admin.
-- [ ] `LiveAdminModuleContentFieldSmokeTest` — custom content field CRUD.
+- [x] 2026-04-25  `LiveAdminModuleContentFieldSmokeTest` — custom content field CRUD.
 - [ ] `LiveAdminModuleCookieNoticeSmokeTest` — cookie notice settings.
 - [ ] `LiveAdminModuleCountrySmokeTest` — country list admin.
 - [ ] `LiveAdminModuleCouponsSmokeTest` — coupon CRUD + redeem on public checkout.
