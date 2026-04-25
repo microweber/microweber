@@ -255,7 +255,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleAccordionSmokeTest` — frontend accordion skin + admin settings page.
 - [x] 2026-04-25  `LiveAdminModuleAddressSmokeTest` — customer/address CRUD.
 - [x] 2026-04-25  `LiveAdminModuleAiWizardSmokeTest` — AI-wizard entry page.
-- [ ] `LiveAdminModuleAttributesSmokeTest` — product attributes admin.
+- [x] 2026-04-25  `LiveAdminModuleAttributesSmokeTest` — product attributes admin.
 - [ ] `LiveAdminModuleAudioSmokeTest` — audio module insertion + inline URL edit.
 - [ ] `LiveAdminModuleBeforeAfterSmokeTest` — slider comparison widget.
 - [ ] `LiveAdminModuleBreadcrumbSmokeTest` — breadcrumb render on a nested page.
