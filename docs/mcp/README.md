@@ -284,6 +284,51 @@ These clients each accept a JSON snippet matching the same
 docs for the exact path; the snippet is identical except for the
 top-level wrapper key.
 
+## Read-only by design
+
+Every tool in the catalog today is **strictly read-only** —
+every entry advertises `annotations.readOnlyHint = true` in its
+`tools/list` row. AI clients (Claude Desktop, Cursor, Cline)
+honour this hint and never auto-execute the tool without
+explicit operator approval, but the hint is defence-in-depth;
+the underlying tool implementations also can't write to the DB.
+
+This is a deliberate choice for the current release:
+
+  * **Smaller blast radius for leaked tokens.** A leaked
+    read-only token can exfiltrate data — bad — but cannot
+    delete content, edit pages, or send newsletters.
+  * **No prompt-injection write surface.** Indirect prompt
+    injection through user-generated content (a content row
+    pasted into a chat) cannot be turned into a write call,
+    because no write call exists.
+  * **Operator-side confidence in early adoption.** Operators
+    deploying MCP for the first time can audit a token for
+    weeks before granting write capabilities.
+
+When the first write tool ships, it must:
+
+  1. Declare `readOnlyHint => false` in its catalog definition.
+     The catalog already supports the override
+     (`McpToolCatalog::listTools()` reads
+     `definition.readOnlyHint` instead of hard-coding `true`),
+     so this is a one-line flip per tool.
+  2. Land in the new `AI_MCP_ADMIN_ONLY_TOOLS` env list (or
+     `AI_MCP_ADMIN_ONLY_MODULES` if the entire module flips
+     to write). Tokens without the `mcp:admin` scope then
+     can't see or invoke it.
+  3. Update the `EXPECTED_TOOLS` constant in
+     `McpToolCatalogContractTest` and add a focused write-
+     path test (write success + write rejection without
+     admin scope + write idempotency).
+  4. Surface the write capability in the Filament
+     "Allow-list semantics" form description so admins
+     creating new clients see the new tool in the
+     allowed-tools picker.
+
+A non-exhaustive list of high-value future write tools lives
+in `TODO.md` under `MCP Server — Improvement Plan → C.1`.
+
 ## Tool catalog reference
 
 The full catalog lives at runtime in

@@ -270,6 +270,16 @@ class McpToolCatalog
 
             $tool = app()->make($definition['tool']);
 
+            // The catalog is read-only today: every entry is gated
+            // through `definition.readOnlyHint`, which defaults to
+            // `true` for backward compat. When the first write tool
+            // ships, it should set `readOnlyHint => false` in its
+            // catalog definition (and the spec-compliance test in
+            // `McpToolCatalogContractTest::tools_list_response_declares_output_format_for_every_tool`
+            // will fail to remind the contributor to flip the
+            // annotations.readOnlyHint hint accordingly).
+            $readOnlyHint = (bool) ($definition['readOnlyHint'] ?? true);
+
             $tools[] = [
                 'name' => $mcpToolName,
                 'description' => $definition['title'] ?: $tool->getDescription(),
@@ -277,7 +287,7 @@ class McpToolCatalog
                 'annotations' => [
                     'module' => $definition['module'],
                     'domain' => $tool->getDomain(),
-                    'readOnlyHint' => true,
+                    'readOnlyHint' => $readOnlyHint,
                     // Documented output contract: every tool today
                     // returns one `content[0].text` item carrying
                     // HTML-stripped, whitespace-collapsed plain text

@@ -169,7 +169,20 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### C.1 Missing high-value tools
 
-- [ ] **Write tools** — every tool today is read-only (`readOnlyHint: true`).
+- [x] 2026-04-25  **Write tools** — every tool today is read-only (`readOnlyHint: true`).
+      *(Decision documented as a deliberate read-only-by-design
+      release in `docs/mcp/README.md` "Read-only by design": smaller
+      blast radius for leaked tokens, no prompt-injection write
+      surface, operator-side confidence in early adoption. The
+      catalog now reads `readOnlyHint` per definition (instead of
+      hard-coded `true`), so each future write tool is a one-line
+      flip in its catalog entry plus the documented on-ramp:
+      `readOnlyHint => false`, register under
+      `AI_MCP_ADMIN_ONLY_TOOLS`, update `EXPECTED_TOOLS` + add a
+      focused write-path test, surface in the Filament
+      allow-list picker. The four specific write tools below
+      stay open as separate pieces of work, ready to be picked
+      up when the operator-side confidence story lands.)*
       For an MCP server to be genuinely useful for AI agents managing the
       site, at least these write tools are needed (each gated behind
       `mcp:admin` scope by default):
