@@ -461,6 +461,12 @@ svg[wire\:loading\.remove] {
 // Tables — clean, MW v2 style with subtle row dividers
 // ============================================================================
 .fi-ta-ctn {
+  // Solid surface bg on the wrapper itself: without it the rounded
+  // corners + box-shadow render around a transparent rect, and the
+  // page bg leaks through the corner where the inner header / content
+  // backgrounds meet — visible as a 1-2px halo / "borked corner" in
+  // both light and dark mode.
+  background-color: $mw-bg-surface !important;
   border-radius: $mw-radius-lg !important;
   box-shadow: $mw-shadow-sm !important;
   border: none !important;
@@ -481,6 +487,20 @@ svg[wire\:loading\.remove] {
 
 .fi-ta-content {
   background-color: $mw-bg-surface !important;
+}
+
+// Filament v5 ships these two helper strips with a translucent
+// white background (`bg-white/5`). On the table card they sit between
+// the toolbar header and the first record (`.fi-ta-content-header`,
+// the master-checkbox row), and at the top of the body
+// (`.fi-ta-selection-indicator`, the "X rows selected" bar). The
+// translucent fill is invisible in light mode but renders as a
+// lighter strip in dark mode that the operator reads as the table
+// "bleeding" past its rounded corners. Zero them out so the
+// wrapper's solid surface bg shows through cleanly.
+.fi-ta-content-header,
+.fi-ta-selection-indicator {
+  background-color: transparent !important;
 }
 
 .fi-ta-record {
@@ -2637,9 +2657,15 @@ html.dark {
     color: #718096 !important;
   }
 
-  // Table header container dark bg
+  // Table header container dark bg — must match `.fi-ta-ctn` /
+  // `.fi-ta-content` (#1a1f2b). Previously this was #1e2330, a
+  // slightly lighter shade; the mismatch produced a visible "step"
+  // at the top-rounded corners where the wrapper's clipped shape
+  // meets the header's own rounded background. Use the shared
+  // surface color and demarcate the header via the bottom border
+  // only.
   .fi-ta-header-ctn {
-    background-color: #1e2330 !important;
+    background-color: #1a1f2b !important;
     border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
