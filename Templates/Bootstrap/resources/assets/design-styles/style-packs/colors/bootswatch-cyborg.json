@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Cyborg",
+            "description": "Jet black and electric blue. Dark theme.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Cyborg",
+                        "properties": {
+                            "--mw-background-color": "#060606",
+                            "--mw-primary-color": "#2a9fd6",
+                            "--mw-body-color": "#adafae",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#adafae",
+                            "--mw-link-color": "#2a9fd6",
+                            "--mw-link-hover-color": "#217aa3",
+                            "--mw-btn-background-color": "#2a9fd6",
+                            "--mw-btn-background-hover-color": "#217aa3",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#2a9fd6",
+                            "--mw-form-control-background": "#060606",
+                            "--mw-form-control-border-color": "#2a9fd6",
+                            "--mw-top-header-background-color": "#000000",
+                            "--mw-header-background-color": "#060606",
+                            "--mw-header-link-color": "#adafae",
+                            "--mw-header-link-hover-color": "#2a9fd6",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#2a9fd6",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#2a9fd6",
+                            "--mw-section-background-color": "#222222"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

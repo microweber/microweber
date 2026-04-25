@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 United",
+            "description": "Ubuntu orange and unique font.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 United",
+                        "properties": {
+                            "--mw-background-color": "#ffffff",
+                            "--mw-primary-color": "#e95420",
+                            "--mw-body-color": "#333333",
+                            "--mw-heading-color": "#333333",
+                            "--mw-paragraph-color": "#333333",
+                            "--mw-link-color": "#e95420",
+                            "--mw-link-hover-color": "#bf3e0e",
+                            "--mw-btn-background-color": "#e95420",
+                            "--mw-btn-background-hover-color": "#bf3e0e",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#e95420",
+                            "--mw-form-control-background": "#ffffff",
+                            "--mw-form-control-border-color": "#e95420",
+                            "--mw-top-header-background-color": "#772953",
+                            "--mw-header-background-color": "#ffffff",
+                            "--mw-header-link-color": "#333333",
+                            "--mw-header-link-hover-color": "#e95420",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#e95420",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#e95420",
+                            "--mw-section-background-color": "#aea79f"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

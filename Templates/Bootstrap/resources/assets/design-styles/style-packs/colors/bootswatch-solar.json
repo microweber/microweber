@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Solar",
+            "description": "A spark of solar yellow. Dark theme.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Solar",
+                        "properties": {
+                            "--mw-background-color": "#002b36",
+                            "--mw-primary-color": "#b58900",
+                            "--mw-body-color": "#839496",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#839496",
+                            "--mw-link-color": "#b58900",
+                            "--mw-link-hover-color": "#866400",
+                            "--mw-btn-background-color": "#b58900",
+                            "--mw-btn-background-hover-color": "#866400",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#b58900",
+                            "--mw-form-control-background": "#002b36",
+                            "--mw-form-control-border-color": "#b58900",
+                            "--mw-top-header-background-color": "#073642",
+                            "--mw-header-background-color": "#002b36",
+                            "--mw-header-link-color": "#839496",
+                            "--mw-header-link-hover-color": "#b58900",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#b58900",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#b58900",
+                            "--mw-section-background-color": "#073642"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

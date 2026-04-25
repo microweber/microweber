@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Vapor",
+            "description": "A vaporwave aesthetic. Dark theme.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Vapor",
+                        "properties": {
+                            "--mw-background-color": "#1a0526",
+                            "--mw-primary-color": "#a51a8c",
+                            "--mw-body-color": "#bd93f9",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#bd93f9",
+                            "--mw-link-color": "#a51a8c",
+                            "--mw-link-hover-color": "#7a1369",
+                            "--mw-btn-background-color": "#a51a8c",
+                            "--mw-btn-background-hover-color": "#7a1369",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#a51a8c",
+                            "--mw-form-control-background": "#1a0526",
+                            "--mw-form-control-border-color": "#a51a8c",
+                            "--mw-top-header-background-color": "#0e0214",
+                            "--mw-header-background-color": "#1a0526",
+                            "--mw-header-link-color": "#bd93f9",
+                            "--mw-header-link-hover-color": "#a51a8c",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#a51a8c",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#a51a8c",
+                            "--mw-section-background-color": "#2d0a3a"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

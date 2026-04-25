@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Superhero",
+            "description": "The brave and the blue. Dark theme.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Superhero",
+                        "properties": {
+                            "--mw-background-color": "#2b3e50",
+                            "--mw-primary-color": "#df691a",
+                            "--mw-body-color": "#ffffff",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#ffffff",
+                            "--mw-link-color": "#df691a",
+                            "--mw-link-hover-color": "#a04e13",
+                            "--mw-btn-background-color": "#df691a",
+                            "--mw-btn-background-hover-color": "#a04e13",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#df691a",
+                            "--mw-form-control-background": "#2b3e50",
+                            "--mw-form-control-border-color": "#df691a",
+                            "--mw-top-header-background-color": "#1a242f",
+                            "--mw-header-background-color": "#2b3e50",
+                            "--mw-header-link-color": "#ffffff",
+                            "--mw-header-link-hover-color": "#df691a",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#df691a",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#df691a",
+                            "--mw-section-background-color": "#4e5d6c"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

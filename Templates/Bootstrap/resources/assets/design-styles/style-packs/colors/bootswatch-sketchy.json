@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Sketchy",
+            "description": "A hand-drawn look for mockups and presentations.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Sketchy",
+                        "properties": {
+                            "--mw-background-color": "#ffffff",
+                            "--mw-primary-color": "#333333",
+                            "--mw-body-color": "#555555",
+                            "--mw-heading-color": "#333333",
+                            "--mw-paragraph-color": "#555555",
+                            "--mw-link-color": "#333333",
+                            "--mw-link-hover-color": "#000000",
+                            "--mw-btn-background-color": "#333333",
+                            "--mw-btn-background-hover-color": "#000000",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#333333",
+                            "--mw-form-control-background": "#ffffff",
+                            "--mw-form-control-border-color": "#333333",
+                            "--mw-top-header-background-color": "#333333",
+                            "--mw-header-background-color": "#ffffff",
+                            "--mw-header-link-color": "#555555",
+                            "--mw-header-link-hover-color": "#333333",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#333333",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#333333",
+                            "--mw-section-background-color": "#f5f5f5"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

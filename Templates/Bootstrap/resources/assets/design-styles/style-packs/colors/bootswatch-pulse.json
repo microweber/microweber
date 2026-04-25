@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Pulse",
+            "description": "A trace of purple.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Pulse",
+                        "properties": {
+                            "--mw-background-color": "#ffffff",
+                            "--mw-primary-color": "#593196",
+                            "--mw-body-color": "#444444",
+                            "--mw-heading-color": "#444444",
+                            "--mw-paragraph-color": "#444444",
+                            "--mw-link-color": "#593196",
+                            "--mw-link-hover-color": "#3f216a",
+                            "--mw-btn-background-color": "#593196",
+                            "--mw-btn-background-hover-color": "#3f216a",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#593196",
+                            "--mw-form-control-background": "#ffffff",
+                            "--mw-form-control-border-color": "#593196",
+                            "--mw-top-header-background-color": "#593196",
+                            "--mw-header-background-color": "#ffffff",
+                            "--mw-header-link-color": "#444444",
+                            "--mw-header-link-hover-color": "#593196",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#593196",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#593196",
+                            "--mw-section-background-color": "#f9f8fc"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

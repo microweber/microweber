@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Darkly",
+            "description": "Flatly in night mode. Dark theme.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Darkly",
+                        "properties": {
+                            "--mw-background-color": "#222222",
+                            "--mw-primary-color": "#375a7f",
+                            "--mw-body-color": "#ffffff",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#ffffff",
+                            "--mw-link-color": "#375a7f",
+                            "--mw-link-hover-color": "#2c4a68",
+                            "--mw-btn-background-color": "#375a7f",
+                            "--mw-btn-background-hover-color": "#2c4a68",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#375a7f",
+                            "--mw-form-control-background": "#222222",
+                            "--mw-form-control-border-color": "#375a7f",
+                            "--mw-top-header-background-color": "#3498db",
+                            "--mw-header-background-color": "#222222",
+                            "--mw-header-link-color": "#ffffff",
+                            "--mw-header-link-hover-color": "#375a7f",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#375a7f",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#375a7f",
+                            "--mw-section-background-color": "#303030"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

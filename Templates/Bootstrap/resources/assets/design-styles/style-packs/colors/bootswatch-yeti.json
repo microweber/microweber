@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Yeti",
+            "description": "A friendly foundation.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Yeti",
+                        "properties": {
+                            "--mw-background-color": "#ffffff",
+                            "--mw-primary-color": "#008cba",
+                            "--mw-body-color": "#222222",
+                            "--mw-heading-color": "#222222",
+                            "--mw-paragraph-color": "#222222",
+                            "--mw-link-color": "#008cba",
+                            "--mw-link-hover-color": "#006687",
+                            "--mw-btn-background-color": "#008cba",
+                            "--mw-btn-background-hover-color": "#006687",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#008cba",
+                            "--mw-form-control-background": "#ffffff",
+                            "--mw-form-control-border-color": "#008cba",
+                            "--mw-top-header-background-color": "#222222",
+                            "--mw-header-background-color": "#ffffff",
+                            "--mw-header-link-color": "#222222",
+                            "--mw-header-link-hover-color": "#008cba",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#008cba",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#008cba",
+                            "--mw-section-background-color": "#f8f8f8"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

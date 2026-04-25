@@ -1,0 +1,45 @@
+{
+    "settings": [
+        {
+            "title": "Bootswatch \u2014 Quartz",
+            "description": "A glassmorphic layout.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Bootswatch \u2014 Quartz",
+                        "properties": {
+                            "--mw-background-color": "#1d1235",
+                            "--mw-primary-color": "#b66dff",
+                            "--mw-body-color": "#ffffff",
+                            "--mw-heading-color": "#ffffff",
+                            "--mw-paragraph-color": "#ffffff",
+                            "--mw-link-color": "#b66dff",
+                            "--mw-link-hover-color": "#9145d0",
+                            "--mw-btn-background-color": "#b66dff",
+                            "--mw-btn-background-hover-color": "#9145d0",
+                            "--mw-btn-text-color": "#ffffff",
+                            "--mw-btn-text-hover-color": "#ffffff",
+                            "--mw-btn-border-color": "#b66dff",
+                            "--mw-form-control-background": "#1d1235",
+                            "--mw-form-control-border-color": "#b66dff",
+                            "--mw-top-header-background-color": "#0e0a1f",
+                            "--mw-header-background-color": "#1d1235",
+                            "--mw-header-link-color": "#ffffff",
+                            "--mw-header-link-hover-color": "#b66dff",
+                            "--mw-top-header-link-color": "#ffffff",
+                            "--mw-top-header-link-hover-color": "#ffffff",
+                            "--mw-top-header-button-background-color": "#b66dff",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-primary-color": "#b66dff",
+                            "--mw-section-background-color": "#2a1b4a"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
