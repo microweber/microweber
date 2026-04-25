@@ -290,7 +290,7 @@ Each test MUST assert, in order:
 - [ ] `LiveAdminModuleLayoutsSmokeTest` — generic layouts picker.
 - [x] 2026-04-25  `LiveAdminModuleLogoSmokeTest` — logo upload form.
 - [x] 2026-04-25  `LiveAdminModuleMarqueeSmokeTest` — marquee module insertion.
-- [ ] `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.
+- [x] 2026-04-25  `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.
 - [ ] `LiveAdminModuleOfferSmokeTest` — offer CRUD.
 - [ ] `LiveAdminModuleOpenApiSmokeTest` — OpenAPI docs route.
 - [ ] `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
