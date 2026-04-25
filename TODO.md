@@ -180,14 +180,26 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### C.2 Schema robustness
 
-- [ ] **Type coverage in `McpToolCatalog::buildInputSchema`** — currently
+- [x] 2026-04-25  **Type coverage in `McpToolCatalog::buildInputSchema`** — currently
       collapses every property to `'type' => 'string'` if no type is set.
       The schema should emit `integer` for `MaxResults`-style props (the
       `limit` field today comes back as `'type' => 'integer'` so the
       reflection works for declared types — but defaults to `string` for
       anything missing a declared type). Add a unit test pinning the
       output schema for a representative tool (e.g. `content.lookup`)
-      so schema regressions surface.
+      so schema regressions surface. *(Implemented as
+      `Modules/Ai/tests/Feature/McpToolInputSchemaRegressionTest.php`
+      — 4 tests / 175 assertions pinning: content.lookup's required
+      search_term + typed integer limit + additionalProperties=false
+      + content_type as string; settings.read's required option_group;
+      the schema-builder's enum branch (synthetic tool because no real
+      catalog tool currently uses enum, but the builder supports it);
+      and a global invariant sweep over all 39 catalog tools asserting
+      object type, additionalProperties=false, and a properties array
+      on every schema. A regression that collapses `integer` to
+      `string`, drops a required marker, leaks
+      `additionalProperties: true`, or breaks the enum branch fails
+      this test loudly.)*
 - [ ] **`additionalProperties: false`** is good, but the per-property
       schema currently lacks `format`, `pattern`, `minimum` / `maximum`,
       `default`. Promote those from the underlying tool's `Property`
