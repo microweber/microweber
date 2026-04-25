@@ -324,13 +324,22 @@ Each test MUST assert, in order:
 
 ## C.4 Batching guidance
 
-- [ ] Land the smokes in priority-1 groups of 10; don't wait for the
+- [x] 2026-04-25  Land the smokes in priority-1 groups of 10; don't wait for the
       whole batch before committing — each smoke is independent and
-      prevents regressions in isolation.
-- [ ] If any module's admin form is still Livewire-v3-style (not yet
+      prevents regressions in isolation. *(Followed throughout the
+      Plan-C.2 batch — each smoke landed in its own conventional
+      `test(modules):` commit immediately after the verifier passed,
+      27 commits total.)*
+- [x] 2026-04-25  If any module's admin form is still Livewire-v3-style (not yet
       Filament 5-migrated), file a follow-up `feat(<module>):
       filament-5 migration` task instead of just writing the smoke
-      — the smoke would fail on the migration anyway.
+      — the smoke would fail on the migration anyway. *(All 27
+      Plan-C.2 modules were already Filament-5; the only console
+      regression encountered was the Layouts module's
+      `getSelectedLayoutNode` hard-throw on standalone-page mount,
+      bundled with the smoke as a defensive guard rather than a
+      separate migration task because the underlying form is
+      already Filament 5.)*
 
 ---
 
