@@ -37,6 +37,12 @@ return [
         // with NULL expires_at stays null — only newly-issued
         // tokens pick up the default.
         'token_default_ttl_days' => (int) env('AI_MCP_TOKEN_DEFAULT_TTL_DAYS', 90),
+        // Laravel log channel that receives one `mcp.tool.call`
+        // line per `tools/call` invocation. Defaults to `stack`
+        // (whatever `config('logging.default')` resolves to). Point
+        // it at a dedicated channel with a JSON formatter when
+        // ingesting into Loki / ELK / Datadog.
+        'log_channel' => (string) env('AI_MCP_LOG_CHANNEL', 'stack'),
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),

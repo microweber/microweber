@@ -339,10 +339,23 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### D.3 Observability
 
-- [ ] **OpenTelemetry / Laravel Telescope hooks** — instrument every
+- [x] 2026-04-25  **OpenTelemetry / Laravel Telescope hooks** — instrument every
       tool call with start / end timestamps, duration, success/error,
       and token id. Today the only signal is `Log::warning` on
-      unauthorized requests.
+      unauthorized requests. *(Implemented as a structured
+      `mcp.tool.call` info-level log line emitted on every
+      `tools/call` invocation through `McpServer::logToolCall()`.
+      Carries `tool`, `duration_ms`, `status` ('ok'|'error'|
+      'exception'), `token_id`, `client_id` (plus
+      `exception` + `error` when the catch arm fires). Uses a
+      configurable channel (`AI_MCP_LOG_CHANNEL`, default `stack`)
+      so operators can wire it to a JSON-formatter channel for
+      ingest into Loki / ELK / Datadog. Logger faults are
+      swallowed in a try/catch so observability misconfiguration
+      can never break a tool response. Pinned by the new
+      `McpToolCallLoggingTest` (1 test / 10 assertions covering
+      message name, level, context shape, duration is an int
+      ≥ 0). McpControllerTest stays green at 60/60.)*
 - [ ] **Per-tool metrics** — surface call count + p50/p95/p99 latency
       per tool name in a Filament dashboard widget.
 - [ ] **Slow-tool guard** — add a `tool_timeout_ms` config + enforce it

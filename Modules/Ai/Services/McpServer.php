@@ -169,9 +169,12 @@ class McpServer
             return $this->errorResponse($id, -32602, 'Tool not found.');
         }
 
+        $startedAt = microtime(true);
+
         try {
             $rawResult = $this->mcpToolCatalog->callTool($toolName, $arguments);
             $isError = $this->detectToolError($rawResult);
+            $this->logToolCall($context, $toolName, $startedAt, $isError ? 'error' : 'ok');
 
             return [
                 'jsonrpc' => '2.0',
@@ -185,7 +188,52 @@ class McpServer
                 ],
             ];
         } catch (\Throwable $exception) {
+            $this->logToolCall($context, $toolName, $startedAt, 'exception', $exception);
             return $this->errorResponse($id, -32603, $exception->getMessage());
+        }
+    }
+
+    /**
+     * Emit one structured log line per tool call so operators have
+     * a per-tool latency / success-rate signal without standing up
+     * Telescope or OTel. Goes through the regular Laravel logger
+     * channel `mcp` if configured; otherwise falls back to the
+     * default channel.
+     *
+     * The log line includes (token_id, client_id, tool, duration_ms,
+     * status). A regression in any tool's runtime — slowdown, new
+     * failure mode — surfaces as a flat-line in the `mcp` channel
+     * within minutes, no Filament admin visit required.
+     */
+    private function logToolCall(
+        McpRequestContext $context,
+        string $toolName,
+        float $startedAt,
+        string $status,
+        ?\Throwable $exception = null,
+    ): void {
+        $durationMs = (int) round((microtime(true) - $startedAt) * 1000);
+
+        $channel = (string) config('modules.ai.mcp.log_channel', 'stack');
+
+        $payload = [
+            'tool' => $toolName,
+            'duration_ms' => $durationMs,
+            'status' => $status,
+            'token_id' => $context->token->id,
+            'client_id' => $context->client->id,
+        ];
+
+        if ($exception !== null) {
+            $payload['exception'] = get_class($exception);
+            $payload['error'] = $exception->getMessage();
+        }
+
+        try {
+            \Illuminate\Support\Facades\Log::channel($channel)->info('mcp.tool.call', $payload);
+        } catch (\Throwable) {
+            // Logger misconfigured (e.g. unknown channel) — never
+            // let observability faults break the tool response.
         }
     }
 
