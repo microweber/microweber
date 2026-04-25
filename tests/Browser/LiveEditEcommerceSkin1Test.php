@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -45,6 +46,7 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -78,6 +80,8 @@ class LiveEditEcommerceSkin1Test extends DuskTestCase
 
                 $this->markMainContentChanged($browser);
                 $this->saveLiveEdit($browser);
+
+                $this->assertSkinTagPersisted($landing->pageId, 'ecommerce/skin-1');
 
                 $this->assertCanvasLoadedProducts($browser, $productTitle);
                 $this->assertPublicPageCarriesProduct($browser, $landing->slug, $productTitle);

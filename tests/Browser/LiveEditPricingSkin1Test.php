@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\Factories\LandingPageFactory;
 use Tests\Browser\Traits\AdminLoginTrait;
 use Tests\Browser\Traits\AssertsSkinBladeExists;
+use Tests\Browser\Traits\AssertsSkinTagPersisted;
 use Tests\Browser\Traits\CleansLandingTestPages;
 use Tests\Browser\Traits\LiveEditPageBuilderTrait;
 use Tests\DuskTestCase;
@@ -47,6 +48,7 @@ class LiveEditPricingSkin1Test extends DuskTestCase
 {
     use AdminLoginTrait;
     use AssertsSkinBladeExists;
+    use AssertsSkinTagPersisted;
     use CleansLandingTestPages;
     use LiveEditPageBuilderTrait;
 
@@ -85,6 +87,8 @@ class LiveEditPricingSkin1Test extends DuskTestCase
             $this->markEditFieldsChanged($browser, $field);
 
             $this->saveLiveEdit($browser);
+
+            $this->assertSkinTagPersisted($landing->pageId, self::SKIN_TAG);
 
             $this->assertCanvasReflectsEdits($browser, $field, self::NEW_PRO_PRICE);
             $this->assertSavedContentBodyContains($landing->pageId, self::NEW_PRO_PRICE);
