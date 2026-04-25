@@ -194,7 +194,7 @@
 
 - [x] 2026-04-24  `LiveEditJumbotronSkin2Test` — mirror the existing
       `LiveEditJumbotronSkin1Test` shape for `jumbotron/skin-2`.
-- [ ] `LiveEditFeaturesSkin1Test` — mirror
+- [x] 2026-04-25  `LiveEditFeaturesSkin1Test` — mirror
       `LiveEditFeaturesSkin2Test` shape for `features/skin-1`.
 - [ ] `LiveEditPricingSkin1Test` — mirror
       `LiveEditPricingSkin2Test` shape for `pricing/skin-1`.
