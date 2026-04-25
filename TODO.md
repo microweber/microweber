@@ -243,7 +243,7 @@ Each test MUST assert, in order:
       `LiveAdminModule<ModuleName>SmokeTest.php`.
 - [x] 2026-04-25  Tests reuse `AdminLoginTrait` and live under
       `tests/Browser/`.
-- [ ] Each test asserts three things minimum:
+- [x] 2026-04-25  Each test asserts three things minimum:
   1. Admin settings / resource page returns a 200 with no
      "Whoops" / "Internal Server Error" in the page source.
   2. A single save round-trip through whichever Livewire or
