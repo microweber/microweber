@@ -15,6 +15,63 @@
             @go-back="collapseStylePacks"
         />
 
+        <!--
+            Live filter for the expanded style-pack list. Only meaningful
+            when the picker is *expanded* (otherwise there's just one
+            opener tile to filter against), so the whole bar is hidden
+            until the user drills in. The default rendering is icon-only
+            (a small magnifier button that fits in the same row as the
+            "Back to styles" button); clicking it expands an inline
+            input that filters the iframe-rendered swatches by label
+            substring on every keystroke. Esc / clear-X collapses back.
+            See: filterStylePacks() / styleProperties() computed.
+        -->
+        <div
+            v-if="showStylePackSearch"
+            class="style-pack-search d-flex align-items-center mb-2"
+        >
+            <button
+                v-if="!searchOpen"
+                type="button"
+                class="style-pack-search-toggle btn btn-link p-1"
+                aria-label="Search styles"
+                title="Search styles"
+                @click="openSearch"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <div v-else class="style-pack-search-input-wrap d-flex align-items-center flex-grow-1">
+                <input
+                    ref="stylePackSearchInput"
+                    v-model="searchQuery"
+                    type="search"
+                    class="form-control form-control-sm style-pack-search-input"
+                    :placeholder="'Search ' + filterableCount + ' styles…'"
+                    @input="filterStylePacks"
+                    @keydown.esc="closeSearch"
+                />
+                <button
+                    type="button"
+                    class="style-pack-search-clear btn btn-link p-1 ms-1"
+                    aria-label="Close search"
+                    title="Close search"
+                    @click="closeSearch"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <!-- Iframe wrapper for rendering elements with canvas styles - always visible now -->
         <div ref="iframeContainer" class="iframe-wrapper"></div>
     </div>
@@ -65,6 +122,24 @@ export default {
             return this.setting.previewElementsMode === 'stylePackOpener' &&
                 Array.isArray(this.setting.previewElementsStyleProperties) &&
                 this.setting.previewElementsStyleProperties.length > 0;
+        },
+
+        // Show the live-filter bar only when there's actually a list to
+        // filter (the picker is expanded, OR it's a non-opener stylePack
+        // that shows everything inline) AND there are at least
+        // STYLE_PACK_SEARCH_MIN entries to make filtering useful.
+        showStylePackSearch() {
+            const list = this.setting.fieldSettings && this.setting.fieldSettings.styleProperties;
+            if (!Array.isArray(list) || list.length < this.stylePackSearchThreshold) {
+                return false;
+            }
+            // Picker is expanded (opener mode) or always-shown (non-opener mode)
+            return !this.isStylePackOpenerMode || this.stylePacksExpanded;
+        },
+
+        filterableCount() {
+            const list = this.setting.fieldSettings && this.setting.fieldSettings.styleProperties;
+            return Array.isArray(list) ? list.length : 0;
         }
     },
     data() {
@@ -98,6 +173,14 @@ export default {
             loadingStylePackIndex: null,
             lastContentHash: null,
             activeStylePackIndex: null, // Add this to track active style pack
+            // Inline live-filter state — drives the search-icon / input
+            // pair rendered above the iframe and the per-item visibility
+            // applied inside the iframe via .style-pack-item.is-filtered-out.
+            searchOpen: false,
+            searchQuery: '',
+            // The bar only shows up once there's enough to filter — under
+            // ~6 swatches a list is faster to scan than to type into.
+            stylePackSearchThreshold: 6,
         }
     },
     watch: {
@@ -211,6 +294,59 @@ export default {
         }
     },
     methods: {
+        // Live-filter handlers ------------------------------------------------
+
+        openSearch() {
+            this.searchOpen = true;
+            // Defer the focus so Vue has a chance to render the input first.
+            this.$nextTick(() => {
+                if (this.$refs.stylePackSearchInput) {
+                    this.$refs.stylePackSearchInput.focus();
+                }
+            });
+        },
+
+        closeSearch() {
+            this.searchOpen = false;
+            this.searchQuery = '';
+            // Clear the per-item filter class inside the iframe — same
+            // path filterStylePacks() walks but with the empty-query
+            // branch baked in so we don't depend on watcher ordering.
+            this.applySearchFilterToIframe('');
+        },
+
+        // Walk the iframe's rendered swatches and toggle a single CSS
+        // class based on whether their aria-label contains the (lowercased)
+        // search substring. Driving DOM state directly — rather than re-
+        // rendering — keeps the filter snappy on the 42-pack picker
+        // and avoids losing the active/loading marker classes the
+        // existing render pipeline maintains.
+        filterStylePacks() {
+            this.applySearchFilterToIframe(this.searchQuery);
+        },
+
+        applySearchFilterToIframe(rawQuery) {
+            if (!this.iframe || !this.iframe.contentDocument) {
+                return;
+            }
+            const doc = this.iframe.contentDocument;
+            const items = doc.querySelectorAll('.style-pack-item');
+            const q = (rawQuery || '').trim().toLowerCase();
+
+            items.forEach((el) => {
+                if (!q) {
+                    el.classList.remove('is-filtered-out');
+                    return;
+                }
+                const label = (el.getAttribute('aria-label') || '').toLowerCase();
+                if (label.indexOf(q) >= 0) {
+                    el.classList.remove('is-filtered-out');
+                } else {
+                    el.classList.add('is-filtered-out');
+                }
+            });
+        },
+
         // Scan for font-family properties and load them
         scanAndLoadFonts() {
             if (!this.setting.fieldSettings || !this.setting.fieldSettings.styleProperties) {
@@ -847,6 +983,14 @@ export default {
                     });
                 }
             }
+
+            // Re-apply the live filter to the freshly-rendered items
+            // so a search query persists across re-renders (e.g. when
+            // the user toggles dark mode or the canvas dispatches a
+            // stylePackGlobalReload while the search box is open).
+            if (this.searchOpen && this.searchQuery) {
+                this.applySearchFilterToIframe(this.searchQuery);
+            }
         },
 
         createStylePackElement(stylePack, index, iframeDoc) {
@@ -1203,6 +1347,18 @@ export default {
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
+                }
+
+                /*
+                 * Live-filter visibility hook. The parent Vue toggles
+                 * .is-filtered-out per item from filterStylePacks().
+                 * display:none removes the item from the iframe scroll
+                 * height as well as visibility, so a 25-of-42 filtered
+                 * list takes the height of 25 swatches — no empty gaps
+                 * where the rejected ones used to be.
+                 */
+                .style-pack-item.is-filtered-out {
+                    display: none !important;
                 }
 
                 .style-pack-item {
