@@ -259,7 +259,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleAudioSmokeTest` — audio module insertion + inline URL edit.
 - [x] 2026-04-25  `LiveAdminModuleBeforeAfterSmokeTest` — slider comparison widget.
 - [x] 2026-04-25  `LiveAdminModuleBreadcrumbSmokeTest` — breadcrumb render on a nested page.
-- [ ] `LiveAdminModuleBtnSmokeTest` — button module settings form.
+- [x] 2026-04-25  `LiveAdminModuleBtnSmokeTest` — button module settings form.
 - [ ] `LiveAdminModuleCaptchaSmokeTest` — captcha settings; form submits with token.
 - [ ] `LiveAdminModuleCartSmokeTest` — cart admin view + manual line-item edit.
 - [ ] `LiveAdminModuleCheckoutSmokeTest` — checkout form fields.
