@@ -1,0 +1,27 @@
+meta {
+  name: 04 tools/list (catalog)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}{{mcp_path}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/list"
+  }
+}

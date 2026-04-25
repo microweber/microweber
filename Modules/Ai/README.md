@@ -62,6 +62,21 @@ The module ships a JSON-RPC MCP server at `POST /api/mcp`. Enable it via
 Authentication uses bearer tokens issued through `McpClientResource` or the
 `McpClientTokenManager` service.
 
+> **Full operator manual: [`docs/mcp/README.md`](../../docs/mcp/README.md)**
+> covers enabling the server, issuing clients + tokens (CLI + Filament UI),
+> the wire-protocol (handshake / tools/list / tools/call + utility methods
+> like `ping` and `notifications/*` and JSON-RPC 2.0 batching), the seven
+> `php artisan ai:mcp:*` commands, the Read-only-by-design rationale and
+> on-ramp for future write tools, security posture (CSRF / CORS / what
+> never lands in logs), the audit-log retention story, and connection
+> snippets for Claude Desktop / Cursor / Cline.
+
+The module ships a 39-tool catalog spanning content, products, orders,
+settings, media, layouts, analytics, forms, billing, shipping, tax, and
+newsletter modules. The pinned inventory lives in
+`Modules/Ai/tests/Feature/McpToolCatalogContractTest::EXPECTED_TOOLS`;
+list it from the CLI with `php artisan ai:mcp:tools:list`.
+
 ### Allow-list semantics
 
 Each MCP client carries three independent allow-lists — `allowed_tools`,

@@ -1,0 +1,33 @@
+meta {
+  name: 06 tools/call -- settings.read
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}{{mcp_path}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+      "name": "settings.read",
+      "arguments": {
+        "option_group": "website"
+      }
+    }
+  }
+}

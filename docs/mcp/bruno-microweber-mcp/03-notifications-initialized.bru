@@ -1,0 +1,33 @@
+meta {
+  name: 03 notifications/initialized (post-handshake)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}{{mcp_path}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "notifications/initialized"
+  }
+}
+
+docs {
+  Spec-compliant clients send this notification once after receiving the
+  initialize response. The server replies with HTTP 204 No Content per
+  JSON-RPC 2.0 §4.1 (notifications carry no `id` and the server MUST NOT
+  respond with an envelope).
+}

@@ -1,0 +1,34 @@
+meta {
+  name: 05 tools/call -- content.lookup
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}{{mcp_path}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+      "name": "content.lookup",
+      "arguments": {
+        "search_term": "home",
+        "limit": 5
+      }
+    }
+  }
+}

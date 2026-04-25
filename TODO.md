@@ -552,12 +552,32 @@ or an explicit whitelist passes. Most operators reading the schema would assume
             `McpToolCatalog::allDefinitions()` — points at
             `McpToolCatalogContractTest::EXPECTED_TOOLS`'s pinned
             inventory + the `ai:mcp:tools:list` CLI command)
-- [ ] **Module README cross-links** — `Modules/Ai/README.md` mentions
+- [x] 2026-04-25  **Module README cross-links** — `Modules/Ai/README.md` mentions
       MCP at a high level but doesn't link to the new docs page or
-      describe the 39-tool catalog. Update.
-- [ ] **Postman / Bruno collection** — ship a ready-to-import
+      describe the 39-tool catalog. Update. *(Updated the module
+      README's MCP section with a prominent callout linking to
+      `docs/mcp/README.md` (full operator manual covering enabling
+      / token issuance / wire protocol / 7 CLI commands / read-only
+      rationale / security posture / audit retention / Claude
+      Desktop+Cursor+Cline snippets), plus a short paragraph that
+      describes the 39-tool catalog and points at both the pinned
+      inventory in `McpToolCatalogContractTest::EXPECTED_TOOLS`
+      and the `ai:mcp:tools:list` CLI command for live browsing.)*
+- [x] 2026-04-25  **Postman / Bruno collection** — ship a ready-to-import
       collection at `docs/mcp/microweber-mcp.bruno.json` so contributors
       and operators can drive every method without writing curl.
+      *(Shipped as a Bruno collection at
+      `docs/mcp/bruno-microweber-mcp/` with 7 numbered requests
+      covering the canonical methods (initialize, ping,
+      notifications/initialized, tools/list, two
+      representative tools/call invocations, and a batch),
+      plus an environments/Local.bru with `base_url`,
+      `mcp_path`, and `bearer_token` vars. Includes a README
+      with import instructions, the recommended
+      `ai:mcp:client:create` invocation for issuing the
+      collection's bearer token, and a request-index table.
+      Picked Bruno (over Postman) because Bruno is git-friendly
+      plain-text format that diffs cleanly across PRs.)*
 
 ## F. CLI / DX
 

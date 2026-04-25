@@ -1,0 +1,33 @@
+meta {
+  name: 07 batch (JSON-RPC 2.0 §6)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}{{mcp_path}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  [
+    { "jsonrpc": "2.0", "id": "init", "method": "initialize" },
+    { "jsonrpc": "2.0", "id": "ping", "method": "ping" },
+    { "jsonrpc": "2.0", "id": "list", "method": "tools/list" }
+  ]
+}
+
+docs {
+  Server returns one response envelope per non-notification entry, in
+  request order. A batch composed entirely of notifications returns
+  HTTP 204 No Content.
+}
