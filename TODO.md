@@ -198,7 +198,7 @@
       `LiveEditFeaturesSkin2Test` shape for `features/skin-1`.
 - [x] 2026-04-25  `LiveEditPricingSkin1Test` — mirror
       `LiveEditPricingSkin2Test` shape for `pricing/skin-1`.
-- [ ] `LiveEditTextBlockSkin1Test` — text-block is a content skin;
+- [x] 2026-04-25  `LiveEditTextBlockSkin1Test` — text-block is a content skin;
       insert, assert rendered `<p>`/heading markers are in the DOM.
 - [ ] `LiveEditMenusSkin1Test` — insert the menu skin; assert links
       to the current menu entries are rendered.
