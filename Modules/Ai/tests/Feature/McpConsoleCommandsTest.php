@@ -164,4 +164,89 @@ class McpConsoleCommandsTest extends TestCase
         // operator's "give me only this module's tools" expectation.
         $this->assertStringNotContainsString('content.lookup', $output);
     }
+
+    #[Test]
+    public function token_rotate_command_revokes_old_and_issues_new_secret(): void
+    {
+        // Seed a client + initial token via the same code path the
+        // create command uses — keeps this test honest end-to-end.
+        Artisan::call('ai:mcp:client:create', [
+            '--name' => 'Rotate Test Client',
+            '--scopes' => 'mcp:access',
+            '--tools' => '*',
+            '--modules' => '*',
+        ]);
+        $createOutput = Artisan::output();
+        preg_match('/Token id:\s+(\d+)/', $createOutput, $idMatch);
+        preg_match('/Token:\s+(mcp_\d+\|[A-Za-z0-9]+)/', $createOutput, $tokenMatch);
+        $tokenId = (int) ($idMatch[1] ?? 0);
+        $oldPlainTextToken = $tokenMatch[1] ?? '';
+
+        $this->assertGreaterThan(0, $tokenId, 'Rotation precondition: create must print a Token id.');
+        $this->assertNotEmpty($oldPlainTextToken, 'Rotation precondition: create must print a Token.');
+
+        // Sanity — old token resolves before rotation.
+        $manager = app(McpClientTokenManager::class);
+        $this->assertNotNull(
+            $manager->findToken($oldPlainTextToken),
+            'Pre-rotation precondition: the freshly-issued token must resolve through findToken.'
+        );
+
+        $exitCode = Artisan::call('ai:mcp:token:rotate', ['token-id' => (string) $tokenId]);
+        $this->assertSame(0, $exitCode);
+
+        $output = Artisan::output();
+        $this->assertStringContainsString('Rotated token', $output);
+        preg_match('/Token:\s+(mcp_\d+\|[A-Za-z0-9]+)/', $output, $newTokenMatch);
+        $newPlainTextToken = $newTokenMatch[1] ?? '';
+
+        $this->assertNotEmpty($newPlainTextToken, 'Rotate command must print the new plain-text token.');
+        $this->assertNotSame(
+            $oldPlainTextToken,
+            $newPlainTextToken,
+            'Rotation must produce a different secret — otherwise the command silently '
+            . 'leaks the same token under a new id and the leak that prompted the '
+            . 'rotation in the first place is not actually contained.'
+        );
+
+        // Old token row still resolves by token-id (findToken
+        // doesn't filter revoked rows — that's the middleware's
+        // job, see AuthenticateMcpClient::handle's isActive guard),
+        // but `isRevoked()` MUST be true on the returned model so
+        // the middleware rejects the leaked token.
+        $oldResolved = $manager->findToken($oldPlainTextToken);
+        $this->assertNotNull(
+            $oldResolved,
+            'Post-rotation lookup precondition: the row should still exist (rotation '
+            . 'revokes; it does not delete) so the middleware can audit-log the '
+            . 'denial reason.'
+        );
+        $this->assertTrue(
+            $oldResolved->isRevoked(),
+            'Post-rotation: the old token row must be marked revoked — otherwise the '
+            . 'AuthenticateMcpClient middleware would still let leaked tokens through, '
+            . 'defeating the entire purpose of rotating.'
+        );
+
+        // New token must resolve AND be active.
+        $newResolved = $manager->findToken($newPlainTextToken);
+        $this->assertNotNull(
+            $newResolved,
+            'Post-rotation: the new token must resolve through findToken — otherwise '
+            . 'the operator just lost access to their own client.'
+        );
+        $this->assertFalse(
+            $newResolved->isRevoked(),
+            'Post-rotation: the new token must be active (not revoked).'
+        );
+    }
+
+    #[Test]
+    public function token_rotate_command_fails_for_unknown_token_id(): void
+    {
+        $exitCode = Artisan::call('ai:mcp:token:rotate', ['token-id' => '999999']);
+
+        $this->assertSame(1, $exitCode);
+        $this->assertStringContainsString('not found', Artisan::output());
+    }
 }

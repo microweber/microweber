@@ -11,6 +11,7 @@ use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
 use Modules\Ai\Console\Commands\McpClientCreateCommand;
 use Modules\Ai\Console\Commands\McpHealthCommand;
+use Modules\Ai\Console\Commands\McpTokenRotateCommand;
 use Modules\Ai\Console\Commands\McpToolsListCommand;
 use Modules\Ai\Filament\Resources\McpClientResource;
 use Modules\Ai\Http\Middleware\AuthenticateMcpClient;
@@ -93,6 +94,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 McpClientCreateCommand::class,
                 McpToolsListCommand::class,
                 McpHealthCommand::class,
+                McpTokenRotateCommand::class,
             ]);
         }
 

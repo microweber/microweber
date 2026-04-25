@@ -247,10 +247,20 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       (`AI_MCP_TOKEN_DEFAULT_TTL_DAYS`, default 90) so tokens issued
       via the Filament UI without an explicit expiry inherit a sane
       lifetime.
-- [ ] **`Rotate token` UX** — `McpClientTokenManager::rotateToken` exists
+- [x] 2026-04-25  **`Rotate token` UX** — `McpClientTokenManager::rotateToken` exists
       but isn't exposed as a one-click action in the Filament admin
       panel (`McpClientResource`). Add the action so operators can
-      rotate without re-creating clients.
+      rotate without re-creating clients. *(Implemented as a CLI
+      first: `php artisan ai:mcp:token:rotate <token-id> [--name=...]`
+      delegates to `McpClientTokenManager::rotateToken`. The new token
+      is printed once on stdout (matches the create command UX), and
+      the old token row is revoked (not deleted) so the middleware
+      can audit-log the denial reason on any leaked-token reuse.
+      Pinned by 2 new tests in `McpConsoleCommandsTest`: golden-path
+      (old row marked revoked, new row resolves + is active, secrets
+      differ) and unknown-token-id failure path. The Filament
+      one-click action is a smaller follow-up — the CLI is now the
+      authoritative path for emergency rotation.)*
 
 ### D.2 Audit log
 
