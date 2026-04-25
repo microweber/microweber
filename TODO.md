@@ -274,7 +274,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleCountrySmokeTest` — country list admin.
 - [x] 2026-04-25  `LiveAdminModuleCouponsSmokeTest` — coupon CRUD + redeem on public checkout.
 - [x] 2026-04-25  `LiveAdminModuleCurrencySmokeTest` — currency list CRUD + default switch.
-- [ ] `LiveAdminModuleCustomFieldsSmokeTest` — custom fields schema.
+- [x] 2026-04-25  `LiveAdminModuleCustomFieldsSmokeTest` — custom fields schema.
 - [ ] `LiveAdminModuleEmbedSmokeTest` — embed module accepts common providers.
 - [ ] `LiveAdminModuleExportSmokeTest` — content export page.
 - [ ] `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
