@@ -312,7 +312,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleTestimonialsSmokeTest` — testimonial CRUD.
 - [x] 2026-04-25  `LiveAdminModuleTextTypeSmokeTest` — text-type effect widget.
 - [x] 2026-04-25  `LiveAdminModuleTweetEmbedSmokeTest` — tweet embed input.
-- [ ] `LiveAdminModuleVideoSmokeTest` — video module + poster upload.
+- [x] 2026-04-25  `LiveAdminModuleVideoSmokeTest` — video module + poster upload.
 - [ ] `LiveAdminModuleWhiteLabelSmokeTest` — white-label settings form.
 
 ## C.3 Priority 2 — modules without admin UI (document only)
