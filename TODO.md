@@ -277,7 +277,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleCustomFieldsSmokeTest` — custom fields schema.
 - [x] 2026-04-25  `LiveAdminModuleEmbedSmokeTest` — embed module accepts common providers.
 - [x] 2026-04-25  `LiveAdminModuleExportSmokeTest` — content export page.
-- [ ] `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
+- [x] 2026-04-25  `LiveAdminModuleFacebookLikeSmokeTest` — widget settings.
 - [ ] `LiveAdminModuleFacebookPageSmokeTest` — widget settings.
 - [ ] `LiveAdminModuleFaqSmokeTest` — FAQ module CRUD.
 - [ ] `LiveAdminModuleFileManagerSmokeTest` — file manager view + upload.
@@ -317,7 +317,7 @@ Each test MUST assert, in order:
 
 ## C.3 Priority 2 — modules without admin UI (document only)
 
-- [ ] Add a one-liner NOTE in each module's README when the module is
+- [x] 2026-04-25  Add a one-liner NOTE in each module's README when the module is
       data-only (no admin UI, no public-frontend widget) so absent
       Dusk coverage is documented, not a gap: `Updater`,
       `Marketplace` (plugin marketplace lists are opt-in), etc.
@@ -395,15 +395,15 @@ Midnight Indigo · Minty Fresh · Neon Night · Pastel Dream · Robocop
 > PHP-built-in-server fixture. This is the last user-facing
 > validation before the feature ships.
 
-- [ ] Add an opt-in Dusk test
+- [x] 2026-04-25  Add an opt-in Dusk test
       `LiveAdminWordPressMigrationLiveSiteCheckTest` (group
       `live-external`, excluded from the default run) that pokes a
       known-good public WordPress site (e.g. https://wordpress.org/news/)
       and asserts the probe returns `rest` + non-zero counts. Never
       runs in CI unless the group is explicitly requested.
-- [ ] Document in `docs/migration/wordpress.md` §11 how a contributor
+- [x] 2026-04-25  Document in `docs/migration/wordpress.md` §11 how a contributor
       can run the live check on their own box before shipping a
       Phase-* change.
-- [ ] Add a contributor note in
+- [x] 2026-04-25  Add a contributor note in
       `docs/migration/wordpress-architecture.md` §3 pointing at the
       live check as the "before you tag a release" acceptance gate.
