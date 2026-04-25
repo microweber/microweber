@@ -293,7 +293,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleMenuSmokeTest` — menu manager CRUD.
 - [ ] `LiveAdminModuleOfferSmokeTest` — offer CRUD.
 - [ ] `LiveAdminModuleOpenApiSmokeTest` — OpenAPI docs route.
-- [ ] `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
+- [x] 2026-04-25  `LiveAdminModulePaginationSmokeTest` — pagination widget settings.
 - [ ] `LiveAdminModulePdfSmokeTest` — PDF export smoke.
 - [ ] `LiveAdminModulePicturesSmokeTest` — picture module insertion.
 - [ ] `LiveAdminModulePostSmokeTest` — post CRUD.
