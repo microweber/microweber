@@ -268,7 +268,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleComponentsSmokeTest` — components palette.
 - [x] 2026-04-25  `LiveAdminModuleContactFormSmokeTest` — contact form insertion + submission.
 - [x] 2026-04-25  `LiveAdminModuleContentDataSmokeTest` — content-data KV editor.
-- [ ] `LiveAdminModuleContentDataVariantSmokeTest` — variants admin.
+- [x] 2026-04-25  `LiveAdminModuleContentDataVariantSmokeTest` — variants admin.
 - [ ] `LiveAdminModuleContentFieldSmokeTest` — custom content field CRUD.
 - [ ] `LiveAdminModuleCookieNoticeSmokeTest` — cookie notice settings.
 - [ ] `LiveAdminModuleCountrySmokeTest` — country list admin.
