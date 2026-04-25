@@ -291,12 +291,26 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ### C.3 Tool output normalisation
 
-- [ ] **`McpServer::normalizeToolOutput`** strips HTML and collapses
+- [x] 2026-04-25  **`McpServer::normalizeToolOutput`** strips HTML and collapses
       whitespace. That works for the existing HTML-emitting tools but
       destroys structure useful for the AI side. Tools should be able
       to opt in to **JSON output** (`isJsonOutput: true`) and have the
       server pass through the JSON unchanged in `content[0].text` (or
       better, `content[0].mimeType: 'application/json'`).
+      *(Implemented as content-based detection rather than an
+      annotation: `McpServer::looksLikeJsonOutput()` checks that
+      the trimmed output starts/ends with object/array brackets
+      AND json_decodes cleanly. When both hold, the response sets
+      `content[0].mimeType = 'application/json'` and passes the
+      JSON through verbatim, preserving structure for the AI side.
+      Otherwise the existing HTML-strip path runs unchanged
+      (backward-compat). No tool today emits JSON, so the
+      McpControllerTest 60-test suite stays green; future tools
+      that emit JSON get the better contract automatically with
+      no annotation flip needed. Pinned by 3 new tests in
+      `McpServerErrorDetectionTest`: clean object + array roots
+      trigger; HTML with embedded brace fragments doesn't; empty
+      output doesn't; malformed-JSON-shaped strings don't.)*
 - [x] 2026-04-25  **`isError` detection** uses the literal string `'alert-danger'`
       (McpServer.php:99). Replace with an explicit error contract on
       `ToolInterface` (e.g. `wasError(): bool`) — the current

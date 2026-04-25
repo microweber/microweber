@@ -114,6 +114,53 @@ class McpServerErrorDetectionTest extends TestCase
         );
     }
 
+    private function looksLikeJsonOutput(string $rawResult): bool
+    {
+        $server = app(McpServer::class);
+        $method = new ReflectionMethod($server, 'looksLikeJsonOutput');
+        $method->setAccessible(true);
+        return (bool) $method->invoke($server, $rawResult);
+    }
+
+    #[Test]
+    public function json_object_output_triggers_pass_through(): void
+    {
+        $this->assertTrue(
+            $this->looksLikeJsonOutput('{"hits": 3, "results": [1, 2, 3]}'),
+            'A tool emitting a clean JSON object must trigger the pass-through '
+            . 'branch — that branch sets mimeType=application/json and skips the '
+            . 'HTML strip, preserving structure for the AI side.'
+        );
+        $this->assertTrue(
+            $this->looksLikeJsonOutput('  [{"id": 1}, {"id": 2}]  '),
+            'JSON array roots with surrounding whitespace must also trigger — trim '
+            . 'first, then shape-check.'
+        );
+    }
+
+    #[Test]
+    public function html_with_braces_does_not_trigger_json_pass_through(): void
+    {
+        // A content-search result containing JSON-shaped fragments
+        // inside HTML must NOT be misread as JSON. The check is
+        // shape-based on first/last char + json_decode validation,
+        // so these stay on the HTML strip path.
+        $this->assertFalse(
+            $this->looksLikeJsonOutput('<h1>Settings</h1><p>{example: value}</p>'),
+            'Body text containing JSON-shaped fragments must NOT be flagged — the '
+            . 'shape check requires first AND last char to bracket together.'
+        );
+        $this->assertFalse(
+            $this->looksLikeJsonOutput('{not actual json}'),
+            'A string that looks JSON-shaped but fails json_decode must not be '
+            . 'pass-through-routed — the AI client would reject it as malformed.'
+        );
+        $this->assertFalse(
+            $this->looksLikeJsonOutput(''),
+            'Empty output must never be pass-through-routed.'
+        );
+    }
+
     #[Test]
     public function base_tool_handle_error_emits_the_marker(): void
     {

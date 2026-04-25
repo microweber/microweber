@@ -176,6 +176,29 @@ class McpServer
             $isError = $this->detectToolError($rawResult);
             $this->logToolCall($context, $toolName, $startedAt, $isError ? 'error' : 'ok');
 
+            // JSON pass-through: when a tool's raw output is itself
+            // a valid JSON envelope (object or array root), surface
+            // it to the AI client as `application/json` instead of
+            // running it through normalizeToolOutput's HTML strip
+            // (which would collapse the structure into a single
+            // line of unparseable text). Detection is content-based,
+            // not annotation-based — any tool that emits a JSON
+            // envelope today gets the better contract automatically.
+            if (! $isError && $this->looksLikeJsonOutput($rawResult)) {
+                return [
+                    'jsonrpc' => '2.0',
+                    'id' => $id,
+                    'result' => [
+                        'content' => [[
+                            'type' => 'text',
+                            'mimeType' => 'application/json',
+                            'text' => trim($rawResult),
+                        ]],
+                        'isError' => false,
+                    ],
+                ];
+            }
+
             return [
                 'jsonrpc' => '2.0',
                 'id' => $id,
@@ -264,6 +287,38 @@ class McpServer
 
         return str_contains($rawResult, 'class="alert alert-danger"')
             || str_contains($rawResult, "class='alert alert-danger'");
+    }
+
+    /**
+     * Detect whether a tool's raw output is itself a valid JSON
+     * envelope (object or array root). Content-based — no opt-in
+     * annotation needed. The check is conservative: the trimmed
+     * output must start with `{` or `[`, end with the matching
+     * closing token, AND parse cleanly. A tool that emits HTML
+     * that happens to contain `{` won't trigger this branch.
+     */
+    private function looksLikeJsonOutput(string $rawResult): bool
+    {
+        $trimmed = trim($rawResult);
+        if ($trimmed === '') {
+            return false;
+        }
+
+        $first = $trimmed[0];
+        $last = substr($trimmed, -1);
+
+        $isJsonShape = ($first === '{' && $last === '}')
+            || ($first === '[' && $last === ']');
+
+        if (! $isJsonShape) {
+            return false;
+        }
+
+        // json_decode must succeed for the payload to be safe to
+        // pass through as application/json — otherwise an AI
+        // client that strict-parses will reject the response.
+        json_decode($trimmed, true);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 
     /**
