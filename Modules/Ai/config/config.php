@@ -43,6 +43,18 @@ return [
         // it at a dedicated channel with a JSON formatter when
         // ingesting into Loki / ELK / Datadog.
         'log_channel' => (string) env('AI_MCP_LOG_CHANNEL', 'stack'),
+        // Slow-tool warn threshold in milliseconds. Tool calls
+        // whose wallclock duration exceeds this trigger an extra
+        // `mcp.tool.slow` warning line on the same channel as the
+        // regular `mcp.tool.call` info line. Set to 0 to disable
+        // the slow-tool warning.
+        //
+        // PHP can't preemptively cancel a synchronous tool call
+        // mid-execution without pcntl_alarm (which isn't safe in
+        // a generic catalog), so this is observability rather
+        // than enforcement -- the warning line is the signal that
+        // a tool is regressing past its expected p95 latency.
+        'slow_tool_warn_ms' => (int) env('AI_MCP_SLOW_TOOL_WARN_MS', 5000),
         'server_name' => env('AI_MCP_SERVER_NAME', 'Microweber AI MCP'),
         'server_version' => env('AI_MCP_SERVER_VERSION', '0.1.0'),
         'client_token_prefix' => env('AI_MCP_CLIENT_TOKEN_PREFIX', 'mcp_'),

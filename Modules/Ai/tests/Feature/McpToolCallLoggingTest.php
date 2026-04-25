@@ -121,6 +121,72 @@ class McpToolCallLoggingTest extends TestCase
     }
 
     #[Test]
+    public function tool_call_emits_slow_warning_when_duration_exceeds_threshold(): void
+    {
+        // Threshold=1ms — every real tool call exceeds 1ms by far.
+        config(['modules.ai.mcp.slow_tool_warn_ms' => 1]);
+
+        $captured = $this->captureLogs(function () {
+            $this->withHeader('Authorization', 'Bearer ' . $this->token->plainTextToken)
+                ->postJson(route('api.ai.mcp'), [
+                    'jsonrpc' => '2.0',
+                    'id' => 'log-slow',
+                    'method' => 'tools/call',
+                    'params' => [
+                        'name' => 'settings.read',
+                        'arguments' => ['option_group' => 'website'],
+                    ],
+                ]);
+        });
+
+        $slowEntries = array_values(array_filter(
+            $captured,
+            fn (array $entry) => $entry['message'] === 'mcp.tool.slow'
+        ));
+        $this->assertCount(
+            1,
+            $slowEntries,
+            'slow_tool_warn_ms=1 with a real tool dispatch must emit exactly one '
+            . '`mcp.tool.slow` warning line — the operator-visible signal that a '
+            . 'tool regressed past its expected latency.'
+        );
+
+        $entry = $slowEntries[0];
+        $this->assertSame('warning', $entry['level']);
+        $this->assertSame(1, $entry['context']['slow_threshold_ms']);
+    }
+
+    #[Test]
+    public function tool_call_omits_slow_warning_when_threshold_is_zero(): void
+    {
+        // Threshold=0 disables the slow-warning branch entirely
+        // (per the documented contract on the config key). A
+        // regression that emits the warning regardless of the
+        // threshold would inflate logs in environments that
+        // explicitly opted out.
+        config(['modules.ai.mcp.slow_tool_warn_ms' => 0]);
+
+        $captured = $this->captureLogs(function () {
+            $this->withHeader('Authorization', 'Bearer ' . $this->token->plainTextToken)
+                ->postJson(route('api.ai.mcp'), [
+                    'jsonrpc' => '2.0',
+                    'id' => 'log-slow-disabled',
+                    'method' => 'tools/call',
+                    'params' => [
+                        'name' => 'settings.read',
+                        'arguments' => ['option_group' => 'website'],
+                    ],
+                ]);
+        });
+
+        $slowEntries = array_values(array_filter(
+            $captured,
+            fn (array $entry) => $entry['message'] === 'mcp.tool.slow'
+        ));
+        $this->assertSame([], $slowEntries);
+    }
+
+    #[Test]
     public function tool_call_emits_structured_log_line_with_duration_and_token_context(): void
     {
         $captured = $this->captureLogs(function () {

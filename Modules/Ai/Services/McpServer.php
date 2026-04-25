@@ -215,6 +215,7 @@ class McpServer
         $durationMs = (int) round((microtime(true) - $startedAt) * 1000);
 
         $channel = (string) config('modules.ai.mcp.log_channel', 'stack');
+        $slowThresholdMs = (int) config('modules.ai.mcp.slow_tool_warn_ms', 0);
 
         $payload = [
             'tool' => $toolName,
@@ -230,7 +231,14 @@ class McpServer
         }
 
         try {
-            \Illuminate\Support\Facades\Log::channel($channel)->info('mcp.tool.call', $payload);
+            $logger = \Illuminate\Support\Facades\Log::channel($channel);
+            $logger->info('mcp.tool.call', $payload);
+
+            if ($slowThresholdMs > 0 && $durationMs > $slowThresholdMs) {
+                $logger->warning('mcp.tool.slow', $payload + [
+                    'slow_threshold_ms' => $slowThresholdMs,
+                ]);
+            }
         } catch (\Throwable) {
             // Logger misconfigured (e.g. unknown channel) — never
             // let observability faults break the tool response.

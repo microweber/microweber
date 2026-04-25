@@ -358,8 +358,23 @@ or an explicit whitelist passes. Most operators reading the schema would assume
       ≥ 0). McpControllerTest stays green at 60/60.)*
 - [ ] **Per-tool metrics** — surface call count + p50/p95/p99 latency
       per tool name in a Filament dashboard widget.
-- [ ] **Slow-tool guard** — add a `tool_timeout_ms` config + enforce it
+- [x] 2026-04-25  **Slow-tool guard** — add a `tool_timeout_ms` config + enforce it
       with a wallclock check in `McpServer::toolsCallResponse`.
+      *(Implemented as a `slow_tool_warn_ms` config key (env:
+      `AI_MCP_SLOW_TOOL_WARN_MS`, default 5000) consulted in
+      `McpServer::logToolCall()`. When a tool call's wallclock
+      duration exceeds the threshold, an additional
+      `mcp.tool.slow` warning-level log line fires alongside the
+      regular `mcp.tool.call` info line, carrying the same
+      payload plus a `slow_threshold_ms` field. Set to 0 to
+      disable. **Note:** PHP can't preemptively cancel a
+      synchronous tool call mid-execution without `pcntl_alarm`
+      (which isn't safe in a generic catalog), so this is
+      observability rather than enforcement — the warning is the
+      signal that a tool is regressing past its expected p95
+      latency. Pinned by 2 new tests in `McpToolCallLoggingTest`:
+      threshold=1ms emits exactly one warning line; threshold=0
+      disables the branch entirely.)*
 
 ### D.4 Hardening
 
