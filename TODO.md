@@ -291,7 +291,7 @@ or an explicit whitelist passes. Most operators reading the schema would assume
 
 ## F. CLI / DX
 
-- [ ] **`php artisan ai:mcp:client:create`** — currently you have to
+- [x] 2026-04-25  **`php artisan ai:mcp:client:create`** — currently you have to
       open Filament or use `tinker`. Add a console command that prints
       the new bearer token on stdout:
       ```bash
@@ -302,12 +302,30 @@ or an explicit whitelist passes. Most operators reading the schema would assume
           --rate-limit=600 \
           --print-token
       ```
-- [ ] **`php artisan ai:mcp:tools:list`** — print the tool catalog
+      *(Implemented at `Modules/Ai/Console/Commands/McpClientCreateCommand.php`,
+      registered via the service provider's `runningInConsole()` block.
+      Smoke-verified against the live dev server — issued token resolves
+      through `McpClientTokenManager::findToken` and authenticates a real
+      `initialize` + `tools/list` round-trip. Pinned by 3 tests in
+      `McpConsoleCommandsTest`.)*
+- [x] 2026-04-25  **`php artisan ai:mcp:tools:list`** — print the tool catalog
       (name, module, description) as a table — helpful when wiring
-      a new client.
-- [ ] **`php artisan ai:mcp:health`** — pings the local endpoint with
+      a new client. *(Implemented at
+      `Modules/Ai/Console/Commands/McpToolsListCommand.php` with a
+      `--module=` filter. Reads off `McpToolCatalog::allDefinitions()` so
+      the operator-side view matches the on-the-wire catalog. Pinned by
+      2 tests in `McpConsoleCommandsTest`.)*
+- [x] 2026-04-25  **`php artisan ai:mcp:health`** — pings the local endpoint with
       a freshly-issued ephemeral token, runs `initialize` +
       `tools/list` + a representative `tools/call`, reports green / red.
+      *(Implemented at `Modules/Ai/Console/Commands/McpHealthCommand.php`.
+      Issues an ephemeral 5-min-TTL client+token, runs initialize → ping
+      → tools/list, revokes the token in `finally`, reports per-step
+      verdicts + an overall pass/fail. Smoke-verified against the live
+      dev server with `AI_ENABLED=true AI_MCP_ENABLED=true`: all three
+      probes returned HTTP 200 and the overall verdict reported PASS.
+      Not unit-tested because Http::post against APP_URL inside PHPUnit
+      would deadlock the runner — verified manually instead.)*
 - [ ] **stdio transport command** — `php artisan ai:mcp:serve --stdio`
       that speaks JSON-RPC over stdio, so Claude Desktop / Cursor (which
       prefer stdio) can launch the server directly without an HTTP

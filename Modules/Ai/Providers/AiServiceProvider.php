@@ -9,6 +9,9 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Modules\Ai\Filament\Pages\AiSettingsPage;
+use Modules\Ai\Console\Commands\McpClientCreateCommand;
+use Modules\Ai\Console\Commands\McpHealthCommand;
+use Modules\Ai\Console\Commands\McpToolsListCommand;
 use Modules\Ai\Filament\Resources\McpClientResource;
 use Modules\Ai\Http\Middleware\AuthenticateMcpClient;
 use Modules\Ai\Filament\Resources\AgentChatResource;
@@ -84,6 +87,14 @@ class AiServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                McpClientCreateCommand::class,
+                McpToolsListCommand::class,
+                McpHealthCommand::class,
+            ]);
+        }
 
         // Register policies
         Gate::policy(AgentChat::class, AgentChatPolicy::class);
