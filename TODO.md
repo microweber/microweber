@@ -311,7 +311,7 @@ Each test MUST assert, in order:
 - [x] 2026-04-25  `LiveAdminModuleTeamcardSmokeTest` — team-card CRUD.
 - [x] 2026-04-25  `LiveAdminModuleTestimonialsSmokeTest` — testimonial CRUD.
 - [x] 2026-04-25  `LiveAdminModuleTextTypeSmokeTest` — text-type effect widget.
-- [ ] `LiveAdminModuleTweetEmbedSmokeTest` — tweet embed input.
+- [x] 2026-04-25  `LiveAdminModuleTweetEmbedSmokeTest` — tweet embed input.
 - [ ] `LiveAdminModuleVideoSmokeTest` — video module + poster upload.
 - [ ] `LiveAdminModuleWhiteLabelSmokeTest` — white-label settings form.
 
