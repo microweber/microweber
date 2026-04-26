@@ -172,13 +172,15 @@
                 <div class="mw-vhmbgr--navigation">
                     <module type="menu" name="header_menu" id="header_menu-header-layout12" template="navbar"/>
                 </div>
-                <span class="mw-vhmbgr-wrapper">
-                    <svg class="mw-vhmbgr mw-vhmbgrRotate mw-vhmbgr7" viewBox="0 0 100 100">
-                        <path class="mw-vhmbgr--line mw-vhmbgr--top" d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013"></path>
-                        <path class="mw-vhmbgr--line mw-vhmbgr--middle" d="m 70,50 h -40"></path>
-                        <path class="mw-vhmbgr--line mw-vhmbgr--bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40"></path>
-                    </svg>
-                </span>
+                {{-- The mobile hamburger SVG is injected by
+                     packages/frontend-assets/resources/assets/widgets/hamburger.js
+                     (MWSiteMobileMenu — fired from the script block at the top
+                     of this file). It walks every `.mw-vhmbgr--navigation` and
+                     appends a `.mw-vhmbgr-wrapper > svg` sibling, so the
+                     hardcoded copy that used to live here was duplicating it.
+                     Removing the static HTML keeps a single icon driven by
+                     the JS (which also wires up size/color/threshold options
+                     and the open/close handler). --}}
             </div>
         </div>
     </div>
