@@ -252,18 +252,21 @@ class LiveAdminModuleCouponsSmokeTest extends DuskTestCase
             . 'redemption across every shop instance.'
         );
 
-        // The fixture row was deleted at the end of the Eloquent
-        // round-trip; recreate it so the redeem gate has
-        // something to validate against. Use the same code so
-        // the smoke proves the gate's coupon_code lookup chain
-        // is wired the same way as the Eloquent create path.
-        $coupon = Coupon::create([
-            'coupon_name' => self::FIXTURE_INITIAL_NAME,
-            'coupon_code' => $fixtureCode,
-            'discount_type' => self::FIXTURE_DISCOUNT_TYPE,
-            'discount_value' => self::FIXTURE_DISCOUNT_VALUE,
-            'is_active' => true,
-        ]);
+        // The fixture row created by assertCouponEloquentRoundTripPersists
+        // is still in the DB (it's deleted at the end of THIS method, not
+        // the previous one). Reload it via the same code rather than
+        // creating a duplicate — the cart_coupons table has no unique
+        // index on coupon_code on this build, so a second `create()` here
+        // would land a sibling row and the lookup below could return
+        // either one (Eloquent's first() orders by id, leaking the older
+        // row). Reusing the existing coupon keeps the lookup
+        // deterministic and still exercises the same code path.
+        $coupon = Coupon::where('coupon_code', $fixtureCode)->first();
+        $this->assertNotNull(
+            $coupon,
+            'Eloquent round-trip should have left the fixture coupon in place — '
+            . 'redeem-gate lookup needs an existing row to validate against.'
+        );
 
         $result = $service->canApplyCoupon($fixtureCode, self::FIXTURE_CART_TOTAL);
 

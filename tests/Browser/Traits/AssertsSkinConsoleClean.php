@@ -62,6 +62,16 @@ trait AssertsSkinConsoleClean
     private const CONSOLE_NOISE_PATTERNS = [
         'install_log.txt',
         'ERR_CONTENT_LENGTH_MISMATCH',
+        // Benign Chromium watchdog message that fires when an element
+        // resize triggers a layout while ResizeObserver is still
+        // dispatching the previous notification cycle. It's a
+        // non-issue (the spec explicitly tolerates it) but Chrome
+        // promotes it to `error` event level — see
+        // https://github.com/WICG/resize-observer/issues/38. Filtering
+        // here prevents the in-page guard from flagging it as a
+        // regression.
+        'ResizeObserver loop completed with undelivered notifications',
+        'ResizeObserver loop limit exceeded',
     ];
 
     /**
