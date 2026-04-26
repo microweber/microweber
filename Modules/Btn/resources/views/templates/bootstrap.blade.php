@@ -23,11 +23,27 @@ description: Bootstrap button
     $hasIcon = !empty($icon);
     $iconHtml = $hasIcon ? icon_html($icon) : '';
     $iconPosition = $iconPosition ?? 'left';
+
+    /*
+     * The settings page exposes options.align as left/center/right
+     * (see Modules/Btn/Filament/BtnModuleSettings.php:59) but the
+     * template never used it, so dropping a button into a wide
+     * column always rendered as a small left-aligned pill. Map the
+     * saved value to text-align via a wrapper div so the operator's
+     * choice actually shows up.
+     */
+    $alignClass = match ($align ?? '') {
+        'center' => 'text-center',
+        'right'  => 'text-end',
+        'left'   => 'text-start',
+        default  => '',
+    };
 @endphp
 
 
 
 
+<div class="mw-btn-align-wrap {{ $alignClass }}">
 @if($action == 'submit')
 <button type="submit" id="{{ $btnId }}" class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!}>
     @if($hasIcon && $iconPosition == 'left'){!! $iconHtml !!}@endif
@@ -48,3 +64,4 @@ description: Bootstrap button
     @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
 </a>
 @endif
+</div>

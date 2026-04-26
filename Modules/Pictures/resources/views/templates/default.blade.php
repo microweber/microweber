@@ -27,7 +27,14 @@ description: Default Picture List
                     <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }}">
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
                            onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}"/>
+                            {{--
+                                img-fluid (Bootstrap 5 helper for
+                                max-width:100%; height:auto) lets the
+                                rendered image scale down with its column
+                                instead of bursting out of narrow
+                                containers at its native pixel size.
+                            --}}
+                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}" class="img-fluid"/>
                         </a>
                     </div>
                 @endforeach

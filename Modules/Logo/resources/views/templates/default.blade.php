@@ -27,9 +27,35 @@
     .logo-module {
         /*text-align: center;*/
         margin: 20px 0;
+        /*
+         * On narrow viewports (≤390px) the logo shares its header
+         * row with the hamburger icon. Without `min-width: 0` the
+         * logo's intrinsic text width forces the column to stay at
+         * full size and pushes the hamburger off-screen. Setting
+         * min-width:0 + overflow:hidden lets the column shrink, and
+         * the inner ellipsis on .logo-link / .logo-text gracefully
+         * truncates very long brand names instead of breaking the
+         * layout.
+         */
+        min-width: 0;
+        overflow: hidden;
+    }
+    .logo-module .logo-link {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+    .logo-module img {
+        max-width: 100%;
+        height: auto;
     }
     .logo-text {
         display: inline-block;
         margin-top: 10px;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>

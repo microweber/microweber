@@ -50,7 +50,15 @@ description: Default
         @endif
 
         <div class="form-group hide-on-success mt-4">
-            <div>
+            {{--
+                d-grid stretches the submit button to the full width of
+                the form column. The newsletter signup is the canonical
+                "one big button" pattern, and a small left-aligned pill
+                made the form look unfinished — especially in narrow
+                sidebar columns (col-md-3) where the button became a
+                near-invisible 80px tile.
+            --}}
+            <div class="d-grid">
                 <button class="btn btn-primary" name="submit" type="submit">
                     {{ __('Submit') }}
                 </button>
