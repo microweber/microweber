@@ -18,6 +18,16 @@ class ContentTranslationTest extends TestCase
         // Clean up content from previous test runs with these titles
         Content::whereIn('title', ['Test Page', 'Home Page', 'About Us', 'Contact Page', 'Services'])->forceDelete();
 
+        // Clean up translations whose rel_id might collide with the
+        // freshly-created content row's autoincrement id. Without this
+        // the test's `assertCount(2, …)` accumulates leaked rows from
+        // every prior run on the same DB and reports counts of 12+.
+        // The es_ES / fr_FR / en_US locales paired with rel_type=content
+        // are owned by this test class, so it's safe to wipe the slice.
+        MultilanguageTranslations::whereIn('locale', ['en_US', 'es_ES', 'fr_FR'])
+            ->where('rel_type', 'content')
+            ->delete();
+
         // Enable multilanguage
         if (class_exists(\MicroweberPackages\Multilanguage\MultilanguageHelpers::class)) {
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
@@ -31,6 +41,11 @@ class ContentTranslationTest extends TestCase
     protected function tearDown(): void
     {
         Content::whereIn('title', ['Test Page', 'Home Page', 'About Us', 'Contact Page', 'Services'])->forceDelete();
+        // Symmetric cleanup so the next test class doesn't inherit
+        // this class's translations.
+        MultilanguageTranslations::whereIn('locale', ['en_US', 'es_ES', 'fr_FR'])
+            ->where('rel_type', 'content')
+            ->delete();
         MultilanguageSupportedLocales::whereIn('locale', ['en_US', 'es_ES', 'fr_FR'])->delete();
         parent::tearDown();
     }
