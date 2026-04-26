@@ -40,6 +40,12 @@ class AgentWriteOperationsTest extends TestCase
 
     protected function isOllamaAvailable(): bool
     {
+        // Live-LLM tests are opt-in only — see AgentDomainRoutingTest
+        // for the rationale. Set AI_LIVE_LLM_TESTS=true to enable.
+        if (!filter_var(env('AI_LIVE_LLM_TESTS', false), FILTER_VALIDATE_BOOLEAN)) {
+            return false;
+        }
+
         $url = Config::get('modules.ai.drivers.ollama.url', 'http://localhost:11434/api');
         $url = rtrim($url, '/');
         $url = preg_replace('#/(generate|chat)$#', '', $url);

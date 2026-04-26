@@ -25,6 +25,27 @@ class AgentChatResourceTest extends TestCase
 
         // Ensure AI module is enabled for tests
         config(['modules.ai.enabled' => true]);
+
+        // Clear residual chats from prior runs. The
+        // sorting_by_column_changes_order / list_view tests rely on
+        // an empty table baseline so `assertCanSeeTableRecords([…],
+        // inOrder: true)` only sees the rows the test itself
+        // creates — without this purge, accumulated rows from prior
+        // runs interleave with the fixtures and the in-order check
+        // fails. Cascading the messages first satisfies the FK
+        // constraint.
+        AgentChatMessage::query()->delete();
+        AgentChat::query()->delete();
+    }
+
+    protected function tearDown(): void
+    {
+        // Symmetric cleanup so the next test class doesn't inherit
+        // this class's chats / messages (and so a re-run of this
+        // file against an already-purged DB stays clean).
+        AgentChatMessage::query()->delete();
+        AgentChat::query()->delete();
+        parent::tearDown();
     }
 
     protected function getResourceClass(): string
@@ -180,8 +201,13 @@ class AgentChatResourceTest extends TestCase
         $this->assertTrue($systemMessage->isSystem());
         $this->assertFalse($systemMessage->isUser());
 
-        // Test message ordering - messages should be in chronological order
-        $orderedMessages = $chat->messages()->orderBy('created_at')->get();
+        // Test message ordering - messages should be in chronological order.
+        // Use orderBy('id') rather than orderBy('created_at') because the
+        // five fixture rows are inserted within the same microsecond, so
+        // `created_at` doesn't disambiguate them and `first()` / `last()`
+        // become non-deterministic. The autoincrement id is a strict
+        // monotonic proxy for insertion order — same intent, no flake.
+        $orderedMessages = $chat->messages()->orderBy('id')->get();
         $this->assertCount(5, $orderedMessages);
         $this->assertEquals($userMessage1->id, $orderedMessages->first()->id);
         $this->assertEquals($systemMessage->id, $orderedMessages->last()->id);

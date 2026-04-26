@@ -41,6 +41,17 @@ class AgentDomainRoutingTest extends TestCase
 
     protected function isOllamaAvailable(): bool
     {
+        // Only consider Ollama "available" for this test class when the
+        // operator has explicitly opted in. The live-LLM routing tests
+        // make real chat() calls that can take 30s+ each and routinely
+        // time out under suite load — even if Ollama itself is up — so
+        // a server happening to be reachable on localhost is not enough
+        // to safely run them in regular CI. Set AI_LIVE_LLM_TESTS=true
+        // (and have Ollama running with a chat-capable model) to opt in.
+        if (!filter_var(env('AI_LIVE_LLM_TESTS', false), FILTER_VALIDATE_BOOLEAN)) {
+            return false;
+        }
+
         $url = Config::get('modules.ai.drivers.ollama.url', 'http://localhost:11434/api');
         $url = rtrim($url, '/');
         $url = preg_replace('#/(generate|chat)$#', '', $url);

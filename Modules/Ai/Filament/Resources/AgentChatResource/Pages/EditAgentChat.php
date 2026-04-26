@@ -36,7 +36,14 @@ class EditAgentChat extends EditRecord
                 TagsInput::make('tags')
                     ->label('Tags')
                     ->placeholder('Add tags...')
-                    ->separator(',')
+                    // No `->separator(',')` — the AgentChat model casts
+                    // `tags` to `array`, so the picker should store a
+                    // real PHP/JSON array (the cast's wire format).
+                    // Calling separator(',') would make TagsInput
+                    // persist a comma-joined string, which the
+                    // `array` cast can't round-trip cleanly (it would
+                    // come back as `['tag1,tag3']` or as the raw
+                    // string depending on the JSON decode path).
                     ->helperText('Add tags to categorize this chat'),
 
                 Select::make('status')
