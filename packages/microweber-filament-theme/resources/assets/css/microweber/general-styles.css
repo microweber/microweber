@@ -1199,6 +1199,46 @@ select option,
 
 .mw-admin-empty-state-heading {
     @apply !text-3xl !font-bold !text-gray-900 dark:!text-white;
+    /*
+     * Empty-state headings ("You do not have any pages yet", "No
+     * content found", etc.) are placed inside a wrapper sized for
+     * the desktop SVG illustration (500px wide). On <500px viewports
+     * the heading inherited that fixed wrapper width and overflowed
+     * the page, clipping the text. Force the heading to wrap and
+     * stay inside the parent — and ramp the font-size down on small
+     * screens so the message stays readable.
+     */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/*
+ * Empty-state wrapper used by Modules/Content/resources/views/filament/
+ * admin/empty-state.blade.php. The wrapper holds a 500px-wide SVG
+ * illustration plus the heading + description; on <500px viewports
+ * the SVG forces horizontal overflow, pushing the heading off-screen.
+ * Constrain to 100% width and let the SVG scale down with the
+ * viewport (the SVG has `width="500"` but no explicit height-binding,
+ * so width:100% scales it proportionally without distortion).
+ */
+.you-dont-have-any {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.you-dont-have-any svg {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 500px) {
+    .mw-admin-empty-state-heading {
+        font-size: 1.25rem !important;
+        line-height: 1.4 !important;
+    }
 }
 
 .fi-ta-record {
@@ -1214,6 +1254,29 @@ select option,
     .fi-section-header-heading,
     .fi-ta-header-heading {
         @apply mb-0 !border-none;
+    }
+}
+
+/*
+ * Filament v5 ships the table-toolbar (search + filters + reorder)
+ * row-as-flex-nowrap. On narrow viewports (<480px) the search input
+ * gets squeezed to ~70px wide and shows just "Sea…" as placeholder,
+ * making the toolbar effectively unusable on phones. Let the toolbar
+ * wrap to multiple rows below 768px and give the search-field a
+ * sensible min-width so it claims its own line.
+ */
+@media (max-width: 768px) {
+    .fi-ta-header-toolbar {
+        flex-wrap: wrap !important;
+    }
+
+    .fi-ta-header-toolbar > div {
+        flex-wrap: wrap !important;
+    }
+
+    .fi-ta-header-toolbar .fi-ta-search-field {
+        flex: 1 1 100% !important;
+        min-width: 200px !important;
     }
 }
 

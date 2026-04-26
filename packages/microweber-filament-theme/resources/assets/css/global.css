@@ -279,8 +279,22 @@
         @apply px-4;
     }
 
+    /*
+     * Bleed the table content to the edge of the page on mobile so
+     * row hover backgrounds reach the screen edges. The previous
+     * `-mx-4 px-4` made the content 32px wider than its parent which
+     * works under most cards, but combined with `.fi-ta-record {
+     * min-width: 100%; }` (declared above at @media max-width:768px)
+     * it produces a visible 16-32px horizontal overflow on cards
+     * with a row-stack of badges + icon-action buttons. Using
+     * `width: 100%` + `box-sizing: border-box` keeps the bleed
+     * intent (edge-to-edge inside the card) without growing past
+     * the parent's content box.
+     */
     .fi-ta-content {
         @apply -mx-4 px-4;
+        max-width: calc(100% + 2rem);
+        box-sizing: border-box;
     }
 
     .fi-header-heading {
