@@ -44,7 +44,12 @@ class GlobalSearchTest extends FilamentResourceTestCase
             'ProductVariantAttributeResource' => [\Modules\Product\Filament\Admin\Resources\ProductVariantAttributeResource::class, 'name'],
             'ProductPricingRuleResource' => [\Modules\Product\Filament\Admin\Resources\ProductPricingRuleResource::class, 'name'],
             'MailTemplateResource' => [\Modules\MailTemplate\Filament\Resources\MailTemplateResource::class, 'name'],
-            'TranslationResource' => [\Modules\Settings\Filament\Resources\TranslationResource::class, 'translation_key'],
+            // TranslationResource intentionally returns an empty
+            // getGloballySearchableAttributes() (see Modules/Settings/Filament/
+            // Resources/TranslationResource.php:41) to suppress global search
+            // — translations are managed in their own dedicated UI and showing
+            // them in the top-bar global search produced too much noise.
+            // Listing the resource here would be a contract regression.
             'ModuleConfigurationResource' => [\Modules\Settings\Filament\Resources\ModuleConfigurationResource::class, 'name'],
             'ErrorTrackingResource' => [\MicroweberPackages\Monitoring\Filament\Resources\ErrorTrackingResource::class, 'message'],
             'CampaignResource' => [\Modules\Newsletter\Filament\Admin\Resources\CampaignResource::class, 'name'],
@@ -132,12 +137,14 @@ class GlobalSearchTest extends FilamentResourceTestCase
     }
 
     /**
-     * Resources that should NOT have global search (no model).
+     * Resources that should NOT have global search (no model, or
+     * intentionally suppressed via empty getGloballySearchableAttributes()).
      */
     public static function nonSearchableResourcesProvider(): array
     {
         return [
             'CheckoutResource' => [\Modules\Checkout\Filament\Resources\CheckoutResource::class],
+            'TranslationResource' => [\Modules\Settings\Filament\Resources\TranslationResource::class],
         ];
     }
 

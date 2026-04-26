@@ -51,6 +51,8 @@ class ColorPaletteSkinMatrixFactoryTest extends TestCase
                 'blog/skin-1',
                 'ecommerce/skin-1',
                 'footers/skin-1',
+                'text-block/skin-1',
+                'menus/skin-1',
             ],
             ColorPaletteSkinMatrixFactory::TARGET_SKINS,
             'TARGET_SKINS must mirror the Phase-7 plan entry verbatim'

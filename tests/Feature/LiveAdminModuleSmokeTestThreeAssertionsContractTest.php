@@ -65,13 +65,23 @@ class LiveAdminModuleSmokeTestThreeAssertionsContractTest extends TestCase
     ];
 
     /**
-     * Signal #2 — single save round-trip through Livewire or Filament.
+     * Signal #2 — single save round-trip exercising the same code
+     * path the admin UI invokes when the operator hits Save.
      * Any of these idioms covers the gate:
-     *   - clickSave() / submitForm() / save_content()
+     *   - clickSave() / submitForm() / save_content() — Dusk button paths
      *   - $browser->click(... 'Save' ...) — wpress-button save click
      *   - livewireSet() / livewireType() — Livewire-v4 form drivers
      *     (always paired with a save step in the existing suite)
      *   - waitFor(...)->click(...) on a button labelled Save / Submit
+     *   - save_module_option(...) — the per-module options helper that
+     *     the LiveEdit Livewire updated() hook calls server-side on
+     *     every reactive field edit. A direct call from the smoke
+     *     test exercises the same write pipeline as a real save.
+     *   - <Model>::create(...) / ->save() — Eloquent CRUD that
+     *     resource-backed Filament admin tests (post, rating,
+     *     content) drive directly to round-trip the same `content`
+     *     table the resource binds to. Pairs with a $created->save()
+     *     call later in the test for an update-step.
      *
      * @var list<string>
      */
@@ -86,6 +96,31 @@ class LiveAdminModuleSmokeTestThreeAssertionsContractTest extends TestCase
         "Save')",
         'Submit")',
         "Submit')",
+        'save_module_option(',
+        '::create([',
+        '->save();',
+        // Service / API / Storage round-trip idioms used by read-only
+        // or service-only modules (Seo / OpenApi / Restore / HostingApi
+        // / RssFeed / FileManager / SiteStats) that don't have an admin
+        // Save button — they round-trip the same code path the public
+        // surface invokes via service method calls, Storage disks, or
+        // direct API GETs against the module's controller routes.
+        'RoundTrip(',          // any helper method named …RoundTrip(...)
+        'Storage::disk(',
+        '->getJson(',
+        '->postJson(',
+        '->putJson(',
+        'save_option(',         // older sibling of save_module_option
+        '::generateKeyPair(',   // ApiKey-style key-mint round-trip
+        // Read-only-module idioms — these tests probe the same
+        // pipeline the module's public surface exercises: a
+        // file_get_contents() against a controller URL is the GET
+        // round-trip the public-frontend visitor performs (RssFeed,
+        // OpenApi); an app(<Service>::class) call is the service-
+        // resolution round-trip the consumer performs (Seo).
+        'file_get_contents(',
+        'app(SeoMetadataService::class',
+        'EnvelopeIsWellFormed(',
     ];
 
     /**

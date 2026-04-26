@@ -1076,8 +1076,18 @@ class DarkModeTest extends TestCase
         // Read content
         $content = file_get_contents($paginationCssPath);
 
-        // Assert: Dark mode classes are present
-        $this->assertStringContainsString('dark:', $content, 'Pagination should have dark mode support');
+        // Assert: Dark mode rules are present. The pagination CSS uses
+        // the `.dark .selector { … }` pattern (a parent class scoping
+        // strategy) rather than Tailwind's `dark:` utility prefix —
+        // both are valid dark-mode mechanisms, the `.dark ` parent
+        // selector form is what this file actually ships and is the
+        // contract we want to guard.
+        $this->assertMatchesRegularExpression(
+            '/\bdark:|\.dark\s/',
+            $content,
+            'Pagination should have dark mode support (either Tailwind `dark:` '
+            . 'variants or `.dark ` parent-class selectors)'
+        );
     }
 
     /**
