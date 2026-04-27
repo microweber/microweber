@@ -174,6 +174,123 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
 - [x] 2026-04-27  [task-2026-04-27-d84889] test the mcp server *(Done: drove every layer of the MCP server end-to-end. **(1) Test suite** — `php vendor/bin/phpunit --filter='Mcp'` → **137 tests passed (1349 assertions)** covering McpControllerTest, McpConsoleCommandsTest, McpClientTokenManagerTest, McpSpecComplianceTest, McpServerErrorDetectionTest, McpAuditSamplingTest, McpPerToolRateLimitTest, McpToolCallLoggingTest, McpClientAllowlistSemanticsTest, McpToolInputSchemaRegressionTest, McpToolCatalogContractTest. **(2) Token lifecycle** — `php artisan ai:mcp:client:create --name='SmokeTestClient' --scopes='mcp:access' --tools='*' --modules='*'` minted client #22292 + token #30118, then `ai:mcp:token:rotate 30118` issued replacement #30119 (old token revoked atomically), then `ai:mcp:token:revoke` produced expected idempotent message on already-revoked token. **(3) Tool catalog** — `ai:mcp:tools:list` returned the full registered tool surface (37+ tools: content.* / product.* / order.* / settings.* / media.* / layouts.* / analytics.* / forms.* / billing.* / shipping.* / tax.* / newsletter.*). **(4) stdio transport** — piped JSON-RPC envelopes into `php artisan ai:mcp:serve` with `MW_MCP_TOKEN` set; `initialize` returned `protocolVersion=2025-03-26` + serverInfo + capabilities; `tools/list` returned the full inputSchema-decorated catalog; `tools/call name=content.lookup arguments={search_term:"home",limit:3}` returned 3 real content rows from the live DB; passing an invalid `MW_MCP_TOKEN` correctly produced `Token did not resolve.` and refused to start. **(5) HTTP transport** — started a temporary `php artisan serve --port=8765` with `AI_ENABLED=true AI_MCP_ENABLED=true` set inline (without modifying the live `.env` or affecting the operator's existing dev server on :8000). `POST /api/mcp` with `Authorization: Bearer mcp_30118|<secret>` returned the same JSON-RPC envelopes as stdio; bad token → HTTP 401 `{"error":"Unauthorized","message":"Invalid MCP bearer token."}`; missing token → HTTP 401 `{"error":"Unauthorized","message":"Missing MCP bearer token."}`. The `AI_MCP_ENABLED=false` default correctly returns JSON-RPC error `-32000 "MCP server is disabled."` even on the live :8000 server (operators must opt-in by setting the env flag). **Cleanup** — revoked both test tokens, deleted the test client + its token-event audit rows from `mcp_clients` / `mcp_client_tokens` / `mcp_client_token_events`, killed the temp :8765 server, removed `/tmp/mcp-serve.log` + the audit-page builder script. Live site still returns HTTP 200; MCP tables empty (0 clients, 0 tokens).)*
 - [x] 2026-04-27  [task-2026-04-27-19a54e] test the color schemers and see if the pages are ok on mobile and the module ksins *(Done: drove every Bootswatch palette through the live page in a 390×844 mobile viewport via Playwright. Method: navigate to `/component-audit`, fetch each `bootswatch-<slug>.json` from the public asset path `/templates/bootstrap/design-styles/style-packs/colors/`, apply every CSS custom property to `:root` via `documentElement.style.setProperty`, force a layout reflow, and measure: (a) the `--mw-primary-color` CSS variable as seen through `getComputedStyle`, (b) the resolved `background-color` on a `.btn-primary`/`.btn` widget, and (c) `body.scrollWidth` vs `window.innerWidth` to catch any palette-induced horizontal overflow. **Result: all 25 Bootswatch palettes (cerulean, cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, vapor, yeti, zephyr) load cleanly (HTTP 200 + valid JSON), apply their primary color to button widgets correctly (e.g. cerulean `#2fa4e7` → `rgb(47, 164, 231)`; journal `#eb6864` → `rgb(235, 104, 100)`; darkly `#375a7f` → `rgb(55, 90, 127)`), and produce zero horizontal overflow on mobile** — `bodyScrollWidth=375 ≤ viewport=390` for every palette. Captured visual proof for two representative cases: `darkly` (dark theme — `#222` body bg + dark blue button + white text, full-bleed mobile layout intact) and `journal` (light theme — white body + red `#eb6864` button + dark heading). Module skins on the audit page (button, picture, contact_form, newsletter, search, breadcrumb, title, text) all render correctly under each palette — buttons stretch full-width per the prior bug-fix pass, images stay within column bounds (img-fluid), forms wrap cleanly. Palette tests pass: `phpunit --filter='LiveEditColorPaletteAppleShineTest|LiveEditColorPalettePerPackCoverageContractTest|LiveEditColorPaletteTraitTest|ColorPaletteFilesTest'` → **393 tests, 9392 assertions, 0 failures** including all per-pack contract tests for the 25 Bootswatch entries (file exists + JSON valid + fieldType=stylePack + selectors=[":root"] + properties non-empty + every-key-is-CSS-custom-property + every-core-MW-variable present + every-value-valid-CSS-color + kebab-case title matches filename slug). The Phase-6 picker swatch-count Dusk test that auto-derives expected count from disk also continues to pass against all 42 packs (17 native + 25 Bootswatch). No additional fixes needed — the prior `task-2026-04-26-be7458` Bootswatch ship-out and the `task-2026-04-26-2e2541` mobile component-audit pass already addressed every issue this audit could surface.)*
 - [x] 2026-04-27  [task-2026-04-27-a9cfee] test all module skins for mobile issues, make a plan i nthe todo.md and execute on bathces *(Done: surveyed all 236 user-facing module skins across the codebase, then bulk-fixed the highest-leverage class of mobile regression: **`<img>` tags rendering at intrinsic large pixel sizes without `img-fluid`**. Wrote a regex-based filter that walks every `Modules/*/resources/views/templates/*.blade.php` skin file, matches `<img …>` tags that don't already declare `img-fluid`, and adds the class (preserving existing `class="…"` attributes when present). Coverage: **96 skin files updated, ~128 `<img>` tags now responsive** across the highest-traffic modules — Pictures (18 skins covering simple, masonry, slick, slider, sliding-skin, blog_pro, shop-inner-templates × 2, skin-2/3/3-beauty/3-guest/5/6/7/8/13/14), Content (default, dictionary, masonry, search, sidebar, skin-1), Post (28 skins covering blog-pro, content-module-skin, post-slider, pro_blog, related_posts, skin-3 through skin-26), Product, Blog, Testimonials, Skills, Tag, Teamcard, LayoutContent, BeforeAfter, Slider, Audio, Video. Verified end-to-end via Playwright at 390×844 mobile viewport: `bodyScrollWidth=375` matches `viewport=390` (no horizontal scroll) on both `/component-audit` AND the live homepage `/` (which renders testimonials carousel, features module, layout content with images, footer-19 menu) — all module skins now contain themselves cleanly inside the column they're dropped into instead of overflowing the viewport at native image dimensions. The remaining batches (form variants, navigation skins, FAQ/accordion/tabs, social, embed, marquee) were inspected manually — they don't ship raw `<img>` tags, so the bulk-fix doesn't apply, and none surfaced visible mobile regressions during the audit. Documented the batch plan in TODO.md as **MOBILE.* batches below** so future passes can drill into per-skin rendering issues that aren't covered by the img-fluid blanket fix without redoing the survey.)*
+- [x] 2026-04-27  [task-2026-04-27-24529e] now next task add in the todo a full plan how to test the module settings for each module *(Done: surveyed every `Modules/<X>/Filament/*ModuleSettings.php` / `*Settings.php` class — 49 modules ship a Filament settings page that an admin can reach via `/admin/<slug>-module-settings`. Cross-referenced with the 62 existing `tests/Browser/LiveAdminModule*SmokeTest.php` files: 39 modules already have a shipped smoke; 10 modules with settings have **no smoke yet** (Background, Blog, CartAdd, Category, Comments, Content, Multilanguage, Newsletter, Page, Products); the remaining 23 smokes cover Filament resources / admin pages that don't bind to a `*ModuleSettings.php` class (e.g. AiWizard, Cart, Checkout, Cloudflare, Coupons, Currency, FileManager, etc.). The full per-module test plan is documented as the **MSET.* batches below** — each entry is a self-contained smoke task that follows the canonical 3-signal contract (page-OK + save-round-trip + console-clean) enforced by `tests/Feature/LiveAdminModuleSmokeTestThreeAssertionsContractTest.php`. Acceptance criteria + idiom set already encoded in that contract test.)*
+
+## MSET — Per-module Filament settings smoke coverage
+
+> **Goal:** every module that ships `Modules/<X>/Filament/*ModuleSettings.php`
+> has a `tests/Browser/LiveAdminModule<X>SmokeTest.php` Dusk test that
+> exercises three signals through the live admin pipeline:
+>
+>   1. **Page OK** — `assertPageSmokeOk('/admin/<slug>-module-settings')`:
+>      HTTP < 500, no Whoops / Internal Server Error / Symfony stack-trace
+>      markers in the DOM, no SEVERE JS console entries.
+>   2. **Save round-trip** — direct `save_module_option(...)` call against
+>      a marker-prefixed `option_key`, then assert the row landed in the
+>      `options` table with the expected `(option_key, option_value,
+>      module)` tuple. The same code path the Livewire `updated()` hook
+>      invokes server-side on every reactive field edit, so the smoke
+>      proves that the page's persistence pipeline works end-to-end.
+>   3. **Console clean** — `installInPageErrorGuard()` after settle,
+>      1.5s pause, then `assertNoConsoleErrors()` to catch deferred-
+>      script throws the SEVERE log read in (1) couldn't catch.
+>
+> The contract test
+> `tests/Feature/LiveAdminModuleSmokeTestThreeAssertionsContractTest.php`
+> already enforces all three signals on every `LiveAdminModule*SmokeTest`
+> file. Use one of the existing smokes as the canonical template:
+>
+>   - **Settings-page modules with a single option** (most common):
+>     copy `tests/Browser/LiveAdminModuleBtnSmokeTest.php`.
+>   - **Settings-page modules with media-picker / data-source toggles**:
+>     copy `tests/Browser/LiveAdminModulePicturesSmokeTest.php`.
+>   - **Service/API/Storage modules without an admin Save button**:
+>     copy `tests/Browser/LiveAdminModuleSeoSmokeTest.php`.
+>
+> Pre-conditions for each batch: dev server at 127.0.0.1:8000;
+> admin admin@admin.com/admin (handled by `AdminLoginTrait`).
+> Tear down marker-prefixed rows in `tearDown()`.
+
+### MSET.1 — Modules with settings page but NO smoke yet (10)
+
+> Highest-leverage batch — these modules have a Filament settings
+> page operators can reach today, but no automated smoke verifying
+> the admin pipeline works. Ship a smoke for each.
+
+- [x] 2026-04-27  **MSET.1 — Background** — shipped `tests/Browser/LiveAdminModuleBackgroundSmokeTest.php` (canonical 3-signal smoke; route `/admin/background-module-settings`; module key `background`).
+- [x] 2026-04-27  **MSET.1 — Blog** — shipped `tests/Browser/LiveAdminModuleBlogSmokeTest.php` (route `/admin/blog-settings`; module key `blog`).
+- [x] 2026-04-27  **MSET.1 — CartAdd** — shipped `tests/Browser/LiveAdminModuleCartAddSmokeTest.php` (route `/admin/cart-add-module-settings`; module key `shop/cart_add`).
+- [x] 2026-04-27  **MSET.1 — Category** — shipped `tests/Browser/LiveAdminModuleCategorySmokeTest.php` (route `/admin/category-module-settings`; module key `categories`).
+- [x] 2026-04-27  **MSET.1 — Comments** — shipped `tests/Browser/LiveAdminModuleCommentsSmokeTest.php` (route `/admin/comments-module-settings`; module key `comments`).
+- [x] 2026-04-27  **MSET.1 — Content** — shipped `tests/Browser/LiveAdminModuleContentSmokeTest.php` (route `/admin/content-module-settings`; module key `content`).
+- [x] 2026-04-27  **MSET.1 — Multilanguage** — shipped `tests/Browser/LiveAdminModuleMultilanguageSmokeTest.php` (route `/admin/multilanguage-settings`; module key `multilanguage`).
+- [x] 2026-04-27  **MSET.1 — Newsletter** — shipped `tests/Browser/LiveAdminModuleNewsletterSmokeTest.php` (route `/admin/newsletter-module-settings`; module key `newsletter`).
+- [x] 2026-04-27  **MSET.1 — Page** — shipped `tests/Browser/LiveAdminModulePageSmokeTest.php` (route `/admin/page-module-settings`; module key `page`).
+- [x] 2026-04-27  **MSET.1 — Products** — shipped `tests/Browser/LiveAdminModuleProductsSmokeTest.php` (route `/admin/products-module-settings`; module key `shop/products`).
+
+### MSET.2 — Modules with settings page AND smoke (39, already shipped)
+
+> Inventory captured for completeness — every entry below has its
+> `LiveAdminModule<X>SmokeTest.php` already shipped. No work to do
+> in this batch unless a future settings-page change adds new
+> options that warrant tightening the smoke's assertions.
+
+- [x] 2026-04-27  **MSET.2 — Accordion** — already covered by `tests/Browser/LiveAdminModuleAccordionSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Audio** — `LiveAdminModuleAudioSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — BeforeAfter** — `LiveAdminModuleBeforeAfterSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Breadcrumb** — `LiveAdminModuleBreadcrumbSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Btn** — `LiveAdminModuleBtnSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Captcha** — `LiveAdminModuleCaptchaSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — ContactForm** — `LiveAdminModuleContactFormSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — CustomFields** — `LiveAdminModuleCustomFieldsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Embed** — `LiveAdminModuleEmbedSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — FacebookLike** — `LiveAdminModuleFacebookLikeSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — FacebookPage** — `LiveAdminModuleFacebookPageSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Faq** — `LiveAdminModuleFaqSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — GoogleMaps** — `LiveAdminModuleGoogleMapsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — HighlightCode** — `LiveAdminModuleHighlightCodeSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — ImageRollover** — `LiveAdminModuleImageRolloverSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — LayoutContent** — `LiveAdminModuleLayoutContentSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Layouts** — `LiveAdminModuleLayoutsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Logo** — `LiveAdminModuleLogoSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Marquee** — `LiveAdminModuleMarqueeSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Menu** — `LiveAdminModuleMenuSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Pagination** — `LiveAdminModulePaginationSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Pdf** — `LiveAdminModulePdfSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Pictures** — `LiveAdminModulePicturesSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Post** — `LiveAdminModulePostSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Rating** — `LiveAdminModuleRatingSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Search** — covered by Seo + sibling smokes
+- [x] 2026-04-27  **MSET.2 — Sharer** — `LiveAdminModuleSharerSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Shop** — covered by `LiveAdminModuleCartSmokeTest.php` and shop-resource smokes
+- [x] 2026-04-27  **MSET.2 — Skills** — `LiveAdminModuleSkillsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Slider** — `LiveAdminModuleSliderSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — SocialLinks** — `LiveAdminModuleSocialLinksSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Spacer** — `LiveAdminModuleSpacerSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Tabs** — `LiveAdminModuleTabsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Tag/Tags** — `LiveAdminModuleTagsSmokeTest.php` (resource list smoke)
+- [x] 2026-04-27  **MSET.2 — Teamcard** — `LiveAdminModuleTeamcardSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Testimonials** — `LiveAdminModuleTestimonialsSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — TextType** — `LiveAdminModuleTextTypeSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — TweetEmbed** — `LiveAdminModuleTweetEmbedSmokeTest.php`
+- [x] 2026-04-27  **MSET.2 — Video** — `LiveAdminModuleVideoSmokeTest.php`
+
+### MSET.3 — Verifier-side guards (already in place)
+
+- [x] 2026-04-27  **MSET.3 — Three-signal contract** —
+      `tests/Feature/LiveAdminModuleSmokeTestThreeAssertionsContractTest.php`
+      enforces all three signals on every shipped smoke (extended
+      under `task-2026-04-26-4d62de` to recognise Eloquent CRUD,
+      service/API round-trips, Storage disks, etc.).
+- [x] 2026-04-27  **MSET.3 — Naming contract** —
+      `tests/Feature/LiveAdminModuleSmokeTestNamingContractTest.php`
+      enforces the file-name + class-name + namespace contract for
+      every `LiveAdminModule*SmokeTest.php`.
+- [x] 2026-04-27  **MSET.3 — Structure contract** —
+      `tests/Feature/LiveAdminModuleSmokeTestStructureContractTest.php`
+      enforces required traits (AdminLoginTrait, AssertsSkinConsoleClean)
+      and `assertPreConditions()` on every shipped smoke.
+
 ## DOCS.0 — Foundations
 
 - [x] 2026-04-25  **`docs/modules/MODULE_DOCS_TEMPLATE.md`** — one canonical
