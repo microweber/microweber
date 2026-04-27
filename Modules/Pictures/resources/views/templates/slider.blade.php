@@ -18,7 +18,7 @@ description: Pictures slider
                     @foreach($data as $item)
                         <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">
                             <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}"
-                                 alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
+                                 alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid"/>
                             @if(isset($item['title']) && $item['title'] != '')
                                 <i class="mw-rotator-description mw-rotator-description-content">{{ $item['title'] }}</i>
                             @endif

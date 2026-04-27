@@ -75,7 +75,7 @@
                                                 </div>
                                             @endif
                                         @endif
-                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 1250, 1250) }}" itemprop="url" alt="{{ $item['title'] ?? '' }}" />
+                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 1250, 1250) }}" itemprop="url" alt="{{ $item['title'] ?? '' }}"  class="img-fluid"/>
                                     </div>
                                 </a>
                             @endif

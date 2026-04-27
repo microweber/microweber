@@ -172,7 +172,7 @@ $size = sizeof($testimonials);
                 @foreach ($testimonials as $item)
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
                         @if (isset($item['client_image']))
-                            <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                            <img class="mw-testimonials-23-quote-pill-avatar img-fluid" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
                         @endif
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
@@ -183,7 +183,7 @@ $size = sizeof($testimonials);
                 @foreach ($testimonials as $item)
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
                         @if (isset($item['client_image']))
-                            <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                            <img class="mw-testimonials-23-quote-pill-avatar img-fluid" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
                         @endif
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>

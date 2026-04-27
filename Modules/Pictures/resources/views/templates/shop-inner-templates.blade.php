@@ -70,7 +70,7 @@ description: Default skin for shop inner of the templates
             @endif
 
             @if(isset($data[0]['filename']))
-                <img src="{{ thumbnail($data[0]['filename'], 1080, 1080) }}" id="{{ $pictureElementId }}" alt="{{ __('Product image') }}" />
+                <img src="{{ thumbnail($data[0]['filename'], 1080, 1080) }}" id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"/>
             @endif
         </div>
     </div>

@@ -154,19 +154,19 @@ $limit = 40;
 </style>
 
 <div class="py-5 position-relative">
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-1" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-1.png') }}" alt="{{ __('Client testimonial photo') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-2" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-2.png') }}" alt="{{ __('Client testimonial photo') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-3" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-3.png') }}" alt="{{ __('Client testimonial photo') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-4" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-4.png') }}" alt="{{ __('Client testimonial photo') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-5" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-5.png') }}" alt="{{ __('Client testimonial photo') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-6" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-6.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-1 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-1.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-2 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-2.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-3 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-3.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-4 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-4.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-5 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-5.png') }}" alt="{{ __('Client testimonial photo') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-6 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-6.png') }}" alt="{{ __('Client testimonial photo') }}"/>
 
     <h2 class="edit safe-mode col-md-10 text-center mx-auto mb-5" style="font-weight: 700;" field="testimonial-skin-16-title" rel="module">Trusted by Agencies <br> & Store Owners</h2>
 
     <div class="testimonials-faces-wrapper position-relative">
         <div class="slick-arrows-1 position-relative">
-            <img loading="lazy" class="mw-testimonials-item-faces-img-group33" src="{{ asset('templates/big2/img/layouts/testimonials-Group-33.png') }}" alt="{{ __('Decorative dots') }}"/>
-            <img loading="lazy" class="mw-testimonials-item-faces-img-group41" src="{{ asset('templates/big2/img/layouts/testimonials-Group-41.png') }}" alt="{{ __('Decorative dots') }}"/>
+            <img loading="lazy" class="mw-testimonials-item-faces-img-group33 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-Group-33.png') }}" alt="{{ __('Decorative dots') }}"/>
+            <img loading="lazy" class="mw-testimonials-item-faces-img-group41 img-fluid" src="{{ asset('templates/big2/img/layouts/testimonials-Group-41.png') }}" alt="{{ __('Decorative dots') }}"/>
             <div class="testimonials-wrapper mx-auto">
                 <div class="mw-testimonials mw-testimonials-faces slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
                     @if($testimonials->isEmpty())

@@ -94,7 +94,7 @@ description: Posts 18
                         @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                             <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
                                 <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                    <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] }}"/>
+                                    <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] }}" class="img-fluid"/>
                                     <meta itemprop="width" content="300">
                                     <meta itemprop="height" content="250">
                                 </div>

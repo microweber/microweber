@@ -75,7 +75,7 @@ description: Skin for sliding Logos
                        href="{{ $itemLink ?? '#' }}">
                         <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
                              alt="{{ $item['title'] ?? '' }}"
-                             title="{{ $item['title'] ?? '' }}">
+                             title="{{ $item['title'] ?? '' }}" class="img-fluid">
                     </a>
                 @endforeach
                 @endif
@@ -107,7 +107,7 @@ description: Skin for sliding Logos
                        href="{{ $itemLink ?? '#' }}">
                         <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
                              alt="{{ $item['title'] ?? '' }}"
-                             title="{{ $item['title'] ?? '' }}">
+                             title="{{ $item['title'] ?? '' }}" class="img-fluid">
                     </a>
                 @endforeach
             @endif

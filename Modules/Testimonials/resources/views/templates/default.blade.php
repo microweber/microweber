@@ -55,7 +55,7 @@
 
                         @endphp
 
-                        <img src="{{$src}}" class="card-img-top" alt="{{ isset($item->name) ? $item->name : 'Client Image' }}">
+                        <img src="{{$src}}" class="card-img-top img-fluid" alt="{{ isset($item->name) ? $item->name : 'Client Image' }}">
 
 
 

@@ -55,7 +55,7 @@ $(document).ready(function () {
                                     <div class="me-sm-4 mb-5 mb-sm-0 mx-auto mx-sm-0">
                                         <div class="w-80 mx-auto">
                                             <div class="img-as-background rounded-circle square">
-                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" alt="{{ $item['client_name'] ?? '' }}">
+                                                <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" alt="{{ $item['client_name'] ?? '' }}" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>

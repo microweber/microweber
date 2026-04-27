@@ -31,7 +31,7 @@ description: Default
                         <div class="team-card-item-image rounded-circle" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
                     @else
                         <div class="rounded-circle">
-                            <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
+                            <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                         </div>
                     @endif
                 </div>

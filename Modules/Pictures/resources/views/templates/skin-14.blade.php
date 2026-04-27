@@ -13,7 +13,7 @@ description: Skin 14
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
 <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
-                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}" />
+                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"/>
             </div>
 
             @if(sizeof($data) > 1)

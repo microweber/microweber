@@ -86,7 +86,7 @@ $limit = 40;
 
                     <div class="testimonials-26-author">
                         @if (isset($item['client_image']))
-                            <img loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                            <img loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}" class="img-fluid"/>
                         @endif
 
                         @if (isset($item['client_role']))

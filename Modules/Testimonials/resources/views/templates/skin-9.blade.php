@@ -80,7 +80,7 @@ $limit = 40;
             @foreach ($testimonials as $item)
                 <div class="border testimonials-background-variable testimonialBorderVariable mx-3 h-100 p-5 gap-3">
                     @if (isset($item['client_image']))
-                        <img loading="lazy" src="{{ thumbnail($item['client_image'], 130) }}" class="d-block mb-3" alt="{{ $item['client_name'] ?? '' }}"/>
+                        <img loading="lazy" src="{{ thumbnail($item['client_image'], 130) }}" class="d-block mb-3 img-fluid" alt="{{ $item['client_name'] ?? '' }}"/>
                     @endif
 
                     @if (isset($item['name']))

@@ -34,7 +34,7 @@ description: Skin-3 beauty
                         @if($count == 0)
                             <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                                  onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                                <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="">
+                                <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="" class="img-fluid">
                             </div>
                         @endif
                     @endforeach
@@ -45,7 +45,7 @@ description: Skin-3 beauty
                     @if($count == 1 || $count == 2)
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 1400, 695, true) }}" alt="">
+                            <img src="{{ thumbnail($item['filename'] ?? '', 1400, 695, true) }}" alt="" class="img-fluid">
                         </div>
                     @endif
                 @endforeach

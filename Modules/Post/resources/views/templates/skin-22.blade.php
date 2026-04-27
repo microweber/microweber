@@ -267,7 +267,7 @@ description: Posts 22
                             @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                 <a class="mw-post-22-post-thumbnail-link" itemprop="url" href="{{ $item['link'] }}">
                                     <div class="mw-post-22-post-thumbnail" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                        <img class="attachment-full size-full" loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
+                                        <img class="attachment-full size-full img-fluid" loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
                                         <meta itemprop="width" content="400">
                                         <meta itemprop="height" content="400">
                                     </div>

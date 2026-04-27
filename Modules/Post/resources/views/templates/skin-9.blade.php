@@ -32,7 +32,7 @@ description: Posts 9
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
                             <div class="img-as-background square-75" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                <img loading="lazy" style="object-fit: cover;" src="{{ $item['image'] }}" alt="{{ $item['title'] }}" itemprop="url"/>
+                                <img loading="lazy" style="object-fit: cover;" src="{{ $item['image'] }}" alt="{{ $item['title'] }}" itemprop="url" class="img-fluid"/>
                                 <meta itemprop="width" content="450">
                                 <meta itemprop="height" content="450">
                             </div>

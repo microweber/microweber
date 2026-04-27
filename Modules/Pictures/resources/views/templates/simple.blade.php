@@ -25,7 +25,7 @@ description: Simple Pictures List Template
                             <span class="pic-valign">
                                 <span class="pic-valign-cell">
                                     <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"
-                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
+                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid"/>
                                 </span>
                             </span>
                         </div>

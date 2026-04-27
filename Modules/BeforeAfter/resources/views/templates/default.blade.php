@@ -5,8 +5,8 @@
         }
     </style>
 
-    <img src="{{ $before }}" alt="{{ __('Before image') }}"/>
-    <img src="{{ $after }}" alt="{{ __('After image') }}"/>
+    <img src="{{ $before }}" alt="{{ __('Before image') }}" class="img-fluid"/>
+    <img src="{{ $after }}" alt="{{ __('After image') }}" class="img-fluid"/>
 </div>
 
 <style>

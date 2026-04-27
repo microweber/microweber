@@ -58,7 +58,7 @@ description: Blog pro
             @endphp
 
             <div class="card-header-single">
-                <img alt="{{ $itemAltText }}" src="{{ isset($item['filename']) ? $item['filename'] : '' }}"/>
+                <img alt="{{ $itemAltText }}" src="{{ isset($item['filename']) ? $item['filename'] : '' }}" class="img-fluid"/>
             </div>
         @endforeach
     @endif

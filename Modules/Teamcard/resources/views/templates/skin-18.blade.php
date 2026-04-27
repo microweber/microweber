@@ -105,9 +105,9 @@ description: Skin-18
   height: 350px;
   object-fit: cover;
   background-position: center center;
-  }" alt="{{ $member['name'] ?? __('Team member') }}"/>
+  }" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                             @else
-                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
+                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                             @endif
                         </div>
 

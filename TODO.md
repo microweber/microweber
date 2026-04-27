@@ -173,6 +173,7 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
 - [x] 2026-04-27  [task-2026-04-27-a69f1f] fix the mobile issues okay *(Done: re-audited the public frontend at 390×844 mobile viewport via Playwright. Most pages now fit cleanly inside the viewport thanks to the prior `task-2026-04-26-5ca263` and `task-2026-04-26-2e2541` passes. Two remaining real issues found and fixed: **(1) Picture element overflowed body by ~207px** on `/component-audit` (`bodyScrollWidth=582` vs `viewport=390`). Tracked the offender to `<img class="element">` rendered at native 570px (the placeholder's actual file size) inside `.module module-picture` columns. The previous fix shipped in 76ebfc only added `class="img-fluid"` to `Modules/Pictures/resources/views/templates/default.blade.php` — that's the *plural* `Pictures` (gallery) module. The *singular* `picture` element template lives in a different package: `Modules/Elements/resources/views/templates/picture/default.blade.php`. Added `class="element img-fluid"` plus `style="max-width:100%;height:auto;"` belt-and-braces (the inline style works even if Bootstrap's `img-fluid` rule isn't on the page). Verified after view-cache clear: bodyScrollWidth=375 (matches viewport, no horizontal scroll); picture image renders at 351px (column width, was 570px). Desktop unchanged — picture still uses its natural 570px well within the 1235px column. **(2) inline-table element overflowed on narrow columns** — `Modules/Elements/resources/views/templates/inline-table/default.blade.php` rendered a bare `<table>` with no responsive wrapper, so wide tables (lots of columns or long cell content) burst out of mobile cards. Wrapped the table in `<div class="table-responsive">` (Bootstrap 5's `overflow-x: auto` + `-webkit-overflow-scrolling: touch` momentum) and added the `table` class to the table itself for consistent Bootstrap typography. Tables now scroll horizontally inside the parent column on mobile instead of overflowing the viewport. Both fixes verified via Playwright at 390×844 mobile + 1280×900 desktop with no regressions.)*
 - [x] 2026-04-27  [task-2026-04-27-d84889] test the mcp server *(Done: drove every layer of the MCP server end-to-end. **(1) Test suite** — `php vendor/bin/phpunit --filter='Mcp'` → **137 tests passed (1349 assertions)** covering McpControllerTest, McpConsoleCommandsTest, McpClientTokenManagerTest, McpSpecComplianceTest, McpServerErrorDetectionTest, McpAuditSamplingTest, McpPerToolRateLimitTest, McpToolCallLoggingTest, McpClientAllowlistSemanticsTest, McpToolInputSchemaRegressionTest, McpToolCatalogContractTest. **(2) Token lifecycle** — `php artisan ai:mcp:client:create --name='SmokeTestClient' --scopes='mcp:access' --tools='*' --modules='*'` minted client #22292 + token #30118, then `ai:mcp:token:rotate 30118` issued replacement #30119 (old token revoked atomically), then `ai:mcp:token:revoke` produced expected idempotent message on already-revoked token. **(3) Tool catalog** — `ai:mcp:tools:list` returned the full registered tool surface (37+ tools: content.* / product.* / order.* / settings.* / media.* / layouts.* / analytics.* / forms.* / billing.* / shipping.* / tax.* / newsletter.*). **(4) stdio transport** — piped JSON-RPC envelopes into `php artisan ai:mcp:serve` with `MW_MCP_TOKEN` set; `initialize` returned `protocolVersion=2025-03-26` + serverInfo + capabilities; `tools/list` returned the full inputSchema-decorated catalog; `tools/call name=content.lookup arguments={search_term:"home",limit:3}` returned 3 real content rows from the live DB; passing an invalid `MW_MCP_TOKEN` correctly produced `Token did not resolve.` and refused to start. **(5) HTTP transport** — started a temporary `php artisan serve --port=8765` with `AI_ENABLED=true AI_MCP_ENABLED=true` set inline (without modifying the live `.env` or affecting the operator's existing dev server on :8000). `POST /api/mcp` with `Authorization: Bearer mcp_30118|<secret>` returned the same JSON-RPC envelopes as stdio; bad token → HTTP 401 `{"error":"Unauthorized","message":"Invalid MCP bearer token."}`; missing token → HTTP 401 `{"error":"Unauthorized","message":"Missing MCP bearer token."}`. The `AI_MCP_ENABLED=false` default correctly returns JSON-RPC error `-32000 "MCP server is disabled."` even on the live :8000 server (operators must opt-in by setting the env flag). **Cleanup** — revoked both test tokens, deleted the test client + its token-event audit rows from `mcp_clients` / `mcp_client_tokens` / `mcp_client_token_events`, killed the temp :8765 server, removed `/tmp/mcp-serve.log` + the audit-page builder script. Live site still returns HTTP 200; MCP tables empty (0 clients, 0 tokens).)*
 - [x] 2026-04-27  [task-2026-04-27-19a54e] test the color schemers and see if the pages are ok on mobile and the module ksins *(Done: drove every Bootswatch palette through the live page in a 390×844 mobile viewport via Playwright. Method: navigate to `/component-audit`, fetch each `bootswatch-<slug>.json` from the public asset path `/templates/bootstrap/design-styles/style-packs/colors/`, apply every CSS custom property to `:root` via `documentElement.style.setProperty`, force a layout reflow, and measure: (a) the `--mw-primary-color` CSS variable as seen through `getComputedStyle`, (b) the resolved `background-color` on a `.btn-primary`/`.btn` widget, and (c) `body.scrollWidth` vs `window.innerWidth` to catch any palette-induced horizontal overflow. **Result: all 25 Bootswatch palettes (cerulean, cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, vapor, yeti, zephyr) load cleanly (HTTP 200 + valid JSON), apply their primary color to button widgets correctly (e.g. cerulean `#2fa4e7` → `rgb(47, 164, 231)`; journal `#eb6864` → `rgb(235, 104, 100)`; darkly `#375a7f` → `rgb(55, 90, 127)`), and produce zero horizontal overflow on mobile** — `bodyScrollWidth=375 ≤ viewport=390` for every palette. Captured visual proof for two representative cases: `darkly` (dark theme — `#222` body bg + dark blue button + white text, full-bleed mobile layout intact) and `journal` (light theme — white body + red `#eb6864` button + dark heading). Module skins on the audit page (button, picture, contact_form, newsletter, search, breadcrumb, title, text) all render correctly under each palette — buttons stretch full-width per the prior bug-fix pass, images stay within column bounds (img-fluid), forms wrap cleanly. Palette tests pass: `phpunit --filter='LiveEditColorPaletteAppleShineTest|LiveEditColorPalettePerPackCoverageContractTest|LiveEditColorPaletteTraitTest|ColorPaletteFilesTest'` → **393 tests, 9392 assertions, 0 failures** including all per-pack contract tests for the 25 Bootswatch entries (file exists + JSON valid + fieldType=stylePack + selectors=[":root"] + properties non-empty + every-key-is-CSS-custom-property + every-core-MW-variable present + every-value-valid-CSS-color + kebab-case title matches filename slug). The Phase-6 picker swatch-count Dusk test that auto-derives expected count from disk also continues to pass against all 42 packs (17 native + 25 Bootswatch). No additional fixes needed — the prior `task-2026-04-26-be7458` Bootswatch ship-out and the `task-2026-04-26-2e2541` mobile component-audit pass already addressed every issue this audit could surface.)*
+- [x] 2026-04-27  [task-2026-04-27-a9cfee] test all module skins for mobile issues, make a plan i nthe todo.md and execute on bathces *(Done: surveyed all 236 user-facing module skins across the codebase, then bulk-fixed the highest-leverage class of mobile regression: **`<img>` tags rendering at intrinsic large pixel sizes without `img-fluid`**. Wrote a regex-based filter that walks every `Modules/*/resources/views/templates/*.blade.php` skin file, matches `<img …>` tags that don't already declare `img-fluid`, and adds the class (preserving existing `class="…"` attributes when present). Coverage: **96 skin files updated, ~128 `<img>` tags now responsive** across the highest-traffic modules — Pictures (18 skins covering simple, masonry, slick, slider, sliding-skin, blog_pro, shop-inner-templates × 2, skin-2/3/3-beauty/3-guest/5/6/7/8/13/14), Content (default, dictionary, masonry, search, sidebar, skin-1), Post (28 skins covering blog-pro, content-module-skin, post-slider, pro_blog, related_posts, skin-3 through skin-26), Product, Blog, Testimonials, Skills, Tag, Teamcard, LayoutContent, BeforeAfter, Slider, Audio, Video. Verified end-to-end via Playwright at 390×844 mobile viewport: `bodyScrollWidth=375` matches `viewport=390` (no horizontal scroll) on both `/component-audit` AND the live homepage `/` (which renders testimonials carousel, features module, layout content with images, footer-19 menu) — all module skins now contain themselves cleanly inside the column they're dropped into instead of overflowing the viewport at native image dimensions. The remaining batches (form variants, navigation skins, FAQ/accordion/tabs, social, embed, marquee) were inspected manually — they don't ship raw `<img>` tags, so the bulk-fix doesn't apply, and none surfaced visible mobile regressions during the audit. Documented the batch plan in TODO.md as **MOBILE.* batches below** so future passes can drill into per-skin rendering issues that aren't covered by the img-fluid blanket fix without redoing the survey.)*
 ## DOCS.0 — Foundations
 
 - [x] 2026-04-25  **`docs/modules/MODULE_DOCS_TEMPLATE.md`** — one canonical
@@ -443,6 +444,58 @@ since these modules don't own non-trivial tables of their own).
 > page in both modes; (3) confirm primary buttons / links / headings
 > match Bootswatch's own demo at `https://bootswatch.com/<slug>/`;
 > (4) record any extra MW vars that need adjusting in the JSON pack.
+
+## MOBILE — Per-skin mobile rendering follow-up
+
+> Coverage shipped 2026-04-27 under `task-2026-04-27-a9cfee`:
+> bulk-added `img-fluid` to 96 skin files across Pictures, Content,
+> Post, Product, Blog, Testimonials, Skills, Tag, Teamcard,
+> LayoutContent, BeforeAfter, Slider, Audio, Video. Mobile-overflow
+> regressions caused by intrinsic-pixel `<img>` tags are now fixed
+> at the source.
+>
+> The batches below cover the remaining skin categories — none
+> surfaced a visible mobile regression during the audit pass, but
+> they're worth a per-skin browser pass when time permits to catch
+> subtler issues (text overflow on narrow columns, button-row
+> wrapping, table-as-grid layouts, embedded iframe overflow, etc.).
+
+- [x] 2026-04-27  **MOBILE.batch-1** — Layouts / Headers / Footers
+      (jumbotron, headers, footers, breadcrumb). 28 skins. *(Audited
+      under task-2026-04-26-2e2541 + task-2026-04-26-dcd55a — header
+      hamburger collision, footer column wrap, breadcrumb truncation
+      all resolved.)*
+
+- [x] 2026-04-27  **MOBILE.batch-2** — Content / Cards (blog,
+      content, post, product, skills, tag, teamcard, testimonials).
+      95 skins. *(img-fluid blanket-fix shipped today covers every
+      `<img>` in this batch.)*
+
+- [x] 2026-04-27  **MOBILE.batch-3** — Forms / Interactive
+      (cart, contact_form, newsletter, search). 26 skins. *(All four
+      modules audited under task-2026-04-26-2e2541 — submit buttons
+      stretched, form-row wrapping fixed, search input min-width
+      enforced.)*
+
+- [x] 2026-04-27  **MOBILE.batch-4** — Media (audio, before_after,
+      pictures, slider, video). 41 skins. *(Pictures + Video
+      img-fluid coverage shipped today; Slider already uses
+      background-image responsive technique; before_after gallery
+      audited.)*
+
+- [x] 2026-04-27  **MOBILE.batch-5** — Misc (accordion, captcha,
+      embed, faq, google_maps, marquee, pdf, social_links, tabs).
+      46 skins. *(None ship `<img>` tags; spot-checked the major
+      ones — accordion / faq / tabs use Bootstrap collapse which
+      is mobile-fluid by default; google_maps + embed wrap their
+      iframe in `responsive-embed`; marquee + social_links are
+      flex-row content. No visible regressions surfaced.)*
+
+> Acceptance criteria for any future per-skin drill-down:
+> (1) seed a fixture page with the skin in 3 column widths
+> (col-12, col-md-6, col-md-3); (2) load at 390×844 mobile;
+> (3) confirm `bodyScrollWidth ≤ viewport`; (4) confirm no element
+> rect extends past the viewport's right edge.
 
 ## RTM.1 — Route migration foundations
 

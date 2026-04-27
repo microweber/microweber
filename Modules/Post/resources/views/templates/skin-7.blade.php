@@ -33,7 +33,7 @@ description: Posts 7
                         <div class="position-absolute p-4" style="z-index: 9;">{!! $itemCats !!}</div>
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
                             <div class="img-as-background square-75" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                <img loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}" />
+                                <img loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"  class="img-fluid"/>
                                 <meta itemprop="width" content="450">
                                 <meta itemprop="height" content="450">
                             </div>

@@ -159,7 +159,7 @@ description: Skin-3-guest
                     @foreach($data as $item)
                         @php $count++; @endphp
                         <div class="slide item pictures picture-{{ $item['id'] ?? '' }}">
-                            <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="">
+                            <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="" class="img-fluid">
                         </div>
                     @endforeach
                 @endif

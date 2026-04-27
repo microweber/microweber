@@ -34,7 +34,7 @@ description: Posts Slider 1
                         <a itemprop="url" href="{{ $item['link'] }}">
                             <div class="img-as-background h-350">
 <img itemprop="image" loading="lazy" src="{{ $item['image'] }}"
-                             style="position: relative !important;" alt="{{ $item['title'] ?? '' }}"/>
+                             style="position: relative !important;" alt="{{ $item['title'] ?? '' }}" class="img-fluid"/>
                             </div>
                         </a>
                     @endif

@@ -65,7 +65,7 @@ if(!isset($tn[1])){
                         @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                             <div class="col-auto module-posts-template-search-image-holder">
                                 <a href="{{ $item['link'] }}" class="module-posts-template-search-image">
-                                    <img src="{{ thumbnail($item['image'], $tn[0], $tn[1]) }}" alt="" width="50" height="50"/>
+                                    <img src="{{ thumbnail($item['image'], $tn[0], $tn[1]) }}" alt="" width="50" height="50" class="img-fluid"/>
                                 </a>
                             </div>
                         @endif

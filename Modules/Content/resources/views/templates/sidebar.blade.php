@@ -43,7 +43,7 @@ if(!isset($tn[1])){
                         <div class="mw-ui-col module-posts-template-sidebar-image-column">
                             <a href="{{ $item['link'] }}">
                                 @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
-                                    <img src="{{ thumbnail($item['image'], $tn[0], $tn[1]) }}" alt="" />
+                                    <img src="{{ thumbnail($item['image'], $tn[0], $tn[1]) }}" alt=""  class="img-fluid"/>
                                 @endif
                             </a>
                         </div>

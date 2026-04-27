@@ -100,7 +100,7 @@ description: Skin-6
                                             </div>
                                         @endif
                                     @endif
-                                    <img loading="lazy" class="mw-product-module-img" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
+                                    <img loading="lazy" class="mw-product-module-img img-fluid" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
                                 </div>
                             </a>
                         @endif

@@ -98,7 +98,7 @@ description: Posts 24
 
                                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
                                     <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                        <img loading="lazy" class="featured-image" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
+                                        <img loading="lazy" class="featured-image img-fluid" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
                                         <meta itemprop="width" content="750">
                                         <meta itemprop="height" content="750">
                                     </div>
@@ -141,7 +141,7 @@ description: Posts 24
                                 </div>
                                 @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                     <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                        <img loading="lazy" class="thumbnail-image" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
+                                        <img loading="lazy" class="thumbnail-image img-fluid" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}"/>
                                         <meta itemprop="width" content="300">
                                         <meta itemprop="height" content="300">
                                     </div>

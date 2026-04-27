@@ -69,7 +69,7 @@ $limit = 40;
                         @if (isset($item['client_image']))
                             <div class="w-80 mx-auto mb-4">
                                 <div class="img-as-background rounded-circle square">
-                                    <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" alt="{{ $item['client_name'] ?? '' }}">
+                                    <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" alt="{{ $item['client_name'] ?? '' }}" class="img-fluid">
                                 </div>
                             </div>
                         @endif

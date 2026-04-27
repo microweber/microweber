@@ -102,7 +102,7 @@ $limit = 40;
                                 <div class="mw-ziza-testimonials-item-eclipse">
                                     <div></div>
                                 </div>
-                                <img loading="lazy" class="mw-ziza-testimonials-item-dots" src="{{ asset('templates/big2/img/layouts/ziza/ziza-dots-94.png') }}" alt="{{ __('Decorative dots') }}"/>
+                                <img loading="lazy" class="mw-ziza-testimonials-item-dots img-fluid" src="{{ asset('templates/big2/img/layouts/ziza/ziza-dots-94.png') }}" alt="{{ __('Decorative dots') }}"/>
                             </div>
                         </div>
                     @endif

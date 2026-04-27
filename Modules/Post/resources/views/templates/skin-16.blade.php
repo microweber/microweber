@@ -62,7 +62,7 @@ description: Posts 16
                                     <i class="mw-micon-Google-Play"></i>
                                 </a>
                             </div>
-                            <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] }}"/>
+                            <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] }}" class="img-fluid"/>
                             <meta itemprop="width" content="350">
                             <meta itemprop="height" content="350">
                         </div>

@@ -97,7 +97,7 @@ $rand = uniqid();
             <div class="masonry-item" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                     <a class="" itemprop="url" href="{{ $item['link'] }}">
-                        <img @if($item['image']==false) class="pixum" @endif itemprop="image" src="{{ thumbnail($item['image'], 290, 120) }}" alt="{{ addslashes($item['title']) }} - {{ __('image') }}" title="{{ addslashes($item['title']) }}" />
+                        <img @if($item['image']==false) class="pixum img-fluid" @endif itemprop="image" src="{{ thumbnail($item['image'], 290, 120) }}" alt="{{ addslashes($item['title']) }} - {{ __('image') }}" title="{{ addslashes($item['title']) }}" />
                     </a>
                 @endif
                 <div class="masonry-item-container">

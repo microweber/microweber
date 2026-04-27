@@ -317,7 +317,7 @@ description: Dictionary
                                         <a class="card card__content" href="{{ $item['link'] }}">
                                             @if (!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                                                 <div class="thumbnail-image-holder">
-                                                    <img class="thumbnail" src="{{ thumbnail($item['image'], 535, 285) }}" alt="">
+                                                    <img class="thumbnail img-fluid" src="{{ thumbnail($item['image'], 535, 285) }}" alt="">
                                                 </div>
                                             @endif
 

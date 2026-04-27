@@ -31,7 +31,7 @@
                             <a href="{{ $item['link'] }}" itemprop="url">
                                 <div class="img__wrap">
                                     <div class="img-as-background h-650">
-                                        <img class="img_img" alt="image" src="{{ $item['image'] }}" itemprop="image" />
+                                        <img class="img_img img-fluid" alt="image" src="{{ $item['image'] }}" itemprop="image" />
                                     </div>
                                     <div class="img__description_layer">
                                         <div class="row text-center align-self-center"></div>

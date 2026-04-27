@@ -90,7 +90,7 @@ description: skin-10
                                     @endif
                                 @endif
 
-<img loading="lazy" style="object-fit: contain;" class="w-100"
+<img loading="lazy" style="object-fit: contain;" class="w-100 img-fluid"
                            src="{{ thumbnail($item['image'], 1350, 1350) }}"
                            itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
                             </a>

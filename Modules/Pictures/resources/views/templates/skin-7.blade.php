@@ -62,7 +62,7 @@ description: Pictures Skin 7 - Justify
                     @php $count++; @endphp
                     <a data-index="{{ $count }}"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" alt=""/>
+                        <img src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" alt="" class="img-fluid"/>
                     </a>
                 @endforeach
             @endif

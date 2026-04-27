@@ -32,11 +32,11 @@ description: Skin-12
                         <div class="w-250">
                             @if ($member['file'])
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
+                                    <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                                 </div>
                             @else
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
+                                    <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                                 </div>
                             @endif
                         </div>

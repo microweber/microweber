@@ -47,7 +47,7 @@ description: Masonry
             @foreach($data as $item)
                 @php $count++; @endphp
                 <div class="masonry-item" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
-                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%" alt="{{ __('Image') }}"/>
+                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%" alt="{{ __('Image') }}" class="img-fluid"/>
                     @if(isset($item['title']) && $item['title'] != '')
                         <div class="masonry-item-description">{{ $item['title'] }}</div>
                     @endif
