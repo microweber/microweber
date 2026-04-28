@@ -3650,6 +3650,40 @@ html.dark {
   }
 }
 
+/*
+ * Mobile responsive overrides for the media-library toolbar. The
+ * default rule above sets `.mw-media-toolbar-left { flex: 1; }`
+ * with no wrapping on its child controls, so on a 390px viewport
+ * the search input + type-filter select + two date inputs + clear
+ * button all squeeze into one row, truncating the search
+ * placeholder to "Sear" and clipping the date pickers. Force the
+ * toolbar's left and right groups to wrap below 768px and give the
+ * search field its own full-width row so an operator on a phone
+ * can actually type in it.
+ */
+@media (max-width: 768px) {
+  .mw-media-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mw-media-toolbar-left,
+  .mw-media-toolbar-right {
+    flex-wrap: wrap;
+    gap: $mw-space-xs;
+  }
+  .mw-media-search {
+    flex: 1 1 100%;
+    max-width: none;
+    min-width: 200px;
+  }
+  .mw-media-filter-select,
+  .mw-media-filter-date {
+    flex: 1 1 auto;
+    min-width: 130px;
+    max-width: none;
+  }
+}
+
 .mw-media-clear-filters {
   display: inline-flex;
   align-items: center;
