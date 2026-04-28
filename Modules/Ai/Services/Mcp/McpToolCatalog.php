@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Ai\Services\Mcp;
 
 use Modules\Ai\Tools\ContentSearchTool;
+use Modules\Ai\Tools\CreateContentTool;
+use Modules\Ai\Tools\CreateProductTool;
 use Modules\Ai\Tools\GetContentTool;
 use Modules\Ai\Tools\AnalyticsAudienceBreakdownTool;
 use Modules\Ai\Tools\AnalyticsTopPagesTool;
@@ -64,10 +66,20 @@ class McpToolCatalog
                 'module' => 'content',
                 'title' => 'Retrieve detailed information for a Microweber content item by ID.',
             ],
+            'content.create' => [
+                'tool' => CreateContentTool::class,
+                'module' => 'content',
+                'title' => 'Create a new page, post, or generic content item in Microweber.',
+            ],
             'product.lookup' => [
                 'tool' => ProductSearchTool::class,
                 'module' => 'product',
                 'title' => 'Search Microweber products by title, category, or price range.',
+            ],
+            'product.create' => [
+                'tool' => CreateProductTool::class,
+                'module' => 'product',
+                'title' => 'Create a new product (title, price, SKU, description, stock) in Microweber.',
             ],
             'order.lookup' => [
                 'tool' => OrderSearchTool::class,

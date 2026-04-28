@@ -561,7 +561,9 @@ class McpControllerTest extends TestCase
         $this->assertSame([
             'content.lookup',
             'content.get',
+            'content.create',
             'product.lookup',
+            'product.create',
             'order.lookup',
             'settings.read',
             'media.lookup',
