@@ -85,24 +85,54 @@
                     Select media file or <b class="text-yellow-500 font-bold">Upload</b>
                 </span>
             </button>
-            <div class="w-full h-[300px]" x-show="state && typeFile == 'image'">
-                <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
-                    <div
-                        class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5 min-h-[300px]">
-                        <div class="flex gap-2 items-center">
-                            <button type="button" class="text-white bg-white/5 rounded-md" x-on:click="clearState()">
-                                <svg fill="currentColor" class="w-6" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <span x-html="fileUrlShort"></span>
-                        </div>
-                    </div>
+            <div class="w-full" x-show="state && typeFile == 'image'">
+                {{--
+                    Image-preview layout — task-2026-04-29-41fe63.
+                    Previously the preview used a `bg-black/80` body with
+                    an absolute-positioned overlay header on top, and
+                    `object-fit: cover` on the <img>. That made dark
+                    SVG logos (and any image whose ink color matched
+                    the dark BG) effectively invisible — the user
+                    reported the preview "doesn't have icon and Style".
 
-                    <img :src="state" alt="{{ __('Preview image') }}" class="min-h-[300px]" style="max-height: 300px;object-fit: cover" />
+                    Restructure:
+                      - A header strip (close button + filename) in
+                        normal flow above the preview, not absolutely
+                        positioned.
+                      - A preview area with a light-gray base AND a
+                        checkerboard pattern via background gradients,
+                        so transparent + dark-on-dark SVGs are
+                        always visible against a contrasting backdrop.
+                      - object-fit: contain (not cover) so the entire
+                        image is visible without cropping.
+                      - In dark mode, swap the checker base to a
+                        slightly darker neutral so the panel still
+                        feels integrated with the surrounding UI.
+                --}}
+                <div class="w-full relative flex flex-col gap-0 items-stretch justify-center bg-white dark:bg-gray-800 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                    <div class="flex gap-2 items-center px-3 py-2 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                        <button type="button" class="text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-1" x-on:click="clearState()">
+                            <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
+                                </path>
+                            </svg>
+                        </button>
+                        <span class="truncate text-sm text-gray-800 dark:text-gray-100" x-text="fileUrlShort"></span>
+                    </div>
+                    <div
+                        class="w-full flex items-center justify-center min-h-[300px] p-4 mw-file-upload-preview-checker"
+                        style="background-color: #f3f4f6;
+                               background-image:
+                                 linear-gradient(45deg, #d1d5db 25%, transparent 25%),
+                                 linear-gradient(-45deg, #d1d5db 25%, transparent 25%),
+                                 linear-gradient(45deg, transparent 75%, #d1d5db 75%),
+                                 linear-gradient(-45deg, transparent 75%, #d1d5db 75%);
+                               background-size: 20px 20px;
+                               background-position: 0 0, 0 10px, 10px -10px, -10px 0;">
+                        <img :src="state" alt="{{ __('Preview image') }}" class="max-h-[280px] max-w-full" style="object-fit: contain" />
+                    </div>
                 </div>
             </div>
 
