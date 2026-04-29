@@ -241,6 +241,7 @@ export class LiveEditWidgetsService extends BaseComponent{
 
         this.dispatch('openQuickEditComponent');
         mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
+        try { window.dispatchEvent(new Event('closeFilamentSlideOver')); } catch (_) {}
         return this;
 
     }
@@ -286,6 +287,7 @@ export class LiveEditWidgetsService extends BaseComponent{
         mw.top().app.domTree.show();
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
         this.dispatch('layersOpen');
+        try { window.dispatchEvent(new Event('closeFilamentSlideOver')); } catch (_) {}
         return this;
 
     }

@@ -30,6 +30,20 @@
             window.addEventListener('openModuleSettingsAction', (e) => {
                 swapAction('openModuleSettingsAction', { data: e.detail });
             });
+
+            // Some live-edit toolbar actions (Template Settings, Style
+            // Editor, Quick AI Edit, Setup Wizard, Insert Layout,
+            // Layers, Code Editor, Reset Content, Clear Cache, …) open
+            // their own non-Filament widgets/dialogs. If a Filament
+            // module/layout-settings slideOver is already mounted when
+            // the operator clicks one of those, the slideOver stays
+            // open behind the new widget — exactly the bug from
+            // task-2026-04-29-2315b5 and -70496a. Listen for an
+            // explicit close event from the toolbar Vue components and
+            // unmount whatever Filament action is mounted.
+            window.addEventListener('closeFilamentSlideOver', () => {
+                try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
+            });
         }"
     >
 

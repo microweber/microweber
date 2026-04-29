@@ -118,8 +118,24 @@ mw.app.templateSettingsWidget.box.style.width = 'var(--sidebar-end-size)';
     mw.top().app.guiEditorBox = guiEditor
 
 
-    mw.app.templateSettingsWidget.on('show', () => document.documentElement.classList['add']('live-edit-gui-editor-opened'));
-    guiEditor.on('show', () => document.documentElement.classList['add']('live-edit-gui-editor-opened') );
+    // When Template Settings or the Element Style Editor opens, also
+    // unmount any open Filament module/layout-settings slideOver — the
+    // right-sidebar Tools buttons / SettingsCustomize / keyboard
+    // shortcuts can all reach `.show()` without going through the
+    // toolbar dropdown's `closeFilamentSlideOver()` helper, so close
+    // here at the widget level to cover every entry point. See
+    // task-2026-04-29-2315b5 / -70496a.
+    const dispatchCloseFilament = () => {
+        try { window.dispatchEvent(new Event('closeFilamentSlideOver')); } catch (_) {}
+    };
+    mw.app.templateSettingsWidget.on('show', () => {
+        document.documentElement.classList['add']('live-edit-gui-editor-opened');
+        dispatchCloseFilament();
+    });
+    guiEditor.on('show', () => {
+        document.documentElement.classList['add']('live-edit-gui-editor-opened');
+        dispatchCloseFilament();
+    });
     guiEditor.on('hide', () => {
         if(!mw.controlBox.hasOpened('right')) {
             document.documentElement.classList['remove']('live-edit-gui-editor-opened');

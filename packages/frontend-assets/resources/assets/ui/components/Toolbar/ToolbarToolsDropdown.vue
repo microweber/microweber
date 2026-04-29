@@ -398,18 +398,32 @@ export default {
             this.dropdownOpen = false;
         },
 
+        // Close any Filament module/layout-settings slideOver that may
+        // already be mounted before opening a non-Filament widget
+        // (Template Settings, Style Editor, Quick AI Edit, Setup
+        // Wizard, Layers, Code Editor, Reset Content, Clear Cache,
+        // Insert Layout/Module, Edit Element). Without this the open
+        // slideOver stays painted behind whatever the toolbar action
+        // pops up — see task-2026-04-29-2315b5 / -70496a.
+        closeFilamentSlideOver() {
+            window.dispatchEvent(new Event('closeFilamentSlideOver'));
+        },
+
         openSetupWizard() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             mw.top().app.dispatch('showSetupWizard');
         },
 
         showCodeEditor() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             this.emitter.emit('show-code-editor');
         },
 
         openContentResetContent() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             this.emitter.emit('show-content-reset');
 
             var moduleType = 'editor/reset_content';
@@ -445,6 +459,7 @@ export default {
 
         handleLayers() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             this.layers = !this.layers;
             mw.app.liveEditWidgets.toggleLayers();
         },
@@ -475,6 +490,7 @@ export default {
 
         clearCache() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             mw.confirm("Do you want to clear cache?", function () {
                 mw.notification.warning("Clearing cache...");
                 $.get(mw.settings.api_url + "clearcache", {}, function () {
@@ -519,6 +535,8 @@ export default {
         },
 
         handleInsertLayout: function () {
+            this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             let active = mw.top().app.liveEdit.layoutHandle.getTarget();
             const selector = '.edit[data-layout-container] .module-layouts';
 
@@ -575,11 +593,13 @@ export default {
 
         handleTemplateSettings() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             mw.top().app.templateSettingsWidget.toggle();
         },
 
         handleStyleEditor() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             // Import CSSGUIService dynamically or use global reference
             if (window.mw?.top()?.app?.guiEditorBox) {
                 window.mw.top().app.guiEditorBox.toggle();
@@ -588,6 +608,7 @@ export default {
 
         handleQuickEdit() {
             this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
             mw.app.liveEditWidgets.toggleQuickEditComponent();
         },
 
