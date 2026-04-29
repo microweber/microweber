@@ -44,3 +44,77 @@ html.dark .quick-ai-card-body .live-edit-label {
 .quick-ai-card-body {
     padding: 0 15px 7.5px 15px;
 }
+
+/*
+ * Quick Edit panel (live-edit toolbar → Quick AI Edit) — task-2026-04-29-ccf6e9.
+ *
+ * The two top-of-panel toggle buttons ("Active layout" / "Whole page")
+ * are rendered as <button class="btn ${isWholePage ? '' : 'active'}">
+ * pairs in `live-edit-widgets-service.js`. The original Bootstrap-ish
+ * `.btn` styling left the *non*-active button looking raised/pressed
+ * (white background + shadow) and the active button looking flat —
+ * exactly inverted from the user's expectation that "active = pressed
+ * = bordered". Re-skin the pair so:
+ *   - The default (.btn, no .active) is flat / borderless
+ *   - The active button (.btn.active) carries the visible border +
+ *     subtle inset shadow that reads as "pressed".
+ *
+ * Also bring the Quick Edit panel's inputs back up to a usable size
+ * (HEADING / PARAGRAPH text fields were rendering at the compact
+ * element-style-editor scale — 11px text in a ~20px-tall pill — which
+ * was unreadable in the side panel). The Filament-scoped overrides in
+ * `live-edit-input.css` only fire when the input is inside a Filament
+ * form/section — Quick Edit isn't, so we add a parallel override here
+ * scoped to `#mw-live-edit-quickEditComponent-box`.
+ */
+#mw-live-edit-quickEditComponent-box .btn {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    padding: 6px 14px;
+    font-weight: 500;
+    color: inherit;
+    border-radius: 6px;
+}
+#mw-live-edit-quickEditComponent-box .btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+html.dark #mw-live-edit-quickEditComponent-box .btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+#mw-live-edit-quickEditComponent-box .btn.active {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+}
+html.dark #mw-live-edit-quickEditComponent-box .btn.active {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Quick Edit field inputs — bring them up to a readable 14px / 36px
+ * size to match the rest of the panel's chrome instead of inheriting
+ * the compact 11px element-style-editor sizing. */
+#mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #cacaca !important;
+}
+html.dark #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: #e2e8f0 !important;
+}
+#mw-live-edit-quickEditComponent-box .form-control-live-edit-input:focus {
+    border-color: #4299e1 !important;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2) !important;
+}
+#mw-live-edit-quickEditComponent-box textarea.form-control-live-edit-input {
+    min-height: 72px !important;
+    line-height: 1.4 !important;
+}
