@@ -78,6 +78,19 @@
         </testsuite>
 
         <!--
+            Product-module mirror of PostModuleAdminAndPublicRender —
+            task-2026-04-29-c7e4f8 (post-list + product-list module
+            coverage). Visits /admin/products-module-settings,
+            verifies the table loads, drives EditAction via the
+            ContentTableList wire, and asserts a `<module
+            type="products" data-limit="1000" />` shortcode renders
+            seeded products on the public page.
+        -->
+        <testsuite name="ProductModuleAdminAndPublicRender">
+            <file>tests/Browser/ProductModuleAdminAndPublicRenderTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
