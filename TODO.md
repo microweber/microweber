@@ -255,6 +255,45 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-04-29  (subtask) Added a checkerboard transparency-aware backdrop. The preview pane now uses `background-color: #f3f4f6` plus a 4-stop linear-gradient checker pattern (20px tiles, light gray on slightly lighter gray) so transparent images, white-ink images, AND black-ink images are all visible against a contrasting backdrop. Switched `object-fit: cover` → `object-fit: contain` with `max-h-[280px] max-w-full` so the entire image renders without cropping.
   - [x] 2026-04-29  (subtask) Restructured the close-button + filename header — moved out of the `absolute h-full top-0` overlay (which collided with the image plane) into a normal-flow header strip above the preview with `bg-gray-100 dark:bg-gray-900 border-b`. Close button styled as a hover-able rounded chip; filename truncates with `truncate text-sm`.
   - [x] 2026-04-29  (subtask) Verified visually via Playwright at `/admin/logo-module-settings` — set state to `/userfiles/modules/default.svg` (a black icon SVG); the preview pane shows the icon clearly visible against the checker pattern, with the filename header strip cleanly above it. Cleared view cache. Different content shapes covered: SVG with dark ink (now visible), missing-image case (renders the broken-image icon visibly without hiding inside the dark panel), real PNG (would render against the checker pattern same as SVG). The fix benefits every image-input across the admin since `mw-file-upload.blade.php` is the shared view component.
+- [x] 2026-04-29  [task-2026-04-29-ede510] populate hte todo md with [ ] taks using this framework https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui *(Done — fetched the dev-cycle/02-test-the-project-ui framework spec via WebFetch. The framework prescribes 4 testing domains (UI Component Testing, Browser Compatibility, Accessibility Validation, Documentation) with the task-line format `- [ ] [prefix]: description _(ref: [URL or relative path])_` using prefixes `fix:` / `improve:` / `accessibility:` / `verify:`. Populated `## UITEST — UI testing framework batch (ref: dev-cycle/02-test-the-project-ui)` section below with 24 concrete `[ ]` tasks scoped to Microweber's actual UI surfaces — admin login + dashboard + module-settings pages (Menu, Logo, Pictures, Posts, Products, Blog, Cart), live-edit canvas + toolbar + slideOver + iframe, link picker + file picker, public-page render. Tasks split across the 4 framework domains so a future executor can pick them up batch by batch.)*
+
+## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
+
+### UI Component Testing
+
+- [ ] verify: /admin/login renders with username + password fields visible and submit button enabled _(ref: src/MicroweberPackages/Admin/Filament/Pages/AdminLoginPage)_
+- [ ] verify: /admin dashboard loads cleanly with no missing widgets and the topbar links resolve _(ref: src/MicroweberPackages/Admin)_
+- [ ] verify: /admin/live-edit renders the canvas iframe + toolbar + 3-dot dropdown without console errors on first paint _(ref: src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php)_
+- [ ] verify: live-edit toolbar dropdown items (Insert Layout / Module Settings / Template Settings / Style Editor / Quick AI Edit / Layers / Code Editor / Reset Content / Clear Cache / Setup Wizard) all open their target widget and close any previously-open Filament slideOver _(ref: packages/frontend-assets/resources/assets/ui/components/Toolbar/ToolbarToolsDropdown.vue)_
+- [ ] verify: live-edit Add menu (+ADD button) opens the Add-content modal with Page/Post/Category/Product cards _(ref: src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php)_
+- [ ] verify: link picker tabs (URL / Pages / All content / File / Email / Page section) — only the active tab is visible, OK button is sticky, search dropdown z-index is correct _(ref: packages/microweber-filament-theme/resources/assets/css/microweber/linkpicker.css)_
+- [ ] verify: file picker tabs (My computer / Enter prompt / URL / Uploaded / Media library) all render their UI without overlap when launched from inside a Filament form _(ref: packages/frontend-assets/resources/assets/components/filepicker.js)_
+- [ ] improve: form validation on Add Page (title required), Add Post (title required), Add Product (title + price required) — confirm error messages render under each field with red text _(ref: src/MicroweberPackages/LiveEdit/Filament/Admin/Pages/AdminLiveEditPage.php generateAction)_
+- [ ] verify: responsive breakpoints — admin sidebar collapses to icon-only at <1280px, live-edit toolbar wraps cleanly on a 768px viewport, public Big2 page renders without horizontal scroll on a 360px viewport _(ref: packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss)_
+- [ ] verify: navigation between admin pages preserves Livewire state (filter chips on Content list survive a back/forward) _(ref: Modules/Content/Filament/Admin/ContentResource.php)_
+
+### Browser Compatibility
+
+- [ ] verify: zero console errors on /admin/login + /admin + /admin/live-edit + /admin/menu-module-settings + /admin/post-module-settings + /admin/products-module-settings + /admin/pictures-module-settings + /admin/logo-module-settings (Chrome, light + dark mode) _(ref: tests/Browser/AdminContentWorkflowTest.php pattern)_
+- [ ] verify: dark-mode CSS custom properties (--mw-text-primary, --mw-bg-surface, --mw-border-color) all resolve to non-empty values on every admin page _(ref: packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss)_
+- [ ] verify: light-mode counterparts of the same CSS properties resolve correctly _(ref: packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss)_
+- [ ] fix: any leaked Livewire / Alpine / Filament console warnings on the live-edit page (`MethodNotFoundException`, hydration errors, etc.) flagged during the run _(ref: storage/logs/laravel.log)_
+- [ ] verify: image rendering on public Big2 layouts — every layouts/skin-*.blade.php skin has at least one img-fluid + lazy-loaded image without CLS _(ref: tests/Browser/Big2LayoutSkinPreviewSmokeTest.php)_
+
+### Accessibility Validation
+
+- [ ] accessibility: every `<img>` in admin pages has a non-empty alt attribute (or alt="" if decorative) — flag any with missing/whitespace alt _(ref: tests/Browser/AdminContentEditTest.php)_
+- [ ] accessibility: heading hierarchy on /admin/post-module-settings + /admin/products-module-settings is h1 → h2 → h3 with no skipped levels _(ref: Modules/Content/Filament/ContentModuleSettings.php)_
+- [ ] accessibility: heading hierarchy on every public Big2 layouts skin matches the design language doc — exactly one h1 per page _(ref: Templates/Big2/resources/views/modules/layouts/templates)_
+- [ ] accessibility: keyboard tab order in the live-edit toolbar progresses left-to-right (ADD → undo → redo → Home dropdown → resolution switch → 3-dot → VIEW → SAVE → menu hamburger), no traps _(ref: packages/frontend-assets/resources/assets/ui/components/Toolbar/Toolbar.vue)_
+- [ ] accessibility: focus rings visible on every Filament input + button at 2px outline + 4.5:1 contrast in both light and dark mode _(ref: packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss)_
+- [ ] accessibility: icon-only buttons (3-dot menu actions, Edit/Delete in tables, Add menu item, drag handles in menu list) all have aria-label or visible text _(ref: Modules/Menu/resources/views/livewire/admin/menu-list-item.blade.php)_
+- [ ] accessibility: color contrast in dark mode on .fi-section-header-heading, .mw-menu-item__title, .form-control-live-edit-input — all at least 4.5:1 against their backgrounds _(ref: packages/microweber-filament-theme/resources/assets/css/microweber-theme-v3.scss)_
+
+### Documentation
+
+- [ ] improve: capture screenshots of every Filament module-settings page (light + dark) and stash them under `docs/screenshots/` for the design-language reference _(ref: docs/)_
+- [ ] verify: TODO.md reflects all findings from the UITEST batch above — for each `[ ]` task, when executed, either mark `[x]` with date or convert to a concrete `fix:` / `improve:` task _(ref: TODO.md)_
 ## MSET — Per-module Filament settings smoke coverage
 
 > **Goal:** every module that ships `Modules/<X>/Filament/*ModuleSettings.php`
