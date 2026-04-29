@@ -137,3 +137,36 @@
     text-overflow: ellipsis;
     @apply font-semibold text-gray-600 dark:text-white ps-0 block overflow-hidden box-border uppercase mb-2;
 }
+
+/*
+ * The compact form-control-live-edit-input styling above (text:11px,
+ * min-h:20px) is intended for the live-edit element-style-editor
+ * sidebar where space is at a premium. When the same control is
+ * rendered inside a Filament form (e.g. the parent-page tree search
+ * inside the "Add New Post" slide-over) the compact size looks like a
+ * shrunken accidental input next to the surrounding 40px tall Filament
+ * fields — task-2026-04-29-01c286.
+ *
+ * Bump the size + spacing whenever the wrapper is inside a Filament
+ * form/section so the page-picker search reads as a proper input.
+ */
+.fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input {
+    @apply !text-sm !leading-5 !min-h-[40px] !px-3 !py-2 !border-gray-200;
+    border-width: 1px !important;
+}
+.fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus {
+    @apply !border-blue-500;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+.dark .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input {
+    @apply !border-gray-600;
+}

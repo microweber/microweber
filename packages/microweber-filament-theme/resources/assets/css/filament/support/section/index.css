@@ -2,8 +2,16 @@
     @apply rounded-md ring-0;
 }
 
+/*
+ * Filament's default section header is `p-6` (24px top/right/bottom/left).
+ * Our previous override zeroed only `pb-0`, leaving the heading visually
+ * pinned to the top with a large gap below — the user complaint in
+ * task-2026-04-29-6a5cab. Use balanced vertical padding (16px top + 16px
+ * bottom) so the heading row sits centred between its top edge and the
+ * first content row, regardless of whether the section has a description.
+ */
 .fi-section:not(.fi-aside) > .fi-section-header {
-    @apply pb-0;
+    @apply py-4;
 }
 
 

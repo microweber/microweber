@@ -217,6 +217,16 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
             });
             dialog = mw.top().dialog({
                 id: 'mw-file-picker-dialog',
+                // Re-use the link-picker modal's class so the file
+                // picker (the "Select image / file" dialog launched
+                // from inside Filament forms like Add New Post)
+                // inherits the modern centered/rounded modal chrome
+                // and the styling for the AI prompt sub-tab. Without
+                // this it falls back to the legacy mw-dialog default
+                // skin and renders pinned to the top of the iframe
+                // with unstyled Cancel/OK buttons —
+                // task-2026-04-29-359bf3.
+                className: 'mw_modal_live_edit_link_editor_settings',
                 content: picker.root,
                 title: mw.lang('Select file'),
                 footer: false,

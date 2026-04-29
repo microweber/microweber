@@ -44,6 +44,22 @@
             window.addEventListener('closeFilamentSlideOver', () => {
                 try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
             });
+
+            // The live-edit SAVE button (top-right green pill) wants
+            // to behave as a 'save everything that is visible' button.
+            // When the user opens a Filament action like 'Add New Post'
+            // / 'Add Page' / a module-settings form via $wire.mountAction,
+            // they expect SAVE to also submit that form — task-2026-04-29-dc57b7.
+            // Forward the dispatched event into Filament's
+            // callMountedAction (the same Livewire endpoint that the
+            // action's own submit button calls).
+            window.addEventListener('liveEditSaveCallMountedAction', () => {
+                try {
+                    if ($wire.mountedActions && $wire.mountedActions.length) {
+                        $wire.callMountedAction();
+                    }
+                } catch (_) { /* no action mounted, nothing to submit */ }
+            });
         }"
     >
 
