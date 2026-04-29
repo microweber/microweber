@@ -611,8 +611,31 @@ export default {
                     this.activeModuleId = module.id;
                     this.updateActiveModule();
                     mw.top().app.canvas.getWindow().mw.tools.scrollTo(module.element, undefined, 100);
-                    // Dispatch the module settings request
-                    window.mw.top().app.editor.dispatch('onModuleSettingsRequest', module.element);
+
+                    // Close any in-flight layout-settings or module-settings
+                    // panel before we open the new one. Several modules
+                    // (notably Background) reuse the very same image/
+                    // video/color form the parent Layout Settings drawer
+                    // shows, so without an explicit close + re-open the
+                    // user sees no visible difference and assumes the
+                    // click was a no-op (see task-2026-04-29-6c8e8c).
+                    // A 1-tick delay between the close-end and the new
+                    // request gives the slideOver-close transition time
+                    // to start, which is what the user perceives as
+                    // "the panel changed".
+                    try {
+                        window.mw.top().app.editor.dispatch('onModuleSettingsEnd');
+                        window.mw.top().app.editor.dispatch('onLayoutSettingsEnd');
+                    } catch (closeErr) {
+                        // Non-fatal — listeners may not exist.
+                    }
+
+                    // Dispatch the module settings request — wrap in a
+                    // microtask so any close-driven DOM updates above
+                    // commit first.
+                    setTimeout(() => {
+                        window.mw.top().app.editor.dispatch('onModuleSettingsRequest', module.element);
+                    }, 50);
                 }  else {
                     console.warn('Module settings method not available');
                 }
