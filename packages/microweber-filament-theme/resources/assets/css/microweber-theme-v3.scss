@@ -5470,6 +5470,63 @@ html.dark {
   border: 1px solid $mw-border-color;
   border-radius: $mw-radius-lg $mw-radius-lg 0 0;
   padding: 0.875rem 1.25rem;
+
+  /*
+   * Toolbar inner row — fix the cramped 'Add menu item' button that
+   * was wrapping its label across three lines because the inline
+   * action wrapper had no min-width and got squeezed to ~70px on the
+   * 360px-wide live-edit module-settings panel (task-2026-04-29-0b82d9).
+   * Force the right-side action wrapper to stay on one line, give the
+   * .fi-btn inside it an explicit `white-space: nowrap`, and let the
+   * title/description block flex-grow + min-width:0 so it truncates
+   * gracefully instead of pushing the button off-screen.
+   */
+  > .flex {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+
+    > div:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    > div:last-child {
+      flex: 0 0 auto;
+    }
+  }
+
+  .fi-btn {
+    white-space: nowrap !important;
+  }
+
+  /*
+   * Three-dot ActionGroup trigger next to the menu dropdown — was
+   * rendering as a bare ellipsis-vertical icon with no chrome
+   * (task-2026-04-29-a49ac8). Give the trigger a square 32×32 hit
+   * target with subtle hover background so it reads as an actionable
+   * button instead of static decoration. ActionGroup with size=Small
+   * + color=gray emits .fi-btn.fi-color-gray; scope our additions to
+   * the menu-editor selector area so we don't restyle every gray
+   * button on the page.
+   */
+}
+
+.mw-menu-editor__selector .fi-btn.fi-color-gray {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  border: 1px solid $mw-border-subtle !important;
+  border-radius: $mw-radius-sm !important;
+  background: $mw-bg-surface !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  &:hover {
+    background: $mw-bg-page !important;
+    border-color: $mw-border-color !important;
+  }
 }
 
 .mw-menu-editor__tree {
