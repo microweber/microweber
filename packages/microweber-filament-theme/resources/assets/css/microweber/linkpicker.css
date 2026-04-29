@@ -104,21 +104,27 @@
 
 /* ===== Right Content Area (Controller Root) ===== */
 /*
- * Use a flex column so the title sits at the top, the inner content
- * area takes the remaining vertical space (and is the only thing that
- * scrolls), and the footer (Cancel / OK) is pinned to the bottom of
- * the controller root. Without this the long page tree on the Pages
- * tab pushes the OK button off-screen — see task-2026-04-29-0febcc.
+ * The base widgets.css declares `.mw-ui-form-controller-root` as
+ * `display:none` by default and `display:block` only when `.active`.
+ * Keep the inactive ones hidden — task-2026-04-29-d9161b: an earlier
+ * pass made the rule unconditional which caused ALL tabs (URL / Pages
+ * / All content / File / Email / Page section) to render side-by-side
+ * at once, like a horizontal sheet of accordions instead of a tabbed
+ * picker. Only apply the flex-column layout to the *active* root so
+ * the user-visible tab can use the long-page-tree-friendly flex
+ * stacking from task-2026-04-29-0febcc, while the others stay hidden.
  */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
-    @apply flex-1 flex flex-col;
     background-color: white;
     padding: 24px 28px !important;
-    max-height: 100%;
-    min-height: 0;
 }
 .dark .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
     background-color: oklch(0.205 0 0); /* gray-900 */
+}
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root.active {
+    @apply flex-1 flex flex-col;
+    max-height: 100%;
+    min-height: 0;
 }
 
 /* Controller title (URL, Pages, etc.) */
