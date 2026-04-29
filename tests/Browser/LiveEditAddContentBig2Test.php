@@ -73,7 +73,7 @@ class LiveEditAddContentBig2Test extends DuskTestCase
      * each Content row landed.
      */
     #[Test]
-    public function add_page_post_via_live_edit_persists_on_big2(): void
+    public function add_page_post_product_via_live_edit_persists_on_big2(): void
     {
         $this->ensureAdminUser();
         $this->ensureBig2Active();
@@ -104,13 +104,15 @@ class LiveEditAddContentBig2Test extends DuskTestCase
             );
             $this->assertSame(1, $hasWire[0] ?? 0, 'Livewire is not present on the live-edit page');
 
-            // Page + post are the two surfaces that broke in the
-            // task-ba63de chain. Product needs extra fields (price,
-            // category, etc.) and warrants its own focused test —
-            // outside the scope of this regression guard.
+            // All three creatable content types — page, post, product.
+            // Product was previously skipped for "needing extra fields"
+            // — task-2026-04-29-1a3e1f explicitly asked to revisit
+            // that. The price field is required, so driveCreateAction
+            // fills it for the product case.
             $cases = [
                 ['action' => 'addPageAction', 'type' => 'page'],
                 ['action' => 'addPostAction', 'type' => 'post'],
+                ['action' => 'addProductAction', 'type' => 'product'],
             ];
 
             foreach ($cases as $case) {
@@ -126,7 +128,7 @@ class LiveEditAddContentBig2Test extends DuskTestCase
 
         // driveCreateAction() asserts the DB row per-case, so reaching
         // here means all types persisted. Track them for cleanup.
-        foreach (['page', 'post'] as $type) {
+        foreach (['page', 'post', 'product'] as $type) {
             $title = $this->titleFor($type);
             $row = Content::where('title', $title)
                 ->where('content_type', $type)
@@ -183,10 +185,17 @@ class LiveEditAddContentBig2Test extends DuskTestCase
             return ($found[0] ?? 0) === 1;
         });
 
+        // Product also requires a `price` field — see ContentResource
+        // pricingSection (Forms\Components\TextInput::make('price')
+        // ->required() at line 322). Pass a fixed value for products,
+        // null/empty for other types.
+        $price = $contentType === 'product' ? '19.99' : '';
+
         $filled = $browser->script(
             "
             var title = " . json_encode($title) . ";
             var slug = " . json_encode($slug) . ";
+            var price = " . json_encode($price) . ";
 
             var form = Array.from(document.querySelectorAll('form'))
                 .find(f => f.getAttribute('wire:submit.prevent') === 'callMountedAction'
@@ -202,19 +211,10 @@ class LiveEditAddContentBig2Test extends DuskTestCase
                 return true;
             };
 
-            // Filament v5 emits TextInputs with wire:model attribute
-            // values that vary by context — pageless action forms use
-            // 'mountedActions.0.data.title', module settings use
-            // 'data.title', etc. Walk every input + textarea inside
-            // the form and match on the attribute *suffix* instead of
-            // hard-coding any one shape.
-            var titleInput = null, urlInput = null;
+            var titleInput = null, urlInput = null, priceInput = null;
             var fields = form.querySelectorAll('input, textarea');
             for (var i = 0; i < fields.length; i++) {
                 var el = fields[i];
-                // Read wire:model / wire:model.live / wire:model.blur
-                // by iterating attributes — the dotted-name escaping
-                // in querySelector is too brittle.
                 var attrs = el.attributes;
                 for (var j = 0; j < attrs.length; j++) {
                     var a = attrs[j];
@@ -222,12 +222,16 @@ class LiveEditAddContentBig2Test extends DuskTestCase
                     var v = a.value || '';
                     if (!titleInput && /(^|\\.)title\$/.test(v)) titleInput = el;
                     if (!urlInput && /(^|\\.)url\$/.test(v)) urlInput = el;
+                    if (!priceInput && /(^|\\.)price\$/.test(v)) priceInput = el;
                 }
                 if (!titleInput && el.getAttribute('name') && /(^|\\.)title\$/.test(el.getAttribute('name'))) {
                     titleInput = el;
                 }
                 if (!urlInput && el.getAttribute('name') && /(^|\\.)url\$/.test(el.getAttribute('name'))) {
                     urlInput = el;
+                }
+                if (!priceInput && el.getAttribute('name') && /(^|\\.)price\$/.test(el.getAttribute('name'))) {
+                    priceInput = el;
                 }
             }
 
@@ -257,6 +261,7 @@ class LiveEditAddContentBig2Test extends DuskTestCase
             }
 
             if (urlInput) setVal(urlInput, slug);
+            if (price && priceInput) setVal(priceInput, price);
             return 'OK';
         "
         );
