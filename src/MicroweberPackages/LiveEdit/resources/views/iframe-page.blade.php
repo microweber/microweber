@@ -73,13 +73,32 @@
                     // awkward to embed inside this Blade-rendered
                     // x-init string, so just iterate and match the
                     // attribute value at runtime.
+                    // Filament v5 uses *different* wire:submit handler
+                    // names depending on where the action lives:
+                    //   - 'callMountedAction'         — page-level/Livewire actions
+                    //                                   (AdminLiveEditPage Add Page/Post/etc.)
+                    //   - 'callMountedTableAction'    — table header/row actions
+                    //                                   (ContentTableList 'New post' inside
+                    //                                    the Edit Posts module settings —
+                    //                                    task-2026-04-29-005626)
+                    //   - 'callMountedTableBulkAction'— table bulk actions
+                    //   - 'callMountedFormComponentAction' — form-component
+                    //                                   actions (Repeater rows etc.)
+                    // Match any of them so the live-edit SAVE button
+                    // covers every action surface, not just page-level.
+                    const acceptedSubmitNames = [
+                        'callMountedAction',
+                        'callMountedTableAction',
+                        'callMountedTableBulkAction',
+                        'callMountedFormComponentAction',
+                    ];
                     document.querySelectorAll('form').forEach((f) => {
                         // Livewire normalises wire:submit.prevent →
                         // wire:submit at render time in some versions,
                         // so check both attribute names.
                         const submitAttr = f.getAttribute('wire:submit.prevent')
                             || f.getAttribute('wire:submit');
-                        if (submitAttr !== 'callMountedAction') {
+                        if (!acceptedSubmitNames.includes(submitAttr)) {
                             return;
                         }
                         if (typeof f.requestSubmit === 'function') {
