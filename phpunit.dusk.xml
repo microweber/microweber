@@ -104,6 +104,17 @@
         </testsuite>
 
         <!--
+            Full Big2 user-flow test (task-2026-04-29-90fb13). Inline
+            edits a heading + paragraph in the canvas iframe, saves,
+            reloads and verifies round-trip, adds a post via the
+            toolbar action, then visits the public Big2 page and
+            asserts all three changes rendered.
+        -->
+        <testsuite name="Big2UserFlowFullPage">
+            <file>tests/Browser/Big2UserFlowFullPageTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
