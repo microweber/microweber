@@ -6,19 +6,41 @@
 }
 
 /* Dialog holder — the outer frame */
+/*
+ * max-height caps the dialog at 90vh so the flex-column inside the
+ * controller root has a known parent size to flex against. Without a
+ * cap the dialog grows with its content and the OK/Cancel footer
+ * falls below the viewport (task-2026-04-29-0febcc).
+ */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-holder {
     @apply !rounded-xl overflow-hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Dialog container — remove default padding */
+/* Dialog container — remove default padding; absorb remaining vertical
+   space so the flex chain (container → link-editor-root →
+   form-controller-root → footer) has a height to flex against. */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-container {
     @apply !p-0;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
 }
 
-/* Root layout — flex row: nav left, content right */
+/* Root layout — flex row: nav left, content right.
+ * Explicit height + min-height:0 so the form-controller-root child
+ * can flex-1 against a known parent size. Without this the flex
+ * column inside the controller root has no constraint to shrink
+ * against, the inner scroll region grows to fit all content, and
+ * the footer falls below the modal viewport (task-2026-04-29-0febcc).
+ */
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-root {
     @apply flex w-full;
+    height: 100%;
+    min-height: 0;
 }
 
 /* ===== Close Button (X) ===== */
@@ -81,10 +103,19 @@
 }
 
 /* ===== Right Content Area (Controller Root) ===== */
+/*
+ * Use a flex column so the title sits at the top, the inner content
+ * area takes the remaining vertical space (and is the only thing that
+ * scrolls), and the footer (Cancel / OK) is pinned to the bottom of
+ * the controller root. Without this the long page tree on the Pages
+ * tab pushes the OK button off-screen — see task-2026-04-29-0febcc.
+ */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
-    @apply flex-1;
+    @apply flex-1 flex flex-col;
     background-color: white;
     padding: 24px 28px !important;
+    max-height: 100%;
+    min-height: 0;
 }
 .dark .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
     background-color: oklch(0.205 0 0); /* gray-900 */
@@ -93,11 +124,17 @@
 /* Controller title (URL, Pages, etc.) */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > .form-label {
     @apply text-base font-semibold text-gray-900 dark:text-white mb-4 block;
+    flex-shrink: 0;
 }
 
-/* Inner content area — scrollable */
+/* Inner content area — flex-1 so it absorbs the remaining vertical
+   space; overflow-auto so just THIS region scrolls, not the modal
+   body. min-height:0 is required for the flex child to actually
+   shrink below its intrinsic content height. */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div:first-of-type {
-    max-height: calc(100vh - 280px);
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
     @apply pt-0 overflow-auto;
 }
 
@@ -164,12 +201,23 @@
 }
 
 /* ===== Footer (Cancel / OK buttons) ===== */
+/*
+ * flex-shrink:0 so the footer keeps its natural height (always
+ * visible at the bottom of the flex-column controller root).
+ * Opaque background so the scrolling content above doesn't bleed
+ * through the border.
+ */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer {
     @apply !border-t border-gray-200 dark:border-gray-700 !border-solid;
     @apply flex justify-end gap-3;
     padding: 16px 0 4px !important;
     margin-top: 16px !important;
-    background-color: transparent !important;
+    flex-shrink: 0;
+    position: relative;
+    background-color: white !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer {
+    background-color: oklch(0.205 0 0) !important; /* gray-900 */
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
@@ -226,25 +274,84 @@
     border-color: oklch(0.371 0 0); /* gray-700 */
 }
 
+/* TomSelect dropdown (the "Search for content" autocomplete on the
+ * "All content" tab). The default ts-dropdown z-index is 1000, which
+ * sits below the link-picker modal's sticky footer (z-index 2 in the
+ * modal scope but the modal itself can render at much higher z-index).
+ * Bump to a value that comfortably clears the modal footer + any
+ * other widget chrome — task-2026-04-29-abdfe8. Also enforce opaque
+ * background and a sane min-width so the rendered options are
+ * actually readable. */
+.mw_modal_live_edit_link_editor_settings .ts-dropdown {
+    z-index: 100000 !important;
+    background-color: white !important;
+    border-color: oklch(0.928 0 0) !important;
+    @apply rounded-lg shadow-lg overflow-hidden;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-dropdown {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important; /* gray-600 */
+}
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item.active,
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item:hover {
+    background-color: oklch(0.967 0 0); /* gray-100 */
+    @apply text-gray-900;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item.active,
+.dark .mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item:hover {
+    background-color: oklch(0.371 0 0); /* gray-700 */
+    @apply text-white;
+}
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control,
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control input {
+    background-color: transparent !important;
+}
+
 .mw_modal_live_edit_link_editor_settings .mw-autocomplete-list li a {
     @apply block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700;
     @apply transition-colors duration-100;
 }
 
-/* ===== File Upload Area ===== */
-.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder {
+/* ===== File Upload Area =====
+ * Only style as a dashed dropzone when the holder actually contains a
+ * file <input type="file"> uploader. Without :has() narrowing, the
+ * dropzone styling also painted itself behind the AI "Enter prompt"
+ * tab — squashing the prompt/aspect/width/height fields inside a
+ * heavily-padded dashed box (task-2026-04-29-d7f690).
+ */
+.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:has(input.mw-uploader-input) {
     @apply w-full flex flex-col items-center gap-4 rounded-xl p-12;
     @apply border-2 border-dashed border-gray-300;
     background-color: oklch(0.985 0 0 / 0.5); /* gray-50/50 */
     @apply transition-colors duration-150;
 }
-.dark .mw_modal_live_edit_link_editor_settings .mw-ui-field-holder {
+.dark .mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:has(input.mw-uploader-input) {
     border-color: oklch(0.371 0 0); /* gray-600 */
     background-color: oklch(0.269 0 0 / 0.5); /* gray-800/50 */
 }
 
-.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:hover {
+.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder:has(input.mw-uploader-input):hover {
     @apply border-blue-400 dark:border-blue-500 bg-blue-50/30 dark:bg-blue-900/10;
+}
+
+/* AI "Enter prompt" tab — the inner card already has its own white/gray
+ * card styling from filepicker.js (max-w-sm + p-6 + border + rounded-lg).
+ * Make the wrapping label-wrapper transparent so the card sits cleanly
+ * in the modal without inheriting any input chrome from the parent. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai {
+    @apply w-full max-w-2xl mx-auto;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child {
+    @apply w-full;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 0 12px !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 .form-control-live-edit-label-wrapper {
+    width: auto !important;
+    flex: 1 1 0;
 }
 
 /* File picker navigation header tabs */
