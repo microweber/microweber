@@ -720,8 +720,21 @@ class ModulesApiLiveEdit extends Controller
     }
 
     /**
-     * Render a layout module skin as a standalone preview page.
-     * Used for layout thumbnails when no screenshot image exists.
+     * Render a layout preview as a standalone page. Two modes:
+     *
+     *   1. Layout-module skin (e.g. `jumbotron/skin-1`) — the
+     *      original behaviour used for the layouts-module catalog.
+     *      Renders the layouts module with that skin via
+     *      load_module('layouts', ['template' => $template]).
+     *
+     *   2. Site-template layout file (e.g. `index.blade.php`,
+     *      `home.blade.php`) — used by the admin Website
+     *      Template page when an operator picks a template + a
+     *      layout file in the dropdowns. Renders the entire page
+     *      structure of that template's layout file (so the
+     *      operator sees a real-looking preview of what the site
+     *      will look like). Detected by the `.blade.php` /
+     *      `.blade` / `.php` suffix.
      */
     public function layoutPreview(Request $request)
     {
@@ -732,6 +745,17 @@ class ModulesApiLiveEdit extends Controller
 
         // Decode module name (e.g., ecommerce__skin-1 → ecommerce/skin-1)
         $template = module_name_decode($template);
+
+        // Mode 2: site-template layout file. Render the actual
+        // template layout file (index.blade.php / home.blade.php /
+        // etc.) from the requested or active template directory.
+        // This is what the admin Website Template page hits — the
+        // legacy mode-1 path returns an empty .clean-container
+        // wrapper for these inputs because the layouts-module has
+        // no skin named after a layout-file name.
+        if (preg_match('/\.(blade\.php|blade|php)$/i', $template)) {
+            return $this->renderSiteTemplateLayoutFilePreview($request, $template);
+        }
 
         // Security: only allow layout module templates
         if (!is_module('layouts')) {
@@ -799,6 +823,133 @@ class ModulesApiLiveEdit extends Controller
             ' . $moduleHtml . '
 
         </div>
+    </div>
+    <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
+    ' . meta_tags_footer() . '
+</body>
+</html>';
+
+            return response($html)->header('Content-Type', 'text/html')->setEtag(md5($html));
+        } finally {
+            if ($switchedTemplate) {
+                $templateAdapter->templateFolderName = $originalTemplate;
+            }
+        }
+    }
+
+    /**
+     * Render a *site-template layout file* (index.blade.php /
+     * home.blade.php / etc.) as a standalone preview. Used by the
+     * admin Website Template page when the operator picks a
+     * template + a layout file in the dropdowns. We render the
+     * actual `Templates/<Name>/resources/views/<layoutFile>` —
+     * temporarily swapping the template-adapter's
+     * `templateFolderName` so module shortcodes inside the layout
+     * file resolve from the operator's *selected* template, not
+     * from `current_template` (which is the site's *currently
+     * active* template, generally different from what the operator
+     * is previewing in the dropdown).
+     */
+    protected function renderSiteTemplateLayoutFilePreview(Request $request, string $layoutFile): \Symfony\Component\HttpFoundation\Response
+    {
+        // Sanitise the layout-file name. Strip any directory traversal
+        // or absolute-path attempts; the operator should only be able
+        // to preview files that live directly under the template's
+        // views directory, never `../../etc/passwd` or similar.
+        $layoutFile = trim(str_replace(['..', "\0"], '', $layoutFile));
+        if ($layoutFile === '' || str_contains($layoutFile, '/')) {
+            return response('Invalid layout file', 400);
+        }
+
+        $requestedTemplate = $request->get('active_site_template');
+        $templateAdapter = app()->template_manager->templateAdapter;
+        $originalTemplate = $templateAdapter->getTemplateFolderName();
+
+        // Resolve the template folder name. Prefer the explicit
+        // `active_site_template` query-arg (sent by the dropdown's
+        // afterStateUpdated hook); fall back to the currently-active
+        // template if the operator hasn't picked one yet.
+        $candidateTemplate = $requestedTemplate ?: $originalTemplate;
+        if (!$candidateTemplate) {
+            return response('Could not resolve template name', 400);
+        }
+        $templateRoot = templates_dir() . $candidateTemplate . DS;
+        if (!is_dir(normalize_path($templateRoot, true))) {
+            return response('Template not found: ' . htmlspecialchars($candidateTemplate), 404);
+        }
+
+        // Verify the layout file actually exists in the views/ dir
+        // before we try to render it. Microweber's template parser
+        // walks the views/ subtree first, then the template root, so
+        // we accept the same two locations. Note: do NOT call
+        // normalize_path() on a file path — the helper unconditionally
+        // appends a trailing slash, which makes is_file() fail.
+        $viewsRoot = $templateRoot . 'resources/views/';
+        $layoutFilePath = null;
+        foreach ([$viewsRoot . $layoutFile, $templateRoot . $layoutFile] as $candidate) {
+            if (is_file($candidate)) {
+                $layoutFilePath = $candidate;
+                break;
+            }
+        }
+        if (!$layoutFilePath) {
+            return response('Layout file not found in template', 404);
+        }
+
+        // Swap the template adapter to the requested template so
+        // <module type="…"/> shortcodes inside the layout render
+        // from the *previewed* template's modules/, not the
+        // currently-active site template's.
+        $switchedTemplate = false;
+        if ($candidateTemplate !== $originalTemplate) {
+            $templateAdapter->templateFolderName = $candidateTemplate;
+            $switchedTemplate = true;
+        }
+
+        try {
+            // Render the layout file. Two-pass:
+            //   1. Laravel Blade compile so @extends / @section /
+            //      @yield / {{ … }} resolve into static HTML.
+            //   2. Microweber parser pass so any remaining <module/>
+            //      shortcodes (and template-side <module/> tags) get
+            //      replaced with their rendered HTML.
+            // The view name follows the package convention
+            // `templates.<lowercased-template-folder>::<file-without-extension>`.
+            $bladeName = preg_replace('/\.(blade\.php|blade|php)$/i', '', $layoutFile);
+            $packagedView = 'templates.' . strtolower($candidateTemplate) . '::' . $bladeName;
+            try {
+                $rawHtml = view($packagedView)->render();
+            } catch (\Throwable $viewError) {
+                // Fallback: render the raw file via the global Blade
+                // compiler. Useful for templates that don't ship a
+                // package-namespaced view alias.
+                $rawHtml = view()->file($layoutFilePath)->render();
+            }
+            $renderedHtml = app()->parser->process($rawHtml);
+
+            // Build a standalone HTML wrapper with the template's
+            // own CSS/JS so the preview looks like the live site.
+            $templateUrlLower = strtolower($candidateTemplate);
+            $templateAssetBase = 'templates/' . $templateUrlLower . '/';
+            $html = '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="' . site_url('vendor/microweber-packages/frontend-assets/build/default.css') . '">
+    <link rel="stylesheet" href="' . asset($templateAssetBase . 'dist/build/app.css') . '">
+    ' . meta_tags_head() . '
+    <style>
+        body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
+        .layout-preview-wrapper { pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div class="layout-preview-wrapper">
+        ' . $renderedHtml . '
     </div>
     <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
     ' . meta_tags_footer() . '

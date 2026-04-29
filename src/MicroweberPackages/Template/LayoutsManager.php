@@ -436,8 +436,21 @@ class LayoutsManager
                             }
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
+                            // Build the preview URL with BOTH the layout file
+                            // (so the controller knows *what* to render) and
+                            // the active_site_template (so the controller
+                            // knows *which template* to render it from).
+                            // Without active_site_template the preview
+                            // controller falls back to the currently-active
+                            // site template instead of the one the operator
+                            // selected in the dropdown — which is why the
+                            // preview iframe used to show an empty white
+                            // section instead of the chosen template's
+                            // home / index page.
                             $encodedTemplate = module_name_encode($layout_file_preview);
-                            $to_return_temp['layout_file_preview_url'] = route('api.module.layout-preview') . '?template=' . $encodedTemplate;
+                            $to_return_temp['layout_file_preview_url'] = route('api.module.layout-preview')
+                                . '?template=' . $encodedTemplate
+                                . '&active_site_template=' . rawurlencode($the_active_site_template);
 
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
