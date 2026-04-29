@@ -62,9 +62,17 @@
             // with the up-to-date form payload.
             window.addEventListener('liveEditSaveCallMountedAction', () => {
                 try {
-                    if (!$wire.mountedActions || !$wire.mountedActions.length) {
-                        return;
-                    }
+                    // Don't gate on $wire.mountedActions.length here —
+                    // $wire is the AdminLiveEditPage wire, but table
+                    // actions (e.g. ContentTableList 'New post' inside
+                    // the Edit Posts module settings) are mounted on
+                    // the *child* Livewire component, not the parent.
+                    // Gating on the parent's mountedActions would cause
+                    // table-action submits to be skipped silently —
+                    // exactly the bug from task-2026-04-29-a4bd4f. Let
+                    // the form-attribute scan below be authoritative:
+                    // if no form has the right wire:submit handler,
+                    // .forEach is a no-op anyway.
 
                     // Filament renders the mounted action modal under
                     // a <form wire:submit.prevent='callMountedAction'>
