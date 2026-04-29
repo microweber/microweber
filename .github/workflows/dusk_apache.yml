@@ -49,6 +49,12 @@ jobs:
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
+      # Match version against the runner's installed Chrome — without
+      # this every Dusk test fails with "Invalid path to Chromedriver"
+      # because the cached vendor/ directory doesn't include the
+      # platform-specific binary. Mirrors the fix in dusk.yml.
+      - name: Install Chromedriver
+        run: php artisan dusk:chrome-driver --detect
       # Phase-9 discrete-check: run the palette group first so a color
       # regression shows up as a separate red step (not buried inside the
       # 250+ test Browser suite). `--group=color-palettes` targets every

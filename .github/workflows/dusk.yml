@@ -76,6 +76,17 @@ jobs:
         #run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
        # run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
         run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
+      # The vendor cache hit on previous runs leaves
+      # vendor/laravel/dusk/bin empty (the Chromedriver binaries are
+      # downloaded by composer post-install scripts but the cache only
+      # captures vendor itself, not the binaries). Run the official
+      # Dusk Chromedriver downloader before the first Dusk step —
+      # `--detect` matches the runner's installed Chrome version.
+      # Without this, every Dusk test fails with "Invalid path to
+      # Chromedriver [...vendor/laravel/dusk/bin/chromedriver-linux]"
+      # before running its first assertion (run #25107280851).
+      - name: Install Chromedriver
+        run: php artisan dusk:chrome-driver --detect
       # Phase-9 discrete-check: run the palette group first so a color
       # regression shows up as a separate red step (not buried inside the
       # 250+ test Browser suite). `--group=color-palettes` targets every

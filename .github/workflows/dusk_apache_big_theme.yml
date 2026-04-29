@@ -55,6 +55,11 @@ jobs:
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
+      # Cached vendor/ doesn't include the platform-specific
+      # chromedriver binary — install it ahead of time so the Dusk
+      # test step doesn't 100% fail with "Invalid path to Chromedriver".
+      - name: Install Chromedriver
+        run: php artisan dusk:chrome-driver --detect
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
