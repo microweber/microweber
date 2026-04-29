@@ -91,6 +91,19 @@
         </testsuite>
 
         <!--
+            Live-edit module-settings slideOver iframe coverage —
+            task-2026-04-29-4f5e4c. Drives Add+Edit posts through the
+            actual /admin/live-edit slideOver wrapper (using Dusk's
+            withinFrame to switch into the embedded iframe), then
+            verifies both DB persistence AND public posts-module
+            render. Different from PostModuleAdminAndPublicRender
+            which visits the iframe target URL directly.
+        -->
+        <testsuite name="LiveEditPostModuleSettingsAddEdit">
+            <file>tests/Browser/LiveEditPostModuleSettingsAddEditTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
