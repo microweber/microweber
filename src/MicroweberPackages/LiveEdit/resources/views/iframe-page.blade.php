@@ -4,13 +4,31 @@
     <div
         x-data="{}"
         x-init="() => {
+            // Helper: unmount any currently-mounted Filament action
+            // before mounting a new one. Without this, clicking a
+            // sub-module button while the Layout Settings slideOver
+            // is already open stacks the new modal on top — the user
+            // sees both panels at once and the click feels broken
+            // (see task-2026-04-29-ee7a19). Filament doesn't
+            // hot-replace actions, so we explicitly unmount + remount.
+            const swapAction = (name, args = {}) => {
+                try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
+                // 60 ms gives Filament time to finish the slideOver-
+                // close transition before the new mountAction fires —
+                // empirically below this the close + open compose into
+                // a single render frame and the user perceives no panel
+                // change at all.
+                setTimeout(() => {
+                    $wire.mountAction(name, args);
+                }, 60);
+            };
+
             window.addEventListener('openAddContentAction', () => {
-                 $wire.mountAction('addContentAction', {})
+                swapAction('addContentAction', {});
             });
 
             window.addEventListener('openModuleSettingsAction', (e) => {
-
-                 $wire.mountAction('openModuleSettingsAction', {data:e.detail})
+                swapAction('openModuleSettingsAction', { data: e.detail });
             });
         }"
     >
