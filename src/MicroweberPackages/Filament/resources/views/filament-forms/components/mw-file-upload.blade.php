@@ -35,8 +35,14 @@
         x-effect="() => {
              if (state && state.length > 0) {
                   let getFileExtension = state.split('.').pop();
-                  getFileExtension = getFileExtension.toLowerCase();
-             if (getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
+                  // The state value may include a query string from the
+                  // file-picker (e.g. .../big-logo-1.svg?t=12345). Strip
+                  // anything after the first ? before extension match,
+                  // otherwise an .svg?... URL falls through every branch
+                  // and renders as a generic file (overlay-on-text-input
+                  // mess from task-2026-04-29-ebe26c).
+                  getFileExtension = getFileExtension.split('?')[0].toLowerCase();
+             if (getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif' || getFileExtension == 'svg' || getFileExtension == 'avif' || getFileExtension == 'bmp' || getFileExtension == 'ico') {
                 typeFile = 'image';
             } else if (getFileExtension == 'mp4' || getFileExtension == 'mov' || getFileExtension == 'avi' || getFileExtension == 'm4v' || getFileExtension == 'mkv') {
                 typeFile = 'video';
@@ -131,23 +137,30 @@
 
 
             <div class="w-full" x-show="state && typeFile !== 'image' && typeFile !== 'video' && typeFile !== 'audio'">
-                <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
-                    <div
-                        class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5">
-                        <div class="flex gap-2 items-center">
-                            <button type="button" class="text-white bg-white/5 rounded-md" x-on:click="clearState()">
-                                <svg fill="currentColor" class="w-6" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <span x-html="fileUrlShort"></span>
-                        </div>
-                    </div>
+                {{--
+                    Generic-file fallback layout. Previously the close-button
+                    overlay was `absolute h-full top-0` painting over a
+                    same-row text input — they collided as the user reported
+                    in task-2026-04-29-ebe26c (X-button + filename text both
+                    overlapping the URL input).
 
-                    <input type="text" :value="state" class="max-h-[15rem]" />
+                    Stack instead: a normal-flow header row with the close
+                    button + filename, and a separate read-only URL input
+                    below. No more z-index collisions.
+                --}}
+                <div class="w-full relative flex flex-col gap-2 items-stretch justify-center bg-black/80 rounded-md p-3">
+                    <div class="flex gap-2 items-center text-white">
+                        <button type="button" class="text-white bg-white/10 hover:bg-white/20 rounded-md p-1" x-on:click="clearState()">
+                            <svg fill="currentColor" class="w-5" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z">
+                                </path>
+                            </svg>
+                        </button>
+                        <span class="truncate text-sm" x-text="fileUrlShort"></span>
+                    </div>
+                    <input type="text" :value="state" readonly class="w-full text-xs bg-white/10 text-white border border-white/10 rounded-md px-2 py-1" />
                 </div>
             </div>
         </div>
