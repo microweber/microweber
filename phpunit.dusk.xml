@@ -54,6 +54,19 @@
         </testsuite>
 
         <!--
+            Posts-list "add post → public render" full pipeline guard
+            for task-2026-04-29-76c7f4. Backstops the deeper nesting
+            fix from task-2026-04-29-394cd1 — drives the inner
+            ContentTableList CreateAction from inside the live-edit
+            posts module-settings slideOver, then visits the public
+            page and asserts the post title rendered with
+            data-limit=1000 paging.
+        -->
+        <testsuite name="LiveEditPostsListAddPost">
+            <file>tests/Browser/LiveEditPostsListAddPostPublicRenderTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
