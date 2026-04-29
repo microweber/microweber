@@ -100,21 +100,57 @@
                         'callMountedTableBulkAction',
                         'callMountedFormComponentAction',
                     ];
+
+                    // Collect every matching form first. When the user
+                    // is editing a Posts module's settings (Edit Posts
+                    // → New post), TWO forms exist concurrently:
+                    //   1. The OUTER form, owned by the parent
+                    //      AdminLiveEditPage wire, with submit handler
+                    //      'callMountedAction' for the
+                    //      openModuleSettingsAction.
+                    //   2. The INNER form, owned by the child
+                    //      ContentTableList wire, with submit handler
+                    //      'callMountedTableAction' for the New-post
+                    //      CreateAction.
+                    // Submitting both is wrong — the outer form's
+                    // submit re-fires openModuleSettingsAction which
+                    // re-renders the slideOver and destroys the inner
+                    // form's pending state before the row can save
+                    // (task-2026-04-29-394cd1). Always prefer the
+                    // most-specific form by handler-name precedence:
+                    // table/form-component/bulk actions are always
+                    // INNER to a generic callMountedAction wrapper, so
+                    // pick those first when present.
+                    const matched = [];
                     document.querySelectorAll('form').forEach((f) => {
-                        // Livewire normalises wire:submit.prevent →
-                        // wire:submit at render time in some versions,
-                        // so check both attribute names.
                         const submitAttr = f.getAttribute('wire:submit.prevent')
                             || f.getAttribute('wire:submit');
-                        if (!acceptedSubmitNames.includes(submitAttr)) {
-                            return;
-                        }
-                        if (typeof f.requestSubmit === 'function') {
-                            f.requestSubmit();
-                        } else {
-                            f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        if (acceptedSubmitNames.includes(submitAttr)) {
+                            matched.push({ form: f, name: submitAttr });
                         }
                     });
+
+                    if (matched.length === 0) return;
+
+                    // Precedence (highest = most-specific):
+                    //   callMountedTableBulkAction
+                    //   callMountedTableAction
+                    //   callMountedFormComponentAction
+                    //   callMountedAction
+                    const precedence = {
+                        callMountedTableBulkAction: 4,
+                        callMountedTableAction: 3,
+                        callMountedFormComponentAction: 2,
+                        callMountedAction: 1,
+                    };
+                    matched.sort((a, b) => precedence[b.name] - precedence[a.name]);
+
+                    const pick = matched[0].form;
+                    if (typeof pick.requestSubmit === 'function') {
+                        pick.requestSubmit();
+                    } else {
+                        pick.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    }
                 } catch (_) { /* no action mounted, nothing to submit */ }
             });
         }"
