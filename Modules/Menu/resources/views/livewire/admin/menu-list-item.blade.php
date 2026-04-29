@@ -26,8 +26,34 @@
         </div>
 
         {{-- Title and meta --}}
+        @php
+            // The menu item's title can be:
+            //   - a non-empty string (custom URL items),
+            //   - an empty string + content_id (page-link item — pull
+            //     the linked content's title),
+            //   - an empty string + categories_id (category-link item
+            //     — pull the linked category title),
+            //   - all empty (operator hasn't filled in the item yet).
+            $resolvedTitle = $item['title'] ?? '';
+            if ($resolvedTitle === '' || $resolvedTitle === null) {
+                if (!empty($item['content_id']) && intval($item['content_id']) > 0) {
+                    $linkedContent = \Modules\Content\Models\Content::find($item['content_id']);
+                    if ($linkedContent && !empty($linkedContent->title)) {
+                        $resolvedTitle = $linkedContent->title;
+                    }
+                } elseif (!empty($item['categories_id']) && intval($item['categories_id']) > 0) {
+                    $linkedCategory = \DB::table('categories')
+                        ->where('id', $item['categories_id'])
+                        ->first();
+                    if ($linkedCategory && !empty($linkedCategory->title)) {
+                        $resolvedTitle = $linkedCategory->title;
+                    }
+                }
+            }
+            $resolvedTitle = $resolvedTitle !== '' ? $resolvedTitle : __('Untitled menu item');
+        @endphp
         <div class="mw-menu-item__content">
-            <span class="mw-menu-item__title">{{ $item['title'] ?: '(no title)' }}</span>
+            <span class="mw-menu-item__title">{{ $resolvedTitle }}</span>
             @if(!empty($item['url']))
                 <span class="mw-menu-item__url">{{ \Illuminate\Support\Str::limit($item['url'], 50) }}</span>
             @endif
