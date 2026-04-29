@@ -41,6 +41,19 @@
         </testsuite>
 
         <!--
+            Live-edit Add Page / Post / Product regression guard for the
+            Big2 template. Backstops three chained fixes:
+              - task-2026-04-29-dc57b7 (live-edit SAVE submits open
+                Filament action),
+              - task-2026-04-29-efa1eb (Notification action namespace),
+              - task-2026-04-29-ba63de (form requestSubmit flushes
+                wire:model bindings before callMountedAction).
+        -->
+        <testsuite name="LiveEditAddContentBig2">
+            <file>tests/Browser/LiveEditAddContentBig2Test.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
