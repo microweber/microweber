@@ -56,12 +56,10 @@
             // action receives stale (empty) input values, which is
             // why the user saw 'nothing happens' on save in
             // task-2026-04-29-ba63de. Instead, find the mounted
-            // action's <form wire:submit.prevent='callMountedAction'>
-            // (rendered by x-filament-actions::modals into <body> via
-            // @teleport) and call requestSubmit() on it. Livewire
-            // intercepts the native submit event, syncs all wire:model
-            // bindings, then dispatches callMountedAction with the
-            // up-to-date form payload.
+            // action's submit form and call requestSubmit() on it.
+            // Livewire intercepts the native submit event, syncs all
+            // wire:model bindings, then dispatches callMountedAction
+            // with the up-to-date form payload.
             window.addEventListener('liveEditSaveCallMountedAction', () => {
                 try {
                     if (!$wire.mountedActions || !$wire.mountedActions.length) {
