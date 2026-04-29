@@ -126,6 +126,16 @@
         </testsuite>
 
         <!--
+            Regression guard for the live-edit menu-list rendering —
+            task-2026-04-29-95d4a6 + task-dcde6d. Asserts every menu
+            row shows a non-empty title AND has visible Edit/Delete
+            buttons (opacity:1, not opacity:0-on-hover).
+        -->
+        <testsuite name="MenuModuleListItemsRender">
+            <file>tests/Browser/MenuModuleListItemsRenderTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)

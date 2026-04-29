@@ -5652,17 +5652,20 @@ html.dark {
   text-overflow: ellipsis;
 }
 
+/*
+ * Always-visible action buttons. The earlier opacity:0-until-hover
+ * pattern hid the Edit + Delete buttons except when the cursor was
+ * over the row — which made them invisible on first paint and gave
+ * the user no affordance that the row was clickable
+ * (task-2026-04-29-95d4a6: "they didn't [show] delete icons").
+ * Keep them visible at full opacity always; the row's hover state
+ * still gives a subtle border-color change for affordance.
+ */
 .mw-menu-item__actions {
   flex-shrink: 0;
   display: flex;
   gap: 0.25rem;
   align-items: center;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.mw-menu-item__inner:hover .mw-menu-item__actions {
-  opacity: 1;
 }
 
 /* Dark mode — Menu editor */
