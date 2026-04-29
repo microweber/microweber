@@ -1265,6 +1265,35 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: rgb(31 41 55) !important;
 }
 
+/*
+ * Module quick-settings + live-edit floating "Edit X" pill icons —
+ * task-2026-04-29-991dbb. The icons (e.g. the menu module's gear-cog
+ * SVG from `Modules/Menu/resources/assets/js/menu-quick-settings.js`)
+ * are rendered with `fill="currentColor"`. In dark mode the pill's
+ * inherited color was a near-black `currentColor`, so the icons faded
+ * into the dark pill background. Force a light fill on every SVG
+ * descendant of these widget containers.
+ */
+.dark .mw-module-quick-settings-sidebar svg,
+.dark .module-quick-settings-sidebar svg,
+.dark .module-edit-button svg,
+.dark .module-settings-button svg,
+.dark .add-module-button svg,
+.dark .current-node-module-edit svg,
+.dark .current-layout-modules svg {
+    fill: #e2e8f0 !important;
+    color: #e2e8f0 !important;
+}
+.dark .mw-module-quick-settings-sidebar svg path:not([fill="none"]),
+.dark .module-quick-settings-sidebar svg path:not([fill="none"]),
+.dark .module-edit-button svg path:not([fill="none"]),
+.dark .module-settings-button svg path:not([fill="none"]),
+.dark .add-module-button svg path:not([fill="none"]),
+.dark .current-node-module-edit svg path:not([fill="none"]),
+.dark .current-layout-modules svg path:not([fill="none"]) {
+    fill: #e2e8f0 !important;
+}
+
 .dark .mw-element-spacing-editor-input,
 .dark .mw-live-edit-border-radius input {
     background-color: rgb(55 65 81);
