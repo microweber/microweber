@@ -67,6 +67,17 @@
         </testsuite>
 
         <!--
+            Comprehensive Post-module admin + public-render coverage
+            (task-2026-04-29-4ad513). Visits /admin/post-module-settings
+            directly (the URL the live-edit module-settings slideOver
+            iframes), drives Create/Edit via mountTableAction, asserts
+            persistence + public-page render with data-limit=1000.
+        -->
+        <testsuite name="PostModuleAdminAndPublicRender">
+            <file>tests/Browser/PostModuleAdminAndPublicRenderTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
