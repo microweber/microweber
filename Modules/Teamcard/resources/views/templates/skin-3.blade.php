@@ -18,11 +18,11 @@ description: Skin-3
             <div class="d-block position-relative show-on-hover-root">
                     <?php if ($member['file']) { ?>
                 <div class="img-as-background square">
-                    <img loading="lazy" src="<?php print thumbnail($member['file'], 800); ? class="img-fluid">" alt="<?php echo $member['name'] ?? __('Team member'); ?>"/>
+                    <img loading="lazy" class="img-fluid" src="<?php print thumbnail($member['file'], 800); ?>" alt="<?php echo $member['name'] ?? __('Team member'); ?>"/>
                 </div>
                 <?php } else { ?>
                 <div class="img-as-background square">
-                    <img loading="lazy" src="<?php print asset('modules/teamcard/default-content/default-image.svg'); ? class="img-fluid">" alt="<?php echo $member['name'] ?? __('Team member'); ?>"/>
+                    <img loading="lazy" class="img-fluid" src="<?php print asset('modules/teamcard/default-content/default-image.svg'); ?>" alt="<?php echo $member['name'] ?? __('Team member'); ?>"/>
                 </div>
                 <?php } ?>
 
