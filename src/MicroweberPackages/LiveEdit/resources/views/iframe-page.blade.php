@@ -50,14 +50,46 @@
             // When the user opens a Filament action like 'Add New Post'
             // / 'Add Page' / a module-settings form via $wire.mountAction,
             // they expect SAVE to also submit that form — task-2026-04-29-dc57b7.
-            // Forward the dispatched event into Filament's
-            // callMountedAction (the same Livewire endpoint that the
-            // action's own submit button calls).
+            //
+            // Don't call $wire.callMountedAction() directly — that
+            // bypasses Livewire's form-data sync and the server-side
+            // action receives stale (empty) input values, which is
+            // why the user saw 'nothing happens' on save in
+            // task-2026-04-29-ba63de. Instead, find the mounted
+            // action's <form wire:submit.prevent='callMountedAction'>
+            // (rendered by x-filament-actions::modals into <body> via
+            // @teleport) and call requestSubmit() on it. Livewire
+            // intercepts the native submit event, syncs all wire:model
+            // bindings, then dispatches callMountedAction with the
+            // up-to-date form payload.
             window.addEventListener('liveEditSaveCallMountedAction', () => {
                 try {
-                    if ($wire.mountedActions && $wire.mountedActions.length) {
-                        $wire.callMountedAction();
+                    if (!$wire.mountedActions || !$wire.mountedActions.length) {
+                        return;
                     }
+
+                    // Filament renders the mounted action modal under
+                    // a <form wire:submit.prevent='callMountedAction'>
+                    // wrapper. CSS-attribute selectors with colons +
+                    // dots in the attribute name need escaping that's
+                    // awkward to embed inside this Blade-rendered
+                    // x-init string, so just iterate and match the
+                    // attribute value at runtime.
+                    document.querySelectorAll('form').forEach((f) => {
+                        // Livewire normalises wire:submit.prevent →
+                        // wire:submit at render time in some versions,
+                        // so check both attribute names.
+                        const submitAttr = f.getAttribute('wire:submit.prevent')
+                            || f.getAttribute('wire:submit');
+                        if (submitAttr !== 'callMountedAction') {
+                            return;
+                        }
+                        if (typeof f.requestSubmit === 'function') {
+                            f.requestSubmit();
+                        } else {
+                            f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        }
+                    });
                 } catch (_) { /* no action mounted, nothing to submit */ }
             });
         }"
