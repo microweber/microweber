@@ -164,7 +164,11 @@ const AIChatFormTpl = (multiLine, placeholder, options, speech, hasChat) => {
                 ${optionsTpl}
                 </div>
                 <div class="mw-ai-chat-box-actions d-flex align-items-center gap-1">
-                    <button type="button" class="mw-ai-chat-box-action-voice" style="display: ${
+                    <button type="button" class="mw-ai-chat-box-action-voice" aria-label="${mw.lang(
+                        "Voice input"
+                    )}" title="${mw.lang(
+                        "Voice input"
+                    )}" style="display: ${
                         speech ? "" : "none"
                     }">${mw.top().app.iconService.icon("mic")}</button>
 

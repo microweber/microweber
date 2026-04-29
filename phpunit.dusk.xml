@@ -136,6 +136,15 @@
         </testsuite>
 
         <!--
+            Fail-path validation guard for live-edit Add Page/Post/Product —
+            UITEST FOLLOWUP-5. Submits each addX action with empty
+            required fields and asserts NO Content row is created.
+        -->
+        <testsuite name="LiveEditAddContentValidationFailPath">
+            <file>tests/Browser/LiveEditAddContentValidationFailPathTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
