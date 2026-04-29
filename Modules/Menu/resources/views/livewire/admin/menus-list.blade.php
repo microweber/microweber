@@ -48,10 +48,24 @@
             >
                 <div class="mw-menu-editor__tree" data-menu-id="{{ $menu->id }}">
                     @php
+                        // Capture $this (the MenusList Livewire
+                        // component) before defining the closure —
+                        // PHP closures inside Blade-compiled @php
+                        // blocks do NOT auto-bind $this from the
+                        // outer view's compile scope. Without this,
+                        // calls to $this->editAction inside the
+                        // child blade throw "Using $this when not
+                        // in object context" and silently destroy
+                        // the rendered menu item rows
+                        // (task-2026-04-29-dcde6d).
+                        $component = $this;
                         $params = array(
                           'menu_id' => $menu->id,
-                          'link' => function ($item) {
-                              return view('modules.menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
+                          'link' => function ($item) use ($component) {
+                              return view('modules.menu::livewire.admin.menu-list-item', [
+                                  'item' => $item,
+                                  'component' => $component,
+                              ])->render();
                           }
                          );
                          $menuTree = menu_tree($params);

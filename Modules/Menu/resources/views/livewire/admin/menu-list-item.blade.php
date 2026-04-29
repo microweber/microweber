@@ -60,9 +60,18 @@
         </div>
 
         {{-- Actions --}}
-        <div class="mw-menu-item__actions">
-            {{ ($this->editAction)(['id' => $item['id']]) }}
-            {{ ($this->deleteAction)(['id' => $item['id']]) }}
-        </div>
+        {{--
+            Use $component (the MenusList Livewire instance passed in
+            from menus-list.blade.php's closure) instead of $this —
+            this blade is rendered via `view(...)->render()` inside a
+            menu_tree() callback, where $this is null. See
+            task-2026-04-29-dcde6d.
+        --}}
+        @if(isset($component) && method_exists($component, 'editAction'))
+            <div class="mw-menu-item__actions">
+                {{ ($component->editAction)(['id' => $item['id']]) }}
+                {{ ($component->deleteAction)(['id' => $item['id']]) }}
+            </div>
+        @endif
     </div>
 </div>
