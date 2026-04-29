@@ -272,8 +272,26 @@
             cssEditor.saveLiveEditCss();
         }
 
+        // mw.lib.require('codemirror') above injects codemirror.js
+        // asynchronously without a callback. Calling cssEditor.init()
+        // before the script finishes parsing throws "CodeMirror is not
+        // defined" (task-2026-04-29-8db524). Poll for the global up to
+        // 10s before initialising.
         $(document).ready(function() {
-            cssEditor.init();
+            var attempts = 0;
+            var maxAttempts = 200; // 200 × 50ms = 10s
+            var waitForCodeMirror = function () {
+                if (typeof window.CodeMirror !== 'undefined') {
+                    cssEditor.init();
+                    return;
+                }
+                if (++attempts >= maxAttempts) {
+                    console.error('CodeMirror failed to load within 10s — CSS editor will not initialise.');
+                    return;
+                }
+                setTimeout(waitForCodeMirror, 50);
+            };
+            waitForCodeMirror();
         });
     </script>
 

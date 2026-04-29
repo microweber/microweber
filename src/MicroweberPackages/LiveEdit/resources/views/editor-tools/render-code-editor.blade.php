@@ -300,8 +300,27 @@
             codeEditor.formatCode();
         }
 
+        // mw.lib.require('codemirror') above injects the codemirror.js
+        // <script> tag asynchronously — there is no callback for it. If
+        // we call codeEditor.init() before the script finishes parsing,
+        // CodeMirror.fromTextArea throws "CodeMirror is not defined"
+        // (see task-2026-04-29-8db524). Poll for the global up to 10s
+        // before kicking off init.
         $(document).ready(function () {
-            codeEditor.init();
+            var attempts = 0;
+            var maxAttempts = 200; // 200 × 50ms = 10s
+            var waitForCodeMirror = function () {
+                if (typeof window.CodeMirror !== 'undefined') {
+                    codeEditor.init();
+                    return;
+                }
+                if (++attempts >= maxAttempts) {
+                    console.error('CodeMirror failed to load within 10s — code editor will not initialise.');
+                    return;
+                }
+                setTimeout(waitForCodeMirror, 50);
+            };
+            waitForCodeMirror();
         });
     </script>
 
