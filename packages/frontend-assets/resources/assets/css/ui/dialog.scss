@@ -279,5 +279,32 @@ html[dir='rtl'] {
     cursor: grab;
 }
 
+/*
+ * Confirm modal — used by `mw.confirm()` for clear-cache, delete-
+ * layout, delete-element, delete-module, save-before-leave, etc.
+ * Without these rules the inner question text + footer buttons
+ * inherit raw .btn styling and the modal looks unfinished
+ * (see task-2026-04-29-8c86bb).
+ */
+#mw_confirm_modal {
+    .mw-alert-holder.mw_confirm_modal__question {
+        padding: 1.25rem 1.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: inherit;
+    }
+    .mw-dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem 1.25rem;
+    }
+    .mw_confirm_modal__btn {
+        min-width: 88px;
+        padding: 0.45rem 1.1rem;
+        font-weight: 500;
+    }
+}
+
 
 

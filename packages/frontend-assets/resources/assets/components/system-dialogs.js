@@ -98,11 +98,16 @@ export const Confirm = function (question, callback, onCancel) {
     question = question || 'Are you sure?';
         var html = ''
             + '<div class="mw_alert">'
-            + '<div class="mw-alert-holder">' + question + '</div>'
+            + '<div class="mw-alert-holder mw_confirm_modal__question">' + question + '</div>'
             + '</div>';
 
-        var ok = mw.top().$('<span tabindex="99999" class="btn btn-primary mb-3">' + mw.msg.ok + '</span>');
-        var cancel = mw.top().$('<span class="btn btn-link ">' + mw.msg.cancel + '</span>');
+        // Both buttons get the same `.btn` baseline + sizing classes so
+        // the modal footer always looks balanced. `Cancel` was previously
+        // a `.btn btn-link` which Bootstrap renders as bare text — that
+        // produced the tiny-link appearance the operator reported on the
+        // live-edit Clear Cache modal (task-2026-04-29-8c86bb).
+        var ok = mw.top().$('<button type="button" tabindex="99999" class="btn btn-primary mw_confirm_modal__btn">' + mw.msg.ok + '</button>');
+        var cancel = mw.top().$('<button type="button" class="btn btn-secondary mw_confirm_modal__btn">' + mw.msg.cancel + '</button>');
         var modal, qresolve, promise = new Promise(resolve => {
             qresolve = resolve;
         });
