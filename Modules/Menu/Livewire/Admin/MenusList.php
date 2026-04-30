@@ -122,6 +122,7 @@ class MenusList extends Component implements HasForms, HasActions
     {
         return CreateAction::make('addMenuItemAction')
             ->createAnother(false)
+            ->slideOver()
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $schema->fill($arguments);
             })

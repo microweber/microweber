@@ -286,7 +286,11 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
 - [x] 2026-04-30  [task-2026-04-30-6d4a70] editign menu titleo nly work whe ni press enter  but i want to edit it in real time [attachment: .autodev/messages/attachments/task-2026-04-30-6d4a70/paste-1777539950438.png]
   - [x] 2026-04-30  (subtask) Switched the Title TextInput from `->live(onBlur: true)` to `->live(debounce: 300)`. Per-keystroke binding with a 300ms debounce — smooth typing UX without a network round-trip on every keypress. The rendered attribute is `wire:model.live.debounce.300=mountedActions.0.data.title`.
   - [x] 2026-04-30  (subtask) Verified via Playwright at /admin/menu-module-settings: typed "RealTime" into the Title input WITHOUT blurring or pressing Enter, immediately clicked Submit. **DB shows `menus.id=12 title='RealTime'`** — the live binding flushed during the debounce window before Submit fired, no Enter/blur required. Reverted the test value to empty after verification.
-- [ ] [task-2026-04-30-f02f0d] make the add menu item modal also to slide right nd make ir reactive [attachment: .autodev/messages/attachments/task-2026-04-30-f02f0d/paste-1777540003764.png]
+- [x] 2026-04-30  [task-2026-04-30-f02f0d] make the add menu item modal also to slide right nd make ir reactive [attachment: .autodev/messages/attachments/task-2026-04-30-f02f0d/paste-1777540003764.png]
+  - [x] 2026-04-30  (subtask) Found `addMenuItemAction()` in `Modules/Menu/Livewire/Admin/MenusList.php:121` — uses `CreateAction::make('addMenuItemAction')` with `->form(static::menuItemEditFormArray())`.
+  - [x] 2026-04-30  (subtask) Added `->slideOver()` so it opens as a right-side panel (matches the editAction + deleteAction UX from the previous tasks in this session).
+  - [x] 2026-04-30  (subtask) Title field reactivity is automatic — `addMenuItemAction()` shares the same `menuItemEditFormArray()` the editAction uses, and that already gets `->live(debounce: 300)` from task-2026-04-30-6d4a70.
+  - [x] 2026-04-30  (subtask) Verified via Playwright at /admin/menu-module-settings: clicking "Add menu item" opens a `.fi-modal-slide-over.fi-modal-open` panel from the right with heading "Create"; the Title input has `wire:model.live.debounce.300=mountedActions.0.data.title` (per-keystroke live with 300ms debounce). Both UX requirements met — slides right + reactive.
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
 ### UI Component Testing
