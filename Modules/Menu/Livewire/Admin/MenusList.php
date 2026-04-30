@@ -289,15 +289,23 @@ class MenusList extends Component implements HasForms, HasActions
             TextInput::make('title')
                 ->helperText('Set the title of the menu item.')
                 ->required()
-                // Per-keystroke live binding — user feedback in
-                // task-2026-04-30-6d4a70 specifically asked to
-                // remove the on-blur-only behaviour ("editing only
-                // works when I press enter, but I want to edit it
-                // in real time"). Livewire applies its default
-                // debounce (~150ms) so per-keystroke does NOT
-                // hammer the server on every keypress; it batches
-                // rapid input.
-                ->live(debounce: 300)
+                // No `->live()` modifier on the Title field — keep the
+                // default lazy wire:model binding so Livewire commits
+                // the typed value when the form is submitted (the
+                // submit handler always flushes dirty model bindings
+                // before dispatching the action). This avoids the
+                // race-on-Submit problem the user hit in real browsers
+                // (task-2026-04-30-dd22fc): when typing fast and
+                // clicking Submit within the debounce window, the
+                // committed value lagged behind the visible value.
+                // Lazy mode means there's nothing to debounce — Submit
+                // always sees the current input value verbatim.
+                // Trade-off: the field doesn't update sibling-field
+                // computed state (autofill, validation) on every
+                // keystroke, but the menu-item Edit form has no such
+                // sibling logic now that task-2026-04-30-48b603
+                // removed the MwLinkPicker afterStateUpdated title-
+                // overwrite branch.
                 ->hintAction(
                     TranslateFieldAction::make('title')->label('')
                 )
