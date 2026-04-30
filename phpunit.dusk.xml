@@ -145,6 +145,17 @@
         </testsuite>
 
         <!--
+            Menu-item title edit regression guard — task-2026-04-30-7da8c0.
+            Drives the full live-edit slideOver-iframe flow, types a
+            new title into the inner Edit slideOver, asserts the
+            menus.title row updates. Backstops task-b4b3bd's
+            use_custom_title gate fix.
+        -->
+        <testsuite name="LiveEditMenuTitleEdit">
+            <file>tests/Browser/LiveEditMenuTitleEditTest.php</file>
+        </testsuite>
+
+        <!--
             Phase-9 CI wiring: groups every LiveEditColorPalette*Test file
             under a single suite so `php artisan dusk` with a testsuite
             argument of LiveEditColorPalettes (or phpunit equivalent)
