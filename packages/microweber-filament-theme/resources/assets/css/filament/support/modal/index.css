@@ -22,3 +22,29 @@
 .fi-modal-footer {
     @apply z-10;
 }
+
+/*
+ * SlideOver footer — Filament's default `.fi-modal-has-sticky-footer`
+ * uses position:sticky;bottom:0 which only pins when the modal-content
+ * is scrollable. Short-content slideOvers (Delete confirmation: "Are
+ * you sure?") have no scroll context, so the footer ends up at the
+ * natural end of content height, not pinned to the panel's visible
+ * bottom. On a narrow live-edit panel this clips the Confirm/Cancel
+ * buttons off-screen — task-2026-04-30-92bd8e. Force the slideOver
+ * window into a flex column so the modal-content takes flex:1 (and
+ * scrolls if needed) and the footer always sits at the visible
+ * bottom edge of the panel.
+ */
+.fi-modal.fi-modal-slide-over .fi-modal-window {
+    display: flex;
+    flex-direction: column;
+}
+.fi-modal.fi-modal-slide-over .fi-modal-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+.fi-modal.fi-modal-slide-over .fi-modal-footer {
+    flex-shrink: 0;
+    background: inherit;
+}
