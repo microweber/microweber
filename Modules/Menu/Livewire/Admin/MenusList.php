@@ -239,13 +239,24 @@ class MenusList extends Component implements HasForms, HasActions
                 })
                 ->afterStateUpdated(function (Set $set, Get $get, array $state) {
 
+                    // Don't touch the title field here — every Livewire
+                    // commit fires this callback (because mw_link_picker
+                    // is ->live()), and any $set('title', ...) call
+                    // races against the user's in-progress typing in
+                    // the Title TextInput, which is also ->live().
+                    // Per task-2026-04-30-48b603 the user reported the
+                    // Title field swallowed keystrokes — that's because
+                    // this callback was overwriting the typed value
+                    // back to whatever $displayTitle the link picker
+                    // resolved to (often empty for not-yet-changed
+                    // page links). Title is now purely user-controlled;
+                    // this callback only mirrors the structural
+                    // url/url_target/content_id/categories_id fields.
 
                     $url = '';
                     $urlTarget = '';
                     $categoriesId = '';
                     $contentId = '';
-                    $title = $get('title');
-                    //   $displayTitle = $get('display_title');
 
                     if (isset($state['data']['id']) && $state['data']['id'] > 0) {
                         if ($state['data']['type'] == 'category') {
@@ -253,27 +264,13 @@ class MenusList extends Component implements HasForms, HasActions
                         } else {
                             $contentId = $state['data']['id'];
                         }
-
                     } else if (isset($state['url'])) {
                         $url = $state['url'];
                         if (isset($state['target']) && $state['target']) {
                             $urlTarget = $state['target'];
                         }
-                        if (isset($state['text'])) {
-                            $title = $state['text'];
-                            //   $set('use_custom_title', true);
-                        }
                     }
-                    if (isset($state['text'])) {
-                        $displayTitle = $state['text'];
 
-                        if (!$title) {
-                            $set('title', $displayTitle);
-                        }
-                        // $set('use_custom_title', false);
-                    }
-                    //    $set('display_title', $displayTitle);
-                    //   $set('title', $title);
                     $set('url', $url);
                     $set('url_target', $urlTarget);
                     $set('categories_id', $categoriesId);
