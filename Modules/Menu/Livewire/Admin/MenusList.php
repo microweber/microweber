@@ -291,12 +291,15 @@ class MenusList extends Component implements HasForms, HasActions
             TextInput::make('title')
                 ->helperText('Set the title of the menu item.')
                 ->required()
-                // Live-on-blur — the wire:model state syncs as soon
-                // as the user tabs/clicks away. Default lazy mode
-                // only flushes on Submit, which makes the field feel
-                // unresponsive (task-2026-04-30-b4b3bd). Per-keystroke
-                // would round-trip too aggressively for this slideOver.
-                ->live(onBlur: true)
+                // Per-keystroke live binding — user feedback in
+                // task-2026-04-30-6d4a70 specifically asked to
+                // remove the on-blur-only behaviour ("editing only
+                // works when I press enter, but I want to edit it
+                // in real time"). Livewire applies its default
+                // debounce (~150ms) so per-keystroke does NOT
+                // hammer the server on every keypress; it batches
+                // rapid input.
+                ->live(debounce: 300)
                 ->hintAction(
                     TranslateFieldAction::make('title')->label('')
                 )
