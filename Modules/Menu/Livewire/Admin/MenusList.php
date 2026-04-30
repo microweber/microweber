@@ -65,8 +65,16 @@ class MenusList extends Component implements HasForms, HasActions
 
     public function deleteAction(): Action
     {
+        // Icon-only Delete button with hover tooltip — full-width
+        // text+icon was hiding the menu-item title on the narrow
+        // 360px live-edit panel (task-2026-04-30-d86bb9). The
+        // ->label('Delete') is preserved so screen readers still
+        // announce the action; ->iconButton() drops the visible text.
         return Action::make('delete')
+            ->label('Delete')
             ->icon('heroicon-m-trash')
+            ->iconButton()
+            ->tooltip('Delete')
             ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
@@ -359,8 +367,13 @@ class MenusList extends Component implements HasForms, HasActions
             }
         }
 
+        // Icon-only Edit button with hover tooltip — see deleteAction
+        // for the rationale (task-2026-04-30-d86bb9).
         return Action::make('edit')
+            ->label('Edit')
             ->icon('heroicon-m-pencil')
+            ->iconButton()
+            ->tooltip('Edit')
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
 
