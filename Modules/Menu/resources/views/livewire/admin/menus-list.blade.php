@@ -9,13 +9,19 @@
 
     <div class="mw-menu-editor">
 
-        {{-- Menu selector bar --}}
+        {{-- Menu selector bar.
+             items-end aligns the 3-dot ActionGroup to the bottom edge
+             of the Filament Select (which has its own label above the
+             input). justify-start (replacing justify-between) puts the
+             3-dot button right next to the dropdown instead of
+             floating off to the far-right empty space — see
+             task-2026-04-30-7e6b01. --}}
         <div class="mw-menu-editor__selector">
-            <div class="flex gap-3 items-end justify-between flex-wrap">
+            <div class="flex gap-3 items-end justify-start flex-wrap">
                 <div class="flex-1 min-w-[200px] max-w-sm">
                     {{ $this->form }}
                 </div>
-                <div class="flex gap-2 items-center">
+                <div class="flex gap-2 items-center pb-1">
                     {{ $this->menuActionsGroup() }}
                 </div>
             </div>
