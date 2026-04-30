@@ -76,6 +76,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->iconButton()
             ->tooltip('Delete')
             ->color('danger')
+            ->slideOver()
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
@@ -374,6 +375,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->icon('heroicon-m-pencil')
             ->iconButton()
             ->tooltip('Edit')
+            ->slideOver()
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
 
