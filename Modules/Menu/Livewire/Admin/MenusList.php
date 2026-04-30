@@ -289,11 +289,14 @@ class MenusList extends Component implements HasForms, HasActions
 
 
             TextInput::make('title')
-//                ->hidden(function (Get $get) {
-//                    return $get('use_custom_title') === false;
-//                })
                 ->helperText('Set the title of the menu item.')
                 ->required()
+                // Live-on-blur — the wire:model state syncs as soon
+                // as the user tabs/clicks away. Default lazy mode
+                // only flushes on Submit, which makes the field feel
+                // unresponsive (task-2026-04-30-b4b3bd). Per-keystroke
+                // would round-trip too aggressively for this slideOver.
+                ->live(onBlur: true)
                 ->hintAction(
                     TranslateFieldAction::make('title')->label('')
                 )
@@ -417,10 +420,17 @@ class MenusList extends Component implements HasForms, HasActions
             })
             ->action(function (Menu $record, array $data) {
 
-
-                if (isset($data['use_custom_title']) && $data['use_custom_title'] == false) {
-                    $data['title'] = '';
-                }
+                // Don't apply the legacy use_custom_title→empty-title
+                // wipe — the Checkbox that controlled it is commented
+                // out (lines 302-312 above), so the flag is always
+                // whatever mountUsing seeded it with (false for
+                // menu items whose title was already empty). With no
+                // way for the user to flip it from the form, the
+                // wipe silently dropped every typed-in title — the
+                // exact bug from task-2026-04-30-b4b3bd. The user
+                // intent is now simple: whatever's in the Title
+                // field gets saved verbatim.
+                unset($data['use_custom_title']);
                 $record->fill($data);
                 $record->save();
 
