@@ -45,6 +45,27 @@
                 try { $wire.unmountAction(); } catch (_) { /* nothing mounted */ }
             });
 
+            // After AdminLiveEditPage::generateAction creates a new
+            // page/post/product/category, refresh the canvas iframe so
+            // the new item appears in the listing the user is editing.
+            // The Filament action handler dispatches the Livewire event
+            // 'liveEditAddContentSaved' which Livewire v3 surfaces to
+            // the browser as a window-scoped CustomEvent. Without this
+            // the user clicked Save, the slideOver closed, but the page
+            // they were editing never updated — task-2026-05-01-30153f.
+            //
+            // Bind once via window.addEventListener only — Livewire v3's
+            // dispatch() also emits via Livewire.on(), so registering
+            // both would refresh the iframe twice (visible flicker).
+            window.addEventListener('liveEditAddContentSaved', () => {
+                try {
+                    if (window.mw && mw.app && mw.app.canvas
+                        && typeof mw.app.canvas.refresh === 'function') {
+                        mw.app.canvas.refresh();
+                    }
+                } catch (_) { /* canvas not ready */ }
+            });
+
             // The live-edit SAVE button (top-right green pill) wants
             // to behave as a 'save everything that is visible' button.
             // When the user opens a Filament action like 'Add New Post'

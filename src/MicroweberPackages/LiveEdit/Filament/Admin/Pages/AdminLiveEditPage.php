@@ -37,7 +37,19 @@ class AdminLiveEditPage extends Page
     use InteractsWithActions;
     use InteractsWithForms;
 
+    /**
+     * URL of the page currently shown in the live-edit canvas, captured
+     * on initial page load via the `?url=` query param. Persisted as a
+     * Livewire property so subsequent action mounts (which run on a
+     * different request to /livewire/update) can still resolve which
+     * page the user is editing — task-2026-05-01-30153f.
+     */
+    public string $liveEditUrl = '';
 
+    public function mount(): void
+    {
+        $this->liveEditUrl = (string) request()->get('url', '');
+    }
 
     public function render(): View
     {
@@ -231,33 +243,37 @@ class AdminLiveEditPage extends Page
             ]);
         }
 
+        // Resolve the page currently shown in the live-edit canvas
+        // (captured from `?url=` at mount() into $this->liveEditUrl —
+        // request()->get('url') is empty during the /livewire/update
+        // POST that runs the action) to a Content id so newly-created
+        // posts/products/categories land under that page automatically.
+        // Without this, "Create Post" while editing a blog page produced
+        // an orphan post the user could never see in the listing —
+        // task-2026-05-01-30153f.
+        $currentPageId = null;
+        $iframeUrl = $this->liveEditUrl;
+        if ($iframeUrl !== '') {
+            $resolved = app()->content_manager->getContentIdFromUrl($iframeUrl);
+            if ($resolved) {
+                $currentPageId = (int) $resolved;
+            }
+        }
 
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
-
-
-//            ->extraModalFooterActions(function (Action $action) use ($contentType) {
-//                $actions = [];
-//
-//                $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-//                if ($isMultilanguageEnabled) {
-//                    $actions[] = LocaleSwitcher::make();
-//                }
-//
-//                return $actions;
-//
-//            })
-
-
-//            ->modalContent(view('microweber-live-edit::modal.generate-action', [
-//                'contentType' => $contentType
-//            ]))
             ->form($formArray)
-            ->action(function ($data) use ($contentType) {
+            ->action(function ($data) use ($contentType, $currentPageId) {
 
                 $data['content_type'] = $contentType;
-                //   $data['layout_file'] = 'clean.php';
+
+                // Default-link the new item to the page being edited so
+                // it appears under that listing immediately after save
+                // (task-2026-05-01-30153f). Pages stay top-level.
+                if ($currentPageId && $contentType !== 'page' && empty($data['parent'])) {
+                    $data['parent'] = $currentPageId;
+                }
 
                 $model = new Content();
                 $model->fill($data);
@@ -278,6 +294,12 @@ class AdminLiveEditPage extends Page
                     ])
                     ->send();
 
+                // Refresh the live-edit canvas so the just-created item
+                // becomes visible in the page being edited (e.g. a new
+                // post appears in the blog listing). The iframe-page
+                // listener calls `mw.app.canvas.refresh()` on this
+                // browser event — task-2026-05-01-30153f.
+                $this->dispatch('liveEditAddContentSaved');
             })
             ->modalSubmitActionLabel('Save')
             ->slideOver();
