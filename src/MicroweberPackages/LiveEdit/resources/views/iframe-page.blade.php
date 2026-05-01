@@ -46,21 +46,43 @@
             });
 
             // After AdminLiveEditPage::generateAction creates a new
-            // page/post/product/category, refresh the canvas iframe so
-            // the new item appears in the listing the user is editing.
-            // The Filament action handler dispatches the Livewire event
-            // 'liveEditAddContentSaved' which Livewire v3 surfaces to
-            // the browser as a window-scoped CustomEvent. Without this
-            // the user clicked Save, the slideOver closed, but the page
-            // they were editing never updated — task-2026-05-01-30153f.
+            // page/post/product/category, navigate the canvas iframe to
+            // the new content (or refresh the current page if the event
+            // was dispatched without a URL) so the user immediately
+            // sees that their save worked.
+            //
+            // The handler dispatches the Livewire event
+            // 'liveEditAddContentSaved' (with `url` payload after
+            // task-2026-05-01-3dff3c). Livewire v3 surfaces it as a
+            // window-scoped CustomEvent whose `event.detail` is an
+            // ARRAY of payloads (one per dispatch arg). The first
+            // element is the named-args object — `event.detail[0].url`.
+            //
+            // Why navigate, not just refresh: most users add a post
+            // while editing the homepage (which doesn't list posts),
+            // so a plain refresh leaves the iframe looking unchanged
+            // and they file 'Add posts is not working' — exactly
+            // task-2026-05-01-3dff3c. Loading the new content's URL
+            // turns Save into 'I see my post, it worked'. Categories
+            // have no public URL — fall back to refresh in that case.
             //
             // Bind once via window.addEventListener only — Livewire v3's
             // dispatch() also emits via Livewire.on(), so registering
-            // both would refresh the iframe twice (visible flicker).
-            window.addEventListener('liveEditAddContentSaved', () => {
+            // both would fire the same handler twice (visible flicker).
+            window.addEventListener('liveEditAddContentSaved', (event) => {
                 try {
-                    if (window.mw && mw.app && mw.app.canvas
-                        && typeof mw.app.canvas.refresh === 'function') {
+                    if (!window.mw || !mw.app || !mw.app.canvas) { return; }
+                    let targetUrl = '';
+                    const detail = event && event.detail;
+                    if (Array.isArray(detail) && detail.length > 0
+                        && detail[0] && typeof detail[0].url === 'string') {
+                        targetUrl = detail[0].url;
+                    } else if (detail && typeof detail.url === 'string') {
+                        targetUrl = detail.url;
+                    }
+                    if (targetUrl && typeof mw.app.canvas.go === 'function') {
+                        mw.app.canvas.go(targetUrl);
+                    } else if (typeof mw.app.canvas.refresh === 'function') {
                         mw.app.canvas.refresh();
                     }
                 } catch (_) { /* canvas not ready */ }

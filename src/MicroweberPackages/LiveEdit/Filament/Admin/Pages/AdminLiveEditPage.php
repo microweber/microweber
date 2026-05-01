@@ -251,12 +251,26 @@ class AdminLiveEditPage extends Page
         // Without this, "Create Post" while editing a blog page produced
         // an orphan post the user could never see in the listing —
         // task-2026-05-01-30153f.
+        //
+        // task-2026-05-01-3dff3c: when the user opens /admin/live-edit
+        // with no `?url=` (the most common entry point — clicking
+        // "Live edit" from the dashboard), the canvas defaults to the
+        // homepage but $this->liveEditUrl is empty. Calling
+        // getContentIdFromUrl('') falls through to the current
+        // request URL (/livewire/update) — wrong. Fall back to
+        // homepage() explicitly so the new post lands under the home
+        // page id rather than as an orphan.
         $currentPageId = null;
         $iframeUrl = $this->liveEditUrl;
         if ($iframeUrl !== '') {
             $resolved = app()->content_manager->getContentIdFromUrl($iframeUrl);
             if ($resolved) {
                 $currentPageId = (int) $resolved;
+            }
+        } else {
+            $home = app()->content_manager->homepage();
+            if (is_array($home) && !empty($home['id'])) {
+                $currentPageId = (int) $home['id'];
             }
         }
 
@@ -281,6 +295,8 @@ class AdminLiveEditPage extends Page
 
                 $contentTypeFriendly = ucfirst($contentType);
 
+                $newContentLink = (string) content_link($model->id);
+
                 Notification::make()
                     ->success()
                     ->title($contentTypeFriendly . ' is  created')
@@ -289,17 +305,23 @@ class AdminLiveEditPage extends Page
                     ->actions([
                         Action::make('viewContent')
                             ->label('View ' . $contentTypeFriendly)
-                            ->url(content_link($model->id))
+                            ->url($newContentLink)
                             ->button(),
                     ])
                     ->send();
 
-                // Refresh the live-edit canvas so the just-created item
-                // becomes visible in the page being edited (e.g. a new
-                // post appears in the blog listing). The iframe-page
-                // listener calls `mw.app.canvas.refresh()` on this
-                // browser event — task-2026-05-01-30153f.
-                $this->dispatch('liveEditAddContentSaved');
+                // Navigate the canvas to the just-created content (or
+                // refresh the current page when no link is available
+                // — e.g. categories don't have public URLs). Plain
+                // `mw.app.canvas.refresh()` is not enough on its own
+                // because the host page (often the homepage) doesn't
+                // necessarily list posts — the user clicked "Add Post"
+                // and would still see the unchanged homepage, then
+                // file a bug saying "add posts is not working" because
+                // nothing visibly happened (task-2026-05-01-3dff3c).
+                // Navigating to the new item turns Save into "I see my
+                // post, it worked" — the strongest possible signal.
+                $this->dispatch('liveEditAddContentSaved', url: $newContentLink);
             })
             ->modalSubmitActionLabel('Save')
             ->slideOver();
