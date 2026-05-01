@@ -145,6 +145,19 @@
         </testsuite>
 
         <!--
+            task-2026-05-01-08eaf5 backstop: pins three behaviours that
+            had no test coverage — (a) main SAVE submits the open
+            Add-content slideOver, (b) the slideOver's own modal Save
+            submits without main SAVE, (c) after either submit the
+            iframe canvas reloads AND the new post appears under the
+            blog page being edited (parent column wired up via
+            $liveEditUrl).
+        -->
+        <testsuite name="LiveEditAddContentRefreshAndModalSubmit">
+            <file>tests/Browser/LiveEditAddContentRefreshAndModalSubmitTest.php</file>
+        </testsuite>
+
+        <!--
             Menu-item title edit regression guard — task-2026-04-30-7da8c0.
             Drives the full live-edit slideOver-iframe flow, types a
             new title into the inner Edit slideOver, asserts the
