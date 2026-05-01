@@ -17,11 +17,11 @@
              floating off to the far-right empty space — see
              task-2026-04-30-7e6b01. --}}
         <div class="mw-menu-editor__selector">
-            <div class="flex gap-3 items-end justify-start flex-wrap">
+            <div class="flex gap-2 items-end justify-start flex-wrap">
                 <div class="flex-1 min-w-[200px] max-w-sm">
                     {{ $this->form }}
                 </div>
-                <div class="flex gap-2 items-center pb-1">
+                <div class="flex gap-2 items-center" style="padding-bottom: 2px;">
                     {{ $this->menuActionsGroup() }}
                 </div>
             </div>

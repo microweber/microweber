@@ -5529,6 +5529,12 @@ html.dark {
   }
 }
 
+/* Ensure the ActionGroup dropdown wrapper doesn't add extra vertical space */
+.mw-menu-editor__selector .fi-dropdown {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
 .mw-menu-editor__tree {
   background: $mw-bg-surface;
   border: 1px solid $mw-border-color;

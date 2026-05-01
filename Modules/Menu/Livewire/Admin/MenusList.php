@@ -66,18 +66,38 @@ class MenusList extends Component implements HasForms, HasActions
 
     public function deleteAction(): Action
     {
-        // Icon-only Delete button with hover tooltip — full-width
+        // Icon-only Delete button for per-item rows — full-width
         // text+icon was hiding the menu-item title on the narrow
-        // 360px live-edit panel (task-2026-04-30-d86bb9). The
-        // ->label('Delete') is preserved so screen readers still
-        // announce the action; ->iconButton() drops the visible text.
+        // 360px live-edit panel (task-2026-04-30-d86bb9).
         return Action::make('delete')
             ->label('Delete')
             ->icon('heroicon-m-trash')
             ->iconButton()
             ->tooltip('Delete')
             ->color('danger')
-            ->slideOver()
+            ->requiresConfirmation()
+            ->action(function (array $arguments) {
+                $record = static::findMenuOrFail($arguments['id']);
+                if ($record) {
+                    if ($record->item_type === 'menu') {
+                        Menu::where('parent_id', $record->id)
+                            ->where('item_type', 'menu_item')
+                            ->delete();
+                    }
+                    $record->delete();
+                }
+                $this->dispatch('$refresh');
+            });
+    }
+
+    public function deleteMenuAction(): Action
+    {
+        // Text+icon Delete for the 3-dot ActionGroup dropdown.
+        // No ->iconButton() so the label is always visible in the dropdown.
+        return Action::make('deleteMenu')
+            ->label('Delete menu')
+            ->icon('heroicon-m-trash')
+            ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 $record = static::findMenuOrFail($arguments['id']);
@@ -522,7 +542,7 @@ class MenusList extends Component implements HasForms, HasActions
             $this->addMenuItemAction()->arguments(['parent_id' => $this->menu_id]),
             $this->renameMenuAction()->arguments(['id' => $this->menu_id]),
             $this->createAction(),
-            $this->deleteAction()->arguments(['id' => $this->menu_id]),
+            $this->deleteMenuAction()->arguments(['id' => $this->menu_id]),
         ])
             ->label('Menu actions')
             ->icon('heroicon-m-ellipsis-vertical')
