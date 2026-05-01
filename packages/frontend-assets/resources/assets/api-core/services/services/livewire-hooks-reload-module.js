@@ -7,31 +7,41 @@ export class LivewireHooksReloadModule {
     }
     reloadTimeout = null;
 
+    reloadModule(moduleId) {
+        try {
+            const topMw = (typeof top !== 'undefined' && top.mw) ? top.mw.top() : (typeof mw !== 'undefined' ? mw.top() : null);
+            if (topMw && topMw.app && topMw.app.canvas) {
+                const canvasWindow = topMw.app.canvas.getWindow();
+                if (canvasWindow && canvasWindow.mw) {
+                    canvasWindow.mw.reload_module(moduleId);
+                    return;
+                }
+            }
+            // fallback: no canvas (e.g. standalone admin)
+            if (typeof mw !== 'undefined' && mw.reload_module) {
+                mw.reload_module(moduleId);
+            }
+        } catch (e) {
+            // silently ignore if mw context is not available
+        }
+    }
+
     performReload() {
 
         if (this.reloadTimeout) {
             clearTimeout(this.reloadTimeout);
         }
 
-
         this.reloadTimeout = setTimeout(() => {
             if (this.modulesForReload.length > 0) {
-                // make unique
-                this.modulesForReload = [...new Set(this.modulesForReload)];
+                const unique = [...new Set(this.modulesForReload)];
+                this.modulesForReload = [];
 
-
-
-                for (let i = 0; i < this.modulesForReload.length; i++) {
-                    let moduleId = this.modulesForReload[i];
-                    //mw.reload_module_everywhere('#' + moduleId);
-                    mw.app.canvas.getWindow().mw.reload_module('#' + moduleId);
-
-                        // mw.reload_module_everywhere(moduleId);
-                    //unset
-                    this.modulesForReload.splice(i, 1);
-                }
+                unique.forEach(moduleId => {
+                    this.reloadModule(moduleId);
+                });
             }
-        }, 500);
+        }, 300);
     }
 
     init() {
@@ -40,35 +50,6 @@ export class LivewireHooksReloadModule {
         document.addEventListener('livewire:initialized', () => {
 
             // from https://livewire.laravel.com/docs/javascript#request-hooks
-
-
-
-            Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
-                // Runs immediately before a commit's payload is sent to the server...
-
-                //console.log('commit', commit)
-                // mw.spinner({
-                //     element: mw.top().win.document.body,
-                //     size: 52,
-                //     decorate: true
-                // });
-
-
-                // respond(() => {
-                //     // Runs after a response is received but before it's processed...
-                //     mw.spinner({element: mw.top().win.document.body}).remove();
-                // })
-                //
-                // succeed(({ snapshot, effect }) => {
-                //  //   mw.spinner({element: mw.top().win.document.body}).remove();
-                // })
-                //
-                // fail(() => {
-                //     mw.spinner({element: mw.top().win.document.body}).remove();
-                // })
-            })
-
-
 
 
 
@@ -94,56 +75,66 @@ export class LivewireHooksReloadModule {
                         return;
                     }
 
-                    //let payloadJson = JSON.parse(payload);
-                    // console.log('options', options)
-                    // console.log('payload', payloadJson)
-                    // console.log('status', status)
-                    // console.log('status', status)
+                    mw.spinner({element: mw.top().win.document.body}).remove();
 
-                    // Runs when the response is received...
-                    // "json" is the JSON response object...
+                    if (!json.components || !json.components.length) {
+                        return;
+                    }
+
                     let modulesForReloadIds = [];
-                    if (json.components && json.components.length) {
-                        console.log('components', json.components)
-                        json.components.forEach((component) => {
-                            if (component.snapshot) {
+
+                    json.components.forEach((component) => {
+
+                        // Method 1: effects.dispatches — only fires when the server
+                        // explicitly calls $this->dispatch('mw-option-saved', ...)
+                        // (e.g. after callMountedAction saves a record). This avoids
+                        // triggering on every wire:model.live keystroke commit.
+                        if (component.effects && component.effects.dispatches) {
+                            component.effects.dispatches.forEach((dispatch) => {
+                                if (dispatch.name === 'mw-option-saved' && dispatch.params) {
+                                    if (dispatch.params.optionGroup) {
+                                        modulesForReloadIds.push('#' + dispatch.params.optionGroup);
+                                    }
+                                }
+                            });
+                        }
+
+                        // Method 2: snapshot data — for components that carry an
+                        // explicit module/rel identifier (not the broad option_group
+                        // which is present on every commit).
+                        if (component.snapshot) {
+                            try {
                                 let snapshot = JSON.parse(component.snapshot);
                                 if (snapshot.data) {
                                     if (snapshot.data.moduleId) {
-                                        modulesForReloadIds.push('#'+snapshot.data.moduleId);
+                                        modulesForReloadIds.push('#' + snapshot.data.moduleId);
                                     }
                                     if (snapshot.data.module_id) {
-                                        modulesForReloadIds.push('#'+snapshot.data.module_id);
+                                        modulesForReloadIds.push('#' + snapshot.data.module_id);
                                     }
                                     if (snapshot.data.module && snapshot.data.optionGroup) {
-                                        modulesForReloadIds.push('#'+snapshot.data.optionGroup);
+                                        modulesForReloadIds.push('#' + snapshot.data.optionGroup);
                                     }
                                     if (snapshot.data.relType && snapshot.data.relId) {
-                                        modulesForReloadIds.push('#'+snapshot.data.relId);
+                                        modulesForReloadIds.push('#' + snapshot.data.relId);
                                     }
                                     if (snapshot.data.rel_type && snapshot.data.rel_id) {
-                                        modulesForReloadIds.push('#'+snapshot.data.rel_id);
+                                        modulesForReloadIds.push('#' + snapshot.data.rel_id);
                                     }
                                     if (snapshot.data.module) {
                                         modulesForReloadIds.push(snapshot.data.module);
                                     }
-
-
                                 }
-
-
+                            } catch (e) {
+                                // malformed snapshot — skip
                             }
-                        })
-                    }
-                    console.log('modulesForReloadIds', modulesForReloadIds)
-                    if (modulesForReloadIds.length > 0) {
-                        for (let i = 0; i < modulesForReloadIds.length; i++) {
-                            let moduleId = modulesForReloadIds[i];
-                            instance.modulesForReload.push(moduleId);
                         }
+                    });
+
+                    if (modulesForReloadIds.length > 0) {
+                        modulesForReloadIds.forEach(id => instance.modulesForReload.push(id));
                         instance.performReload();
                     }
-                    mw.spinner({element: mw.top().win.document.body}).remove();
 
                 })
 

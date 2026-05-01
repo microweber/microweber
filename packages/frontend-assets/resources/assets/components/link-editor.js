@@ -255,7 +255,6 @@ mw.LinkEditor = function(options) {
                 height: 'auto',
                 minHeight: 400,
                 title: this.settings.title,
-                overflowMode: 'visible',
                 shadow: false,
             });
 

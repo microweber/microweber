@@ -7,27 +7,35 @@
 
 /* Dialog holder — the outer frame */
 /*
- * max-height caps the dialog at 90vh so the flex-column inside the
- * controller root has a known parent size to flex against. Without a
- * cap the dialog grows with its content and the OK/Cancel footer
- * falls below the viewport (task-2026-04-29-0febcc).
+ * height:90vh !important overrides the `style="height: auto"` that
+ * dialog.center() injects as a normal inline style. Normal inline
+ * styles beat normal CSS rules, but !important author rules beat
+ * normal inline styles.  Without !important the holder stays auto-
+ * sized and the flex chain has no definite parent height, so
+ * height:100% on .mw-link-editor-root resolves to auto → the root
+ * grows to 4000+ px and the OK/Cancel footer falls off-screen
+ * (task-2026-05-01).
  */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-holder {
     @apply !rounded-xl overflow-hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
+    height: 90vh !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-/* Dialog container — remove default padding; absorb remaining vertical
-   space so the flex chain (container → link-editor-root →
-   form-controller-root → footer) has a height to flex against. */
+/* Dialog container — fill the remaining holder height; overflow:hidden
+   keeps the scroll inside .mw-ui-form-controller-root > div:first-of-type.
+   max-height:none !important overrides the inline max-height that
+   dialog.center() writes onto the container element. */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-container {
     @apply !p-0;
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    overflow: hidden !important;
+    max-height: none !important;
 }
 
 /* Root layout — flex row: nav left, content right.
@@ -39,8 +47,9 @@
  */
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-root {
     @apply flex w-full;
-    height: 100%;
-    min-height: 0;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
 }
 
 /* ===== Close Button (X) ===== */
@@ -198,8 +207,11 @@
 
 /* ===== Radio buttons (Pages tab) ===== */
 .mw_modal_live_edit_link_editor_settings .form-check-input[type="radio"] {
-    @apply w-4 h-4 rounded-full border-gray-300 dark:border-gray-600 text-blue-600 cursor-pointer;
+    @apply w-4 h-4 rounded-full border-gray-300 dark:border-gray-600 cursor-pointer;
     @apply focus:ring-blue-500 focus:ring-2 focus:ring-offset-0;
+    accent-color: #2563eb; /* blue-600 — makes the checked dot visible */
+    -webkit-appearance: auto;
+    appearance: auto;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller--radio-list {
@@ -227,10 +239,16 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
-    @apply rounded-lg px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150;
+    @apply rounded-lg px-4 text-sm font-medium cursor-pointer transition-colors duration-150;
     @apply border border-gray-300;
     @apply text-gray-700 dark:text-gray-300;
     background-color: white;
+    height: 36px;
+    line-height: 1;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-flex;
+    align-items: center;
 }
 .dark .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button {
     background-color: oklch(0.269 0 0); /* gray-800 */

@@ -20,6 +20,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
@@ -237,7 +238,7 @@ class MenusList extends Component implements HasForms, HasActions
                     ];
                     return $data;
                 })
-                ->afterStateUpdated(function (Set $set, Get $get, array $state) {
+                ->afterStateUpdated(function (Set $set, Get $get, array $state, Model $record = null, $livewire = null) {
 
                     // Don't touch the title field here — every Livewire
                     // commit fires this callback (because mw_link_picker
@@ -275,6 +276,22 @@ class MenusList extends Component implements HasForms, HasActions
                     $set('url_target', $urlTarget);
                     $set('categories_id', $categoriesId);
                     $set('content_id', $contentId);
+
+                    if ($record) {
+                        $record->url = $url;
+                        $record->url_target = $urlTarget;
+                        $record->categories_id = $categoriesId ?: null;
+                        $record->content_id = $contentId ?: null;
+                        $record->save();
+                    }
+
+                    if ($livewire && $livewire->option_group != '') {
+                        $livewire->dispatch('mw-option-saved',
+                            optionGroup: $livewire->option_group,
+                            optionKey: $livewire->option_key,
+                        );
+                    }
+
                 }),
 
 
@@ -289,26 +306,31 @@ class MenusList extends Component implements HasForms, HasActions
             TextInput::make('title')
                 ->helperText('Set the title of the menu item.')
                 ->required()
-                // No `->live()` modifier on the Title field — keep the
-                // default lazy wire:model binding so Livewire commits
-                // the typed value when the form is submitted (the
-                // submit handler always flushes dirty model bindings
-                // before dispatching the action). This avoids the
-                // race-on-Submit problem the user hit in real browsers
-                // (task-2026-04-30-dd22fc): when typing fast and
-                // clicking Submit within the debounce window, the
-                // committed value lagged behind the visible value.
-                // Lazy mode means there's nothing to debounce — Submit
-                // always sees the current input value verbatim.
-                // Trade-off: the field doesn't update sibling-field
-                // computed state (autofill, validation) on every
-                // keystroke, but the menu-item Edit form has no such
-                // sibling logic now that task-2026-04-30-48b603
-                // removed the MwLinkPicker afterStateUpdated title-
-                // overwrite branch.
-                ->hintAction(
-                    TranslateFieldAction::make('title')->label('')
-                )
+                ->live()
+                ->reactive()
+
+
+
+                ->afterStateUpdated(function (Get $get, Set $set, ?string $state, Model $record, $component, $livewire) {
+
+                    if ($record) {
+                        $record->title = $state;
+                        $record->save();
+                    }
+
+                    if ($livewire instanceof \Modules\Menu\Livewire\Admin\MenusList
+                        && $livewire->option_group != ''
+                    ) {
+                        $livewire->dispatch('mw-option-saved',
+                            optionGroup: $livewire->option_group,
+                            optionKey: $livewire->option_key,
+                        );
+                    }
+
+                })
+                 ->hintAction(
+                     TranslateFieldAction::make('title')->label('')
+                 )
                 ->maxLength(1255),
 
 //            Checkbox::make('use_custom_title')

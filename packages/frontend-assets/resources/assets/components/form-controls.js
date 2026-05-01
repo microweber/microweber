@@ -1035,6 +1035,13 @@ mw.emitter = {
                         });
                     }
                 });
+
+                treeEl.addEventListener('dblclick', function(e) {
+                    var li = e.target.closest('li');
+                    if(li && scope.valid()) {
+                        scope._confirm.forEach(function(f){ f(scope.getValue()); });
+                    }
+                });
             });
 
             if (options.target) {
