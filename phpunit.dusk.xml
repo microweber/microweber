@@ -181,6 +181,16 @@
         </testsuite>
 
         <!--
+            task-2026-05-02-82ca03 backstop: pins the Add Post modal
+            as a centered (NOT slideOver) wide (3xl) modal. Catches
+            regressions where someone re-adds slideOver() or drops
+            the modalWidth() hint.
+        -->
+        <testsuite name="LiveEditAddContentModalIsCentered">
+            <file>tests/Browser/LiveEditAddContentModalIsCenteredTest.php</file>
+        </testsuite>
+
+        <!--
             Menu-item title edit regression guard — task-2026-04-30-7da8c0.
             Drives the full live-edit slideOver-iframe flow, types a
             new title into the inner Edit slideOver, asserts the

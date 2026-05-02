@@ -277,6 +277,15 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
+            // Centered modal (NOT a right-side slideOver) so the form
+            // gets the full-width column the title/url/content-body
+            // fields actually need. The previous slideOver pinned the
+            // modal to the right edge at ~Medium width — too narrow
+            // for the rich text editor inside Content body, with the
+            // canvas peeking through behind it. The user reported the
+            // modal as "too small" and "not slide right" —
+            // task-2026-05-02-82ca03.
+            ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->form($formArray)
             ->action(function ($data) use ($contentType, $currentPageId) {
 
@@ -323,7 +332,6 @@ class AdminLiveEditPage extends Page
                 // post, it worked" — the strongest possible signal.
                 $this->dispatch('liveEditAddContentSaved', url: $newContentLink);
             })
-            ->modalSubmitActionLabel('Save')
-            ->slideOver();
+            ->modalSubmitActionLabel('Save');
     }
 }
