@@ -74,14 +74,12 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // toolbar's generateAction modal (3xl) for visual
                     // consistency between the two add-post entry points.
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
-                    // `mw-live-edit-top-modal` pins the modal to the
-                    // top of the viewport (no gap between toolbar and
-                    // modal header) and adds a slide-from-top entry
-                    // animation. CSS lives in iframe-page.blade.php.
-                    // Without this, the modal centred vertically and
-                    // left a big empty area above the header — see
-                    // screenshot in task-2026-05-02-420d06.
-                    ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+                    // `mw-content-form-modal` re-enables the close-overlay
+                    // backdrop tint (the microweber-filament-theme
+                    // globally forces fi-modal-close-overlay to
+                    // bg-transparent). CSS lives in iframe-page.blade.php
+                    // + live-edit-module-settings.blade.php.
+                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
                     // Don't let a stray backdrop click or Escape
                     // keystroke destroy a half-typed New Post form.
                     // task-2026-05-02-354958. Cancel still works via
@@ -99,7 +97,7 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ->actions([
                 EditAction::make('edit')
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
-                    ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+                    ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
                     ->closeModalByClickingAway(false)
                     ->closeModalByEscaping(false)
                     ->stickyModalFooter()

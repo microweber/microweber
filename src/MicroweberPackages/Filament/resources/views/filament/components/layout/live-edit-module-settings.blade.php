@@ -143,36 +143,30 @@
 
     <style>
         /*
-         * `.mw-live-edit-top-modal` is applied via
+         * `.mw-content-form-modal` is applied via
          * extraModalWindowAttributes on ContentTableList's
-         * CreateAction/EditAction (and on AdminLiveEditPage's
-         * generateAction in the parent frame). It pins the modal to
-         * the top of the viewport instead of centring it vertically,
-         * and gives it a slide-from-top entry animation. Without
-         * this, the modal centred vertically and left a big empty
-         * area above the header — see screenshot in
-         * task-2026-05-02-420d06.
-         *
-         * Filament's `.fi-modal-window-ctn` is a 3-row CSS grid
-         * (`grid-rows-[1fr_auto_1fr]` / `[1fr_auto_3fr]` on sm+)
-         * with the modal placed in `row-start-2`. Override row-start
-         * and zero spacer rows + container top padding so the modal
-         * sits flush with the top of the viewport.
+         * CreateAction/EditAction. Two scoped overrides:
+         * (1) restore the modal backdrop tint that the project's
+         * filament theme globally forces to bg-transparent,
+         * (2) make the footer position: sticky so Save/Cancel stay
+         * visible on long forms. task-2026-05-02-df09aa.
          */
-        .fi-modal-window-ctn:has(.mw-live-edit-top-modal) {
-            grid-template-rows: auto 1fr !important;
-            padding-top: 0 !important;
+        .fi-modal:has(> .fi-modal-window-ctn .mw-content-form-modal) > .fi-modal-close-overlay {
+            background-color: rgba(0, 0, 0, 0.55) !important;
         }
-        .mw-live-edit-top-modal {
-            grid-row-start: 1 !important;
-            margin-top: 0 !important;
-            border-top-left-radius: 0 !important;
-            border-top-right-radius: 0 !important;
-            animation: mw-live-edit-modal-slide-down 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        .mw-content-form-modal .fi-modal-footer {
+            position: sticky;
+            bottom: 0;
+            background: var(--gray-50, #f9fafb);
+            border-top: 1px solid var(--gray-200, #e5e7eb);
+            margin-top: 0;
+            padding-block: 0.75rem;
+            z-index: 1;
         }
-        @keyframes mw-live-edit-modal-slide-down {
-            from { transform: translateY(-24px); opacity: 0.4; }
-            to   { transform: translateY(0);     opacity: 1; }
+        html.dark .mw-content-form-modal .fi-modal-footer,
+        .dark .mw-content-form-modal .fi-modal-footer {
+            background: var(--gray-900, #111827);
+            border-top-color: var(--gray-700, #374151);
         }
     </style>
 

@@ -286,11 +286,14 @@ class AdminLiveEditPage extends Page
             // modal as "too small" and "not slide right" —
             // task-2026-05-02-82ca03.
             ->modalWidth(MaxWidth::ThreeExtraLarge)
-            // Pin the modal to the top of the viewport (matches the
-            // ContentTableList table-action modals after task-420d06)
-            // so the user sees the form header immediately without
-            // scrolling past empty space above it.
-            ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+            // `mw-content-form-modal` re-enables the close-overlay
+            // backdrop tint (the microweber-filament-theme globally
+            // forces `.fi-modal-close-overlay` to bg-transparent —
+            // fine for slide-overs, catastrophic for centered
+            // content-creation modals where the user can't tell where
+            // the modal ends). CSS lives in iframe-page.blade.php.
+            // task-2026-05-02-df09aa.
+            ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
             // Don't let a stray backdrop click or Escape keystroke
             // destroy a half-typed Add Post form. Filament defaults
             // both to true; for content-creation modals where the user

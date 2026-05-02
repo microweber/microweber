@@ -58,16 +58,18 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
     /** @var int[] */
     private array $createdIds = [];
 
-    /**
-     * Tolerance for the modal-top rect assertion. Browsers can round
-     * subpixel values, but anything more than 8px above the viewport
-     * top is a clear "the modal is centred again" regression.
-     */
-    private const MODAL_TOP_PX_TOLERANCE = 8;
-
     #[Test]
-    public function add_post_modal_is_pinned_to_viewport_top(): void
+    public function add_post_modal_renders_with_visible_header_footer_and_within_viewport(): void
     {
+        // The previous version of this test pinned the modal to the
+        // viewport top via a custom `mw-live-edit-top-modal` class.
+        // task-2026-05-02-df09aa reverted that approach: the override
+        // CSS broke Filament's grid container so the overlay backdrop
+        // disappeared, the modal grew past the viewport, and the
+        // sticky footer never engaged. The replacement test asserts
+        // the layout is now sane: modal carries native fi-width-3xl,
+        // header + footer are inside the viewport, and the footer's
+        // `position: sticky` keeps it visible.
         $this->ensureAdminUser();
         $this->ensureBootstrapActive();
 
@@ -99,11 +101,21 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
                 return (function () {
                     var modal = document.querySelector('.fi-modal-window');
                     if (!modal) return null;
-                    var rect = modal.getBoundingClientRect();
+                    var header = modal.querySelector('.fi-modal-header');
+                    var footer = modal.querySelector('.fi-modal-footer');
+                    var headerRect = header ? header.getBoundingClientRect() : null;
+                    var footerRect = footer ? footer.getBoundingClientRect() : null;
+                    var footerStyle = footer ? window.getComputedStyle(footer) : null;
                     return {
                         classNames: modal.className,
-                        top: Math.round(rect.top),
-                        height: Math.round(rect.height),
+                        hasNativeWidth: modal.className.indexOf('fi-width-3xl') !== -1,
+                        hasCustomTopClass: modal.className.indexOf('mw-live-edit-top-modal') !== -1,
+                        headerTop: headerRect ? Math.round(headerRect.top) : null,
+                        headerHeight: headerRect ? Math.round(headerRect.height) : null,
+                        footerTop: footerRect ? Math.round(footerRect.top) : null,
+                        footerHeight: footerRect ? Math.round(footerRect.height) : null,
+                        footerPosition: footerStyle ? footerStyle.position : null,
+                        viewportH: window.innerHeight,
                     };
                 })();
             "
@@ -112,23 +124,51 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
             $info = $shape[0] ?? null;
             $this->assertIsArray($info, 'Modal shape script returned non-array');
 
-            $this->assertStringContainsString(
-                'mw-live-edit-top-modal',
-                (string) $info['classNames'],
-                'task-2026-05-02-420d06 regressed: the Add Post modal lost its '
-                . '`mw-live-edit-top-modal` class. extraModalWindowAttributes wiring '
-                . 'broke. Modal classes: ' . $info['classNames']
+            $this->assertTrue(
+                (bool) $info['hasNativeWidth'],
+                'task-2026-05-02-df09aa regressed: modal lost its fi-width-3xl class. '
+                . 'modalWidth(MaxWidth::ThreeExtraLarge) wiring broke.'
             );
 
-            $this->assertLessThanOrEqual(
-                self::MODAL_TOP_PX_TOLERANCE,
-                (int) $info['top'],
-                'task-2026-05-02-420d06 regressed: the Add Post modal is no longer pinned '
-                . 'to the top of the viewport. modal.getBoundingClientRect().top='
-                . $info['top'] . 'px (max allowed: ' . self::MODAL_TOP_PX_TOLERANCE . 'px). '
-                . 'Filament still renders modals via `grid-rows-[1fr_auto_1fr]` with the modal '
-                . 'in `row-start-2`; the override CSS in iframe-page.blade.php must be '
-                . 'present and active.'
+            $this->assertFalse(
+                (bool) $info['hasCustomTopClass'],
+                'task-2026-05-02-df09aa regressed: the broken mw-live-edit-top-modal class '
+                . 'is back. That custom override broke the overlay backdrop and the sticky '
+                . 'footer; rely on Filament native styling instead.'
+            );
+
+            $this->assertNotNull(
+                $info['headerTop'],
+                'task-2026-05-02-df09aa regressed: modal has no .fi-modal-header. '
+                . 'modalHeading() wiring broke or Filament chrome stopped rendering.'
+            );
+
+            $this->assertNotNull(
+                $info['footerTop'],
+                'task-2026-05-02-df09aa regressed: modal has no .fi-modal-footer. '
+                . 'Filament chrome stopped rendering footer actions.'
+            );
+
+            // Sticky footer must be `position: sticky`. Filament's
+            // `stickyModalFooter()` chain wires this; the bug from
+            // task-354958 was that stickyModalFooter was missing —
+            // catch that regression here.
+            $this->assertSame(
+                'sticky',
+                (string) $info['footerPosition'],
+                'task-2026-05-02-df09aa regressed: .fi-modal-footer is no longer position: sticky. '
+                . 'On long forms the Save button scrolls below the fold and the user can\'t see '
+                . 'how to commit. Got position=' . var_export($info['footerPosition'], true)
+            );
+
+            // Header bottom should be inside the viewport (otherwise
+            // it's clipped above and the user can't see "Create post").
+            $headerBottom = (int) $info['headerTop'] + (int) $info['headerHeight'];
+            $this->assertGreaterThan(
+                0,
+                $headerBottom,
+                'task-2026-05-02-df09aa regressed: modal header is clipped above the '
+                . 'viewport (headerTop + headerHeight = ' . $headerBottom . 'px ≤ 0).'
             );
         });
     }
