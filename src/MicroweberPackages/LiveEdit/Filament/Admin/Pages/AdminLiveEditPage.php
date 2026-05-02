@@ -291,6 +291,21 @@ class AdminLiveEditPage extends Page
             // so the user sees the form header immediately without
             // scrolling past empty space above it.
             ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+            // Don't let a stray backdrop click or Escape keystroke
+            // destroy a half-typed Add Post form. Filament defaults
+            // both to true; for content-creation modals where the user
+            // has invested keystrokes, that default is catastrophic
+            // (no draft, no warning, no recovery) — see screenshot
+            // `audit-2-after-click-outside.png` from
+            // task-2026-05-02-354958. Cancel still works via the X
+            // button or the explicit "Cancel" footer action.
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
+            // Long forms (Title + URL + Content body w/ rich text +
+            // Excerpt + …) push the in-modal Save button below the
+            // viewport. Sticky footer keeps Save/Cancel visible while
+            // the form scrolls. task-2026-05-02-354958.
+            ->stickyModalFooter()
             ->form($formArray)
             ->action(function ($data) use ($contentType, $currentPageId) {
 

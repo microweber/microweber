@@ -212,6 +212,16 @@
         </testsuite>
 
         <!--
+            task-2026-05-02-354958 backstop: pins that backdrop clicks
+            and Escape keystrokes do NOT close the Add Post modal,
+            preserving typed input. Without this, the user's typed
+            title was silently destroyed by a stray backdrop click.
+        -->
+        <testsuite name="LiveEditAddContentDoesNotLoseDataOnClickOutside">
+            <file>tests/Browser/LiveEditAddContentDoesNotLoseDataOnClickOutsideTest.php</file>
+        </testsuite>
+
+        <!--
             task-2026-05-02-420d06 backstop: pins (a) Add Page/Post
             modal pinned to viewport top via mw-live-edit-top-modal
             CSS, and (b) liveEditModuleTableActionSaved invokes

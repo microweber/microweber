@@ -82,6 +82,13 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // left a big empty area above the header — see
                     // screenshot in task-2026-05-02-420d06.
                     ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+                    // Don't let a stray backdrop click or Escape
+                    // keystroke destroy a half-typed New Post form.
+                    // task-2026-05-02-354958. Cancel still works via
+                    // the X button or the explicit Cancel footer action.
+                    ->closeModalByClickingAway(false)
+                    ->closeModalByEscaping(false)
+                    ->stickyModalFooter()
                     ->form(function () {
                         $params = [];
                         $params['contentModel'] = $this->contentModel;
@@ -93,6 +100,9 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                 EditAction::make('edit')
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
                     ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
+                    ->closeModalByClickingAway(false)
+                    ->closeModalByEscaping(false)
+                    ->stickyModalFooter()
                     ->form(function (Model $record) {
 
                         $params = [];
