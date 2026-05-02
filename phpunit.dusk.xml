@@ -201,6 +201,17 @@
         </testsuite>
 
         <!--
+            task-2026-05-02-2ecfe6 backstop: pins that ContentTableList's
+            CreateAction/EditAction render as centered (3xl) modals, not
+            slideOvers. The post-module-settings iframe was previously
+            sliding the New Post form in from the right edge — the user
+            asked for it to "open normally no slide".
+        -->
+        <testsuite name="LiveEditPostModuleTableActionModalCentered">
+            <file>tests/Browser/LiveEditPostModuleTableActionModalCenteredTest.php</file>
+        </testsuite>
+
+        <!--
             Menu-item title edit regression guard — task-2026-04-30-7da8c0.
             Drives the full live-edit slideOver-iframe flow, types a
             new title into the inner Edit slideOver, asserts the
