@@ -341,6 +341,50 @@
                 min-width: var(--sidebar-end-size-min);
                 max-width: var(--sidebar-end-size-max);
             }
+
+            /*
+             * mw.notification (used by SaveButton.vue → mw.notification.success
+             * "Page saved successfully") renders into top.document.body via
+             * the bundled `components/notification.js` template, which uses
+             * Bootstrap-5 `text-bg-${type}` classes on the inner div for
+             * colour. The admin chrome does NOT load Bootstrap CSS in the
+             * top frame, so without an explicit fallback the notification
+             * had NO background and the page content (e.g. the Edit Posts
+             * iframe table) bled through — task-2026-05-02-003a6b. The
+             * fallbacks below match notification.less's palette so the pill
+             * stays readable everywhere admin chrome lives.
+             */
+            .mw-notification {
+                background-color: #343a40;
+                color: #ffffff;
+                border-radius: 5px;
+                padding: 8px 14px;
+                font-size: 12px;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+                z-index: 99999;
+            }
+            .mw-notification .text-bg-success,
+            .mw-notification.mw-success {
+                background-color: #28a745;
+                color: #ffffff;
+            }
+            .mw-notification .text-bg-warning,
+            .mw-notification.mw-warning {
+                background-color: #ffc107;
+                color: #212529;
+            }
+            .mw-notification .text-bg-danger,
+            .mw-notification .text-bg-error,
+            .mw-notification.mw-error {
+                background-color: #dc3545;
+                color: #ffffff;
+            }
+            /* Inner div should inherit the colour modifier set on the outer */
+            .mw-notification > div {
+                background-color: inherit;
+                color: inherit;
+                border-radius: inherit;
+            }
         </style>
 
 

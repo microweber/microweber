@@ -191,6 +191,16 @@
         </testsuite>
 
         <!--
+            task-2026-05-02-003a6b backstop: pins that mw.notification
+            renders with a solid (opaque) background in the live-edit
+            chrome, so the success/error pill doesn't bleed page
+            content through it.
+        -->
+        <testsuite name="LiveEditNotificationBackground">
+            <file>tests/Browser/LiveEditNotificationBackgroundTest.php</file>
+        </testsuite>
+
+        <!--
             Menu-item title edit regression guard — task-2026-04-30-7da8c0.
             Drives the full live-edit slideOver-iframe flow, types a
             new title into the inner Edit slideOver, asserts the
