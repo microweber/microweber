@@ -253,16 +253,17 @@ class ContentResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255)
                     ->required()
-                    ->helperText('The main heading displayed on the page (recommended: 50-60 characters).')
+                    // Autofocus + start typing immediately. Customer
+                    // shouldn't have to hunt for the first input —
+                    // task-2026-05-02-4c244f.
+                    ->autofocus()
+                    // Short helper — the verbose "main heading
+                    // displayed on the page (recommended: 50-60
+                    // characters)" was pure noise; "Title" is enough
+                    // signage and the maxLength does the rest.
+                    ->placeholder('e.g. My first post')
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
-                    )->columnSpanFull(),
-
-                Forms\Components\TextInput::make('url')
-                    ->maxLength(255)
-                    ->helperText('URL-friendly identifier. Leave blank to auto-generate from title.')
-                    ->hintAction(
-                        TranslateFieldAction::make('url')->label('')
                     )->columnSpanFull(),
 
                 Forms\Components\RichEditor::make('content_body')
@@ -286,6 +287,27 @@ class ContentResource extends Resource
                     ->visible(function (Schemas\Components\Utilities\Get $get) {
                         return $get('content_type') === 'post';
                     }),
+
+                // URL slug moved out of the top-of-form field stack
+                // and into a collapsed "Permalink" section. Customers
+                // almost never set this manually — auto-generated
+                // from title. Power users can expand the section when
+                // they need to. task-2026-05-02-4c244f.
+                Schemas\Components\Section::make('Permalink')
+                    ->description('URL slug for this content. Leave blank to auto-generate from the title.')
+                    ->collapsed()
+                    ->collapsible()
+                    ->compact()
+                    ->columnSpanFull()
+                    ->schema([
+                        Forms\Components\TextInput::make('url')
+                            ->label('URL slug')
+                            ->maxLength(255)
+                            ->placeholder('auto-generated from title')
+                            ->hintAction(
+                                TranslateFieldAction::make('url')->label('')
+                            )->columnSpanFull(),
+                    ]),
             ])
             ->columnSpanFull()
             ->columns(2);
