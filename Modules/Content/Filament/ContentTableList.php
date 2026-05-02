@@ -74,6 +74,14 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // toolbar's generateAction modal (3xl) for visual
                     // consistency between the two add-post entry points.
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
+                    // `mw-live-edit-top-modal` pins the modal to the
+                    // top of the viewport (no gap between toolbar and
+                    // modal header) and adds a slide-from-top entry
+                    // animation. CSS lives in iframe-page.blade.php.
+                    // Without this, the modal centred vertically and
+                    // left a big empty area above the header — see
+                    // screenshot in task-2026-05-02-420d06.
+                    ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
                     ->form(function () {
                         $params = [];
                         $params['contentModel'] = $this->contentModel;
@@ -84,6 +92,7 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ->actions([
                 EditAction::make('edit')
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
+                    ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
                     ->form(function (Model $record) {
 
                         $params = [];

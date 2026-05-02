@@ -1,0 +1,307 @@
+<?php
+
+namespace Tests\Browser;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Hash;
+use Illuminate\Support\Str;
+use Laravel\Dusk\Browser;
+use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\Browser\Support\LandingTestContentPurger;
+use Tests\Browser\Traits\AdminLoginTrait;
+use Tests\DuskTestCase;
+
+/**
+ * Regression backstop for task-2026-05-02-420d06.
+ *
+ * The user asked for two distinct behaviours after the previous
+ * round of modal fixes:
+ *
+ *   1. The Add Page/Post/etc modal must be PINNED TO THE TOP of the
+ *      viewport (no big gap above the modal header). Implemented by
+ *      `extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])`
+ *      on AdminLiveEditPage::generateAction + ContentTableList's
+ *      table actions, plus CSS in iframe-page.blade.php and
+ *      live-edit-module-settings.blade.php that rewrites Filament's
+ *      3-row grid container to a 2-row grid placing the modal in
+ *      `row-start-1`.
+ *
+ *   2. After ContentTableList table-action save, do NOT do a full
+ *      canvas iframe reload — instead reload only the listing
+ *      modules of types `posts`, `content`, `shop/products` via
+ *      `mw.reload_module(type)`. Preserves canvas scroll position,
+ *      focus, animations, etc. Implemented in iframe-page.blade.php's
+ *      `liveEditModuleTableActionSaved` handler.
+ *
+ * Test plan:
+ *   - Open /admin/live-edit (no ?url=); mount addPostAction; assert
+ *     `.fi-modal-window` has class `mw-live-edit-top-modal` AND its
+ *     bounding-rect top is 0 (or within a 5px tolerance for browser
+ *     rounding) — proves bug #1.
+ *   - Hook the canvas's `mw.reload_module` and `mw.app.canvas.refresh`
+ *     to count calls; dispatch `liveEditModuleTableActionSaved`
+ *     directly; assert reload_module was called for each of
+ *     `posts`, `content`, `shop/products` AND that
+ *     `mw.app.canvas.refresh` was NOT called — proves bug #2.
+ *
+ * Wired into phpunit.dusk.xml as
+ * `LiveEditTopModalAndSelectiveReload`.
+ */
+class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
+{
+    use AdminLoginTrait;
+
+    private const ADMIN_EMAIL = 'admin@admin.com';
+    private const ADMIN_PASSWORD = 'admin';
+
+    /** @var int[] */
+    private array $createdIds = [];
+
+    /**
+     * Tolerance for the modal-top rect assertion. Browsers can round
+     * subpixel values, but anything more than 8px above the viewport
+     * top is a clear "the modal is centred again" regression.
+     */
+    private const MODAL_TOP_PX_TOLERANCE = 8;
+
+    #[Test]
+    public function add_post_modal_is_pinned_to_viewport_top(): void
+    {
+        $this->ensureAdminUser();
+        $this->ensureBootstrapActive();
+
+        $this->browse(function (Browser $browser) {
+            $this->loginAsAdmin($browser);
+
+            $browser->visit('/admin/live-edit')->pause(5000);
+            $browser->waitFor('iframe', 20)->pause(2500);
+
+            $mount = $browser->script(
+                "
+                return (async function () {
+                    try {
+                        var root = document.querySelector('[wire\\\\:id]');
+                        var wire = window.Livewire.find(root.getAttribute('wire:id'));
+                        await wire.mountAction('addPostAction', {});
+                        return 'OK';
+                    } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                })();
+            "
+            );
+            $browser->pause(2500);
+            $this->assertSame('OK', (string) ($mount[0] ?? ''), 'mountAction(addPostAction) failed');
+
+            $browser->waitFor('.fi-modal-window', 15);
+
+            $shape = $browser->script(
+                "
+                return (function () {
+                    var modal = document.querySelector('.fi-modal-window');
+                    if (!modal) return null;
+                    var rect = modal.getBoundingClientRect();
+                    return {
+                        classNames: modal.className,
+                        top: Math.round(rect.top),
+                        height: Math.round(rect.height),
+                    };
+                })();
+            "
+            );
+
+            $info = $shape[0] ?? null;
+            $this->assertIsArray($info, 'Modal shape script returned non-array');
+
+            $this->assertStringContainsString(
+                'mw-live-edit-top-modal',
+                (string) $info['classNames'],
+                'task-2026-05-02-420d06 regressed: the Add Post modal lost its '
+                . '`mw-live-edit-top-modal` class. extraModalWindowAttributes wiring '
+                . 'broke. Modal classes: ' . $info['classNames']
+            );
+
+            $this->assertLessThanOrEqual(
+                self::MODAL_TOP_PX_TOLERANCE,
+                (int) $info['top'],
+                'task-2026-05-02-420d06 regressed: the Add Post modal is no longer pinned '
+                . 'to the top of the viewport. modal.getBoundingClientRect().top='
+                . $info['top'] . 'px (max allowed: ' . self::MODAL_TOP_PX_TOLERANCE . 'px). '
+                . 'Filament still renders modals via `grid-rows-[1fr_auto_1fr]` with the modal '
+                . 'in `row-start-2`; the override CSS in iframe-page.blade.php must be '
+                . 'present and active.'
+            );
+        });
+    }
+
+    #[Test]
+    public function table_action_save_reloads_only_listing_modules(): void
+    {
+        $this->ensureAdminUser();
+        $this->ensureBootstrapActive();
+        $hostId = $this->createPostsHostPage();
+
+        $this->browse(function (Browser $browser) use ($hostId) {
+            $this->loginAsAdmin($browser);
+
+            $browser->visit('/admin/live-edit?url=' . urlencode((string) content_link($hostId)))
+                    ->pause(5000);
+            $browser->waitFor('iframe', 20)->pause(2500);
+
+            // Hook the canvas window's reload_module + the canvas
+            // refresh wrapper so we can count exactly what runs.
+            $hookResult = $browser->script(
+                "
+                return (function () {
+                    try {
+                        var canvasWindow = mw.app.canvas.getWindow();
+                        if (!canvasWindow || !canvasWindow.mw
+                            || typeof canvasWindow.mw.reload_module !== 'function') {
+                            return 'NO_CANVAS_RELOAD';
+                        }
+                        window.__reloadModuleCalls = [];
+                        window.__canvasRefreshCount = 0;
+                        var origReload = canvasWindow.mw.reload_module;
+                        canvasWindow.mw.reload_module = function (t, cb) {
+                            window.__reloadModuleCalls.push(typeof t === 'string' ? t : '[object]');
+                            return origReload.call(this, t, cb);
+                        };
+                        var origRefresh = mw.app.canvas.refresh.bind(mw.app.canvas);
+                        mw.app.canvas.refresh = function () {
+                            window.__canvasRefreshCount++;
+                            return origRefresh();
+                        };
+                        return 'OK';
+                    } catch (e) { return 'EXC:' + (e && e.message ? e.message : e); }
+                })();
+            "
+            );
+            $this->assertSame('OK', (string) ($hookResult[0] ?? ''), 'Failed to hook canvas reload_module/refresh');
+
+            // Dispatch the event the iframe layout would have
+            // emitted on a successful CreateAction/EditAction/
+            // DeleteAction. We're testing the parent handler, not
+            // the iframe transport.
+            $browser->script("window.dispatchEvent(new Event('liveEditModuleTableActionSaved'));");
+            $browser->pause(1500);
+
+            $counts = $browser->script(
+                "
+                return (function () {
+                    var seen = window.__reloadModuleCalls || [];
+                    return {
+                        sawPosts: seen.indexOf('posts') !== -1,
+                        sawContent: seen.indexOf('content') !== -1,
+                        sawShopProducts: seen.indexOf('shop/products') !== -1,
+                        canvasRefreshCount: window.__canvasRefreshCount,
+                    };
+                })();
+            "
+            );
+            $info = $counts[0] ?? null;
+            $this->assertIsArray($info, 'Hook script returned non-array');
+
+            $this->assertTrue(
+                (bool) ($info['sawPosts'] ?? false),
+                'task-2026-05-02-420d06 regressed: liveEditModuleTableActionSaved '
+                . 'did not call mw.reload_module("posts") on the canvas window.'
+            );
+            $this->assertTrue(
+                (bool) ($info['sawContent'] ?? false),
+                'task-2026-05-02-420d06 regressed: liveEditModuleTableActionSaved '
+                . 'did not call mw.reload_module("content") on the canvas window.'
+            );
+            $this->assertTrue(
+                (bool) ($info['sawShopProducts'] ?? false),
+                'task-2026-05-02-420d06 regressed: liveEditModuleTableActionSaved '
+                . 'did not call mw.reload_module("shop/products") on the canvas window.'
+            );
+            $this->assertSame(
+                0,
+                (int) ($info['canvasRefreshCount'] ?? -1),
+                'task-2026-05-02-420d06 regressed: liveEditModuleTableActionSaved '
+                . 'fell through to mw.app.canvas.refresh() (count=' . ($info['canvasRefreshCount'] ?? 'NIL')
+                . '). Selective module reload should be the only path; full canvas refresh '
+                . 'should only fire as a hard fallback when the canvas window mw object is '
+                . 'unavailable.'
+            );
+        });
+    }
+
+    private function createPostsHostPage(): int
+    {
+        $slug = 'topreload-host-' . substr(md5(microtime(true) . Str::random(6)), 0, 10);
+        $id = save_content([
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'title' => 'TopReload host ' . $slug,
+            'url' => $slug,
+            'active_site_template' => 'Bootstrap',
+            'is_active' => 1,
+            'content' => '<div class="edit container py-5"><module type="posts" data-limit="50" /></div>',
+        ]);
+        if (!$id || !is_numeric($id)) {
+            throw new \RuntimeException(
+                'createPostsHostPage: save_content returned non-id value: ' . var_export($id, true)
+            );
+        }
+        $this->createdIds[] = (int) $id;
+        return (int) $id;
+    }
+
+    private function ensureAdminUser(): void
+    {
+        $user = User::where('email', self::ADMIN_EMAIL)->first();
+        if (!$user) {
+            $user = new User();
+            $user->email = self::ADMIN_EMAIL;
+            $user->username = 'admin';
+            $user->password = Hash::make(self::ADMIN_PASSWORD);
+            $user->is_admin = 1;
+            $user->is_active = 1;
+            $user->is_verified = 1;
+            $user->first_name = 'Admin';
+            $user->last_name = 'User';
+            $user->save();
+            return;
+        }
+        $dirty = false;
+        if ((int) $user->is_admin !== 1) { $user->is_admin = 1; $dirty = true; }
+        if ((int) $user->is_active !== 1) { $user->is_active = 1; $dirty = true; }
+        if ($dirty) { $user->save(); }
+    }
+
+    private function ensureBootstrapActive(): void
+    {
+        $row = DB::table('options')
+            ->where('option_key', 'current_template')
+            ->where('option_group', 'template')
+            ->first();
+        if ($row) {
+            if ($row->option_value !== 'Bootstrap') {
+                DB::table('options')->where('id', $row->id)
+                    ->update(['option_value' => 'Bootstrap', 'updated_at' => now()]);
+            }
+            return;
+        }
+        DB::table('options')->insert([
+            'option_key' => 'current_template',
+            'option_value' => 'Bootstrap',
+            'option_group' => 'template',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        foreach ($this->createdIds as $id) {
+            try {
+                LandingTestContentPurger::purge($id);
+            } catch (\Throwable $e) {
+                // best-effort
+            }
+        }
+        $this->createdIds = [];
+        parent::tearDown();
+    }
+}

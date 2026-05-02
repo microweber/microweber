@@ -141,6 +141,40 @@
 
     </main>
 
+    <style>
+        /*
+         * `.mw-live-edit-top-modal` is applied via
+         * extraModalWindowAttributes on ContentTableList's
+         * CreateAction/EditAction (and on AdminLiveEditPage's
+         * generateAction in the parent frame). It pins the modal to
+         * the top of the viewport instead of centring it vertically,
+         * and gives it a slide-from-top entry animation. Without
+         * this, the modal centred vertically and left a big empty
+         * area above the header — see screenshot in
+         * task-2026-05-02-420d06.
+         *
+         * Filament's `.fi-modal-window-ctn` is a 3-row CSS grid
+         * (`grid-rows-[1fr_auto_1fr]` / `[1fr_auto_3fr]` on sm+)
+         * with the modal placed in `row-start-2`. Override row-start
+         * and zero spacer rows + container top padding so the modal
+         * sits flush with the top of the viewport.
+         */
+        .fi-modal-window-ctn:has(.mw-live-edit-top-modal) {
+            grid-template-rows: auto 1fr !important;
+            padding-top: 0 !important;
+        }
+        .mw-live-edit-top-modal {
+            grid-row-start: 1 !important;
+            margin-top: 0 !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+            animation: mw-live-edit-modal-slide-down 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes mw-live-edit-modal-slide-down {
+            from { transform: translateY(-24px); opacity: 0.4; }
+            to   { transform: translateY(0);     opacity: 1; }
+        }
+    </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
 

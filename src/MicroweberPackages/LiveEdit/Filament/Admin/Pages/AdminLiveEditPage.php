@@ -286,6 +286,11 @@ class AdminLiveEditPage extends Page
             // modal as "too small" and "not slide right" —
             // task-2026-05-02-82ca03.
             ->modalWidth(MaxWidth::ThreeExtraLarge)
+            // Pin the modal to the top of the viewport (matches the
+            // ContentTableList table-action modals after task-420d06)
+            // so the user sees the form header immediately without
+            // scrolling past empty space above it.
+            ->extraModalWindowAttributes(['class' => 'mw-live-edit-top-modal'])
             ->form($formArray)
             ->action(function ($data) use ($contentType, $currentPageId) {
 

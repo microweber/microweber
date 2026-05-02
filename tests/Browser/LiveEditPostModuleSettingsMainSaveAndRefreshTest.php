@@ -177,22 +177,35 @@ class LiveEditPostModuleSettingsMainSaveAndRefreshTest extends DuskTestCase
             $this->assertSame('OK', (string) ($fill[0] ?? ''), 'Title fill failed');
             $browser->pause(900);
 
-            // Stamp the canvas iframe with a sentinel so we can detect
-            // the post-save refresh. `mw.app.canvas.refresh()` calls
-            // contentWindow.location.reload() which drops our stamp.
+            // Hook the canvas window's mw.reload_module so we can
+            // confirm the SELECTIVE module reload path runs after
+            // SAVE. (Previously this test stamped a contentWindow
+            // sentinel and watched it disappear via location.reload()
+            // — that proved a FULL canvas refresh ran. After
+            // task-2026-05-02-420d06 the parent listener does
+            // mw.reload_module(type) instead, so the contentWindow
+            // is NOT replaced. Hook instead of stamp.)
             $stamp = $browser->script(
                 "
                 return (function () {
                     try {
-                        var ifr = mw.app.canvas.getFrame();
-                        if (!ifr || !ifr.contentWindow) return 'NO_CANVAS';
-                        ifr.contentWindow.__mainSaveSentinel = " . json_encode($smokeRunSlug) . ";
+                        var canvasWindow = mw.app.canvas.getWindow();
+                        if (!canvasWindow || !canvasWindow.mw
+                            || typeof canvasWindow.mw.reload_module !== 'function') {
+                            return 'NO_CANVAS_RELOAD';
+                        }
+                        window.__mainSaveReloadCalls = [];
+                        var origReload = canvasWindow.mw.reload_module;
+                        canvasWindow.mw.reload_module = function (t, cb) {
+                            window.__mainSaveReloadCalls.push(typeof t === 'string' ? t : '[object]');
+                            return origReload.call(this, t, cb);
+                        };
                         return 'OK';
                     } catch (e) { return 'EXC:' + e.message; }
                 })();
             "
             );
-            $this->assertSame('OK', (string) ($stamp[0] ?? ''), 'Canvas sentinel stamp failed');
+            $this->assertSame('OK', (string) ($stamp[0] ?? ''), 'Canvas reload_module hook failed');
 
             // Click MAIN SAVE pill (parent toolbar) — bug #1: this
             // must reach into the iframe and submit the inner form.
@@ -227,32 +240,33 @@ class LiveEditPostModuleSettingsMainSaveAndRefreshTest extends DuskTestCase
             );
             $this->createdIds[] = (int) $row->id;
 
-            // Bug #2: Wait for canvas sentinel to disappear — proves
-            // mw.app.canvas.refresh() ran after the table action.
-            $sentinelGone = null;
+            // Bug #2: Wait for the canvas window's
+            // mw.reload_module('posts') to be called — proves the
+            // selective reload path (task-2026-05-02-420d06) ran
+            // after the table action persisted. Without this, the
+            // user never sees the new post in the rendered posts
+            // module on the host page.
+            $reloadObserved = null;
             try {
-                $browser->waitUsing(20, 250, function () use ($browser, &$sentinelGone) {
+                $browser->waitUsing(20, 250, function () use ($browser, &$reloadObserved) {
                     $check = $browser->script(
                         "
-                        try {
-                            var ifr = mw.app.canvas.getFrame();
-                            if (!ifr || !ifr.contentWindow) return 'GONE';
-                            return ifr.contentWindow.__mainSaveSentinel || 'GONE';
-                        } catch (e) { return 'GONE'; }
+                        var calls = window.__mainSaveReloadCalls || [];
+                        return calls.indexOf('posts') !== -1 ? 'OK' : JSON.stringify(calls);
                     "
                     );
-                    $sentinelGone = (string) ($check[0] ?? 'NIL');
-                    return $sentinelGone === 'GONE';
+                    $reloadObserved = (string) ($check[0] ?? 'NIL');
+                    return $reloadObserved === 'OK';
                 });
             } catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
                 $this->fail(
-                    'Bug #2 from task-2026-05-02-99f90c regressed — canvas iframe sentinel '
-                    . 'never disappeared within 20s after the table action persisted. '
-                    . 'mw.app.canvas.refresh() did not run, so the user never sees the new '
-                    . 'post in the rendered posts module on the host page. Last sentinel: '
-                    . var_export($sentinelGone, true) . '. Either ContentTableList stopped '
-                    . 'dispatching liveEditModuleTableActionSaved, the iframe layout stopped '
-                    . 'forwarding to top.window, or the parent listener is no longer wired.'
+                    'Bug #2 from task-2026-05-02-99f90c regressed — canvas mw.reload_module("posts") '
+                    . 'never fired within 20s after the table action persisted. The user never sees '
+                    . 'the new post in the rendered posts module on the host page. Last observed '
+                    . 'reload calls: ' . var_export($reloadObserved, true) . '. Either '
+                    . 'ContentTableList stopped dispatching liveEditModuleTableActionSaved, the '
+                    . 'iframe layout stopped forwarding to top.window, the parent listener is no '
+                    . 'longer wired, or the listener no longer calls mw.reload_module on the canvas.'
                 );
             }
         });

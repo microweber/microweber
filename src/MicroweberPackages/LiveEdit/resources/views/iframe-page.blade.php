@@ -72,13 +72,40 @@
             // After ContentTableList CreateAction/EditAction/DeleteAction
             // completes inside the post-module-settings iframe, the
             // iframe's layout forwards a `liveEditModuleTableActionSaved`
-            // window event up via top.window.dispatchEvent. Refresh the
-            // canvas (the host page being edited) so the rendered
-            // posts/products listing picks up the change immediately —
-            // task-2026-05-02-99f90c.
+            // window event up via top.window.dispatchEvent. Reload only
+            // the listing modules (posts / content / shop/products) on
+            // the canvas — NOT the whole iframe — so the change is
+            // visible without a jarring full-page reload that resets
+            // scroll position, focus, animations, etc.
+            // task-2026-05-02-99f90c (initial wiring) +
+            // task-2026-05-02-420d06 (per user request — selective
+            // module reload instead of a full canvas refresh).
             window.addEventListener('liveEditModuleTableActionSaved', () => {
                 try {
-                    if (window.mw && mw.app && mw.app.canvas
+                    var canvasWindow = mw.app && mw.app.canvas
+                        && typeof mw.app.canvas.getWindow === 'function'
+                        ? mw.app.canvas.getWindow()
+                        : null;
+
+                    // Reload only the listing modules whose contents
+                    // are managed via ContentTableList. Each call is a
+                    // no-op if no module of that type exists on the
+                    // current canvas page.
+                    var reloadTypes = ['posts', 'content', 'shop/products'];
+
+                    if (canvasWindow && canvasWindow.mw
+                        && typeof canvasWindow.mw.reload_module === 'function') {
+                        reloadTypes.forEach(function (t) {
+                            try { canvasWindow.mw.reload_module(t); } catch (_) {}
+                        });
+                        return;
+                    }
+
+                    // Hard fallback: if the canvas window's mw object
+                    // isn't ready (race during initial mount), do the
+                    // old full refresh so the user still sees their
+                    // change rather than silently no-oping.
+                    if (mw.app && mw.app.canvas
                         && typeof mw.app.canvas.refresh === 'function') {
                         mw.app.canvas.refresh();
                     }
@@ -384,6 +411,41 @@
                 background-color: inherit;
                 color: inherit;
                 border-radius: inherit;
+            }
+
+            /*
+             * `.mw-live-edit-top-modal` is applied via
+             * extraModalWindowAttributes on AdminLiveEditPage's
+             * generateAction (the +ADD toolbar's "New Page/Post/
+             * Product/Category" modal). It pins the modal to the top
+             * of the viewport instead of centring it vertically, and
+             * gives it a slide-from-top entry animation. Without
+             * this, the modal centred vertically and left a big empty
+             * area above the header — see screenshot in
+             * task-2026-05-02-420d06.
+             *
+             * Filament's `.fi-modal-window-ctn` is a 3-row CSS grid
+             * (`grid-rows-[1fr_auto_1fr]` / `[1fr_auto_3fr]` on sm+)
+             * with the modal placed in `row-start-2` (the auto-sized
+             * middle row). Override row-start to 1 and zero out the
+             * spacer rows so the modal sits flush with the top of the
+             * viewport. Container also has `p-4` from Filament — kill
+             * the top padding too.
+             */
+            .fi-modal-window-ctn:has(.mw-live-edit-top-modal) {
+                grid-template-rows: auto 1fr !important;
+                padding-top: 0 !important;
+            }
+            .mw-live-edit-top-modal {
+                grid-row-start: 1 !important;
+                margin-top: 0 !important;
+                border-top-left-radius: 0 !important;
+                border-top-right-radius: 0 !important;
+                animation: mw-live-edit-modal-slide-down 220ms cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            @keyframes mw-live-edit-modal-slide-down {
+                from { transform: translateY(-24px); opacity: 0.4; }
+                to   { transform: translateY(0);     opacity: 1; }
             }
         </style>
 
