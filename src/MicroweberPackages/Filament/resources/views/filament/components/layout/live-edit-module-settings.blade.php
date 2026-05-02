@@ -69,6 +69,25 @@
                         // module in the parent canvas. The parent-frame listeners
                         // (admin-filament.js / livewire-hooks-reload-module.js)
                         // cannot hear events from a child iframe's Livewire instance.
+                        // ContentTableList CreateAction/EditAction/DeleteAction
+                        // dispatch this Livewire event after successful
+                        // table-row save. Forward it to the parent
+                        // window so the live-edit canvas refreshes the
+                        // host page (which renders the posts/products
+                        // listing being edited) — without this, the
+                        // user added/edited a post via "Edit Posts →
+                        // New post", the row landed in the DB, the
+                        // slideOver iframe re-rendered the table, but
+                        // the host page behind the slideOver kept
+                        // showing the OLD list — task-2026-05-02-99f90c.
+                        Livewire.on('liveEditModuleTableActionSaved', function () {
+                            try {
+                                if (top && top.window && typeof top.window.dispatchEvent === 'function') {
+                                    top.window.dispatchEvent(new Event('liveEditModuleTableActionSaved'));
+                                }
+                            } catch (e) { /* cross-origin or top missing */ }
+                        });
+
                         Livewire.on('mw-option-saved', function (params) {
                             var optionGroup = params.optionGroup || (Array.isArray(params) && params[0] && params[0].optionGroup);
                             if (!optionGroup) return;

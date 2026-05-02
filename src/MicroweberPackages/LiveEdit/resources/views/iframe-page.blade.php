@@ -69,6 +69,22 @@
             // Bind once via window.addEventListener only — Livewire v3's
             // dispatch() also emits via Livewire.on(), so registering
             // both would fire the same handler twice (visible flicker).
+            // After ContentTableList CreateAction/EditAction/DeleteAction
+            // completes inside the post-module-settings iframe, the
+            // iframe's layout forwards a `liveEditModuleTableActionSaved`
+            // window event up via top.window.dispatchEvent. Refresh the
+            // canvas (the host page being edited) so the rendered
+            // posts/products listing picks up the change immediately —
+            // task-2026-05-02-99f90c.
+            window.addEventListener('liveEditModuleTableActionSaved', () => {
+                try {
+                    if (window.mw && mw.app && mw.app.canvas
+                        && typeof mw.app.canvas.refresh === 'function') {
+                        mw.app.canvas.refresh();
+                    }
+                } catch (_) { /* canvas not ready */ }
+            });
+
             window.addEventListener('liveEditAddContentSaved', (event) => {
                 try {
                     if (!window.mw || !mw.app || !mw.app.canvas) { return; }
@@ -165,12 +181,43 @@
                     // INNER to a generic callMountedAction wrapper, so
                     // pick those first when present.
                     const matched = [];
-                    document.querySelectorAll('form').forEach((f) => {
-                        const submitAttr = f.getAttribute('wire:submit.prevent')
-                            || f.getAttribute('wire:submit');
-                        if (acceptedSubmitNames.includes(submitAttr)) {
-                            matched.push({ form: f, name: submitAttr });
-                        }
+                    const collectFormsFromDoc = (doc, isIframe) => {
+                        if (!doc || typeof doc.querySelectorAll !== 'function') { return; }
+                        doc.querySelectorAll('form').forEach((f) => {
+                            const submitAttr = f.getAttribute('wire:submit.prevent')
+                                || f.getAttribute('wire:submit');
+                            if (acceptedSubmitNames.includes(submitAttr)) {
+                                matched.push({ form: f, name: submitAttr, isIframe });
+                            }
+                        });
+                    };
+                    collectFormsFromDoc(document, false);
+
+                    // Some module-settings slideOvers (Posts, Products,
+                    // Pictures…) render the inner Filament action form
+                    // INSIDE a same-origin iframe at
+                    // /admin/<...>-module-settings, NOT in the parent
+                    // document. Without recursing into the iframe, the
+                    // SAVE button only finds the OUTER
+                    // openModuleSettingsAction wrapper and submitting
+                    // that re-fires the wrapper instead of the inner
+                    // CreateAction the user actually filled in — bug
+                    // from task-2026-05-02-99f90c. Walk every iframe
+                    // we can read (same-origin) and collect their
+                    // forms too.
+                    //
+                    // The slideOver iframe's CreateAction also uses
+                    // `callMountedAction` (same handler name as the
+                    // outer wrapper), so the handler-precedence map
+                    // alone can't disambiguate. Iframe forms must ALWAYS
+                    // win over parent forms with the same handler name —
+                    // anything visible inside an iframe is by definition
+                    // INNER to the parent's slideOver wrapper, so the
+                    // most-specific submit lives there.
+                    document.querySelectorAll('iframe').forEach((ifr) => {
+                        try {
+                            collectFormsFromDoc(ifr.contentDocument, true);
+                        } catch (_) { /* cross-origin iframe — skip */ }
                     });
 
                     if (matched.length === 0) return;
@@ -186,7 +233,19 @@
                         callMountedFormComponentAction: 2,
                         callMountedAction: 1,
                     };
-                    matched.sort((a, b) => precedence[b.name] - precedence[a.name]);
+                    // Sort: iframe forms first (anything inside an
+                    // iframe is INNER to a parent slideOver wrapper),
+                    // then by handler-name precedence within each
+                    // origin tier. This is the disambiguator for the
+                    // post-module-settings case where both the outer
+                    // wrapper AND the inner CreateAction use
+                    // 'callMountedAction' — task-2026-05-02-99f90c.
+                    matched.sort((a, b) => {
+                        if (a.isIframe !== b.isIframe) {
+                            return a.isIframe ? -1 : 1;
+                        }
+                        return precedence[b.name] - precedence[a.name];
+                    });
 
                     const pick = matched[0].form;
                     if (typeof pick.requestSubmit === 'function') {

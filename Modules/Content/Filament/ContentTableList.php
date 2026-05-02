@@ -70,6 +70,7 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                         $params['contentModel'] = $this->contentModel;
                         return $this->editFormArray($params);
                     })
+                    ->after(fn () => $this->dispatchLiveEditCanvasRefresh())
             ])
             ->actions([
                 EditAction::make('edit')
@@ -85,8 +86,9 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                         return $this->editFormArray($params);
                         //  ->form()
                     })
-                ,
+                    ->after(fn () => $this->dispatchLiveEditCanvasRefresh()),
                 DeleteAction::make('delete')
+                    ->after(fn () => $this->dispatchLiveEditCanvasRefresh())
             ])
             ->reorderable('position')
             ->bulkActions([
@@ -97,5 +99,26 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
     public function render()
     {
         return view('modules.content::content-table-list');
+    }
+
+    /**
+     * Dispatch a Livewire-bus event that the surrounding live-edit
+     * iframe (rendered into /admin/post-module-settings or
+     * /admin/products-module-settings etc.) intercepts and forwards
+     * to its parent window. The parent's iframe-page Alpine listener
+     * picks it up and calls `mw.app.canvas.refresh()` so the host
+     * page's posts/products listing updates immediately after a
+     * row is added/edited/deleted via the table actions —
+     * task-2026-05-02-99f90c.
+     *
+     * Without this, the user added a post via "Edit Posts → New post",
+     * the row landed in the DB, the slideOver iframe re-rendered the
+     * table — but the page they were editing in the canvas behind the
+     * slideOver showed the OLD post list because nothing told the
+     * canvas to reload.
+     */
+    protected function dispatchLiveEditCanvasRefresh(): void
+    {
+        $this->dispatch('liveEditModuleTableActionSaved');
     }
 }
