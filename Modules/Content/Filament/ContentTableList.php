@@ -65,6 +65,10 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ])
             ->headerActions([
                 CreateAction::make('create')
+                    // Green Save button (matches the toolbar) so the
+                    // primary commit action visually pops.
+                    // task-2026-05-02-4c1606.
+                    ->color('success')
                     // Centered modal (NOT a right-side slideOver) so the
                     // form gets the full-width column its title/url/
                     // content-body fields actually need. The previous
@@ -96,6 +100,7 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ])
             ->actions([
                 EditAction::make('edit')
+                    ->color('success')
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
                     ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
                     ->closeModalByClickingAway(false)

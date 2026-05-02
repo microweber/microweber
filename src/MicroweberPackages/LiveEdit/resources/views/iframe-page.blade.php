@@ -445,6 +445,30 @@
                 background: var(--gray-900, #111827);
                 border-top-color: var(--gray-700, #374151);
             }
+
+            /*
+             * `.mw-content-picker-modal` is the +ADD "what do you
+             * want to add?" dialog. Cards are stacked 1-per-row by
+             * default which feels overwhelming and makes the modal
+             * scroll. Grid them 2x2 on viewports wide enough so the
+             * four content types are visible at-a-glance — friendlier
+             * "Pinterest-style" picker, fewer eye movements before
+             * the user picks. task-2026-05-02-4c1606.
+             */
+            .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+                display: flex;
+            }
+            @media (min-width: 640px) {
+                .mw-content-picker-modal .fi-sc-component .mb-6 {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0.75rem;
+                }
+                .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+                    width: 100%;
+                    margin: 0;
+                }
+            }
         </style>
 
 

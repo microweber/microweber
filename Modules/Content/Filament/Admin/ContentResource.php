@@ -242,16 +242,13 @@ class ContentResource extends Resource
     protected static function generalInformationSection(): Schemas\Components\Section
     {
         return Schemas\Components\Section::make('General Information')
-            ->heading(function (Schemas\Components\Utilities\Get $get) {
-                $type = $get('content_type');
-                $isEdit = (bool) $get('id');
-                $labels = [
-                    'page' => $isEdit ? 'Edit Page' : 'Add New Page',
-                    'product' => $isEdit ? 'Edit Product' : 'Add New Product',
-                    'post' => $isEdit ? 'Edit Post' : 'Add New Post',
-                ];
-                return $labels[$type] ?? null;
-            })
+            // The modal already shows "Create post" / "Edit post" /
+            // etc. as its primary heading (see AdminLiveEditPage::
+            // generateAction's modalHeading). Returning null here drops
+            // the redundant inner section heading ("Add New Post" /
+            // "Edit Post") so the user sees ONE heading, not two —
+            // task-2026-05-02-4c1606.
+            ->heading(null)
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255)

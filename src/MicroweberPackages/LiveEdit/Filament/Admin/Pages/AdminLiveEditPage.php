@@ -93,6 +93,7 @@ class AdminLiveEditPage extends Page
         ];
 
         return Action::make('addContentAction')
+            ->modalHeading('Add new content')
             ->form([
                 \Filament\Schemas\Components\View::make('microweber-live-edit::add-content-modal')
                     ->viewData([
@@ -101,8 +102,14 @@ class AdminLiveEditPage extends Page
             ])
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
-            ->modalWidth(MaxWidth::Medium)
-            ->slideOver();
+            // Centered modal at the same width tier as the
+            // generateAction modals — so the +ADD picker visually
+            // matches the modal that opens after the user picks a
+            // type. The previous slideOver was a tiny right-edge
+            // drawer that felt like a developer tool, not a friendly
+            // "what do you want to add?" dialog. task-2026-05-02-4c1606.
+            ->modalWidth(MaxWidth::TwoExtraLarge)
+            ->extraModalWindowAttributes(['class' => 'mw-content-form-modal mw-content-picker-modal']);
     }
 
     public function addPageAction(): Action
@@ -277,6 +284,12 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
+            // Green "Save" button matches the green main-toolbar SAVE
+            // pill — visually says "this is the primary commit
+            // action". The previous default was a dark grey button
+            // that looked secondary and made users reach for the
+            // toolbar SAVE instead. task-2026-05-02-4c1606.
+            ->color('success')
             // Centered modal (NOT a right-side slideOver) so the form
             // gets the full-width column the title/url/content-body
             // fields actually need. The previous slideOver pinned the
