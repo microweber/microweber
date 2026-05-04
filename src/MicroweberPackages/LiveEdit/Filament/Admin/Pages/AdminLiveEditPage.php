@@ -370,15 +370,35 @@ class AdminLiveEditPage extends Page
 
                 $newContentLink = (string) content_link($model->id);
 
+                // Build a useful next-step action for the toast.
+                // The previous "View {Type}" action was a no-op
+                // because we already navigate the canvas to the
+                // new content URL on the next line — clicking
+                // "View" landed the user on the page they were
+                // already on. Replace it with "Edit details"
+                // pointing at the FULL admin form, so power
+                // users who skipped SEO/Tags/Custom Fields in
+                // the compact modal can refine those without
+                // re-opening the lean modal. Categories don't
+                // have a public URL anyway and skip the canvas
+                // navigation, so for them the "Edit details"
+                // link is doubly useful as the only way back to
+                // the new record. task-2026-05-04-f575c7.
+                $editDetailsUrl = ($contentType === 'category')
+                    ? CategoryResource::getUrl('edit', ['record' => $model])
+                    : ContentResource::getUrl('edit', ['record' => $model]);
+
                 Notification::make()
                     ->success()
                     ->title($contentTypeFriendly . ' is  created')
                     ->body($contentTypeFriendly
                         . ' has been created successfully.')
                     ->actions([
-                        Action::make('viewContent')
-                            ->label('View ' . $contentTypeFriendly)
-                            ->url($newContentLink)
+                        Action::make('editDetails')
+                            ->label('Edit details')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->url($editDetailsUrl)
+                            ->openUrlInNewTab()
                             ->button(),
                     ])
                     ->send();

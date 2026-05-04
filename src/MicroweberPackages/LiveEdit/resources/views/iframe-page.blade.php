@@ -658,13 +658,26 @@
              * handler's inline style.left/top still take effect
              * (task-2026-05-04-c124bc).
              */
+            /*
+             * The live-edit toolbar sits at the top of the
+             * viewport at `position: relative; z-index: 999`
+             * (frontend-assets `ui/css/index.css`). The modal
+             * pinned to `top: 1.5rem` rendered its heading
+             * directly behind the 60px toolbar visually
+             * (heading center at y=52, toolbar bottom = 60),
+             * which not only hid the title but also intercepted
+             * mousedown on the drag handle. Push the modal
+             * below the toolbar height instead so the heading
+             * + drag handle are always reachable.
+             * task-2026-05-04-f575c7.
+             */
             .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
                 position: fixed;
-                top: 1.5rem;
+                top: calc(var(--toolbar-height, 60px) + 0.75rem);
                 left: 50%;
                 transform: translateX(-50%);
                 margin: 0;
-                max-height: calc(100vh - 3rem);
+                max-height: calc(100vh - var(--toolbar-height, 60px) - 1.5rem);
                 display: flex;
                 flex-direction: column;
             }
@@ -683,13 +696,16 @@
              */
             @media (max-width: 767px) {
                 .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
-                    top: 0.75rem;
+                    /* Mobile keeps the same toolbar offset so
+                       the heading stays clear of the 60px
+                       toolbar — task-2026-05-04-f575c7. */
+                    top: calc(var(--toolbar-height, 60px) + 0.5rem);
                     left: 0.75rem;
                     right: 0.75rem;
                     transform: none;
                     max-width: none;
                     width: auto;
-                    max-height: calc(100vh - 1.5rem);
+                    max-height: calc(100vh - var(--toolbar-height, 60px) - 1rem);
                 }
                 .mw-content-form-modal .fi-section {
                     padding: 0.625rem 0.75rem;

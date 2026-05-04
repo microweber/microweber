@@ -132,7 +132,17 @@ class ContentResource extends Resource
                 static::compactGeneralInformationSection(),
                 static::pricingSection(),
                 static::publishedSection(),
-                static::parentPageSection($firstBlogId, $firstShopId),
+                // Collapsed by default — for posts and products
+                // the parent is auto-resolved to firstBlogId /
+                // firstShopId; for pages it falls back to the
+                // homepage. The 100+-item parent-page tree is
+                // noise for the 95% case where the user just
+                // wants to add a post under Blog. Power users
+                // can still expand to override.
+                // task-2026-05-04-f575c7.
+                static::parentPageSection($firstBlogId, $firstShopId)
+                    ->collapsible()
+                    ->collapsed(),
             ])->columns(1)->columnSpanFull(),
         ];
     }
@@ -152,7 +162,20 @@ class ContentResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255)
-                    ->required()
+                    // `->rules(['required'])` instead of
+                    // `->required()` so Filament still validates
+                    // server-side via Livewire BUT we don't emit
+                    // the native `required` HTML attribute. The
+                    // browser's native "Please fill out this
+                    // field" tooltip used to anchor itself to the
+                    // first hidden invalid sibling (the rich-text
+                    // editor's hidden textarea), pointing the
+                    // arrow at the wrong field. With Filament's
+                    // own inline error rendering, the message
+                    // appears below the Title field where it
+                    // belongs. task-2026-05-04-f575c7.
+                    ->rules(['required'])
+                    ->markAsRequired()
                     ->autofocus()
                     ->placeholder('e.g. My first post')
                     ->hintAction(

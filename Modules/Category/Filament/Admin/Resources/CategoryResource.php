@@ -216,6 +216,12 @@ class CategoryResource extends Resource
         $parentTreeSection = Forms\Components\Section::make('Parent page')
             ->icon('heroicon-m-folder-open')
             ->columns(1)
+            // Collapsed by default in live-edit — parent is
+            // pre-selected from the canvas page; tree is noise
+            // unless the user wants to override.
+            // task-2026-05-04-f575c7.
+            ->collapsible()
+            ->collapsed()
             ->schema([
                 MwTree::make('mw_parent_page_and_category_state')
                     ->columnSpanFull()
