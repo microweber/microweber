@@ -230,10 +230,17 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->stickyModalHeader(true)
-            //  ->modalWidth(MaxWidth::ExtraLarge)
-            ->modalWidth(MaxWidth::Medium)
-            ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal'])
-            ->slideOver();
+            // task-2026-05-04-b2dfc1 — user reported "on posts
+            // and product module in live edit we must pop up
+            // the central edit modal instead of slide". Dropped
+            // `->slideOver()` so this Module Settings panel
+            // opens as a centered modal (like the +ADD toolbar
+            // already does), and bumped the width from Medium
+            // (~448px) to FiveExtraLarge (1024px) to match the
+            // Create-Content modal so the Items-list table +
+            // inner Create/Edit modal both have desktop room.
+            ->modalWidth(MaxWidth::FiveExtraLarge)
+            ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal']);
 
 
     }
