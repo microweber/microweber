@@ -285,22 +285,29 @@ class CategoryResource extends Resource
 
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
+                    ->hiddenLabel()
+                    ->placeholder("What's the category name?")
+                    ->extraInputAttributes(['class' => 'mw-fb-title-input'])
                     ->rules(['required'])
                     ->markAsRequired()
                     ->autofocus()
+                    ->extraFieldWrapperAttributes(['class' => 'mw-fb-title-wrap'])
                     ->columnSpanFull(),
 
-                $parentTreeSection,
-
+                // Move parent + description into accordion to
+                // keep the upfront stack tiny (Facebook-style).
+                // task-2026-05-04-2cd250.
                 Forms\Components\Section::make('More options')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
                     ->collapsed()
+                    ->extraAttributes(['class' => 'mw-fb-more-options'])
                     ->schema([
                         Forms\Components\Textarea::make('description')
                             ->label('Description')
                             ->rows(3)
                             ->columnSpanFull(),
+                        $parentTreeSection->columnSpanFull(),
                     ])
                     ->columns(1)
                     ->columnSpanFull(),

@@ -865,6 +865,102 @@
             }
 
             /*
+             * "More options" accordion polish — when expanded,
+             * the inner sections used to ship their own card
+             * borders + heavy padding, stacking 3 levels of
+             * chrome. Strip the inner section borders and
+             * tighten paddings so the expanded accordion looks
+             * intentional, not nested. task-2026-05-04-1f20d2.
+             */
+            .mw-content-form-modal .mw-fb-more-options {
+                padding: 0.625rem 0.875rem;
+            }
+            .mw-content-form-modal .mw-fb-more-options > .fi-section-content-ctn,
+            .mw-content-form-modal .mw-fb-more-options > .fi-section-content {
+                padding-top: 0.5rem;
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-section {
+                border: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0;
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header {
+                padding-block: 0.375rem;
+                padding-inline: 0;
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading {
+                font-size: 0.8125rem;
+                font-weight: 500;
+                color: var(--gray-500, #6b7280);
+                text-transform: uppercase;
+                letter-spacing: 0.025em;
+            }
+            html.dark .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading,
+            .dark .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading {
+                color: var(--gray-400, #9ca3af);
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-section-content-ctn,
+            .mw-content-form-modal .mw-fb-more-options .fi-section-content {
+                padding: 0;
+            }
+            /* Tighter parent-page tree inside More options:
+               smaller search box, smaller tree-item rows. */
+            .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper {
+                padding: 0;
+            }
+            .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper input[type="search"],
+            .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper input[type="text"] {
+                font-size: 0.8125rem;
+                padding-block: 0.375rem;
+            }
+            .mw-content-form-modal .mw-fb-more-options .mw-tree-item {
+                padding-block: 0.25rem !important;
+                font-size: 0.8125rem;
+            }
+            /* RichEditor inside More options — minimize the
+               toolbar height + content padding so the rich-text
+               box doesn't dominate the accordion. */
+            .mw-content-form-modal .mw-fb-more-options .fi-fo-rich-editor {
+                font-size: 0.875rem;
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-fo-rich-editor .ProseMirror {
+                min-height: 6rem;
+                padding: 0.5rem;
+            }
+            .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label {
+                font-size: 0.8125rem;
+                color: var(--gray-600, #4b5563);
+                font-weight: 500;
+            }
+            html.dark .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label,
+            .dark .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label {
+                color: var(--gray-300, #d1d5db);
+            }
+
+            /*
+             * Tighten the upfront stack so the modal stays under
+             * ~480px tall without scrolling — keeps the SAVE
+             * button reachable on smaller viewports.
+             * task-2026-05-04-2cd250.
+             */
+            .mw-content-form-modal > .fi-modal-content {
+                padding: 0.875rem 1rem 0.5rem;
+            }
+            .mw-content-form-modal .fi-fo-component-ctn,
+            .mw-content-form-modal .fi-fo-component-ctn > .fi-fo-component {
+                gap: 0.625rem;
+            }
+            /* Smaller media drop-zone tile. */
+            .mw-content-form-modal .mw-fb-media-section {
+                padding: 0.5rem 0.75rem;
+            }
+            .mw-content-form-modal .mw-fb-media-section .filepond--root,
+            .mw-content-form-modal .mw-fb-media-section [class*="filepond--root"] {
+                min-height: 2.5rem;
+            }
+
+            /*
              * Make the Add Page/Post/Product/Category modal draggable
              * by its header — same UX Microweber v2's `mw.dialog`
              * shipped (the v2 helper just called jQuery UI

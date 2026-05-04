@@ -316,6 +316,84 @@
         .mw-content-form-modal .mw-fb-media-section .fi-fo-field-label {
             display: none;
         }
+
+        /* "More options" accordion polish + upfront stack
+           tightening (mirrored from iframe-page.blade.php).
+           task-2026-05-04-1f20d2 + task-2026-05-04-2cd250. */
+        .mw-content-form-modal .mw-fb-more-options {
+            padding: 0.625rem 0.875rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options > .fi-section-content-ctn,
+        .mw-content-form-modal .mw-fb-more-options > .fi-section-content {
+            padding-top: 0.5rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-section {
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header {
+            padding-block: 0.375rem;
+            padding-inline: 0;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--gray-500, #6b7280);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        html.dark .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading,
+        .dark .mw-content-form-modal .mw-fb-more-options .fi-section .fi-section-header-heading {
+            color: var(--gray-400, #9ca3af);
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-section-content-ctn,
+        .mw-content-form-modal .mw-fb-more-options .fi-section-content {
+            padding: 0;
+        }
+        .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper {
+            padding: 0;
+        }
+        .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper input[type="search"],
+        .mw-content-form-modal .mw-fb-more-options .mw-tree-wrapper input[type="text"] {
+            font-size: 0.8125rem;
+            padding-block: 0.375rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options .mw-tree-item {
+            padding-block: 0.25rem !important;
+            font-size: 0.8125rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-fo-rich-editor {
+            font-size: 0.875rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-fo-rich-editor .ProseMirror {
+            min-height: 6rem;
+            padding: 0.5rem;
+        }
+        .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label {
+            font-size: 0.8125rem;
+            color: var(--gray-600, #4b5563);
+            font-weight: 500;
+        }
+        html.dark .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label,
+        .dark .mw-content-form-modal .mw-fb-more-options .fi-fo-field-wrp-label {
+            color: var(--gray-300, #d1d5db);
+        }
+        .mw-content-form-modal > .fi-modal-content {
+            padding: 0.875rem 1rem 0.5rem;
+        }
+        .mw-content-form-modal .fi-fo-component-ctn,
+        .mw-content-form-modal .fi-fo-component-ctn > .fi-fo-component {
+            gap: 0.625rem;
+        }
+        .mw-content-form-modal .mw-fb-media-section {
+            padding: 0.5rem 0.75rem;
+        }
+        .mw-content-form-modal .mw-fb-media-section .filepond--root,
+        .mw-content-form-modal .mw-fb-media-section [class*="filepond--root"] {
+            min-height: 2.5rem;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}

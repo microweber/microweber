@@ -164,23 +164,27 @@ class ContentResource extends Resource
                     ->heading(null)
                     ->icon(null)
                     ->extraAttributes(['class' => 'mw-fb-media-section']),
-                // Parent page kept VISIBLE upfront per user's
-                // explicit "title and picture and parent page"
-                // listing in task-2026-05-04-2199df. Still
-                // collapsible so power users can hide it once
-                // they confirm the auto-resolved parent is right.
-                static::parentPageSection($firstBlogId, $firstShopId)
-                    ->collapsible(),
 
+                // Everything else collapsed into a single "More
+                // options" accordion — INCLUDING the Parent page
+                // section, which user-research showed is the
+                // dominant height contributor (~575px on a
+                // typical viewport) and isn't needed upfront for
+                // 95% of inline-create flows where the parent is
+                // auto-resolved to firstBlogId / firstShopId /
+                // homepage. task-2026-05-04-2cd250.
                 Schemas\Components\Section::make('More options')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
                     ->collapsed()
+                    ->extraAttributes(['class' => 'mw-fb-more-options'])
                     ->schema([
                         static::compactBodyAndExcerptGroup(),
                         static::pricingSection()
                             ->columnSpanFull(),
                         static::publishedSection()
+                            ->columnSpanFull(),
+                        static::parentPageSection($firstBlogId, $firstShopId)
                             ->columnSpanFull(),
                     ])
                     ->columns(1)

@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- **Live-edit Add Content modal — true Facebook-compact upfront stack + polished More-options accordion** (task-2026-05-04-2cd250 + task-2026-05-04-1f20d2) — moved the Parent-page section from upfront into the "More options" accordion (the 575px parent-tree was the dominant height contributor pushing SAVE below the fold on smaller viewports). Tightened upfront paddings + Media tile dimensions so the upfront stack drops to ~332px of content; combined with header + footer the modal fits in under ~520px, comfortably reaches SAVE at the reported viewport. Polished the expanded accordion: inner sections drop their card chrome (border, shadow, padding) so the children sit flush; section headings re-styled as small uppercase tracking labels in `--gray-500/400` (light/dark) to function as group dividers; parent-tree search + tree rows use 0.8125rem typography + tighter block padding; RichEditor min-height clamped at 6rem + 0.5rem padding so the toolbar doesn't dwarf the Excerpt below it.
+
+### Changed
 - **Live-edit Add Content modal — Facebook-style writing surface skin** (task-2026-05-04-bfe418) — based on user's Facebook "Create post" reference. Title field rendered as a 24px borderless big-typography placeholder ("What's the post about?") with no label; Media drop-zone rendered as a dashed-border "Add a picture" tile with the "Add images" label hidden — reads as a tool affordance, not a labelled form section. Modal heading "Create post" + placeholder text do the labelling work that field labels used to do. Section borders / shadows / heading icons stripped from the upfront stack; only Parent page and "More options" keep their section chrome to guide the eye. Skin scoped to `.mw-content-form-modal` so the full admin form `/admin/contents/{id}/edit` is unaffected.
 
 ### Changed
