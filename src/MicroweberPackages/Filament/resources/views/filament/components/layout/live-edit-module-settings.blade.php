@@ -175,6 +175,27 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* Mobile-friendly (mirrored from iframe-page.blade.php).
+           task-2026-05-04-76275d. */
+        @media (max-width: 767px) {
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
+                top: 0.75rem;
+                left: 0.75rem;
+                right: 0.75rem;
+                transform: none;
+                max-width: none;
+                width: auto;
+                max-height: calc(100vh - 1.5rem);
+            }
+            .mw-content-form-modal .fi-section {
+                padding: 0.625rem 0.75rem;
+            }
+            .mw-content-form-modal > .fi-modal-header,
+            .mw-content-form-modal > .fi-modal-footer {
+                padding-inline: 1rem;
+            }
+        }
         .fi-modal-window.mw-content-form-modal > .fi-modal-header,
         .fi-modal-window.mw-content-form-modal > .fi-modal-footer {
             flex: 0 0 auto;

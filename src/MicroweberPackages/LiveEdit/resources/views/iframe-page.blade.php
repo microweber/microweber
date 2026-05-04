@@ -668,6 +668,37 @@
                 display: flex;
                 flex-direction: column;
             }
+
+            /*
+             * Mobile-friendly: at narrow viewports the
+             * .fi-width-5xl class would set a 1024px max-width
+             * that overflows the screen. Below 768px take over
+             * width and pin to viewport edges (16px gutter on
+             * each side, 12px from top/bottom). The right
+             * sidebar columns inside the form already collapse
+             * to 1 column at narrow widths via Filament's grid
+             * because the compact form uses
+             * `.columns(1)->columnSpanFull()` already.
+             * task-2026-05-04-76275d.
+             */
+            @media (max-width: 767px) {
+                .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
+                    top: 0.75rem;
+                    left: 0.75rem;
+                    right: 0.75rem;
+                    transform: none;
+                    max-width: none;
+                    width: auto;
+                    max-height: calc(100vh - 1.5rem);
+                }
+                .mw-content-form-modal .fi-section {
+                    padding: 0.625rem 0.75rem;
+                }
+                .mw-content-form-modal > .fi-modal-header,
+                .mw-content-form-modal > .fi-modal-footer {
+                    padding-inline: 1rem;
+                }
+            }
             .fi-modal-window.mw-content-form-modal > .fi-modal-header,
             .fi-modal-window.mw-content-form-modal > .fi-modal-footer {
                 flex: 0 0 auto;

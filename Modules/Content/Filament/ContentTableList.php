@@ -97,6 +97,19 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     ->closeModalByClickingAway(false)
                     ->closeModalByEscaping(false)
                     ->stickyModalFooter()
+                    ->extraModalFooterActions([
+                        // "Open in admin" escape hatch — the lean
+                        // live-edit form skips SEO / Tags / Menus /
+                        // Custom Fields. This button takes power
+                        // users to the full admin create page in a
+                        // new tab. task-2026-05-04-76275d.
+                        \Filament\Actions\Action::make('openInAdmin')
+                            ->label('Open in admin')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->color('gray')
+                            ->url(ContentResource::getUrl('create'))
+                            ->openUrlInNewTab(),
+                    ])
                     ->form(function () {
                         $params = [];
                         $params['contentModel'] = $this->contentModel;
@@ -112,6 +125,18 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     ->closeModalByClickingAway(false)
                     ->closeModalByEscaping(false)
                     ->stickyModalFooter()
+                    ->extraModalFooterActions([
+                        // "Open in admin" escape hatch for editing —
+                        // links to the full admin edit page so users
+                        // can refine SEO / Custom Fields / Tags etc.
+                        // task-2026-05-04-76275d.
+                        \Filament\Actions\Action::make('openInAdmin')
+                            ->label('Open in admin')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->color('gray')
+                            ->url(fn (Model $record) => ContentResource::getUrl('edit', ['record' => $record]))
+                            ->openUrlInNewTab(),
+                    ])
                     ->form(function (Model $record) {
 
                         $params = [];

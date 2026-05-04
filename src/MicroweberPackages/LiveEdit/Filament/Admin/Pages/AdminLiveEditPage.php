@@ -335,6 +335,21 @@ class AdminLiveEditPage extends Page
             // viewport. Sticky footer keeps Save/Cancel visible while
             // the form scrolls. task-2026-05-02-354958.
             ->stickyModalFooter()
+            // "Open in admin" escape hatch — the live-edit modal
+            // intentionally ships only the essentials (Title +
+            // body + published + parent + maybe pricing). Power
+            // users who need SEO / Custom Fields / Tags / Menus /
+            // Variants can click this to open the full admin
+            // create form in a new tab without losing their
+            // place in the live-edit canvas. task-2026-05-04-76275d.
+            ->extraModalFooterActions(fn () => [
+                Action::make('openInAdmin')
+                    ->label('Open in admin')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->color('gray')
+                    ->url(static::resolveAdminCreateUrl($contentType, $currentPageId))
+                    ->openUrlInNewTab(),
+            ])
             ->form($formArray)
             ->action(function ($data) use ($contentType, $currentPageId) {
 
@@ -382,5 +397,27 @@ class AdminLiveEditPage extends Page
                 $this->dispatch('liveEditAddContentSaved', url: $newContentLink);
             })
             ->modalSubmitActionLabel('Save');
+    }
+
+    /**
+     * Resolve the full-admin create URL for the "Open in admin"
+     * escape hatch in the live-edit compact modal. Carries the
+     * current canvas page as `?parent_page_id=` so the admin form
+     * defaults to the same parent the user implicitly chose by
+     * editing that page. task-2026-05-04-76275d.
+     */
+    protected static function resolveAdminCreateUrl(string $contentType, ?int $currentPageId): string
+    {
+        $query = [];
+        if ($currentPageId && $contentType !== 'page') {
+            $query['parent_page_id'] = $currentPageId;
+        }
+
+        if ($contentType === 'category') {
+            return CategoryResource::getUrl('create', $query);
+        }
+
+        $query['content_type'] = $contentType;
+        return ContentResource::getUrl('create', $query);
     }
 }
