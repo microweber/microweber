@@ -245,7 +245,11 @@ class AdminLiveEditPage extends Page
         if ($contentType == 'category') {
             $formArray = CategoryResource::formArray();
         } else {
-            $formArray = ContentResource::formArray([
+            // The lean live-edit variant — title + body + published
+            // + parent + (product) pricing only. Power users can
+            // open the full admin form to fill in SEO / Custom
+            // Fields / Tags / Menus etc. task-2026-05-04-1d68c7.
+            $formArray = ContentResource::formArrayCompact([
                 'contentType' => $contentType
             ]);
         }

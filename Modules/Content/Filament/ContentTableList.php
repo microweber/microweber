@@ -41,7 +41,11 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
 
     public function editFormArray($params = [])
     {
-        return ContentResource::formArray($params);
+        // Use the lean live-edit form — this Livewire component
+        // is mounted inside the per-module Items-list iframe in
+        // the live-edit panel, so the same compact-modal logic
+        // applies. task-2026-05-04-1d68c7.
+        return ContentResource::formArrayCompact($params);
 
     }
 

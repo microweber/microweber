@@ -92,6 +92,51 @@ class ContentResource extends Resource
         return static::contentTabsSchema($mainForm);
     }
 
+    /**
+     * Lean form schema used by the live-edit Add Content modal
+     * (toolbar +ADD and per-module Items-list New/Edit). The
+     * full `formArray()` ships ~15 tabs + 4 sidebar sections —
+     * useful at /admin/content/{id}/edit, but a wall-of-fields
+     * inside a 1024px modal where the user is in flow editing
+     * the canvas. This variant keeps only the essentials for
+     * "create now, refine later":
+     *   - Title (required, autofocus)
+     *   - Content body / Excerpt (post only)
+     *   - Permalink (collapsed, optional override)
+     *   - Published toggle
+     *   - Parent page picker
+     *   - Pricing (product only)
+     *   - All hidden state fields the save handler needs
+     *
+     * Excluded vs full form: Media browser, Tags, Menus, the
+     * Template / Product Details / Variants / Custom Fields /
+     * SEO / Advanced tabs. Power users can still open the full
+     * admin form via Edit content from the table.
+     *
+     * task-2026-05-04-1d68c7.
+     */
+    public static function formArrayCompact($params = [])
+    {
+        $id = $params['id'] ?? null;
+        $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
+
+        $contentType = static::resolveContentType($params);
+        $contentSubtype = $params['contentSubtype'] ?? (isset(static::$subType) ? static::$subType : 'static');
+        $sessionId = session()->getId();
+        $active_site_template_default = static::resolveDefaultTemplate();
+        [$firstBlogId, $firstShopId] = static::resolveParentPages($contentType);
+
+        return [
+            Schemas\Components\Group::make([
+                ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
+                static::generalInformationSection(),
+                static::pricingSection(),
+                static::publishedSection(),
+                static::parentPageSection($firstBlogId, $firstShopId),
+            ])->columns(1)->columnSpanFull(),
+        ];
+    }
+
     protected static function resolveContentType(array $params): string
     {
         $contentType = 'page';

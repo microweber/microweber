@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- **Live-edit Add Content modal uses a compact form schema** (task-2026-05-04-1d68c7) — added `ContentResource::formArrayCompact()` and wired it to the live-edit toolbar +ADD (`AdminLiveEditPage::generateAction`) and the per-module Items-list Create/Edit (`ContentTableList::editFormArray`). Cuts the form from 6 tabs + 14+ sections (~25+ fields) down to 4 sections + 6 visible labels — Title, Content body, Excerpt, Permalink (collapsed), Published, Parent page. Power users can still open the full form via the regular admin Filament resource at /admin/content/{id}/edit; the live-edit modal is now optimised for "create now, refine later" inline workflow.
+
 ### Fixed
 - **Live-edit Add Content modal scroll + footer bleed** (task-2026-05-04-b7eee8) — the Add Post / Page / Product / Category form is ~1640px tall on a typical 900px viewport, so the modal used to grow past the fold, hide the SAVE/Cancel footer, and let later sections (Media, parent-page tree) bleed visually behind the would-be footer. Switched `.mw-content-form-modal` to a flex column with `.fi-modal-content` as the lone scrollable child, and pinned the modal to `position: fixed; top: 1.5rem; max-height: calc(100vh - 3rem)`. Header + scrollable body + footer all fit in the viewport with breathing room above and below; users scroll inside the modal, footer always visible.
 
