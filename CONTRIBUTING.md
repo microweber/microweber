@@ -78,54 +78,42 @@ Navigate to your GitHub repository, then click **New pull request** within the P
 
 ## Testing Standards
 
-All contributions that touch PHP code must include tests. The project uses **Pest** (built on PHPUnit) as the test runner. Both Pest closure-style tests and PHPUnit class-style tests are supported.
+All contributions that touch PHP code must include tests. The canonical runner in this repository is **PHPUnit 11** via `phpunit.xml`, with grouped suite execution available through `./run-tests.sh`.
 
 ### Running tests
 
 ```sh
-# Install dependencies (includes Pest)
+# Install dependencies
 composer install --dev
 
 # Run the full test suite
-vendor/bin/pest
+composer test
 
-# Run only Unit + Feature suites
-vendor/bin/pest --configuration pest.xml
+# Run the memory-safe grouped suites (recommended for broad local validation)
+./run-tests.sh
+
+# List the grouped suites available to run
+./run-tests.sh --list
 
 # Run a single module's tests
-vendor/bin/pest Modules/Backup/Tests
+php vendor/bin/phpunit Modules/Backup/Tests --no-progress --display-errors
 
 # Run a single test file
-vendor/bin/pest Modules/Backup/Tests/Unit/Filament/BackupResourceTest.php
+php vendor/bin/phpunit Modules/Backup/Tests/Unit/Filament/BackupResourceTest.php --no-progress --display-errors
 
-# Run tests matching a name pattern
-vendor/bin/pest --filter="backup"
+# Run just the Unit or Feature suite from phpunit.xml
+php vendor/bin/phpunit --testsuite=Unit --no-progress --display-errors
+php vendor/bin/phpunit --testsuite=Feature --no-progress --display-errors
 
 # Composer shortcuts
-composer test           # Full suite via phpunit.xml
-composer test-pest      # Unit + Feature via pest.xml
+composer test           # Full suite via artisan test
+composer test-coverage  # Coverage run via phpunit.xml
+composer test-dusk      # Browser suite via Laravel Dusk
 ```
 
-### Writing new tests (Pest style — recommended)
+### Writing tests
 
-New tests should use Pest closure syntax:
-
-```php
-<?php
-
-use Modules\Billing\Models\Subscription;
-
-test('subscription can be created with factory', function () {
-    $subscription = Subscription::factory()->make();
-
-    expect($subscription)->toBeInstanceOf(Subscription::class)
-        ->and($subscription->status)->toBeIn(['active', 'inactive', 'cancelled']);
-});
-```
-
-### Existing tests (PHPUnit class style)
-
-Existing PHPUnit class-based tests are fully supported. When writing or updating PHPUnit-style tests, follow these conventions:
+This repository currently ships PHPUnit-style tests. When writing or updating tests, follow these conventions:
 
 **Use `#[Test]` attributes** — not `@test` docblocks and not `test_` method prefixes:
 
@@ -255,12 +243,12 @@ Before submitting a PR, confirm:
 - [ ] Test methods use `it_` prefix and `void` return type
 - [ ] Test classes extend `Tests\TestCase`
 - [ ] Filament resource tests use `InteractsWithFilamentPanel` or extend `FilamentResourceTestCase`
-- [ ] `vendor/bin/pest` passes with zero failures
+- [ ] `composer test` or the relevant targeted PHPUnit command passes with zero failures
 - [ ] No leftover `var_dump()`, `dd()`, `dump()`, or `ray()` calls
 
 ### Further reading
 
-See [docs/testing/module-testing-guide.md](docs/testing/module-testing-guide.md) for a comprehensive guide including Pest expectations, lifecycle hooks, CI integration, and troubleshooting.
+See [docs/testing/module-testing-guide.md](docs/testing/module-testing-guide.md) for a comprehensive guide including module test structure, CI integration, and troubleshooting.
 
 ---
 

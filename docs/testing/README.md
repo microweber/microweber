@@ -1,24 +1,20 @@
-# Microweber Pest Testing Setup
+# Microweber Testing Setup
 
-This directory contains the Pest testing framework configuration and documentation for Microweber.
+This directory contains testing documentation and helper scripts for Microweber.
 
 ## What's Included
 
-- **Root Configuration**
-- `/Pest.php` - Root Pest configuration with module auto-discovery
-- `/pest.xml` - Pest XML configuration for test suites
-- `/tests/Pest.php` - Root tests directory configuration
-- `/tests/Unit/ExamplePestTest.php` - Example Pest tests
+- **Canonical Root Configuration**
+- `/phpunit.xml` - Source of truth for Unit, Feature, Core, module-group, and template suites
+- `/run-tests.sh` - Memory-safe grouped runner for broad local validation
 
-- **Module-Level Configuration**
-- 76 modules now have `Pest.php` files in their Tests/tests directories
-- Each module can run its own Pest test suite independently
+- **Optional/Legacy Helper Scripts**
+- `module-pest-template.php` - Template if the team reintroduces module-level Pest config later
+- `setup-module-pest.php` - Helper for generating module-level Pest files
+- `generate-module-pest-files.php` - Batch generator for module-level Pest files
 
-- **Documentation**
+**Documentation**
 - `module-testing-guide.md` - Complete guide for writing module-level Pest tests
-- `module-pest-template.php` - Template for creating module Pest.php files
-- `setup-module-pest.php` - Interactive script to set up Pest for a module
-- `generate-module-pest-files.php` - Script to generate Pest.php for all modules
 
 ## Quick Start
 
@@ -32,42 +28,36 @@ composer install --dev
 
 ```bash
 # Run all tests
-./vendor/bin/pest
+composer test
 
-# Run specific module tests
-./vendor/bin/pest Modules/Billing/Tests
+# Run the grouped suites without hitting long-run memory issues
+./run-tests.sh
 
-# Run with coverage
-./vendor/bin/pest --coverage
+# Run a specific grouped suite
+./run-tests.sh Unit
+./run-tests.sh Feature
+./run-tests.sh Modules-Content
 
-# Run specific test suite
-./vendor/bin/pest --testsuite=Unit
-./vendor/bin/pest --testsuite=Feature
+# Run a specific module test path directly
+php vendor/bin/phpunit Modules/Billing/Tests --no-progress --display-errors
 ```
 
-## Setting Up a New Module
+## About the Pest helper files
 
-```bash
-# Interactive setup
-php docs/testing/setup-module-pest.php YourModuleName
-```
-
-Or manually:
-
-1. Create `Modules/YourModule/Tests/Unit` and `Modules/YourModule/Tests/Feature` directories
-2. Create `Modules/YourModule/Tests/Pest.php` (see template)
-3. Write your first test in `Modules/YourModule/Tests/Unit/ExampleTest.php`
+The helper scripts in this folder were added for a future/partial Pest migration, but the root repository does **not** currently ship `/Pest.php`, `/pest.xml`, or a `composer test-pest` script. Until that migration is completed, treat `phpunit.xml` and `run-tests.sh` as the authoritative entrypoints.
 
 ## Writing Tests
 
 See `module-testing-guide.md` for detailed examples and best practices.
 
-### Basic Pest Test
+### Basic test
 
 ```php
 <?php
 
-test('user can create post', function () {
+#[Test]
+public function it_creates_a_post(): void
+{
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->post('/posts', [
@@ -75,35 +65,12 @@ test('user can create post', function () {
     ]);
 
     $response->assertRedirect();
-    expect($user->posts)->toHaveCount(1);
-});
+}
 ```
-
-## Backward Compatibility
-
-All existing PHPUnit tests continue to work. You can gradually migrate tests from PHPUnit to Pest at your own pace.
-
-## Modules with Pest Configuration
-
-The following modules have Pest.php files:
-
-- Accordion, Address, AiWizard, Attributes, Audio, Background, Backup, BeforeAfter
-- Blog, Btn, Captcha, Cart, Category, Checkout, Cloudflare, Comments
-- Components, Content, ContentData, ContentDataVariant, CookieNotice
-- Country, Coupons, Currency, Customer, CustomFields
-- Embed, Export, FacebookLike, FacebookPage, Faq, FileManager, Form
-- GoogleAnalytics, GoogleMaps, HighlightCode, ImageRollover, Invoice
-- Log, Logo, MailTemplate, Marketplace, Marquee, Media, Menu, Newsletter
-- Offer, OpenApi, Order, Page, Payment, Pdf, Pictures, Post
-- Product, Profile, Rating, Restore, RssFeed, Settings, Sharer
-- Shipping, Shop, Sitemap, SiteStats, Skills, Slider, SocialLinks
-- Tabs, Tag, Tax, Teamcard, Testimonials, TextType, TweetEmbed, Video
-
-Total: 76 modules configured
 
 ## Next Steps
 
 1. Read the full guide: `module-testing-guide.md`
-2. Try running tests: `./vendor/bin/pest`
-3. Create your first module test using the setup script
+2. Try running the grouped suites: `./run-tests.sh --list`
+3. Use `phpunit.xml` suite names when scoping a local test run
 4. Refer to the example tests for patterns and best practices

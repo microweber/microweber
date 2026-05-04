@@ -26,11 +26,11 @@
 ## Gotchas & Known Issues
 - The local Apache-served runtime in this environment returns `404` for `/admin/login` even though `http://127.0.0.1` responds with `200`, so browser verification can fail for environment reasons rather than app regressions.
 - The full PHP test surface is intentionally split by `run-tests.sh` because long single-process runs hit PHP memory fragmentation/OOM issues.
-- Testing docs currently mention `Pest.php`, `pest.xml`, and `composer test-pest`, but those root entrypoints do not currently exist in the repo.
+- The root repo now documents PHPUnit + `run-tests.sh` as the active entrypoints; the remaining Pest helper files under `docs/testing/` are optional scaffolding only, not live root configuration.
 
 ## Decisions
 - Cache deserialization in `TaggableFileStore` is hardened with `unserialize(..., ['allowed_classes' => false])` to avoid object-injection risk from poisoned cache files.
-- Treat `phpunit.xml` + `run-tests.sh` as the current authoritative test entrypoints until the Pest-specific root config is restored or the docs are corrected.
+- Treat `phpunit.xml` + `run-tests.sh` as the authoritative test entrypoints for the repository root.
 
 ## Dependencies (non-obvious)
 - `nwidart/laravel-modules` powers the feature-module layout under `Modules/`.

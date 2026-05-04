@@ -134,11 +134,11 @@ jobs:
       - name: Create test results directory
         run: mkdir -p build/test-results
 
-      - name: Run Tests (Pest + PHPUnit) with Coverage
-        run: vendor/bin/pest --configuration phpunit.xml --coverage-clover clover.xml --log-junit build/test-results/phpunit.xml 2>&1 | tee build/test-results/pest-output.txt
+      - name: Run PHPUnit suites with Coverage
+        run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml --log-junit build/test-results/phpunit.xml 2>&1 | tee build/test-results/phpunit-output.txt
 
-      - name: Run Pest Module Suites
-        run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature --coverage-text --min-coverage=0 --log-junit build/test-results/pest-modules.xml 2>&1 | tee build/test-results/pest-modules-output.txt
+      - name: Run Unit + Feature suites
+        run: vendor/bin/phpunit --configuration phpunit.xml --testsuite=Unit,Feature --coverage-text --log-junit build/test-results/unit-feature.xml 2>&1 | tee build/test-results/unit-feature-output.txt
 
       - name: Upload coverage to Codecov
         if: always() && matrix.php == '8.3' && matrix.laravel == '11'

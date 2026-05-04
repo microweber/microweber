@@ -213,7 +213,7 @@ jobs:
       - name: Run ${{ matrix.test-suite }} Tests
         run: |
           mkdir -p build/test-results
-          vendor/bin/pest --configuration phpunit.xml --testsuite=${{ matrix.test-suite }} \
+          vendor/bin/phpunit --configuration phpunit.xml --testsuite=${{ matrix.test-suite }} \
             --coverage-clover build/test-results/clover-${{ matrix.test-suite }}.xml \
             --log-junit build/test-results/junit-${{ matrix.test-suite }}.xml || true
 
@@ -311,7 +311,7 @@ jobs:
         timeout-minutes: 30
         run: |
           mkdir -p build/test-results
-          vendor/bin/pest --configuration phpunit.xml --testsuite=${{ matrix.test-group }} \
+          vendor/bin/phpunit --configuration phpunit.xml --testsuite=${{ matrix.test-group }} \
             --log-junit build/test-results/junit-${{ matrix.test-group }}.xml || true
 
       - name: Upload Test Results
@@ -393,7 +393,7 @@ jobs:
 
       - name: Run Integration Tests
         run: |
-          vendor/bin/pest --configuration phpunit.xml --testsuite=Core --filter=Integration || true
+          vendor/bin/phpunit --configuration phpunit.xml --testsuite=Core --filter=Integration || true
 
   # ============================================
   # STAGE 6: Build & Package

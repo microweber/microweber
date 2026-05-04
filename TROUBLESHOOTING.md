@@ -29,14 +29,15 @@
 - Use `./run-tests.sh` for broad repo validation.
 - Use direct `php vendor/bin/phpunit <path>` or targeted suite runs for small changes.
 
-## 2026-05-04 — Testing docs reference missing Pest root files
+## 2026-05-04 — Pest helper files are not active root entrypoints
 
 ### Symptoms
-- `CONTRIBUTING.md` and `docs/testing/*.md` mention `/Pest.php`, `/pest.xml`, and `composer test-pest`.
-- Those root files/scripts are not currently present in the repo.
+- Historical helper scripts exist under `docs/testing/` for a possible future Pest migration.
+- The root repository uses `phpunit.xml`, `composer test`, and `./run-tests.sh` instead.
 
 ### Impact
-- New contributors can be sent to missing commands or configuration files.
+- Contributors may assume the helper scripts are active root config unless the docs are explicit.
 
-### Next Step
-- Align the documented Pest entrypoints with the actual repository setup by either restoring the missing root config/scripts or correcting the docs.
+### Current Guidance
+- Use `composer test`, targeted `php vendor/bin/phpunit ...`, or `./run-tests.sh`.
+- Treat the `docs/testing/*pest*` helpers as scaffolding only unless Pest is intentionally reintroduced as a real root dependency.

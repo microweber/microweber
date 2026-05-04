@@ -1,38 +1,33 @@
-# Module-Level Pest Testing Guide
+# Module-Level Testing Guide
 
-This guide covers the Pest testing workflow for Microweber, including writing tests, running them locally, and how they integrate with CI.
+This guide covers the current PHPUnit-based testing workflow for Microweber modules, along with notes about the unfinished Pest-helper scaffolding that exists under `docs/testing/`.
 
 ## Prerequisites
 
-Pest is included in `composer.json` (`require-dev`). Install with:
+The repository uses PHPUnit 11 through `phpunit.xml`. Install the development dependencies with:
 
 ```bash
 composer install --dev
 ```
 
-Required packages:
-- `pestphp/pest` ^3.0
-- `pestphp/pest-plugin-laravel` ^3.0
-
 ## Project Test Architecture
 
-Microweber uses **two configuration files** that serve different purposes:
+Microweber currently uses **one canonical root configuration file** plus a grouped runner:
 
 | Config | Runner | What it discovers |
 |---|---|---|
-| `phpunit.xml` | `vendor/bin/pest` | `tests/Unit`, `src/MicroweberPackages/*/`, `Modules/*/Tests`, `Templates/*/Tests` |
-| `pest.xml` | `vendor/bin/pest` | `tests/Unit`, `tests/Feature`, `Modules/*/Tests/Unit`, `Modules/*/Tests/Feature`, `src/MicroweberPackages/*/tests/Unit`, `src/MicroweberPackages/*/tests/Feature` |
+| `phpunit.xml` | `php vendor/bin/phpunit` / `composer test` | `tests/Unit`, `tests/Feature`, `src/MicroweberPackages/*/`, `Modules/*/Tests`, `Templates/*/Tests` |
+| `run-tests.sh` | `./run-tests.sh` | Split-process execution of the suite groups defined in `phpunit.xml` |
 
-Both PHPUnit class-based tests and Pest closure-based tests are discovered by Pest. You can mix both styles in the same test suite.
+The helper files in `docs/testing/` for Pest are currently **not** wired into a root `Pest.php` or `pest.xml`, so do not rely on them as active repo entrypoints.
 
 ### Key configuration files
 
 | File | Purpose |
 |---|---|
-| `Pest.php` (root) | Root Pest config: binds `TestCase`, discovers modules/packages, defines global helpers |
-| `pest.xml` | XML config for Pest-specific suites (Unit/Feature/Modules/Packages) |
 | `phpunit.xml` | PHPUnit config (also used by Pest for full suite runs) |
-| `Modules/*/Tests/Pest.php` | Per-module Pest config for module-specific setup/teardown |
+| `run-tests.sh` | Memory-safe grouped runner for broad local execution |
+| `docs/testing/module-pest-template.php` | Optional scaffold if Pest is reintroduced later |
 
 ## Directory Structure
 
@@ -40,18 +35,16 @@ Both PHPUnit class-based tests and Pest closure-based tests are discovered by Pe
 Modules/
   YourModule/
     Tests/
-      Pest.php              # Module-level Pest config
       Unit/
-        YourModelTest.php    # Unit tests (PHPUnit or Pest style)
+        YourModelTest.php    # Unit tests
       Feature/
         YourFeatureTest.php  # Feature/integration tests
     Filament/                # (if module has Filament resources)
       ...
 
 tests/
-  Pest.php                   # Root Pest config (auto-loaded)
   Unit/
-    ExamplePestTest.php
+    ExampleTest.php
   Feature/
     Filament/
       FilamentResourceTestCase.php
@@ -64,40 +57,33 @@ tests/
 ### Common commands
 
 ```bash
-# Run ALL tests (PHPUnit + Pest, full suite)
-vendor/bin/pest
+# Run ALL tests (full suite)
+composer test
 
-# Run only Unit + Feature suites (pest.xml)
-vendor/bin/pest --configuration pest.xml
+# Run grouped suites safely
+./run-tests.sh
 
 # Run a single module's tests
-vendor/bin/pest Modules/Backup/Tests
+php vendor/bin/phpunit Modules/Backup/Tests --no-progress --display-errors
 
 # Run a single test file
-vendor/bin/pest Modules/Backup/Tests/Unit/Filament/BackupResourceTest.php
+php vendor/bin/phpunit Modules/Backup/Tests/Unit/Filament/BackupResourceTest.php --no-progress --display-errors
 
 # Run tests matching a name pattern
-vendor/bin/pest --filter="backup"
-
-# Run a specific test suite from pest.xml
-vendor/bin/pest --configuration pest.xml --testsuite=Unit
-vendor/bin/pest --configuration pest.xml --testsuite=Modules
+php vendor/bin/phpunit --filter="backup"
 
 # Run with coverage
-vendor/bin/pest --coverage
-
-# Run in parallel (faster on multi-core machines)
-vendor/bin/pest --parallel
+composer test-coverage
 ```
 
 ### Composer scripts
 
 ```bash
-# Full test suite via PHPUnit config
+# Full test suite
 composer test
 
-# Pest-specific suites (Unit + Feature from pest.xml)
-composer test-pest
+# Browser suite
+composer test-dusk
 ```
 
 ## Writing Tests
@@ -309,30 +295,30 @@ test('module is registered', function () {
 ### 4. Verify
 
 ```bash
-vendor/bin/pest Modules/YourModule/Tests
+php vendor/bin/phpunit Modules/YourModule/Tests --no-progress --display-errors
 ```
 
 ## CI Integration
 
 Tests run automatically in GitHub Actions via two workflows:
 
-### ci.yml (primary)
+### Root CI workflows
 
 ```yaml
-- name: Run Tests (Pest + PHPUnit)
-  run: vendor/bin/pest --configuration phpunit.xml
+- name: Run Tests
+  run: vendor/bin/phpunit --configuration phpunit.xml
 
-- name: Run Pest Module Suites
-  run: vendor/bin/pest --configuration pest.xml --testsuite=Unit,Feature
+- name: Run Unit + Feature suites
+  run: vendor/bin/phpunit --configuration phpunit.xml --testsuite=Unit,Feature
 ```
 
 ### matrix-tests.yml (multi-version)
 
-Runs the same test steps across PHP 8.3/8.4 + Laravel 11, with coverage reporting on the `pest.xml` suites.
+Runs the same test steps across PHP 8.3/8.4 + Laravel 11, with coverage reporting from the PHPUnit suites.
 
-## Migration from PHPUnit to Pest
+## Optional future migration from PHPUnit to Pest
 
-Existing PHPUnit tests run unchanged under Pest. To gradually migrate:
+The helper scripts in `docs/testing/` can still help if the team later chooses to add Pest as a real root dependency. If that happens, a gradual migration could look like this:
 
 1. **New tests**: Write in Pest closure style
 2. **Existing tests**: Leave as PHPUnit classes (they work with both runners)
@@ -365,7 +351,7 @@ Key differences:
 - Use `expect()` for fluent assertions (or `$this->assert*()` still works)
 - Use `todo('description')` for placeholder tests
 
-## Pest Expectations Quick Reference
+## Pest Expectations Quick Reference (optional future state)
 
 ```php
 expect($value)->toBe(4);                    // strict equality
@@ -388,9 +374,9 @@ expect(fn() => riskyCall())->toThrow(Exception::class);
 
 ### Tests not discovered
 
-- Ensure the module has `Modules/YourModule/Tests/Pest.php`
-- Check that test files end with `Test.php` or are plain `.php` files in the Tests directory
-- Verify the directory casing matches (`Tests/Unit` vs `tests/Unit`) - both are supported
+- Ensure the module has `Tests/Unit` and/or `Tests/Feature` directories
+- Check that test files end with `Test.php`
+- Verify the directory casing matches the suite definitions in `phpunit.xml`
 
 ### Route not found in Filament tests
 
@@ -415,8 +401,8 @@ class YourTest extends TestCase
 
 ### Memory issues on large test runs
 
-The `pest.xml` and `phpunit.xml` both set `memory_limit=-1`. If you still hit limits:
+Prefer `./run-tests.sh` for large validations. If you still need a direct command with a higher memory limit:
 
 ```bash
-php -d memory_limit=2G vendor/bin/pest Modules/YourModule/Tests
+php -d memory_limit=2G vendor/bin/phpunit Modules/YourModule/Tests --no-progress --display-errors
 ```
