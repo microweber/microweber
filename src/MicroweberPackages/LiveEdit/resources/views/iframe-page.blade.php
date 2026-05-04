@@ -1483,6 +1483,27 @@
                 padding: 0 !important;
                 box-shadow: none !important;
             }
+
+            /* task-2026-05-04-a11y — respect prefers-reduced-motion.
+               Picker cards + Filament modal animations + the section
+               transition-duration:150ms class can trigger vestibular
+               disorders. WCAG 2.3.3 Animation from Interactions.
+               We disable transitions/animations inside the live-edit
+               modal stack; users who opted out of motion will still
+               see hover state changes (instant) but no slide/fade. */
+            @media (prefers-reduced-motion: reduce) {
+                .mw-content-picker-modal .mw-add-content-modal-action-wrapper,
+                .mw-content-picker-modal .mw-add-content-modal-action-wrapper *,
+                .mw-content-form-modal .fi-modal-window,
+                .mw-content-form-modal .fi-section,
+                .mw-content-form-modal .fi-tabs-tab,
+                .mw-content-form-modal .fi-input,
+                .mw-content-form-modal .fi-btn {
+                    transition-duration: 0.001ms !important;
+                    animation-duration: 0.001ms !important;
+                    animation-iteration-count: 1 !important;
+                }
+            }
         </style>
 
 
