@@ -165,6 +165,17 @@ class ContentResource extends Resource
                     ->icon(null)
                     ->extraAttributes(['class' => 'mw-fb-media-section']),
 
+                // Pricing kept VISIBLE upfront for products —
+                // user explicitly asked: "on add new product in
+                // live edit the price must be visible not hidden
+                // in More settings" (task-2026-05-04-26c52a). The
+                // pricingSection() helper carries its own
+                // ->visible() rule (`content_type === 'product'`)
+                // so it absents itself for posts/pages without
+                // adding chrome.
+                static::pricingSection()
+                    ->columnSpanFull(),
+
                 // Everything else collapsed into a single "More
                 // options" accordion — INCLUDING the Parent page
                 // section, which user-research showed is the
@@ -180,8 +191,6 @@ class ContentResource extends Resource
                     ->extraAttributes(['class' => 'mw-fb-more-options'])
                     ->schema([
                         static::compactBodyAndExcerptGroup(),
-                        static::pricingSection()
-                            ->columnSpanFull(),
                         static::publishedSection()
                             ->columnSpanFull(),
                         static::parentPageSection($firstBlogId, $firstShopId)

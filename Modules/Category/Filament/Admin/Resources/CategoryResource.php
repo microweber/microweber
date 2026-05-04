@@ -213,59 +213,54 @@ class CategoryResource extends Resource
             }
         }
 
-        $parentTreeSection = Forms\Components\Section::make('Parent page')
-            ->icon('heroicon-m-folder-open')
-            ->columns(1)
-            // Collapsible but visible by default — user listed
-            // parent as one of the three upfront fields in
-            // task-2026-05-04-2199df.
-            ->collapsible()
-            ->schema([
-                MwTree::make('mw_parent_page_and_category_state')
-                    ->columnSpanFull()
-                    ->hiddenLabel()
-                    ->inlineLabel(false)
-                    ->live()
-                    ->extraFieldWrapperAttributes(['class' => 'mw-tree-wrapper'])
-                    ->required(function (Forms\Get $get) {
-                        $required = true;
-                        if ($get('parent_id')) {
-                            $required = false;
-                        }
-                        if ($get('rel_id')) {
-                            $required = false;
-                        }
-                        return $required;
-                    })
-                    ->label('Choose Parent Page or Category')
-                    ->viewData([
-                        'singleSelect' => true,
-                        'selectedPage' => $selectedPage,
-                        'selectedCategories' => $selectedCategories,
-                    ])
-                    ->default([])
-                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-                        if (!$state) {
-                            $set('parent_id', '');
-                            $set('rel_type', '');
-                            $set('rel_id', '');
-                        }
-                        if ($state) {
-                            foreach ($state as $item) {
-                                if (isset($item['type']) && $item['type'] === 'page') {
-                                    $set('rel_type', morph_name(Content::class));
-                                    $set('rel_id', $item['id']);
-                                    $set('parent_id', '');
-                                }
-                                if (isset($item['type']) && $item['type'] === 'category') {
-                                    $set('parent_id', $item['id']);
-                                    $set('rel_type', '');
-                                    $set('rel_id', '');
-                                }
-                            }
-                        }
-                    }),
-            ]);
+        // task-2026-05-04-26c52a — replace mw.tree with a native
+        // Filament Select for the live-edit category compact form.
+        // mw.tree is heavy (100+ items dumped into the DOM, custom
+        // Livewire view, search box, expand/collapse chevrons) and
+        // doesn't fit the lean inline-create UX. A searchable
+        // Filament Select with "Page: …" / "Category: …" labelled
+        // options is faster and reads as a normal form field. The
+        // full admin form (`form()` → `formArray()`) keeps the
+        // mw.tree picker for power users who want the visual tree.
+        $parentSelectInitial = '';
+        if ($selectedPage) {
+            $parentSelectInitial = 'page:' . $selectedPage;
+        } elseif (!empty($selectedCategories)) {
+            $parentSelectInitial = 'category:' . $selectedCategories[0];
+        }
+
+        $parentSelectOptions = static::buildCompactParentSelectOptions();
+
+        $parentTreeSection = Forms\Components\Select::make('mw_parent_select')
+            ->label('Parent page or category')
+            ->options($parentSelectOptions)
+            ->default($parentSelectInitial)
+            ->searchable()
+            ->live()
+            ->required(function (Forms\Get $get) {
+                if ($get('parent_id')) return false;
+                if ($get('rel_id')) return false;
+                return true;
+            })
+            ->afterStateUpdated(function (Forms\Set $set, ?string $state) {
+                if (!$state || !str_contains($state, ':')) {
+                    $set('parent_id', '');
+                    $set('rel_type', '');
+                    $set('rel_id', '');
+                    return;
+                }
+                [$type, $id] = explode(':', $state, 2);
+                if ($type === 'page') {
+                    $set('rel_type', morph_name(Content::class));
+                    $set('rel_id', $id);
+                    $set('parent_id', '');
+                } elseif ($type === 'category') {
+                    $set('parent_id', $id);
+                    $set('rel_type', '');
+                    $set('rel_id', '');
+                }
+            })
+            ->columnSpanFull();
 
         // Super-minimalistic schema (task-2026-05-04-2199df):
         //   UPFRONT: Title (required, autofocus) + Parent picker
@@ -294,9 +289,14 @@ class CategoryResource extends Resource
                     ->extraFieldWrapperAttributes(['class' => 'mw-fb-title-wrap'])
                     ->columnSpanFull(),
 
-                // Move parent + description into accordion to
-                // keep the upfront stack tiny (Facebook-style).
-                // task-2026-05-04-2cd250.
+                // Parent picker upfront — task-2026-05-04-26c52a
+                // dropped mw.tree in favour of a native Filament
+                // Select. The select is small enough to keep
+                // upfront without breaking the compact target.
+                $parentTreeSection,
+
+                // Description moves into accordion to keep the
+                // upfront stack tiny. task-2026-05-04-2cd250.
                 Forms\Components\Section::make('More options')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
@@ -307,7 +307,6 @@ class CategoryResource extends Resource
                             ->label('Description')
                             ->rows(3)
                             ->columnSpanFull(),
-                        $parentTreeSection->columnSpanFull(),
                     ])
                     ->columns(1)
                     ->columnSpanFull(),
@@ -411,5 +410,41 @@ class CategoryResource extends Resource
                 ->url(fn () => $record->url ? url($record->url) : null)
                 ->visible(fn () => $record->url),
         ];
+    }
+
+    /**
+     * Build the option list for the live-edit category compact
+     * form's parent picker. Keys are encoded "page:{id}" /
+     * "category:{id}" so the same Select can target both targets;
+     * the afterStateUpdated callback splits the prefix and writes
+     * to the right hidden field. Cached statically per request.
+     * task-2026-05-04-26c52a.
+     */
+    protected static function buildCompactParentSelectOptions(): array
+    {
+        static $cached = null;
+        if ($cached !== null) return $cached;
+
+        $options = [];
+
+        $pages = Content::query()
+            ->whereIn('content_type', ['page'])
+            ->where('is_deleted', '!=', 1)
+            ->orderBy('title')
+            ->limit(500)
+            ->get(['id', 'title']);
+        foreach ($pages as $p) {
+            $options['page:' . $p->id] = 'Page: ' . ($p->title ?: ('#' . $p->id));
+        }
+
+        $categories = Category::query()
+            ->orderBy('title')
+            ->limit(500)
+            ->get(['id', 'title']);
+        foreach ($categories as $c) {
+            $options['category:' . $c->id] = 'Category: ' . ($c->title ?: ('#' . $c->id));
+        }
+
+        return $cached = $options;
     }
 }

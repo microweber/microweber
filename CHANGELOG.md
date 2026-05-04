@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- **Live-edit Add Product modal: Price visible upfront** (task-2026-05-04-26c52a) — moved pricingSection from "More options" accordion back into the upfront stack so creating a product no longer requires expanding an accordion to enter the most essential field. pricingSection's own `->visible()` callback keeps it absent for posts/pages.
+- **Live-edit Add Category modal: Filament Select replaces mw.tree parent picker** (task-2026-05-04-26c52a) — the live-edit category compact form now uses a native searchable Filament Select listing pages and categories with prefixed labels ("Page: My Blog", "Category: News"). Encoded `page:{id}` / `category:{id}` option keys are split server-side in afterStateUpdated to write the appropriate hidden field. The full admin form `CategoryResource::form()` keeps the mw.tree picker for power-user scenarios — the lean Select is live-edit-only.
+
+### Changed
 - **Live-edit Add Content modal — true Facebook-compact upfront stack + polished More-options accordion** (task-2026-05-04-2cd250 + task-2026-05-04-1f20d2) — moved the Parent-page section from upfront into the "More options" accordion (the 575px parent-tree was the dominant height contributor pushing SAVE below the fold on smaller viewports). Tightened upfront paddings + Media tile dimensions so the upfront stack drops to ~332px of content; combined with header + footer the modal fits in under ~520px, comfortably reaches SAVE at the reported viewport. Polished the expanded accordion: inner sections drop their card chrome (border, shadow, padding) so the children sit flush; section headings re-styled as small uppercase tracking labels in `--gray-500/400` (light/dark) to function as group dividers; parent-tree search + tree rows use 0.8125rem typography + tighter block padding; RichEditor min-height clamped at 6rem + 0.5rem padding so the toolbar doesn't dwarf the Excerpt below it.
 
 ### Changed
