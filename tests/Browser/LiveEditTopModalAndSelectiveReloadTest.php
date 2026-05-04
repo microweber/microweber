@@ -150,16 +150,24 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
                 . 'Filament chrome stopped rendering footer actions.'
             );
 
-            // Sticky footer must be `position: sticky`. Filament's
-            // `stickyModalFooter()` chain wires this; the bug from
-            // task-354958 was that stickyModalFooter was missing —
-            // catch that regression here.
-            $this->assertSame(
-                'sticky',
-                (string) $info['footerPosition'],
-                'task-2026-05-02-df09aa regressed: .fi-modal-footer is no longer position: sticky. '
-                . 'On long forms the Save button scrolls below the fold and the user can\'t see '
-                . 'how to commit. Got position=' . var_export($info['footerPosition'], true)
+            // Footer must remain inside the viewport on long forms.
+            // Originally enforced via `position: sticky` on the
+            // footer, but task-2026-05-04-b7eee8 switched the modal
+            // to a flex column with the body as the lone scroll
+            // region — the footer is now pinned at the bottom of
+            // the modal-window flex container itself, no sticky
+            // needed. Replace the position-check with a stronger
+            // direct check: footer's bottom edge is within the
+            // viewport (the original user pain "Save scrolls below
+            // the fold" can't happen if footerBottom ≤ viewportH).
+            $footerBottom = (int) $info['footerTop'] + (int) $info['footerHeight'];
+            $this->assertLessThanOrEqual(
+                (int) $info['viewportH'],
+                $footerBottom,
+                'task-2026-05-04-b7eee8 regressed: .fi-modal-footer ends below the viewport '
+                . '(footerBottom=' . $footerBottom . 'px > viewportH=' . (int) $info['viewportH'] . 'px). '
+                . 'On long forms the Save button is hidden and the user can\'t see how to commit. '
+                . 'The modal-window flex layout (header + scrollable body + footer) is broken.'
             );
 
             // Header bottom should be inside the viewport (otherwise

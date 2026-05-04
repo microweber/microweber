@@ -23,15 +23,17 @@ use Tests\DuskTestCase;
  * slid in from the right edge of the iframe. Inside the narrow
  * post-module-settings iframe that looked cramped and confusing.
  *
- * Fix: drop slideOver(), add modalWidth(MaxWidth::ThreeExtraLarge).
+ * Fix: drop slideOver(), add modalWidth(MaxWidth::FiveExtraLarge).
  * The modal now opens centered inside the iframe at the same width
  * tier as the +ADD toolbar's centered modal — visual consistency
- * between the two add-post entry points.
+ * between the two add-post entry points. Width bumped from
+ * ThreeExtraLarge to FiveExtraLarge in task-2026-05-04-61e974 along
+ * with the toolbar.
  *
  * This test pins:
  *   - The CreateAction modal does NOT carry `fi-modal-slide-over`
  *     (catches re-introduction of `->slideOver()`).
- *   - The CreateAction modal carries `fi-width-3xl` (catches drop
+ *   - The CreateAction modal carries `fi-width-5xl` (catches drop
  *     of `modalWidth()`).
  *
  * The same guards apply to EditAction by virtue of using the same
@@ -159,12 +161,14 @@ class LiveEditPostModuleTableActionModalCenteredTest extends DuskTestCase
                 . 'Modal classes: ' . $combinedClasses
             );
 
-            // Hard guard #2: width hint is still ThreeExtraLarge.
+            // Hard guard #2: width hint is still FiveExtraLarge.
+            // Bumped from ThreeExtraLarge → FiveExtraLarge in
+            // task-2026-05-04-61e974.
             $this->assertStringContainsString(
-                'fi-width-3xl',
+                'fi-width-5xl',
                 (string) $shape['classNames'],
-                'task-2026-05-02-2ecfe6 regressed: the New post modal lost its '
-                . 'modalWidth(ThreeExtraLarge) hint. Modal classes: ' . $shape['classNames']
+                'task-2026-05-04-61e974 regressed: the New post modal lost its '
+                . 'modalWidth(FiveExtraLarge) hint. Modal classes: ' . $shape['classNames']
             );
         });
     }

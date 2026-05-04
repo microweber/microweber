@@ -145,23 +145,50 @@
         /*
          * `.mw-content-form-modal` is applied via
          * extraModalWindowAttributes on ContentTableList's
-         * CreateAction/EditAction. Two scoped overrides:
+         * CreateAction/EditAction. Three scoped overrides:
          * (1) restore the modal backdrop tint that the project's
          * filament theme globally forces to bg-transparent,
-         * (2) make the footer position: sticky so Save/Cancel stay
-         * visible on long forms. task-2026-05-02-df09aa.
+         * (2) cap the modal at viewport height with an internal
+         * scroll region so long forms don't bleed past the footer
+         * (task-2026-05-04-b7eee8 — same fix mirrored from
+         * iframe-page.blade.php),
+         * (3) keep the footer styled (background, border) so it
+         * reads as a footer rather than blending into the form.
          */
         .fi-modal:has(> .fi-modal-window-ctn .mw-content-form-modal) > .fi-modal-close-overlay {
             background-color: rgba(0, 0, 0, 0.55) !important;
         }
+        /*
+         * Match the (0,4,0) specificity of Filament's base
+         * `.fi-modal:not(.fi-width-screen) .fi-modal-window:not(...)`
+         * rule so this overrides without !important — the drag
+         * handler in iframe-page.blade.php still wins via inline
+         * style at runtime.
+         */
+        .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            max-height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: column;
+        }
+        .fi-modal-window.mw-content-form-modal > .fi-modal-header,
+        .fi-modal-window.mw-content-form-modal > .fi-modal-footer {
+            flex: 0 0 auto;
+        }
+        .fi-modal-window.mw-content-form-modal > .fi-modal-content {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+        }
         .mw-content-form-modal .fi-modal-footer {
-            position: sticky;
-            bottom: 0;
             background: var(--gray-50, #f9fafb);
             border-top: 1px solid var(--gray-200, #e5e7eb);
             margin-top: 0;
             padding-block: 0.75rem;
-            z-index: 1;
         }
         html.dark .mw-content-form-modal .fi-modal-footer,
         .dark .mw-content-form-modal .fi-modal-footer {

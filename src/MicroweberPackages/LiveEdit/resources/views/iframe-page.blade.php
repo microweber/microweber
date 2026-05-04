@@ -341,9 +341,45 @@
                         && el.classList.contains('mw-content-form-modal');
                 }
 
+                function resetPin(modal) {
+                    modal.style.position = '';
+                    modal.style.top = '';
+                    modal.style.left = '';
+                    modal.style.transform = '';
+                    modal.style.margin = '';
+                    delete modal.dataset.mwContentModalPinned;
+                }
+
+                function watchVisibility(modal) {
+                    // Filament reuses the same modal DOM node
+                    // when the user closes and reopens an action —
+                    // any inline left/top/transform we set during
+                    // a previous drag would persist and the modal
+                    // would reopen at its dragged position rather
+                    // than re-centred. Watch the parent
+                    // .fi-modal-window-ctn for the
+                    // `data-modal-state="open"` ↔ "closed" toggle
+                    // (Filament + Alpine flip this) and reset the
+                    // pin every time it transitions to "closed",
+                    // so the next open starts at the CSS default.
+                    // Falls back to watching the modal's display
+                    // style if the data attribute isn't present.
+                    // task-2026-05-04-b7eee8.
+                    var ctn = modal.parentElement;
+                    if (!ctn) return;
+                    var obs = new MutationObserver(function () {
+                        var open = ctn.getAttribute('data-modal-state') === 'open'
+                            || (ctn.style.display !== 'none' && getComputedStyle(ctn).display !== 'none');
+                        if (!open) resetPin(modal);
+                    });
+                    obs.observe(ctn, {attributes: true, attributeFilter: ['data-modal-state', 'style', 'class']});
+                }
+
                 function attachDraggable(modal) {
+                    resetPin(modal);
                     if (modal.dataset.mwContentModalDraggable === '1') return;
                     modal.dataset.mwContentModalDraggable = '1';
+                    watchVisibility(modal);
 
                     var header = modal.querySelector('.fi-modal-header');
                     if (!header) return;
@@ -376,6 +412,15 @@
                             modal.style.top = Math.round(rect.top) + 'px';
                             modal.style.left = Math.round(rect.left) + 'px';
                             modal.style.margin = '0';
+                            // The default CSS layout uses
+                            // transform: translateX(-50%) to centre
+                            // the modal horizontally. Once we pin
+                            // to explicit left/top, that transform
+                            // would shift the modal an extra
+                            // half-width to the left of the
+                            // dragged coords. Zero it out so the
+                            // dragged offset is what the user sees.
+                            modal.style.transform = 'none';
                             modal.dataset.mwContentModalPinned = '1';
                         }
 
@@ -574,14 +619,69 @@
             .fi-modal:has(> .fi-modal-window-ctn .mw-content-form-modal) > .fi-modal-close-overlay {
                 background-color: rgba(0, 0, 0, 0.55) !important;
             }
+
+            /*
+             * Cap the modal at viewport height and make the body
+             * scroll internally — the Add Post form is ~1640px tall
+             * (rich-text editor + media picker + parent-page tree +
+             * custom fields + SEO + advanced) and used to grow past
+             * the viewport, hiding the footer entirely AND letting
+             * late sections (Media → Add images) bleed visually
+             * behind the sticky footer (task-2026-05-04-b7eee8
+             * reproduction). Switch the modal-window to a flex
+             * column with header/footer fixed-size and the content
+             * as the lone flex-grow scroll region. After this, the
+             * footer (Save/Cancel) is always visible at the bottom
+             * and `overflow-y: auto` on .fi-modal-content lets the
+             * user scroll through the form.
+             *
+             * Pin the modal-window to viewport-fixed coordinates so
+             * the layout is deterministic regardless of Filament's
+             * modal-window-ctn flex positioning (which carries
+             * `fi-align-start` and pads the modal ~226px from the
+             * top of the live-edit toolbar — a position that left
+             * a tall form's footer below the fold). 24px from top,
+             * 50% horizontal centring via translateX, max-height
+             * = full viewport minus the 48px breathing room.
+             *
+             * The drag handler (task-2026-05-04-c124bc) already
+             * sets position: fixed + explicit left/top/margin on
+             * mousedown, which overrides these defaults — so users
+             * can still drag the modal anywhere they like.
+             */
+            /*
+             * Filament's base rule
+             * `.fi-modal:not(.fi-width-screen) .fi-modal-window:not(.fi-modal-slide-over-window)`
+             * has specificity (0,4,0). Match it with a (0,4,0)
+             * selector of our own — same specificity, later in
+             * cascade, wins. This avoids `!important` so the drag
+             * handler's inline style.left/top still take effect
+             * (task-2026-05-04-c124bc).
+             */
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
+                position: fixed;
+                top: 1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 0;
+                max-height: calc(100vh - 3rem);
+                display: flex;
+                flex-direction: column;
+            }
+            .fi-modal-window.mw-content-form-modal > .fi-modal-header,
+            .fi-modal-window.mw-content-form-modal > .fi-modal-footer {
+                flex: 0 0 auto;
+            }
+            .fi-modal-window.mw-content-form-modal > .fi-modal-content {
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow-y: auto;
+            }
             .mw-content-form-modal .fi-modal-footer {
-                position: sticky;
-                bottom: 0;
                 background: var(--gray-50, #f9fafb);
                 border-top: 1px solid var(--gray-200, #e5e7eb);
                 margin-top: 0;
                 padding-block: 0.75rem;
-                z-index: 1;
             }
             html.dark .mw-content-form-modal .fi-modal-footer,
             .dark .mw-content-form-modal .fi-modal-footer {

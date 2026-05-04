@@ -75,9 +75,11 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
                     // slideOver looked cramped inside the
                     // post-module-settings iframe — see screenshot in
                     // task-2026-05-02-2ecfe6. Width matches the +ADD
-                    // toolbar's generateAction modal (3xl) for visual
-                    // consistency between the two add-post entry points.
-                    ->modalWidth(MaxWidth::ThreeExtraLarge)
+                    // toolbar's generateAction modal (FiveExtraLarge,
+                    // 1024px) for visual consistency between the two
+                    // add-post entry points — bumped from 3xl in
+                    // task-2026-05-04-61e974 along with the toolbar.
+                    ->modalWidth(MaxWidth::FiveExtraLarge)
                     // `mw-content-form-modal` re-enables the close-overlay
                     // backdrop tint (the microweber-filament-theme
                     // globally forces fi-modal-close-overlay to
@@ -101,7 +103,7 @@ class ContentTableList extends Component implements HasForms, HasTable, HasActio
             ->actions([
                 EditAction::make('edit')
                     ->color('success')
-                    ->modalWidth(MaxWidth::ThreeExtraLarge)
+                    ->modalWidth(MaxWidth::FiveExtraLarge)
                     ->extraModalWindowAttributes(['class' => 'mw-content-form-modal'])
                     ->closeModalByClickingAway(false)
                     ->closeModalByEscaping(false)

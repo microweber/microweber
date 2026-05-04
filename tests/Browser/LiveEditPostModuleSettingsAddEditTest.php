@@ -179,10 +179,20 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                 $iframe->waitUsing(15, 250, function () use ($iframe) {
                     $found = $iframe->script(
                         "
+                        // The Add Content modal is now position:fixed
+                        // (task-2026-05-04-b7eee8) — `offsetParent` is
+                        // null for fixed-positioned elements, so use
+                        // a layout-and-display heuristic instead.
+                        var isVisible = function (el) {
+                            var r = el.getBoundingClientRect();
+                            if (r.width === 0 || r.height === 0) return false;
+                            var cs = getComputedStyle(el);
+                            return cs.display !== 'none' && cs.visibility !== 'hidden';
+                        };
                         var ok = ['callMountedAction', 'callMountedTableAction'];
                         return Array.from(document.querySelectorAll('form')).some(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                            return ok.indexOf(v) !== -1 && f.offsetParent !== null;
+                            return ok.indexOf(v) !== -1 && isVisible(f);
                         }) ? 1 : 0;
                     "
                     );
@@ -193,9 +203,15 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                 $iframe->script(
                     "
                     var title = " . json_encode($createdTitle) . ";
+                    var isVisible = function (el) {
+                        var r = el.getBoundingClientRect();
+                        if (r.width === 0 || r.height === 0) return false;
+                        var cs = getComputedStyle(el);
+                        return cs.display !== 'none' && cs.visibility !== 'hidden';
+                    };
                     var pickForm = function (name) {
                         return Array.from(document.querySelectorAll('form'))
-                            .filter(f => f.offsetParent !== null)
+                            .filter(isVisible)
                             .find(f => {
                                 var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                                 return v === name;
@@ -226,7 +242,7 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                     }
                     if (!titleInput) {
                         var visible = Array.from(form.querySelectorAll('input[type=\"text\"], input:not([type])'))
-                            .filter(el => !el.disabled && !el.readOnly && el.offsetParent !== null);
+                            .filter(el => !el.disabled && !el.readOnly && isVisible(el));
                         if (visible.length > 0) titleInput = visible[0];
                     }
                     setVal(titleInput, title);
@@ -333,10 +349,16 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                 $iframe->waitUsing(15, 250, function () use ($iframe) {
                     $found = $iframe->script(
                         "
+                        var isVisible = function (el) {
+                            var r = el.getBoundingClientRect();
+                            if (r.width === 0 || r.height === 0) return false;
+                            var cs = getComputedStyle(el);
+                            return cs.display !== 'none' && cs.visibility !== 'hidden';
+                        };
                         var ok = ['callMountedAction', 'callMountedTableAction'];
                         return Array.from(document.querySelectorAll('form')).some(f => {
                             var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
-                            return ok.indexOf(v) !== -1 && f.offsetParent !== null;
+                            return ok.indexOf(v) !== -1 && isVisible(f);
                         }) ? 1 : 0;
                     "
                     );
@@ -347,9 +369,15 @@ class LiveEditPostModuleSettingsAddEditTest extends DuskTestCase
                 $iframe->script(
                     "
                     var title = " . json_encode($editRenamedTitle) . ";
+                    var isVisible = function (el) {
+                        var r = el.getBoundingClientRect();
+                        if (r.width === 0 || r.height === 0) return false;
+                        var cs = getComputedStyle(el);
+                        return cs.display !== 'none' && cs.visibility !== 'hidden';
+                    };
                     var pickForm = function (name) {
                         return Array.from(document.querySelectorAll('form'))
-                            .filter(f => f.offsetParent !== null)
+                            .filter(isVisible)
                             .find(f => {
                                 var v = f.getAttribute('wire:submit.prevent') || f.getAttribute('wire:submit');
                                 return v === name;
