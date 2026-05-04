@@ -309,7 +309,12 @@ class ContentResource extends Resource
         // to avoid duplicating the editor. Posts and products
         // see body here in the accordion. Excerpt is post-only.
         return Schemas\Components\Group::make([
+            // task-2026-05-04-novice — "Content body" reads as
+            // database-column jargon to a first-time blogger.
+            // Renamed to "Write your post here" so the label
+            // doubles as the call-to-action.
             Forms\Components\RichEditor::make('content_body')
+                ->label('Write your post here')
                 ->columnSpan('full')
                 ->hintAction(
                     TranslateFieldAction::make('content_body')->label('')
@@ -318,9 +323,13 @@ class ContentResource extends Resource
                     return $get('content_type') !== 'page';
                 }),
 
+            // task-2026-05-04-novice — "Excerpt" is publisher-
+            // jargon (newspapers, WordPress); a first-time blog
+            // author has never heard the word. Renamed to "Short
+            // summary" — same meaning, immediately readable.
             Forms\Components\Textarea::make('description')
-                ->label('Excerpt')
-                ->helperText('A short summary displayed in post listings and search results.')
+                ->label('Short summary')
+                ->helperText('Shown in your blog list and search results. Leave empty to use the first lines of your post.')
                 ->rows(3)
                 ->maxLength(500)
                 ->columnSpanFull()
@@ -368,7 +377,10 @@ class ContentResource extends Resource
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),
 
+                // task-2026-05-04-novice — see compactBodyAndExcerptGroup;
+                // "Content body" → "Write your post here".
                 Forms\Components\RichEditor::make('content_body')
+                    ->label('Write your post here')
                     ->columnSpan('full')
                     ->hintAction(
                         TranslateFieldAction::make('content_body')->label('')
@@ -377,9 +389,11 @@ class ContentResource extends Resource
                         return $get('content_type') !== 'page';
                     }),
 
+                // task-2026-05-04-novice — see compactBodyAndExcerptGroup;
+                // "Excerpt" → "Short summary" for novice readability.
                 Forms\Components\Textarea::make('description')
-                    ->label('Excerpt')
-                    ->helperText('A short summary displayed in post listings and search results.')
+                    ->label('Short summary')
+                    ->helperText('Shown in your blog list and search results. Leave empty to use the first lines of your post.')
                     ->rows(3)
                     ->maxLength(500)
                     ->columnSpanFull()
@@ -577,9 +591,13 @@ class ContentResource extends Resource
                         return $get('content_type') !== 'page';
                     }),
 
+                // task-2026-05-04-novice — full-form variant.
+                // Renamed Excerpt → Short summary so the label
+                // matches the live-edit modal a novice user sees
+                // first; helper text rewritten to plain English.
                 Forms\Components\Textarea::make('description')
-                    ->label('Excerpt')
-                    ->helperText('A short summary displayed in post listings and search results.')
+                    ->label('Short summary')
+                    ->helperText('Shown in your blog list and search results. Leave empty to use the first lines of your post.')
                     ->rows(3)
                     ->maxLength(500)
                     ->columnSpanFull()
@@ -709,7 +727,11 @@ class ContentResource extends Resource
 
     protected static function parentPageSection($firstBlogId, $firstShopId): Schemas\Components\Section
     {
-        return Schemas\Components\Section::make('Parent page')
+        // task-2026-05-04-novice — "Parent page" is information-
+        // architecture jargon (folder/parent/child). A first-time
+        // site owner reads it as "family tree". Renamed section to
+        // "Where to put it" — answers the user's actual question.
+        return Schemas\Components\Section::make('Where to put it')
             ->icon('heroicon-m-folder')
             ->schema(function (?Model $record, Schemas\Components\Utilities\Get $get) use ($firstBlogId, $firstShopId) {
                 $parent = null;

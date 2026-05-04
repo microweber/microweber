@@ -66,28 +66,36 @@ class AdminLiveEditPage extends Page
 
     public function addContentAction(): Action
     {
+        // task-2026-05-04-novice — plain-English descriptions for
+        // Brenda the novice customer. The previous strings ("linked
+        // to category of main page on your website", "organize ... in
+        // the right way") read like translated developer notes; a
+        // first-time site owner cannot tell from those whether they
+        // need a Page or a Post. Each description now answers the
+        // single question the user has at this moment: "Which one
+        // do I want?" with one concrete example.
         $actions = [];
         $actions[] = [
             'title' => 'New Page',
-            'description' => 'Create a new page to your website or online store, choose from pre-built page designs',
+            'description' => 'A standalone page like About, Services or Contact.',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
         ];
         $actions[] = [
             'title' => 'New Post',
-            'description' => 'Add new post to your blog page, linked to category of main page on your website ',
+            'description' => 'A blog article or news story that appears in your Blog list.',
             'action' => 'addPostAction',
             'icon' => 'mw-add-post',
         ];
         $actions[] = [
             'title' => 'New Category',
-            'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
+            'description' => 'A folder to group your blog posts or shop items.',
             'action' => 'addCategoryAction',
             'icon' => 'mw-add-category',
         ];
         $actions[] = [
             'title' => 'New Product',
-            'description' => 'Add new product to your online store, choose from pre-built product designs',
+            'description' => 'An item to sell in your online shop.',
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
         ];
@@ -351,7 +359,15 @@ class AdminLiveEditPage extends Page
             // place in the live-edit canvas. task-2026-05-04-76275d.
             ->extraModalFooterActions(fn () => [
                 Action::make('openInAdmin')
-                    ->label('Open in admin')
+                    // task-2026-05-04-novice — "Open in admin" is
+                    // jargon. A novice user has no idea what "admin"
+                    // means in this context (vs the green SAVE pill
+                    // that's also "in admin"). Renamed to "Show all
+                    // options" so the verb describes what the user
+                    // actually gets — the full form with SEO / Tags /
+                    // Custom Fields / Permalink — and so it stops
+                    // looking like a synonym for Save.
+                    ->label('Show all options')
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     // ->color('gray') used to render as a near-
                     // invisible dark-grey rectangle on the dark-

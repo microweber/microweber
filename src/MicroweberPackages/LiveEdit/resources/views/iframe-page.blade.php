@@ -487,12 +487,91 @@
                     if (isContentFormModal(root)) {
                         attachDraggable(root);
                         attachOpenInAdminTitleSync(root);
+                        attachCancelGuard(root);
                         return;
                     }
                     if (root.querySelectorAll) {
                         root.querySelectorAll('.fi-modal-window.mw-content-form-modal').forEach(function (m) {
                             attachDraggable(m);
                             attachOpenInAdminTitleSync(m);
+                            attachCancelGuard(m);
+                        });
+                    }
+                }
+
+                /*
+                 * task-2026-05-04-novice — FORGIVENESS guard for the
+                 * Cancel + X buttons in the live-edit Add Content
+                 * modal. Brenda the novice user was observed typing a
+                 * title + body, then clicking Cancel and silently
+                 * losing 5 minutes of work — Filament's default modal
+                 * Cancel just closes the dialog. Intercept the click
+                 * once: if the title input or rich-text body has any
+                 * content, ask "Discard this draft?" before letting
+                 * the close go through. Pure DOM-level guard, no
+                 * Filament API change required.
+                 */
+                function attachCancelGuard(modal) {
+                    if (modal.dataset.mwCancelGuardWired === '1') return;
+                    modal.dataset.mwCancelGuardWired = '1';
+
+                    function hasUnsavedWork() {
+                        var title = modal.querySelector('input.mw-fb-title-input, input[id$=".title"]');
+                        var titleVal = title && (title.value || '').trim();
+                        if (titleVal) return true;
+                        // Rich-text body — Filament's Tiptap editor
+                        // exposes the visible text via .ProseMirror
+                        // contenteditable. Empty editor renders an
+                        // empty <p><br></p>; treat <2 chars trimmed
+                        // as empty to ignore that.
+                        var body = modal.querySelector('.ProseMirror');
+                        if (body) {
+                            var txt = (body.textContent || '').replace(/\s+/g, '').trim();
+                            if (txt.length > 0) return true;
+                        }
+                        // Excerpt / Short summary textarea.
+                        var ta = modal.querySelector('textarea[id$=".description"]');
+                        if (ta && (ta.value || '').trim()) return true;
+                        return false;
+                    }
+
+                    function shouldDiscard() {
+                        if (!hasUnsavedWork()) return true;
+                        return window.confirm(
+                            "Discard this draft?\n\n" +
+                            "You've typed something but haven't saved. " +
+                            "Click OK to throw it away, or Cancel to keep editing."
+                        );
+                    }
+
+                    function intercept(e) {
+                        if (shouldDiscard()) return; // let it proceed
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                    }
+
+                    // Capture-phase listeners on the close-X and the
+                    // Cancel footer button. Use capture so we run
+                    // before Filament's wire:click handler.
+                    var closeBtn = modal.querySelector('.fi-modal-close-btn, button[aria-label="Close"]');
+                    if (closeBtn && !closeBtn.dataset.mwGuarded) {
+                        closeBtn.dataset.mwGuarded = '1';
+                        closeBtn.addEventListener('click', intercept, true);
+                    }
+                    // Cancel button is a Filament action with no
+                    // stable id — pick by visible label inside the
+                    // modal footer. Re-scan on every observer tick
+                    // because Livewire re-renders the footer.
+                    var footer = modal.querySelector('.fi-modal-footer');
+                    if (footer) {
+                        Array.prototype.forEach.call(footer.querySelectorAll('button'), function (b) {
+                            if (b.dataset.mwGuarded === '1') return;
+                            var label = (b.textContent || '').trim().toLowerCase();
+                            if (label === 'cancel') {
+                                b.dataset.mwGuarded = '1';
+                                b.addEventListener('click', intercept, true);
+                            }
                         });
                     }
                 }

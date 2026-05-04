@@ -189,8 +189,9 @@ if($editContentBtnData){
         <h3 class="font-weight-bolder"> <?php print $title; ?>      </h3>
 
 
+        {{-- task-2026-05-04-novice — plain English; matches AdminLiveEditPage picker. --}}
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
-            Create a new page to your website or online store, choose from pre-pared page designs
+            A standalone page like About, Services or Contact.
         </p>
     </div>
     <?php } ?>
@@ -221,7 +222,7 @@ if($editContentBtnData){
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
-            Add new post to your blog page, linked to category of main page on your website
+            A blog article or news story that appears in your Blog list.
         </p>
     </div>
     <?php } ?>
@@ -235,7 +236,7 @@ if($editContentBtnData){
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
-            Add new category and organize your blog posts or items from the shop in the right way
+            A folder to group your blog posts or shop items.
         </p>
     </div>
     <?php } ?>
@@ -268,7 +269,7 @@ if($editContentBtnData){
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
-            Add new category and organize your blog posts or items from the shop in the right way
+            An item to sell in your online shop.
         </p>
     </div>
     <?php } ?>
