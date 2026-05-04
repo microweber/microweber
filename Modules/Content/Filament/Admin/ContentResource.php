@@ -129,12 +129,60 @@ class ContentResource extends Resource
         return [
             Schemas\Components\Group::make([
                 ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
-                static::generalInformationSection(),
+                static::compactGeneralInformationSection(),
                 static::pricingSection(),
                 static::publishedSection(),
                 static::parentPageSection($firstBlogId, $firstShopId),
             ])->columns(1)->columnSpanFull(),
         ];
+    }
+
+    /**
+     * Trimmed general-information block for the live-edit modal:
+     * Title + Content body + Excerpt only. No Permalink (URL slug)
+     * subsection — task-2026-05-04-e0fe54: customers almost never
+     * set the slug manually during inline create, the auto-
+     * generated value is fine, and the collapsed Permalink card
+     * was visually heavy inside an already-compact modal.
+     */
+    protected static function compactGeneralInformationSection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('General Information')
+            ->heading(null)
+            ->schema([
+                Forms\Components\TextInput::make('title')
+                    ->maxLength(255)
+                    ->required()
+                    ->autofocus()
+                    ->placeholder('e.g. My first post')
+                    ->hintAction(
+                        TranslateFieldAction::make('title')->label('')
+                    )->columnSpanFull(),
+
+                Forms\Components\RichEditor::make('content_body')
+                    ->columnSpan('full')
+                    ->hintAction(
+                        TranslateFieldAction::make('content_body')->label('')
+                    )
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') !== 'page';
+                    }),
+
+                Forms\Components\Textarea::make('description')
+                    ->label('Excerpt')
+                    ->helperText('A short summary displayed in post listings and search results.')
+                    ->rows(3)
+                    ->maxLength(500)
+                    ->columnSpanFull()
+                    ->hintAction(
+                        TranslateFieldAction::make('description')->label('')
+                    )
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') === 'post';
+                    }),
+            ])
+            ->columnSpanFull()
+            ->columns(2);
     }
 
     protected static function resolveContentType(array $params): string

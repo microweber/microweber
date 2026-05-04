@@ -243,7 +243,10 @@ class AdminLiveEditPage extends Page
 
 
         if ($contentType == 'category') {
-            $formArray = CategoryResource::formArray();
+            // Lean live-edit category form — no SEO/Advanced tabs,
+            // matches the post/page/product compact modal.
+            // task-2026-05-04-e0fe54.
+            $formArray = CategoryResource::formArrayCompact();
         } else {
             // The lean live-edit variant — title + body + published
             // + parent + (product) pricing only. Power users can

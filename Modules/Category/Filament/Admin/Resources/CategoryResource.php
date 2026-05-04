@@ -180,6 +180,115 @@ class CategoryResource extends Resource
         return $schema->schema(static::formArray($params))->columns(3);
     }
 
+    /**
+     * Lean live-edit variant — no tabs, no SEO, no Advanced media
+     * picker. Mirrors ContentResource::formArrayCompact() so the
+     * +ADD toolbar's "New Category" modal feels identical to the
+     * other content-type modals (lightweight, focused on rapid
+     * inline create). task-2026-05-04-e0fe54.
+     */
+    public static function formArrayCompact($params = [])
+    {
+        $selectedPage = 0;
+        $selectedCategories = [];
+        $id = null;
+
+        if (isset($params['record'])) {
+            $record = $params['record'];
+            if ($record->parent_id) {
+                $selectedCategories[] = $record->parent_id;
+            } elseif ($record->rel_id) {
+                $selectedPage = $record->rel_id;
+            }
+            $id = $record->id;
+        }
+
+        if (!$selectedPage && empty($selectedCategories)) {
+            $parentPageId = request()->get('parent_page_id');
+            $parentCategoryId = request()->get('parent_category_id');
+            if ($parentPageId) {
+                $selectedPage = (int) $parentPageId;
+            } elseif ($parentCategoryId) {
+                $selectedCategories[] = (int) $parentCategoryId;
+            }
+        }
+
+        $parentTreeSection = Forms\Components\Section::make('Parent page')
+            ->icon('heroicon-m-folder-open')
+            ->columns(1)
+            ->schema([
+                MwTree::make('mw_parent_page_and_category_state')
+                    ->columnSpanFull()
+                    ->hiddenLabel()
+                    ->inlineLabel(false)
+                    ->live()
+                    ->extraFieldWrapperAttributes(['class' => 'mw-tree-wrapper'])
+                    ->required(function (Forms\Get $get) {
+                        $required = true;
+                        if ($get('parent_id')) {
+                            $required = false;
+                        }
+                        if ($get('rel_id')) {
+                            $required = false;
+                        }
+                        return $required;
+                    })
+                    ->label('Choose Parent Page or Category')
+                    ->viewData([
+                        'singleSelect' => true,
+                        'selectedPage' => $selectedPage,
+                        'selectedCategories' => $selectedCategories,
+                    ])
+                    ->default([])
+                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                        if (!$state) {
+                            $set('parent_id', '');
+                            $set('rel_type', '');
+                            $set('rel_id', '');
+                        }
+                        if ($state) {
+                            foreach ($state as $item) {
+                                if (isset($item['type']) && $item['type'] === 'page') {
+                                    $set('rel_type', morph_name(Content::class));
+                                    $set('rel_id', $item['id']);
+                                    $set('parent_id', '');
+                                }
+                                if (isset($item['type']) && $item['type'] === 'category') {
+                                    $set('parent_id', $item['id']);
+                                    $set('rel_type', '');
+                                    $set('rel_id', '');
+                                }
+                            }
+                        }
+                    }),
+            ]);
+
+        return [
+            Group::make([
+                Forms\Components\Hidden::make('id')->default($id),
+                Forms\Components\Hidden::make('parent_id')
+                    ->default($selectedCategories[0] ?? 0),
+                Forms\Components\Hidden::make('rel_type')
+                    ->default($selectedPage ? morph_name(Content::class) : null),
+                Forms\Components\Hidden::make('rel_id')
+                    ->default($selectedPage ?: null),
+
+                Forms\Components\TextInput::make('title')
+                    ->label('Title')
+                    ->required()
+                    ->autofocus()
+                    ->columnSpanFull(),
+
+                Forms\Components\Textarea::make('description')
+                    ->label('Description')
+                    ->rows(3)
+                    ->columnSpanFull(),
+
+                $parentTreeSection,
+            ])->columns(1)->columnSpanFull(),
+        ];
+    }
+
 
     public static function table(Table $table): Table
     {

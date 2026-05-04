@@ -195,6 +195,44 @@
             background: var(--gray-900, #111827);
             border-top-color: var(--gray-700, #374151);
         }
+
+        /*
+         * Dark-mode polish + further compaction
+         * (task-2026-05-04-e0fe54). Mirrored from
+         * iframe-page.blade.php so per-module Items-list
+         * Create/Edit modals (rendered in a separate iframe)
+         * pick up the same chrome.
+         */
+        .mw-content-form-modal > .fi-modal-header {
+            padding-block: 0.875rem;
+            border-bottom: 1px solid var(--gray-200, #e5e7eb);
+        }
+        html.dark .mw-content-form-modal > .fi-modal-header,
+        .dark .mw-content-form-modal > .fi-modal-header {
+            border-bottom-color: var(--gray-700, #374151);
+        }
+        .mw-content-form-modal .fi-section {
+            padding: 0.875rem 1rem;
+        }
+        .mw-content-form-modal .fi-section .fi-section-header {
+            padding-bottom: 0.5rem;
+        }
+        html.dark .mw-content-form-modal .fi-section,
+        .dark .mw-content-form-modal .fi-section {
+            background-color: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--gray-700, #374151);
+        }
+        html.dark .mw-content-form-modal .fi-section-header-heading,
+        .dark .mw-content-form-modal .fi-section-header-heading {
+            color: var(--gray-100, #f3f4f6);
+        }
+        html.dark .mw-content-form-modal .fi-modal-heading,
+        .dark .mw-content-form-modal .fi-modal-heading {
+            color: var(--gray-50, #f9fafb);
+        }
+        .mw-content-form-modal .fi-fo-field-wrp {
+            gap: 0.375rem;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}

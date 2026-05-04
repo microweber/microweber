@@ -690,6 +690,56 @@
             }
 
             /*
+             * Dark-mode polish + further compaction
+             * (task-2026-05-04-e0fe54). The user's screenshot
+             * showed the dark modal with muddy contrast: section
+             * cards blended into the body, the header lost its
+             * separator, and overall padding still felt heavy
+             * after the schema was already trimmed.
+             *
+             * - Header gets a clear bottom border + tighter pad.
+             * - Section cards in dark mode pick up a slightly
+             *   lighter background so they read as cards on the
+             *   dark body, plus an accent border for separation.
+             * - Section padding tightened so each card takes
+             *   less vertical space (lean modal feel).
+             * - Remove the heavy outer rounded shadow pop on
+             *   the rich-text toolbar in dark mode.
+             */
+            .mw-content-form-modal > .fi-modal-header {
+                padding-block: 0.875rem;
+                border-bottom: 1px solid var(--gray-200, #e5e7eb);
+            }
+            html.dark .mw-content-form-modal > .fi-modal-header,
+            .dark .mw-content-form-modal > .fi-modal-header {
+                border-bottom-color: var(--gray-700, #374151);
+            }
+            .mw-content-form-modal .fi-section {
+                padding: 0.875rem 1rem;
+            }
+            .mw-content-form-modal .fi-section .fi-section-header {
+                padding-bottom: 0.5rem;
+            }
+            html.dark .mw-content-form-modal .fi-section,
+            .dark .mw-content-form-modal .fi-section {
+                background-color: rgba(255, 255, 255, 0.025);
+                border: 1px solid var(--gray-700, #374151);
+            }
+            html.dark .mw-content-form-modal .fi-section-header-heading,
+            .dark .mw-content-form-modal .fi-section-header-heading {
+                color: var(--gray-100, #f3f4f6);
+            }
+            html.dark .mw-content-form-modal .fi-modal-heading,
+            .dark .mw-content-form-modal .fi-modal-heading {
+                color: var(--gray-50, #f9fafb);
+            }
+            /* Tighter form-field gap inside sections so the lean
+               schema actually reads as lean. */
+            .mw-content-form-modal .fi-fo-field-wrp {
+                gap: 0.375rem;
+            }
+
+            /*
              * Make the Add Page/Post/Product/Category modal draggable
              * by its header — same UX Microweber v2's `mw.dialog`
              * shipped (the v2 helper just called jQuery UI
