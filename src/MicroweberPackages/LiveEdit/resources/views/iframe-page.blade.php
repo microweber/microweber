@@ -1183,6 +1183,104 @@
             .mw-filepicker-footer-wrapper .form-control-live-edit-label-wrapper a:not(.active) {
                 box-shadow: none !important;
             }
+
+            /*
+             * Drunk-designer audit fixes (task-2026-05-04-a8d5bb).
+             * Unified design tokens scoped to the live-edit Add
+             * Content modal + picker — consistent radius/shadow/
+             * heading/focus across the surface.
+             */
+            :root {
+                --mw-radius-md: 8px;
+                --mw-radius-lg: 12px;
+                --mw-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.18),
+                                   0 0 0 1px rgba(0, 0, 0, 0.04);
+                --mw-accent-ring: rgb(59, 130, 246);
+            }
+
+            /* #2 Modal heading collapse — promote the title to a
+               clear top of the type ladder. Filament's base
+               `.fi-modal-heading` rule is inside an
+               `@layer components` block in the theme css, which
+               makes its tokens win unless we either match the
+               cascade layer OR explicitly outrank with
+               `!important` — the latter is the smaller surface
+               here. */
+            .mw-content-form-modal .fi-modal-heading,
+            .mw-content-picker-modal .fi-modal-heading {
+                font-size: 1.125rem !important;
+                line-height: 1.5rem !important;
+                font-weight: 600 !important;
+                letter-spacing: -0.005em;
+            }
+            /* Section subheadings sit one rung below — small,
+               weighted, all-caps tracking. The "MORE OPTIONS"
+               heading already reads this way; align all section
+               headings inside the compact form to match. */
+            .mw-content-form-modal .fi-section-header-heading {
+                font-size: 0.75rem;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                color: var(--gray-500, #6b7280);
+            }
+            html.dark .mw-content-form-modal .fi-section-header-heading,
+            .dark .mw-content-form-modal .fi-section-header-heading {
+                color: var(--gray-400, #9ca3af);
+            }
+
+            /* #5 Radius war — unify the radii inside the modal
+               surface. The modal-window itself stays at its
+               existing radius (Filament tier); inner sections,
+               cards, and the picker tiles get the shared token. */
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
+                border-radius: var(--mw-radius-lg);
+            }
+            .mw-content-form-modal .fi-section,
+            .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+                border-radius: var(--mw-radius-md);
+            }
+
+            /* #6 Shadow soup — single elevation token for the
+               outer modal; inner sections and picker tiles get
+               NO shadow (they're already inside an elevated
+               container). */
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+            .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
+                box-shadow: var(--mw-shadow-modal);
+            }
+            .mw-content-form-modal .fi-section,
+            .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+                box-shadow: none;
+            }
+
+            /* #8 Restore focus rings — Filament's default ring
+               was being suppressed by the theme. Bring it back
+               on the title input, picker cards, and close X. */
+            .mw-content-form-modal .fi-input:focus-visible,
+            .mw-content-form-modal .mw-fb-title-input:focus-visible,
+            .mw-content-form-modal input:focus-visible,
+            .mw-content-form-modal textarea:focus-visible,
+            .mw-content-form-modal select:focus-visible,
+            .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible,
+            .mw-content-form-modal .fi-modal-close-btn:focus-visible,
+            .mw-content-picker-modal .fi-modal-close-btn:focus-visible {
+                outline: 2px solid var(--mw-accent-ring);
+                outline-offset: 2px;
+                box-shadow: none;
+            }
+
+            /* #10 (CSS half) — strip the Title section's
+               border + padding so the input doesn't sit in dead
+               chrome. The PHP swap to a borderless Group lives
+               in ContentResource::compactTitleOnlySection. */
+            .mw-content-form-modal .mw-fb-title-section {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
         </style>
 
 

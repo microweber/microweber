@@ -399,11 +399,18 @@ class AdminLiveEditPage extends Page
                     ? CategoryResource::getUrl('edit', ['record' => $model])
                     : ContentResource::getUrl('edit', ['record' => $model]);
 
+                // task-2026-05-04-a8d5bb #12 — make the success
+                // toast actually visible. Body is shorter (the
+                // title already conveys success) and duration
+                // bumped to 5 s so the user has time to spot the
+                // "Edit details" affordance before it fades.
+                // Doubled space "is  created" → "is created"
+                // typo also cleaned up.
                 Notification::make()
                     ->success()
-                    ->title($contentTypeFriendly . ' is  created')
-                    ->body($contentTypeFriendly
-                        . ' has been created successfully.')
+                    ->title($contentTypeFriendly . ' created')
+                    ->body('Click "Edit details" to refine SEO, tags and more.')
+                    ->duration(5000)
                     ->actions([
                         Action::make('editDetails')
                             ->label('Edit details')

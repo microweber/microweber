@@ -638,7 +638,15 @@ class ContentResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                    ->helperText('Displayed price to customers (e.g., 19.99).')
+                    // Currency prefix from store settings — drunk-
+                    // designer audit #11 (task-2026-05-04-a8d5bb).
+                    // The Price input was naked text in the
+                    // commerce flow's headline field; a leading
+                    // symbol from option_get('currency') anchors
+                    // the field as a money input at first glance.
+                    ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
+                    ->placeholder('19.99')
+                    ->helperText('Price shown to customers')
                     ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->required(),
 
@@ -652,7 +660,9 @@ class ContentResource extends Resource
                         }
                     })
                     ->numeric()
-                    ->helperText('Optional discounted price. Must be lower than regular price.')
+                    ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
+                    ->placeholder('14.99')
+                    ->helperText('Optional discount, lower than regular price')
                     ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->visible(function_exists('offers_get_price')),

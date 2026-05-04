@@ -480,6 +480,62 @@
         .mw-filepicker-footer-wrapper .form-control-live-edit-label-wrapper a:not(.active) {
             box-shadow: none !important;
         }
+
+        /* Drunk-designer audit fixes (mirrored from
+           iframe-page.blade.php). task-2026-05-04-a8d5bb. */
+        :root {
+            --mw-radius-md: 8px;
+            --mw-radius-lg: 12px;
+            --mw-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.18),
+                               0 0 0 1px rgba(0, 0, 0, 0.04);
+            --mw-accent-ring: rgb(59, 130, 246);
+        }
+        .mw-content-form-modal .fi-modal-heading,
+        .mw-content-picker-modal .fi-modal-heading {
+            font-size: 1.125rem !important;
+            line-height: 1.5rem !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.005em;
+        }
+        .mw-content-form-modal .fi-section-header-heading {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--gray-500, #6b7280);
+        }
+        html.dark .mw-content-form-modal .fi-section-header-heading,
+        .dark .mw-content-form-modal .fi-section-header-heading {
+            color: var(--gray-400, #9ca3af);
+        }
+        .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal,
+        .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-picker-modal {
+            border-radius: var(--mw-radius-lg);
+            box-shadow: var(--mw-shadow-modal);
+        }
+        .mw-content-form-modal .fi-section,
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+            border-radius: var(--mw-radius-md);
+            box-shadow: none;
+        }
+        .mw-content-form-modal .fi-input:focus-visible,
+        .mw-content-form-modal .mw-fb-title-input:focus-visible,
+        .mw-content-form-modal input:focus-visible,
+        .mw-content-form-modal textarea:focus-visible,
+        .mw-content-form-modal select:focus-visible,
+        .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible,
+        .mw-content-form-modal .fi-modal-close-btn:focus-visible,
+        .mw-content-picker-modal .fi-modal-close-btn:focus-visible {
+            outline: 2px solid var(--mw-accent-ring);
+            outline-offset: 2px;
+            box-shadow: none;
+        }
+        .mw-content-form-modal .mw-fb-title-section {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
