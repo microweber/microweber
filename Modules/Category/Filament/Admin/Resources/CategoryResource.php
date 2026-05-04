@@ -216,12 +216,10 @@ class CategoryResource extends Resource
         $parentTreeSection = Forms\Components\Section::make('Parent page')
             ->icon('heroicon-m-folder-open')
             ->columns(1)
-            // Collapsed by default in live-edit — parent is
-            // pre-selected from the canvas page; tree is noise
-            // unless the user wants to override.
-            // task-2026-05-04-f575c7.
+            // Collapsible but visible by default — user listed
+            // parent as one of the three upfront fields in
+            // task-2026-05-04-2199df.
             ->collapsible()
-            ->collapsed()
             ->schema([
                 MwTree::make('mw_parent_page_and_category_state')
                     ->columnSpanFull()
@@ -269,6 +267,12 @@ class CategoryResource extends Resource
                     }),
             ]);
 
+        // Super-minimalistic schema (task-2026-05-04-2199df):
+        //   UPFRONT: Title (required, autofocus) + Parent picker
+        //   IN ACCORDION (collapsed "More options"): Description.
+        // Categories don't have a media browser of their own, so
+        // the upfront stack is just title + parent — Description
+        // moves below the fold for the lean default flow.
         return [
             Group::make([
                 Forms\Components\Hidden::make('id')->default($id),
@@ -281,16 +285,25 @@ class CategoryResource extends Resource
 
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
-                    ->required()
+                    ->rules(['required'])
+                    ->markAsRequired()
                     ->autofocus()
                     ->columnSpanFull(),
 
-                Forms\Components\Textarea::make('description')
-                    ->label('Description')
-                    ->rows(3)
-                    ->columnSpanFull(),
-
                 $parentTreeSection,
+
+                Forms\Components\Section::make('More options')
+                    ->icon('heroicon-m-adjustments-horizontal')
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema([
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->rows(3)
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull(),
             ])->columns(1)->columnSpanFull(),
         ];
     }

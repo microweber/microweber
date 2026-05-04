@@ -119,6 +119,19 @@ class ContentResource extends Resource
     {
         $id = $params['id'] ?? null;
         $isMultilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
+        $relType = \Modules\Content\Models\Content::class;
+        $relId = $id;
+
+        static $compactMediaIdsCache = [];
+        $cacheKey = $relId ?? '__null__';
+        if (!isset($compactMediaIdsCache[$cacheKey])) {
+            $compactMediaIdsCache[$cacheKey] = Media::query()
+                ->where('rel_type', $relType)
+                ->where('rel_id', $relId)
+                ->orderBy('position', 'asc')
+                ->pluck('id')->toArray();
+        }
+        $mediaIds = $compactMediaIdsCache[$cacheKey];
 
         $contentType = static::resolveContentType($params);
         $contentSubtype = $params['contentSubtype'] ?? (isset(static::$subType) ? static::$subType : 'static');
@@ -126,25 +139,105 @@ class ContentResource extends Resource
         $active_site_template_default = static::resolveDefaultTemplate();
         [$firstBlogId, $firstShopId] = static::resolveParentPages($contentType);
 
+        // Super-minimalistic live-edit schema (task-2026-05-04-2199df):
+        //   UPFRONT (visible immediately):
+        //     - Title (required, autofocus)
+        //     - Picture (Media browser)
+        //     - Parent page (collapsed)
+        //   IN ACCORDION (collapsed "More options" section):
+        //     - Content body (post only) + Excerpt (post only)
+        //     - Pricing (product only)
+        //     - Published toggle + Publish date
+        // The lean shape matches user's request: title + picture +
+        // parent visible, everything else one click away. Power
+        // users can hit "Open in admin" for the full form.
         return [
             Schemas\Components\Group::make([
                 ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
-                static::compactGeneralInformationSection(),
-                static::pricingSection(),
-                static::publishedSection(),
-                // Collapsed by default — for posts and products
-                // the parent is auto-resolved to firstBlogId /
-                // firstShopId; for pages it falls back to the
-                // homepage. The 100+-item parent-page tree is
-                // noise for the 95% case where the user just
-                // wants to add a post under Blog. Power users
-                // can still expand to override.
-                // task-2026-05-04-f575c7.
+
+                static::compactTitleOnlySection(),
+                static::mediaSection($relType, $relId, $mediaIds),
+                // Parent page kept VISIBLE upfront per user's
+                // explicit "title and picture and parent page"
+                // listing in task-2026-05-04-2199df. Still
+                // collapsible so power users can hide it once
+                // they confirm the auto-resolved parent is right.
                 static::parentPageSection($firstBlogId, $firstShopId)
+                    ->collapsible(),
+
+                Schemas\Components\Section::make('More options')
+                    ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
-                    ->collapsed(),
+                    ->collapsed()
+                    ->schema([
+                        static::compactBodyAndExcerptGroup(),
+                        static::pricingSection()
+                            ->columnSpanFull(),
+                        static::publishedSection()
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull(),
             ])->columns(1)->columnSpanFull(),
         ];
+    }
+
+    /**
+     * Title-only section for the super-minimalistic live-edit
+     * compact form. Other content body / excerpt fields moved
+     * into the "More options" accordion below.
+     * task-2026-05-04-2199df.
+     */
+    protected static function compactTitleOnlySection(): Schemas\Components\Section
+    {
+        return Schemas\Components\Section::make('Title')
+            ->heading(null)
+            ->schema([
+                Forms\Components\TextInput::make('title')
+                    ->maxLength(255)
+                    ->rules(['required'])
+                    ->markAsRequired()
+                    ->autofocus()
+                    ->placeholder('e.g. My first post')
+                    ->hintAction(
+                        TranslateFieldAction::make('title')->label('')
+                    )->columnSpanFull(),
+            ])
+            ->columnSpanFull()
+            ->columns(1);
+    }
+
+    /**
+     * Body + Excerpt group used inside the "More options"
+     * accordion. Empty Group component when content_type doesn't
+     * support these fields (page) so it cleanly absents itself.
+     * task-2026-05-04-2199df.
+     */
+    protected static function compactBodyAndExcerptGroup(): Schemas\Components\Group
+    {
+        return Schemas\Components\Group::make([
+            Forms\Components\RichEditor::make('content_body')
+                ->columnSpan('full')
+                ->hintAction(
+                    TranslateFieldAction::make('content_body')->label('')
+                )
+                ->visible(function (Schemas\Components\Utilities\Get $get) {
+                    return $get('content_type') !== 'page';
+                }),
+
+            Forms\Components\Textarea::make('description')
+                ->label('Excerpt')
+                ->helperText('A short summary displayed in post listings and search results.')
+                ->rows(3)
+                ->maxLength(500)
+                ->columnSpanFull()
+                ->hintAction(
+                    TranslateFieldAction::make('description')->label('')
+                )
+                ->visible(function (Schemas\Components\Utilities\Get $get) {
+                    return $get('content_type') === 'post';
+                }),
+        ])->columns(1)->columnSpanFull();
     }
 
     /**
