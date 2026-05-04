@@ -176,6 +176,34 @@ class ContentResource extends Resource
                 static::pricingSection()
                     ->columnSpanFull(),
 
+                // Page-specific upfront fields
+                // (task-2026-05-04-4e425c) — user reported "the
+                // page fields are not available" on the Create
+                // page modal. Pages need a Template picker
+                // upfront because choosing a template is the key
+                // page-creation decision (Blog page vs Landing
+                // page vs Pricing page etc), and a Content body
+                // editor for the body text. Both visibility-
+                // gated to content_type === 'page' so post and
+                // product flows are unchanged.
+                Schemas\Components\Section::make('Page setup')
+                    ->heading(null)
+                    ->extraAttributes(['class' => 'mw-fb-page-setup'])
+                    ->schema([
+                        MwSelectTemplateForPage::make('active_site_template', 'layout_file')
+                            ->columnSpanFull(),
+                        Forms\Components\RichEditor::make('content_body')
+                            ->label('Page content')
+                            ->columnSpanFull()
+                            ->hintAction(
+                                TranslateFieldAction::make('content_body')->label('')
+                            ),
+                    ])
+                    ->columnSpanFull()
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') === 'page';
+                    }),
+
                 // Everything else collapsed into a single "More
                 // options" accordion — INCLUDING the Parent page
                 // section, which user-research showed is the
@@ -212,11 +240,9 @@ class ContentResource extends Resource
     {
         // Facebook-style writing surface (task-2026-05-04-bfe418):
         // no label, no border around the section, big-type
-        // placeholder ("What's the post about?"). The actual
-        // section component is kept so the Filament group
-        // structure remains valid, but `extraAttributes` carries
-        // a class that the CSS strips down to a borderless,
-        // padding-collapsed wrapper.
+        // placeholder. The placeholder is dynamic per content
+        // type so "Create page" shows "What's the page title?"
+        // not "What's the post about?" — task-2026-05-04-4e425c.
         return Schemas\Components\Section::make('Title')
             ->heading(null)
             ->extraAttributes(['class' => 'mw-fb-title-section'])
@@ -227,7 +253,14 @@ class ContentResource extends Resource
                     ->rules(['required'])
                     ->markAsRequired()
                     ->autofocus()
-                    ->placeholder("What's the post about?")
+                    ->placeholder(function (Schemas\Components\Utilities\Get $get) {
+                        $type = $get('content_type');
+                        return match ($type) {
+                            'page' => "What's the page title?",
+                            'product' => "What's the product name?",
+                            default => "What's the post about?",
+                        };
+                    })
                     ->extraInputAttributes(['class' => 'mw-fb-title-input'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
@@ -245,6 +278,11 @@ class ContentResource extends Resource
      */
     protected static function compactBodyAndExcerptGroup(): Schemas\Components\Group
     {
+        // task-2026-05-04-4e425c — Content body is shown UPFRONT
+        // for pages via `Page setup` section (above the Media
+        // tile), so this More-options copy is hidden for pages
+        // to avoid duplicating the editor. Posts and products
+        // see body here in the accordion. Excerpt is post-only.
         return Schemas\Components\Group::make([
             Forms\Components\RichEditor::make('content_body')
                 ->columnSpan('full')

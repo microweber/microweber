@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Fixed
+- **Live-edit Create Page modal: type-aware placeholder + page fields visible** (task-2026-05-04-4e425c) — Title placeholder is now content-type aware: "What's the page title?" / "What's the product name?" / "What's the post about?" instead of always "post about". Pages get a new upfront `Page setup` section with `MwSelectTemplateForPage` (Template + Layout chooser with thumbnail preview) and a `Page content` RichEditor. Body editor now renders once per modal: upfront for pages, inside More options for posts/products.
+
+### Fixed
 - **Live-edit Add Category modal: dropdown clipping** (task-2026-05-04-fc971b) — Filament's Choices.js Select panel was being clipped by the modal-content's `overflow-y: auto` scroll container (CSS clip happens regardless of z-index for absolutely-positioned descendants of `overflow: auto` ancestors). Switched the parent picker to `->native(true)` so the browser's native `<select>` dropdown renders OUTSIDE the modal stacking context and can't be clipped. Free type-ahead search comes via the OS-level keyboard handler.
 
 ### Changed
