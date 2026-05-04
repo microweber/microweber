@@ -312,6 +312,149 @@
             mw.quickSettings = {};
             mw.layoutQuickSettings = [];
 
+            /*
+             * Add Page/Post/Product/Category modal — make it
+             * draggable by its header so the user can move it out
+             * of the way to peek at the live-edit canvas
+             * underneath, mirroring v2's mw.dialog behaviour.
+             * task-2026-05-04-c124bc.
+             *
+             * v2's mw.dialog draggability is just a jQuery UI
+             * .draggable() call on its own header. We apply the
+             * same call directly to Filament's `.fi-modal-window`
+             * carrying our `mw-content-form-modal` class, with
+             * `.fi-modal-header` as the handle. Doing it this way
+             * (instead of porting the whole modal pipeline to
+             * mw.dialog) keeps the Livewire form's wire:click /
+             * wire:model bindings untouched — the DOM stays where
+             * Filament put it, only its position changes.
+             *
+             * The MutationObserver catches modals that mount AFTER
+             * page load (the normal case — Filament inserts the
+             * modal node into the document body when an Action is
+             * mounted via wire:click).
+             */
+            (function () {
+                function isContentFormModal(el) {
+                    return el instanceof HTMLElement
+                        && el.classList.contains('fi-modal-window')
+                        && el.classList.contains('mw-content-form-modal');
+                }
+
+                function attachDraggable(modal) {
+                    if (modal.dataset.mwContentModalDraggable === '1') return;
+                    modal.dataset.mwContentModalDraggable = '1';
+
+                    var header = modal.querySelector('.fi-modal-header');
+                    if (!header) return;
+
+                    var dragging = false;
+                    var startX = 0, startY = 0, startLeft = 0, startTop = 0;
+
+                    function onMouseDown(e) {
+                        if (e.button !== 0) return;
+                        // Don't start a drag from interactive
+                        // elements inside the header (the close X,
+                        // links, form controls) — those need their
+                        // native click behaviour.
+                        if (e.target.closest('button, input, textarea, select, a, [role="button"]')) return;
+
+                        var rect = modal.getBoundingClientRect();
+                        // Pin the modal to viewport-fixed coords at
+                        // its current rendered position. Filament
+                        // centers it via the parent ctn's flex
+                        // layout — once we set inline left/top,
+                        // those values would fight the flex
+                        // centering and park the modal off-screen.
+                        // Switching to position: fixed (relative to
+                        // viewport) AND zeroing margin removes the
+                        // modal from the flex flow so subsequent
+                        // left/top updates express viewport coords
+                        // directly. Idempotent via the pinned flag.
+                        if (modal.dataset.mwContentModalPinned !== '1') {
+                            modal.style.position = 'fixed';
+                            modal.style.top = Math.round(rect.top) + 'px';
+                            modal.style.left = Math.round(rect.left) + 'px';
+                            modal.style.margin = '0';
+                            modal.dataset.mwContentModalPinned = '1';
+                        }
+
+                        dragging = true;
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        startLeft = rect.left;
+                        startTop = rect.top;
+                        modal.classList.add('ui-draggable-dragging');
+                        e.preventDefault();
+                    }
+
+                    function onMouseMove(e) {
+                        if (!dragging) return;
+                        var dx = e.clientX - startX;
+                        var dy = e.clientY - startY;
+                        var nx = startLeft + dx;
+                        var ny = startTop + dy;
+
+                        // Keep at least a thumb-width of the header
+                        // visible so the user can always grab to
+                        // drag back. For modals taller than the
+                        // viewport (the Add Post form is ~1640px
+                        // tall), allow Y to go negative — that's
+                        // how the user reaches the bottom of the
+                        // form by dragging.
+                        var headerH = header.offsetHeight || 56;
+                        var w = modal.offsetWidth;
+                        var minLeft = 24 - w;
+                        var maxLeft = window.innerWidth - 24;
+                        var maxTop = window.innerHeight - headerH - 8;
+                        nx = Math.max(minLeft, Math.min(maxLeft, nx));
+                        // No min-top constraint: tall forms must be
+                        // pushable up to expose the bottom.
+                        ny = Math.min(maxTop, ny);
+
+                        modal.style.left = nx + 'px';
+                        modal.style.top = ny + 'px';
+                    }
+
+                    function onMouseUp() {
+                        if (!dragging) return;
+                        dragging = false;
+                        modal.classList.remove('ui-draggable-dragging');
+                    }
+
+                    header.addEventListener('mousedown', onMouseDown);
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                }
+
+                function scan(root) {
+                    if (!root) return;
+                    if (isContentFormModal(root)) {
+                        attachDraggable(root);
+                        return;
+                    }
+                    if (root.querySelectorAll) {
+                        root.querySelectorAll('.fi-modal-window.mw-content-form-modal').forEach(attachDraggable);
+                    }
+                }
+
+                function start() {
+                    scan(document.body);
+                    var observer = new MutationObserver(function (mutations) {
+                        mutations.forEach(function (m) {
+                            m.addedNodes.forEach(scan);
+                        });
+                    });
+                    observer.observe(document.body, {childList: true, subtree: true});
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', start);
+                } else {
+                    start();
+                }
+            })();
+
             window.addEventListener('load', function () {
                 if (mw.top() && mw.top().app && mw.top().app.liveEdit && mw.top().app.fontManager) {
                     mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
@@ -444,6 +587,31 @@
             .dark .mw-content-form-modal .fi-modal-footer {
                 background: var(--gray-900, #111827);
                 border-top-color: var(--gray-700, #374151);
+            }
+
+            /*
+             * Make the Add Page/Post/Product/Category modal draggable
+             * by its header — same UX Microweber v2's `mw.dialog`
+             * shipped (the v2 helper just called jQuery UI
+             * `.draggable()` under the hood; we apply the same
+             * behaviour directly to Filament's modal so the form's
+             * Livewire wiring stays intact instead of porting the
+             * whole modal pipeline). The cursor cue tells the user
+             * "this header is grabbable"; `user-select: none` stops
+             * the drag from selecting the heading text mid-drag;
+             * `.ui-draggable-dragging` is the class jQuery UI adds
+             * while a drag is in flight. task-2026-05-04-c124bc.
+             */
+            .mw-content-form-modal .fi-modal-header {
+                cursor: move;
+                user-select: none;
+            }
+            .mw-content-form-modal.ui-draggable-dragging,
+            .mw-content-form-modal.ui-draggable-dragging .fi-modal-header {
+                cursor: grabbing;
+            }
+            .mw-content-form-modal.ui-draggable-dragging {
+                box-shadow: 0 22px 50px -12px rgba(0, 0, 0, 0.45);
             }
 
             /*

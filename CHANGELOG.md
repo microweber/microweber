@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Live-edit Add Content modal is now draggable** (task-2026-05-04-c124bc) — the user can grab the modal's header and drag the modal anywhere on the screen so the live-edit canvas behind it is visible — same UX Microweber v2's `mw.dialog` shipped, applied directly to Filament's existing `.fi-modal-window.mw-content-form-modal` via a small native pointer handler in `iframe-page.blade.php`. Avoids porting the full Filament modal pipeline, so the form's Livewire wire:click / wire:model bindings stay intact. Cursor flips to `move` on the header and `grabbing` while dragging; modal pins to `position: fixed` at mousedown so subsequent updates work in viewport space. Y-axis containment is asymmetric (header must stay visible at the bottom, but tall forms can be pushed above the viewport so the user can reach the bottom of the form).
+
 ### Fixed
 - **Live-edit Add Post — JS errors after save** (task-2026-05-04-3337c0) — `element-style-editor-main.blade.php` ran `mw.require()` / `mw.top()` inline during HTML parse, but the bundle that defines them (`admin.js`) is `type="module"` (deferred), so the inline code raced ahead and threw `mw.require is not a function` + `mw.top is not a function` + a cascading `Cannot read properties of undefined (reading 'on')` from the Vue mounted hook. Wrapped the inline scripts in a wait-for-mw IIFE (poll up to 10s, same pattern as `render-css-editor.blade.php`'s `waitForCodeMirror`) and deferred the Vue bundle injection until inside `init()` so the bundle's own `mounted()` hook only runs after `mw.top().app` is ready. Add Post → SAVE now reports zero console errors end-to-end.
 
