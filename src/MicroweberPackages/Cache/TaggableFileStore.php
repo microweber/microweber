@@ -195,7 +195,7 @@ class TaggableFileStore implements Store
         }
 
         try {
-            $data = unserialize(substr($contents, 10));
+            $data = unserialize(substr($contents, 10), ['allowed_classes' => false]);
         } catch (\Exception $e) {
             $this->forget($key);
             return;
