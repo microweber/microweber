@@ -231,11 +231,21 @@ class CategoryResource extends Resource
 
         $parentSelectOptions = static::buildCompactParentSelectOptions();
 
+        // task-2026-05-04-fc971b — `->native()` makes Filament
+        // use a plain HTML <select> instead of the searchable
+        // Choices.js panel. The native browser dropdown renders
+        // OUTSIDE the modal's stacking context entirely, so it
+        // can't be clipped by the modal-content's `overflow:
+        // auto` (which is required for the scrollable body fix
+        // from task-b7eee8). Loses in-place search but the
+        // option list is short enough (pages + categories,
+        // capped at 500 each) that the native browser's
+        // type-ahead works fine.
         $parentTreeSection = Forms\Components\Select::make('mw_parent_select')
             ->label('Parent page or category')
             ->options($parentSelectOptions)
             ->default($parentSelectInitial)
-            ->searchable()
+            ->native(true)
             ->live()
             ->required(function (Forms\Get $get) {
                 if ($get('parent_id')) return false;

@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- **Live-edit Add Category modal: dropdown clipping** (task-2026-05-04-fc971b) — Filament's Choices.js Select panel was being clipped by the modal-content's `overflow-y: auto` scroll container (CSS clip happens regardless of z-index for absolutely-positioned descendants of `overflow: auto` ancestors). Switched the parent picker to `->native(true)` so the browser's native `<select>` dropdown renders OUTSIDE the modal stacking context and can't be clipped. Free type-ahead search comes via the OS-level keyboard handler.
+
 ### Changed
 - **Live-edit Add Product modal: Price visible upfront** (task-2026-05-04-26c52a) — moved pricingSection from "More options" accordion back into the upfront stack so creating a product no longer requires expanding an accordion to enter the most essential field. pricingSection's own `->visible()` callback keeps it absent for posts/pages.
 - **Live-edit Add Category modal: Filament Select replaces mw.tree parent picker** (task-2026-05-04-26c52a) — the live-edit category compact form now uses a native searchable Filament Select listing pages and categories with prefixed labels ("Page: My Blog", "Category: News"). Encoded `page:{id}` / `category:{id}` option keys are split server-side in afterStateUpdated to write the appropriate hidden field. The full admin form `CategoryResource::form()` keeps the mw.tree picker for power-user scenarios — the lean Select is live-edit-only.
