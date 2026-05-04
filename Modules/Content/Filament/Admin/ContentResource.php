@@ -176,6 +176,28 @@ class ContentResource extends Resource
                 static::pricingSection()
                     ->columnSpanFull(),
 
+                // Body + Excerpt VISIBLE upfront for posts and
+                // products. Customer-persona testing showed that
+                // saving a post with body collapsed inside More
+                // options produced a publicly visible empty post
+                // (just title + footer) — Sarah's "did it work?"
+                // moment broke. Move the writing surface upfront
+                // so a one-line save still produces a real-looking
+                // post page. Pages have their own body editor
+                // inside the Page setup section above, so this
+                // group is hidden for pages to avoid duplicating.
+                // task-2026-05-04-1e4af3.
+                Schemas\Components\Section::make('Body')
+                    ->heading(null)
+                    ->extraAttributes(['class' => 'mw-fb-body-section'])
+                    ->schema([
+                        static::compactBodyAndExcerptGroup(),
+                    ])
+                    ->columnSpanFull()
+                    ->visible(function (Schemas\Components\Utilities\Get $get) {
+                        return $get('content_type') !== 'page';
+                    }),
+
                 // Page-specific upfront fields
                 // (task-2026-05-04-4e425c) — user reported "the
                 // page fields are not available" on the Create
@@ -218,7 +240,10 @@ class ContentResource extends Resource
                     ->collapsed()
                     ->extraAttributes(['class' => 'mw-fb-more-options'])
                     ->schema([
-                        static::compactBodyAndExcerptGroup(),
+                        // Body + Excerpt moved upfront for
+                        // posts/products in task-1e4af3 — only
+                        // Published toggle and Parent picker
+                        // remain in the accordion now.
                         static::publishedSection()
                             ->columnSpanFull(),
                         static::parentPageSection($firstBlogId, $firstShopId)

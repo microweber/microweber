@@ -241,17 +241,36 @@ class CategoryResource extends Resource
         // option list is short enough (pages + categories,
         // capped at 500 each) that the native browser's
         // type-ahead works fine.
+        // task-2026-05-04-1e4af3 (P1-5): Parent is now OPTIONAL.
+        // Auto-default to the page being edited in live-edit
+        // (same convention as posts/products: see
+        // AdminLiveEditPage::generateAction's save handler that
+        // links new content to $currentPageId). Sarah-the-baker
+        // doesn't know what "parent of a category" means and
+        // shouldn't be forced to pick from a 30-item dropdown
+        // upfront. If she leaves it blank, we default to the
+        // current canvas page so the category still appears
+        // under that listing.
+        if ($parentSelectInitial === '') {
+            $currentPageId = (int) request()->query('parent_page_id', 0);
+            if (! $currentPageId) {
+                $referer = request()->headers->get('referer');
+                if ($referer && str_contains($referer, 'parent_page_id=')) {
+                    parse_str(parse_url($referer, PHP_URL_QUERY) ?: '', $q);
+                    $currentPageId = (int) ($q['parent_page_id'] ?? 0);
+                }
+            }
+            if ($currentPageId && isset($parentSelectOptions['page:' . $currentPageId])) {
+                $parentSelectInitial = 'page:' . $currentPageId;
+            }
+        }
+
         $parentTreeSection = Forms\Components\Select::make('mw_parent_select')
-            ->label('Parent page or category')
+            ->label('Parent page or category (optional)')
             ->options($parentSelectOptions)
             ->default($parentSelectInitial)
             ->native(true)
             ->live()
-            ->required(function (Forms\Get $get) {
-                if ($get('parent_id')) return false;
-                if ($get('rel_id')) return false;
-                return true;
-            })
             ->afterStateUpdated(function (Forms\Set $set, ?string $state) {
                 if (!$state || !str_contains($state, ':')) {
                     $set('parent_id', '');
@@ -299,14 +318,12 @@ class CategoryResource extends Resource
                     ->extraFieldWrapperAttributes(['class' => 'mw-fb-title-wrap'])
                     ->columnSpanFull(),
 
-                // Parent picker upfront — task-2026-05-04-26c52a
-                // dropped mw.tree in favour of a native Filament
-                // Select. The select is small enough to keep
-                // upfront without breaking the compact target.
-                $parentTreeSection,
-
-                // Description moves into accordion to keep the
-                // upfront stack tiny. task-2026-05-04-2cd250.
+                // Description + Parent picker move into accordion
+                // — task-2026-05-04-1e4af3 (P1-5): the parent is
+                // optional and auto-defaults to the canvas page,
+                // so it doesn't need to demand the user's
+                // attention upfront. Title-only save is a
+                // "very easy" path now.
                 Forms\Components\Section::make('More options')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->collapsible()
@@ -317,6 +334,7 @@ class CategoryResource extends Resource
                             ->label('Description')
                             ->rows(3)
                             ->columnSpanFull(),
+                        $parentTreeSection,
                     ])
                     ->columns(1)
                     ->columnSpanFull(),

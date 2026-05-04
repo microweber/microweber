@@ -69,7 +69,7 @@ class AdminLiveEditPage extends Page
         $actions = [];
         $actions[] = [
             'title' => 'New Page',
-            'description' => 'Create a new page to your website or online store, choose from pre-pared page designs ',
+            'description' => 'Create a new page to your website or online store, choose from pre-built page designs',
             'action' => 'addPageAction',
             'icon' => 'mw-add-page',
         ];
@@ -87,7 +87,7 @@ class AdminLiveEditPage extends Page
         ];
         $actions[] = [
             'title' => 'New Product',
-            'description' => 'Add new product to your online store, choose from pre-pared product designs ',
+            'description' => 'Add new product to your online store, choose from pre-built product designs',
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
         ];
@@ -346,7 +346,18 @@ class AdminLiveEditPage extends Page
                 Action::make('openInAdmin')
                     ->label('Open in admin')
                     ->icon('heroicon-o-arrow-top-right-on-square')
-                    ->color('gray')
+                    // ->color('gray') used to render as a near-
+                    // invisible dark-grey rectangle on the dark-
+                    // mode modal — switch to ->outlined() which
+                    // picks up an explicit border in both
+                    // themes. task-2026-05-04-1e4af3 (P2 finding).
+                    ->outlined()
+                    ->extraAttributes(['class' => 'mw-open-in-admin-btn'])
+                    // The title-carry-forward from the typed
+                    // input to the URL query string is wired up
+                    // client-side in iframe-page.blade.php — see
+                    // the `mw-open-in-admin-btn` JS hook there.
+                    // task-2026-05-04-1e4af3 (P1-3).
                     ->url(static::resolveAdminCreateUrl($contentType, $currentPageId))
                     ->openUrlInNewTab(),
             ])

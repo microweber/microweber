@@ -440,22 +440,32 @@
                         var nx = startLeft + dx;
                         var ny = startTop + dy;
 
-                        // Keep at least a thumb-width of the header
-                        // visible so the user can always grab to
-                        // drag back. For modals taller than the
-                        // viewport (the Add Post form is ~1640px
-                        // tall), allow Y to go negative — that's
-                        // how the user reaches the bottom of the
-                        // form by dragging.
+                        // Keep enough of the header on-screen that
+                        // the user can always grab it to drag back
+                        // (P0-2 from task-2026-05-04-1e4af3 —
+                        // previous bounds let the modal go almost
+                        // entirely off-screen left and there was no
+                        // recovery path). Reserve a minimum
+                        // grab-strip of 120px of header pixels on
+                        // each axis. closeModalByEscaping(false) +
+                        // closeModalByClickingAway(false) on the
+                        // create modal mean the only way to close
+                        // it is via the X / SAVE / Cancel — those
+                        // MUST stay reachable.
                         var headerH = header.offsetHeight || 56;
                         var w = modal.offsetWidth;
-                        var minLeft = 24 - w;
-                        var maxLeft = window.innerWidth - 24;
+                        var grabStrip = 120;
+                        var minLeft = grabStrip - w;
+                        var maxLeft = window.innerWidth - grabStrip;
+                        var minTop = 0;
                         var maxTop = window.innerHeight - headerH - 8;
                         nx = Math.max(minLeft, Math.min(maxLeft, nx));
-                        // No min-top constraint: tall forms must be
-                        // pushable up to expose the bottom.
-                        ny = Math.min(maxTop, ny);
+                        // Tall-form scenario: still allow Y near 0
+                        // so the user can push the modal up to
+                        // reach SAVE on a tall form, but never
+                        // negative (which would put the header
+                        // above the toolbar / off-screen).
+                        ny = Math.max(minTop, Math.min(maxTop, ny));
 
                         modal.style.left = nx + 'px';
                         modal.style.top = ny + 'px';
@@ -476,11 +486,67 @@
                     if (!root) return;
                     if (isContentFormModal(root)) {
                         attachDraggable(root);
+                        attachOpenInAdminTitleSync(root);
                         return;
                     }
                     if (root.querySelectorAll) {
-                        root.querySelectorAll('.fi-modal-window.mw-content-form-modal').forEach(attachDraggable);
+                        root.querySelectorAll('.fi-modal-window.mw-content-form-modal').forEach(function (m) {
+                            attachDraggable(m);
+                            attachOpenInAdminTitleSync(m);
+                        });
                     }
+                }
+
+                /*
+                 * task-2026-05-04-1e4af3 (P1-3): keep the
+                 * Open-in-admin button's href in sync with the
+                 * title that's been typed in the live-edit
+                 * compact modal. The button is a static <a> with
+                 * the URL set server-side at modal render —
+                 * before any title is typed. So when the user
+                 * clicks "Open in admin" mid-typing, the admin
+                 * Create page used to load with no title. Append
+                 * `&title=<typed>` on every input event so the
+                 * admin Create page can read it from the query
+                 * string (the existing /admin/contents/create
+                 * route accepts standard query-string defaults
+                 * via Filament's default-fill behaviour for
+                 * fields with a matching name).
+                 */
+                function attachOpenInAdminTitleSync(modal) {
+                    if (modal.dataset.mwOpenInAdminWired === '1') return;
+                    modal.dataset.mwOpenInAdminWired = '1';
+
+                    function findBtn() {
+                        return modal.querySelector('.mw-open-in-admin-btn[href], a.mw-open-in-admin-btn, .fi-modal-footer a[href*="contents/create"], .fi-modal-footer a[href*="categories/create"]');
+                    }
+                    function findTitle() {
+                        return modal.querySelector('input.mw-fb-title-input, input[id$=".title"]');
+                    }
+                    function sync() {
+                        var btn = findBtn();
+                        var title = findTitle();
+                        if (!btn || !title) return;
+                        if (!btn.dataset.mwOriginalHref) {
+                            btn.dataset.mwOriginalHref = btn.getAttribute('href') || '';
+                        }
+                        var base = btn.dataset.mwOriginalHref;
+                        var typed = (title.value || '').trim();
+                        if (!typed) {
+                            btn.setAttribute('href', base);
+                            return;
+                        }
+                        var sep = base.indexOf('?') === -1 ? '?' : '&';
+                        btn.setAttribute('href', base + sep + 'title=' + encodeURIComponent(typed));
+                    }
+                    var title = findTitle();
+                    if (title) {
+                        title.addEventListener('input', sync);
+                        title.addEventListener('change', sync);
+                    }
+                    // Also sync once on mount so any default
+                    // title (when editing) is reflected.
+                    sync();
                 }
 
                 function start() {
