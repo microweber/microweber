@@ -1504,6 +1504,38 @@
                     animation-iteration-count: 1 !important;
                 }
             }
+
+            /*
+             * UX-engineer audit (task-2026-05-04-39767a) —
+             * polish quick wins.
+             *
+             * P1-4: drop blanket `text-transform: uppercase
+             * !important` from `.fi-btn.fi-color-success`. The
+             * theme's `microweber-theme-v3.scss:799` shouts
+             * "SAVE" / "NEW POST" / "SAVE CHANGES" / "SELECT
+             * ALL" / "DELETE SELECTED" everywhere — visual
+             * rhythm in every footer is jarring. Override
+             * scoped to the live-edit modal stack so other
+             * Filament areas keep their existing uppercase
+             * convention until the SCSS source is rebuilt.
+             *
+             * P2-9: drop `text-transform: uppercase` from the
+             * compact-form section headings (`.fi-section-
+             * header-heading`). Friendly placeholder "What's
+             * the post about?" sat next to "WHERE TO PUT IT"
+             * — two voices on one screen. Keep the small
+             * weight + tracking but in title case.
+             */
+            .mw-content-form-modal .fi-btn.fi-color-success,
+            .mw-content-picker-modal .fi-btn.fi-color-success,
+            .mw-module-settings-live-edit-modal .fi-btn.fi-color-success {
+                text-transform: none !important;
+            }
+            .mw-content-form-modal .fi-section-header-heading,
+            .mw-content-picker-modal .fi-section-header-heading {
+                text-transform: none !important;
+                letter-spacing: -0.005em !important;
+            }
         </style>
 
 

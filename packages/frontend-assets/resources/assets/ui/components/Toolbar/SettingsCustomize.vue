@@ -323,23 +323,42 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
     <div :class="'mw-live-edit-right-sidebar-template-' + template" class="mw-live-edit-right-sidebar-wrapper me-2 ">
 
 
+        <!-- task-2026-05-04-39767a (UX P1-5) — these toolbar
+             icon-only buttons used to be raw <div>/<span> with
+             v-tooltip but no role / tabindex / aria-label, so
+             screen-reader and keyboard-only users got nothing.
+             Adding role=button + tabindex=0 + aria-label
+             (mirrors the v-tooltip text) + keydown.enter/space
+             so they activate via keyboard. WCAG 2.1.1
+             Keyboard, 4.1.2 Name/Role/Value. -->
         <div v-if="insertLayoutVisible"
              class="btn-icon live-edit-toolbar-buttons"
-             v-on:click="handleInsertLayout()">
+             role="button"
+             tabindex="0"
+             aria-label="Insert layout"
+             v-on:click="handleInsertLayout()"
+             v-on:keydown.enter.prevent="handleInsertLayout()"
+             v-on:keydown.space.prevent="handleInsertLayout()">
             <v-tooltip activator="parent" location="start">
                 <Lang>Insert layout</Lang>
             </v-tooltip>
-            <span v-html="iconInsertlayout"></span>
+            <span v-html="iconInsertlayout" aria-hidden="true"></span>
         </div>
 
 
         <span v-if="canShowSettingsCustomize"
               :class="{'live-edit-right-sidebar-active': buttonIsActive && !buttonIsActiveStyleEditor }"
               class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle"
-              v-on:click="toggle('template-settings')">
+              role="button"
+              tabindex="0"
+              aria-label="Template settings"
+              :aria-pressed="buttonIsActive && !buttonIsActiveStyleEditor"
+              v-on:click="toggle('template-settings')"
+              v-on:keydown.enter.prevent="toggle('template-settings')"
+              v-on:keydown.space.prevent="toggle('template-settings')">
             <v-tooltip activator="parent" location="start"><Lang>Template settings</Lang></v-tooltip>
 
-            <svg fill="currentColor" height="22" viewBox="96 96 960 960" width="22" xmlns="http://www.w3.org/2000/svg"><path
+            <svg fill="currentColor" height="22" viewBox="96 96 960 960" width="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path
                 d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/></svg>
         </span>
 
@@ -347,13 +366,19 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
         <div v-if="canShowSettingsCustomize"
              :class="{'live-edit-right-sidebar-active': !buttonIsActive && buttonIsActiveStyleEditor }"
              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle"
-             v-on:click="toggle('style-editor')">
+             role="button"
+             tabindex="0"
+             aria-label="Design"
+             :aria-pressed="!buttonIsActive && buttonIsActiveStyleEditor"
+             v-on:click="toggle('style-editor')"
+             v-on:keydown.enter.prevent="toggle('style-editor')"
+             v-on:keydown.space.prevent="toggle('style-editor')">
             <v-tooltip activator="parent" location="start">
                 <Lang>Design</Lang>
             </v-tooltip>
             <svg fill="currentColor"
                  height="22" viewBox="0 -960 960 960"
-                 width="22" xmlns="http://www.w3.org/2000/svg">
+                 width="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path
                     d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>
             </svg>
@@ -361,7 +386,13 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
 
         <div v-if="canShowSettingsCustomize" :class="{'live-edit-right-sidebar-active': buttonIsActiveQuickEdit }"
              class="btn-icon live-edit-toolbar-buttons"
-             v-on:click="handleQuickEdit()">
+             role="button"
+             tabindex="0"
+             aria-label="Quick AI edit"
+             :aria-pressed="buttonIsActiveQuickEdit"
+             v-on:click="handleQuickEdit()"
+             v-on:keydown.enter.prevent="handleQuickEdit()"
+             v-on:keydown.space.prevent="handleQuickEdit()">
             <v-tooltip activator="parent" location="start">
                 <Lang>Quick AI edit</Lang>
             </v-tooltip>
@@ -397,12 +428,18 @@ html.dark .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-templat
 
             <div :class="{'live-edit-right-sidebar-active': buttonIsActiveQuickEdit }"
                  class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-advanced"
-                 v-on:click="handleAdvanced()">
+                 role="button"
+                 tabindex="0"
+                 aria-label="Advanced"
+                 :aria-pressed="advanced"
+                 v-on:click="handleAdvanced()"
+                 v-on:keydown.enter.prevent="handleAdvanced()"
+                 v-on:keydown.space.prevent="handleAdvanced()">
                 <v-tooltip activator="parent" location="start">
                     <Lang>Advanced</Lang>
                 </v-tooltip>
                 <svg fill="#e8eaed" height="24px" viewBox="0 -960 960 960" width="24px"
-                     xmlns="http://www.w3.org/2000/svg">
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                         d="M480-320q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm-40-120h80v-200h-80v200ZM370-80l-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm40-320Z"/>
                 </svg>

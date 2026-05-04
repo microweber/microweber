@@ -600,6 +600,21 @@
             padding: 0 !important;
             box-shadow: none !important;
         }
+
+        /* UX-engineer audit (task-2026-05-04-39767a) — drop
+           blanket-uppercase on green Save + section headings
+           inside live-edit modals. Mirrored from
+           iframe-page.blade.php. */
+        .mw-content-form-modal .fi-btn.fi-color-success,
+        .mw-content-picker-modal .fi-btn.fi-color-success,
+        .mw-module-settings-live-edit-modal .fi-btn.fi-color-success {
+            text-transform: none !important;
+        }
+        .mw-content-form-modal .fi-section-header-heading,
+        .mw-content-picker-modal .fi-section-header-heading {
+            text-transform: none !important;
+            letter-spacing: -0.005em !important;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
