@@ -422,18 +422,35 @@ class AdminLiveEditPage extends Page
                     ? CategoryResource::getUrl('edit', ['record' => $model])
                     : ContentResource::getUrl('edit', ['record' => $model]);
 
-                // task-2026-05-04-a8d5bb #12 — make the success
-                // toast actually visible. Body is shorter (the
-                // title already conveys success) and duration
-                // bumped to 5 s so the user has time to spot the
-                // "Edit details" affordance before it fades.
-                // Doubled space "is  created" → "is created"
-                // typo also cleaned up.
+                // task-2026-05-04-6adcfe — user reported "I still
+                // don't think the content adding is ok". Walking
+                // the flow live: title-only Save lands on a near-
+                // empty public page (just title + date + footer),
+                // toast fades in 5s — user has zero idea what to
+                // do next. Three changes:
+                //   1. Toast title now includes the saved title
+                //      so the user sees "TestPost-… created" not
+                //      just "Post created" — strong recognition
+                //      that THIS specific item went through.
+                //   2. Body explicitly tells them what's next:
+                //      "Now click anywhere on the page to start
+                //      writing." That's the actual mental model.
+                //   3. ->persistent() so the toast doesn't fade
+                //      until the user dismisses it. Five seconds
+                //      isn't enough when the user is also reading
+                //      the (mostly-empty) page they just landed
+                //      on; persistent feels like a real status
+                //      indicator, not a flash.
+                $titleText = trim((string) ($model->title ?? ''));
+                $shortTitle = $titleText !== ''
+                    ? '"' . mb_strimwidth($titleText, 0, 40, '…') . '"'
+                    : strtolower($contentTypeFriendly);
+
                 Notification::make()
                     ->success()
-                    ->title($contentTypeFriendly . ' created')
-                    ->body('Click "Edit details" to refine SEO, tags and more.')
-                    ->duration(5000)
+                    ->title($shortTitle . ' created')
+                    ->body('Now click anywhere on the page to start writing — or "Edit details" for SEO, tags, and more.')
+                    ->persistent()
                     ->actions([
                         Action::make('editDetails')
                             ->label('Edit details')
