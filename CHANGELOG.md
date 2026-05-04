@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- **Live-edit Add Content modal — Facebook-style writing surface skin** (task-2026-05-04-bfe418) — based on user's Facebook "Create post" reference. Title field rendered as a 24px borderless big-typography placeholder ("What's the post about?") with no label; Media drop-zone rendered as a dashed-border "Add a picture" tile with the "Add images" label hidden — reads as a tool affordance, not a labelled form section. Modal heading "Create post" + placeholder text do the labelling work that field labels used to do. Section borders / shadows / heading icons stripped from the upfront stack; only Parent page and "More options" keep their section chrome to guide the eye. Skin scoped to `.mw-content-form-modal` so the full admin form `/admin/contents/{id}/edit` is unaffected.
+
+### Changed
 - **Live-edit Add Content modal — super-minimalistic schema with "More options" accordion** (task-2026-05-04-2199df) — restructured `ContentResource::formArrayCompact()` so only Title, Media (Picture), and Parent page are visible upfront; Content body + Excerpt + Published toggle + Pricing collapsed into a single "More options" accordion that the user can expand on demand. `CategoryResource::formArrayCompact()` mirrors the pattern: Title + Parent visible, Description in the accordion. The per-module Posts/Pages/Products Items-list "NEW POST" + "Edit" modals route through the same compact form (via `ContentTableList::editFormArray()`) so they pick up the new minimalistic layout automatically — matches the user's screenshot of the post-module right-sidebar entry point.
 
 ### Fixed

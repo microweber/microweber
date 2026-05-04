@@ -787,6 +787,84 @@
             }
 
             /*
+             * Facebook-style writing surface
+             * (task-2026-05-04-bfe418). The Title section drops
+             * its card border so the input reads as a writing
+             * area rather than a form input. The Title <input>
+             * itself uses a larger typography and a borderless
+             * focus state — the modal heading "Create post" +
+             * the placeholder text "What's on your mind?" do
+             * the labelling work that a field label used to do.
+             */
+            .mw-content-form-modal .mw-fb-title-section {
+                border: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0.5rem 0.25rem 0;
+            }
+            .mw-content-form-modal .mw-fb-title-input {
+                font-size: 1.5rem;
+                line-height: 2rem;
+                font-weight: 500;
+                border: none;
+                box-shadow: none;
+                padding-inline: 0.25rem;
+                background: transparent;
+            }
+            .mw-content-form-modal .mw-fb-title-input::placeholder {
+                color: var(--gray-400, #9ca3af);
+                font-weight: 400;
+            }
+            .mw-content-form-modal .mw-fb-title-input:focus {
+                outline: none;
+                box-shadow: none;
+                background: transparent;
+            }
+            html.dark .mw-content-form-modal .mw-fb-title-input,
+            .dark .mw-content-form-modal .mw-fb-title-input {
+                color: var(--gray-50, #f9fafb);
+            }
+            html.dark .mw-content-form-modal .mw-fb-title-input::placeholder,
+            .dark .mw-content-form-modal .mw-fb-title-input::placeholder {
+                color: var(--gray-500, #6b7280);
+            }
+            /*
+             * Hide the wrapper around the title input so the
+             * borderless input is flush with the modal body —
+             * removes the focus ring + background variant that
+             * Filament applies to .fi-input-wrp.
+             */
+            .mw-content-form-modal .mw-fb-title-section .fi-input-wrp {
+                background: transparent;
+                box-shadow: none;
+                outline: none;
+                ring-width: 0;
+            }
+            /*
+             * The "Add to your post" media row — strip section
+             * card chrome so the upload affordance reads as a
+             * tool button instead of a labelled section.
+             */
+            .mw-content-form-modal .mw-fb-media-section {
+                border: 1px dashed var(--gray-200, #e5e7eb);
+                background: transparent;
+                box-shadow: none;
+                padding: 0.5rem;
+            }
+            html.dark .mw-content-form-modal .mw-fb-media-section,
+            .dark .mw-content-form-modal .mw-fb-media-section {
+                border-color: var(--gray-700, #374151);
+            }
+            .mw-content-form-modal .mw-fb-media-section .fi-section-content-ctn,
+            .mw-content-form-modal .mw-fb-media-section .fi-section-content {
+                padding: 0;
+            }
+            .mw-content-form-modal .mw-fb-media-section .fi-fo-field-label-ctn,
+            .mw-content-form-modal .mw-fb-media-section .fi-fo-field-label {
+                display: none;
+            }
+
+            /*
              * Make the Add Page/Post/Product/Category modal draggable
              * by its header — same UX Microweber v2's `mw.dialog`
              * shipped (the v2 helper just called jQuery UI

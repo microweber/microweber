@@ -156,7 +156,14 @@ class ContentResource extends Resource
                 ...static::hiddenFieldsSchema($id, $sessionId, $contentType, $contentSubtype, $isMultilanguageEnabled, $active_site_template_default),
 
                 static::compactTitleOnlySection(),
-                static::mediaSection($relType, $relId, $mediaIds),
+                // Facebook's "Add to your post" row equivalent —
+                // strip the Media heading + icon so the upload
+                // tile reads as a tool affordance, not a labelled
+                // form section. task-2026-05-04-bfe418.
+                static::mediaSection($relType, $relId, $mediaIds)
+                    ->heading(null)
+                    ->icon(null)
+                    ->extraAttributes(['class' => 'mw-fb-media-section']),
                 // Parent page kept VISIBLE upfront per user's
                 // explicit "title and picture and parent page"
                 // listing in task-2026-05-04-2199df. Still
@@ -190,15 +197,25 @@ class ContentResource extends Resource
      */
     protected static function compactTitleOnlySection(): Schemas\Components\Section
     {
+        // Facebook-style writing surface (task-2026-05-04-bfe418):
+        // no label, no border around the section, big-type
+        // placeholder ("What's the post about?"). The actual
+        // section component is kept so the Filament group
+        // structure remains valid, but `extraAttributes` carries
+        // a class that the CSS strips down to a borderless,
+        // padding-collapsed wrapper.
         return Schemas\Components\Section::make('Title')
             ->heading(null)
+            ->extraAttributes(['class' => 'mw-fb-title-section'])
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->hiddenLabel()
                     ->maxLength(255)
                     ->rules(['required'])
                     ->markAsRequired()
                     ->autofocus()
-                    ->placeholder('e.g. My first post')
+                    ->placeholder("What's the post about?")
+                    ->extraInputAttributes(['class' => 'mw-fb-title-input'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),

@@ -254,6 +254,68 @@
         .mw-content-form-modal .fi-fo-field-wrp {
             gap: 0.375rem;
         }
+
+        /*
+         * Facebook-style writing surface
+         * (task-2026-05-04-bfe418). Mirrored from
+         * iframe-page.blade.php so per-module Items-list
+         * Create/Edit modals get the same skin.
+         */
+        .mw-content-form-modal .mw-fb-title-section {
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            padding: 0.5rem 0.25rem 0;
+        }
+        .mw-content-form-modal .mw-fb-title-input {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-weight: 500;
+            border: none;
+            box-shadow: none;
+            padding-inline: 0.25rem;
+            background: transparent;
+        }
+        .mw-content-form-modal .mw-fb-title-input::placeholder {
+            color: var(--gray-400, #9ca3af);
+            font-weight: 400;
+        }
+        .mw-content-form-modal .mw-fb-title-input:focus {
+            outline: none;
+            box-shadow: none;
+            background: transparent;
+        }
+        html.dark .mw-content-form-modal .mw-fb-title-input,
+        .dark .mw-content-form-modal .mw-fb-title-input {
+            color: var(--gray-50, #f9fafb);
+        }
+        html.dark .mw-content-form-modal .mw-fb-title-input::placeholder,
+        .dark .mw-content-form-modal .mw-fb-title-input::placeholder {
+            color: var(--gray-500, #6b7280);
+        }
+        .mw-content-form-modal .mw-fb-title-section .fi-input-wrp {
+            background: transparent;
+            box-shadow: none;
+            outline: none;
+        }
+        .mw-content-form-modal .mw-fb-media-section {
+            border: 1px dashed var(--gray-200, #e5e7eb);
+            background: transparent;
+            box-shadow: none;
+            padding: 0.5rem;
+        }
+        html.dark .mw-content-form-modal .mw-fb-media-section,
+        .dark .mw-content-form-modal .mw-fb-media-section {
+            border-color: var(--gray-700, #374151);
+        }
+        .mw-content-form-modal .mw-fb-media-section .fi-section-content-ctn,
+        .mw-content-form-modal .mw-fb-media-section .fi-section-content {
+            padding: 0;
+        }
+        .mw-content-form-modal .mw-fb-media-section .fi-fo-field-label-ctn,
+        .mw-content-form-modal .mw-fb-media-section .fi-fo-field-label {
+            display: none;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
