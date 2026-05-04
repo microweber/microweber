@@ -394,6 +394,92 @@
         .mw-content-form-modal .mw-fb-media-section [class*="filepond--root"] {
             min-height: 2.5rem;
         }
+
+        /* mw.dialog Select-image polish (mirrored from
+           iframe-page.blade.php). task-2026-05-04-6bd361. */
+        .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45),
+                        0 0 0 1px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+        .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close::after {
+            opacity: 1;
+            background-size: 14px auto;
+        }
+        .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+        html.dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close:hover,
+        .dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-header {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        html.dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-header,
+        .dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-header {
+            border-bottom-color: #374151;
+        }
+        .mw-filepicker-footer .btn:not(.btn-primary) {
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: #374151;
+            font-weight: 500;
+            background: #ffffff;
+        }
+        .mw-filepicker-footer .btn:not(.btn-primary):hover {
+            background: #f9fafb;
+        }
+        html.dark .mw-filepicker-footer .btn:not(.btn-primary),
+        .dark .mw-filepicker-footer .btn:not(.btn-primary) {
+            border-color: #4b5563;
+            color: #f3f4f6;
+            background: #1f2937;
+        }
+        html.dark .mw-filepicker-footer .btn:not(.btn-primary):hover,
+        .dark .mw-filepicker-footer .btn:not(.btn-primary):hover {
+            background: #374151;
+        }
+        .mw-filepicker-footer .btn-primary {
+            min-width: 5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+        .mw-filepicker-footer .btn-primary:disabled,
+        .mw-filepicker-footer .btn-primary[disabled] {
+            background-color: #e5e7eb !important;
+            color: #6b7280 !important;
+            opacity: 1 !important;
+            cursor: not-allowed;
+        }
+        html.dark .mw-filepicker-footer .btn-primary:disabled,
+        html.dark .mw-filepicker-footer .btn-primary[disabled],
+        .dark .mw-filepicker-footer .btn-primary:disabled,
+        .dark .mw-filepicker-footer .btn-primary[disabled] {
+            background-color: #374151 !important;
+            color: #9ca3af !important;
+        }
+        html.dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-holder,
+        html.dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-header,
+        .dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-holder,
+        .dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-header {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+        html.dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close::after,
+        .dark .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close::after {
+            filter: invert(1) brightness(2);
+        }
+        .mw-filepicker-footer-wrapper .form-control-live-edit-label-wrapper a:not(.active) {
+            box-shadow: none !important;
+        }
     </style>
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::FOOTER, scopes: $livewire->getRenderHookScopes()) }}
