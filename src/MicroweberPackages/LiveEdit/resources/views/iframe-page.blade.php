@@ -762,16 +762,21 @@
              */
             @media (max-width: 767px) {
                 .fi-modal:not(.fi-width-screen) .fi-modal-window.mw-content-form-modal {
-                    /* Mobile keeps the same toolbar offset so
-                       the heading stays clear of the 60px
-                       toolbar — task-2026-05-04-f575c7. */
-                    top: calc(var(--toolbar-height, 60px) + 0.5rem);
+                    /* Mobile-designer audit P1 — at 390px the
+                       live-edit toolbar wraps to 2 rows
+                       (~93-104px), so the original 60px offset
+                       puts the modal under the wrapped SAVE
+                       chip. Bump to 104px below 480px viewports
+                       to clear both single-row (60px) and
+                       wrapped (~93px) toolbar states.
+                       task-2026-05-04-0c2964. */
+                    top: calc(var(--toolbar-height, 104px) + 0.5rem);
                     left: 0.75rem;
                     right: 0.75rem;
                     transform: none;
                     max-width: none;
                     width: auto;
-                    max-height: calc(100vh - var(--toolbar-height, 60px) - 1rem);
+                    max-height: calc(100vh - var(--toolbar-height, 104px) - 1rem);
                 }
                 .mw-content-form-modal .fi-section {
                     padding: 0.625rem 0.75rem;
@@ -779,6 +784,124 @@
                 .mw-content-form-modal > .fi-modal-header,
                 .mw-content-form-modal > .fi-modal-footer {
                     padding-inline: 1rem;
+                }
+
+                /*
+                 * Mobile-designer audit fixes
+                 * (task-2026-05-04-0c2964).
+                 *
+                 * P0-1: Half-width inputs. Filament's nested
+                 * field wrappers (.fi-section > .fi-section-content
+                 * > .fi-fo-field > .fi-fo-field-content-col >
+                 * .fi-input-wrp) each stack their own grid +
+                 * padding which collapsed Title/body/Excerpt
+                 * to ~189px on a 366px-wide modal. Force every
+                 * level to `min-width: 0` and a single-column
+                 * grid so the input fills the section.
+                 */
+                .mw-content-form-modal .fi-section,
+                .mw-content-form-modal .fi-section-content,
+                .mw-content-form-modal .fi-fo-field,
+                .mw-content-form-modal .fi-fo-field-content-col,
+                .mw-content-form-modal .fi-input-wrp,
+                .mw-content-form-modal .fi-fo-component-ctn,
+                .mw-content-form-modal .fi-fo-component {
+                    min-width: 0;
+                }
+                .mw-content-form-modal .fi-fo-field,
+                .mw-content-form-modal .fi-fo-field-content-col,
+                .mw-content-form-modal .fi-fo-component-ctn,
+                .mw-content-form-modal .fi-sc.fi-grid,
+                .mw-content-form-modal .fi-grid {
+                    grid-template-columns: minmax(0, 1fr) !important;
+                }
+                /* Strip the compounding inline padding leak —
+                   .fi-modal-content (1rem) + .fi-section (16px)
+                   + .fi-section-content (26px from theme
+                   `@layer`) compounded to ~80px lost out of the
+                   366px inner width before Title even saw it.
+                   Override with !important since Filament's
+                   theme rule lives in @layer components and was
+                   winning regardless of specificity. */
+                .mw-content-form-modal > .fi-modal-content {
+                    padding-inline: 0.5rem !important;
+                }
+                .mw-content-form-modal .fi-section {
+                    padding-inline: 0.5rem !important;
+                }
+                .mw-content-form-modal .fi-section-content,
+                .mw-content-form-modal .fi-sc.fi-grid {
+                    padding: 0 !important;
+                }
+
+                /*
+                 * P0-2: iOS zoom-on-focus. Safari zooms any
+                 * input under 16px on focus and never unzooms.
+                 * Force every editable form control inside the
+                 * compact modal to 16px so typing doesn't kick
+                 * the page sideways.
+                 */
+                .mw-content-form-modal input:not([type="checkbox"]):not([type="radio"]),
+                .mw-content-form-modal textarea,
+                .mw-content-form-modal select,
+                .mw-content-form-modal .fi-input {
+                    font-size: 16px;
+                }
+
+                /*
+                 * P0-3: Rich-text toolbar wraps to 4-5 rows of
+                 * 32px buttons inside a 189px column. Switch
+                 * to horizontal scroll + 44pt min-height/width
+                 * on each button so the toolbar takes ONE row
+                 * of comfortable taps and the user scrolls
+                 * horizontally for the rest.
+                 */
+                .mw-content-form-modal .fi-fo-rich-editor-toolbar,
+                .mw-content-form-modal .fi-fo-rich-editor-toolbar [role="toolbar"] {
+                    flex-wrap: nowrap;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    scrollbar-width: thin;
+                }
+                .mw-content-form-modal .fi-fo-rich-editor-toolbar > *,
+                .mw-content-form-modal .fi-fo-rich-editor-toolbar [role="toolbar"] > * {
+                    flex: 0 0 auto;
+                    min-height: 44px;
+                    min-width: 44px;
+                }
+
+                /*
+                 * P1-5: Tap targets. Bump the modal close X +
+                 * filepicker close X + filepicker footer
+                 * buttons to a 44×44 minimum hit area so
+                 * thumbs aren't fighting the geometry.
+                 */
+                .mw-content-form-modal .fi-modal-close-btn,
+                .mw-content-picker-modal .fi-modal-close-btn,
+                .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close {
+                    min-width: 44px;
+                    min-height: 44px;
+                }
+                .mw-filepicker-footer .btn,
+                .mw-filepicker-footer .btn-primary {
+                    min-height: 44px;
+                }
+
+                /*
+                 * P1-6: Sticky footer + safe-area-inset.
+                 * Footer sat as `position: static` inside the
+                 * flex column, so on iOS the home-indicator
+                 * (34px) clipped the bottom button + a
+                 * keyboard appearance could push SAVE off the
+                 * fold. Pin it sticky inside the scrolling
+                 * column AND respect the safe-area inset for
+                 * notched devices.
+                 */
+                .mw-content-form-modal .fi-modal-footer {
+                    position: sticky;
+                    bottom: 0;
+                    z-index: 2;
+                    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
                 }
             }
             .fi-modal-window.mw-content-form-modal > .fi-modal-header,

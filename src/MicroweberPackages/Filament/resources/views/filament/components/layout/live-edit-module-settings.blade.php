@@ -195,6 +195,70 @@
             .mw-content-form-modal > .fi-modal-footer {
                 padding-inline: 1rem;
             }
+
+            /* Mobile-designer audit fixes (mirrored from
+               iframe-page.blade.php). task-2026-05-04-0c2964. */
+            .mw-content-form-modal .fi-section,
+            .mw-content-form-modal .fi-section-content,
+            .mw-content-form-modal .fi-fo-field,
+            .mw-content-form-modal .fi-fo-field-content-col,
+            .mw-content-form-modal .fi-input-wrp,
+            .mw-content-form-modal .fi-fo-component-ctn,
+            .mw-content-form-modal .fi-fo-component {
+                min-width: 0;
+            }
+            .mw-content-form-modal .fi-fo-field,
+            .mw-content-form-modal .fi-fo-field-content-col,
+            .mw-content-form-modal .fi-fo-component-ctn,
+            .mw-content-form-modal .fi-sc.fi-grid,
+            .mw-content-form-modal .fi-grid {
+                grid-template-columns: minmax(0, 1fr) !important;
+            }
+            .mw-content-form-modal > .fi-modal-content {
+                padding-inline: 0.5rem !important;
+            }
+            .mw-content-form-modal .fi-section {
+                padding-inline: 0.5rem !important;
+            }
+            .mw-content-form-modal .fi-section-content,
+            .mw-content-form-modal .fi-sc.fi-grid {
+                padding: 0 !important;
+            }
+            .mw-content-form-modal input:not([type="checkbox"]):not([type="radio"]),
+            .mw-content-form-modal textarea,
+            .mw-content-form-modal select,
+            .mw-content-form-modal .fi-input {
+                font-size: 16px;
+            }
+            .mw-content-form-modal .fi-fo-rich-editor-toolbar,
+            .mw-content-form-modal .fi-fo-rich-editor-toolbar [role="toolbar"] {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+            .mw-content-form-modal .fi-fo-rich-editor-toolbar > *,
+            .mw-content-form-modal .fi-fo-rich-editor-toolbar [role="toolbar"] > * {
+                flex: 0 0 auto;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            .mw-content-form-modal .fi-modal-close-btn,
+            .mw-content-picker-modal .fi-modal-close-btn,
+            .mw-dialog.mw-dialog-skin-default:has(.mw-filepicker-footer) .mw-dialog-close {
+                min-width: 44px;
+                min-height: 44px;
+            }
+            .mw-filepicker-footer .btn,
+            .mw-filepicker-footer .btn-primary {
+                min-height: 44px;
+            }
+            .mw-content-form-modal .fi-modal-footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 2;
+                padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+            }
         }
         .fi-modal-window.mw-content-form-modal > .fi-modal-header,
         .fi-modal-window.mw-content-form-modal > .fi-modal-footer {
