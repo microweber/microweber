@@ -589,6 +589,10 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-05-04  Verified via Playwright: toast renders at bottom-right with the actual title quoted, body says "Now click anywhere on the page to start writing — or \"Edit details\" for SEO, tags, and more.", and the toast persists past 3s where the previous duration would have faded it. Screenshot `6adcfe-2-after-save-improved.png`.
   - [x] 2026-05-04  **Live-edit Dusk regression matrix — 12 tests / 119 assertions, ALL GREEN, 244.59s.**
 - [x] 2026-05-04  [task-2026-05-04-7da210] executed the agent-workflow audit pass from https://agents.tools.ooyes.net/agents/ — ran architecture, security, QA/docs, and runtime checks; verified the repo test entrypoints (`./run-tests.sh --list`), confirmed local runtime routing is currently blocked by an Apache-served 404 at `/admin/login`, and shipped a concrete security hardening fix in `src/MicroweberPackages/Cache/TaggableFileStore.php` by restricting cache `unserialize()` to `allowed_classes => false`.
+- [x] 2026-05-04  [task-2026-05-04-527a92] Make a plan to work during the night and populate the Todo.md — queued a short overnight maintenance batch around project memory docs and the currently-inconsistent testing setup/docs.
+- [x] 2026-05-04  night-plan: create `SUMMARY.md`, `PROJECT.md`, and `TROUBLESHOOTING.md` with current repo architecture, runbook, and known runtime/testing gotchas
+- [~] night-plan: align the documented Pest entrypoints with the real repo setup (`Pest.php`, `pest.xml`, composer scripts, or docs) so contributors are not sent to missing commands/files
+- [ ] night-plan: refresh testing docs (`tests/README.md`, `docs/testing/README.md`, `CONTRIBUTING.md`) around the real suite layout and `run-tests.sh` memory-safe runner
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
 ### UI Component Testing
