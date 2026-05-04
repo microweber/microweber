@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [Unreleased]
+
+### Fixed
+- **Live-edit Add Post — JS errors after save** (task-2026-05-04-3337c0) — `element-style-editor-main.blade.php` ran `mw.require()` / `mw.top()` inline during HTML parse, but the bundle that defines them (`admin.js`) is `type="module"` (deferred), so the inline code raced ahead and threw `mw.require is not a function` + `mw.top is not a function` + a cascading `Cannot read properties of undefined (reading 'on')` from the Vue mounted hook. Wrapped the inline scripts in a wait-for-mw IIFE (poll up to 10s, same pattern as `render-css-editor.blade.php`'s `waitForCodeMirror`) and deferred the Vue bundle injection until inside `init()` so the bundle's own `mounted()` hook only runs after `mw.top().app` is ready. Add Post → SAVE now reports zero console errors end-to-end.
+
+### Changed
+- **Live-edit Add Page / Post / Product / Category modal width** (task-2026-05-04-3337c0) — bumped from `MaxWidth::ThreeExtraLarge` (768px) to `MaxWidth::FiveExtraLarge` (1024px). At 768px the tabs + two-column form + rich-text editor still felt cramped on standard 1080p+ desktop viewports; 1024px gives the editor proper breathing room while still leaving the live-edit canvas visible behind the backdrop tint. `LiveEditAddContentModalIsCenteredTest` and `LiveEditTopModalAndSelectiveReloadTest` updated to assert `fi-width-5xl` instead of `fi-width-3xl` so the regression guard tracks the new tier.
+
+
 ## [4.0-dev17] - 2026-04-03
 
 ### Added

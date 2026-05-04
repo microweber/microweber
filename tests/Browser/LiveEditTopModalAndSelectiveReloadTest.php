@@ -67,9 +67,10 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
         // CSS broke Filament's grid container so the overlay backdrop
         // disappeared, the modal grew past the viewport, and the
         // sticky footer never engaged. The replacement test asserts
-        // the layout is now sane: modal carries native fi-width-3xl,
-        // header + footer are inside the viewport, and the footer's
-        // `position: sticky` keeps it visible.
+        // the layout is now sane: modal carries native fi-width-5xl
+        // (bumped from 3xl in task-2026-05-04-3337c0), header + footer
+        // are inside the viewport, and the footer's `position: sticky`
+        // keeps it visible.
         $this->ensureAdminUser();
         $this->ensureBootstrapActive();
 
@@ -108,7 +109,7 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
                     var footerStyle = footer ? window.getComputedStyle(footer) : null;
                     return {
                         classNames: modal.className,
-                        hasNativeWidth: modal.className.indexOf('fi-width-3xl') !== -1,
+                        hasNativeWidth: modal.className.indexOf('fi-width-5xl') !== -1,
                         hasCustomTopClass: modal.className.indexOf('mw-live-edit-top-modal') !== -1,
                         headerTop: headerRect ? Math.round(headerRect.top) : null,
                         headerHeight: headerRect ? Math.round(headerRect.height) : null,
@@ -126,8 +127,8 @@ class LiveEditTopModalAndSelectiveReloadTest extends DuskTestCase
 
             $this->assertTrue(
                 (bool) $info['hasNativeWidth'],
-                'task-2026-05-02-df09aa regressed: modal lost its fi-width-3xl class. '
-                . 'modalWidth(MaxWidth::ThreeExtraLarge) wiring broke.'
+                'task-2026-05-04-3337c0 regressed: modal lost its fi-width-5xl class. '
+                . 'modalWidth(MaxWidth::FiveExtraLarge) wiring broke.'
             );
 
             $this->assertFalse(

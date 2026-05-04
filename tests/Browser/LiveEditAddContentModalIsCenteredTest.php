@@ -24,12 +24,15 @@ use Tests\DuskTestCase;
  * Fix swapped slideOver() for `modalWidth(MaxWidth::ThreeExtraLarge)`
  * so the modal centers in the viewport and gets enough horizontal
  * space for Filament's two-column section grid to actually render.
+ * task-2026-05-04-3337c0 bumped the width to MaxWidth::FiveExtraLarge
+ * (1024px) — at 768px the form was still cramped on standard
+ * desktop viewports.
  *
  * This test pins:
  *   - the modal element does NOT carry the `fi-modal-slide-over` class
  *     (proves we didn't silently re-add slideOver()),
- *   - the modal carries the `fi-width-3xl` class (proves the width
- *     hint is still applied),
+ *   - the modal carries the `fi-width-5xl` class (proves the width
+ *     hint is still applied at the FiveExtraLarge tier),
  *   - the modal is centered (left margin > 0, right margin > 0)
  *     rather than flush against the right edge.
  *
@@ -112,13 +115,15 @@ class LiveEditAddContentModalIsCenteredTest extends DuskTestCase
                 . 'right-side slideOver again. Modal classes: ' . $combinedClasses
             );
 
-            // Hard guard #2: width hint is still ThreeExtraLarge.
+            // Hard guard #2: width hint is still FiveExtraLarge.
             // (Filament emits the width as a class fragment.)
+            // Bumped from ThreeExtraLarge → FiveExtraLarge in
+            // task-2026-05-04-3337c0.
             $this->assertStringContainsString(
-                'fi-width-3xl',
+                'fi-width-5xl',
                 (string) $shape['classNames'],
-                'task-2026-05-02-82ca03 regressed: the Add Post modal lost its '
-                . 'modalWidth(ThreeExtraLarge) hint. Without it the modal collapses to '
+                'task-2026-05-04-3337c0 regressed: the Add Post modal lost its '
+                . 'modalWidth(FiveExtraLarge) hint. Without it the modal collapses to '
                 . 'Filament\'s default narrow width and the form fields stack into one '
                 . 'column. Modal classes: ' . $shape['classNames']
             );
