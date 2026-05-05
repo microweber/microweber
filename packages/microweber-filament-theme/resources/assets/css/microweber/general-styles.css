@@ -1664,13 +1664,44 @@ select option,
 }
 
 /*
- * The expanded controls below the header row should sit slightly
- * indented from the icon column so the visual hierarchy reads as
- * "header row" → "indented controls" rather than two stacked rows
- * of equal weight.
+ * Expanded panel content sits below the header row with a small top
+ * gap. Earlier we tried `ps-7` to indent under the icon column, but
+ * that pushed all sub-section labels (FONT, ALIGN, COLOR, FONT
+ * SIZE, …) ~28px right of the modal's left padding — they read as
+ * misaligned. Drop the indent so labels sit flush at the same x as
+ * the header text.
  */
 .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    @apply mt-2 ps-7 pe-1;
+    @apply mt-2 ps-1 pe-1;
+}
+
+/*
+ * Sub-section labels inside an expanded category panel: the
+ * pre-existing rule made them 14px UPPERCASE — too shouty for a
+ * dense control panel and inconsistent with the design-tool
+ * convention (~11px uppercase letterspaced). Tighten down so the
+ * labels read as section headers, not paragraph text.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label,
+.element-style-editor-toggle-wrapper.active .form-control-live-edit-label-wrapper > label {
+    font-size: 10.5px !important;
+    letter-spacing: 0.04em !important;
+    font-weight: 600 !important;
+    opacity: 0.75;
+}
+
+/*
+ * Each form-control-live-edit-label-wrapper is a "row" inside the
+ * expanded panel. The default 45px min-height + 12px margin-bottom
+ * + 22px line-height accumulates a lot of empty space when stacked
+ * 8 deep (Font/Align/Color/Font size/Weight/Transform/Style/...).
+ * Tighten to 32px min-height with 8px gap so the panel reads as
+ * one cohesive control surface.
+ */
+.element-style-editor-toggle-wrapper.active .form-control-live-edit-label-wrapper {
+    min-height: 32px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.3 !important;
 }
 
 .create-campaign-button {

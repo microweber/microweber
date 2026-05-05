@@ -288,28 +288,31 @@ html[dir="rtl"] .reset-field {
 }
 
 /*
- * task-2026-05-05-d2ce0f: the Element Style Editor right-rail uses
- * the dark theme (#1a1f2b panel bg), but Vuetify's `<v-slider>`
- * defaults to `v-theme--light` and renders its track as a near-white
- * horizontal bar — so on the dark panel every slider (Font size,
- * Line height, Letter spacing, Word spacing) showed up as a solid
- * white block, which the user reported as "broken sliders".
- *
- * Force the track + thumb to use opacity-tinted currentColor so the
- * sliders inherit the surrounding text color and stay legible on
- * both the dark and light themes.
+ * task-2026-05-05-d2ce0f / task-2026-05-05-73c751: the Element
+ * Style Editor right-rail uses the dark theme (#1a1f2b panel bg),
+ * but Vuetify's `<v-slider>` defaults to `v-theme--light` and
+ * renders its track as a near-white horizontal bar. We use
+ * opacity-tinted currentColor so the sliders inherit the surrounding
+ * text color on both light and dark themes; bumped opacity values
+ * so the track is actually visible (was 0.18 — too faint to spot).
  */
 .mw-live-edit-slider-small .v-slider-track__background {
     background: currentColor !important;
-    opacity: 0.18 !important;
+    opacity: 0.30 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
 }
 .mw-live-edit-slider-small .v-slider-track__fill {
     background: currentColor !important;
-    opacity: 0.55 !important;
+    opacity: 0.85 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
 }
 .mw-live-edit-slider-small .v-slider-thumb__surface {
     background: currentColor !important;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+    width: 14px !important;
+    height: 14px !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
 }
 .mw-live-edit-slider-small .v-slider {
     min-height: 24px !important;
@@ -340,4 +343,36 @@ html[dir="rtl"] .reset-field {
 .mw-live-edit-slider-small .form-control-input-range-slider {
     background: transparent !important;
     color: inherit !important;
+}
+
+/*
+ * task-2026-05-05-73c751: force the ColorPicker pill to render as
+ * a 28×28 round swatch with a thin border, regardless of which
+ * scoped-style or higher-specificity rule fights it. The text
+ * "Pick color" inside the button is hidden via `font-size: 0` so
+ * the button reads visually as a swatch — but earlier the scoped
+ * style was bypassed (computed reported w=61, fontSize=14px), so
+ * we re-assert at the theme level.
+ */
+.form-control-live-edit-label-wrapper .picker-button,
+#mw-element-style-editor-app .picker-button {
+    width: 28px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    border-radius: 50% !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
+    cursor: pointer;
+    background-clip: padding-box;
+}
+.form-control-live-edit-label-wrapper .picker-button:hover {
+    border-color: rgba(255, 255, 255, 0.65) !important;
+}
+/* Light theme fallback: the canvas-iframe inline-styled .picker-button
+   for non-dark contexts still reads. */
+:not(.dark) .form-control-live-edit-label-wrapper .picker-button {
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
