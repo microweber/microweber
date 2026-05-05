@@ -606,6 +606,13 @@ class ContentResource extends Resource
                     // characters)" was pure noise; "Title" is enough
                     // signage and the maxLength does the rest.
                     ->placeholder('e.g. My first post')
+                    // task-2026-05-05-5e9ffc (Audit-#8) — admin
+                    // full-form Title was server-side `->required()`
+                    // but not announced as required to screen
+                    // readers. Add aria-required="true" so AT users
+                    // hear the requirement before submit. Mirrors
+                    // the live-edit modal Title (task-66e507).
+                    ->extraInputAttributes(['aria-required' => 'true'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),

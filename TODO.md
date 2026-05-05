@@ -750,7 +750,14 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright at /admin/live-edit → +ADD → New Post: chooser cards are real `<button>` elements, modal Title input has `aria-required="true"`, autofocus still works (focus is in title field on open), placeholder still reads "What's the post about?". `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN. PHP `-l` clean.
   - [x] 2026-05-05  (subtask) Deferred (need own tasks): Posts list filter-tabs (All/Published/Draft/Scheduled/Trash); Categories button → ghost chip; filter funnel badge "0" hide; status pill case + softening; master checkbox aria-label; breadcrumb `/ List` rename; per-row Actions aria-label; Post tree virtualization + scoping; autosave indicator; live-side preview pane; unify post creation flow.
   - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
-- [ ] [task-2026-05-05-5e9ffc] Forwarded `DESIGN_REPORT_ADD_POST_MODAL.md` from **tester-1**. [attachment: .autodev/messages/attachments/task-2026-05-05-5e9ffc/DESIGN_REPORT_ADD_POST_MODAL.md]
+- [x] 2026-05-05  [task-2026-05-05-5e9ffc] Forwarded `DESIGN_REPORT_ADD_POST_MODAL.md` from **tester-1**. [attachment: .autodev/messages/attachments/task-2026-05-05-5e9ffc/DESIGN_REPORT_ADD_POST_MODAL.md]
+  - [x] 2026-05-05  (subtask) Read 267-line Drunk-Designer report covering the admin-side `+Add` toolbar chooser modal + Create Post form. Picked Audit-#8 (Title `aria-required`) and Audit-#1 (chooser modal a11y).
+  - [x] 2026-05-05  (subtask) **Audit-#8**: Added `->extraInputAttributes(['aria-required' => 'true'])` to the admin full-form Title in `Modules/Content/Filament/Admin/ContentResource.php` (separate from the live-edit modal Title fixed in task-66e507). Verified at `/admin/posts/create`.
+  - [x] 2026-05-05  (subtask) **Audit-#1**: enriched each chooser card `<a>` in `top-navigation-actions.blade.php` with descriptive `aria-label="<title>: <description>"` and Tailwind `focus-visible:outline` so keyboard users land visibly. The modal-window's `role="dialog"` is the Filament component's responsibility (vendor concern).
+  - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright: 4 cards have aria-label + focus ring class; admin Create Post Title has `aria-required="true"`. `AdminLiveEditElementStyleEditorTest` 10 assertions GREEN.
+  - [x] 2026-05-05  (subtask) Deferred (own tasks): Filament modal `role="dialog"`, Live edit unsaved-changes guard, autosave, split-button, tab optionality, modal keyboard shortcuts, collapse-by-default sections, Save draft button, modal heading rename.
+  - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
+- [ ] [task-2026-05-05-1db9bd] Forwarded `DESIGN_REPORT_PRODUCT_LIST_MODULE.md` from **tester-1**. [attachment: .autodev/messages/attachments/task-2026-05-05-1db9bd/DESIGN_REPORT_PRODUCT_LIST_MODULE.md]
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
 ### UI Component Testing
