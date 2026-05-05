@@ -139,7 +139,14 @@
 }
 
 .text-align {
-    @apply block border border-gray-300 h-[30px] text-[0px];
+    /* task-2026-05-05-d2ce0f: was h-[30px] block — combined with
+       inline-block children with `text-[0px]` parent (whitespace
+       collapse trick), the icons rendered ~50% width and floated
+       next to the next field's button (Color picker pill bled into
+       the empty right side). Switching to flex w-full distributes
+       the 4 buttons across the full row, and `dark:border-gray-700`
+       picks up the dark theme so the bordered group is visible. */
+    @apply flex w-full border border-gray-300 dark:border-gray-700 h-[30px] mb-2 rounded-sm overflow-hidden;
 }
 
 .text-align .active {
@@ -153,7 +160,7 @@
 
 
 .text-align > * {
-    @apply inline-block w-1/4 h-7 relative cursor-pointer p-[3px_0] text-center text-[17px]  [&:not(.active)]:text-white [&:not(.active)]:text-black;
+    @apply flex-1 flex items-center justify-center cursor-pointer text-center;
 }
 
 #shadow > .mw-ui-field-holder.prop-ui-field-holder {
@@ -278,4 +285,59 @@ html[dir="rtl"] .reset-field {
 
 .style-editor-disabled {
     @apply pointer-events-none opacity-50;
+}
+
+/*
+ * task-2026-05-05-d2ce0f: the Element Style Editor right-rail uses
+ * the dark theme (#1a1f2b panel bg), but Vuetify's `<v-slider>`
+ * defaults to `v-theme--light` and renders its track as a near-white
+ * horizontal bar — so on the dark panel every slider (Font size,
+ * Line height, Letter spacing, Word spacing) showed up as a solid
+ * white block, which the user reported as "broken sliders".
+ *
+ * Force the track + thumb to use opacity-tinted currentColor so the
+ * sliders inherit the surrounding text color and stay legible on
+ * both the dark and light themes.
+ */
+.mw-live-edit-slider-small .v-slider-track__background {
+    background: currentColor !important;
+    opacity: 0.18 !important;
+}
+.mw-live-edit-slider-small .v-slider-track__fill {
+    background: currentColor !important;
+    opacity: 0.55 !important;
+}
+.mw-live-edit-slider-small .v-slider-thumb__surface {
+    background: currentColor !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+}
+.mw-live-edit-slider-small .v-slider {
+    min-height: 24px !important;
+}
+.mw-live-edit-slider-small .v-slider .v-input__control {
+    min-height: 24px !important;
+}
+/*
+ * Vuetify renders an inert `<input>` underneath the visible track for
+ * accessibility — under `v-theme--light` (its default), that input
+ * gets the browser default white bg and renders as a solid white bar
+ * on the dark ESE panel. Hide it via opacity (still focusable) so the
+ * track + thumb above it become the only visible UI.
+ */
+.mw-live-edit-slider-small .v-slider__container > input,
+.mw-live-edit-slider-small .v-slider input[id^="input-v"] {
+    opacity: 0 !important;
+    background: transparent !important;
+    pointer-events: none;
+}
+/*
+ * The standalone numeric input (.form-control-input-range-slider) was
+ * still rendering with the platform default white background despite
+ * the scoped `background: transparent !important` because Vuetify or
+ * the form-control-* rules in live-edit-input.css apply with higher
+ * specificity. Force transparent + currentColor here.
+ */
+.mw-live-edit-slider-small .form-control-input-range-slider {
+    background: transparent !important;
+    color: inherit !important;
 }

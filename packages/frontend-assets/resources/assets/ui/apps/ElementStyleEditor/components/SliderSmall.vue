@@ -71,49 +71,48 @@ export default {
 </script>
 
 <style scoped>
+/*
+ * task-2026-05-05-d2ce0f: the original `background: rgba(255, 255,
+ * 255, 0.95)` made every slider render as a solid white block on
+ * the dark Element Style Editor panel — what the user reported as
+ * "broken sliders". Drop the white bg + use currentColor for the
+ * input border/text so the sliders pick up the surrounding dark
+ * theme automatically. The container is now transparent and uses
+ * a thin token-aware divider instead of a card.
+ */
 .mw-live-edit-slider-small {
   position: relative;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+  padding: 4px 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
   border: none;
-  transition: all 0.3s ease;
-}
-
-.mw-live-edit-slider-small:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .form-control-input-range-slider {
   width: 60px !important;
-  height: 28px !important;
-  padding: 4px 8px !important;
+  height: 24px !important;
+  padding: 2px 6px !important;
   border: none !important;
-  border-bottom: 2px solid #e2e8f0 !important;
+  border-bottom: 1px solid currentColor !important;
+  opacity: 0.8;
   border-radius: 0 !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  color: #2d3748 !important;
+  color: inherit !important;
   background: transparent !important;
-  transition: all 0.3s ease !important;
   text-align: center !important;
   box-shadow: none !important;
 }
 
 .form-control-input-range-slider:focus {
   outline: none !important;
-  border-bottom: 2px solid #4299e1 !important;
-  background: rgba(66, 153, 225, 0.02) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 2px 8px rgba(66, 153, 225, 0.15) !important;
+  opacity: 1;
+  background: rgba(66, 153, 225, 0.08) !important;
 }
 
 .form-control-input-range-slider:hover {
-  border-bottom: 2px solid #cbd5e0 !important;
-  background: rgba(0, 0, 0, 0.01) !important;
-  transform: translateY(-0.5px) !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+  opacity: 1;
 }
 
 .form-control-input-range-slider::placeholder {
