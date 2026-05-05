@@ -23,21 +23,22 @@
 
             <div v-show="showAiChat">
 
-
-                 <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3 mb-1 d-block">
-            <Lang>AI Style Editor</Lang>
-        </span>
+                <!--
+                  task-2026-05-05-854d66 (QW9) — removed:
+                  (a) the duplicate `<span>AI Style Editor</span>`
+                      inside the expanded panel — the heading row
+                      above already announces the section.
+                  (b) the dead `.d-none` `<input type="text">` +
+                      Send button block — the AIChatForm mounted
+                      into #ai-gui-editor below is the only live
+                      input. The hidden block was scaffolding from
+                      an earlier iteration and was visible to
+                      DOM-walking auditors as a "second AI input".
+                -->
                 <div id="ai-gui-editor" ref="wrapper"></div>
 
-
-                <div class="form-control-live-edit-label-wrapper my-3 d-none">
-                    <input class="form-control-live-edit-input " type="text" v-model="aiMessage"
-                           placeholder="Make text bigger..."
-                           @keyup.enter="submitAiRequest"/>
-                    <button class="btn btn-link ms-auto" @click="submitAiRequest">Send</button>
-                    <div v-if="loading" class="text-center">AI is thinking...</div>
-                    <div v-else-if="error" class="text-danger">{{ error }}</div>
-                </div>
+                <div v-if="loading" class="text-center">AI is thinking...</div>
+                <div v-else-if="error" class="text-danger">{{ error }}</div>
             </div>
         </div>
     </div>

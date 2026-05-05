@@ -288,6 +288,42 @@ html[dir="rtl"] .reset-field {
 }
 
 /*
+ * task-2026-05-05-854d66 (QW3) — Italic toggle button. Replaces
+ * the old 2-option Normal/Italic dropdown with a single tappable
+ * I-glyph that visibly turns blue + italic-rendered when active.
+ */
+#mw-element-style-editor-app .mw-italic-toggle {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: serif;
+    font-size: 16px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+:not(.dark) #mw-element-style-editor-app .mw-italic-toggle {
+    border-color: rgba(0, 0, 0, 0.18);
+}
+#mw-element-style-editor-app .mw-italic-toggle:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+}
+#mw-element-style-editor-app .mw-italic-toggle.active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgb(96, 165, 250);
+    color: rgb(96, 165, 250);
+}
+#mw-element-style-editor-app .mw-italic-toggle em {
+    font-style: italic;
+    font-weight: 600;
+}
+
+/*
  * task-2026-05-05-098f1e: novice-customer pass.
  * Hide the obscure Writing direction / Text orientation controls
  * behind a `<details><summary>More options</summary>` disclosure

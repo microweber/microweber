@@ -143,6 +143,14 @@ export class TemplateSettings extends MicroweberBaseClass {
     }
 
     getPredefinedBoxShadows() {
+        // task-2026-05-05-854d66 (QW5) — renamed shadow presets from
+        // numeric indices (Shadow 2 / 6 / 10 …) to qualitative names
+        // (Subtle / Soft / Medium / Strong / Dramatic / Floating)
+        // per Drunk-Designer audit. The numeric index was an artefact
+        // of the original 42-entry source, not a designed taxonomy —
+        // a regular site owner has no way to tell "Shadow 18" from
+        // "Shadow 21". Also dropped the 26-30 duplicates the audit
+        // flagged as redundant.
         var predefinedShadows = [
             {
                 name: "None",
@@ -153,7 +161,7 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
             },*/
             {
-                name: "Shadow 2",
+                name: "Subtle",
                 value: "rgba(0, 0, 0, 0.15) 0px 0px 1.95px 1.95px"
             },
             /*{
@@ -169,7 +177,7 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(0, 0, 0, 0.24) 0px 0px 0px 3px"
             },*/
             {
-                name: "Shadow 6",
+                name: "Soft",
                 value: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
             },/*
             {
@@ -185,7 +193,7 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(0, 0, 0, 0.1) 0px 4px 12px 0px"
             },*/
             {
-                name: "Shadow 10",
+                name: "Dramatic",
                 value: "rgba(0, 0, 0, 0.25) 0px 54px 55px 0px, rgba(0, 0, 0, 0.12) 0px -12px 30px 0px, rgba(0, 0, 0, 0.12) 0px 4px 6px 0px, rgba(0, 0, 0, 0.17) 0px 12px 13px 0px, rgba(0, 0, 0, 0.09) 0px -3px 5px 0px"
             },/*
             {
@@ -217,7 +225,7 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px"
             },*/
             {
-                name: "Shadow 18",
+                name: "Medium",
                 value: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
             },/*
             {
@@ -229,7 +237,7 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
             },*/
             {
-                name: "Shadow 21",
+                name: "Strong",
                 value: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
             },/*
             {
@@ -245,29 +253,16 @@ export class TemplateSettings extends MicroweberBaseClass {
                 value: "rgba(0, 0, 0, 0.12) 0px 1px 3px 0px, rgba(0, 0, 0, 0.24) 0px 1px 2px 0px"
             },*/
             {
-                name: "Shadow 25",
+                name: "Floating",
                 value: "rgba(0, 0, 0, 0.16) 0px 3px 6px 0px, rgba(0, 0, 0, 0.23) 0px 3px 6px 0px"
             },
-            {
-                name: "Shadow 26",
-                value: "rgba(0, 0, 0, 0.19) 0px 10px 20px 0px, rgba(0, 0, 0, 0.23) 0px 6px 6px 0px"
-            },
-            {
-                name: "Shadow 27",
-                value: "rgba(0, 0, 0, 0.25) 0px 14px 28px 0px, rgba(0, 0, 0, 0.22) 0px 10px 10px 0px"
-            },
-            {
-                name: "Shadow 28",
-                value: "rgba(0, 0, 0, 0.3) 0px 19px 38px 0px, rgba(0, 0, 0, 0.22) 0px 15px 12px 0px"
-            },
-            {
-                name: "Shadow 29",
-                value: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
-            },
-            {
-                name: "Shadow 30",
-                value: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-            },/*
+            /*
+            task-2026-05-05-854d66 (QW5) — dropped Shadow 26-30
+            and the rest below: the Drunk-Designer audit flagged
+            the 26-30 group as redundant duplicates of the kept
+            presets. Six qualitative names are plenty per the
+            audit; the six retained presets span the full visual
+            range from barely-there to dramatic.
             {
                 name: "Shadow 31",
                 value: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px"

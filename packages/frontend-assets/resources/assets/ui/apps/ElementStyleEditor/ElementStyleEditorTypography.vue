@@ -36,7 +36,25 @@
 
             <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Boldness'"/>
             <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Letter case'"/>
-            <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Italic'"/>
+            <!--
+              task-2026-05-05-854d66 (QW3) — Italic was a 2-option
+              dropdown (Normal / Italic). A binary state belongs in
+              a toggle, not a select. Render as a single toggle
+              button with the same `fontStyle` model — clicking
+              flips between 'normal' and 'italic'.
+            -->
+            <div class="form-control-live-edit-label-wrapper my-4 d-flex justify-content-between align-items-center">
+                <label class="live-edit-label">Italic</label>
+                <button
+                    type="button"
+                    class="mw-italic-toggle"
+                    :class="{ 'active': fontStyle === 'italic' }"
+                    :aria-pressed="fontStyle === 'italic'"
+                    title="Italic"
+                    @click="fontStyle = (fontStyle === 'italic' ? 'normal' : 'italic')">
+                    <em>I</em>
+                </button>
+            </div>
 
 
             <SliderSmall

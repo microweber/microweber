@@ -37,7 +37,13 @@ export default {
   },
   data() {
     return {
-      selectedValue: this.modelValue, // Use modelValue as the initial value
+      // task-2026-05-05-854d66 (QW1) — coerce non-finite incoming
+      // values (e.g. parseFloat(undefined) → NaN) to null before
+      // binding to v-model. Without this, v-model.number renders
+      // the literal string "NaN" in the numeric input on first
+      // selection of a fresh element, which the Drunk-Designer
+      // audit flagged as the highest-trust visible bug.
+      selectedValue: Number.isFinite(this.modelValue) ? this.modelValue : null,
     };
   },
   methods: {
@@ -45,6 +51,13 @@ export default {
       this.selectedValue = null;
     },
     validateValue() {
+      // task-2026-05-05-854d66 (QW1) — also catch NaN here in case
+      // the user types a non-numeric value into the input. Treat
+      // NaN/Infinity the same as "unset".
+      if (typeof this.selectedValue === 'number' && !Number.isFinite(this.selectedValue)) {
+        this.selectedValue = null;
+        return;
+      }
       if (this.selectedValue !== null && this.selectedValue !== undefined) {
         if (this.min !== undefined && this.selectedValue < this.min) {
           this.selectedValue = this.min;
@@ -63,8 +76,9 @@ export default {
       }
     },
     modelValue(newValue) {
-      // Update selectedValue when the parent's v-model changes
-      this.selectedValue = newValue;
+      // Update selectedValue when the parent's v-model changes.
+      // Coerce non-finite to null to prevent NaN rendering.
+      this.selectedValue = Number.isFinite(newValue) ? newValue : null;
     },
   },
 };
