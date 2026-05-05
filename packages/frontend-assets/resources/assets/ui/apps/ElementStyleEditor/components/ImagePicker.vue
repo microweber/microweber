@@ -1,6 +1,6 @@
 <template>
  <div class="form-control-live-edit-label-wrapper my-4 background-image-nav d-flex align-items-center justify-content-between">
-    <label class="live-edit-label col px-0 text-start">Background Image</label>
+    <label class="live-edit-label col px-0 text-start">{{ label }}</label>
     <div class="d-flex col-auto justify-content-end">
 
         <div

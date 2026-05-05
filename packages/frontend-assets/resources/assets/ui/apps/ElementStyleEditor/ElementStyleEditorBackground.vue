@@ -13,7 +13,7 @@
 
     <div v-if="showBackground">
 
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
+        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Color'"
                      @change="handleBackgroundColorChange"/>
 
 
@@ -30,12 +30,16 @@
                        :label="'Position'"/>
 
 
-        <DropdownSmall v-model="backgroundClip" :options="backgroundClipOptions"
-                       :label="'Clip'"/>
+        <details class="mw-typography-advanced">
+            <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                More options
+            </summary>
 
+            <DropdownSmall v-model="backgroundClip" :options="backgroundClipOptions"
+                           :label="'Crop area'"/>
 
-
-        <DropdownSmall v-model="mixBlendMode" :options="mixBlendModeOptions" :label="'Blend Mode'"/>
+            <DropdownSmall v-model="mixBlendMode" :options="mixBlendModeOptions" :label="'Blend mode'"/>
+        </details>
 
 
     </div>

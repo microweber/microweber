@@ -137,34 +137,34 @@
 
 
         <div class="mb-3">
-            <div class="form-label live-edit-label ">Inner Spacing (Padding)</div>
+            <div class="form-label live-edit-label ">Inner space</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon" :class="{ active: activePadding === 30 }" @click="setPaddingOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" :class="{ active: activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" :class="{ active: activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
-                    <a class="btn btn-icon" :class="{ active: activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
+                    <a class="btn btn-icon" title="Small inner space" :class="{ active: activePadding === 30 }" @click="setPaddingOnAllSides(30)">S</a>
+                    <a class="btn btn-icon" title="Medium inner space" :class="{ active: activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
+                    <a class="btn btn-icon" title="Large inner space" :class="{ active: activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
+                    <a class="btn btn-icon" title="Extra-large inner space" :class="{ active: activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon" title="Remove inner space" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
 
                     </a>
-                    <a class="btn btn-icon" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
+                    <a class="btn btn-icon" title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>
 
 
         <div class="mb-3">
-            <div class="form-label live-edit-label ">Outer Spacing (Margin)</div>
+            <div class="form-label live-edit-label ">Outer space</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon" :class="{ active: activeMargin === 30 }" @click="setMarginOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" :class="{ active: activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" :class="{ active: activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
-                    <a class="btn btn-icon" :class="{ active: activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon  " :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
+                    <a class="btn btn-icon" title="Small outer space" :class="{ active: activeMargin === 30 }" @click="setMarginOnAllSides(30)">S</a>
+                    <a class="btn btn-icon" title="Medium outer space" :class="{ active: activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
+                    <a class="btn btn-icon" title="Large outer space" :class="{ active: activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
+                    <a class="btn btn-icon" title="Extra-large outer space" :class="{ active: activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon  " title="Remove outer space" :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
 
                 </a>
-                    <a class="btn btn-icon " @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
+                    <a class="btn btn-icon " title="Fine-tune each side" @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>

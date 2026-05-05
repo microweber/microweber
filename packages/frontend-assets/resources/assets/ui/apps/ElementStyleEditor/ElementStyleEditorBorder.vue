@@ -82,10 +82,10 @@
     <div v-if="showBorder">
 
 
-        <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Position"/>
+        <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Sides"/>
 
 
-        <DropdownSmall v-if="borderPosition == 'all'" v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
+        <DropdownSmall v-if="borderPosition == 'all'" v-model="borderStyle" :options="borderStylesOptions" label="Line style"/>
 
 
         <DropdownSmall v-if="borderPosition == 'top'" v-model="borderStyleTop" :options="borderStylesOptions" label="Top Border Style"/>
