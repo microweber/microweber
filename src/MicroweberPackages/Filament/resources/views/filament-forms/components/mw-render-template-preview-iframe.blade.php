@@ -106,8 +106,14 @@
       <div>
 
           <div class="preview_frame_wrapper preview_frame_wrapper_holder loading left">
+              {{-- task-2026-05-05-636530 (Audit-#11) — leftover dev
+                   placeholder "Preview Frame Container" was visible
+                   to admin users on the template-customization page
+                   per Drunk-Designer external audit. Removed the
+                   visible string; the iframe is injected here at
+                   runtime and the empty container is fine when
+                   no preview is loaded. --}}
               <div class="preview_frame_container preview_frame_container_holder" id="preview_frame_container_holder">
-                  Preview Frame Container
               </div>
 
               <div class="card placeholder-glow mw-add-post-placeholder-loading">
