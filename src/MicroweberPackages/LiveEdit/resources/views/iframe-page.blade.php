@@ -23,6 +23,179 @@
                 }, 60);
             };
 
+            const resolveFirstInvalidField = (doc = document) => {
+                if (!doc || typeof doc.querySelector !== 'function') {
+                    return null;
+                }
+
+                const directInvalidField = doc.querySelector(
+                    `.mw-content-form-modal .fi-input-wrp.fi-invalid input,
+                     .mw-content-form-modal .fi-input-wrp.fi-invalid textarea,
+                     .mw-content-form-modal .fi-input-wrp.fi-invalid select,
+                     .mw-content-form-modal [aria-invalid='true']`
+                );
+
+                if (directInvalidField) {
+                    return directInvalidField;
+                }
+
+                const firstErrorMessage = doc.querySelector(
+                    '.mw-content-form-modal .fi-fo-field-error-message, .mw-content-form-modal .fi-fo-field-wrp-error-message'
+                );
+
+                if (!firstErrorMessage) {
+                    return null;
+                }
+
+                const fieldWrapper = firstErrorMessage.closest(
+                    '.fi-fo-field-wrp, .fi-fo-field, .fi-fo-component-ctn, .fi-section'
+                );
+
+                if (!fieldWrapper) {
+                    return firstErrorMessage;
+                }
+
+                return fieldWrapper.querySelector(`input, textarea, select, [tabindex]:not([tabindex='-1'])`)
+                    || fieldWrapper;
+            };
+
+            const clearInlineTitleValidation = (doc = document) => {
+                const titleInput = doc.querySelector('.mw-content-form-modal .mw-fb-title-input');
+
+                if (!titleInput) {
+                    return;
+                }
+
+                if (titleInput.dataset.mwInlineInvalid === '1') {
+                    titleInput.removeAttribute('aria-invalid');
+                    delete titleInput.dataset.mwInlineInvalid;
+                }
+
+                const inputWrapper = titleInput.closest('.fi-input-wrp');
+
+                if (inputWrapper && inputWrapper.dataset.mwInlineInvalid === '1') {
+                    inputWrapper.classList.remove('fi-invalid');
+                    delete inputWrapper.dataset.mwInlineInvalid;
+                }
+
+                doc.querySelectorAll('[data-mw-inline-title-required]').forEach((message) => {
+                    message.remove();
+                });
+            };
+
+            const showInlineTitleValidation = (doc = document) => {
+                const titleInput = doc.querySelector('.mw-content-form-modal .mw-fb-title-input');
+
+                if (!titleInput) {
+                    return false;
+                }
+
+                const titleValue = typeof titleInput.value === 'string'
+                    ? titleInput.value.trim()
+                    : '';
+
+                if (titleValue !== '') {
+                    clearInlineTitleValidation(doc);
+                    return false;
+                }
+
+                const inputWrapper = titleInput.closest('.fi-input-wrp');
+                const fieldWrapper = titleInput.closest('.fi-fo-field');
+                const errorHost = fieldWrapper
+                    ? (fieldWrapper.querySelector('.fi-fo-field-content-col') || fieldWrapper)
+                    : (titleInput.parentElement || titleInput);
+
+                titleInput.dataset.mwInlineInvalid = '1';
+                titleInput.setAttribute('aria-invalid', 'true');
+
+                if (inputWrapper) {
+                    inputWrapper.classList.add('fi-invalid');
+                    inputWrapper.dataset.mwInlineInvalid = '1';
+                }
+
+                if (!doc.querySelector('[data-mw-inline-title-required]') && errorHost) {
+                    const errorMessage = doc.createElement('p');
+                    errorMessage.className = 'fi-fo-field-wrp-error-message';
+                    errorMessage.setAttribute('data-mw-inline-title-required', '1');
+                    errorMessage.setAttribute('data-validation-error', '');
+                    errorMessage.textContent = 'The title field is required.';
+                    errorHost.appendChild(errorMessage);
+                }
+
+                if (titleInput.dataset.mwInlineListenerBound !== '1') {
+                    titleInput.addEventListener('input', () => {
+                        const currentValue = typeof titleInput.value === 'string'
+                            ? titleInput.value.trim()
+                            : '';
+
+                        if (currentValue !== '') {
+                            clearInlineTitleValidation(doc);
+                        }
+                    });
+                    titleInput.dataset.mwInlineListenerBound = '1';
+                }
+
+                const scrollTarget = inputWrapper || fieldWrapper || titleInput;
+                const prefersReducedMotion = window.matchMedia
+                    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                try {
+                    scrollTarget.scrollIntoView({
+                        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                        block: 'center',
+                        inline: 'nearest',
+                    });
+                } catch (_) { /* ignore scroll failures */ }
+
+                setTimeout(() => {
+                    try {
+                        titleInput.focus({ preventScroll: true });
+                    } catch (_) { /* ignore focus failures */ }
+                }, prefersReducedMotion ? 0 : 120);
+
+                try {
+                    window.dispatchEvent(new CustomEvent('liveEditMountedActionValidationFailed'));
+                } catch (_) { /* no-op */ }
+
+                return true;
+            };
+
+            const revealValidationFailure = (doc = document) => {
+                const firstInvalidField = resolveFirstInvalidField(doc);
+
+                if (!firstInvalidField) {
+                    return false;
+                }
+
+                const prefersReducedMotion = window.matchMedia
+                    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const scrollTarget = firstInvalidField.closest(
+                    '.fi-fo-field-wrp, .fi-fo-field, .fi-modal-content, .fi-modal-window, .fi-section'
+                ) || firstInvalidField;
+
+                try {
+                    scrollTarget.scrollIntoView({
+                        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                        block: 'center',
+                        inline: 'nearest',
+                    });
+                } catch (_) { /* ignore scroll failures */ }
+
+                setTimeout(() => {
+                    try {
+                        if (typeof firstInvalidField.focus === 'function') {
+                            firstInvalidField.focus({ preventScroll: true });
+                        }
+                    } catch (_) { /* ignore focus failures */ }
+                }, prefersReducedMotion ? 0 : 120);
+
+                try {
+                    window.dispatchEvent(new CustomEvent('liveEditMountedActionValidationFailed'));
+                } catch (_) { /* no-op */ }
+
+                return true;
+            };
+
             window.addEventListener('openAddContentAction', () => {
                 swapAction('addContentAction', {});
             });
@@ -275,11 +448,21 @@
                     });
 
                     const pick = matched[0].form;
+                    const ownerDoc = pick.ownerDocument || document;
+
+                    if (showInlineTitleValidation(ownerDoc)) {
+                        return;
+                    }
+
                     if (typeof pick.requestSubmit === 'function') {
                         pick.requestSubmit();
                     } else {
                         pick.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
                     }
+
+                    setTimeout(() => {
+                        revealValidationFailure(ownerDoc);
+                    }, 450);
                 } catch (_) { /* no action mounted, nothing to submit */ }
             });
         }"
@@ -825,6 +1008,43 @@
                 max-height: calc(100vh - var(--toolbar-height, 60px) - 1.5rem);
                 display: flex;
                 flex-direction: column;
+            }
+
+            /*
+             * UX-engineer audit (task-2026-05-05-02f93f):
+             * validation failure on the compact "what's the title?"
+             * surface was too easy to miss, which made failed save feel
+             * like "nothing happened". When the title input becomes
+             * invalid, give the whole field wrapper a tinted callout and
+             * restore a real error border/ring on the giant title input.
+             */
+            .mw-content-form-modal .fi-fo-field:has(.fi-input-wrp.fi-invalid .mw-fb-title-input) {
+                background: rgba(220, 38, 38, 0.06);
+                border: 1px solid rgba(220, 38, 38, 0.26);
+                border-radius: 0.875rem;
+                padding: 0.75rem 0.875rem;
+            }
+            .dark .mw-content-form-modal .fi-fo-field:has(.fi-input-wrp.fi-invalid .mw-fb-title-input) {
+                background: rgba(248, 113, 113, 0.12);
+                border-color: rgba(248, 113, 113, 0.38);
+            }
+            .mw-content-form-modal .fi-input-wrp.fi-invalid .mw-fb-title-input {
+                border: 2px solid #dc2626 !important;
+                border-radius: 0.875rem !important;
+                background: rgba(220, 38, 38, 0.04) !important;
+                box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12) !important;
+                padding-inline: 0.875rem !important;
+            }
+            .dark .mw-content-form-modal .fi-input-wrp.fi-invalid .mw-fb-title-input {
+                border-color: #f87171 !important;
+                background: rgba(248, 113, 113, 0.08) !important;
+                box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.16) !important;
+            }
+            .mw-content-form-modal .fi-fo-field:has(.fi-input-wrp.fi-invalid .mw-fb-title-input) .fi-fo-field-error-message,
+            .mw-content-form-modal .fi-fo-field:has(.fi-input-wrp.fi-invalid .mw-fb-title-input) .fi-fo-field-wrp-error-message {
+                font-size: 0.875rem;
+                font-weight: 600;
+                margin-top: 0.625rem;
             }
 
             /*

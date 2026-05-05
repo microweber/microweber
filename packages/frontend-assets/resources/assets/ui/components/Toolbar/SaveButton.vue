@@ -7,6 +7,11 @@ export default {
             var btn = document.getElementById('save-button');
             btn.classList.add('btn-loading');
             btn.disabled = true;
+            var mountedActionValidationFailed = false;
+            var onMountedActionValidationFailed = function () {
+                mountedActionValidationFailed = true;
+            };
+            window.addEventListener('liveEditMountedActionValidationFailed', onMountedActionValidationFailed, { once: true });
 
             // If a Filament module-settings slideOver is open (e.g.
             // "Add New Post" / "Add Page" / module settings form),
@@ -30,22 +35,36 @@ export default {
             }
             var saved = canvasWindow.mw.drag.save()
 
-            if (saved) {
-                saved.done(function () {
+            var finishSave = function (result) {
+                setTimeout(function () {
                     btn.classList.remove('btn-loading');
                     btn.disabled = false;
-                    mw.notification.success('Page saved successfully.',7500);
+                    window.removeEventListener('liveEditMountedActionValidationFailed', onMountedActionValidationFailed);
+
+                    if (mountedActionValidationFailed) {
+                        mw.notification.error('Please fix the highlighted required field before saving.', 7500);
+                        return;
+                    }
+
+                    if (result === 'success') {
+                        mw.notification.success('Page saved successfully.', 7500);
+                        return;
+                    }
+
+                    mw.notification.error('Something went wrong with saving the page.', 7500);
+                }, 500);
+            };
+
+            if (saved) {
+                saved.done(function () {
+                    finishSave('success');
                 });
 
                 saved.fail(function () {
-                    btn.classList.remove('btn-loading');
-                    btn.disabled = false;
-                    mw.notification.error('Something went wrong with saving the page.',7500);
+                    finishSave('error');
                 });
             } else {
-                btn.classList.remove('btn-loading');
-                btn.disabled = false;
-                mw.notification.success('Page saved successfully.',7500);
+                finishSave('success');
             }
 
 

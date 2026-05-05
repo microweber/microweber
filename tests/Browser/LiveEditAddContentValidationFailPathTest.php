@@ -28,12 +28,9 @@ use Tests\DuskTestCase;
  *      slideOver stays open, mountedActions still has the action),
  *      which is Filament v5's default UX when validation fails.
  *
- * Together those two asserts prove the validation gate is wired up
- * correctly. The framework's UI-test step prescribes also asserting
- * "error messages render under each field with red text" — that's a
- * harder DOM assertion since Filament's `.fi-fo-field-wrp-error-message`
- * selectors carry generated names, but the absence-of-DB-row is the
- * functional equivalent and is easier to make robust.
+ * Together those asserts prove the validation gate is wired up
+ * correctly AND the failed-save UX is obvious: first invalid field is
+ * focused/visible and the inline Filament validation message renders.
  *
  * Wired into phpunit.dusk.xml as
  * `LiveEditAddContentValidationFailPath`.
@@ -142,6 +139,47 @@ class LiveEditAddContentValidationFailPathTest extends DuskTestCase
 
         // Give Filament time to surface validation state on the form.
         $browser->pause(2500);
+
+        $validationState = $browser->script(
+            "
+            var invalidFields = Array.from(document.querySelectorAll('.mw-content-form-modal .fi-input-wrp.fi-invalid, .mw-content-form-modal [aria-invalid=\"true\"]'));
+            var errorMessages = Array.from(document.querySelectorAll('.mw-content-form-modal .fi-fo-field-error-message, .mw-content-form-modal .fi-fo-field-wrp-error-message'))
+                .map(function (el) { return (el.textContent || '').trim(); })
+                .filter(Boolean);
+            var active = document.activeElement;
+            var activeIsInvalid = !!(
+                active
+                && active.matches
+                && (
+                    active.matches('.mw-content-form-modal [aria-invalid=\"true\"]')
+                    || !!active.closest('.mw-content-form-modal .fi-input-wrp.fi-invalid')
+                )
+            );
+            return {
+                invalidCount: invalidFields.length,
+                errorCount: errorMessages.length,
+                firstError: errorMessages[0] || '',
+                activeIsInvalid: activeIsInvalid,
+            };
+        "
+        );
+
+        $state = $validationState[0] ?? [];
+        $this->assertGreaterThan(
+            0,
+            (int) ($state['invalidCount'] ?? 0),
+            "Validation UX failed for {$actionName}: no invalid field was marked."
+        );
+        $this->assertGreaterThan(
+            0,
+            (int) ($state['errorCount'] ?? 0),
+            "Validation UX failed for {$actionName}: no inline error message rendered."
+        );
+        $this->assertTrue(
+            (bool) ($state['activeIsInvalid'] ?? false),
+            "Validation UX failed for {$actionName}: focus did not move to the first invalid field. "
+            . 'First error: ' . ($state['firstError'] ?? 'none')
+        );
     }
 
     private function createHostPage(): int
