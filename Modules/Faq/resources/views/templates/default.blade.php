@@ -1,3 +1,38 @@
+@php
+    /*
+     * task-2026-05-05-3bd724 — drunk-designer audit (faq.md): emit
+     * FAQPage JSON-LD so search engines render the Q&A as a rich
+     * snippet on results pages. Skips entries with no question or
+     * no answer — those would confuse crawlers.
+     */
+    $faqJsonLdEntities = [];
+    if (isset($faqs) && !empty($faqs) && is_array($faqs)) {
+        foreach ($faqs as $faqJsonLdItem) {
+            if (empty($faqJsonLdItem['question']) || empty($faqJsonLdItem['answer'])) {
+                continue;
+            }
+            $faqJsonLdEntities[] = [
+                '@type' => 'Question',
+                'name' => $faqJsonLdItem['question'],
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $faqJsonLdItem['answer'],
+                ],
+            ];
+        }
+    }
+@endphp
+
+@if(!empty($faqJsonLdEntities))
+    <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $faqJsonLdEntities,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endif
+
 <div class="faq-holder">
     <div class="faq-list">
         @if(isset($faqs) && !empty($faqs))
