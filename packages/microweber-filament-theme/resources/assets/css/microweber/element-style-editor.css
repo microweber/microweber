@@ -288,6 +288,50 @@ html[dir="rtl"] .reset-field {
 }
 
 /*
+ * task-2026-05-05-e62d5b drunk-designer findings:
+ *
+ * - "Add more fonts" was a tiny 11px right-aligned link that drunk
+ *   eyes would never spot. Bump it to a quiet button-shaped link.
+ * - The ALIGN row's 4 icons clumped at the start; make them
+ *   distribute evenly with thin separators.
+ * - COLOR row had wasted space between label and swatch — pull the
+ *   label tighter and let the wrapper own the layout.
+ * - The active row's bg tint extended below the heading making it
+ *   hard to tell where "expanded panel content" begins; add a 1px
+ *   top divider on the expanded panel.
+ */
+#mw-element-style-editor-app .font-picker-wrapper small,
+#mw-element-style-editor-app .font-picker-wrapper [class*="cursor-pointer"][class*="d-flex"][class*="ms-auto"] {
+    font-size: 11px !important;
+    color: rgb(96, 165, 250) !important;
+    padding-top: 6px !important;
+    padding-bottom: 4px !important;
+}
+#mw-element-style-editor-app .font-picker-wrapper small::before {
+    content: '+ ';
+    font-weight: 700;
+}
+
+#mw-element-style-editor-app .text-align > * + * {
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#mw-element-style-editor-app .form-control-live-edit-label-wrapper:has(.picker-button) > .d-flex {
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px !important;
+    margin-top: 8px !important;
+}
+:not(.dark) .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/*
  * task-2026-05-05-d2ce0f / task-2026-05-05-73c751: the Element
  * Style Editor right-rail uses the dark theme (#1a1f2b panel bg),
  * but Vuetify's `<v-slider>` defaults to `v-theme--light` and
@@ -313,6 +357,32 @@ html[dir="rtl"] .reset-field {
     width: 14px !important;
     height: 14px !important;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+    border-radius: 50%;
+}
+/*
+ * task-2026-05-05-e62d5b drunk-designer audit:
+ * Vuetify's own CSS isn't loaded in the parent admin window — only
+ * its `.v-slider-track` / `.v-slider-thumb__surface` selectors are
+ * styled here. The wrapper `.v-slider-thumb` element needs
+ * `position: absolute; inset-inline-start: var(--v-slider-thumb-
+ * position)` so the thumb actually moves along the track. Without
+ * this rule the thumb stays at 0% of the track regardless of the
+ * model value, and reading "FONT SIZE 44" alongside a slider whose
+ * thumb is glued to the left edge is confusing. Add the positioning
+ * Vuetify expects.
+ */
+.mw-live-edit-slider-small .v-slider-track {
+    position: relative;
+}
+.mw-live-edit-slider-small .v-slider-thumb {
+    position: absolute !important;
+    inset-block-start: 50% !important;
+    transform: translateY(-50%) !important;
+    inset-inline-start: var(--v-slider-thumb-position, 0%) !important;
+    margin-inline-start: -7px;
+    width: 14px !important;
+    height: 14px !important;
+    z-index: 1;
 }
 .mw-live-edit-slider-small .v-slider {
     min-height: 24px !important;
