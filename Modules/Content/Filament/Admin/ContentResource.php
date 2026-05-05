@@ -675,6 +675,14 @@ class ContentResource extends Resource
     {
         return Schemas\Components\Section::make('Pricing')
             ->icon('heroicon-m-currency-dollar')
+            // task-2026-05-05-e75581 — Price + Special price are
+            // related short numeric inputs. Stacking them full-width
+            // wasted horizontal space in the modal and made the
+            // pricing section taller than necessary. Force the
+            // section into a 2-column grid so they sit side-by-side
+            // (Price | Special price) on lg+ screens and stack only
+            // on narrow mobile.
+            ->columns(['default' => 1, 'sm' => 2])
             ->schema([
                 Forms\Components\TextInput::make('price')
                     ->numeric()
@@ -688,7 +696,6 @@ class ContentResource extends Resource
                     ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
                     ->placeholder('19.99')
                     ->helperText('Price shown to customers')
-                    ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->required(),
 
                 Forms\Components\TextInput::make('special_price')
@@ -704,7 +711,6 @@ class ContentResource extends Resource
                     ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
                     ->placeholder('14.99')
                     ->helperText('Optional discount, lower than regular price')
-                    ->columnSpan(['lg' => 2, 'sm' => 2])
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->visible(function_exists('offers_get_price')),
             ])->columnSpanFull()->visible(function (Schemas\Components\Utilities\Get $get) {

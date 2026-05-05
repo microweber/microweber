@@ -687,7 +687,12 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright at /admin/live-edit → +ADD → New Post: upfront labels are now Title / Add images / Write your post here only — Short summary moved into the collapsed More options accordion. Confirmed via DOM probe: `.mw-fb-more-options` contains the Short summary label, no instance of it remains outside.
   - [x] 2026-05-05  (subtask) PHP `-l` clean. Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN.
   - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
-- [ ] [task-2026-05-05-e75581] in the add product modal  the price fields [attachment: .autodev/messages/attachments/task-2026-05-05-e75581/paste-1777968157873.png]
+- [x] 2026-05-05  [task-2026-05-05-e75581] in the add product modal  the price fields [attachment: .autodev/messages/attachments/task-2026-05-05-e75581/paste-1777968157873.png]
+  - [x] 2026-05-05  (subtask) Reproduced in Playwright at /admin/live-edit → +ADD → New Product. Price + Special price stacked full-width vertically in the Pricing section, wasting horizontal space and making the section taller than necessary on a 768px-wide modal. They're related short numeric inputs that read better side-by-side.
+  - [x] 2026-05-05  (subtask) Fix in `Modules/Content/Filament/Admin/ContentResource.php` `pricingSection()`: added `->columns(['default' => 1, 'sm' => 2])` so the section renders as a 2-column grid on `sm+` (modal is always wider than the sm breakpoint) and stacks only on narrow mobile. Removed the now-redundant per-field `columnSpan(['lg' => 2, 'sm' => 2])` so the fields take the natural 1-of-2 grid slot.
+  - [x] 2026-05-05  (subtask) Verified in Playwright: Pricing section now shows "Price [$ 19.99] | Special price [$ 14.99]" side-by-side with the helper text "Price shown to customers" / "Optional discount, lower than regular price" beneath each. Section is shorter, modal scrolls less.
+  - [x] 2026-05-05  (subtask) PHP `-l` clean. Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN.
+  - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
 ### UI Component Testing
