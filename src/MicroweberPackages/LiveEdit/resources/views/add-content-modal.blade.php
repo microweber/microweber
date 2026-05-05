@@ -64,20 +64,19 @@
 
     @foreach($actions as $action)
 
-        {{-- task-2026-05-04-a11y — keyboard activation. Cards already
-             had role=button + tabindex=0 (drunk-designer #8) so they
-             receive focus, but neither Enter nor Space fired the
-             wire:click. ARIA APG requires role=button to behave like a
-             native button: Enter activates, Space activates on keyup.
-             Inline handler via onkeydown invokes click() so Livewire's
-             wire:click runs unchanged. WCAG 2.1.1 Keyboard. --}}
-        <div
+        {{-- task-2026-05-05-66e507 (QW1) — drunk-designer external
+             audit flagged role=button divs as the most important a11y
+             fix on this surface. Switched to a real <button> element
+             so keyboard activation, focus rings, and form-control
+             semantics work natively without manual wiring. The
+             previous onkeydown shim is no longer needed —
+             <button>'s default behaviour fires click on Enter and
+             on Space-keyup, exactly per ARIA APG. --}}
+        <button
+            type="button"
             wire:click="replaceMountedAction('{{ $action['action'] }}')"
-            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"
-            tabindex="0"
-            role="button"
             aria-label="{{ $action['title'] }}: {{ $action['description'] }}"
-            class="mw-add-content-modal-action-wrapper cursor-pointer flex gap-6 p-5 group transition duration-150 hover:bg-blue-500/10 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+            class="mw-add-content-modal-action-wrapper cursor-pointer flex gap-6 p-5 group transition duration-150 hover:bg-blue-500/10 dark:hover:bg-white/5 rounded-lg w-full border border-gray-100 dark:border-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-start bg-transparent">
             <div class="flex items-center justify-center w-20 h-20 bg-blue-500/5 transition duration-150 group-hover:bg-blue-500/10 dark:group-hover:bg-white/10 rounded-lg p-4">
                 @svg($action['icon'], "h-10 w-10 text-black/80 dark:text-white")
             </div>
@@ -89,7 +88,7 @@
                     {{ $action['description'] }}
                 </div>
             </div>
-        </div>
+        </button>
 
     @endforeach
 </div>

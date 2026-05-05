@@ -291,7 +291,12 @@ class ContentResource extends Resource
                             default => "What's the post about?",
                         };
                     })
-                    ->extraInputAttributes(['class' => 'mw-fb-title-input'])
+                    // task-2026-05-05-66e507 (QW2) — drunk-designer
+                    // audit found Title was server-side `->required()`
+                    // but not announced as required to screen readers.
+                    // Add aria-required="true" so AT users hear the
+                    // requirement before submit.
+                    ->extraInputAttributes(['class' => 'mw-fb-title-input', 'aria-required' => 'true'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),
