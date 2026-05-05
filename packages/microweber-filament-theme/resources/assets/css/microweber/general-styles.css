@@ -1641,20 +1641,33 @@ select option,
         @apply opacity-70;
     }
 
+    /*
+     * task-2026-05-05-86825a: user reported items don't read as
+     * "accordion items" and active item not visibly bold. Bump the
+     * active treatment: thicker left bar, bolder label, stronger bg
+     * tint that visually contains the expanded panel below it.
+     * Also round the wrapper so the active row + its expanded
+     * content read as one unified card.
+     */
     &.active {
-        @apply border-blue-700 bg-blue-50 dark:bg-blue-950/30;
+        @apply border-blue-500 bg-gray-100 dark:bg-gray-800/70 rounded-md;
+        border-left-width: 3px;
+        padding-bottom: 0.5rem;
     }
 
-    &.active > .d-flex:first-child > .mw-admin-action-links {
-        @apply font-semibold text-blue-700 dark:text-blue-300;
+    &.active > .d-flex:has(> svg) > .mw-admin-action-links,
+    &.active .d-flex:has(> svg):first-of-type > .mw-admin-action-links {
+        @apply font-bold text-blue-700 dark:text-blue-200 text-[15px];
     }
 
-    &.active > .d-flex:first-child > svg {
-        @apply opacity-100 text-blue-700 dark:text-blue-300;
+    &.active > .d-flex:has(> svg) > svg,
+    &.active .d-flex:has(> svg):first-of-type > svg {
+        @apply opacity-100 text-blue-700 dark:text-blue-200;
     }
 
     /* Active row: rotate chevron 90° down to signal "open". */
-    &.active > .d-flex:first-child::after {
+    &.active > .d-flex:has(> svg)::after,
+    &.active .d-flex:has(> svg):first-of-type::after {
         @apply rotate-90 opacity-80;
     }
 
