@@ -1580,15 +1580,97 @@ select option,
     @apply dark:bg-gray-900 dark:text-white pt-2;
 }
 
+/*
+ * task-2026-05-05-5da2e8: ux-engineer pass on Element Style Editor
+ * right-rail. Was a flat list with mb-4 (24px) between rows, no
+ * hover, weak 2px-border active state, no chevron — felt
+ * "unfinished" per user screenshot. New treatment: each row is now
+ * a proper button-shaped click target with hover bg, bolder active
+ * state (bg + left bar + bold label), chevron-right that rotates
+ * down when expanded, normalized 20×20 icon box. mb-4 → mb-1 so
+ * the list scans in ~250-300px instead of ~550px.
+ */
 .element-style-editor-toggle-wrapper {
-    @apply border-l-2 border-transparent  pl-[12px];
+    @apply border-l-2 border-transparent rounded-r-md pl-3 pr-2 py-1.5 cursor-pointer transition-colors;
+
+    /* Each wrapper renders an inner `.d-flex` with [icon, label] from
+       the category Vue component. We only style that header row —
+       expanded controls below it inherit their own styling. */
+    & .d-flex:has(> svg) {
+        @apply items-center gap-2 select-none;
+    }
+
+    /* Normalize icon: fixed 20×20 box so circle/rect SVGs all sit on
+       the same baseline regardless of viewBox. */
+    & .d-flex:has(> svg) > svg {
+        @apply w-5 h-5 flex-shrink-0 opacity-80;
+    }
+    /* Some category components (Container, Grid, Classes, Section
+       settings, AI Style Editor) wrap their header row in an extra
+       `<div v-if="hasFoo">` — that pushes the .d-flex one level
+       deeper. The `:has(> svg)` selector above already catches them
+       because the SVG is always the direct child of the .d-flex,
+       regardless of how deeply the .d-flex itself is nested. */
+
+    /* Chevron-right that signals "click to expand". Lives as a
+       pseudo-element so we don't have to touch every category Vue
+       component to add an extra <svg>. SVG is inline data-uri of a
+       16×16 chevron-right (Heroicons). Rotates 90° when active. */
+    & .d-flex:has(> svg)::after {
+        content: '';
+        @apply ms-auto w-4 h-4 opacity-40 transition-transform;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5'/></svg>");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+
+    /* Tighten label rhythm — drop the inline `ms-3` margin's effect
+       since the parent flex now controls gap. Also kill the inner
+       span's `text-decoration` link styling so the row feels like a
+       button rather than a hyperlink. */
+    & .d-flex:has(> svg) > .mw-admin-action-links {
+        @apply ms-0 no-underline font-medium text-sm;
+    }
+
+    &:hover {
+        @apply bg-gray-100 dark:bg-gray-800;
+    }
+
+    &:hover > .d-flex:first-child::after {
+        @apply opacity-70;
+    }
+
+    &.active {
+        @apply border-blue-700 bg-blue-50 dark:bg-blue-950/30;
+    }
+
+    &.active > .d-flex:first-child > .mw-admin-action-links {
+        @apply font-semibold text-blue-700 dark:text-blue-300;
+    }
+
+    &.active > .d-flex:first-child > svg {
+        @apply opacity-100 text-blue-700 dark:text-blue-300;
+    }
+
+    /* Active row: rotate chevron 90° down to signal "open". */
+    &.active > .d-flex:first-child::after {
+        @apply rotate-90 opacity-80;
+    }
 
     &:empty {
         display: none;
     }
-    &.active {
-        @apply border-blue-700;
-    }
+}
+
+/*
+ * The expanded controls below the header row should sit slightly
+ * indented from the icon column so the visual hierarchy reads as
+ * "header row" → "indented controls" rather than two stacked rows
+ * of equal weight.
+ */
+.element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    @apply mt-2 ps-7 pe-1;
 }
 
 .create-campaign-button {

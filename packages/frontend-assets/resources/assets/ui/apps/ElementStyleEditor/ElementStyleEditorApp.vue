@@ -10,47 +10,47 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography">
                 <ElementStyleEditorTypography></ElementStyleEditorTypography>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground">
                 <ElementStyleEditorBackground></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
                 <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
                 <ElementStyleEditorContainer></ElementStyleEditorContainer>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid">
                 <ElementStyleEditorGrid></ElementStyleEditorGrid>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder">
                 <ElementStyleEditorBorder></ElementStyleEditorBorder>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners">
                 <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
                 <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow">
                 <ElementStyleEditorShadow></ElementStyleEditorShadow>
             </div>
 
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
                 <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
             </div>
             <!--
-            <div class="mb-4 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
 
