@@ -11,43 +11,43 @@
         <div class="d-flex flex-column">
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography">
-                <ElementStyleEditorTypography></ElementStyleEditorTypography>
+                <ElementStyleEditorTypography ref="typographyComp"></ElementStyleEditorTypography>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground">
-                <ElementStyleEditorBackground></ElementStyleEditorBackground>
+                <ElementStyleEditorBackground ref="backgroundComp"></ElementStyleEditorBackground>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
-                <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
+                <ElementStyleEditorSpacing ref="spacingComp"></ElementStyleEditorSpacing>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
-                <ElementStyleEditorContainer></ElementStyleEditorContainer>
+                <ElementStyleEditorContainer ref="containerComp"></ElementStyleEditorContainer>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid">
-                <ElementStyleEditorGrid></ElementStyleEditorGrid>
+                <ElementStyleEditorGrid ref="gridComp"></ElementStyleEditorGrid>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder">
-                <ElementStyleEditorBorder></ElementStyleEditorBorder>
+                <ElementStyleEditorBorder ref="borderComp"></ElementStyleEditorBorder>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners">
-                <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
+                <ElementStyleEditorRoundedCorners ref="roundedCornersComp"></ElementStyleEditorRoundedCorners>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
-                <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
+                <ElementStyleEditorAnimations ref="animationsComp"></ElementStyleEditorAnimations>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow">
-                <ElementStyleEditorShadow></ElementStyleEditorShadow>
+                <ElementStyleEditorShadow ref="shadowComp"></ElementStyleEditorShadow>
             </div>
 
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
-                <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
+                <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
             </div>
             <!--
             <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
@@ -175,55 +175,106 @@ export default {
             this.isAiChatSettingsActive = false;
         },
 
+        /**
+         * task-2026-05-05-96635c — close the local `showXxx` state
+         * inside every child component. The wrapper-level click sets
+         * the parent's `isXxxActive` for active-row styling, but
+         * each child component owns a SEPARATE local `showXxx`
+         * boolean that controls whether its expanded panel content
+         * renders. Without resetting those, opening one panel and
+         * then clicking another would leave the first panel's
+         * content rendered (it never gets a `showXxx = false`),
+         * producing the bug the user reported: clicking Border
+         * showed Rounded Corners content because the child
+         * component's local toggle state was stale.
+         */
+        closeAllChildPanels(except) {
+            const refs = ['typographyComp', 'backgroundComp', 'spacingComp', 'containerComp',
+                'gridComp', 'borderComp', 'roundedCornersComp', 'animationsComp',
+                'shadowComp', 'classApplierComp'];
+            refs.forEach(refName => {
+                if (refName === except) return;
+                const child = this.$refs[refName];
+                if (!child) return;
+                // Each child has a different `showXxx` field name —
+                // probe the known set rather than maintaining a map.
+                ['showTypography', 'showBackground', 'showSpacing', 'showContainer',
+                 'showGrid', 'showBorder', 'showRoundedCorners', 'showAnimations',
+                 'showShadow', 'showClassApplier'].forEach(field => {
+                    if (field in child) child[field] = false;
+                });
+            });
+        },
+
         // Methods to toggle active states
         toggleTypography() {
             this.resetActiveStates();
             this.isTypographyActive = true;
+            this.closeAllChildPanels('typographyComp');
+            const c = this.$refs.typographyComp; if (c && 'showTypography' in c) c.showTypography = true;
         },
 
         toggleBackground() {
             this.resetActiveStates();
             this.isBackgroundActive = true;
+            this.closeAllChildPanels('backgroundComp');
+            const c = this.$refs.backgroundComp; if (c && 'showBackground' in c) c.showBackground = true;
         },
 
         toggleSpacing() {
             this.resetActiveStates();
             this.isSpacingActive = true;
+            this.closeAllChildPanels('spacingComp');
+            const c = this.$refs.spacingComp; if (c && 'showSpacing' in c) c.showSpacing = true;
         },
 
         toggleContainer() {
             this.resetActiveStates();
             this.isContainerActive = true;
+            this.closeAllChildPanels('containerComp');
+            const c = this.$refs.containerComp; if (c && 'showContainer' in c) c.showContainer = true;
         },
 
         toggleGrid() {
             this.resetActiveStates();
             this.isGridActive = true;
+            this.closeAllChildPanels('gridComp');
+            const c = this.$refs.gridComp; if (c && 'showGrid' in c) c.showGrid = true;
         },
 
         toggleBorder() {
             this.resetActiveStates();
             this.isBorderActive = true;
+            this.closeAllChildPanels('borderComp');
+            const c = this.$refs.borderComp; if (c && 'showBorder' in c) c.showBorder = true;
         },
 
         toggleRoundedCorners() {
             this.resetActiveStates();
             this.isRoundedCornersActive = true;
+            this.closeAllChildPanels('roundedCornersComp');
+            const c = this.$refs.roundedCornersComp; if (c && 'showRoundedCorners' in c) c.showRoundedCorners = true;
         },
 
         toggleAnimations() {
             this.resetActiveStates();
             this.isAnimationsActive = true;
+            this.closeAllChildPanels('animationsComp');
+            const c = this.$refs.animationsComp; if (c && 'showAnimations' in c) c.showAnimations = true;
         },
 
         toggleShadow() {
             this.resetActiveStates();
             this.isShadowActive = true;
+            this.closeAllChildPanels('shadowComp');
+            const c = this.$refs.shadowComp; if (c && 'showShadow' in c) c.showShadow = true;
         },
 
         toggleClassApplier() {
             this.resetActiveStates();
             this.isClassApplierActive = true;
+            this.closeAllChildPanels('classApplierComp');
+            const c = this.$refs.classApplierComp; if (c && 'showClassApplier' in c) c.showClassApplier = true;
         },
 
         togglePosition() {
