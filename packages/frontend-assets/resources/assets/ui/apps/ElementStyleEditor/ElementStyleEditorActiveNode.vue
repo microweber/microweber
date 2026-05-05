@@ -18,26 +18,38 @@ export default {
         }
     },
     mounted() {
+        // task-2026-05-05-dc910e — register listeners EAGERLY,
+        // not gated by `onLiveEditReady`. Live-edit boots before
+        // the user clicks "Design"; by the time this Vue component
+        // mounts, `onLiveEditReady` has already fired (Microweber's
+        // event bus does not replay missed events), so the inner
+        // listeners would never get attached and `selectedElement`
+        // would stay `null` forever — leaving the user staring at
+        // "Please select an element to edit" no matter how many
+        // canvas elements they clicked. The listeners are
+        // idempotent and parent `mw.top().app` is available as
+        // soon as the iframe-page mounts the Vue app, so there's
+        // no reason to defer.
+        const root = this;
 
-
-        mw.app.on('onLiveEditReady', event =>{
+        const setupListeners = () => {
             mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-                this.$root.selectedLayout = null;
-                this.$root.selectedElement = null;
+                root.$root.selectedLayout = null;
+                root.$root.selectedElement = null;
 
-                this.$root.selectedElement = element;
+                root.$root.selectedElement = element;
             });
 
             mw.top().app.on('mw.elementStyleEditor.refreshNode', (element) => {
-                this.$root.selectedElement = null;
-                this.$root.selectedLayout = null;
-                this.$root.selectedElement = element;
+                root.$root.selectedElement = null;
+                root.$root.selectedLayout = null;
+                root.$root.selectedElement = element;
             });
 
 
             mw.top().app.on('mw.elementStyleEditor.selectLayout', (element) => {
-                this.$root.selectedLayout = null;
-                this.$root.selectedLayout = element;
+                root.$root.selectedLayout = null;
+                root.$root.selectedLayout = element;
 
             });
 
@@ -48,10 +60,10 @@ export default {
                     var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                     if(activeElement) {
 
-                        this.$root.selectedLayout = null;
-                        this.$root.selectedElement = null;
+                        root.$root.selectedLayout = null;
+                        root.$root.selectedElement = null;
 
-                        this.$root.selectedElement = activeElement;
+                        root.$root.selectedElement = activeElement;
                     }
 
 
@@ -142,9 +154,32 @@ export default {
 
                 }
             });
-        });
+        };
 
+        // Try immediately; if mw.top().app.liveEdit isn't fully
+        // wired yet (rare race during cold boot), retry once
+        // after the next macrotask. The listeners are idempotent
+        // so a duplicate registration is harmless.
+        try {
+            if (mw && mw.top && mw.top() && mw.top().app && mw.top().app.canvas) {
+                setupListeners();
+            } else {
+                setTimeout(setupListeners, 200);
+            }
+        } catch (e) {
+            setTimeout(setupListeners, 200);
+        }
 
+        // Also seed `selectedElement` from the current selection
+        // if the user already had something highlighted before
+        // opening the Style Editor — covers the case where
+        // selection happened before the Vue component mounted.
+        try {
+            const existing = mw.top().app.liveEdit.getSelectedNode();
+            if (existing) {
+                this.$root.selectedElement = existing;
+            }
+        } catch (e) { /* live-edit not yet ready; selection will arrive via the listener */ }
     },
 
 }
