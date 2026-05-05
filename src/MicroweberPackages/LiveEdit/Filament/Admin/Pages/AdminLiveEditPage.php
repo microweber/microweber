@@ -253,6 +253,29 @@ class AdminLiveEditPage extends Page
 
     }
 
+    /**
+     * Resolve the page currently shown in the live-edit canvas
+     * (captured from `?url=` at mount() into $this->liveEditUrl) to a
+     * Content id. Defaults to the homepage when the user opens
+     * /admin/live-edit without `?url=`. task-2026-05-01-3dff3c.
+     */
+    public function resolveCurrentLiveEditPageId(): ?int
+    {
+        $iframeUrl = $this->liveEditUrl;
+        if ($iframeUrl !== '') {
+            $resolved = app()->content_manager->getContentIdFromUrl($iframeUrl);
+            if ($resolved) {
+                return (int) $resolved;
+            }
+            return null;
+        }
+        $home = app()->content_manager->homepage();
+        if (is_array($home) && !empty($home['id'])) {
+            return (int) $home['id'];
+        }
+        return null;
+    }
+
     public function generateAction($actionName, $contentType)
     {
 
@@ -261,7 +284,15 @@ class AdminLiveEditPage extends Page
             // Lean live-edit category form — no SEO/Advanced tabs,
             // matches the post/page/product compact modal.
             // task-2026-05-04-e0fe54.
-            $formArray = CategoryResource::formArrayCompact();
+            // task-2026-05-05-e78299 — pass the current canvas page id
+            // explicitly so the Parent dropdown defaults to the page
+            // the user is editing. The compact form previously fell
+            // back to `request()->query('parent_page_id')` / Referer,
+            // both empty during the Livewire `/livewire/update` POST
+            // that mounts this action.
+            $formArray = CategoryResource::formArrayCompact([
+                'currentPageId' => $this->resolveCurrentLiveEditPageId(),
+            ]);
         } else {
             // The lean live-edit variant — title + body + published
             // + parent + (product) pricing only. Power users can
@@ -289,19 +320,7 @@ class AdminLiveEditPage extends Page
         // request URL (/livewire/update) — wrong. Fall back to
         // homepage() explicitly so the new post lands under the home
         // page id rather than as an orphan.
-        $currentPageId = null;
-        $iframeUrl = $this->liveEditUrl;
-        if ($iframeUrl !== '') {
-            $resolved = app()->content_manager->getContentIdFromUrl($iframeUrl);
-            if ($resolved) {
-                $currentPageId = (int) $resolved;
-            }
-        } else {
-            $home = app()->content_manager->homepage();
-            if (is_array($home) && !empty($home['id'])) {
-                $currentPageId = (int) $home['id'];
-            }
-        }
+        $currentPageId = $this->resolveCurrentLiveEditPageId();
 
         return Action::make($actionName)
             ->label('Create ' . $contentType)

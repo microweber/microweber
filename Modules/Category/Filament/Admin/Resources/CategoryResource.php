@@ -252,7 +252,21 @@ class CategoryResource extends Resource
         // current canvas page so the category still appears
         // under that listing.
         if ($parentSelectInitial === '') {
-            $currentPageId = (int) request()->query('parent_page_id', 0);
+            // task-2026-05-05-e78299 — accept an explicit currentPageId
+            // from the caller (AdminLiveEditPage passes the live-edit
+            // canvas page id resolved from `?url=`). The previous
+            // request()->query / Referer fallbacks were always empty
+            // when this form is built during the Livewire
+            // `/livewire/update` POST that mounts the action — that
+            // request's query string is empty and the Referer is
+            // /admin/live-edit (no parent_page_id). Without an explicit
+            // pass-through the dropdown defaulted to "Select an option"
+            // and Sarah-the-baker had to scroll the entire site
+            // hierarchy to find the page she was already on.
+            $currentPageId = (int) ($params['currentPageId'] ?? 0);
+            if (! $currentPageId) {
+                $currentPageId = (int) request()->query('parent_page_id', 0);
+            }
             if (! $currentPageId) {
                 $referer = request()->headers->get('referer');
                 if ($referer && str_contains($referer, 'parent_page_id=')) {
