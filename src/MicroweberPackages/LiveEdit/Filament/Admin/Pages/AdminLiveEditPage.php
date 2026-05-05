@@ -319,14 +319,18 @@ class AdminLiveEditPage extends Page
             // for the rich text editor inside Content body, with the
             // canvas peeking through behind it. The user reported the
             // modal as "too small" and "not slide right" —
-            // task-2026-05-02-82ca03. Width bumped from
-            // ThreeExtraLarge (768px) to FiveExtraLarge (1024px) per
-            // task-2026-05-04-3337c0 — at 768px the tabs + two-column
-            // form + rich-text editor still felt cramped on standard
-            // 1080p+ desktop viewports; 1024px gives the editor proper
-            // breathing room while still leaving the live-edit canvas
-            // visible behind the backdrop tint.
-            ->modalWidth(MaxWidth::FiveExtraLarge)
+            // task-2026-05-02-82ca03. Width bumped to FiveExtraLarge
+            // (1024px) per task-2026-05-04-3337c0 when the form still
+            // had tabs + a two-column layout. The compact form is now
+            // single-column with no tabs, so the wide-shallow shape
+            // wasted horizontal space while making the modal scroll
+            // vertically — user reported "must look very small and
+            // compact and not have scrolls" (task-2026-05-05-899bf8).
+            // Dropped back to ThreeExtraLarge (768px): proportional to
+            // the single-column compact form, keeps the live-edit
+            // canvas visible on either side, removes the "wide and
+            // shallow" feel.
+            ->modalWidth(MaxWidth::ThreeExtraLarge)
             // `mw-content-form-modal` re-enables the close-overlay
             // backdrop tint (the microweber-filament-theme globally
             // forces `.fi-modal-close-overlay` to bg-transparent —

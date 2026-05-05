@@ -1449,6 +1449,52 @@
             }
 
             /*
+             * task-2026-05-05-899bf8: cap the UPFRONT RichEditor body
+             * (post + product upfront body, page upfront page-content
+             * editor) at ~7rem ProseMirror so Title + Media + Body +
+             * Excerpt fits under ~480px tall on a 1280×800 viewport
+             * without internal scrolling. The `.mw-fb-more-options`
+             * version above already caps to 6rem — this is the same
+             * idea applied to the upfront slot. Users who need more
+             * room click "Show all options" to reach the full admin
+             * form. The `:not(.mw-fb-more-options ...)` guard keeps
+             * the More-options block at 6rem (it has its own rule).
+             */
+            .mw-content-form-modal .fi-fo-rich-editor:not(.mw-fb-more-options *) .ProseMirror {
+                min-height: 5rem;
+                max-height: 9rem;
+                overflow-y: auto;
+            }
+            /* Tighten section padding so the upfront stack doesn't
+               accumulate ~24px of empty padding per section. */
+            .mw-content-form-modal .fi-section {
+                padding: 0.625rem 0.875rem;
+            }
+            .mw-content-form-modal .fi-section-content {
+                padding: 0;
+            }
+            /* Drop the Title section's framing chrome so the giant
+               input sits flush with the modal padding instead of
+               inside a nested rounded box (the Title field used to
+               look like an inset card-within-a-card). !important
+               needed because Filament's `.fi-section` rules ship
+               background/border tokens at higher specificity. */
+            .mw-content-form-modal .fi-section:has(.mw-fb-title-input) {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            /* Excerpt textarea in the upfront body section was 80px+
+               by default — shrink to 2 rows so Title + Media + Body
+               + Excerpt fits without a scroll on 1280×800. */
+            .mw-content-form-modal textarea[name*="description"],
+            .mw-content-form-modal textarea[wire\\:model$="description"] {
+                min-height: 3rem;
+                max-height: 5rem;
+            }
+
+            /*
              * Make the Add Page/Post/Product/Category modal draggable
              * by its header — same UX Microweber v2's `mw.dialog`
              * shipped (the v2 helper just called jQuery UI
