@@ -655,6 +655,18 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-05-05  (subtask) Verified end-to-end in Playwright at 1280×800 dark mode: opened Typography → all 4 sliders (FONT SIZE/LINE HEIGHT/LETTER SPACING/WORD SPACING) show their thumbs at the correct % position; ALIGN row spans full width with separator hairlines between the 4 icons; COLOR row label + 28px swatch sit close together; "Add more fonts" reads as a + Add more fonts link; expanded Typography content starts below a thin divider. No JS errors.
   - [x] 2026-05-05  (subtask) Rebuilt theme bundle. Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN.
   - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
+- [x] 2026-05-05  [task-2026-05-05-098f1e] element tyle editor is still not optimal use the agent from https://agents.tools.ooyes.net/agents/novice-customer/    and fix it
+  - [x] 2026-05-05  (subtask) Novice-customer audit performed in-session. Findings: (F1) "Weight 700"/"Transform None"/"Style Normal" — typography jargon; (F2) "Letter Spacing"/"Word Spacing" — passable but stiff; (F3) "Writing Mode"/"Orientation" — opaque vertical-text controls used by virtually nobody; (F4) reset (↻) buttons had a custom `data-tip` but no native `title`.
+  - [x] 2026-05-05  (subtask) F1+F2: renamed labels in `ElementStyleEditorTypography.vue` — Weight→Boldness, Transform→Letter case, Style→Italic, Letter Spacing→Space between letters, Word Spacing→Space between words, Writing Mode→Writing direction, Orientation→Text orientation.
+  - [x] 2026-05-05  (subtask) F3: wrapped Writing direction + Text orientation in a `<details class="mw-typography-advanced"><summary>More options</summary>` disclosure (collapsed by default). Theme CSS adds a chevron pseudo-element that rotates 180° on `[open]` plus a hairline divider above the summary.
+  - [x] 2026-05-05  (subtask) F4: added `title="Restore default value"`, `role="button"`, `aria-label="Restore default value"` to the slider reset span so hovering shows a native browser tooltip and screen readers announce the action.
+  - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright at 1280×800 dark mode: Typography labels now read BOLDNESS / LETTER CASE / ITALIC / LINE HEIGHT / SPACE BETWEEN LETTERS / SPACE BETWEEN WORDS instead of jargon; "More options" disclosure visible at the bottom with a chevron indicator, collapsed by default. No JS errors.
+  - [x] 2026-05-05  (subtask) Rebuilt both bundles. Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN.
+  - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
+- [ ] [task-2026-05-05-fb6315] examine and fix all section in elelnety styl edytiro [attachment: .autodev/messages/attachments/task-2026-05-05-fb6315/paste-1777967951058.png]
+- [ ] [task-2026-05-05-e78299] on add cateobgry the parent page i not optinal  it msut selelct curent gae from live edit if we can dettect it [attachment: .autodev/messages/attachments/task-2026-05-05-e78299/paste-1777968047084.png]
+- [ ] [task-2026-05-05-dac8a6] in the content creation modals post/pprodt/page etc move the short sumary  in the opther ptions [attachment: .autodev/messages/attachments/task-2026-05-05-dac8a6/paste-1777968109361.png]
+- [ ] [task-2026-05-05-e75581] in the add product modal  the price fields [attachment: .autodev/messages/attachments/task-2026-05-05-e75581/paste-1777968157873.png]
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
 ### UI Component Testing

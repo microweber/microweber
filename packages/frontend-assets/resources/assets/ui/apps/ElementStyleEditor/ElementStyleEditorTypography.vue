@@ -34,13 +34,13 @@
             ></SliderSmall>
 
 
-            <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Weight'"/>
-            <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Transform'"/>
-            <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Style'"/>
+            <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Boldness'"/>
+            <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Letter case'"/>
+            <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Italic'"/>
 
 
             <SliderSmall
-                label="Line Height"
+                label="Line height"
                 v-model="lineHeight"
                 :min="0"
                 :max="100"
@@ -49,7 +49,7 @@
 
 
             <SliderSmall
-                label="Letter Spacing"
+                label="Space between letters"
                 v-model="letterSpacing"
                 :min="1"
                 :max="100"
@@ -58,7 +58,7 @@
 
 
             <SliderSmall
-                label="Word Spacing"
+                label="Space between words"
                 v-model="wordSpacing"
                 :min="1"
                 :max="100"
@@ -67,14 +67,20 @@
 
 
 
-            <DropdownSmall v-model="textWritingMode" :options="textWritingModeOptions" :label="'Writing Mode'"/>
+            <details class="mw-typography-advanced">
+                <summary class="cursor-pointer text-xs opacity-70 hover:opacity-100 py-2">
+                    More options
+                </summary>
+
+                <DropdownSmall v-model="textWritingMode" :options="textWritingModeOptions" :label="'Writing direction'"/>
 
 
-            <div v-if="textWritingMode !== 'horizontal-tb' && textWritingMode !== ''">
+                <div v-if="textWritingMode !== 'horizontal-tb' && textWritingMode !== ''">
 
-                <DropdownSmall v-model="textOrientation" :options="textOrientationOptions" :label="'Orientation'"/>
+                    <DropdownSmall v-model="textOrientation" :options="textOrientationOptions" :label="'Text orientation'"/>
 
-            </div>
+                </div>
+            </details>
 
 
 

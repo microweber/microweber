@@ -288,6 +288,40 @@ html[dir="rtl"] .reset-field {
 }
 
 /*
+ * task-2026-05-05-098f1e: novice-customer pass.
+ * Hide the obscure Writing direction / Text orientation controls
+ * behind a `<details><summary>More options</summary>` disclosure
+ * so the primary Typography surface only shows controls a typical
+ * site owner understands. Style the disclosure summary so it reads
+ * as a quiet "v More options" link.
+ */
+#mw-element-style-editor-app .mw-typography-advanced {
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 0.5rem;
+}
+:not(.dark) #mw-element-style-editor-app .mw-typography-advanced {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary {
+    list-style: none;
+    user-select: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::-webkit-details-marker {
+    display: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::before {
+    content: '⌄';
+    display: inline-block;
+    margin-inline-end: 0.4rem;
+    transition: transform 0.15s;
+    transform: rotate(0deg);
+}
+#mw-element-style-editor-app .mw-typography-advanced[open] > summary::before {
+    transform: rotate(180deg);
+}
+
+/*
  * task-2026-05-05-e62d5b drunk-designer findings:
  *
  * - "Add more fonts" was a tiny 11px right-aligned link that drunk
