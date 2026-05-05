@@ -394,19 +394,32 @@ html[dir="rtl"] .reset-field {
     border-radius: 50%;
 }
 /*
- * task-2026-05-05-e62d5b drunk-designer audit:
+ * task-2026-05-05-e62d5b drunk-designer audit + task-2026-05-05-4bd251:
  * Vuetify's own CSS isn't loaded in the parent admin window — only
  * its `.v-slider-track` / `.v-slider-thumb__surface` selectors are
- * styled here. The wrapper `.v-slider-thumb` element needs
- * `position: absolute; inset-inline-start: var(--v-slider-thumb-
- * position)` so the thumb actually moves along the track. Without
- * this rule the thumb stays at 0% of the track regardless of the
- * model value, and reading "FONT SIZE 44" alongside a slider whose
- * thumb is glued to the left edge is confusing. Add the positioning
- * Vuetify expects.
+ * styled here. The wrapper `.v-slider-thumb` needs to be positioned
+ * along the track via `inset-inline-start: var(--v-slider-thumb-
+ * position)`. Initial fix in e62d5b made the thumb absolute relative
+ * to `.mw-live-edit-slider-small` (which already had
+ * `position: relative`), but that container is the FULL slider
+ * component including the label+number-input row above the track.
+ * 50% of that container placed the thumb in the middle of the
+ * combined block — visibly above the track line.
+ *
+ * Fix: make `.v-slider__container` (the row that wraps just the
+ * track + thumb) the positioning context. `inset-block-start: 50%`
+ * on the thumb now references the slider row only, putting the
+ * thumb on the track's center line as intended.
  */
+.mw-live-edit-slider-small .v-slider__container {
+    position: relative;
+    min-height: 14px;
+    display: flex;
+    align-items: center;
+}
 .mw-live-edit-slider-small .v-slider-track {
     position: relative;
+    flex: 1;
 }
 .mw-live-edit-slider-small .v-slider-thumb {
     position: absolute !important;
@@ -433,9 +446,23 @@ html[dir="rtl"] .reset-field {
  */
 .mw-live-edit-slider-small .v-slider__container > input,
 .mw-live-edit-slider-small .v-slider input[id^="input-v"] {
+    /*
+     * task-2026-05-05-4bd251 — was `opacity: 0` (still occupies
+     * layout) which forced .v-slider__container to be 29px tall
+     * and pushed the track to the bottom 4px. Anchoring the thumb
+     * via `inset-block-start: 50%` then placed it at 14.5px from
+     * the top — visibly above the track. Strip the accessibility
+     * input from layout entirely (still focusable via the slider
+     * itself) so the container collapses to track height.
+     */
+    position: absolute !important;
     opacity: 0 !important;
-    background: transparent !important;
     pointer-events: none;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
 }
 /*
  * The standalone numeric input (.form-control-input-range-slider) was
