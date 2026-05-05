@@ -24,8 +24,9 @@ description: Simple Pictures List Template
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
                             <span class="pic-valign">
                                 <span class="pic-valign-cell">
+                                    {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}
                                     <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"
-                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid"/>
+                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid" loading="lazy" decoding="async"/>
                                 </span>
                             </span>
                         </div>
