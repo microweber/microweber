@@ -331,7 +331,18 @@ class ContentResource extends Resource
             // Renamed to "Write your post here" so the label
             // doubles as the call-to-action.
             Forms\Components\RichEditor::make('content_body')
-                ->label('Write your post here')
+                // task-2026-05-05-1db9bd (Audit-#1) — was a single
+                // label "Write your post here" that showed on the
+                // Create Product modal too, which the external audit
+                // flagged as a "high-impact UX bug" since the user is
+                // creating a product, not a post. Branch on
+                // content_type so each surface gets the right voice.
+                ->label(function (Schemas\Components\Utilities\Get $get) {
+                    return match ($get('content_type')) {
+                        'product' => 'Product description',
+                        default => 'Write your post here',
+                    };
+                })
                 ->columnSpan('full')
                 ->hintAction(
                     TranslateFieldAction::make('content_body')->label('')
@@ -407,8 +418,17 @@ class ContentResource extends Resource
 
                 // task-2026-05-04-novice — see compactBodyAndExcerptGroup;
                 // "Content body" → "Write your post here".
+                // task-2026-05-05-1db9bd (Audit-#1) — branch on
+                // content_type so the Create Product modal shows
+                // "Product description" instead of "Write your post
+                // here".
                 Forms\Components\RichEditor::make('content_body')
-                    ->label('Write your post here')
+                    ->label(function (Schemas\Components\Utilities\Get $get) {
+                        return match ($get('content_type')) {
+                            'product' => 'Product description',
+                            default => 'Write your post here',
+                        };
+                    })
                     ->columnSpan('full')
                     ->hintAction(
                         TranslateFieldAction::make('content_body')->label('')
@@ -710,7 +730,13 @@ class ContentResource extends Resource
                     ->helperText('Price shown to customers')
                     ->required(),
 
+                // task-2026-05-05-1db9bd (Audit-#9) — "Special price"
+                // is colloquial; industry-standard term for this field
+                // is "Sale price" (Shopify, WooCommerce, Magento all
+                // use it). Renamed the visible label without changing
+                // the database column name.
                 Forms\Components\TextInput::make('special_price')
+                    ->label('Sale price')
                     ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
                         if ($record) {
                             $getSpecialPrice = $record->getSpecialPriceAttribute();
@@ -962,7 +988,11 @@ class ContentResource extends Resource
                         ->required(),
 
 
+                    // task-2026-05-05-1db9bd (Audit-#9) — see
+                    // pricingSection() above; same rename applied
+                    // to the long-form admin variant of this field.
                     Forms\Components\TextInput::make('special_price')
+                        ->label('Sale price')
                         ->afterStateHydrated(function (?Model $record, Schemas\Components\Utilities\Get $get, Schemas\Components\Utilities\Set $set) {
 
                             if ($record) {

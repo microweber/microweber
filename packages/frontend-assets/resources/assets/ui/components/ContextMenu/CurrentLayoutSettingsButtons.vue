@@ -3,15 +3,31 @@
 
         <hr>
 
-        <!-- Add Module Button -->
+        <!--
+            task-2026-05-05-1db9bd (Audit-#4) — drunk-designer external
+            audit reported the right-rail `+` button on the inserted
+            module had no label. The DOM had `title="Insert Module"`
+            already, but the Vuetify `<v-tooltip>` overlay doesn't
+            render reliably in this context (Vuetify CSS isn't loaded
+            in the parent admin window — see vuetify-slider-in-mw-admin
+            skill), so the audit observed an unlabelled icon. Adding
+            `aria-label` and `role="button"` + `tabindex` so keyboard
+            and AT users always get the affordance. Title remains as a
+            native browser hover label.
+        -->
         <div class="add-module-section">
             <div
                 class="btn-icon add-module-button"
-                title="Insert Module"
+                title="Insert content"
+                aria-label="Insert content into this layout"
+                role="button"
+                tabindex="0"
                 @click="insertModuleIntoLayout"
+                @keydown.enter.prevent="insertModuleIntoLayout"
+                @keydown.space.prevent="insertModuleIntoLayout"
             >
                 <v-tooltip activator="parent" location="start">
-                    Insert Module
+                    Insert content
                 </v-tooltip>
                 <span>
                    <svg fill="currentColor" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -26,8 +42,13 @@
                 :key="module.id"
                 :class="{ 'active': module.isActive }"
                 :title="module.title || module.type"
+                :aria-label="`Configure ${module.title || module.type}`"
+                role="button"
+                tabindex="0"
                 class="btn-icon module-settings-button"
                 @click="openModuleSettings(module)"
+                @keydown.enter.prevent="openModuleSettings(module)"
+                @keydown.space.prevent="openModuleSettings(module)"
                 @mouseenter="onModuleHover(module)"
             >
                 <v-tooltip activator="parent" location="start">
