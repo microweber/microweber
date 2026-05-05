@@ -52,7 +52,8 @@ if (!window.SliderV2) {
                         <p class="pb-3">
                             {{$member['role']}}
                         </p>
-                        <a href="{{ $member['website'] }}" target="_blank">
+                        {{-- task-2026-05-05-90021f — rel=noopener noreferrer for security --}}
+                        <a href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                             {{$member['website']}}
                         </a>
                         <p class="pt-3 italic">

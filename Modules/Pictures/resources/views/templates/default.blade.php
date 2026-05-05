@@ -34,7 +34,8 @@ description: Default Picture List
                                 instead of bursting out of narrow
                                 containers at its native pixel size.
                             --}}
-                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}" class="img-fluid"/>
+                            {{-- task-2026-05-05-90021f — drunk-designer audit (pictures.md QW): default lazy-loading on every gallery image. --}}
+                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}" class="img-fluid" loading="lazy" decoding="async"/>
                         </a>
                     </div>
                 @endforeach

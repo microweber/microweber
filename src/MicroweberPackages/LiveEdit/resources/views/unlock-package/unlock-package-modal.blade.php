@@ -48,7 +48,11 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
                <h4>Buy license key "Big Template" and unlock 300 more layouts,</h4>
                <h4>only for $59 per year or $169 lifetime license</h4>
 
-                <a class="btn get-license-btn" target="_blank" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
+                {{-- task-2026-05-05-90021f — drunk-designer audit
+                     QW: external `target="_blank"` links must carry
+                     `rel="noopener noreferrer"` to block tabnabbing
+                     and referrer leak. --}}
+                <a class="btn get-license-btn" target="_blank" rel="noopener noreferrer" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
            </div>
 
             <form class="d-flex align-items-center gap-3">
@@ -59,7 +63,7 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
             </form>
 
             <p class="font-weight-bold mt-3">Have a problem with your White Label <br> license key?
-                <a class="text-orange" target="_blank" href="https://microweber.org/go/feedback/" >Contact us.</a>
+                <a class="text-orange" target="_blank" rel="noopener noreferrer" href="https://microweber.org/go/feedback/" >Contact us.</a>
             </p>
        </div>
     </div>

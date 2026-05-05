@@ -72,7 +72,8 @@ description: Skin-2
                         <p class="team-card-item-position">
                             {{$member['role']}}
                         </p>
-                        <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank">
+                        {{-- task-2026-05-05-90021f — rel=noopener noreferrer for security --}}
+                        <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank" rel="noopener noreferrer">
                             {{$member['website']}}
                         </a>
                         <p class="team-card-item-bio italic">

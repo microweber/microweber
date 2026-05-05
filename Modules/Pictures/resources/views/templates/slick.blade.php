@@ -73,7 +73,8 @@ description: Slick Pictures List Template
                     <div class="slick-pictures-item slick-pictures-item-{{ $item['id'] ?? '' }}">
                         <div class="thumbnail-wrapper">
                             <div class="thumbnail">
-                                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" alt="{{ __('Image') }}" class="img-fluid"/>
+                                {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
+                                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" alt="{{ __('Image') }}" class="img-fluid" loading="lazy" decoding="async"/>
                             </div>
                         </div>
                     </div>

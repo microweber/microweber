@@ -76,5 +76,6 @@
 <div style="clear: both;"></div>
 
 <?php if (isset($download) and $download): ?>
-<a href="<?php echo $pdf; ?>" target="_blank"><?php _e('File download'); ?></a>
+<?php /* task-2026-05-05-90021f — rel=noopener noreferrer for security */ ?>
+<a href="<?php echo $pdf; ?>" target="_blank" rel="noopener noreferrer"><?php _e('File download'); ?></a>
 <?php endif; ?>
