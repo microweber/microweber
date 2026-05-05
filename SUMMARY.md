@@ -27,10 +27,12 @@
 - The local Apache-served runtime in this environment returns `404` for `/admin/login` even though `http://127.0.0.1` responds with `200`, so browser verification can fail for environment reasons rather than app regressions.
 - The full PHP test surface is intentionally split by `run-tests.sh` because long single-process runs hit PHP memory fragmentation/OOM issues.
 - The root repo now documents PHPUnit + `run-tests.sh` as the active entrypoints; the remaining Pest helper files under `docs/testing/` are optional scaffolding only, not live root configuration.
+- Live-edit theme helpers must stay scoped to `.mw-admin-live-edit-page`; unscoped Filament tab/input/modal overrides leak into unrelated admin screens and create recurring visual regressions.
 
 ## Decisions
 - Cache deserialization in `TaggableFileStore` is hardened with `unserialize(..., ['allowed_classes' => false])` to avoid object-injection risk from poisoned cache files.
 - Treat `phpunit.xml` + `run-tests.sh` as the authoritative test entrypoints for the repository root.
+- Keep live-edit-specific Filament overrides scoped to the live-edit wrapper instead of styling raw `.fi-*` selectors globally in the admin theme bundle.
 
 ## Dependencies (non-obvious)
 - `nwidart/laravel-modules` powers the feature-module layout under `Modules/`.

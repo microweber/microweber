@@ -41,3 +41,19 @@
 ### Current Guidance
 - Use `composer test`, targeted `php vendor/bin/phpunit ...`, or `./run-tests.sh`.
 - Treat the `docs/testing/*pest*` helpers as scaffolding only unless Pest is intentionally reintroduced as a real root dependency.
+
+## 2026-05-05 — Live-edit CSS leaked into unrelated Filament pages
+
+### Symptoms
+- Filament tabs, compact live-edit inputs, and transparent modal overlays kept needing one-off fixes outside live-edit.
+- The admin theme bundle imported live-edit helper CSS that styled raw `.fi-tabs`, `.fi-modal-*`, and `.fi-section*` selectors globally.
+
+### Root Cause
+- Live-edit-specific CSS lived in the shared Filament theme bundle without a wrapper selector, so generic Filament pages could inherit live-edit presentation rules.
+
+### Fix
+- Scope the leaking selectors to `.mw-admin-live-edit-page` in `live-edit-action-links.css`, `live-edit-input.css`, `general-styles.css`, and `live-edit-classes.css`.
+- Keep a focused regression in `tests/Feature/Filament/Theme/LiveEditCssScopeTest.php`.
+
+### Recurrence Signal
+- If a non-live-edit Filament page suddenly picks up live-edit tab underlines, compact 11px inputs, or transparent modal overlays, search the theme CSS for unscoped `.fi-*` selectors in `packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-*.css`.

@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Fixed
+- **Live-edit CSS leak into generic Filament pages** (task-2026-05-05-3df6cc) — a design audit found that live-edit-specific Filament tab, input, and modal-overlay rules were imported globally by the admin theme and could keep causing unrelated admin pages to inherit live-edit chrome. Scoped the leaking selectors in `packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-action-links.css`, `live-edit-input.css`, `general-styles.css`, and `live-edit-classes.css` to `.mw-admin-live-edit-page`, added `tests/Feature/Filament/Theme/LiveEditCssScopeTest.php` to lock the selector fences in place, and rebuilt both the Filament theme and frontend-assets bundles. Impact: future admin-theme polish work no longer has to fight these live-edit overrides on every non-live-edit Filament screen.
+
+### Fixed
 - **Live-edit post-save dead-corner — persistent title-aware toast** (task-2026-05-04-6adcfe) — user reported "I still don't think the content adding is ok". Walking the flow showed: title-only Save lands on a near-empty public page (just title + date + footer) and the success toast faded in 5s, leaving the user with no clear next action. Three fixes in `AdminLiveEditPage::generateAction`'s save handler: toast title now quotes the actual saved content title (`"My Saturday Market" created` instead of generic `Post created`) for strong recognition; body rewritten to "Now click anywhere on the page to start writing — or \"Edit details\" for SEO, tags, and more." giving the user the actual mental model of what to do next; `->duration(5000)` replaced with `->persistent()` so the toast stays until the user dismisses it. The "Edit details" action button stays available the whole time.
 
 ### Fixed

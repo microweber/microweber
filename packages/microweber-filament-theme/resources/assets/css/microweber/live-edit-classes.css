@@ -348,11 +348,11 @@ html.dark #user-menu-wrapper.active #user-menu {
     @apply flex items-center;
 }
 
-.fi-modal > .fi-modal-close-overlay {
+.mw-admin-live-edit-page .fi-modal > .fi-modal-close-overlay {
     z-index: 200 !important;
 }
 
-.fi-modal > .fi-modal-window-ctn {
+.mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn {
     z-index: 200 !important;
 }
 

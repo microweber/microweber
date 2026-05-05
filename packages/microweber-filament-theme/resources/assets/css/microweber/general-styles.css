@@ -1296,7 +1296,7 @@ select option,
     font-size: 30px !important;
 }
 
-.fi-modal-close-overlay {
+.mw-admin-live-edit-page .fi-modal-close-overlay {
     @apply !bg-transparent;
 }
 
