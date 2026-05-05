@@ -305,7 +305,13 @@ mw.filePicker = function (options) {
                 </div>
 
                 <div class="form-control-live-edit-label-wrapper" style="width: 200px">
-                    <label>${mw.lang("Refference image")}</label>
+                    <!-- task-2026-05-05-54cda2 (Audit-#1) — fixed
+                         "Refference image" typo per external audit.
+                         User-facing label is now correctly spelled
+                         "Reference image". CSS class names retain
+                         the legacy spelling to avoid breaking any
+                         existing CSS selectors / theme overrides. -->
+                    <label>${mw.lang("Reference image")}</label>
                     <div class="refference-image-pick-container">
                         <span class="refference-image-pick-preview" style="display: none">
                             <span class="refference-image-pick-preview-remove">

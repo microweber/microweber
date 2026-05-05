@@ -237,7 +237,18 @@
             this.dialogHeader = this.options.root.createElement('div');
             this.dialogHeader.className = 'mw-dialog-header';
             if (this.options.title || this.options.header) {
-                this.dialogHeader.innerHTML = '<div class="modal-title settings-title-inside">' + (this.options.title || this.options.header) + '</div>';
+                // task-2026-05-05-54cda2 (Audit-#2) — give the title
+                // element a stable id and wire it as the dialog's
+                // aria-labelledby target so screen readers announce
+                // "<title>, dialog" when the modal opens.
+                var titleId = this.id + '-title';
+                this.dialogHeader.innerHTML = '<div id="' + titleId + '" class="modal-title settings-title-inside">' + (this.options.title || this.options.header) + '</div>';
+                if (this.dialogMain) {
+                    this.dialogMain.setAttribute('aria-labelledby', titleId);
+                }
+            } else if (this.dialogMain && !this.dialogMain.hasAttribute('aria-label')) {
+                // Headless dialog: fall back to a generic label.
+                this.dialogMain.setAttribute('aria-label', 'Dialog');
             }
         };
 
@@ -275,6 +286,18 @@
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
             this.dialogMain._dialog = this;
+
+            // task-2026-05-05-54cda2 (Audit-#2) — drunk-designer
+            // external audit found .mw-dialog containers had no
+            // dialog role and no a11y label, so screen readers
+            // didn't announce the modal as a dialog. Add ARIA on
+            // the container so SR users hear "<title>, dialog"
+            // when it opens. The title element gets an id from the
+            // header() helper below; aria-labelledby is wired
+            // there. aria-modal=true reflects the focus-trap
+            // behaviour Alpine's `x-trap` already enforces.
+            this.dialogMain.setAttribute('role', 'dialog');
+            this.dialogMain.setAttribute('aria-modal', 'true');
 
             this.dialogHolder = this.options.root.createElement('div');
             this.dialogHolder.id = 'mw-dialog-holder-' + this.id;
