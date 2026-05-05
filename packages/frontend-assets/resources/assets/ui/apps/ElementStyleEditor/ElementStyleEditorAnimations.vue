@@ -14,24 +14,20 @@
 
       <div v-if="showAnimations" class="mb-4">
 
-      <!-- <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/> -->
-
-        <div class="animations-selector">
-            <div class="animation-item-wrapper"  v-for="animation in animations">
-                <div
-
-                    class="animation-item"
-                    @douchstart="demo"
-                    @touchend="demo"
-                    @mouseenter="demo"
-                    @mouseleave="demo"
-                    :data-animation="animation.key"
-                    @click="selectAnimation(animation.key)"
-                    :class="{active: selectedAnimation === animation.key}">
-                    <span class="animation-title">{{ animation.value }}</span>
-                </div>
-            </div>
-        </div>
+        <!--
+          task-2026-05-05-4b1414 — the previous animation-item grid
+          rendered a flat unstyled list of all 80+ animation names
+          (None, Bounce, Flash, Pulse, …) without the preview-image
+          backgrounds, eating the entire panel height and burying
+          the When/Speed controls below. The user reported "fix the
+          animations dropdown" — switch to a single Filament-style
+          dropdown so picking an animation is one click + scroll
+          instead of scrolling a 600px-tall list.
+          The native `animationOptions` getter returns the same
+          `[ {key, value}, … ]` shape as before; DropdownSmall's
+          `:options="animationOptions"` consumes it.
+        -->
+        <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
 
     <div v-if="selectedAnimation">
       <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
