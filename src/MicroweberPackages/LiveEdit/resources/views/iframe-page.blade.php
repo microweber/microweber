@@ -519,9 +519,20 @@
              */
             (function () {
                 function isContentFormModal(el) {
+                    /*
+                     * task-2026-05-05-978bdf — extend the drag
+                     * support to the Module Settings modal too. Same
+                     * Filament .fi-modal-window node, just carrying a
+                     * different class for the live-edit Module
+                     * Settings center-modal flow. The drag pipeline
+                     * is structure-only (header drag handle, viewport
+                     * pin, escape-on-close reset) — both modals
+                     * benefit from it without any per-modal logic.
+                     */
                     return el instanceof HTMLElement
                         && el.classList.contains('fi-modal-window')
-                        && el.classList.contains('mw-content-form-modal');
+                        && (el.classList.contains('mw-content-form-modal')
+                            || el.classList.contains('mw-module-settings-live-edit-modal'));
                 }
 
                 function resetPin(modal) {
@@ -669,15 +680,27 @@
                     if (!root) return;
                     if (isContentFormModal(root)) {
                         attachDraggable(root);
-                        attachOpenInAdminTitleSync(root);
-                        attachCancelGuard(root);
+                        if (root.classList.contains('mw-content-form-modal')) {
+                            attachOpenInAdminTitleSync(root);
+                            attachCancelGuard(root);
+                        }
                         return;
                     }
                     if (root.querySelectorAll) {
-                        root.querySelectorAll('.fi-modal-window.mw-content-form-modal').forEach(function (m) {
+                        root.querySelectorAll('.fi-modal-window.mw-content-form-modal, .fi-modal-window.mw-module-settings-live-edit-modal').forEach(function (m) {
                             attachDraggable(m);
-                            attachOpenInAdminTitleSync(m);
-                            attachCancelGuard(m);
+                            // The title-sync + cancel-guard helpers
+                            // are content-modal specific (they rely
+                            // on the title input and unsaved-work
+                            // probes that only exist in the Add
+                            // Page/Post/Product/Category form). Skip
+                            // them on the Module Settings modal —
+                            // task-2026-05-05-978bdf only needs the
+                            // drag behaviour.
+                            if (m.classList.contains('mw-content-form-modal')) {
+                                attachOpenInAdminTitleSync(m);
+                                attachCancelGuard(m);
+                            }
                         });
                     }
                 }
@@ -1507,15 +1530,19 @@
              * `.ui-draggable-dragging` is the class jQuery UI adds
              * while a drag is in flight. task-2026-05-04-c124bc.
              */
-            .mw-content-form-modal .fi-modal-header {
+            .mw-content-form-modal .fi-modal-header,
+            .mw-module-settings-live-edit-modal .fi-modal-header {
                 cursor: move;
                 user-select: none;
             }
             .mw-content-form-modal.ui-draggable-dragging,
-            .mw-content-form-modal.ui-draggable-dragging .fi-modal-header {
+            .mw-content-form-modal.ui-draggable-dragging .fi-modal-header,
+            .mw-module-settings-live-edit-modal.ui-draggable-dragging,
+            .mw-module-settings-live-edit-modal.ui-draggable-dragging .fi-modal-header {
                 cursor: grabbing;
             }
-            .mw-content-form-modal.ui-draggable-dragging {
+            .mw-content-form-modal.ui-draggable-dragging,
+            .mw-module-settings-live-edit-modal.ui-draggable-dragging {
                 box-shadow: 0 22px 50px -12px rgba(0, 0, 0, 0.45);
             }
 
