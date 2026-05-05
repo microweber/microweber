@@ -240,10 +240,15 @@ class ContentResource extends Resource
                     ->collapsed()
                     ->extraAttributes(['class' => 'mw-fb-more-options'])
                     ->schema([
-                        // Body + Excerpt moved upfront for
-                        // posts/products in task-1e4af3 — only
-                        // Published toggle and Parent picker
-                        // remain in the accordion now.
+                        // Body upfront, Short summary inside the
+                        // accordion (task-2026-05-05-dac8a6) — user
+                        // reported the upfront Body + Short summary
+                        // stack was too tall. Short summary is
+                        // optional and auto-derives from body text
+                        // by default, so it belongs behind the
+                        // disclosure.
+                        static::compactShortSummaryGroup()
+                            ->columnSpanFull(),
                         static::publishedSection()
                             ->columnSpanFull(),
                         static::parentPageSection($firstBlogId, $firstShopId)
@@ -308,6 +313,13 @@ class ContentResource extends Resource
         // tile), so this More-options copy is hidden for pages
         // to avoid duplicating the editor. Posts and products
         // see body here in the accordion. Excerpt is post-only.
+        // task-2026-05-05-dac8a6 — Short summary moved OUT of this
+        // upfront group into the More options accordion via
+        // `compactShortSummaryGroup()`. The user reported the
+        // upfront Body + Short summary stack made the upfront
+        // surface too tall; Short summary is optional and almost
+        // always auto-derived from the first lines of the post,
+        // so it belongs behind a disclosure.
         return Schemas\Components\Group::make([
             // task-2026-05-04-novice — "Content body" reads as
             // database-column jargon to a first-time blogger.
@@ -322,7 +334,18 @@ class ContentResource extends Resource
                 ->visible(function (Schemas\Components\Utilities\Get $get) {
                     return $get('content_type') !== 'page';
                 }),
+        ])->columns(1)->columnSpanFull();
+    }
 
+    /**
+     * Short summary (Excerpt) — placed inside the "More options"
+     * accordion per task-2026-05-05-dac8a6. Post-only — pages
+     * don't have a list-page excerpt slot, products use the body
+     * for product description.
+     */
+    protected static function compactShortSummaryGroup(): Schemas\Components\Group
+    {
+        return Schemas\Components\Group::make([
             // task-2026-05-04-novice — "Excerpt" is publisher-
             // jargon (newspapers, WordPress); a first-time blog
             // author has never heard the word. Renamed to "Short

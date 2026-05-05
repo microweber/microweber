@@ -680,7 +680,13 @@ now populate the todo andm ake  plan do add the bootrach color shcmenes https://
   - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright at /admin/live-edit (no `?url=` so canvas defaults to homepage): clicked +ADD → New Category. Result: the Parent select rendered with `value="page:1"` and selected option text "Page: Home" — auto-populated to the homepage. No JS errors.
   - [x] 2026-05-05  (subtask) Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN. PHP `-l` lint clean on both changed files.
   - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
-- [ ] [task-2026-05-05-dac8a6] in the content creation modals post/pprodt/page etc move the short sumary  in the opther ptions [attachment: .autodev/messages/attachments/task-2026-05-05-dac8a6/paste-1777968109361.png]
+- [x] 2026-05-05  [task-2026-05-05-dac8a6] in the content creation modals post/pprodt/page etc move the short sumary  in the opther ptions [attachment: .autodev/messages/attachments/task-2026-05-05-dac8a6/paste-1777968109361.png]
+  - [x] 2026-05-05  (subtask) Reproduced the user's screenshot in Playwright: Create post modal showed Title → Media → Body (rich editor) → Short summary upfront, all stacked, making the modal scroll vertically. Short summary is optional and is auto-derived from the first lines of the body when blank, so leaving it visible upfront forced everyone (including users who don't care about it) to scroll past a 100-line textarea every time.
+  - [x] 2026-05-05  (subtask) Split `compactBodyAndExcerptGroup()` in `Modules/Content/Filament/Admin/ContentResource.php` into two helpers: `compactBodyAndExcerptGroup()` keeps just the upfront RichEditor body (post + product), and a new `compactShortSummaryGroup()` returns the post-only Short summary textarea. Both Group components, post-visibility-gated.
+  - [x] 2026-05-05  (subtask) Wired `compactShortSummaryGroup()` into the existing `Section::make('More options')` accordion (which already collapses by default), placed above `publishedSection()` and the parent picker so the disclosure reads top-to-bottom as Short summary → Published → Parent.
+  - [x] 2026-05-05  (subtask) Verified end-to-end via Playwright at /admin/live-edit → +ADD → New Post: upfront labels are now Title / Add images / Write your post here only — Short summary moved into the collapsed More options accordion. Confirmed via DOM probe: `.mw-fb-more-options` contains the Short summary label, no instance of it remains outside.
+  - [x] 2026-05-05  (subtask) PHP `-l` clean. Regression: `AdminLiveEditElementStyleEditorTest` 1 test / 10 assertions GREEN.
+  - [x] 2026-05-05  (subtask) CHANGELOG entry + commit
 - [ ] [task-2026-05-05-e75581] in the add product modal  the price fields [attachment: .autodev/messages/attachments/task-2026-05-05-e75581/paste-1777968157873.png]
 ## UITEST — UI testing framework batch (ref: https://agents.tools.ooyes.net/workflows/dev-cycle/02-test-the-project-ui)
 
