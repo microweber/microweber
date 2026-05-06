@@ -264,8 +264,13 @@ export class ElementActions extends MicroweberBaseClass {
             el.setAttribute('data-href', newUrl);
             if (data.openInNewWindow) {
                 el.setAttribute('target', '_blank');
+                // OWASP A04 / OOYES_AUDITS A04: target=_blank without
+                // rel=noopener leaks window.opener and the referrer to
+                // the opened tab (tabnabbing). Force-set both.
+                el.setAttribute('rel', 'noopener noreferrer');
             } else {
                 el.removeAttribute('target');
+                el.removeAttribute('rel');
             }
             this.proto.refreshElementHandle(el);
 

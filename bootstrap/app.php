@@ -24,7 +24,10 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
     }
   )
 ->withMiddleware(function (Middleware $middleware) {
-    //
+    // Defensive security headers on every response (CSP frame-ancestors,
+    // X-Frame-Options, X-Content-Type-Options, Referrer-Policy). Closes
+    // the OWASP A04 gaps flagged in OOYES_AUDITS/01_SECURITY_AUDITOR.md.
+    $middleware->append(\MicroweberPackages\App\Http\Middleware\SecurityHeaders::class);
 })
 ->withExceptions(function (Exceptions $exceptions) {
     //
@@ -42,6 +45,20 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
         return \Illuminate\Cache\RateLimiting\Limit::perMinute(100)->by(
             'public::' . $request->ip()
         );
+    });
+
+    // Brute-force defence for login routes (OWASP A07 / OOYES_AUDITS A07).
+    // Five attempts per minute keyed by IP + (email|username) so a single
+    // attacker IP cannot enumerate one account, and so a shared corporate
+    // NAT cannot lock all its users out by hitting the same email key.
+    // Apply with `->middleware('throttle:login')` on the POST login route.
+    \Illuminate\Support\Facades\RateLimiter::for('login', function (Request $request) {
+        $key = mb_strtolower((string) ($request->input('email')
+            ?? $request->input('username')
+            ?? ''));
+
+        return \Illuminate\Cache\RateLimiting\Limit::perMinute(5)
+            ->by('login::' . $request->ip() . '::' . $key);
     });
 
     // Per-Passport-token rate limiter. Applied alongside `throttle:api` on
