@@ -19,7 +19,28 @@ namespace MicroweberPackages\Utils\Http;
  * the Media picker, Marketplace updater, etc.):
  *
  *     UrlFetchGuard::assertSafe($userSuppliedUrl);
- *     $body = Http::timeout(10)->get($userSuppliedUrl)->body();
+ *     $body = Http::timeout(10)->get($userSuppliedUrl)
+ *         ->withoutRedirecting()  // see "Redirect contract" below
+ *         ->body();
+ *
+ * Correct usage — 5-line minimal snippet (per agent-test review reply):
+ * ---------------------------------------------------------------------
+ *     $url = $userSupplied;
+ *     for ($hop = 0; $hop < 5; $hop++) {
+ *         UrlFetchGuard::assertSafe($url);
+ *         $r = Http::withoutRedirecting()->timeout(10)->get($url);
+ *         if (! $r->redirect()) { return $r->body(); }
+ *         $url = $r->header('Location');                  // re-validate next hop
+ *     }
+ *
+ * Redirect contract — IMPORTANT
+ * -----------------------------
+ * `assertSafe()` validates ONE URL. A `301`/`302`/`307`/`308` response can
+ * point at a metadata IP even after the first hop validated as public; this
+ * is the classic SSRF bypass. Callers MUST disable HTTP-client auto-redirect
+ * (`->withoutRedirecting()` for Laravel `Http`, `CURLOPT_FOLLOWLOCATION = 0`
+ * for raw curl) and re-call `assertSafe()` for every Location header before
+ * fetching the next hop. Cap the redirect count (5 above) to prevent loops.
  */
 class UrlFetchGuard
 {
@@ -41,6 +62,12 @@ class UrlFetchGuard
 
         $host = $parts['host'];
 
+        // IPv6 literal in a URL is wrapped in brackets — strip them so
+        // filter_var() and the IPv4-mapped check below can read it.
+        if (str_starts_with($host, '[') && str_ends_with($host, ']')) {
+            $host = substr($host, 1, -1);
+        }
+
         // Resolve the host to every A/AAAA record and check each. A single
         // attacker-controlled DNS that returns 169.254.169.254 must not
         // pass even if the literal string is "evil.example.com".
@@ -50,12 +77,42 @@ class UrlFetchGuard
         }
 
         foreach ($ips as $ip) {
-            if (! self::isPublicIp($ip)) {
+            if (! self::isPublicIp(self::normalizeIp($ip))) {
                 throw new \InvalidArgumentException(
                     'URL resolves to a non-public IP range.'
                 );
             }
         }
+    }
+
+    /**
+     * Collapse IPv4-mapped IPv6 (e.g. ::ffff:169.254.169.254) down to its
+     * IPv4 form so the public-IP filter cannot be bypassed by wrapping the
+     * AWS metadata address in IPv6 syntax.
+     */
+    private static function normalizeIp(string $ip): string
+    {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+            return $ip;
+        }
+
+        $packed = @inet_pton($ip);
+        if ($packed === false) {
+            return $ip;
+        }
+
+        // ::ffff:0:0/96 = IPv4-mapped IPv6 prefix (12 leading bytes:
+        // 10 zero bytes + 0xff 0xff). Last 4 bytes are the embedded v4.
+        if (strlen($packed) === 16
+            && substr($packed, 0, 10) === str_repeat("\0", 10)
+            && substr($packed, 10, 2) === "\xff\xff") {
+            $v4 = @inet_ntop(substr($packed, 12, 4));
+            if ($v4 !== false) {
+                return $v4;
+            }
+        }
+
+        return $ip;
     }
 
     /**

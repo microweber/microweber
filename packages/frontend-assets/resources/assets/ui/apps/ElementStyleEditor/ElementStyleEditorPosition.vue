@@ -166,21 +166,31 @@ export default {
             if (result) {
                 //remove px
                 result = result.replace('px', '');
-                this.topValue = result;
+                this.topValue = this.coerceFinite(result);
             }
 
             result = css.get.left();
             if (result) {
                 //remove px
                 result = result.replace('px', '');
-                this.leftValue = result;
+                this.leftValue = this.coerceFinite(result);
             }
 
             result = css.get.zIndex();
             if (result) {
                 //remove px
-                this.zIndexValue = result;
+                this.zIndexValue = this.coerceFinite(result);
             }
+        },
+        // TICKET-B (audit-test reply 2026-05-06): coerce non-finite values
+        // (e.g. css.get.zIndex() returning "auto", or .top() returning ""
+        // after a strip) to null before binding into a v-model.number input.
+        // Without this, the input renders the literal string "NaN" — the
+        // exact bug agent-test asked us to stop slipping.
+        coerceFinite(val) {
+            if (val === null || val === undefined || val === '') return null;
+            const n = Number(val);
+            return Number.isFinite(n) ? n : null;
         }
     },
     watch: {

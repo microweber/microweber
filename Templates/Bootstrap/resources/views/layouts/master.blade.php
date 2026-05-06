@@ -30,12 +30,23 @@
 </head>
 
 <body class="{!! helper_body_classes() !!}">
+{{-- TICKET-D (audit-test reply 2026-05-06): WCAG 2.4.1 Bypass Blocks.
+     First focusable element on every public Bootstrap page; jumps past
+     the global header/menu straight to <main>. Hidden until focused.
+     #main-content carries tabindex="-1" so the focus jump works in
+     every browser. Bootstrap 5's `visually-hidden-focusable` utility
+     handles the hide-until-focus visual. --}}
+<a href="#main-content"
+   class="visually-hidden-focusable position-absolute start-0 top-0 m-2 p-2 bg-primary text-white rounded shadow"
+   style="z-index:2147483647;">{{ _e('Skip to main content', true) }}</a>
 <div class="main">
     <div class="navigation-holder">
         <module type="layouts" template="menus/skin-1" template-filter="menus" id="header-layout"/>
     </div>
 
-    @yield('content')
+    <main id="main-content" tabindex="-1">
+        @yield('content')
+    </main>
 
     <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
 

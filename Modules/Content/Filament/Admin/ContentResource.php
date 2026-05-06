@@ -412,6 +412,15 @@ class ContentResource extends Resource
                     ->markAsRequired()
                     ->autofocus()
                     ->placeholder('e.g. My first post')
+                    // TICKET-C (audit-test reply 2026-05-06): server-side
+                    // ->rules(['required']) + ->markAsRequired() applies
+                    // the visual asterisk but does NOT emit aria-required
+                    // (because we deliberately skipped ->required() so
+                    // browser native validation doesn't anchor to the
+                    // wrong field — see the long comment above). Add
+                    // aria-required="true" explicitly so screen readers
+                    // hear the requirement before submit.
+                    ->extraInputAttributes(['aria-required' => 'true'])
                     ->hintAction(
                         TranslateFieldAction::make('title')->label('')
                     )->columnSpanFull(),

@@ -275,19 +275,29 @@ export default {
 
         populateCssPadding: function (css) {
             var padding = css.get.padding(undefined, true);
-            this.paddingTop = parseFloat(padding.top);
-            this.paddingRight = parseFloat(padding.right);
-            this.paddingBottom = parseFloat(padding.bottom);
-            this.paddingLeft = parseFloat(padding.left);
+            this.paddingTop = this.coerceFinite(padding.top);
+            this.paddingRight = this.coerceFinite(padding.right);
+            this.paddingBottom = this.coerceFinite(padding.bottom);
+            this.paddingLeft = this.coerceFinite(padding.left);
         },
 
         populateCssMargin: function (css) {
             if (!css || !css.get) return;
             var margin = css.get.margin(undefined, true);
-            this.marginTop = parseFloat(margin.top);
-            this.marginRight = parseFloat(margin.right);
-            this.marginBottom = parseFloat(margin.bottom);
-            this.marginLeft = parseFloat(margin.left);
+            this.marginTop = this.coerceFinite(margin.top);
+            this.marginRight = this.coerceFinite(margin.right);
+            this.marginBottom = this.coerceFinite(margin.bottom);
+            this.marginLeft = this.coerceFinite(margin.left);
+        },
+
+        // TICKET-B (audit-test reply 2026-05-06): css.get.margin/padding can
+        // return "auto" or other non-numeric strings; parseFloat("auto") is
+        // NaN, which v-model would render literally in the spacing inputs.
+        // Coerce to null so the input shows empty instead of "NaN".
+        coerceFinite: function (val) {
+            if (val === null || val === undefined || val === '') return null;
+            const n = parseFloat(val);
+            return Number.isFinite(n) ? n : null;
         },
 
 
