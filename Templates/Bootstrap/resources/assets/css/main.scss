@@ -488,4 +488,34 @@ a {
     }
 }
 
+/*
+ * Mobile-touch refinements for the public Bootstrap theme.
+ *
+ * Closes mobile-audit Issue 04 (P1-P2): WCAG 2.5.5 / iOS HIG 44x44
+ * minimum tap-target size on phones. agent-test pass 2026-05-06
+ * found 121/232 home, 92/157 shop tap targets below 44x44 on a 390px
+ * viewport. Pure-CSS sweep — no template/component refactor.
+ *
+ * Targets the highest-volume offenders called out in the audit
+ * ("Read More" 74x23, nav-link, pagination, btn-link). Uses
+ * min-height + flex centering so existing inline-text alignment
+ * is preserved.
+ *
+ * Scoped @media (max-width: 767.98px) so desktop link density is
+ * unchanged.
+ */
+@media (max-width: 767.98px) {
+    .post-link,
+    .read-more,
+    a.btn-link,
+    nav .nav-link,
+    .pagination .page-link,
+    .pagination a {
+        min-height: 44px;
+        padding-block: 0.6rem;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
 @import "rtl-changes.scss";

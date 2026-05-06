@@ -50,6 +50,15 @@ class ZiggyInlineJsRouteGenerator extends BladeRouteGenerator
 HTML;
     }
 
+    /**
+     * Emit `Object.assign(Ziggy.routes, ...)` for additional routes after the
+     * first emission. CONTRACT: this depends on `Ziggy` being a stable, shared
+     * reference across SPA-replaced fragments. The first-emission path above
+     * promotes it to `window.Ziggy` precisely so this merge target survives
+     * Filament/Livewire navigation. Do not reintroduce a top-level `const Ziggy`
+     * in the first-emission path without preserving the window-level promotion
+     * — TICKET-G regression risk (audit-test review 2026-05-06T15:06).
+     */
     private function generateMergeJavascript($json, $nonce)
     {
         return <<<HTML

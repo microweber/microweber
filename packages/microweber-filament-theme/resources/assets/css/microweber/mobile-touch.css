@@ -1,0 +1,60 @@
+/*
+ * Mobile-touch refinements for the Filament admin shell.
+ *
+ * Closes:
+ *   - Mobile Issue 02 (P1): every Filament admin input <16px font-size
+ *     triggers iOS Safari auto-zoom on focus. Bumping to 16px on touch
+ *     devices stops the zoom; desktop density (≥1024px) unchanged.
+ *   - Mobile Issue 04 (P1-P2): Filament topbar / sidebar icon-buttons
+ *     are below the WCAG 2.5.5 / iOS HIG 44×44 minimum on touch.
+ *
+ * Source: agent-test mobile-audit pass 2026-05-06T15:03 — see
+ * .autodev/messages/attachments/email_mou6ub*. Recommended by agent-test
+ * as "Option A" (touch-only) so desktop layout is preserved for
+ * power-users on ≥1024px viewports.
+ *
+ * The match-list `(max-width: 1023.98px), (hover: none) and (pointer: coarse)`
+ * covers (a) phones / small tablets in landscape and (b) any pointer-coarse
+ * device regardless of viewport (foldables, larger tablets in landscape,
+ * touch-screen laptops). Both heuristics are needed because either one in
+ * isolation misses a real device class.
+ */
+
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Issue 02 — input font-size 16px stops iOS auto-zoom on focus.
+       Targets every Filament-rendered text input, textarea, and select.
+       Filament's `.fi-input` class wraps inputs; `.fi-input-wrp input`
+       covers Filament's input-with-prefix/suffix wrapper variant. */
+    .fi input[type="text"],
+    .fi input[type="email"],
+    .fi input[type="password"],
+    .fi input[type="search"],
+    .fi input[type="tel"],
+    .fi input[type="url"],
+    .fi input[type="number"],
+    .fi input[type="date"],
+    .fi input[type="time"],
+    .fi input[type="datetime-local"],
+    .fi input:not([type]),
+    .fi textarea,
+    .fi select,
+    .fi-input-wrp input,
+    .fi-input-wrp textarea,
+    .fi-input-wrp select,
+    .fi-input,
+    .fi-fo-text-input input,
+    .fi-fo-textarea textarea,
+    .fi-fo-select select {
+        font-size: 16px;
+    }
+
+    /* Issue 04 — topbar / sidebar icon buttons up to 44×44.
+       `.fi-icon-btn` is Filament's stable utility for icon-only buttons
+       (notifications popover trigger, dark-mode toggle, sidebar collapse,
+       resource-table per-row icon actions). Padding stays auto so the
+       icon glyph itself is unchanged; the hit-area expands around it. */
+    .fi-icon-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
