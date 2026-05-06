@@ -24,11 +24,28 @@ class ZiggyInlineJsRouteGenerator extends BladeRouteGenerator
 
         static::$generated = true;
 
+        // TICKET-G (audit-test validation pass 2026-05-06): on Filament/
+        // Livewire SPA navigation, every navigation triggers a fresh PHP
+        // request — `static::$generated` resets to false in the new
+        // request, so the second page re-emits the full block. The
+        // browser still has the first `const Ziggy = ...` from the
+        // previous page in the same JS realm, and the second `const`
+        // throws "Identifier 'Ziggy' has already been declared",
+        // polluting the console for every admin author.
+        //
+        // Fix: guard the entire first-time emission so the second
+        // request becomes a harmless no-op at the browser. Promote the
+        // declaration to `window.Ziggy` so subsequent merge-emissions
+        // (which use Object.assign(Ziggy.routes, ...)) keep working.
+        $payloadJson = $payload->toJson();
         return <<<HTML
 
-    const Ziggy = {$payload->toJson()};
+    if (typeof window.Ziggy === 'undefined') {
+        window.Ziggy = {$payloadJson};
+        const Ziggy = window.Ziggy;
 
-    $routeFunction
+        $routeFunction
+    }
 
 HTML;
     }
