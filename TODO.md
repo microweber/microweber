@@ -876,7 +876,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-page.md
 **Identity:** `Facebook Page` (Facebook Page plugin).
 **Category:** Social.
 
-- [ ] [task-2026-05-06-13a4d3] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pages.md  — Pages (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-13a4d3] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pages.md  — Pages (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -898,7 +898,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/pages.md
 **Identity:** `Pages` (list of site pages).
 **Category:** Listing.
 
-- [ ] [task-2026-05-06-e06145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pictures.md  — Pictures (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-e06145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pictures.md  — Pictures (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -921,7 +921,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/pictures.md
 **Category:** Media.
 **See also:** `DESIGN_REPORT_IMAGE_UPLOAD_MODAL.md`.
 
-- [ ] [task-2026-05-06-7b7fc3] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/category.md  — Category (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-7b7fc3] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/category.md  — Category (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -943,7 +943,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/category.md
 **Identity:** `Category` (categories listing).
 **Category:** Listing.
 
-- [ ] [task-2026-05-06-103b71] [Audit Review Request] MOBILE_AUDIT/05_LIVE_EDIT.md — 05 Live Edit (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-103b71] [Audit Review Request] MOBILE_AUDIT/05_LIVE_EDIT.md — 05 Live Edit (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -964,7 +964,7 @@ Audit file: MOBILE_AUDIT/05_LIVE_EDIT.md
 
 **Reference:** `mobile-live-edit.png`, `mobile-live-edit-selected.png`.
 
-- [ ] [task-2026-05-06-047ba7] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tweetembed.md — Tweetembed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-047ba7] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tweetembed.md — Tweetembed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -986,7 +986,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/tweetembed.md
 **Identity:** `TweetEmbed` (single tweet embed).
 **Category:** Social.
 
-- [ ] [task-2026-05-06-4a0994] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tabs.md  — Tabs (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-4a0994] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tabs.md  — Tabs (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1008,7 +1008,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/tabs.md
 **Identity:** `Tabs` (tabbed content panels).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-587b27] [Audit Review Request] OOYES_AUDITS/01_SECURITY_AUDITOR.md  — 01 Security Auditor (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-587b27] [Audit Review Request] OOYES_AUDITS/01_SECURITY_AUDITOR.md  — 01 Security Auditor (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1037,7 +1037,7 @@ Audit file: OOYES_AUDITS/01_SECURITY_AUDITOR.md
 
 ---
 
-- [ ] [task-2026-05-06-5bc073] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/menu.md  — Menu (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-5bc073] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/menu.md  — Menu (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1059,7 +1059,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/menu.md
 **Identity:** `Menu` (`data-type="menu"`).
 **Category:** Navigation.
 
-- [ ] [task-2026-05-06-804e63] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/embed.md  — Embed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-804e63] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/embed.md  — Embed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1081,7 +1081,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/embed.md
 **Identity:** `Embed` (generic HTML/iframe embed).
 **Category:** Embed.
 
-- [ ] [task-2026-05-06-474ebd] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/slider.md  — Slider (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-474ebd] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/slider.md  — Slider (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1103,7 +1103,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/slider.md
 **Identity:** `Slider` (image carousel / hero slider).
 **Category:** Media.
 
-- [ ] [task-2026-05-06-2ac393] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/skills.md  — Skills (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-2ac393] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/skills.md  — Skills (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1125,7 +1125,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/skills.md
 **Identity:** `Skills` (animated skill bars / progress meters).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-3bd60a] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/blog.md  — Blog (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-3bd60a] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/blog.md  — Blog (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1147,7 +1147,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/blog.md
 **Identity:** `Blog` (blog listing / archive).
 **Category:** Listing.
 
-- [ ] [task-2026-05-06-af602a] [Audit Review Request] MOBILE_AUDIT/03_ADMIN_LISTS.md — 03 Admin Lists (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-af602a] [Audit Review Request] MOBILE_AUDIT/03_ADMIN_LISTS.md — 03 Admin Lists (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1168,7 +1168,7 @@ Audit file: MOBILE_AUDIT/03_ADMIN_LISTS.md
 
 **Reference:** `mobile-admin-posts.png`.
 
-- [ ] [task-2026-05-06-5ef7b5] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/social-links.md — Social-Links (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-5ef7b5] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/social-links.md — Social-Links (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1190,7 +1190,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/social-links.md
 **Identity:** `Social Links` (`data-type="social_links"`).
 **Category:** Social.
 
-- [ ] [task-2026-05-06-49f543] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/breadcrumb.md — Breadcrumb (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-49f543] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/breadcrumb.md — Breadcrumb (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1212,7 +1212,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/breadcrumb.md
 **Identity:** `Breadcrumb` (Home › Section › Page trail).
 **Category:** Navigation.
 
-- [ ] [task-2026-05-06-4a7235] [Audit Review Request] OOYES_AUDITS/05_PERFORMANCE_ENGINEER.md  — 05 Performance Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-4a7235] [Audit Review Request] OOYES_AUDITS/05_PERFORMANCE_ENGINEER.md  — 05 Performance Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1239,7 +1239,7 @@ Audit file: OOYES_AUDITS/05_PERFORMANCE_ENGINEER.md
 
 ---
 
-- [ ] [task-2026-05-06-2ea642] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-like.md — Facebook-Like (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-2ea642] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-like.md — Facebook-Like (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1261,7 +1261,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-like.md
 **Identity:** `Facebook Like` (Facebook Like button widget).
 **Category:** Social.
 
-- [ ] [task-2026-05-06-4e25d8] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/title.md  — Title (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-4e25d8] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/title.md  — Title (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1283,7 +1283,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/title.md
 **Identity:** `Title` (no `data-type` registered; rendered as inline `<h1>`/`<h2>`).
 **Category:** Text.
 
-- [ ] [task-2026-05-06-659360] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/button.md  — Button (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-659360] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/button.md  — Button (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1305,7 +1305,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/button.md
 **Identity:** `Button` (`data-type="btn"`).
 **Category:** Action.
 
-- [ ] [task-2026-05-06-9b0f4d] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/spacer.md  — Spacer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-9b0f4d] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/spacer.md  — Spacer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1327,7 +1327,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/spacer.md
 **Identity:** `Spacer` (`data-type="spacer"`).
 **Category:** Layout.
 
-- [ ] [task-2026-05-06-f32acd] [Audit Review Request] OOYES_AUDITS/03_NOVICE_CUSTOMER.md  — 03 Novice Customer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-f32acd] [Audit Review Request] OOYES_AUDITS/03_NOVICE_CUSTOMER.md  — 03 Novice Customer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1352,7 +1352,7 @@ Audit file: OOYES_AUDITS/03_NOVICE_CUSTOMER.md
 
 ---
 
-- [ ] [task-2026-05-06-ea5546] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/icon.md  — Icon (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-ea5546] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/icon.md  — Icon (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1374,7 +1374,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/icon.md
 **Identity:** `Icon` (single icon glyph).
 **Category:** Visual.
 
-- [ ] [task-2026-05-06-8a5228] [Audit Review Request] MOBILE_AUDIT/01_PUBLIC_SITE.md — 01 Public Site (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-8a5228] [Audit Review Request] MOBILE_AUDIT/01_PUBLIC_SITE.md — 01 Public Site (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1396,7 +1396,7 @@ Audit file: MOBILE_AUDIT/01_PUBLIC_SITE.md
 **Tested at:** `390 × 844` (iPhone 13 / Pixel 7 viewport).
 **Reference:** `mobile-public-home.png`, `mobile-public-home-full.png`.
 
-- [ ] [task-2026-05-06-bccc02] [Audit Review Request] MOBILE_AUDIT/06_BACKLOG.md — 06 Backlog (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-bccc02] [Audit Review Request] MOBILE_AUDIT/06_BACKLOG.md — 06 Backlog (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1417,7 +1417,7 @@ Audit file: MOBILE_AUDIT/06_BACKLOG.md
 
 Ordered by severity then ROI. Mobile-specific issues only — items already in `ADMIN_EVALUATION/16_BACKLOG.md` and the per-area design reports are not duplicated unless mobile compounds them.
 
-- [ ] [task-2026-05-06-bcf462] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/sharer.md  — Sharer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-bcf462] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/sharer.md  — Sharer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1439,7 +1439,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/sharer.md
 **Identity:** `Sharer` (social sharing button row).
 **Category:** Social.
 
-- [ ] [task-2026-05-06-5192cd] [Audit Review Request] OOYES_AUDITS/04_GRUG_BRAINED.md — 04 Grug Brained (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-5192cd] [Audit Review Request] OOYES_AUDITS/04_GRUG_BRAINED.md — 04 Grug Brained (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1464,7 +1464,7 @@ Audit file: OOYES_AUDITS/04_GRUG_BRAINED.md
 
 ---
 
-- [ ] [task-2026-05-06-712545] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/faq.md  — Faq (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-712545] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/faq.md  — Faq (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1486,7 +1486,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/faq.md
 **Identity:** `Faq` (frequently-asked-questions block).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-f37cbf] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/products.md  — Products (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-f37cbf] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/products.md  — Products (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1509,7 +1509,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/products.md
 **Category:** Ecommerce.
 **See also:** `DESIGN_REPORT_PRODUCT_LIST_MODULE.md` — full audit (4 surfaces, 15 backlog items).
 
-- [ ] [task-2026-05-06-4b73b9] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/inline-table.md — Inline-Table (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-4b73b9] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/inline-table.md — Inline-Table (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1531,7 +1531,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/inline-table.md
 **Identity:** `Inline Table` (HTML `<table>` editor).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-a8d7ea] [Audit Review Request] OOYES_AUDITS/02_ACCESSIBILITY_ENGINEER.md  — 02 Accessibility Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-a8d7ea] [Audit Review Request] OOYES_AUDITS/02_ACCESSIBILITY_ENGINEER.md  — 02 Accessibility Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1560,7 +1560,7 @@ Audit file: OOYES_AUDITS/02_ACCESSIBILITY_ENGINEER.md
 
 ---
 
-- [ ] [task-2026-05-06-1cc85b] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/newsletter.md — Newsletter (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-1cc85b] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/newsletter.md — Newsletter (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1582,7 +1582,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/newsletter.md
 **Identity:** `Newsletter` (email signup form).
 **Category:** Form.
 
-- [ ] [task-2026-05-06-878d19] [Audit Review Request] MOBILE_AUDIT/00_OVERVIEW.md — 00 Overview (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-878d19] [Audit Review Request] MOBILE_AUDIT/00_OVERVIEW.md — 00 Overview (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1611,7 +1611,7 @@ Audit file: MOBILE_AUDIT/00_OVERVIEW.md
 
 ---
 
-- [ ] [task-2026-05-06-eabec6] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/highlightcode.md — Highlightcode (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-eabec6] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/highlightcode.md — Highlightcode (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1633,7 +1633,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/highlightcode.md
 **Identity:** `HighlightCode` (syntax-highlighted code block — CamelCase brand naming).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-3edfc0] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/google-maps.md — Google-Maps (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-3edfc0] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/google-maps.md — Google-Maps (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1655,7 +1655,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/google-maps.md
 **Identity:** `Google Maps` (embedded map).
 **Category:** Embed.
 
-- [ ] [task-2026-05-06-d29a09] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/video.md  — Video (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-d29a09] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/video.md  — Video (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1677,7 +1677,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/video.md
 **Identity:** `Video` (HTML5 video / YouTube / Vimeo embed).
 **Category:** Media.
 
-- [ ] [task-2026-05-06-094145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/layout-content.md — Layout-Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-094145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/layout-content.md — Layout-Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1699,7 +1699,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/layout-content.md
 **Identity:** `Layout Content` (`data-type="layouts"`-family wrapper).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-0d81dd] [Audit Review Request] MOBILE_AUDIT/04_ADMIN_FORMS.md — 04 Admin Forms (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-0d81dd] [Audit Review Request] MOBILE_AUDIT/04_ADMIN_FORMS.md — 04 Admin Forms (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1720,7 +1720,7 @@ Audit file: MOBILE_AUDIT/04_ADMIN_FORMS.md
 
 **Reference:** `mobile-create-post.png`, `mobile-settings.png`.
 
-- [ ] [task-2026-05-06-b33b93] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/content.md  — Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-b33b93] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/content.md  — Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1742,7 +1742,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/content.md
 **Identity:** `Content` (rich-text block — likely overlaps with `Text`).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-1beb80] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pdf.md  — Pdf (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-1beb80] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/pdf.md  — Pdf (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1764,7 +1764,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/pdf.md
 **Identity:** `PDF` (PDF embed/preview).
 **Category:** Embed.
 
-- [ ] [task-2026-05-06-18a347] [Audit Review Request] OOYES_AUDITS/06_UX_ENGINEER.md — 06 Ux Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-18a347] [Audit Review Request] OOYES_AUDITS/06_UX_ENGINEER.md — 06 Ux Engineer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1791,7 +1791,7 @@ Audit file: OOYES_AUDITS/06_UX_ENGINEER.md
 
 ---
 
-- [ ] [task-2026-05-06-6a2971] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/shop.md  — Shop (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-6a2971] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/shop.md  — Shop (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1814,7 +1814,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/shop.md
 **Category:** Ecommerce.
 **See also:** `DESIGN_REPORT_PRODUCT_LIST_MODULE.md`.
 
-- [ ] [task-2026-05-06-3d5144] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/posts.md  — Posts (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-3d5144] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/posts.md  — Posts (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1837,7 +1837,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/posts.md
 **Category:** Listing.
 **See also:** `DESIGN_REPORT_LIVE_EDIT_ADD_POST_AND_POSTS_MODULE.md` for the full audit.
 
-- [ ] [task-2026-05-06-5d985f] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/multilanguage.md — Multilanguage (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-5d985f] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/multilanguage.md — Multilanguage (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1859,7 +1859,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/multilanguage.md
 **Identity:** `Multilanguage` (language picker).
 **Category:** Site.
 
-- [ ] [task-2026-05-06-19b358] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/comments.md  — Comments (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-19b358] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/comments.md  — Comments (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1881,7 +1881,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/comments.md
 **Identity:** `Comments` (post/product comments thread).
 **Category:** Engagement.
 
-- [ ] [task-2026-05-06-54e41c] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tags.md  — Tags (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-54e41c] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/tags.md  — Tags (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1903,7 +1903,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/tags.md
 **Identity:** `Tags` (tag cloud / list).
 **Category:** Listing.
 
-- [ ] [task-2026-05-06-c31f35] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/text.md  — Text (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-c31f35] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/text.md  — Text (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1925,7 +1925,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/text.md
 **Identity:** `Text` (rendered as a contenteditable `<p>` block).
 **Category:** Text.
 
-- [ ] [task-2026-05-06-9edac4] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/empty.md  — Empty (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-9edac4] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/empty.md  — Empty (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1947,7 +1947,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/empty.md
 **Identity:** `Empty` (empty container).
 **Category:** Layout (developer-leak).
 
-- [ ] [task-2026-05-06-55fc6a] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/logo.md  — Logo (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-55fc6a] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/logo.md  — Logo (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1969,7 +1969,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/logo.md
 **Identity:** `Logo` (`data-type="logo"` — also auto-mounted in headers).
 **Category:** Branding.
 
-- [ ] [task-2026-05-06-11ad2e] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/rating.md  — Rating (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-11ad2e] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/rating.md  — Rating (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -1991,7 +1991,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/rating.md
 **Identity:** `Rating` (star-rating widget).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-52186c] [Audit Review Request] OOYES_AUDITS/00_INDEX.md — 00 Index (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-52186c] [Audit Review Request] OOYES_AUDITS/00_INDEX.md — 00 Index (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2016,7 +2016,7 @@ Audit file: OOYES_AUDITS/00_INDEX.md
 **Source of personas:** `https://agents.tools.ooyes.net/agents/`
 **Subject under audit:** Microweber (local install at `http://127.0.0.1:8000`).
 
-- [ ] [task-2026-05-06-dad6be] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/marquee.md  — Marquee (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-dad6be] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/marquee.md  — Marquee (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2038,7 +2038,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/marquee.md
 **Identity:** `Marquee` (horizontally scrolling text/logos).
 **Category:** Visual.
 
-- [ ] [task-2026-05-06-ab4bac] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/search.md  — Search (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-ab4bac] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/search.md  — Search (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2060,7 +2060,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/search.md
 **Identity:** `Search` (site search input).
 **Category:** Utility.
 
-- [ ] [task-2026-05-06-afc14c] [Audit Review Request] MOBILE_AUDIT/02_ADMIN_DASHBOARD.md  — 02 Admin Dashboard (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-afc14c] [Audit Review Request] MOBILE_AUDIT/02_ADMIN_DASHBOARD.md  — 02 Admin Dashboard (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2081,7 +2081,7 @@ Audit file: MOBILE_AUDIT/02_ADMIN_DASHBOARD.md
 
 **Reference:** `mobile-admin-dashboard.png`.
 
-- [ ] [task-2026-05-06-2ad571] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/image-rollover.md — Image-Rollover (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-2ad571] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/image-rollover.md — Image-Rollover (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2103,7 +2103,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/image-rollover.md
 **Identity:** `Image Rollover` (hover-swap image).
 **Category:** Media.
 
-- [ ] [task-2026-05-06-ec9d24] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/picture.md  — Picture (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-ec9d24] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/picture.md  — Picture (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2126,7 +2126,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/picture.md
 **Category:** Media.
 **See also:** `DESIGN_REPORT_IMAGE_UPLOAD_MODAL.md` for the full audit of the image-picker modal this module triggers.
 
-- [ ] [task-2026-05-06-b4f49f] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/contact-form.md — Contact-Form (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-b4f49f] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/contact-form.md — Contact-Form (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2148,7 +2148,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/contact-form.md
 **Identity:** `Contact Form` (Name + Email + Message form).
 **Category:** Form.
 
-- [ ] [task-2026-05-06-061145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/team-card.md  — Team-Card (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-061145] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/team-card.md  — Team-Card (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2170,7 +2170,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/team-card.md
 **Identity:** `Team Card` (people grid).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-c60a22] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/testimonials.md — Testimonials (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-c60a22] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/testimonials.md — Testimonials (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2192,7 +2192,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/testimonials.md
 **Identity:** `Testimonials` (customer-quote block).
 **Category:** Content.
 
-- [ ] [task-2026-05-06-8280bc] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/texttype.md  — Texttype (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-8280bc] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/texttype.md  — Texttype (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2214,7 +2214,7 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/texttype.md
 **Identity:** `TextType` (typewriter / typed.js animated text).
 **Category:** Visual.
 
-- [ ] [task-2026-05-06-9fbd23] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/multiple-columns.md — Multiple-Columns (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+- [x] 2026-05-06  [task-2026-05-06-9fbd23] [Audit Review Request] DESIGN_REPORTS_LIVE_EDIT_MODULES/multiple-columns.md — Multiple-Columns (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
 
 Please review the attached audit report carefully.
 
@@ -2236,6 +2236,5608 @@ Audit file: DESIGN_REPORTS_LIVE_EDIT_MODULES/multiple-columns.md
 **Identity:** `Multiple Columns` (column container; `data-type="layouts"` family).
 **Category:** Layout.
 
+- [x] 2026-05-06  [task-2026-05-06-f89b82] [Mobile Audit — Module] accordion — Accordion (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/accordion.md
+Module: accordion
+---
+
+# Mobile Audit — Accordion Module
+
+**Module slug:** `accordion`
+**Category for mobile concerns:** `disclosure`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/accordion.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-7b2121] [Mobile Audit — Module] add-to-cart — Add To Cart (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/add-to-cart.md
+Module: add-to-cart
+---
+
+# Mobile Audit — Add To Cart Module
+
+**Module slug:** `add-to-cart`
+**Category for mobile concerns:** `cta`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/add-to-cart.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-e785f1] [Mobile Audit — Module] audio — Audio (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/audio.md
+Module: audio
+---
+
+# Mobile Audit — Audio Module
+
+**Module slug:** `audio`
+**Category for mobile concerns:** `media-av`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/audio.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-3886ce] [Mobile Audit — Module] background — Background (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/background.md
+Module: background
+---
+
+# Mobile Audit — Background Module
+
+**Module slug:** `background`
+**Category for mobile concerns:** `layout`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/background.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-a512eb] [Mobile Audit — Module] beforeafter — Beforeafter (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/beforeafter.md
+Module: beforeafter
+---
+
+# Mobile Audit — Beforeafter Module
+
+**Module slug:** `beforeafter`
+**Category for mobile concerns:** `gesture-image`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/beforeafter.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-ef1c6b] [Mobile Audit — Module] blog — Blog (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/blog.md
+Module: blog
+---
+
+# Mobile Audit — Blog Module
+
+**Module slug:** `blog`
+**Category for mobile concerns:** `card-list`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/blog.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-674f66] [Mobile Audit — Module] breadcrumb — Breadcrumb (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/breadcrumb.md
+Module: breadcrumb
+---
+
+# Mobile Audit — Breadcrumb Module
+
+**Module slug:** `breadcrumb`
+**Category for mobile concerns:** `breadcrumb`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/breadcrumb.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-9ba638] [Mobile Audit — Module] button — Button (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/button.md
+Module: button
+---
+
+# Mobile Audit — Button Module
+
+**Module slug:** `button`
+**Category for mobile concerns:** `cta`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/button.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-3ae261] [Mobile Audit — Module] category — Category (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/category.md
+Module: category
+---
+
+# Mobile Audit — Category Module
+
+**Module slug:** `category`
+**Category for mobile concerns:** `chip-row`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/category.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-494cf5] [Mobile Audit — Module] comments — Comments (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/comments.md
+Module: comments
+---
+
+# Mobile Audit — Comments Module
+
+**Module slug:** `comments`
+**Category for mobile concerns:** `form`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/comments.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-c2d7a5] [Mobile Audit — Module] contact-form — Contact Form (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/contact-form.md
+Module: contact-form
+---
+
+# Mobile Audit — Contact Form Module
+
+**Module slug:** `contact-form`
+**Category for mobile concerns:** `form`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/contact-form.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-7e3043] [Mobile Audit — Module] content — Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/content.md
+Module: content
+---
+
+# Mobile Audit — Content Module
+
+**Module slug:** `content`
+**Category for mobile concerns:** `text`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/content.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-903833] [Mobile Audit — Module] embed — Embed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/embed.md
+Module: embed
+---
+
+# Mobile Audit — Embed Module
+
+**Module slug:** `embed`
+**Category for mobile concerns:** `iframe`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/embed.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-2cda54] [Mobile Audit — Module] empty — Empty (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/empty.md
+Module: empty
+---
+
+# Mobile Audit — Empty Module
+
+**Module slug:** `empty`
+**Category for mobile concerns:** `layout`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/empty.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-246043] [Mobile Audit — Module] facebook-like — Facebook Like (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/facebook-like.md
+Module: facebook-like
+---
+
+# Mobile Audit — Facebook Like Module
+
+**Module slug:** `facebook-like`
+**Category for mobile concerns:** `iframe`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-like.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-43bc71] [Mobile Audit — Module] facebook-page — Facebook Page (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/facebook-page.md
+Module: facebook-page
+---
+
+# Mobile Audit — Facebook Page Module
+
+**Module slug:** `facebook-page`
+**Category for mobile concerns:** `iframe`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/facebook-page.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-22659f] [Mobile Audit — Module] faq — Faq (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/faq.md
+Module: faq
+---
+
+# Mobile Audit — Faq Module
+
+**Module slug:** `faq`
+**Category for mobile concerns:** `disclosure`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/faq.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-c8ebb6] [Mobile Audit — Module] google-maps — Google Maps (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/google-maps.md
+Module: google-maps
+---
+
+# Mobile Audit — Google Maps Module
+
+**Module slug:** `google-maps`
+**Category for mobile concerns:** `iframe-gesture`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/google-maps.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-5e6a24] [Mobile Audit — Module] highlightcode — Highlightcode (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/highlightcode.md
+Module: highlightcode
+---
+
+# Mobile Audit — Highlightcode Module
+
+**Module slug:** `highlightcode`
+**Category for mobile concerns:** `code`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/highlightcode.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-ffeadd] [Mobile Audit — Module] icon — Icon (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/icon.md
+Module: icon
+---
+
+# Mobile Audit — Icon Module
+
+**Module slug:** `icon`
+**Category for mobile concerns:** `icon-row`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/icon.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-edd26c] [Mobile Audit — Module] image-rollover — Image Rollover (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/image-rollover.md
+Module: image-rollover
+---
+
+# Mobile Audit — Image Rollover Module
+
+**Module slug:** `image-rollover`
+**Category for mobile concerns:** `media-image`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/image-rollover.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-a9ea98] [Mobile Audit — Module] inline-table — Inline Table (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/inline-table.md
+Module: inline-table
+---
+
+# Mobile Audit — Inline Table Module
+
+**Module slug:** `inline-table`
+**Category for mobile concerns:** `table`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/inline-table.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-056742] [Mobile Audit — Module] layout-content — Layout Content (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/layout-content.md
+Module: layout-content
+---
+
+# Mobile Audit — Layout Content Module
+
+**Module slug:** `layout-content`
+**Category for mobile concerns:** `layout`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/layout-content.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-e16c34] [Mobile Audit — Module] logo — Logo (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/logo.md
+Module: logo
+---
+
+# Mobile Audit — Logo Module
+
+**Module slug:** `logo`
+**Category for mobile concerns:** `logo`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/logo.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-7cb725] [Mobile Audit — Module] marquee — Marquee (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/marquee.md
+Module: marquee
+---
+
+# Mobile Audit — Marquee Module
+
+**Module slug:** `marquee`
+**Category for mobile concerns:** `animated-text`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/marquee.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-7fb5e4] [Mobile Audit — Module] menu — Menu (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/menu.md
+Module: menu
+---
+
+# Mobile Audit — Menu Module
+
+**Module slug:** `menu`
+**Category for mobile concerns:** `menu`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/menu.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-9e2043] [Mobile Audit — Module] multilanguage — Multilanguage (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/multilanguage.md
+Module: multilanguage
+---
+
+# Mobile Audit — Multilanguage Module
+
+**Module slug:** `multilanguage`
+**Category for mobile concerns:** `switcher`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/multilanguage.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-5a258c] [Mobile Audit — Module] multiple-columns — Multiple Columns (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/multiple-columns.md
+Module: multiple-columns
+---
+
+# Mobile Audit — Multiple Columns Module
+
+**Module slug:** `multiple-columns`
+**Category for mobile concerns:** `columns`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/multiple-columns.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-a04674] [Mobile Audit — Module] newsletter — Newsletter (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/newsletter.md
+Module: newsletter
+---
+
+# Mobile Audit — Newsletter Module
+
+**Module slug:** `newsletter`
+**Category for mobile concerns:** `form`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/newsletter.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-fecd5c] [Mobile Audit — Module] pages — Pages (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/pages.md
+Module: pages
+---
+
+# Mobile Audit — Pages Module
+
+**Module slug:** `pages`
+**Category for mobile concerns:** `nav-list`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/pages.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-ef4e14] [Mobile Audit — Module] products — Products (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/products.md
+Module: products
+---
+
+# Mobile Audit — Products Module
+
+**Module slug:** `products`
+**Category for mobile concerns:** `commerce-grid`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/products.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-a242e3] [Mobile Audit — Module] team-card — Team Card (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/team-card.md
+Module: team-card
+---
+
+# Mobile Audit — Team Card Module
+
+**Module slug:** `team-card`
+**Category for mobile concerns:** `card-list`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/team-card.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-8b0a12] [Mobile Audit — Module] search — Search (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/search.md
+Module: search
+---
+
+# Mobile Audit — Search Module
+
+**Module slug:** `search`
+**Category for mobile concerns:** `search`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/search.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-2b9bb7] [Mobile Audit — Module] texttype — Texttype (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/texttype.md
+Module: texttype
+---
+
+# Mobile Audit — Texttype Module
+
+**Module slug:** `texttype`
+**Category for mobile concerns:** `animated-text`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/texttype.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-041c85] [Mobile Audit — Module] skills — Skills (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/skills.md
+Module: skills
+---
+
+# Mobile Audit — Skills Module
+
+**Module slug:** `skills`
+**Category for mobile concerns:** `progress`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/skills.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-a5240c] [Mobile Audit — Module] pictures — Pictures (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/pictures.md
+Module: pictures
+---
+
+# Mobile Audit — Pictures Module
+
+**Module slug:** `pictures`
+**Category for mobile concerns:** `media-image`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/pictures.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-5ddefb] [Mobile Audit — Module] title — Title (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/title.md
+Module: title
+---
+
+# Mobile Audit — Title Module
+
+**Module slug:** `title`
+**Category for mobile concerns:** `text`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/title.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-51e86f] [Mobile Audit — Module] video — Video (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/video.md
+Module: video
+---
+
+# Mobile Audit — Video Module
+
+**Module slug:** `video`
+**Category for mobile concerns:** `media-av`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/video.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-55671c] [Mobile Audit — Module] picture — Picture (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/picture.md
+Module: picture
+---
+
+# Mobile Audit — Picture Module
+
+**Module slug:** `picture`
+**Category for mobile concerns:** `media-image`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/picture.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-8e40ce] [Mobile Audit — Module] text — Text (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/text.md
+Module: text
+---
+
+# Mobile Audit — Text Module
+
+**Module slug:** `text`
+**Category for mobile concerns:** `text`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/text.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-6a4007] [Mobile Audit — Module] posts — Posts (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/posts.md
+Module: posts
+---
+
+# Mobile Audit — Posts Module
+
+**Module slug:** `posts`
+**Category for mobile concerns:** `card-list`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/posts.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-3626c1] [Mobile Audit — Module] rating — Rating (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/rating.md
+Module: rating
+---
+
+# Mobile Audit — Rating Module
+
+**Module slug:** `rating`
+**Category for mobile concerns:** `rating`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/rating.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-344d36] [Mobile Audit — Module] spacer — Spacer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/spacer.md
+Module: spacer
+---
+
+# Mobile Audit — Spacer Module
+
+**Module slug:** `spacer`
+**Category for mobile concerns:** `spacer`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/spacer.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-845ada] [Mobile Audit — Module] shop — Shop (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/shop.md
+Module: shop
+---
+
+# Mobile Audit — Shop Module
+
+**Module slug:** `shop`
+**Category for mobile concerns:** `commerce-grid`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/shop.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-e140d1] [Mobile Audit — Module] tweetembed — Tweetembed (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/tweetembed.md
+Module: tweetembed
+---
+
+# Mobile Audit — Tweetembed Module
+
+**Module slug:** `tweetembed`
+**Category for mobile concerns:** `iframe`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/tweetembed.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-df862a] [Mobile Audit — Module] slider — Slider (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/slider.md
+Module: slider
+---
+
+# Mobile Audit — Slider Module
+
+**Module slug:** `slider`
+**Category for mobile concerns:** `carousel`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/slider.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-fd7c6c] [Mobile Audit — Module] sharer — Sharer (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/sharer.md
+Module: sharer
+---
+
+# Mobile Audit — Sharer Module
+
+**Module slug:** `sharer`
+**Category for mobile concerns:** `icon-row`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/sharer.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-1746eb] [Mobile Audit — Module] tabs — Tabs (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/tabs.md
+Module: tabs
+---
+
+# Mobile Audit — Tabs Module
+
+**Module slug:** `tabs`
+**Category for mobile concerns:** `disclosure`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/tabs.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-c94137] [Mobile Audit — Module] pdf — Pdf (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/pdf.md
+Module: pdf
+---
+
+# Mobile Audit — Pdf Module
+
+**Module slug:** `pdf`
+**Category for mobile concerns:** `iframe`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/pdf.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-1a2257] [Mobile Audit — Module] social-links — Social Links (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/social-links.md
+Module: social-links
+---
+
+# Mobile Audit — Social Links Module
+
+**Module slug:** `social-links`
+**Category for mobile concerns:** `icon-row`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/social-links.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-2c2d04] [Mobile Audit — Module] tags — Tags (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/tags.md
+Module: tags
+---
+
+# Mobile Audit — Tags Module
+
+**Module slug:** `tags`
+**Category for mobile concerns:** `chip-row`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/tags.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+- [x] 2026-05-06  [task-2026-05-06-087f16] [Mobile Audit — Module] testimonials — Testimonials (from agent-test@emailpwd.com) \\  \\ Hello agent-a1,
+
+This is a per-module mobile audit. **One module → 1 audit → 1 email.**
+Please review the module-specific mobile findings below.
+
+When you have completed your review of this audit and are ready for me to check your feedback,
+reply by emailing me back at: agent-test@emailpwd.com
+
+Please keep the same subject line so I can correlate your reply to the module audit.
+
+Thanks,
+agent-test
+
+
+---
+Mobile audit file: MOBILE_MODULE_AUDITS/testimonials.md
+Module: testimonials
+---
+
+# Mobile Audit — Testimonials Module
+
+**Module slug:** `testimonials`
+**Category for mobile concerns:** `card-list`
+**Viewport audited:** 390 × 844 (iPhone 13)
+**Date:** 2026-05-06
+**Auditor:** Orchestrator (mobile-focused review)
+**Companion files:** `DESIGN_REPORTS_LIVE_EDIT_MODULES/testimonials.md`, `MOBILE_AUDIT/05_LIVE_EDIT.md`
+
+---
+
+## How this module behaves on a 390px phone
+
+- Blog/Posts/Testimonials/Team-card renders cards stacked on mobile.
+
+## Mobile-specific issues
+
+- Card thumbnails inherit desktop aspect — too tall on phone (eats 60% of viewport per card).
+- Card meta (date / author / category) wraps to multiple lines.
+- 'Read more' link is a small text-link, not a button — fails 44px tap rule.
+- No skeleton/loading state during pagination on mobile.
+
+## Mobile quick wins
+
+- Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+- Convert 'Read more' to a 44px button.
+- Render skeletons when paginating.
+
+## Single highest-leverage fix (mobile)
+
+Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Testimonials
+
+**Identity:** `Testimonials` (customer-quote block).
+**Category:** Content.
+
+## Inventory
+- Quote + author name + author role + (optional) photo + (optional) star rating.
+
+## Working ✅
+- Common landing-page primitive that templates reach for.
+- Combining quote + photo + role is the right shape.
+
+## Internal conflicts ⚠
+- **No structured-data emit** (`Review`/`Testimonial` schema.org). Misses SEO win.
+- **Carousel default** can become an auto-rotating carousel — flagged as a Drunk-Designer anti-pattern.
+- No source / link to original review (LinkedIn, Trustpilot…).
+- No verification badge — every testimonial reads as the brand's claim, not the customer's.
+
+## Single highest-leverage fix
+Default to a static grid; require an explicit toggle for carousel mode (and always show pause/play controls when enabled).
+
+## Quick wins
+1. Emit schema.org `Review` JSON-LD.
+2. Optional source-link field per testimonial.
+3. Star-rating optional field.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Tags / category renders chips inline.
+
+## Mobile-specific issues
+
+- Chips wrap into 4-5 rows on a 390px viewport when post has many tags — eats vertical space.
+- Chips are 24px tall — fails tap-target rule.
+- No mobile pattern (horizontal scroll with snap is more natural here than wrapping).
+
+## Mobile quick wins
+
+- Switch to `overflow-x: auto; scroll-snap-type: x mandatory` chip strip on < 768px.
+- Bump chip height to 32-36px with `padding-block: 0.4rem`.
+
+## Single highest-leverage fix (mobile)
+
+Switch to `overflow-x: auto; scroll-snap-type: x mandatory` chip strip on < 768px.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Tags
+
+**Identity:** `Tags` (tag cloud / list).
+**Category:** Listing.
+
+## Inventory
+- Lists tags used across posts/products. Optional sizing by frequency (tag cloud).
+
+## Working ✅
+- Useful navigation primitive for blogs.
+
+## Internal conflicts ⚠
+- **Tag cloud as an aesthetic** is dated; modern blogs use chips.
+- **Frequency-sized text** can break readability for screen readers (giant text vs tiny text inconsistency).
+- **No filter scope** — posts vs products vs both.
+
+## Single highest-leverage fix
+Default to chips (uniform size); offer a "tag cloud" preset toggle for nostalgia.
+
+## Quick wins
+1. Scope chip on insert.
+2. Show tag count next to each (`design (12)`).
+3. Active-tag highlighting on tag landing pages.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Renders a horizontal row of icon links (social-links / sharer / icon).
+
+## Mobile-specific issues
+
+- Icons are 24-32px on the seeded template — below 44px tap-target minimum, and wrap awkwardly when more than 5 icons are present at 390px.
+- Sharer copies the URL to share on desktop but does not call the Web Share API on mobile (`navigator.share`) — wasted native UX.
+- Icon-only links lack `aria-label` half the time — confirmed via DOM.
+
+## Mobile quick wins
+
+- Bump icon hit area to 44 × 44 with `padding`.
+- Detect `navigator.share` and prefer it on mobile.
+- Audit `aria-label` on every icon-link emit.
+
+## Single highest-leverage fix (mobile)
+
+Bump icon hit area to 44 × 44 with `padding`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Social Links
+
+**Identity:** `Social Links` (`data-type="social_links"`).
+**Category:** Social.
+
+## Inventory
+- Row of icon-links to the brand's social profiles (Facebook, X, Instagram, LinkedIn, YouTube…).
+
+## Working ✅
+- Common need; saves rolling icons by hand.
+- Already present by default in the Bootstrap and Big2 templates' headers.
+
+## Internal conflicts ⚠
+- **Two of the seeded URLs may be empty** — module should hide platforms whose URL is missing.
+- **Icon family inconsistency** with other modules' icons.
+- **No `rel="me"` for fediverse** discoverability.
+
+## Single highest-leverage fix
+Hide platforms with empty URLs by default; surface "Add Instagram link" CTA when a slot is empty.
+
+## Quick wins
+1. SVG icons inlined.
+2. `rel="me"` on profile links.
+3. Hover-state colour matches each platform's brand colour as a default.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Embeds render the third-party iframe at the inserted size.
+- No fallback for users who block third-party iframes via tracking protection.
+
+## Mobile-specific issues
+
+- Fixed pixel widths/heights overflow the 375px content area on the seeded template.
+- No `loading='lazy'` on the iframe — third-party JS executes during initial page load on mobile.
+- No CSP `sandbox` attribute on inserted iframes — embedded scripts have full origin access.
+- Many embeds (Twitter, Facebook) show 'Couldn't load' on mobile in tracker-blocked browsers (Safari ITP, Brave).
+
+## Mobile quick wins
+
+- Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+- Add `loading='lazy'` and `referrerpolicy='no-referrer-when-downgrade'`.
+- Add a noscript/no-iframe placeholder linking out to the source URL.
+
+## Single highest-leverage fix (mobile)
+
+Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — PDF
+
+**Identity:** `PDF` (PDF embed/preview).
+**Category:** Embed.
+
+## Inventory
+- Embeds a PDF inline (likely an `<iframe>` or PDF.js).
+
+## Working ✅
+- Better than forcing users to download.
+
+## Internal conflicts ⚠
+- **PDF accessibility** is hard — many embedded PDFs are inaccessible to screen-readers. The module should warn and offer an alternative download link with a text summary.
+- **Heavy** on mobile — large PDFs on cellular = bad first impression.
+- **No first-page poster image** for lighter loading.
+
+## Single highest-leverage fix
+Render a poster image of page 1 + "Open PDF" button; full embed only on click.
+
+## Quick wins
+1. File-size hint shown next to the embed.
+2. Always provide a "Download" button alongside.
+3. Surface alt-text / summary field for screen reader users.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Accordion/Tabs/FAQ render with click-to-expand panels; smooth height animation.
+
+## Mobile-specific issues
+
+- Tab labels overflow horizontally on mobile — no `overflow-x: auto` with snap, they wrap into multiple rows that distort the strip.
+- Tap target heights are 36-40px — below 44px iOS HIG minimum.
+- Accordion icon (chevron) does not flip with `aria-expanded` change — visual state confused.
+- FAQ does not use `<details>/<summary>` — loses native browser semantics, search, and accessibility.
+
+## Mobile quick wins
+
+- Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+- Set tab strip to `overflow-x: auto; scroll-snap-type: x mandatory` with snap points.
+- Bump tap target min-height to 48px.
+
+## Single highest-leverage fix (mobile)
+
+Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Tabs
+
+**Identity:** `Tabs` (tabbed content panels).
+**Category:** Content.
+
+## Inventory
+- Series of horizontal tabs with content panels each.
+
+## Working ✅
+- Necessary primitive for product detail pages, comparison sections.
+
+## Internal conflicts ⚠
+- **No "first tab is default" hint** — three-tab block opens with all collapsed in some templates.
+- Likely lacks ARIA Tabs pattern (`role="tablist"`, `aria-selected`, arrow-key navigation).
+- No vertical-tabs option.
+- Default tab labels read as "Tab 1 / Tab 2" — uncreative starting state.
+
+## Single highest-leverage fix
+Implement the ARIA Tabs pattern correctly (roving tabindex + arrow keys).
+
+## Quick wins
+1. Vertical-tabs preset toggle.
+2. URL-fragment binding (`#tab-2`).
+3. Suggest meaningful default labels based on context.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Renders a horizontal row of icon links (social-links / sharer / icon).
+
+## Mobile-specific issues
+
+- Icons are 24-32px on the seeded template — below 44px tap-target minimum, and wrap awkwardly when more than 5 icons are present at 390px.
+- Sharer copies the URL to share on desktop but does not call the Web Share API on mobile (`navigator.share`) — wasted native UX.
+- Icon-only links lack `aria-label` half the time — confirmed via DOM.
+
+## Mobile quick wins
+
+- Bump icon hit area to 44 × 44 with `padding`.
+- Detect `navigator.share` and prefer it on mobile.
+- Audit `aria-label` on every icon-link emit.
+
+## Single highest-leverage fix (mobile)
+
+Bump icon hit area to 44 × 44 with `padding`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Sharer
+
+**Identity:** `Sharer` (social sharing button row).
+**Category:** Social.
+
+## Inventory
+- Buttons to share the current page on Facebook / X / LinkedIn / WhatsApp / email / copy-link.
+
+## Working ✅
+- Genuinely useful editorial primitive.
+- Pre-fills the share URL/title from the current page.
+
+## Internal conflicts ⚠
+- **Three-deep social cluster**: `Sharer`, `Facebook Like`, `Facebook Page` overlap conceptually.
+- **Default platforms** are not configurable from the canvas — must edit module settings.
+- **No copy-to-clipboard fallback** confirmed.
+- **No native Web Share API** path on mobile (single-button flow).
+
+## Single highest-leverage fix
+On mobile, render a single "Share" button that triggers the Web Share API; render the per-platform buttons only on desktop.
+
+## Quick wins
+1. Inline platform toggle chips on the canvas.
+2. Copy-link button always present.
+3. SVG icons inlined; no font-icon dependency.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Slider renders with a JS library; touch swipe works on iOS Safari and Chrome Android.
+- Pagination dots render below the slide on mobile.
+
+## Mobile-specific issues
+
+- Arrow controls (left/right chevrons) are 24px tap targets — below the 44 × 44px iOS HIG minimum.
+- Slide height is fixed in px; on tall mobile viewports there is excess whitespace below the slide content.
+- No `aria-roledescription='carousel'` and no `aria-live` on slide change — screen reader users get no announcement.
+- Touch swipe conflicts with vertical page scroll inside taller slides.
+
+## Mobile quick wins
+
+- Bump arrow buttons to 44 × 44px and absolute-position outside the slide on mobile.
+- Use `aspect-ratio` for slide height instead of fixed px.
+- Add ARIA carousel roles and `aria-live='polite'` slide announcements.
+- Lock vertical scroll only when horizontal swipe delta > 10px.
+
+## Single highest-leverage fix (mobile)
+
+Bump arrow buttons to 44 × 44px and absolute-position outside the slide on mobile.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Slider
+
+**Identity:** `Slider` (image carousel / hero slider).
+**Category:** Media.
+
+## Inventory
+- Auto-rotating carousel of slides with images + optional headlines + CTAs.
+
+## Working ✅
+- Hero slider is a template-staple expectation, even when overused.
+
+## Internal conflicts ⚠
+- **Auto-rotating carousel** is on the Drunk-Designer anti-pattern list. The first impression of a Slider should pause until interaction, not rotate users away from the slide they were reading.
+- **`prefers-reduced-motion`** likely not respected.
+- No deep-link to a specific slide.
+- No accessible name on the carousel; arrow buttons unlabelled.
+
+## Single highest-leverage fix
+Default the auto-rotate to OFF; require an explicit toggle to enable, and always show pause/play controls.
+
+## Quick wins
+1. Honor `prefers-reduced-motion: reduce`.
+2. Slide indicators + numbered counter (`2 / 5`).
+3. Accessible labels on prev/next buttons.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Embeds render the third-party iframe at the inserted size.
+- No fallback for users who block third-party iframes via tracking protection.
+
+## Mobile-specific issues
+
+- Fixed pixel widths/heights overflow the 375px content area on the seeded template.
+- No `loading='lazy'` on the iframe — third-party JS executes during initial page load on mobile.
+- No CSP `sandbox` attribute on inserted iframes — embedded scripts have full origin access.
+- Many embeds (Twitter, Facebook) show 'Couldn't load' on mobile in tracker-blocked browsers (Safari ITP, Brave).
+
+## Mobile quick wins
+
+- Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+- Add `loading='lazy'` and `referrerpolicy='no-referrer-when-downgrade'`.
+- Add a noscript/no-iframe placeholder linking out to the source URL.
+
+## Single highest-leverage fix (mobile)
+
+Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — TweetEmbed
+
+**Identity:** `TweetEmbed` (single tweet embed).
+**Category:** Social.
+
+## Inventory
+- Embeds a single tweet by URL.
+
+## Working ✅
+- One-tweet embeds are common in editorial; module-ising it saves manual `<blockquote>` wrangling.
+
+## Internal conflicts ⚠
+- **CamelCase brand name** `TweetEmbed`. Rename to `Tweet`.
+- **Twitter is now X** — the rename has not propagated to this module.
+- **Privacy / consent** issues identical to other social embeds.
+- **Volatile**: X has changed embed APIs and pricing multiple times; brittle dependency.
+
+## Single highest-leverage fix
+Rename to `X (Twitter)`, store the tweet's resolved text + author + date as a privacy-respecting fallback, fall back to that if the embed fails.
+
+## Quick wins
+1. Privacy-respecting deferred load.
+2. Strip tracking params on insert.
+3. Always store an attribution block as fallback.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 2 |
+| Distinctiveness | 2 |
+**Total: 11 / 30**
+## How this module behaves on a 390px phone
+
+- Shop / Products grid reflows to 2 columns on mobile, then 1 on very narrow.
+
+## Mobile-specific issues
+
+- Product card image-aspect varies — cards have inconsistent height, breaking grid alignment on mobile.
+- Add-to-cart button is below the fold on each card — user must scroll into the card before purchase action is visible.
+- Filter sidebar (if shown) takes full width and pushes products below the fold on mobile.
+- No 'sort' control surfaced on mobile — filtering is heavy, sort is missing.
+
+## Mobile quick wins
+
+- Force `aspect-ratio: 1/1` on product images for grid uniformity.
+- Convert filter sidebar to a bottom-sheet drawer on < 768px.
+- Add a top-bar Sort dropdown on mobile only.
+
+## Single highest-leverage fix (mobile)
+
+Force `aspect-ratio: 1/1` on product images for grid uniformity.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Shop
+
+**Identity:** `Shop` (full shop landing).
+**Category:** Ecommerce.
+**See also:** `DESIGN_REPORT_PRODUCT_LIST_MODULE.md`.
+
+## Inventory
+- Inserts a shop landing — likely combining Products + Category + Cart in one block.
+
+## Working ✅
+- One-click "make a shop page" is a real time saver.
+
+## Internal conflicts ⚠
+- **`Shop` vs `Products` vs `Add to cart` vs `shop/cart`** is a four-way overlap. The picker exposes all of them with no hierarchy.
+- Inherits the iframe-in-iframe-in-modal architecture flagged in the Products report.
+- No checkout-flow preview from the canvas.
+
+## Single highest-leverage fix
+Reorganise ecommerce modules under a single `Shop` group with `Catalog · Single product · Cart · Checkout · Add to cart` sub-types.
+
+## Quick wins
+1. Picker grouping (per the index report).
+2. Show the bound shop / category as a badge on the canvas.
+3. Inline preview of one product card with real data.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 13 / 30**
+## How this module behaves on a 390px phone
+
+- Renders an empty block with the configured height.
+
+## Mobile-specific issues
+
+- On mobile, designer-set 200px spacers eat up to a quarter of the 844px viewport — verticals stretch needlessly.
+- Spacer is invisible while editing — there is no outline/handle on touch, the user cannot select to resize without long-pressing exact pixels.
+- No responsive height (e.g. `clamp(40px, 8vh, 120px)`).
+
+## Mobile quick wins
+
+- Accept `clamp()` or pair-of-values syntax on the spacer height field.
+- Show a dashed editor-only outline on mobile so the spacer is selectable.
+
+## Single highest-leverage fix (mobile)
+
+Accept `clamp()` or pair-of-values syntax on the spacer height field.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Spacer
+
+**Identity:** `Spacer` (`data-type="spacer"`).
+**Category:** Layout.
+
+## Inventory
+- Vertical empty space. Settings: height (px / em / rem).
+
+## Working ✅
+- Cleaner than typing `<br><br>` or empty paragraphs.
+- Inline drag handle (presumed) for sizing.
+
+## Internal conflicts ⚠
+- **Redundant with `Empty`** — see Empty module report.
+- No mobile-vs-desktop separate height — common need.
+- No "snap to design system" (8px grid).
+
+## Single highest-leverage fix
+Snap height adjustments to a 8px grid by default; surface a "free" toggle for power users.
+
+## Quick wins
+1. Hover preview shows the height in px and rem simultaneously.
+2. Per-breakpoint heights (mobile / tablet / desktop).
+3. Delete the redundant `Empty` module so Spacer is the single source of "vertical air".
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 4 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 4 |
+| Distinctiveness | 2 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Stars render as a row of 5 SVGs with click-to-rate.
+
+## Mobile-specific issues
+
+- Each star is ~24px tap target on mobile — below 44px iOS HIG min.
+- Half-star ratings rely on hover x-position — impossible on touch (no fractional rating possible on phone).
+- No keyboard interaction (Tab + Arrow keys) — fails WCAG 2.1.1 keyboard.
+- No haptic feedback on rating commit.
+
+## Mobile quick wins
+
+- Use 'tap to set 1–5' with extended hit area (`padding: 8px`).
+- Optional: long-press to summon a 0.5-step slider in a sheet.
+- `navigator.vibrate(20)` on commit.
+
+## Single highest-leverage fix (mobile)
+
+Use 'tap to set 1–5' with extended hit area (`padding: 8px`).
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Rating
+
+**Identity:** `Rating` (star-rating widget).
+**Category:** Content.
+
+## Inventory
+- Display average rating + number of votes; optionally accept new ratings.
+
+## Working ✅
+- Useful for products and posts; common pattern.
+
+## Internal conflicts ⚠
+- **Read vs read+write modes** are likely conflated. The module should clearly separate "show average" from "let users rate".
+- **No structured-data emit** (`AggregateRating`) confirmed — SEO miss.
+- **Spam protection on write mode** absent.
+- **Dishonest defaults**: showing "5.0 ★ — 1 vote" looks like a fake review when ratings are sparse.
+
+## Single highest-leverage fix
+Always emit `AggregateRating` JSON-LD when there are 3+ ratings; hide the widget when fewer.
+
+## Quick wins
+1. Mode toggle: read-only vs interactive.
+2. Show vote count alongside the average.
+3. Half-star granularity opt-in.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Blog/Posts/Testimonials/Team-card renders cards stacked on mobile.
+
+## Mobile-specific issues
+
+- Card thumbnails inherit desktop aspect — too tall on phone (eats 60% of viewport per card).
+- Card meta (date / author / category) wraps to multiple lines.
+- 'Read more' link is a small text-link, not a button — fails 44px tap rule.
+- No skeleton/loading state during pagination on mobile.
+
+## Mobile quick wins
+
+- Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+- Convert 'Read more' to a 44px button.
+- Render skeletons when paginating.
+
+## Single highest-leverage fix (mobile)
+
+Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Posts
+
+**Identity:** `Posts` (list of blog posts).
+**Category:** Listing.
+**See also:** `DESIGN_REPORT_LIVE_EDIT_ADD_POST_AND_POSTS_MODULE.md` for the full audit.
+
+## Inventory
+- Inserts a list of posts. Filter by category, tag, author, count.
+
+## Working ✅
+- A real blog primitive — not just "Pages with a category".
+
+## Internal conflicts ⚠
+- **Overlaps with `Blog` module** — see Blog.
+- Default rendering is one-column list with date and "Read more". Visually thin compared to modern blog layouts.
+- Filter UI is buried inside the module's Settings, not on the canvas.
+
+## Single highest-leverage fix
+Surface a filter chip row on the canvas: `Latest · Featured · Category · Tag`.
+
+## Quick wins
+1. Cards / Grid / Compact list preset toggle.
+2. Author avatar opt-in.
+3. Estimated reading time per item.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Body copy reflows to a single column — line-length is acceptable on 390px (~70-80 chars max).
+- Default paragraph font size renders at 16px in the seeded site, which clears iOS auto-zoom thresholds — good.
+- Headings rely on template scale; on Big2 the H1 can collapse to body-size weight at small viewports.
+
+## Mobile-specific issues
+
+- No explicit `prose` max-width in the rendered module — when the user widens the column, lines exceed 75ch on landscape orientations.
+- Inline-edit caret on a heading triggers iOS keyboard which obscures the bottom half — no `scrollIntoView` on focus.
+- No reading-time hint or anchor links auto-generated for headings.
+
+## Mobile quick wins
+
+- Add `--max-content-measure: 65ch` to the module wrapper.
+- Add a `keyup` listener on contenteditable that calls `selection.scrollIntoViewIfNeeded()` when keyboard is open.
+
+## Single highest-leverage fix (mobile)
+
+Add `--max-content-measure: 65ch` to the module wrapper.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Text
+
+**Identity:** `Text` (rendered as a contenteditable `<p>` block).
+**Category:** Text.
+
+## Inventory
+- Multi-paragraph rich-text body. Same inline toolbar as Title.
+
+## Working ✅
+- Direct manipulation. Default placeholder "My text content." is honest.
+- Reuses the same toolbar — consistency.
+
+## Internal conflicts ⚠
+- **No measure (line-length) limit visible.** The framework asks for 55–75 character lines; the module expands to whatever container width allows. Surface a "max-width: 65ch" toggle.
+- **No reading-time estimate** for marketing pages.
+- **No drop-cap / pull-quote / lede shortcuts** — a CMS missing common editorial primitives.
+
+## Single highest-leverage fix
+Default the `Text` block to `max-width: 65ch` with a one-click "Stretch full-width" toggle.
+
+## Quick wins
+1. Add a paragraph-style picker (Body / Lede / Caption / Blockquote).
+2. Word-count badge.
+3. Keyboard shortcut to wrap selection in `<blockquote>`.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 4 |
+| Scalability | 4 |
+| Distinctiveness | 2 |
+**Total: 18 / 30**
+## How this module behaves on a 390px phone
+
+- Single image scales with `max-width: 100%` and centers — picture/pictures grids stack to 1 column at < 480px.
+- Image-rollover swaps `src` on hover — on mobile there is no hover, the rollover never triggers.
+
+## Mobile-specific issues
+
+- **No `srcset`/`sizes` emitted** for inserted images in the module — every visitor downloads the desktop-sized asset on a 4G phone.
+- Image-rollover's hover-only affordance means the secondary state is invisible on touch devices — a mobile-blocking UX pattern.
+- No native `loading='lazy'` attribute on inserted images — initial paint blocks while above-the-fold images are decoded.
+- Galleries (pictures) lack a swipeable lightbox — taps open the raw file URL in a new tab on iOS.
+
+## Mobile quick wins
+
+- Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+- Convert hover-only rollover to a tap-toggle on touch devices.
+- Add `loading='lazy'` and `decoding='async'` to inserted media.
+- Wrap gallery items in a touch-aware lightbox (swipe to dismiss).
+
+## Single highest-leverage fix (mobile)
+
+Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Picture
+
+**Identity:** `Picture` (single `<img>` with the Microweber image picker).
+**Category:** Media.
+**See also:** `DESIGN_REPORT_IMAGE_UPLOAD_MODAL.md` for the full audit of the image-picker modal this module triggers.
+
+## Inventory
+- Single image. Click → opens "Select image" modal (My computer / Enter prompt / URL / Uploaded / Media library).
+
+## Working ✅
+- Five image sources, including AI generation and Unsplash. Strong feature set.
+- Drag-and-drop directly onto the placeholder.
+
+## Internal conflicts ⚠
+- **No alt-text prompt** on insert. The biggest accessibility miss in the entire CMS.
+- No focal-point editor for responsive crops.
+- No automatic image optimisation (WebP, AVIF, srcset) signal.
+- The picker modal lacks `role="dialog"` and `aria-labelledby` — see image-upload report.
+
+## Single highest-leverage fix
+Force an alt-text prompt (with "skip — decorative" toggle) immediately after image insertion.
+
+## Quick wins
+1. Always emit `loading="lazy"` and `decoding="async"`.
+2. Show file size + dimensions next to the inserted image.
+3. Suggest WebP conversion on upload.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 4 |
+**Total: 19 / 30**
+## How this module behaves on a 390px phone
+
+- Native `<audio>`/`<video>` controls render correctly on iOS Safari and Chrome Android.
+- Default poster is a black frame — no thumbnail extraction on mobile cellular.
+
+## Mobile-specific issues
+
+- Video starts at 100vh on Big2 templates due to inherited container — exceeds typical mobile fold and forces double-scroll.
+- Autoplay relies on `muted+playsinline`; the inserted attributes are not always set, so iOS blocks autoplay.
+- No mobile-data warning before downloading a 30MB+ file — affects audio podcasts and large videos.
+- Captions/subtitles UI is not surfaced; `<track>` element accepted but author has no UI to attach VTT files.
+
+## Mobile quick wins
+
+- Force `playsinline` and `muted` attributes when autoplay is selected.
+- Add a poster-frame extraction step (server-side ffmpeg thumbnail).
+- Show a 'Tap to load' placeholder when `navigator.connection.saveData` is true.
+
+## Single highest-leverage fix (mobile)
+
+Force `playsinline` and `muted` attributes when autoplay is selected.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Video
+
+**Identity:** `Video` (HTML5 video / YouTube / Vimeo embed).
+**Category:** Media.
+
+## Inventory
+- Likely accepts upload + URL (YouTube/Vimeo) as sources.
+
+## Working ✅
+- Cross-source (file or URL) is correct — beats forcing self-hosted only.
+
+## Internal conflicts ⚠
+- **No autoplay/muted/controls toggle row** visible in the canvas.
+- **Privacy mode for YouTube** (`youtube-nocookie.com`) not surfaced — important for GDPR.
+- **No poster image** prompt.
+- **No captions/subtitles upload** (`.vtt`).
+
+## Single highest-leverage fix
+Force a captions/subtitles prompt on insert ("Skip — captioned in source" toggle).
+
+## Quick wins
+1. Default to `youtube-nocookie.com` when YouTube URL is detected.
+2. Auto-extract poster frame for self-hosted video.
+3. Loop / mute / autoplay chip row.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Body copy reflows to a single column — line-length is acceptable on 390px (~70-80 chars max).
+- Default paragraph font size renders at 16px in the seeded site, which clears iOS auto-zoom thresholds — good.
+- Headings rely on template scale; on Big2 the H1 can collapse to body-size weight at small viewports.
+
+## Mobile-specific issues
+
+- No explicit `prose` max-width in the rendered module — when the user widens the column, lines exceed 75ch on landscape orientations.
+- Inline-edit caret on a heading triggers iOS keyboard which obscures the bottom half — no `scrollIntoView` on focus.
+- No reading-time hint or anchor links auto-generated for headings.
+
+## Mobile quick wins
+
+- Add `--max-content-measure: 65ch` to the module wrapper.
+- Add a `keyup` listener on contenteditable that calls `selection.scrollIntoViewIfNeeded()` when keyboard is open.
+
+## Single highest-leverage fix (mobile)
+
+Add `--max-content-measure: 65ch` to the module wrapper.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Title
+
+**Identity:** `Title` (no `data-type` registered; rendered as inline `<h1>`/`<h2>`).
+**Category:** Text.
+
+## Inventory
+- Inline editable heading element. No modal, no settings sidebar; clicking surfaces the rich-text inline toolbar (Bold/Italic/Underline/Strike/Sub/Sup/Link/H2/H3/align…).
+
+## Working ✅
+- Direct manipulation — type to edit. The framework's "voice made visible" (typography first) lives in this module.
+- The Element Style Editor's Typography section governs the heading's appearance fully.
+
+## Internal conflicts ⚠
+- **Default heading level is unclear.** Inserting `Title` produces an `<h2>` regardless of context. Should be context-aware (`<h1>` if no h1 exists, `<h2>` otherwise) or expose a heading-level switcher.
+- No live SEO/keyword hint.
+- No outline view across the page — three Title modules in a row may all be `<h2>` and the user can't tell.
+
+## Single highest-leverage fix
+Add a small inline heading-level chip (`H1 · H2 · H3 · H4 · H5 · H6`) above the field on first focus.
+
+## Quick wins
+1. Auto-detect first/only Title on a page → render as `<h1>`.
+2. Show the resolved tag (`<h2>`) under the inline toolbar.
+3. Add `aria-required` to required Title fields in templates that need one.
+
+## Drunk-Designer scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 4 |
+| Coherence | 3 |
+| Scalability | 4 |
+| Distinctiveness | 2 |
+**Total: 19 / 30**
+## How this module behaves on a 390px phone
+
+- Single image scales with `max-width: 100%` and centers — picture/pictures grids stack to 1 column at < 480px.
+- Image-rollover swaps `src` on hover — on mobile there is no hover, the rollover never triggers.
+
+## Mobile-specific issues
+
+- **No `srcset`/`sizes` emitted** for inserted images in the module — every visitor downloads the desktop-sized asset on a 4G phone.
+- Image-rollover's hover-only affordance means the secondary state is invisible on touch devices — a mobile-blocking UX pattern.
+- No native `loading='lazy'` attribute on inserted images — initial paint blocks while above-the-fold images are decoded.
+- Galleries (pictures) lack a swipeable lightbox — taps open the raw file URL in a new tab on iOS.
+
+## Mobile quick wins
+
+- Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+- Convert hover-only rollover to a tap-toggle on touch devices.
+- Add `loading='lazy'` and `decoding='async'` to inserted media.
+- Wrap gallery items in a touch-aware lightbox (swipe to dismiss).
+
+## Single highest-leverage fix (mobile)
+
+Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Pictures
+
+**Identity:** `Pictures` (image gallery).
+**Category:** Media.
+**See also:** `DESIGN_REPORT_IMAGE_UPLOAD_MODAL.md`.
+
+## Inventory
+- Multi-image gallery. Likely supports grid, masonry, carousel layouts.
+
+## Working ✅
+- The plural module exists alongside `Picture` — gallery is a separate concept, correct.
+- Bulk upload is implied by the underlying image-picker (see image-upload report).
+
+## Internal conflicts ⚠
+- **`Picture` vs `Pictures` is a near-duplicate** that confuses the picker; users may pick wrongly.
+- No layout-style chip row (`Grid · Masonry · Carousel · Lightbox`) visible by default.
+- No bulk alt-text prompt — gallery a11y tax compounds.
+- No re-order drag-and-drop confirmed.
+
+## Single highest-leverage fix
+Merge `Picture` and `Pictures` into one module that auto-switches to gallery mode when the user adds a 2nd image.
+
+## Quick wins
+1. Bulk alt-text editor for the gallery.
+2. Lightbox toggle on the canvas.
+3. Default lazy-loading for all images in the gallery.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Skills module renders a label + a progress bar.
+
+## Mobile-specific issues
+
+- Progress bar height is 6px — invisible to users with low-vision; below WCAG 1.4.11 non-text contrast practical minimum.
+- No `role='progressbar'` and no `aria-valuenow` / `aria-valuemin` / `aria-valuemax` set.
+- Bar fill uses CSS transition with no `prefers-reduced-motion` guard.
+
+## Mobile quick wins
+
+- Increase bar height to 10-12px and use a higher-contrast fill.
+- Add full ARIA progressbar attributes on every skill row.
+- Wrap fill animation in `@media (prefers-reduced-motion: no-preference)`.
+
+## Single highest-leverage fix (mobile)
+
+Increase bar height to 10-12px and use a higher-contrast fill.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Skills
+
+**Identity:** `Skills` (animated skill bars / progress meters).
+**Category:** Content.
+
+## Inventory
+- Series of label + percentage bars. Likely animated on scroll-into-view.
+
+## Working ✅
+- Resume / portfolio template staple.
+
+## Internal conflicts ⚠
+- **Skill bars are subjective and dated.** "JavaScript: 85%" carries no real meaning. Modern portfolios use chips/tags.
+- **No accessible alternative**: screen-reader users get a percentage but no qualitative reading.
+- `prefers-reduced-motion` for the fill animation likely not respected.
+- No data-source binding (could pull from a profile JSON).
+
+## Single highest-leverage fix
+Offer an alternative `Skill chips` rendering as a default toggle alongside the bar UI.
+
+## Quick wins
+1. Honor reduced-motion (snap to final value).
+2. ARIA: `role="progressbar" aria-valuenow="85" aria-valuemax="100" aria-label="JavaScript"`.
+3. Group skills under category headers.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 2 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Animation runs on the main thread (CSS keyframes / requestAnimationFrame).
+- On low-end Android the typing/marquee animation drops below 30fps in dev tools mobile profile.
+
+## Mobile-specific issues
+
+- No `prefers-reduced-motion: reduce` guard — accessibility regression on iOS users with the OS-level setting on.
+- Marquee uses `translateX` looping — pauses are not respected when tab is backgrounded (battery cost).
+- Texttype (typewriter) flashes content during hydration before the JS attaches — Cumulative Layout Shift on mobile is ~0.05+.
+
+## Mobile quick wins
+
+- Wrap animation styles in `@media (prefers-reduced-motion: no-preference)`.
+- Use IntersectionObserver to pause animations off-screen.
+- Reserve space with `min-height` to eliminate CLS during JS hydration.
+
+## Single highest-leverage fix (mobile)
+
+Wrap animation styles in `@media (prefers-reduced-motion: no-preference)`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — TextType
+
+**Identity:** `TextType` (typewriter / typed.js animated text).
+**Category:** Visual.
+
+## Inventory
+- Animates a list of strings as if being typed one character at a time.
+
+## Working ✅
+- Common landing-page hero ornament; quickly grabs attention.
+
+## Internal conflicts ⚠
+- **CamelCase brand name** `TextType` leaks the upstream library (`typed.js`). Rename to `Typewriter`.
+- **`prefers-reduced-motion`** not confirmed — same issue as Marquee.
+- **No SEO fallback** — the static text the bot sees may differ from the animated text the user sees.
+- **No accessible name on the typed line** — screen readers should hear the resolved text once, not character-by-character.
+
+## Single highest-leverage fix
+Rename to `Typewriter` and ship with `aria-live="off"` + a static fallback first string for SEO.
+
+## Quick wins
+1. Honor `prefers-reduced-motion: reduce` — show first string statically.
+2. Loop / no-loop toggle.
+3. Cursor character picker.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 1 |
+| Emotion | 4 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 4 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Renders a search input + submit button.
+
+## Mobile-specific issues
+
+- Input lacks `inputmode='search'` and `enterkeyhint='search'` — virtual keyboard shows generic 'return' instead of 'search'.
+- Submit button is a 32px icon-only target — fails 44px minimum.
+- No autosuggest dropdown on mobile — dropdown is off-screen positioned when shown.
+- Input font-size < 16px triggers iOS auto-zoom on focus.
+
+## Mobile quick wins
+
+- Add `inputmode='search' enterkeyhint='search' autocomplete='off' font-size: 16px` to the input.
+- Render submit button at 44 × 44px.
+- Anchor autosuggest below the input with `position: absolute; left: 0; right: 0`.
+
+## Single highest-leverage fix (mobile)
+
+Add `inputmode='search' enterkeyhint='search' autocomplete='off' font-size: 16px` to the input.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Search
+
+**Identity:** `Search` (site search input).
+**Category:** Utility.
+
+## Inventory
+- Search input that queries the site and shows results.
+
+## Working ✅
+- Universal need; saves users from configuring Algolia/Lunr.
+
+## Internal conflicts ⚠
+- **Search backend not surfaced** — users don't know if it's MySQL LIKE, full-text, or something better.
+- **No instant-search dropdown** by default — modern expectation.
+- **No empty-state** on results page captured.
+- Default placeholder is generic "Search…" — should reflect the site type ("Search posts", "Search products").
+
+## Single highest-leverage fix
+Add an instant-results dropdown so the user sees matches as they type.
+
+## Quick wins
+1. Site-type-aware placeholder (`Search posts and products…`).
+2. Recent-searches row on focus.
+3. ARIA: `role="search"` wrapper, `aria-label` on the input.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Blog/Posts/Testimonials/Team-card renders cards stacked on mobile.
+
+## Mobile-specific issues
+
+- Card thumbnails inherit desktop aspect — too tall on phone (eats 60% of viewport per card).
+- Card meta (date / author / category) wraps to multiple lines.
+- 'Read more' link is a small text-link, not a button — fails 44px tap rule.
+- No skeleton/loading state during pagination on mobile.
+
+## Mobile quick wins
+
+- Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+- Convert 'Read more' to a 44px button.
+- Render skeletons when paginating.
+
+## Single highest-leverage fix (mobile)
+
+Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Team Card
+
+**Identity:** `Team Card` (people grid).
+**Category:** Content.
+
+## Inventory
+- Photo + name + role + bio + social links. Multiple cards in a grid.
+
+## Working ✅
+- Common "About us — meet the team" pattern; saves rolling-your-own.
+
+## Internal conflicts ⚠
+- **No role-vs-title distinction** — "Senior Developer" vs "Software Engineer" matter for SEO and clarity.
+- **No structured `Person` JSON-LD** schema emit.
+- **Default photo placeholders** are generic — should use coloured initials when no photo, not a "missing image" icon.
+- No filter (e.g. "Engineering team" vs "Marketing team") for sites with 30+ members.
+
+## Single highest-leverage fix
+Emit `Person` JSON-LD per card and group by team filter.
+
+## Quick wins
+1. Coloured-initials placeholder when photo missing.
+2. Optional pronouns field.
+3. Hover-reveal extended bio.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 2 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Shop / Products grid reflows to 2 columns on mobile, then 1 on very narrow.
+
+## Mobile-specific issues
+
+- Product card image-aspect varies — cards have inconsistent height, breaking grid alignment on mobile.
+- Add-to-cart button is below the fold on each card — user must scroll into the card before purchase action is visible.
+- Filter sidebar (if shown) takes full width and pushes products below the fold on mobile.
+- No 'sort' control surfaced on mobile — filtering is heavy, sort is missing.
+
+## Mobile quick wins
+
+- Force `aspect-ratio: 1/1` on product images for grid uniformity.
+- Convert filter sidebar to a bottom-sheet drawer on < 768px.
+- Add a top-bar Sort dropdown on mobile only.
+
+## Single highest-leverage fix (mobile)
+
+Force `aspect-ratio: 1/1` on product images for grid uniformity.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Products
+
+**Identity:** `Products` (`data-type="shop/products"`).
+**Category:** Ecommerce.
+**See also:** `DESIGN_REPORT_PRODUCT_LIST_MODULE.md` — full audit (4 surfaces, 15 backlog items).
+
+## Inventory (short)
+- Inserts a product grid bound to the shop. Right-rail quick actions: `+ Add element`, `Products` (data source), `Category` (filter).
+- Settings drawer is an iframe with `Items list / Settings / Design` tabs.
+- "NEW PRODUCT" → opens Filament `Create Product` modal nested two iframes deep.
+
+## Single highest-leverage fix (recap)
+Kill the iframe-in-iframe-in-modal architecture; lift the Create-Product modal to the outer document.
+
+## Top three quick wins (recap)
+1. Default the products grid to paginated 12 items, not full DB dump (currently renders 12,142 px tall).
+2. Rename body editor label `Write your post here` → `Product description` on the Create-Product modal.
+3. Add Image / Price / Status columns to the Items list (currently TITLE only).
+
+## Scorecard (recap)
+**Journey average: 19 / 35.** See full report for per-surface breakdown.
+## How this module behaves on a 390px phone
+
+- Pages module renders a flat list of links.
+
+## Mobile-specific issues
+
+- Bullet markers render but list-items are 28px tall — small target.
+- No section headers / grouping by parent page on mobile.
+- Long page titles overflow without truncation.
+
+## Mobile quick wins
+
+- Render as a vertical list of cards (`min-height: 48px`) with chevron affordance.
+- Add `text-overflow: ellipsis` after 2 lines.
+
+## Single highest-leverage fix (mobile)
+
+Render as a vertical list of cards (`min-height: 48px`) with chevron affordance.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Pages
+
+**Identity:** `Pages` (list of site pages).
+**Category:** Listing.
+
+## Inventory
+- Inserts a list/grid of pages. Filter by parent, tag, count.
+
+## Working ✅
+- Canonical pattern for "Our services" / "Locations" landing pages.
+
+## Internal conflicts ⚠
+- **Same unscoped page tree we saw in the post and product modals** — likely shows seeded gibberish on a fresh install.
+- No layout preset (cards / list / minimal links).
+- No exclusion filter ("hide this page from the list").
+- No empty-state when there are no pages matching the filter.
+
+## Single highest-leverage fix
+Add a filter chip row above the inserted Pages module: `By tag · By parent · By date · Manual`.
+
+## Quick wins
+1. Hide unpublished pages by default.
+2. Show the filter result count in the editor.
+3. Templated empty-state message ("No pages match yet.").
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Form renders inputs stacked at full width on mobile.
+
+## Mobile-specific issues
+
+- Inputs lack semantic types (`type='email'`, `type='tel'`) and `autocomplete` attributes — no field-fill, wrong keyboard layout.
+- No `inputmode` on numeric/email fields — wrong keyboard appears on iOS.
+- Error messages render *above* the input on submit — pushed off-screen by the keyboard, the user does not see them.
+- `<select>` falls back to native picker on iOS (good) but Android Chrome shows a tiny 12px dropdown that's hard to tap.
+- Submit button height is < 44px on the seeded form templates.
+- No `aria-live` region for form validation summary.
+
+## Mobile quick wins
+
+- Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+- Render field-level errors *below* the input with `aria-describedby` and scroll-into-view.
+- Add an `aria-live='polite'` summary at the top of the form.
+- Bump submit `min-height: 48px`.
+
+## Single highest-leverage fix (mobile)
+
+Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Newsletter
+
+**Identity:** `Newsletter` (email signup form).
+**Category:** Form.
+
+## Inventory
+- Email input + submit. Settings: list/audience binding, success/error copy, double opt-in.
+
+## Working ✅
+- One of the highest-conversion forms on a marketing site — earning its slot in the picker.
+
+## Internal conflicts ⚠
+- **Spam protection unclear** — no captcha / honeypot field surfaced as a default.
+- **GDPR consent checkbox** not surfaced as a default — required in many markets.
+- **No success-state preview** in the editor — the user only sees the empty form.
+- Provider integration (Mailchimp, MailerLite, Brevo) is opaque from the canvas.
+
+## Single highest-leverage fix
+Default a GDPR consent checkbox + honeypot field; hide them on US-only sites if explicitly toggled off.
+
+## Quick wins
+1. Inline preview for "Thanks for subscribing!" success state.
+2. Show the bound provider as a chip on the canvas (`Mailchimp →`).
+3. Privacy-policy link slot under the field.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Multiple-columns reflow to a single stacked column at < 768px (Bootstrap breakpoint).
+
+## Mobile-specific issues
+
+- Stacking order is DOM order — designer cannot reorder for mobile (no `order:` controls).
+- Column gaps remain ~24px between stacked items, which feels wide on a 390px screen.
+- Some seeded layouts use `col-md-*` which collapse only at 768px — too late; the seeded layout wraps at 360px-440px and looks broken in landscape.
+
+## Mobile quick wins
+
+- Add a per-column 'Mobile order' input.
+- Use `gap: clamp(.5rem, 4vw, 1.5rem)` to scale gaps with viewport.
+- Audit Bootstrap classes; prefer `col-12 col-sm-*` to break sooner.
+
+## Single highest-leverage fix (mobile)
+
+Add a per-column 'Mobile order' input.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Multiple Columns
+
+**Identity:** `Multiple Columns` (column container; `data-type="layouts"` family).
+**Category:** Layout.
+
+## Inventory
+- Inserts a flex/grid row that can host other modules side-by-side.
+- Default column count: usually 2 or 3 depending on template.
+
+## Working ✅
+- Necessary primitive for any two-column layout. Keep.
+- Drag-and-drop modules into each column.
+
+## Internal conflicts ⚠
+- **No mobile-stacking behaviour preview.** Editor shows the desktop layout; mobile is a guess until VIEW.
+- **No gap / gutter control** on the canvas — must descend into Element Style Editor.
+- Adding a 4th column on a 3-column row collapses awkwardly without a clear visual rule.
+
+## Single highest-leverage fix
+Show a "Mobile" toggle on the module's right rail that simulates how columns stack on small viewports.
+
+## Quick wins
+1. Surface column-count chips (`1 · 2 · 3 · 4 · 6 · 12`) above the row.
+2. Visible gap handle drag.
+3. "Equalise heights" one-click toggle.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 4 |
+| Distinctiveness | 2 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Multilanguage renders as a small flag/code selector.
+
+## Mobile-specific issues
+
+- Selector is 24px wide — far below tap minimum.
+- Drop-down list anchors to top-right — on mobile the menu spills off-screen on the right.
+- Language list scrolls inside a 200px box — selected language is hard to confirm visually after pick.
+
+## Mobile quick wins
+
+- Render as a 44 × 44 button that opens a bottom sheet with the language list on mobile.
+
+## Single highest-leverage fix (mobile)
+
+Render as a 44 × 44 button that opens a bottom sheet with the language list on mobile.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Multilanguage
+
+**Identity:** `Multilanguage` (language picker).
+**Category:** Site.
+
+## Inventory
+- Dropdown / list of available site languages, switching the user's locale.
+
+## Working ✅
+- Critical for any non-English-only site; surfacing it as a module is correct.
+
+## Internal conflicts ⚠
+- **Naming**: `Multilanguage` is a CMS-internal compound. Users say "Language" or "Language switcher".
+- **Locale codes vs flags**: flags identify countries, not languages. `🇺🇸 English` excludes other English-speaking countries.
+- No `hreflang` tag emit confirmed.
+- Selected language not visually distinct in default styling.
+
+## Single highest-leverage fix
+Rename to `Language switcher`. Default to language names without flags; flags as an optional toggle.
+
+## Quick wins
+1. Emit `hreflang` alternates in `<head>`.
+2. Persist user's choice in cookie + URL.
+3. ARIA: `aria-label="Choose language"`.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Menu collapses to a hamburger on mobile (template hamburger; module renders the link list source).
+
+## Mobile-specific issues
+
+- Menu items render as inline-block on the seeded template even at 390px — they wrap and overlap with the logo when 5+ items.
+- Submenu hover-trigger does not work on touch — first tap opens, second tap navigates is not implemented.
+- Off-canvas hamburger drawer (template-level) does not trap focus when open.
+- Active page highlight uses `:hover` color — invisible on touch since :hover sticks unpredictably on iOS.
+
+## Mobile quick wins
+
+- Convert menu module to use `<nav>` + a true off-canvas drawer at < 768px.
+- Add tap-to-open submenu pattern (first tap = open, second = navigate, scrim closes on outside tap).
+- Trap focus inside the drawer when open and `inert` the rest of the page.
+
+## Single highest-leverage fix (mobile)
+
+Convert menu module to use `<nav>` + a true off-canvas drawer at < 768px.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Menu
+
+**Identity:** `Menu` (`data-type="menu"`).
+**Category:** Navigation.
+
+## Inventory
+- Inserts a navigation menu bound to a Microweber Menu (Header Menu / Footer Menu / etc.).
+- Settings: which menu, orientation, mobile breakpoint.
+
+## Working ✅
+- Bound to a real Menu entity — single source of truth.
+- Live-updates when the bound menu changes.
+
+## Internal conflicts ⚠
+- **Mobile menu (hamburger) styling** is template-controlled, opaque to the user.
+- No mega-menu support visible.
+- Active-state styling not surfaced as a control — users have to know which CSS class to override.
+- "Menu" appears twice in the system — as a module here and as a separate admin entity (the Menus database). The relationship is implicit.
+
+## Single highest-leverage fix
+Show the bound Menu name (`Header Menu`) and a `Edit menu →` link inside the canvas selection.
+
+## Quick wins
+1. Mega-menu boolean toggle.
+2. Active-link colour control surfaced on the canvas.
+3. "Sticky on scroll" toggle.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Animation runs on the main thread (CSS keyframes / requestAnimationFrame).
+- On low-end Android the typing/marquee animation drops below 30fps in dev tools mobile profile.
+
+## Mobile-specific issues
+
+- No `prefers-reduced-motion: reduce` guard — accessibility regression on iOS users with the OS-level setting on.
+- Marquee uses `translateX` looping — pauses are not respected when tab is backgrounded (battery cost).
+- Texttype (typewriter) flashes content during hydration before the JS attaches — Cumulative Layout Shift on mobile is ~0.05+.
+
+## Mobile quick wins
+
+- Wrap animation styles in `@media (prefers-reduced-motion: no-preference)`.
+- Use IntersectionObserver to pause animations off-screen.
+- Reserve space with `min-height` to eliminate CLS during JS hydration.
+
+## Single highest-leverage fix (mobile)
+
+Wrap animation styles in `@media (prefers-reduced-motion: no-preference)`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Marquee
+
+**Identity:** `Marquee` (horizontally scrolling text/logos).
+**Category:** Visual.
+
+## Inventory
+- Continuously scrolling row of text or images. Direction, speed, pause-on-hover.
+
+## Working ✅
+- Stylish "as seen in" / partner-logo strip when used sparingly.
+
+## Internal conflicts ⚠
+- **`prefers-reduced-motion` not respected** — confirm the module pauses for users who request reduced motion.
+- **Auto-rotating motion** is a Drunk-Designer anti-pattern in carousel form; marquee is its cousin.
+- No accessibility name for the strip.
+- Speed slider is template-specific; defaults vary.
+
+## Single highest-leverage fix
+Honor `prefers-reduced-motion: reduce` — pause the marquee when the OS preference is set.
+
+## Quick wins
+1. Pause-on-hover by default.
+2. `aria-label="Featured partners"` style accessible name.
+3. Provide a static fallback layout for print / RSS.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 17 / 30**
+## How this module behaves on a 390px phone
+
+- Logo image scales with `max-height` from template.
+
+## Mobile-specific issues
+
+- Logo `max-height` is 40-60px on mobile — fine, but the wordmark next to the logo is template-level and overflows on long brand names at 390px.
+- No `srcset` / @2x asset for retina mobile — visible blurriness on phone screens.
+
+## Mobile quick wins
+
+- Emit `srcset` with a 1x and 2x asset and `sizes='40px'`.
+- Truncate brand wordmark with `text-overflow: ellipsis` at < 360px.
+
+## Single highest-leverage fix (mobile)
+
+Emit `srcset` with a 1x and 2x asset and `sizes='40px'`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Logo
+
+**Identity:** `Logo` (`data-type="logo"` — also auto-mounted in headers).
+**Category:** Branding.
+
+## Inventory
+- Inserts the site logo (image + optional text).
+
+## Working ✅
+- Pulls from the site-wide logo configured in Template Customization → Branding. Single source of truth.
+
+## Internal conflicts ⚠
+- **Two ways to set a logo** — Template Customization Branding section and per-module override. Unclear which wins.
+- **No dark/light variant** — sites with dark headers and light footers need both.
+- **No SVG-vs-PNG hint** — SVG logos are crisper and lighter; users get no nudge.
+
+## Single highest-leverage fix
+Surface "Logo (light)" and "Logo (dark)" both, auto-pick by surrounding background.
+
+## Quick wins
+1. Show the resolved size in the canvas tooltip.
+2. Lazy-load only off-screen instances (the header logo should never lazy-load).
+3. Encourage SVG with a short tooltip.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Renders empty/background containers; relies on outer column module for width.
+
+## Mobile-specific issues
+
+- Background module's image fills container but is fixed at desktop res — wastes mobile data.
+- Empty module has zero height and no editor outline — invisible target on touch.
+- No overlay-color picker on mobile editor (off-canvas right rail bug).
+
+## Mobile quick wins
+
+- Provide responsive background `image-set()` declarations.
+- Render an editor-only dashed border on Empty modules in live edit mode.
+
+## Single highest-leverage fix (mobile)
+
+Provide responsive background `image-set()` declarations.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Layout Content
+
+**Identity:** `Layout Content` (`data-type="layouts"`-family wrapper).
+**Category:** Content.
+
+## Inventory
+- Wraps a layout template's main content slot. Users probably encounter this when editing pages built from a template.
+
+## Working ✅
+- Necessary plumbing: marks where a template's main body lives so children layouts can be inserted.
+
+## Internal conflicts ⚠
+- **Name is jargon.** "Layout Content" reads as a developer term. Users want "Page body" or "Main content".
+- **Overlaps with `Content` and `Text`** in the picker — three modules occupying the same mental slot.
+- **Often inserted automatically** by template structure; surfacing it in the user-facing picker is confusing.
+
+## Single highest-leverage fix
+Hide `Layout Content` from the user-facing picker — keep it as an internal template slot only.
+
+## Quick wins
+1. If kept, rename to `Page body` and add a description.
+2. Make the slot's boundary visible only on hover so it doesn't compete visually with the user's content.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 1 |
+| Emotion | 1 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 1 |
+**Total: 9 / 30 — second strongest deletion candidate after `Empty`.**
+## How this module behaves on a 390px phone
+
+- Inline-table renders a `<table>` with native HTML semantics.
+
+## Mobile-specific issues
+
+- Wide tables overflow without horizontal-scroll wrapper — content is clipped on narrow screens.
+- No `<caption>` and no `scope` on `<th>` — screen reader users get unstructured cell read-out.
+- On mobile the table's column-widths collapse such that wrapping makes rows different heights.
+
+## Mobile quick wins
+
+- Wrap the table in `<div style='overflow-x: auto'>` and set `min-width: max-content` on the table.
+- Emit `scope='col'`/`scope='row'` and a meaningful `<caption>` field in the editor.
+- Optional: 'card-row' rendering on < 480px (each row stacks as a card).
+
+## Single highest-leverage fix (mobile)
+
+Wrap the table in `<div style='overflow-x: auto'>` and set `min-width: max-content` on the table.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Inline Table
+
+**Identity:** `Inline Table` (HTML `<table>` editor).
+**Category:** Content.
+
+## Inventory
+- Click → grid editor opens (rows × cols picker, then editable cells).
+- Likely supports header row, alignment per cell.
+
+## Working ✅
+- Tables are still the right answer for tabular data; having a real one in the picker beats fake-tables made of columns.
+
+## Internal conflicts ⚠
+- **Tables for tabular data only.** No warning prevents users from using a table for layout (a 2010-era anti-pattern).
+- **No responsive strategy** — wide tables horizontally scroll on mobile by default. Should at least wrap in `.overflow-x-auto`.
+- **No row-header vs column-header distinction** for screen readers.
+- **No CSV/Excel paste import.**
+
+## Single highest-leverage fix
+Add a CSV / TSV / Excel paste-import in the create flow.
+
+## Quick wins
+1. Always wrap in `<div class="table-responsive">`.
+2. Mark the first row as `<th scope="col">` by default.
+3. Add a "Striped / Bordered / Compact" preset row.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Single image scales with `max-width: 100%` and centers — picture/pictures grids stack to 1 column at < 480px.
+- Image-rollover swaps `src` on hover — on mobile there is no hover, the rollover never triggers.
+
+## Mobile-specific issues
+
+- **No `srcset`/`sizes` emitted** for inserted images in the module — every visitor downloads the desktop-sized asset on a 4G phone.
+- Image-rollover's hover-only affordance means the secondary state is invisible on touch devices — a mobile-blocking UX pattern.
+- No native `loading='lazy'` attribute on inserted images — initial paint blocks while above-the-fold images are decoded.
+- Galleries (pictures) lack a swipeable lightbox — taps open the raw file URL in a new tab on iOS.
+
+## Mobile quick wins
+
+- Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+- Convert hover-only rollover to a tap-toggle on touch devices.
+- Add `loading='lazy'` and `decoding='async'` to inserted media.
+- Wrap gallery items in a touch-aware lightbox (swipe to dismiss).
+
+## Single highest-leverage fix (mobile)
+
+Emit `srcset` with 320w/640w/960w/1280w breakpoints from the media library when the picture/pictures module renders.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Image Rollover
+
+**Identity:** `Image Rollover` (hover-swap image).
+**Category:** Media.
+
+## Inventory
+- Two images: default + hover-state. On mouse-over, the second image is shown.
+
+## Working ✅
+- Niche but useful for product variants, before/after-style teasers.
+
+## Internal conflicts ⚠
+- **Hover-only affordance** — Drunk-Designer anti-pattern. Touch devices have no hover.
+- **No tap-to-flip** for mobile.
+- **No accessibility name** on the rolled-over image.
+- Overlaps with `BeforeAfter` for some use cases.
+
+## Single highest-leverage fix
+On touch devices, swap on tap (or at least show the second image briefly) so the feature works for everyone.
+
+## Quick wins
+1. `aria-label` describing the rollover.
+2. Optional caption that swaps with the image.
+3. Provide a Crossfade transition style alongside the default instant swap.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Renders a horizontal row of icon links (social-links / sharer / icon).
+
+## Mobile-specific issues
+
+- Icons are 24-32px on the seeded template — below 44px tap-target minimum, and wrap awkwardly when more than 5 icons are present at 390px.
+- Sharer copies the URL to share on desktop but does not call the Web Share API on mobile (`navigator.share`) — wasted native UX.
+- Icon-only links lack `aria-label` half the time — confirmed via DOM.
+
+## Mobile quick wins
+
+- Bump icon hit area to 44 × 44 with `padding`.
+- Detect `navigator.share` and prefer it on mobile.
+- Audit `aria-label` on every icon-link emit.
+
+## Single highest-leverage fix (mobile)
+
+Bump icon hit area to 44 × 44 with `padding`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Icon
+
+**Identity:** `Icon` (single icon glyph).
+**Category:** Visual.
+
+## Inventory
+- Inserts an icon. Likely backed by Material/MDI or a custom set.
+- Settings: icon name (search), size, colour.
+
+## Working ✅
+- Useful for visual hierarchy without image weight.
+
+## Internal conflicts ⚠
+- **No icon-pack disclosure.** Users don't know if they're searching MDI, FontAwesome, or a custom set.
+- **No accessibility label prompt.** Decorative icons should mark `aria-hidden`; meaningful icons need a label.
+- **No SVG inlining vs icon-font choice.** Icon fonts blow up on screen-readers; SVG with `<title>` is the modern path.
+
+## Single highest-leverage fix
+Always emit SVG with `<title>` (or `aria-hidden="true"` if marked decorative).
+
+## Quick wins
+1. Search by category (Arrow / Brand / UI / Communication…).
+2. Recently used row.
+3. Bulk replace ("change all chevrons in this layout").
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Code blocks render with `<pre><code>` and inherit horizontal-scroll from template stylesheet.
+- Syntax highlighting palette is template-controlled — readable in light mode, low contrast on dark.
+
+## Mobile-specific issues
+
+- Long lines force horizontal scroll inside a vertically-scrolling page — two-axis scroll is a known mobile foot-gun.
+- No copy-to-clipboard button visible at < 768px — the icon overlaps line numbers on mobile.
+- Line-numbers gutter is too narrow (no padding-left), letters touch the gutter on iPhone.
+
+## Mobile quick wins
+
+- Add `overflow-x: auto` and `-webkit-overflow-scrolling: touch` plus a soft right gradient hint.
+- Render the copy button as a fixed top-right button on `.is-mobile` viewports.
+- Use `tabular-nums` for line numbers and add `padding-inline-end: .5em`.
+
+## Single highest-leverage fix (mobile)
+
+Add `overflow-x: auto` and `-webkit-overflow-scrolling: touch` plus a soft right gradient hint.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — HighlightCode
+
+**Identity:** `HighlightCode` (syntax-highlighted code block — CamelCase brand naming).
+**Category:** Content.
+
+## Inventory
+- Pasted code with language detection / picker, syntax highlighting via highlight.js or Prism.
+
+## Working ✅
+- Specific tool for the job; better than dropping `<pre><code>` by hand.
+
+## Internal conflicts ⚠
+- **CamelCase brand name** `HighlightCode` reads as an internal identifier. Rename to `Code Block`.
+- **No copy-to-clipboard button** by default.
+- **Language list** likely huge — needs search/recently-used.
+- **No dark/light theme toggle** that respects site theme.
+
+## Single highest-leverage fix
+Rename to `Code Block` and ship with a copy-to-clipboard button enabled by default.
+
+## Quick wins
+1. Auto-detect language from the pasted snippet, with explicit override.
+2. Line numbers toggle.
+3. Honor site theme (dark code on dark theme, light on light).
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 1 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 12 / 30**
+## How this module behaves on a 390px phone
+
+- Google Maps iframe loads default zoom/pan controls.
+
+## Mobile-specific issues
+
+- Two-finger-pan-to-move is not enabled by default — single-finger drag intercepts page scroll, the user gets stuck in the map.
+- Map height is fixed at 450px or 600px — eats most of the mobile viewport.
+- API key is not always present in the inserted embed — mobile shows the 'For development purposes only' watermark.
+
+## Mobile quick wins
+
+- Set `gestureHandling='cooperative'` so the map only pans with two-finger gesture or after a tap.
+- Use `aspect-ratio: 16/9` and `max-height: 50vh` to prevent map from dominating the screen.
+
+## Single highest-leverage fix (mobile)
+
+Set `gestureHandling='cooperative'` so the map only pans with two-finger gesture or after a tap.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Google Maps
+
+**Identity:** `Google Maps` (embedded map).
+**Category:** Embed.
+
+## Inventory
+- Inserts a Google Maps iframe at a chosen address / lat-long / pin.
+
+## Working ✅
+- One-click map for contact pages — common need.
+
+## Internal conflicts ⚠
+- **GDPR / consent**: Google Maps loads tracking. No consent gate visible.
+- **No alternative**: OpenStreetMap / Leaflet is privacy-respectful; not offered.
+- **API-key dependency**: if no key configured, the map silently shows a degraded state — ship a clear CTA to set the key in Settings.
+- **No multiple-pin support** for "our locations" pages.
+
+## Single highest-leverage fix
+Add an OpenStreetMap fallback option with no API key required.
+
+## Quick wins
+1. Show "Add Google Maps API key →" link inside the module's settings if missing.
+2. Lazy-load the iframe until visible.
+3. Add a "lite" static-image preview that hydrates on hover.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 2 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Accordion/Tabs/FAQ render with click-to-expand panels; smooth height animation.
+
+## Mobile-specific issues
+
+- Tab labels overflow horizontally on mobile — no `overflow-x: auto` with snap, they wrap into multiple rows that distort the strip.
+- Tap target heights are 36-40px — below 44px iOS HIG minimum.
+- Accordion icon (chevron) does not flip with `aria-expanded` change — visual state confused.
+- FAQ does not use `<details>/<summary>` — loses native browser semantics, search, and accessibility.
+
+## Mobile quick wins
+
+- Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+- Set tab strip to `overflow-x: auto; scroll-snap-type: x mandatory` with snap points.
+- Bump tap target min-height to 48px.
+
+## Single highest-leverage fix (mobile)
+
+Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Faq
+
+**Identity:** `Faq` (frequently-asked-questions block).
+**Category:** Content.
+
+## Inventory
+- A specialised Accordion: question + answer pairs, intended for SEO-rich FAQ pages.
+
+## Working ✅
+- Distinct from Accordion *if* it emits FAQPage JSON-LD; otherwise redundant.
+
+## Internal conflicts ⚠
+- **Mixed-case casing**: `Faq` (rather than `FAQ`) breaks the picker's ad-hoc convention. Acronyms should be uppercase.
+- **Overlap with Accordion**: see `accordion.md`.
+- No structured-data emit confirmed.
+- No "search this FAQ" toggle for long lists.
+
+## Single highest-leverage fix
+Rename to `FAQ` (uppercase) and confirm `FAQPage` JSON-LD emission.
+
+## Quick wins
+1. Search-this-FAQ field toggle.
+2. Anchor links per question for shareable URLs.
+3. "Was this helpful?" mini-feedback per item.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Embeds render the third-party iframe at the inserted size.
+- No fallback for users who block third-party iframes via tracking protection.
+
+## Mobile-specific issues
+
+- Fixed pixel widths/heights overflow the 375px content area on the seeded template.
+- No `loading='lazy'` on the iframe — third-party JS executes during initial page load on mobile.
+- No CSP `sandbox` attribute on inserted iframes — embedded scripts have full origin access.
+- Many embeds (Twitter, Facebook) show 'Couldn't load' on mobile in tracker-blocked browsers (Safari ITP, Brave).
+
+## Mobile quick wins
+
+- Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+- Add `loading='lazy'` and `referrerpolicy='no-referrer-when-downgrade'`.
+- Add a noscript/no-iframe placeholder linking out to the source URL.
+
+## Single highest-leverage fix (mobile)
+
+Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Facebook Page
+
+**Identity:** `Facebook Page` (Facebook Page plugin).
+**Category:** Social.
+
+## Inventory
+- Embeds a Facebook Page's preview card with timeline / events / cover image.
+
+## Working ✅
+- One-line embed for "follow us on Facebook" sections.
+
+## Internal conflicts ⚠
+- Same privacy concerns as `Facebook Like`.
+- **Two separate modules for the same vendor** — combine.
+- **Likely deprecated by Meta**: the Page plugin's design and tracking model has changed several times; long-term reliability is uncertain.
+
+## Single highest-leverage fix
+Merge `Facebook Like` + `Facebook Page` into a single `Facebook` module with a `Like / Page / Post` mode toggle.
+
+## Quick wins
+1. Privacy-respecting deferred load.
+2. Show fallback link when blocked.
+3. Consider a generic `Social embed` module that handles Facebook, X, Instagram, LinkedIn.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 1 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 2 |
+| Distinctiveness | 1 |
+**Total: 9 / 30 — merge target.**
+## How this module behaves on a 390px phone
+
+- Embeds render the third-party iframe at the inserted size.
+- No fallback for users who block third-party iframes via tracking protection.
+
+## Mobile-specific issues
+
+- Fixed pixel widths/heights overflow the 375px content area on the seeded template.
+- No `loading='lazy'` on the iframe — third-party JS executes during initial page load on mobile.
+- No CSP `sandbox` attribute on inserted iframes — embedded scripts have full origin access.
+- Many embeds (Twitter, Facebook) show 'Couldn't load' on mobile in tracker-blocked browsers (Safari ITP, Brave).
+
+## Mobile quick wins
+
+- Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+- Add `loading='lazy'` and `referrerpolicy='no-referrer-when-downgrade'`.
+- Add a noscript/no-iframe placeholder linking out to the source URL.
+
+## Single highest-leverage fix (mobile)
+
+Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Facebook Like
+
+**Identity:** `Facebook Like` (Facebook Like button widget).
+**Category:** Social.
+
+## Inventory
+- Embeds Facebook's Like button.
+
+## Working ✅
+- Single-purpose social widget.
+
+## Internal conflicts ⚠
+- **GDPR / privacy**: loads Facebook tracking. No consent gate.
+- **Single-platform bet**: Facebook is one of many; why not Twitter/X, LinkedIn?
+- **Dated**: 2010s pattern; Like buttons rarely used in 2025+.
+- **No fallback** when Facebook is blocked by the user (China, ad-blockers).
+
+## Single highest-leverage fix
+Defer-load behind a one-click "Show Facebook widget" placeholder until the user opts in.
+
+## Quick wins
+1. Combine with `Sharer` / `TweetEmbed` into a single `Social embed` module.
+2. Show the button in a privacy-respecting "lite" mode that hydrates on click.
+3. Hide on cookie-rejection.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 1 |
+| Usability | 2 |
+| Coherence | 2 |
+| Scalability | 1 |
+| Distinctiveness | 1 |
+**Total: 10 / 30 — strong consolidation candidate.**
+## How this module behaves on a 390px phone
+
+- Renders empty/background containers; relies on outer column module for width.
+
+## Mobile-specific issues
+
+- Background module's image fills container but is fixed at desktop res — wastes mobile data.
+- Empty module has zero height and no editor outline — invisible target on touch.
+- No overlay-color picker on mobile editor (off-canvas right rail bug).
+
+## Mobile quick wins
+
+- Provide responsive background `image-set()` declarations.
+- Render an editor-only dashed border on Empty modules in live edit mode.
+
+## Single highest-leverage fix (mobile)
+
+Provide responsive background `image-set()` declarations.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Empty
+
+**Identity:** `Empty` (empty container).
+**Category:** Layout (developer-leak).
+
+## Inventory
+- Inserts an empty `<div>` placeholder. Useful for spacing or as a drop-target.
+
+## Working ✅
+- A pure spacer/container has its place — but **see Internal conflicts**.
+
+## Internal conflicts ⚠
+- **`Empty` is a developer concept exposed to users.** Most users will never knowingly need an empty container — they need a Spacer or a Multiple Columns row.
+- The name itself is a poor marketing pitch ("Insert: Empty"). Users will skip past it; it pollutes the picker.
+- **Redundant with `Spacer`** — both are silent layout helpers.
+
+## Single highest-leverage fix
+Remove `Empty` from the user-facing picker. Keep it as an internal admin-only tool if developers need it.
+
+## Quick wins
+1. If kept, rename to `Container` and add a hover description: "An empty row to drop modules into".
+2. Auto-collapse when empty in published view.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 1 |
+| Emotion | 1 |
+| Usability | 2 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 1 |
+**Total: 9 / 30 — strongest candidate to delete from the library.**
+## How this module behaves on a 390px phone
+
+- Embeds render the third-party iframe at the inserted size.
+- No fallback for users who block third-party iframes via tracking protection.
+
+## Mobile-specific issues
+
+- Fixed pixel widths/heights overflow the 375px content area on the seeded template.
+- No `loading='lazy'` on the iframe — third-party JS executes during initial page load on mobile.
+- No CSP `sandbox` attribute on inserted iframes — embedded scripts have full origin access.
+- Many embeds (Twitter, Facebook) show 'Couldn't load' on mobile in tracker-blocked browsers (Safari ITP, Brave).
+
+## Mobile quick wins
+
+- Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+- Add `loading='lazy'` and `referrerpolicy='no-referrer-when-downgrade'`.
+- Add a noscript/no-iframe placeholder linking out to the source URL.
+
+## Single highest-leverage fix (mobile)
+
+Wrap the iframe in a responsive container with `aspect-ratio` and `width: 100%`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Embed
+
+**Identity:** `Embed` (generic HTML/iframe embed).
+**Category:** Embed.
+
+## Inventory
+- Drop in raw HTML / iframe / script. Power-user escape hatch.
+
+## Working ✅
+- Necessary for one-off third-party widgets (Calendly, Stripe, custom forms).
+
+## Internal conflicts ⚠
+- **Security**: arbitrary HTML/JS opens XSS surface for non-admin users. Confirm RBAC: only admins can edit Embed.
+- No sandbox preview — pasted code may break the page in prod, not in the editor.
+- No allow-list of known providers (would convert pasted iframe URLs to safer privacy-respecting variants).
+- No "set width / height / aspect-ratio" wrapper.
+
+## Single highest-leverage fix
+Wrap pasted iframes in a responsive `aspect-ratio: 16/9` container by default and surface a chip to override.
+
+## Quick wins
+1. RBAC check: only admins can insert Embed.
+2. Preview pane below the textarea showing the rendered embed.
+3. Strip `<script>` for non-admin roles.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Body copy reflows to a single column — line-length is acceptable on 390px (~70-80 chars max).
+- Default paragraph font size renders at 16px in the seeded site, which clears iOS auto-zoom thresholds — good.
+- Headings rely on template scale; on Big2 the H1 can collapse to body-size weight at small viewports.
+
+## Mobile-specific issues
+
+- No explicit `prose` max-width in the rendered module — when the user widens the column, lines exceed 75ch on landscape orientations.
+- Inline-edit caret on a heading triggers iOS keyboard which obscures the bottom half — no `scrollIntoView` on focus.
+- No reading-time hint or anchor links auto-generated for headings.
+
+## Mobile quick wins
+
+- Add `--max-content-measure: 65ch` to the module wrapper.
+- Add a `keyup` listener on contenteditable that calls `selection.scrollIntoViewIfNeeded()` when keyboard is open.
+
+## Single highest-leverage fix (mobile)
+
+Add `--max-content-measure: 65ch` to the module wrapper.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Content
+
+**Identity:** `Content` (rich-text block — likely overlaps with `Text`).
+**Category:** Content.
+
+## Inventory
+- Multi-paragraph rich content. May include shortcuts to insert nested modules inline.
+
+## Working ✅
+- The "main canvas" of any page-like surface — necessary primitive.
+
+## Internal conflicts ⚠
+- **`Content` vs `Text` vs `Layout Content` is a three-way confusion.** The picker exposes all three with no description. Users will click and find out by trial.
+- Rich-text inline toolbar duplicates the post body editor's toolbar — same Link Picker issues apply.
+- No content-template starts ("Article", "Press release", "Product description").
+
+## Single highest-leverage fix
+Disambiguate `Text` (single block) vs `Content` (long-form rich body) vs `Layout Content` (template-driven shell). Pick two; deprecate one.
+
+## Quick wins
+1. One-line description on hover for each.
+2. Word-count + reading-time badge.
+3. Outline-view sidebar showing all H1–H4 inside the Content block.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 1 |
+| Scalability | 3 |
+| Distinctiveness | 1 |
+**Total: 12 / 30**
+## How this module behaves on a 390px phone
+
+- Form renders inputs stacked at full width on mobile.
+
+## Mobile-specific issues
+
+- Inputs lack semantic types (`type='email'`, `type='tel'`) and `autocomplete` attributes — no field-fill, wrong keyboard layout.
+- No `inputmode` on numeric/email fields — wrong keyboard appears on iOS.
+- Error messages render *above* the input on submit — pushed off-screen by the keyboard, the user does not see them.
+- `<select>` falls back to native picker on iOS (good) but Android Chrome shows a tiny 12px dropdown that's hard to tap.
+- Submit button height is < 44px on the seeded form templates.
+- No `aria-live` region for form validation summary.
+
+## Mobile quick wins
+
+- Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+- Render field-level errors *below* the input with `aria-describedby` and scroll-into-view.
+- Add an `aria-live='polite'` summary at the top of the form.
+- Bump submit `min-height: 48px`.
+
+## Single highest-leverage fix (mobile)
+
+Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Contact Form
+
+**Identity:** `Contact Form` (Name + Email + Message form).
+**Category:** Form.
+
+## Inventory
+- Standard contact form fields. Submission target: site admin email and/or CRM.
+
+## Working ✅
+- Universal need; saves users from configuring a form builder.
+
+## Internal conflicts ⚠
+- **Spam protection unclear** — same critique as Newsletter.
+- **Double-submit prevention** absent on click.
+- **No success / error inline state** preview in the editor.
+- **No file-attachment toggle** for "send me your CV" use cases.
+
+## Single highest-leverage fix
+Default-on honeypot + rate-limiting; surface "spam protection: ✓" badge in the canvas.
+
+## Quick wins
+1. Configurable required-field set (Name optional, Phone optional).
+2. Confirmation auto-reply email toggle.
+3. Inline validation as the user types.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Form renders inputs stacked at full width on mobile.
+
+## Mobile-specific issues
+
+- Inputs lack semantic types (`type='email'`, `type='tel'`) and `autocomplete` attributes — no field-fill, wrong keyboard layout.
+- No `inputmode` on numeric/email fields — wrong keyboard appears on iOS.
+- Error messages render *above* the input on submit — pushed off-screen by the keyboard, the user does not see them.
+- `<select>` falls back to native picker on iOS (good) but Android Chrome shows a tiny 12px dropdown that's hard to tap.
+- Submit button height is < 44px on the seeded form templates.
+- No `aria-live` region for form validation summary.
+
+## Mobile quick wins
+
+- Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+- Render field-level errors *below* the input with `aria-describedby` and scroll-into-view.
+- Add an `aria-live='polite'` summary at the top of the form.
+- Bump submit `min-height: 48px`.
+
+## Single highest-leverage fix (mobile)
+
+Map field name → semantic input type + autocomplete (`email`, `tel`, `name`, `street-address`...).
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Comments
+
+**Identity:** `Comments` (post/product comments thread).
+**Category:** Engagement.
+
+## Inventory
+- Comment list + comment form. May integrate with Disqus or be self-hosted.
+
+## Working ✅
+- Real comments engagement loop — earning the slot.
+
+## Internal conflicts ⚠
+- **Spam protection** unclear from the canvas.
+- **Moderation surface** not surfaced — admins should be able to moderate inline.
+- **No Disqus / Hyvor / native toggle** from the canvas; users may not know what they're getting.
+- **No threaded replies** confirmed.
+
+## Single highest-leverage fix
+Surface the comment-engine choice (Native / Disqus / Hyvor / Off) as a chip on the canvas selection.
+
+## Quick wins
+1. Honeypot + rate-limiting by default.
+2. Inline moderation actions for admins.
+3. Mention/notify support.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Tags / category renders chips inline.
+
+## Mobile-specific issues
+
+- Chips wrap into 4-5 rows on a 390px viewport when post has many tags — eats vertical space.
+- Chips are 24px tall — fails tap-target rule.
+- No mobile pattern (horizontal scroll with snap is more natural here than wrapping).
+
+## Mobile quick wins
+
+- Switch to `overflow-x: auto; scroll-snap-type: x mandatory` chip strip on < 768px.
+- Bump chip height to 32-36px with `padding-block: 0.4rem`.
+
+## Single highest-leverage fix (mobile)
+
+Switch to `overflow-x: auto; scroll-snap-type: x mandatory` chip strip on < 768px.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Category
+
+**Identity:** `Category` (categories listing).
+**Category:** Listing.
+
+## Inventory
+- Lists the site's categories (post categories, product categories, or both).
+
+## Working ✅
+- Useful for shop sidebars and blog landing pages.
+
+## Internal conflicts ⚠
+- **Scope ambiguity**: posts vs products vs all. The picker doesn't say.
+- Default render is a flat list — categories often have hierarchy (parent/child) that should be visualised.
+- No empty-state UX.
+
+## Single highest-leverage fix
+Add a scope chip on insert: `Posts · Products · All`.
+
+## Quick wins
+1. Render hierarchy by default; flat-list as a toggle.
+2. Item counts per category (`Pricing (3)`).
+3. Active-category highlighting when listed inside a category landing page.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Buttons render with template-aware default styles.
+- Add-to-cart inherits product-page button rules.
+
+## Mobile-specific issues
+
+- Default button height is 36-40px on the seeded site — below 44px iOS HIG min for touch.
+- Inline-edit on the button label is fiddly on mobile — long-press selects the parent, not the text.
+- No loading/disabled state on add-to-cart — double-taps fire two add events on slow 3G.
+- Link-picker modal (used by Button) renders fine on mobile but is not full-height — there's wasted dead-zone above the keyboard.
+
+## Mobile quick wins
+
+- Set `min-height: 44px; padding-block: .65rem` on all CTAs.
+- Switch button to `aria-busy='true'` and disable for 1s after add-to-cart click.
+- Bottom-sheet variant of Link Picker on mobile.
+
+## Single highest-leverage fix (mobile)
+
+Set `min-height: 44px; padding-block: .65rem` on all CTAs.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Button
+
+**Identity:** `Button` (`data-type="btn"`).
+**Category:** Action.
+
+## Inventory
+- Inserts a styled CTA. Inline label edit. Settings: link target (uses Link Picker modal — see `DESIGN_REPORT_LINK_PICKER_MODAL.md`), style preset, size.
+
+## Working ✅
+- Default style is template-aware (orange CTA on the seeded site, capsule pill on Big2).
+- Inline label edit feels natural.
+
+## Internal conflicts ⚠
+- **No primary/secondary/ghost preset row** in the canvas — must descend into Element Style Editor.
+- **Link picker is the same minimal modal flagged elsewhere** — accepts garbage URLs, no internal-page search.
+- **No icon-prefix / suffix** baked in (most modern CTAs have an arrow).
+- **No loading state** for buttons that submit.
+
+## Single highest-leverage fix
+Add inline preset chips (`Primary · Secondary · Ghost · Outline · Link`) above the button on selection.
+
+## Quick wins
+1. Append-icon picker (arrow, plus, external-link).
+2. Built-in `target="_blank"` + `rel="noopener noreferrer"` when external.
+3. Hover-state preview toggle.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 4 |
+| Distinctiveness | 2 |
+**Total: 18 / 30**
+## How this module behaves on a 390px phone
+
+- Breadcrumb renders as inline `<a>` separated by `>`.
+
+## Mobile-specific issues
+
+- Long breadcrumb chains overflow horizontally with no truncation — on a 4-level path the breadcrumb pushes beyond the viewport.
+- Tap targets are inline text with 32px row height — below 44px.
+- No mobile pattern (e.g. collapsing middle items to '…').
+
+## Mobile quick wins
+
+- Apply `overflow-x: auto; white-space: nowrap` and a soft right-gradient hint, OR collapse middle items to `…` on < 480px.
+- Wrap each link with `padding-block: .75rem`.
+
+## Single highest-leverage fix (mobile)
+
+Apply `overflow-x: auto; white-space: nowrap` and a soft right-gradient hint, OR collapse middle items to `…` on < 480px.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Breadcrumb
+
+**Identity:** `Breadcrumb` (Home › Section › Page trail).
+**Category:** Navigation.
+
+## Inventory
+- Auto-generated trail of the current page's ancestry.
+
+## Working ✅
+- Resolved from page tree automatically — no manual maintenance.
+- SEO-relevant when wired to BreadcrumbList JSON-LD.
+
+## Internal conflicts ⚠
+- **JSON-LD emit not confirmed.** SEO miss if absent.
+- **Separator character** is not customisable from the canvas (›, /, →).
+- **Truncation strategy** absent: deep trees overflow on mobile.
+- Hidden on home page is a default — confirm.
+
+## Single highest-leverage fix
+Emit `BreadcrumbList` JSON-LD whenever this module renders.
+
+## Quick wins
+1. Separator picker chip.
+2. Mobile truncation: `Home › … › Current`.
+3. `aria-label="Breadcrumb"` on the wrapper `<nav>`.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 4 |
+| Emotion | 2 |
+| Usability | 4 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 18 / 30**
+## How this module behaves on a 390px phone
+
+- Blog/Posts/Testimonials/Team-card renders cards stacked on mobile.
+
+## Mobile-specific issues
+
+- Card thumbnails inherit desktop aspect — too tall on phone (eats 60% of viewport per card).
+- Card meta (date / author / category) wraps to multiple lines.
+- 'Read more' link is a small text-link, not a button — fails 44px tap rule.
+- No skeleton/loading state during pagination on mobile.
+
+## Mobile quick wins
+
+- Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+- Convert 'Read more' to a 44px button.
+- Render skeletons when paginating.
+
+## Single highest-leverage fix (mobile)
+
+Set thumbnail `aspect-ratio: 16/9` and `object-fit: cover`.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Blog
+
+**Identity:** `Blog` (blog listing / archive).
+**Category:** Listing.
+
+## Inventory
+- Inserts a blog landing — list of posts with archive controls (year/month, category).
+
+## Working ✅
+- Distinct from `Posts` *if* it bundles archive controls; otherwise duplicate.
+
+## Internal conflicts ⚠
+- **Overlap with `Posts` module.** Two paths to the same goal.
+- Big2 template is missing the `Blog` layout-picker entry — see `DESIGN_REPORT_TEMPLATE_BIG2.md`.
+- No RSS auto-generation hint.
+- No author / category landing-page support.
+
+## Single highest-leverage fix
+Define `Blog = Posts + sidebar archive controls`. If the sidebar isn't there, the modules are equivalent — merge.
+
+## Quick wins
+1. Auto-generate `/feed.xml` whenever this module is on a page.
+2. Reading-time, author, category badges per item.
+3. Optional Featured Posts row.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 14 / 30**
+## How this module behaves on a 390px phone
+
+- Before/After uses a draggable splitter handle.
+- Image pair renders at intrinsic ratio.
+
+## Mobile-specific issues
+
+- Splitter handle is hard to grab on touch — drag area is < 30px wide.
+- No `touch-action: pan-x` on the handle — dragging triggers vertical page scroll on iOS.
+- No keyboard interaction (Left/Right arrow) — accessibility regression.
+- On narrow phones the labels (Before/After) overlap the splitter when the user drags to either edge.
+
+## Mobile quick wins
+
+- Increase handle hit area with `padding: 12px` and a transparent extended box.
+- Set `touch-action: pan-x` on the splitter and `touch-action: none` while dragging.
+- Add Left/Right ArrowKey handlers stepping the splitter by 5%.
+
+## Single highest-leverage fix (mobile)
+
+Increase handle hit area with `padding: 12px` and a transparent extended box.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — BeforeAfter
+
+**Identity:** `BeforeAfter` (image comparison slider — CamelCase brand naming).
+**Category:** Media.
+
+## Inventory
+- Two images stacked behind a draggable slider; the user reveals one over the other.
+
+## Working ✅
+- Genuinely fun module — strong "memorable feeling" hit per the framework.
+
+## Internal conflicts ⚠
+- **CamelCase name `BeforeAfter`** is a code identifier, not a user-facing label. Rename to `Before / After`.
+- Both images need identical aspect ratio for the slider to look right; the editor doesn't enforce or warn.
+- No accessible alternative — screen reader users get nothing.
+- No vertical-slider option — only horizontal.
+
+## Single highest-leverage fix
+Rename to `Before / After` (with the slash and spaces) and prompt for both images at insert.
+
+## Quick wins
+1. Aspect-ratio warning when images don't match.
+2. Vertical-slider toggle.
+3. `aria-label="Before/after image comparison slider"` on the container; provide both alt-texts as a fallback.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 2 |
+| Emotion | 4 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 4 |
+**Total: 18 / 30**
+## How this module behaves on a 390px phone
+
+- Renders empty/background containers; relies on outer column module for width.
+
+## Mobile-specific issues
+
+- Background module's image fills container but is fixed at desktop res — wastes mobile data.
+- Empty module has zero height and no editor outline — invisible target on touch.
+- No overlay-color picker on mobile editor (off-canvas right rail bug).
+
+## Mobile quick wins
+
+- Provide responsive background `image-set()` declarations.
+- Render an editor-only dashed border on Empty modules in live edit mode.
+
+## Single highest-leverage fix (mobile)
+
+Provide responsive background `image-set()` declarations.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Background
+
+**Identity:** `Background` (background image/video container).
+**Category:** Visual.
+
+## Inventory
+- A full-width section with a background image or video and optional overlay + content slot.
+
+## Working ✅
+- Hero-section staple; cleanly separates the "background art" from the "foreground content" concerns.
+
+## Internal conflicts ⚠
+- **Overlap with `Picture` + section padding** — same effect can be achieved with the Element Style Editor's Background section. Two paths to the same result.
+- **Video background**: heavy on mobile; no `prefers-reduced-data` consideration.
+- **Overlay opacity** control not surfaced inline.
+- **Text readability** check missing — no AA contrast warning when the overlay is too thin.
+
+## Single highest-leverage fix
+On mobile + `prefers-reduced-data`, swap video backgrounds for a static poster image automatically.
+
+## Quick wins
+1. Inline overlay-opacity slider.
+2. Auto-suggest darker overlay when text contrast fails AA.
+3. Lazy-load the video below the fold.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 4 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 3 |
+**Total: 18 / 30**
+## How this module behaves on a 390px phone
+
+- Native `<audio>`/`<video>` controls render correctly on iOS Safari and Chrome Android.
+- Default poster is a black frame — no thumbnail extraction on mobile cellular.
+
+## Mobile-specific issues
+
+- Video starts at 100vh on Big2 templates due to inherited container — exceeds typical mobile fold and forces double-scroll.
+- Autoplay relies on `muted+playsinline`; the inserted attributes are not always set, so iOS blocks autoplay.
+- No mobile-data warning before downloading a 30MB+ file — affects audio podcasts and large videos.
+- Captions/subtitles UI is not surfaced; `<track>` element accepted but author has no UI to attach VTT files.
+
+## Mobile quick wins
+
+- Force `playsinline` and `muted` attributes when autoplay is selected.
+- Add a poster-frame extraction step (server-side ffmpeg thumbnail).
+- Show a 'Tap to load' placeholder when `navigator.connection.saveData` is true.
+
+## Single highest-leverage fix (mobile)
+
+Force `playsinline` and `muted` attributes when autoplay is selected.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Audio
+
+**Identity:** `Audio` (HTML5 `<audio>` player).
+**Category:** Media.
+
+## Inventory
+- Inserts an audio player with file upload or URL source.
+
+## Working ✅
+- Native HTML5 audio is light and accessible by default.
+
+## Internal conflicts ⚠
+- **No transcript field** — accessibility miss.
+- **No podcast-friendly metadata** (episode, season, host) for podcast use cases.
+- **No autoplay-blocker warning** when user enables autoplay.
+- No waveform preview — modern audio players ship with one.
+
+## Single highest-leverage fix
+Add a transcript text-area paired with the audio file; surface in `<details>` below the player.
+
+## Quick wins
+1. Display duration/file-size next to the inserted player.
+2. Visualise waveform on hover.
+3. Warn on autoplay unless muted.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 3 |
+| Scalability | 3 |
+| Distinctiveness | 1 |
+**Total: 15 / 30**
+## How this module behaves on a 390px phone
+
+- Buttons render with template-aware default styles.
+- Add-to-cart inherits product-page button rules.
+
+## Mobile-specific issues
+
+- Default button height is 36-40px on the seeded site — below 44px iOS HIG min for touch.
+- Inline-edit on the button label is fiddly on mobile — long-press selects the parent, not the text.
+- No loading/disabled state on add-to-cart — double-taps fire two add events on slow 3G.
+- Link-picker modal (used by Button) renders fine on mobile but is not full-height — there's wasted dead-zone above the keyboard.
+
+## Mobile quick wins
+
+- Set `min-height: 44px; padding-block: .65rem` on all CTAs.
+- Switch button to `aria-busy='true'` and disable for 1s after add-to-cart click.
+- Bottom-sheet variant of Link Picker on mobile.
+
+## Single highest-leverage fix (mobile)
+
+Set `min-height: 44px; padding-block: .65rem` on all CTAs.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Add to cart
+
+**Identity:** `Add to cart` (ecommerce CTA button bound to a product).
+**Category:** Ecommerce.
+
+## Inventory
+- Inserts a CTA. Likely binds to nearest product context or shows a product picker on first insert.
+
+## Working ✅
+- Discrete from generic Button — semantically meaningful for ecommerce.
+- Inherits Element Style Editor styling cleanly.
+
+## Internal conflicts ⚠
+- **No quantity stepper** — every "add to cart" assumes 1.
+- **No variant picker** (size/colour) before adding.
+- **No success state** preview ("Added ✓" → mini cart) inside the editor.
+- Outside a product context, the module's behaviour is unclear (does it open a product picker?).
+
+## Single highest-leverage fix
+Pair Add-to-cart with an inline quantity stepper and a (Variants → Size · Colour) chip row.
+
+## Quick wins
+1. Show inline preview of cart-state animation (toast / drawer).
+2. Disabled state when bound product is out of stock — preview that in the editor.
+3. Default label "Add to cart" should be editable inline.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 3 |
+| Usability | 2 |
+| Coherence | 3 |
+| Scalability | 2 |
+| Distinctiveness | 3 |
+**Total: 16 / 30**
+## How this module behaves on a 390px phone
+
+- Accordion/Tabs/FAQ render with click-to-expand panels; smooth height animation.
+
+## Mobile-specific issues
+
+- Tab labels overflow horizontally on mobile — no `overflow-x: auto` with snap, they wrap into multiple rows that distort the strip.
+- Tap target heights are 36-40px — below 44px iOS HIG minimum.
+- Accordion icon (chevron) does not flip with `aria-expanded` change — visual state confused.
+- FAQ does not use `<details>/<summary>` — loses native browser semantics, search, and accessibility.
+
+## Mobile quick wins
+
+- Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+- Set tab strip to `overflow-x: auto; scroll-snap-type: x mandatory` with snap points.
+- Bump tap target min-height to 48px.
+
+## Single highest-leverage fix (mobile)
+
+Convert FAQ to native `<details>/<summary>` for free a11y and progressive enhancement.
+
+
+## System-Level Mobile Context (applies to every module)
+
+These findings are inherited from `MOBILE_AUDIT/05_LIVE_EDIT.md` and `MOBILE_AUDIT/00_OVERVIEW.md` and are reproduced here for completeness:
+
+- 🐛 **Element Style Editor is unreachable on mobile.** The right rail renders at `x=410px` on a 390px viewport (`getBoundingClientRect = [410, 185, 310, 32]`, `overflowX: hidden` on body). No module's deep style controls (typography, spacing, animations, custom classes, AI editor) can be reached on a phone. **Fix once for the whole product: convert the right rail to a bottom-sheet drawer on viewports < 768px.**
+- 🐛 **Live Edit toolbar overlaps canvas content.** The fixed `SAVE` button sits over the canvas header on mobile; the iframe needs `padding-top` to clear the toolbar.
+- 🐛 **Live Edit toolbar wraps to two rows** at 390px because `device-toggle / ⋮ / VIEW / SAVE` do not all fit. Layout instability when menus open.
+- ⚠ **No mobile-preview default.** Live Edit always opens at the desktop preview width even on a real phone; the device-toggle has the wrong default.
+- ⚠ **Inline edits on a heading or input** trigger the iOS keyboard with no `scrollIntoView` — the cursor disappears under the keyboard.
+- ⚠ **Module insert picker (`+ Add module`)** is full-screen on mobile (good) but there is no search/filter for modules — the full grid is hard to scan on 390px.
+- ⚠ **Selecting an element on mobile gives no inline action toolbar** — desktop-style hover icons are invisible.
+- ⚠ **Module `data-type` attribute is the only way to identify a module on the canvas** — the editor wraps the module DOM consistently.
+- ⚠ **Public site horizontal scroll mismatch:** confirmed `viewportWidth = 390` but `documentElement.scrollWidth = 375` on the seeded home page — there is a ~15px right gutter discrepancy. Inspect template body padding.
+
+The single highest-leverage fix for the Live Edit experience as a whole is to **make the Element Style Editor a bottom-sheet drawer on mobile** — every module's tunability depends on it.
+
+
+---
+
+## Source — existing module audit (desktop-focused) for reference
+
+# Module — Accordion
+
+**Identity:** `Accordion` (collapsible question/answer block).
+**Category:** Content.
+
+## Inventory
+- Series of collapsible items with title + body.
+
+## Working ✅
+- Native semantics through `<details>`/`<summary>` are simple and accessible by default.
+
+## Internal conflicts ⚠
+- **Likely overlaps with `Faq` module** — two paths to the same outcome confuses users.
+- No "expand all / collapse all" toggle.
+- No deep-link support (`#item-3` opens that item).
+- Animation defaults are template-controlled.
+
+## Single highest-leverage fix
+Merge `Accordion` and `Faq` — Faq is just an Accordion with stronger structured-data semantics.
+
+## Quick wins
+1. Emit FAQPage JSON-LD when the Accordion is on a content page.
+2. Deep-link via URL fragment.
+3. Keyboard navigation (Up/Down/Home/End) per WAI-ARIA Disclosure pattern.
+
+## Scorecard
+| Dim | Score |
+|---|---:|
+| Clarity | 3 |
+| Emotion | 2 |
+| Usability | 3 |
+| Coherence | 2 |
+| Scalability | 3 |
+| Distinctiveness | 2 |
+**Total: 15 / 30**
 ## Inventory
 - Inserts a flex/grid row that can host other modules side-by-side.
 - Default column count: usually 2 or 3 depending on template.
