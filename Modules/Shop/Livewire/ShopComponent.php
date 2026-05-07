@@ -89,6 +89,47 @@ class ShopComponent extends BlogComponent
         $this->setPage(1);
     }
 
+    /*
+     * audit-test 2026-05-07 Shop audit finding 1 (BLOCKER):
+     * The original blade used `wire:click` on `<option>` elements — the
+     * browser does not fire `click` on `<option>`; it fires `change` on
+     * the parent `<select>`. So Sort/Limit dropdowns were doing nothing.
+     * Fixed shape: `<select wire:model.live="sortKey">` + handler below
+     * splits "field_direction" into the two state slots. Same shape for
+     * limit (handled by Livewire's automatic property hydration since
+     * `$limit` is already a public).
+     */
+    public $sortKey = '';
+
+    public function updatedSortKey($value): void
+    {
+        if (! $value) {
+            return;
+        }
+
+        // Format: "<field>_<direction>"; direction is the LAST underscore segment.
+        $lastUnderscore = strrpos($value, '_');
+        if ($lastUnderscore === false) {
+            return;
+        }
+
+        $field = substr($value, 0, $lastUnderscore);
+        $direction = substr($value, $lastUnderscore + 1);
+
+        if (! in_array($direction, ['asc', 'desc'], true)) {
+            return;
+        }
+
+        $this->sort = $field;
+        $this->direction = $direction;
+        $this->setPage(1);
+    }
+
+    public function updatedLimit(): void
+    {
+        $this->setPage(1);
+    }
+
     public function render()
     {
         $productCardSettings = [
@@ -125,9 +166,16 @@ class ShopComponent extends BlogComponent
         }
 
         if (isset($filterSettings['default_sort'])) {
-            if (str_contains(',', $filterSettings['default_sort'])) {
-                $defaultSortUndot = explode(',', $filterSettings['default_sort']);
-                if (!empty($defaultSortUndot)) {
+            // audit-test 2026-05-07 Shop audit finding 2 (BLOCKER):
+            // arguments to str_contains were reversed — `str_contains(',', $value)`
+            // asks "does ',' contain $value", which is always false unless
+            // $value is '' or ','. So whatever the admin set as default_sort
+            // (e.g. 'price,asc') was silently ignored on every render.
+            // Correct order: str_contains($haystack, $needle).
+            // Bonus: explode + index [1] could throw if no comma — count guard.
+            if (str_contains($filterSettings['default_sort'], ',')) {
+                $defaultSortUndot = explode(',', $filterSettings['default_sort'], 2);
+                if (count($defaultSortUndot) === 2) {
                     $this->sort = $defaultSortUndot[0];
                     $this->direction = $defaultSortUndot[1];
                 }

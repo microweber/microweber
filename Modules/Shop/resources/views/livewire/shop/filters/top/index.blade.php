@@ -4,28 +4,34 @@
         <input type="text" class="form-control" wire:model.live="keywords" placeholder="Type to search...">
     </div>
     <div class="d-flex gap-2">
+        {{-- audit-test 2026-05-07 Shop audit finding 1 (BLOCKER):
+             wire:click on <option> never fires (browsers fire change on
+             <select>, not click on <option>). Sort/Limit dropdowns were
+             doing nothing. Fixed: bind wire:model.live on the <select>
+             with proper value attributes; ShopComponent's
+             updatedSortKey/updatedLimit handle the state swap. --}}
         <div>
             <label>Sort</label>
             <div>
-                <select class="form-control">
-                    <option wire:click="filterSort('created_by', 'asc')">Newest</option>
-                    <option wire:click="filterSort('created_by', 'desc')">Oldest</option>
-                    <option wire:click="filterSort('title', 'asc')">Title: A-Z</option>
-                    <option wire:click="filterSort('title', 'desc')">Title: Z-A</option>
-                    <option wire:click="filterSort('price', 'asc')">Price: Low to High</option>
-                    <option wire:click="filterSort('price', 'desc')">Price: High to Low</option>
+                <select class="form-control" wire:model.live="sortKey">
+                    <option value="created_by_asc">Newest</option>
+                    <option value="created_by_desc">Oldest</option>
+                    <option value="title_asc">Title: A-Z</option>
+                    <option value="title_desc">Title: Z-A</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
                 </select>
             </div>
         </div>
         <div>
             <label>Limit</label>
             <div>
-                <select class="form-control">
-                    <option wire:click="filterLimit(1)">1</option>
-                    <option wire:click="filterLimit(12)">12</option>
-                    <option wire:click="filterLimit(24)">24</option>
-                    <option wire:click="filterLimit(48)">48</option>
-                    <option wire:click="filterLimit(96)">96</option>
+                <select class="form-control" wire:model.live="limit">
+                    <option value="1">1</option>
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="48">48</option>
+                    <option value="96">96</option>
                 </select>
             </div>
         </div>
