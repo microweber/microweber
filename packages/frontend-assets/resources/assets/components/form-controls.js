@@ -581,7 +581,21 @@ mw.emitter = {
                     return false;
                 }
 
-                return urlField.validity;
+                // audit-test 2026-05-07 Link Picker audit finding 2
+                // (HIGH BUG): the previous return was `urlField.validity`
+                // which is the ValidityState OBJECT (always truthy).
+                // The intent was the boolean .valid property. Combined
+                // with `<input type="text">` (no HTML5 email validation),
+                // the dialog accepted any string and prefixed `mailto:`.
+                // Fix: return the boolean .valid AND a regex backstop
+                // for environments where the input was rendered without
+                // type=email (older controllers).
+                if (urlField && urlField.validity && typeof urlField.validity.valid === 'boolean') {
+                    if (!urlField.validity.valid) return false;
+                }
+                // RFC-pragmatic email pattern as a defensive backstop.
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailPattern.test(urlField.value);
             };
 
             var footer = UIFormControllers.footer();
@@ -1383,13 +1397,27 @@ mw.emitter = {
             var urlField = holder.querySelector('[name="url"]');
             var targetField = holder.querySelector('[name="target"]');
 
-            urlField.value = location.protocol + '//';
+            // audit-test 2026-05-07 Link Picker audit finding 7 (UX):
+            // the previous prefill `location.protocol + '//'` caused
+            // double-prefix on paste (http://http://example.com) and
+            // let isValid() pass the bare protocol string (writing
+            // <a href="http://"> when user clicked OK). Drop prefill;
+            // placeholder text already conveys the format hint.
 
             this.valid = function () {
                 var res = this.isValid();
                // footer.ok.disabled = !res;
                 return res;
             };
+
+            // audit-test 2026-05-07 Link Picker audit finding 1 (HIGH
+            // SECURITY): URL controller had zero protocol allow-list.
+            // `javascript:alert(document.cookie)` was returned unchanged
+            // by `_filterXSS` (HTML-context filter) and written onto an
+            // <a href="…"> by the consumer — stored-XSS primitive.
+            // Allow-list http(s):, mailto:, tel:, relative paths, anchors,
+            // and bare hostnames that look like a domain.
+            var safeUrlPattern = /^(\/|#|https?:\/\/|mailto:|tel:|[\w.-]+\.[a-z]{2,})/i;
 
             this.isValid = function () {
                 if(textField && !textField.value) {
@@ -1399,6 +1427,10 @@ mw.emitter = {
                     return false;
                 }
 
+                var v = urlField.value.trim();
+                if (!safeUrlPattern.test(v)) {
+                    return false;
+                }
                 return true;
             };
 
