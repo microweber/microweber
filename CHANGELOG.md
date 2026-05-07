@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- **Accordion multi-instance collapse ids** (task-2026-05-07-60b1a8) — closed the remaining per-item collision from the earlier accordion multi-instance fix. `Modules/Accordion/resources/views/templates/skin-1.blade.php`, `skin-3.blade.php`, and `skin-4.blade.php` were still rendering `header-item-{slideId}` / `collapse-accordion-item-{slideId}-{key}` without the module instance prefix, so two accordion modules with overlapping slide ids could cause Bootstrap collapse to resolve the first DOM match and expand the wrong module. Prefixed the per-item header/collapse ids and related `aria-labelledby` / `aria-controls` values with `$params['id']`, then expanded `Modules/Accordion/Tests/Unit/AccordionModuleFrontendTest.php` to cover every collapse-based skin (`default`, `skin-1`, `skin-3`, `skin-4`).
+
 ### Audit-test review-cycle 8 (2026-05-07)
 - **Issue 02 stragglers** — `mobile-touch.css` gained `input[type="search"] { font-size: 16px }` (no `.fi` ancestor — picks up the Microweber tree-component search input that lived outside the original rule's scope) plus a specificity-bumped textarea rule (`.fi textarea[id], .fi-fo-textarea ... textarea { font-size: 16px !important }`) defeating Filament's `text-sm` utility. Closes the 5/231 stragglers flagged by agent-test re-validation.
 - **Issue 04 public Bootstrap selector miss** — added `a[class^="button-"], a[class*=" button-"], .module-posts a[href]:not([class*="btn-icon"]), .module-blog a[href]:not([class*="btn-icon"])` to the `Templates/Bootstrap/resources/assets/css/main.scss` mobile `@media` block, plus an inline footgun comment ("CSS targeting public-theme CTAs should use STRUCTURE / PREFIX patterns, not semantic words"). The seeded "Read More" CTA renders with class `button-N` from the ESE's button-preset picker, NOT a hand-authored `.read-more`.

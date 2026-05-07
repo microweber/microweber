@@ -43,18 +43,18 @@
         @endphp
 
         <div class="accordion-item">
-            <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
+            <h2 class="accordion-header" id="header-item-{{ $params['id'] }}-{{ $edit_field_key }}">
                 <button class="accordion-button  mw-accordion-module-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
+                        data-bs-target="#collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}"
                         aria-expanded="true"
-                        aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
+                        aria-controls="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}">
                     {!! isset($slide['icon']) ? icon_html($slide['icon']) . ' ' : '' !!} <span class="mw-accordion-text-color"> {{ isset($slide['title']) ? $slide['title'] : '' }}</span>
                 </button>
             </h2>
 
-            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
+            <div id="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}"
                  class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}"
-                 aria-labelledby="header-item-{{ $edit_field_key }}"
+                 aria-labelledby="header-item-{{ $params['id'] }}-{{ $edit_field_key }}"
                  data-bs-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="accordion-body mw-accordion-module-content">
                     @include('modules.accordion::partials.render_accordion_item_content')
