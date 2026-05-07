@@ -91,12 +91,20 @@
 
             // Initialize the code editor
             const initCodeEditor = function () {
+                // audit-test 2026-05-07 Code Editor audit finding #11 (UX):
+                // Ctrl-S/Cmd-S now triggers Update; previously the browser's
+                // "Save Page As..." native dialog hijacked the shortcut and
+                // the admin had no keyboard path to commit changes.
                 html_code_area_editor2 = CodeMirror.fromTextArea(document.getElementById("html_code_area_editor2"), {
                     lineNumbers: true,
                     gutter: false,
                     lineWrapping: true,
                     matchTags: {bothTags: true},
-                    extraKeys: {"Ctrl-Space": "autocomplete"},
+                    extraKeys: {
+                        "Ctrl-Space": "autocomplete",
+                        "Ctrl-S": function (cm) { applyHtmlEdit2(); return false; },
+                        "Cmd-S": function (cm) { applyHtmlEdit2(); return false; }
+                    },
                     mode: {
                         name: "text/html", globalVars: true
                     }
@@ -325,14 +333,34 @@
     </script>
 
     <div id="custom_html_code_mirror_container">
-        <textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30"></textarea>
+        {{-- audit-test 2026-05-07 Code Editor audit finding #8 (A11Y):
+             screen-reader users entering CodeMirror heard "edit text,
+             multi-line" with no context. CM5 forwards aria attributes
+             to its input handle. --}}
+        <textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30" aria-label="<?php _e('HTML source code'); ?>"></textarea>
     </div>
 
+    {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
+         Update was a <span onclick> — not focusable, not keyboard-
+         activatable, and `type="button"` on a span is a no-op. The
+         editor had ZERO keyboard commit path, so a screen-reader /
+         keyboard-only admin could not save their work. Convert to a
+         real <button> + addEventListener; keep the global
+         applyHtmlEdit2() function intact since it is referenced from
+         the canvas iframe. --}}
     <div class="mw-css-editor-c2a-nav">
         <div class="btn-group btn-block" role="group">
             <?php /*        <button onclick="format_code2();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
 */ ?>
-            <span onclick="applyHtmlEdit2();" class="btn btn-dark" type="button"><?php _e('Update'); ?></span>
+            <button id="mw-html-editor-update-btn" class="btn btn-dark" type="button"><?php _e('Update'); ?></button>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var updateBtn = document.getElementById('mw-html-editor-update-btn');
+            if (updateBtn) {
+                updateBtn.addEventListener('click', function () { applyHtmlEdit2(); });
+            }
+        });
+    </script>
 </div>

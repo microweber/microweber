@@ -82,12 +82,19 @@
             // Initialize the main CSS editor
             const initMainCssEditor = function() {
                 if (document.getElementById("custom_css_code_mirror")) {
+                    // audit-test 2026-05-07 Code Editor audit finding #11 (UX):
+                    // Ctrl-S/Cmd-S now triggers Save; previously the browser's
+                    // native "Save Page As..." dialog hijacked the shortcut.
                     css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
                         lineNumbers: true,
                         indentWithTabs: true,
                         matchBrackets: true,
                         gutter: false,
-                        extraKeys: {"Ctrl-Space": "autocomplete"},
+                        extraKeys: {
+                            "Ctrl-Space": "autocomplete",
+                            "Ctrl-S": function (cm) { savecss(); return false; },
+                            "Cmd-S": function (cm) { savecss(); return false; }
+                        },
                         mode: {
                             name: "css",
                             globalVars: true
@@ -102,12 +109,18 @@
             // Initialize the live edit CSS editor
             const initLiveEditCssEditor = function() {
                 if (document.getElementById("live_edit_custom_css_code_mirror")) {
+                    // audit-test 2026-05-07 Code Editor audit finding #11 (UX):
+                    // Ctrl-S/Cmd-S now triggers Save for the live-edit CSS pane.
                     live_edit_css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("live_edit_custom_css_code_mirror"), {
                         lineNumbers: true,
                         indentWithTabs: true,
                         matchBrackets: true,
                         gutter: false,
-                        extraKeys: {"Ctrl-Space": "autocomplete"},
+                        extraKeys: {
+                            "Ctrl-Space": "autocomplete",
+                            "Ctrl-S": function (cm) { live_edit_savecss(); return false; },
+                            "Cmd-S": function (cm) { live_edit_savecss(); return false; }
+                        },
                         mode: {
                             name: "css",
                             globalVars: true
@@ -321,12 +334,19 @@
                  role="tabpanel">
 
 
+{{-- audit-test 2026-05-07 Code Editor audit finding #8 (A11Y):
+     screen-reader users entering CodeMirror heard "edit text, multi-line"
+     with no context. CM5 forwards aria attributes to its input handle. --}}
 <textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
-          option-group="template"
+          option-group="template" aria-label="<?php _e('Custom CSS source'); ?>"
           placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
+                {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
+                     <span onclick> Save was not focusable / not keyboard-
+                     activatable; converted to <button> + addEventListener.
+                     Global savecss() preserved for any external callers. --}}
                 <div class="mw-css-editor-c2a-nav" id="csssave">
 
-                    <span onclick="savecss();" class="btn btn-dark" type="button"><?php _e('Save'); ?></span>
+                    <button id="mw-css-editor-save-btn" class="btn btn-dark" type="button"><?php _e('Save'); ?></button>
 
 
                 </div>
@@ -338,15 +358,21 @@
 
 
 
+        {{-- audit-test 2026-05-07 Code Editor audit finding #8 (A11Y):
+             screen-reader label for the live-edit CSS textarea. --}}
         <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
                   id="live_edit_custom_css_code_mirror" rows="30"
+                  aria-label="<?php _e('Live edit CSS source'); ?>"
                   placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
 
 
+                {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
+                     <span onclick> Save → <button> + addEventListener; global
+                     live_edit_savecss() preserved. --}}
                 <div class="mw-css-editor-c2a-nav">
 
 
-                    <span onclick="live_edit_savecss();" class="btn btn-dark" type="button"><?php _e('Save'); ?></span>
+                    <button id="mw-live-edit-css-save-btn" class="btn btn-dark" type="button"><?php _e('Save'); ?></button>
 
 
                 </div>
@@ -354,5 +380,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var customCssBtn = document.getElementById('mw-css-editor-save-btn');
+            if (customCssBtn) {
+                customCssBtn.addEventListener('click', function () { savecss(); });
+            }
+            var liveEditCssBtn = document.getElementById('mw-live-edit-css-save-btn');
+            if (liveEditCssBtn) {
+                liveEditCssBtn.addEventListener('click', function () { live_edit_savecss(); });
+            }
+        });
+    </script>
 
 </div>
