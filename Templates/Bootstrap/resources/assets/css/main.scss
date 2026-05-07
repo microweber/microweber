@@ -516,6 +516,29 @@ a {
         display: inline-flex;
         align-items: center;
     }
+
+    /*
+     * Issue 04 follow-up (audit-test 2026-05-06T16:18):
+     * The seeded "Read More" CTA renders with class `button-N` (N from
+     * the Element Style Editor's button preset picker), NOT a hand-
+     * authored `.read-more` / `.post-link`. So target the prefix
+     * pattern AND the parent module containers for card-title links.
+     *
+     * Project-specific footgun: any future CSS targeting public-theme
+     * CTAs should use STRUCTURE (parent container `.module-posts`,
+     * ancestor `[data-module-name]`) or PREFIX patterns (`a[class^="button-"]`),
+     * NOT semantic words like `.read-more` — those classes simply do
+     * not exist on the rendered page.
+     */
+    a[class^="button-"],
+    a[class*=" button-"],
+    .module-posts a[href]:not([class*="btn-icon"]),
+    .module-blog  a[href]:not([class*="btn-icon"]) {
+        min-height: 44px;
+        padding-block: 0.6rem;
+        display: inline-flex;
+        align-items: center;
+    }
 }
 
 @import "rtl-changes.scss";

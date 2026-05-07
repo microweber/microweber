@@ -48,6 +48,28 @@
         font-size: 16px;
     }
 
+    /* Issue 02 stragglers (audit-test follow-up 2026-05-06T16:18):
+       After the rule above shipped, agent-test re-ran the probe and
+       found 5/231 inputs still <16px. Two diagnoses:
+       (a) The page-tree search input #input-1 lives OUTSIDE `.fi`
+           (it's a Microweber tree-component widget, not a Filament
+           form field). Drop the `.fi` ancestor for `input[type="search"]`
+           on touch viewports — Microweber search inputs aren't at
+           desktop-density risk so a bare type-selector is safer.
+       (b) Description textareas (`form.description`,
+           `form.content_meta_description`, `form.og_description`) sit
+           inside `.fi` so the `.fi textarea` rule SHOULD match — but
+           a more-specific Filament `text-sm` utility class wins the
+           cascade. Bump specificity with `[id]` + `!important`. */
+    input[type="search"] {
+        font-size: 16px;
+    }
+    .fi textarea[id],
+    .fi-fo-textarea .filament-forms-textarea-component textarea,
+    .fi-fo-textarea textarea {
+        font-size: 16px !important;
+    }
+
     /* Issue 04 — topbar / sidebar icon buttons up to 44×44.
        `.fi-icon-btn` is Filament's stable utility for icon-only buttons
        (notifications popover trigger, dark-mode toggle, sidebar collapse,
@@ -57,4 +79,72 @@
         min-width: 44px;
         min-height: 44px;
     }
+}
+
+/*
+ * TICKET-I (audit-test mobile-audit Issue 05 + DOM dump 2026-05-06T16:19):
+ * Live-Edit toolbar wraps to a second row at <576px because the device-
+ * toggle (`.mw-live-edit-resolutions-wrapper`, ~92px) plus the SAVE
+ * button cannot fit on one row. The wrapped row pushes SAVE down to
+ * y=57, overlapping the iframe canvas top at y=60 (33px overlap).
+ *
+ * Two-leg fix:
+ *   1. Hide the device-toggle on phones (the user IS on a phone — the
+ *      desktop preview is the wrong default). Frees enough horizontal
+ *      space to keep the toolbar on one row.
+ *   2. Push the iframe down by the toolbar height so SAVE no longer
+ *      overlaps the canvas content even if the toolbar wraps.
+ *
+ * Real DOM hooks confirmed by agent-test DOM dump:
+ *   - `#live-edit-frame-holder` wraps the iframe; height set on it.
+ *   - `.mw-live-edit-resolutions-wrapper` is the device-toggle nav.
+ */
+@media (max-width: 575.98px) {
+    .mw-live-edit-resolutions-wrapper {
+        display: none;
+    }
+    /* TICKET-I polish (audit-test ack 2026-05-07): use a CSS variable
+       for the toolbar height so future changes to the toolbar's
+       intrinsic height don't silently break the iframe offset. */
+    :root { --mw-live-edit-toolbar-h: 60px; }
+    #live-edit-frame-holder {
+        padding-top: var(--mw-live-edit-toolbar-h);
+        box-sizing: border-box;
+    }
+}
+
+/*
+ * TICKET-L (UX audit Finding 03 — agent-test 2026-05-06T16:36):
+ * The Filament filter-trigger badge renders a literal "0" when no
+ * filters are active. A "0" badge is the universal sign of
+ * "no notifications / nothing to see" — users misread it as
+ * "filter feature unavailable" and miss the affordance entirely.
+ *
+ * Hide the badge when its visible text content is exactly "0".
+ * `:has()` is the right tool: it targets the badge whose direct
+ * text node is "0". Modern browser support is sufficient for the
+ * Filament admin (no IE / legacy targets).
+ */
+.fi-ta-filters-trigger .fi-badge:has(> :only-child:empty),
+.fi-ta-filters-trigger .fi-badge[data-count="0"] {
+    display: none;
+}
+
+/*
+ * TICKET-P (UX audit Finding 07 — agent-test 2026-05-06T16:36):
+ * Status pills use mixed casing across resources: Posts shows
+ * `PUBLISHED` (uppercase) while Orders shows `shipped` /
+ * `processing` (sentence-case). Pick sentence-case as the canonical
+ * rule — Orders is already on this style, so the sweep is one-way.
+ *
+ * The CSS layer of the fix: kill any `text-transform: uppercase`
+ * on `.fi-badge` so existing literal "Published" / "Draft" labels
+ * render as-is. The accompanying server-side label changes belong
+ * in the resource definitions (deferred to TICKET-P/SERVER below).
+ *
+ * Also fixes the i18n footgun called out in the audit: CSS
+ * `text-transform: uppercase` breaks German `ß`, Turkish `i`, etc.
+ */
+.fi-badge {
+    text-transform: none;
 }
