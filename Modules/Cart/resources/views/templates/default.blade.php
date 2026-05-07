@@ -48,38 +48,34 @@ Description: Default cart add template with prices and add to cart button
                         <h5 class="mb-0 price">{{ currency_format($v) }}</h5>
                     </div>
 
-                    {{-- audit-test 2026-05-07 Cart deep-pass finding #11 (A11Y MEDIUM):
-                         when multiple Cart modules render on a page, screen-
-                         reader users heard a sequence of unlabelled "Add to
-                         cart" buttons with no way to tell which product each
-                         was for. aria-label="Add to cart: {title}" gives
-                         per-button context. Decorative <i> gets aria-hidden.
-                         CSP-blocked inline onclick deferred to TICKET-AQ. --}}
+                    {{-- audit-test 2026-05-07 Cart Option B (TICKET-AQ shipped, supersedes
+                         cycle-36 finding #11 a11y patch + cycle-40 addslashes hotfix):
+                         Replaced inline `onclick=...` with data-attributes + a
+                         delegated click listener registered in shop.js. Closes:
+                         (a) the strict-CSP `script-src 'self'` blocker (no inline JS)
+                         (b) the `O'Brien` apostrophe break (data-attrs are HTML-attr
+                             context all the way through; dataset.X returns the decoded
+                             string with no JS-string sub-context to break out of)
+                         (c) cycle-36 finding #12 — out-of-stock button used HTML
+                             `disabled="disabled"` AND inline `onclick`; disabled
+                             buttons don't fire click in any browser, so the alert
+                             was unreachable. Replaced with `aria-disabled="true"`
+                             so the button stays focusable and the delegated listener
+                             can show the alert. --}}
                     @if(!$in_stock)
-                        <button class="btn btn-secondary float-end" type="button" disabled="disabled"
+                        <button class="btn btn-secondary float-end mw-add-to-cart-disabled-btn" type="button"
+                                aria-disabled="true"
                                 aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
-                                onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
+                                data-alert-message="{{ _e('This item is out of stock and cannot be ordered', true) }}">
                             <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e("Out of stock", true) }}
                         </button>
                     @else
-                        {{-- audit-test 2026-05-07 Cart per-issue follow-up #3:
-                             `'{{ $title }}'` inside the JS string literal was
-                             a parser-context bug: Blade HTML-escapes `'` to
-                             `&#039;` (correct for HTML) but the browser
-                             HTML-decodes the attribute BEFORE handing it to
-                             the JS parser, so an admin product titled
-                             "O'Brien Hardware" terminated the JS string at
-                             `O` and produced a SyntaxError — the button
-                             silently did nothing. addslashes wraps `'`/`"`/`\`
-                             with backslashes which IS the right escape FOR
-                             JS-string context. The CSP-blocker side of
-                             finding #6 (data-attrs + delegated listener) is
-                             still tracked under TICKET-AQ; this is the
-                             today-ships-now hotfix. --}}
-                        <button class="btn btn-primary float-end" type="button"
+                        <button class="btn btn-primary float-end mw-add-to-cart-btn" type="button"
                                 aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
-                                onclick="mw.cart.add_and_show_modal('{{ addslashes($for_id ?? '') }}','{{ addslashes($v) }}', '{{ addslashes($title) }}');">
+                                data-content-id="{{ $for_id ?? '' }}"
+                                data-price="{{ $v }}"
+                                data-title="{{ $title }}">
                             <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                         </button>

@@ -17,10 +17,13 @@ description: Modern slider with Swiper.js integration
                         text-align: {{ $slide->settings['alignItems'] ?? 'center' }};
                     }
 
+                    /* audit-test 2026-05-07 PM TASK-001 (TICKET-AV Option B):
+                       was background-size/position on a div, now object-fit/
+                       object-position on a real <img>. Same visual fit
+                       (cover, centered) with no CSS-injection sink. */
                     #js-slider-{{ $params['id'] }} .swiper-slide-{{ $slide->id }} .js-slide-image-swiper-module {
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        background-position: center center;
+                        object-fit: cover;
+                        object-position: center center;
                         width: 100%;
                         height: 100%;
                         position: absolute;
@@ -103,9 +106,25 @@ description: Modern slider with Swiper.js integration
 
 
                 <div class="swiper-slide swiper-slide-{{ $slide->id }}">
-                    <div class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
-                         style="background-image: url('{{ thumbnail($slide->media, 1200) }}');">
-                    </div>
+                    {{-- audit-test 2026-05-07 PM TASK-001 (TICKET-AV Option B):
+                         was `<div style="background-image: url('{{thumbnail()}}')">`,
+                         a CSS-injection sink (Blade HTML-escape covers HTML-attr
+                         context but the browser HTML-decodes BEFORE the CSS parser
+                         reads the value, so admin URLs containing `'`/`)` could break
+                         out of url(...) into arbitrary CSS rules — page-defacement /
+                         phishing-overlay primitive). Migrated to a real `<img>`:
+                         `src=` accepts URL content with no parser-context confusion;
+                         bonus alt text for SR users + lazy/eager loading for LCP +
+                         srcset for responsive bandwidth. Closes Slider audit findings
+                         #3 (a11y) + #6 (perf) + the TICKET-AV CSS-injection vector
+                         in one move. --}}
+                    <img class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
+                         src="{{ thumbnail($slide->media, 800) }}"
+                         srcset="{{ thumbnail($slide->media, 400) }} 400w, {{ thumbnail($slide->media, 800) }} 800w, {{ thumbnail($slide->media, 1200) }} 1200w"
+                         sizes="100vw"
+                         alt="{{ $slide->name ?? '' }}"
+                         loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                         decoding="async">
 
 
                     {{-- audit-test 2026-05-07 Slider audit finding #5 (TICKET-AH partial):

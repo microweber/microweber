@@ -320,6 +320,48 @@ mw.cart = {
     },
 };
 
+// audit-test 2026-05-07 Cart per-issue follow-up #3 (TICKET-AQ Option B):
+// Delegated click listener for Cart/Product templates that expose an
+// Add-to-cart button as a data-attribute set instead of an inline onclick=.
+// Fixes the `O'Brien Hardware` apostrophe-break (Blade-escape correctly
+// handles HTML-attr context but not the JS-string sub-context that
+// `onclick="...add_and_show_modal('{{$title}}')..."` builds), AND closes
+// the strict-CSP `script-src 'self'` blocker on inline-onclick.
+//
+// Templates opt in by adding:
+//   <button class="mw-add-to-cart-btn"
+//           data-content-id="{{ $for_id }}"
+//           data-price="{{ $v }}"
+//           data-title="{{ $title }}">…</button>
+// And for out-of-stock buttons (cycle-36 finding #12 — disabled buttons
+// don't fire click, so we use aria-disabled instead and a data-alert):
+//   <button class="mw-add-to-cart-disabled-btn" aria-disabled="true"
+//           data-alert-message="{{ ... }}">…</button>
+document.addEventListener("click", function (e) {
+    var disabledBtn = e.target.closest(
+        ".mw-add-to-cart-disabled-btn"
+    );
+    if (disabledBtn) {
+        e.preventDefault();
+        var msg =
+            disabledBtn.getAttribute("data-alert-message") ||
+            mw.lang("This item cannot be ordered");
+        mw.alert(msg);
+        return;
+    }
+
+    var btn = e.target.closest(".mw-add-to-cart-btn");
+    if (btn) {
+        e.preventDefault();
+        var contentId = btn.getAttribute("data-content-id") || "";
+        var price = btn.getAttribute("data-price") || "";
+        var title = btn.getAttribute("data-title") || "";
+        if (typeof mw.cart !== "undefined" && typeof mw.cart.add_and_show_modal === "function") {
+            mw.cart.add_and_show_modal(contentId, price, title);
+        }
+    }
+});
+
 if (typeof mw.cart.modal == "undefined") {
     mw.cart.modal = {};
 }
