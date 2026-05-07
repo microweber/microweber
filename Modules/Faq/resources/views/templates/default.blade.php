@@ -33,17 +33,28 @@
     </script>
 @endif
 
+{{-- audit-test 2026-05-07 FAQ audit findings #1 + #2 + #4:
+     #1 (UX HIGH): module was labelled FAQ but rendered every Q+A as
+     always-visible <h4>+<p> pairs — defeats the FAQ-skim-then-expand
+     UX. Switched to native <details>/<summary>: zero-JS, screen-
+     reader-friendly, keyboard-accessible, perfect WAI-ARIA disclosure
+     semantics for free. Google FAQPage rich-snippet rules accept
+     collapsed-but-in-DOM answers, so JSON-LD continues to qualify.
+     #2 (A11Y): <h4> wasn't the right semantic for FAQ questions —
+     `<summary>` is the disclosure trigger, no heading level needed.
+     #4 (i18n): wrapped fallback strings in __() for translation.
+     #3 (CSS extraction to stylesheet) deferred to TICKET-AI. --}}
 <div class="faq-holder">
     <div class="faq-list">
         @if(isset($faqs) && !empty($faqs))
             @foreach($faqs as $faq)
-                <div class="faq-item">
-                    <h4>{{ isset($faq['question']) && !empty($faq['question']) ? $faq['question'] : 'No question provided' }}</h4>
-                    <p>{{ isset($faq['answer']) && !empty($faq['answer']) ? $faq['answer'] : 'No answer provided' }}</p>
-                </div>
+                <details class="faq-item">
+                    <summary>{{ !empty($faq['question']) ? $faq['question'] : __('No question provided') }}</summary>
+                    <p>{{ !empty($faq['answer']) ? $faq['answer'] : __('No answer provided') }}</p>
+                </details>
             @endforeach
         @else
-            <p>No FAQs added to the module. Please add your FAQ to see the content...</p>
+            <p>{{ __('No FAQs added to the module. Please add your FAQ to see the content...') }}</p>
         @endif
     </div>
 </div>
@@ -60,10 +71,16 @@
         border-radius: 5px;
     }
 
-    .faq-item h4 {
+    .faq-item > summary {
         margin: 0 0 10px;
         font-size: 18px;
         color: #1157c1;
+        cursor: pointer;
+        list-style: revert;
+    }
+
+    .faq-item[open] > summary {
+        margin-bottom: 10px;
     }
 
     .faq-item p {
