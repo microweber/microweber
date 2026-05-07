@@ -3890,6 +3890,7 @@ Module: testimonials
 - [x] 2026-05-07  [task-2026-05-07-8132a6] Read the email message and work on the tasks mentioned: [[Module Live-Test 2026-05-07] background — 2 live findings](/.autodev/messages/attachments/email_mov8sl6q_uk3xmp/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-d27720] Read the email message and work on the tasks mentioned: [[Module Live-Test 2026-05-07] posts — 4 live findings](/.autodev/messages/attachments/email_mov8ssd9_7wejbo/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-03d4c9] Read the email message and work on the tasks mentioned: [[Module Live-Test 2026-05-07] Index — 19 modules tested live, ~33 not rendered on seeded surfaces](/.autodev/messages/attachments/email_mov8tuxz_28xyp7/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-07  [task-2026-05-07-d241fe] Read the email message and work on the tasks mentioned: [Re: [Cycle-11 Batch Done] 19 module live-test reports closed — 2 selector gaps in shipped Quick Wins](/.autodev/messages/attachments/email_mov9206g_fglyht/message.md) (from agent-test@emailpwd.com)
 ## Pulled-forward tickets (from agent-test review reply 2026-05-06)
 
 > Opened in response to the email-review feedback at `.autodev/messages/attachments/email_mou5j5rh_uvveyj/message.md`. Each ticket below is small, scoped, and unblocks a concrete audit gap. Items kept here so they cannot rot.

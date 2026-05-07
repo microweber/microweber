@@ -575,17 +575,38 @@ a {
  * menu has no items configured, background has no image set).
  *
  * Renderer-side fix would be cleaner but is multi-module surgery.
- * This CSS hides the wrapper when its only content is whitespace,
+ * This CSS hides the wrapper when its content sentinel isn't present,
  * stopping the empty wrapper from picking up margin/padding visually
  * even though the DOM node + asset downloads still happen.
  *
  * Genuine renderer fix (skip emission entirely) is tracked under
  * TICKET-X (queued in TODO.md).
+ *
+ * --- Cycle-12 corrections (audit-test 2026-05-07T08:53) ---
+ *
+ * Gap 1: Microweber sub-typed modules emit slashed `data-type` values
+ *   like `shop/cart` and `shop/products`. CSS attribute selectors with
+ *   slashes MUST be quoted (`[data-type="shop/cart"]`); unquoted
+ *   `[data-type=shop/cart]` is a syntax error and the rule is dropped
+ *   silently. Both quoted slashed variants are now included.
+ *
+ * Gap 2: `:empty` requires zero child nodes (including text nodes).
+ *   These modules emit child <ul>/<style>/whitespace into a 0×0
+ *   wrapper, so `:empty` never matches. Use `:not(:has(...))` keyed
+ *   on the actual content sentinel for each module:
+ *     - menu: must contain at least one <li>
+ *     - cart  / shop/cart: must contain at least one item-link
+ *     - background: must contain a `.mw-bg` element with content
+ *   Wrap in `@supports selector(:has(*))` so older browsers fall back
+ *   to "render the empty wrapper" gracefully.
  */
-[data-type="cart"]:empty,
-[data-type="menu"]:empty,
-[data-type="background"]:empty {
-    display: none;
+@supports selector(:has(*)) {
+    [data-type="menu"]:not(:has(li)),
+    [data-type="cart"]:not(:has(a)),
+    [data-type="shop/cart"]:not(:has(a)),
+    [data-type="background"]:not(:has(.mw-bg)) {
+        display: none;
+    }
 }
 
 @import "rtl-changes.scss";
