@@ -975,11 +975,26 @@ class CartService
      */
     protected function findExistingCartItem(array $cart): ?Cart
     {
-        return Cart::where('session_id', $cart['session_id'])
+        // audit-test 2026-05-07 Cart deep-pass finding #7 (BUG MEDIUM):
+        // before adding `custom_fields_data` to the where clause, the
+        // SAME product added twice with DIFFERENT custom-field selections
+        // (e.g., size=M then size=L) collapsed into a single line item —
+        // the second add silently OVERWROTE the first selection. End-user
+        // lost their first variant choice with no warning. Now each
+        // distinct variant gets its own cart row, matching the customer's
+        // mental model.
+        $query = Cart::where('session_id', $cart['session_id'])
             ->where('order_completed', $cart['order_completed'])
             ->where('rel_id', $cart['rel_id'])
-            ->where('rel_type', $cart['rel_type'])
-            ->first();
+            ->where('rel_type', $cart['rel_type']);
+
+        if (array_key_exists('custom_fields_data', $cart)) {
+            $query->where('custom_fields_data', $cart['custom_fields_data']);
+        } else {
+            $query->whereNull('custom_fields_data');
+        }
+
+        return $query->first();
     }
 
     /**

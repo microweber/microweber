@@ -48,16 +48,25 @@ Description: Default cart add template with prices and add to cart button
                         <h5 class="mb-0 price">{{ currency_format($v) }}</h5>
                     </div>
 
+                    {{-- audit-test 2026-05-07 Cart deep-pass finding #11 (A11Y MEDIUM):
+                         when multiple Cart modules render on a page, screen-
+                         reader users heard a sequence of unlabelled "Add to
+                         cart" buttons with no way to tell which product each
+                         was for. aria-label="Add to cart: {title}" gives
+                         per-button context. Decorative <i> gets aria-hidden.
+                         CSP-blocked inline onclick deferred to TICKET-AQ. --}}
                     @if(!$in_stock)
                         <button class="btn btn-secondary float-end" type="button" disabled="disabled"
+                                aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
                                 onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
-                            <i class="mdi mdi-cart"></i>
+                            <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e("Out of stock", true) }}
                         </button>
                     @else
                         <button class="btn btn-primary float-end" type="button"
+                                aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
                                 onclick="mw.cart.add_and_show_modal('{{ $for_id ?? '' }}','{{ $v }}', '{{ $title }}');">
-                            <i class="mdi mdi-cart"></i>
+                            <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                         </button>
                     @endif

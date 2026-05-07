@@ -64,10 +64,19 @@ class CartApiController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // audit-test 2026-05-07 Cart deep-pass finding #4 (BUG HIGH):
+        // controller had no `price` validation rule, so an attacker could
+        // submit any negative or huge value. The CartService server-side
+        // gate (processCustomFields loose-equality compare) is the real
+        // security boundary, but the API edge needs to refuse obviously-
+        // malformed prices. Bound to nullable|numeric|min:0|max:999999.
+        // Deeper fix (compute canonical price server-side, ignore client
+        // $data['price']) tracked under TICKET-AP.
         $validator = Validator::make($request->all(), [
             'content_id' => 'required|integer|exists:content,id',
             'qty' => 'nullable|integer|min:1',
             'title' => 'nullable|string|max:500',
+            'price' => 'nullable|numeric|min:0|max:999999',
         ]);
 
         if ($validator->fails()) {
@@ -285,8 +294,13 @@ class CartApiController extends Controller
      */
     public function applyCoupon(Request $request): JsonResponse
     {
+        // audit-test 2026-05-07 Cart deep-pass finding #10 (BUG MEDIUM):
+        // tightened from `required|string|max:255` so empty/whitespace-only
+        // and shape-malformed coupon codes are rejected at the API edge
+        // before they hit CouponService. Allows alphanumeric + dash +
+        // underscore (covers "FRIENDS-2024", "BLACKFRIDAY_50", etc.).
         $validator = Validator::make($request->all(), [
-            'coupon_code' => 'required|string|max:255',
+            'coupon_code' => 'required|string|min:3|max:64|regex:/^[\w-]+$/',
         ]);
 
         if ($validator->fails()) {
@@ -343,11 +357,15 @@ class CartApiController extends Controller
     public function removeCoupon(): JsonResponse
     {
         try {
-            // Clear coupon session data
-            if (function_exists('session_forget')) {
-                session_forget('coupon_data');
-                session_forget('coupon_code');
-            }
+            // audit-test 2026-05-07 Cart deep-pass finding #2 (SECURITY HIGH):
+            // the prior `session_forget('coupon_data'); session_forget('coupon_code');`
+            // poked at presumed session keys directly — but CouponService
+            // stores the data under different (nested) keys. Result: clicking
+            // "Remove coupon" returned success but the discount kept applying
+            // on subsequent totals() calls (state-inconsistency / silent
+            // permanent discount after coupon validity ended). Route through
+            // the service's clearCouponSession() which knows the actual keys.
+            app(\Modules\Cart\Services\CartCouponService::class)->clearCouponSession();
 
             $totals = $this->cartTotalsService->totals();
 
