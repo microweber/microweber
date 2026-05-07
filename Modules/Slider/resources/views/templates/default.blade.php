@@ -121,8 +121,20 @@ description: Modern slider with Swiper.js integration
                         </div>
 
                         @if($slide->button_text)
+                            {{-- audit-test 2026-05-07 Slider audit finding #2 (SECURITY HIGH):
+                                 admin-supplied `$slide->link` had no protocol allow-list.
+                                 Defense-in-depth: reject anything that isn't http(s)://,
+                                 root-relative `/`, anchor `#`, mailto:, or tel:.
+                                 Same pattern used in cycle-22 (link-picker URL controller)
+                                 and cycle-24 (menu-link-picker afterStateUpdated). --}}
+                            @php
+                                $safeLink = '';
+                                if (!empty($slide->link) && preg_match('#^(https?://|/|\#|mailto:|tel:)#i', $slide->link)) {
+                                    $safeLink = $slide->link;
+                                }
+                            @endphp
                             <div class="mt-5">
-                                <a href="{{ $slide->link }}" class="slider-button btn btn-primary js-slide-button-{{ $slide->id }}">
+                                <a href="{{ $safeLink }}" class="slider-button btn btn-primary js-slide-button-{{ $slide->id }}">
                                     {{ $slide->button_text }}
                                 </a>
                             </div>
@@ -133,9 +145,16 @@ description: Modern slider with Swiper.js integration
         @endif
     </div>
 
+    {{-- audit-test 2026-05-07 Slider audit finding #1 (P0 BLOCKER):
+         prev/next were <div>s with addEventListener('click') — not focusable,
+         not keyboard-activatable. Converted to real <button>s with aria-label
+         so keyboard / screen-reader users can advance slides. The JS-side
+         Swiper a11y/keyboard module wiring (auto aria-hidden on inactive
+         slides, arrow-key navigation) is deferred under TICKET-AH because
+         it touches slider-v2.js + bundled artifacts. --}}
     <div id="js-slide-pagination-{{ $params['id'] ?? 'default' }}" class="swiper-pagination"></div>
-    <div id="js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev"></div>
-    <div id="js-slide-pagination-next-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next"></div>
+    <button type="button" id="js-slide-pagination-previous-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev" aria-label="{{ __('Previous slide') }}"></button>
+    <button type="button" id="js-slide-pagination-next-{{ $params['id'] ?? 'default' }}" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next" aria-label="{{ __('Next slide') }}"></button>
 </div>
 
 <script>
