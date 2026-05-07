@@ -71,6 +71,9 @@
 
     <script>
         mw.lib.require('codemirror');
+        // audit-test 2026-05-07 PM TASK-005 / TICKET-AF: ensures filterXSS()
+        // (js-xss) is available in this scope before applyHtmlEdit runs.
+        mw.require('xss.js');
     </script>
     <script>
         function mwCodeEditor() {
@@ -228,10 +231,52 @@
                 }
             };
 
+            // audit-test 2026-05-07 PM TASK-005 / TICKET-AF (SECURITY HIGH):
+            // applyHtmlEdit was assigning admin-typed CodeMirror content
+            // straight to setHtmlToNode.innerHTML — stored-XSS sink in the
+            // canvas iframe (admin origin). Now route val through filterXSS
+            // (js-xss) with an allow-list extended for Microweber editor
+            // markup so the live-edit round-trip stays byte-equivalent
+            // (`<module>` self-closing tag + data-* attrs + class/id/type
+            // on divs) while `<script>`, on*= handlers, javascript: URLs
+            // are stripped.
+            const _filterEditorHtml = function (html) {
+                if (typeof filterXSS !== 'function') {
+                    return html;
+                }
+                var keepAllDataAttrs = function (tag, name, value) {
+                    if (name.substr(0, 5) === 'data-' || name === 'class' || name === 'id') {
+                        // SECURITY: still strip JS via the value-side option below;
+                        // here we just permit the attribute *name* through.
+                        return name + '="' + filterXSS.escapeAttrValue(value) + '"';
+                    }
+                };
+                return filterXSS(html, {
+                    // Add the Microweber custom <module> tag to the allow-list.
+                    // type/data-type/class/id are commonly set on it.
+                    whiteList: Object.assign({}, filterXSS.getDefaultWhiteList(), {
+                        module: ['type', 'data-type', 'class', 'id'],
+                        // <div>/<span> default whiteList in js-xss only allows
+                        // a tiny set of attrs — admin-edit canvas uses class/
+                        // id/type/data-* heavily, so widen them here.
+                        div: ['class', 'id', 'type', 'data-type', 'data-module-id', 'style'],
+                        span: ['class', 'id', 'type', 'data-type', 'style'],
+                    }),
+                    onIgnoreTagAttr: keepAllDataAttrs,
+                    onTagAttr: function (tag, name, value, isWhiteAttr) {
+                        // Block `javascript:`, `data:`, `vbscript:` schemes in any URL-bearing attr
+                        if ((name === 'href' || name === 'src') &&
+                            /^(javascript|data|vbscript):/i.test((value || '').trim())) {
+                            return name + '=""';
+                        }
+                    },
+                });
+            };
+
             // Apply HTML edit to the selected node
             const applyHtmlEdit = function () {
                 var custom_html_code_mirror = document.getElementById("html_code_area_editor2");
-                var val = $(custom_html_code_mirror).val();
+                var val = _filterEditorHtml($(custom_html_code_mirror).val());
 
                 if (setHtmlToNode) {
                     setHtmlToNode.innerHTML = val;

@@ -65,12 +65,22 @@ Route::get('template-settings-sidebar', function () {
 
     });
 
+// audit-test 2026-05-07 PM TASK-005 / TICKET-AF (SECURITY HIGH):
+// Both `current_template_save_custom_css` and `template_remove_custom_css`
+// were on `['api', 'admin']` — neither group includes VerifyCsrfToken (only
+// the legacy `web` group does, per AppServiceProvider:608-621). SameSite=Lax
+// (config/session.php:166) mitigates most cross-origin POSTs but not top-
+// level form submission. Without CSRF an attacker page could submit
+// arbitrary CSS to production templates while the admin's session cookie is
+// active. Routed through the project's VerifyCsrfToken wrapper which returns
+// JSON 400 on token-mismatch (no HTML redirect — keeps API contract).
 Route::post('api/current_template_save_custom_css', function (Request $request) {
     $data = $request->all();
     app()->template_manager->defineConstants($data);
 
     return mw()->layouts_manager->template_save_css($data);
-})->name('current_template_save_custom_css')->middleware(['api', 'admin']);
+})->name('current_template_save_custom_css')
+    ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
 
 Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
     $data = $request->all();
@@ -78,7 +88,7 @@ Route::post('api/layouts/template_remove_custom_css', function (Request $request
 
     return mw()->layouts_manager->template_remove_custom_css($data);
 })->name('template_remove_custom_css')
-    ->middleware(['api', 'admin']);
+    ->middleware(['api', 'admin', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class]);
 
 
 //\Route::post('api/template/delete_compiled_css', function (Request  $request) {
