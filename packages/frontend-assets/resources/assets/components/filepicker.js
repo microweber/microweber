@@ -290,11 +290,18 @@ mw.filePicker = function (options) {
                  <div class="flex gap-4">
                     <div class="form-control-live-edit-label-wrapper" style="width: 200px">
                         <label>${mw.lang("Width")}</label>
-                        <input class="form-control-live-edit-input" name="width" type="number" min="1">
+                        <!-- audit-test 2026-05-07 Image Picker audit
+                             finding 2: width and height had min=1 but
+                             no max - a 99999x99999 request burns AI
+                             provider quota and could wedge backend.
+                             Cap at 2048 client-side as a UX guard;
+                             server-side validation is the security
+                             guarantee (TICKET-VV). -->
+                        <input class="form-control-live-edit-input" name="width" type="number" min="1" max="2048">
                     </div>
                     <div class="form-control-live-edit-label-wrapper" style="width: 200px">
                         <label>${mw.lang("Height")}</label>
-                        <input class="form-control-live-edit-input" name="height" type="number" min="1">
+                        <input class="form-control-live-edit-input" name="height" type="number" min="1" max="2048">
                     </div>
                 </div>
                 <div class="form-control-live-edit-label-wrapper" style="width: 200px;display: none">
@@ -320,7 +327,15 @@ mw.filePicker = function (options) {
                         </span>
                         <span class="btn  refference-image-pick">
                             ${mw.lang("Select image")}
-                            <input type="file">
+                            <!-- audit-test 2026-05-07 Image Picker audit
+                                 finding 3: file input had no accept
+                                 attr, so a user could attach a PDF or
+                                 exe or zip as a reference image. The
+                                 accept="image/*" attr makes the OS
+                                 file-picker filter to images only;
+                                 server-side type validation is the
+                                 backstop. -->
+                            <input type="file" accept="image/*">
                         </span>
                     </div>
                 </div>
