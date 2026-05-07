@@ -53,7 +53,17 @@ description: Category Images Layout
 }
 </style>
 
-<div class="module-categories module-categories-template-images">
+{{-- audit-test 2026-05-07 Categories audit findings #1 + #4 + #8:
+     #1: wrap in <nav> + aria-labelledby for landmark navigation.
+     #4: visually-hidden <h2> announce-only label.
+     #8: items-count span gets aria-label="N items" so screen readers
+         hear "5 items" instead of "open paren five close paren".
+     Findings #5 (a-with-background-image → <img>) and #6 (50-line
+     inline <style>) are tracked separately as TICKET-SS / TICKET-V
+     (refactor scope; this commit is the safe a11y pass only). --}}
+<nav class="module-categories module-categories-template-images"
+     aria-labelledby="cat-{{ $params['id'] ?? 'images' }}-h">
+    <h2 id="cat-{{ $params['id'] ?? 'images' }}-h" class="visually-hidden">{{ __('Product categories') }}</h2>
     @if(!empty($data))
         @foreach($data as $item)
             @php
@@ -72,11 +82,11 @@ description: Category Images Layout
 
                 <strong>{{ $title }}</strong>
                 @if($itemsCount)
-                    <span class="items-count">({{ $itemsCount }})</span>
+                    <span class="items-count" aria-label="{{ $itemsCount . ' ' . __('items') }}">({{ $itemsCount }})</span>
                 @endif
             </a>
         @endforeach
     @else
         {{ lnotif(_e('No categories found', true)) }}
     @endif
-</div>
+</nav>
