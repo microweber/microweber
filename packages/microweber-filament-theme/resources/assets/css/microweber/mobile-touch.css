@@ -48,6 +48,19 @@
         font-size: 16px;
     }
 
+    /* Issue 02 final straggler (audit-test re-test 2026-05-07T07:56):
+       The Filament topbar global-search input #input-1 has a project-
+       specific override with `font-size: 13px !important` + height 34px,
+       which beats the generic `input[type="search"]` rule above. Override
+       it explicitly inside the same touch-viewport media block. Bumping
+       height to 44px also satisfies Issue 04 tap-target on the same
+       element (kills two birds with one rule). */
+    .fi-topbar .fi-global-search-field input {
+        font-size: 16px !important;
+        height: 44px !important;
+        padding: 10px 12px !important;
+    }
+
     /* Issue 02 stragglers (audit-test follow-up 2026-05-06T16:18):
        After the rule above shipped, agent-test re-ran the probe and
        found 5/231 inputs still <16px. Two diagnoses:
@@ -100,8 +113,14 @@
  *   - `.mw-live-edit-resolutions-wrapper` is the device-toggle nav.
  */
 @media (max-width: 575.98px) {
+    /* `general-styles.css` line 132 sets `.mw-live-edit-resolutions-wrapper`
+       to Tailwind's `flex` utility via `@apply`. That declaration loads
+       later in the cascade, so a bare `display: none` here loses. Use
+       `!important` to force the hide on phones — matching the pattern
+       used by the surrounding `background-color !important` overrides
+       on the same selector. (audit-test re-test 2026-05-07T07:56). */
     .mw-live-edit-resolutions-wrapper {
-        display: none;
+        display: none !important;
     }
     /* TICKET-I polish (audit-test ack 2026-05-07): use a CSS variable
        for the toolbar height so future changes to the toolbar's
@@ -126,7 +145,15 @@
  * Filament admin (no IE / legacy targets).
  */
 .fi-ta-filters-trigger .fi-badge:has(> :only-child:empty),
-.fi-ta-filters-trigger .fi-badge[data-count="0"] {
+.fi-ta-filters-trigger .fi-badge[data-count="0"],
+/* TICKET-L follow-up (audit-test re-test 2026-05-07T07:56): the live
+   Filament version wraps the filter badge in `.fi-icon-btn-badge-ctn`,
+   not `.fi-ta-filters-trigger`. Broaden the selector to cover the
+   real wrapper. The `:has(> :only-child:empty)` part keeps non-zero
+   badges visible — only badges whose only child is empty (literal
+   "0" rendered as an empty inner span) are hidden. */
+.fi-icon-btn-badge-ctn .fi-badge:has(> :only-child:empty),
+.fi-icon-btn-badge-ctn .fi-badge[data-count="0"] {
     display: none;
 }
 
