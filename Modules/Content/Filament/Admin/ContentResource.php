@@ -727,6 +727,15 @@ class ContentResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('price')
                     ->numeric()
+                    // Audit-test 2026-05-07 (Products audit items 2+3):
+                    // server-only validation accepted negative prices
+                    // and arbitrary precision (step="any") because no
+                    // ->minValue / ->step was set. Add both as
+                    // client-side guards in addition to the existing
+                    // regex rule so iOS/Android numeric keyboards
+                    // refuse to advance past invalid input.
+                    ->minValue(0)
+                    ->step(0.01)
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     // Currency prefix from store settings — drunk-
                     // designer audit #11 (task-2026-05-04-a8d5bb).
@@ -755,6 +764,14 @@ class ContentResource extends Resource
                         }
                     })
                     ->numeric()
+                    // Audit-test 2026-05-07 Products audit items 2+3:
+                    // bound + step + cross-field constraint so the
+                    // sale price cannot go negative, cannot have
+                    // junk decimals, and cannot exceed the regular
+                    // price (server-only catch was a round-trip).
+                    ->minValue(0)
+                    ->step(0.01)
+                    ->lt('price')
                     ->prefix(function_exists('currency_symbol') ? currency_symbol() : null)
                     ->placeholder('14.99')
                     ->helperText('Optional discount, lower than regular price')
@@ -992,6 +1009,12 @@ class ContentResource extends Resource
 
                     Forms\Components\TextInput::make('price')
                         ->numeric()
+                        // Audit-test 2026-05-07 Products audit items 2+3 —
+                        // mirror the lite-modal hardening on the deep
+                        // editor: bound + step so negative + junk-
+                        // decimal input is blocked client-side.
+                        ->minValue(0)
+                        ->step(0.01)
                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                         ->columnSpan(['lg' => 2, 'sm' => 2])
                         ->required(),
@@ -1013,6 +1036,12 @@ class ContentResource extends Resource
                             }
                         })
                         ->numeric()
+                        // Audit-test 2026-05-07 Products audit items 2+3 —
+                        // mirror the lite-modal hardening: bound +
+                        // step + lt('price') cross-field constraint.
+                        ->minValue(0)
+                        ->step(0.01)
+                        ->lt('price')
                         ->columnSpan(['lg' => 2, 'sm' => 2])
                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                         ->visible(function_exists('offers_get_price'))
