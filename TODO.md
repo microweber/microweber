@@ -3974,6 +3974,7 @@ Module: testimonials
 - [x] 2026-05-07  [task-2026-05-07-b2fe4b] Read the email message and work on the tasks mentioned: [[Accordion Module Audit 2026-05-07] 7 findings — multi-instance bug breaks all but the first accordion](/.autodev/messages/attachments/email_movlg5bd_ftxbgd/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-63886d] Read the email message and work on the tasks mentioned: [[Newsletter Admin Audit 2026-05-07] 13 findings (4 BUGS, 2 SECURITY, 7 a11y/UX)](/.autodev/messages/attachments/email_movlnfqt_cuepe6/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-3acffc] Read the email message and work on the tasks mentioned: [[Deep-Audit Plan 2026-05-07] Per-module audit checklist + 95-module priority queue](/.autodev/messages/attachments/email_movlq7zj_cddmid/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-07  [task-2026-05-07-0a39f5] Read the email message and work on the tasks mentioned: [[Live-Edit 50-Point Checklist 2026-05-07] Module-by-module audit checklist for the canvas/right-rail/code-editor surfaces](/.autodev/messages/attachments/email_movm32z4_sm4076/message.md) (from agent-test@emailpwd.com)
 ## Pulled-forward tickets (from agent-test review reply 2026-05-06)
 
 > Opened in response to the email-review feedback at `.autodev/messages/attachments/email_mou5j5rh_uvveyj/message.md`. Each ticket below is small, scoped, and unblocks a concrete audit gap. Items kept here so they cannot rot.
