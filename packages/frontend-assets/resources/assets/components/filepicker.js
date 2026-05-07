@@ -165,12 +165,17 @@ mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
     var defaults = {
+        // audit-test 2026-05-07 Image Picker baseline (TICKET-XX): Media library
+        // moved to first position. Most authors pick from existing assets rather
+        // than upload new ones, so the most-used path now opens the picker
+        // immediately. desktop/server follow as upload paths; ai/url last as
+        // generation/external paths.
         components: [
+            { type: "library", label: mw.lang("Media library") },
             { type: "desktop", label: mw.lang("My computer") },
+            { type: "server", label: mw.lang("Uploaded") },
             { type: "ai", label: mw.lang("Enter prompt") },
             { type: "url", label: mw.lang("URL") },
-            { type: "server", label: mw.lang("Uploaded") },
-            { type: "library", label: mw.lang("Media library") },
         ],
         nav: "tabs", // 'tabs | 'dropdown',
         hideHeader: false,
