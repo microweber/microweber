@@ -34,6 +34,18 @@ function icon_html($icon)
     if (!is_string($icon) || empty($icon)) {
         return '';
     }
+
+    // audit-test 2026-05-07 Accordion audit finding #4 / TICKET-AJ (SECURITY HIGH):
+    // The bare-`<` catch-all (`if (str_starts_with($icon, '<')) return $icon;`)
+    // was a stored-XSS hole: any string starting with `<` was returned verbatim,
+    // so `<script>alert(...)</script>`, `<iframe src=javascript:...>`, etc. all
+    // bypassed the four specific tag-prefix allowlists below. Removed.
+    // The four explicit allowlists (`<i class="`, `<svg`, `<img`, `<span class="`)
+    // are kept; everything else falls through to the class-prefix wrappers
+    // (`mdi-`, `mw-`, `fa-`, etc.) and unrecognized input returns ''.
+    // Note: even the `<i class="...">` allowlist permits attribute injection
+    // (`<i class="x" onclick="...">`); a tighter attribute-level sanitizer
+    // would be ideal but the catch-all removal closes the universal escape.
     if (str_starts_with($icon, '<i class="')) {
         return $icon;
     }
@@ -44,9 +56,6 @@ function icon_html($icon)
         return $icon;
     }
     if (str_starts_with($icon, '<span class="')) {
-        return $icon;
-    }
-    if (str_starts_with($icon, '<')) {
         return $icon;
     }
     if (str_starts_with($icon, 'mdi-')) {
