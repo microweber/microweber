@@ -79,9 +79,19 @@ class SenderAccounts extends Page implements HasTable
                                 ->label('SMTP Username')
                                 ->required()
                                 ->helperText('Enter the SMTP username'),
+                            // audit-test 2026-05-07 Newsletter Admin audit finding #4 (SECURITY HIGH):
+                            // every secret field below was missing ->password(), so when admin
+                            // re-opened an existing sender account in the wizard, all credentials
+                            // (SMTP password, Mailchimp/Mailgun/Mandrill/Sparkpost secrets,
+                            // Amazon SES key+secret) rendered as plaintext text inputs — a
+                            // shoulder-surf / screenshot exposure. Only Gmail had it (line 110).
+                            // ->password() masks the input as type="password"; ->revealable()
+                            // gives admin an opt-in show button.
                             TextInput::make('smtp_password')
                                 ->label('SMTP Password')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the SMTP password'),
                             TextInput::make('smtp_host')
                                 ->label('SMTP Host')
@@ -121,6 +131,8 @@ class SenderAccounts extends Page implements HasTable
                                 TextInput::make('mailchimp_secret')
                                     ->label('Mailchimp Secret')
                                     ->required()
+                                    ->password()
+                                    ->revealable()
                                     ->helperText('Enter the Mailchimp secret key'),
 
                              ])->hidden(function(Get $get) {
@@ -138,6 +150,8 @@ class SenderAccounts extends Page implements HasTable
                             TextInput::make('mailgun_secret')
                                 ->label('Mailgun Secret')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the Mailgun secret'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'mailgun') {
@@ -150,6 +164,8 @@ class SenderAccounts extends Page implements HasTable
                             TextInput::make('mandrill_secret')
                                 ->label('Mandrill Secret')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the Mandrill secret'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'mandrill') {
@@ -163,6 +179,8 @@ class SenderAccounts extends Page implements HasTable
                             TextInput::make('sparkpost_secret')
                                 ->label('Sparkpost Secret')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the Sparkpost secret'),
 
                         ])->hidden(function(Get $get) {
@@ -176,10 +194,14 @@ class SenderAccounts extends Page implements HasTable
                             TextInput::make('amazon_ses_key')
                                 ->label('Amazon SES Key')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the Amazon SES key'),
                             TextInput::make('amazon_ses_secret')
                                 ->label('Amazon SES Secret')
                                 ->required()
+                                ->password()
+                                ->revealable()
                                 ->helperText('Enter the Amazon SES secret'),
                             TextInput::make('amazon_ses_region')
                                 ->label('Amazon SES Region')
