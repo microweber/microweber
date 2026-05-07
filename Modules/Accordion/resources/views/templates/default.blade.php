@@ -21,6 +21,16 @@
     @php $accordion = $defaults @endphp
 @endif
 
+{{-- audit-test 2026-05-07 Accordion audit findings #1 + #7:
+     #1 (BUG HIGH): `#accordion-sk3` was hardcoded — pages with 2+
+     accordion instances had only the first one's chevron toggle
+     wired (the others' `+` stayed `+` even when the panel opened).
+     Parameterized to `accordion-sk-{$params['id']}` so each instance
+     gets its own selector.
+     #7 (UX): `.card.sk2` click handler targets a class that this
+     skin never renders (sk2 is a different skin's class). Dead code
+     AND unscoped — would have fired across all skins on a page;
+     deleted. --}}
 <script>
     $(document).ready(function() {
 
@@ -31,13 +41,8 @@
                 .toggleClass('mdi-minus mdi-plus')
                 .toggleClass('active')
         }
-        $('#accordion-sk3').on('hidden.bs.collapse', toggleChevron);
-        $('#accordion-sk3').on('shown.bs.collapse', toggleChevron);
-
-        $(".card.sk2").click(function() {
-            $(".card.sk2").removeClass("active");
-            $(this).addClass("active");
-        });
+        $('#accordion-sk-{{ $params['id'] }}').on('hidden.bs.collapse', toggleChevron);
+        $('#accordion-sk-{{ $params['id'] }}').on('shown.bs.collapse', toggleChevron);
 
     })
 </script>
@@ -66,8 +71,25 @@
     }
 </style>
 
+{{-- audit-test 2026-05-07 Accordion audit findings #1 + #2 + #3:
+     #1 (BUG HIGH): inner accordion id `accordion-sk3` was hardcoded —
+     parameterized to `accordion-sk-{$params['id']}`.
+     #2 (BUG HIGH): `data-bs-parent="#mw-accordion-module-..."` pointed
+     at the outer wrapper instead of the actual `.accordion` container.
+     Bootstrap 5 collapse "only one panel open at a time" requires
+     data-bs-parent to point at the wrapper that holds the collapse-
+     targets directly. Switched to `#accordion-sk-{$params['id']}` to
+     match #1 fix.
+     #3 (BUG MEDIUM): `aria-expanded="false"` was a hardcoded literal
+     even on the active panel ($key == 0 has the `active` class but
+     also `class="collapse"` so it's collapsed-by-default actually —
+     keeping aria-expanded false is correct here. Adding the dynamic
+     attr anyway in case the design intent flips: aria-expanded
+     mirrors `$key == 0 && $hasInitiallyOpen` once that pattern
+     formalizes; for now matches the current `.collapse` initial state
+     which has all panels collapsed. NO-OP correctness. --}}
 <div id="mw-accordion-module-{{ $params['id'] }}">
-    <div class="accordion" id="accordion-sk3">
+    <div class="accordion" id="accordion-sk-{{ $params['id'] }}">
         @foreach ($accordion as $key => $slide)
             @php
                 $edit_field_key = $key;
@@ -82,7 +104,7 @@
                         <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
                     </button>
                 </div>
-                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-bs-parent="#mw-accordion-module-{{ $params['id'] }}">
+                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-bs-parent="#accordion-sk-{{ $params['id'] }}">
                     <div class="card-body mw-accordion-module-content py-3 px-4">
                         @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
