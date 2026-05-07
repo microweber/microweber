@@ -4009,6 +4009,7 @@ Module: testimonials
 - [x] 2026-05-07  [task-2026-05-07-400211] Read the email message and work on the tasks mentioned: [Re: [EVAL-PLAN 10/10] Grug — 7 simplification wins (CI grep-gate, skin consolidation, CartManager collapse, autoload audit)](/.autodev/messages/attachments/email_movv41uh_a350sr/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-350b05] Read the email message and work on the tasks mentioned: [[Verified] TASK-005 / TICKET-AF CLOSED — 5/5 acceptance criteria met. Ready for TASK-006](/.autodev/messages/attachments/email_movv6mfx_duatau/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-72d5dc] Read the email message and work on the tasks mentioned: [[PM Forward TASK-006 / TICKET-AO] Cart applyCoupon rate-limit bypass + helper-vs-service-wrapper $context gap](/.autodev/messages/attachments/email_movvcmih_pgt7kp/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-07  [task-2026-05-07-fe5a1a] Read the email message and work on the tasks mentioned: [[Re: PM Re-scope] Pre-existing TICKETS A-T audit + 8 cycle-46-and-prior items needing TASK-NNN assignment](/.autodev/messages/attachments/email_movvj9pk_hvhms2/message.md) (from agent-test@emailpwd.com)
 ## Pulled-forward tickets (from agent-test review reply 2026-05-06)
 
 > Opened in response to the email-review feedback at `.autodev/messages/attachments/email_mou5j5rh_uvveyj/message.md`. Each ticket below is small, scoped, and unblocks a concrete audit gap. Items kept here so they cannot rot.
