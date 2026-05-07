@@ -138,7 +138,12 @@
                                 </a>
                             @endif
 
-                            @if (is_array($item['prices']) && !empty($item['prices']))
+                            {{-- audit-test 2026-05-07 Post Lists audit finding #6:
+                                 swapped operand order — !empty() is null/undefined-safe
+                                 and must come first. The previous order raised an
+                                 "Undefined array key 'prices'" warning whenever a
+                                 plain post (not a product) reached this template. --}}
+                            @if (!empty($item['prices']) && is_array($item['prices']))
 
                                 @php
                                     $prices =  $item['prices'];
