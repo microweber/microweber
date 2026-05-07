@@ -7,6 +7,7 @@ namespace Modules\Cart\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Modules\Cart\Services\CartService;
 use Modules\Cart\Services\CartTotalsService;
@@ -294,13 +295,12 @@ class CartApiController extends Controller
      */
     public function applyCoupon(Request $request): JsonResponse
     {
-        // audit-test 2026-05-07 Cart deep-pass finding #10 (BUG MEDIUM):
-        // tightened from `required|string|max:255` so empty/whitespace-only
-        // and shape-malformed coupon codes are rejected at the API edge
-        // before they hit CouponService. Allows alphanumeric + dash +
-        // underscore (covers "FRIENDS-2024", "BLACKFRIDAY_50", etc.).
+        // audit-test 2026-05-07 PM TASK-006 / TICKET-AO Gotcha #3:
+        // Widened from `[\w-]+` to `[\w\-+.]+` so codes containing `+` or `.`
+        // (e.g. "BUY1GET1+FREE", "v2.0-LAUNCH") pass the API edge. The cycle-36
+        // tightening (min:3|max:64) is preserved.
         $validator = Validator::make($request->all(), [
-            'coupon_code' => 'required|string|min:3|max:64|regex:/^[\w-]+$/',
+            'coupon_code' => 'required|string|min:3|max:64|regex:/^[\w\-+.]+$/',
         ]);
 
         if ($validator->fails()) {
@@ -314,9 +314,27 @@ class CartApiController extends Controller
         try {
             $couponCode = $request->get('coupon_code');
 
-            // Get cart totals service to apply coupon
-            $couponResult = app(\Modules\Cart\Services\CartCouponService::class)
-                ->applyCoupon($couponCode);
+            // audit-test 2026-05-07 PM TASK-006 / TICKET-AO (SECURITY MEDIUM):
+            // Was `applyCoupon($couponCode)` single-arg — the underlying
+            // CouponService received NO email, NO IP, NO context, so:
+            //   * per-IP and per-email rate limits silently didn't apply
+            //     (`uses_per_customer` and `isValidForCustomer` short-circuit
+            //     on null email/IP — see CouponService:204, 241).
+            //   * Context-driven coupon rules (product_ids, category_ids,
+            //     customer_group_id) silently passed (Gotcha #1).
+            // Now threads Auth::user()?->email + $request->ip() + the
+            // cart-derived context built by CartCouponService::buildCouponContext()
+            // — same shape as the legacy `coupon_apply()` helper.
+            // For guests, `Auth::user()?->email` is null; CouponService skips
+            // email-keyed rate limit checks (verified at lines 204 + 241) so
+            // the IP-only path applies cleanly.
+            $cartCouponService = app(\Modules\Cart\Services\CartCouponService::class);
+            $couponResult = $cartCouponService->applyCoupon(
+                $couponCode,
+                Auth::user()?->email,
+                $request->ip(),
+                $cartCouponService->buildCouponContext()
+            );
 
             if (!$couponResult) {
                 return response()->json([

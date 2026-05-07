@@ -171,12 +171,24 @@ class CartCouponService
     /**
      * Apply coupon to cart.
      *
+     * audit-test 2026-05-07 PM TASK-006 / TICKET-AO + agent-test Gotcha #1:
+     * Now threads $context through to CouponService so context-driven coupon
+     * rules (cart_product_ids, cart_category_ids, customer_group_id, user_id,
+     * minimum cart total) actually apply on the API path. Previously the
+     * controller's apply path called this with no email/IP/context, so:
+     *   - per-IP/per-email rate limits silently didn't apply
+     *   - per-product-id and per-category-id rules silently didn't apply
+     *   - per-customer-group rules silently didn't apply
+     * Callers that pass [] for $context get the prior behaviour (the underlying
+     * CouponService treats the array as "no extra constraints").
+     *
      * @param string $couponCode
      * @param string|null $customerEmail
      * @param string|null $customerIp
+     * @param array $context Additional validation context (cart_items, ids, user_id, etc.)
      * @return array
      */
-    public function applyCoupon(string $couponCode, ?string $customerEmail = null, ?string $customerIp = null): array
+    public function applyCoupon(string $couponCode, ?string $customerEmail = null, ?string $customerIp = null, array $context = []): array
     {
         if (!$this->couponService) {
             return [
@@ -187,7 +199,34 @@ class CartCouponService
 
         $cartTotal = $this->cartRepository->getCartAmount();
 
-        return $this->couponService->applyCoupon($couponCode, $cartTotal, $customerEmail, $customerIp);
+        return $this->couponService->applyCoupon($couponCode, $cartTotal, $customerEmail, $customerIp, $context);
+    }
+
+    /**
+     * Build the coupon-validation context from the current cart + auth state.
+     *
+     * audit-test 2026-05-07 PM TASK-006 / TICKET-AO Gotcha #1:
+     * Extracted from `Modules/Coupons/Support/helpers.php::coupon_apply()` so
+     * the API controller path and the legacy helper path both build context
+     * the same way. Drift-prevention: changing the context shape now happens
+     * in ONE place.
+     *
+     * @return array
+     */
+    public function buildCouponContext(): array
+    {
+        $cartItems = [];
+        if (function_exists('app') && app()->bound('cart_manager')) {
+            $cartItems = app('cart_manager')->get_cart([]);
+        }
+
+        return [
+            'items' => $cartItems,
+            'cart_product_ids' => array_map('strval', array_column($cartItems, 'rel_id')),
+            'cart_category_ids' => array_map('strval', array_column($cartItems, 'category_id')),
+            'user_id' => auth()->id(),
+            'customer_group_id' => auth()->user()?->customer_group_id ?? null,
+        ];
     }
 
     /**
