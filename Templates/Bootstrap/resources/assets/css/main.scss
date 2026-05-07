@@ -539,6 +539,53 @@ a {
         display: inline-flex;
         align-items: center;
     }
+
+    /*
+     * Module Live-Test 2026-05-07 cycle-11:
+     *   - social_links rendered 90×27 housing 2 icon links → ~45×27 each
+     *   - breadcrumb single link 24px tall
+     *   - categories sidebar links 261×24
+     *   - btn module 113×36 (close to but under 44 even on desktop —
+     *     flagged in btn report as also-too-small at desktop, but we
+     *     keep desktop unchanged per user-preference and only enforce
+     *     44px on touch where the WCAG/iOS HIG requirement bites).
+     *
+     * Pure-CSS module-scoped tap-target hardening, mirroring the
+     * "STRUCTURE or PREFIX patterns" footgun-comment above.
+     */
+    .mw-socialLinks a,
+    .module-breadcrumb a,
+    .module-categories a,
+    .module-btn a,
+    .module-btn .btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding-block: 0.6rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/*
+ * Module Live-Test 2026-05-07 cycle-11 — defensive empty-render hide.
+ *
+ * shop/cart, menu, background modules emit a zero-rendered DOM node
+ * when their render condition isn't met (e.g. cart has no items,
+ * menu has no items configured, background has no image set).
+ *
+ * Renderer-side fix would be cleaner but is multi-module surgery.
+ * This CSS hides the wrapper when its only content is whitespace,
+ * stopping the empty wrapper from picking up margin/padding visually
+ * even though the DOM node + asset downloads still happen.
+ *
+ * Genuine renderer fix (skip emission entirely) is tracked under
+ * TICKET-X (queued in TODO.md).
+ */
+[data-type="cart"]:empty,
+[data-type="menu"]:empty,
+[data-type="background"]:empty {
+    display: none;
 }
 
 @import "rtl-changes.scss";
