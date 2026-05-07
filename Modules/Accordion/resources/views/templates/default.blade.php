@@ -97,14 +97,23 @@
                     $edit_field_key = $slide['id'];
                 }
             @endphp
+            {{-- audit-test 2026-05-07 post-merge follow-up #3 (TICKET-AJ#2):
+                 cycle-29 multi-instance fix parameterized the OUTER ids
+                 (`accordion-sk-{$params['id']}` + `mw-accordion-module-{$params['id']}`
+                 + data-bs-parent) but missed the per-item collapse-target
+                 ids (`header-item-{N}`, `collapse-accordion-item-{N}-{key}`).
+                 Two accordion modules on a page that reference overlapping
+                 slide ids would emit duplicate ids; data-bs-toggle resolves
+                 to the FIRST DOM match so clicking module B's button toggled
+                 module A's panel. Prefixed all 3 with `{$params['id']}-`. --}}
             <div class="mw-accordion-faq-skin-card card mb-3 {{ $key == 0 ? 'active' : '' }}">
-                <div class="mw-accordion-faq-skin-header card-header p-0" id="header-item-{{ $edit_field_key }}">
-                    <button class="mw-accordion-faq-skin-button  mw-accordion-module-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
+                <div class="mw-accordion-faq-skin-header card-header p-0" id="header-item-{{ $params['id'] }}-{{ $edit_field_key }}">
+                    <button class="mw-accordion-faq-skin-button  mw-accordion-module-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}">
                         <h5 class="ps-2 mb-0 mw-accordion-text-color"> {!! isset($slide['icon']) ? icon_html( $slide['icon'] ) . ' ' : '' !!} {{ isset($slide['title']) ? $slide['title'] : '' }} </h5>
                         <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
                     </button>
                 </div>
-                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-bs-parent="#accordion-sk-{{ $params['id'] }}">
+                <div id="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" class="collapse" aria-labelledby="header-item-{{ $params['id'] }}-{{ $edit_field_key }}" data-bs-parent="#accordion-sk-{{ $params['id'] }}">
                     <div class="card-body mw-accordion-module-content py-3 px-4">
                         @include('modules.accordion::partials.render_accordion_item_content')
                     </div>

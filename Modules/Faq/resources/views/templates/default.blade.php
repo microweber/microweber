@@ -24,12 +24,23 @@
 @endphp
 
 @if(!empty($faqJsonLdEntities))
+    {{-- audit-test 2026-05-07 post-merge follow-up #1 (TICKET-AT, SECURITY HIGH):
+         JSON_UNESCAPED_SLASHES disabled the default `\/` escape, so an
+         admin-supplied question/answer containing `</script>` literally
+         terminated the LD+JSON block at render time and the surrounding
+         HTML was injected into the page. Switched to JSON_HEX_TAG which
+         escapes `<` and `>` as `<` / `>` — eliminates ALL
+         tag-breakout shapes (not just `</script>`), no functional change
+         for legitimate inputs (Google's Schema.org validator accepts
+         hex-escaped tag chars), same character count as the prior flag
+         set. Cycle-28 finding #5 was incorrectly marked VERIFIED CORRECT;
+         this closes that retraction. --}}
     <script type="application/ld+json">
         {!! json_encode([
             '@context' => 'https://schema.org',
             '@type' => 'FAQPage',
             'mainEntity' => $faqJsonLdEntities,
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}
     </script>
 @endif
 

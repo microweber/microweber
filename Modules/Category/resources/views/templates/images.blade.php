@@ -46,9 +46,11 @@ description: Category Images Layout
     width: 120px;
     height: 120px;
     display: block;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    /* audit-test 2026-05-07 post-merge follow-up #2: was background-size:contain
+       on a <span>, now object-fit:contain on a real <img> — same visual fit, no
+       CSS-injection sink. */
+    object-fit: contain;
+    object-position: center;
     margin-bottom: 10px;
 }
 </style>
@@ -74,15 +76,33 @@ description: Category Images Layout
             @endphp
 
             <a href="{{ $url }}" class="category-item">
+                {{-- audit-test 2026-05-07 post-merge follow-up #2 (TICKET-AT/CSS-injection):
+                     `style="background-image: url('{{ $picture }}')"` was a CSS-
+                     injection sink — Blade HTML-escape converts `'` to `&#039;`
+                     but the browser HTML-decodes the attribute BEFORE the CSS
+                     parser sees it, so `'` returns to literal and the admin-
+                     supplied URL could break out of url(...) into arbitrary
+                     CSS rules. Page-defacement / phishing-overlay primitive.
+                     Converted to a real `<img>` — `src=""` accepts URL
+                     content with no parser-context confusion. Bonus: alt for
+                     screen readers, lazy-loading, no inline `style=` attribute. --}}
                 @if($picture)
-                    <span class="category-image" style="background-image: url('{{ $picture }}');"></span>
+                    <img src="{{ $picture }}" alt="{{ $title }}" loading="lazy" class="category-image">
                 @else
-                    <span class="category-image" style="background-image: url('{{ asset('modules/category/img/category_images.svg') }}');"></span>
+                    <img src="{{ asset('modules/category/img/category_images.svg') }}" alt="" loading="lazy" class="category-image">
                 @endif
 
                 <strong>{{ $title }}</strong>
                 @if($itemsCount)
-                    <span class="items-count" aria-label="{{ $itemsCount . ' ' . __('items') }}">({{ $itemsCount }})</span>
+                    {{-- audit-test 2026-05-07 post-merge follow-up #2 issue #2:
+                         `{{ $itemsCount . ' items' }}` announced "1 items" for
+                         single-item categories (grammatically wrong; SR users
+                         notice). trans_choice() picks the right pluralization
+                         per locale — English `{1} :count item|[2,*] :count
+                         items` is the source-of-truth definition; locale files
+                         can override per language (some have 3+ plural forms). --}}
+                    <span class="items-count"
+                          aria-label="{{ trans_choice('{1} :count item|[2,*] :count items', $itemsCount, ['count' => $itemsCount]) }}">({{ $itemsCount }})</span>
                 @endif
             </a>
         @endforeach
