@@ -292,14 +292,16 @@ class MenusList extends Component implements HasForms, HasActions
                         }
                     }
 
-                    // audit-test 2026-05-07 Menu Link Picker audit finding #2 (SECURITY):
-                    // The dialog's URL controller does no protocol allow-listing
-                    // (filterXSS is HTML-context, not URL-protocol), so without
-                    // this server-side guard a `javascript:alert(...)` URL
-                    // round-trips into menus.url and renders as an <a href>
-                    // on every public-site request — stored XSS via the menu.
-                    // Allow only http(s), root-relative, anchors, mailto, tel.
-                    if ($url !== '' && ! preg_match('#^(https?://|/|\#|mailto:|tel:)#i', $url)) {
+                    // audit-test 2026-05-07 Menu Link Picker audit finding #2 (SECURITY)
+                    // + post-merge follow-up #3 (TICKET-AS):
+                    // - Cycle-24 added the protocol allow-list to block
+                    //   `javascript:alert(...)` etc.
+                    // - Follow-up #3: the leading `/` branch also matched
+                    //   `//attacker.com/path` (protocol-relative URL) so an
+                    //   attacker could still set the menu link to an external
+                    //   origin. Tightened the slash-branch to `/(?!/)` so
+                    //   only SINGLE-leading-slash root-relative paths pass.
+                    if ($url !== '' && ! preg_match('#^(https?://|/(?!/)|\#|mailto:|tel:)#i', $url)) {
                         $url = '';
                     }
 

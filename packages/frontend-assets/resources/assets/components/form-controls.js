@@ -1417,7 +1417,14 @@ mw.emitter = {
             // <a href="…"> by the consumer — stored-XSS primitive.
             // Allow-list http(s):, mailto:, tel:, relative paths, anchors,
             // and bare hostnames that look like a domain.
-            var safeUrlPattern = /^(\/|#|https?:\/\/|mailto:|tel:|[\w.-]+\.[a-z]{2,})/i;
+            // audit-test 2026-05-07 post-merge follow-up #3 (TICKET-AS):
+            // leading `\/` was matching `//attacker.com/path` (protocol-
+            // relative URL — browser resolves to current page's scheme,
+            // origin silently changes to attacker.com). Tightened to
+            // `\/(?!\/)` so only SINGLE-leading-slash root-relative paths
+            // pass. Bare backslashes (`\\\\attacker.com`) don't match this
+            // regex anyway but worth noting they would be rejected.
+            var safeUrlPattern = /^(\/(?!\/)|#|https?:\/\/|mailto:|tel:|[\w.-]+\.[a-z]{2,})/i;
 
             this.isValid = function () {
                 if(textField && !textField.value) {

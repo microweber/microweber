@@ -35,28 +35,30 @@ function icon_html($icon)
         return '';
     }
 
-    // audit-test 2026-05-07 Accordion audit finding #4 / TICKET-AJ (SECURITY HIGH):
-    // The bare-`<` catch-all (`if (str_starts_with($icon, '<')) return $icon;`)
-    // was a stored-XSS hole: any string starting with `<` was returned verbatim,
-    // so `<script>alert(...)</script>`, `<iframe src=javascript:...>`, etc. all
-    // bypassed the four specific tag-prefix allowlists below. Removed.
-    // The four explicit allowlists (`<i class="`, `<svg`, `<img`, `<span class="`)
-    // are kept; everything else falls through to the class-prefix wrappers
-    // (`mdi-`, `mw-`, `fa-`, etc.) and unrecognized input returns ''.
-    // Note: even the `<i class="...">` allowlist permits attribute injection
-    // (`<i class="x" onclick="...">`); a tighter attribute-level sanitizer
-    // would be ideal but the catch-all removal closes the universal escape.
+    // audit-test 2026-05-07 Accordion audit finding #4 / TICKET-AJ (SECURITY HIGH)
+    // + post-merge follow-up #2:
+    // - Cycle-33 deleted the bare-`<` catch-all that returned ANY string
+    //   starting with `<` verbatim (the universal escape hatch).
+    // - Follow-up #2: the four explicit allowlists (`<i class="`, `<svg`,
+    //   `<img`, `<span class="`) were still attribute-injection sinks
+    //   (`<i class="x" onclick="...">`, `<svg onload>`, `<img onerror>`,
+    //   `<span onmouseover>`, embedded `<script>` inside `<svg>`, etc.).
+    //   Now route every pass-through through `mw()->format->clean_xss`,
+    //   the project-blessed XSSSecurity + enshrined/svg-sanitize pipeline.
+    //   This strips event handlers, `<script>` blocks, and javascript:
+    //   URLs from href/xlink:href; the SVG-specific sanitizer enforces
+    //   the SVG tag/attribute allow-list.
     if (str_starts_with($icon, '<i class="')) {
-        return $icon;
+        return mw()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<svg')) {
-        return $icon;
+        return mw()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<img')) {
-        return $icon;
+        return mw()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, '<span class="')) {
-        return $icon;
+        return mw()->format->clean_xss($icon);
     }
     if (str_starts_with($icon, 'mdi-')) {
         return '<i class="mdi ' . $icon . '"></i>';

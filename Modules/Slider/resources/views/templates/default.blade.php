@@ -129,15 +129,16 @@ description: Modern slider with Swiper.js integration
                         </div>
 
                         @if($slide->button_text)
-                            {{-- audit-test 2026-05-07 Slider audit finding #2 (SECURITY HIGH):
-                                 admin-supplied `$slide->link` had no protocol allow-list.
-                                 Defense-in-depth: reject anything that isn't http(s)://,
-                                 root-relative `/`, anchor `#`, mailto:, or tel:.
-                                 Same pattern used in cycle-22 (link-picker URL controller)
-                                 and cycle-24 (menu-link-picker afterStateUpdated). --}}
+                            {{-- audit-test 2026-05-07 Slider audit finding #2 (SECURITY HIGH)
+                                 + post-merge follow-up #3 (TICKET-AS):
+                                 - Cycle-27: protocol allow-list blocks javascript:/data:.
+                                 - Follow-up #3: leading `/` also matched `//attacker.com/path`
+                                   (protocol-relative URL — browser resolves to current scheme,
+                                   origin changes to attacker.com). Tightened to `/(?!/)` so
+                                   only SINGLE-leading-slash root-relative paths pass. --}}
                             @php
                                 $safeLink = '';
-                                if (!empty($slide->link) && preg_match('#^(https?://|/|\#|mailto:|tel:)#i', $slide->link)) {
+                                if (!empty($slide->link) && preg_match('#^(https?://|/(?!/)|\#|mailto:|tel:)#i', $slide->link)) {
                                     $safeLink = $slide->link;
                                 }
                             @endphp

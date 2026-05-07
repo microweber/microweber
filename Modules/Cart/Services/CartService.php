@@ -975,23 +975,30 @@ class CartService
      */
     protected function findExistingCartItem(array $cart): ?Cart
     {
-        // audit-test 2026-05-07 Cart deep-pass finding #7 (BUG MEDIUM):
-        // before adding `custom_fields_data` to the where clause, the
-        // SAME product added twice with DIFFERENT custom-field selections
-        // (e.g., size=M then size=L) collapsed into a single line item —
-        // the second add silently OVERWROTE the first selection. End-user
-        // lost their first variant choice with no warning. Now each
-        // distinct variant gets its own cart row, matching the customer's
-        // mental model.
+        // audit-test 2026-05-07 Cart deep-pass finding #7 (BUG MEDIUM) +
+        // post-merge follow-up #1 (NULL/empty mismatch):
+        // - Cycle-36 added custom_fields_data to disambiguate variants
+        //   (size=M vs size=L no longer collapse into one row).
+        // - Follow-up #1: Format::array_to_base64([]) returns '' (empty
+        //   string) so new no-customisation rows carry '' while legacy
+        //   rows persisted via paths that left the column NULL still
+        //   exist. SQL `WHERE custom_fields_data = ''` doesn't match
+        //   NULL, so legacy NULL rows wouldn't qty-merge with new ''
+        //   rows — customer ends up with two cart rows for the same
+        //   product. Treat NULL and '' as equivalent at query time.
         $query = Cart::where('session_id', $cart['session_id'])
             ->where('order_completed', $cart['order_completed'])
             ->where('rel_id', $cart['rel_id'])
             ->where('rel_type', $cart['rel_type']);
 
-        if (array_key_exists('custom_fields_data', $cart)) {
-            $query->where('custom_fields_data', $cart['custom_fields_data']);
+        $cf = $cart['custom_fields_data'] ?? null;
+        if ($cf !== null && $cf !== '') {
+            $query->where('custom_fields_data', $cf);
         } else {
-            $query->whereNull('custom_fields_data');
+            $query->where(function ($q) {
+                $q->whereNull('custom_fields_data')
+                  ->orWhere('custom_fields_data', '');
+            });
         }
 
         return $query->first();
