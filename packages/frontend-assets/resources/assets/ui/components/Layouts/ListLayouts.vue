@@ -10,20 +10,30 @@
     >
 
         <div v-if="showModal"
-             role="dialog" aria-label="Insert layout"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="mw-le-layouts-dialog-title"
              class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
              style="inset:20px; transform:none; animation-duration: .3s; z-index: 1000;"
         >
 
+            <!-- audit-test 2026-05-07 ESE+picker audit findings #2/#6:
+                 - aria-modal="true" + aria-labelledby on the dialog so
+                   assistive tech traps focus and announces the title.
+                 - Visually-hidden h2 carries the announce-only title;
+                   aria-hidden="true" on the &times; glyph so SR reads
+                   the close button's aria-label, not "multiplication". -->
+            <h2 id="mw-le-layouts-dialog-title" class="visually-hidden">{{ $lang('Insert layout') }}</h2>
+
             <!-- Close Button -->
             <button
-                aria-label="Close"
+                :aria-label="$lang('Close picker')"
                 class="mw-le-dialog-close-btn"
                 style="position:absolute;top:16px;right:16px;z-index:10;background:none;border:none;font-size:2rem;line-height:1;cursor:pointer;"
                 type="button"
                 @click="showModal = false"
             >
-                &times;
+                <span aria-hidden="true">&times;</span>
             </button>
 
             <div class="modules-list modules-list-defaultModules">
@@ -32,16 +42,34 @@
                     <div v-if=" layoutsList?.categories?.length" class="mw-le-layouts-dialog-col">
 
 
-                        <ul class="modules-list-categories py-5">
+                        <!-- audit-test 2026-05-07 picker audit finding #5:
+                             categories function as tabs (click filters
+                             which layouts show). Wire role="tablist" /
+                             role="tab" / aria-selected so screen readers
+                             announce "tabs, Content selected, 12 items"
+                             instead of "list of 12 items". -->
+                        <ul class="modules-list-categories py-5"
+                            role="tablist"
+                            :aria-label="$lang('Layout categories')">
 
-                            <li :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
-                                v-on:click="filterCategorySubmit('')">
+                            <li role="tab"
+                                :aria-selected="'' === filterCategory"
+                                :tabindex="'' === filterCategory ? 0 : -1"
+                                :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
+                                v-on:click="filterCategorySubmit('')"
+                                v-on:keydown.enter="filterCategorySubmit('')"
+                                v-on:keydown.space.prevent="filterCategorySubmit('')">
                                 All categories
                             </li>
 
                             <li v-for="categoryName in layoutsList.categories"
+                                role="tab"
+                                :aria-selected="categoryName === filterCategory"
+                                :tabindex="categoryName === filterCategory ? 0 : -1"
                                 :data-category="[categoryName ? categoryName.toLowerCase(): '']"
-                                v-on:click="filterCategorySubmit(categoryName)">
+                                v-on:click="filterCategorySubmit(categoryName)"
+                                v-on:keydown.enter="filterCategorySubmit(categoryName)"
+                                v-on:keydown.space.prevent="filterCategorySubmit(categoryName)">
 
                                 <a :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
                                    class="mw-admin-action-links">
@@ -64,8 +92,17 @@
 
                         <div v-show="layoutsList?.categories?.length">
                             <div class="modules-list-search-block input-icon">
+                                <!-- audit-test 2026-05-07 picker audit finding #3:
+                                     type="search" enables native clear-button (×).
+                                     inputmode="search" + enterkeyhint="search" gives
+                                     mobile keyboards the "search" submit key.
+                                     aria-label gives screen readers a stable label
+                                     that survives placeholder localisation. -->
                                 <input v-model="filterKeyword" class="modules-list-search-field form-control rounded-0"
-                                       type="text"
+                                       type="search"
+                                       inputmode="search"
+                                       enterkeyhint="search"
+                                       :aria-label="$lang('Search layouts')"
                                        v-bind:placeholder="$lang('Type to Search') + '...'">
                                 <span class="input-icon-addon list-layouts-search-bar-icon ms-3">
 
