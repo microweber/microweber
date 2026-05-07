@@ -108,7 +108,15 @@ description: Modern slider with Swiper.js integration
                     </div>
 
 
-                    <div class="js-slide-elements-{{ $slide->id }}" style="height: calc(100vh - 100px);">
+                    {{-- audit-test 2026-05-07 Slider audit finding #5 (TICKET-AH partial):
+                         100vh on iOS Safari includes the URL bar so the slide
+                         height jumps when the user scrolls. 100dvh (dynamic
+                         viewport height) accounts for the URL bar and stays
+                         stable. Stacked declaration: pre-dvh browsers see only
+                         the first rule (100vh fallback); dvh-supporting
+                         browsers (iOS 15.4+ / Chrome 108+ / Firefox 101+) see
+                         both and the second wins. --}}
+                    <div class="js-slide-elements-{{ $slide->id }}" style="height: calc(100vh - 100px); height: calc(100dvh - 100px);">
                         <div class="mb-2">
                             <h3 class="module-slider-header-section-title js-slide-title-{{ $slide->id }}">
                                 {{ $slide->name }}
