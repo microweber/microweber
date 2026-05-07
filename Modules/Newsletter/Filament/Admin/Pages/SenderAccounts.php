@@ -97,9 +97,16 @@ class SenderAccounts extends Page implements HasTable
                                 ->label('SMTP Host')
                                 ->required()
                                 ->helperText('Enter the SMTP host'),
+                            // audit-test 2026-05-07 SenderAccounts follow-up #2 issue #3:
+                            // smtp_port accepted any string ("abc") which then failed
+                            // downstream as an SMTP error. Added numeric() + valid TCP
+                            // port range so admin gets immediate form-side feedback.
                             TextInput::make('smtp_port')
                                 ->label('SMTP Port')
                                 ->required()
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(65535)
                                 ->helperText('Enter the SMTP port'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'smtp') {
@@ -110,14 +117,21 @@ class SenderAccounts extends Page implements HasTable
 
 
                         Group::make([
+                            // audit-test 2026-05-07 SenderAccounts follow-up #2 issues #1+#2:
+                            // gmail_email had no ->email() validation (admin could save
+                            // "not-an-email" → SMTP error later); gmail_app_password had
+                            // ->password() but not ->revealable() like the other 6 secret
+                            // fields — inconsistent UX. Added both modifiers.
                             TextInput::make('gmail_email')
                                 ->label('Gmail Email Address')
                                 ->required()
+                                ->email()
                                 ->helperText('Enter your Gmail email address'),
                             TextInput::make('gmail_app_password')
                                 ->label('Gmail App Password')
                                 ->required()
                                 ->password()
+                                ->revealable()
                                 ->helperText('Enter your Gmail app password (create one at myaccount.google.com/apppasswords)'),
                         ])->hidden(function(Get $get) {
                             if ($get('account_type') == 'gmail') {
@@ -227,14 +241,20 @@ class SenderAccounts extends Page implements HasTable
                             ->label('From Name')
                             ->required()
                             ->helperText('This name will be visible as Sender name in the received e-mail'),
+                        // audit-test 2026-05-07 SenderAccounts follow-up #2 issue #2 (bonus consistency):
+                        // from_email + reply_email also need ->email() validation so admin
+                        // gets immediate form feedback for malformed addresses (otherwise
+                        // the SMTP send fails silently or with an opaque error later).
                         TextInput::make('from_email')
                             ->label('From Email')
                             ->required()
+                            ->email()
                             ->helperText('This e-mail will be visible as Sender e-mail address in the received e-mail'),
 
                         TextInput::make('reply_email')
                             ->label('Reply To Email')
                             ->required()
+                            ->email()
                             ->helperText('This e-mail will used for reply in the received e-mail'),
 
                     ]),
