@@ -53,13 +53,22 @@ description: Skin-16 for Logos
             @if(empty($data))
                 <p class="mw-pictures-clean">No pictures added. Please add pictures to the module.</p>
             @else
+                {{-- audit-test 2026-05-07 PM TICKET-AV bundle: `<div style="background-image: url(...)">`
+                     was a CSS-injection sink; migrated to `<img>` with object-fit:contain to preserve
+                     the prior background-size:contain visual. Hover transform CSS rule above continues to
+                     work since it targets the parent .background-image-holder div which still wraps the img. --}}
                 @foreach($data as $item)
                     @php $count++; @endphp
                     <div class="col-sm-6 col-md-4 col-lg-3 pb-3 px-2">
                         <a data-index="{{ $count }}"
                            href="{{ $item['filename'] ?? '' }}">
-                            <div class="background-image-holder mh-200"
-                                 style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}'); background-size: contain;">
+                            <div class="background-image-holder mh-200">
+                                <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
+                                     alt="{{ __('Product image') }}"
+                                     loading="lazy"
+                                     decoding="async"
+                                     class="d-block w-100 h-100"
+                                     style="object-fit: contain;">
                             </div>
                         </a>
                     </div>

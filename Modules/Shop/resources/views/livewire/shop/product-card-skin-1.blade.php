@@ -1,6 +1,10 @@
 <div class="mw-online-shop-skin-1-product position-relative">
+    {{-- audit-test 2026-05-07 PM TICKET-AV bundle (Option A — safe_css_url helper):
+         same structural reason as Shop/product-card.blade.php — nested badge / discount /
+         overlay children. safe_css_url() closes the CSS-injection vector; <img> migration
+         tracked under TICKET-AB. --}}
     <a class="text-decoration-none" href="{{content_link($product->id)}}">
-        <div class="background-image-holder" style="background-image: url('{{$product->thumbnail(1000,1000)}}'); height: 450px; background-size: cover;">
+        <div class="background-image-holder" style="background-image: url('{{ safe_css_url($product->thumbnail(1000,1000)) }}'); height: 450px; background-size: cover;">
 
             <div @if($product->getContentDataByFieldName('label-color'))
                      style="background-color: {{$product->getContentDataByFieldName('label-color')}} "

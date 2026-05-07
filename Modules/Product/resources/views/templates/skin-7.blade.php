@@ -67,7 +67,15 @@ description: Skin-7
                     @endif
 
                     @if ($show_fields == false or in_array('thumbnail', $show_fields))
-                        <div class="image" style="background-image: url('{{ thumbnail($item['image'], 1250, 1250) }}'); height: 500px;" itemprop="image">
+                        {{-- audit-test 2026-05-07 PM TICKET-AV bundle (Option A — safe_css_url helper):
+                             this div has nested badge / discount / overlay children that need
+                             positional context; full <img> migration would require restructuring
+                             the overlay layout. safe_css_url() backslash-escapes CSS-string-
+                             terminating chars + rejects javascript:/data:/vbscript: schemes,
+                             closing the CSS-injection vector while preserving the bg-image
+                             container shape. <img> migration tracked under TICKET-AB
+                             (shop-product-card-rewrite) where layout work is in scope. --}}
+                        <div class="image" style="background-image: url('{{ safe_css_url(thumbnail($item['image'], 1250, 1250)) }}'); height: 500px;" itemprop="image">
                             @if (isset($itemData['label-type']) && $itemData['label-type'] === 'text')
                                 <div class="position-absolute top-0 left-0 m-2" style="z-index: 3;">
                                     <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{ $itemData['label-color'] }};">{{ $itemData['label'] }}</div>

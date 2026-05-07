@@ -38,10 +38,23 @@ if (!window.SliderV2) {
             <div class="swiper-slide">
                 <div class="row overflow-hidden text-start p-md-4 p-2 d-flex flex-wrap h-100">
                     <div class="col-md-6">
+                        {{-- audit-test 2026-05-07 PM TICKET-AV bundle: migrated `<div bg-image>`
+                             to real `<img>` (closes CSS-injection vector + adds alt + lazy).
+                             object-fit:cover preserves the prior background-size:cover visual. --}}
                         @if ($member['file'])
-                            <div class="m-auto h-100 w-450" style="background-image: url('{{ thumbnail($member['file'], 900) }}'); background-repeat: no-repeat; background-size: cover;"></div>
+                            <img class="m-auto h-100 w-450 d-block"
+                                 src="{{ thumbnail($member['file'], 900) }}"
+                                 alt="{{ $member['name'] ?? __('Team member') }}"
+                                 loading="lazy"
+                                 decoding="async"
+                                 style="object-fit: cover;">
                         @else
-                            <div class="m-auto h-100 w-450" style="background-image: url('{{ asset('modules/teamcard/default-content/default-image.svg') }}'); background-repeat: no-repeat; background-size: cover;"></div>
+                            <img class="m-auto h-100 w-450 d-block"
+                                 src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"
+                                 alt=""
+                                 loading="lazy"
+                                 decoding="async"
+                                 style="object-fit: cover;">
                         @endif
                     </div>
 

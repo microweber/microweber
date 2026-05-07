@@ -20,10 +20,13 @@
                         text-align: {{ $slide->settings['alignItems'] ?? 'center' }};
                     }
 
+                    /* audit-test 2026-05-07 PM TICKET-AV bundle: was background-size/position
+                       on a div, now object-fit/object-position on a real <img> — same visual
+                       fit (cover, centered) with no CSS-injection sink. */
                     #js-slider-{{ $params['id'] }} .swiper-slide-{{ $slide->id }} .js-slide-image-swiper-module {
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        background-position: center center;
+                        object-fit: cover;
+                        object-position: center center;
+                        border-radius: 30px;
                         width: 100%;
                         height: 100%;
                         position: absolute;
@@ -96,11 +99,16 @@ filter: sepia(100%);
 
                 <div class="swiper-slide swiper-slide-{{ $slide->id }}">
 
-                    <div class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
-                         style="background-image: url('{{ thumbnail($slide->media, 1200) }}');
-                                border-radius: 30px;
-                                overflow: hidden;">
-                    </div>
+                    {{-- audit-test 2026-05-07 PM TICKET-AV bundle: migrated `<div bg-image>` to
+                         real `<img>` (closes CSS-injection vector + adds alt + srcset + lazy). --}}
+                    <img class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
+                         src="{{ thumbnail($slide->media, 800) }}"
+                         srcset="{{ thumbnail($slide->media, 400) }} 400w, {{ thumbnail($slide->media, 800) }} 800w, {{ thumbnail($slide->media, 1200) }} 1200w"
+                         sizes="100vw"
+                         alt="{{ $slide->name ?? '' }}"
+                         loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                         decoding="async"
+                         style="overflow: hidden;">
 
                     <div style="height: 650px; border-radius: 30px; padding-inline-start: 100px;"
                          class="d-flex flex-column justify-content-center align-items-start text-start gap-4 slide-content">

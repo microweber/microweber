@@ -18,11 +18,19 @@ description: Skin-2
 </script>
 
 <style>
+    /* audit-test 2026-05-07 PM TICKET-AV bundle: was background-size/position
+       on a div, now object-fit on inner <img>. aspect-ratio:1 keeps the square
+       shape that padding-top:100% used to give. */
     .team-card-item-image {
-        padding-top: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+    }
+    .team-card-item-image > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
     }
 
     <?php echo '#'.$params['id']; ?>
@@ -57,7 +65,14 @@ description: Skin-2
                 <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start my-5 d-flex flex-wrap">
                     <div class="col-md-6 pe-2">
                         @if ($member['file'])
-                            <div class="team-card-item-image" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
+                            {{-- audit-test 2026-05-07 PM TICKET-AV bundle: migrated `<div bg-image>`
+                                 to real `<img>` (closes CSS-injection vector + adds alt + lazy). --}}
+                            <div class="team-card-item-image">
+                                <img src="{{ thumbnail($member['file'], 800) }}"
+                                     alt="{{ $member['name'] ?? __('Team member') }}"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
                         @else
                             <div class="rounded-circle">
                                 <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>

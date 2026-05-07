@@ -24,12 +24,18 @@ description: Shop inner
             @if(empty($data))
                 <p class="mw-pictures-clean">No pictures added. Please add pictures to the module.</p>
             @else
+                {{-- audit-test 2026-05-07 PM TICKET-AV bundle: `<a style="background-image: url(...)">`
+                     was a CSS-injection sink; migrated to `<a><img>`. --}}
                 @foreach($data as $item)
                     <a href="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}"
                        id="elevatezoom"
                        data-image="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                       data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}"
-                       style="background-image: url('{{ thumbnail($item['filename'] ?? '', 200, 200) }}');">
+                       data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}">
+                        <img src="{{ thumbnail($item['filename'] ?? '', 200, 200) }}"
+                             alt="{{ __('Product image') }}"
+                             loading="lazy"
+                             decoding="async"
+                             class="img-fluid d-block">
                     </a>
                 @endforeach
             @endif

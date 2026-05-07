@@ -36,10 +36,16 @@ description: Skin 14 - ocean
                     @else
                         @foreach($data as $item)
                             @php $count++; @endphp
+                            {{-- audit-test 2026-05-07 PM TICKET-AV bundle: `<a style="background-image: url(...)">`
+                                 was a CSS-injection sink; migrated to `<a><img>`. --}}
                             <a class="mx-0"
                                href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
-                               onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;"
-                               style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
+                               onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;">
+                                <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
+                                     alt="{{ __('Product image') }}"
+                                     loading="lazy"
+                                     decoding="async"
+                                     class="img-fluid d-block">
                             </a>
                         @endforeach
                     @endif

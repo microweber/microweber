@@ -1,8 +1,12 @@
 <div class="shop-products">
 
     <div class="product position-relative">
+        {{-- audit-test 2026-05-07 PM TICKET-AV bundle (Option A — safe_css_url helper):
+             nested badge / overlay children prevent simple <img> migration without layout
+             restructure. safe_css_url() closes the CSS-injection vector; <img> migration
+             with object-fit and overlay positioning tracked under TICKET-AB. --}}
         <a class="text-decoration-none" href="{{content_link($product->id)}}">
-            <div class="background-image-holder" style="background-image: url('{{$product->thumbnail(1000,1000)}}'); height: 450px; background-size: cover;">
+            <div class="background-image-holder" style="background-image: url('{{ safe_css_url($product->thumbnail(1000,1000)) }}'); height: 450px; background-size: cover;">
 
                 <div @if($product->getContentDataByFieldName('label-color'))
                          style="background-color: {{$product->getContentDataByFieldName('label-color')}} "

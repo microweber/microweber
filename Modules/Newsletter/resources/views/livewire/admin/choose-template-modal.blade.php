@@ -12,20 +12,23 @@
 
     <div class="mt-4 px-5 pb-5">
         <div class="row">
+            {{-- audit-test 2026-05-07 PM TICKET-AV bundle: migrated `<div bg-image>`
+                 to real `<img>` (closes CSS-injection vector + adds alt text for SR
+                 users in the admin choose-template modal). --}}
             @foreach($emailTemplates as $emailTemplate)
                 <div class="col-6 cursor-pointer mt-4"
                      wire:click="selectTemplate('{{ $emailTemplate['name'] }}','{{ $emailTemplate['filename'] }}')">
-                    <div style="
-                            background-image: url('{{ $emailTemplate['screenshot'] }}');
-                            background-size: contain;
-                            background-position: center center;
-                            background-repeat: no-repeat;
-                            width: 100%;
-                            height: 300px;
-                            border: 1px solid #ddd;
-                            border-radius: 5px;
-                        ">
-                    </div>
+                    <img src="{{ $emailTemplate['screenshot'] }}"
+                         alt="{{ $emailTemplate['name'] ?? __('Email template preview') }}"
+                         loading="lazy"
+                         decoding="async"
+                         class="d-block"
+                         style="object-fit: contain;
+                                object-position: center center;
+                                width: 100%;
+                                height: 300px;
+                                border: 1px solid #ddd;
+                                border-radius: 5px;">
                 </div>
             @endforeach
         </div>
