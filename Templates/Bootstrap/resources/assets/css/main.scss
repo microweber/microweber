@@ -609,4 +609,39 @@ a {
     }
 }
 
+/*
+ * E-commerce cycle audit 2026-05-07 finding #5:
+ * Checkout wizard step-2 inputs measure font-size 14px. They sit
+ * inside `.fi-sc-wizard`, NOT under `.fi`, so the admin-only
+ * `mobile-touch.css` rule doesn't catch them. iOS auto-zoom on
+ * focus is the conversion-killer in the path to revenue.
+ *
+ * Fix: bump every public form-input type to 16px on touch viewports.
+ * Same shape as the admin rule but scoped to public-theme bundle so
+ * it takes effect without an admin login. The match-list mirrors the
+ * admin rule (text/email/tel/search/url/number/date/time/password +
+ * textarea + select).
+ *
+ * Cross-cuts contact-form audit 2026-05-07 finding #3 (mobile-input
+ * font-size on the public default contact-form skin) — closes both
+ * audits with one rule.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    input:not([type]),
+    textarea,
+    select {
+        font-size: 16px;
+    }
+}
+
 @import "rtl-changes.scss";

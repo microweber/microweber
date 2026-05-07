@@ -150,15 +150,27 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                 ->schema([
                     Grid::make(2)
                         ->schema([
+                            // E-commerce cycle audit 2026-05-07 finding #3:
+                            // public-checkout fields had no autocomplete +
+                            // no aria-required attribute on render. Browser
+                            // autofill couldn't suggest stored details and
+                            // screen readers didn't hear the required state.
+                            // Adding HTML5 autocomplete tokens + explicit
+                            // aria-required closes both gaps for every
+                            // visitor on the path to revenue.
                             TextInput::make('first_name')
                                 ->label(__('First Name'))
                                 ->required()
+                                ->autocomplete('given-name')
+                                ->extraInputAttributes(['aria-required' => 'true'])
                                 ->maxLength(255)
                                 ->placeholder(__('Enter your first name')),
 
                             TextInput::make('last_name')
                                 ->label(__('Last Name'))
                                 ->required()
+                                ->autocomplete('family-name')
+                                ->extraInputAttributes(['aria-required' => 'true'])
                                 ->maxLength(255)
                                 ->placeholder(__('Enter your last name')),
                         ]),
@@ -167,6 +179,11 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                         ->label(__('Email'))
                         ->email()
                         ->required()
+                        ->autocomplete('email')
+                        ->extraInputAttributes([
+                            'aria-required' => 'true',
+                            'inputmode' => 'email',
+                        ])
                         ->maxLength(255)
                         ->placeholder(__('your@email.com'))
                         ->helperText(__('We will send order confirmation to this email')),
@@ -175,6 +192,11 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                         ->label(__('Phone Number'))
                         ->tel()
                         ->required()
+                        ->autocomplete('tel')
+                        ->extraInputAttributes([
+                            'aria-required' => 'true',
+                            'inputmode' => 'tel',
+                        ])
                         ->maxLength(255)
                         ->placeholder(__('+1 234 567 890')),
                 ]),
@@ -185,6 +207,8 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     Select::make('country')
                         ->label(__('Country'))
                         ->required()
+                        ->autocomplete('country')
+                        ->extraAttributes(['aria-required' => 'true'])
                         ->searchable()
                         ->options(function () {
                             return app()->country_manager->getCountries();
@@ -195,11 +219,15 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                             TextInput::make('city')
                                 ->label(__('City'))
                                 ->required()
+                                ->autocomplete('address-level2')
+                                ->extraInputAttributes(['aria-required' => 'true'])
                                 ->maxLength(255),
 
                             TextInput::make('state')
                                 ->label(__('State / Province'))
                                 ->required()
+                                ->autocomplete('address-level1')
+                                ->extraInputAttributes(['aria-required' => 'true'])
                                 ->maxLength(255),
                         ]),
 
@@ -208,11 +236,18 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                             TextInput::make('postal_code')
                                 ->label(__('Postal / ZIP Code'))
                                 ->required()
+                                ->autocomplete('postal-code')
+                                ->extraInputAttributes([
+                                    'aria-required' => 'true',
+                                    'inputmode' => 'numeric',
+                                ])
                                 ->maxLength(20),
 
                             TextInput::make('address')
                                 ->label(__('Street Address'))
                                 ->required()
+                                ->autocomplete('street-address')
+                                ->extraInputAttributes(['aria-required' => 'true'])
                                 ->maxLength(255)
                                 ->columnSpanFull(),
                         ]),
