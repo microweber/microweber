@@ -60,14 +60,19 @@
     </x-slot>
 
 
+    {{-- audit-test 2026-05-07 Menu Link Picker audit finding #3:
+         x-data was using single-quoted JS string interpolation (e.g.
+         url: '{{$url}}') which produces a JS syntax error if any value
+         contains an apostrophe. @js() (Laravel's Js::from) emits a
+         JSON-encoded literal that is safe in any JS context. --}}
     <div
 
         x-data="{
-            url: '{{$url}}',
+            url: @js($url),
             simpleMode: {{$getSimpleMode}},
-            categoryId: '{{$categoryId}}',
-            contentId: '{{$contentId}}',
-            contentType: '{{$contentType}}',
+            categoryId: @js($categoryId),
+            contentId: @js($contentId),
+            contentType: @js($contentType),
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
 
@@ -109,11 +114,20 @@
         "
     >
 
+        {{-- audit-test 2026-05-07 Menu Link Picker audit finding #1 (BLOCKER):
+             readonly inputs do not fire `click` on Enter/Space (Chrome/
+             Firefox/Safari), so keyboard-only users could not open the
+             link picker - WCAG 2.1.1. Re-dispatch click on Enter/Space
+             via the synthetic-click trick (Alpine's click handler
+             listens for the underlying click event including the one
+             emitted by HTMLElement.click()). --}}
         <x-filament::input
 
 
 
 
+            x-on:keydown.enter.prevent="$event.target.click()"
+            x-on:keydown.space.prevent="$event.target.click()"
 
             x-on:click="function() {
 
