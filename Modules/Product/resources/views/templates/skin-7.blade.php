@@ -140,11 +140,19 @@ description: Skin-7
                                     @endif
                                 </div>
 
+                                {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual:
+                                     <a href="javascript:;" onclick=...> -> <button> with
+                                     mw-add-to-cart-btn + data-attrs. --}}
                                 <div class="col-sm-6 col-12 d-flex justify-content-md-end justify-content-center">
                                     <div>
                                         @if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields)))
                                             @if ($in_stock == true)
-                                                <a href="javascript:;" onclick="mw.cart.add_and_show_modal('{{ $item['id'] }}','{{ $val1 }}', '{{ $item['title'] }}');" class="btn btn-outline-primary btn-sm"> @lang("Buy")</a>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-sm mw-add-to-cart-btn"
+                                                        aria-label="@lang('Buy'): {{ $item['title'] }}"
+                                                        data-content-id="{{ $item['id'] }}"
+                                                        data-price="{{ $val1 }}"
+                                                        data-title="{{ $item['title'] }}"> @lang("Buy")</button>
                                             @endif
                                         @endif
                                     </div>

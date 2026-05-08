@@ -115,11 +115,22 @@
                                 @endif
                             </div>
 
+                            {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual:
+                                 migrated <a href="javascript:;" onclick=...> to a
+                                 real <button> with the delegated mw-add-to-cart-btn
+                                 + data-attrs pattern (listener at shop.js:342-360).
+                                 Closes the apostrophe-in-title JS-string break and
+                                 the strict-CSP script-src 'self' blocker. --}}
                             @if ($firstPrice !== false && $firstPrice > 0)
                                 @if ($show_fields == false || ($show_fields != false && in_array('add_to_cart', $show_fields)))
                                     @if ($in_stock == true)
                                         <div class="d-flex justify-content-center">
-                                            <a href="javascript:;" onclick="mw.cart.add_and_show_modal('{{ $item['id'] }}','{{ $val1 }}', '{{ $item['title'] }}');" class="btn btn-outline-primary">Add to cart</a>
+                                            <button type="button"
+                                                    class="btn btn-outline-primary mw-add-to-cart-btn"
+                                                    aria-label="Add to cart: {{ $item['title'] }}"
+                                                    data-content-id="{{ $item['id'] }}"
+                                                    data-price="{{ $val1 }}"
+                                                    data-title="{{ $item['title'] }}">Add to cart</button>
                                         </div>
                                     @endif
                                 @endif

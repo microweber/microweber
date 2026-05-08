@@ -72,19 +72,33 @@ Description: Styled cart add template with product image and custom fields
                         : {{ currency_format($v) }}
                     </span>
 
+                    {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual:
+                         migrated from inline onclick= to the delegated
+                         mw-add-to-cart-btn / mw-add-to-cart-disabled-btn pattern
+                         shipped under TASK-003 (TICKET-AQ). Listener already
+                         live at shop.js:342-360 — Blade-only change here.
+                         Out-of-stock: aria-disabled (focusable, no fake-disabled
+                         click swallow) + data-alert-message.
+                         Add-to-cart: class trigger + data-content-id / data-price
+                         / data-title. Closes the apostrophe-in-title JS-string
+                         break and the strict-CSP script-src 'self' blocker. --}}
                     @if(!$in_stock)
-                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small float-end"
+                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small float-end mw-add-to-cart-disabled-btn"
                                 type="button"
-                                disabled="disabled"
-                                onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
-                            <i class="mdi mdi-cart"></i>
+                                aria-disabled="true"
+                                aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
+                                data-alert-message="{{ _e('This item is out of stock and cannot be ordered', true) }}">
+                            <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e("Out of stock", true) }}
                         </button>
                     @else
-                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small float-end"
+                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small float-end mw-add-to-cart-btn"
                                 type="button"
-                                onclick="mw.cart.add_and_show_modal('{{ $for_id ?? '' }}','{{ $v }}', '{{ $title }}');">
-                            <i class="mdi mdi-cart"></i>
+                                aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
+                                data-content-id="{{ $for_id ?? '' }}"
+                                data-price="{{ $v }}"
+                                data-title="{{ $title }}">
+                            <i class="mdi mdi-cart" aria-hidden="true"></i>
                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                         </button>
                     @endif

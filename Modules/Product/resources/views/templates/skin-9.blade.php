@@ -147,13 +147,19 @@ description: skin-9
                                     @endif
                                 </div>
 
+                                {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual:
+                                     <a href="javascript:;" onclick=...> -> <button> with
+                                     mw-add-to-cart-btn + data-attrs. --}}
                                 @if ($firstPrice !== false && $firstPrice > 0)
                                     <div class="py-4">
                                         @if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields)))
                                             @if ($in_stock == true)
-                                                <a href="javascript:;"
-                                                   onclick="mw.cart.add_and_show_modal('{{ $item['id'] }}','{{ $val1 }}', '{{ $item['title'] }}');"
-                                                   class="btn btn-primary px-4 btn-md"> @lang("BUY NOW")</a>
+                                                <button type="button"
+                                                        class="btn btn-primary px-4 btn-md mw-add-to-cart-btn"
+                                                        aria-label="@lang('BUY NOW'): {{ $item['title'] }}"
+                                                        data-content-id="{{ $item['id'] }}"
+                                                        data-price="{{ $val1 }}"
+                                                        data-title="{{ $item['title'] }}"> @lang("BUY NOW")</button>
                                             @endif
                                         @endif
                                     </div>

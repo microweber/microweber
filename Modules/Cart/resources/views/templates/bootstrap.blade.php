@@ -54,11 +54,21 @@ Description: Bootstrap-styled cart add template with modern design
                                 <h4 class="price-value text-primary mb-0">{{ currency_format($v) }}</h4>
                             </div>
 
+                            {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual
+                                 (extra-sweep): the add-to-cart inline onclick= and the
+                                 out-of-stock inline onclick= were the in-scope migrations.
+                                 The qty +/- handlers (mw.tools.decrease_quantity /
+                                 mw.tools.increase_quantity, lines 67 + 71) are kept
+                                 as-is because they are out-of-scope for TICKET-AQ
+                                 (different delegated handler, different ticket family
+                                 if/when CSP rolls out). --}}
                             <div class="cart-actions">
                                 @if(!$in_stock)
-                                    <button class="btn btn-outline-secondary" type="button" disabled="disabled"
-                                            onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
-                                        <i class="fas fa-times me-2"></i>
+                                    <button class="btn btn-outline-secondary mw-add-to-cart-disabled-btn" type="button"
+                                            aria-disabled="true"
+                                            aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
+                                            data-alert-message="{{ _e('This item is out of stock and cannot be ordered', true) }}">
+                                        <i class="fas fa-times me-2" aria-hidden="true"></i>
                                         {{ _e("Out of stock", true) }}
                                     </button>
                                 @else
@@ -73,9 +83,12 @@ Description: Bootstrap-styled cart add template with modern design
                                             </button>
                                         </div>
 
-                                        <button class="btn btn-primary" type="button"
-                                                onclick="mw.cart.add_and_show_modal('{{ $for_id ?? '' }}','{{ $v }}', '{{ $title }}');">
-                                            <i class="fas fa-shopping-cart me-2"></i>
+                                        <button class="btn btn-primary mw-add-to-cart-btn" type="button"
+                                                aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
+                                                data-content-id="{{ $for_id ?? '' }}"
+                                                data-price="{{ $v }}"
+                                                data-title="{{ $title }}">
+                                            <i class="fas fa-shopping-cart me-2" aria-hidden="true"></i>
                                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                                         </button>
                                     </div>

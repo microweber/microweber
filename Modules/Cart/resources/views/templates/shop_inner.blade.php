@@ -47,19 +47,27 @@ Description: Template designed for use within shop product layouts
                                         </button>
                                     </div>
 
+                                    {{-- audit-test 2026-05-08 PM TASK-018 / TICKET-AQ-residual
+                                         (extra-sweep): inline onclick= -> delegated
+                                         mw-add-to-cart-btn / mw-add-to-cart-disabled-btn
+                                         pattern. --}}
                                     @if(!$in_stock)
-                                        <button class="btn-default button-add-to-cart"
+                                        <button class="btn-default button-add-to-cart mw-add-to-cart-disabled-btn"
                                                 type="button"
-                                                disabled="disabled"
-                                                onclick="mw.alert('{{ addslashes(_e("This item is out of stock and cannot be ordered", true)) }}');">
-                                            <i class="icon-shopping-cart"></i>
+                                                aria-disabled="true"
+                                                aria-label="{{ _e('Out of stock', true) }}: {{ $title }}"
+                                                data-alert-message="{{ _e('This item is out of stock and cannot be ordered', true) }}">
+                                            <i class="icon-shopping-cart" aria-hidden="true"></i>
                                             {{ _e("Out of stock", true) }}
                                         </button>
                                     @else
-                                        <button class="btn-default button-add-to-cart"
+                                        <button class="btn-default button-add-to-cart mw-add-to-cart-btn"
                                                 type="button"
-                                                onclick="mw.cart.add_and_show_modal('{{ $for_id ?? '' }}','{{ $v }}', '{{ $title }}');">
-                                            <i class="icon-shopping-cart"></i>
+                                                aria-label="{{ _e($button_text !== false ? $button_text : 'Add to cart', true) }}: {{ $title }}"
+                                                data-content-id="{{ $for_id ?? '' }}"
+                                                data-price="{{ $v }}"
+                                                data-title="{{ $title }}">
+                                            <i class="icon-shopping-cart" aria-hidden="true"></i>
                                             {{ _e($button_text !== false ? $button_text : "Add to cart", true) }}
                                         </button>
                                     @endif
