@@ -4041,6 +4041,7 @@ Module: testimonials
 - [x] 2026-05-08  [task-2026-05-08-dc7278] Read the email message and work on the tasks mentioned: [TASK-012: Responsive thumbnail helper + srcset/lazy sweep (TICKET-CX)](/.autodev/messages/attachments/email_mowy61jr_2b48bu/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-e27f65] Read the email message and work on the tasks mentioned: [TASK-012: Responsive thumbnail helper + srcset/lazy sweep (TICKET-CX)](/.autodev/messages/attachments/email_mox3fjem_bire4k/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-5e1cd4] Read the email message and work on the tasks mentioned: [TASK-019 regression fix required — poll() fatal error on /admin/newsletter/campaigns](/.autodev/messages/attachments/email_mox4kkf9_6yj7dj/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-1be899] Read the email message and work on the tasks mentioned: [TASK-012 addition — non-empty alt text required on all responsive_thumbnail() images](/.autodev/messages/attachments/email_mox4rfcp_ahiwhu/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

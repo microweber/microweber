@@ -34,7 +34,8 @@ description: Skin-3 beauty
                         @if($count == 0)
                             <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                                  onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                                <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="" class="img-fluid">
+                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {!! responsive_thumbnail($item['filename'] ?? '', 1400, 1400, ['class' => 'img-fluid', 'crop' => true]) !!}
                             </div>
                         @endif
                     @endforeach
@@ -45,7 +46,8 @@ description: Skin-3 beauty
                     @if($count == 1 || $count == 2)
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 1400, 695, true) }}" alt="" class="img-fluid">
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 1400, 695, ['class' => 'img-fluid', 'crop' => true]) !!}
                         </div>
                     @endif
                 @endforeach

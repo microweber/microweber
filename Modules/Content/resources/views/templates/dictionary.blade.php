@@ -317,7 +317,10 @@ description: Dictionary
                                         <a class="card card__content" href="{{ $item['link'] }}">
                                             @if (!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                                                 <div class="thumbnail-image-holder">
-                                                    <img class="thumbnail img-fluid" src="{{ thumbnail($item['image'], 535, 285) }}" alt="">
+                                                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                                    {!! responsive_thumbnail($item['image'], 535, 285, [
+                                                        'class' => 'thumbnail img-fluid',
+                                                    ]) !!}
                                                 </div>
                                             @endif
 

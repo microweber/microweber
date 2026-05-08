@@ -81,7 +81,14 @@
                                                 </div>
                                             @endif
                                         @endif
-                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" alt="{{ $item['title'] ?? '' }}"  class="img-fluid"/>
+                                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55):
+                                             responsive_thumbnail() helper. --}}
+                                        {!! responsive_thumbnail($item['image'], 850, 850, [
+                                            'alt' => $item['title'] ?? __('Product image'),
+                                            'class' => 'img-fluid',
+                                            'itemprop' => 'image',
+                                            'style' => 'object-fit: contain;',
+                                        ]) !!}
                                     </div>
                                 </a>
                             @endif

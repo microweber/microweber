@@ -132,9 +132,12 @@
                                         @if (isset($item[$columnKey]))
 
                                             @if (\Modules\Media\Repositories\MediaManager::guessMediaTypeFromUrl($item[$columnKey]) == 'picture')
-                                                <img src="{{ thumbnail($item[$columnKey], 100, 100, true) }}"
-                                                     style="border-radius:3px;width: 40px;"
-                                                     alt="{{ $item[$columnKey] }}"/>
+                                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                                {!! responsive_thumbnail($item[$columnKey], 100, 100, [
+                                                    'alt' => $item[$columnKey],
+                                                    'style' => 'border-radius: 3px; width: 40px;',
+                                                    'crop' => true,
+                                                ]) !!}
                                             @elseif($columnKey == 'icon')
 
                                                 {!! $item[$columnKey] !!}

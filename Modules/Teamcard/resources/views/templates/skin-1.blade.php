@@ -28,7 +28,11 @@ description: Skin-1
                     <div class="w-450 mx-auto js-member" data-id="{{ $key }}" style="{{ $key > 0 ? 'display: none;' : '' }}">
                         @if ($member['file'])
                             <div class="img-as-background square">
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 850) }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
+                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {!! responsive_thumbnail($member['file'], 850, null, [
+                                    'alt' => $member['name'] ?? __('Team member'),
+                                    'class' => 'img-fluid',
+                                ]) !!}
                             </div>
                         @else
                             <div class="img-as-background square">
@@ -59,7 +63,11 @@ description: Skin-1
                     @foreach ($teamcard as $key => $member)
                         <div class="w-80 m-4 cursor-pointer js-show-team-member" data-id="{{ $key }}">
                             <div class="img-as-background rounded-circle square">
-                                <img loading="lazy" src="{{ thumbnail($member['file'], 80) }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
+                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {!! responsive_thumbnail($member['file'], 80, null, [
+                                    'alt' => $member['name'] ?? __('Team member'),
+                                    'class' => 'img-fluid',
+                                ]) !!}
                             </div>
                         </div>
                     @endforeach

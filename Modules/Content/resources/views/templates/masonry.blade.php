@@ -97,7 +97,12 @@ $rand = uniqid();
             <div class="masonry-item" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                     <a class="" itemprop="url" href="{{ $item['link'] }}">
-                        <img @if($item['image']==false) class="pixum img-fluid" @endif itemprop="image" src="{{ thumbnail($item['image'], 290, 120) }}" alt="{{ addslashes($item['title']) }} - {{ __('image') }}" title="{{ addslashes($item['title']) }}" />
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['image'], 290, 120, [
+                            'alt' => $item['title'] . ' - ' . __('image'),
+                            'class' => 'pixum img-fluid',
+                            'itemprop' => 'image',
+                        ]) !!}
                     </a>
                 @endif
                 <div class="masonry-item-container">

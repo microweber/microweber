@@ -35,7 +35,8 @@ description: Default Picture List
                                 containers at its native pixel size.
                             --}}
                             {{-- task-2026-05-05-90021f — drunk-designer audit (pictures.md QW): default lazy-loading on every gallery image. --}}
-                            <img src="{{ thumbnail($item['filename'] ?? '', 600) }}" alt="{{ __('Image') }}" class="img-fluid" loading="lazy" decoding="async"/>
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 600, null, ['alt' => __('Image'), 'class' => 'img-fluid']) !!}
                         </a>
                     </div>
                 @endforeach

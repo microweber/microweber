@@ -38,11 +38,11 @@ description: Default
                     @if ($member['file'])
                         {{-- audit-test 2026-05-07 PM TICKET-AV bundle: migrated `<div bg-image>`
                              to real `<img>` (closes CSS-injection vector + adds alt + lazy). --}}
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                         <div class="team-card-item-image rounded-circle">
-                            <img src="{{ thumbnail($member['file'], 800) }}"
-                                 alt="{{ $member['name'] ?? __('Team member') }}"
-                                 loading="lazy"
-                                 decoding="async">
+                            {!! responsive_thumbnail($member['file'], 800, null, [
+                                'alt' => $member['name'] ?? __('Team member'),
+                            ]) !!}
                         </div>
                     @else
                         <div class="rounded-circle">

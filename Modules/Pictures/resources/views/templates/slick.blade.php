@@ -74,7 +74,8 @@ description: Slick Pictures List Template
                         <div class="thumbnail-wrapper">
                             <div class="thumbnail">
                                 {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
-                                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" alt="{{ __('Image') }}" class="img-fluid" loading="lazy" decoding="async"/>
+                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {!! responsive_thumbnail($item['filename'] ?? '', 300, null, ['alt' => __('Image'), 'class' => 'img-fluid']) !!}
                             </div>
                         </div>
                     </div>

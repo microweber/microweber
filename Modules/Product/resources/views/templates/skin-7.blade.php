@@ -75,13 +75,15 @@ description: Skin-7
                              800x600 (~59% bandwidth saving on the grid). object-fit:cover
                              preserves the prior background-size:cover visual; aspect-ratio:1
                              preserves grid uniformity (was a fixed 500px height). --}}
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55):
+                             migrated to responsive_thumbnail() helper so srcset +
+                             lazy + decoding + alt come from one place. --}}
                         <div class="image position-relative" itemprop="image" style="aspect-ratio: 1 / 1; overflow: hidden;">
-                            <img src="{{ thumbnail($item['image'], 800, 600) }}"
-                                 alt="{{ $item['title'] }}"
-                                 loading="lazy"
-                                 decoding="async"
-                                 class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="object-fit: cover;">
+                            {!! responsive_thumbnail($item['image'], 800, 600, [
+                                'alt' => $item['title'],
+                                'class' => 'position-absolute top-0 start-0 w-100 h-100',
+                                'style' => 'object-fit: cover;',
+                            ]) !!}
                             @if (isset($itemData['label-type']) && $itemData['label-type'] === 'text')
                                 <div class="position-absolute top-0 left-0 m-2" style="z-index: 3;">
                                     <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{ $itemData['label-color'] }};">{{ $itemData['label'] }}</div>

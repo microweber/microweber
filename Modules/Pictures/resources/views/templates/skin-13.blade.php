@@ -79,7 +79,8 @@ description: Skin-13
                 @foreach($data as $item)
                 @php $count++; @endphp
                 <div class="slide item pictures picture-{{ $item['id'] ?? '' }}">
-                    <img src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="" class="img-fluid">
+                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                    {!! responsive_thumbnail($item['filename'] ?? '', 880, 550, ['class' => 'img-fluid', 'crop' => true]) !!}
                 </div>
             @endforeach
             @endif

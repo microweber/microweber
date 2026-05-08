@@ -50,11 +50,11 @@ description: Default skin for shop inner of the templates 2
                         <a class="mx-0"
                            href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
                            onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                                 alt="{{ __('Product image') }}"
-                                 loading="lazy"
-                                 decoding="async"
-                                 class="img-fluid d-block">
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                                'alt' => __('Product image'),
+                                'class' => 'img-fluid d-block',
+                            ]) !!}
                         </a>
                     @endforeach
                 @endif

@@ -30,7 +30,11 @@ description: Skin-11
                 <div class="w-175 mx-auto position-absolute left-0">
                     @if ($member['file'])
                         <div class="img-as-background square rounded-circle">
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($member['file'], 800, null, [
+                                'alt' => $member['name'] ?? __('Team member'),
+                                'class' => 'img-fluid',
+                            ]) !!}
                         </div>
                     @else
                         <div class="img-as-background square rounded-circle">

@@ -25,8 +25,11 @@ description: Simple Pictures List Template
                             <span class="pic-valign">
                                 <span class="pic-valign-cell">
                                     {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}
-                                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"
-                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid" loading="lazy" decoding="async"/>
+                                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, [
+                                        'alt' => isset($item['title']) ? $item['title'] : __('Image'),
+                                        'class' => 'img-fluid',
+                                    ]) !!}
                                 </span>
                             </span>
                         </div>

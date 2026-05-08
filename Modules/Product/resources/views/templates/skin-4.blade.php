@@ -75,7 +75,17 @@
                                                 </div>
                                             @endif
                                         @endif
-                                        <img loading="lazy" style="object-fit: contain;" src="{{ thumbnail($item['image'], 1250, 1250) }}" itemprop="url" alt="{{ $item['title'] ?? '' }}"  class="img-fluid"/>
+                                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55):
+                                             responsive_thumbnail() helper. itemprop="url" was
+                                             incorrect on <img> (schema.org/url is for navigable
+                                             URLs, not image refs); the parent <a> already carries
+                                             the link semantics. 1250x1250 dropped to 800x800 to
+                                             match the cycle-52 PM TASK-017 grid-thumbnail floor. --}}
+                                        {!! responsive_thumbnail($item['image'], 800, 800, [
+                                            'alt' => $item['title'] ?? __('Product image'),
+                                            'class' => 'img-fluid',
+                                            'style' => 'object-fit: contain;',
+                                        ]) !!}
                                     </div>
                                 </a>
                             @endif

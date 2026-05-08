@@ -101,11 +101,12 @@ description: Skin-18
                     <div class="mw-team-18-team-member">
                         <div class="photo-line-team">
                             @if ($member['file'])
-<img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" style=" width: 100%;
-  height: 350px;
-  object-fit: cover;
-  background-position: center center;
-  }" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
+{{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. Stray `}` in the prior style attribute (CSS-as-style does not need braces) was dropped during migration. --}}
+{!! responsive_thumbnail($member['file'], 800, null, [
+    'alt' => $member['name'] ?? __('Team member'),
+    'class' => 'img-fluid',
+    'style' => 'width: 100%; height: 350px; object-fit: cover; background-position: center center;',
+]) !!}
                             @else
                                 <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
                             @endif

@@ -73,9 +73,11 @@ description: Skin for sliding Logos
                     <a class="lg-carousel-item"
                        role="listitem"
                        href="{{ $itemLink ?? '#' }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                             alt="{{ $item['title'] ?? '' }}"
-                             title="{{ $item['title'] ?? '' }}" class="img-fluid">
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                            'alt' => $item['title'] ?? __('Image'),
+                            'class' => 'img-fluid',
+                        ]) !!}
                     </a>
                 @endforeach
                 @endif
@@ -105,9 +107,11 @@ description: Skin for sliding Logos
                     <a class="lg-carousel-item"
                        role="listitem"
                        href="{{ $itemLink ?? '#' }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                             alt="{{ $item['title'] ?? '' }}"
-                             title="{{ $item['title'] ?? '' }}" class="img-fluid">
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                            'alt' => $item['title'] ?? __('Image'),
+                            'class' => 'img-fluid',
+                        ]) !!}
                     </a>
                 @endforeach
             @endif

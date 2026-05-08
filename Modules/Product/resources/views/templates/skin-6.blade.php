@@ -100,7 +100,13 @@ description: Skin-6
                                             </div>
                                         @endif
                                     @endif
-                                    <img loading="lazy" class="mw-product-module-img img-fluid" src="{{ thumbnail($item['image'], 850, 850) }}" itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
+                                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55):
+                                         responsive_thumbnail() helper. --}}
+                                    {!! responsive_thumbnail($item['image'], 850, 850, [
+                                        'alt' => $item['title'] ?? __('Product image'),
+                                        'class' => 'mw-product-module-img img-fluid',
+                                        'itemprop' => 'image',
+                                    ]) !!}
                                 </div>
                             </a>
                         @endif

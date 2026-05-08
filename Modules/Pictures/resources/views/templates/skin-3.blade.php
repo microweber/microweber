@@ -116,7 +116,8 @@ description: Skin-3
                     @endif
 
                     <div class="img-as-background mh-350 mb-3">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 350, 350, true) }}" alt="{{ __('Image') }}" class="img-fluid"/>
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 350, 350, ['alt' => __('Image'), 'class' => 'img-fluid', 'crop' => true]) !!}
                     </div>
 
                     @if($itemLink)

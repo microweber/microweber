@@ -143,7 +143,11 @@ $limit = 40;
                         </div>
                     </div>
                     @if (isset($item['client_image']))
-                        <img class="testimonial-image-two img-fluid" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['client_image'], 800, null, [
+                            'alt' => $item['client_name'] ?? __('Testimonial author'),
+                            'class' => 'testimonial-image-two img-fluid',
+                        ]) !!}
                     @endif
                 </div>
             @endforeach

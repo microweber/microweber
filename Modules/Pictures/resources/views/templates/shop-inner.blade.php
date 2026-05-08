@@ -31,11 +31,11 @@ description: Shop inner
                        id="elevatezoom"
                        data-image="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
                        data-zoom-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 200, 200) }}"
-                             alt="{{ __('Product image') }}"
-                             loading="lazy"
-                             decoding="async"
-                             class="img-fluid d-block">
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['filename'] ?? '', 200, 200, [
+                            'alt' => __('Product image'),
+                            'class' => 'img-fluid d-block',
+                        ]) !!}
                     </a>
                 @endforeach
             @endif

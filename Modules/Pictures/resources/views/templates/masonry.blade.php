@@ -48,7 +48,8 @@ description: Masonry
                 @php $count++; @endphp
                 <div class="masonry-item" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
                     {{-- task-2026-05-05-90021f — lazy-load gallery images. --}}
-                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%" alt="{{ __('Image') }}" class="img-fluid" loading="lazy" decoding="async"/>
+                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                    {!! responsive_thumbnail($item['filename'] ?? '', 300, null, ['alt' => __('Image'), 'class' => 'img-fluid']) !!}
                     @if(isset($item['title']) && $item['title'] != '')
                         <div class="masonry-item-description">{{ $item['title'] }}</div>
                     @endif

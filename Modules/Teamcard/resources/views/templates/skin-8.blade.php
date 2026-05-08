@@ -32,7 +32,11 @@ description: Skin-8
             <div class="d-block">
                 @if ($member['file'])
                     <div class="img-as-background square mb-3">
-                        <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" alt="{{ $member['name'] ?? __('Team member') }}" class="img-fluid"/>
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($member['file'], 800, null, [
+                            'alt' => $member['name'] ?? __('Team member'),
+                            'class' => 'img-fluid',
+                        ]) !!}
                     </div>
                 @else
                     <div class="img-as-background square mb-3">

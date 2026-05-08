@@ -172,7 +172,11 @@ $size = sizeof($testimonials);
                 @foreach ($testimonials as $item)
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
                         @if (isset($item['client_image']))
-                            <img class="mw-testimonials-23-quote-pill-avatar img-fluid" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($item['client_image'], 800, null, [
+                                'alt' => $item['client_name'] ?? __('Testimonial author'),
+                                'class' => 'mw-testimonials-23-quote-pill-avatar img-fluid',
+                            ]) !!}
                         @endif
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
@@ -183,7 +187,11 @@ $size = sizeof($testimonials);
                 @foreach ($testimonials as $item)
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
                         @if (isset($item['client_image']))
-                            <img class="mw-testimonials-23-quote-pill-avatar img-fluid" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" alt="{{ $item['client_name'] ?? '' }}"/>
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                            {!! responsive_thumbnail($item['client_image'], 800, null, [
+                                'alt' => $item['client_name'] ?? __('Testimonial author'),
+                                'class' => 'mw-testimonials-23-quote-pill-avatar img-fluid',
+                            ]) !!}
                         @endif
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>

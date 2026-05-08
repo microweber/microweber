@@ -101,7 +101,11 @@ description: Skin-19
             @foreach ($teamcard as $member)
             <div class="position-relative" style="max-height: 635px;">
                 @if ($member['file'])
-                    <img class="transition-on-hover team-image img-fluid" loading="lazy" src="{{ thumbnail($member['file'], 1350, 1350) }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
+                    {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                    {!! responsive_thumbnail($member['file'], 1350, 1350, [
+                        'alt' => $member['name'] ?? __('Team member'),
+                        'class' => 'transition-on-hover team-image img-fluid',
+                    ]) !!}
                 @else
                     <img class="transition-on-hover team-image img-fluid" loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}" alt="{{ $member['name'] ?? __('Team member') }}"/>
                 @endif

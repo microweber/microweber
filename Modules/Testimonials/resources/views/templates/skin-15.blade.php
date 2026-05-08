@@ -59,7 +59,11 @@ if (!window.SliderV2) {
                             @if (isset($item['client_image']))
                                 <div class="w-125 mx-auto my-4">
                                     <div class="img-as-background rounded-circle square">
-                                        <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}" alt="{{ $item['client_name'] ?? '' }}" class="img-fluid">
+                                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                        {!! responsive_thumbnail($item['client_image'], 120, null, [
+                                            'alt' => $item['client_name'] ?? __('Testimonial author'),
+                                            'class' => 'img-fluid',
+                                        ]) !!}
                                     </div>
                                 </div>
                             @endif

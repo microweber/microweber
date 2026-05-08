@@ -80,7 +80,11 @@ $limit = 40;
             @foreach ($testimonials as $item)
                 <div class="border testimonials-background-variable testimonialBorderVariable mx-3 h-100 p-5 gap-3">
                     @if (isset($item['client_image']))
-                        <img loading="lazy" src="{{ thumbnail($item['client_image'], 130) }}" class="d-block mb-3 img-fluid" alt="{{ $item['client_name'] ?? '' }}"/>
+                        {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                        {!! responsive_thumbnail($item['client_image'], 130, null, [
+                            'alt' => $item['client_name'] ?? __('Testimonial author'),
+                            'class' => 'd-block mb-3 img-fluid',
+                        ]) !!}
                     @endif
 
                     @if (isset($item['name']))

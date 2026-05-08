@@ -63,12 +63,12 @@ description: Skin-16 for Logos
                         <a data-index="{{ $count }}"
                            href="{{ $item['filename'] ?? '' }}">
                             <div class="background-image-holder mh-200">
-                                <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                                     alt="{{ __('Product image') }}"
-                                     loading="lazy"
-                                     decoding="async"
-                                     class="d-block w-100 h-100"
-                                     style="object-fit: contain;">
+                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
+                                    'alt' => __('Product image'),
+                                    'class' => 'd-block w-100 h-100',
+                                    'style' => 'object-fit: contain;',
+                                ]) !!}
                             </div>
                         </a>
                     </div>

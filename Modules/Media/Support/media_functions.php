@@ -159,6 +159,119 @@ if (!function_exists('thumbnail')) {
         return app()->media_manager->thumbnail($src, $width, $height, $crop);
     }
 }
+
+if (!function_exists('responsive_thumbnail')) {
+    /**
+     * Render a complete <img> element with src + srcset + sizes + alt +
+     * loading + decoding attrs.
+     *
+     * audit-test 2026-05-08 PM TASK-012 / TICKET-CX (JIRA AI-29):
+     * The bare thumbnail() helper returns just a URL, so every public
+     * template that wants a responsive image had to hand-roll its own
+     * <img> markup — partial and inconsistent srcset/lazy coverage was
+     * the result. This helper centralises the shape so a future bandwidth
+     * tweak (more srcset widths, different sizes default, etc.) lands in
+     * ONE place per the ADR-0001 helper-layer principle (cycle-44 EVAL-PLAN
+     * 10/10 Grug recommendation).
+     *
+     * Usage:
+     *   {!! responsive_thumbnail($item['filename'], 800, 600, ['alt' => $item['title']]) !!}
+     *   {!! responsive_thumbnail($member['file'], 800, 800, [
+     *       'alt' => $member['name'],
+     *       'class' => 'img-fluid',
+     *       'loading' => $loop->first ? 'eager' : 'lazy',
+     *   ]) !!}
+     *
+     * Options accepted:
+     *   alt       string       — alt text. If omitted OR empty, the helper
+     *                            derives a non-empty fallback from the src
+     *                            filename basename (TASK-012 addition
+     *                            2026-05-08: alt="" is forbidden on
+     *                            product/content imagery for accessibility).
+     *                            Pass a meaningful value (product title,
+     *                            member name, caption) at every call site;
+     *                            the filename fallback is only a safety net.
+     *   loading   string       — 'lazy' | 'eager' (default: 'lazy')
+     *   sizes     string       — sizes attribute (default: '100vw')
+     *   class     string       — extra CSS class names (default: '')
+     *   crop      bool|null    — passed through to thumbnail() (default: null)
+     *   srcset    array<int>|null
+     *                          — list of pixel widths for srcset; null
+     *                            means [width, width*2] (1x + 2x)
+     *   itemprop  string|null  — Schema.org itemprop (default: null)
+     *   id        string|null  — id attribute (default: null)
+     *   style     string|null  — inline style (default: null)
+     *   decoding  string       — decoding attribute (default: 'async')
+     *
+     * Returns the <img ...> string; callers use `{!! !!}` to render
+     * (the helper escapes attribute values via htmlspecialchars).
+     */
+    function responsive_thumbnail($src, $width = 800, $height = null, array $options = [])
+    {
+        $alt        = (string) ($options['alt'] ?? '');
+        if ($alt === '') {
+            // Safety net per TASK-012 addition 2026-05-08: empty alt is
+            // forbidden. Derive from the src filename basename, cleaning
+            // separators into spaces. If the basename is unusable, fall
+            // back to the literal 'Image'.
+            $base = pathinfo((string) $src, PATHINFO_FILENAME);
+            $base = trim(preg_replace('/[_\-]+/', ' ', (string) $base));
+            $alt  = $base !== '' ? $base : 'Image';
+        }
+        $loading    = (string) ($options['loading'] ?? 'lazy');
+        $sizes      = (string) ($options['sizes'] ?? '100vw');
+        $class      = (string) ($options['class'] ?? '');
+        $crop       = $options['crop'] ?? null;
+        $itemprop   = $options['itemprop'] ?? null;
+        $id         = $options['id'] ?? null;
+        $style      = $options['style'] ?? null;
+        $decoding   = (string) ($options['decoding'] ?? 'async');
+
+        // Build srcset. Default: [width, width * 2] for 1x + 2x DPR.
+        $srcsetWidths = $options['srcset'] ?? [$width, $width * 2];
+        if (! is_array($srcsetWidths)) {
+            $srcsetWidths = [$width, $width * 2];
+        }
+        $srcsetWidths = array_values(array_unique(array_filter(array_map('intval', $srcsetWidths))));
+
+        $primarySrc = thumbnail($src, $width, $height, $crop);
+
+        $srcsetParts = [];
+        foreach ($srcsetWidths as $w) {
+            // For srcset variants we scale height proportionally if a height
+            // was given; otherwise let the source aspect ratio decide.
+            $variantHeight = $height ? (int) round($height * ($w / $width)) : null;
+            $variantUrl = thumbnail($src, $w, $variantHeight, $crop);
+            $srcsetParts[] = $variantUrl . ' ' . $w . 'w';
+        }
+        $srcset = implode(', ', $srcsetParts);
+
+        $escape = static fn ($v) => htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
+
+        $attrs = [
+            'src="' . $escape($primarySrc) . '"',
+            'srcset="' . $escape($srcset) . '"',
+            'sizes="' . $escape($sizes) . '"',
+            'alt="' . $escape($alt) . '"',
+            'loading="' . $escape($loading) . '"',
+            'decoding="' . $escape($decoding) . '"',
+        ];
+        if ($class !== '') {
+            $attrs[] = 'class="' . $escape($class) . '"';
+        }
+        if ($itemprop !== null && $itemprop !== '') {
+            $attrs[] = 'itemprop="' . $escape($itemprop) . '"';
+        }
+        if ($id !== null && $id !== '') {
+            $attrs[] = 'id="' . $escape($id) . '"';
+        }
+        if ($style !== null && $style !== '') {
+            $attrs[] = 'style="' . $escape($style) . '"';
+        }
+
+        return '<img ' . implode(' ', $attrs) . '>';
+    }
+}
 if (!function_exists('get_media')) {
     function get_media($params)
     {

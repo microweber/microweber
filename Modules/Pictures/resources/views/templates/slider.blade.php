@@ -17,8 +17,13 @@ description: Pictures slider
                 @else
                     @foreach($data as $item)
                         <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}"
-                                 alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}" class="img-fluid"/>
+                            {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper.
+                                 First slide eager-loaded for LCP per the cycle-41 Slider/default reference. --}}
+                            {!! responsive_thumbnail($item['filename'] ?? '', 1200, null, [
+                                'alt' => isset($item['title']) ? $item['title'] : __('Image'),
+                                'class' => 'img-fluid',
+                                'loading' => $loop->first ? 'eager' : 'lazy',
+                            ]) !!}
                             @if(isset($item['title']) && $item['title'] != '')
                                 <i class="mw-rotator-description mw-rotator-description-content">{{ $item['title'] }}</i>
                             @endif
