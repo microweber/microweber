@@ -12,6 +12,47 @@ if(!window.mw) {
     window.mw = {};
 }
 
+/*
+ * AI-55 / TICKET-CC (cycle-79 2026-05-08): mw.app.dispatch() guard
+ * for public-site execution.
+ *
+ * `mw.app` is the live-edit event bus; it's only constructed by the
+ * admin Live-Edit bundle. Public-site scripts that accidentally
+ * inherit a snippet calling `mw.app.dispatch('something')` would
+ * throw "Cannot read properties of undefined" and break the entire
+ * public page.
+ *
+ * The guard installs a minimal no-op surface for the public site:
+ *   - mw.app is at least an object
+ *   - mw.app.dispatch / on / off / off_all exist as no-ops
+ *
+ * Admin Live-Edit overrides this surface with its real event bus
+ * during boot — the no-op shim is only present until then. Any
+ * dispatch fired BEFORE the real bus loads is silently swallowed,
+ * which is the right semantics for the public site (it's not
+ * listening anyway).
+ *
+ * The guard is idempotent: if mw.app is already populated (admin
+ * page mid-boot), or if the real bus has overwritten the shim,
+ * we leave it alone. This keeps live-edit semantics unchanged on
+ * admin pages.
+ */
+if (typeof mw.app !== 'object' || mw.app === null) {
+    mw.app = {};
+}
+if (typeof mw.app.dispatch !== 'function') {
+    mw.app.dispatch = function () { /* no-op: real bus not loaded */ };
+}
+if (typeof mw.app.on !== 'function') {
+    mw.app.on = function () { /* no-op: real bus not loaded */ };
+}
+if (typeof mw.app.off !== 'function') {
+    mw.app.off = function () { /* no-op: real bus not loaded */ };
+}
+if (typeof mw.app.off_all !== 'function') {
+    mw.app.off_all = function () { /* no-op: real bus not loaded */ };
+}
+
 
 mw.required = [] ;
 mw.require = function(url, inHead, key, defered) {
