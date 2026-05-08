@@ -150,8 +150,32 @@ if (!function_exists('get_category_id_from_url')) {
 }
 
 if (!function_exists('category_tree')) {
+    /**
+     * AI-82 / TICKET-UU (cycle-93 2026-05-09): default `return_data=1`
+     * so the helper consistently RETURNS the rendered tree string
+     * instead of printing it directly. Pre-fix the underlying renderer
+     * `print`s by default (KnpCategoryTreeRenderer:278) and only
+     * returns when `return_data` is set, which forced the Category
+     * skin templates to use raw `<?php category_tree($params); ?>`
+     * (discarding the return + relying on the print side-effect).
+     * Defaulting to return-mode lets the templates use the canonical
+     * Blade `{!! category_tree($params) !!}` shape, which:
+     *   - composes cleanly with Blade output filters
+     *   - is consistent with how other Microweber helpers
+     *     (`menu_tree()`, `module(...)`) are invoked from Blade
+     *   - keeps the side-effect-free contract any future renderer
+     *     refactor would expect.
+     * Callers that explicitly pass `return_data=0` keep the legacy
+     * print-side-effect — only the unset case flips.
+     */
     function category_tree($params = false)
     {
+        if (!is_array($params)) {
+            $params = parse_params($params);
+        }
+        if (!isset($params['return_data'])) {
+            $params['return_data'] = 1;
+        }
         return app()->category_manager->tree($params);
     }
 }

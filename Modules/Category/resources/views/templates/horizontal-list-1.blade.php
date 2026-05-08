@@ -24,6 +24,7 @@ $params['ul_class_deep'] = 'nav-list';
 <nav class="module-categories module-categories-template-horizontal-list-1"
      aria-labelledby="cat-{{ $params['id'] ?? 'horizontal-list-1' }}-h">
     <h2 id="cat-{{ $params['id'] ?? 'horizontal-list-1' }}-h" class="visually-hidden">{{ __('Product categories') }}</h2>
-    <?php category_tree($params); ?>
+    {{-- AI-82 / TICKET-UU (cycle-93): raw PHP → Blade `{!! ... !!}`. --}}
+    {!! category_tree($params) !!}
 </nav>
 

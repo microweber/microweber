@@ -29,6 +29,12 @@ description: List Navigation
 <nav class="module-categories module-categories-template-default"
      aria-labelledby="cat-{{ $params['id'] ?? 'default' }}-h">
     <h2 id="cat-{{ $params['id'] ?? 'default' }}-h" class="visually-hidden">{{ __('Product categories') }}</h2>
-    <?php   category_tree($params);  ?>
+    {{-- AI-82 / TICKET-UU (cycle-93 2026-05-09): converted raw
+         `<?php category_tree($params); ?>` to canonical Blade
+         `{!! ... !!}` syntax. The helper now defaults `return_data=1`
+         so it returns the tree string instead of printing — no
+         double-render risk. The `{!!` echoes-without-escape because
+         the tree is trusted module-rendered HTML. --}}
+    {!! category_tree($params) !!}
 </nav>
 
