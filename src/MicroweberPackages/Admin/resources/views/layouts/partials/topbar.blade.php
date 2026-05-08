@@ -123,7 +123,19 @@ if (!$past_page) {
             event_trigger('mw.admin.header.toolbar'); ?>
 
             <ul class="nav">
-                <?php if (user_can_access('module.content.edit')): ?>
+                <?php /*
+                    AI-86 / TICKET-Q (cycle-97 2026-05-09): admin-context
+                    guard. The cycle-22 baseline gated on user_can_access
+                    — that's the user-permission half. is_admin() is the
+                    user-identity half (defense-in-depth: if a future
+                    regression ever includes this partial outside the
+                    admin layout, the chip stays hidden for anonymous
+                    visitors). Pre-check because non-admin users can
+                    never carry the content.edit permission anyway, so
+                    the extra `is_admin() &&` is a no-op for legitimate
+                    admin-layout usage.
+                */ ?>
+                <?php if (is_admin() && user_can_access('module.content.edit')): ?>
                 <li class="mx-1">
                     <a href="<?php print $past_page ?>?editmode=n"
                        class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
