@@ -84,6 +84,40 @@ description: Default skin for shop inner of the templates
                     'id' => $pictureElementId,
                     'loading' => 'eager',
                 ]) !!}
+            @else
+                {{-- AI-61 / TICKET-EE (cycle-80 2026-05-08): hero
+                     image fallback when no product image is set.
+                     Prior shape rendered an empty .shop-inner-big-image
+                     div — sighted users saw a broken/skewed layout
+                     because the surrounding column expected a
+                     1080-tall image to drive its height. Now we
+                     render an inline-SVG placeholder so the column
+                     has a reasonable intrinsic aspect ratio AND
+                     screen-reader users hear "No product image
+                     available" instead of nothing.
+
+                     Inline SVG (vs. <img src=asset(...)>) avoids a
+                     404 risk if the asset hasn't been published —
+                     the placeholder is small enough to inline.
+
+                     Same `id` on the <figure> so the JS gallery
+                     binding (line 109+ below) finds the element
+                     when content has no images and renders an empty
+                     gallery instead of NPE-ing. role="img" + aria-label
+                     give the figure an accessible name. The inner
+                     <svg> is aria-hidden so SR doesn't double-announce. --}}
+                <figure class="img-fluid mw-shop-inner-big-image-placeholder"
+                        id="{{ $pictureElementId }}"
+                        role="img"
+                        aria-label="{{ __('No product image available') }}"
+                        data-mw-no-product-image
+                        style="aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: #f5f5f5; color: #999; margin: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+                         width="120" height="120" fill="currentColor" aria-hidden="true">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/>
+                    </svg>
+                    <figcaption class="visually-hidden">{{ __('No product image available') }}</figcaption>
+                </figure>
             @endif
         </div>
     </div>
