@@ -17,6 +17,11 @@
     {{-- Vite CSS --}}
 
     <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app.css') }}">
+    {{-- TASK-013 / TICKET-CY (cycle-58): public-site 44x44 tap-target sweep.
+         Loaded after app.css so its touch-viewport rules win the cascade
+         on phones and pointer-coarse devices. Mirrors the Filament admin
+         pattern of a single dedicated mobile-touch.css file. --}}
+    <link rel="stylesheet" href="{{ asset('templates/bootstrap/css/public-touch.css') }}">
 
 
     <script>

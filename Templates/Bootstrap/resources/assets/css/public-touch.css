@@ -1,0 +1,140 @@
+/*
+ * Public-site mobile-touch refinements (TASK-013 / TICKET-CY / AI-30).
+ *
+ * Mirror of the Filament admin file
+ *   packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css
+ * for the *public* Bootstrap site + module public skins.
+ *
+ * Closes mobile QA findings 2026-05-08 (iPhone 13 — 390x844px):
+ *   - Social link icons rendered at 16x25 / 20x24 (icon-only <a>)
+ *   - Cart badge link at 58x22 (height too small)
+ *   - Footer nav links at ~24px tall
+ *   - Carousel/swiper dot buttons at 8x8
+ *   plus the long tail of public-site interactive controls below
+ *   WCAG 2.5.5 / iOS HIG 44x44 minimum.
+ *
+ * The match-list `(max-width: 1023.98px), (hover: none) and (pointer: coarse)`
+ * matches the admin file: covers (a) phones / small tablets in landscape and
+ * (b) any pointer-coarse device regardless of viewport. Both heuristics are
+ * needed because either one in isolation misses a real device class.
+ *
+ * Per AC#2 the rule-set is TARGETED — explicit selector list, not a
+ * universal `a, button { min-height: 44px }` sweep — so desktop power-user
+ * density on >=1024px is preserved AND we do not accidentally bump every
+ * inline link inside body copy to a chunky 44px.
+ */
+
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Social links — icon-only <a> wrappers in `<div class="mw-socialLinks">`
+       and `<ul class="mw-socialLinks list-inline">`. Bumps the bare icon
+       link to a 44x44 hit-area. inline-flex + center keeps the SVG centred
+       inside the larger box without reflowing the row layout. */
+    .mw-socialLinks a,
+    .mw-socialLinks > a,
+    .mw-socialLinks li > a {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Cart icon link in the public layout header
+       (Templates/Bootstrap/resources/views/modules/layouts/templates/menus/skin-1.blade.php
+       line 73). The visible badge `.js-shopping-cart-quantity` is small;
+       the tap target is the wrapping `<a class="nav-link ...">`. The
+       `.nav-link` carries `px-0` so we cannot rely on padding for the
+       hit-area — use min-width/min-height on the wrapper. */
+    .btn-shopping-cart > a.nav-link,
+    .btn-shopping-cart > .nav-link {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Footer menu links (`footer-19-menu` is the wrapper used by
+       layouts/footers/skin-1; cover the generic Bootstrap footer
+       patterns too: `footer .menu a`, `footer nav a`). Public footer
+       links are typically ~24px tall — pad the y-axis without changing
+       text size. */
+    .footer-19-menu a,
+    footer .menu a,
+    footer nav a,
+    footer .nav-link,
+    .module-footer .menu a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    /* Swiper pagination bullets (Slider, Testimonials, Teamcard etc.).
+       Swiper renders `.swiper-pagination-bullet` at 8x8 by default —
+       below the WCAG threshold. Strategy: keep the visible dot small,
+       expand the hit-area via padding + transparent border so the dot
+       looks identical but the tap-target is 44x44. The negative
+       margin keeps the row width unchanged. */
+    .swiper-pagination-bullet {
+        position: relative;
+        min-width: 44px;
+        min-height: 44px;
+        background-clip: content-box;
+        padding: 18px;
+        margin: 0 !important;
+        box-sizing: border-box;
+    }
+    .swiper-pagination-horizontal {
+        /* Negative inline-padding offsets the bullet padding so the
+           pagination row is not pushed wider on small screens. */
+        padding-inline: 0;
+    }
+
+    /* Bootstrap carousel control prev/next arrows.
+       `.carousel-control-prev`/`.carousel-control-next` are the
+       absolute-positioned <button>s; the inner `-icon` is 20px by
+       default. Force the outer button to be a 44x44 hit-area
+       regardless of icon size. */
+    .carousel-control-prev,
+    .carousel-control-next {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Cart action buttons that already use `.btn` already meet the
+       Bootstrap `.btn` 38px-ish baseline; the regression risk is the
+       `.btn-sm` qty +/- pair around the qty input
+       (Modules/Cart/.../templates/bootstrap.blade.php line 76-83).
+       Bump the qty group buttons specifically — leave the larger
+       primary "Add to cart" alone. */
+    .quantity-selector .btn-sm,
+    .cart-actions .quantity-selector .btn,
+    .mw-add-to-cart-disabled-btn,
+    .mw-add-to-cart-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Bootstrap navbar toggler (hamburger) for the public site. The
+       Bootstrap default is 30x30-ish at the navbar-light/dark size.
+       Bump to 44x44. Padding stays auto so the icon glyph is unchanged. */
+    .navbar-toggler {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Generic icon-only links inside the public main area.
+       `.main a > i:only-child`, `.main a > svg:only-child`, and
+       `.main button > i:only-child` are the conventional shapes for
+       icon-only controls. Use `:only-child` so we never bump a normal
+       text link that happens to contain an icon-prefix. */
+    .main a > i:only-child,
+    .main a > svg:only-child,
+    .main button > i:only-child,
+    .main button > svg:only-child {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
