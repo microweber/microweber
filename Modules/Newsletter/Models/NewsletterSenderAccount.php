@@ -51,12 +51,17 @@ class NewsletterSenderAccount extends Model
      *   2. Re-saves every existing row through the model so the cast
      *      encrypts the cleartext that was already there.
      *
-     * NOTE: `gmail_app_password` is intentionally NOT in this list. Per
-     * agent-test follow-up Gotcha #2, the Filament form has gmail_email +
-     * gmail_app_password fields but neither is in $fillable nor in the
-     * migration — the form values are silently dropped on save. Filed
-     * under TICKET-AX (Newsletter Gmail save-path) for separate work
-     * before encryption can apply.
+     * NOTE (resolved cycle-48 PM TASK-009 / TICKET-AX): the Filament form
+     * had vestigial `gmail_email` + `gmail_app_password` fields that never
+     * persisted (not in $fillable, not in the migration — silent drop on
+     * save). The right fix turned out to be a form-side rename, not a
+     * column-add: NewsletterMailSender.php:122-123 reads
+     * `$sender['smtp_username']` + `$sender['smtp_password']` for both
+     * account_type='gmail' AND account_type='smtp' (Gmail just hardcodes
+     * smtp.gmail.com:465). The form fields are now `smtp_username` +
+     * `smtp_password` — same columns the SMTP path uses, already in
+     * $fillable, already 'encrypted'-cast (smtp_password). No additional
+     * cast or column-add needed for Gmail.
      */
     protected $casts = [
         'smtp_password' => 'encrypted',

@@ -117,17 +117,27 @@ class SenderAccounts extends Page implements HasTable
 
 
                         Group::make([
-                            // audit-test 2026-05-07 SenderAccounts follow-up #2 issues #1+#2:
-                            // gmail_email had no ->email() validation (admin could save
-                            // "not-an-email" → SMTP error later); gmail_app_password had
-                            // ->password() but not ->revealable() like the other 6 secret
-                            // fields — inconsistent UX. Added both modifiers.
-                            TextInput::make('gmail_email')
+                            // audit-test 2026-05-08 PM TASK-009 / TICKET-AX:
+                            // Field NAMES (not labels) renamed from gmail_email/
+                            // gmail_app_password to smtp_username/smtp_password.
+                            // Why: NewsletterMailSender.php:122-123 reads
+                            // $this->sender['smtp_username'] + $this->sender['smtp_password']
+                            // for both account_type='gmail' AND account_type='smtp' —
+                            // the Gmail case just hardcodes smtp.gmail.com:465. The
+                            // gmail_email/gmail_app_password field names were vestigial:
+                            // never in $fillable, never in the migration → form values
+                            // silently dropped on save → Gmail integration broken.
+                            // Right fix is the rename so the form writes to the columns
+                            // the send-path already reads. smtp_password is already
+                            // 'encrypted'-cast (cycle-43 TASK-004). No migration needed.
+                            // Visible labels stay "Gmail Email Address" / "Gmail App
+                            // Password" — admins see labels, not field names.
+                            TextInput::make('smtp_username')
                                 ->label('Gmail Email Address')
                                 ->required()
                                 ->email()
                                 ->helperText('Enter your Gmail email address'),
-                            TextInput::make('gmail_app_password')
+                            TextInput::make('smtp_password')
                                 ->label('Gmail App Password')
                                 ->required()
                                 ->password()
