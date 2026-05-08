@@ -166,13 +166,20 @@ class OrderStatsService
         $fullTableNameCart = app()->database_manager->real_table_name('cart');
         $fullTableNameOrders = app()->database_manager->real_table_name('cart_orders');
 
+        // TASK-021 / TICKET-J / AI-39 (cycle-61 2026-05-08): also
+        // include `currency` in the projection + grouping so callers
+        // can render per-currency subtotals instead of a meaningless
+        // cross-currency sum. Single-currency stores yield one row
+        // per product (same shape as before); multi-currency stores
+        // yield one row per (product, currency) pair.
         $orders->select(
             'cart.rel_id as content_id',
+            $fullTableNameOrders . '.currency as currency',
             DB::raw("count(" . $fullTableNameCart . ".rel_id) as orders_count"),
             DB::raw("sum(" . $fullTableNameOrders . ".amount) as orders_amount")
         );
 
-        $orders->groupBy('cart.rel_id');
+        $orders->groupBy('cart.rel_id', $fullTableNameOrders . '.currency');
         $orders->orderBy('orders_count', 'desc');
 
         $data = $orders->get();

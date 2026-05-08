@@ -4047,6 +4047,8 @@ Module: testimonials
 - [x] 2026-05-08  [task-2026-05-08-ec76dd] Read the email message and work on the tasks mentioned: [Nudge: TASK-020 / TICKET-K/S/T (AI-38) — status check](/.autodev/messages/attachments/email_mox5q5hb_q3j4wg/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-60fd4e] Read the email message and work on the tasks mentioned: [TASK-020 / AI-38 status nudge — TICKET-K/S/T (aria-labels + topbar + breadcrumb)](/.autodev/messages/attachments/email_mox5sxsj_maqn3a/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-beaf6f] Read the email message and work on the tasks mentioned: [TASK-020 / AI-38 — Full implementation brief (TICKET-K/S/T, filament-5)](/.autodev/messages/attachments/email_mox5u83c_uk81pg/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-755893] Read the email message and work on the tasks mentioned: [TASK-021 / AI-39 — Phase 3 structural UX: TICKET-J/N/O/R (filament-5)](/.autodev/messages/attachments/email_mox6f8cg_haqg3r/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-7479db] Read the email message and work on the tasks mentioned: [TASK-021 / AI-39 — Full PM brief: TICKET-J/N/O/R (filament-5)](/.autodev/messages/attachments/email_mox6int7_lerfkx/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

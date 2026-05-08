@@ -32,12 +32,16 @@ class ListContents extends ListRecords
     protected function getHeaderActions(): array
     {
 
+        // TASK-021 / TICKET-N / AI-39 (cycle-61 2026-05-08): the
+        // in-resource header CreateAction is removed — duplicates the
+        // global "+ Add New" dropdown that lives in the admin topbar
+        // (`src/MicroweberPackages/Admin/resources/views/layouts/
+        // partials/topbar.blade.php` line ~67) and is rendered on
+        // every Filament admin page. The global dropdown also offers
+        // a richer context-aware choice list (Page / Post / Category
+        // / Product) which the bare in-resource CreateAction cannot.
+        // Single create-new affordance per the AC.
         $actions = [];
-        $actions[] =
-            Actions\CreateAction::make()
-                ->size('xl')
-                ->icon('heroicon-o-plus')
-                ->color('mw-secondary');
 
         $multilanguageIsEnabled = true; // TODO
         if ($multilanguageIsEnabled) {

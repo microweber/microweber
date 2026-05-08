@@ -194,3 +194,25 @@
 .fi-breadcrumbs ol:has(> li:only-child) {
     display: none;
 }
+
+/*
+ * TASK-021 / TICKET-R / AI-39 (cycle-61 2026-05-08):
+ * On Filament list pages, both the topbar global search AND the
+ * per-table `->searchable()` toolbar search render at the same
+ * time — two parallel search inputs that admins find confusing.
+ * Per the brief option (a), hide the topbar global search ONLY
+ * on resource-list pages; edit/view/create pages and dashboards
+ * keep the global search since they do not carry a per-table
+ * search input.
+ *
+ * Scoped to `.fi-resource-list-records-page .fi-topbar
+ * .fi-global-search-field` so:
+ *   - dashboards / settings / non-list admin pages are unaffected
+ *   - the wrapper `<div class="fi-global-search">` is left in place
+ *     (the Microweber quick-nav widget anchors content to that
+ *     parent — see livewire/filament/search-quick-nav.blade.php
+ *     line 72)
+ */
+.fi-resource-list-records-page .fi-topbar .fi-global-search-field {
+    display: none;
+}

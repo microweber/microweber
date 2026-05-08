@@ -422,7 +422,28 @@ public static function getNavigationBadgeTooltip(): ?string
 
             ])
             ->filters([
-
+                // TASK-021 / TICKET-O / AI-39 (cycle-61 2026-05-08):
+                // OrderResource was the only list resource without
+                // any filters affordance — a UX inconsistency PM
+                // flagged in the Phase 3 sweep. Match the Customer/
+                // Newsletter pattern by exposing the canonical
+                // status + payment-status filters; these are the
+                // two columns admins filter by most often.
+                Tables\Filters\SelectFilter::make('order_status')
+                    ->label('Order status')
+                    ->options(fn (): array => collect(OrderStatus::cases())
+                        ->mapWithKeys(fn (OrderStatus $case) => [$case->value => ucfirst($case->value)])
+                        ->all()),
+                Tables\Filters\TernaryFilter::make('order_completed')
+                    ->label('Completed')
+                    ->placeholder('All')
+                    ->trueLabel('Completed')
+                    ->falseLabel('In progress'),
+                Tables\Filters\TernaryFilter::make('is_paid')
+                    ->label('Payment')
+                    ->placeholder('All')
+                    ->trueLabel('Paid')
+                    ->falseLabel('Unpaid'),
             ])
             ->paginationPageOptions([
                 50,
