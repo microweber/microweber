@@ -10,14 +10,9 @@
     */
 @endphp
 
-<style>
-    .blog-pro-category {
-        padding: 5px 10px;
-        background: black;
-        color: white !important;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-3">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

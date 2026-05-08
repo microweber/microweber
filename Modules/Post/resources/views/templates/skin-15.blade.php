@@ -10,12 +10,9 @@ description: Posts 15
 */
 @endphp
 
-<style>
-.blog-posts-3 .date-color {
-    color: #FF7A01;
-}
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-3">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

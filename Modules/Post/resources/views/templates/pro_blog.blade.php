@@ -10,46 +10,9 @@ description: Posts pro-blog
 */
 @endphp
 
-<style>
-    .action-blog-arrow {
-        font-weight: bold;
-        border-bottom: 1px solid transparent;
-        transition: all 0.7s;
-    }
-
-    .action-blog-arrow:hover {
-      text-decoration: none!important;
-        color: #FFA028!important;
-        border-color: #FFA028;
-        transition: all 0.7s;
-    }
-
-    .action-blog-arrow i:hover {
-      background-color: unset!important;
-    }
-
-   .blog-posts-18 .img-as-background {
-        height: 250px;
-        width: 300px;
-
-        img {
-            object-fit: cover;
-            height: 100%;
-            width: 100%;
-        }
-    }
-    .skin-18--read-more-link:after{
-        content: "\e658";
-        color: inherit;
-        font-family: 'icomoon-solid';
-        vertical-align: middle;
-        margin-inline-start: 9px;
-    }
-</style>
-
-
-
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-pro-blog">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

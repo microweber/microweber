@@ -10,18 +10,9 @@ description: Posts 17
 */
 @endphp
 
-<style>
-    .blog-16-merry-card {
-        padding: 10px;
-        border: 2px solid #181E4E;
-    }
-
-    .merry-blog-posts-2 .img-as-background:hover {
-        transform: scale(1.05);
-        transition: 1.3s;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-3 merry-blog-posts-2 justify-content-center">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

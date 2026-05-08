@@ -10,70 +10,9 @@ description: Posts 24
 */
 @endphp
 
-<style>
-    .zoom-on-hover {
-        transition: transform 0.6s ease-out;
-        position: relative;
-    }
-
-    .zoom-on-hover:hover img {
-        transform: scale(1.02);
-        transition: transform 0.6s ease-out;
-    }
-
-    .zoom-on-hover:hover .img-as-background::after {
-        width: 100%;
-        left: 0;
-        right: auto;
-        z-index: 9;
-    }
-
-    .zoom-on-hover .img-as-background::after {
-        content: "";
-        width: 0;
-        height: 4px;
-        bottom: 0;
-        position: absolute;
-        left: auto;
-        right: 0;
-        z-index: -1;
-        transition: width .6s cubic-bezier(.25,.8,.25,1) 0s;
-        background: var(--mw-primary-color);
-    }
-
-    .news-category {
-        background: var(--mw-primary-color);
-        position: absolute;
-        z-index: 9;
-        top: 0;
-        left: 0;
-        padding: 4px 12px;
-        display: inline-block;
-        color: var(--mw-text-on-dark-background-color);
-    }
-
-    .mw-posts-24-title {
-        opacity: .7;
-    }
-
-    .mw-posts-24-title:hover {
-        opacity: 1;
-    }
-
-    .blog-posts-24 .img-as-background img {
-        position: relative !important;
-    }
-
-    .blog-posts-24 .featured-image {
-        max-height: 750px;
-        width: auto;
-    }
-
-    .blog-posts-24 .thumbnail-image {
-        width: 100%;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row py-4 blog-posts-24">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

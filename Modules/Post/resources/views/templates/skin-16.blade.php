@@ -10,33 +10,9 @@ description: Posts 16
 */
 @endphp
 
-<style>
-    .merry-blog-posts .merry-on-hover-button {
-        display: none;
-    }
-
-    .merry-blog-posts .img-as-background:hover .merry-on-hover-button {
-        display: flex!important;
-        position: relative;
-        z-index: 2;
-        color: #61efb3;
-        font-size: 80px;
-        text-decoration: none;
-    }
-
-    .merry-blog-posts .img-as-background:hover img {
-        opacity: 0.5;
-        z-index: 1;
-        transition: 1s;
-    }
-
-    .merry-blog-posts .img-as-background:hover {
-        display: flex!important;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row merry-blog-posts blog-posts-3">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

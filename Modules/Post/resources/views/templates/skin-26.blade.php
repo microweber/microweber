@@ -10,63 +10,9 @@ description: Posts 26
 */
 @endphp
 
-<style>
-    .blog-posts-26 .item .image {
-        border-top-left-radius: 23px;
-        border-bottom-left-radius: 23px;
-        overflow: hidden;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .blog-posts-26 .item {
-        background-color: #f7f7f7;
-        border-radius: 23px;
-        padding-right: 30px;
-        margin-bottom: 30px;
-        display: flex;
-        align-items: stretch;
-        flex-wrap: wrap;
-    }
-
-    .blog-posts-26 .item h4 {
-        font-size: 20px;
-        font-weight: 700;
-        padding-bottom: 25px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .blog-posts-26 .item i {
-        color: #777;
-        margin-right: 5px;
-    }
-
-    .blog-posts-26 .item .content {
-        padding: 30px 0;
-    }
-
-    .blog-posts-26 .item p {
-        padding-top: 25px;
-        margin-top: 10px;
-        border-top: 1px solid #ddd;
-        margin-bottom: 30px;
-        color: #afafaf;
-    }
-
-    .blog-posts-26 .item img {
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .blog-posts-26-custom-fields label {
-        margin: 0 !important;
-        font-size: 15px !important;
-        color: #898989 !important;
-        font-weight: 600 !important;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-26 gap-4 justify-content-center">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>

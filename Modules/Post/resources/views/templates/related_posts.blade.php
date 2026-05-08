@@ -11,63 +11,9 @@ description: Related Posts
 */
 @endphp
 
-<style>
-    .site-content .heading {
-        background: rgb(35, 144, 193);
-        border-color: rgb(35, 144, 193);
-        padding: 10px;
-        position: relative;
-        color: #fff !important;
-        display: inline-block;
-        margin-bottom: 0;
-        align-self: self-start;
-        width: auto;
-    }
-
-    .site-content .heading:after, .sidebar-area h2:not(.banner-title):after {
-        position: absolute;
-        content: "";
-        top: 0;
-        right: -8px;
-        border-top: 8px solid #605ca8;
-        border-color: inherit;
-        background: transparent !important;
-        border-top: 8px solid rgb(35, 144, 193);
-
-        border-right: 8px solid transparent;
-
-    }
-
-    .sidebar-related-posts {
-        padding-top: 1rem;
-    }
-
-
-    .site-content .heading:not(:last-child)+*:not(a), .site-content .heading:not(:last-child)+a+* {
-        border-top: 3px solid rgb(35, 144, 193);
-    }
-
-    .sidebar-related-posts .image-container {
-        width: 100px;
-        height: 70px;
-        overflow: hidden;
-        flex-shrink: 0; /* Ensures the container keeps its size in a flex layout */
-    }
-
-    .sidebar-related-posts img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .site-content .pro-post-title {
-        font-size: 1rem;
-        margin-bottom: 0;
-
-    }
-
-
-</style>
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="site-content">
     <h6 class="heading">Related posts</h6>
     @php if (!empty($data)): @endphp

@@ -10,29 +10,9 @@ description: Posts 20
 */
 @endphp
 
-<style>
-    .blog-posts-20 .post-20::after {
-        content: "";
-        width: 60px;
-        position: absolute;
-        bottom: -3px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-bottom: 4px solid rgb(32, 32, 32);
-        margin: 0px auto;
-        transition: width 0.5s ease 0s;
-    }
-
-    .blog-posts-20 .post-20:hover::after {
-        width: 100%;
-    }
-
-    .blog-posts-20 .img-as-background img {
-        position: relative !important;
-        object-fit: cover;
-    }
-</style>
-
+@once
+    <link rel="stylesheet" href="{{ asset('modules/post/css/post-skins.css') }}">
+@endonce
 <div class="row blog-posts-20">
     @if(empty($data))
        <p class="mw-pictures-clean">No posts added. Please add posts to the module.</p>
