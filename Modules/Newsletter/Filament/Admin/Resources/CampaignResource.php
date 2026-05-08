@@ -192,7 +192,14 @@ class CampaignResource extends Resource
             // only finished/draft campaigns where there is nothing to update.
             // Gated via condition: closure so polling only runs when at
             // least one campaign is in a status that can transition without
-            // admin action.
+            // admin action. Trigger states (per cycle-54 verify ack):
+            //   STATUS_QUEUED      — waiting in dispatcher queue
+            //   STATUS_PENDING     — accepted by sender, not yet started
+            //   STATUS_PROCESSING  — recipient list being built
+            //   STATUS_SENDING     — actively delivering to recipients
+            // Stable states (DRAFT / SCHEDULED / FINISHED / FAILED /
+            // CANCELED) cannot transition without admin action and don't
+            // benefit from polling.
             ->poll('10s', condition: fn () => NewsletterCampaign::query()
                 ->whereIn('status', [
                     NewsletterCampaign::STATUS_QUEUED,
