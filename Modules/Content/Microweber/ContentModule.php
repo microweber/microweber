@@ -16,15 +16,73 @@ class ContentModule extends BaseModule
     public static string $settingsComponent = ContentModuleSettings::class;
     public static string $templatesNamespace = 'modules.content::templates';
 
+    /**
+     * AI-62 / TICKET-JJ (cycle-81 2026-05-08): default per-page when
+     * `data-limit` is unset. Skins that render a posts/products list
+     * via this module pre-cycle-81 had pagination wired up in the
+     * Blade (`@if (isset($pages_count) && $pages_count > 1)`) but
+     * the controller never computed `pages_count` — so pagination
+     * was always silently off, even with thousands of posts.
+     *
+     * 6 is the legacy default that's been stamped into Posts skin
+     * options forever (skin-3, skin-7, skin-9 sample fixtures).
+     * Picked to match user expectations from existing sites.
+     */
+    public const DEFAULT_ITEMS_PER_PAGE = 6;
+
     public function render()
     {
         $viewData = $this->getViewData();
         $viewData['data'] = [];
-        $data = static::getQueryBuilderFromOptions($viewData['options'])->get();
+
+        $options = $viewData['options'] ?? [];
+        $moduleId = $this->params['id'] ?? ($options['id'] ?? 'content');
+
+        // AI-62 / TICKET-JJ (cycle-81 2026-05-08): default-on
+        // pagination. The page-size limit comes from
+        // options['data-limit'] (admin-configurable) and falls back
+        // to DEFAULT_ITEMS_PER_PAGE. The current_page is read from
+        // the URL via a per-module paging_param (md5 of the module
+        // id) so multiple Posts modules on one page paginate
+        // independently.
+        $pageSize = isset($options['data-limit']) && (int) $options['data-limit'] > 0
+            ? (int) $options['data-limit']
+            : static::DEFAULT_ITEMS_PER_PAGE;
+
+        // Per-module paging_param keeps URL state isolated when
+        // multiple Post/Content modules render on the same page.
+        $pagingParam = 'page-' . substr(md5((string) $moduleId), 0, 8);
+        $currentPage = max(1, (int) request()->get($pagingParam, 1));
+
+        // Total count is computed via a SEPARATE query so the LIMIT
+        // applied below doesn't truncate it. Reuse
+        // applyQueryBuilderFiltersFromOptions() to ensure the count
+        // query carries the same filters minus the limit.
+        $countOptions = $options;
+        unset($countOptions['data-limit']);
+        $totalCount = static::getQueryBuilderFromOptions($countOptions)->count();
+        $pagesCount = (int) ceil($totalCount / max(1, $pageSize));
+
+        $query = static::getQueryBuilderFromOptions($options);
+        // Apply pagination offset so page 2+ actually shifts.
+        if ($currentPage > 1) {
+            $query->offset(($currentPage - 1) * $pageSize)->limit($pageSize);
+        }
+        $data = $query->get();
 
         if ($data and $data->count()) {
             $viewData['data'] = $data;
         }
+
+        // AI-62: expose paging variables so skins'
+        // `@if (isset($pages_count) && $pages_count > 1)` blocks
+        // actually render the pagination control. Hidden when
+        // total count fits in one page (pages_count <= 1).
+        $viewData['pages_count'] = $pagesCount;
+        $viewData['paging_param'] = $pagingParam;
+        $viewData['current_page'] = $currentPage;
+        $viewData['total_count'] = $totalCount;
+        $viewData['page_size'] = $pageSize;
 
         // Populate schema_org_item_type_tag and other attributes
         $viewData['schema_org_item_type_tag'] = $this->getSchemaOrgItemTypeTag($viewData['options']);
