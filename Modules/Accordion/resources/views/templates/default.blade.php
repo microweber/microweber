@@ -21,55 +21,26 @@
     @php $accordion = $defaults @endphp
 @endif
 
-{{-- audit-test 2026-05-07 Accordion audit findings #1 + #7:
-     #1 (BUG HIGH): `#accordion-sk3` was hardcoded — pages with 2+
-     accordion instances had only the first one's chevron toggle
-     wired (the others' `+` stayed `+` even when the panel opened).
-     Parameterized to `accordion-sk-{$params['id']}` so each instance
-     gets its own selector.
-     #7 (UX): `.card.sk2` click handler targets a class that this
-     skin never renders (sk2 is a different skin's class). Dead code
-     AND unscoped — would have fired across all skins on a page;
-     deleted. --}}
-<script>
-    $(document).ready(function() {
-
-        function toggleChevron(e) {
-            $(e.target)
-                .prev('.mw-accordion-faq-skin-header')
-                .find("i.mdi")
-                .toggleClass('mdi-minus mdi-plus')
-                .toggleClass('active')
-        }
-        $('#accordion-sk-{{ $params['id'] }}').on('hidden.bs.collapse', toggleChevron);
-        $('#accordion-sk-{{ $params['id'] }}').on('shown.bs.collapse', toggleChevron);
-
-    })
-</script>
+{{-- AI-80 / TICKET-AK (cycle-92 2026-05-09): inline `<script>` and
+     inline `<style>` lifted into module assets. Solves three problems
+     at once:
+       1. CSP — strict `script-src 'self'` and `style-src 'self'`
+          block every inline block; both bundles ship from same-origin
+          URLs so the directives are satisfied without unsafe-inline.
+       2. Perf — N Accordion modules on one page previously emitted N
+          copies of the same JS+CSS; `@once` dedupes both loads.
+       3. Multi-instance correctness — the per-instance script bound
+          to `#accordion-sk-{$params['id']}`. With the JS now using a
+          document-level delegated handler against the
+          `.mw-accordion-faq-skin-card > .collapse` selector, the
+          chevron toggles correctly even on pages with 5+ Accordion
+          modules. --}}
+@once
+    <link rel="stylesheet" href="{{ asset('modules/accordion/css/accordion-skin.css') }}">
+    <script src="{{ asset('modules/accordion/js/accordion-skin.js') }}" defer></script>
+@endonce
 
 @include('modules.accordion::components.custom-css')
-
-<style>
-    .mw-accordion-faq-skin-button {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        width: 100%;
-        border: none;
-        border-radius: 0;
-        cursor: pointer;
-        outline: none;
-    }
-
-    .mw-accordion-faq-skin-header:has(.active) {
-        border-bottom: none !important;
-    }
-
-    .mw-accordion-faq-skin-card {
-        border: none;
-    }
-</style>
 
 {{-- audit-test 2026-05-07 Accordion audit findings #1 + #2 + #3:
      #1 (BUG HIGH): inner accordion id `accordion-sk3` was hardcoded —
@@ -107,12 +78,27 @@
                  to the FIRST DOM match so clicking module B's button toggled
                  module A's panel. Prefixed all 3 with `{$params['id']}-`. --}}
             <div class="mw-accordion-faq-skin-card card mb-3 {{ $key == 0 ? 'active' : '' }}">
-                <div class="mw-accordion-faq-skin-header card-header p-0" id="header-item-{{ $params['id'] }}-{{ $edit_field_key }}">
-                    <button class="mw-accordion-faq-skin-button  mw-accordion-module-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}">
-                        <h5 class="ps-2 mb-0 mw-accordion-text-color"> {!! isset($slide['icon']) ? icon_html( $slide['icon'] ) . ' ' : '' !!} {{ isset($slide['title']) ? $slide['title'] : '' }} </h5>
-                        <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
+                {{-- AI-80 / TICKET-AK (cycle-92): BS5 canonical markup
+                     pattern. Pre-fix the header was a `<div
+                     class="card-header"><button><h5>title</h5></button></div>`
+                     — a button containing flow-content `<h5>` is invalid
+                     HTML (per HTML spec, buttons can hold phrasing
+                     content only). Switched to the BS5 docs shape:
+                     `<h5 class="accordion-header"><button class="accordion-button">title</button></h5>`
+                     — the heading wraps the button, and the button's
+                     visible label is plain phrasing content (icon
+                     `{!! ... !!}` + `<span>` for the title text +
+                     trailing chevron `<i>`). All BS5 data-bs-* attrs
+                     and ARIA stay where Bootstrap's collapse JS
+                     expects them. The chevron `style="font-size:24px"`
+                     was also moved into the stylesheet (CSP). --}}
+                <h5 class="mw-accordion-faq-skin-header accordion-header card-header p-0 mb-0" id="header-item-{{ $params['id'] }}-{{ $edit_field_key }}">
+                    <button type="button" class="mw-accordion-faq-skin-button accordion-button mw-accordion-module-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}">
+                        {!! isset($slide['icon']) ? icon_html($slide['icon']) . ' ' : '' !!}
+                        <span class="ps-2 mw-accordion-text-color"> {{ isset($slide['title']) ? $slide['title'] : '' }} </span>
+                        <i class="mdi mdi-plus active mw-accordion-chevron"></i>
                     </button>
-                </div>
+                </h5>
                 <div id="collapse-accordion-item-{{ $params['id'] }}-{{ $edit_field_key }}-{{ $key }}" class="collapse" aria-labelledby="header-item-{{ $params['id'] }}-{{ $edit_field_key }}" data-bs-parent="#accordion-sk-{{ $params['id'] }}">
                     <div class="card-body mw-accordion-module-content py-3 px-4">
                         @include('modules.accordion::partials.render_accordion_item_content')

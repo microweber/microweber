@@ -1,0 +1,38 @@
+/*
+ * AI-80 / TICKET-AK (cycle-92 2026-05-09): Accordion default skin
+ * stylesheet.
+ *
+ * Lifted from the inline `<style>` block at the bottom of
+ * `Modules/Accordion/resources/views/templates/default.blade.php`.
+ * The inline shape collided with `style-src 'self'` (no
+ * `unsafe-inline`) AND emitted N copies of the same ~20 lines for
+ * every Accordion module dropped on a page. The Blade now loads
+ * this file via a single `@once <link rel="stylesheet">` block
+ * (same convention as cycle-89 Post-list bundle, cycle-91 FAQ).
+ */
+
+.mw-accordion-faq-skin-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.mw-accordion-faq-skin-header:has(.active) {
+    border-bottom: none !important;
+}
+
+.mw-accordion-faq-skin-card {
+    border: none;
+}
+
+/* Chevron sizing — was an inline `style="font-size:24px"` on the
+   <i> tag; lifted here so `style-src 'self'` is honoured. */
+.mw-accordion-faq-skin-button .mw-accordion-chevron {
+    font-size: 24px;
+}
