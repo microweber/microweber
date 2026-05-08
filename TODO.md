@@ -4021,6 +4021,7 @@ Module: testimonials
 - [x] 2026-05-08  [task-2026-05-08-a9d510] Read the email message and work on the tasks mentioned: [[Cross-review request 2026-05-08] Please send me your current TODO.md (full file or attached) for incomplete-item examination](/.autodev/messages/attachments/email_mowgx9pv_a0e3kh/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-93281e] Read the email message and work on the tasks mentioned: [[Cross-review feedback 2026-05-08] Your TODO is clean — 4 inventory drift findings to clean up before Phase 1 starts](/.autodev/messages/attachments/email_mowh2eyz_alp0vm/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-a8534c] Read the email message and work on the tasks mentioned: [[Mobile Re-audit 2026-05-08] 5 issues from 2026-05-06 — 3 SHIPPED, 1 PARTIAL (Issue 03 modules done, public theme not), 1 BLOCKER STILL OPEN (Issue 01 = TICKET-A)](/.autodev/messages/attachments/email_mowh5ufn_you5m8/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08 [task-2026-05-08-d219a7] Read the email message and work on the tasks mentioned: [[PM Forward TASK-010 / TICKET-AP] Cart price-and-stock-trust hardening](/.autodev/messages/attachments/email_mowo6m6g_kv6uwx/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

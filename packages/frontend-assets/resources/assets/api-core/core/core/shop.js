@@ -47,6 +47,7 @@ mw.cart = {
         }
 
         $.post(mw.settings.api_url + "update_cart", data, function (data) {
+            mw.cart.handle_warnings(data);
             //   mw.cart.after_modify(data);
 
             if (typeof c === "function") {
@@ -105,6 +106,7 @@ mw.cart = {
             data: formData,
             type: "post",
             success: function (data) {
+                mw.cart.handle_warnings(data);
                 // mw.trigger('mw.cart.add', [data]);
 
                 if (typeof c === "function") {
@@ -148,6 +150,8 @@ mw.cart = {
                 // mw.reload_module('shop/shipping');
                 // mw.trigger('mw.cart.qty', [data]);
 
+                mw.cart.handle_warnings(data);
+
                 if (data && typeof data.error !== "undefined") {
                     if (typeof data.message !== "undefined") {
                         mw.notification.warning(data.message);
@@ -158,6 +162,32 @@ mw.cart = {
                 mw.trigger("cartModify", data);
             }
         );
+    },
+
+    handle_warnings: function (data) {
+        var warnings = [];
+
+        if (typeof data === "string") {
+            try {
+                data = JSON.parse(data);
+            } catch (e) {
+                return;
+            }
+        }
+
+        if (data && Array.isArray(data.warnings)) {
+            warnings = data.warnings;
+        } else if (data && data.data && Array.isArray(data.data.warnings)) {
+            warnings = data.data.warnings;
+        }
+
+        warnings.forEach(function (warning) {
+            var message = typeof warning === "string" ? warning : warning && warning.message;
+
+            if (message && typeof mw.notification !== "undefined" && typeof mw.notification.warning === "function") {
+                mw.notification.warning(message);
+            }
+        });
     },
 
     after_modify: function (data, events_to_trigger) {

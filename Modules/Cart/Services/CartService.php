@@ -230,8 +230,10 @@ class CartService
         }
 
         $dataFields = $this->getContentDataForCartItem($checkCart);
-        $cart['qty'] = $this->validateQty($data['qty'], $dataFields);
+        $quantityAdjustment = $this->applyQuantityConstraints($data['qty'], $dataFields);
+        $cart['qty'] = $quantityAdjustment['qty'];
         $cartReturn = $checkCart;
+        $cartReturn['qty'] = $cart['qty'];
 
     $cartDataToSave = [
             'qty' => $cart['qty'],
@@ -253,12 +255,18 @@ class CartService
 
             $this->clearCartCache();
 
-            return [
-                'success' => _e('Item quantity changed', true),
-                'product' => $cartReturn,
-            'cart_sum' => $cartSum,
-            'cart_items_quantity' => $cartQty,
-        ];
+            $result = [
+                 'success' => _e('Item quantity changed', true),
+                 'product' => $cartReturn,
+                 'cart_sum' => $cartSum,
+                 'cart_items_quantity' => $cartQty,
+             ];
+
+            if (!empty($quantityAdjustment['warnings'])) {
+                $result['warnings'] = $quantityAdjustment['warnings'];
+            }
+
+            return $result;
     }
 
     /**
@@ -321,13 +329,15 @@ class CartService
     {
         $data = $this->normalizeCartData($data);
 
-        if (!isset($data['for']) || !isset($data['for_id'])) {
-            return ['error' => 'Invalid for and for_id params'];
+        $target = $this->resolveCartTarget($data);
+        if (isset($target['error'])) {
+            return $target;
         }
 
-        $data['for'] = $this->app->database_manager->assoc_table_name($data['for']);
+        $data['for'] = $target['for'];
+        $data['for_id'] = $target['for_id'];
         $for = $data['for'];
-        $forId = intval($data['for_id']);
+        $forId = $data['for_id'];
 
         if ($forId === 0) {
             return ['error' => 'Invalid data for_id'];
@@ -343,9 +353,10 @@ class CartService
         }
         $contentData = $productValidation['content_data'] ?? [];
         $data['title'] = $productValidation['title'] ?? $data['title'];
+        $canonicalPrice = $productValidation['canonical_price'] ?? null;
 
         // Process custom fields and price
-        $customFieldsData = $this->processCustomFields($data, $for, $forId);
+        $customFieldsData = $this->processCustomFields($data, $for, $forId, $canonicalPrice);
         $foundPrice = $customFieldsData['price'];
         $priceModifierFields = $customFieldsData['price_modifiers'];
         $add = $customFieldsData['add'];
@@ -372,9 +383,9 @@ class CartService
         $findCart = $this->findExistingCartItem($cart);
 
         // Determine quantity
-        $cart['qty'] = $this->calculateQuantity($findCart, $updateQty['new'], $updateQty['update']);
-        $cart['qty'] = $this->applyStockLimits($cart['qty'], $contentData);
-        $cart['qty'] = $this->applyMaxQtyLimit($cart['qty'], $contentData);
+        $requestedQty = $this->calculateQuantity($findCart, $updateQty['new'], $updateQty['update']);
+        $quantityAdjustment = $this->applyQuantityConstraints($requestedQty, $contentData);
+        $cart['qty'] = $quantityAdjustment['qty'];
 
         // Save cart item
         $cartId = $this->saveCartItem($findCart, $cart);
@@ -391,12 +402,18 @@ class CartService
             'currency' => get_currency_code(),
         ]));
 
-        return [
+        $result = [
             'success' => 'Item added to cart',
             'product' => $cartReturn,
             'cart_sum' => $this->cartRepository->getCartAmount(),
             'cart_items_quantity' => $this->cartRepository->getCartItemsCount(),
         ];
+
+        if (!empty($quantityAdjustment['warnings'])) {
+            $result['warnings'] = $quantityAdjustment['warnings'];
+        }
+
+        return $result;
     }
 
     /**
@@ -580,6 +597,54 @@ class CartService
     }
 
     /**
+     * Resolve and validate the supported cart target type.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function resolveCartTarget(array $data): array
+    {
+        if (!isset($data['for']) || !isset($data['for_id'])) {
+            return ['error' => 'Invalid for and for_id params'];
+        }
+
+        $canonicalType = $this->normalizeSupportedCartRelType((string) $data['for']);
+        if ($canonicalType === null) {
+            return ['error' => 'Invalid cart item type'];
+        }
+
+        return [
+            'for' => $canonicalType,
+            'for_id' => intval($data['for_id']),
+        ];
+    }
+
+    /**
+     * Normalize the supported cart relation type.
+     *
+     * @param string $type
+     * @return string|null
+     */
+    protected function normalizeSupportedCartRelType(string $type): ?string
+    {
+        $type = trim($type);
+        $contentType = morph_name(\Modules\Content\Models\Content::class);
+
+        if ($type === '' || $type === 'content' || $type === $contentType) {
+            return $contentType;
+        }
+
+        if (class_exists(\Modules\Billing\Models\SubscriptionPlan::class)) {
+            $subscriptionPlanType = morph_name(\Modules\Billing\Models\SubscriptionPlan::class);
+            if ($type === $subscriptionPlanType) {
+                return $subscriptionPlanType;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Extract quantity from data.
      *
      * @param array $data
@@ -610,8 +675,10 @@ class CartService
     {
         $contentData = [];
         $title = $data['title'] ?? null;
+        $canonicalPrice = null;
+        $contentType = morph_name(\Modules\Content\Models\Content::class);
 
-        if ($for == morph_name(\Modules\Content\Models\Content::class)) {
+        if ($for == $contentType) {
             $cont = $this->app->content_manager->get_by_id($forId);
 
             if (isset($cont['is_active']) && $cont['is_active'] != 1) {
@@ -631,9 +698,49 @@ class CartService
             } elseif (is_array($cont) && isset($cont['title']) && $cont['title']) {
                 $title = $cont['title'];
             }
+
+            $canonicalPrice = $this->resolveContentCanonicalPrice($forId, $cont);
+        } elseif (class_exists(\Modules\Billing\Models\SubscriptionPlan::class)
+            && $for === morph_name(\Modules\Billing\Models\SubscriptionPlan::class)) {
+            $plan = \Modules\Billing\Models\SubscriptionPlan::query()->find($forId);
+
+            if (!$plan) {
+                return ['error' => 'Invalid product?'];
+            }
+
+            $title = $plan->name ?: $title;
+            $canonicalPrice = is_numeric($plan->price) ? (float) $plan->price : 0.0;
         }
 
-        return ['content_data' => $contentData, 'title' => $title];
+        return [
+            'content_data' => $contentData,
+            'title' => $title,
+            'canonical_price' => $canonicalPrice,
+        ];
+    }
+
+    /**
+     * Resolve the canonical server-side price for a content product.
+     *
+     * @param int $forId
+     * @param array $content
+     * @return float|null
+     */
+    protected function resolveContentCanonicalPrice(int $forId, array $content): ?float
+    {
+        $productPrices = $this->getProductPrices($forId);
+        if (!empty($productPrices)) {
+            $firstPrice = reset($productPrices);
+            if (is_numeric($firstPrice)) {
+                return (float) $firstPrice;
+            }
+        }
+
+        if (isset($content['price']) && is_numeric($content['price'])) {
+            return (float) $content['price'];
+        }
+
+        return null;
     }
 
     /**
@@ -644,7 +751,7 @@ class CartService
      * @param int $forId
      * @return array
      */
-    protected function processCustomFields(array $data, string $for, int $forId): array
+    protected function processCustomFields(array $data, string $for, int $forId, ?float $canonicalPrice = null): array
     {
         $add = [];
         $prices = [];
@@ -655,16 +762,10 @@ class CartService
         ]);
 
         $productPrices = $this->getProductPrices($forId);
+        $requestedPrice = $this->normalizeComparablePrice($data['price'] ?? null);
 
         if ($contentCustomFields === false) {
-            $contentCustomFields = $data;
-            if (isset($data['price']) && $productPrices) {
-                foreach ($productPrices as $price) {
-                    if ($price == $data['price']) {
-                        return ['price' => $data['price'], 'add' => $add, 'price_modifiers' => []];
-                    }
-                }
-            }
+            $contentCustomFields = [];
         } elseif (is_array($contentCustomFields)) {
             foreach ($contentCustomFields as $cf) {
                 if (isset($cf['type']) && $cf['type'] == 'price') {
@@ -691,25 +792,26 @@ class CartService
 
                 if (is_array($prices)) {
                     foreach ($prices as $priceKey => $price) {
-                        if (isset($data['price']) && $price == $data['price']) {
+                        $normalizedPrice = $this->normalizeComparablePrice($price);
+                        $normalizedItemPrice = $this->normalizeComparablePrice($item);
+
+                        if ($requestedPrice !== null && $normalizedPrice !== null && $normalizedPrice === $requestedPrice) {
                             $found = true;
-                            $foundPrice = $price;
-                        } elseif (isset($item) && $price == $item) {
+                            $foundPrice = (float) $price;
+                        } elseif ($normalizedItemPrice !== null && $normalizedPrice !== null && $normalizedPrice === $normalizedItemPrice) {
                             $found = true;
                             if ($foundPrice === false) {
-                                $foundPrice = $item;
+                                $foundPrice = (float) $price;
                             }
                         }
                     }
 
-                    if ($foundPrice === false) {
-                        $foundPrice = array_pop($prices);
-                    } else {
-                        if (count($prices) > 1) {
-                            foreach ($prices as $pk => $pv) {
-                                if ($pv == $foundPrice) {
-                                    $add[$pk] = $this->app->shop_manager->currency_format($pv);
-                                }
+                    if ($foundPrice !== false && count($prices) > 1) {
+                        foreach ($prices as $pk => $pv) {
+                            $normalizedPrice = $this->normalizeComparablePrice($pv);
+                            $normalizedFoundPrice = $this->normalizeComparablePrice($foundPrice);
+                            if ($normalizedPrice !== null && $normalizedFoundPrice !== null && $normalizedPrice === $normalizedFoundPrice) {
+                                $add[$pk] = $this->app->shop_manager->currency_format($pv);
                             }
                         }
                     }
@@ -722,16 +824,35 @@ class CartService
         }
 
         if ($foundPrice === false && is_array($prices)) {
-            $foundPrice = array_pop($prices);
+            $lastPrice = end($prices);
+            if ($lastPrice !== false && is_numeric($lastPrice)) {
+                $foundPrice = (float) $lastPrice;
+            }
         }
         if ($foundPrice === false) {
-            $foundPrice = 0;
-            if (isset($data['price'])) {
-                $foundPrice = $data['price'];
-            }
+            $foundPrice = $canonicalPrice ?? 0;
         }
 
         return ['price' => $foundPrice, 'add' => $add, 'price_modifiers' => $priceModifierFields];
+    }
+
+    /**
+     * Normalize a comparable price string for strict matching.
+     *
+     * @param mixed $price
+     * @return string|null
+     */
+    protected function normalizeComparablePrice($price): ?string
+    {
+        if (is_string($price)) {
+            $price = trim($price);
+        }
+
+        if ($price === '' || $price === null || !is_numeric($price)) {
+            return null;
+        }
+
+        return sprintf('%.6F', (float) $price);
     }
 
     /**
@@ -993,11 +1114,15 @@ class CartService
 
         $cf = $cart['custom_fields_data'] ?? null;
         if ($cf !== null && $cf !== '') {
-            $query->where('custom_fields_data', $cf);
+            $query->whereIn('custom_fields_data', array_unique([
+                $cf,
+                json_encode($cf),
+            ]));
         } else {
             $query->where(function ($q) {
                 $q->whereNull('custom_fields_data')
-                  ->orWhere('custom_fields_data', '');
+                  ->orWhere('custom_fields_data', '')
+                  ->orWhere('custom_fields_data', '""');
             });
         }
 
@@ -1089,6 +1214,73 @@ class CartService
     }
 
     /**
+     * Apply quantity constraints and return any surfaced warnings.
+     *
+     * @param int $qty
+     * @param array $contentData
+     * @return array
+     */
+    protected function applyQuantityConstraints(int $qty, array $contentData): array
+    {
+        $warnings = [];
+        $originalQty = $qty;
+
+        $stockLimitedQty = $this->applyStockLimits($qty, $contentData);
+        if ($stockLimitedQty !== $qty) {
+            $warnings[] = $this->makeQuantityAdjustmentWarning(
+                'stock_limit',
+                $originalQty,
+                $stockLimitedQty,
+                'Requested quantity was adjusted to the available stock.',
+                ['available_quantity' => $stockLimitedQty]
+            );
+            $qty = $stockLimitedQty;
+        }
+
+        $maxQtyLimitedQty = $this->applyMaxQtyLimit($qty, $contentData);
+        if ($maxQtyLimitedQty !== $qty) {
+            $warnings[] = $this->makeQuantityAdjustmentWarning(
+                'max_qty_per_order',
+                $originalQty,
+                $maxQtyLimitedQty,
+                'Requested quantity was adjusted to the maximum allowed per order.',
+                ['max_quantity_per_order' => $maxQtyLimitedQty]
+            );
+            $qty = $maxQtyLimitedQty;
+        }
+
+        return [
+            'qty' => $qty,
+            'warnings' => $warnings,
+        ];
+    }
+
+    /**
+     * Create a surfaced quantity-adjustment warning payload.
+     *
+     * @param string $code
+     * @param int $requestedQty
+     * @param int $adjustedQty
+     * @param string $message
+     * @param array $context
+     * @return array
+     */
+    protected function makeQuantityAdjustmentWarning(
+        string $code,
+        int $requestedQty,
+        int $adjustedQty,
+        string $message,
+        array $context = []
+    ): array {
+        return array_merge([
+            'code' => $code,
+            'message' => $message,
+            'requested_quantity' => $requestedQty,
+            'adjusted_quantity' => $adjustedQty,
+        ], $context);
+    }
+
+    /**
      * Get content data for cart item validation.
      *
      * @param array $checkCart
@@ -1099,7 +1291,7 @@ class CartService
         $dataFields = [];
 
         if (isset($checkCart['rel_type']) && isset($checkCart['rel_id']) && $checkCart['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
-            $data = $this->app->content_manager->data($checkCart['rel_id'], 1);
+            $data = $this->app->content_manager->data($checkCart['rel_id']);
             if (is_array($data)) {
                 $dataFields = $data;
             }
