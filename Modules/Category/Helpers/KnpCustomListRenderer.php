@@ -268,12 +268,34 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
 
     protected function renderLinkElement(ItemInterface $item, array $options)
     {
-        return sprintf('<a href="%s"%s>%s</a>', $this->escape($item->getUri()), $this->renderHtmlAttributes($item->getLinkAttributes()), $this->renderLabel($item, $options));
+        // AI-65 / TICKET-SS (cycle-72 2026-05-08): emit
+        // `aria-current="page"` on the <a> for the active category so
+        // screen readers announce the current page in the navigation
+        // tree (and CSS can target [aria-current="page"] without the
+        // .active-class race that visual-only state has). The
+        // active-state visual class (.active / configurable via
+        // currentClass) stays on the <li> + <a>; aria-current is the
+        // semantic counterpart.
+        $linkAttributes = $item->getLinkAttributes();
+        if ($item->isCurrent() && empty($linkAttributes['aria-current'])) {
+            $linkAttributes['aria-current'] = 'page';
+        }
+
+        return sprintf('<a href="%s"%s>%s</a>', $this->escape($item->getUri()), $this->renderHtmlAttributes($linkAttributes), $this->renderLabel($item, $options));
     }
 
     protected function renderSpanElement(ItemInterface $item, array $options)
     {
-        return sprintf('<span%s>%s</span>', $this->renderHtmlAttributes($item->getLabelAttributes()), $this->renderLabel($item, $options));
+        // AI-65 / TICKET-SS (cycle-72 2026-05-08): when currentAsLink
+        // is false, the active item renders as a <span> in place of
+        // an <a>. aria-current still applies — without it screen
+        // readers see the same plain span as the inactive labels.
+        $labelAttributes = $item->getLabelAttributes();
+        if ($item->isCurrent() && empty($labelAttributes['aria-current'])) {
+            $labelAttributes['aria-current'] = 'page';
+        }
+
+        return sprintf('<span%s>%s</span>', $this->renderHtmlAttributes($labelAttributes), $this->renderLabel($item, $options));
     }
 
     protected function renderLabel(ItemInterface $item, array $options)
