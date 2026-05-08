@@ -314,24 +314,28 @@ class CartApiController extends Controller
         try {
             $couponCode = $request->get('coupon_code');
 
-            // audit-test 2026-05-07 PM TASK-006 / TICKET-AO (SECURITY MEDIUM):
-            // Was `applyCoupon($couponCode)` single-arg — the underlying
-            // CouponService received NO email, NO IP, NO context, so:
-            //   * per-IP and per-email rate limits silently didn't apply
+            // audit-test 2026-05-07 PM TASK-006 / TICKET-AO (SECURITY MEDIUM)
+            // + AI-76 / TICKET-CV (cycle-88 2026-05-09 admin-on-behalf-of fix):
+            //   * Pre-cycle-46: `applyCoupon($couponCode)` single-arg — the
+            //     underlying CouponService received NO email, NO IP, NO
+            //     context, so per-IP/per-email rate limits + per-product/
+            //     per-category/per-customer-group rules silently passed
             //     (`uses_per_customer` and `isValidForCustomer` short-circuit
             //     on null email/IP — see CouponService:204, 241).
-            //   * Context-driven coupon rules (product_ids, category_ids,
-            //     customer_group_id) silently passed (Gotcha #1).
-            // Now threads Auth::user()?->email + $request->ip() + the
-            // cart-derived context built by CartCouponService::buildCouponContext()
-            // — same shape as the legacy `coupon_apply()` helper.
-            // For guests, `Auth::user()?->email` is null; CouponService skips
-            // email-keyed rate limit checks (verified at lines 204 + 241) so
-            // the IP-only path applies cleanly.
+            //   * Cycle-46 threaded Auth::user()?->email through. Correct
+            //     for self-checkout but WRONG for admin-on-behalf-of cart
+            //     flows: `Auth::user()->email` returns the admin's address
+            //     so the customer's per-customer-email use-cap was never
+            //     decremented (and the admin's rate limit got hammered).
+            //   * Cycle-88: route through CartCouponService::resolveCustomerEmail()
+            //     which prefers the `checkout` session email (set by the
+            //     wizard / admin order-creation flow) before falling back
+            //     to Auth. Guest path returns null cleanly; CouponService
+            //     skips email-keyed rate limit checks for null email.
             $cartCouponService = app(\Modules\Cart\Services\CartCouponService::class);
             $couponResult = $cartCouponService->applyCoupon(
                 $couponCode,
-                Auth::user()?->email,
+                $cartCouponService->resolveCustomerEmail(),
                 $request->ip(),
                 $cartCouponService->buildCouponContext()
             );

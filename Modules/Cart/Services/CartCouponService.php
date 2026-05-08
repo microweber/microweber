@@ -203,6 +203,52 @@ class CartCouponService
     }
 
     /**
+     * AI-76 / TICKET-CV (cycle-88 2026-05-09): resolve the canonical
+     * "customer email" for coupon rate-limiting and audit logging.
+     *
+     * Pre-88 the API controller passed `Auth::user()?->email` as the
+     * customer email — which is correct for self-checkout but WRONG
+     * for admin-on-behalf-of cart flows (admin places an order on
+     * behalf of a customer, e.g. via the Filament admin "Create
+     * order" or Newsletter coupon flows). In that case
+     * `Auth::user()->email` returns the ADMIN's email, so:
+     *
+     *   - per-customer-email use-cap decremented against the admin's
+     *     account, not the customer's
+     *   - admin's own coupon-attempt rate limit got hammered every
+     *     time they helped any customer
+     *   - per-customer audit logs attributed coupon use to the admin
+     *
+     * Resolution order (first non-empty wins):
+     *   1. `checkout` session "email" — the actual buyer-at-the-cash-
+     *      register address. Set by the Checkout wizard or the
+     *      admin-on-behalf-of order-creation flow.
+     *   2. `Auth::user()?->email` — self-checkout fallback.
+     *   3. null — guest path; CouponService skips email-keyed rate
+     *      limit checks (verified at CouponService:204, 241).
+     *
+     * The function is `public` so the API controller, the legacy
+     * `coupon_apply()` helper, and any future caller can resolve the
+     * email the same way (drift prevention).
+     */
+    public function resolveCustomerEmail(): ?string
+    {
+        $checkoutSession = function_exists('session_get')
+            ? (session_get('checkout') ?: [])
+            : [];
+        $sessionEmail = is_array($checkoutSession) && isset($checkoutSession['email'])
+            ? trim((string) $checkoutSession['email'])
+            : '';
+
+        if ($sessionEmail !== '') {
+            return $sessionEmail;
+        }
+
+        $authEmail = trim((string) (auth()->user()?->email ?? ''));
+        return $authEmail !== '' ? $authEmail : null;
+    }
+
+    /**
      * Build the coupon-validation context from the current cart + auth state.
      *
      * audit-test 2026-05-07 PM TASK-006 / TICKET-AO Gotcha #1:
