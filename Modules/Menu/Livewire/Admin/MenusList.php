@@ -229,7 +229,17 @@ class MenusList extends Component implements HasForms, HasActions
 
             MwLinkPicker::make('mw_link_picker')
                 ->label('Link')
-                ->live()
+                // AI-72 / TICKET-AC (cycle-85 2026-05-09): debounce
+                // ->live() so every keystroke doesn't fire a
+                // Livewire roundtrip. The link picker's
+                // afterStateUpdated callback persists the URL +
+                // resets content_id/categories_id — running it on
+                // every char of typed text wastes round-trips and
+                // in practice causes the protocol allow-list regex
+                // to clear half-typed URLs (`https`, `https:`,
+                // `https:/` all fail the http(s)?:// check) and
+                // leave the user staring at an empty field.
+                ->live(debounce: 400)
                 ->selectedData(function (Menu|null $record, Get $get) {
                     $dataId = '';
                     $dataType = '';
@@ -328,22 +338,42 @@ class MenusList extends Component implements HasForms, HasActions
                 }),
 
 
-            /*  TextInput::make('display_title') // This is the title that will be displayed in the menu
-              ->label('Display title')
-                  ->required()
-                  ->live()
-                  ->maxLength(255)
-                  ->helperText('This is the title that will be displayed in the menu. If you want to use a custom title, check the "Use custom title" option below.'),*/
-
+            // AI-72 / TICKET-AC (cycle-85 2026-05-09): dead-fields
+            // sweep — three commented-out form blocks deleted from
+            // this method:
+            //   - TextInput::make('display_title')        — superseded
+            //     by the active `title` field; the original "display
+            //     title vs custom title" feature was rejected during
+            //     cycle-44 EVAL (task-2026-04-30-48b603 confirmed the
+            //     UX simplification).
+            //   - Checkbox::make('use_custom_title')      — partner
+            //     to display_title; both removed together.
+            //   - Select::make('url_target')              — superseded
+            //     by the live Toggle('url_target') below; the legacy
+            //     Select offered _self/_blank/_parent/_top but
+            //     real-world usage is binary (current vs new window).
+            //
+            // Removing these blocks dropped 35 commented-out lines
+            // from the form definition and removes confusion for
+            // future reviewers about which field is canonical.
 
             TextInput::make('title')
                 ->helperText('Set the title of the menu item.')
                 ->required()
-                ->live()
+                // AI-72 / TICKET-AC (cycle-85 2026-05-09): debounce
+                // typing so we don't roundtrip on every keystroke.
+                // 500ms matches the cycle-50 newsletter-list pattern
+                // (after-keystroke pause that feels instant to the
+                // user without flooding the server).
+                ->live(debounce: 500)
                 ->reactive()
-
-
-
+                ->extraInputAttributes([
+                    // AI-72 / TICKET-AC (cycle-85): a11y — aria-describedby
+                    // ties the helperText to the input so screen
+                    // readers announce the help string when the user
+                    // focuses the field, not just on mouse-hover.
+                    'aria-describedby' => 'menu-item-title-help',
+                ])
                 ->afterStateUpdated(function (Get $get, Set $set, ?string $state, Model $record, $component, $livewire) {
 
                     if ($record) {
@@ -366,18 +396,6 @@ class MenusList extends Component implements HasForms, HasActions
                  )
                 ->maxLength(1255),
 
-//            Checkbox::make('use_custom_title')
-//                ->label('Use custom title')
-//                ->live()
-//                ->afterStateUpdated(function (Menu|null $record, Set $set, $state) {
-//                    if ($state) {
-//                        if ($record) {
-//                          //  $set('title', $record->displayTitle);
-//                        }
-//                    }
-//                })
-//                ->default(false),
-
 
             Checkbox::make('advanced')
                 ->label('Advanced')
@@ -386,26 +404,19 @@ class MenusList extends Component implements HasForms, HasActions
 
             Toggle::make('url_target')
                 ->helperText('Enable to open the link in a new window.')
+                // AI-72 / TICKET-AC (cycle-85 2026-05-09): toggle is
+                // a single-click affordance — no debounce needed.
                 ->live()
                 ->label('Open link in new window')
                 ->default(false)
+                ->extraAttributes([
+                    // a11y — describe the on/off semantic to AT users.
+                    'aria-describedby' => 'menu-item-target-help',
+                ])
                 ->hidden(function (Get $get) {
                     return $get('advanced') === false;
                 })
                 ->columnSpanFull(),
-
-//            Select::make('url_target')
-//                ->label('Target attribute')
-//                ->helperText('Open the link in New window, Current window, Parent window or Top window')
-//                ->options([
-//                    '_self' => 'Current window',
-//                    '_blank' => 'New window',
-//                    '_parent' => 'Parent window',
-//                    '_top' => 'Top window',
-//                ])
-//                ->hidden(function (Get $get) {
-//                    return $get('advanced') === false;
-//                }),
 
             Group::make([
                 MwFileUpload::make('default_image')
