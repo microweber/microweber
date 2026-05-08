@@ -70,33 +70,19 @@
     </div>
 </div>
 
-<style>
-    .faq-holder {
-        margin: 20px;
-    }
-
-    .faq-item {
-        border: 1px solid #efefef;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-    }
-
-    .faq-item > summary {
-        margin: 0 0 10px;
-        font-size: 18px;
-        color: #1157c1;
-        cursor: pointer;
-        list-style: revert;
-    }
-
-    .faq-item[open] > summary {
-        margin-bottom: 10px;
-    }
-
-    .faq-item p {
-        margin: 0;
-        font-size: 14px;
-        color: #6f6f6f;
-    }
-</style>
+{{-- AI-79 / TICKET-AI (cycle-91 2026-05-09): inline `<style>` lifted
+     into `Modules/Faq/resources/assets/css/faq-skin.css`. Solves three
+     problems at once:
+       1. CSP — strict `style-src 'self'` blocks every inline `<style>`;
+          the bundle ships from a same-origin URL so the directive is
+          satisfied without unsafe-inline.
+       2. Perf — N FAQ modules on one page previously emitted N copies
+          of ~30 lines of CSS; `@once` dedupes the load to a single
+          <link>.
+       3. Theme — hardcoded literals (#1157c1, #6f6f6f, #efefef) now
+          resolve via theme tokens (var(--mw-primary-color), etc.) so
+          the FAQ picks up the active style-pack instead of breaking
+          dark themes. --}}
+@once
+    <link rel="stylesheet" href="{{ asset('modules/faq/css/faq-skin.css') }}">
+@endonce

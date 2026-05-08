@@ -1,0 +1,50 @@
+/*
+ * AI-79 / TICKET-AI (cycle-91 2026-05-09): FAQ skin stylesheet.
+ *
+ * Lifted from the inline `<style>` block that lived at the bottom of
+ * `Modules/Faq/resources/views/templates/default.blade.php`. The
+ * inline shape collided with `style-src 'self'` (no `unsafe-inline`)
+ * AND emitted N copies of the same ~30 lines for every FAQ module
+ * dropped on a page. The Blade now loads this file via a single
+ * `@once <link rel="stylesheet">` block.
+ *
+ * Hardcoded literals were replaced with theme tokens so the FAQ skin
+ * picks up the active style-pack:
+ *
+ *   #1157c1 (question link)        → var(--mw-primary-color, #1157c1)
+ *   #6f6f6f (answer body text)     → var(--bs-secondary, #6f6f6f)
+ *   #efefef (item border)          → var(--bs-border-color, #efefef)
+ *
+ * The hardcoded values stay as the second argument so that on a
+ * theme without these tokens defined the visual is identical to the
+ * pre-AI-79 shape.
+ */
+
+.faq-holder {
+    margin: 20px;
+}
+
+.faq-item {
+    border: 1px solid var(--bs-border-color, #efefef);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.faq-item > summary {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: var(--mw-primary-color, #1157c1);
+    cursor: pointer;
+    list-style: revert;
+}
+
+.faq-item[open] > summary {
+    margin-bottom: 10px;
+}
+
+.faq-item p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--bs-secondary, #6f6f6f);
+}
