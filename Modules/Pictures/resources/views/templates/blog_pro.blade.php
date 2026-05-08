@@ -58,7 +58,7 @@ description: Blog pro
             @endphp
 
             <div class="card-header-single">
-                <img alt="{{ $itemAltText }}" src="{{ isset($item['filename']) ? $item['filename'] : '' }}" class="img-fluid"/>
+                {!! responsive_thumbnail($item['filename'] ?? '', 800, null, ['alt' => $itemAltText, 'class' => 'img-fluid']) !!}
             </div>
         @endforeach
     @endif

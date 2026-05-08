@@ -31,7 +31,7 @@ description: Posts 3
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
                             <div class="img-as-background h-350">
-                                <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image" alt="{{ $item['title'] ?? '' }}" class="img-fluid"/>
+                                {!! responsive_thumbnail($item['image'], 800, null, ['alt' => $item['title'] ?? '', 'class' => 'img-fluid', 'style' => 'position: relative !important;', 'itemprop' => 'image']) !!}
                             </div>
                         </a>
                     @endif

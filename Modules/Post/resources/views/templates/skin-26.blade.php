@@ -76,7 +76,7 @@ description: Posts 26
                 <div class="col-lg-6">
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <div class="image" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                            <img loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}" class="img-fluid"/>
+                            {!! responsive_thumbnail($item['image'], 800, null, ['alt' => $item['title'], 'class' => 'img-fluid', 'itemprop' => 'url']) !!}
                             <meta itemprop="width" content="400">
                             <meta itemprop="height" content="400">
                         </div>

@@ -12,8 +12,17 @@ description: Skin 14
     <div class="new-skin-shop">
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
-<img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
-                         id="{{ $pictureElementId }}" alt="{{ __('Product image') }}"  class="img-fluid"/>
+                {{-- AI-74 / TICKET-H (cycle-69 2026-05-08): hero image now
+                     emits a full responsive <img> via the cycle-55 helper —
+                     adds srcset + sizes + decoding=async on top of the
+                     existing alt + lazy. The hero is above-the-fold so
+                     loading=eager. --}}
+                {!! responsive_thumbnail($data[0]['filename'] ?? '', 1080, 1080, [
+                    'id' => $pictureElementId,
+                    'alt' => __('Product image'),
+                    'class' => 'img-fluid',
+                    'loading' => 'eager',
+                ]) !!}
             </div>
 
             @if(sizeof($data) > 1)

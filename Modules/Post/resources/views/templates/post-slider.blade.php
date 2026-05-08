@@ -31,8 +31,7 @@ description: Posts Slider 1
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a itemprop="url" href="{{ $item['link'] }}">
                             <div class="img-as-background h-350">
-<img itemprop="image" loading="lazy" src="{{ $item['image'] }}"
-                             style="position: relative !important;" alt="{{ $item['title'] ?? '' }}" class="img-fluid"/>
+{!! responsive_thumbnail($item['image'], 800, null, ['alt' => $item['title'] ?? '', 'class' => 'img-fluid', 'style' => 'position: relative !important;', 'itemprop' => 'image']) !!}
                             </div>
                         </a>
                     @endif

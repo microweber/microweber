@@ -37,7 +37,7 @@
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
                             <div class="img-as-background h-350 p-1">
-                                <img class="border img-fluid" loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image" alt="{{ $item['title'] ?? '' }}"/>
+                                {!! responsive_thumbnail($item['image'], 800, null, ['alt' => $item['title'] ?? '', 'class' => 'border img-fluid', 'style' => 'position: relative !important;', 'itemprop' => 'image']) !!}
                             </div>
                         </a>
                     @endif

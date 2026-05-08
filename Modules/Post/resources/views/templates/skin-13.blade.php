@@ -47,7 +47,7 @@ description: Posts 13
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                         <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
                             <div class="img-as-background square-75" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                                <img loading="lazy" src="{{ $item['image'] }}" itemprop="url" alt="{{ $item['title'] }}" class="img-fluid"/>
+                                {!! responsive_thumbnail($item['image'], 800, null, ['alt' => $item['title'], 'class' => 'img-fluid', 'itemprop' => 'url']) !!}
                                 <meta itemprop="width" content="450">
                                 <meta itemprop="height" content="450">
                             </div>

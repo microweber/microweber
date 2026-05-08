@@ -144,7 +144,7 @@ description: Pictures Skin 18 - Masonry
                 <a class="mw-pictures-18-wrapper grid-item"
                    data-index="{{ $count }}"
                    href="{{ $item['filename'] ?? '' }}">
-                    <img src="{{ $item['filename'] ?? '' }}" alt=""/>
+                    {!! responsive_thumbnail($item['filename'] ?? '', 800, null, ['alt' => $item['title'] ?? __('Image')]) !!}
                     <div class="mw-pictures-18-text">
                         @if($itemTitle)
                             <h5 class="mw-pictures-18-title">{{ $itemTitle }}</h5>
