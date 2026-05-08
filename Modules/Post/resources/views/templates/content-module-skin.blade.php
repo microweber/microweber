@@ -31,7 +31,13 @@
                             <a href="{{ $item['link'] }}" itemprop="url">
                                 <div class="img__wrap">
                                     <div class="img-as-background h-650">
-                                        <img class="img_img img-fluid" alt="image" src="{{ $item['image'] }}" itemprop="image" />
+                                        {{-- AI-78 / TICKET-AE (cycle-90):
+                                             alt="image" → post title (a11y +
+                                             SEO) and added `loading="lazy"`
+                                             + `decoding="async"` so the
+                                             below-the-fold images don't
+                                             block the initial paint. --}}
+                                        <img class="img_img img-fluid" loading="lazy" decoding="async" alt="{{ $item['title'] ?? '' }}" src="{{ $item['image'] }}" itemprop="image" />
                                     </div>
                                     <div class="img__description_layer">
                                         <div class="row text-center align-self-center"></div>

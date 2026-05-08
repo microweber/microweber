@@ -19,22 +19,11 @@
         $columns .= ' ' . $columns_md;
     }
 
-    $thumb_quality = '1920';
-    if ($columns_xl != null || $columns_xl != false || $columns_xl != '') {
-        if ($columns_xl == 'col-lg-12') {
-            $thumbs_columns = 1;
-        } elseif ($columns_xl == 'col-lg-6') {
-            $thumbs_columns = 2;
-        } elseif ($columns_xl == 'col-lg-4') {
-            $thumbs_columns = 3;
-        } elseif ($columns_xl == 'col-lg-3') {
-            $thumbs_columns = 4;
-        } elseif ($columns_xl == 'col-lg-2') {
-            $thumbs_columns = 6;
-        }
-
-        $thumb_quality = 1920;
-    }
+    // AI-78 / TICKET-AE (cycle-90 2026-05-09): dropped dead `$thumb_quality`
+    // + `$thumbs_columns` + dead loose-equality `if ($columns_xl != null
+    // || $columns_xl != false || $columns_xl != '')` (the OR-of-three was
+    // always true). Neither variable was read anywhere downstream;
+    // responsive_thumbnail() handles thumbnail dimensions directly.
     $count = 0;
 
 @endphp
@@ -66,8 +55,10 @@
     }
 
     #posts-{{ $params['id'] }} .post-bottom-holder {
+        /* AI-78 / TICKET-AE (cycle-90): padding-top 0 → 20px after the
+           `<br>` between thumbnail and bottom-holder was removed. */
         padding: 25px;
-        padding-top: 0;
+        padding-top: 20px;
     }
 
     #posts-{{ $params['id'] }} .big-news .post-holder h3 a{
@@ -115,7 +106,11 @@
                     $count++;
                 @endphp
 
-                <div class="{{ $columns }}" data-aos="fade-up" data-aos-delay="{{ $key }}00" itemscope itemtype="{{ $schema_org_item_type_tag }}">
+                {{-- AI-78 / TICKET-AE (cycle-90): AOS-cap. Pre-fix
+                     `data-aos-delay="{{ $key }}00"` produced 9.9 s+
+                     animation delays for posts beyond the 10th; cap
+                     at 800 ms (8 × 100). --}}
+                <div class="{{ $columns }}" data-aos="fade-up" data-aos-delay="{{ min($key, 8) * 100 }}" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                     <div class="post-holder mw-content-skin-1">
                         <a href="{{ $item['link'] }}" itemprop="url">
                             <div class="thumbnail-holder">
@@ -139,10 +134,15 @@
                                 @endif
                             </div>
                         </a>
-                        <br>
+                        {{-- AI-78 / TICKET-AE (cycle-90): replaced `<br>`
+                             with padding on `.post-bottom-holder`. --}}
                         <div class="post-bottom-holder">
                             @if (!isset($show_fields) || $show_fields == false || in_array('title', $show_fields))
-                                <h3 itemprop="name" class="mw-products-title m-0"><a href="{{ $item['link'] }}" itemprop="url">{{ $item['title'] }}</a></h3>
+                                {{-- AI-78 / TICKET-AE (cycle-90): dropped
+                                     duplicate `itemprop="url"` from inner
+                                     anchor — outer thumbnail wrapper
+                                     already declares the canonical URL. --}}
+                                <h3 itemprop="name" class="mw-products-title m-0"><a href="{{ $item['link'] }}">{{ $item['title'] }}</a></h3>
                             @endif
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('created_at', $show_fields))
@@ -155,7 +155,10 @@
 
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('read_more', $show_fields))
-                                <a href="{{ $item['link'] }}" itemprop="url" class="button-8 m-t-20">
+                                {{-- AI-78 / TICKET-AE (cycle-90): dropped
+                                     duplicate `itemprop="url"` from
+                                     "Read more" anchor. --}}
+                                <a href="{{ $item['link'] }}" class="button-8 m-t-20">
                                     <span>{{ $read_more_text ?? __('Read more') }}</span>
                                 </a>
                             @endif
@@ -210,3 +213,10 @@
         </div>
     </div>
 </div>
+
+{{-- AI-78 / TICKET-AE (cycle-90 2026-05-09): pagination footer.
+     Mirrors the convention already used by sidebar/masonry/search
+     templates in this module. --}}
+@if (isset($pages_count) && $pages_count > 1 && isset($paging_param))
+    {!! paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") !!}
+@endif
