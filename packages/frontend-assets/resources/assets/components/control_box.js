@@ -255,8 +255,25 @@ export class ControlBox extends BaseComponent {
     show() {
         ControlBox.hideAllBySide(this.settings.position, this);
         this.#active = true;
-        mw.$(this.box).addClass('active');
-        this.zIndexManager();
+
+        // AI-70 / TICKET-LL (cycle-83 2026-05-08): clear display:none
+        // BEFORE adding the .active class so the .5s slide-in
+        // transition has a non-display:none starting frame to
+        // animate from. Without the rAF tick, browsers collapse
+        // display:none → display:block + transform: translateX(0)
+        // into a single paint and the user sees no animation.
+        if (this.box) {
+            this.box.style.display = '';
+        }
+        // rAF + a tiny rAF ensures the layout has flushed and the
+        // browser will treat the next class change as a transition
+        // start.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                mw.$(this.box).addClass('active');
+                this.zIndexManager();
+            });
+        });
 
         this.dispatch('show');
     }
@@ -269,6 +286,36 @@ export class ControlBox extends BaseComponent {
     hide() {
         this.#active = false;
         mw.$(this.box).removeClass('active');
+
+        // AI-70 / TICKET-LL (cycle-83 2026-05-08): after the .5s
+        // slide-out transition completes, set display:none so the
+        // panel is removed from layout AND the GPU composite layer
+        // is dropped. Three off-screen .mw-control-box-right
+        // instances at x=1280 were:
+        //   - causing wrong querySelector(.mw-control-box-right)
+        //     returns (returned the FIRST instance, not the active
+        //     one — the JS that read content from the active panel
+        //     read stale content from the first hidden one)
+        //   - leaking layout into the 1024-1279px viewport range
+        //     where the negative-x position math depends on viewport
+        //     width
+        //   - holding three full-height GPU composite layers
+        //     simultaneously (~315k px² each)
+        // Tied to the .5s transition in the embedded css block
+        // above (`.mw-control-box-default { transition: all .5s }`).
+        // setTimeout fires after the slide-out completes; if a
+        // subsequent show() call clears display:none mid-fade, the
+        // onTransitionEnd handler is a no-op (this.#active flips
+        // back to true).
+        const HIDE_TRANSITION_MS = 550; // .5s + 50ms safety margin
+        setTimeout(() => {
+            // Re-check #active in case the user re-opened the
+            // panel before the timer fired.
+            if (!this.#active && this.box) {
+                this.box.style.display = 'none';
+            }
+        }, HIDE_TRANSITION_MS);
+
         this.dispatch('hide');
     }
 
