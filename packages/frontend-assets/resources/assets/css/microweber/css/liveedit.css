@@ -33,6 +33,24 @@ body.mw-live-edit .mw-control-box-left {
     top: 0;*/
 }
 
+@media (max-width: 767px) {
+    body.mw-live-edit .mw-control-box-right {
+        left: 0;
+        right: 0;
+        width: 100vw;
+        max-width: 100vw;
+        height: calc(100dvh - var(--toolbar-height));
+        max-height: calc(100dvh - var(--toolbar-height));
+    }
+
+    body.mw-live-edit .mw-control-box-right .mw-control-box-content {
+        max-height: calc(100dvh - var(--toolbar-height) - 80px);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+    }
+}
+
 #mw-text-editor a.mw-ui-btn-medium,
 #mw-text-editor .mw-ui-btn-medium,
 .mw-active-item .mw_edit_settings {

@@ -81,7 +81,7 @@ OLD iframe is commented out, use the new TemplateSettings component instead
     left: 250px;
 
 }
-@media (max-width: 700px) {
+@media (max-width: 767px) {
     :root{
 
         --side-menu-size: 0;
@@ -238,4 +238,3 @@ export default {
     }
 }
 </script>
-

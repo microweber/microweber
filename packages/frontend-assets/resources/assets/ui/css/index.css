@@ -569,7 +569,7 @@ html.dark .mw-le-layouts-dialog .modules-list {
     top: 0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
     .mw-le-layouts-dialog-col:first-child {
         display: none;
     }
@@ -973,6 +973,62 @@ html.dark .mw-le-layouts-dialog .modules-list {
 
 #general-theme-settings.active {
     right: 0;
+}
+
+@media (max-width: 767px) {
+    :root {
+        --sidebar-end-size: 100vw;
+        --sidebar-end-size-min: 100vw;
+        --sidebar-end-size-max: 100vw;
+    }
+
+    #live-edit-frame-holder {
+        right: 0;
+    }
+
+    html.live-edit-gui-editor-opened #live_edit_side_holder,
+    html.mw-live-edit-sidebar-start.live-edit-gui-editor-opened #live_edit_side_holder {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #css-editor-template,
+    #general-theme-settings {
+        width: 100vw;
+        min-width: 0;
+        max-width: none;
+        border-left: 0;
+    }
+
+    html .mw-control-box-right {
+        top: var(--toolbar-height);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: auto;
+        max-width: 100vw;
+        max-height: calc(100dvh - var(--toolbar-height));
+    }
+
+    html .mw-control-box-right .mw-control-box-content {
+        max-height: calc(100dvh - var(--toolbar-height) - 80px);
+        overflow: auto;
+    }
+
+    #css-editor-template {
+        right: -100vw;
+    }
+
+    #css-editor-template.active,
+    #general-theme-settings.active {
+        right: 0;
+    }
+
+    #css-editor-template.active + #live-edit-frame-holder,
+    #general-theme-settings.active + #live-edit-frame-holder {
+        right: 0;
+    }
 }
 
 /* /gui editor */
