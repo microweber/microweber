@@ -216,3 +216,83 @@
 .fi-resource-list-records-page .fi-topbar .fi-global-search-field {
     display: none;
 }
+
+/*
+ * TICKET-U/V/W (cycle-62 2026-05-08) — mobile-audit follow-up:
+ * touch-target sweep across admin chrome (topbar) + list-page
+ * row controls + Orders status tabs. Mirror of the cycle-58
+ * `public-touch.css` strategy — TARGETED selector list scoped
+ * to the touch-viewport media block so desktop power-user
+ * density on >=1024px is preserved.
+ *
+ * Source: agent-test mobile-audit brief 2026-05-08T18:32:56Z
+ * (iPhone 14 Pro, 390x844px). Selectors verified against the
+ * Filament v5 dist CSS in packages/microweber-filament-theme/
+ * resources/dist/build/microweber-filament-theme.css.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* TICKET-U — Admin topbar controls.
+       - .fi-topbar-nav-button is the sidebar toggle (52x36 measured)
+       - .fi-topbar-item-button is the user-profile button (32x32)
+       - .fi-global-search-field input is the quick-nav search (36x34) */
+    .fi-topbar-nav-button,
+    .fi-topbar-item-button,
+    .fi-global-search-field input {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    /* "Live Edit" link is rendered inline in the topbar via
+       livewire/filament/top-navigation-go-live-edit.blade.php; bump
+       the wrapper anchor without touching the visible chip styling. */
+    .fi-topbar a.mw-go-live-edit,
+    .fi-topbar .mw-go-live-edit {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* TICKET-V — Admin list-page row controls.
+       Row checkboxes are wrapped in <label> by Filament; bumping the
+       label gets the whole hit-area without breaking native click
+       semantics on the input. Row action icon buttons / status badges
+       / category-tag badges / pagination select all use stable Filament
+       v5 selectors so no Blade-level changes needed. */
+    .fi-ta-row .fi-checkbox-input + label,
+    .fi-ta-row label:has(> input[type="checkbox"]),
+    .fi-ta-header-cell label:has(> input[type="checkbox"]) {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fi-ta-row .fi-ta-actions .fi-icon-btn,
+    .fi-ta-row .fi-ta-actions a,
+    .fi-ta-row .fi-ta-actions button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-badge,
+    .fi-ta-row .fi-badge button {
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-ta-text a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    .fi-pagination select,
+    .fi-ta .fi-pagination select {
+        min-height: 44px;
+    }
+
+    /* TICKET-W — Orders status tabs.
+       7 tabs (All/New/Processing/Shipped/Delivered/Cancelled/Refunded)
+       render at 31px height. Scoped to list pages so other Filament
+       tab usages are unaffected. */
+    .fi-resource-list-records-page .fi-tabs-item {
+        min-height: 44px;
+        padding-block: 8px;
+    }
+}
+

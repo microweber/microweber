@@ -137,4 +137,52 @@
         align-items: center;
         justify-content: center;
     }
+
+    /*
+     * TICKET-X (cycle-62 2026-05-08) — public-site primary nav links.
+     * Mobile-audit measured "My new product" 121x22, "My page" 65x22,
+     * "Test product..." 184x22 — all 22px tall, half the WCAG floor.
+     * The Bootstrap layouts use `.mw-nav-list` and the menu module
+     * wraps in <nav>. `inline-flex` (not block) keeps horizontal
+     * navbar layouts intact while vertically centering the text.
+     */
+    .mw-nav-list a,
+    .mw-main-nav a,
+    nav.navbar .navbar-nav .nav-link,
+    nav ul.menu li a,
+    nav ul.nav li a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /*
+     * TICKET-Y (cycle-62 2026-05-08) — public-site footer links.
+     * Mailto / footer-link anchors render at 20-23px. Use a footer
+     * wrapper class to avoid bumping every inline link inside the
+     * footer column copy (which would visually break dense small-print
+     * lists). `.mw-footer` is the Microweber convention; also cover
+     * the bare <footer> element for templates that don't carry the
+     * marker class. The cycle-58 footer rules already covered
+     * `footer .menu a`, `footer nav a`, etc.; this adds the catch-all
+     * for direct `<footer> > a` and `.mw-footer a` shapes.
+     */
+    .mw-footer a,
+    footer.mw-footer a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /*
+     * TICKET-Z (cycle-62 2026-05-08) — "Go Live Edit" chip.
+     * Measured 151x38 — exactly 6px short. The chip is rendered by
+     * top-navigation-go-live-edit.blade.php as `.mw-go-live-edit`.
+     * Rule kept narrow (no padding override) so the chip's existing
+     * inline padding/typography is preserved and only the floor
+     * lifts.
+     */
+    .mw-go-live-edit {
+        min-height: 44px;
+    }
 }
