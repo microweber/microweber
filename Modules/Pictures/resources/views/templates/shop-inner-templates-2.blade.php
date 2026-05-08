@@ -49,7 +49,7 @@ description: Default skin for shop inner of the templates 2
                         @php $count++; @endphp
                         <a class="mx-0"
                            href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
-                           onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;">
+                           data-mw-product-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}" data-mw-product-image-target="{{ $pictureElementId }}" data-mw-product-image-index="{{ $count }}">
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                             {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
                                 'alt' => __('Product image'),

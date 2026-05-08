@@ -353,7 +353,7 @@ description: Dictionary
                                                                 $add_cart_text = $add_to_cart_text ?? __('Add to cart');
                                                             @endphp
                                                             @if (is_array($item['prices']) && !empty($item['prices']))
-                                                                <button class="btn btn-primary" type="button" onclick="mw.cart.add_and_checkout('{{ $item['id'] }}');">
+                                                                <button class="btn btn-primary" type="button" data-mw-cart-add-and-checkout="{{ $item['id'] }}">
                                                                     <i class="mdi mdi-cart icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;{{ $add_cart_text }}
                                                                 </button>
                                                             @endif

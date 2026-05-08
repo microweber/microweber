@@ -33,7 +33,7 @@ description: Skin-3 beauty
                     @foreach($data as $count => $item)
                         @if($count == 0)
                             <div class="item pictures picture-{{ $item['id'] ?? '' }}"
-                                 onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                                 data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                                 {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                                 {!! responsive_thumbnail($item['filename'] ?? '', 1400, 1400, ['class' => 'img-fluid', 'crop' => true]) !!}
                             </div>
@@ -45,7 +45,7 @@ description: Skin-3 beauty
                 @foreach($data as $count => $item)
                     @if($count == 1 || $count == 2)
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
-                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                             data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                             {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
                             {!! responsive_thumbnail($item['filename'] ?? '', 1400, 695, ['class' => 'img-fluid', 'crop' => true]) !!}
                         </div>

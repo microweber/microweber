@@ -21,7 +21,7 @@ description: Simple Pictures List Template
                     @php $count++; @endphp
                     <div class="mw-pictures-item mw-pictures-item-{{ $item['id'] ?? '' }}">
                         <div class="thumbnail"
-                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
+                             data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                             <span class="pic-valign">
                                 <span class="pic-valign-cell">
                                     {{-- task-2026-05-05-d71799 — lazy-load gallery image. --}}

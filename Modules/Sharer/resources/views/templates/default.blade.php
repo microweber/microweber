@@ -15,7 +15,7 @@
     @endif
 
     @if($pinterest_enabled)
-        <a href="javascript:void(0);" onclick="mw.pinMarklet();" target="_self">
+        <a href="javascript:void(0);" data-mw-pinmarklet target="_self">
             @svg('modules.social_links-pinterest')
         </a>
         <script type="text/javascript">

@@ -92,7 +92,7 @@ if(!isset($tn[1])){
             <?php
 
             ?>
-            <button class="  btn btn-primary" type="button" onclick="mw.cart.add_and_checkout('<?php print $item['id'] ?>');"><i class="mdi mdi-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+            <button class="  btn btn-primary" type="button" data-mw-cart-add-and-checkout="<?php print $item['id'] ?>"><i class="mdi mdi-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
             <?php endif; ?>
             <?php endif; ?>
           </div>

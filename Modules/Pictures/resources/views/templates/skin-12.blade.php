@@ -36,7 +36,7 @@ description: Skin-12
                 @if($count == 0 || $count == 5)
                     <div class="col-holder col-8">
                         <div class="item pictures picture-{{ $item['id'] ?? '' }}"
-                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                             data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                             <img class="w-100"
                                  src="{{ thumbnail($item['filename'] ?? '', 800, 800, true) }}"
                                  alt="">
@@ -48,7 +48,7 @@ description: Skin-12
                     @endif
 
                     <div class="item pictures picture-{{ $item['id'] ?? '' }}"
-                         onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                         data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                         <img class="w-100"
                              src="{{ thumbnail($item['filename'] ?? '', 500, 500, true) }}"
                              alt="">

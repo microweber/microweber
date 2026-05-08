@@ -26,7 +26,7 @@ description: Default Picture List
 
                     <div class="mw-pictures-clean-item mw-pictures-clean-item-{{ $item['id'] }}">
                         <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}"
-                           onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                           data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}">
                             {{--
                                 img-fluid (Bootstrap 5 helper for
                                 max-width:100%; height:auto) lets the

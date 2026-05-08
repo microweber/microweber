@@ -18,7 +18,7 @@ description: Button gallery
                 @foreach($data as $item)
                 @php $count++; @endphp
                 @if($count == 1)
-                    <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;" class="btn btn-default">{{ _e("View photos") }}</a>
+                    <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}" data-mw-gallery="@php echo base64_encode(json_encode(array_map(function ($it) { return ['image' => $it['filename'] ?? '', 'description' => $it['title'] ?? '']; }, $data ?? []))); @endphp" data-mw-gallery-index="{{ $count }}" class="btn btn-default">{{ _e("View photos") }}</a>
                 @endif
             @endforeach
             @endif
