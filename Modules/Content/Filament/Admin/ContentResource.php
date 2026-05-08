@@ -1875,8 +1875,19 @@ return \MicroweberPackages\User\Models\User::query()
             ->filtersFormWidth(MaxWidth::Medium)
             ->actions([
                 ActionGroup::make([
+                    // TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08):
+                    // Per-row contextual labels carry the record title so
+                    // screen readers + tooltips announce
+                    //   `Edit "My Post Title"`
+                    // instead of a bare `Edit` repeated 50x down the
+                    // table. ->label(fn) feeds Filament's accessible
+                    // name (and the visible dropdown text inside an
+                    // ActionGroup); ->tooltip(fn) shows the same string
+                    // on hover. The contextualRowLabel helper anchors
+                    // on $title with id-fallback for untitled drafts.
                     Tables\Actions\Action::make('live_edit')
-                        ->label('Edit')
+                        ->label(fn (Content $record): string => 'Edit "' . static::contextualRowLabel($record) . '"')
+                        ->tooltip(fn (Content $record): string => 'Edit "' . static::contextualRowLabel($record) . '"')
                         ->url(function (Content $record) {
 
 
@@ -1885,11 +1896,14 @@ return \MicroweberPackages\User\Models\User::query()
                         ->icon('heroicon-o-eye'),
 
                     Tables\Actions\EditAction::make('edit')
-                        ->label('Settings')
+                        ->label(fn (Content $record): string => 'Settings for "' . static::contextualRowLabel($record) . '"')
+                        ->tooltip(fn (Content $record): string => 'Settings for "' . static::contextualRowLabel($record) . '"')
                         ->icon('heroicon-o-pencil'),
 
 
                     Tables\Actions\DeleteAction::make('delete')
+                        ->label(fn (Content $record): string => 'Delete "' . static::contextualRowLabel($record) . '"')
+                        ->tooltip(fn (Content $record): string => 'Delete "' . static::contextualRowLabel($record) . '"')
                         ->icon('heroicon-o-trash'),
 
 ])->icon('heroicon-o-ellipsis-vertical')
@@ -1954,5 +1968,28 @@ return \MicroweberPackages\User\Models\User::query()
             Action::make('view')
                 ->url($record->link()),
         ];
+    }
+
+    /**
+     * TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08): build a
+     * record-contextual label for screen-reader announcements + hover
+     * tooltips on row actions. Anchors on $title (Posts / Pages /
+     * Products / Categories canonical attribute) with $name fallback,
+     * and finally `#{id}` so untitled drafts still get a non-empty
+     * announcement. Returns the bare label — callers wrap it in
+     * `'Edit "..."'` etc. so the verb stays in their layer.
+     */
+    public static function contextualRowLabel($record): string
+    {
+        $title = trim((string) ($record->title ?? ''));
+        if ($title !== '') {
+            return $title;
+        }
+        $name = trim((string) ($record->name ?? ''));
+        if ($name !== '') {
+            return $name;
+        }
+        $id = $record->id ?? $record->getKey();
+        return $id !== null && $id !== '' ? '#' . $id : 'untitled';
     }
 }

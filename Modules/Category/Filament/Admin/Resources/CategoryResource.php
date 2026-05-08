@@ -384,7 +384,14 @@ class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08):
+                // record-contextual label + tooltip so screen readers
+                // announce `Edit "Hardware"` and the hover tooltip
+                // matches. Anchor on title; fall back to "#{id}" for
+                // categories without a title set.
+                Tables\Actions\EditAction::make()
+                    ->label(fn ($record): string => 'Edit "' . trim((string) ($record->title ?? ('#' . ($record->id ?? '')))) . '"')
+                    ->tooltip(fn ($record): string => 'Edit "' . trim((string) ($record->title ?? ('#' . ($record->id ?? '')))) . '"'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

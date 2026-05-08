@@ -238,8 +238,17 @@ Forms\Components\Select::make('company_id')
                 ]),
         ])
         ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+            // TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08):
+            // record-contextual label + tooltip so screen readers
+            // announce `Edit "jane@example.com"` and the hover
+            // tooltip matches. Anchor on email; fall back to "#{id}"
+            // for not-yet-saved rows / anonymized records.
+            Tables\Actions\EditAction::make()
+                ->label(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"')
+                ->tooltip(fn (Model $record): string => 'Edit "' . static::customerRowLabel($record) . '"'),
+            Tables\Actions\DeleteAction::make()
+                ->label(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"')
+                ->tooltip(fn (Model $record): string => 'Delete "' . static::customerRowLabel($record) . '"'),
         ])
         ->bulkActions([
             Tables\Actions\DeleteBulkAction::make(),
@@ -346,5 +355,21 @@ Forms\Components\Select::make('company_id')
             Action::make('edit')
                 ->url(static::getUrl('edit', ['record' => $record->id])),
         ];
+    }
+
+    /**
+     * TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08): build a
+     * record-contextual label for screen-reader announcements on
+     * customer-row actions. Anchor on email; fall back to "#{id}"
+     * for not-yet-saved rows or anonymized records.
+     */
+    public static function customerRowLabel(Model $record): string
+    {
+        $email = trim((string) ($record->email ?? ''));
+        if ($email !== '') {
+            return $email;
+        }
+        $id = $record->id ?? '';
+        return $id !== '' ? '#' . $id : 'unknown';
     }
 }

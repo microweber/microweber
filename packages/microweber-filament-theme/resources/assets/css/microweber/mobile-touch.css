@@ -175,3 +175,22 @@
 .fi-badge {
     text-transform: none;
 }
+
+/*
+ * TASK-020 / TICKET-T / AI-38 (cycle-60 2026-05-08):
+ * Hide single-level breadcrumb everywhere — when the breadcrumb only
+ * contains one entry (e.g. "Posts" on the list page) it is pure visual
+ * noise; the page title already says "Posts". Edit/view/create pages
+ * always have a multi-level trail (e.g. Posts > Edit > "My Title")
+ * which has 2+ entries and stays visible.
+ *
+ * Filament v5 renders the breadcrumb list as
+ *   `.fi-breadcrumbs > nav > ol > li` (default).
+ * `:has(> li:only-child)` matches the <ol> whose only child is a
+ * single <li> — the exact single-level shape PM specified. Modern
+ * browser :has() support is sufficient for Filament's targets
+ * (no IE / legacy).
+ */
+.fi-breadcrumbs ol:has(> li:only-child) {
+    display: none;
+}

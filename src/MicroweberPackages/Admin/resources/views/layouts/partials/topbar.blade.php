@@ -64,8 +64,23 @@ if (!$past_page) {
                 if (user_can_access('module.content.edit')):
                     ?>
                 <li class="mx-1">
+                    {{--
+                        TASK-020 / TICKET-S / AI-38 (cycle-60 2026-05-08):
+                        On md-down viewports the visible label is hidden
+                        (`d-none d-md-block`), turning this into an
+                        icon-only dropdown trigger. Without an aria-label
+                        the icon `<i class="mdi mdi-plus">` carries no
+                        accessible name and screen readers announce only
+                        "button". `aria-haspopup="listbox"` matches the
+                        Bootstrap dropdown-menu shape (a list of choices,
+                        not a modal-dialog), and `aria-expanded="false"`
+                        is retained so AT layers track open/closed state.
+                    --}}
                     <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon "
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                            data-bs-toggle="dropdown"
+                            aria-label="<?php _e('Add new content'); ?>"
+                            aria-haspopup="listbox"
+                            aria-expanded="false">
                         <i class="mdi mdi-plus"></i>
                         <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                     </button>

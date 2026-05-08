@@ -431,10 +431,22 @@ public static function getNavigationBadgeTooltip(): ?string
                 'all'
             ])
 ->actions([
+            // TASK-020 / TICKET-K / AI-38 (cycle-60 2026-05-08):
+            // record-contextual label + tooltip so screen readers
+            // announce `Edit "Order #1042"` and the hover tooltip
+            // matches. Orders have no $title — we anchor on the
+            // order id which is the canonical user-facing identifier.
+            // ->iconButton() hides the visible label but Filament
+            // still wires it to aria-label, so the AT layer gets the
+            // contextual string.
             Tables\Actions\EditAction::make()
-                ->iconButton(),
+                ->iconButton()
+                ->label(fn (Order $record): string => 'Edit "Order #' . $record->id . '"')
+                ->tooltip(fn (Order $record): string => 'Edit "Order #' . $record->id . '"'),
             Tables\Actions\DeleteAction::make()
-                ->iconButton(),
+                ->iconButton()
+                ->label(fn (Order $record): string => 'Delete "Order #' . $record->id . '"')
+                ->tooltip(fn (Order $record): string => 'Delete "Order #' . $record->id . '"'),
             Tables\Actions\Action::make('generate_invoice')
                 ->label('Generate Invoice')
                 ->iconButton()
