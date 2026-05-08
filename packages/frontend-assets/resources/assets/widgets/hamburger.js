@@ -114,6 +114,20 @@ class MWSiteMobileMenuService {
         this.$block.style.maxHeight = `calc(100vh - ${this.$block.style.top})`;
 
         document.body.classList[action]("mw-vhmbgr-menu-active");
+
+        // AI-102 / TICKET-AI-102 (cycle-100 2026-05-09): keep
+        // aria-expanded in sync with the menu state so screen-
+        // reader users hear the toggle actually toggle. The
+        // toggle button is the `.mw-vhmbgr-wrapper` element
+        // (created in MWSiteMobileMenu() init below) — match
+        // by class and reflect the body's mw-vhmbgr-menu-active
+        // class as the source-of-truth.
+        var isOpen = document.body.classList.contains("mw-vhmbgr-menu-active");
+        Array.from(document.querySelectorAll(".mw-vhmbgr-wrapper")).forEach(
+            (btn) => {
+                btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            }
+        );
     }
 
     init() {
@@ -381,11 +395,25 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
 }
 
 .mw-vhmbgr-wrapper{
+  /* AI-102 / TICKET-AI-102 (cycle-100): when the wrapper is a
+     real <button> (post-fix) browsers add default border +
+     background + padding. Reset those so the visual matches
+     the pre-fix <span> shape, then restore minimal accessible
+     focus styling for keyboard users. */
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
   position: relative;
   display: block;
   width: var(--size);
   height: var(--size);
   overflow: hidden;
+}
+.mw-vhmbgr-wrapper:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .mw-vhmbgr-wrapper > svg{
@@ -419,8 +447,24 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
     document
         .querySelectorAll(".mw-vhmbgr--navigation")
         .forEach(function (node) {
-            var mobileMenu = document.createElement("span");
+            // AI-102 / TICKET-AI-102 (cycle-100 2026-05-09): hamburger
+            // toggle is now a real <button> not a styled <span>.
+            // Pre-fix the toggle was a <span class="mw-vhmbgr-wrapper">
+            // — not keyboard-focusable (Tab key skipped it), no role,
+            // no aria-label, no aria-expanded. Violated WCAG 2.1 SC
+            // 4.1.2 (name/role/value) and SC 2.1.1 (keyboard).
+            // Switching to <button type="button"> gives keyboard +
+            // SR semantics for free; aria-label localizes via mw.lang;
+            // aria-expanded starts false and is kept in sync by
+            // mobileMenu() above.
+            var mobileMenu = document.createElement("button");
+            mobileMenu.type = "button";
             mobileMenu.className = "mw-vhmbgr-wrapper";
+            mobileMenu.setAttribute(
+                "aria-label",
+                (window.mw && window.mw.lang) ? window.mw.lang("Toggle navigation") : "Toggle navigation"
+            );
+            mobileMenu.setAttribute("aria-expanded", "false");
             mobileMenu.innerHTML = hamburgers[hamburger] || hamburgers[5];
             node.after(mobileMenu);
         });

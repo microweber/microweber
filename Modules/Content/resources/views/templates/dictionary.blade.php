@@ -305,7 +305,10 @@ description: Dictionary
                             <h3 class="glossary__results__term title-style--three mb-3">{{ $key }}</h3>
                             <div class="row">
                                 @if(empty($data))
-                                    <p class="mw-pictures-clean">No content added. Please add content to the module.</p>
+                                    {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
+                @if(is_admin())
+                    <p class="mw-pictures-clean">{{ __('No content added. Please add content to the module.') }}</p>
+                @endif
                                 @else
                                     @foreach ($list as $item)
                                     @php

@@ -78,8 +78,17 @@
 <div class="row" id="posts-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
+            {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap
+                 the empty-content placeholder in `is_admin()` so the
+                 admin instructions are visible to the editor (in Live
+                 Edit OR public-while-logged-in-as-admin) but hidden
+                 from anonymous public visitors. Pre-fix the message
+                 leaked onto the public Big2 home page, showing
+                 visitors a 300px blank area with admin-side text. --}}
             @if(empty($data))
-                <p class="mw-pictures-clean">No content added. Please add content to the module.</p>
+                @if(is_admin())
+                    <p class="mw-pictures-clean">{{ __('No content added. Please add content to the module.') }}</p>
+                @endif
             @else
                 @foreach ($data as $key => $item)
                 @php

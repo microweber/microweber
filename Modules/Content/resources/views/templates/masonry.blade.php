@@ -91,7 +91,10 @@ $rand = uniqid();
         </script>
 
         @if(empty($data))
-            <p class="mw-pictures-clean">No content added. Please add content to the module.</p>
+            {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
+                @if(is_admin())
+                    <p class="mw-pictures-clean">{{ __('No content added. Please add content to the module.') }}</p>
+                @endif
         @else
             @foreach ($data as $item)
             <div class="masonry-item" itemscope itemtype="{{ $schema_org_item_type_tag }}">
