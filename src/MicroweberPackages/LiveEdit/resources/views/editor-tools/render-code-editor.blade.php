@@ -66,6 +66,24 @@
             transform-origin: 0 0;
             pointer-events: none;
         }
+
+        .mw-html-editor-unsaved-banner {
+            position: sticky;
+            bottom: 0;
+            z-index: 7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            margin: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0;
+        }
+
+        .mw-html-editor-unsaved-banner[hidden] {
+            display: none;
+        }
     </style>
 
 
@@ -82,6 +100,8 @@
             let targetWindow;
             let targetDocument;
             let setHtmlToNode = false;
+            let hasUnsavedChanges = false;
+            let pendingEditorRefresh = false;
 
             // Initialize the editor
             const init = function () {
@@ -117,7 +137,73 @@
                 html_code_area_editor2.setOption("theme", 'material');
                 html_code_area_editor2.on("change", function (cm, change) {
                     $('#html_code_area_editor2').val(cm.getValue());
+                    if (change && change.origin === 'setValue') {
+                        return;
+                    }
+
+                    setUnsavedChanges(true);
                 });
+            };
+
+            const getDirtyBanner = function () {
+                return document.getElementById('mw-html-editor-unsaved-banner');
+            };
+
+            const setUnsavedChanges = function (isDirty) {
+                hasUnsavedChanges = isDirty;
+                if (!isDirty) {
+                    pendingEditorRefresh = false;
+                }
+
+                const banner = getDirtyBanner();
+                if (banner) {
+                    banner.hidden = !isDirty;
+                }
+            };
+
+            const showPendingChangesBanner = function () {
+                pendingEditorRefresh = true;
+                setUnsavedChanges(true);
+            };
+
+            const discardPendingChanges = function () {
+                setUnsavedChanges(false);
+                setEditorContent(true);
+            };
+
+            const escapeSelectorValue = function (value) {
+                if (typeof value !== 'string') {
+                    return '';
+                }
+
+                if (window.CSS && typeof window.CSS.escape === 'function') {
+                    return window.CSS.escape(value);
+                }
+
+                return value.replace(/"/g, '\\"');
+            };
+
+            const collectModuleSelectors = function (root) {
+                const modules = {};
+
+                if (!root || !root.querySelectorAll) {
+                    return modules;
+                }
+
+                root.querySelectorAll('.module').forEach(function (el) {
+                    const id = el.getAttribute('id');
+                    if (id) {
+                        modules['#' + escapeSelectorValue(id)] = el;
+                        return;
+                    }
+
+                    const moduleId = el.getAttribute('data-module-id');
+                    if (moduleId) {
+                        modules['[data-module-id="' + escapeSelectorValue(moduleId) + '"]'] = el;
+                    }
+                });
+
+                return modules;
             };
 
             // Initialize events
@@ -172,7 +258,11 @@
             };
 
             // Set editor content based on selected node
-            const setEditorContent = function () {
+            const setEditorContent = function (force) {
+                if (hasUnsavedChanges && !force) {
+                    showPendingChangesBanner();
+                    return;
+                }
 
                 var activeNode = mw.top().app.liveEdit.getSelectedNode();
                 var can = mw.top().app.liveEdit.canBeElement(activeNode);
@@ -229,6 +319,8 @@
                     html_code_area_editor2.setValue('');
                     html_code_area_editor2.refresh();
                 }
+
+                setUnsavedChanges(false);
             };
 
             // audit-test 2026-05-07 PM TASK-005 / TICKET-AF (SECURITY HIGH):
@@ -279,29 +371,29 @@
                 var val = _filterEditorHtml($(custom_html_code_mirror).val());
 
                 if (setHtmlToNode) {
+                    var modulesBefore = collectModuleSelectors(setHtmlToNode);
                     setHtmlToNode.innerHTML = val;
+                    var modulesAfter = collectModuleSelectors(setHtmlToNode);
 
-                    var modules_ids = {};
-                    var modules_list = $('.module', setHtmlToNode);
-
-                    $(modules_list).each(function () {
-                        var id = $(this).attr('id');
-                        if (id) {
-                            id = '#' + id;
-                        } else {
-                            id = $(this).attr('data-type');
+                    $.each(modulesBefore, function (selector, node) {
+                        if (!modulesAfter[selector] && node) {
+                            mw.top().app.editor.dispatch('moduleRemoved', node);
                         }
-                        if (!id) {
-                            id = $(this).attr('type');
-                        }
-                        modules_ids[id] = true;
                     });
 
-                    $.each(modules_ids, function (index, value) {
-                        targetWindow.mw.reload_module(index);
+                    $.each(modulesAfter, function (selector) {
+                        if (!modulesBefore[selector]) {
+                            targetWindow.mw.reload_module(selector);
+                        }
                     });
 
+                    var shouldRefreshEditor = pendingEditorRefresh;
                     mw.top().app.registerChangedState(setHtmlToNode);
+                    setUnsavedChanges(false);
+
+                    if (shouldRefreshEditor) {
+                        setEditorContent(true);
+                    }
                 }
             };
 
@@ -337,7 +429,8 @@
             return {
                 init: init,
                 applyHtmlEdit: applyHtmlEdit,
-                formatCode: formatCode
+                formatCode: formatCode,
+                discardPendingChanges: discardPendingChanges
             };
         }
 
@@ -347,6 +440,10 @@
         // Define global functions that use the editor instance
         function applyHtmlEdit2() {
             codeEditor.applyHtmlEdit();
+        }
+
+        function discardHtmlChanges2() {
+            codeEditor.discardPendingChanges();
         }
 
         function format_code2() {
@@ -385,6 +482,14 @@
         <textarea class="form-select w100" dir="ltr" id="html_code_area_editor2" rows="30" aria-label="<?php _e('HTML source code'); ?>"></textarea>
     </div>
 
+    <div id="mw-html-editor-unsaved-banner" class="alert alert-warning mw-html-editor-unsaved-banner" hidden>
+        <span><?php _e('You have unsaved HTML changes. Apply them to keep your edits or discard them to reload the current element.'); ?></span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="<?php _e('Unsaved HTML actions'); ?>">
+            <button id="mw-html-editor-discard-btn" class="btn btn-outline-dark" type="button"><?php _e('Discard'); ?></button>
+            <button id="mw-html-editor-apply-btn" class="btn btn-dark" type="button"><?php _e('Apply'); ?></button>
+        </div>
+    </div>
+
     {{-- audit-test 2026-05-07 Code Editor audit finding #1 (P0 BLOCKER):
          Update was a <span onclick> — not focusable, not keyboard-
          activatable, and `type="button"` on a span is a no-op. The
@@ -405,6 +510,14 @@
             var updateBtn = document.getElementById('mw-html-editor-update-btn');
             if (updateBtn) {
                 updateBtn.addEventListener('click', function () { applyHtmlEdit2(); });
+            }
+            var applyDirtyBtn = document.getElementById('mw-html-editor-apply-btn');
+            if (applyDirtyBtn) {
+                applyDirtyBtn.addEventListener('click', function () { applyHtmlEdit2(); });
+            }
+            var discardDirtyBtn = document.getElementById('mw-html-editor-discard-btn');
+            if (discardDirtyBtn) {
+                discardDirtyBtn.addEventListener('click', function () { discardHtmlChanges2(); });
             }
         });
     </script>

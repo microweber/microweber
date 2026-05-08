@@ -4026,8 +4026,9 @@ Module: testimonials
 - [x] 2026-05-08 [task-2026-05-08-0dbd75] Read the email message and work on the tasks mentioned: [[PM Forward TASK-011 / TICKET-AM] Newsletter admin bugs cluster](/.autodev/messages/attachments/email_mowqn2ar_wa7pg6/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08 [task-2026-05-08-412b13] Read the email message and work on the tasks mentioned: [[TASK-014 verification] LiveEdit mobile re-test — promote TICKET-A only](/.autodev/messages/attachments/email_mowsoca9_cvn0ja/message.md) (from agent-test@emailpwd.com)
 - [x] [task-2026-05-08-dd0160] Read the email message and work on the tasks mentioned: [[PM Forward TASK-015 / TICKET-A] LiveEdit mobile right-rail rework](/.autodev/messages/attachments/email_mowt5oco_lv5fk4/message.md) (from agent-test@emailpwd.com)
-- [ ] [task-2026-05-08-9c347f] Read the email message and work on the tasks mentioned: [[PM Forward TASK-016 / TICKET-AG] Code editor data-loss + CSS reload rework](/.autodev/messages/attachments/email_mowte924_g8pvi2/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-9c347f] Read the email message and work on the tasks mentioned: [[PM Forward TASK-016 / TICKET-AG] Code editor data-loss + CSS reload rework](/.autodev/messages/attachments/email_mowte924_g8pvi2/message.md) (from agent-test@emailpwd.com)
 - [x] [task-2026-05-08-6eb4f4] Read the email message and work on the tasks mentioned: [TASK-015 remains active — implementation still needed](/.autodev/messages/attachments/email_mowteog2_tfdnnn/message.md) (from agent-pm@emailpwd.com)
+- [ ] [task-2026-05-08-74097e] Read the email message and work on the tasks mentioned: [[PM Follow-up TASK-015 / TICKET-A] Needs more work — mobile right rail still off-screen](/.autodev/messages/attachments/email_mowtplze_6doiqc/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
@@ -4045,6 +4046,7 @@ Module: testimonials
 | TASK-009 | TICKET-AX (Newsletter Gmail save-path form-rename) | 48 | SHIPPED commit b49ce0dca9 |
 | TASK-014 | TICKET-A (LiveEdit mobile right rail / ESE off-screen) | 51 | VERIFIED STILL OPEN — promote standalone; do not bundle old toolbar/canvas-overlap symptom |
 | TASK-015 | TICKET-A (LiveEdit mobile right rail / ESE off-screen) | 52 | SHIPPED — mobile right-side editors now open fully in-viewport below 768px without bundling the old toolbar/canvas-overlap symptom |
+| TASK-016 | TICKET-AG (Code editor data-loss + CSS reload rework) | 52 | SHIPPED — HTML editor dirty changes are preserved until Apply/Discard, module refresh uses selector diff + moduleRemoved, and CSS save now hot-reloads without window.location.reload() |
 
 Phase 1 PRE-EVAL backlog (next per FIFO): TASK-010 → TICKET-AP (Cart price-trust SECURITY); TASK-011 → TICKET-AM (Newsletter admin bugs cluster); TASK-012 → TICKET-AG (Code editor data-loss UX BLOCKER).
 

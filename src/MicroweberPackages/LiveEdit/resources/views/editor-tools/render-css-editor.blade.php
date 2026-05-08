@@ -69,6 +69,44 @@
             let css_code_area_editor;
             let live_edit_css_code_area_editor;
 
+            const getOpenerMw = function() {
+                if (typeof window.opener !== 'undefined' && window.opener && window !== window.opener && window.opener.mw) {
+                    return window.opener.mw;
+                }
+
+                return null;
+            };
+
+            const getPrimaryMwContext = function() {
+                return getOpenerMw() || mw;
+            };
+
+            const refreshCssLink = function(targetMw, selector) {
+                if (!targetMw) {
+                    return;
+                }
+
+                const topWindow = typeof targetMw.top === 'function' ? targetMw.top() : null;
+                const topDocument = topWindow && topWindow.document ? topWindow.document : null;
+                const link = topDocument ? topDocument.querySelector(selector) : null;
+
+                if (link && targetMw.tools && typeof targetMw.tools.refresh === 'function') {
+                    targetMw.tools.refresh(link);
+                }
+            };
+
+            const dispatchCanvasCssReload = function(targetMw) {
+                const topWindow = targetMw && typeof targetMw.top === 'function' ? targetMw.top() : null;
+                if (topWindow && topWindow.app && topWindow.app.canvas && typeof topWindow.app.canvas.dispatch === 'function') {
+                    topWindow.app.canvas.dispatch('reloadCustomCss');
+                }
+            };
+
+            const refreshSavedLiveEditCss = function(targetMw) {
+                refreshCssLink(targetMw, '#mw-template-settings, link[href*="live_edit.css"]');
+                dispatchCanvasCssReload(targetMw);
+            };
+
             // Initialize the editors
             const init = function() {
 
@@ -167,16 +205,14 @@
                     });
                 }
 
-                // Window opener events
-                if (typeof window.opener !== 'undefined' && window.opener && window !== window.opener && window.opener.mw) {
-                    window.opener.mw.top().on('mw.liveeditCSSEditor.save', function() {
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 200);
-                    });
-                }
+                const openerMw = getOpenerMw();
 
-                if (mw.top && mw.top().app && mw.top().app.canvas) {
+                if (openerMw) {
+                    openerMw.top().on('mw.liveeditCSSEditor.save', function() {
+                        refreshSavedLiveEditCss(openerMw);
+                        refreshLiveEditEditor();
+                    });
+                } else if (mw.top && mw.top().app && mw.top().app.canvas) {
                     mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
                         handlePropertyChange();
                     });
@@ -213,11 +249,10 @@
                         mw.notification.success('Custom CSS is saved');
                     }
 
-                    // reload in the window opener
-                    if (typeof window.opener !== 'undefined' && window.opener && window !== window.opener) {
-                        const el = window.opener.mw.top().$("#mw-custom-user-css")[0];
-                        window.opener.mw.tools.refresh(el);
-                        window.opener.mw.notification.success('Custom CSS is saved');
+                    const openerMw = getOpenerMw();
+                    if (openerMw) {
+                        refreshCssLink(openerMw, '#mw-custom-user-css');
+                        openerMw.notification.success('Custom CSS is saved');
                     }
                 });
             };
@@ -244,23 +279,12 @@
 
 
                 $.post(mw.settings.api_url + "current_template_save_custom_css", css, function(res) {
-                    const css = mw.parent().$("#mw-template-settings")[0];
+                    const primaryMw = getPrimaryMwContext();
+                    refreshSavedLiveEditCss(primaryMw);
+                    primaryMw.notification.success('CSS Saved');
 
-                    if (css !== undefined && css !== null) {
-                        mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'));
+                    if (primaryMw !== mw) {
                         mw.notification.success('CSS Saved');
-                    }
-
-                    // reload in the window opener
-                    if (typeof window.opener !== 'undefined' && window.opener && window !== window.opener && window.opener.mw) {
-                        const css = window.opener.mw.top().$("#mw-template-settings")[0];
-                        window.opener.mw.tools.refresh(css);
-                        window.opener.mw.notification.success('CSS Saved');
-                        mw.notification.success('CSS Saved');
-                    }
-
-                    if (mw.top()) {
-                        mw.top().app.canvas.dispatch('reloadCustomCss');
                     }
                 });
             };
