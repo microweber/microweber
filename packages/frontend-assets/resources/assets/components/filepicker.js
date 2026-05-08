@@ -244,10 +244,40 @@ mw.filePicker = function (options) {
             $input.after(
                 '<span class="form-control-live-edit-bottom-effect"></span>'
             );
+            // AI-59 / TICKET-VV (cycle-66 2026-05-08): client-side
+            // scheme validation. Inline error region is rendered next
+            // to the input so feedback is visible without a toast.
+            // The actual security guarantee lives server-side
+            // (mw.tools.isAllowedFileUrl) — this is UX, not the gate.
+            var $err = $(
+                '<small class="form-control-live-edit-url-error" data-mw-filepicker-url-error style="display:none;color:#c81e1e;font-size:0.85em;margin-top:4px;"></small>'
+            );
+            $input.after($err);
 
             $input.on("input", function () {
                 var val = this.value.trim();
-                scope.setSectionValue(val || null, false);
+                if (val === "") {
+                    $err.hide().text("");
+                    scope.setSectionValue(null, false);
+                    return;
+                }
+                // AI-59 / TICKET-VV (cycle-66): reject non-http(s)
+                // schemes BEFORE the value is committed. Closes the
+                // local-XSS surface where someone pastes
+                // `javascript:alert(1)` and the picker happily wires
+                // it into an <img> / <a> attribute.
+                var allowed = mw.tools && typeof mw.tools.isAllowedFileUrl === "function"
+                    ? mw.tools.isAllowedFileUrl(val)
+                    : /^https?:\/\//i.test(val);
+                if (!allowed) {
+                    $err.show().text(mw.lang(
+                        "Only http:// and https:// URLs are allowed."
+                    ));
+                    scope.setSectionValue(null, false);
+                    return;
+                }
+                $err.hide().text("");
+                scope.setSectionValue(val, false);
             });
 
             return $wrap[0];

@@ -135,4 +135,50 @@ export class AdminTools {
         }
     }
 
+    /**
+     * AI-59 / TICKET-VV (cycle-66 2026-05-08): allowlist check for
+     * file URLs typed into the picker's URL tab. Only http/https
+     * remote URLs are accepted — `javascript:`, `data:`, `file:`,
+     * `vbscript:`, `chrome:` etc. are all rejected. Server-side
+     * mirror lives in MediaPicker::isAllowedRemoteUrl(); both sides
+     * agree on the same scheme list so the UX preview and the
+     * persisted value can never diverge.
+     *
+     * @param {string} value User-typed URL.
+     * @return {boolean}     True if the URL has an http/https scheme
+     *                       AND a non-empty host. False otherwise
+     *                       (including for empty / malformed input).
+     */
+    isAllowedFileUrl(value) {
+        if (typeof value !== "string") {
+            return false;
+        }
+        var trimmed = value.trim();
+        if (trimmed === "") {
+            return false;
+        }
+        // The URL constructor throws on malformed input — treat that
+        // as rejection. We pass a base of `http://_` so protocol-
+        // relative URLs (`//cdn.example.com/foo`) parse cleanly into
+        // the http scheme, which is the safe behaviour.
+        try {
+            var url = new URL(trimmed, "http://_");
+            var scheme = (url.protocol || "").toLowerCase().replace(/:$/, "");
+            if (scheme !== "http" && scheme !== "https") {
+                return false;
+            }
+            // Reject `http://` with no host (parses successfully but
+            // produces hostname == ""). The `_` base would yield
+            // hostname `_` only when the input was protocol-relative.
+            if (!url.hostname || url.hostname === "_") {
+                // Allow protocol-relative inputs (they resolved to
+                // hostname `_` from our placeholder base).
+                return /^\/\//.test(trimmed);
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
 }
