@@ -2,6 +2,21 @@
 
     <ElementStyleEditorActiveNode></ElementStyleEditorActiveNode>
 
+    <!-- AI-63 / TICKET-NN (cycle-76 2026-05-08): aria-live announce
+         region. Style changes had zero feedback for screen-reader
+         users — the visual update is instant but AT users got
+         nothing. polite=announce after the SR finishes its current
+         utterance (vs assertive which interrupts). atomic=true so
+         the whole message replays even if only part of the text
+         changed. visually-hidden to keep sighted users unaffected —
+         purely an AT signal channel. -->
+    <div role="status"
+         aria-live="polite"
+         aria-atomic="true"
+         class="visually-hidden mw-ese-announce"
+         data-mw-ese-announce>
+        {{ ariaAnnouncement }}
+    </div>
 
     <div v-if="!selectedElement" class="mb-4">
         <div class="alert alert-primary">Please select an element to edit</div>
@@ -10,62 +25,62 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography" role="button" tabindex="0" :aria-expanded="isTypographyActive" @keydown.enter.prevent="toggleTypography" @keydown.space.prevent="toggleTypography">
                 <ElementStyleEditorTypography ref="typographyComp"></ElementStyleEditorTypography>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground" role="button" tabindex="0" :aria-expanded="isBackgroundActive" @keydown.enter.prevent="toggleBackground" @keydown.space.prevent="toggleBackground">
                 <ElementStyleEditorBackground ref="backgroundComp"></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing" role="button" tabindex="0" :aria-expanded="isSpacingActive" @keydown.enter.prevent="toggleSpacing" @keydown.space.prevent="toggleSpacing">
                 <ElementStyleEditorSpacing ref="spacingComp"></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer" role="button" tabindex="0" :aria-expanded="isContainerActive" @keydown.enter.prevent="toggleContainer" @keydown.space.prevent="toggleContainer">
                 <ElementStyleEditorContainer ref="containerComp"></ElementStyleEditorContainer>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid" role="button" tabindex="0" :aria-expanded="isGridActive" @keydown.enter.prevent="toggleGrid" @keydown.space.prevent="toggleGrid">
                 <ElementStyleEditorGrid ref="gridComp"></ElementStyleEditorGrid>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder" role="button" tabindex="0" :aria-expanded="isBorderActive" @keydown.enter.prevent="toggleBorder" @keydown.space.prevent="toggleBorder">
                 <ElementStyleEditorBorder ref="borderComp"></ElementStyleEditorBorder>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners" role="button" tabindex="0" :aria-expanded="isRoundedCornersActive" @keydown.enter.prevent="toggleRoundedCorners" @keydown.space.prevent="toggleRoundedCorners">
                 <ElementStyleEditorRoundedCorners ref="roundedCornersComp"></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations" role="button" tabindex="0" :aria-expanded="isAnimationsActive" @keydown.enter.prevent="toggleAnimations" @keydown.space.prevent="toggleAnimations">
                 <ElementStyleEditorAnimations ref="animationsComp"></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow" role="button" tabindex="0" :aria-expanded="isShadowActive" @keydown.enter.prevent="toggleShadow" @keydown.space.prevent="toggleShadow">
                 <ElementStyleEditorShadow ref="shadowComp"></ElementStyleEditorShadow>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
                 <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
             </div>
             <!--
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition" role="button" tabindex="0" :aria-expanded="isPositionActive" @keydown.enter.prevent="togglePosition" @keydown.space.prevent="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor" role="button" tabindex="0" :aria-expanded="isListStyleEditorActive" @keydown.enter.prevent="toggleListStyleEditor" @keydown.space.prevent="toggleListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings" role="button" tabindex="0" :aria-expanded="isLayoutSettingsActive" @keydown.enter.prevent="toggleLayoutSettings" @keydown.space.prevent="toggleLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier" role="button" tabindex="0" :aria-expanded="isPredefinedStylesApplierSettingsActive" @keydown.enter.prevent="togglePredefinedStylesApplier" @keydown.space.prevent="togglePredefinedStylesApplier">
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings" role="button" tabindex="0" :aria-expanded="isAiChatSettingsActive" @keydown.enter.prevent="toggleAiChatSettings" @keydown.space.prevent="toggleAiChatSettings">
                 <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
             </div>
 
@@ -152,10 +167,31 @@ export default {
             isLayoutSettingsActive: false,
             isPredefinedStylesApplierSettingsActive: false,
             isAiChatSettingsActive: false,
+
+            // AI-63 / TICKET-NN (cycle-76 2026-05-08): announce
+            // panel-open transitions to screen readers via the
+            // aria-live region above. Updated by announceAria()
+            // helper in methods{}. Empty string on first paint so
+            // the region doesn't fire on mount.
+            ariaAnnouncement: '',
         }
     },
 
     methods: {
+        // AI-63 / TICKET-NN (cycle-76 2026-05-08): push a message
+        // into the aria-live region. Two-step write (clear, then
+        // set on next tick) so the SR re-announces even when the
+        // user opens the same panel twice in a row — without the
+        // clear, identical consecutive text wouldn't trigger a
+        // re-announce on most engines.
+        announceAria(message) {
+            const text = typeof message === 'string' ? message.trim() : '';
+            this.ariaAnnouncement = '';
+            this.$nextTick(() => {
+                this.ariaAnnouncement = text;
+            });
+        },
+
         // Reset all active states
         resetActiveStates() {
             this.isTypographyActive = false;
@@ -209,6 +245,7 @@ export default {
         // Methods to toggle active states
         toggleTypography() {
             this.resetActiveStates();
+            this.announceAria('Typography panel opened');
             this.isTypographyActive = true;
             this.closeAllChildPanels('typographyComp');
             const c = this.$refs.typographyComp; if (c && 'showTypography' in c) c.showTypography = true;
@@ -216,6 +253,7 @@ export default {
 
         toggleBackground() {
             this.resetActiveStates();
+            this.announceAria('Background panel opened');
             this.isBackgroundActive = true;
             this.closeAllChildPanels('backgroundComp');
             const c = this.$refs.backgroundComp; if (c && 'showBackground' in c) c.showBackground = true;
@@ -223,6 +261,7 @@ export default {
 
         toggleSpacing() {
             this.resetActiveStates();
+            this.announceAria('Spacing panel opened');
             this.isSpacingActive = true;
             this.closeAllChildPanels('spacingComp');
             const c = this.$refs.spacingComp; if (c && 'showSpacing' in c) c.showSpacing = true;
@@ -230,6 +269,7 @@ export default {
 
         toggleContainer() {
             this.resetActiveStates();
+            this.announceAria('Container panel opened');
             this.isContainerActive = true;
             this.closeAllChildPanels('containerComp');
             const c = this.$refs.containerComp; if (c && 'showContainer' in c) c.showContainer = true;
@@ -237,6 +277,7 @@ export default {
 
         toggleGrid() {
             this.resetActiveStates();
+            this.announceAria('Grid panel opened');
             this.isGridActive = true;
             this.closeAllChildPanels('gridComp');
             const c = this.$refs.gridComp; if (c && 'showGrid' in c) c.showGrid = true;
@@ -244,6 +285,7 @@ export default {
 
         toggleBorder() {
             this.resetActiveStates();
+            this.announceAria('Border panel opened');
             this.isBorderActive = true;
             this.closeAllChildPanels('borderComp');
             const c = this.$refs.borderComp; if (c && 'showBorder' in c) c.showBorder = true;
@@ -251,6 +293,7 @@ export default {
 
         toggleRoundedCorners() {
             this.resetActiveStates();
+            this.announceAria('Rounded corners panel opened');
             this.isRoundedCornersActive = true;
             this.closeAllChildPanels('roundedCornersComp');
             const c = this.$refs.roundedCornersComp; if (c && 'showRoundedCorners' in c) c.showRoundedCorners = true;
@@ -258,6 +301,7 @@ export default {
 
         toggleAnimations() {
             this.resetActiveStates();
+            this.announceAria('Animations panel opened');
             this.isAnimationsActive = true;
             this.closeAllChildPanels('animationsComp');
             const c = this.$refs.animationsComp; if (c && 'showAnimations' in c) c.showAnimations = true;
@@ -265,6 +309,7 @@ export default {
 
         toggleShadow() {
             this.resetActiveStates();
+            this.announceAria('Shadow panel opened');
             this.isShadowActive = true;
             this.closeAllChildPanels('shadowComp');
             const c = this.$refs.shadowComp; if (c && 'showShadow' in c) c.showShadow = true;
@@ -272,6 +317,7 @@ export default {
 
         toggleClassApplier() {
             this.resetActiveStates();
+            this.announceAria('CSS class applier opened');
             this.isClassApplierActive = true;
             this.closeAllChildPanels('classApplierComp');
             const c = this.$refs.classApplierComp; if (c && 'showClassApplier' in c) c.showClassApplier = true;
@@ -279,26 +325,31 @@ export default {
 
         togglePosition() {
             this.resetActiveStates();
+            this.announceAria('Position panel opened');
             this.isPositionActive = true;
         },
 
         toggleListStyleEditor() {
             this.resetActiveStates();
+            this.announceAria('List style editor opened');
             this.isListStyleEditorActive = true;
         },
 
         toggleLayoutSettings() {
             this.resetActiveStates();
+            this.announceAria('Layout settings opened');
             this.isLayoutSettingsActive = true;
         },
 
         togglePredefinedStylesApplier() {
             this.resetActiveStates();
+            this.announceAria('Predefined styles applier opened');
             this.isPredefinedStylesApplierSettingsActive = true;
         },
 
         toggleAiChatSettings() {
             this.resetActiveStates();
+            this.announceAria('AI chat settings opened');
             this.isAiChatSettingsActive = true;
         },
 
