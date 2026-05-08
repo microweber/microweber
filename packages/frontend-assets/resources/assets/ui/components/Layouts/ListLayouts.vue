@@ -161,8 +161,23 @@
 
                                         <div class="layout-image-container">
                                             <img v-if="item.screenshot" :alt="item.title" :src="item.screenshot"/>
-                                            <div v-else-if="item.preview_url" class="layout-iframe-preview">
+                                            <!-- AI-68 / TICKET-OO (cycle-70 2026-05-08):
+                                                 don't mount the <iframe> until the wrapper
+                                                 scrolls into view. Native loading="lazy"
+                                                 still triggers a network request when the
+                                                 element is in flow + above-the-fold viewport
+                                                 height, so 17 cards mounted simultaneously
+                                                 was hammering the server even with the
+                                                 attribute. v-if + IntersectionObserver
+                                                 guarantees the iframe DOM node only ever
+                                                 exists for cards the user is actually
+                                                 looking at. -->
+                                            <div v-else-if="item.preview_url"
+                                                 class="layout-iframe-preview"
+                                                 :data-mw-iframe-key="iframeKeyFor(item, index)"
+                                                 ref="iframeWrappersMasonry">
                                                 <iframe
+                                                    v-if="iframeIsInView(iframeKeyFor(item, index))"
                                                     :src="item.preview_url"
                                                     :title="item.title"
                                                     class="layout-preview-iframe"
@@ -171,6 +186,9 @@
                                                     frameborder="0"
                                                     sandbox="allow-same-origin allow-scripts"
                                                 ></iframe>
+                                                <div v-else class="layout-iframe-placeholder">
+                                                    <span>{{ item.title }}</span>
+                                                </div>
                                             </div>
                                             <div v-else class="layout-no-preview">
                                                 <span>{{ item.title }}</span>
@@ -246,10 +264,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- AI-68 / TICKET-OO (cycle-70 2026-05-08):
+                                         lazy-mount the iframe via
+                                         IntersectionObserver — see the masonry
+                                         branch above for the full rationale. -->
                                     <div
                                         v-else-if="item.preview_url"
-                                        class="modules-list-block-item-picture layout-iframe-preview">
+                                        class="modules-list-block-item-picture layout-iframe-preview"
+                                        :data-mw-iframe-key="iframeKeyFor(item, index)"
+                                        ref="iframeWrappersList">
                                         <iframe
+                                            v-if="iframeIsInView(iframeKeyFor(item, index))"
                                             :src="item.preview_url"
                                             :title="item.title"
                                             class="layout-preview-iframe"
@@ -258,6 +283,9 @@
                                             frameborder="0"
                                             sandbox="allow-same-origin allow-scripts"
                                         ></iframe>
+                                        <div v-else class="layout-iframe-placeholder">
+                                            <span>{{ item.title }}</span>
+                                        </div>
                                     </div>
                                     <div
                                         v-else
@@ -505,6 +533,12 @@ export default {
         },
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
+            // AI-68 (cycle-70): the iframe wrappers belong to a
+            // different sub-tree (masonry vs list/full); re-observe
+            // after the new layout renders.
+            this.$nextTick(() => {
+                this.setupIframeObserver();
+            });
         },
         insertLayout(layout, target) {
             if (this.isInserting) {
@@ -614,6 +648,14 @@ export default {
 
             this.layoutsListLoaded = true;
             this.layoutsListFiltered = layoutsFiltered;
+
+            // AI-68 (cycle-70): re-attach the IntersectionObserver after
+            // the next render tick so newly-rendered iframe wrappers
+            // get observed. Using $nextTick keeps us in lockstep with
+            // Vue's render cycle without sleep loops.
+            this.$nextTick(() => {
+                this.setupIframeObserver();
+            });
         },
 
         // Get module icon from Microweber's module system
@@ -708,6 +750,67 @@ export default {
         // Hide tooltip
         hideModuleTooltip() {
             // Tooltip cleanup if needed
+        },
+
+        // AI-68 / TICKET-OO (cycle-70 2026-05-08): lazy iframe mount —
+        // helpers below. Stable per-item key so vue's reactive map
+        // tracks the same identity as the user re-filters / re-scrolls.
+        // Falls back to the item's array index when nothing else is
+        // unique.
+        iframeKeyFor(item, index) {
+            if (item == null) {
+                return 'mw-iframe-' + index;
+            }
+            return 'mw-iframe-' + (item.id ?? item.layout_file ?? item.preview_url ?? index);
+        },
+
+        iframeIsInView(key) {
+            return !!this.iframesInView[key];
+        },
+
+        setupIframeObserver() {
+            // No-op outside browsers (SSR / unit tests).
+            if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
+                return;
+            }
+            if (this.iframeObserver) {
+                this.iframeObserver.disconnect();
+            }
+            const self = this;
+            this.iframeObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    const key = entry.target.getAttribute('data-mw-iframe-key');
+                    if (!key) return;
+                    if (!self.iframesInView[key]) {
+                        // Vue 3 reactivity: assignment on a plain object
+                        // works because we declared iframesInView in
+                        // data() — no need for $set.
+                        self.iframesInView[key] = true;
+                    }
+                    // Once in view, stop observing this node — next
+                    // mount of the same iframe (if the user re-opens
+                    // the picker) gets a fresh observation cycle.
+                    self.iframeObserver.unobserve(entry.target);
+                });
+            }, {
+                root: null,            // viewport-relative; the dialog
+                                        // is full-screen so this is fine.
+                rootMargin: '200px 0px', // start fetching just before
+                                          // the iframe enters view.
+                threshold: 0.01,
+            });
+            // Observe every wrapper that's currently in the DOM. Both
+            // the masonry and list templates use refs collected as
+            // arrays.
+            const wrappers = []
+                .concat(this.$refs.iframeWrappersMasonry || [])
+                .concat(this.$refs.iframeWrappersList || []);
+            wrappers.forEach(function (el) {
+                if (el && el.nodeType === 1) {
+                    self.iframeObserver.observe(el);
+                }
+            });
         }
     },
     mounted() {
@@ -796,7 +899,26 @@ export default {
             showModal: false,
             isInserting: false,
             target: undefined,
-            siteUrl: ''
+            siteUrl: '',
+            // AI-68 / TICKET-OO (cycle-70 2026-05-08): lazy iframe mount.
+            // Map { iframeKey => true } for iframes that have entered
+            // the viewport at least once. Once true, stays true (we
+            // never un-mount an iframe the user has already seen — that
+            // would re-trigger the costly load if they scrolled back).
+            iframesInView: {},
+            // IntersectionObserver instance, retained so beforeUnmount
+            // can disconnect cleanly. Sentinel `null` until mounted.
+            iframeObserver: null,
+        }
+    },
+    beforeUnmount() {
+        // AI-68: stop watching the DOM so the observer doesn't leak
+        // across modal show/hide cycles. The masonry/list refs are
+        // re-created every time the dialog reopens so re-attaching is
+        // cheap.
+        if (this.iframeObserver) {
+            this.iframeObserver.disconnect();
+            this.iframeObserver = null;
         }
     }
 }
