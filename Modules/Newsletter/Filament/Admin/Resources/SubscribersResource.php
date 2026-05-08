@@ -145,10 +145,23 @@ class SubscribersResource extends Resource
                     Tables\Columns\TextColumn::make('status')
                         ->label('Status')
                         ->badge()
+                        // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #9:
+                        // badge color match was missing pending_confirmation,
+                        // complained, invalid_email — all valid subscriber
+                        // states the Newsletter pipeline can produce. These
+                        // states fell through to the bare 'gray' default,
+                        // hiding their semantic meaning from admins.
+                        // 'unknown' fall-through is now explicit so an admin
+                        // sees a visible 'gray' badge for any new state that
+                        // ships without updating this list — better than a
+                        // silent default.
                         ->color(fn (string $state): string => match ($state) {
                             'active' => 'success',
                             'unsubscribed' => 'danger',
                             'bounced' => 'warning',
+                            'pending_confirmation' => 'info',
+                            'complained' => 'danger',
+                            'invalid_email' => 'warning',
                             default => 'gray',
                         })
                         ->sortable()
@@ -162,8 +175,28 @@ class SubscribersResource extends Resource
 
             ])
             ->defaultSort('id', 'desc')
+            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #8:
+            // empty filters array forced admins to grep for status / list.
+            // Status options enumerated to match the badge-color table
+            // (cycle-54 finding #9) so filter values and badge values stay
+            // in sync. lists relationship via belongsToMany (see model).
             ->filters([
-                //
+                \Filament\Tables\Filters\SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'active' => 'Active',
+                        'unsubscribed' => 'Unsubscribed',
+                        'bounced' => 'Bounced',
+                        'pending_confirmation' => 'Pending Confirmation',
+                        'complained' => 'Complained',
+                        'invalid_email' => 'Invalid Email',
+                    ])
+                    ->multiple(),
+                \Filament\Tables\Filters\SelectFilter::make('lists')
+                    ->label('Lists')
+                    ->relationship('lists', 'name')
+                    ->multiple()
+                    ->preload(),
             ])
             ->headerActions([
                 \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
@@ -173,17 +206,26 @@ class SubscribersResource extends Resource
                 Tables\Actions\ExportAction::make()
                     ->exporter(NewsletterSubscriberExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
+                    // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
+                    // Section::make() grouping for column checkboxes + export
+                    // options (matches the CampaignResource shape).
                     ->form(function (Tables\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterSubscriberExporter::getColumns();
-                        $schemaSchema = [];
+                        $columnCheckboxes = [];
                         foreach ($exportColumns as $column) {
-                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                            $columnCheckboxes[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                 ->label($column->getLabel())
                                 ->default(true);
                         }
-                        $schemaSchema[] = Checkbox::make('export_multiple')
-                            ->label('Export to multiple files (ZIP)');
-                        return $schemaSchema;
+                        return [
+                            \Filament\Schemas\Components\Section::make('Columns to export')
+                                ->schema($columnCheckboxes),
+                            \Filament\Schemas\Components\Section::make('Export options')
+                                ->schema([
+                                    Checkbox::make('export_multiple')
+                                        ->label('Export to multiple files (ZIP)'),
+                                ]),
+                        ];
                     })
                     ->action(function (array $data, Table $table) {
                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
@@ -201,18 +243,27 @@ class SubscribersResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\ExportBulkAction::make()
                         ->exporter(NewsletterSubscriberExporter::class)
+                        // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
+                        // bulk-export Section grouping (matches the single
+                        // export form above).
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterSubscriberExporter::getColumns();
-                            $schemaSchema = [];
+                            $columnCheckboxes = [];
                             foreach ($exportColumns as $column) {
-                                $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                $columnCheckboxes[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                     ->label($column->getLabel())
                                     ->default(true);
                             }
-                             $schemaSchema[] = Checkbox::make('export_multiple')
-                                 ->label('Export to multiple files (ZIP)')
-                                 ->default(false);
-                            return $schemaSchema;
+                            return [
+                                \Filament\Schemas\Components\Section::make('Columns to export')
+                                    ->schema($columnCheckboxes),
+                                \Filament\Schemas\Components\Section::make('Export options')
+                                    ->schema([
+                                        Checkbox::make('export_multiple')
+                                            ->label('Export to multiple files (ZIP)')
+                                            ->default(false),
+                                    ]),
+                            ];
                         })
                         ->action(function (array $data, Tables\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));

@@ -186,7 +186,21 @@ class CampaignResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->poll('10s')
+            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #11:
+            // ->poll('10s') was unconditional — fired a Livewire round-trip
+            // every 10s on every Campaigns list view, including pages with
+            // only finished/draft campaigns where there is nothing to update.
+            // Gated via condition: closure so polling only runs when at
+            // least one campaign is in a status that can transition without
+            // admin action.
+            ->poll('10s', condition: fn () => NewsletterCampaign::query()
+                ->whereIn('status', [
+                    NewsletterCampaign::STATUS_QUEUED,
+                    NewsletterCampaign::STATUS_PENDING,
+                    NewsletterCampaign::STATUS_PROCESSING,
+                    NewsletterCampaign::STATUS_SENDING,
+                ])
+                ->exists())
             ->modifyQueryUsing(fn ($query) => $query
                 ->with('list')
                 ->withCount(['listSubscribers', 'openedPixels', 'clickedLinks']))
@@ -238,24 +252,63 @@ class CampaignResource extends Resource
                     ->visibleFrom('lg'),
             ])
             ->defaultSort('created_at', 'desc')
+            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #8:
+            // empty filters array forced admins to scroll the whole list to
+            // find a status / list / sender. Productivity blocker on shops
+            // with 100k+ campaigns. Status options enumerated from the model
+            // STATUS_* constants so they stay in sync if a new status lands.
             ->filters([
-                //
+                \Filament\Tables\Filters\SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        NewsletterCampaign::STATUS_DRAFT => 'Draft',
+                        NewsletterCampaign::STATUS_QUEUED => 'Queued',
+                        NewsletterCampaign::STATUS_PENDING => 'Pending',
+                        NewsletterCampaign::STATUS_SCHEDULED => 'Scheduled',
+                        NewsletterCampaign::STATUS_SENDING => 'Sending',
+                        NewsletterCampaign::STATUS_PROCESSING => 'Processing',
+                        NewsletterCampaign::STATUS_FINISHED => 'Finished',
+                        NewsletterCampaign::STATUS_FAILED => 'Failed',
+                        NewsletterCampaign::STATUS_CANCELED => 'Canceled',
+                    ])
+                    ->multiple(),
+                \Filament\Tables\Filters\SelectFilter::make('list_id')
+                    ->label('List')
+                    ->relationship('list', 'name')
+                    ->searchable()
+                    ->preload(),
+                \Filament\Tables\Filters\SelectFilter::make('sender_account_id')
+                    ->label('Sender Account')
+                    ->relationship('senderAccount', 'from_email')
+                    ->searchable()
+                    ->preload(),
             ])
             ->headerActions([ // Added header actions
                 Tables\Actions\ExportAction::make()
                     ->exporter(NewsletterCampaignExporter::class)
                     ->icon('heroicon-m-cloud-arrow-down')
+                    // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
+                    // dynamically-generated checkbox loop now wrapped in
+                    // Section::make('Columns to export') and the multi-file
+                    // toggle in Section::make('Export options'). Gives the
+                    // form fieldset / heading semantics SR users expect.
                     ->form(function (Tables\Actions\ExportAction $action): array {
                         $exportColumns = NewsletterCampaignExporter::getColumns();
-                        $schemaSchema = [];
+                        $columnCheckboxes = [];
                         foreach ($exportColumns as $column) {
-                            $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                            $columnCheckboxes[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                 ->label($column->getLabel())
                                 ->default(true);
                         }
-                        $schemaSchema[] = Checkbox::make('export_multiple')
-                            ->label('Export to multiple files (ZIP)');
-                        return $schemaSchema;
+                        return [
+                            \Filament\Schemas\Components\Section::make('Columns to export')
+                                ->schema($columnCheckboxes),
+                            \Filament\Schemas\Components\Section::make('Export options')
+                                ->schema([
+                                    Checkbox::make('export_multiple')
+                                        ->label('Export to multiple files (ZIP)'),
+                                ]),
+                        ];
                     })
                     ->action(function (array $data) {
                         $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
@@ -264,6 +317,15 @@ class CampaignResource extends Resource
                         return redirect()->to($url);
                     }),
             ])
+            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #5:
+            // contextual primary actions (Edit / View / Cancel) intentionally
+            // come BEFORE the 3-dot ActionGroup so a keyboard user reaches
+            // them first via Tab. Delete stays inside the ActionGroup
+            // dropdown so it isn't reached on the primary tab cycle. Do not
+            // re-order without re-reading this comment. The Cancel
+            // ->requiresConfirmation() modal is keyboard-accessible by
+            // default (Filament uses a focus-trapped <dialog> with
+            // Enter/Space activation on the confirm button).
             ->actions([
 
                 Tables\Actions\Action::make('edit')
@@ -377,18 +439,27 @@ Tables\Actions\DeleteAction::make(),
                 Tables\Actions\BulkActionGroup::make([ // Added bulk actions
                     Tables\Actions\ExportBulkAction::make()
                         ->exporter(NewsletterCampaignExporter::class)
+                        // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #10:
+                        // bulk-export form Section grouping (matches the
+                        // single-export form above).
                         ->form(function (Tables\Actions\BulkAction $action): array {
                             $exportColumns = NewsletterCampaignExporter::getColumns();
-                            $schemaSchema = [];
+                            $columnCheckboxes = [];
                             foreach ($exportColumns as $column) {
-                                $schemaSchema[] = \Filament\Forms\Components\Checkbox::make($column->getName())
+                                $columnCheckboxes[] = \Filament\Forms\Components\Checkbox::make($column->getName())
                                     ->label($column->getLabel())
                                     ->default(true);
                             }
-                            $schemaSchema[] = Checkbox::make('export_multiple')
-                                ->label('Export to multiple files (ZIP)')
-                                ->default(false);
-                            return $schemaSchema;
+                            return [
+                                \Filament\Schemas\Components\Section::make('Columns to export')
+                                    ->schema($columnCheckboxes),
+                                \Filament\Schemas\Components\Section::make('Export options')
+                                    ->schema([
+                                        Checkbox::make('export_multiple')
+                                            ->label('Export to multiple files (ZIP)')
+                                            ->default(false),
+                                    ]),
+                            ];
                         })
                         ->action(function (array $data, Tables\Actions\BulkAction $action) {
                             $selectedColumns = array_keys(array_filter(Arr::except($data, 'export_multiple')));
