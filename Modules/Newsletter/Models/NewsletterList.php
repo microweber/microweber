@@ -22,6 +22,11 @@ class NewsletterList extends Model
         return NewsletterListFactory::new();
     }
 
+    public static function findOrCreateDefault(): self
+    {
+        return static::query()->firstOrCreate(['name' => 'Default']);
+    }
+
     public function subscribers()
     {
         return $this->hasMany(NewsletterSubscriberList::class, 'list_id', 'id');

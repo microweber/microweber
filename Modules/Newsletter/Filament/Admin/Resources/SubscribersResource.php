@@ -80,20 +80,28 @@ class SubscribersResource extends Resource
                 CheckboxList::make('lists')
                     ->relationship('lists', 'name')
                     ->label('Subscribed for lists')
-                    ->options(function () {
-                        $lists = [];
-                        $lists[0] = 'Default';
-                        $getLists = NewsletterList::query()->pluck('name', 'id');
-                        if ($getLists) {
-                            foreach ($getLists as $key => $value) {
-                                $lists[$key] = $value;
-                            }
-                        }
-                        return $lists;
-                    })
+                    ->options(fn () => static::getSubscriberListOptions())
 
 
             ]);
+    }
+
+    public static function getSubscriberListOptions(): array
+    {
+        $defaultList = NewsletterList::findOrCreateDefault();
+        $lists = NewsletterList::query()
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->all();
+
+        if (! isset($lists[$defaultList->id])) {
+            return $lists;
+        }
+
+        $defaultOption = [$defaultList->id => $lists[$defaultList->id]];
+        unset($lists[$defaultList->id]);
+
+        return $defaultOption + $lists;
     }
 
     public static function table(Table $table): Table

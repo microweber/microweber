@@ -32,7 +32,7 @@ class CampaignSendingTest extends TestCase
 
         $campaign = NewsletterCampaign::factory()->create([
             'list_id' => $list->id,
-            'status' => 'sending'
+            'status' => NewsletterCampaign::STATUS_SENDING,
         ]);
 
         // Trigger sending (would normally be a job)

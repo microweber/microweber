@@ -24,6 +24,7 @@ class RecentCampaignsWidget extends BaseWidget
             ->query(
                 NewsletterCampaign::query()
                     ->with('list')
+                    ->withCount(['openedPixels', 'clickedLinks'])
                     ->latest()
                     ->limit(5)
             )
@@ -37,26 +38,23 @@ class RecentCampaignsWidget extends BaseWidget
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'draft' => 'gray',
-                        'sending', 'processing', 'queued', 'pending' => 'info',
-                        'finished' => 'success',
-                        'failed' => 'danger',
-                        'scheduled' => 'warning',
-                        'canceled' => 'gray',
+                        NewsletterCampaign::STATUS_DRAFT => 'gray',
+                        NewsletterCampaign::STATUS_SENDING,
+                        NewsletterCampaign::STATUS_PROCESSING,
+                        NewsletterCampaign::STATUS_QUEUED,
+                        NewsletterCampaign::STATUS_PENDING => 'info',
+                        NewsletterCampaign::STATUS_FINISHED => 'success',
+                        NewsletterCampaign::STATUS_FAILED => 'danger',
+                        NewsletterCampaign::STATUS_SCHEDULED => 'warning',
+                        NewsletterCampaign::STATUS_CANCELED => 'gray',
                         default => 'gray',
                     }),
                 TextColumn::make('opened')
                     ->label('Opened')
-                    ->state(fn (NewsletterCampaign $record) =>
-                        NewsletterCampaignPixel::where('campaign_id', $record->id)->count()
-                    )
                     ->color('gray')
                     ->alignCenter(),
                 TextColumn::make('clicked')
                     ->label('Clicked')
-                    ->state(fn (NewsletterCampaign $record) =>
-                        NewsletterCampaignClickedLink::where('campaign_id', $record->id)->count()
-                    )
                     ->color('gray')
                     ->alignCenter(),
                 TextColumn::make('created_at')

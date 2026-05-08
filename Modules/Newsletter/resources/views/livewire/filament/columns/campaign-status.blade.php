@@ -76,7 +76,7 @@ $currentRecord = $getRecord();
             <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Queued') }}
         </span>
 
-    @elseif($currentRecord->status === 'sending')
+    @elseif($currentRecord->status === \Modules\Newsletter\Models\NewsletterCampaign::STATUS_SENDING)
 
         <span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold leading-5 text-blue-700 bg-blue-100 rounded-full dark:text-blue-400 dark:bg-blue-900">
             <x-filament::loading-indicator class="h-4 w-4" /> {{ __('Sending') }}

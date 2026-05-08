@@ -71,7 +71,7 @@ class NewsletterCampaignFactory extends Factory
     public function sending()
     {
         return $this->state([
-            'status' => 'sending'
+            'status' => NewsletterCampaign::STATUS_SENDING,
         ]);
     }
 }

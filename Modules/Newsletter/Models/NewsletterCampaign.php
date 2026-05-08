@@ -16,6 +16,7 @@ class NewsletterCampaign extends Model
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_FINISHED = 'finished';
     public const STATUS_CANCELED = 'canceled';
+    public const STATUS_SENDING = 'sending';
 
     public const STATUS_SCHEDULED = 'scheduled';
     public const STATUS_PENDING = 'pending';
@@ -49,6 +50,7 @@ class NewsletterCampaign extends Model
         'subject',
         'from_name',
         'from_email',
+        'reply_email',
         'sending_limit_per_day',
         'is_scheduled',
         'scheduled_at',
@@ -69,6 +71,7 @@ class NewsletterCampaign extends Model
         'trigger_conditions' => 'array',
         'is_active' => 'boolean',
         'delay_minutes' => 'integer',
+        'scheduled_at' => 'datetime',
     ];
 
     protected static function newFactory()
@@ -86,6 +89,21 @@ class NewsletterCampaign extends Model
         return $this->hasOne(NewsletterList::class, 'id', 'list_id');
     }
 
+    public function listSubscribers()
+    {
+        return $this->hasMany(NewsletterSubscriberList::class, 'list_id', 'list_id');
+    }
+
+    public function openedPixels()
+    {
+        return $this->hasMany(NewsletterCampaignPixel::class, 'campaign_id', 'id');
+    }
+
+    public function clickedLinks()
+    {
+        return $this->hasMany(NewsletterCampaignClickedLink::class, 'campaign_id', 'id');
+    }
+
     public function listName()
     {
         return $this->list->name;
@@ -93,26 +111,42 @@ class NewsletterCampaign extends Model
 
     public function countSubscribers()
     {
-        if ($this->recipients_from == 'specific_list') {
+        if ($this->recipients_from === 'specific_list') {
             return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
-        } else {
-            return NewsletterSubscriber::all()->count();
         }
+
+        return NewsletterSubscriber::query()->count();
     }
 
     public function getSubscribersAttribute()
     {
-        return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
+        if ($this->recipients_from === 'specific_list' && array_key_exists('list_subscribers_count', $this->attributes)) {
+            return (int) $this->attributes['list_subscribers_count'];
+        }
+
+        static $allSubscribersCount;
+
+        return $this->recipients_from === 'specific_list'
+            ? NewsletterSubscriberList::where('list_id', $this->list_id)->count()
+            : ($allSubscribersCount ??= NewsletterSubscriber::query()->count());
 
     }
 
     public function getOpenedAttribute()
     {
+        if (array_key_exists('opened_pixels_count', $this->attributes)) {
+            return (int) $this->attributes['opened_pixels_count'];
+        }
+
         return NewsletterCampaignPixel::where('campaign_id', $this->id)->count();
     }
 
     public function getClickedAttribute()
     {
+        if (array_key_exists('clicked_links_count', $this->attributes)) {
+            return (int) $this->attributes['clicked_links_count'];
+        }
+
         return NewsletterCampaignClickedLink::where('campaign_id', $this->id)->count();
     }
 

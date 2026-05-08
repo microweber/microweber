@@ -37,6 +37,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 
 class CreateCampaign extends Page
 {
@@ -65,7 +66,7 @@ class CreateCampaign extends Page
         $campaign = new NewsletterCampaign();
         $campaign->name = $this->name;
         $campaign->status = NewsletterCampaign::STATUS_DRAFT;
-        $campaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
+        $campaign->email_content_html = NewsletterPlaceholderSyntax::defaultCampaignBody();
         $campaign->email_content_type = 'design';
         $campaign->save();
 

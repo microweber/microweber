@@ -13,6 +13,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterTemplate;
 use Modules\Newsletter\Senders\NewsletterMailSender;
+use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 
 class ProcessTriggeredEmail implements ShouldQueue
 {
@@ -185,22 +186,24 @@ class ProcessTriggeredEmail implements ShouldQueue
 
         // Replace common event data variables
         $replacements = [
-            '{{cart_total}}' => $eventData['cart_total'] ?? '',
-            '{{cart_total_formatted}}' => isset($eventData['cart_total']) ? '$' . number_format($eventData['cart_total'], 2) : '',
-            '{{item_count}}' => $eventData['item_count'] ?? '',
-            '{{order_reference}}' => $eventData['order_reference'] ?? '',
-            '{{order_total}}' => $eventData['order_total'] ?? '',
-            '{{order_total_formatted}}' => isset($eventData['order_total']) ? '$' . number_format($eventData['order_total'], 2) : '',
-            '{{first_name}}' => $eventData['first_name'] ?? '',
-            '{{last_name}}' => $eventData['last_name'] ?? '',
+            'cart_total' => (string) ($eventData['cart_total'] ?? ''),
+            'cart_total_formatted' => isset($eventData['cart_total']) ? '$' . number_format($eventData['cart_total'], 2) : '',
+            'item_count' => (string) ($eventData['item_count'] ?? ''),
+            'order_reference' => (string) ($eventData['order_reference'] ?? ''),
+            'order_total' => (string) ($eventData['order_total'] ?? ''),
+            'order_total_formatted' => isset($eventData['order_total']) ? '$' . number_format($eventData['order_total'], 2) : '',
+            'first_name' => (string) ($eventData['first_name'] ?? ''),
+            'last_name' => (string) ($eventData['last_name'] ?? ''),
         ];
 
-        $text = str_replace(array_keys($replacements), array_values($replacements), $text);
+        foreach ($replacements as $token => $value) {
+            $text = NewsletterPlaceholderSyntax::replaceTokenVariants($text, $token, $value);
+        }
 
         // Handle cart items specially
         if (!empty($eventData['cart_items']) && is_array($eventData['cart_items'])) {
             $cartItemsHtml = $this->renderCartItems($eventData['cart_items']);
-            $text = str_replace('{{cart_items}}', $cartItemsHtml, $text);
+            $text = NewsletterPlaceholderSyntax::replaceTokenVariants($text, 'cart_items', $cartItemsHtml);
         }
 
         $template['text'] = $text;

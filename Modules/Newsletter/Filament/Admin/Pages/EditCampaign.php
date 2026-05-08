@@ -35,6 +35,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 use Modules\Newsletter\Senders\NewsletterMailSender;
 use Tapp\FilamentTimezoneField\Forms\Components\TimezoneSelect;
 
@@ -360,7 +361,7 @@ class EditCampaign extends Page
                             RichEditor::make('state.email_content_html')
                                 ->label('E-mail Content')
                                 ->placeholder('Enter the plain text of your email.')
-                                ->helperText('You can use the following variables: {{name}}, {{email}}, {{unsubscribe_url}}')
+                                ->helperText(NewsletterPlaceholderSyntax::basicHelperText())
                                 ->live()
                                 ->hidden(function (Get $get) {
                                     if ($get('state.email_content_type') == 'html') {

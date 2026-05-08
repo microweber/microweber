@@ -8,6 +8,7 @@
 
 namespace Modules\Newsletter\Senders;
 
+use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 use Modules\Newsletter\EmailProviders\AmazonSesProvider;
 use Modules\Newsletter\EmailProviders\MailchimpProvider;
 use Modules\Newsletter\EmailProviders\MailgunProvider;
@@ -174,13 +175,14 @@ class NewsletterMailSender
             }
 
             $template = $this->getParsedTemplate();
+            $resolvedSender = $this->getResolvedSender();
 
             $mailProvider->setSubject($this->campaign['subject']);
             $mailProvider->setBody($template);
 
-            $mailProvider->setFromEmail($this->sender['from_email']);
-            $mailProvider->setFromName($this->campaign['name']);
-            $mailProvider->setFromReplyEmail($this->sender['reply_email']);
+            $mailProvider->setFromEmail($resolvedSender['from_email']);
+            $mailProvider->setFromName($resolvedSender['from_name']);
+            $mailProvider->setFromReplyEmail($resolvedSender['reply_email']);
 
             $mailProvider->setToEmail($this->subscriber['email']);
             $mailProvider->setToName($this->subscriber['name']);
@@ -222,7 +224,10 @@ class NewsletterMailSender
     public function getParsedTemplate()
     {
 
-        $templateText = $this->getTemplate()['text'];
+        $templateText = NewsletterPlaceholderSyntax::normalizeTwigVariables(
+            $this->getTemplate()['text'],
+            ['name', 'first_name', 'last_name', 'email', 'site_url', 'unsubscribe', 'unsubscribe_url']
+        );
 
         $firstName = '';
         $lastName = '';
@@ -262,8 +267,8 @@ class NewsletterMailSender
                 'last_name' => $lastName,
                 'email' => $email,
                 'site_url' => $siteUrl,
-                //  'unsubscribe' => $siteUrl . '/web/modules/newsletter/unsubscribe?email=' . $email,
                 'unsubscribe' => route('modules.newsletter.unsubscribe') . '?email=' . $email,
+                'unsubscribe_url' => route('modules.newsletter.unsubscribe') . '?email=' . $email,
             ],
             $twigSettings
         );
@@ -294,5 +299,28 @@ class NewsletterMailSender
 
         return $parsedEmail;
 
+    }
+
+    public function getResolvedSender(): array
+    {
+        $campaignName = trim((string) ($this->campaign['name'] ?? ''));
+
+        return [
+            'from_name' => $this->resolveSenderValue('from_name', 'from_name') ?: $campaignName,
+            'from_email' => $this->resolveSenderValue('from_email', 'from_email'),
+            'reply_email' => $this->resolveSenderValue('reply_email', 'reply_email'),
+        ];
+    }
+
+    protected function resolveSenderValue(string $campaignKey, string $senderKey): ?string
+    {
+        $campaignValue = trim((string) ($this->campaign[$campaignKey] ?? ''));
+        if ($campaignValue !== '') {
+            return $campaignValue;
+        }
+
+        $senderValue = trim((string) ($this->sender[$senderKey] ?? ''));
+
+        return $senderValue !== '' ? $senderValue : null;
     }
 }

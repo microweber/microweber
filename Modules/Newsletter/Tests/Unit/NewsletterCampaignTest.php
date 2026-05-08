@@ -32,11 +32,11 @@ class NewsletterCampaignTest extends TestCase
     #[Test]
     public function it_can_change_status()
     {
-        $campaign = NewsletterCampaign::factory()->create(['status' => 'draft']);
+        $campaign = NewsletterCampaign::factory()->create(['status' => NewsletterCampaign::STATUS_DRAFT]);
         
-        $campaign->update(['status' => 'sending']);
+        $campaign->update(['status' => NewsletterCampaign::STATUS_SENDING]);
         
-        $this->assertEquals('sending', $campaign->fresh()->status);
+        $this->assertEquals(NewsletterCampaign::STATUS_SENDING, $campaign->fresh()->status);
     }
 
     #[Test]
@@ -90,7 +90,10 @@ class NewsletterCampaignTest extends TestCase
     {
         $list = NewsletterList::factory()->create();
         $countBefore = NewsletterSubscriberList::where('list_id', $list->id)->count();
-        $campaign = NewsletterCampaign::factory()->create(['list_id' => $list->id]);
+        $campaign = NewsletterCampaign::factory()->create([
+            'list_id' => $list->id,
+            'recipients_from' => 'specific_list',
+        ]);
         NewsletterSubscriberList::factory()->count(2)->create(['list_id' => $list->id]);
 
         $this->assertEquals(2 + $countBefore, $campaign->subscribers);
@@ -107,6 +110,22 @@ class NewsletterCampaignTest extends TestCase
 
         $this->assertEquals(4 + $openedBefore, $campaign->opened);
         $this->assertEquals(2 + $clickedBefore, $campaign->clicked);
+    }
+
+    #[Test]
+    public function it_uses_loaded_count_attributes_without_extra_queries()
+    {
+        $campaign = NewsletterCampaign::factory()->make([
+            'recipients_from' => 'specific_list',
+        ]);
+
+        $campaign->setAttribute('list_subscribers_count', 7);
+        $campaign->setAttribute('opened_pixels_count', 4);
+        $campaign->setAttribute('clicked_links_count', 2);
+
+        $this->assertSame(7, $campaign->subscribers);
+        $this->assertSame(4, $campaign->opened);
+        $this->assertSame(2, $campaign->clicked);
     }
 
     #[Test]

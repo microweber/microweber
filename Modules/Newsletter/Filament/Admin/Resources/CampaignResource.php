@@ -47,6 +47,7 @@ use Modules\Newsletter\Models\NewsletterSenderAccount;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Support\NewsletterPlaceholderSyntax;
 use Illuminate\Support\Arr;
 
 class CampaignResource extends Resource
@@ -101,12 +102,27 @@ class CampaignResource extends Resource
                     ->helperText('The subject line recipients will see in their inbox.')
                     ->maxLength(255),
 
+                Select::make('recipients_from')
+                    ->label('Recipients From')
+                    ->options([
+                        'specific_list' => 'Specific list',
+                        'all' => 'All subscribers',
+                    ])
+                    ->default('specific_list')
+                    ->afterStateHydrated(function (Select $component, $state): void {
+                        if (blank($state)) {
+                            $component->state('specific_list');
+                        }
+                    })
+                    ->required(),
+
                 Select::make('list_id')
                     ->label('List')
                     ->options(fn () => NewsletterList::pluck('name', 'id'))
                     ->searchable()
                     ->preload()
-                    ->required(),
+                    ->required(fn (Get $get): bool => ($get('recipients_from') ?? 'specific_list') === 'specific_list')
+                    ->hidden(fn (Get $get): bool => ($get('recipients_from') ?? 'specific_list') !== 'specific_list'),
 
                 Select::make('sender_account_id')
                     ->label('Sender Account')
@@ -115,6 +131,25 @@ class CampaignResource extends Resource
                     ]))
                     ->searchable()
                     ->preload(),
+
+                TextInput::make('from_name')
+                    ->label('From Name')
+                    ->maxLength(255),
+
+                TextInput::make('from_email')
+                    ->label('From Email')
+                    ->email()
+                    ->maxLength(255),
+
+                TextInput::make('reply_email')
+                    ->label('Reply To Email')
+                    ->email()
+                    ->maxLength(255),
+
+                DateTimePicker::make('scheduled_at')
+                    ->label('Scheduled At')
+                    ->seconds(false)
+                    ->helperText('Leave empty to keep the campaign unscheduled.'),
 
                 Select::make('email_content_type')
                     ->label('Email Content Type')
@@ -130,8 +165,11 @@ class CampaignResource extends Resource
                         NewsletterCampaign::STATUS_DRAFT => 'Draft',
                         NewsletterCampaign::STATUS_QUEUED => 'Queued',
                         NewsletterCampaign::STATUS_PENDING => 'Pending',
+                        NewsletterCampaign::STATUS_SCHEDULED => 'Scheduled',
+                        NewsletterCampaign::STATUS_SENDING => 'Sending',
                         NewsletterCampaign::STATUS_PROCESSING => 'Processing',
                         NewsletterCampaign::STATUS_FINISHED => 'Finished',
+                        NewsletterCampaign::STATUS_FAILED => 'Failed',
                         NewsletterCampaign::STATUS_CANCELED => 'Canceled',
                     ])
                     ->default(NewsletterCampaign::STATUS_DRAFT)
@@ -140,6 +178,7 @@ class CampaignResource extends Resource
 
                 Textarea::make('email_content_html')
                     ->label('Email Content HTML')
+                    ->helperText(NewsletterPlaceholderSyntax::basicHelperText())
                     ->hidden(fn(callable $get) => $get('email_content_type') !== 'html'),
             ]);
     }
@@ -148,7 +187,9 @@ class CampaignResource extends Resource
     {
         return $table
             ->poll('10s')
-            ->modifyQueryUsing(fn ($query) => $query->with('list'))
+            ->modifyQueryUsing(fn ($query) => $query
+                ->with('list')
+                ->withCount(['listSubscribers', 'openedPixels', 'clickedLinks']))
             ->columns([
                 TextColumn::make('mobile_summary')
                     ->label('Campaign')
@@ -248,7 +289,7 @@ class CampaignResource extends Resource
                             NewsletterCampaign::STATUS_QUEUED,
                             NewsletterCampaign::STATUS_PENDING,
                             NewsletterCampaign::STATUS_PROCESSING,
-                            'sending',
+                            NewsletterCampaign::STATUS_SENDING,
                         ]);
                     })
                     ->requiresConfirmation()
@@ -261,22 +302,17 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-opened')
                         ->label(function (NewsletterCampaign $campaign) {
-                            $html = 'Expand opened' . ' <span class="text-green-500">(' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')</span>';
+                            $html = 'Expand opened' . ' <span class="text-green-500">(' . $campaign->opened . ')</span>';
 
                             return new HtmlString($html);
                         })
                         ->action(function (NewsletterCampaign $campaign) {
-
-                            $subscriberIds = [];
-                            $getOpened = NewsletterCampaignPixel::where('campaign_id', $campaign->id)->get();
-                            if ($getOpened) {
-                                foreach ($getOpened as $opened) {
-                                    $findSubscriber = NewsletterSubscriber::select(['id', 'email'])->where('email', $opened->email)->first();
-                                    if ($findSubscriber) {
-                                        $subscriberIds[] = $findSubscriber->id;
-                                    }
-                                }
-                            }
+                            $subscriberIds = self::resolveSubscriberIdsForEmails(
+                                NewsletterCampaignPixel::query()
+                                    ->where('campaign_id', $campaign->id)
+                                    ->pluck('email')
+                                    ->all()
+                            );
 
                             if (empty($subscriberIds)) {
                                 Notification::make()
@@ -286,41 +322,12 @@ class CampaignResource extends Resource
                                 return;
                             }
 
-                            $subscriberIds = array_unique($subscriberIds);
-
-
-                            $newCampaignName = $campaign->name . ' - Opened';
-                            $newCampaignListName = $campaign->name . ' - List of opened';
-
-                            $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
-                            if ($checkCampaignName) {
-                                Notification::make()
-                                    ->title('This campaign already expanded. Please continue the campaign.')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
-
-                            $newCampaignList = new NewsletterList();
-                            $newCampaignList->name = $newCampaignListName;
-                            $newCampaignList->save();
-
-                            foreach ($subscriberIds as $subscriberId) {
-                                $newSubscriberInList = new NewsletterSubscriberList();
-                                $newSubscriberInList->subscriber_id = $subscriberId;
-                                $newSubscriberInList->list_id = $newCampaignList->id;
-                                $newSubscriberInList->save();
-                            }
-
-                            $newCampaign = new NewsletterCampaign();
-                            $newCampaign->name = $newCampaignName;
-                            $newCampaign->status = NewsletterCampaign::STATUS_DRAFT;
-                            $newCampaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
-                            $newCampaign->email_content_type = 'design';
-                            $newCampaign->list_id = $newCampaignList->id;
-                            $newCampaign->recipients_from = 'specific_list';
-                            $newCampaign->sender_account_id = $campaign->sender_account_id;
-                            $newCampaign->save();
+                            $newCampaign = self::createExpandedCampaign(
+                                $campaign,
+                                $subscriberIds,
+                                'Opened',
+                                'List of opened'
+                            );
 
                             return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $newCampaign->id);
 
@@ -329,22 +336,17 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-clicked')
                         ->label(function (NewsletterCampaign $campaign) {
-                            $html = 'Expand clicked' . ' <span class="text-green-500">(' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')</span>';
+                            $html = 'Expand clicked' . ' <span class="text-green-500">(' . $campaign->clicked . ')</span>';
 
                             return new HtmlString($html);
                         })
                         ->action(function (NewsletterCampaign $campaign) {
-
-                            $subscriberIds = [];
-                            $getClicked = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->get();
-                            if ($getClicked) {
-                                foreach ($getClicked as $clicked) {
-                                    $findSubscriber = NewsletterSubscriber::select(['id', 'email'])->where('email', $clicked->email)->first();
-                                    if ($findSubscriber) {
-                                        $subscriberIds[] = $findSubscriber->id;
-                                    }
-                                }
-                            }
+                            $subscriberIds = self::resolveSubscriberIdsForEmails(
+                                NewsletterCampaignClickedLink::query()
+                                    ->where('campaign_id', $campaign->id)
+                                    ->pluck('email')
+                                    ->all()
+                            );
 
                             if (empty($subscriberIds)) {
                                 Notification::make()
@@ -353,40 +355,12 @@ class CampaignResource extends Resource
                                     ->send();
                                 return;
                             }
-                            $subscriberIds = array_unique($subscriberIds);
-
-                            $newCampaignName = $campaign->name . ' - Clicked';
-                            $newCampaignListName = $campaign->name . ' - List of clicked';
-
-                            $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
-                            if ($checkCampaignName) {
-                                Notification::make()
-                                    ->title('This campaign already expanded. Please continue the campaign.')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
-
-                            $newCampaignList = new NewsletterList();
-                            $newCampaignList->name = $newCampaignListName;
-                            $newCampaignList->save();
-
-                            foreach ($subscriberIds as $subscriberId) {
-                                $newSubscriberInList = new NewsletterSubscriberList();
-                                $newSubscriberInList->subscriber_id = $subscriberId;
-                                $newSubscriberInList->list_id = $newCampaignList->id;
-                                $newSubscriberInList->save();
-                            }
-
-                            $newCampaign = new NewsletterCampaign();
-                            $newCampaign->name = $newCampaignName;
-                            $newCampaign->status = NewsletterCampaign::STATUS_DRAFT;
-                            $newCampaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
-                            $newCampaign->email_content_type = 'design';
-                            $newCampaign->list_id = $newCampaignList->id;
-                            $newCampaign->recipients_from = 'specific_list';
-                            $newCampaign->sender_account_id = $campaign->sender_account_id;
-                            $newCampaign->save();
+                            $newCampaign = self::createExpandedCampaign(
+                                $campaign,
+                                $subscriberIds,
+                                'Clicked',
+                                'List of clicked'
+                            );
 
                             return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $newCampaign->id);
 
@@ -434,5 +408,63 @@ Tables\Actions\DeleteAction::make(),
             'create' => CreateCampaign::route('/create'),
             'edit' => EditCampaign::route('/{record}/edit'),
         ];
+    }
+
+    protected static function resolveSubscriberIdsForEmails(array $emails): array
+    {
+        $emails = array_values(array_unique(array_filter($emails)));
+
+        if (empty($emails)) {
+            return [];
+        }
+
+        return NewsletterSubscriber::query()
+            ->whereIn('email', $emails)
+            ->pluck('id')
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    protected static function createExpandedCampaign(
+        NewsletterCampaign $campaign,
+        array $subscriberIds,
+        string $campaignSuffix,
+        string $listSuffix
+    ): NewsletterCampaign {
+        $newCampaignName = $campaign->name . ' - ' . $campaignSuffix;
+        $newCampaignListName = $campaign->name . ' - ' . $listSuffix;
+
+        if (NewsletterCampaign::where('name', $newCampaignName)->exists()) {
+            Notification::make()
+                ->title('This campaign already expanded. Please continue the campaign.')
+                ->danger()
+                ->send();
+            throw new Halt();
+        }
+
+        $newCampaignList = NewsletterList::query()->create([
+            'name' => $newCampaignListName,
+        ]);
+
+        NewsletterSubscriberList::query()->insert(array_map(
+            fn (int $subscriberId): array => [
+                'subscriber_id' => $subscriberId,
+                'list_id' => $newCampaignList->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            array_values(array_unique($subscriberIds))
+        ));
+
+        return NewsletterCampaign::query()->create([
+            'name' => $newCampaignName,
+            'status' => NewsletterCampaign::STATUS_DRAFT,
+            'email_content_html' => NewsletterPlaceholderSyntax::defaultCampaignBody(),
+            'email_content_type' => 'design',
+            'list_id' => $newCampaignList->id,
+            'recipients_from' => 'specific_list',
+            'sender_account_id' => $campaign->sender_account_id,
+        ]);
     }
 }

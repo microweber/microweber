@@ -8,6 +8,7 @@ use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterList;
+use Modules\Newsletter\Models\NewsletterSubscriberList;
 use Tests\Feature\Filament\Concerns\InteractsWithFilamentPanel;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -165,6 +166,24 @@ class SubscribersResourceTest extends TestCase
         $this->assertDatabaseHas('newsletter_subscribers', [
             'email' => 'list.subscriber@example.com',
         ]);
+        $this->assertDatabaseHas('newsletter_subscribers_lists', [
+            'list_id' => $list->id,
+        ]);
+    }
+
+    #[Test]
+    public function it_uses_a_real_default_list_id_in_form_options(): void
+    {
+        NewsletterSubscriberList::query()->delete();
+        NewsletterList::query()->where('name', 'Default')->delete();
+
+        $options = SubscribersResource::getSubscriberListOptions();
+        $defaultList = NewsletterList::query()->where('name', 'Default')->first();
+
+        $this->assertNotNull($defaultList);
+        $this->assertArrayHasKey($defaultList->id, $options);
+        $this->assertSame('Default', $options[$defaultList->id]);
+        $this->assertArrayNotHasKey(0, $options);
     }
 
     #[Test]

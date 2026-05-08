@@ -15,6 +15,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSubscriber;
+use Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 
 class Subscribers extends Page implements HasTable
 {
@@ -41,17 +42,7 @@ class Subscribers extends Page implements HasTable
                 ->placeholder('Enter name'),
             CheckboxList::make('lists')
                 ->label('Subscribed for lists')
-                ->options(function () {
-                    $lists = [];
-                    $lists[0] = 'Default';
-                   $getLists = NewsletterList::query()->pluck('name', 'id');
-                   if ($getLists) {
-                       foreach ($getLists as $key => $value) {
-                           $lists[$key] = $value;
-                       }
-                   }
-                    return $lists;
-                })
+                ->options(fn () => SubscribersResource::getSubscriberListOptions())
         ];
 
         return $table
