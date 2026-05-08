@@ -25,62 +25,62 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography" role="button" tabindex="0" :aria-expanded="isTypographyActive" @keydown.enter.prevent="toggleTypography" @keydown.space.prevent="toggleTypography">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isTypographyActive}" v-show="showTypography" @click="toggleTypography" aria-label="Typography" title="Typography" role="button" tabindex="0" :aria-expanded="isTypographyActive" @keydown.enter.prevent="toggleTypography" @keydown.space.prevent="toggleTypography">
                 <ElementStyleEditorTypography ref="typographyComp"></ElementStyleEditorTypography>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground" role="button" tabindex="0" :aria-expanded="isBackgroundActive" @keydown.enter.prevent="toggleBackground" @keydown.space.prevent="toggleBackground">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBackgroundActive}" v-show="showBackground" @click="toggleBackground" aria-label="Background" title="Background" role="button" tabindex="0" :aria-expanded="isBackgroundActive" @keydown.enter.prevent="toggleBackground" @keydown.space.prevent="toggleBackground">
                 <ElementStyleEditorBackground ref="backgroundComp"></ElementStyleEditorBackground>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing" role="button" tabindex="0" :aria-expanded="isSpacingActive" @keydown.enter.prevent="toggleSpacing" @keydown.space.prevent="toggleSpacing">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isSpacingActive}" v-show="showSpacing" @click="toggleSpacing" aria-label="Spacing" title="Spacing" role="button" tabindex="0" :aria-expanded="isSpacingActive" @keydown.enter.prevent="toggleSpacing" @keydown.space.prevent="toggleSpacing">
                 <ElementStyleEditorSpacing ref="spacingComp"></ElementStyleEditorSpacing>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer" role="button" tabindex="0" :aria-expanded="isContainerActive" @keydown.enter.prevent="toggleContainer" @keydown.space.prevent="toggleContainer">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isContainerActive}" v-show="showContainer" @click="toggleContainer" aria-label="Container" title="Container" role="button" tabindex="0" :aria-expanded="isContainerActive" @keydown.enter.prevent="toggleContainer" @keydown.space.prevent="toggleContainer">
                 <ElementStyleEditorContainer ref="containerComp"></ElementStyleEditorContainer>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid" role="button" tabindex="0" :aria-expanded="isGridActive" @keydown.enter.prevent="toggleGrid" @keydown.space.prevent="toggleGrid">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isGridActive}" v-show="showGrid" @click="toggleGrid" aria-label="Grid" title="Grid" role="button" tabindex="0" :aria-expanded="isGridActive" @keydown.enter.prevent="toggleGrid" @keydown.space.prevent="toggleGrid">
                 <ElementStyleEditorGrid ref="gridComp"></ElementStyleEditorGrid>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder" role="button" tabindex="0" :aria-expanded="isBorderActive" @keydown.enter.prevent="toggleBorder" @keydown.space.prevent="toggleBorder">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isBorderActive}" v-show="showBorder" @click="toggleBorder" aria-label="Border" title="Border" role="button" tabindex="0" :aria-expanded="isBorderActive" @keydown.enter.prevent="toggleBorder" @keydown.space.prevent="toggleBorder">
                 <ElementStyleEditorBorder ref="borderComp"></ElementStyleEditorBorder>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners" role="button" tabindex="0" :aria-expanded="isRoundedCornersActive" @keydown.enter.prevent="toggleRoundedCorners" @keydown.space.prevent="toggleRoundedCorners">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isRoundedCornersActive}" v-show="showRoundedCorners" @click="toggleRoundedCorners" aria-label="Rounded corners" title="Rounded corners" role="button" tabindex="0" :aria-expanded="isRoundedCornersActive" @keydown.enter.prevent="toggleRoundedCorners" @keydown.space.prevent="toggleRoundedCorners">
                 <ElementStyleEditorRoundedCorners ref="roundedCornersComp"></ElementStyleEditorRoundedCorners>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations" role="button" tabindex="0" :aria-expanded="isAnimationsActive" @keydown.enter.prevent="toggleAnimations" @keydown.space.prevent="toggleAnimations">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isAnimationsActive}" v-show="showAnimations" @click="toggleAnimations" aria-label="Animations" title="Animations" role="button" tabindex="0" :aria-expanded="isAnimationsActive" @keydown.enter.prevent="toggleAnimations" @keydown.space.prevent="toggleAnimations">
                 <ElementStyleEditorAnimations ref="animationsComp"></ElementStyleEditorAnimations>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow" role="button" tabindex="0" :aria-expanded="isShadowActive" @keydown.enter.prevent="toggleShadow" @keydown.space.prevent="toggleShadow">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isShadowActive}" v-show="showClassApplier" @click="toggleShadow" aria-label="Shadow" title="Shadow" role="button" tabindex="0" :aria-expanded="isShadowActive" @keydown.enter.prevent="toggleShadow" @keydown.space.prevent="toggleShadow">
                 <ElementStyleEditorShadow ref="shadowComp"></ElementStyleEditorShadow>
             </div>
 
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isClassApplierActive}" v-show="showClassApplier" @click="toggleClassApplier" aria-label="CSS class applier" title="CSS class applier" role="button" tabindex="0" :aria-expanded="isClassApplierActive" @keydown.enter.prevent="toggleClassApplier" @keydown.space.prevent="toggleClassApplier">
                 <ElementStyleEditorClassApplier ref="classApplierComp"></ElementStyleEditorClassApplier>
             </div>
             <!--
-            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition" role="button" tabindex="0" :aria-expanded="isPositionActive" @keydown.enter.prevent="togglePosition" @keydown.space.prevent="togglePosition">
+            <div class="mb-1 element-style-editor-toggle-wrapper" :class="{'active': isPositionActive}" v-show="showPosition" @click="togglePosition" aria-label="Position" title="Position" role="button" tabindex="0" :aria-expanded="isPositionActive" @keydown.enter.prevent="togglePosition" @keydown.space.prevent="togglePosition">
                             <ElementStyleEditorPosition></ElementStyleEditorPosition>
                         </div>-->
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor" role="button" tabindex="0" :aria-expanded="isListStyleEditorActive" @keydown.enter.prevent="toggleListStyleEditor" @keydown.space.prevent="toggleListStyleEditor">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isListStyleEditorActive}" v-show="showListStyleEditor" @click="toggleListStyleEditor" aria-label="List style editor" title="List style editor" role="button" tabindex="0" :aria-expanded="isListStyleEditorActive" @keydown.enter.prevent="toggleListStyleEditor" @keydown.space.prevent="toggleListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings" role="button" tabindex="0" :aria-expanded="isLayoutSettingsActive" @keydown.enter.prevent="toggleLayoutSettings" @keydown.space.prevent="toggleLayoutSettings">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isLayoutSettingsActive}" v-show="showLayoutSettings" @click="toggleLayoutSettings" aria-label="Layout settings" title="Layout settings" role="button" tabindex="0" :aria-expanded="isLayoutSettingsActive" @keydown.enter.prevent="toggleLayoutSettings" @keydown.space.prevent="toggleLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier" role="button" tabindex="0" :aria-expanded="isPredefinedStylesApplierSettingsActive" @keydown.enter.prevent="togglePredefinedStylesApplier" @keydown.space.prevent="togglePredefinedStylesApplier">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isPredefinedStylesApplierSettingsActive}" v-show="showPredefinedStylesApplierSettings" @click="togglePredefinedStylesApplier" aria-label="Predefined styles" title="Predefined styles" role="button" tabindex="0" :aria-expanded="isPredefinedStylesApplierSettingsActive" @keydown.enter.prevent="togglePredefinedStylesApplier" @keydown.space.prevent="togglePredefinedStylesApplier">
                 <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
             </div>
 
-            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings" role="button" tabindex="0" :aria-expanded="isAiChatSettingsActive" @keydown.enter.prevent="toggleAiChatSettings" @keydown.space.prevent="toggleAiChatSettings">
+            <div class="element-style-editor-toggle-wrapper" :class="{'active': isAiChatSettingsActive}" v-show="showAiChatSettings" @click="toggleAiChatSettings" aria-label="AI chat settings" title="AI chat settings" role="button" tabindex="0" :aria-expanded="isAiChatSettingsActive" @keydown.enter.prevent="toggleAiChatSettings" @keydown.space.prevent="toggleAiChatSettings">
                 <ElementStyleEditorAiChat></ElementStyleEditorAiChat>
             </div>
 
