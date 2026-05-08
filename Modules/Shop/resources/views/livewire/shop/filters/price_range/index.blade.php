@@ -2,10 +2,12 @@
 $randId = 'shpr'.md5($moduleId . $moduleType);
 @endphp
 <div wire:ignore>
-    <div class="my-4">
-        <div class="mb-2">
-            Price range
-        </div>
+    <div class="my-4 mw-shop-filter-price-range">
+        {{-- AI-67 / TICKET-ZZ (cycle-74 2026-05-08): heading
+             semantics — the bare div was unreachable via h-key
+             screen-reader navigation. h3 mirrors the other
+             filter sections. --}}
+        <h3 class="mw-shop-filter-heading h6 mb-2">{{ __('Price range') }}</h3>
         <div class="form-range mt-1" id="js-shop-price-range-{{$randId}}"></div>
        <div class="d-flex gap-4 mt-4">
 
