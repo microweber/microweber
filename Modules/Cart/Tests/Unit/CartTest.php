@@ -251,6 +251,7 @@ class CartTest extends TestCase
             'custom_fields_advanced' => [
                 ['type' => 'price', 'name' => 'Price', 'value' => '20'],
             ],
+            'data_qty' => 99,
             'data_max_qty_per_order' => 3,
             'is_active' => 1,
         ]);
