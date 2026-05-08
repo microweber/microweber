@@ -4677,3 +4677,58 @@ html[dir="rtl"] .mw-text-start {
 .edit:has(.mw-layout-container.no-select) {
     pointer-events: none;
 }
+
+/* =============================================================================
+ * AI-83 / TICKET-WW (cycle-94 2026-05-09): Image picker "AI" tab styles.
+ *
+ * Lifted from inline `style=""` attributes baked into the HTML string built
+ * by `packages/frontend-assets-libs/resources/local-libs/api/filepicker.js`
+ * inside the `ai:` component (~line 193). Each rule below replaces ONE
+ * inline-style site so strict `style-src 'self'` is satisfied without
+ * unsafe-inline AND so the styling becomes themeable from a design pack
+ * instead of being baked into the JS string template.
+ * ============================================================================= */
+
+.mw-filepicker-ai-tab-wrap {
+    max-width: 400px;
+    margin: auto;
+}
+
+.mw-filepicker-ai-field-narrow {
+    width: 200px;
+}
+
+.mw-filepicker-aspect-ratio-icon {
+    display: inline-block;
+    width: 30px;
+    border: 3px solid #777;
+}
+
+/* Per-aspect-ratio class lookups. Slashes aren't legal in class names so
+ * the JS slugifies '16/9' → '16-9' and emits the matching modifier class. */
+.mw-aspect-ratio-16-9      { aspect-ratio: 16 / 9; }
+.mw-aspect-ratio-9-16      { aspect-ratio: 9 / 16; }
+.mw-aspect-ratio-4-3       { aspect-ratio: 4 / 3; }
+.mw-aspect-ratio-1-1       { aspect-ratio: 1 / 1; }
+.mw-aspect-ratio-3-2       { aspect-ratio: 3 / 2; }
+.mw-aspect-ratio-1-618-1   { aspect-ratio: 1.618 / 1; }
+
+.mw-filepicker-ai-status {
+    /* aria-live region — announce-only, never visually shown.
+     * Uses the standard sr-only pattern (not display:none, which would
+     * hide it from assistive tech too). */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.mw-filepicker-ai-generate-btn[aria-busy="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+}

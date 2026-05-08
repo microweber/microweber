@@ -284,22 +284,41 @@ mw.filePicker = function (options) {
         },
 
         ai: function () {
+            // AI-83 / TICKET-WW (cycle-94 2026-05-09): aspect-ratio
+            // entries now carry a kebab-case `slug` (e.g. '16-9') so
+            // the option's swatch can resolve via the
+            // `.mw-aspect-ratio-${slug}` CSS class instead of an
+            // inline `style="aspect-ratio:..."`. Slashes/colons
+            // aren't legal class-name chars so the slug strips them.
             const aspectRatio = [
-                { value: "16:9", css: "16 / 9", label: "16:9" },
-                { value: "9:16", css: "9 / 16", label: "9:16" },
-                { value: "4:3", css: "4 / 3", label: "4:3" },
-                { value: "3:4", css: "3 / 4", label: "3:4" },
-                { value: "1:1", css: "1 / 1", label: "1:1" },
+                { value: "16:9", slug: "16-9", label: "16:9" },
+                { value: "9:16", slug: "9-16", label: "9:16" },
+                { value: "4:3", slug: "4-3", label: "4:3" },
+                { value: "3:4", slug: "3-4", label: "3:4" },
+                { value: "1:1", slug: "1-1", label: "1:1" },
             ];
             const id = mw.id();
+            const statusId = id + "-status";
+            const generateId = id + "-generate";
 
+            // AI-83 / TICKET-WW (cycle-94): every `style=""` in the
+            // template string below has been lifted into class
+            // selectors in
+            // packages/frontend-assets/resources/assets/css/microweber/css/default.css
+            // (search for "AI-83 / TICKET-WW"). Strict CSP
+            // `style-src 'self'` blocks inline `style=""` attributes;
+            // class-based styling satisfies it. Also added:
+            //   - `aria-busy` toggle on Generate button
+            //   - `aria-describedby` linking button → status region
+            //   - `<output role="status" aria-live="polite">` so SR
+            //     users hear "Generating image…" / "Image generated"
             const html = `
 
                 <div class="mw-image-picker-ai max-w-sm mx-auto">
                 <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <div class="form-control-live-edit-label-wrapper empty:hidden" id="${id}"></div>
-                <div class="form-control-live-edit-label-wrapper" style="max-width: 400px;margin: auto">
+                <div class="form-control-live-edit-label-wrapper mw-filepicker-ai-tab-wrap">
                 <div class="form-control-live-edit-label-wrapper">
                     <label>${scope._getComponentObject("ai").label}</label>
                     <input class="form-control-live-edit-input" name="prompt" placeholder="${mw.lang(
@@ -314,8 +333,8 @@ mw.filePicker = function (options) {
                         </button>
                         ${aspectRatio
                             .map((o) => {
-                                return `<option value="${o.value}">
-                                <span class="mw-filepicker-aspect-ratio-icon" style="aspect-ratio: ${o.css};display: inline-block; width: 30px;border: 3px solid #777"></span>
+                                return `<option value="${o.value}" data-aspect-ratio="${o.value}">
+                                <span class="mw-filepicker-aspect-ratio-icon mw-aspect-ratio-${o.slug}"></span>
                                 <span class="mw-filepicker-aspect-ratio-label" >${o.label}</span>
                             </option>`;
                             })
@@ -323,7 +342,7 @@ mw.filePicker = function (options) {
                     </select>
                 </div>
                  <div class="flex gap-4">
-                    <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                    <div class="form-control-live-edit-label-wrapper mw-filepicker-ai-field-narrow">
                         <label>${mw.lang("Width")}</label>
                         <!-- audit-test 2026-05-07 Image Picker audit
                              finding 2: width and height had min=1 but
@@ -334,19 +353,19 @@ mw.filePicker = function (options) {
                              guarantee (TICKET-VV). -->
                         <input class="form-control-live-edit-input" name="width" type="number" min="1" max="2048">
                     </div>
-                    <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                    <div class="form-control-live-edit-label-wrapper mw-filepicker-ai-field-narrow">
                         <label>${mw.lang("Height")}</label>
                         <input class="form-control-live-edit-input" name="height" type="number" min="1" max="2048">
                     </div>
                 </div>
-                <div class="form-control-live-edit-label-wrapper" style="width: 200px;display: none">
+                <div class="form-control-live-edit-label-wrapper mw-filepicker-ai-field-narrow d-none">
                     <label>${mw.lang("Number of images")}</label>
                     <input class="form-control-live-edit-input" name="number_of_images" type="number" min="1" max="${
                         scope.settings.multiple ? 6 : 1
                     }" value="1">
                 </div>
 
-                <div class="form-control-live-edit-label-wrapper" style="width: 200px">
+                <div class="form-control-live-edit-label-wrapper mw-filepicker-ai-field-narrow">
                     <!-- task-2026-05-05-54cda2 (Audit-#1) — fixed
                          "Refference image" typo per external audit.
                          User-facing label is now correctly spelled
@@ -355,7 +374,7 @@ mw.filePicker = function (options) {
                          existing CSS selectors / theme overrides. -->
                     <label>${mw.lang("Reference image")}</label>
                     <div class="refference-image-pick-container">
-                        <span class="refference-image-pick-preview" style="display: none">
+                        <span class="refference-image-pick-preview d-none">
                             <span class="refference-image-pick-preview-remove">
                              ${mw.top().app.iconService.icon("delete")}
                             </span>
@@ -376,7 +395,8 @@ mw.filePicker = function (options) {
                 </div>
 
                     <br>
-                    <button type="button" disabled class="btn btn-primary btn-pill w-100 " data-action="generate">Generate</button>
+                    <button type="button" id="${generateId}" disabled class="btn btn-primary btn-pill w-100 mw-filepicker-ai-generate-btn" data-action="generate" aria-describedby="${statusId}">${mw.lang("Generate")}</button>
+                    <output id="${statusId}" role="status" aria-live="polite" class="mw-filepicker-ai-status"></output>
                 </div>
                 </div>
                 </div>
@@ -409,17 +429,26 @@ mw.filePicker = function (options) {
                         ? await toDataURL(this.files[0])
                         : null;
                     mw.spinner({ element: $wrap[0], size: 30 }).remove();
+                    // AI-83 / TICKET-WW (cycle-94): runtime
+                    // background-image stays as a JS style mutation
+                    // (CSP's `style-src 'self'` does NOT block
+                    // .style.X = Y; only blocks inline `style=""`
+                    // attrs in HTML markup), but the show/hide
+                    // toggle moved off `.style.display` and onto
+                    // the `d-none` class so the initial hidden state
+                    // is class-driven (markup) and JS just toggles
+                    // the class.
                     refPickerNodepreview.style.backgroundImage = refImage
                         ? `url(${refImage})`
                         : "none";
-                    refPickerNodepreview.style.display = refImage ? `` : "none";
+                    refPickerNodepreview.classList.toggle("d-none", !refImage);
                 });
             $wrap[0]
                 .querySelector(".refference-image-pick-preview-remove")
                 .addEventListener("click", (e) => {
                     refImage = null;
                     refPickerNodepreview.style.backgroundImage = `none`;
-                    refPickerNodepreview.style.display = `none`;
+                    refPickerNodepreview.classList.add("d-none");
                 });
 
             const submit = async () => {
@@ -438,6 +467,16 @@ mw.filePicker = function (options) {
                     let message = body["prompt"];
                     let messages = [{ role: "user", content: message }];
                     var mwAi = MwAi();
+
+                    // AI-83 / TICKET-WW (cycle-94): aria-busy + aria-
+                    // live status announce so screen-reader users
+                    // know the model is working ("Generating image…")
+                    // and when it's done.
+                    const generateBtn = $wrap[0].querySelector("#" + generateId);
+                    const statusOutput = $wrap[0].querySelector("#" + statusId);
+                    if (generateBtn) generateBtn.setAttribute("aria-busy", "true");
+                    if (statusOutput) statusOutput.textContent = mw.lang("Generating image…");
+
                     mw.spinner({ element: $wrap[0], size: 30 }).show();
                     let res = await mwAi.generateImage(messages, body);
                     if (res.data && res.data.urls) {
@@ -449,6 +488,9 @@ mw.filePicker = function (options) {
                     );
                     scope.setSectionValue(images);
                     mw.spinner({ element: $wrap[0] }).remove();
+
+                    if (generateBtn) generateBtn.removeAttribute("aria-busy");
+                    if (statusOutput) statusOutput.textContent = mw.lang("Image generated");
                 }
             };
 
