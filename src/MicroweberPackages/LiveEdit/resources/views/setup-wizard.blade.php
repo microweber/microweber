@@ -75,11 +75,20 @@
                 <div
                     class="template-item group bg-[#f4f4f4] rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 mb-4"
                     data-categories="{{ json_encode($template['categories']) }}">
+                    {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep:
+                         <img> migration. Empty <div bg-image> had nothing on top so
+                         <img> is the simpler shape; click handler kept on the wrapper. --}}
                     <div class="template-preview"
-
-
                          onclick="installTemplate('{{ $template['dir_name'] }}')"
-                         style="cursor:pointer; background-image: url('{{ $template['screenshot'] ?? '' }}'); background-color: {{ empty($template['screenshot']) ? '#e5e7eb' : 'transparent' }};">
+                         style="cursor:pointer; background-color: {{ empty($template['screenshot']) ? '#e5e7eb' : 'transparent' }};">
+                        @if(!empty($template['screenshot']))
+                            <img src="{{ $template['screenshot'] }}"
+                                 alt="{{ $template['name'] ?? 'Template' }}"
+                                 loading="lazy"
+                                 decoding="async"
+                                 class="d-block w-100"
+                                 style="object-fit: cover;">
+                        @endif
                     </div>
                     <div class="template-info">
 

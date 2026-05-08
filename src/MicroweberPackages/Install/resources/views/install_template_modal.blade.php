@@ -15,7 +15,9 @@
     <div class="col-md-6">
 
 
-        <div class="template-preview" style="height:350px;background-image: url('{{$template['screenshot_link']}}');"></div>
+        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep: <img> migration. --}}
+        <img class="template-preview" src="{{ $template['screenshot_link'] }}" alt="{{ $template['name'] ?? '' }}" loading="lazy" decoding="async" style="height:350px; width:100%; object-fit:cover;">
+
 
 
         <hr />

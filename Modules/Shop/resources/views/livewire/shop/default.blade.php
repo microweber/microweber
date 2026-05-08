@@ -23,7 +23,12 @@
     <div class="col-md-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
-        <div class="row mt-4">
+        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9 (a11y half):
+             aria-live="polite" announces grid updates to SR users when filters
+             or search change the visible products. wire:loading.attr toggles
+             aria-busy="true" while Livewire is fetching, so SR users hear
+             "loading" instead of stale results. --}}
+        <div class="row mt-4" aria-live="polite" wire:loading.attr="aria-busy">
             @foreach($products as $product)
                 <div class="col-xl-6 col-lg-6 col-sm-12 mb-5">
                     @include('modules.shop::livewire.shop.product-card')

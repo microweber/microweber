@@ -1,10 +1,17 @@
 <div class="mw-online-shop-skin-1-product position-relative">
-    {{-- audit-test 2026-05-07 PM TICKET-AV bundle (Option A — safe_css_url helper):
-         same structural reason as Shop/product-card.blade.php — nested badge / discount /
-         overlay children. safe_css_url() closes the CSS-injection vector; <img> migration
-         tracked under TICKET-AB. --}}
+    {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB:
+         Same Option-B migration as Shop/product-card.blade.php — bg-image div
+         replaced with a real <img> inside a position:relative wrapper.
+         Badge/discount/overlay children stay on top via z-index without
+         restructuring. See product-card.blade.php for the full rationale. --}}
     <a class="text-decoration-none" href="{{content_link($product->id)}}">
-        <div class="background-image-holder" style="background-image: url('{{ safe_css_url($product->thumbnail(1000,1000)) }}'); height: 450px; background-size: cover;">
+        <div class="background-image-holder position-relative" style="aspect-ratio: 1 / 1; overflow: hidden;">
+            <img src="{{ $product->thumbnail(800, 600) }}"
+                 alt="{{ $product->title }}"
+                 loading="lazy"
+                 decoding="async"
+                 class="position-absolute top-0 start-0 w-100 h-100"
+                 style="object-fit: cover;">
 
             <div @if($product->getContentDataByFieldName('label-color'))
                      style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
@@ -43,8 +50,15 @@
 
     </div>
 
+    {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #10:
+         tag-chip switched from `<a href="?tags[]=">` (which wiped existing
+         query params) to wire:click="filterTag" via ShopTagsTrait — see
+         product-card.blade.php for the full note. --}}
     @foreach($product->tags as $tag)
-        <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
+        <span class="badge badge-lg">
+            <button type="button"
+                    class="btn btn-link p-0 align-baseline text-decoration-none"
+                    wire:click="filterTag('{{ $tag->slug }}')">{{ $tag->name }}</button>
+        </span>
     @endforeach
 </div>
-

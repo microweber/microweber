@@ -181,10 +181,18 @@
 
 
 
-                            <span class="mw-post-media-img" style="background-image: url('{{ $item->filename }}');"
-                                  data-id="{{ $item->id }}">
-
-
+                            {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep:
+                                 admin media-browser thumbnail. The existing .mw-post-media-img
+                                 CSS (general-styles.css:707) already declares absolute+cover
+                                 via Tailwind utilities, so a real <img> with object-fit:cover
+                                 inside a <span> wrapper preserves the visual exactly. --}}
+                            <span class="mw-post-media-img" data-id="{{ $item->id }}">
+                                <img src="{{ $item->filename }}"
+                                     alt=""
+                                     loading="lazy"
+                                     decoding="async"
+                                     class="d-block w-100 h-100"
+                                     style="object-fit: cover;">
                             </span>
 
 

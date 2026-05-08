@@ -68,9 +68,23 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
        </div>
     </div>
 
+    {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep:
+         decorative bg-image with marketing copy children on top. URL is
+         from asset() (build-time-constant, no admin input) so this was
+         never a CSS-injection sink, but the migration removes the last
+         `background-image: url('{{` raw blade interpolation in the repo
+         per acceptance #5 of the brief. Real <img> + absolute positioning
+         keeps the children visually on top of the banner. --}}
     <div class="col-md-4 px-0 unlock-package-columns pt-0 mb-3" style="background-color: #f5f5f5;">
-        <div class="unlock-package-right-side-img" style="background-image: url('{{ asset('vendor/microweber-packages/frontend-assets-libs/img/right-banner.jpg') }}')">
-<div class="ps-5" style="padding-top: 200px;">
+        <div class="unlock-package-right-side-img position-relative" style="overflow: hidden;">
+            <img src="{{ asset('vendor/microweber-packages/frontend-assets-libs/img/right-banner.jpg') }}"
+                 alt=""
+                 aria-hidden="true"
+                 loading="lazy"
+                 decoding="async"
+                 class="position-absolute top-0 start-0 w-100 h-100"
+                 style="object-fit: cover; z-index: 0;">
+<div class="ps-5 position-relative" style="padding-top: 200px; z-index: 1;">
             <h2 class="d-flex gap-2">
                 <span class="font-weight-bold">350+</span>
                 <span class="font-weight-normal">Layouts</span>

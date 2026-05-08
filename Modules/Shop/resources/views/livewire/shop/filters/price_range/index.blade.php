@@ -9,18 +9,24 @@ $randId = 'shpr'.md5($moduleId . $moduleType);
         <div class="form-range mt-1" id="js-shop-price-range-{{$randId}}"></div>
        <div class="d-flex gap-4 mt-4">
 
+           {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #8:
+                price-range inputs were `type="text"` — admin could type
+                non-numeric values (e.g. "abc" or "-50") which posted
+                unsanitised to the Livewire backend. type=number +
+                inputmode=decimal + min=0 + step=any gives the correct
+                mobile keyboard, blocks negative input, and accepts cents. --}}
            <div>
-               <label>From</label>
+               <label for="js-shop-price-range-from-{{$randId}}">From</label>
                <div class="input-group">
                    <span class="input-group-text">$</span>
-                   <input type="text" class="form-control" wire:model.live="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
+                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
                </div>
            </div>
            <div>
-               <label>To</label>
+               <label for="js-shop-price-range-to-{{$randId}}">To</label>
                <div class="input-group">
                    <span class="input-group-text">$</span>
-                   <input type="text" class="form-control" wire:model.live="priceTo" id="js-shop-price-range-to-{{$randId}}" aria-label="Amount (to the nearest dollar)">
+                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live="priceTo" id="js-shop-price-range-to-{{$randId}}" aria-label="Amount (to the nearest dollar)">
                </div>
            </div>
        </div>

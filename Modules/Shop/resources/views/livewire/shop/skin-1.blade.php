@@ -23,7 +23,10 @@
     <div class="col-md-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
-        <div class="row mt-7">
+        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9 (a11y half):
+             aria-live + wire:loading.attr=aria-busy on the products grid;
+             see default.blade.php for the full note. --}}
+        <div class="row mt-7" aria-live="polite" wire:loading.attr="aria-busy">
             @foreach($products as $product)
                 <div class="col-xl-6 col-lg-6 col-sm-12 mb-5">
                     @include('modules.shop::livewire.shop.product-card-skin-1')

@@ -1,7 +1,12 @@
+{{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9:
+     wire:model.live="keywords" fired a Livewire round-trip on every
+     keystroke — server-load amplifier on shops with thousands of
+     products. .debounce.500ms waits 500ms after the last keystroke
+     before firing, dropping the per-character query rate. --}}
 <div class="d-flex justify-content-between">
     <div>
-        <label>Search</label>
-        <input type="text" class="form-control" wire:model.live="keywords" placeholder="Type to search...">
+        <label for="js-shop-search-keywords">Search</label>
+        <input id="js-shop-search-keywords" type="text" class="form-control" wire:model.live.debounce.500ms="keywords" placeholder="Type to search...">
     </div>
     <div class="d-flex gap-2">
         {{-- audit-test 2026-05-07 Shop audit finding 1 (BLOCKER):

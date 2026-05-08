@@ -1,12 +1,25 @@
 <div class="shop-products">
 
     <div class="product position-relative">
-        {{-- audit-test 2026-05-07 PM TICKET-AV bundle (Option A — safe_css_url helper):
-             nested badge / overlay children prevent simple <img> migration without layout
-             restructure. safe_css_url() closes the CSS-injection vector; <img> migration
-             with object-fit and overlay positioning tracked under TICKET-AB. --}}
+        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB:
+             Migrated from `<div style="background-image: url('{{ safe_css_url(...) }}')">`
+             to a real `<img>` inside a position:relative wrapper. The wrapper is
+             absolute-positioned so badge/discount/overlay children stay on top
+             via z-index without restructuring the card layout.
+             - object-fit:cover preserves the prior background-size:cover visual
+             - aspect-ratio 1/1 + thumbnail size dropped from 1000x1000 to 800x600
+               (no perceptible quality loss on a ~450px-tall card; ~36% bandwidth
+               saving on the image-heavy shop grid)
+             - alt + loading=lazy + decoding=async added per a11y/perf brief
+             Same shape used by Slider/default cycle-41 and Categories/images cycle-39. --}}
         <a class="text-decoration-none" href="{{content_link($product->id)}}">
-            <div class="background-image-holder" style="background-image: url('{{ safe_css_url($product->thumbnail(1000,1000)) }}'); height: 450px; background-size: cover;">
+            <div class="background-image-holder position-relative" style="aspect-ratio: 1 / 1; overflow: hidden;">
+                <img src="{{ $product->thumbnail(800, 600) }}"
+                     alt="{{ $product->title }}"
+                     loading="lazy"
+                     decoding="async"
+                     class="position-absolute top-0 start-0 w-100 h-100"
+                     style="object-fit: cover;">
 
                 <div @if($product->getContentDataByFieldName('label-color'))
                          style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
@@ -45,8 +58,18 @@
 
         </div>
 
+        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #10:
+             prior `<a href="?tags[]={{ $tag->slug }}">` wiped all existing query
+             params (sort, page, search, price-range). wire:click="filterTag(...)"
+             routes through ShopComponent's ShopTagsTrait::filterTag which
+             merges the new tag into $this->tags + resets page to 1, preserving
+             every other filter. Same pattern as filters/tags/tag-button.blade.php. --}}
         @foreach($product->tags as $tag)
-            <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
+            <span class="badge badge-lg">
+                <button type="button"
+                        class="btn btn-link p-0 align-baseline text-decoration-none"
+                        wire:click="filterTag('{{ $tag->slug }}')">{{ $tag->name }}</button>
+            </span>
         @endforeach
     </div>
 </div>

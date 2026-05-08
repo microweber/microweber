@@ -97,7 +97,9 @@
 
                         <small class="text-muted d-block">v {{$template['version']}}</small>
 
-                        <div class="template-preview" style="background-image: url('{{$template['screenshot_link']}}');"></div>
+                        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB cycle-52 sweep: <img> migration. --}}
+                        <img class="template-preview" src="{{ $template['screenshot_link'] }}" alt="{{ $template['name'] ?? '' }}" loading="lazy" decoding="async">
+
 
                         <div class="text-right d-flex align-items-center justify-content-end gap-3">
                             @if($template['current_install'])
