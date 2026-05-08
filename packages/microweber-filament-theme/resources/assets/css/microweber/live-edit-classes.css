@@ -1352,3 +1352,79 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .dark .mw-add-content-modal-action-wrapper .w-20 {
     background-color: rgba(255, 255, 255, 0.06) !important;
 }
+
+/*
+ * AI-73 / TICKET-I (cycle-86 2026-05-09): live-edit mobile one-row
+ * toolbar + canvas iframe padding-top fix at < 768px viewports.
+ *
+ * Pre-86 the live-edit toolbar wrapped onto 2-3 rows on phone-sized
+ * viewports because col-xxl-3, col-auto, col, col-xl-auto layouts
+ * collapse to full-width at xs/sm. Two consequences:
+ *   1. The toolbar took 80-120 vertical pixels — three times its
+ *      desktop height — eating canvas real estate on a viewport
+ *      that already has 0 to spare.
+ *   2. The fi-main-ctn (canvas iframe wrapper) sits directly under
+ *      the toolbar with NO padding-top, so when the toolbar wraps,
+ *      the bottom row of toolbar buttons OVERLAPS the canvas top —
+ *      clicks land on canvas content instead of the toolbar button.
+ *
+ * Fix: at < 768px collapse the toolbar to a single horizontally-
+ * scrolling row AND give the canvas iframe a matching padding-top.
+ */
+@media (max-width: 767.98px) {
+    /* AI-73 / TICKET-I (cycle-86): one-row toolbar.
+       flex-nowrap + overflow-x-auto means the toolbar stays on a
+       single row even when its children do not fit, scrolling
+       horizontally. -webkit-overflow-scrolling smooths iOS Safari
+       inertial scroll. The pre-86 multi-row wrap broke click
+       hit-areas (last-row buttons overlapped the canvas top by
+       ~33px). */
+    #toolbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        min-height: 56px;
+        max-height: 56px;
+    }
+    #toolbar > * {
+        flex-shrink: 0 !important;
+    }
+
+    /* AI-73 / TICKET-I (cycle-86): VIEW button collapses to icon-only
+       at mobile width to save horizontal real estate. The aria-label
+       on #mw-page-set-preview-mode still announces "Toggle preview
+       mode" for SR users. */
+    #toolbar #mw-page-set-preview-mode {
+        font-size: 0;
+        padding-inline: 0.5rem;
+    }
+    #toolbar #mw-page-set-preview-mode::before {
+        content: "\1F441";  /* eye glyph U+1F441 */
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    /* AI-73 / TICKET-I (cycle-86): back-to-admin drops its text
+       label at < 768px so the toolbar fits the single row. The
+       arrow SVG + aria-label="Back to admin" still convey the
+       affordance. */
+    #toolbar #mw-live-edit-toolbar-back-to-admin-link span {
+        display: none !important;
+    }
+
+    /*
+     * AI-73 / TICKET-I (cycle-86): canvas iframe padding-top fix.
+     * fi-main-ctn (the iframe wrapper inside the Filament admin
+     * layout) sits directly under #toolbar — no separator. Add
+     * padding-top equal to the new fixed toolbar height (56px) so
+     * the canvas always starts BELOW the toolbar regardless of
+     * scroll-row width. Without this, the toolbar overlaps the
+     * canvas iframe by ~33px (measured by audit-test 2026-05-08).
+     */
+    .fi-layout .fi-main-ctn,
+    #iframe-holder,
+    .live-edit-canvas-wrapper {
+        padding-top: 56px !important;
+    }
+}
