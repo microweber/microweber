@@ -23,7 +23,22 @@ class BtnModule extends BaseModule
 
         $viewData['id'] = $this->params['id'];
         $viewData['btnId'] = 'link-' . $this->params['id'];
-        $viewData['popupFunctionId'] = 'mwPopupBtn' . md5($this->params['id']);
+        // AI-56 / TICKET-CW (cycle-63 2026-05-08): popupFunctionId is
+        // interpolated into a `href="javascript:{id}()"` URI in
+        // templates/bootstrap.blade.php and as `function {id}()` in
+        // components/popup.blade.php. md5() emits hex-only today so
+        // the value is safe — but a future refactor could trivially
+        // break that invariant (e.g. someone tries to use the param
+        // id directly as a "human-readable" function name). Lock the
+        // value to a strict JS-identifier shape with an explicit
+        // preg_replace so the safety property is guaranteed at the
+        // source and cannot drift.
+        $popupFunctionRaw = 'mwPopupBtn' . md5($this->params['id']);
+        $viewData['popupFunctionId'] = preg_replace(
+            '/[^A-Za-z0-9_]/',
+            '',
+            $popupFunctionRaw
+        );
 
         $viewData['style'] = $this->params['button_style'] ?? '';
         $viewData['size'] = $this->params['button_size'] ?? $params['size'] ?? '';

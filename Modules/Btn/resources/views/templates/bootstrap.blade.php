@@ -51,6 +51,16 @@ description: Bootstrap button
     @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
 </button>
 @elseif($action == 'popup')
+    @php
+        // AI-56 / TICKET-CW (cycle-63 2026-05-08): defence-in-depth.
+        // popupFunctionId is interpolated into a `href="javascript:{id}()"`
+        // URI below — even though Blade {{ }} HTML-escapes, that does NOT
+        // protect against JS-injection inside the URI scheme. Lock the
+        // value to a strict JS-identifier shape at render time so the
+        // template is safe regardless of which code path produced
+        // popupFunctionId (BtnModule sanitises it too).
+        $popupFunctionId = preg_replace('/[^A-Za-z0-9_]/', '', (string) $popupFunctionId);
+    @endphp
     @include('modules.btn::components.popup')
     <a id="{{ $btnId }}" href="javascript:{{ $popupFunctionId }}()" class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!}>
         @if($hasIcon && $iconPosition == 'left'){!! $iconHtml !!}@endif
