@@ -24,21 +24,49 @@ Route::name('modules.newsletter.')
             $userAgent = request()->userAgent();
             $redirectTo = request()->get('redirect_to');
             $redirectTo = urldecode((string) $redirectTo);
+            $providedSig = (string) request()->get('sig', '');
+
+            // AI-57 / TICKET-QQ (cycle-64 2026-05-08): HMAC verification.
+            // NewsletterMailSender now signs every click-link with
+            // hash_hmac('sha256', campaign_id|email|redirect_to,
+            // config('app.key')). Verify the signature here before
+            // accepting the click — closes the stats-poisoning leg
+            // (an attacker who knows the URL pattern can no longer POST
+            // junk click-records) and complements the cycle-7
+            // same-host validation that closed the open-redirect leg.
+            //
+            // Two-tier acceptance to avoid breaking already-sent emails:
+            //   * Valid HMAC                 → record click + redirect
+            //                                  (only sigs we ourselves
+            //                                  produced match this path)
+            //   * Missing/invalid HMAC, but
+            //     redirect_to is same-host   → redirect only, NO record
+            //                                  (legacy in-flight emails;
+            //                                  cross-host attempts that
+            //                                  happen to share host)
+            //   * Anything else              → redirect to home, NO
+            //                                  record (existing behaviour)
+            $expectedSig = $campaignId !== null && $redirectTo !== ''
+                ? hash_hmac(
+                    'sha256',
+                    (string) $campaignId . '|' . (string) $requestEmail . '|' . $redirectTo,
+                    (string) config('app.key')
+                )
+                : '';
+            $sigIsValid = $providedSig !== ''
+                && $expectedSig !== ''
+                && hash_equals($expectedSig, $providedSig);
 
             // audit-test 2026-05-07 finding #1 (SECURITY): the
             // open-redirect leg. Anyone could craft
             // /click-link?redirect_to=https://attacker.example.com to
             // make Microweber 302 to an attacker URL — perfect phishing
             // vehicle since the link looks like the legitimate site.
-            //
-            // Smallest fix that closes the vector: refuse any
-            // redirect_to whose host is NOT the same as the site's
-            // configured host. A signed-token approach (HMAC over
-            // campaign_id|email|redirect_to) would be stronger but is
-            // a larger change — tracked as TICKET-QQ. Same-host
-            // validation handles 99% of real-world abuse today.
+            // Same-host check stays as the fallback for legacy emails.
             $safeRedirect = null;
-            if ($redirectTo) {
+            if ($sigIsValid) {
+                $safeRedirect = $redirectTo;
+            } elseif ($redirectTo) {
                 $parts = parse_url($redirectTo);
                 if ($parts !== false && ! empty($parts['host'])) {
                     $scheme = strtolower($parts['scheme'] ?? '');
@@ -51,7 +79,10 @@ Route::name('modules.newsletter.')
                 }
             }
 
-            if ($campaignId) {
+            // Only record clicks when the HMAC validates — junk POSTs
+            // that hit the legacy same-host path bypass the analytics
+            // table so attacker activity cannot poison stats.
+            if ($sigIsValid && $campaignId) {
                 $findCampaign = \Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
                 if ($findCampaign) {
                     $newsletterCampaignClickedLink = new \Modules\Newsletter\Models\NewsletterCampaignClickedLink();
