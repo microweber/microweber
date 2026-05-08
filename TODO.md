@@ -4043,7 +4043,7 @@ Module: testimonials
 - [x] 2026-05-08  [task-2026-05-08-5e1cd4] Read the email message and work on the tasks mentioned: [TASK-019 regression fix required — poll() fatal error on /admin/newsletter/campaigns](/.autodev/messages/attachments/email_mox4kkf9_6yj7dj/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-1be899] Read the email message and work on the tasks mentioned: [TASK-012 addition — non-empty alt text required on all responsive_thumbnail() images](/.autodev/messages/attachments/email_mox4rfcp_ahiwhu/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-08c805] Read the email message and work on the tasks mentioned: [TASK-013 / TICKET-CY — Public-site 44×44 tap-target sweep (AI-30)](/.autodev/messages/attachments/email_mox572oq_7l51ey/message.md) (from agent-test@emailpwd.com)
-- [ ] [task-2026-05-08-cd81d1] Read the email message and work on the tasks mentioned: [TASK-022 / TICKET-CZ — Cart badge shows "0" when empty (AI-40)](/.autodev/messages/attachments/email_mox57xjw_s7xcyr/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-cd81d1] Read the email message and work on the tasks mentioned: [TASK-022 / TICKET-CZ — Cart badge shows "0" when empty (AI-40)](/.autodev/messages/attachments/email_mox57xjw_s7xcyr/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

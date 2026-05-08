@@ -227,7 +227,23 @@ mw.cart = {
             typeof data == "object" &&
             typeof data.cart_items_quantity !== "undefined"
         ) {
-            $(".js-shopping-cart-quantity").html(data.cart_items_quantity);
+            // TASK-022 / TICKET-CZ / AI-40 (cycle-59 2026-05-08): keep
+            // the cart badge hidden when the count drops to 0 (and
+            // un-hide when it rises above 0). The blade renders the
+            // span with `hidden` + `aria-hidden="true"` for empty
+            // carts; this block keeps that state synced after an
+            // add-to-cart / remove that fires `mw.cart.after_modify`.
+            var $badge = $(".js-shopping-cart-quantity");
+            var qty    = parseInt(data.cart_items_quantity, 10) || 0;
+            $badge.html(data.cart_items_quantity);
+            $badge.attr("data-cart-count", qty);
+            if (qty <= 0) {
+                $badge.attr("hidden", "hidden");
+                $badge.attr("aria-hidden", "true");
+            } else {
+                $badge.removeAttr("hidden");
+                $badge.removeAttr("aria-hidden");
+            }
         }
 
         mw.trigger("mw.cart.after_modify", data);
