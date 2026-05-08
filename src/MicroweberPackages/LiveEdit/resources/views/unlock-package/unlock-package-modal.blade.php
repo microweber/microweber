@@ -84,6 +84,10 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
                  decoding="async"
                  class="position-absolute top-0 start-0 w-100 h-100"
                  style="object-fit: cover; z-index: 0;">
+{{-- audit-test 2026-05-08 cycle-52 sibling fix: position-relative + z-index:1
+     are required so this marketing-copy column renders ABOVE the absolutely-
+     positioned <img> bg in the sibling .col-md-4 (z-index:0). Stripping
+     either property will hide the copy behind the banner. --}}
 <div class="ps-5 position-relative" style="padding-top: 200px; z-index: 1;">
             <h2 class="d-flex gap-2">
                 <span class="font-weight-bold">350+</span>
