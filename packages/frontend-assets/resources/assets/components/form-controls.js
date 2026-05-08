@@ -1397,6 +1397,21 @@ mw.emitter = {
             var urlField = holder.querySelector('[name="url"]');
             var targetField = holder.querySelector('[name="target"]');
 
+            // AI-84 / TICKET-YY (cycle-95 2026-05-09): browser
+            // autocomplete on the URL input. With `autocomplete="url"`
+            // browsers offer suggestions from the user's previously-
+            // typed URL inputs (e.g. recent destinations they've
+            // already linked to in this admin), saving the typing-
+            // by-hand step that triggered the audit's UX finding.
+            // `inputmode="url"` adds the URL-friendly keyboard on
+            // mobile (slash + dot keys promoted). `spellcheck="false"`
+            // stops Safari/Chrome from underlining the URL as a typo.
+            if (urlField) {
+                urlField.setAttribute('autocomplete', 'url');
+                urlField.setAttribute('inputmode', 'url');
+                urlField.setAttribute('spellcheck', 'false');
+            }
+
             // audit-test 2026-05-07 Link Picker audit finding 7 (UX):
             // the previous prefill `location.protocol + '//'` caused
             // double-prefix on paste (http://http://example.com) and

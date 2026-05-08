@@ -327,10 +327,44 @@ mw.LinkEditor = function(options) {
 
         this.root.className = 'mw-link-editor-root position-relative mw-link-editor-root-inIframe-' + (window.self !== window.top )
 
-        $(this.root).append('<span onclick="mw.dialog.get(this).remove()" class="x-close-modal-link"> <i class="mdi mdi-close"></i>  </span>');
+        // AI-84 / TICKET-YY (cycle-95 2026-05-09): close button.
+        // Pre-fix: `<span onclick="mw.dialog.get(this).remove()">` —
+        // a CSP-violating inline `onclick=` (CSP `script-src 'self'`
+        // would block it) AND a non-button element (no keyboard
+        // semantics, no aria-label, screen readers announced
+        // "image" or nothing). Now a real `<button type="button">`
+        // with `aria-label="Close"`, keyboard-activatable, and
+        // wired via addEventListener (no inline handler).
+        var closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'x-close-modal-link mw-link-editor-close';
+        closeBtn.setAttribute('aria-label', mw.lang('Close'));
+        closeBtn.innerHTML = '<i class="mdi mdi-close" aria-hidden="true"></i>';
+        closeBtn.addEventListener('click', function () {
+            if (scope.dialog && typeof scope.dialog.remove === 'function') {
+                scope.dialog.remove();
+            }
+        });
+        this.root.appendChild(closeBtn);
 
         this.buildControllers ();
         if(this.settings.mode === 'dialog') {
+            // AI-84 / TICKET-YY (cycle-95): focus-restore. Capture the
+            // element that had focus BEFORE the dialog opened so
+            // close-time focus can return to it. Without this, screen-
+            // reader users get dropped to <body> after dismissing the
+            // dialog, losing keyboard context and (often) needing to
+            // tab through the entire admin chrome to get back where
+            // they were.
+            var previouslyFocused = (function () {
+                try {
+                    var doc = mw.top().win ? mw.top().win.document : document;
+                    return (doc && doc.activeElement) || null;
+                } catch (e) {
+                    return document.activeElement || null;
+                }
+            })();
+
             this.dialog = mw.top().dialog({
                 content: this.root,
                 width: 1000,
@@ -340,6 +374,27 @@ mw.LinkEditor = function(options) {
                 title: this.settings.title,
                 shadow: false,
             });
+
+            // AI-84 / TICKET-YY (cycle-95): dialog ARIA. Add role,
+            // aria-modal, and aria-labelledby on the dialog frame
+            // so assistive tech announces "Link Settings dialog" on
+            // open and traps the modal-context interaction model.
+            // The dialog skin already centers itself; ARIA goes on
+            // the outer dialogMain wrapper.
+            try {
+                if (this.dialog && this.dialog.dialogMain) {
+                    var dlgRoot = this.dialog.dialogMain;
+                    dlgRoot.setAttribute('role', 'dialog');
+                    dlgRoot.setAttribute('aria-modal', 'true');
+                    var titleNode = dlgRoot.querySelector('.mw-ui-modal-header, .modal-title, .mw-ui-dialog-title');
+                    if (titleNode) {
+                        if (!titleNode.id) {
+                            titleNode.id = 'mw-link-editor-title-' + Math.random().toString(36).slice(2, 10);
+                        }
+                        dlgRoot.setAttribute('aria-labelledby', titleNode.id);
+                    }
+                }
+            } catch (e) { /* dialog markup variations across skins; ARIA is a non-blocking enhancement */ }
 
             this.dialog.center();
 
@@ -363,15 +418,31 @@ mw.LinkEditor = function(options) {
             }
 
 
+            // AI-84 / TICKET-YY (cycle-95): focus-restore. Wrap
+            // dialog.remove() so the element that had focus before
+            // the dialog opened is re-focused after the dialog tears
+            // down. Guard with try/catch because the previously-
+            // focused element may have been removed from the DOM
+            // (e.g. if Live Edit redrew the toolbar mid-dialog) or
+            // may be inside a now-detached iframe.
+            var restoreFocus = function () {
+                try {
+                    if (previouslyFocused && typeof previouslyFocused.focus === 'function' && previouslyFocused.isConnected !== false) {
+                        previouslyFocused.focus({ preventScroll: true });
+                    }
+                } catch (e) { /* element may have been removed */ }
+            };
+
             this.onConfirm(function (){
                 scope.dialog.remove();
-
+                restoreFocus();
             });
 
 
 
             this.onCancel(function (){
                 scope.dialog.remove();
+                restoreFocus();
             });
         } else if(this.settings.mode === 'element') {
             this.settings.element.append(this.root);
