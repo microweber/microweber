@@ -10,27 +10,46 @@ use Modules\Cart\Models\Cart;
 class CartModelTest extends TestCase
 {
     #[Test]
-    public function it_cart_fillable_fields(): void {
+    public function it_cart_guarded_fields(): void {
+        // AI-81 / TICKET-AR (cycle-71 2026-05-08): Cart switched from
+        // $fillable (allow-list) to $guarded (deny-list). Verify the
+        // server-trust-only columns reject mass-assignment AND the
+        // legitimate user-facing columns still accept it.
         $cart = new Cart();
 
-        $expectedFillable = [
-            'rel_type',
-            'rel_id',
-
-            'price',
-            'currency',
-            'qty',
-
-            'order_id',
-            'order_completed',
-
-            'description',
-            'link',
-            'other_info',
-            'custom_fields_data',
+        $expectedGuarded = [
+            'id',
+            'session_id',
+            'user_id',
+            'amount',
+            'is_paid',
+            'confirmed_at',
+            'created_at',
+            'updated_at',
         ];
+        $this->assertEquals($expectedGuarded, $cart->getGuarded());
 
-        $this->assertEquals($expectedFillable, $cart->getFillable());
+        // Negative: every guarded column rejects mass-assignment.
+        foreach ($expectedGuarded as $col) {
+            $this->assertFalse(
+                $cart->isFillable($col),
+                "Cart: \$guarded column '{$col}' must NOT be mass-assignable"
+            );
+        }
+
+        // Positive: every legitimate user-facing column still accepts
+        // mass-assignment via the implicit allow-rest behaviour.
+        $userFacing = [
+            'rel_type', 'rel_id', 'price', 'currency', 'qty',
+            'order_id', 'order_completed',
+            'description', 'link', 'other_info', 'custom_fields_data',
+        ];
+        foreach ($userFacing as $col) {
+            $this->assertTrue(
+                $cart->isFillable($col),
+                "Cart: legitimate user-facing column '{$col}' must remain mass-assignable"
+            );
+        }
     }
 
     #[Test]
