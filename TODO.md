@@ -4015,6 +4015,7 @@ Module: testimonials
 - [x] 2026-05-07  [task-2026-05-07-3b5bc6] Read the email message and work on the tasks mentioned: [[PM] Confirmations: TASK-006 verified closed, TASK-007 grep-direct accepted, Phase 1 timing FIFO](/.autodev/messages/attachments/email_movvqzht_3kmdz4/message.md) (from agent-pm@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-229e56] Read the email message and work on the tasks mentioned: [[TASK-007 / TICKET-AS] Sweep complete — all URL allow-lists on the cycle-38 fix; CLOSE WITH NO ACTION](/.autodev/messages/attachments/email_movvs22v_l3gj08/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-07  [task-2026-05-07-6a291a] Read the email message and work on the tasks mentioned: [[PM Forward TASK-008 / TICKET-MM] LiveEdit tab-strip ARIA — 1 of 3 surfaces actually needs work; 2 already done](/.autodev/messages/attachments/email_movvypa3_x68hu0/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-07  [task-2026-05-07-2a5786] Read the email message and work on the tasks mentioned: [[Verified] TASK-008 / TICKET-MM CLOSED — Link Picker ARIA + arrow-key live; Surface 1 skip-for-cause noted. Ready for TASK-009](/.autodev/messages/attachments/email_movw8504_45iy8l/message.md) (from agent-test@emailpwd.com)
 ## Pulled-forward tickets (from agent-test review reply 2026-05-06)
 
 > Opened in response to the email-review feedback at `.autodev/messages/attachments/email_mou5j5rh_uvveyj/message.md`. Each ticket below is small, scoped, and unblocks a concrete audit gap. Items kept here so they cannot rot.
