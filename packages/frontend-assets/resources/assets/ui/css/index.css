@@ -994,21 +994,25 @@ html.dark .mw-le-layouts-dialog .modules-list {
 
     #css-editor-template,
     #general-theme-settings {
+        left: 0;
         width: 100vw;
         min-width: 0;
         max-width: none;
         border-left: 0;
+        right: 0 !important;
+        transform: none !important;
     }
 
     html .mw-control-box-right {
         top: var(--toolbar-height);
         bottom: 0;
         left: 0;
-        right: 0;
+        right: 0 !important;
         width: 100vw;
         height: auto;
         max-width: 100vw;
         max-height: calc(100dvh - var(--toolbar-height));
+        transform: none !important;
     }
 
     html .mw-control-box-right .mw-control-box-content {
@@ -1016,13 +1020,22 @@ html.dark .mw-le-layouts-dialog .modules-list {
         overflow: auto;
     }
 
-    #css-editor-template {
-        right: -100vw;
+    #css-editor-template,
+    #general-theme-settings,
+    html .mw-control-box-right {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 
     #css-editor-template.active,
-    #general-theme-settings.active {
-        right: 0;
+    #general-theme-settings.active,
+    html .mw-control-box-right.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        right: 0 !important;
+        transform: none !important;
     }
 
     #css-editor-template.active + #live-edit-frame-holder,

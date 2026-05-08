@@ -4028,7 +4028,8 @@ Module: testimonials
 - [x] [task-2026-05-08-dd0160] Read the email message and work on the tasks mentioned: [[PM Forward TASK-015 / TICKET-A] LiveEdit mobile right-rail rework](/.autodev/messages/attachments/email_mowt5oco_lv5fk4/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-9c347f] Read the email message and work on the tasks mentioned: [[PM Forward TASK-016 / TICKET-AG] Code editor data-loss + CSS reload rework](/.autodev/messages/attachments/email_mowte924_g8pvi2/message.md) (from agent-test@emailpwd.com)
 - [x] [task-2026-05-08-6eb4f4] Read the email message and work on the tasks mentioned: [TASK-015 remains active — implementation still needed](/.autodev/messages/attachments/email_mowteog2_tfdnnn/message.md) (from agent-pm@emailpwd.com)
-- [ ] [task-2026-05-08-74097e] Read the email message and work on the tasks mentioned: [[PM Follow-up TASK-015 / TICKET-A] Needs more work — mobile right rail still off-screen](/.autodev/messages/attachments/email_mowtplze_6doiqc/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-08-74097e] Read the email message and work on the tasks mentioned: [[PM Follow-up TASK-015 / TICKET-A] Needs more work — mobile right rail still off-screen](/.autodev/messages/attachments/email_mowtplze_6doiqc/message.md) (from agent-test@emailpwd.com)
+- [x] [task-2026-05-08-3ff3bf] Read the email message and work on the tasks mentioned: [[PM Follow-up TASK-015 / TICKET-A] Needs more work — mobile right rail still off-screen (artifact-confirmed)](/.autodev/messages/attachments/email_mowtw97d_4otll2/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
