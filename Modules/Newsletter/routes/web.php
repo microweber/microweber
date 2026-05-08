@@ -62,7 +62,11 @@ Route::name('modules.newsletter.')
             // /click-link?redirect_to=https://attacker.example.com to
             // make Microweber 302 to an attacker URL — perfect phishing
             // vehicle since the link looks like the legitimate site.
-            // Same-host check stays as the fallback for legacy emails.
+            // Three-tier acceptance:
+            //   * Valid HMAC                                → trust
+            //   * Same host as the site (cycle-7 fallback)  → trust
+            //   * Host matches AI-58 allowlist (cycle-65)   → trust
+            // Anything else: redirect home.
             $safeRedirect = null;
             if ($sigIsValid) {
                 $safeRedirect = $redirectTo;
@@ -74,6 +78,11 @@ Route::name('modules.newsletter.')
                     if (in_array($scheme, ['http', 'https'], true)
                         && $siteHost
                         && strcasecmp($parts['host'], $siteHost) === 0) {
+                        $safeRedirect = $redirectTo;
+                    } elseif (\Modules\Newsletter\Models\NewsletterTrackedLinkAllowlist::urlIsAllowed($redirectTo)) {
+                        // AI-58 / TICKET-RR (cycle-65 2026-05-08):
+                        // operator-curated allowlist of external hosts
+                        // we trust to receive tracked-link redirects.
                         $safeRedirect = $redirectTo;
                     }
                 }
