@@ -186,13 +186,19 @@ class CampaignResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #11:
+            // audit-test 2026-05-08 PM TASK-019 / TICKET-AN finding #11
+            // (regression fix per cycle-56):
             // ->poll('10s') was unconditional — fired a Livewire round-trip
             // every 10s on every Campaigns list view, including pages with
             // only finished/draft campaigns where there is nothing to update.
-            // Gated via condition: closure so polling only runs when at
-            // least one campaign is in a status that can transition without
-            // admin action. Trigger states (per cycle-54 verify ack):
+            // Cycle-54 first attempt used ->poll('10s', condition: fn ()...) but
+            // Filament's Table::poll() signature is `string|Closure|null $interval`
+            // ONLY — there is no `condition:` named arg. The original cycle-54
+            // call therefore raised a fatal error at runtime (HTTP 500 on
+            // /admin/newsletter/campaigns). Correct shape per Filament docs:
+            // pass a Closure as the single $interval arg. The Closure returns
+            // '10s' when polling should run, or null to disable polling.
+            // Trigger states:
             //   STATUS_QUEUED      — waiting in dispatcher queue
             //   STATUS_PENDING     — accepted by sender, not yet started
             //   STATUS_PROCESSING  — recipient list being built
@@ -200,14 +206,14 @@ class CampaignResource extends Resource
             // Stable states (DRAFT / SCHEDULED / FINISHED / FAILED /
             // CANCELED) cannot transition without admin action and don't
             // benefit from polling.
-            ->poll('10s', condition: fn () => NewsletterCampaign::query()
+            ->poll(fn () => NewsletterCampaign::query()
                 ->whereIn('status', [
                     NewsletterCampaign::STATUS_QUEUED,
                     NewsletterCampaign::STATUS_PENDING,
                     NewsletterCampaign::STATUS_PROCESSING,
                     NewsletterCampaign::STATUS_SENDING,
                 ])
-                ->exists())
+                ->exists() ? '10s' : null)
             ->modifyQueryUsing(fn ($query) => $query
                 ->with('list')
                 ->withCount(['listSubscribers', 'openedPixels', 'clickedLinks']))

@@ -98,12 +98,23 @@ class NewsletterAdminUxContractTest extends TestCase
     #[Test]
     public function campaign_resource_poll_carries_a_condition_gate(): void
     {
-        // Acceptance #5 — ->poll('10s', condition: fn () => ...) NOT bare ->poll('10s').
-        $this->assertStringContainsString(
-            "->poll('10s', condition:",
-            $this->campaignSrc,
-            'CampaignResource: ->poll() must carry a condition: gate to skip when no campaigns are in transition'
+        // Acceptance #5 — Filament's Table::poll() accepts only ONE parameter
+        // (`Closure|string|null $interval`); cycle-54 first attempt used the
+        // named-arg `condition:` form which doesn't exist, raising a fatal
+        // error at runtime (HTTP 500 on /admin/newsletter/campaigns).
+        // Cycle-56 regression fix wraps the gate in a Closure that returns
+        // '10s' when active campaigns exist, or null to disable polling.
+        // Strip PHP `//` comment lines before assertions so the doc-comment
+        // text describing the prior bug doesn't trip the negative checks.
+        $strippedSrc = preg_replace('/^\\s*\\/\\/.*$/m', '', $this->campaignSrc);
+
+        // Positive: ->poll(fn () => ... ? '10s' : null) is the correct shape.
+        $this->assertMatchesRegularExpression(
+            "/->poll\\(\\s*fn\\s*\\(\\)\\s*=>/",
+            $strippedSrc,
+            'CampaignResource: ->poll() must carry a Closure $interval that returns \'10s\' when polling should run, null otherwise'
         );
+
         // Spot-check the gated states.
         $this->assertStringContainsString(
             'NewsletterCampaign::STATUS_QUEUED',
@@ -115,15 +126,44 @@ class NewsletterAdminUxContractTest extends TestCase
             $this->campaignSrc,
             'CampaignResource: poll gate should reference STATUS_SENDING'
         );
-        // Acceptance #5 negative — bare unconditional poll is gone.
-        // Strip PHP `//` and `#` comment lines before regex match so the
-        // doc-comment text describing the prior shape doesn't trigger.
-        $strippedSrc = preg_replace('/^\\s*\\/\\/.*$/m', '', $this->campaignSrc);
+
+        // Negative #1: cycle-54's broken `->poll('10s', condition:` named-arg
+        // form must NOT appear in live code (would raise a fatal error).
+        $this->assertDoesNotMatchRegularExpression(
+            "/->poll\\('10s'\\s*,\\s*condition:/",
+            $strippedSrc,
+            'CampaignResource: ->poll(\'10s\', condition: ...) named-arg form raises a fatal Error at runtime — Filament Table::poll() accepts only one parameter'
+        );
+
+        // Negative #2: bare unconditional ->poll('10s') is gone.
         $this->assertDoesNotMatchRegularExpression(
             "/->poll\\('10s'\\)/",
             $strippedSrc,
             'CampaignResource: bare unconditional ->poll(\'10s\') must not appear in live code'
         );
+    }
+
+    #[Test]
+    public function filament_table_poll_signature_accepts_one_parameter(): void
+    {
+        // Cycle-56 regression-prevention: pin the Filament contract that
+        // Table::poll() accepts a SINGLE $interval (Closure|string|null).
+        // If a future Filament upgrade adds a `condition:` named arg this
+        // test will fail loudly — at which point the gate-shape can be
+        // upgraded back to the cleaner named-arg form. Until then the
+        // Closure-returning-string-or-null pattern is the contract.
+        $reflection = new \ReflectionMethod('Filament\\Tables\\Table', 'poll');
+        $this->assertSame(
+            1,
+            $reflection->getNumberOfParameters(),
+            'Filament Table::poll() must accept exactly 1 parameter; if this changed, the named-arg poll() shape may now be valid'
+        );
+
+        $param = $reflection->getParameters()[0];
+        $this->assertSame('interval', $param->getName());
+        // Type is `Closure|string|null` — verify Closure is accepted.
+        $type = (string) $param->getType();
+        $this->assertStringContainsString('Closure', $type);
     }
 
     #[Test]

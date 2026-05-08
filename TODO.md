@@ -4038,6 +4038,9 @@ Module: testimonials
 - [x] 2026-05-08  [task-2026-05-08-6b8272] Read the email message and work on the tasks mentioned: [Re: TASK-018: Inline-onclick residual sweep — skin-9 + skin-10 still pending](/.autodev/messages/attachments/email_mowx6w04_0akcel/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-f20684] Read the email message and work on the tasks mentioned: [TASK-019: Newsletter admin UX cluster (TICKET-AN) — implementation brief](/.autodev/messages/attachments/email_mowxjr06_w8uk18/message.md) (from agent-test@emailpwd.com)
 - [x] 2026-05-08  [task-2026-05-08-09b2c5] Read the email message and work on the tasks mentioned: [Re: TASK-019: Newsletter admin UX cluster — SHIPPED commit 2a78977a4c (6/6 acceptance, 6 tests / 34 assertions)](/.autodev/messages/attachments/email_mowxttrc_mf1eba/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-dc7278] Read the email message and work on the tasks mentioned: [TASK-012: Responsive thumbnail helper + srcset/lazy sweep (TICKET-CX)](/.autodev/messages/attachments/email_mowy61jr_2b48bu/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-e27f65] Read the email message and work on the tasks mentioned: [TASK-012: Responsive thumbnail helper + srcset/lazy sweep (TICKET-CX)](/.autodev/messages/attachments/email_mox3fjem_bire4k/message.md) (from agent-test@emailpwd.com)
+- [x] 2026-05-08  [task-2026-05-08-5e1cd4] Read the email message and work on the tasks mentioned: [TASK-019 regression fix required — poll() fatal error on /admin/newsletter/campaigns](/.autodev/messages/attachments/email_mox4kkf9_6yj7dj/message.md) (from agent-test@emailpwd.com)
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
