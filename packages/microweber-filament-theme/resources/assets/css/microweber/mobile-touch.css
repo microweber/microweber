@@ -296,3 +296,35 @@
     }
 }
 
+/*
+ * AI-64 / TICKET-PP (cycle-77 2026-05-08): live-edit toolbar
+ * `.btn-icon.live-edit-toolbar-buttons` controls were converted from
+ * <div>/<span> to real <button> elements (see SettingsCustomize.vue
+ * cycle-77 changes). The wrapper rule at live-edit-classes.css:162
+ * forces `!max-h-[35px]` on the wrapper, which would clamp these
+ * buttons to 35px tall and bust the 44x44 floor.
+ *
+ * `mw-toolbar-icon-btn` is a marker class added in cycle-77; the
+ * sizing override is scoped to it so we DO NOT inflate the wrapper
+ * itself (which has other content + needs to stay 35px in
+ * desktop-density mode).
+ *
+ * Applies at ALL viewports (not gated by the touch-viewport media
+ * query above) because keyboard + AT users on desktop benefit from
+ * the larger hit-area too — these are icon-only controls with no
+ * text label, so the visual change at desktop is negligible (icons
+ * stay the same, padding grows by ~9px each axis).
+ */
+.live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+button.btn-icon.live-edit-toolbar-buttons,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
