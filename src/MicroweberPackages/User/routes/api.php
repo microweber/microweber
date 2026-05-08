@@ -40,9 +40,17 @@ Route::name('api.auth.')
         })->middleware(['api'])->name('refreshToken');
 
 
+        // AI-53 / TICKET-E (cycle-67 2026-05-08): swap bare
+        // throttle:60,1 (60 attempts/min by IP only — useless against
+        // a credential-stuffing attacker who can rotate emails) for
+        // the named `login` limiter declared in bootstrap/app.php
+        // (5/min keyed on `login::<ip>::<email|username>`). The named
+        // limiter rate-limits per-account so even a botnet rotating
+        // IPs can only test 5 passwords per minute against any single
+        // account.
         Route::post('login', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@login')
             ->name('login')
-            ->middleware(['allowed_ips', 'throttle:60,1','web']);
+            ->middleware(['allowed_ips', 'throttle:login','web']);
 
         Route::post('logout', \MicroweberPackages\User\Http\Controllers\Api\AuthController::class . '@logout')
             ->name('logout')
@@ -157,7 +165,10 @@ Route::name('api.user.')
     ])
      ->group(function () {
 
-        Route::post('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@login')->name('login')->middleware(['allowed_ips', 'throttle:60,1']);
+        // AI-53 / TICKET-E (cycle-67 2026-05-08): swap bare
+        // throttle:60,1 for the named `login` limiter (5/min keyed on
+        // ip+email). See sibling change at line 43 above.
+        Route::post('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@login')->name('login')->middleware(['allowed_ips', 'throttle:login']);
         Route::any('logout', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@logout')->name('logout')->excludedMiddleware(
             \MicroweberPackages\App\Http\Middleware\XSS::class
         );
