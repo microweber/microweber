@@ -45,6 +45,11 @@ class CustomerResource extends Resource
                 Forms\Components\TextInput::make('last_name')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    // AI-85 / TICKET-AW (cycle-96 2026-05-09): ->tel()
+                    // adds the matching HTML5 input type so mobile
+                    // keyboards promote the dial-pad and the form
+                    // field declares its semantic intent to AT.
+                    ->tel()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
@@ -124,6 +129,9 @@ Forms\Components\Select::make('company_id')
                             ->unique(),
 
                         Forms\Components\TextInput::make('phone')
+                            // AI-85 / TICKET-AW (cycle-96): ->tel()
+                            // for mobile dial-pad + AT semantics.
+                            ->tel()
                             ->maxLength(255),
 
                         Forms\Components\Textarea::make('address')
@@ -139,6 +147,12 @@ Forms\Components\Select::make('company_id')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('website')
+                            // AI-85 / TICKET-AW (cycle-96): ->url()
+                            // adds HTML5 url-validation + Laravel
+                            // url validation rule so save-time
+                            // rejects "javascript:..." or "not-a-url"
+                            // before they hit the database.
+                            ->url()
                             ->maxLength(255),
 
                     ])

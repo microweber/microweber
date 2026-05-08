@@ -133,7 +133,9 @@ public static function getNavigationBadgeTooltip(): ?string
 
                         Forms\Components\Textarea::make('address'),
                         Forms\Components\Textarea::make('address2'),
-                        Forms\Components\TextInput::make('phone'),
+                        // AI-85 / TICKET-AW (cycle-96): ->tel() for
+                        // mobile dial-pad + AT semantics.
+                        Forms\Components\TextInput::make('phone')->tel(),
                     ])->columnSpanFull(),
 
                 Section::make()
@@ -635,6 +637,9 @@ public static function getNavigationBadgeTooltip(): ?string
                         ->unique(),
 
                     Forms\Components\TextInput::make('phone')
+                        // AI-85 / TICKET-AW (cycle-96): ->tel() for
+                        // mobile dial-pad + AT semantics.
+                        ->tel()
                         ->maxLength(255),
 
 
