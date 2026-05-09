@@ -223,6 +223,44 @@ not just the encryption key.
 
 ---
 
+## Env-file audit (AI-127 / TICKET-BP)
+
+Cycle-106 audit summary (2026-05-09):
+
+- **`.env`** — gitignored (`.gitignore:34`). Never tracked.
+- **`.env.testing`** — gitignored (`.gitignore:35` + `.gitignore:106`).
+  Never tracked.
+- **`.env.example`** — tracked. No real credentials. All secret slots
+  are empty (`=`), prefix-only (`pk_test_...`), or `null` literal.
+- **`.env.production`** — tracked. Stripe slots use clearly-flagged
+  placeholders (`pk_live_REPLACE_WITH_REAL_KEY`, etc.); replace
+  before deploying.
+- **`.env.staging`** — tracked. No credentials.
+- **`.env.docker`** — tracked. `AWS_SECRET_ACCESS_KEY=minioadmin123`
+  is the docker-stack default for the bundled MinIO container —
+  safe for local dev, MUST be overridden in any environment that
+  exposes MinIO publicly.
+- **`.env.dusk`** — tracked. `DUSK_ADMIN_PASSWORD=admin` is the
+  test fixture password used by Dusk e2e tests. Safe — the e2e
+  fixture is reset before every Dusk run.
+
+If you create a new tracked `.env*` file:
+
+1. Verify the file pattern is in `.gitignore` if it should be local-
+   only (e.g. `*.local`, `*.<hostname>`).
+2. Confirm every secret slot is empty / placeholder before the
+   first `git add`.
+3. Add a one-line note to this section so future audits don't
+   re-audit the same file.
+
+The CI security-scan step (cicd-pipeline.yml) greps for
+`(password|secret|api_key|token|private_key)\s*[=:]\s*"..."` and
+flags any non-empty match — but it's a defense-in-depth signal,
+not a primary gate. The primary gate is this manual audit + the
+.gitignore line.
+
+---
+
 ## Where to look next
 
 - Architecture overview: `PROJECT.md` (when shipped — AI-122 /
