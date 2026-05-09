@@ -53,7 +53,16 @@ class ResponsiveThumbnailHelperTest extends TestCase
     #[Test]
     public function default_sizes_is_100vw_and_default_loading_is_lazy(): void
     {
-        $out = responsive_thumbnail('userfiles/media/test.jpg', 800, 600);
+        // AI-115 / TICKET-CG (cycle-105 2026-05-09): the helper now
+        // consults a request-scoped counter and emits `loading="eager"`
+        // for the FIRST `eager_first_n` (default 2) calls of a
+        // request, then falls back to "lazy". To pin the historical
+        // "default is lazy" guarantee we explicitly pass
+        // `eager_first_n => 0` here so the counter never gates
+        // eager.
+        $out = responsive_thumbnail('userfiles/media/test.jpg', 800, 600, [
+            'eager_first_n' => 0,
+        ]);
 
         $this->assertStringContainsString('sizes="100vw"', $out);
         $this->assertStringContainsString('loading="lazy"', $out);

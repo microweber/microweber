@@ -39,10 +39,15 @@ description: Skin 14
                             <a class="mx-0"
                                href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
                                data-mw-product-image="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}" data-mw-product-image-target="{{ $pictureElementId }}" data-mw-product-image-index="{{ $count }}">
-                                {{-- audit-test 2026-05-08 PM TASK-012 / TICKET-CX (cycle-55): responsive_thumbnail helper. --}}
+                                {{-- AI-115 / TICKET-CG (cycle-105 2026-05-09):
+                                     first image in the gallery is the LCP
+                                     candidate — explicit `loading="eager"`
+                                     so the browser doesn't defer it.
+                                     Subsequent images stay lazy. --}}
                                 {!! responsive_thumbnail($item['filename'] ?? '', 800, 800, [
                                     'alt' => __('Product image'),
                                     'class' => 'img-fluid d-block',
+                                    'loading' => $loop->first ? 'eager' : 'lazy',
                                 ]) !!}
                             </a>
                         @endforeach

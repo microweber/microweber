@@ -218,7 +218,24 @@ if (!function_exists('responsive_thumbnail')) {
             $base = trim(preg_replace('/[_\-]+/', ' ', (string) $base));
             $alt  = $base !== '' ? $base : 'Image';
         }
-        $loading    = (string) ($options['loading'] ?? 'lazy');
+
+        // AI-115 / TICKET-CG (cycle-105 2026-05-09): eager-first-image.
+        // The first N images on a page should be `loading="eager"` (so
+        // they paint as part of LCP), the rest `loading="lazy"`. Default
+        // N = 2 (covers the fold on a typical 1280x720 viewport with
+        // a 4-card product grid). Callers can override via
+        // `$options['loading']` directly OR opt in via
+        // `$options['eager_first_n'] => 4` (extends the threshold).
+        // Tracked via a request-scoped static counter — every call to
+        // responsive_thumbnail() increments it, and the first
+        // eager_first_n receive `loading="eager"`.
+        static $renderedCount = 0;
+        $eagerFirstN = isset($options['eager_first_n'])
+            ? (int) $options['eager_first_n']
+            : 2;
+        $renderedCount++;
+        $defaultLoading = ($renderedCount <= $eagerFirstN) ? 'eager' : 'lazy';
+        $loading    = (string) ($options['loading'] ?? $defaultLoading);
         $sizes      = (string) ($options['sizes'] ?? '100vw');
         $class      = (string) ($options['class'] ?? '');
         $crop       = $options['crop'] ?? null;
