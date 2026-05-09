@@ -1,0 +1,121 @@
+/*
+ * AI-125 / TICKET-CQ (cycle-113 2026-05-09): Post-skin consolidation
+ * PoC.
+ *
+ * Pre-cycle-89 each Post skin (skin-15..26 + blog-pro + pro_blog +
+ * related_posts) carried 30-50 lines of inline `<style>` with
+ * ~70-80% identical CSS (.post-holder, .thumbnail-image-holder,
+ * .post-bottom-holder, .mw-products-title styling) repeated per
+ * file.
+ *
+ * Cycle-89 (AI-77) lifted the inline styles to a single
+ * `post-skins.css` bundle, which solved the CSP + `@once` dedupe
+ * issues. This PoC takes the next step: extract the COMMON rules
+ * into a reusable SCSS partial (`_post-skin-base.scss`) so
+ * individual skins can `@import` + override only the variant-
+ * specific bits.
+ *
+ * Status: PoC only. Demonstrates the inheritance pattern; not yet
+ * wired into the build pipeline. A full migration would:
+ *
+ *   1. Convert post-skins.css → post-skins.scss.
+ *   2. Have post-skins.scss `@import` this base.
+ *   3. Each per-skin section overrides only the differences.
+ *   4. Run vite build and verify the output bundle is no larger
+ *      than today's post-skins.css (since SCSS @import inlines
+ *      the imported selectors, the saving is at SOURCE level —
+ *      easier maintenance — not at runtime).
+ *
+ * See SKIN_GUIDE.md (cycle-113) for the inheritance pattern.
+ */
+
+/* ============================================================
+ * SHARED BASE — every Post skin inherits these defaults
+ * ============================================================ */
+
+.post-skin-base {
+    .post-holder {
+        background: var(--mw-content-bg, #fff);
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .thumbnail-image-holder {
+        position: relative;
+        overflow: hidden;
+        height: 300px;
+
+        .thumbnail {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            min-width: calc(100% + 2px);
+            min-height: 100%;
+        }
+    }
+
+    .post-bottom-holder {
+        padding: 25px;
+        padding-top: 20px;  /* AI-78 cycle-90: was 0 — restored after <br> removal */
+    }
+
+    .mw-products-title {
+        a {
+            color: var(--mw-heading-color, inherit);
+            text-decoration: none;
+        }
+    }
+
+    /* AI-78 / TICKET-AE (cycle-90): AOS delay cap inside an SCSS
+       mixin so per-skin overrides can call this with a different
+       cap. */
+    @mixin aos-delay-capped($cap: 8) {
+        // The Blade output uses min($key, $cap) * 100 — pin the
+        // companion CSS rule that handles the prefers-reduced-motion
+        // override.
+        @media (prefers-reduced-motion: reduce) {
+            [data-aos] {
+                animation-delay: 0ms !important;
+                animation-duration: 0ms !important;
+                transition-delay: 0ms !important;
+                transition-duration: 0ms !important;
+            }
+        }
+    }
+}
+
+/* ============================================================
+ * Per-skin variants — example shape
+ * ============================================================ */
+
+/* skin-1 inherits all defaults; only adds hover + per-skin padding. */
+.post-skin-1 {
+    @extend .post-skin-base;
+
+    .post-holder {
+        margin-bottom: 10px;
+        padding: 20px;
+        overflow: hidden;
+
+        h3, p {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        &:hover {
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            transition: 0.3s;
+        }
+    }
+}
+
+/* skin-15 inherits all defaults; adds rounded corners. */
+.post-skin-15 {
+    @extend .post-skin-base;
+
+    .post-holder {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+}
