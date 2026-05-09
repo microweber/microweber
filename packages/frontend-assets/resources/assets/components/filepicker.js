@@ -192,10 +192,39 @@ mw.filePicker = function (options) {
         autoSelect: true, // depending on the component
         boxed: false,
         multiple: false,
+        // AI-117 / TICKET-CK (cycle-108 2026-05-09): first-use UX.
+        // When the Media Library is empty for a fresh install, the
+        // default "library" tab shows an empty state — useless to a
+        // first-time user who has nothing to pick from. Callers can
+        // pass `firstActiveComponent: "desktop"` to flip the picker
+        // open on the upload tab instead.
+        //
+        // Recommended wire-up: server-side reads MediaLibrary::count()
+        // == 0 and pipes the result to the picker via:
+        //   data-mw-media-empty="1" on the trigger element  OR
+        //   window.MwMediaLibraryEmpty global               OR
+        //   passed explicitly: { firstActiveComponent: "desktop" }
+        //
+        // Switch back to "library" after first upload via the
+        // existing $firstUpload event hook.
+        firstActiveComponent: null,
     };
 
     this.settings = $.extend(true, {}, defaults, options);
     this.settings.type = this.settings.type || this.settings.accept;
+
+    // AI-117 / TICKET-CK (cycle-108): if the caller didn't specify
+    // `firstActiveComponent` explicitly, derive it from the global
+    // `window.MwMediaLibraryEmpty` flag (server-side rendered).
+    // Empty library → desktop (upload) tab; non-empty → library
+    // (the historical default — first item in the components list).
+    if (
+        this.settings.firstActiveComponent === null &&
+        typeof window !== "undefined" &&
+        window.MwMediaLibraryEmpty === true
+    ) {
+        this.settings.firstActiveComponent = "desktop";
+    }
 
     this.$root = $(
         '<div class="' +
@@ -591,6 +620,37 @@ mw.filePicker = function (options) {
 
                         $(scope).trigger("FileUploaded", [file]);
 
+                        // AI-117 / TICKET-CK (cycle-108 2026-05-09):
+                        // first-upload-after-empty-library hand-off.
+                        // If the picker was started on "desktop"
+                        // because MediaLibrary was empty, the FIRST
+                        // successful upload populates the library —
+                        // switch the user back to the "library" tab
+                        // so they see what they just uploaded in
+                        // context (and can pick it).
+                        // Idempotent: subsequent uploads don't re-
+                        // switch (only fires when we WERE on desktop
+                        // due to empty-library + this is the first
+                        // successful upload).
+                        if (
+                            !scope.__libraryHandoffDone &&
+                            scope.settings.firstActiveComponent === "desktop" &&
+                            typeof window !== "undefined" &&
+                            window.MwMediaLibraryEmpty === true
+                        ) {
+                            scope.__libraryHandoffDone = true;
+                            window.MwMediaLibraryEmpty = false;
+                            var $libraryTab = $(
+                                "a.js-filepicker-pick-type-tab-library",
+                                scope.$root
+                            );
+                            if ($libraryTab.length) {
+                                setTimeout(function () {
+                                    $libraryTab.trigger("click");
+                                }, 100);
+                            }
+                        }
+
                         if (scope.settings.fileUploaded) {
                             scope.settings.fileUploaded(file);
                         }
@@ -752,6 +812,24 @@ mw.filePicker = function (options) {
                         }, 50);
                     },
                 });
+
+                // AI-117 / TICKET-CK (cycle-108 2026-05-09): if the
+                // caller asked for a non-default first tab (e.g.
+                // empty MediaLibrary → "desktop"), trigger a click
+                // on the matching nav anchor. Defer one tick so the
+                // mw.tabs() init has wired its handlers first.
+                if (scope.settings.firstActiveComponent) {
+                    setTimeout(function () {
+                        var $target = $(
+                            'a.js-filepicker-pick-type-tab-' +
+                                scope.settings.firstActiveComponent,
+                            ul
+                        );
+                        if ($target.length) {
+                            $target.trigger("click");
+                        }
+                    }, 0);
+                }
             }, 78);
         } else if (this.settings.nav === "dropdown") {
             var select = $(
