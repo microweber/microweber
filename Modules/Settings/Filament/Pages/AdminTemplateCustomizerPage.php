@@ -413,11 +413,15 @@ class AdminTemplateCustomizerPage extends Page
         $optionGroup = 'mw-template-' . $this->selectedTemplate;
         $styleOptionGroup = 'mw-template-' . $this->selectedTemplate . '-settings';
 
-        // Delete all template options
-        \DB::table('options')
+        // Delete all template options.
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option Eloquent
+        // model so OptionWasDeleted fires for each row -> cache invalidation
+        // listeners (TemplateClearCachedCssListener) run automatically.
+        \MicroweberPackages\Option\Models\Option::query()
             ->where('option_group', $optionGroup)
             ->orWhere('option_group', $styleOptionGroup)
-            ->delete();
+            ->get()
+            ->each(fn ($option) => $option->delete());
 
         // Clear cache
         Cache::forget('template_settings_' . $this->selectedTemplate);

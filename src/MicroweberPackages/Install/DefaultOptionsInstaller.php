@@ -21,9 +21,12 @@ class DefaultOptionsInstaller
 
     public function setDefault()
     {
-        $existing = DB::table('options')->where('option_key', 'website_title')
-            ->where('option_group', 'website')->first();
-        if ($existing == false) {
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
+        $existing = Option::query()
+            ->where('option_key', 'website_title')
+            ->where('option_group', 'website')
+            ->exists();
+        if (!$existing) {
             $option = new Option();
             $option->option_key = 'website_title';
             $option->option_group = 'website';
@@ -31,7 +34,6 @@ class DefaultOptionsInstaller
             $option->is_system = 1;
             $option->save();
         }
-
     }
 
     public function setLanguage($language)
@@ -52,41 +54,37 @@ class DefaultOptionsInstaller
 
     public function setCommentsEnabled()
     {
-        $existing = DB::table('options')->where('option_key', 'enable_comments')
-            ->where('option_group', 'comments')->count();
-
-        if ($existing == false) {
-            $save = array(
-                'option_key' => 'enable_comments',
-                'option_group' => 'comments',
-                'option_value' => 'y'
-            );
-            $engine = mw()->database_manager->get_sql_engine();
-            if ($engine == 'pgsql') {
-                // PQSQL has error Unique violation: 7 ERROR: duplicate key value violates unique constraint .... :(
-                $highestId = DB::table('options')->select(DB::raw('MAX(id)'))->first();
-                $save['id'] = $highestId->max + 1;
-            }
-            DB::table('options')->insert($save);
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
+        // The pgsql sequence-collision workaround that the legacy raw insert
+        // carried is no longer needed — Eloquent's save() goes through the
+        // connection's native lastInsertId path which respects pgsql
+        // sequence semantics correctly.
+        $exists = Option::query()
+            ->where('option_key', 'enable_comments')
+            ->where('option_group', 'comments')
+            ->exists();
+        if (!$exists) {
+            $option = new Option();
+            $option->option_key = 'enable_comments';
+            $option->option_group = 'comments';
+            $option->option_value = 'y';
+            $option->save();
         }
     }
 
     public function setShippingEnabled()
     {
-        $existing = DB::table('options')->where('option_key', 'shipping_gw_shop/shipping/gateways/country')
-            ->where('option_group', 'shipping')->first();
-        if ($existing == false) {
-            $save = array(
-                'option_key' => 'shipping_gw_shop/shipping/gateways/country',
-                'option_group' => 'shipping',
-                'option_value' => 'y'
-            );
-            $engine = mw()->database_manager->get_sql_engine();
-            if ($engine == 'pgsql') {
-                $highestId = DB::table('options')->select(DB::raw('MAX(id)'))->first();
-                $save['id'] = $highestId->max + 1;
-            }
-            DB::table('options')->insert($save);
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
+        $shippingExists = Option::query()
+            ->where('option_key', 'shipping_gw_shop/shipping/gateways/country')
+            ->where('option_group', 'shipping')
+            ->exists();
+        if (!$shippingExists) {
+            $option = new Option();
+            $option->option_key = 'shipping_gw_shop/shipping/gateways/country';
+            $option->option_group = 'shipping';
+            $option->option_value = 'y';
+            $option->save();
         }
 
 
@@ -111,42 +109,29 @@ class DefaultOptionsInstaller
 
     public function setPaymentsEnabled()
     {
-        $existing = DB::table('options')->where('option_key', 'payment_gw_shop/payments/gateways/paypal')
-            ->where('option_group', 'payments')->first();
-
-
-        if ($existing == false) {
-            $save = array(
-                'option_key' => 'payment_gw_shop/payments/gateways/paypal',
-                'option_group' => 'payments',
-                'option_value' => 1
-            );
-            $engine = mw()->database_manager->get_sql_engine();
-            if ($engine == 'pgsql') {
-                $highestId = DB::table('options')->select(DB::raw('MAX(id)'))->first();
-                $save['id'] = $highestId->max + 1;
-            }
-            DB::table('options')->insert($save);
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
+        $paypalExists = Option::query()
+            ->where('option_key', 'payment_gw_shop/payments/gateways/paypal')
+            ->where('option_group', 'payments')
+            ->exists();
+        if (!$paypalExists) {
+            $option = new Option();
+            $option->option_key = 'payment_gw_shop/payments/gateways/paypal';
+            $option->option_group = 'payments';
+            $option->option_value = 1;
+            $option->save();
         }
 
-
-        $existing = DB::table('options')->where('option_key', 'currency')
-            ->where('option_group', 'payments')->first();
-
-
-        if ($existing == false) {
-            $save = array(
-                'option_key' => 'currency',
-                'option_group' => 'payments',
-                'option_value' => 'USD'
-            );
-            $engine = mw()->database_manager->get_sql_engine();
-            if ($engine == 'pgsql') {
-                $highestId = DB::table('options')->select(DB::raw('MAX(id)'))->first();
-                $save['id'] = $highestId->max + 1;
-            }
-            DB::table('options')->insert($save);
+        $currencyExists = Option::query()
+            ->where('option_key', 'currency')
+            ->where('option_group', 'payments')
+            ->exists();
+        if (!$currencyExists) {
+            $option = new Option();
+            $option->option_key = 'currency';
+            $option->option_group = 'payments';
+            $option->option_value = 'USD';
+            $option->save();
         }
-
     }
 }

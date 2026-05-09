@@ -195,20 +195,6 @@ class OptionManager
         }
 
 
-//        if ($optionGroup) {
-//
-//            $allOptions = [];
-//              $getAllOptions = DB::table('options')->where('option_group', $optionGroup)->get();
-//              if ($getAllOptions != null) {
-//                  $allOptions = collect($getAllOptions)->map(function($x){
-//                      return (array) $x;
-//                  })->toArray();
-//              }
-//
-//            $this->memoryOptionGroupNew[$optionGroup] = $allOptions;
-//            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
-//        }
-
     }
 
     public function _____get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)

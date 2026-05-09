@@ -7,8 +7,8 @@ namespace Modules\Settings\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Option\Models\Option;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,10 +18,16 @@ use Symfony\Component\HttpFoundation\Response;
  * nothing sensitive (mail credentials, payment provider keys, api
  * secrets) ever leaks. Writes require admin.
  *
- * Uses DB::table directly rather than the Option Eloquent model because
- * the model's $fillable only exposes option_group/option_value — going
- * through the query builder is simpler and avoids silently dropping the
- * option_key we set here.
+ * AI-108 / TICKET-BG (cycle-133 2026-05-09): migrated from raw
+ * DB::table('options') queries to the Option Eloquent model. The
+ * model's $fillable was simultaneously expanded to include option_key
+ * and module so mass assignment works without silently dropping fields,
+ * and routing writes through the model fires OptionWasCreated /
+ * OptionWasUpdated / OptionWasDeleted events — which means
+ * TemplateClearCachedCssListener now fires when settings are changed
+ * via this API (previously a stale-cache bug — settings changed via
+ * /api/module/settings would not invalidate the cached template CSS
+ * because the events were bypassed).
  */
 class SettingsApiController extends Controller
 {
@@ -66,7 +72,7 @@ class SettingsApiController extends Controller
         $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
         $group = $request->input('group');
 
-        $query = DB::table('options');
+        $query = Option::query();
 
         if (!empty($group)) {
             $query->where('option_group', (string) $group);
@@ -78,7 +84,7 @@ class SettingsApiController extends Controller
 
         $options = $query->orderBy('option_key')->get();
 
-        $data = $options->map(fn ($o) => [
+        $data = $options->map(fn (Option $o) => [
             'id' => (int) $o->id,
             'option_key' => $o->option_key,
             'option_value' => $o->option_value,
@@ -120,7 +126,7 @@ class SettingsApiController extends Controller
         }
 
         $group = $request->input('group');
-        $query = DB::table('options')->where('option_key', $key);
+        $query = Option::query()->where('option_key', $key);
         if (!empty($group)) {
             $query->where('option_group', (string) $group);
         }
@@ -185,30 +191,24 @@ class SettingsApiController extends Controller
                 $match['option_group'] = $data['option_group'];
             }
 
-            $existing = DB::table('options')->where($match)->first();
-            $now = now();
+            $existing = Option::query()->where($match)->first();
 
             if ($existing) {
-                DB::table('options')->where('id', $existing->id)->update([
+                $existing->update([
                     'option_value' => $data['option_value'] ?? null,
                     'module' => $data['module'] ?? $existing->module,
-                    'updated_at' => $now,
                 ]);
-                $id = (int) $existing->id;
+                $row = $existing->refresh();
                 $created = false;
             } else {
-                $id = (int) DB::table('options')->insertGetId([
+                $row = Option::create([
                     'option_key' => $data['option_key'],
                     'option_value' => $data['option_value'] ?? null,
                     'option_group' => $data['option_group'] ?? null,
                     'module' => $data['module'] ?? null,
-                    'created_at' => $now,
-                    'updated_at' => $now,
                 ]);
                 $created = true;
             }
-
-            $row = DB::table('options')->where('id', $id)->first();
 
             return response()->json([
                 'success' => true,
@@ -269,7 +269,7 @@ class SettingsApiController extends Controller
         $data = $validator->validated();
         $group = $data['option_group'] ?? $request->input('group');
 
-        $query = DB::table('options')->where('option_key', $key);
+        $query = Option::query()->where('option_key', $key);
         if (!empty($group)) {
             $query->where('option_group', (string) $group);
         }
@@ -283,11 +283,10 @@ class SettingsApiController extends Controller
         }
 
         try {
-            DB::table('options')->where('id', $option->id)->update([
+            $option->update([
                 'option_value' => $data['option_value'] ?? null,
-                'updated_at' => now(),
             ]);
-            $row = DB::table('options')->where('id', $option->id)->first();
+            $row = $option->refresh();
 
             return response()->json([
                 'success' => true,
@@ -333,7 +332,7 @@ class SettingsApiController extends Controller
         }
 
         $group = $request->input('group');
-        $query = DB::table('options')->where('option_key', $key);
+        $query = Option::query()->where('option_key', $key);
         if (!empty($group)) {
             $query->where('option_group', (string) $group);
         }
@@ -347,7 +346,7 @@ class SettingsApiController extends Controller
         }
 
         try {
-            DB::table('options')->where('id', $option->id)->delete();
+            $option->delete();
 
             return response()->json([
                 'success' => true,

@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Install;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Modules\Backup\SessionStepper;
 use MicroweberPackages\Option\Models\Option;
@@ -70,14 +69,12 @@ class TemplateInstaller
     {
         $this->log('Setting default template: ' . $template_name);
 
-        $existing = DB::table('options')->where('option_key', 'current_template')
-            ->where('option_group', 'template')->first();
-
-        if ($existing != false) {
-            $option = Option::find($existing->id);
-        } else {
-            $option = new Option();
-        }
+        // AI-108 / TICKET-BG (cycle-133): routed through the Option model.
+        $option = Option::query()
+            ->where('option_key', 'current_template')
+            ->where('option_group', 'template')
+            ->first()
+            ?: new Option();
         $option->option_key = 'current_template';
         $option->option_group = 'template';
         $option->option_value = $template_name;
