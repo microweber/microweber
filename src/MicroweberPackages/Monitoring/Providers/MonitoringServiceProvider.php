@@ -9,7 +9,9 @@ use MicroweberPackages\Monitoring\Filament\Resources\ErrorTrackingResource;
 use MicroweberPackages\Monitoring\Filament\Widgets\ErrorStatsWidget;
 use MicroweberPackages\Monitoring\Console\Commands\BootQueryAuditCommand;
 use MicroweberPackages\Monitoring\Console\Commands\CleanupErrorTracking;
+use MicroweberPackages\Monitoring\Console\Commands\ConfigOrphanAuditCommand;
 use MicroweberPackages\Monitoring\Console\Commands\ExportErrorReport;
+use MicroweberPackages\Monitoring\Console\Commands\Psr4StrictAuditCommand;
 
 class MonitoringServiceProvider extends ServiceProvider
 {
@@ -44,6 +46,9 @@ class MonitoringServiceProvider extends ServiceProvider
             $this->commands([
                 BootQueryAuditCommand::class,
                 CleanupErrorTracking::class,
+                // AI-124 / TICKET-CT + TICKET-CU (cycle-121).
+                ConfigOrphanAuditCommand::class,
+                Psr4StrictAuditCommand::class,
                 ExportErrorReport::class,
             ]);
         }
