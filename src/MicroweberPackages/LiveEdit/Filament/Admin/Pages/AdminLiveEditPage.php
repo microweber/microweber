@@ -115,6 +115,22 @@ class AdminLiveEditPage extends Page
             'action' => 'addImageAction',
             'icon' => 'heroicon-o-photo',
         ];
+        // AI-167 (cycle-145 2026-05-09): novice signposting — the picker
+        // is for NEW top-level content (page/post/etc.), not for adding
+        // text/image blocks to the page the user is already editing.
+        // Tester UX-engineer audit found mobile users tap "Add content"
+        // expecting to add a text block to the current page, then
+        // bounce when they see only Page/Post/Category/Product/Image
+        // options. This entry signposts the in-canvas "Insert layout /
+        // drag from left rail" flow that IS the right path for adding
+        // blocks — without trying to embed that flow inside this
+        // picker (which would conflict with the canvas iframe).
+        $actions[] = [
+            'title' => 'Add to this page',
+            'description' => 'To add text, headings, or modules to the page you are editing right now, close this picker and tap the Insert layout button in the toolbar — or drag a block from the left rail.',
+            'action' => 'addToCurrentPageAction',
+            'icon' => 'heroicon-o-cursor-arrow-rays',
+        ];
 
         return Action::make('addContentAction')
             ->modalHeading('Add new content')
@@ -185,6 +201,55 @@ class AdminLiveEditPage extends Page
             ->modalSubmitActionLabel('Open Media Library')
             ->action(function () {
                 return redirect()->to(route('filament.admin.pages.media-library'));
+            });
+    }
+
+    /**
+     * AI-167 (cycle-145): novice signposting for the in-canvas
+     * "add modules to the current page" flow.
+     *
+     * The picker entry "Add to this page" routes here. Instead of a
+     * redirect (the Insert layout / left-rail palette is in the canvas
+     * iframe and does not have a route the Filament admin page can
+     * redirect to), this action shows a Filament notification with
+     * the workflow explained in plain English. The notification stays
+     * visible after the picker closes so the user can read it while
+     * the canvas is in focus. The notification icon points at the
+     * toolbar so the user has a visual cue.
+     *
+     * Why a notification rather than a redirect or an embedded UI:
+     *   - The Insert layout flow runs in the canvas iframe via
+     *     `mw.app.editor.dispatch('insertLayoutRequest', ...)` and
+     *     is JS-only — there is no server route to redirect to.
+     *   - Embedding the left-rail palette inside the picker modal
+     *     would conflict with the Vue toolbar / canvas iframe roots.
+     *   - A toast notification with a one-sentence runbook is the
+     *     least-disruptive novice-UX nudge: it leaves the user
+     *     exactly where they need to be (looking at the canvas)
+     *     with the right action one tap away.
+     */
+    public function addToCurrentPageAction(): Action
+    {
+        return Action::make('addToCurrentPageAction')
+            ->label('Add to this page')
+            ->modalHeading('Add a block to this page')
+            ->modalDescription(
+                'Close this dialog and use the Insert layout button in the '
+                . 'top toolbar — or drag a block from the left rail — to '
+                . 'add text, headings, images, or any other module to the '
+                . 'page you are editing right now. The picker behind this '
+                . 'dialog is for creating brand-new pages / posts / etc., '
+                . 'not for adding blocks to a page you are already on.'
+            )
+            ->modalSubmitActionLabel('Got it')
+            ->modalCancelAction(false)
+            ->action(function () {
+                Notification::make()
+                    ->title('Tap "Insert layout" in the toolbar')
+                    ->body('That button (or dragging from the left rail) is how you add text, headings, images, and other blocks to the page you are editing right now.')
+                    ->info()
+                    ->duration(8000)
+                    ->send();
             });
     }
 
