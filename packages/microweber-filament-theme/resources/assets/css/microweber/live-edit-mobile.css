@@ -14,22 +14,33 @@
 /* ------------------------------------------------------------------
  * AI-140: collapse the sidebar on mobile.
  *
- * Below 768px viewport width:
- *   - Sidebar collapses to a 56px-wide icon strip (same width as
- *     Filament's `--sidebar-width-collapsed` token).
- *   - The label text inside each sidebar item is visually hidden
- *     (sr-only style — preserves accessibility, hides visually).
- *   - Active item gets a thin coloured strip on the left edge for
- *     orientation.
- *   - Hover/focus expands a tooltip-style popover with the full
- *     label so the user can still see what they're clicking.
+ * AI-150 corrigendum (cycle-143 2026-05-09): the original cycle-126
+ * design was a 56px-wide always-visible icon strip. That conflicted
+ * with the live-edit slide-out drawer pattern in
+ * src/MicroweberPackages/Filament/resources/views/filament/components/
+ * layout/live-edit.blade.php (lines 21-35) which positions the
+ * sidebar `position:absolute; transform:translateX(-100%)` — i.e.
+ * the live-edit page already hides the sidebar entirely off-screen
+ * by default, then slides it in via `.fi-sidebar.active`.
+ *
+ * The 56px icon-strip rule was therefore redundant when the drawer
+ * was closed (already off-screen) and ignored when the drawer was
+ * active (Filament's drawer fills the viewport on mobile). Tester
+ * re-test after cycle-142 import-fix correctly reported "sidebar
+ * still 390px wide" — that's the active-state drawer at full
+ * viewport, NOT a missing-rule issue.
+ *
+ * The corrected fix lives in the AI-150 block further below:
+ * width clamp on .fi-sidebar.active + visible toggle. The 56px
+ * icon-strip is preserved BELOW for accessibility — the labels
+ * are sr-only on mobile to keep keyboard navigation working when
+ * the drawer is active. The width:56px rule itself is removed —
+ * the drawer pattern owns sidebar width on mobile, not us.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
-    .mw-live-edit-page .fi-sidebar {
-        width: 56px !important;
-        min-width: 56px !important;
-        flex: 0 0 56px !important;
-    }
+    /* Hide sidebar item labels visually on mobile (sr-only) so
+       keyboard / AT users still hear them but the drawer is icon-
+       focused. Doesn't fight the drawer pattern. */
     .mw-live-edit-page .fi-sidebar .fi-sidebar-item-label,
     .mw-live-edit-page .fi-sidebar .fi-sidebar-group-label {
         position: absolute;
@@ -51,7 +62,8 @@
         width: 3px;
         background: var(--bs-primary, #0d6efd);
     }
-    /* Hover/focus reveals the label as a tooltip. */
+    /* Reveal labels as a tooltip on hover/focus inside the drawer
+       so the user can identify each icon when the drawer is open. */
     .mw-live-edit-page .fi-sidebar .fi-sidebar-item:hover .fi-sidebar-item-label,
     .mw-live-edit-page .fi-sidebar .fi-sidebar-item:focus-within .fi-sidebar-item-label {
         position: absolute;
@@ -82,8 +94,23 @@
  * Critical-action buttons (SAVE, VIEW) keep their full label
  * already; this rule covers the icon-only chevron-style buttons.
  * ------------------------------------------------------------------ */
+/*
+ * AI-150 (cycle-143 2026-05-09) — corrected toolbar selector.
+ *
+ * The cycle-126 rule used `.fi-icon-btn` (a Filament class) which
+ * NEVER matched the live-edit toolbar — those buttons are Vue
+ * components rendered with `.btn-icon.live-edit-toolbar-buttons
+ * .mw-toolbar-icon-btn` (see packages/frontend-assets/resources/
+ * assets/ui/components/Toolbar/SettingsCustomize.vue line 346
+ * onward). Tester re-test after cycle-142 confirmed the fix was
+ * dead-on-arrival even after the live-edit-mobile.css import landed:
+ * "Only 1 of 5 toolbar buttons has visible text (VIEW). Others
+ * still icon-only." The fix landed in the bundle but couldn't bind
+ * to anything. Cycle-143 swaps to the correct selector.
+ */
 @media (max-width: 768px) {
-    .mw-live-edit-page .live-edit-toolbar .fi-icon-btn {
+    .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons {
         flex-direction: column;
         gap: 0.1rem;
         font-size: 0.625rem;
@@ -92,7 +119,8 @@
         height: auto;
         min-height: 44px;
     }
-    .mw-live-edit-page .live-edit-toolbar .fi-icon-btn::after {
+    .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn::after,
+    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons::after {
         content: attr(aria-label);
         display: block;
         font-weight: 500;
@@ -101,10 +129,61 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    /* Suppress the auto-label when the button already has visible
-       text content (avoid double-label on SAVE / VIEW). */
-    .mw-live-edit-page .live-edit-toolbar .fi-icon-btn:has(.fi-btn-label):not(:empty)::after {
+    /* Suppress the auto-label when the button already carries
+       visible text content (avoid double-label on SAVE / VIEW). */
+    .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn:has(*:not(:empty))::after,
+    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons:has(*:not(:empty))::after {
         content: none;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * AI-150 (cycle-143 2026-05-09) — sidebar drawer width clamp on mobile.
+ *
+ * The cycle-126 AI-140 rule (width:56px on .mw-live-edit-page
+ * .fi-sidebar) fought with the inline-style drawer pattern in
+ * `src/MicroweberPackages/Filament/resources/views/filament/
+ * components/layout/live-edit.blade.php` (lines 21-35) which
+ * positions the sidebar `position:absolute;
+ * transform: translateX(-100%);` and slides it in via `.fi-sidebar
+ * .active`. The width:56px rule WAS in the built bundle but it
+ * conflicted with how the drawer actually opens — when active
+ * the sidebar takes the full default Filament width (~280px on
+ * desktop, full viewport on mobile because of how
+ * `--sidebar-width` resolves there).
+ *
+ * Tester re-test after cycle-142 reported "Sidebar still 390px
+ * wide" — that is the active-state drawer at full viewport width.
+ *
+ * Corrected fix:
+ *   - When .active (drawer open), clamp width to a sane mobile
+ *     value (`min(280px, calc(100vw - 60px))`) so the user can
+ *     still see + tap the close-overlay to the right of the drawer.
+ *   - Ensure the sidebar starts CLOSED on mobile by stripping any
+ *     persistent `.active` class on first paint via the reset rule
+ *     below (`.fi-sidebar:not(.active)` keeps the drawer hidden;
+ *     when JS adds `.active` for a real toggle event the sidebar
+ *     opens cleanly).
+ *   - Force the live-edit-toolbar back-to-admin link to be visible
+ *     on mobile so users have a tappable hamburger affordance.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .fi-sidebar.active {
+        /* Drawer width clamp — never wider than 280px or the
+           viewport minus 60px (whichever is smaller) on mobile. */
+        width: min(280px, calc(100vw - 60px)) !important;
+        max-width: min(280px, calc(100vw - 60px)) !important;
+    }
+
+    /* Make the live-edit toolbar's back-to-admin link visible
+       on mobile so users can tap to open the drawer. The button
+       is set up in live-edit.blade.php's @push('scripts') block. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
     }
 }
 

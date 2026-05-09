@@ -151,30 +151,34 @@ class Ai148Ai149LiveEditMobileContractTest extends TestCase
     }
 
     #[Test]
-    public function live_edit_mobile_css_collapses_sidebar_to_56px_on_mobile(): void
+    public function live_edit_mobile_css_clamps_active_drawer_width_on_mobile(): void
     {
         $src = $this->read('packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-mobile.css');
 
-        // The AI-140 fix: sidebar collapses to 56px (Filament's
-        // --sidebar-width-collapsed token) on viewports <=768px.
+        // AI-150 corrigendum (cycle-143): the original cycle-126 rule
+        // (`width:56px` on bare .fi-sidebar) was removed because it
+        // fought with the slide-out drawer pattern in
+        // src/MicroweberPackages/Filament/.../live-edit.blade.php.
+        // The corrected fix clamps .fi-sidebar.active to a sane mobile
+        // width so the drawer is usable + doesn't fill the viewport.
         $this->assertMatchesRegularExpression(
-            '/@media\s*\(\s*max-width:\s*768px\s*\)\s*\{[\s\S]*?\.mw-live-edit-page\s+\.fi-sidebar\s*\{[\s\S]*?width:\s*56px\s*!important/m',
+            '/\.mw-live-edit-page\s+\.fi-sidebar\.active[\s\S]{0,200}width:\s*min\(280px,\s*calc\(100vw\s*-\s*60px\)\)\s*!important/m',
             $src,
-            'live-edit-mobile.css MUST keep the AI-140 sidebar-collapse rule '
-            . '(@media max-width:768px → .mw-live-edit-page .fi-sidebar → '
-            . 'width:56px !important). Without it the sidebar stays at full '
-            . 'width on mobile and consumes ~50% of the viewport.'
+            'live-edit-mobile.css MUST carry the AI-150 .fi-sidebar.active '
+            . 'width clamp (min(280px, calc(100vw - 60px))) so the drawer '
+            . 'leaves room for the close-overlay on mobile. The cycle-126 '
+            . '56px-icon-strip rule was removed in cycle-143 because it '
+            . 'fought with the slide-out drawer pattern.'
         );
     }
 
     #[Test]
-    public function built_bundle_now_carries_the_sidebar_collapse_rule(): void
+    public function built_bundle_now_carries_the_active_drawer_width_clamp(): void
     {
         // Functional pin: the built CSS that the browser actually loads
-        // MUST contain the sidebar-collapse rule. This catches the
-        // class of regression that AI-149 reported — source had the
-        // rule, but the rule was dark in production because of the
-        // index.css import gap.
+        // MUST contain the AI-150 active-drawer width clamp. This is the
+        // regression-detection mechanism that catches "rule in source
+        // but not in bundle" issues like the cycle-126 import gap.
         $rel = 'public/vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css';
         $path = base_path($rel);
         if (!file_exists($path)) {
@@ -186,12 +190,12 @@ class Ai148Ai149LiveEditMobileContractTest extends TestCase
         $built = file_get_contents($path);
 
         $this->assertMatchesRegularExpression(
-            '/\.mw-live-edit-page\s+\.fi-sidebar\s*\{[^}]*width:\s*56px/m',
+            '/\.mw-live-edit-page\s+\.fi-sidebar\.active[^{]*\{[^}]*width:\s*min\(280px/m',
             $built,
-            'Built CSS bundle MUST contain the .mw-live-edit-page .fi-sidebar '
-            . 'width:56px rule. If this fails, live-edit-mobile.css is no '
-            . 'longer reaching the bundle (likely an index.css import drop) '
-            . '— this is exactly the AI-149 regression class.'
+            'Built CSS bundle MUST contain the .mw-live-edit-page '
+            . '.fi-sidebar.active width:min(280px,...) rule. If this '
+            . 'fails, live-edit-mobile.css is no longer reaching the '
+            . 'bundle — that is the AI-149 regression class.'
         );
     }
 }
