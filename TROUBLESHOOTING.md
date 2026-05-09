@@ -194,3 +194,61 @@ sweep — `$table->text('api_token')->change()`. Cycle-43's
 encrypt sweep widened `users.password_history`; the
 DEEP_AUDIT_TODO.md TICKET-BJ scope-doc tracks the remaining
 columns (`payment_methods.token`, `cms_settings` secret rows).
+
+## 2026-05-09 — Big2 template inner pages render placeholder text on mobile (AI-101 + AI-103)
+
+**Symptom:**
+On a fresh install of the Big2 template, the mobile-viewport (390×844)
+renders blog/shop/contact inner pages with only placeholder text — no
+populated module instances. The skin-2 story section's image area
+also renders blank.
+
+**Root cause:**
+Both issues live in the Big2 template's seed payload
+(`Templates/Big2/mw_default_content.zip`), NOT in code:
+- The seed payload was generated from a Big2 install whose inner
+  pages had not been populated with their module instances. The
+  blade templates for those pages reference module placeholders
+  via `<module>` tags but the seed has no rows for them.
+- The skin-2 story section's seed media payload was missing the
+  story-section image asset.
+
+The seed zip is a 1.2 MB binary in a gitignored path
+(`public/templates/big2/` and `Templates/Big2/` are both gitignored)
+— so the fix CANNOT ship via a normal code PR. The Big2 template is
+distributed as a separate artefact.
+
+**Fix (operational, not code):**
+A maintainer with a fully-populated Big2 install runs the cycle-141
+seed-regeneration command:
+
+```bash
+# 1. On a clean Big2 install, manually populate every inner page
+#    (blog / shop / contact) with the canonical module set, and
+#    re-upload the missing skin-2 story section image.
+
+# 2. Regenerate the seed payload from the live install:
+php artisan mw:template-seed-regenerate big2
+
+# 3. The command writes the new zip to:
+#       Templates/Big2/mw_default_content.zip
+#    and backs up the previous one to mw_default_content.zip.bak-<ts>.
+
+# 4. Commit the regenerated zip into the Big2 distribution channel
+#    (NOT this repo — Templates/Big2/ is gitignored). Re-publish the
+#    template artefact.
+```
+
+The `mw:template-seed-regenerate` command is project-agnostic — it
+works for any template directory that follows the canonical layout
+(`templates_dir() . <name> . 'mw_default_content.zip'` is the seed
+location read by `MicroweberPackages\Install\TemplateInstaller::
+installTemplateContent`). Same operational path applies to other
+templates if their seed payloads drift out of sync.
+
+**Recurrence signal:**
+Whenever a template's blade references a module via `<module>` tags
+that don't exist in the seed payload, the inner page renders the
+literal blade fallback (placeholder text). Whenever a seed media
+payload references a missing asset, the image area renders blank.
+Both signals point at the seed payload, not at runtime code.
