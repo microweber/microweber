@@ -372,13 +372,32 @@
             @php $media = $this->getMediaProperty(); @endphp
 
             @if($media->isEmpty())
+                {{-- AI-123 / TICKET-CN (cycle-136 2026-05-09): novice-UX
+                     blank-state — heading + helpful description + a
+                     contextual CTA. Branches:
+                       (a) FILTERED empty: "no match" + Clear filters CTA.
+                       (b) UNFILTERED empty: first-time user — explain
+                           what the Media Library is + how to add the
+                           first asset (drag-drop OR Upload button). --}}
                 <div class="mw-media-empty">
                     <x-heroicon-o-photo class="w-16 h-16 text-gray-300" />
-                    <p>No media found</p>
                     @if($search || $typeFilter || $dateFrom || $dateTo || $selectedFolderId)
+                        <h3 class="mw-media-empty-heading">No media match those filters</h3>
+                        <p class="mw-media-empty-description">
+                            Try a different search term, or clear the active filters to see every file.
+                        </p>
                         <button wire:click="clearFilters" class="mw-media-empty-reset">
                             Clear filters
                         </button>
+                    @else
+                        <h3 class="mw-media-empty-heading">Your Media Library is empty</h3>
+                        <p class="mw-media-empty-description">
+                            Drop images, videos, or documents here — or use the
+                            <strong>Upload</strong> button at the top of this page —
+                            to start building your library. Uploaded files are then
+                            available everywhere across your site (page editors,
+                            module pickers, exports).
+                        </p>
                     @endif
                 </div>
             @else

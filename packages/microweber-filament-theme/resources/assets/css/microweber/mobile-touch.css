@@ -327,4 +327,107 @@ button.btn-icon.live-edit-toolbar-buttons,
     justify-content: center;
 }
 
+/*
+ * AI-123 / TICKET-CO (cycle-136 2026-05-09): Novice-UX hover affordances
+ * for clickable cards across the admin shell. Brief: "All clickable cards
+ * must have hover feedback (cursor-pointer + subtle bg change)".
+ *
+ * The cycle-58/-62 mobile-touch sweep already covers 44×44 targets on
+ * topbar + sidebar + list-row + Orders-tabs (see TICKET-U/V/W above).
+ * This block fills the remaining gap: clickable Filament + Microweber
+ * cards that currently look identical at rest and on hover, leaving
+ * users uncertain whether the card is interactive.
+ *
+ * Strategy: opt-in via a marker (Filament's recordUrl-bound
+ * .fi-ta-record + project-blessed .mw-clickable-card / .mw-tile /
+ * .mw-card-link). Generic <a class="card"> tags are NOT touched —
+ * other CSS already styles them and a global hover would clash.
+ */
+
+/*
+ * Filament resource-table rows that have a recordUrl() bound
+ * become an <a> link wrapping the row content; without an explicit
+ * hover state, novices can't tell rows are clickable. Filament
+ * already adds `data-rowurl` (or similar) when bound, but the
+ * .fi-ta-record class is stable so we hook on that.
+ */
+.fi-ta-record:has(a[href]),
+.fi-ta-record[data-rowurl] {
+    cursor: pointer;
+    transition: background-color 0.12s ease-out;
+}
+.fi-ta-record:has(a[href]):hover,
+.fi-ta-record[data-rowurl]:hover {
+    background-color: rgba(15, 23, 42, 0.04);
+}
+.dark .fi-ta-record:has(a[href]):hover,
+.dark .fi-ta-record[data-rowurl]:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+/*
+ * Microweber-blessed clickable card markers:
+ *   - .mw-clickable-card  — generic Microweber card with a click handler
+ *   - .mw-tile            — settings/dashboard tile
+ *   - .mw-card-link       — card wrapped in an <a> link
+ *   - .mw-grid-item       — grid-layout item (template/layout/skin pickers)
+ *
+ * Includes 44×44 floor + cursor-pointer + subtle bg + transform on
+ * hover so novices get clear visual + tactile feedback. Touch
+ * devices skip the transform (pointer:fine media query) since hover
+ * doesn't apply there anyway.
+ */
+.mw-clickable-card,
+.mw-tile,
+.mw-card-link,
+.mw-grid-item.mw-grid-item-clickable {
+    cursor: pointer;
+    min-height: 44px;
+    transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, transform 0.15s ease-out;
+}
+@media (hover: hover) and (pointer: fine) {
+    .mw-clickable-card:hover,
+    .mw-tile:hover,
+    .mw-card-link:hover,
+    .mw-grid-item.mw-grid-item-clickable:hover {
+        background-color: rgba(15, 23, 42, 0.03);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        transform: translateY(-1px);
+    }
+    .dark .mw-clickable-card:hover,
+    .dark .mw-tile:hover,
+    .dark .mw-card-link:hover,
+    .dark .mw-grid-item.mw-grid-item-clickable:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+/* Keyboard focus-visible parity — every hover state must also fire on
+   focus-visible so keyboard + AT users get the same novice cue. */
+.mw-clickable-card:focus-visible,
+.mw-tile:focus-visible,
+.mw-card-link:focus-visible,
+.mw-grid-item.mw-grid-item-clickable:focus-visible,
+.fi-ta-record:has(a[href]):focus-within,
+.fi-ta-record[data-rowurl]:focus-within {
+    outline: 2px solid var(--bs-primary, #0d6efd);
+    outline-offset: 2px;
+}
+
+/*
+ * Filament empty-state action buttons (the "Create your first X"
+ * call-to-action that Filament renders inside an empty table).
+ * The cycle-N empty-state.blade.php in Modules/Content carries
+ * the illustration; this rule guarantees the action button below
+ * the illustration is the standard 44×44 size + clearly hoverable.
+ */
+.fi-ta-empty-state .fi-btn,
+.fi-ta-empty-state a.fi-btn,
+.fi-ta-empty-state button.fi-btn,
+.you-dont-have-any .fi-btn,
+.you-dont-have-any a {
+    min-height: 44px;
+    cursor: pointer;
+}
+
 
