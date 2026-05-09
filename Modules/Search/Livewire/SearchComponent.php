@@ -51,16 +51,33 @@ class SearchComponent extends Component
     {
         $this->isLoading = true;
 
+        /*
+         * AI-130 / SEC-05 (cycle-123 2026-05-09): defense-in-depth
+         * keyword sanitization. The downstream `get_content()` path
+         * uses Eloquent's parameterized query builder so SQLi is
+         * already covered at the infrastructure layer; this strip
+         * is for stored-XSS protection (the keyword is echoed back
+         * to the search-results view via Blade `{{ }}` which already
+         * HTML-escapes — but Livewire occasionally emits unescaped
+         * snippets in update payloads).
+         *
+         *   - strip_tags removes `<script>`, `<svg>`, `<img>`, etc.
+         *   - mb_substr caps length to 200 chars so an attacker can't
+         *     force the LIKE pattern to scan with a 10MB string.
+         */
+        $keyword = strip_tags((string) $this->searchQuery);
+        $keyword = mb_substr($keyword, 0, 200);
+
         $params = [
             'search_in_fields' => 'title,content,description',
-            'keyword' => $this->searchQuery,
+            'keyword' => $keyword,
             'limit' => 10,
             'no_cache' => true,
             'search_in' => 'content',
         ];
 
         if ($this->dataContentId > 0) {
-            $params['parent'] = $this->dataContentId;
+            $params['parent'] = (int) $this->dataContentId;
         }
 
         $this->searchResults = get_content($params);
