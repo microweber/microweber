@@ -280,7 +280,7 @@ class MenusList extends Component implements HasForms, HasActions
                     ];
                     return $data;
                 })
-                ->afterStateUpdated(function (Set $set, Get $get, array $state, Model $record = null, $livewire = null) {
+                ->afterStateUpdated(function (Set $set, Get $get, array $state, ?Model $record = null, $livewire = null) {
 
                     // Don't touch the title field here — every Livewire
                     // commit fires this callback (because mw_link_picker
@@ -386,8 +386,16 @@ class MenusList extends Component implements HasForms, HasActions
                     // focuses the field, not just on mouse-hover.
                     'aria-describedby' => 'menu-item-title-help',
                 ])
-                ->afterStateUpdated(function (Get $get, Set $set, ?string $state, Model $record, $component, $livewire) {
-
+                ->afterStateUpdated(function (Get $get, Set $set, ?string $state, ?Model $record, $component, $livewire) {
+                    // cycle-N (post-cycle-116 modal-fit fix follow-up):
+                    // `$record` is nullable. On the EDIT path Filament
+                    // passes the loaded Menu model; on the CREATE path
+                    // (Add menu item dialog) the record doesn't exist
+                    // yet and Filament passes null. The original
+                    // signature `Model $record` (non-nullable) crashed
+                    // the create form with a TypeError on the first
+                    // keystroke. The body already had a `if ($record)`
+                    // null-check so only the type-hint needed widening.
                     if ($record) {
                         $record->title = $state;
                         $record->save();
