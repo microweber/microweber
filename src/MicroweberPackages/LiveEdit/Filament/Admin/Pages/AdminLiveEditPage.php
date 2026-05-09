@@ -238,16 +238,32 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->stickyModalHeader(true)
-            // task-2026-05-04-b2dfc1 — user reported "on posts
-            // and product module in live edit we must pop up
-            // the central edit modal instead of slide". Dropped
-            // `->slideOver()` so this Module Settings panel
-            // opens as a centered modal (like the +ADD toolbar
-            // already does), and bumped the width from Medium
-            // (~448px) to FiveExtraLarge (1024px) to match the
-            // Create-Content modal so the Items-list table +
-            // inner Create/Edit modal both have desktop room.
-            ->modalWidth(MaxWidth::FiveExtraLarge)
+            // cycle-N (post-cycle-116) — REVERTED back to slide-over.
+            //
+            // task-2026-05-04-b2dfc1 had switched module settings to a
+            // centered modal at FiveExtraLarge width because of a
+            // posts/products complaint about the "small right-side
+            // drawer" feel. After deploying that change widely the
+            // user reported it the other way: ALL module settings
+            // popping in the center is wrong — only "Create" type
+            // affordances (Add new content, Add page/post/product,
+            // Add menu item) should be centered. The Module Settings
+            // panel itself is a SHELL the user opens to tweak an
+            // existing module on the page; sliding from the right
+            // edge keeps the canvas visible behind it and matches
+            // the user's expectation that "settings" is a side panel.
+            //
+            // Centered "Create" actions remain centered:
+            //   - addContentAction (Add new content picker)        : center
+            //   - generateAction (Create page/post/product/etc.)   : center
+            //   - inner Create dialogs INSIDE module settings
+            //     (e.g. Modules\Menu\...\addMenuItemAction)         : center
+            //
+            // Slide-over shells remain slide-over:
+            //   - openModuleSettingsAction (this method)            : slideOver
+            //   - per-module Edit actions (Modules\Menu\...editAction)
+            //                                                      : slideOver
+            ->slideOver()
             ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal']);
 
 
