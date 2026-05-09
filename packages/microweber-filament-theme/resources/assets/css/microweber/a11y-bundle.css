@@ -1,0 +1,150 @@
+/*
+ * AI-134..139 (cycle-125 2026-05-09): bundled a11y improvements.
+ *
+ * Each rule corresponds to one of the 6 OOYES Coverage Wave a11y
+ * sub-tickets. Scoped with `.mw-a11y-bundle` parent class so CSS
+ * doesn't leak into non-admin surfaces unintentionally — the
+ * Filament theme adds the class on the layout root.
+ */
+
+/* ------------------------------------------------------------------
+ * AI-134 — A11Y-01: visible focus outline on the universal close
+ * button + role=dialog ARIA already covered in cycle-95
+ * (LinkPicker). This rule ensures the focus ring is visible
+ * across themes, including dark.
+ * ------------------------------------------------------------------ */
+.mw-a11y-bundle [aria-label="Close"],
+.mw-a11y-bundle .x-close-modal-link,
+.mw-a11y-bundle [data-mw-action="close-modal"] {
+    cursor: pointer;
+}
+.mw-a11y-bundle [aria-label="Close"]:focus-visible,
+.mw-a11y-bundle .x-close-modal-link:focus-visible,
+.mw-a11y-bundle [data-mw-action="close-modal"]:focus-visible {
+    outline: 2px solid var(--bs-primary, #0d6efd);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------
+ * AI-135 — A11Y-02: visual cue on aria-required.
+ * `aria-required="true"` already announces to assistive tech;
+ * this rule adds a red asterisk-style indicator AFTER the
+ * label for sighted users.
+ * ------------------------------------------------------------------ */
+.mw-a11y-bundle label:has(+ [aria-required="true"])::after,
+.mw-a11y-bundle [aria-required="true"] + label::after,
+.mw-a11y-bundle label[for] [aria-required="true"]::after {
+    content: " *";
+    color: var(--bs-danger, #dc3545);
+    font-weight: bold;
+}
+
+/* aria-disabled MUST visually match the SR-announced state. */
+.mw-a11y-bundle [aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+ * AI-136 — A11Y-03: status-pill text (not colour-only).
+ * Status pills get a small icon glyph BEFORE the text so users
+ * with colour-vision deficiencies don't have to rely on the
+ * green/red/yellow colour alone. The glyph carries
+ * aria-hidden="true" in the markup; the visible text is the
+ * accessible label.
+ * ------------------------------------------------------------------ */
+.mw-a11y-bundle .mw-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+.mw-a11y-bundle .mw-status-pill::before {
+    content: "•";
+    font-size: 1rem;
+    line-height: 1;
+}
+.mw-a11y-bundle .mw-status-pill.mw-status-success::before { content: "✓"; }
+.mw-a11y-bundle .mw-status-pill.mw-status-warning::before { content: "⚠"; }
+.mw-a11y-bundle .mw-status-pill.mw-status-danger::before { content: "✕"; }
+.mw-a11y-bundle .mw-status-pill.mw-status-info::before { content: "ℹ"; }
+
+/* ------------------------------------------------------------------
+ * AI-137 — A11Y-04: WAI-ARIA Disclosure pattern + reduced-motion.
+ * The cycle-92 Accordion BS5 markup already sets aria-expanded
+ * + aria-controls. This rule wires the visual chevron rotation
+ * to the aria-expanded state (CSS-only; no JS toggle needed)
+ * AND honours prefers-reduced-motion for users who opt out of
+ * animation.
+ * ------------------------------------------------------------------ */
+.mw-a11y-bundle [aria-expanded="false"] .mw-disclosure-chevron {
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+}
+.mw-a11y-bundle [aria-expanded="true"] .mw-disclosure-chevron {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-a11y-bundle * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * AI-138 — A11Y-05: Live Edit right-rail → bottom-sheet on mobile.
+ * On viewports ≤768px, the right-rail panel docks to the
+ * bottom-half of the viewport. Already-active CSS hooks
+ * (.live-edit-canvas-wrapper) re-purposed for the mobile
+ * stack-direction.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-a11y-bundle.mw-live-edit-page .live-edit-right-rail {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        max-height: 50vh;
+        overflow-y: auto;
+        z-index: 100;
+        border-top: 1px solid var(--bs-border-color, rgba(0,0,0,0.1));
+        border-radius: 1rem 1rem 0 0;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* ------------------------------------------------------------------
+ * AI-139 — A11Y-06: ESE colour-picker contrast badge.
+ * Rendered next to a foreground/background colour pair to show
+ * the WCAG AA / AAA pass/fail pip. Computed contrast comes from
+ * the JS; this rule styles the badge.
+ * ------------------------------------------------------------------ */
+.mw-a11y-bundle .mw-contrast-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+.mw-a11y-bundle .mw-contrast-badge.mw-contrast-aaa {
+    background: var(--bs-success, #198754);
+    color: #fff;
+}
+.mw-a11y-bundle .mw-contrast-badge.mw-contrast-aa {
+    background: var(--bs-warning, #ffc107);
+    color: #000;
+}
+.mw-a11y-bundle .mw-contrast-badge.mw-contrast-fail {
+    background: var(--bs-danger, #dc3545);
+    color: #fff;
+}
