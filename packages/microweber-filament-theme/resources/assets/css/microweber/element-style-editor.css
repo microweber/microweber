@@ -543,3 +543,179 @@ html[dir="rtl"] .reset-field {
 :not(.dark) .form-control-live-edit-label-wrapper .picker-button {
     border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
+
+/* ------------------------------------------------------------------
+ * AI-146 + AI-147 (cycle-134 2026-05-09): Element Style Editor
+ * mobile-viewport adjustments. Tester report (390x844 viewport):
+ *
+ *   AI-146 — Touch targets below WCAG 44x44:
+ *     - color picker swatch (24x24)
+ *     - font-size input (72x32, height < 44)
+ *     - italic toggle (28x28)
+ *     - reset (↺) icons (16x16)
+ *     - slider handles (10x10)
+ *     - align buttons (60x24, height < 44)
+ *     - background IMAGE selector (48x24)
+ *
+ *   AI-147 — Panel content overflows 390px viewport:
+ *     - background IMAGE selector truncated
+ *     - border style icons partially cut off
+ *     - typography boldness slider labels clipped
+ *
+ * Strategy: scope every rule to `#mw-element-style-editor-app` (per the
+ * live-edit-css-must-be-scoped guard rail) so they only fire inside the
+ * ESE Vue app — non-ESE Filament admin pages remain untouched.
+ *
+ * All sizing uses `min-height: 44px` so labels/values stay tightly
+ * laid out on desktop (>=769px) but expand to a tappable target on
+ * mobile. Hidden tap area expansion is preferred over visible bulk —
+ * `padding` extends the tap surface without resizing the visible glyph.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    /* Container: prevent any child from overflowing the 390px viewport
+       via box-sizing + a hard cap on inner sections.
+       Allow horizontal scroll on truly variable-width children (e.g.
+       the border-style icon strip) only as a last-resort fallback. */
+    #mw-element-style-editor-app {
+        box-sizing: border-box;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    #mw-element-style-editor-app * {
+        box-sizing: border-box;
+    }
+
+    /* AI-146 #1 — Color picker swatch (the small square next to TEXT
+       COLOR / BACKGROUND COLOR). The visible swatch stays 24x24 for
+       a tidy panel; expand the tap target via padding so the click
+       surface is 44x44.
+       Targets the picker button used by the ESE colour fields. */
+    #mw-element-style-editor-app .picker-button,
+    #mw-element-style-editor-app .form-control-live-edit-label-wrapper .picker-button {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 10px;
+        background-clip: content-box;
+    }
+
+    /* AI-146 #2 — Font size input + every other unit/numeric input. */
+    #mw-element-style-editor-app input[type="text"],
+    #mw-element-style-editor-app input[type="number"],
+    #mw-element-style-editor-app .mw-field input {
+        min-height: 44px;
+    }
+
+    /* AI-146 #3 — Italic toggle. Visible glyph stays at 32px to keep
+       its proportions; expand tap target to 44x44 via padding. */
+    #mw-element-style-editor-app .mw-italic-toggle {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* AI-146 #4 — Reset (↺) icons. Native size is 16x16; expand the
+       tap surface around them. */
+    #mw-element-style-editor-app .reset-field,
+    #mw-element-style-editor-app .reset-field a,
+    #mw-element-style-editor-app .reset-field button {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* AI-146 #5 — Slider handles. Vuetify v-slider thumb defaults to
+       a small dot; pseudo-element ring expands the touch surface so
+       fat-finger taps still grab the handle.
+       The visible thumb is preserved by .v-slider-thumb__surface
+       styling (cycle elsewhere); we only enlarge the hit-area. */
+    #mw-element-style-editor-app .v-slider-thumb,
+    #mw-element-style-editor-app .mw-live-edit-slider-small .v-slider-thumb,
+    #mw-element-style-editor-app .ui-slider-handle {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    #mw-element-style-editor-app .v-slider-thumb::after {
+        content: '';
+        position: absolute;
+        inset: -12px;
+    }
+
+    /* AI-146 #6 — Align buttons (left/center/right/justify) and
+       background-image-nav buttons. Native height is 24px; bump to
+       a 44px tap target while keeping the visible glyph centered. */
+    #mw-element-style-editor-app .background-image-nav > *,
+    #mw-element-style-editor-app .mw-align-buttons button,
+    #mw-element-style-editor-app .mw-align-toggle,
+    #mw-element-style-editor-app button[data-align],
+    #mw-element-style-editor-app .mw-segmented-control button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* AI-146 #7 — Background IMAGE selector button (the "IMAGE"
+       toggle in the Background panel). 48x24 -> 48x44. */
+    #mw-element-style-editor-app .background-image-nav button,
+    #mw-element-style-editor-app .background-image-nav a {
+        min-height: 44px;
+    }
+
+    /* ----------------------------------------------------------------
+     * AI-147 — keep every panel inside 390px without horizontal
+     * scrolling. Two strategies:
+     *   1. flex-wrap on icon strips so border-style / align icons
+     *      drop to a second row instead of overflowing.
+     *   2. label/value clamp on slider rows so long values don't
+     *      push the panel wider than the column.
+     * ---------------------------------------------------------------- */
+
+    /* Border-style icons (solid / dashed / dotted / double / etc.):
+       allow them to wrap so the strip doesn't extend past 390px. */
+    #mw-element-style-editor-app .mw-border-style,
+    #mw-element-style-editor-app .mw-border-style-list,
+    #mw-element-style-editor-app .mw-border-style-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    #mw-element-style-editor-app .mw-border-style > *,
+    #mw-element-style-editor-app .mw-border-style-list > *,
+    #mw-element-style-editor-app .mw-border-style-options > * {
+        flex: 0 0 auto;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Background IMAGE selector group: wrap on overflow. */
+    #mw-element-style-editor-app .background-image-nav {
+        flex-wrap: wrap;
+    }
+
+    /* Typography slider rows: allow value labels to ellipsis instead
+       of pushing the row wider than the panel column. */
+    #mw-element-style-editor-app .mw-field {
+        max-width: 100%;
+        min-width: 0;
+    }
+    #mw-element-style-editor-app .mw-field label,
+    #mw-element-style-editor-app .mw-field .mw-field-value {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    /* Stack slider + numeric input vertically when the row would
+       overflow horizontally. */
+    #mw-element-style-editor-app .mw-field.unit {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    #mw-element-style-editor-app .mw-field.unit + .mw-field {
+        position: static;
+        right: auto;
+    }
+}
