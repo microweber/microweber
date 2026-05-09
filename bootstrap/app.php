@@ -28,6 +28,16 @@ return \MicroweberPackages\App\LaravelApplication::configure(basePath: dirname(_
     // X-Frame-Options, X-Content-Type-Options, Referrer-Policy). Closes
     // the OWASP A04 gaps flagged in OOYES_AUDITS/01_SECURITY_AUDITOR.md.
     $middleware->append(\MicroweberPackages\App\Http\Middleware\SecurityHeaders::class);
+
+    // AI-129 / SEC-04 (cycle-122 2026-05-09): force-default-password-
+    // change middleware. Registered as a NAMED ALIAS so admin-route
+    // groups can opt in via `->middleware('require.password.change')`
+    // without affecting public traffic. Enabling it as an admin-route
+    // middleware is a follow-up step (one-line edit in the admin
+    // route-group config).
+    $middleware->alias([
+        'require.password.change' => \MicroweberPackages\User\Http\Middleware\RequireDefaultPasswordChange::class,
+    ]);
 })
 ->withExceptions(function (Exceptions $exceptions) {
     //

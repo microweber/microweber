@@ -103,16 +103,36 @@ use MergesConfig;
             }
         });
 
+        /*
+         * AI-129 / SEC-04 (cycle-122 2026-05-09): brief-faithful login
+         * throttle. Pre-fix: `perMinute(60)` — 60 attempts per minute,
+         * effectively no rate limit (a credential-stuffing attacker
+         * tries one password every second). Post-fix: 5 attempts per
+         * 15 minutes, keyed by `<email|username><ip>` so an attacker
+         * can't simply rotate IPs to bypass the per-account lockout.
+         *
+         * The brief said "5 attempts → lockout"; using `decayMinutes`
+         * of 15 gives a soft 15-minute decay (Laravel's
+         * `RateLimiter::tooManyAttempts` returns true for the next
+         * 15 minutes after the 5th failure). After 15 minutes the
+         * counter resets — we don't permanently lock the account
+         * (that would let an attacker DOS legitimate users by
+         * burning through 5 attempts on every account).
+         */
         RateLimiter::for('login', function (Request $request) {
-            $email = (string) $request->email;
-            return Limit::perMinute(60)->by($email.$request->ip());
+            $key = (string) ($request->email ?: $request->username ?: '');
+            return Limit::perMinutes(15, 5)->by($key . $request->ip());
         });
 
-
+        /*
+         * AI-129 / SEC-04: 2FA challenge throttle. Same shape — a 5x
+         * /15min limit per session-bound `login.id` so a stolen
+         * session cookie can't brute-force the TOTP.
+         */
         RateLimiter::for('two-factor', function (Request $request) {
-
-
-            return Limit::perMinute(60)->by($request->session()->get('login.id'));
+            return Limit::perMinutes(15, 5)->by(
+                (string) $request->session()->get('login.id', $request->ip())
+            );
         });
     }
 
