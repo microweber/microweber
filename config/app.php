@@ -107,6 +107,15 @@ return [
     'cipher' => 'AES-256-CBC',
 
     /*
+    | AI-121 / TICKET-BT (cycle-130 2026-05-09): APP_PREVIOUS_KEYS lets a
+    | new APP_KEY be rolled out while existing rows encrypted under the
+    | OLD key still decrypt cleanly. Laravel's Encrypter walks this list
+    | when the primary key fails. Keep entries comma-separated. See
+    | SETUP.md "App-key rotation procedure" for the full runbook.
+    */
+    'previous_keys' => array_filter(explode(',', (string) getenv('APP_PREVIOUS_KEYS'))),
+
+    /*
     |--------------------------------------------------------------------------
     | Logging Configuration
     |--------------------------------------------------------------------------

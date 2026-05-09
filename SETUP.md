@@ -147,6 +147,11 @@ development, dangerous in production:
 
 ## App-key rotation procedure
 
+> **AI-121 / TICKET-BT (cycle-130 2026-05-09)** — `config/app.php` now
+> exposes `'previous_keys'` sourced from the comma-separated
+> `APP_PREVIOUS_KEYS` env var, so the rotation runbook below works
+> against a real config entry rather than a documented-only flag.
+
 Triggers:
 - `APP_KEY` was committed to git or otherwise leaked.
 - A previous developer with knowledge of the key has left.
