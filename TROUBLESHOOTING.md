@@ -57,3 +57,49 @@
 
 ### Recurrence Signal
 - If a non-live-edit Filament page suddenly picks up live-edit tab underlines, compact 11px inputs, or transparent modal overlays, search the theme CSS for unscoped `.fi-*` selectors in `packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-*.css`.
+
+## 2026-05-09 — Live-edit Origin guard evaluation (AI-127 / TICKET-BB-EVAL)
+
+### Brief
+The brief asked us to evaluate adding an Origin-header check to the
+live-edit iframe postMessage handler — and to implement if safe, OR
+document in TROUBLESHOOTING.md if not.
+
+### Finding
+The first-party live-edit JS does NOT use `window.postMessage` for
+iframe ↔ parent communication. Verified via:
+
+```bash
+grep -rln "postMessage" packages/ --include="*.js"
+# Only matches: bundled tinymce vendor + bundled codemirror vendor.
+# No first-party microweber JS uses postMessage.
+```
+
+Live-edit's iframe-to-parent protocol is shared via:
+- `window.parent.mw.app.dispatch(...)` calls (cycle-79's mw.app
+  shim) — direct parent-window function calls, not postMessage.
+- DOM mutation observers in the parent window watching the iframe
+  body for `data-mw-*` attribute changes.
+
+Both paths require the iframe + parent to share an origin (per the
+SETUP.md "Same-origin Live-Edit note"). Adding an Origin check to a
+postMessage handler is therefore **N/A** — there is no handler to
+guard.
+
+### Decision (2026-05-09 / cycle-111)
+- Defer the Origin-guard implementation until live-edit migrates
+  to a postMessage-based protocol (no current plan).
+- Pin the SAME-origin requirement in SETUP.md (already documented
+  in cycle-104) so cross-origin reverse-proxy setups know to set
+  APP_URL correctly.
+- If a future cycle introduces postMessage in live-edit:
+  1. The handler MUST validate `event.origin === window.location.origin`
+     (or against an explicit per-deploy allowlist).
+  2. Update this TROUBLESHOOTING entry to reference the handler's
+     location.
+  3. Add a regression test pinning the origin check.
+
+### Recurrence Signal
+- If a future PR adds `window.addEventListener('message', ...)` in
+  any first-party live-edit JS file, this entry becomes
+  ACTIONABLE — implement the origin check before the PR lands.
