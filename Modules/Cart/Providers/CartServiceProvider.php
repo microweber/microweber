@@ -64,6 +64,16 @@ class CartServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('cart_manager', function ($app) {
             return new CartManager($app);
         });
+
+        // AI-105 / TICKET-AY (cycle-118 2026-05-09): Module Contracts
+        // DI binding. Callers can now type-hint
+        // `Modules\Cart\Contracts\CartManagerContract` and receive
+        // the singleton `cart_manager` instance. Drift detection +
+        // mock-friendly tests + future ContractValidator scan.
+        $this->app->singleton(
+            \Modules\Cart\Contracts\CartManagerContract::class,
+            fn ($app) => $app->make('cart_manager')
+        );
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(CartAddModuleSettings::class);
 

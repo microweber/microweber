@@ -20,7 +20,7 @@ use Modules\Product\Models\ProductVariantCombination;
  * - Low stock alerts
  * - Available quantity calculations
  */
-class InventoryService
+class InventoryService implements \Modules\Product\Contracts\InventoryServiceContract
 {
     /**
      * Default reservation time in minutes

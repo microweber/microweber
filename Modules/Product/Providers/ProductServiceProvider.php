@@ -68,6 +68,21 @@ class ProductServiceProvider extends BaseModuleServiceProvider
             return new InventoryService();
         });
 
+        // AI-105 / TICKET-AY (cycle-118 2026-05-09): Module Contracts
+        // DI binding. Callers can type-hint
+        // `Modules\Product\Contracts\InventoryServiceContract` and
+        // receive the singleton InventoryService. The brief asked for
+        // ProductContract under src/MicroweberPackages/Products/ —
+        // mapping the brief's intent to the actual layout: Product
+        // is a Module (no \MicroweberPackages\Products\ namespace),
+        // and the canonical "product" public surface other modules
+        // depend on is InventoryService (stock checks, reservations,
+        // deductions in cart/checkout flows).
+        $this->app->singleton(
+            \Modules\Product\Contracts\InventoryServiceContract::class,
+            fn ($app) => $app->make(InventoryService::class)
+        );
+
     }
 
 }

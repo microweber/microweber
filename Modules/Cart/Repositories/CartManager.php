@@ -17,7 +17,7 @@ use Modules\Cart\Services\CartCouponService;
  *
  * @deprecated Use the service classes directly instead
  */
-class CartManager
+class CartManager implements \Modules\Cart\Contracts\CartManagerContract
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;

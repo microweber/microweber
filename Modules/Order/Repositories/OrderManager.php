@@ -20,7 +20,7 @@ use Modules\Order\Services\OrderService;
  * Business logic lives in OrderService; query methods live on the Order model.
  * This class exists only for backward compatibility with app('order_manager') callers.
  */
-class OrderManager
+class OrderManager implements \Modules\Order\Contracts\OrderManagerContract
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;

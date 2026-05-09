@@ -45,6 +45,15 @@ class OrderServiceProvider extends BaseModuleServiceProvider
             return new OrderManager();
         });
 
+        // AI-105 / TICKET-AY (cycle-118 2026-05-09): Module Contracts
+        // DI binding. Callers can type-hint
+        // `Modules\Order\Contracts\OrderManagerContract` and receive
+        // the singleton `order_manager`.
+        $this->app->singleton(
+            \Modules\Order\Contracts\OrderManagerContract::class,
+            fn ($app) => $app->make('order_manager')
+        );
+
         /**
          * @property \Modules\Order\Repositories\OrderRepository    $order_repository
          */
