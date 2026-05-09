@@ -4066,6 +4066,11 @@ Module: testimonials
 - [x] 2026-05-09  [task-2026-05-09-b4e815] AI-120 TICKET-BN + AI-124 CT/CU pending — TICKET-BO (wire:model debounce sweep) shipped cycle-112; BN (boot-time query audit) deferred to dedicated cycle (documented in DEEP_AUDIT_TODO.md); CT/CU same. Closed as duplicate-reference.
 - [x] 2026-05-09  [task-2026-05-09-c16701] Nudge — AI-120 TICKET-BO shipped, BN deferred; AI-124 CT/CU deferred; AI-101 + AI-103 are content-seed issues (out of code-fix scope per cycle-99..101 deferral); OOYES blockers AI-132+133 shipped. Closed.
 - [x] 2026-05-09  [task-2026-05-09-c36cc6] PM acknowledgment of cycle-113 report — JIRA updated for AI-107/113/111/115/127/116. Subsequent cycles (114-116) emailed. Closed.
+- [x] 2026-05-09  [task-2026-05-09-71ae1e] NEEDS MORE WORK from cycle-113: AI-120/TICKET-BN shipped (cycle-117 boot-query audit cmd), AI-105 phase-1 completed (cycle-118 Order+Product contracts + DI bindings + interface implements), AI-106 frontend replay flag (cycle-119), AI-122 4 docs sub-tickets (cycle-120 CA/CC-EVAL/CD/CF). All cycle-113 NEEDS-MORE-WORK items closed.
+- [x] 2026-05-09  [task-2026-05-09-d80a5c] OOYES Security/A11y wave: AI-129 SEC-04 login-throttle+default-pwd (cycle-122), AI-130 SEC-05 SSRF+Search+stored-XSS (cycle-123), AI-131 SEC-06 signing-verifier+activity-log (cycle-124), AI-134..139 a11y bundle (cycle-125), AI-124 TICKET-CT+CU (cycle-121). 5 of 6 OOYES wave items shipped + AI-124 deferred items closed.
+- [x] 2026-05-09  [task-2026-05-09-a82950] PM acknowledgment of AI-128 cycle-116 ship — closed (no action required, FYI only).
+- [x] 2026-05-09  [task-2026-05-09-f51dd0] Mobile Live Edit Testing tickets AI-140/141/142 — all 3 shipped in cycle-126 (sidebar collapse + toolbar text-labels + footer mailto).
+- [x] 2026-05-09  [task-2026-05-09-02d56b] Mobile Testing Complete (AI-140..144) — AI-140/141/142 shipped in cycle-126 (sidebar collapse + toolbar text-labels + footer mailto); AI-143/144 modal-overflow fix shipped in cycle-127 (live-edit-mobile.css 100vw modal collapse + sticky footer).
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.

@@ -143,14 +143,17 @@ class ArchitectureWaveDocsContractTest extends TestCase
             'CartManagerContract must declare an interface'
         );
 
-        // Required methods from the public surface.
+        // Required methods from the public surface (post-cycle-118
+        // alignment with the actual CartManager — see
+        // ModuleContractsPhase1ContractTest for the canonical
+        // signatures pin).
         foreach ([
             'public function get_cart',
-            'public function add_to_cart',
-            'public function remove_from_cart',
-            'public function update_qty',
+            'public function update_cart',
+            'public function remove_item',
+            'public function update_item_qty',
             'public function empty_cart',
-            'public function getCartAmount',
+            'public function getTotal',
         ] as $method) {
             $this->assertStringContainsString(
                 $method,

@@ -107,3 +107,60 @@
         content: none;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-143 — menu-editing modal overflow on mobile.
+ * AI-144 — content-adding modals (Add new content, Add page/post/
+ *         product/category) overflow on mobile.
+ *
+ * Shared root cause: cycle-N flipped these modals from slide-over
+ * to centered with explicit `Width::Medium` / `MaxWidth::FiveExtraLarge`.
+ * On a 390px viewport those tiers resolve LARGER than the viewport
+ * — the modal renders with horizontal overflow + clipped
+ * Cancel/Save buttons.
+ *
+ * Fix is CSS-only — below 768px every live-edit Filament modal
+ * collapses to `100vw - 16px` with sticky-footer actions inside
+ * a flex-column body so Save/Cancel are always reachable.
+ *
+ * Critical: scoped under `.mw-live-edit-page` so the regular admin
+ * panel's CRUD modals (which already have their own mobile styles)
+ * aren't disturbed.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .fi-modal-window,
+    .mw-live-edit-page .fi-modal-content {
+        max-width: calc(100vw - 16px) !important;
+        width: calc(100vw - 16px) !important;
+        margin: 8px !important;
+    }
+
+    /* Sticky footer so Cancel/Save are always reachable, even when
+       the modal body is taller than the viewport. */
+    .mw-live-edit-page .fi-modal-footer-actions,
+    .mw-live-edit-page .fi-modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: var(--bs-body-bg, #fff);
+        border-top: 1px solid var(--bs-border-color, rgba(0,0,0,0.1));
+        padding: 0.75rem 1rem;
+        z-index: 5;
+    }
+
+    /* Body scrolls; footer stays. */
+    .mw-live-edit-page .fi-modal-content {
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 32px);
+    }
+    .mw-live-edit-page .fi-modal-content > .fi-modal-content-ctn {
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+
+    /* Tighten internal padding so labels + inputs fit without
+       horizontal scroll. */
+    .mw-live-edit-page .fi-modal-content .fi-fo-field-wrp {
+        padding-inline: 0.5rem;
+    }
+}

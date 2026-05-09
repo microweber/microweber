@@ -103,6 +103,39 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
     }
 
     #[Test]
+    public function ai_143_144_modals_collapse_to_viewport_width_on_mobile(): void
+    {
+        $src = $this->read(self::CSS);
+
+        // AI-143/AI-144 share the same fix: every live-edit
+        // Filament modal collapses to `100vw - 16px` below 768px
+        // with sticky-footer Cancel/Save.
+        $this->assertStringContainsString(
+            'AI-143',
+            $src,
+            'live-edit-mobile.css must reference AI-143 (menu-edit modal overflow)'
+        );
+        $this->assertStringContainsString(
+            'AI-144',
+            $src,
+            'live-edit-mobile.css must reference AI-144 (content-add modal overflow)'
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\\.fi-modal-window[\\s\\S]{0,200}max-width:\\s*calc\\(100vw\\s*-\\s*16px\\)/',
+            $src,
+            'modals must collapse to `calc(100vw - 16px)` on mobile'
+        );
+
+        // Sticky footer so Save/Cancel are always reachable.
+        $this->assertMatchesRegularExpression(
+            '/\\.fi-modal-footer\\b[\\s\\S]{0,200}position:\\s*sticky/',
+            $src,
+            'modal footer must be position: sticky so actions are always reachable'
+        );
+    }
+
+    #[Test]
     public function ai_142_default_footer_skin_uses_mailto_not_empty_href(): void
     {
         $src = $this->read(self::FOOTER);
