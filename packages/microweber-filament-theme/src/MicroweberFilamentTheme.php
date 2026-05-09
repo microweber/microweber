@@ -50,6 +50,33 @@ class MicroweberFilamentTheme implements Plugin
             PanelsRenderHook::CONTENT_START,
             fn (): string => '<div id="main-content"></div>',
         );
+
+        /*
+         * AI-168 (cycle-146 2026-05-09): inject a discoverable
+         * dark/light theme toggle into the admin topbar.
+         *
+         * Filament v5 ships its theme-switcher inside the user-menu
+         * dropdown by default (vendor/filament/.../user-menu.blade.php
+         * line 112-116). Tester audit at 390x844 reported the user
+         * menu only shows Logout + language switcher — the
+         * theme-switcher item isn't visible in our admin-shell
+         * customization. Rather than debug why the user-menu
+         * partial drops it (a custom user-menu views override
+         * upstream), inject a topbar-end button so the toggle is
+         * visible at the same level as the Notifications bell.
+         *
+         * The button uses Filament's built-in <x-filament-panels::
+         * theme-switcher /> component which carries the same Alpine
+         * state as the user-menu version. Both expose the same
+         * `localStorage.theme` toggle so users get a consistent
+         * experience regardless of which surface they tap.
+         */
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::TOPBAR_END,
+            fn (): string => \Illuminate\Support\Facades\Blade::render(
+                '<div class="mw-topbar-theme-switcher flex items-center px-2"><x-filament-panels::theme-switcher /></div>'
+            ),
+        );
     }
 
     public static function configureAssets(): void

@@ -4749,11 +4749,26 @@ html[dir="rtl"] .mw-text-start {
  * scoped to mobile viewports only so desktop density is preserved.
  */
 @media (max-width: 768px) {
+    /*
+     * AI-169 corrigendum (cycle-146 2026-05-09): cycle-144 selector
+     * list missed Big2's actual hamburger class. Tester re-test
+     * confirmed the rule never fired on Big2 because its public
+     * hamburger uses `.mw-vhmbgr-wrapper` (a Microweber-namespaced
+     * class), not Bootstrap's `.navbar-toggler`. Added the
+     * Microweber-namespaced variants so the floor catches the
+     * hamburger classes the templates actually ship. Bumped to
+     * `!important` to win against Big2's higher-specificity
+     * `min-width: auto` declarations on the same element.
+     */
     .navbar-toggler,
     .menu-toggle,
-    .mw-mobile-menu-toggle {
-        min-width: 44px;
-        min-height: 44px;
+    .mw-mobile-menu-toggle,
+    .mw-vhmbgr-wrapper,
+    .mw-hamburger,
+    .mw-hamburger-button,
+    .navbar-burger {
+        min-width: 44px !important;
+        min-height: 44px !important;
         padding: 6px;
         display: inline-flex;
         align-items: center;
