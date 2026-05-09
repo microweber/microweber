@@ -143,7 +143,19 @@ class MenusList extends Component implements HasForms, HasActions
     {
         return CreateAction::make('addMenuItemAction')
             ->createAnother(false)
-            ->slideOver()
+            // cycle-N (post-cycle-116 modal-fit fix): the parent
+            // MenuModuleSettings page is itself a slide-over — when
+            // this action ALSO uses ->slideOver() it tries to mount
+            // a slide-over inside a slide-over, which Filament
+            // collapses into a centered modal that gets clipped
+            // below the viewport (no Save/Cancel visible). Switching
+            // to a normal centered modal with an explicit medium
+            // width gives the user a fully-visible Create dialog
+            // with sticky footer actions.
+            ->modalWidth(\Filament\Support\Enums\Width::Medium)
+            ->modalAutofocus(false)
+            ->modalSubmitActionLabel(__('Add menu item'))
+            ->modalCancelActionLabel(__('Cancel'))
             ->mountUsing(function (Schema $schema, array $arguments) {
                 $schema->fill($arguments);
             })
