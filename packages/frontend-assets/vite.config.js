@@ -29,9 +29,21 @@ const copyPlugin = {
                 }
             }
         }
-        // Copy to public
+        // Copy to public.
+        //
+        // AI-109 / TICKET-BK (cycle-135 2026-05-09): the chunks/ folder
+        // accumulates orphaned files across rebuilds because Rollup
+        // emits hash-suffixed chunk names (`helpers-CJQHAVzg.js` etc.)
+        // and copySync only writes new + same-name files. Stale chunks
+        // were piling up in the public copy (4× helpers + 7× Lang) even
+        // though the source build was clean. Clear chunks/ before copying
+        // so the public output mirrors the source build exactly.
         const src = path.resolve(__dirname, outputDir);
         const dest = path.resolve(__dirname, publicDest);
+        const destChunks = path.join(dest, 'chunks');
+        if (fs.existsSync(destChunks)) {
+            fs.rmSync(destChunks, { recursive: true, force: true });
+        }
         fs.copySync(src, dest);
         console.log('Copied build to', dest);
     },
@@ -122,6 +134,46 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: '[name].js',
                     chunkFileNames: 'chunks/[name]-[hash].js',
                     assetFileNames: '[name][extname]',
+                    /*
+                     * AI-109 / TICKET-BK (cycle-135 2026-05-09):
+                     * coalesce shared vendor code into single named
+                     * chunks so multiple Vue entry points
+                     * (live-edit-app, element-style-editor-app, …) no
+                     * longer each ship their own copy of the Vue
+                     * runtime + reactivity + lodash + jquery, etc.
+                     *
+                     * Pre-fix output had 7× ~742KB "Lang-*.js" chunks
+                     * (each one was the full Vue runtime, named after
+                     * Lang.vue because that was the entry that
+                     * triggered the split) and 4× ~1.26MB
+                     * "helpers-*.js" chunks (each one was the full
+                     * lodash/jquery helper bundle). Total wasted bytes:
+                     * 6 × 742KB + 3 × 1.26MB ≈ 8.2 MB.
+                     *
+                     * Post-fix: vue + reactive runtime is in a single
+                     * `vue-runtime` chunk; lodash + jquery + axios in a
+                     * single `helpers` chunk; Vuetify in `vuetify`;
+                     * everything else stays as Rollup's default code-
+                     * splitting heuristic.
+                     */
+                    manualChunks: (id) => {
+                        if (id.includes('node_modules')) {
+                            if (id.includes('@vue/') || id.includes('node_modules/vue/')) {
+                                return 'vue-runtime';
+                            }
+                            if (id.includes('vuetify')) {
+                                return 'vuetify';
+                            }
+                            if (
+                                id.includes('lodash') ||
+                                id.includes('jquery') ||
+                                id.includes('axios')
+                            ) {
+                                return 'helpers';
+                            }
+                        }
+                        return undefined;
+                    },
                 },
             },
         },
