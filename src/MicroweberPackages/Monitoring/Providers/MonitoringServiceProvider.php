@@ -7,6 +7,9 @@ use MicroweberPackages\Monitoring\Services\ErrorTrackingService;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Monitoring\Filament\Resources\ErrorTrackingResource;
 use MicroweberPackages\Monitoring\Filament\Widgets\ErrorStatsWidget;
+use MicroweberPackages\Monitoring\Console\Commands\BootQueryAuditCommand;
+use MicroweberPackages\Monitoring\Console\Commands\CleanupErrorTracking;
+use MicroweberPackages\Monitoring\Console\Commands\ExportErrorReport;
 
 class MonitoringServiceProvider extends ServiceProvider
 {
@@ -27,11 +30,22 @@ class MonitoringServiceProvider extends ServiceProvider
     {
         // Load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        
+
         // Register Filament resources
         FilamentRegistry::registerResource(ErrorTrackingResource::class);
-        
+
         // Register Filament widgets
         FilamentRegistry::registerWidget(ErrorStatsWidget::class);
+
+        // AI-120 / TICKET-BN (cycle-117): register the boot-time
+        // query audit command alongside the existing monitoring
+        // commands. CLI-only — gated by $this->app->runningInConsole().
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                BootQueryAuditCommand::class,
+                CleanupErrorTracking::class,
+                ExportErrorReport::class,
+            ]);
+        }
     }
 }
