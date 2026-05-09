@@ -45,7 +45,7 @@
                                     ? 'border-primary-500 bg-primary-50 ring-1 ring-primary-500 dark:border-primary-400 dark:bg-primary-950'
                                     : 'border-gray-300 bg-white hover:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-500' }}">
                                 <input type="checkbox"
-                                       wire:model.live="selectedAttributeIds"
+                                       wire:model.live.debounce.500ms="selectedAttributeIds"
                                        value="{{ $attrId }}"
                                        class="sr-only">
                                 <x-heroicon-m-check-circle

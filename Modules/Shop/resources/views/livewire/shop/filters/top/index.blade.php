@@ -1,5 +1,5 @@
 {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9:
-     wire:model.live="keywords" fired a Livewire round-trip on every
+     wire:model.live.debounce.500ms="keywords" fired a Livewire round-trip on every
      keystroke — server-load amplifier on shops with thousands of
      products. .debounce.500ms waits 500ms after the last keystroke
      before firing, dropping the per-character query rate. --}}
@@ -18,7 +18,7 @@
         <div>
             <label>Sort</label>
             <div>
-                <select class="form-control" wire:model.live="sortKey">
+                <select class="form-control" wire:model.live.debounce.500ms="sortKey">
                     <option value="created_by_asc">Newest</option>
                     <option value="created_by_desc">Oldest</option>
                     <option value="title_asc">Title: A-Z</option>
@@ -31,7 +31,7 @@
         <div>
             <label>Limit</label>
             <div>
-                <select class="form-control" wire:model.live="limit">
+                <select class="form-control" wire:model.live.debounce.500ms="limit">
                     <option value="1">1</option>
                     <option value="12">12</option>
                     <option value="24">24</option>

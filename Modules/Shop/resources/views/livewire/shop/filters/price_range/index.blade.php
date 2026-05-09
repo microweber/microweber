@@ -21,14 +21,14 @@ $randId = 'shpr'.md5($moduleId . $moduleType);
                <label for="js-shop-price-range-from-{{$randId}}">From</label>
                <div class="input-group">
                    <span class="input-group-text">$</span>
-                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
+                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live.debounce.500ms="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
                </div>
            </div>
            <div>
                <label for="js-shop-price-range-to-{{$randId}}">To</label>
                <div class="input-group">
                    <span class="input-group-text">$</span>
-                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live="priceTo" id="js-shop-price-range-to-{{$randId}}" aria-label="Amount (to the nearest dollar)">
+                   <input type="number" inputmode="decimal" min="0" step="any" class="form-control" wire:model.live.debounce.500ms="priceTo" id="js-shop-price-range-to-{{$randId}}" aria-label="Amount (to the nearest dollar)">
                </div>
            </div>
        </div>

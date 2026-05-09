@@ -4,7 +4,7 @@
             <div class="input-group">
                 <input
                     type="text"
-                    wire:model.live="search"
+                    wire:model.live.debounce.500ms="search"
                     class="form-control" style="border: none;"
                     placeholder="{{ _e('Search posts...') }}">
                 @if(isset($search) and !empty($search))

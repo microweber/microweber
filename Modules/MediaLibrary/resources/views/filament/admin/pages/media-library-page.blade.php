@@ -23,7 +23,7 @@
                 />
             </div>
 
-            <select wire:model.live="typeFilter" class="mw-media-filter-select">
+            <select wire:model.live.debounce.500ms="typeFilter" class="mw-media-filter-select">
                 <option value="">All types</option>
                 <option value="picture">Images</option>
                 <option value="video">Videos</option>
@@ -33,13 +33,13 @@
 
             <input
                 type="date"
-                wire:model.live="dateFrom"
+                wire:model.live.debounce.500ms="dateFrom"
                 class="mw-media-filter-date"
                 title="From date"
             />
             <input
                 type="date"
-                wire:model.live="dateTo"
+                wire:model.live.debounce.500ms="dateTo"
                 class="mw-media-filter-date"
                 title="To date"
             />
