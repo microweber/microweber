@@ -129,12 +129,22 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    /* Suppress the auto-label when the button already carries
-       visible text content (avoid double-label on SAVE / VIEW). */
-    .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn:has(*:not(:empty))::after,
-    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons:has(*:not(:empty))::after {
-        content: none;
-    }
+    /*
+     * AI-151 (cycle-144 2026-05-09): cycle-143 carried a `:has(*:not(:empty))`
+     * suppression rule intended to avoid double-labels on buttons that
+     * already had visible text. But every Vue toolbar button contains a
+     * non-empty `<span v-html="iconXxx" aria-hidden>SVG</span>` child
+     * (and a `<v-tooltip>` portal element), so the suppression matched
+     * EVERY button — content:none won the cascade and stripped the
+     * auto-label for all of them. Tester re-test: "1 of 5 buttons has
+     * visible text (VIEW)". The suppression rule is removed entirely:
+     * the Vue toolbar buttons have NO visible inline text content (only
+     * aria-hidden SVG icons), so `content: attr(aria-label)` cannot
+     * cause a visible double-label. Buttons that DO have inline text
+     * (e.g. ADMIN at Toolbar.vue:61, "View" at SaveButton.vue) use
+     * different classes (`.mw-live-edit-toolbar-link`, `.btn-light`)
+     * that this scoped selector doesn't match — they're untouched.
+     */
 }
 
 /* ------------------------------------------------------------------

@@ -4732,3 +4732,31 @@ html[dir="rtl"] .mw-text-start {
     opacity: 0.6;
     pointer-events: none;
 }
+
+/*
+ * AI-166 (cycle-144 2026-05-09): public-side mobile touch-target safety
+ * rail. Big2 + Bootstrap templates render Bootstrap's `.navbar-toggler`
+ * hamburger button at 25x25px on mobile (below WCAG 2.5.5 / iOS HIG
+ * 44x44 minimum). Both template directories are gitignored vendored
+ * artefacts so a per-template fix can't ship via this repo. This file
+ * (default.css) is loaded on every public page via TemplateManager /
+ * FrontendController, so the rule below acts as a baseline floor every
+ * template inherits unless it explicitly overrides.
+ *
+ * Templates that already have a 44x44 hamburger (or that intentionally
+ * use a smaller chip) can override with their own `.navbar-toggler {
+ * min-width: ... }` rule at higher specificity. The rule here is
+ * scoped to mobile viewports only so desktop density is preserved.
+ */
+@media (max-width: 768px) {
+    .navbar-toggler,
+    .menu-toggle,
+    .mw-mobile-menu-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
