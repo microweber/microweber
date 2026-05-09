@@ -188,12 +188,52 @@
     /* Make the live-edit toolbar's back-to-admin link visible
        on mobile so users can tap to open the drawer. The button
        is set up in live-edit.blade.php's @push('scripts') block. */
+    /*
+     * AI-170 (cycle-147 2026-05-09): the cycle-143 visibility +
+     * 44x44 rule landed but lost the cascade fight against an
+     * external 32x32 rule (Toolbar.vue scope or a higher-specificity
+     * .mw-live-edit-toolbar-link declaration). Bumping min-width/
+     * min-height to !important and hiding the misleading "ADMIN"
+     * text + arrow icon on mobile so the affordance reads as a
+     * dedicated sidebar-toggle hamburger. The existing JS handler
+     * (live-edit.blade.php @push('scripts') line 9-16) calls
+     * mw.app.liveEditWidgets.toggleAdminSidebar() — that behavior
+     * is preserved; only the visual presentation changes.
+     */
     .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link {
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        min-width: 44px;
-        min-height: 44px;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px !important;
+        position: relative;
+    }
+    /* Hide the existing arrow-circle SVG on mobile so the hamburger
+       glyph becomes the dominant affordance. The SVG class is
+       `.mw-live-edit-toolbar-arrow-icon` per Toolbar.vue:55. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link .mw-live-edit-toolbar-arrow-icon {
+        display: none !important;
+    }
+    /* Hide the "ADMIN" text label on mobile — it was misleading
+       (the link doesn't navigate to admin, it toggles the sidebar
+       drawer). The aria-label remains "Back to admin" via the Vue
+       source — that semantic mismatch is documented as phase-2 in
+       the AI-170 JIRA comment; CSS can't rewrite ARIA attributes. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link > span {
+        display: none !important;
+    }
+    /* Inject a hamburger glyph as the visible icon on mobile. Three
+       horizontal bars rendered via box-shadow on a single ::before
+       pseudo-element. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link::before {
+        content: '';
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: currentColor;
+        box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
+        border-radius: 1px;
     }
 }
 
