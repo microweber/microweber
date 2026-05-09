@@ -280,6 +280,47 @@ chore: upgrade dependencies to latest patch versions
 
 ---
 
+## CHANGELOG cadence (AI-122 / TICKET-CA, cycle-120 2026-05-09)
+
+The repo carries a `CHANGELOG.md` at the root. Two cadences exist
+— pick the one that matches the size of your change:
+
+### 1. Release-tag-driven (canonical)
+
+For changes that ship in a numbered release (`v2.x.y`):
+
+- One section per release tag, in reverse-chronological order.
+- Heading format: `## [2.4.0] — 2026-05-09`.
+- Subsections (in this order, omit empty ones): `Added`,
+  `Changed`, `Fixed`, `Security`, `Deprecated`, `Removed`.
+- Bullets reference the JIRA ticket id in square brackets where
+  applicable: `[AI-128] Add CSP frame-ancestors header`.
+- The release commit bumps the version in `composer.json` +
+  `package.json`, edits `CHANGELOG.md`, and tags `v2.4.0`.
+
+### 2. Per-cycle (during active development)
+
+For incremental work between releases (the current
+agent-driven cycles):
+
+- Append a single line under the in-progress release section:
+  `- cycle-N (AI-NNN / TICKET-XX): one-line summary` with the
+  commit SHA in parens at the end.
+- When the release is cut, those lines roll up into the
+  Added / Changed / Fixed buckets in the release section.
+
+### What does NOT belong in CHANGELOG.md
+
+- Test-only changes (e.g. cycle-X: contract test for AI-NNN).
+- Pure refactors with no observable behaviour change.
+- Doc-only edits that don't change the public API or runtime.
+- `chore(deps)` minor bumps.
+
+If a cycle is doc-only / test-only, mark it `[skip changelog]` in
+the commit body and skip the CHANGELOG.md edit.
+
+---
+
 ## Need more help?
 
 - [Forking a Repo](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)

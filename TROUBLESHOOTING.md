@@ -103,3 +103,94 @@ guard.
 - If a future PR adds `window.addEventListener('message', ...)` in
   any first-party live-edit JS file, this entry becomes
   ACTIONABLE — implement the origin check before the PR lands.
+
+## 2026-05-09 — Recurring developer gotchas (AI-122 / TICKET-CC-EVAL backfill)
+
+A small set of foot-guns recur across cycles. Each entry below
+captures what to look for when reviewing a PR + the canonical fix.
+
+### Backtick template literal collision with Blade `{{ }}`
+
+**Symptom:** A `<script>` block in a Blade template uses backtick
+template literals (`\`Hello ${name}\``) and the page renders blank
+or the JS console reports `Uncaught SyntaxError: Unexpected
+token '{'`.
+
+**Root cause:** Blade's `{{ ... }}` interpolation runs FIRST; if
+the JS contains `${...}` Blade may mangle it. Symmetrically, if
+the JS contains `{{ ... }}` (e.g. inside a JSDoc comment) Blade
+will try to evaluate it.
+
+**Fix:** Wrap the script body in `@verbatim ... @endverbatim` OR
+use single-quoted concatenation (`'Hello ' + name`) instead of
+template literals. A delegated `data-mw-*` attribute pattern (per
+ADR-0003) sidesteps the problem entirely by keeping JS in `.js`
+files, not Blade `<script>` blocks.
+
+### `wire:click` on a `<select>` `<option>`
+
+**Symptom:** Clicking a dropdown option triggers two Livewire
+round-trips OR the option doesn't change the bound value.
+
+**Root cause:** `<option>` doesn't fire `click` events
+consistently across browsers (Safari + Firefox quirks). Livewire's
+`wire:click` binds at the option level get swallowed by the
+parent `<select>`'s native change handler.
+
+**Fix:** Use `wire:model.live.debounce.500ms` on the parent
+`<select>` instead. The cycle-112 sweep enforces the debounce;
+the cycle-N grep-gate catches `wire:click` on `<option>` tags.
+
+### Hardcoded element IDs in module skins
+
+**Symptom:** Two instances of the same module on one page —
+clicks on one toggle the other; only the first is interactive.
+
+**Root cause:** A skin uses a literal id (`<div id="my-thing">`)
+instead of a per-instance id (`<div id="my-thing-{{ $params['id'] }}">`).
+Two modules emit the same id; jQuery selectors hit only the
+first match in DOM order.
+
+**Fix:** Every skin id MUST include `{{ $params['id'] }}`. The
+cycle-89 Post-list bundle + cycle-91 FAQ + cycle-92 Accordion
+sweeps closed the known sites; the AI-113 grep-gate catches
+new occurrences (pattern: `id="<word>-{{ \$params\['id'\] }}"`
+expected in any module skin >50 lines).
+
+### `str_contains()` argument order
+
+**Symptom:** Code `str_contains($needle, $haystack)` (wrong
+order) silently returns false — opposite of the intended
+behaviour. Often misses input validation entirely (e.g.
+`str_contains('https', $url)` returns true for ANY `$url`
+containing the substring 'https' — but the dev meant
+`str_contains($url, 'https')`).
+
+**Root cause:** PHP's `str_contains($haystack, $needle)` and
+JS's `string.includes(substr)` have opposite parameter shapes.
+Devs writing PHP after JS get it backwards.
+
+**Fix:** Use the named-parameter form: `str_contains(haystack:
+$url, needle: 'https')`. Static analysis (PHPStan level 5+)
+catches type mismatches when the strings carry distinct PHPDoc
+types.
+
+### AEAD-ciphertext column too narrow after encrypt-at-rest
+
+**Symptom:** `ModelNotFoundException` after a
+re-encrypt sweep: `users.api_token` (varchar(80)) silently
+truncates the AEAD ciphertext output (~140 bytes for a
+40-byte plaintext + nonce + tag); decrypt fails with
+"Invalid MAC".
+
+**Root cause:** AEAD ciphertext is base64-encoded
+`nonce + ciphertext + auth-tag`. The encoded length is
+roughly `4/3 * (12 + plaintext_len + 16) + padding`, which
+exceeds the original `varchar` width for any column under
+`varchar(255)` once the plaintext is anything but trivial.
+
+**Fix:** Widen the column BEFORE running the re-encrypt
+sweep — `$table->text('api_token')->change()`. Cycle-43's
+encrypt sweep widened `users.password_history`; the
+DEEP_AUDIT_TODO.md TICKET-BJ scope-doc tracks the remaining
+columns (`payment_methods.token`, `cms_settings` secret rows).

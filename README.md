@@ -60,11 +60,19 @@ Microweber CMS primarily focuses on e-commerce, making it an ideal choice for as
 
 ## System Requirements
 
+> **AI-122 / TICKET-CF (cycle-120 2026-05-09)**: README audit pass.
+> Versions verified against `composer.json` (`"php": "^8.3"`),
+> `.github/workflows/cicd-pipeline.yml` (`NODE_VERSION: '22'`),
+> and the `SETUP.md` runbook. For the full prerequisites table
+> (including MySQL 8 + Composer 2 + Chrome/Chromium for Dusk e2e
+> tests) see `SETUP.md`.
+
 To run Microweber, you need the following components:
 
-- HTTP server
-- Database server
-- PHP >= 8.3
+- HTTP server (Apache or Nginx)
+- Database server (MySQL 8+ recommended; SQLite for dev)
+- PHP >= 8.3 (8.3 + 8.4 are CI-tested)
+- Node 22 (for `npm run build` — frontend bundle)
     - `lib-xml` with DOM support
     - `GD` PHP extension
     - `intl` PHP extension

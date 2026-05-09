@@ -1,0 +1,305 @@
+# AI-122 / TICKET-CD (cycle-120 2026-05-09): OpenAPI spec stub.
+#
+# Microweber's API surface is sprawling — ~30 modules each carry
+# `routes/api.php`. A full machine-generated OpenAPI dump
+# (via `php artisan l5-swagger:generate`) would land at
+# `storage/api-docs/api-docs.json` after annotating every controller
+# with `@OA\` tags. That's a multi-cycle project (touches ~50
+# controllers).
+#
+# This stub gives us:
+#   1. A canonical filesystem path (`docs/openapi.yaml`) where the
+#      generated spec lands so downstream consumers (Postman
+#      imports, frontend SDK generators, doc sites) have a stable
+#      target.
+#   2. A documented snapshot of the highest-traffic endpoints so
+#      external integrators have ONE thing to read instead of
+#      grepping `Modules/*/routes/api.php`.
+#   3. A clear extension point — every endpoint added to
+#      Modules/<X>/routes/api.php should grow a section here, and
+#      the per-controller `@OA\Get(...)` annotations should follow
+#      in their dedicated cycle.
+#
+# Phase 2 of TICKET-CD lands the `l5-swagger:generate` integration
+# (config/l5-swagger.php exists; artisan command is already wired).
+# Phase 3 backfills `@OA\` annotations across every controller —
+# that's the multi-cycle scope.
+
+openapi: 3.1.0
+
+info:
+  title: Microweber API
+  version: '2.x'
+  description: >-
+    Microweber CMS public + admin API. Most endpoints are wired
+    through per-module `routes/api.php` files; auth is via Laravel
+    Sanctum tokens for admin endpoints + session cookies for the
+    storefront.
+  contact:
+    name: Microweber
+    url: https://microweber.com
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: '{baseUrl}/api'
+    description: Public API root
+    variables:
+      baseUrl:
+        default: 'https://example.test'
+        description: Site URL (matches APP_URL).
+  - url: '{baseUrl}/admin/api'
+    description: Admin API root (Sanctum-authenticated).
+    variables:
+      baseUrl:
+        default: 'https://example.test'
+
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: laravel_session
+      description: Browser session for the public storefront.
+    SanctumToken:
+      type: http
+      scheme: bearer
+      bearerFormat: 'sanctum-pat'
+      description: |
+        Personal-access token issued by `/admin/api/auth/login`.
+        Send via `Authorization: Bearer <token>`. Required for
+        every admin endpoint.
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error: { type: boolean, example: true }
+        message: { type: string, example: 'Validation failed' }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+    CartItem:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        rel_id: { type: integer, description: 'Product id' }
+        rel_type: { type: string, example: 'content' }
+        qty: { type: integer, minimum: 1 }
+        price: { type: number, format: float }
+        title: { type: string }
+        currency: { type: string, example: 'USD' }
+    NewsletterSubscriber:
+      type: object
+      properties:
+        email: { type: string, format: email }
+        status: { type: string, example: 'active' }
+        subscribed_at: { type: string, format: 'date-time' }
+
+paths:
+
+  # ---- Cart (Modules/Cart/routes/api.php) ------------------------
+
+  /cart:
+    get:
+      summary: Get current cart
+      description: |
+        Returns the current session's cart contents. Anonymous
+        visitors get the session_id-keyed cart; authenticated users
+        get the user_id-keyed cart per the cycle-22 + ADR-0004
+        guest-merge rules.
+      tags: [Cart]
+      security:
+        - SessionCookie: []
+      responses:
+        '200':
+          description: Cart contents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/CartItem' }
+                  total: { type: number, format: float }
+
+  /cart/coupon/apply:
+    post:
+      summary: Apply a coupon code to the active cart
+      description: |
+        Per cycle-88 / AI-76, the resolver determines the
+        customer email via `CartCouponService::resolveCustomerEmail()`
+        — checkout session beats Auth::user()->email so admin-on-
+        behalf-of flows attribute coupon use to the actual customer.
+      tags: [Cart, Coupons]
+      security:
+        - SessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string, example: 'SAVE10' }
+      responses:
+        '200':
+          description: Coupon accepted
+        '422':
+          description: Coupon invalid / expired / rate-limited
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  # ---- Newsletter (Modules/Newsletter/routes/api.php) ------------
+
+  /newsletter/subscribe:
+    post:
+      summary: Subscribe an email to a newsletter list
+      tags: [Newsletter]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+                list_id: { type: integer, nullable: true }
+      responses:
+        '200':
+          description: Subscribed (confirmation email sent)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NewsletterSubscriber' }
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /newsletter/track/{token}:
+    get:
+      summary: Tracked-link click handler
+      description: |
+        HMAC-SHA256 signed redirect target (cycle-30 / AI-58 /
+        TICKET-RR). Validates the token's integrity, records the
+        click, then 302s to the original URL (allowlist-checked).
+      tags: [Newsletter]
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema: { type: string }
+      responses:
+        '302':
+          description: Redirect to original URL
+        '404':
+          description: Token invalid / expired / not on allowlist
+
+  # ---- Captcha (Modules/Captcha/routes/api.php) ------------------
+
+  /captcha:
+    get:
+      summary: Generate a CAPTCHA image + session-bound code
+      tags: [Captcha]
+      parameters:
+        - { in: query, name: w, schema: { type: integer, default: 100 } }
+        - { in: query, name: h, schema: { type: integer, default: 60 } }
+        - { in: query, name: id, schema: { type: string }, description: 'Per-form id' }
+      responses:
+        '200':
+          description: PNG image bytes
+          content:
+            image/png: {}
+
+  # ---- Search (Modules/Search/routes/api.php) --------------------
+
+  /search:
+    get:
+      summary: Site-wide search
+      description: |
+        Per AI-130 / SEC-05 (cycle-N pen-test), every parameter
+        flows through Eloquent's parameterized query builder — no
+        raw concatenation. The cycle-43 stored-XSS sweep strips
+        `<img onerror>` and `<svg onload>` from any indexed
+        rich-text content.
+      tags: [Search]
+      parameters:
+        - { in: query, name: q, required: true, schema: { type: string } }
+        - { in: query, name: limit, schema: { type: integer, default: 20, maximum: 100 } }
+        - { in: query, name: page, schema: { type: integer, default: 1 } }
+      responses:
+        '200':
+          description: Result list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results: { type: array, items: { type: object } }
+                  total: { type: integer }
+
+  # ---- Admin auth (Sanctum) --------------------------------------
+
+  /admin/api/auth/login:
+    post:
+      summary: Issue a Sanctum personal-access token
+      description: |
+        Login throttle: 5 attempts → 15-minute lockout (AI-129 /
+        SEC-04, cycle-N). 2FA TOTP optional for admin accounts;
+        when enabled, the response is `202` with a `2fa_required`
+        body and the client must POST `/admin/api/auth/2fa` with
+        the TOTP code to receive the bearer token.
+      tags: [Admin Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+                device_name: { type: string, default: 'web' }
+      responses:
+        '200':
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+                  expires_at: { type: string, format: 'date-time', nullable: true }
+        '202':
+          description: 2FA required — POST /admin/api/auth/2fa with TOTP
+        '401':
+          description: Invalid credentials
+        '429':
+          description: Login throttle exceeded (5/15min)
+
+# ---------------------------------------------------------------
+# Coverage roadmap (Phase 2/3 of TICKET-CD):
+#
+#   - Add @OA\ annotations to every controller in:
+#       Modules/Cart/Http/Controllers/Api/*Controller.php
+#       Modules/Newsletter/Http/Controllers/Api/*Controller.php
+#       Modules/Order/Http/Controllers/Api/*Controller.php
+#       Modules/Product/Http/Controllers/Api/*Controller.php
+#       Modules/Checkout/Http/Controllers/Api/*Controller.php
+#       (~30 modules total)
+#
+#   - Wire `php artisan l5-swagger:generate` into CI so the
+#     generated `storage/api-docs/api-docs.json` is regenerated +
+#     committed on every release.
+#
+#   - Replace this hand-edited stub with the generated artifact.
+# ---------------------------------------------------------------
