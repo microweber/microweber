@@ -89,21 +89,26 @@ class LiveEditMobileToolbarContractTest extends TestCase
     #[Test]
     public function canvas_iframe_wrapper_gets_56px_padding_top(): void
     {
-        // The Filament admin layout's .fi-main-ctn AND the legacy
-        // #iframe-holder AND any .live-edit-canvas-wrapper get the
-        // padding so different mount points all behave the same.
-        $required = ['.fi-layout .fi-main-ctn', '#iframe-holder', '.live-edit-canvas-wrapper'];
+        // AI-116 / TICKET-CI (cycle-107 2026-05-09): the rule is now
+        // scoped under `.mw-live-edit-page` so it doesn't leak to
+        // non-live-edit Filament panels. The selectors are still
+        // required (just prefixed by the scope class).
+        $required = [
+            '.mw-live-edit-page.fi-layout .fi-main-ctn',
+            '.mw-live-edit-page #iframe-holder',
+            '.mw-live-edit-page .live-edit-canvas-wrapper',
+        ];
         foreach ($required as $sel) {
             $this->assertStringContainsString(
                 $sel,
                 $this->cssSrc,
-                "live-edit-classes.css: canvas wrapper rule must include selector `{$sel}` so all mount-points pad the toolbar"
+                "live-edit-classes.css: canvas wrapper rule must include selector `{$sel}` so all mount-points pad the toolbar (AI-116 scoped variant)"
             );
         }
         $this->assertMatchesRegularExpression(
-            '/\\.fi-layout\\s+\\.fi-main-ctn,\\s*\\n\\s*#iframe-holder,\\s*\\n\\s*\\.live-edit-canvas-wrapper\\s*\\{\\s*\\n\\s*padding-top:\\s*56px/s',
+            '/\\.mw-live-edit-page\\.fi-layout\\s+\\.fi-main-ctn,\\s*\\n\\s*\\.mw-live-edit-page\\s+#iframe-holder,\\s*\\n\\s*\\.mw-live-edit-page\\s+\\.live-edit-canvas-wrapper\\s*\\{\\s*\\n\\s*padding-top:\\s*56px/s',
             $this->cssSrc,
-            'live-edit-classes.css: canvas wrappers must declare padding-top: 56px (matches #toolbar fixed height)'
+            'live-edit-classes.css: canvas wrappers must declare padding-top: 56px scoped under `.mw-live-edit-page` (matches #toolbar fixed height)'
         );
     }
 

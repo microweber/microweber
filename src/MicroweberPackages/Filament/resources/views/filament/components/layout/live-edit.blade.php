@@ -36,8 +36,16 @@
 @endpush
 <x-filament-panels::layout.base :livewire="$livewire">
     {{-- The sidebar is after the page content in the markup to fix issues with page content overlapping dropdown content from the sidebar. --}}
+    {{-- AI-116 / TICKET-CI (cycle-107 2026-05-09): scoping class.
+         Live-edit-specific CSS rules in
+         packages/microweber-filament-theme/resources/assets/css/microweber/live-edit-classes.css
+         are scoped under `.mw-live-edit-page` so they don't leak to
+         non-live-edit Filament panels (Posts list, Settings, etc.).
+         The class is added here on the layout root so every page
+         rendered through `filament-panels::components.layout.live-edit`
+         picks it up automatically. --}}
     <div
-        class="fi-layout flex min-h-screen w-full flex-row-reverse overflow-x-clip"
+        class="fi-layout mw-live-edit-page flex min-h-screen w-full flex-row-reverse overflow-x-clip"
     >
         <div
             @if (filament()->isSidebarCollapsibleOnDesktop())

@@ -366,7 +366,11 @@ html.dark #user-menu-wrapper.active #user-menu {
     position: relative;
 }
 
-.fi-layout .fi-main-ctn {
+/* AI-116 / TICKET-CI (cycle-107 2026-05-09): scoped under
+   `.mw-live-edit-page` so the live-edit-specific transparent-bg
+   override doesn't leak to other Filament panels (Posts list,
+   Settings, etc.) where the default opaque bg is intentional. */
+.mw-live-edit-page.fi-layout .fi-main-ctn {
     @apply !bg-transparent dark:!bg-transparent;
 }
 
@@ -988,7 +992,10 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     @apply border-dashed border-2 border-gray-300 border-gray-300 dark:border-slate-700 p-[1rem] text-[#999FA4FF]
 }
 
-.fi-section-header {
+/* AI-116 / TICKET-CI (cycle-107): scoped under `.mw-live-edit-page`.
+   Without scope this `!px-0` was leaking to the Posts/Products
+   admin list pages where padding is needed. */
+.mw-live-edit-page .fi-section-header {
     @apply !px-0;
 }
 
@@ -1422,9 +1429,11 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
      * scroll-row width. Without this, the toolbar overlaps the
      * canvas iframe by ~33px (measured by audit-test 2026-05-08).
      */
-    .fi-layout .fi-main-ctn,
-    #iframe-holder,
-    .live-edit-canvas-wrapper {
+    /* AI-116 / TICKET-CI (cycle-107): scoped to `.mw-live-edit-page`
+       so the 56px toolbar offset only applies inside live-edit. */
+    .mw-live-edit-page.fi-layout .fi-main-ctn,
+    .mw-live-edit-page #iframe-holder,
+    .mw-live-edit-page .live-edit-canvas-wrapper {
         padding-top: 56px !important;
     }
 }
