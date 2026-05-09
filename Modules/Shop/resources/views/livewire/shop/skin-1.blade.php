@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
-    <div class="col-md-2">
+    <div class="col-12 col-md-2">
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
         @endif
@@ -20,7 +20,7 @@
             @include('modules.shop::livewire.shop.filters.tags.index')
         @endif
     </div>
-    <div class="col-md-9">
+    <div class="col-12 col-md-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
         {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9 (a11y half):
@@ -28,7 +28,7 @@
              see default.blade.php for the full note. --}}
         <div class="row mt-7" aria-live="polite" wire:loading.attr="aria-busy">
             @foreach($products as $product)
-                <div class="col-xl-6 col-lg-6 col-sm-12 mb-5">
+                <div class="col-12 col-lg-6 col-xl-6 mb-5">
                     @include('modules.shop::livewire.shop.product-card-skin-1')
                 </div>
             @endforeach
