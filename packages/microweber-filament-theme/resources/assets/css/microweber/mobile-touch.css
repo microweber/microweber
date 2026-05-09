@@ -328,6 +328,28 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
+ * AI-168 follow-up (cycle-146b 2026-05-09): tester verified the
+ * cycle-146 dark-mode toggle render-hook works (theme switcher
+ * present in topbar, dark class toggles correctly), but flagged
+ * the buttons render at 36x36px — below WCAG 2.5.5 / iOS HIG 44x44.
+ * The theme-switcher uses .fi-theme-switcher-btn (per
+ * vendor/filament/filament/resources/views/components/theme-switcher/
+ * button.blade.php line 19). Bumping to 44x44 on mobile only so
+ * desktop density is preserved. Applies to ALL theme-switcher
+ * buttons (light / dark / system) regardless of where they render
+ * (topbar via cycle-146 hook OR user-menu by Filament default).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .fi-theme-switcher-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/*
  * AI-123 / TICKET-CO (cycle-136 2026-05-09): Novice-UX hover affordances
  * for clickable cards across the admin shell. Brief: "All clickable cards
  * must have hover feedback (cursor-pointer + subtle bg change)".
