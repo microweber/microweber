@@ -44,6 +44,76 @@ class ContentResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    /*
+     * AI-133 / SEC-02 (cycle-115 2026-05-09): Filament resource-level
+     * access control. Pre-fix, ContentResource (and the
+     * ProductResource + PostResource subclasses) had NO canAccess /
+     * canEdit / canDelete / canCreate overrides — Filament v5
+     * defaults to "any user with admin-panel access can do
+     * everything", which combined with role-based menu hiding
+     * (CSS-only) creates an IDOR vector: a non-admin user with
+     * admin-panel access can navigate directly to
+     * /admin/pages|posts|products/<id>/edit and modify content even
+     * if the menu item is hidden in their role.
+     *
+     * Each method below gates on `user_can_access(...)` (same gate
+     * used by the topbar Live-Edit chip per cycle-97 / AI-86), so
+     * server-side access control matches the menu-hiding state.
+     * IDOR is closed because the route handler short-circuits on
+     * canAccess() = false, regardless of menu visibility.
+     *
+     * Subclasses (ProductResource / PostResource) inherit these
+     * defaults automatically. They CAN override per-resource (e.g.
+     * to require a finer-grained `module.product.edit` permission)
+     * but the safe default is the broad `module.content.edit` gate.
+     */
+
+    public static function canAccess(): bool
+    {
+        return function_exists('user_can_access')
+            && user_can_access('module.' . static::getContentTypeForAccess() . '.view');
+    }
+
+    public static function canCreate(): bool
+    {
+        return function_exists('user_can_access')
+            && user_can_access('module.' . static::getContentTypeForAccess() . '.create');
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return function_exists('user_can_access')
+            && user_can_access('module.' . static::getContentTypeForAccess() . '.edit');
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return function_exists('user_can_access')
+            && user_can_access('module.' . static::getContentTypeForAccess() . '.delete');
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return function_exists('user_can_access')
+            && user_can_access('module.' . static::getContentTypeForAccess() . '.delete');
+    }
+
+    /**
+     * AI-133 / SEC-02: derive the permission key from the resource's
+     * static $contentType so subclasses (ProductResource / PostResource)
+     * automatically gate on `module.product.*` / `module.post.*`
+     * without needing to override every can*() method.
+     */
+    protected static function getContentTypeForAccess(): string
+    {
+        // Subclasses set $contentType (e.g. 'product', 'post', 'page').
+        // Fall back to 'content' for the bare ContentResource.
+        if (property_exists(static::class, 'contentType')) {
+            return (string) (static::$contentType ?? 'content');
+        }
+        return 'content';
+    }
+
 
     public static function formArray($params = [])
     {
