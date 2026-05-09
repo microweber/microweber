@@ -657,7 +657,7 @@ $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
                                         <input type="checkbox" name="terms" id="agree_terms" required>
                                         <label for="agree_terms" style="margin: 0; font-weight: normal;">
                                             I agree to the <a href="{{ get_option('terms_page_url', 'users') }}"
-                                                              target="_blank">Terms and Conditions</a>
+                                                              target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
                                         </label>
                                     </div>
                                 </div>

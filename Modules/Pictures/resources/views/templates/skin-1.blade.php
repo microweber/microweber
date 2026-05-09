@@ -58,7 +58,7 @@ description: Skin-1
                             @if($itemLink)
                                 <a @if($click_image_event == 'link_target_blank') target="_blank" @endif
                                    href="{{ $itemLink }}"
-                                   class="btn btn-link">{{ $itemAltText }}</a>
+                                   class="btn btn-link" rel="noopener noreferrer">{{ $itemAltText }}</a>
                             @endif
                         </div>
                     @endif

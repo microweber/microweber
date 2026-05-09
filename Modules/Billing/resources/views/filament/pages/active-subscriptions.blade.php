@@ -149,7 +149,7 @@
                                             </button>
                                             <a href="{{ route('billing.portal') }}"
                                                target="_blank"
-                                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm font-medium rounded-lg transition">
+                                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm font-medium rounded-lg transition" rel="noopener noreferrer">
                                                 <x-heroicon-o-cog class="w-4 h-4 mr-2" />
                                                 Manage
                                             </a>

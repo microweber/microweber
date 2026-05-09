@@ -2,7 +2,7 @@
 
 <div class="mw-social-share-links">
     @if($facebook_enabled)
-        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()- rel="noopener noreferrer">url->current()) }}">
             @svg('modules.social_links-facebook')
         </a>
     @endif
@@ -37,7 +37,7 @@
     @endif
 
     @if($viber_enabled)
-        <a target="_blank" href="#" id="viber_share">
+        <a target="_blank" href="#" id="viber_share" rel="noopener noreferrer">
             @svg('modules.social_links-viber')
         </a>
         <script>
@@ -49,14 +49,14 @@
     @endif
 
     @if($whatsapp_enabled)
-        <a target="_blank" href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}"
+        <a target="_blank" href="whatsapp://send?text=Check this out: {{ mw()- rel="noopener noreferrer">url->current() }}"
            data-action="share/whatsapp/share">
             @svg('modules.social_links-whatsapp')
         </a>
     @endif
 
     @if($telegram_enabled)
-        <a target="_blank" href="tg://msg_url?url={{ mw()->url->current() }}&text=Check this out: {{ mw()->url->current() }}">
+        <a target="_blank" href="tg://msg_url?url={{ mw()- rel="noopener noreferrer">url->current() }}&text=Check this out: {{ mw()->url->current() }}">
             @svg('modules.social_links-telegram')
         </a>
     @endif

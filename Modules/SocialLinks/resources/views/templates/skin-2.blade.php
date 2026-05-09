@@ -18,7 +18,7 @@
     @if ($facebook_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $facebook_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $facebook_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-facebook')
                 </a>
             </div>
@@ -28,7 +28,7 @@
     @if ($x_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $x_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $x_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-x')
                 </a>
             </div>
@@ -38,7 +38,7 @@
     @if ($pinterest_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $pinterest_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $pinterest_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-pinterest')
                 </a>
             </div>
@@ -48,7 +48,7 @@
     @if ($youtube_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $youtube_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $youtube_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-youtube')
                 </a>
             </div>
@@ -58,7 +58,7 @@
     @if ($instagram_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $instagram_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $instagram_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-instagram')
                 </a>
             </div>
@@ -68,7 +68,7 @@
     @if ($linkedin_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $linkedin_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $linkedin_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-linkedin')
                 </a>
             </div>
@@ -78,7 +78,7 @@
     @if ($github_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $github_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $github_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-github')
                 </a>
             </div>
@@ -88,7 +88,7 @@
     @if ($soundcloud_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $soundcloud_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $soundcloud_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-soundcloud')
                 </a>
             </div>
@@ -99,7 +99,7 @@
     @if ($discord_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $discord_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $discord_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-discord')
                 </a>
             </div>
@@ -109,7 +109,7 @@
     @if ($skype_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $skype_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $skype_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-skype')
                 </a>
             </div>
@@ -119,7 +119,7 @@
     @if ($telegram_enabled)
         <li class="me-2 my-2">
             <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
-                <a href="{{ $telegram_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                <a href="{{ $telegram_url }}" target="_blank" class="text-opacity-5 position-absolute" rel="noopener noreferrer">
                     @svg('modules.social_links-telegram')
                 </a>
             </div>

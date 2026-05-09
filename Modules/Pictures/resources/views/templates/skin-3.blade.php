@@ -112,7 +112,7 @@ description: Skin-3
                 <div class="d-block position-relative">
                     @if($itemLink)
                         <a @if($click_image_event == 'link_target_blank') target="_blank" @endif
-                           href="{{ $itemLink }}">
+                           href="{{ $itemLink }}" rel="noopener noreferrer">
                     @endif
 
                     <div class="img-as-background mh-350 mb-3">

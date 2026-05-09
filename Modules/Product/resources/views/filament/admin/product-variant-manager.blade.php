@@ -14,7 +14,7 @@
                     </div>
                     <a href="{{ route('filament.admin.resources.product-variant-attributes.index') }}"
                        target="_blank"
-                       class="inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-500 dark:text-primary-400">
+                       class="inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-500 dark:text-primary-400" rel="noopener noreferrer">
                         <x-heroicon-m-cog-6-tooth class="h-4 w-4" />
                         Manage Attributes
                     </a>
@@ -32,7 +32,7 @@
                         </p>
                         <a href="{{ route('filament.admin.resources.product-variant-attributes.create') }}"
                            target="_blank"
-                           class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-500">
+                           class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-500" rel="noopener noreferrer">
                             <x-heroicon-m-plus class="h-4 w-4" />
                             Create Attribute
                         </a>

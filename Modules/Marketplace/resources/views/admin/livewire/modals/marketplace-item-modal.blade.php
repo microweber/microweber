@@ -88,7 +88,7 @@
                 <div class="col-auto">
                     @if (isset($package['demo_link']) AND $package['demo_link'])
                     <a target="_blank" href="{{$package['demo_link']}}"
-                       class="btn btn-dark btn-sm marketplace-template-img-btn">
+                       class="btn btn-dark btn-sm marketplace-template-img-btn" rel="noopener noreferrer">
                         {{'Preview'}}
                     </a>
                     @endif

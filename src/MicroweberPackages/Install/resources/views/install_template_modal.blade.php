@@ -77,7 +77,7 @@
                 <br />
                 <br />
 
-                <a href="{{$template['buy_link']}}" target="_blank">I dont have a license key?</a>
+                <a href="{{$template['buy_link']}}" target="_blank" rel="noopener noreferrer">I dont have a license key?</a>
             </form>
         @else
 

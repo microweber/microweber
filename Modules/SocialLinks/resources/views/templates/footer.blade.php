@@ -4,7 +4,7 @@
 <ul class="mw-socialLinks list-inline no-style mb-0">
     @if ($facebook_enabled)
         <li class="me-3">
-            <a href="{{ $facebook_url }}" target="_blank">
+            <a href="{{ $facebook_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-facebook')
             </a>
         </li>
@@ -12,7 +12,7 @@
 
     @if ($x_enabled)
         <li class="me-3">
-            <a href="{{ $x_url }}" target="_blank">
+            <a href="{{ $x_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-x')
             </a>
         </li>
@@ -20,7 +20,7 @@
 
     @if ($pinterest_enabled)
         <li class="me-3">
-            <a href="{{ $pinterest_url }}" target="_blank">
+            <a href="{{ $pinterest_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-pinterest')
             </a>
         </li>
@@ -28,7 +28,7 @@
 
     @if ($youtube_enabled)
         <li class="me-3">
-            <a href="{{ $youtube_url }}" target="_blank">
+            <a href="{{ $youtube_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-youtube')
             </a>
         </li>
@@ -36,7 +36,7 @@
 
     @if ($instagram_enabled)
         <li class="me-3">
-            <a href="{{ $instagram_url }}" target="_blank">
+            <a href="{{ $instagram_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-instagram')
             </a>
         </li>
@@ -44,7 +44,7 @@
 
     @if ($linkedin_enabled)
         <li class="me-3">
-            <a href="{{ $linkedin_url }}" target="_blank">
+            <a href="{{ $linkedin_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-linkedin')
             </a>
         </li>
@@ -52,7 +52,7 @@
 
     @if ($github_enabled)
         <li class="me-3">
-            <a href="{{ $github_url }}" target="_blank">
+            <a href="{{ $github_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-github')
             </a>
         </li>
@@ -60,7 +60,7 @@
 
     @if ($soundcloud_enabled)
         <li class="me-3">
-            <a href="{{ $soundcloud_url }}" target="_blank">
+            <a href="{{ $soundcloud_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-soundcloud')
             </a>
         </li>
@@ -69,7 +69,7 @@
 
     @if ($discord_enabled)
         <li class="mx-1">
-            <a href="{{ $discord_url }}" target="_blank">
+            <a href="{{ $discord_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-discord')
             </a>
         </li>
@@ -77,7 +77,7 @@
 
     @if ($skype_enabled)
         <li class="mx-1">
-            <a href="{{ $skype_url }}" target="_blank">
+            <a href="{{ $skype_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-skype')
             </a>
         </li>
@@ -85,7 +85,7 @@
 
     @if ($telegram_enabled)
         <li class="mx-1">
-            <a href="{{ $telegram_url }}" target="_blank">
+            <a href="{{ $telegram_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-telegram')
             </a>
         </li>

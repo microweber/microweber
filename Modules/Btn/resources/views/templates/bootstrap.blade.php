@@ -68,7 +68,7 @@ description: Bootstrap button
         @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
     </a>
 @else
-<a id="{{ $btnId }}" href="{{ $url }}" @if ($blank) target="_blank" @endif class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!}>
+<a id="{{ $btnId }}" href="{{ $url }}" @if ($blank) target="_blank" @endif class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!} rel="noopener noreferrer">
     @if($hasIcon && $iconPosition == 'left'){!! $iconHtml !!}@endif
     {{ $text }}
     @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif

@@ -4,7 +4,7 @@
         @foreach($cartItems as $item)
             <div class="flex items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow transition-colors gap-x-4">
                 <div>
-                    <a href="{{ $item['url'] ?? '#' }}" target="_blank" rel="noopener">
+                    <a href="{{ $item['url'] ?? '#' }}" target="_blank" rel="noopener noreferrer">
                         @if(isset($item['picture']) and $item['picture'])
                             <img src="{{ $item['picture'] }}" alt="{{ $item['title'] }}"
                                  class="w-20 h-20 object-cover rounded border border-gray-200 dark:border-gray-700 shadow-sm">

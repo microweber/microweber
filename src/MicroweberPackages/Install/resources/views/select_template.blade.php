@@ -114,7 +114,7 @@
 
 
                             @if($template['demo_link'])
-                                <a href="{{$template['demo_link']}}" class="btn btn-sm btn-outline-primary rounded-0" target="_blank">
+                                <a href="{{$template['demo_link']}}" class="btn btn-sm btn-outline-primary rounded-0" target="_blank" rel="noopener noreferrer">
                                     DEMO
                                 </a>
                             @endif
