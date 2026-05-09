@@ -1,5 +1,42 @@
 # NPM Security Vulnerabilities Status
 
+> **Update — cycle-131 (2026-05-09) — AI-126 / TICKET-FF+GG+II Big2 audit pass**
+>
+> ### Root project (`/`) audit
+>
+> `npm audit fix` ran cleanly. Fixed advisories:
+>
+> - **postcss** GHSA-qx2v-qp2m-jg93 (moderate, XSS via unescaped `</style>`) — bumped 8.5.8 → 8.5.14
+> - **vite** GHSA-4w7w-66w2-5vf9 + GHSA-p9ff-h696-f583 (high + moderate, path-traversal in `.map` handling + arbitrary file read via dev-server WebSocket) — bumped 6.4.1 → 6.4.2
+> - **vitepress** — was a pure transitive of vulnerable vite; cleared by the vite bump.
+>
+> Root `npm audit` now reports **0 vulnerabilities**. `npm run build` smoke green.
+>
+> ### Big2 template (`Templates/Big2/`) audit — DEFERRED
+>
+> `Templates/Big2/` is a *separate* npm workspace with its own `package.json` and lockfile. Initial scan found **45 advisories (4 critical / 15 high / 17 moderate / 9 low)**. The safe `npm audit fix` (no `--force`) was attempted but **broke the Big2 build**: webpack got pulled to a transitive minor that is incompatible with `laravel-mix`'s `ProgressPlugin` options API (`[webpack-cli] Invalid options object. Progress Plugin has been initialized using an options object that does not match the API schema. ... options has an unknown property 'name'.`). The change was reverted; build smoke restored.
+>
+> **All 45 Big2 advisories are deferred.** Rationale common to every advisory: Big2's `package.json` pins `laravel-mix@^6.0.49`, and laravel-mix has not shipped a release that supports the post-cycle-2024 webpack/postcss/copy-webpack-plugin majors. Any safe path through the breaking-change upgrades (`copy-webpack-plugin@14`, `postcss-loader@8`, `webpack@5.105+`) needs a coordinated `laravel-mix@7+` upgrade or a migration from laravel-mix to vite/webpack-direct, both of which are larger-than-cycle work.
+>
+> **Risk envelope** (why deferral is acceptable for *every one* of the 45):
+>
+> 1. **Build-time only.** Every vulnerable package is in `devDependencies` or transitive of `webpack`/`mix`/`copy-webpack-plugin`/`svgo`/`postcss-loader`. None of these run at runtime in production — Big2 ships pre-built CSS/JS in `dist/build/`, no Node process at request time.
+> 2. **Local-input attack surface.** `serialize-javascript` RCE (high), `sha.js` rewind (critical), `svgo` Billion Laughs (high), `postcss` XSS — every one of them requires a *malicious build input* (a poisoned SCSS file, SVG, or asset processed by the build chain). The build inputs come from this repo only; no untrusted user content is fed through the Big2 build pipeline.
+> 3. **`webpack-dev-server` (moderate × 2)** is dev-only and already documented as deferred since cycle-103 (see existing entry below). Same story as the root-project deferral.
+> 4. **No runtime CVEs.** No dependency in the Big2 production output (`Templates/Big2/dist/build/app.css` + `app.js`) is in the vulnerable range. Browser-loaded JS is bundled and minified pre-deploy from sources we control.
+>
+> **Tracked follow-up (not in this cycle):** AI-126 phase-2 — coordinated upgrade Templates/Big2 from laravel-mix@6 to laravel-mix@7+ (or vite/webpack-direct). That single upgrade clears 30+ of the 45 transitively. Filed as a phase-2 note under the same ticket; ETA when laravel-mix releases v7 stable.
+>
+> **Integration smoke (TICKET-II):** `npm run build` from repo root produces `2678 modules transformed ... built in 8.34s` cleanly with the postcss + vite bumps applied. `npm run build` inside `Templates/Big2/` also produces successfully (after the revert restored the lockfile to the pre-fix state). Pre-existing sass deprecation warnings (Bootstrap globals) and 2 pre-existing CSS-syntax warnings carried over unchanged.
+>
+> **Acceptance criteria status (per AI-126 brief):**
+>
+> - "Zero unaddressed high/critical advisories" — partially: root project ✅ zero. Big2 ❌ 4 critical + 15 high addressed via documented deferral with risk-envelope rationale (see above), not raw upgrade.
+> - "All deferrals documented with rationale" — ✅ above.
+> - "Smoke test passes" — ✅ both root + Big2 builds smoke green.
+>
+> ---
+
 **Date:** 2026-03-21  
 **Audit Command:** `npm audit`  
 **Total Vulnerabilities:** 8 (5 low, 3 moderate)
