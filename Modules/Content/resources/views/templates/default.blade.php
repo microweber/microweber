@@ -78,14 +78,8 @@
 <div class="row" id="posts-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
-            {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap
-                 the empty-content placeholder in `is_admin()` so the
-                 admin instructions are visible to the editor (in Live
-                 Edit OR public-while-logged-in-as-admin) but hidden
-                 from anonymous public visitors. Pre-fix the message
-                 leaked onto the public Big2 home page, showing
-                 visitors a 300px blank area with admin-side text. --}}
             @if(empty($data))
+                {{-- AI-104 / TICKET-AI-104 (cycle-101 2026-05-09): wrap empty-content placeholder in is_admin() so it stays visible to editors but doesn't leak onto anonymous public pages. --}}
                 @if(is_admin())
                     <p class="mw-pictures-clean">{{ __('No content added. Please add content to the module.') }}</p>
                 @endif
@@ -223,5 +217,6 @@
      and `$current_page` into the view scope, so the helper just emits
      the rendered nav when there's more than one page. --}}
 @if (isset($pages_count) && $pages_count > 1 && isset($paging_param))
+    @php $current_page = $current_page ?? 1; @endphp
     {!! paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") !!}
 @endif

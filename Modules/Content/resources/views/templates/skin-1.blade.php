@@ -221,5 +221,6 @@
      Mirrors the convention already used by sidebar/masonry/search
      templates in this module. --}}
 @if (isset($pages_count) && $pages_count > 1 && isset($paging_param))
+    @php $current_page = $current_page ?? 1; @endphp
     {!! paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") !!}
 @endif

@@ -140,7 +140,29 @@ class PagingNav
         $ready_paging_first_links = [];
         $ready_paging_last_links = [];
         $ready_paging_number_links = [];
-        $data = $this->get($base_url, $pages_count, $paging_param, $keyword_param);
+        // cycle-N (post-cycle-116 bugfix): infinite-recursion bug.
+        // The original `$this->get(...)` here is a copy-paste typo — it
+        // calls THIS class's `get()` again, with positional args instead
+        // of the array of params, which immediately recurses
+        // (`$base_url=false` → fresh empty $params → calls itself again
+        // ad infinitum, observed as a tight CPU spin + a
+        // `Container::findInContextualBindings` recursive-resolve fatal
+        // at request time, AND a hard hang of `php artisan serve` for
+        // any homepage that mounts a Posts module template that ends
+        // with `paging("num={$pages_count}...")`).
+        // The author meant to delegate to the SIBLING `PagingLinks` class
+        // (see ContentManager::paging_links() — same 4-arg signature)
+        // which actually computes the per-page URL map. We pull the
+        // shared instance from the content_manager binding so we don't
+        // construct a fresh one on every paginated render.
+        $pagingLinksService = $this->app->content_manager->pagingLinks ?? null;
+        if ($pagingLinksService) {
+            $data = $pagingLinksService->get($base_url, $pages_count, $paging_param, $keyword_param);
+        } else {
+            // Fallback: construct directly. Should never fire under
+            // normal boot — content_manager is always bound.
+            $data = (new \Modules\Content\Support\PagingLinks($this->app))->get($base_url, $pages_count, $paging_param, $keyword_param);
+        }
         if (is_array($data)) {
 
             if ($no_wrap) {

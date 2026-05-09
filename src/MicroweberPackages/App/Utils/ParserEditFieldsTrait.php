@@ -496,7 +496,10 @@ trait ParserEditFieldsTrait
     private function _do_we_have_more_edit_fields_for_parse($layout)
     {
         $proceed_with_parse = false;
-        preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $modinner);
+        // cycle-N: PHP 8.4 deprecates `preg_match_all(..., null, ...)`.
+        // Coerce null/false subjects to empty string so the function
+        // returns 0 matches without the deprecation warning.
+        preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', (string) $layout, $modinner);
 
         if (!empty($modinner) and isset($modinner[0][0])) {
             foreach ($modinner[0] as $item) {
@@ -629,7 +632,14 @@ trait ParserEditFieldsTrait
      */
     private function _replace_tags_with_placeholders($mod_content)
     {
-
+        // cycle-N: PHP 8.4 deprecates passing null to preg_match_all's
+        // $subject. Some callers reach this function with a null content
+        // (e.g. an unset content_data field). Coerce at function entry
+        // so all the preg_match_all calls below see a string subject.
+        if ($mod_content === null) {
+            $mod_content = '';
+        }
+        $mod_content = (string) $mod_content;
 
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
         preg_match_all($script_pattern, $mod_content, $mw_script_matches);

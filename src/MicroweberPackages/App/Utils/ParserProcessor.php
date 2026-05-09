@@ -1291,7 +1291,13 @@ class ParserProcessor
 
     private function _do_we_have_more_for_parse($mod_content)
     {
-
+        // cycle-N: PHP 8.4 deprecates passing null to preg_match_all's
+        // $subject. Coerce at function entry — null/false content
+        // simply means "no more to parse" (returns 0 matches).
+        if ($mod_content === null) {
+            $mod_content = '';
+        }
+        $mod_content = (string) $mod_content;
 
         $proceed_with_parse = false;
 
