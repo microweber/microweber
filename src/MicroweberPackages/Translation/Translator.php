@@ -5,11 +5,25 @@ namespace MicroweberPackages\Translation;
 
 class Translator extends \Illuminate\Translation\Translator
 {
-    public static $newKeys = [];
+    /*
+     * cycle-N (post-cycle-116 OOM hunt): converted from `public static`
+     * to `public` instance property. The static accumulator never got
+     * reset between phpunit tests, so every untranslated key
+     * encountered during a render added an entry that survived for the
+     * lifetime of the PHP process — directly contributing to the
+     * ~6MB-per-test leak documented in project memory
+     * `project_test_architecture`. As an instance property it dies
+     * with the Translator (which Laravel rebinds on every app rebuild
+     * between tests). No external callers read it via the static-
+     * `Translator::$...` syntax (verified with grep) — only the
+     * internal `clearNewKeys()` / `getNewKeys()` access, both
+     * updated below.
+     */
+    public $newKeys = [];
 
     public function clearNewKeys()
     {
-        self::$newKeys = [];
+        $this->newKeys = [];
     }
 
     /**
@@ -74,7 +88,7 @@ class Translator extends \Illuminate\Translation\Translator
 //            echo 'This is without namespace, only key ->'.$key . '<br />';
 //            exit;
                // self::$newKeys[md5($key . '**')] = [
-                self::$newKeys[md5('**' . $key)] = [
+                $this->newKeys[md5('**' . $key)] = [
                     'translation_namespace' => '*',
                     'translation_group' => '*',
                     'translation_key' => $key
@@ -103,7 +117,7 @@ class Translator extends \Illuminate\Translation\Translator
 
          // exit( 'This is with namespace ->' . $namespace . $group . $item );
 
-                self::$newKeys[md5($namespace . $group . $item)] = [
+                $this->newKeys[md5($namespace . $group . $item)] = [
                     'translation_namespace' => $namespace,
                     'translation_group' => $group,
                     'translation_key' => $item
@@ -119,6 +133,6 @@ class Translator extends \Illuminate\Translation\Translator
 
     public function getNewKeys()
     {
-        return self::$newKeys;
+        return $this->newKeys;
     }
 }

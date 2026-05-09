@@ -267,7 +267,14 @@ class Parser
 
         $layout = str_ireplace('___mw-site-url-temp-replace-on-make-tags___','{SITE_URL}', $layout);
 
-
+        // cycle-N (post-cycle-116 OOM hunt): release the phpQuery DOM
+        // trees built above. Without this, every parse keeps the full
+        // DOM tree resident in `phpQuery::$documents` static for the
+        // lifetime of the PHP process. In tests this accumulates into
+        // megabytes of orphaned DOM per test. In production each
+        // request spawns its own phpQuery doc tree on every render —
+        // also wasteful — so the cleanup is a net win there too.
+        \phpQuery::unloadDocuments();
 
         return $layout;
     }
@@ -304,6 +311,9 @@ class Parser
             pq($elem)->$action($content);
         }
         $layout = $pq->htmlOuter();
+
+        // cycle-N: release the phpQuery DOM tree (see make_tags above).
+        \phpQuery::unloadDocuments();
 
         return $layout;
     }

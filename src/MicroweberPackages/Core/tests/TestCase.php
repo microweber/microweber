@@ -276,6 +276,40 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $this->template_name = '';
 
+        /*
+         * cycle-N (post-cycle-116 OOM hunt): explicit static-cache reset
+         * before Laravel's app tearDown. Several module-singleton caches
+         * are intentionally process-shared in production (warm-cache
+         * benefit between unrelated requests in long-running PHP-FPM
+         * workers) but in tests they accumulate forever — directly
+         * causing the ~6MB-per-test leak documented in project memory
+         * `project_test_architecture`. Resetting here preserves
+         * production semantics and prevents cross-test pollution.
+         */
+        // Pass `false` as the autoload arg so unused cleanup classes
+        // don't get autoloaded (and their class table entries don't
+        // become permanent process overhead) when a test never touched
+        // them. Reset only fires when the class is ALREADY loaded.
+        if (class_exists(\MicroweberPackages\Database\Eloquent\Builder\CachedBuilder::class, false)) {
+            \MicroweberPackages\Database\Eloquent\Builder\CachedBuilder::$_loaded_models_cache_get = [];
+        }
+        if (class_exists(\MicroweberPackages\Multilanguage\TranslateTable::class, false)) {
+            \MicroweberPackages\Multilanguage\TranslateTable::$_getTranslateTranslates = [];
+        }
+        if (class_exists(\MicroweberPackages\Multilanguage\MultilanguagePermalinkManager::class, false)) {
+            \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager::$_linkContent = [];
+        }
+        if (class_exists(\MicroweberPackages\Database\Utils::class, false)) {
+            \MicroweberPackages\Database\Utils::$get_fields_fields_memory = [];
+        }
+        // phpQuery library accumulates DOM trees in `phpQuery::$documents`
+        // across every newDocument() call. Even with the per-call cleanup
+        // added to Parser::make_tags / modify_html, any test that creates
+        // a phpQuery doc directly leaves it resident.
+        if (class_exists(\phpQuery::class, false)) {
+            \phpQuery::unloadDocuments();
+        }
+
         // Use Laravel's standard tearDown which properly flushes and destroys the app
         parent::tearDown();
 

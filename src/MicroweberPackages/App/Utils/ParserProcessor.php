@@ -54,20 +54,40 @@ class ParserProcessor
 
     }
 
-    public static $process_layouts_loop = [];
+    /*
+     * cycle-N (post-cycle-116 OOM hunt): converted from `public static`
+     * to `public` instance property. The static accumulator never got
+     * reset between phpunit tests, so every `process()` call seeded
+     * entries (~1KB each) into the same in-memory hash for the
+     * lifetime of the PHP process — directly contributing to the
+     * ~6MB-per-test leak documented in project memory
+     * `project_test_architecture`. As an instance property it lives
+     * only as long as the ParserProcessor instance (owned by the
+     * per-request Parser, GC'd when LaravelApplication tears down
+     * between tests). No external caller reads it via the
+     * `ParserProcessor::$...` syntax (verified with grep) — the only
+     * touches are `self::$...` inside the class, now `$this->...`.
+     */
+    public $process_layouts_loop = [];
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false, $prevous_mod_obj = false, $prevous_layout_obj = false)
     {
         if ($layout == '') {
             return;
         }
-        static $first_known_mod;
-        static $it_loop2;
-
-
-        if (!$it_loop2) {
-            $it_loop2 = 0;
-        }
+        /*
+         * cycle-N (post-cycle-116 OOM hunt): the original code declared
+         * `static $first_known_mod;` and `static $it_loop2;`. PHP
+         * function-level statics persist for the entire PHP process
+         * lifetime — including across every phpunit test iteration —
+         * so any state that bled into `$it_loop2` from a previous test
+         * carried forward. Inspection shows nothing actually READS the
+         * cross-call value; both vars are effectively per-call counters
+         * that get reset at function entry. Promoted to plain locals
+         * so no cross-test bleed is possible.
+         */
+        $first_known_mod = null;
+        $it_loop2 = 0;
 
         global $mw_replaced_edit_fields_vals;
         // global $mod_tag_replace_inc;
@@ -125,9 +145,9 @@ class ParserProcessor
         // static $process_started;
         $local_mw_replaced_modules = array();
         $local_mw_replaced_modules_ids_grouped = array();
-        if (!isset(self::$process_layouts_loop[$parser_modules_crc])) {
+        if (!isset($this->process_layouts_loop[$parser_modules_crc])) {
             $is_first_loop = true;
-            self::$process_layouts_loop[$parser_modules_crc] = true;
+            $this->process_layouts_loop[$parser_modules_crc] = true;
             app()->event_manager->trigger('parser.process', $layout);
         }
 //        if (!$process_started) {

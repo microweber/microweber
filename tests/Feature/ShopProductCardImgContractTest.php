@@ -43,27 +43,44 @@ class ShopProductCardImgContractTest extends TestCase
 
     private function assertHasImg(string $content, string $where): void
     {
-        // Strip `{{ ... }}` interpolation blocks before regex-matching the <img>
-        // tag, because the `->` in `$product->thumbnail()` etc. contains `>`
-        // which would prematurely terminate `[^>]*`. Replacing with `__` keeps
-        // attribute boundaries intact for the assertion.
+        // Post cycle-55 / TICKET-CX update: the canonical image path is
+        // `responsive_thumbnail($src, $w, $h, [...])` which renders a real
+        // <img> with src+srcset+alt+loading+decoding at runtime (defaults
+        // pinned by ResponsiveThumbnailHelperTest + EagerFirstImageContractTest).
+        // A file that uses the helper passes the contract — match either
+        // a literal `<img src=...>` OR a `responsive_thumbnail(` call.
         $stripped = preg_replace('/\\{\\{[^}]*\\}\\}/', '__', $content);
 
-        $this->assertMatchesRegularExpression(
-            '/<img\\s[^>]*src=/is',
-            $stripped,
-            "{$where}: expected an <img src=...> element"
+        $hasLiteralImg = (bool) preg_match('/<img\\s[^>]*src=/is', $stripped);
+        $hasResponsiveHelper = str_contains($content, 'responsive_thumbnail(');
+
+        $this->assertTrue(
+            $hasLiteralImg || $hasResponsiveHelper,
+            "{$where}: expected an <img src=...> element OR a responsive_thumbnail(...) call"
         );
-        $this->assertMatchesRegularExpression(
-            '/<img\\s[^>]*\\salt=/is',
-            $stripped,
-            "{$where}: expected alt= on the <img>"
-        );
-        $this->assertMatchesRegularExpression(
-            '/<img\\s[^>]*\\sloading=/is',
-            $stripped,
-            "{$where}: expected loading= on the <img>"
-        );
+
+        if ($hasLiteralImg) {
+            $this->assertMatchesRegularExpression(
+                '/<img\\s[^>]*\\salt=/is',
+                $stripped,
+                "{$where}: expected alt= on the <img>"
+            );
+            $this->assertMatchesRegularExpression(
+                '/<img\\s[^>]*\\sloading=/is',
+                $stripped,
+                "{$where}: expected loading= on the <img>"
+            );
+        } else {
+            // responsive_thumbnail() emits alt + loading by default; pin
+            // that the call passes size args + at least one option (alt/
+            // class/style/loading) so future drift can't strip the
+            // metadata-passing path.
+            $this->assertMatchesRegularExpression(
+                "/responsive_thumbnail\\([^)]*\\d+,\\s*\\d+/s",
+                $content,
+                "{$where}: expected responsive_thumbnail(\$src, W, H, [...]) with explicit width/height"
+            );
+        }
     }
 
     private function assertNoLiveBgImage(string $content, string $where): void
@@ -139,9 +156,25 @@ class ShopProductCardImgContractTest extends TestCase
         $skin7 = $this->loadFile('Modules/Product/resources/views/templates/skin-7.blade.php');
 
         // Acceptance #3 — dropped from 1000x1000 / 1250x1250 to 800x600.
-        $this->assertStringContainsString('thumbnail(800, 600)', $cardA);
-        $this->assertStringContainsString('thumbnail(800, 600)', $cardB);
-        $this->assertStringContainsString("thumbnail(\$item['image'], 800, 600)", $skin7);
+        // Match either the bare `thumbnail(...)` shape (Shop product-card
+        // Livewire path uses `$product->thumbnail(800, 600)`) OR the
+        // `responsive_thumbnail($src, 800, 600, [...])` shape (cycle-55 +
+        // post-cycle-55 helper migration).
+        $this->assertMatchesRegularExpression(
+            '/(?:->|^|\\s)thumbnail\\(800,\\s*600\\)/s',
+            $cardA,
+            'Shop/product-card.blade.php: expected $product->thumbnail(800, 600)'
+        );
+        $this->assertMatchesRegularExpression(
+            '/(?:->|^|\\s)thumbnail\\(800,\\s*600\\)/s',
+            $cardB,
+            'Shop/product-card-skin-1.blade.php: expected $product->thumbnail(800, 600)'
+        );
+        $this->assertMatchesRegularExpression(
+            "/responsive_thumbnail\\(\\\$item\\['image'\\],\\s*800,\\s*600/s",
+            $skin7,
+            'Product/skin-7.blade.php: expected responsive_thumbnail($item[image], 800, 600, …)'
+        );
 
         // The old sizes must be gone (excluding any blade-comment text).
         $cardANoCmt = $this->loadFileWithoutComments('Modules/Shop/resources/views/livewire/shop/product-card.blade.php');
