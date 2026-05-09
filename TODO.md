@@ -4071,6 +4071,7 @@ Module: testimonials
 - [x] 2026-05-09  [task-2026-05-09-a82950] PM acknowledgment of AI-128 cycle-116 ship — closed (no action required, FYI only).
 - [x] 2026-05-09  [task-2026-05-09-f51dd0] Mobile Live Edit Testing tickets AI-140/141/142 — all 3 shipped in cycle-126 (sidebar collapse + toolbar text-labels + footer mailto).
 - [x] 2026-05-09  [task-2026-05-09-02d56b] Mobile Testing Complete (AI-140..144) — AI-140/141/142 shipped in cycle-126 (sidebar collapse + toolbar text-labels + footer mailto); AI-143/144 modal-overflow fix shipped in cycle-127 (live-edit-mobile.css 100vw modal collapse + sticky footer).
+- [x] 2026-05-09  [task-2026-05-09-f2a6fe] check jira and work on the tasks — JIRA cycle-127 audit: transitioned 17 fully-shipped AI-* tickets to Done with commit-reference comments (AI-120 BN+BO, AI-124 CS+CT+CU, AI-129 SEC-04, AI-130 SEC-05, AI-131 SEC-06, AI-133 SEC-02 P0, AI-134..139 a11y wave, AI-140..142 mobile, AI-143..144 modal viewport-fit). Updated 3 In-Progress partials with phase-status comments (AI-105 phase-1 contracts, AI-106 phase-1 frontend replay, AI-122 4-of-7 docs).
 ## PM TASK-NNN <-> TICKET-letter map (cycles 22-48)
 
 > Cross-references PM's sequential TASK-NNN ledger to agent-a1's inline ticket-letter scheme. Cycle column points at the commit cycle where the work shipped or was scoped.
