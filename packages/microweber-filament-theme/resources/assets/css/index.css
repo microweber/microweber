@@ -44,6 +44,17 @@
 @import './microweber/bootstrap-classes.css';
 @import './microweber/element-style-editor.css';
 @import './microweber/live-edit-components.css';
+/*
+ * AI-149 (cycle-142 2026-05-09): live-edit-mobile.css was created in
+ * cycle-126 with the AI-140 sidebar-collapse + AI-141 toolbar text-
+ * labels rules and extended in cycle-127 with the AI-143 / AI-144
+ * mobile modal viewport-fit rules. The file was NEVER added to the
+ * import chain, so all 4 fixes have been dark in the built bundle
+ * since they were authored. Adding the import here re-enables them
+ * in a single shot — verified via tester re-test that the sidebar
+ * was still consuming ~50% of the mobile viewport (AI-149).
+ */
+@import './microweber/live-edit-mobile.css';
 @import './microweber/mobile-touch.css';
 @import "./tabler-vars.scss";
 @import "./global.css";

@@ -99,6 +99,22 @@ class AdminLiveEditPage extends Page
             'action' => 'addProductAction',
             'icon' => 'mw-add-product',
         ];
+        // AI-148 (cycle-142 2026-05-09): novice mobile UX — add a
+        // discoverable "New Image" entry. Tester audit found that
+        // mobile users opening the Add-content picker had no way to
+        // upload images: searching "picture" or "image" returned no
+        // results because the picker only listed Page/Post/Category/
+        // Product. The new entry sends users to the Media Library
+        // upload page (Modules/MediaLibrary/...), where they can
+        // drag-drop or click Upload, then return to live-edit and
+        // pick the freshly-uploaded image via the inline image-picker
+        // when adding a Picture / Slider module to a page.
+        $actions[] = [
+            'title' => 'New Image',
+            'description' => 'Upload a picture, photo, or graphic to the Media Library. Once uploaded, you can drop it into any page.',
+            'action' => 'addImageAction',
+            'icon' => 'heroicon-o-photo',
+        ];
 
         return Action::make('addContentAction')
             ->modalHeading('Add new content')
@@ -138,6 +154,38 @@ class AdminLiveEditPage extends Page
     public function addCategoryAction(): Action
     {
         return $this->generateAction('addCategoryAction', 'category');
+    }
+
+    /**
+     * AI-148 (cycle-142): novice mobile UX — "New Image" picker entry.
+     *
+     * Sends the user to the Media Library upload page in a centred
+     * modal so they can drag-drop or pick a file without leaving the
+     * Live Edit context. The Media Library page itself (Modules/
+     * MediaLibrary/Filament/Admin/Pages/MediaLibrary.php) is the
+     * canonical upload surface; once the asset is in the library, it
+     * becomes available everywhere (page editors, module image
+     * pickers, exports).
+     *
+     * Implementation choice — redirect rather than embedding the
+     * Media Library inside the modal. The MediaLibrary page is a
+     * full Filament Livewire surface with its own routes + bulk-
+     * select state; trying to render it inside a modal would conflict
+     * with the parent live-edit page's Livewire root and break drag-
+     * drop. A redirect is the most reliable novice-friendly path:
+     * one tap, you're on the upload page, one tap back returns to
+     * live-edit.
+     */
+    public function addImageAction(): Action
+    {
+        return Action::make('addImageAction')
+            ->label('Upload image')
+            ->modalHeading('Upload an image')
+            ->modalDescription('You will be taken to the Media Library to upload your image. Once uploaded, the image becomes available in every page editor and module picker on your site.')
+            ->modalSubmitActionLabel('Open Media Library')
+            ->action(function () {
+                return redirect()->to(route('filament.admin.pages.media-library'));
+            });
     }
 
     public function openModuleSettingsAction(): Action
