@@ -13,9 +13,24 @@
 
 
 
-  <button v-if="selectedFile" type="button" class="btn btn-link btn-sm" v-on:click="removeBackgroundImage()">
-     <i class="mdi mdi-delete"></i>
-  </button>
+  <!--
+    AI-118 / TICKET-CH (cycle-109 2026-05-09): one MwButton migration
+    site demonstration. Pre-fix: ad-hoc <button class="btn btn-link"
+    btn-sm"> with no aria-label, no min-touch-target enforcement.
+    Post-fix: <MwButton variant="ghost" size="sm" :aria-label="..."> —
+    44×44 enforced by the MwButton base style, aria-label localized
+    + announced to SR users, and the @click handler still wires to
+    the existing removeBackgroundImage() method.
+  -->
+  <MwButton
+    v-if="selectedFile"
+    variant="ghost"
+    size="sm"
+    :aria-label="'Remove image'"
+    @click="removeBackgroundImage()"
+  >
+    <i class="mdi mdi-delete" aria-hidden="true"></i>
+  </MwButton>
 
 
 
@@ -62,7 +77,11 @@
 
 <script>
 
+import MwButton from '../MwButton.vue';
+
 export default {
+
+  components: { MwButton },
 
   props: {
     file: {
