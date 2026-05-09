@@ -55,11 +55,18 @@ description: Skin-15
             @else
                 @foreach($data as $item)
                     @php $count++; @endphp
+                    {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09): inline
+                         `style="background-image: url({{ thumbnail(...) }})"`
+                         lifted to a real `<img>` (CSP + apostrophe-injection
+                         fix; same shape AI-89 / BIG2-C handled for posts). --}}
                     <div class="selector col-sm-6 col-lg-4 p-3">
-                        <a class="background-image-holder"
-                           style="background-image: url({{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }})"
+                        <a class="picture-thumbnail-link"
                            data-index="{{ $count }}"
                            href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
+                            <img src="{{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }}"
+                                 alt="{{ $item['title'] ?? '' }}"
+                                 loading="lazy" decoding="async"
+                                 class="img-fluid w-100 h-auto">
                         </a>
                     </div>
                 @endforeach

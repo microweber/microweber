@@ -97,7 +97,16 @@ $limit = 40;
             @foreach ($testimonials as $item)
                 <div class="row text-center text-lg-start d-flex align-items-center pt-7">
                     @if (isset($item['client_image']))
-                        <div class="text-center mx-auto ziza-testimonials-image background-image-holder" style="background-image: url({{ thumbnail($item['client_image'], 450) }});">
+                        {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09):
+                             outer container's `style="background-image:..."`
+                             dropped; the client image is now an `<img>`
+                             child of the holder. The decorative-dots and
+                             eclipse stay as overlay decorations. --}}
+                        <div class="text-center mx-auto ziza-testimonials-image ziza-testimonials-image-holder">
+                            <img class="ziza-testimonials-client-image"
+                                 src="{{ thumbnail($item['client_image'], 450) }}"
+                                 alt="{{ $item['client_name'] ?? '' }}"
+                                 loading="lazy" decoding="async"/>
                             <div>
                                 <div class="mw-ziza-testimonials-item-eclipse">
                                     <div></div>

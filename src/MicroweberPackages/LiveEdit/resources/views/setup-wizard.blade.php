@@ -128,9 +128,18 @@
                             </div>
                         @endif
 
+                        {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09):
+                             inline `onclick="installTemplate('{{ ... }}')"`
+                             lifted to data-mw-* + delegated listener
+                             (live-edit setup-wizard.js). The pre-fix
+                             shape both broke strict CSP and would have
+                             broken on apostrophe-containing template
+                             dir names. --}}
                         <button
+                            type="button"
                             class="use-template-btn btn btn-outline-dark w-full hover:bg-gray-800 text-black hover:text-white py-2.5 px-4 rounded-lg transition-colors duration-200 transform hover:scale-[1.02] shadow-sm flex items-center justify-center"
-                            onclick="installTemplate('{{ $template['dir_name'] }}')">
+                            data-mw-action="install-template"
+                            data-mw-template="{{ $template['dir_name'] }}">
                             <span>Use this template</span>
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="h-5 w-5 ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"

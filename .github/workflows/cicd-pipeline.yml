@@ -73,6 +73,29 @@ jobs:
         run: |
           find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \; | grep -v "No syntax errors" || true
 
+      # AI-113 / TICKET-CP (cycle-103 2026-05-09): grep-gate.
+      # Blocks two CSP-violating Blade patterns from re-entering the
+      # codebase after the cycle-87 / cycle-89 sweeps cleaned them
+      # out:
+      #   1. `style="...background-image: url('{{ thumbnail|asset...`
+      #      Inline `style=...` URL from a Blade interpolation. Blade
+      #      escapes ' to &#039; BEFORE the browser HTML-decodes the
+      #      attr, so apostrophes in the URL break out of url(...) and
+      #      inject arbitrary CSS. Cycle-87 replaced these with <img>.
+      #   2. `onclick="...{{...`
+      #      Inline `onclick=...` with Blade interpolation. CSP
+      #      `script-src 'self'` violation + apostrophes break JS.
+      #      Cycle-87 / 89 replaced these with `data-mw-*` attrs +
+      #      delegated `addEventListener`.
+      # Both patterns are scoped to *.blade.php; vendor / node_modules
+      # / storage / Templates (separate composer packages) are
+      # excluded. Existing legacy callsites on the admin side are
+      # tracked in `scripts/grep-gate-waivers.txt` (ratchet pattern —
+      # zero NEW offences allowed; existing waivers shrink as cycles
+      # clean them up).
+      - name: Grep-gate forbidden Blade patterns (AI-113 / TICKET-CP)
+        run: bash scripts/grep-gate.sh --all
+
       - name: Check code style (if config exists)
         run: |
           if [ -f ".php-cs-fixer.php" ] || [ -f ".php-cs-fixer.dist.php" ]; then

@@ -1,0 +1,57 @@
+# AI-113 / TICKET-CP grep-gate waivers (cycle-103 2026-05-09)
+#
+# Each line is `<path>:<line-number>` matching a KNOWN existing
+# violation that the grep-gate would otherwise flag. The gate skips
+# these lines so the CI passes today AND continues to enforce
+# zero-new-offences going forward.
+#
+# Goal: every line on this list is a follow-up cleanup task. As each
+# is fixed in a future cycle, the waiver line gets removed and the
+# gate stays green.
+#
+# Format: `path:lineno # FIXME: short-description`. Comments (#) +
+# blank lines are ignored.
+#
+# DO NOT add new entries here without an explicit JIRA ticket and a
+# review note explaining why the cleanup is being deferred.
+
+# === Admin-side legacy callsites — onclick="...{{...}}" pattern ===
+# These are admin-only surfaces (the user is already authenticated +
+# the panel CSP profile is looser than the public-facing skins).
+# Cycle-87 / cycle-89 / cycle-103 swept the public-facing skins;
+# admin-side surfaces are tracked here for a follow-up sweep.
+
+Modules/Marketplace/resources/views/admin/livewire/modals/marketplace-item-modal.blade.php:58 # FIXME: marketplace-modal install_composer_package onclick
+Modules/Marketplace/resources/views/admin/livewire/modals/marketplace-item-modal.blade.php:65 # FIXME: marketplace-modal install_composer_package onclick
+Modules/Marketplace/resources/views/admin/livewire/modals/marketplace-item-modal.blade.php:72 # FIXME: marketplace-modal install_composer_package onclick
+Modules/Marketplace/resources/views/admin/livewire/modals/marketplace-item-modal.blade.php:80 # FIXME: marketplace-modal install_composer_package onclick
+
+src/MicroweberPackages/Install/resources/views/select_template.blade.php:110 # FIXME: install-wizard installTemplate onclick
+src/MicroweberPackages/Install/resources/views/install_template_modal.blade.php:129 # FIXME: install-wizard downloadTemplate onclick
+
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:110 # FIXME: roles edit checkEverythingFromThisGroup onclick
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:111 # FIXME: roles edit checkEverythingFromThisGroup onclick
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:144 # FIXME: roles edit checkAllFromThisGroup onclick
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:151 # FIXME: roles edit checkAllFromThisGroup onclick
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:158 # FIXME: roles edit checkAllFromThisGroup onclick
+src/MicroweberPackages/Role/resources/views/admin/roles/edit.blade.php:165 # FIXME: roles edit checkAllFromThisGroup onclick
+
+src/MicroweberPackages/Notification/resources/views/notifications/index.blade.php:373 # FIXME: notifications index notif_item_read onclick
+
+src/MicroweberPackages/Template/resources/views/livewire/admin/template-update-modal.blade.php:21 # FIXME: template-update-modal install_composer_package onclick
+
+src/MicroweberPackages/LiveEdit/resources/views/presets/module-presets-manager.blade.php:148 # FIXME: presets editPreset onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/module-presets-manager.blade.php:155 # FIXME: presets confirmDeletePreset onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/module-presets-manager.blade.php:160 # FIXME: presets editPreset onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/module-presets-manager.blade.php:168 # FIXME: presets removeSelectedPresetForModule onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/module-presets-manager.blade.php:175 # FIXME: presets selectPresetForModule onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/select-preset-button.blade.php:4 # FIXME: presets select-button removeSelectedPresetForModule onclick
+src/MicroweberPackages/LiveEdit/resources/views/presets/select-preset-button.blade.php:11 # FIXME: presets select-button selectPresetForModule onclick
+
+src/MicroweberPackages/LiveEdit/resources/views/setup-wizard.blade.php:63 # FIXME: setup-wizard filterTemplates onclick
+src/MicroweberPackages/LiveEdit/resources/views/setup-wizard.blade.php:82 # FIXME: setup-wizard installTemplate onclick (preview-card variant)
+
+# === Commented-out legacy code (HTML comment) ===
+# Inside `<!-- ... -->` so it never executes; flagged by the regex
+# because the gate doesn't strip HTML comments. Safe to waive.
+Modules/Product/resources/views/templates/skin-12.blade.php:160 # WAIVER: inside <!-- ... --> comment, dead code
