@@ -56,7 +56,19 @@
             <div class="mt-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow transition-colors">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Cart Totals</h3>
                 <div class="gap-y-2">
+                    {{-- Cycle-163 / AI-204 (2026-05-10): cart_manager->
+                         totals() returns a mixed shape — `subtotal` and
+                         `total` are arrays with [label, value, amount];
+                         `shipping`, `tax`, `discount` are EMPTY STRINGS
+                         when not applicable. Filter to arrays before
+                         indexing — the cycle-N view skipped this filter
+                         and crashed with "Trying to access array offset
+                         on null" the first time the standalone /cart
+                         route hit this view. --}}
                     @foreach($cartTotals as $key => $total)
+                        @if(!is_array($total))
+                            @continue
+                        @endif
                         <div
                             class="flex justify-between {{ $key === 'total' ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : '' }}">
                         <span
