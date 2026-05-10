@@ -4774,4 +4774,33 @@ html[dir="rtl"] .mw-text-start {
         align-items: center;
         justify-content: center;
     }
+
+    /*
+     * AI-183 (cycle-156 2026-05-10): public-page logo link is the
+     * primary site-home navigation control on mobile but ships at
+     * 63x24 across templates (Big2 measured 64x24 by tester). Below
+     * WCAG 2.5.5 / iOS HIG 44x44 floor.
+     *
+     * The logo wrapper is namespaced as `.module-logo` (the live-edit
+     * module type — see `module="logo"` attribute on the parent div)
+     * so we can target every template's logo link via the descendant
+     * `<a>` without depending on a per-template class. The
+     * `.mw-big-header-logo` Big2-specific wrapper is also covered as
+     * a defensive duplicate so the rule binds even if a future
+     * refactor moves the `module-logo` namespace.
+     *
+     * Use min-height (not height) so a logo with a real <img> still
+     * sizes to its natural height — we just guarantee a minimum
+     * 44px tappable area. inline-flex centering keeps the visible
+     * logo text/image vertically centered inside the larger box.
+     */
+    .module-logo a,
+    .mw-big-header-logo a,
+    a.text-2xl.font-semibold {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        padding: 6px 4px;
+    }
 }
