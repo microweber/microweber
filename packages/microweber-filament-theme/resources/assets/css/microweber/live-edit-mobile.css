@@ -362,3 +362,67 @@
         line-height: 1.3;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-177 (cycle-149 2026-05-10) — live-edit toolbar leaks through
+ * Filament modals on mobile.
+ *
+ * User report (task-2026-05-10-2f4c73): "there are bobile issses in
+ * live edit on eitiyng them odule settgis update pic, etc, pls fix"
+ * — i.e. mobile issues when editing module settings (image, etc.).
+ *
+ * Reproduction at 390x844 with the SocialLinks module-settings
+ * slide-over open: the live-edit `#toolbar` (z-index: 999, position:
+ * relative) and its inner `.mw-live-edit-search-dropdown` (z-index:
+ * 1000) win the stacking fight against `.fi-modal-window-ctn`
+ * (z-index: 200, position: fixed) — the toolbar buttons (Add content,
+ * Save, kebab, eye, ☰) plus the toolbar's tablet-overflow arrow
+ * controls visually leak through the empty band between the modal
+ * heading and the form iframe inside the slide-over. Also breaks
+ * the close-overlay (the dark backdrop tap-to-dismiss) which sits at
+ * z-index: 200 — the toolbar covers it, so the user can't dismiss
+ * by tapping outside the panel.
+ *
+ * Cycle-149 fix: scoped CSS-only z-index promotion on viewports
+ * <=768px so:
+ *   - `.fi-modal-window-ctn` (the modal's stacking-context root) is
+ *     hoisted above the toolbar's 1000 ceiling — every Filament
+ *     modal inside live-edit (slide-over module settings, picker,
+ *     centered create, etc.) renders ABOVE the toolbar on mobile
+ *     where the panel fills the screen.
+ *   - `.fi-modal-close-overlay` is independently bumped too so the
+ *     dark backdrop is reachable for tap-to-dismiss.
+ *
+ * Desktop is untouched: at >=769px the slide-over is a right-side
+ * strip and the user expects the toolbar to remain visible + tappable
+ * to the LEFT of the panel — the original z=200 behaviour stays.
+ *
+ * Scoped under `.mw-live-edit-page` so non-live-edit Filament admin
+ * pages (Pages list, Posts list, Settings, etc.) keep their normal
+ * z-index stack. The live-edit page is the only surface where the
+ * page-level toolbar conflicts with Filament's modal stack.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    /*
+     * Match the (0,3,0) specificity of the existing
+     * `.mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn`
+     * rule in live-edit-classes.css (z-index:200 !important) so we
+     * win the cascade on tie via source order — live-edit-mobile.css
+     * is @import'd AFTER live-edit-classes.css in index.css.
+     *
+     * Both `.mw-live-edit-page` and `.mw-admin-live-edit-page` are
+     * present on the live-edit ancestry (see fi-layout root +
+     * mw-admin-live-edit-page wrapper) so we use the admin scope to
+     * match the existing rule's specificity; the .mw-live-edit-page
+     * variant is also covered for any future contexts that carry
+     * only that class.
+     */
+    .mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn,
+    .mw-live-edit-page .fi-modal > .fi-modal-window-ctn {
+        z-index: 1100 !important;
+    }
+    .mw-admin-live-edit-page .fi-modal > .fi-modal-close-overlay,
+    .mw-live-edit-page .fi-modal > .fi-modal-close-overlay {
+        z-index: 1100 !important;
+    }
+}
