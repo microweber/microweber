@@ -488,3 +488,66 @@
         display: none !important;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-181 + AI-182 (cycle-155 2026-05-10) — Two toolbar buttons
+ * below WCAG 2.5.5 / iOS HIG 44×44 touch-target floor.
+ *
+ * UX-audit P2 findings (agent-test systematic mobile scan):
+ *
+ * AI-181 — VIEW button `#mw-page-set-preview-mode`
+ *          (`.live-edit-toolbar-buttons-view`) measured 34×38 in the
+ *          live toolbar at 390×844. Bootstrap `.btn` defaults pad to
+ *          ~38px tall and the inline `me-2` margin gives the strip
+ *          breathing room — but the touchable area is below the floor.
+ *
+ * AI-182 — Toolbar user-menu hamburger `#toolbar-user-menu-button`
+ *          (`.mw-le-hamburger`) measured 24×17 — the cycle-N hamburger
+ *          glyph rule in `frontend-assets/.../ui/css/gui.css:118-123`
+ *          pins width: 24px / height: 17px (the visual bar size). The
+ *          three inner `<span>` bars are absolute-positioned, so the
+ *          parent's box can grow without disturbing the bar layout.
+ *
+ * Cycle-155 fix (CSS-only, scoped under .mw-admin-live-edit-page +
+ * .mw-live-edit-page so non-live-edit Filament admin chrome is
+ * untouched):
+ *
+ *   - Bump both buttons to min-width/min-height: 44px on
+ *     `(max-width: 768px), (pointer: coarse)` so the floor applies on
+ *     mobile viewports AND any touch device regardless of width.
+ *   - Use display:inline-flex + center alignment on the hamburger so
+ *     the visual bars stay centered inside the larger 44×44 hit area
+ *     (the bars themselves keep their absolute position).
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px), (pointer: coarse) {
+    /* AI-181 — VIEW button. Cover both the id and the class so the
+       fix binds whichever selector future refactors keep. */
+    .mw-admin-live-edit-page #mw-page-set-preview-mode,
+    .mw-admin-live-edit-page .live-edit-toolbar-buttons-view,
+    .mw-live-edit-page #mw-page-set-preview-mode,
+    .mw-live-edit-page .live-edit-toolbar-buttons-view {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* AI-182 — User-menu hamburger. The cycle-N gui.css rule pins
+       24x17 on the visual bar — bump the parent box to 44x44 while
+       keeping the inner spans (`position: absolute`) where they are. */
+    .mw-admin-live-edit-page #toolbar-user-menu-button,
+    .mw-admin-live-edit-page .mw-le-hamburger,
+    .mw-live-edit-page #toolbar-user-menu-button,
+    .mw-live-edit-page .mw-le-hamburger {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 13px 10px !important;
+        box-sizing: content-box !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+}
