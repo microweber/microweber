@@ -452,4 +452,93 @@ button.btn-icon.live-edit-toolbar-buttons,
     cursor: pointer;
 }
 
+/*
+ * AI-219 / AI-220 / AI-221 (cycle-168 2026-05-10) — admin-mobile
+ * touch-target floors discovered by agent-test's AI-217 audit.
+ *
+ * The cycle-N TICKET-U/V/W rules above (lines 232+) covered some
+ * surfaces but missed the actual selectors that Filament v5 renders
+ * for the admin Add + Live Edit buttons (`.fi-btn` inside `.fi-topbar`,
+ * NOT `.fi-topbar-nav-button`) and the user-menu wrapper
+ * (`.fi-dropdown-trigger`, NOT `.fi-topbar-item-button`). The cycle-N
+ * row-action floors covered .fi-ta-actions descendants but missed
+ * the View / Live edit / Edit anchor cells that live in custom
+ * `<td>` cells outside `.fi-ta-actions`.
+ *
+ * Scoped under `body.fi-panel-admin` so checkout panel + other
+ * Filament panels are not affected.
+ *
+ * Scope decision (AI-220):
+ *   The sidebar 167×40-42 measurement comes from the open-drawer
+ *   state; Filament already collapses the sidebar to off-screen at
+ *   <1024 (sidebar.x = -256 measured during cycle-168 browser-verify).
+ *   Sidebar items already ship at 44px tall. The "overflows past
+ *   screen edge" complaint is the deliberate slide-out drawer
+ *   behaviour. No layout change needed; just make sure individual
+ *   items stay ≥44 (they do).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* AI-219 — Topbar Add + Live Edit + user-menu trigger.
+       Floor every .fi-btn inside .fi-topbar (covers the Add +
+       Live Edit Filament-action buttons). Use !important because
+       Filament's bundled `.fi-btn { min-height: 36px }` rule
+       loads after our css and wins on equal specificity. */
+    body.fi-panel-admin .fi-topbar .fi-btn,
+    body.fi-panel-admin .fi-topbar a.fi-btn,
+    body.fi-panel-admin .fi-topbar button.fi-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 8px 14px !important;
+    }
+    /* User-menu wrapper. The visible chevron + avatar live inside
+       .fi-dropdown-trigger; bumping the wrapper enlarges the tap
+       area without disturbing the inner avatar size. */
+    body.fi-panel-admin .fi-topbar .fi-dropdown-trigger,
+    body.fi-panel-admin .fi-topbar .fi-dropdown-trigger > button,
+    body.fi-panel-admin .fi-user-menu .fi-dropdown-trigger {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* AI-221 — Table row custom anchor cells.
+       The cycle-N TICKET-V floors covered .fi-ta-actions descendants
+       but the View / Live edit / Edit row-anchor links live in
+       separate <td> cells outside .fi-ta-actions. Floor any anchor
+       inside .fi-ta-row that is NOT inside .fi-ta-actions (which is
+       already covered) so View / Live edit / Edit get the floor too. */
+    body.fi-panel-admin .fi-ta-row td a,
+    body.fi-panel-admin .fi-ta-row .fi-ta-cell a {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    /* Published "button" badge — Filament renders this as either a
+       button or a styled toggle. Floor the height. */
+    body.fi-panel-admin .fi-ta-row button.fi-badge,
+    body.fi-panel-admin .fi-ta-row .fi-badge button,
+    body.fi-panel-admin .fi-ta-row [class*="published"] button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    /* Bulk-select checkbox label wrapper (already covered by cycle-N
+       rule but defensive duplicate scoped to admin panel). */
+    body.fi-panel-admin .fi-ta-row .fi-checkbox-input,
+    body.fi-panel-admin .fi-ta-row input[type="checkbox"] {
+        min-width: 22px;
+        min-height: 22px;
+    }
+    body.fi-panel-admin .fi-ta-row label:has(> input[type="checkbox"]),
+    body.fi-panel-admin .fi-ta-header-cell label:has(> input[type="checkbox"]) {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 
