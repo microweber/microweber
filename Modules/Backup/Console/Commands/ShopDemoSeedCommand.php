@@ -73,18 +73,19 @@ class ShopDemoSeedCommand extends Command
         $categorySlug = (string) $this->option('category');
         $skipImages = (bool) $this->option('no-images');
 
-        // 1. Idempotent cleanup — delete prior demo products so re-runs
-        //    don't duplicate the catalog.
-        $prior = Content::query()
+        // 1. Cycle-165 / wave3-f (2026-05-10): build a slug → id map so
+        //    re-runs upsert in place instead of delete-then-create. The
+        //    cycle-159 behaviour deleted prior demo products on every
+        //    run + assigned new auto-increment ids, which (a) made the
+        //    product ids drift (confusing for testers + breaks any
+        //    persisted cart with the old ids) and (b) lost any
+        //    runtime state on the products. Now: re-runs reuse the
+        //    same product ids.
+        $existingBySlug = Content::query()
             ->where('content_type', 'product')
             ->where('subtype_value', self::SUBTYPE_VALUE_MARKER)
-            ->get();
-        if ($prior->count() > 0) {
-            $this->line("Removing {$prior->count()} prior demo product(s) (subtype_value=" . self::SUBTYPE_VALUE_MARKER . ').');
-            foreach ($prior as $p) {
-                $p->delete();
-            }
-        }
+            ->pluck('id', 'url')
+            ->toArray();
 
         // 2. Category — fetch or create.
         $category = Category::query()->where('url', $categorySlug)->first();
@@ -115,7 +116,28 @@ class ShopDemoSeedCommand extends Command
 
         $createdIds = [];
         foreach ($catalog as $i => $entry) {
-            $product = new Product();
+            // Stable per-catalog slug so re-runs land on the same URL
+            // and the same DB row. Renamed from `$slug` (cycle-165
+            // first pass) → `$productSlug` because `$slug` is the
+            // OUTER variable holding the SHOP page slug from --slug;
+            // the original cycle-165 introduced a name collision that
+            // made the post-loop /shop upsert lookup fail and create a
+            // new /shop page on every run.
+            $productSlug = 'demo-' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '-' . $this->slugify($entry['title']);
+            $existingId = $existingBySlug[$productSlug] ?? null;
+
+            // Cycle-165: upsert. If a prior demo product exists at this
+            // slug, fetch + update in place (preserves the auto-
+            // increment id so any persisted cart doesn't break). Else
+            // create new.
+            $product = $existingId !== null
+                ? Product::query()->find($existingId)
+                : new Product();
+            // ::find() returns null if the row exists but is filtered
+            // out by ProductScope — guard.
+            if ($product === null) {
+                $product = new Product();
+            }
             $product->title = $entry['title'];
             $product->content_type = 'product';
             $product->subtype = 'product';
@@ -127,8 +149,7 @@ class ShopDemoSeedCommand extends Command
             $product->parent = 0;
             $product->content_body = $entry['description'];
             $product->description = $entry['description'];
-            // Stable per-run slug so re-runs land on the same URLs.
-            $product->url = 'demo-' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '-' . $this->slugify($entry['title']);
+            $product->url = $productSlug;
             $product->category_ids = [$category->id];
             $product->setCustomField([
                 'type' => 'price',
@@ -145,16 +166,24 @@ class ShopDemoSeedCommand extends Command
             // Attach a picsum.photos placeholder image. Use the product
             // id as the seed so each product gets a stable but distinct
             // image across re-runs.
+            // Cycle-165 / wave3-f: upsert by (rel_type, rel_id,
+            // filename) so re-runs don't accumulate duplicate Media
+            // rows. firstOrCreate keys on those three fields; if
+            // already present, no-op.
             if (!$skipImages) {
                 $imageUrl = sprintf('https://picsum.photos/seed/mw-shop-demo-%d/600/400', $product->id);
-                Media::query()->create([
-                    'rel_type' => $product->getMorphClass(),
-                    'rel_id' => $product->id,
-                    'media_type' => 'picture',
-                    'filename' => $imageUrl,
-                    'position' => 1,
-                    'session_id' => '',
-                ]);
+                Media::query()->firstOrCreate(
+                    [
+                        'rel_type' => $product->getMorphClass(),
+                        'rel_id' => $product->id,
+                        'filename' => $imageUrl,
+                    ],
+                    [
+                        'media_type' => 'picture',
+                        'position' => 1,
+                        'session_id' => '',
+                    ]
+                );
             }
 
             $createdIds[] = $product->id;

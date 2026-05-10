@@ -178,4 +178,85 @@ class ShopDemoSeedCommandContractTest extends TestCase
             'BackupServiceProvider MUST import the ShopDemoSeedCommand '
             . 'class.');
     }
+
+    #[Test]
+    public function cycle_165_products_upsert_by_slug_for_stable_ids(): void
+    {
+        $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
+
+        // Cycle-165 / wave3-f (2026-05-10): cycle-159 deleted prior
+        // demo products on every run + assigned new auto-increment ids,
+        // which (a) made ids drift across runs (breaks any persisted
+        // cart with the old ids) and (b) lost any runtime state on the
+        // products. Cycle-165: build a slug → id map up front + upsert
+        // in place by slug.
+        $this->assertMatchesRegularExpression('/[Cc]ycle-165/', $src,
+            'ShopDemoSeedCommand.php MUST carry the cycle-165 anchor.');
+        $this->assertMatchesRegularExpression(
+            '/\$existingBySlug\s*=\s*Content::query\(\)[\s\S]{0,500}->pluck\([\'"]id[\'"]\s*,\s*[\'"]url[\'"]\)/',
+            $src,
+            'ShopDemoSeedCommand MUST build a `$existingBySlug` map via '
+            . '`Content::query()->...->pluck(\'id\', \'url\')` so the '
+            . 'foreach can upsert in place by slug.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/Product::query\(\)->find\(\$existingId\)/',
+            $src,
+            'ShopDemoSeedCommand foreach MUST `Product::query()->find('
+            . '$existingId)` to fetch the existing row when the slug '
+            . 'is already in the map (preserves the auto-increment id).'
+        );
+        // The cycle-N delete-then-create path MUST be gone.
+        $this->assertDoesNotMatchRegularExpression(
+            '/Removing \{[\s\S]{0,80}prior demo product/',
+            $src,
+            'ShopDemoSeedCommand MUST NOT carry the cycle-159 '
+            . '"Removing N prior demo products" delete-then-create path '
+            . '— that broke id stability across re-runs.'
+        );
+    }
+
+    #[Test]
+    public function cycle_165_picsum_image_uses_first_or_create(): void
+    {
+        $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
+
+        // Cycle-165: cycle-N called Media::query()->create() which
+        // accumulated duplicate Media rows across re-runs. firstOrCreate
+        // keys on (rel_type, rel_id, filename) so re-runs are no-op
+        // when the image is already attached.
+        $this->assertMatchesRegularExpression(
+            '/Media::query\(\)->firstOrCreate\(/',
+            $src,
+            'ShopDemoSeedCommand MUST use `Media::query()->firstOrCreate('
+            . '...)` for the picsum image attach so re-runs do not '
+            . 'duplicate Media rows.'
+        );
+    }
+
+    #[Test]
+    public function cycle_165_uses_distinct_product_slug_var(): void
+    {
+        $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
+
+        // Cycle-165 first pass introduced a `$slug` inner-loop variable
+        // that shadowed the outer `$slug` (= --slug option / shop page
+        // slug), causing the post-loop `Content::query()->where(\'url\','
+        // ' $slug)` lookup to fail and create a new /shop page with the
+        // last product\'s slug + timestamp on every run. Renamed to
+        // `$productSlug` as a regression guard.
+        $this->assertStringContainsString('$productSlug', $src,
+            'ShopDemoSeedCommand MUST use `$productSlug` for the inner-'
+            . 'loop product slug — `$slug` is the OUTER variable for '
+            . 'the shop page slug; shadowing it broke /shop upsert.');
+        // The post-loop /shop lookup MUST use the outer $slug
+        $strippedComments = preg_replace('#/\*[\s\S]*?\*/#', '', $src);
+        $this->assertMatchesRegularExpression(
+            '/Content::query\(\)->where\([\'"]url[\'"]\s*,\s*\$slug\)->where\([\'"]content_type[\'"]\s*,\s*[\'"]page[\'"]\)/',
+            (string) $strippedComments,
+            'The /shop upsert lookup MUST use the OUTER $slug variable '
+            . '(the --slug option / shop page slug), not the inner-loop '
+            . 'product slug.'
+        );
+    }
 }

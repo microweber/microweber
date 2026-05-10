@@ -145,4 +145,36 @@ class Big2DemoSeedCommandContractTest extends TestCase
             . 'model events (HasSlug, etc.) fire on save().'
         );
     }
+
+    #[Test]
+    public function cycle_165_idempotent_upsert_in_place(): void
+    {
+        $src = $this->read('Modules/Backup/Console/Commands/Big2DemoSeedCommand.php');
+
+        // Cycle-165 / wave3-f (2026-05-10) — PM brief: re-runs must
+        // produce the same outcome without flags. The cycle-N
+        // behaviour required `--replace` or warned-and-exited; the
+        // cycle-165 default is upsert-in-place so the page id stays
+        // stable across runs.
+        $this->assertMatchesRegularExpression('/[Cc]ycle-165/', $src,
+            'Big2DemoSeedCommand.php MUST carry the cycle-165 anchor for '
+            . 'the wave3-f idempotency hardening.');
+        // The upsert MUST reuse the existing Content instance (not
+        // delete-then-recreate) when --replace is NOT set.
+        $this->assertMatchesRegularExpression(
+            '/\$page\s*=\s*\$existing\s*\?\?\s*new\s+Content\(\)/',
+            $src,
+            'Command MUST upsert in place via `$page = $existing ?? new '
+            . 'Content()` so re-runs preserve the auto-increment id.'
+        );
+        // The cycle-N "warn and exit if not --replace" path MUST be gone.
+        $strippedComments = preg_replace('#/\*[\s\S]*?\*/#', '', $src);
+        $strippedComments = preg_replace('#//.*#', '', (string) $strippedComments);
+        $this->assertDoesNotMatchRegularExpression(
+            '/already exists.*Re-run with --replace/',
+            (string) $strippedComments,
+            'Command MUST NOT carry the cycle-N "warn and exit unless '
+            . '--replace" path — that broke idempotency.'
+        );
+    }
 }

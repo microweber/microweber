@@ -197,4 +197,113 @@ class CartApiControllerTest extends TestCase
 
         $this->assertTrue(isset($response['error']));
     }
+
+    /*
+     * Cycle-165 / wave3-c (2026-05-10) — empty-cart + missing-param
+     * edge cases. PM Wave 3 brief: cart controller test gaps — 7
+     * existing tests cover the happy path + invalid product / qty,
+     * but the empty-cart and missing-required-field paths weren't
+     * covered. The block below adds 5 tests for those gaps.
+     */
+
+    #[Test]
+    public function it_sum_cart_returns_zero_on_empty_cart(): void {
+        empty_cart();
+
+        $request = new Request();
+        $response = $this->controller->sumCart($request);
+
+        // cart_sum() returns the numeric total (or formatted string
+        // depending on settings). On an empty cart the numeric value
+        // is 0 — accept either int 0, string '0', or any falsy
+        // representation so the test isn't fragile to formatter
+        // changes (e.g. "0.00" or "$0.00").
+        $this->assertNotNull($response,
+            'sumCart on empty cart MUST return a non-null response.');
+        $stripped = is_string($response)
+            ? preg_replace('/[^\d.]/', '', $response)
+            : (string) $response;
+        $this->assertSame(0.0, (float) $stripped,
+            'sumCart on empty cart MUST report total = 0.');
+    }
+
+    #[Test]
+    public function it_empty_cart_on_already_empty_does_not_error(): void {
+        empty_cart();
+
+        $request = new Request();
+        $response = $this->controller->emptyCart($request);
+
+        // empty_cart() returns a success indicator either way —
+        // calling it on an already-empty cart is a no-op, NOT an
+        // error. Pin: response MUST NOT be an error envelope.
+        $isErrorEnvelope = is_array($response) && isset($response['error']);
+        $this->assertFalse($isErrorEnvelope,
+            'emptyCart on already-empty cart MUST NOT return an error '
+            . 'envelope — it should be a no-op success.');
+    }
+
+    #[Test]
+    public function it_empty_cart_wipes_existing_items(): void {
+        empty_cart();
+
+        // Seed two items via update_cart so the cart has state to wipe.
+        update_cart(['content_id' => self::$content_id, 'qty' => 1]);
+        update_cart(['content_id' => self::$content_id, 'qty' => 2]);
+        $beforeItems = app()->cart_manager->get();
+        $this->assertGreaterThan(0, count($beforeItems ?? []),
+            'Pre-condition: cart MUST have at least 1 item before '
+            . 'emptyCart is called (or this test is vacuous).');
+
+        // Empty via the controller endpoint.
+        $this->controller->emptyCart(new Request());
+
+        $afterItems = app()->cart_manager->get();
+        $this->assertSame(0, count($afterItems ?? []),
+            'emptyCart MUST wipe all items — cart_manager->get() should '
+            . 'return [] after the controller call.');
+    }
+
+    #[Test]
+    public function it_update_cart_with_no_content_id_returns_error(): void {
+        empty_cart();
+
+        // Missing required `content_id` parameter — the cart manager
+        // CANNOT add a product without one. The controller delegates
+        // to update_cart() which MUST surface an error envelope.
+        $request = new Request();
+        $request->merge(['qty' => 1]); // intentionally no content_id
+        $response = $this->controller->updateCart($request);
+
+        $this->assertTrue(
+            isset($response['error']) || empty($response['success']),
+            'updateCart without content_id MUST surface an error or '
+            . 'fail to register a success — silently no-op accepting '
+            . 'the request would lead to confusing UX.'
+        );
+    }
+
+    #[Test]
+    public function it_remove_cart_item_with_no_id_returns_error(): void {
+        empty_cart();
+
+        // Pre-seed an item so there's something the controller could
+        // theoretically remove — but call removeCartItem WITHOUT the
+        // `id` field. Should error rather than e.g. wipe everything.
+        update_cart(['content_id' => self::$content_id, 'qty' => 1]);
+        $beforeCount = count(app()->cart_manager->get() ?? []);
+        $this->assertGreaterThan(0, $beforeCount);
+
+        $request = new Request(); // no `id`
+        $response = $this->controller->removeCartItem($request);
+
+        $this->assertTrue(
+            isset($response['error']),
+            'removeCartItem without `id` MUST return an error envelope '
+            . '— never silently wipe the cart on missing param.'
+        );
+        $afterCount = count(app()->cart_manager->get() ?? []);
+        $this->assertSame($beforeCount, $afterCount,
+            'removeCartItem without `id` MUST NOT mutate the cart.');
+    }
 }
