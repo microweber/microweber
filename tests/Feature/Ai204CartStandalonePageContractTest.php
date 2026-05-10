@@ -154,6 +154,36 @@ class Ai204CartStandalonePageContractTest extends TestCase
     }
 
     #[Test]
+    public function ai_206_cart_item_images_constrained_to_80px(): void
+    {
+        // Cycle-164b / AI-206: agent-test verification of cycle-163
+        // surfaced that line-item `<img>` elements rendered at 602×402
+        // (the picsum.photos source resolution) instead of being
+        // constrained to ~80×80. The CartItems Livewire view uses
+        // Tailwind `w-20 h-20` classes on the `<img>` but Tailwind
+        // isn't loaded on the public Bootstrap template — only the
+        // Filament admin panel ships Tailwind. Constrain via plain
+        // CSS scoped to the standalone cart wrap.
+        $view = $this->read('Modules/Cart/resources/views/page.blade.php');
+
+        $this->assertStringContainsString('AI-206', $view,
+            'page.blade.php MUST carry the AI-206 anchor inline.');
+        $this->assertMatchesRegularExpression(
+            '/#mw-cart-standalone-page\s+img\s*\{[\s\S]{0,300}max-width:\s*80px/m',
+            $view,
+            'page.blade.php MUST cap line-item images at max-width: 80px '
+            . '(was rendering at picsum source 602x402 because Tailwind '
+            . 'w-20 h-20 isn\'t loaded on the public template).'
+        );
+        $this->assertMatchesRegularExpression(
+            '/#mw-cart-standalone-page\s+img\s*\{[\s\S]{0,300}object-fit:\s*cover/m',
+            $view,
+            'page.blade.php MUST use object-fit: cover so the 80x80 box '
+            . 'preserves aspect ratio without letterboxing.'
+        );
+    }
+
+    #[Test]
     public function checkout_cart_items_view_filters_non_array_totals(): void
     {
         $view = $this->read('Modules/Checkout/resources/views/livewire/cart-items.blade.php');

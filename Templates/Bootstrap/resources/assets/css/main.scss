@@ -323,20 +323,24 @@ li.dropdown {
                 display: none;
             }
 
+            /* AI-205 (cycle-164 2026-05-10): unified header icons to
+               28×28 on mobile (was search/user 20px, cart 22px). PM
+               brief: "All header icons same size (match hamburger/
+               cart as reference)". 28px is large enough for
+               recognizability without crowding the header row + matches
+               the inline SVG height/width attributes on the source
+               markup (cycle-164 swapped MDI font icon → inline SVG for
+               search and bumped user from 24 → 28 in skin-1.blade). */
             .btn-search,
-            .btn-member {
+            .btn-member,
+            .btn-shopping-cart {
                 svg {
-                    width: 20px;
-                    height: 20px;
+                    width: 28px;
+                    height: 28px;
                 }
             }
 
             .btn-shopping-cart {
-                svg {
-                    width: 22px;
-                    height: 22px;
-                }
-
                 .js-shopping-cart-quantity {
                     font-size: 10px;
                     padding: 1px 5px;

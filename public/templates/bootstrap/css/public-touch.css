@@ -186,3 +186,55 @@
         min-height: 44px;
     }
 }
+
+/*
+ * AI-205 (cycle-164 2026-05-10) — public header icon size unification.
+ *
+ * UX-audit P3 finding: header icons (search/user/cart/menu) had
+ * mismatched sizes — search 20px, user 20px, cart 22px in the
+ * cycle-N main.scss `@media (max-width: 576px)` rule. Combined with
+ * the inline-SVG height/width attribute drift in skin-1.blade.php
+ * (cycle-164 normalised to 28×28) the header looked inconsistent on
+ * mobile. PM brief: "All header icons same size (match hamburger/
+ * cart as reference)".
+ *
+ * `public-touch.css` is loaded AFTER `app.css` in the master layout
+ * (master.blade.php) so this rule wins the cascade against the
+ * compiled main.scss size pin without needing a template-side
+ * `npm run build`. Same delivery pattern as the AI-166/AI-169
+ * hamburger 44×44 floor in default.css.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    /*
+     * AI-205 first-pass set 28x28 directly on the SVG, but the cycle-N
+     * `.main a > svg:only-child { min-width: 44px; min-height: 44px }`
+     * rule (touch-target floor for bare-icon links) won via specificity
+     * and forced the SVG to 44x44. The cart SVG escaped the floor only
+     * because its sibling `.js-shopping-cart-quantity` badge made it
+     * NOT :only-child — that's why cart was 22x22 while search/user
+     * were 44x44.
+     *
+     * Resolution: lift the 44x44 floor onto the parent `<a class="nav-
+     * link">` so the tap area stays 44x44 (accessibility) while the
+     * inner SVG renders at 28x28 (visual consistency). Higher
+     * specificity (4 classes) beats `.main a > svg:only-child` (3
+     * classes) so the SVG sizing rule below wins.
+     */
+    .templates-top-header-menu .top-header-background.header-top .btn-search .nav-link,
+    .templates-top-header-menu .top-header-background.header-top .btn-member .nav-link,
+    .templates-top-header-menu .top-header-background.header-top .btn-shopping-cart .nav-link {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .templates-top-header-menu .top-header-background.header-top .btn-search .nav-link svg,
+    .templates-top-header-menu .top-header-background.header-top .btn-member .nav-link svg,
+    .templates-top-header-menu .top-header-background.header-top .btn-shopping-cart .nav-link svg {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+    }
+}

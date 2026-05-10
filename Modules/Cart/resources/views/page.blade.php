@@ -93,5 +93,28 @@
                 justify-content: center;
             }
         }
+
+        /*
+         * AI-206 (cycle-164b 2026-05-10) — Cart item images oversized
+         * on /cart standalone page.
+         *
+         * agent-test verification of cycle-163 surfaced that line-item
+         * `<img>` elements rendered at 602×402 (the picsum.photos
+         * source resolution) instead of being constrained to ~80×80.
+         * Root cause: the CartItems Livewire view uses Tailwind
+         * `w-20 h-20` classes on the `<img>` but Tailwind isn't loaded
+         * on the public Bootstrap template — only the Filament admin
+         * panel ships Tailwind.
+         *
+         * Constrain via plain CSS scoped to the standalone cart wrap.
+         * `object-fit: cover` keeps the aspect ratio while the box
+         * stays a fixed 80×80. NOT in the @media block above — image
+         * size matters on desktop too (otherwise the cart row sprawls).
+         */
+        #mw-cart-standalone-page img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: cover;
+        }
     </style>
 @endsection
