@@ -577,9 +577,22 @@ html.dark .mw-le-layouts-dialog .modules-list {
         position: static;
     }
 
+    /*
+     * AI-180 (cycle-154 2026-05-10): the cycle-N hide rule below
+     * stripped the right-rail (Insert layout / Template settings /
+     * Design / Quick AI edit / Advanced) from mobile entirely —
+     * UX-audit P2 finding "Secondary toolbar actions have 0×0px
+     * buttons (P2)". The rail is `position: absolute` (overlays the
+     * canvas, doesn't displace it) and after AI-179 the buttons are
+     * 44×44 — there's no longer a layout reason to hide it on mobile.
+     * Show the rail on mobile so users can tap Insert layout / Design
+     * etc. on touch devices.
+     */
+    /*
     .mw-live-edit-right-sidebar-wrapper {
         display: none !important    ;
     }
+    */
     #live-edit-frame-holder {
         right: 0;
     }

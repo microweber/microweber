@@ -732,3 +732,64 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
 
     }
 }
+
+/*
+ * AI-179 (cycle-153 2026-05-10) — Canvas element-handle buttons 32×32
+ * is below WCAG 2.5.5 / iOS HIG 44×44 floor on touch devices.
+ *
+ * UX-audit P1 finding: "Element handle buttons 32×32px and clipped
+ * (some at negative Y coordinates)" at 390×844.
+ *
+ * The handle floats over the canvas iframe whenever a user
+ * selects/hovers an editable element. The .mw-le-handle-menu-button
+ * tiles inside `.mw-handle-item-menus-holder` (and the
+ * .mw-le-handle-menu-button-sub-menu submenu) are pinned to 32x32 by
+ * the rules at handles.scss:134 and :297 — fine for desktop pointer
+ * precision, hostile to touch.
+ *
+ * Cycle-153 fix: bump every visible handle-menu button to 44×44 on
+ * touch-capable contexts (`@media (pointer: coarse)`) AND on small
+ * viewports (`(max-width: 800px)`) so the rule fires whether the
+ * environment is a true touch device, a narrow desktop window, or a
+ * dev-tools viewport-emulation. Margin between buttons increases too
+ * so the larger tap targets don't become a single fat strip.
+ *
+ * The (negative-Y / clipped) part of the audit is a separate
+ * positioning concern — the menu is `position: absolute` with the
+ * top/left set inline by the JS handle-positioning code in
+ * `packages/frontend-assets/resources/assets/api-core/.../element-
+ * handle.js`. When the selected element is near the iframe top, the
+ * menu's computed top can go below 0. The cycle-N (max-width: 800px)
+ * rule above already converts the layout-root menu to `position:
+ * sticky; bottom: 0;` which side-steps the clipping for the layout-
+ * root case. The remaining clip case (regular element-root menu near
+ * top of canvas) is documented as phase-2 follow-up — needs JS-side
+ * clamping in element-handle.js, not pure CSS.
+ */
+@media (max-width: 800px), (pointer: coarse) {
+    /* Higher-specificity rule (line 134) — .mw-handle-item .mw-handle-
+       item-menus-holder .mw-le-handle-menu-button. Match its 0,3,0
+       specificity by including the same ancestor chain. */
+    .mw-handle-item .mw-handle-item-menus-holder .mw-le-handle-menu-button,
+    .mw-handle-item .mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button,
+    /* Lower-specificity rule (line 297) — direct .mw-le-handle-menu-
+       buttons child. Cover this too in case the menus-holder ancestor
+       isn't present in some future refactor. */
+    .mw-le-handle-menu-buttons > .mw-le-handle-menu-button {
+        min-width: 44px;
+        min-height: 44px;
+        width: auto;
+        height: auto;
+        margin: 0 4px;
+        padding: 6px;
+    }
+    /* The menus-holder itself shipped at $handleholderHeight px tall
+       (line 125 — 38px). Bump it to fit the 44x44 buttons + chrome so
+       the buttons aren't clipped vertically inside their holder. */
+    .mw-handle-item .mw-handle-item-menus-holder,
+    .mw-handle-item .mw-le-handle-menu-button-sub-menu {
+        height: auto;
+        min-height: 56px;
+        padding: 6px !important;
+    }
+}

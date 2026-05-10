@@ -426,3 +426,65 @@
         z-index: 1100 !important;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-178 (cycle-152 2026-05-10) — Live Edit toolbar "Search content"
+ * input collapses to 2px wide on mobile.
+ *
+ * UX-audit P1 finding (agent-test mobile-ux-audit-report.md):
+ * "Invisible/untappable search field in Live Edit toolbar at 390×844".
+ *
+ * Reproduction at 390×844: `#mw-live-edit-search-content` (the slot
+ * that mw.autoComplete renders the search input into) sits inside a
+ * Bootstrap `col col-xl-auto toolbar-col-container` parent. At >=xl
+ * the parent is `auto` (content-sized); below xl the col falls back
+ * to default flex behaviour — between the cycle-126/143 toolbar
+ * buttons (☰ + ← + → + +ADD on the left, device-toggle + tools menu
+ * + VIEW + SAVE on the right) only ~48px of horizontal space remains
+ * for the search slot. With the autoComplete dropdown's `ps-4`
+ * padding-left for the search-icon prefix, the actual <input> ends
+ * up ~2px wide — measurable but unusable.
+ *
+ * Cycle-152 fix is CSS-only: hide the toolbar's content-search slot
+ * on viewports <=768px. Rationale:
+ *   - The 2px input is functionally broken — users can't type into
+ *     a 2px target. Showing a broken control is worse than showing
+ *     no control.
+ *   - Content-search is a power-user "jump to a different page in
+ *     edit mode" affordance. Mobile users typically edit ONE page
+ *     at a time and can navigate via the admin sidebar (Pages list /
+ *     Posts list) which is reachable through the AI-170 sidebar
+ *     hamburger.
+ *   - Hiding the slot also frees ~48px of horizontal space in the
+ *     mobile toolbar — gives the remaining buttons more breathing
+ *     room without any layout work.
+ *
+ * Scoped to `.mw-admin-live-edit-page` (matches the existing toolbar
+ * scope rules) AND only inside the live-edit toolbar — this does NOT
+ * affect non-live-edit Filament admin search inputs (e.g. table
+ * search, global Filament search). The `#mw-live-edit-search-content`
+ * id is unique to the toolbar component.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-admin-live-edit-page #mw-live-edit-search-content,
+    .mw-live-edit-page #mw-live-edit-search-content,
+    /* The autoComplete generates a wrapper `.mw-live-edit-search-dropdown`
+       that may sit on the SLOT div OR be the closest ancestor — hide
+       it too so the dropdown doesn't render an empty 48×35 box if the
+       autoComplete strips the inner #mw-live-edit-search-content node
+       on a future refactor. */
+    .mw-admin-live-edit-page .mw-live-edit-search-dropdown,
+    .mw-live-edit-page .mw-live-edit-search-dropdown {
+        display: none !important;
+    }
+    /* The Bootstrap `.col.toolbar-col-container` parent of the search
+       slot would still occupy 48px width via flex even with its child
+       hidden — collapse it too so the freed space goes to the rest of
+       the toolbar. */
+    .mw-admin-live-edit-page .toolbar-col-container:has(> #mw-live-edit-search-content),
+    .mw-admin-live-edit-page .toolbar-col-container:has(> .mw-live-edit-search-dropdown),
+    .mw-live-edit-page .toolbar-col-container:has(> #mw-live-edit-search-content),
+    .mw-live-edit-page .toolbar-col-container:has(> .mw-live-edit-search-dropdown) {
+        display: none !important;
+    }
+}
