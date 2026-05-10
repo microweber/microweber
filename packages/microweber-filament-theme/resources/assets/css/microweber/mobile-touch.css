@@ -593,3 +593,102 @@ button.btn-icon.live-edit-toolbar-buttons,
         min-height: 44px !important;
     }
 }
+
+/*
+ * AI-228 (cycle-170 2026-05-10) — admin Rich Text Editor toolbar
+ * touch-target floor.
+ *
+ * agent-test's Drunk Designer modal audit found ALL ~30 admin RTE
+ * toolbar buttons measure 32×32 — Bold, Italic, Underline, Link,
+ * Heading 2/3, Align, Blockquote, Code, Lists, Table, Undo/Redo,
+ * Attach files, table sub-buttons. Filament's base style (vendor/
+ * filament/forms/resources/css/components/rich-editor.css line 56)
+ * sets `.fi-fo-rich-editor-tool` to `h-8 min-w-8` = 32×32, below
+ * WCAG 2.5.5 / iOS HIG 44 floor.
+ *
+ * Note: PM's email mentioned `.tiptap-toolbar button` but in this
+ * project the admin RTE is Filament's native Rich Editor — the
+ * actual class is `.fi-fo-rich-editor-tool` (verified by
+ * playwright probe at /admin/products/create 390×844).
+ *
+ * The toolbar wrapper `.fi-fo-rich-editor-toolbar` is already
+ * `display: flex; flex-wrap: wrap; overflow-x: visible` — bumping
+ * each button to 44×44 simply causes more rows naturally; no
+ * 2-row-layout special case is needed (as PM speculated). At 245px
+ * available width the toolbar will wrap to ~5 rows, same wrapping
+ * behaviour as the current 32×32 layout (which already wraps).
+ *
+ * Scope: `body.fi-panel-admin` so this doesn't bleed to checkout
+ * panel or any other Filament panel that might embed an RTE.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-fo-rich-editor-tool,
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar button,
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar .fi-fo-rich-editor-tool {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+
+    /* Tighten internal padding so the icon stays visually centred
+       at the new 44×44 size — the icon itself is sized via
+       Filament's IconSize::Small (16px) and we don't change that. */
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar {
+        gap: 0.125rem !important;
+    }
+}
+
+/*
+ * AI-229 / AI-230 (cycle-171 2026-05-10) — admin form tabs +
+ * category tree radio button touch-target floors.
+ *
+ *   AI-229 — `.fi-tabs-item` ([role="tab"]) measured 36×31 in
+ *            agent-test's audit (Content/Product Details/Variants/
+ *            Custom Fields/SEO/Advanced tabs on /admin/products/
+ *            create). Filament's base padding gives ~31px height;
+ *            below the 44 floor on the smaller axis. The widths
+ *            vary by label length; only the height is the failing
+ *            axis.
+ *
+ *   AI-230 — Native `<input type="radio">` (16×16) in the category
+ *            tree at /admin/products/create. The radio sits inside
+ *            `<tree-label class="form-check">`. The fix follows the
+ *            same pattern as AI-221 bulk-checkbox: floor the parent
+ *            label wrapper to 44×44 so the tap area meets the
+ *            floor, while leaving the native input sized as
+ *            browsers render it.
+ *
+ * Scope: `body.fi-panel-admin` so the rules don't bleed to
+ * checkout panel or any other Filament panel. Same media query
+ * as cycle-168/169/170.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* AI-229 — admin form tabs.
+       Floor the height; let the width grow naturally by content
+       so longer translated labels fit. */
+    body.fi-panel-admin .fi-tabs-item,
+    body.fi-panel-admin .fi-tabs button[role="tab"],
+    body.fi-panel-admin .fi-tabs [role="tab"] {
+        min-height: 44px !important;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    /* AI-230 — category tree radio button label wrapper.
+       The `<tree-label class="form-check">` element is the
+       row-clickable container for each category radio. Floor
+       it to 44×44 so the tap area meets the floor on both axes;
+       the native radio inside stays at its rendered 16×16
+       (browser default — bumping it visually doesn't help if
+       the hit area is wrong). Same pattern as AI-221 bulk-select
+       checkbox. */
+    body.fi-panel-admin tree-label.form-check,
+    body.fi-panel-admin .form-check:has(> input[type="radio"]),
+    body.fi-panel-admin label.form-check:has(input[type="radio"]) {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0.25rem 0.625rem;
+    }
+}
