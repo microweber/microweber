@@ -293,3 +293,72 @@
         padding-inline: 0.5rem;
     }
 }
+
+/* ------------------------------------------------------------------
+ * AI-176 (cycle-148 2026-05-10) — Add-content picker rows cramp on
+ * mobile.
+ *
+ * User report (task-2026-05-10-e20f8d): "the add posts/content/...
+ * etc modal is not ok on mobile". The +ADD picker shows 6 rows
+ * (Page / Post / Category / Product / Image / Add-to-this-page).
+ * Each row is `.mw-add-content-modal-action-wrapper` with Tailwind
+ * `flex gap-6 p-5` + an 80×80 icon container holding a 40×40 SVG.
+ *
+ * On a 390px viewport the AI-144 modal-width clamp gives the picker
+ * `calc(100vw - 16px)` ≈ 374px. Inside that:
+ *   - 20px outer padding + 80px icon + 24px gap + 20px outer padding
+ *     = 144px chrome, leaving ~230px for title + description.
+ *   - Description text wraps to 3-4 lines on the longer entries
+ *     ("To add text, headings, or modules…") so each row stands ~140px
+ *     tall and the 6 rows stack to ~840px — taller than the iPhone-13
+ *     viewport (844 minus chrome). The picker becomes a long scroll.
+ *
+ * Cycle-148 fix is CSS-only — scoped under .mw-live-edit-page so the
+ * desktop layout, the 2x2 grid (≥640px in iframe-page.blade.php), and
+ * non-live-edit panels stay untouched. We:
+ *   1. Shrink the icon container 80→56 (w-20 h-20 → 56×56) and shrink
+ *      its inner padding so the SVG inside doesn't break out.
+ *   2. Shrink the SVG 40→28 (h-10 w-10 → 28×28) so it sits comfortably
+ *      inside the smaller container.
+ *   3. Drop the row gap 24→12 and outer padding 20→12 so more content
+ *      width is available for the title + description column.
+ *   4. Tighten the title/description column vertical gap and clamp the
+ *      description to 3 lines (line-clamp) so any single row stays a
+ *      predictable height — picker no longer requires lots of scrolling
+ *      on mobile.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+        gap: 0.75rem !important;
+        padding: 0.75rem !important;
+        align-items: center;
+    }
+    /* Icon container — first direct child div of the row. The Tailwind
+       w-20 h-20 (80px) is too large for a 374px modal. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:first-child {
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px;
+        padding: 0.5rem !important;
+        flex-shrink: 0;
+    }
+    /* SVG inside the icon container — Tailwind h-10 w-10 (40px) is
+       sized for the 80px container; shrink to fit the 56px container. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:first-child > svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    /* Text column — tighten the inter-line gap and clamp the
+       description so rows have a predictable height. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:nth-child(2) {
+        gap: 0.25rem !important;
+        min-width: 0;
+    }
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:nth-child(2) > div:last-child {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+}
