@@ -692,3 +692,39 @@ button.btn-icon.live-edit-toolbar-buttons,
         padding: 0.25rem 0.625rem;
     }
 }
+
+/*
+ * AI-227 follow-up (cycle-172 2026-05-10) — admin card-layout row
+ * action anchors.
+ *
+ * agent-test verified cycle-169 AI-227 PASS for the table-header
+ * Reorder/Filter/Column-manager buttons but flagged 25 per-row
+ * Actions still failing at 36×24 / 30×18. Investigation: those
+ * are NOT inside `.fi-ta-row` containers — /admin/posts (and
+ * /admin/products, /admin/orders) uses a card-grid layout where
+ * each row is a `.fi-ta-split` div, not a `<tr class="fi-ta-row">`.
+ *
+ * The View / Live edit / Edit controls are `<a aria-label="…">`
+ * anchors styled with Tailwind text-gray classes — no
+ * `.fi-ta-row td a` selector reaches them, so cycle-168's anchor
+ * floor missed them. Verified at /admin/posts 390×844:
+ *   View      36×24
+ *   Live edit 30×18
+ *   Edit      30×18
+ *
+ * Fix: floor any `<a aria-label>` action anchor inside `.fi-ta-split`
+ * and inside the broader `.fi-ta` container (catches both
+ * card-layout and table-layout admin pages). Scoped to
+ * `body.fi-panel-admin` and the same admin-mobile media query.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-split a[aria-label],
+    body.fi-panel-admin .fi-ta a[aria-label]:not([aria-label=""]),
+    body.fi-panel-admin .fi-ta-content a[aria-label] {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+}
