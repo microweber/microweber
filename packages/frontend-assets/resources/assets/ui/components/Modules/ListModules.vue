@@ -30,17 +30,44 @@
 
                     </span>
 
-                    <input type="text"
+                    <!-- AI-173 (cycle-150 2026-05-10): switch from
+                         type="text" to type="search" so mobile users get
+                         the native browser X clear-affordance. Also pin
+                         inputmode + enterkeyhint so the on-screen keyboard
+                         shows a "search" submit key, and aria-label so
+                         screen readers have a stable label that survives
+                         placeholder localisation. Pattern mirrors the
+                         existing ListLayouts.vue search input. -->
+                    <input type="search"
                         autofocus
                            v-model="filterKeyword"
+                           inputmode="search"
+                           enterkeyhint="search"
+                           :aria-label="$lang('Search modules')"
                            v-bind:placeholder="$lang('Type to Search') + '...'"
-                           class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0 w-100">
+                           class="js-modules-list-search-input mw-modules-list-search-input form-control mw-modules-list-search-block rounded-0 w-100">
 
-                         <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 25px;right: 23px;padding: 3px;" v-on:click="filterClearKeyword()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
+                    <!-- AI-173 (cycle-150 2026-05-10): convert the inline
+                         <span> clear-affordance to a real <button> so
+                         keyboard activation, focus-visible rings, and
+                         button semantics work natively. The inline-style
+                         hit target was ~28x28 (14px font + 3px padding) —
+                         under WCAG 2.5.5 / iOS HIG 44x44 floor. The new
+                         button enforces 44x44 via the
+                         .mw-modules-list-search-clear class. The browser's
+                         native type="search" X also remains as a
+                         redundant clear-affordance — both are kept so
+                         users on browsers that hide the native X (Safari)
+                         still get a discoverable clear control. -->
+                         <button type="button"
+                                 v-show="filterKeyword.length > 0"
+                                 class="mw-modules-list-search-clear"
+                                 :aria-label="$lang('Clear search')"
+                                 v-on:click="filterClearKeyword()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"></path>
                             </svg>
-                        </span>
+                        </button>
 
                 </div>
 
@@ -346,6 +373,72 @@ export default {
 
 .modules-list {
     position: relative;
+}
+
+/*
+ * AI-173 (cycle-150 2026-05-10) — Module picker search clear button.
+ *
+ * The previous inline-styled <span> hit target was ~28x28 (1.4em SVG
+ * + 3px padding) — under the WCAG 2.5.5 / iOS HIG 44x44 floor.
+ *
+ * The new <button> uses min-width/min-height:44px with a centered
+ * SVG so the visual icon stays the same size but the tappable area
+ * is comfortable on mobile. Positioned absolute to overlay the right
+ * side of the search input — same anchor point as the previous span.
+ *
+ * The native type="search" clear cross (Chrome/Edge) still appears
+ * AS WELL — those browsers render a small X inside the input. Our
+ * button sits to the right of it as the dominant affordance, and on
+ * Safari/Firefox where the native X is suppressed our button is the
+ * only clear control — guarantees a discoverable mobile clear in
+ * every browser.
+ */
+.mw-modules-list-search-clear {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Offset from the parent's right by ~56px so we don't collide
+       with the dialog's close-modal-button (positioned absolute at
+       top:10 / right:10 of .modules-list — i.e. right next to the
+       search row). 56 = 44 button width + ~12 gap to the close-X.
+       The clear-search button sits visually INSIDE the search input
+       (because the input is the dominant child of the parent block),
+       and the close-the-picker X sits to its right at the dialog
+       corner. Two distinct affordances, no overlap. */
+    right: 56px;
+    z-index: 11;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px;
+    background: transparent;
+    border: 0;
+    color: #6b7280;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.mw-modules-list-search-clear:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #111827;
+}
+.mw-modules-list-search-clear:focus-visible {
+    outline: 2px solid rgb(59, 130, 246);
+    outline-offset: 2px;
+}
+
+/* Hide WebKit's native search clear cross when our explicit button
+   is the discoverable one — avoids two visually-competing X glyphs
+   stacked in the same corner of the input on Chrome/Edge. NOTE:
+   `display: none` is ignored by Chromium on this pseudo-element;
+   collapsing the width/height to 0 is the working approach. */
+.mw-modules-list-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+    width: 0;
+    height: 0;
 }
 </style>
 
