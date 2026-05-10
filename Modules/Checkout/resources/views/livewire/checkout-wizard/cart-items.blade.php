@@ -159,6 +159,18 @@
         font-size: 0.875rem;
         color: var(--primary-600, #2563eb);
         text-decoration: none;
+        /* Cycle-161 (2026-05-10): "Add more items" link measured 98x16
+           in the agent-test mobile audit — below WCAG 2.5.5 / iOS HIG
+           44x44 floor. Inline-flex + min-height keeps the visual link
+           text the same size while expanding the tap target. padding
+           gives extra horizontal room without disturbing the inline
+           layout. */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        min-width: 44px;
+        padding: 6px 12px;
     }
 
     .checkout-cart-add-more a:hover {

@@ -47,6 +47,43 @@
             padding: 1rem;
         }
     }
+
+    /*
+     * Cycle-161 (2026-05-10): /checkout mobile touch-target floor.
+     *
+     * UX-audit P2 follow-up findings (agent-test verification of
+     * AI-186 cycle-160 fix):
+     *   - Filament Wizard "Next" button (.fi-sc-wizard-footer .fi-btn)
+     *     measured 83x42 — height below WCAG 2.5.5 / iOS HIG 44x44.
+     *   - User-menu trigger (.fi-user-menu-trigger) measured 32x32 —
+     *     well below floor.
+     *
+     * Both rules are scoped to the checkout panel via .fi-panel-checkout
+     * so we don't touch other Filament panels' user-menu sizing (admin
+     * panel keeps its current density).
+     *
+     * The Wizard Next button uses min-height (not height) so the
+     * button still grows to fit longer translated labels ("Continue",
+     * "Place Order", etc.). User menu is fixed at 44x44 — it's an
+     * icon-only trigger, no label growth concern.
+     */
+    @media (max-width: 768px), (pointer: coarse) {
+        /* !important here because Filament's bundled `.fi-btn
+           { min-height: 36px }` rule loads AFTER this scoped style
+           tag in source order — even though our selector specificity
+           is higher, a later same-specificity rule with !important
+           on the Filament side could still win. Be defensive. */
+        .fi-panel-checkout .fi-sc-wizard-footer .fi-btn {
+            min-height: 44px !important;
+            min-width: 44px !important;
+            padding: 8px 16px;
+        }
+        .fi-panel-checkout .fi-user-menu-trigger {
+            min-width: 44px !important;
+            min-height: 44px !important;
+            padding: 6px;
+        }
+    }
 </style>
 
 <script>

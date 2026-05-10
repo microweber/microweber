@@ -189,6 +189,51 @@ class ShopDemoSeedCommand extends Command
             $this->line("Updated /shop page: id={$shop->id}");
         }
 
+        // 5. Upsert /cart Page (cycle-161 — agent-test mobile audit
+        //    follow-up). Without a Page at /cart the URL fell through
+        //    to the homepage and the cart-icon-counter looked broken
+        //    (cart had items but the page showed "Site Logo" content).
+        //    Microweber's canonical cart-view path IS the checkout
+        //    page: `mw.cart.add_and_show_modal()` opens a modal whose
+        //    Checkout button hits `/api/shop/redirect_to_checkout`
+        //    which routes to `/checkout/checkout` (rendered by the
+        //    Checkout module's layout.blade.php — that view embeds
+        //    `<module type="shop/cart" template="checkout_v2_sidebar"/>`
+        //    inline so the user sees both cart items + checkout form
+        //    on one mobile screen).
+        //    For the /cart standalone surface we render shop/cart with
+        //    the checkout_v2 template which IS shipped (verified in
+        //    Modules/Checkout/.../index.blade.php) plus a "Proceed to
+        //    Checkout" CTA so users can continue from a deep link.
+        $cart = Content::query()->where('url', 'cart')->where('content_type', 'page')->first();
+        $cartContent = '<div class="mw-demo-cart-wrap container py-4">'
+            . '<h2 class="mb-3">Your Cart</h2>'
+            . '<module type="shop/cart" template="checkout_v2" class="no-settings" data-checkout-link-enabled="y" />'
+            . '<div class="text-center mt-4">'
+            . '<a href="/checkout?nocache=1" class="btn btn-primary mw-add-to-cart-btn" style="min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;">Proceed to Checkout</a>'
+            . '</div>'
+            . '</div>';
+        if (!$cart) {
+            $cart = new Content();
+            $cart->title = 'Cart';
+            $cart->url = 'cart';
+            $cart->content_type = 'page';
+            $cart->subtype = 'static';
+            $cart->is_active = 1;
+            $cart->is_deleted = 0;
+            $cart->is_home = 0;
+            $cart->parent = 0;
+            $cart->content = $cartContent;
+            $cart->description = 'Auto-generated cart page — populated via mw:shop-demo-seed.';
+            $cart->save();
+            $this->info("Created /cart page: id={$cart->id}");
+        } else {
+            $cart->is_active = 1;
+            $cart->content = $cartContent;
+            $cart->save();
+            $this->line("Updated /cart page: id={$cart->id}");
+        }
+
         $publicUrl = $this->resolvePublicUrl($shop);
         $cartUrl = function_exists('site_url')
             ? rtrim((string) site_url(), '/') . '/cart'
