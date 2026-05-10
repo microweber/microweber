@@ -276,4 +276,100 @@
         padding: 6px 4px;
         align-items: center;
     }
+
+    /*
+     * AI-236 (cycle-175 2026-05-10) — Live Edit mobile editing chrome
+     * (P1 ROOT UNBLOCKER for AI-208 / AI-218 / AI-222).
+     *
+     * agent-test reported (at /admin/live-edit?url=AI207-Test-Blog-Post
+     * 390×844):
+     *   - No visible cursor after double-click on editable element
+     *   - No focus ring / highlight around element in edit mode
+     *   - No inline/bottom-sheet toolbar surfaces
+     *
+     * Root cause: the existing `.element-active` outline rule (in
+     * `frontend-assets-libs/css/liveedit.css` line 1697:
+     * `outline: 1px dotted #A6A6A6`) is a barely-visible 1px gray
+     * outline that disappears against most backgrounds on mobile —
+     * especially in dark mode or against high-contrast images /
+     * colored sections. The element IS getting the `.element-active`
+     * class on dblclick (verified — JS edit-mode infrastructure
+     * works), but the visual signal is too subtle for mobile users
+     * to perceive.
+     *
+     * `public-touch.css` is loaded INSIDE the iframe (via the
+     * Bootstrap template's master layout) so a rule placed here at
+     * higher specificity than the cycle-N base rule wins on the
+     * iframe's text/module elements without needing a separate
+     * frontend-assets package rebuild.
+     *
+     * Cycle-175 fix (mobile + touch only — desktop's 1px dotted
+     * gray is preserved by being outside this media query):
+     *
+     *   1. `.element-active` outline → 2px solid Bootstrap-blue
+     *      with 2px offset + outer box-shadow halo so the focus
+     *      ring is high-contrast on every background.
+     *   2. `caret-color: #0d6efd` on `.element-active *` so the
+     *      blinking text cursor is visible and clearly tracks
+     *      where typing will go.
+     *   3. Floor `#mw-text-editor` inline-toolbar buttons to 44×44
+     *      with bottom-sheet positioning (fixed to viewport
+     *      bottom, full-width) so the Bold/Italic/Link/Heading
+     *      toolbar actually surfaces on mobile above the iOS
+     *      keyboard.
+     *   4. Bump `body.mw-live-edit .plain-text` empty-state
+     *      min-height from 12px → 24px so empty paragraphs have
+     *      a usable tap area.
+     */
+    .mw-live-edit .element-active,
+    body.mw-live-edit .element-active {
+        outline: 2px solid #0d6efd !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 1px rgba(13, 110, 253, 0.25), inset 0 0 1px #fff !important;
+    }
+    .mw-live-edit .element-active,
+    .mw-live-edit .element-active *,
+    body.mw-live-edit .element-active,
+    body.mw-live-edit .element-active * {
+        caret-color: #0d6efd !important;
+    }
+    /* Bottom-sheet positioning for the inline WYSIWYG toolbar so it
+       surfaces above the iOS keyboard and browser chrome on every
+       mobile viewport, regardless of where the editing element sits. */
+    #mw-text-editor,
+    body.mw-live-edit #mw-text-editor {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        top: auto !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        z-index: 1050 !important;
+        padding: 8px !important;
+        gap: 4px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        background: #ffffff !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+    #mw-text-editor .mw-ui-btn,
+    #mw-text-editor a.mw-ui-btn-medium,
+    #mw-text-editor button,
+    #mw-text-editor a,
+    body.mw-live-edit #mw-text-editor button,
+    body.mw-live-edit #mw-text-editor a {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    /* Empty editable paragraph hit-area floor — 12px is too small
+       to reliably tap into edit mode on touch devices. */
+    body.mw-live-edit .plain-text,
+    body.mw-live-edit .plain-text:empty {
+        min-height: 24px;
+    }
 }
