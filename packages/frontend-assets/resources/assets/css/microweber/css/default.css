@@ -4803,4 +4803,48 @@ html[dir="rtl"] .mw-text-start {
         align-items: center;
         padding: 6px 4px;
     }
+
+    /*
+     * AI-184 (cycle-158 2026-05-10): public-side ecommerce + pagination
+     * touch-target floor.
+     *
+     * UX-audit P2 finding (agent-test Big2 demo scan at 390x844):
+     *   - Product title links inside `<h3 class="mw-products-title">`
+     *     measured 132-248 wide x 34 tall — height below floor.
+     *   - Pagination links `.page-link` (Bootstrap pagination) measured
+     *     33-35 wide x 45 tall — width below floor.
+     *
+     * The product-title link itself carries no class — Big2's
+     * `mw-products-title` h3 wraps a bare `<a>`. Targeting via
+     * `.mw-products-title a` is safe because that namespace is owned by
+     * the shop products module template (Modules/Product) and shipped
+     * across templates that render product cards.
+     *
+     * `.page-link` is Bootstrap's own pagination class — we floor it
+     * across ALL public pages (not just Big2). This is generally
+     * desirable on mobile and Bootstrap itself does not ship a 44px
+     * default. min-width clamps the narrow numeric chips ("1", "2"); the
+     * existing pagination already passes the height side at ~45px.
+     *
+     * Use min-height for product titles so the link still wraps
+     * naturally on its own line — we just guarantee a minimum tappable
+     * area. inline-flex + align-items:center centers the title text
+     * inside the taller box.
+     */
+    .mw-products-title a,
+    .module-shop-products .post-holder h3 a,
+    .module-shop-products h3.mw-products-title a {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+    }
+    .page-link,
+    .pagination .page-item > .page-link {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
 }
