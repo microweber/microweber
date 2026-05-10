@@ -16,6 +16,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 
 use Modules\Backup\Console\Commands\BackupCommand;
+use Modules\Backup\Console\Commands\Big2DemoSeedCommand;
 use Modules\Backup\Console\Commands\TemplateSeedRegenerateCommand;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Modules\Backup\Filament\Resources\BackupScheduleResource;
@@ -51,6 +52,9 @@ class BackupServiceProvider extends BaseModuleServiceProvider
             // AI-101 + AI-103 (cycle-141 2026-05-09): operational fix path
             // for the Big2 mw_default_content.zip seed regeneration.
             TemplateSeedRegenerateCommand::class,
+            // Cycle-157 (2026-05-10): Big2 demo-page seeder for mobile
+            // audits — `php artisan mw:big2-demo-seed`.
+            Big2DemoSeedCommand::class,
         ]);
 
         // Register Filament resources
