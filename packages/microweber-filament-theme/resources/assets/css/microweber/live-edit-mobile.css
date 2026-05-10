@@ -550,4 +550,29 @@
         justify-content: center;
         position: relative;
     }
+
+    /*
+     * AI-216 (cycle-167 2026-05-10) — Live Edit SAVE button below
+     * 44x44 floor.
+     *
+     * agent-test reported the toolbar SAVE button at 66x36px — height
+     * 8px below WCAG 2.5.5 / iOS HIG 44 floor. The button source
+     * (SaveButton.vue:109) is `<button class="btn btn-dark live-edit-
+     * toolbar-buttons" id="save-button">` — Bootstrap `.btn` defaults
+     * to ~36px tall.
+     *
+     * Same pattern as AI-181 (VIEW button) — pin min-width/min-height
+     * 44x44 + inline-flex centering. Targets both the id and the
+     * class so the rule binds whichever selector future refactors
+     * keep.
+     */
+    .mw-admin-live-edit-page #save-button,
+    .mw-live-edit-page #save-button {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
 }
