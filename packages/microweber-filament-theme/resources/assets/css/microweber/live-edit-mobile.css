@@ -575,4 +575,115 @@
         align-items: center;
         justify-content: center;
     }
+
+    /*
+     * AI-231 (cycle-173 2026-05-10) — Live Edit sidebar / panel
+     * touch-target floors discovered by agent-test's audit.
+     *
+     * Five sub-44 controls in the live-edit chrome at 390×844:
+     *
+     *   1. `.mw-control-boxclose` panel close icon — 25×25 (4
+     *      instances; Element Style Editor + Template Settings
+     *      panel close). Existing rule
+     *      `.mw-control-box-default .mw-control-boxclose` hard-
+     *      sets `width: 20px; height: 20px;` — must override
+     *      with `width/height !important` (NOT `min-width` —
+     *      the existing rule's fixed `width` would still win).
+     *   2. `.reset-template-settings-and-stylesheet-button`
+     *      ("Reset stylesheet settings") — 20×20. Tester flagged
+     *      this as actively dangerous on mobile because users
+     *      will miss-tap and accidentally reset.
+     *   3. `.mw-ai-chat-box-action-voice` AI chat voice input —
+     *      30×30 (2 instances)
+     *   4. `.mw-ai-chat-box-action-send` AI chat send button —
+     *      320×40 (width OK, height 4px below floor)
+     *   5. `a.dropdown-trigger[aria-label="Tools menu"]` Tools
+     *      menu in toolbar — 46×35 (height 9px below floor)
+     *
+     * Note on scoping: these elements (control-boxes + AI chat)
+     * are portaled to body root, NOT inside the
+     * `.mw-live-edit-page` wrapper. The `.mw-*` class names
+     * themselves are live-edit-specific (they don't appear
+     * outside the live-edit chrome) so direct-class selectors
+     * are safe.
+     */
+    .mw-control-box .mw-control-boxclose,
+    .mw-control-box-default .mw-control-boxclose,
+    .mw-control-box-right .mw-control-boxclose {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        box-sizing: content-box;
+    }
+    button.reset-template-settings-and-stylesheet-button,
+    .reset-template-settings-and-stylesheet-button {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: auto;
+        height: auto;
+        padding: 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    button.mw-ai-chat-box-action-voice,
+    .mw-ai-chat-box-action-voice {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px;
+        height: 44px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    button.mw-ai-chat-box-action-send,
+    .mw-ai-chat-box-action-send {
+        min-height: 44px !important;
+        height: auto;
+        padding: 10px 14px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    a.dropdown-trigger[aria-label="Tools menu"],
+    .live-edit-toolbar a.dropdown-trigger,
+    #toolbar a.dropdown-trigger[aria-label="Tools menu"] {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    /*
+     * AI-232 (cycle-173 2026-05-10) — Live Edit toolbar overflow.
+     *
+     * The `<div id="toolbar" class="shadow-sm md:px-6 px-3 gap-3">`
+     * (admin live-edit toolbar) measured `scrollWidth=446` on a
+     * 390px viewport — overflows by 56px. Tester saw this as
+     * horizontal-scroll-required which is poor UX on mobile.
+     *
+     * Two fixes layered:
+     *   (a) `flex-wrap: wrap` lets the toolbar break onto a second
+     *       row instead of overflowing horizontally.
+     *   (b) Defensive `overflow-x: auto` with `scroll-snap-type`
+     *       so if (a) fails for some reason (e.g. min-content too
+     *       wide), the user still gets a scrollable toolbar with
+     *       snap points instead of a hard-cut overflow.
+     */
+    .mw-admin-live-edit-page #toolbar,
+    .mw-live-edit-page #toolbar {
+        flex-wrap: wrap !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .mw-admin-live-edit-page #toolbar > *,
+    .mw-live-edit-page #toolbar > * {
+        scroll-snap-align: start;
+    }
 }
