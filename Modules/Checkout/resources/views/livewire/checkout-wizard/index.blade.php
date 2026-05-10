@@ -72,13 +72,28 @@
            { min-height: 36px }` rule loads AFTER this scoped style
            tag in source order — even though our selector specificity
            is higher, a later same-specificity rule with !important
-           on the Filament side could still win. Be defensive. */
-        .fi-panel-checkout .fi-sc-wizard-footer .fi-btn {
+           on the Filament side could still win. Be defensive.
+           Cycle-162 (2026-05-10 / AI-203 follow-up): added defensive
+           higher-specificity duplicates per PM after agent-test
+           reported the cycle-161 rule losing in their environment.
+           My direct probe at /checkout?nocache=99 showed cycle-161
+           winning (Next 83×44, UserMenu 44×44, computedMinH 44px),
+           so the failure was likely a stale CSS bundle on their
+           side — but adding extra winning paths costs nothing and
+           protects against any future Filament base-CSS bump that
+           might actually beat the original (0,3,1) selector. */
+        .fi-panel-checkout .fi-sc-wizard-footer .fi-btn,
+        .fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
+        .fi-panel-checkout .checkout-wizard-container .fi-sc-wizard-footer .fi-btn,
+        .fi-panel-checkout form .fi-sc-wizard-footer button.fi-btn {
             min-height: 44px !important;
             min-width: 44px !important;
             padding: 8px 16px;
         }
-        .fi-panel-checkout .fi-user-menu-trigger {
+        .fi-panel-checkout .fi-user-menu-trigger,
+        .fi-panel-checkout .fi-topbar .fi-user-menu .fi-user-menu-trigger,
+        .fi-panel-checkout .fi-topbar [aria-haspopup="menu"].fi-user-menu-trigger,
+        body.fi-panel-checkout button.fi-user-menu-trigger {
             min-width: 44px !important;
             min-height: 44px !important;
             padding: 6px;

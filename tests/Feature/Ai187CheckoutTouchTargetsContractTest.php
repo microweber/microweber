@@ -83,12 +83,21 @@ class Ai187CheckoutTouchTargetsContractTest extends TestCase
 
         // Filament's bundled `.fi-btn { min-height: 36px }` loads after
         // this style tag in source order — !important is required to win.
+        // Cycle-162 (AI-203 follow-up) extended the Next-button selector
+        // into a comma-separated list of defensive duplicates; pin the
+        // canonical selector and the !important rule body separately.
+        $this->assertStringContainsString(
+            '.fi-panel-checkout .fi-sc-wizard-footer .fi-btn',
+            $idx,
+            'index.blade.php MUST include the canonical '
+            . '.fi-panel-checkout .fi-sc-wizard-footer .fi-btn selector.'
+        );
         $this->assertMatchesRegularExpression(
-            '/\.fi-panel-checkout\s+\.fi-sc-wizard-footer\s+\.fi-btn\s*\{[\s\S]{0,800}min-height:\s*44px\s*!important/m',
+            '/\.fi-panel-checkout\s+\.fi-sc-wizard-footer\s+\.fi-btn[\s\S]{0,2000}min-height:\s*44px\s*!important/m',
             $idx,
             'index.blade.php MUST pin min-height:44px !important on '
-            . '.fi-panel-checkout .fi-sc-wizard-footer .fi-btn so the '
-            . 'Filament Wizard Next button meets the floor (was 83x42).'
+            . 'the .fi-panel-checkout .fi-sc-wizard-footer .fi-btn rule '
+            . '(possibly grouped with defensive duplicates).'
         );
     }
 
@@ -98,20 +107,60 @@ class Ai187CheckoutTouchTargetsContractTest extends TestCase
         $idx = $this->read('Modules/Checkout/resources/views/livewire/checkout-wizard/index.blade.php');
 
         // Scoped to .fi-panel-checkout so other Filament panels (admin
-        // etc.) keep their existing user-menu density.
-        $this->assertMatchesRegularExpression(
-            '/\.fi-panel-checkout\s+\.fi-user-menu-trigger\s*\{[\s\S]{0,800}min-width:\s*44px\s*!important/m',
+        // etc.) keep their existing user-menu density. Cycle-162 (AI-203
+        // follow-up) extended this into a comma-separated list of
+        // defensive duplicates; pin the canonical selector + the rule
+        // body separately.
+        $this->assertStringContainsString(
+            '.fi-panel-checkout .fi-user-menu-trigger',
             $idx,
-            'index.blade.php MUST pin min-width:44px !important on '
-            . '.fi-panel-checkout .fi-user-menu-trigger so the trigger '
-            . 'meets the floor (was 32x32) WITHOUT touching other '
-            . 'Filament panels.'
+            'index.blade.php MUST include the canonical '
+            . '.fi-panel-checkout .fi-user-menu-trigger selector.'
         );
         $this->assertMatchesRegularExpression(
-            '/\.fi-panel-checkout\s+\.fi-user-menu-trigger\s*\{[\s\S]{0,800}min-height:\s*44px\s*!important/m',
+            '/\.fi-panel-checkout\s+\.fi-user-menu-trigger[\s\S]{0,2000}min-width:\s*44px\s*!important/m',
             $idx,
-            'index.blade.php MUST pin min-height:44px !important on '
-            . '.fi-panel-checkout .fi-user-menu-trigger.'
+            'index.blade.php MUST pin min-width:44px !important on the '
+            . '.fi-panel-checkout .fi-user-menu-trigger rule.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.fi-panel-checkout\s+\.fi-user-menu-trigger[\s\S]{0,2000}min-height:\s*44px\s*!important/m',
+            $idx,
+            'index.blade.php MUST pin min-height:44px !important on the '
+            . '.fi-panel-checkout .fi-user-menu-trigger rule.'
+        );
+    }
+
+    #[Test]
+    public function cycle_162_defensive_duplicate_selectors_present(): void
+    {
+        $idx = $this->read('Modules/Checkout/resources/views/livewire/checkout-wizard/index.blade.php');
+
+        // Cycle-162 added defensive higher-specificity duplicates per
+        // PM after agent-test reported the cycle-161 rule "regressing"
+        // (which my browser couldn\'t reproduce — see AI-203 thread).
+        // Multiple winning paths protect against any future Filament
+        // base-CSS bump.
+        $this->assertMatchesRegularExpression('/[Cc]ycle-162/', $idx,
+            'index.blade.php MUST carry the cycle-162 anchor (any case) '
+            . 'for the AI-203 defensive-duplicate hardening.');
+        // Higher-spec Next button duplicate (adds the .fi-color-primary
+        // class which Filament puts on the active wizard step's submit
+        // button — bumps specificity from 0,3,1 to 0,4,1).
+        $this->assertStringContainsString(
+            '.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary',
+            $idx,
+            'index.blade.php MUST include the .fi-color-primary defensive '
+            . 'duplicate so a higher-specificity selector also targets the '
+            . 'active wizard Next button.'
+        );
+        // Body-level UserMenu duplicate
+        $this->assertStringContainsString(
+            'body.fi-panel-checkout button.fi-user-menu-trigger',
+            $idx,
+            'index.blade.php MUST include the body.fi-panel-checkout '
+            . 'button.fi-user-menu-trigger defensive duplicate (specificity '
+            . 'bumped via element-selector + body-class).'
         );
     }
 
