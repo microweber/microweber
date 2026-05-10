@@ -204,11 +204,28 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
             Section::make(__('Shipping Address'))
                 ->description(__('Where should we deliver your order?'))
                 ->schema([
+                    // AI-186 (cycle-160 2026-05-10): the cycle-N audit fix
+                    // chained `->autocomplete('country')` on Select to give
+                    // the browser an autofill hint, but Filament's Select
+                    // component does not expose an `autocomplete()` method
+                    // (only TextInput does — Select renders a custom
+                    // Alpine combobox, not a native <select>, so the
+                    // HTML5 autocomplete token has no useful target).
+                    // Replaced with extraAttributes so the Select wrapper
+                    // still carries the browser-autofill hint AND the
+                    // aria-required attribute. The wrapper attribute is a
+                    // best-effort hint — browsers won't autofill a custom
+                    // combobox the way they do a native <select>, but at
+                    // least we no longer crash with `Method
+                    // Filament\Forms\Components\Select::autocomplete does
+                    // not exist.`
                     Select::make('country')
                         ->label(__('Country'))
                         ->required()
-                        ->autocomplete('country')
-                        ->extraAttributes(['aria-required' => 'true'])
+                        ->extraAttributes([
+                            'aria-required' => 'true',
+                            'autocomplete' => 'country',
+                        ])
                         ->searchable()
                         ->options(function () {
                             return app()->country_manager->getCountries();
