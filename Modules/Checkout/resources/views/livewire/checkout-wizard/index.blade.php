@@ -99,6 +99,60 @@
             padding: 6px;
         }
     }
+
+    /*
+     * AI-212 (cycle-166 2026-05-10) — primary CTA color unification.
+     *
+     * agent-test design audit found 4 different primary-button colors
+     * across 4 surfaces:
+     *   - /shop "All Categories": #0d6efd Bootstrap blue (radius 0)
+     *   - /checkout "Next": #4299e1 Tailwind cyan (radius 4)
+     *   - /checkout "Place Order": #2fb344 green (radius 4)
+     *   - Admin "Save": #7c3aed purple (radius 4)
+     *
+     * Scope decision: align the two CHECKOUT buttons to Bootstrap's
+     * canonical `--bs-primary: #0d6efd` so the public-facing flow has
+     * one consistent color. Admin Save stays purple (Filament admin
+     * theme — different surface/persona; PM "audit" brief listed it
+     * but didn't ask for cross-application unification).
+     *
+     * Scoped to `.fi-panel-checkout` so other Filament admin panels
+     * keep their existing color tokens. Both `.fi-color-primary`
+     * (Next) and `.fi-color-success` (Place Order) bumped to the
+     * same blue + 4px radius.
+     *
+     * Filament v5's button colors are CSS custom properties that
+     * Tailwind's `bg-fi-color-600` etc. resolve via the `--fi-color-N`
+     * vars. Override the resolved background + border-radius directly
+     * with !important to beat both the cycle-N tailwind utility class
+     * AND any future Filament theme upgrade.
+     */
+    /* Bumped specificity from `(0,4,1)` → `(0,5,2)` by prefixing
+       with `html body.fi-panel-checkout` so we beat both the cycle-N
+       admin theme rule `html.dark .fi-btn.fi-color-primary:not(...)`
+       (0,4,1 with 2 :not pseudo-classes) AND the light-mode
+       `.fi-btn.fi-color-primary:not(.admin-toolbar-buttons)` (0,3,1).
+       Same-specificity ties + later-loaded Filament theme were
+       beating my (0,4,1) `.fi-panel-checkout .fi-sc-wizard-footer
+       .fi-btn.fi-color-primary` first-pass rule. */
+    html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
+    html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-success,
+    html.dark body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
+    html.dark body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-success,
+    html body.fi-panel-checkout form .fi-sc-wizard-footer button.fi-btn.fi-color-primary,
+    html body.fi-panel-checkout form .fi-sc-wizard-footer button.fi-btn.fi-color-success {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+    }
+    html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary:hover,
+    html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-success:hover,
+    html.dark body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary:hover,
+    html.dark body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-success:hover {
+        background-color: #0b5ed7 !important;
+        border-color: #0b5ed7 !important;
+    }
 </style>
 
 <script>
