@@ -817,6 +817,40 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply bg-green-500 text-white;
 }
 
+/*
+ * AI-174 (cycle-151 2026-05-10) — Saved ✓ toast emphasis (admin chrome).
+ *
+ * mw.notification.* writes to window.top.document.body, which is the
+ * admin Filament chrome — so the styling for the page-saved toast
+ * lives in the filament-theme bundle, not the canvas-iframe css.
+ *
+ * The toast HTML is `<span class="mw-notification-saved-toast">
+ * <svg class="mw-notification-saved-toast__icon">…✓…</svg>
+ * <span class="mw-notification-saved-toast__label">Page saved</span>
+ * </span>` — emitted from SaveButton.vue:50 after `mw.drag.save()`
+ * resolves. The defaults give the checkmark + label some breathing
+ * room so the toast reads as a deliberate confirmation rather than a
+ * passing status sentence — the AI-174 audit complaint was "no
+ * confirmation appears / users uncertain if work was saved".
+ */
+.mw-notification-saved-toast {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+}
+.mw-notification-saved-toast__icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+}
+.mw-notification-saved-toast__label {
+    letter-spacing: 0.01em;
+}
+
 .animate-pulse {
     animation: none;
 }

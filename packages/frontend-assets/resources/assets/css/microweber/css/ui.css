@@ -7218,6 +7218,36 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
 .mw-notification > div > * {
     vertical-align: middle;
 }
+
+/*
+ * AI-174 (cycle-151 2026-05-10) — Saved ✓ toast emphasis.
+ *
+ * The page-saved success toast (fired from SaveButton.vue:50 after
+ * `mw.drag.save()` resolves) carries an inline SVG ✓ glyph + label
+ * wrapped in `.mw-notification-saved-toast`. The defaults give the
+ * checkmark + label some breathing room so the toast reads as a
+ * deliberate confirmation rather than a passing status sentence —
+ * the original UX-audit complaint was "no confirmation appears /
+ * users uncertain if work was saved".
+ */
+.mw-notification-saved-toast {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+}
+.mw-notification-saved-toast__icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+}
+.mw-notification-saved-toast__label {
+    letter-spacing: 0.01em;
+}
+
 .mw-success {
     background-color: #309e65;
     color: #fff;
