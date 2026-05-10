@@ -541,4 +541,55 @@ button.btn-icon.live-edit-toolbar-buttons,
     }
 }
 
+/*
+ * AI-226 / AI-227 (cycle-169 2026-05-10) — admin-mobile touch-target
+ * floors from agent-test's Drunk Designer admin-settings audit.
+ *
+ *   AI-226 — Filament toggle switches (.fi-toggle / .fi-fo-toggle)
+ *            measured 44×24 on /admin/settings/general. The visible
+ *            switch is a `<button class="fi-toggle">` rendered by
+ *            vendor/filament/support/resources/views/components/toggle.blade.php.
+ *            Filament's base CSS sets the height to `1.5rem` (24px) —
+ *            below WCAG 2.5.5 / iOS HIG 44 floor on the smaller axis.
+ *            Floor `min-height: 44px` so the tap area meets the
+ *            standard. Width already at 44px from Filament base.
+ *
+ *   AI-227 — Reorder records icon button (.fi-icon-btn with the
+ *            wire:click="toggleTableReordering" / "Reorder records"
+ *            label) measured 36×36. Filament base sets `.fi-icon-btn`
+ *            to `size-9` (36px). Floor every `.fi-icon-btn` inside
+ *            `.fi-ta-header-toolbar` (where the reorder trigger
+ *            lives) to 44×44 so it — plus any other table-header
+ *            icon buttons (column manager, search-input clear, etc.)
+ *            — meets the floor.
+ *
+ * Scoped to `body.fi-panel-admin` so checkout panel + other Filament
+ * panels keep their existing densities. Same media query as cycle-168
+ * (`max-width: 1023.98px`, `hover: none and pointer: coarse`).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* AI-226 — Filament toggle switches.
+       The visible switch is `<button class="fi-toggle fi-fo-toggle"
+       role="switch">`. Filament's base height is 24px; bump to 44.
+       Use !important because Filament's bundled .fi-toggle rule
+       loads after our css and wins on equal specificity. */
+    body.fi-panel-admin .fi-toggle,
+    body.fi-panel-admin .fi-fo-toggle,
+    body.fi-panel-admin button.fi-toggle[role="switch"] {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
 
+    /* AI-227 — Reorder records icon button + sibling table-header
+       icon buttons. Filament's `.fi-icon-btn` defaults to size-9
+       (36px). Floor any icon button inside the table header toolbar
+       to 44×44 so the reorder trigger (and column manager, etc.)
+       meets the touch-target floor. */
+    body.fi-panel-admin .fi-ta-header-toolbar .fi-icon-btn,
+    body.fi-panel-admin .fi-ta .fi-icon-btn[wire\:click*="Reorder"],
+    body.fi-panel-admin .fi-ta .fi-icon-btn[wire\:click*="reorder"],
+    body.fi-panel-admin .fi-ta-header .fi-icon-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
