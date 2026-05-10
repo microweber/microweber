@@ -237,4 +237,43 @@
         min-width: 28px !important;
         min-height: 28px !important;
     }
+
+    /*
+     * AI-233 (cycle-174 2026-05-10) — footer link touch-target floor.
+     *
+     * agent-test's design audit measured footer text links at 20-23px
+     * tall on every public page (/, /shop, /cart, /checkout, /blog,
+     * /contact). Footers in the Bootstrap template render inside a
+     * `<section class="footer-background ...">` wrapper, with links
+     * variously inside `<p>`, `<li>`, and `<span class="mw-powered-by">`
+     * containers — no single common parent class.
+     *
+     * Floor `min-height: 44px` on every `<a>` inside the
+     * `.footer-background` section, with `inline-flex` so the tap area
+     * grows visually without breaking the inline text flow. Width
+     * grows naturally by content length (text links keep their natural
+     * width).
+     *
+     * The `mw-powered-by` "Create a website" + "Microweber" sub-links
+     * also caught — these are inline within a sentence so they get
+     * `inline-flex` + `padding: 6px 4px` for vertical breathing room.
+     */
+    .footer-background a,
+    section.footer-background a,
+    [class*="footer-background"] a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+    /* The mw-powered-by inline-credit links sit inside a sentence —
+       they need to keep wrapping naturally with the surrounding text,
+       so reduce padding and use baseline alignment. */
+    .footer-background .mw-powered-by a,
+    section.footer-background .mw-powered-by a {
+        min-height: 44px;
+        padding: 6px 4px;
+        align-items: center;
+    }
 }

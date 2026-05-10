@@ -125,9 +125,19 @@ class AdminLiveEditPage extends Page
         // drag from left rail" flow that IS the right path for adding
         // blocks — without trying to embed that flow inside this
         // picker (which would conflict with the canvas iframe).
+        // AI-234 (cycle-174 2026-05-10): description shortened from
+        // 200 chars / 32 words to ~95 chars / 17 words. agent-test
+        // measured the original copy overflowing the card container
+        // at 320px width (line-clamp:3 from cycle-148 only HID the
+        // overflow with ellipsis — the user couldn't read enough of
+        // the sentence to understand what to do). The shorter copy
+        // fits in 2 lines at 230px text-column width while still
+        // pointing at the "Insert layout" toolbar button + the
+        // left-rail drag affordance — same UX intent, half the
+        // characters.
         $actions[] = [
             'title' => 'Add to this page',
-            'description' => 'To add text, headings, or modules to the page you are editing right now, close this picker and tap the Insert layout button in the toolbar — or drag a block from the left rail.',
+            'description' => 'Close this picker, then tap Insert layout in the toolbar — or drag a block from the left rail.',
             'action' => 'addToCurrentPageAction',
             'icon' => 'heroicon-o-cursor-arrow-rays',
         ];
