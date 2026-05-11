@@ -728,3 +728,80 @@ button.btn-icon.live-edit-toolbar-buttons,
         justify-content: center;
     }
 }
+
+/*
+ * AI-235 (cycle-176 2026-05-10) — admin tables mobile density.
+ *
+ * agent-test reported: "275px per row × 25 rows = 6,875px scroll"
+ * at 390×844 — mobile users see only 1 row per viewport, making
+ * the admin tables ("Posts", "Products", "Orders") effectively
+ * unusable for browsing. After cycle-167-cycle-175 row-height
+ * was already brought down to ~226px; cycle-176 tightens further
+ * to a target ~140px.
+ *
+ * Each `.fi-ta-split` row in the card-grid layout is structured:
+ *   - `.fi-ta-col fi-growable` main content area (186h)
+ *     - `.group.flex.flex-col.sm:flex-row.py-4.gap-4` (Tailwind
+ *       mobile-first: column on <640px, row on ≥640px) — the
+ *       py-4 (16px vert) + gap-4 (16px) accumulates to ~32px
+ *       of fixed chrome around the title/status content.
+ *     - `.w-full.flex.flex-col.sm:flex-row.gap-3` (title row;
+ *       column on <640px so title + meta + status badge stack)
+ *     - `.flex.flex-row.items-center.mt-2.sm:mt-0` (44h actions
+ *       row from cycle-172).
+ *
+ * Cycle-176 fix (mobile + touch only via media query):
+ *   1. Tighten the row's outer flex-column padding from py-4
+ *      → py-2 and the gap from gap-4 → gap-2 so each row sheds
+ *      ~16-24px of vertical chrome.
+ *   2. Tighten the inner title-row gap from gap-3 → gap-1 so
+ *      title + status badge sit closer together on stacked
+ *      mobile column layout.
+ *   3. Tighten `.mt-2` action-row top margin → 0.5rem (8px,
+ *      half the Tailwind mt-2 8→2 factor) so the action row
+ *      hugs the title block.
+ *   4. Cap `.fi-ta-col` overflow so multi-line meta strings
+ *      truncate to 2 lines instead of wrapping to 3-4.
+ *
+ * Touch-target floors from cycle-168/172 are NOT changed — the
+ * 44×44 row-action anchor floor is preserved (only outer padding
+ * tightens).
+ *
+ * Scope: `body.fi-panel-admin` so checkout panel + other Filament
+ * panels keep their existing densities. Same media query as
+ * cycle-168/169/170/171/172.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Outer row: Tailwind py-4 (16px) + gap-4 (16px) → py-2 + gap-2 */
+    body.fi-panel-admin .fi-ta-split > .fi-ta-col .group.flex.flex-col,
+    body.fi-panel-admin .fi-ta-split .group.flex {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Inner title row: Tailwind gap-3 (12px) → gap-1 (4px) so title
+       and status badge sit closer in stacked column layout. */
+    body.fi-panel-admin .fi-ta-split .w-full.flex.flex-col.sm\:flex-row.gap-3,
+    body.fi-panel-admin .fi-ta-split .w-full.flex.flex-col {
+        gap: 0.25rem !important;
+    }
+
+    /* Action-row top margin: Tailwind mt-2 (8px) → mt-1 (4px). */
+    body.fi-panel-admin .fi-ta-split .flex.flex-row.mt-2,
+    body.fi-panel-admin .fi-ta-split .mt-2 {
+        margin-top: 0.25rem !important;
+    }
+
+    /* Multi-line meta truncation — cap at 2 lines so URL slugs +
+       categories don't wrap to 3-4 lines on narrow viewports. */
+    body.fi-panel-admin .fi-ta-split .fi-ta-col .text-muted,
+    body.fi-panel-admin .fi-ta-split .fi-ta-col .text-sm,
+    body.fi-panel-admin .fi-ta-split [class*="text-gray"]:not(button):not(a) {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
