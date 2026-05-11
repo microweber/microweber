@@ -197,21 +197,17 @@ class Ai263PhaseB4FrontendAndCollapseNavContractTest extends TestCase
     {
         $master = $this->read('Templates/Bootstrap/resources/views/layouts/master.blade.php');
 
-        // After cycle-185 Phase B5 dropped mw_require_jquery() (the
-        // actual 806KB-savings cycle), the comment shifted from
-        // "REMAINING BLOCKER" to "5-phase lineage". Accept either
-        // state — both are valid points in the AI-263 timeline.
+        // After cycle-185 dropped mw_require_jquery() then cycle-188
+        // EMERGENCY ROLLBACK restored it per customer request, the
+        // comment can be in any of THREE states. Accept all of them.
         $partialState = strpos($master, 'REMAINING BLOCKER') !== false;
         $completeState = strpos($master, 'Phase B5') !== false
             && strpos($master, 'DROPPED') !== false;
-        $this->assertTrue($partialState || $completeState,
+        $rollbackState = strpos($master, 'EMERGENCY ROLLBACK') !== false;
+        $this->assertTrue($partialState || $completeState || $rollbackState,
             'Bootstrap master.blade.php MUST document AI-263 state — '
-            . 'either Phase B4 partial-progress (REMAINING BLOCKER) '
-            . 'OR Phase B5 complete (mw_require_jquery DROPPED).');
-        $this->assertStringContainsString('Phase B5', $master,
-            'Bootstrap master.blade.php MUST mention Phase B5 (either '
-            . 'as "next-cycle scope" if still partial OR as the '
-            . 'completed cycle that dropped the opt-in).');
+            . 'Phase B4 partial (REMAINING BLOCKER) OR Phase B5 '
+            . 'complete (DROPPED) OR cycle-188 EMERGENCY ROLLBACK.');
     }
 
     #[Test]

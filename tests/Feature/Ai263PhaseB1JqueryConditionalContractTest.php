@@ -85,13 +85,21 @@ class Ai263PhaseB1JqueryConditionalContractTest extends TestCase
             . 'jquery-ui.js script tags behind the $needsJqueryEager '
             . 'check so non-opt-in public pages skip them entirely.'
         );
-        // $needsJqueryEager combines admin path + opt-in flag.
-        $this->assertMatchesRegularExpression(
+        // $needsJqueryEager combines admin path + opt-in flag, OR
+        // is hardcoded to true after the cycle-188 emergency rollback.
+        $hasConditional = preg_match(
             '/\$needsJqueryEager\s*=\s*\$isAdminPath\s*\|\|\s*\$this->requestRequiresJquery\(\)/m',
-            $apijs,
-            'ApijsScriptTag MUST compute $needsJqueryEager as the OR '
-            . 'of isAdminPath (legacy admin) and requestRequiresJquery '
-            . '(template opt-in flag).'
+            $apijs
+        );
+        $hasRollbackForce = preg_match(
+            '/\$needsJqueryEager\s*=\s*true\s*;/m',
+            $apijs
+        );
+        $this->assertTrue($hasConditional || $hasRollbackForce,
+            'ApijsScriptTag MUST compute $needsJqueryEager as EITHER '
+            . 'the conditional OR (isAdminPath || requestRequiresJquery) '
+            . 'OR the cycle-188 rollback hardcoded-true. Both states '
+            . 'are valid points in the AI-263 timeline.'
         );
         // isAdminPath helper exists.
         $this->assertMatchesRegularExpression(
@@ -339,6 +347,19 @@ class Ai263PhaseB1JqueryConditionalContractTest extends TestCase
         // Set up a public request context and assert ApijsScriptTag
         // does NOT emit jquery.js eagerly. Forget the opt-in flag
         // in case a previous test set it.
+        //
+        // Cycle-188 EMERGENCY ROLLBACK skip-condition: when
+        // $needsJqueryEager is hardcoded to true (rollback state),
+        // this assertion no longer applies — Ai263RollbackContractTest
+        // covers the new state directly.
+        $apijsSrc = file_get_contents(base_path('src/MicroweberPackages/MetaTags/Entities/ApijsScriptTag.php'));
+        if (preg_match('/\$needsJqueryEager\s*=\s*true\s*;/m', $apijsSrc)) {
+            $this->markTestSkipped(
+                'cycle-188 rollback hardcodes $needsJqueryEager = true '
+                . '— see Ai263RollbackContractTest::public_path_now_'
+                . 'emits_eager_jquery for the inverse assertion.'
+            );
+        }
         $request = \Illuminate\Http\Request::create('/', 'GET');
         $this->app->instance('request', $request);
         $this->app->forgetInstance('mw.requires_jquery');

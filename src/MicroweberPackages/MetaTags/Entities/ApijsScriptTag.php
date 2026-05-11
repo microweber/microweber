@@ -46,7 +46,15 @@ class ApijsScriptTag implements TagInterface, \Stringable
         $apijs_combined_loaded_new = public_asset('vendor/microweber-packages/frontend-assets/build/frontend.js');
 
         $isAdminPath = $this->isAdminPath();
-        $needsJqueryEager = $isAdminPath || $this->requestRequiresJquery();
+        // Cycle-188 EMERGENCY ROLLBACK (2026-05-11): per customer
+        // request, jQuery + jQuery UI are restored on ALL pages —
+        // public, admin, opt-in or not. The conditional emission
+        // infrastructure (isAdminPath + requestRequiresJquery) stays
+        // in place as documentation of the prior Phase B5 design and
+        // as the restoration path if the customer reconsiders later.
+        // For now, force-emit is the simpler/safer state — templates
+        // that rely on jQuery never break.
+        $needsJqueryEager = true; // Always emit jQuery for all pages (rollback)
 
         $append_html = '';
 
@@ -58,6 +66,8 @@ class ApijsScriptTag implements TagInterface, \Stringable
             //     does this — its app.js + frontend.js events.js
             //     reference `$` at module-init time). Templates that
             //     don't opt in get zero eager jQuery — 806KB saved.
+            //   - Cycle-188 rollback: force-emit on every page so
+            //     templates that rely on jQuery never break.
             $append_html .= '<script src="' . $jquery . '" id="mw-jquery-js-libs-scripts"></script>' . "\r\n";
             $append_html .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
             $append_html .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";

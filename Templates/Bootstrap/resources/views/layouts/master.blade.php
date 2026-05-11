@@ -1,43 +1,45 @@
-<!DOCTYPE html>
-<html {!! lang_attributes() !!}>
-
-{{-- AI-263 Phase B5 (cycle-185 2026-05-11) — `mw_require_jquery()`
-     DROPPED. After 5 phases of the AI-263 P1 perf ticket:
-
-       B1 (cycle-181) — conditional jQuery emission infrastructure +
-                        vanilla CSRF fetch interceptor + opt-in flag
-                        for templates that still needed jQuery
-       B2 (cycle-182) — Slick → Swiper compatibility adapter (22
-                        module skins benefit without per-skin edits)
-       B3 (cycle-183) — Masonry / Datetimepicker / Chosen vanilla
-                        adapters + Captcha direct cleanup
-       B4 (cycle-184) — events.js:302 + Bootstrap collapseNav.js
-                        vanilla rewrites
-       B5 (cycle-185) — `mw.$` vanilla shim (this cycle): @core.js
-                        now returns an MwDomCollection vanilla
-                        wrapper when jQuery is absent; passes
-                        through to jQuery when present (admin /
-                        legacy). All chainable methods covered:
-                        addClass/removeClass/hasClass/attr/on/off/
-                        html/text/val/css/find/first/last/eq/parent/
-                        children/closest/is/append/show/hide/data/
-                        scrollTop/scroll/width/height/outerWidth/
-                        outerHeight/clone/each/trigger.
-
-     Net effect: every Bootstrap-template public page render no
-     longer eagerly loads jquery.js (285KB) + jquery-ui.js (521KB)
-     in <head> — saves 806KB of blocking JS.
-
-     The cycle-181 conditional emission infrastructure still
-     injects jQuery LATE (before </body>) on any page that
-     renders a marker-bearing module skin (slick-slider,
-     masonry, datetimepicker, chosen, data-mw-needs-jquery)
-     so the cycle-182/183 adapters that attach to jQuery
-     keep working on those pages.
-
-     Admin / legacy admin paths (/admin/*, /api/*) preserve
-     their existing eager jQuery loading per cycle-181's
-     isAdminPath() check in ApijsScriptTag. --}}
+@php
+    /*
+     * Cycle-188 EMERGENCY ROLLBACK (2026-05-11):
+     * `mw_require_jquery()` RESTORED on Bootstrap public pages
+     * per customer request. Templates rely on jQuery and need it
+     * to function correctly — overrides the AI-263 Phase B5
+     * cycle-185 drop.
+     *
+     * AI-263 lineage:
+     *   B1 (cycle-181) — conditional jQuery emission + vanilla CSRF
+     *   B2 (cycle-182) — Slick → Swiper adapter
+     *   B3 (cycle-183) — Masonry / Datetimepicker / Chosen adapters
+     *   B4 (cycle-184) — events.js + collapseNav.js vanilla
+     *   B5 (cycle-185) — mw.$ vanilla shim + mw_require_jquery DROPPED
+     *                    (saved 806KB on every Bootstrap page render)
+     *   C  (cycle-186) — Phase C network-payload baseline confirmed
+     *                    the 806KB drop + 57% public-page JS reduction
+     *   Cycle-188 (this) — EMERGENCY ROLLBACK restores call per
+     *                      customer request; the 806KB returns but
+     *                      adapter infrastructure stays additive.
+     *
+     * The full AI-263 B1-B5 + C infrastructure is RETAINED — all the
+     * adapters (Swiper, Masonry, Datetimepicker, Chosen, Captcha
+     * vanilla) + `mw.$` hybrid wrapper + vanilla CSRF fetch
+     * interceptor + collapseNav vanilla rewrite + events.js native
+     * addEventListener changes ALL continue to ship. Those are
+     * additive improvements that work transparently with jQuery
+     * present — they fall through to the real jQuery when it's
+     * loaded (as it now is again).
+     *
+     * Future re-removal path (if customer reconsiders):
+     *   1. Verify template features one-by-one with jQuery absent
+     *   2. Drop `mw_require_jquery()` from this file again
+     *   3. The cycle-185 vanilla shim infrastructure handles the rest
+     *
+     * See cycle-185 commit fbee6c6009 for the original drop +
+     * cycle-188 rollback for full context.
+     */
+    if (function_exists('mw_require_jquery')) {
+        mw_require_jquery();
+    }
+@endphp
 
 <head>
 

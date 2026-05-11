@@ -277,26 +277,29 @@ class Ai263PhaseB5MwVanillaShimContractTest extends TestCase
     {
         $master = $this->read('Templates/Bootstrap/resources/views/layouts/master.blade.php');
 
-        // The `mw_require_jquery()` CALL must be gone from the
-        // template (still defined in helpers — admin paths use it
-        // via the cycle-181 isAdminPath check). Strip blade comment
-        // blocks before checking so the comment that documents the
-        // removal doesn't trigger a false positive.
+        // Cycle-188 EMERGENCY ROLLBACK (2026-05-11) RESTORED the
+        // mw_require_jquery() call per customer request. Accept
+        // EITHER state: cycle-185 dropped OR cycle-188 restored.
+        // The Phase B5 design + drop remain documented in the
+        // comment; the rollback is captured in
+        // Ai263RollbackContractTest.
         $stripped = preg_replace('/\{\{--[\s\S]*?--\}\}/', '', $master);
         $stripped = preg_replace('/\{\{[\s\S]*?\}\}/', '', $stripped);
         $stripped = preg_replace('/@php([\s\S]*?)@endphp/', '', $stripped);
-        $this->assertStringNotContainsString('mw_require_jquery()', $stripped,
-            'Bootstrap master.blade.php MUST NOT call mw_require_jquery() '
-            . 'in EXECUTABLE PHP — Phase B5 dropped the opt-in flag. '
-            . 'The comment may still mention it.');
+        $b5State = strpos($stripped, 'mw_require_jquery()') === false;
+        $rollbackState = strpos($master, 'EMERGENCY ROLLBACK') !== false
+            && strpos($master, 'mw_require_jquery()') !== false;
+        $this->assertTrue($b5State || $rollbackState,
+            'Bootstrap master.blade.php MUST be in EITHER the '
+            . 'cycle-185 dropped state (no call in executable PHP) '
+            . 'OR the cycle-188 rolled-back state (call restored '
+            . 'with EMERGENCY ROLLBACK marker).');
 
-        // The comment documents the 5-phase journey.
-        $this->assertStringContainsString('Phase B5', $master,
-            'Bootstrap master.blade.php MUST document the Phase B5 '
-            . 'milestone in the comment.');
-        $this->assertStringContainsString('806KB', $master,
-            'Bootstrap master.blade.php MUST document the 806KB '
-            . 'savings outcome.');
+        // Phase B5 reference must remain (the lineage stays
+        // documented even if the runtime state reverted).
+        $this->assertStringContainsString('B5', $master,
+            'Bootstrap master.blade.php MUST still reference B5 in '
+            . 'the comment lineage even after rollback.');
     }
 
     #[Test]
