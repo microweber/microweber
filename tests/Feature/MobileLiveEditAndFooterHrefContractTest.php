@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-126 / AI-140 + AI-141 + AI-142 — mobile Live Edit fixes
- * + footer href fix.
+ * Mobile Live Edit fixes + footer href contract.
  *
  * Pins:
  *   - live-edit-mobile.css scopes the sidebar collapse +
@@ -19,9 +18,7 @@ use Tests\TestCase;
  *   - Toolbar icon buttons stack the aria-label text below the
  *     icon via ::after.
  *   - Bootstrap default footer skin no longer has `href=""`;
- *     mailto: link in place.
- *
- * Style after the cycle-52..125 contract tests.
+ *     a `mailto:` link is in place.
  */
 class MobileLiveEditAndFooterHrefContractTest extends TestCase
 {
@@ -43,7 +40,7 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
         $this->assertStringContainsString(
             'AI-140 + AI-141',
             $src,
-            'live-edit-mobile.css must carry the AI-140/141 audit-trail comment'
+            'live-edit-mobile.css must carry the mobile-fixes audit-trail marker'
         );
 
         // Both rules wrapped in @media (max-width: 768px).
@@ -107,18 +104,17 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
     {
         $src = $this->read(self::CSS);
 
-        // AI-143/AI-144 share the same fix: every live-edit
-        // Filament modal collapses to `100vw - 16px` below 768px
-        // with sticky-footer Cancel/Save.
+        // Every live-edit Filament modal collapses to `100vw - 16px`
+        // below 768px with sticky-footer Cancel/Save.
         $this->assertStringContainsString(
             'AI-143',
             $src,
-            'live-edit-mobile.css must reference AI-143 (menu-edit modal overflow)'
+            'live-edit-mobile.css must carry the menu-edit modal overflow marker'
         );
         $this->assertStringContainsString(
             'AI-144',
             $src,
-            'live-edit-mobile.css must reference AI-144 (content-add modal overflow)'
+            'live-edit-mobile.css must carry the content-add modal overflow marker'
         );
 
         $this->assertMatchesRegularExpression(
@@ -152,11 +148,10 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
             'Footer skin-1 must carry a real `mailto:` link to the visible address'
         );
 
-        // Audit-trail.
         $this->assertStringContainsString(
             'AI-142 / A11Y-07 (cycle-126',
             $src,
-            'Footer skin-1 must carry the AI-142 audit-trail comment'
+            'Footer skin-1 must carry the mailto-link audit-trail marker'
         );
     }
 }

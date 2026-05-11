@@ -1,41 +1,18 @@
 /*
- * AI-140 + AI-141 (cycle-126 2026-05-09): Live Edit mobile UX fixes.
- *
- * Tester report (live-edit-mobile-current.png, 390×844 viewport):
- *
- *   AI-140 — Sidebar takes ~30% of screen width on mobile.
- *   AI-141 — Toolbar buttons show only icons (no text labels).
- *
- * Fix is CSS-only — no DOM restructuring. The cycle-107 / AI-116
- * scoping work added `.mw-live-edit-page` on the layout root, so
- * we hook on that to keep the rules off non-live-edit panels.
+ * Live Edit mobile UX fixes (sidebar + toolbar labels).
+ * Hook on `.mw-live-edit-page` (added on the layout root) to keep
+ * these rules off non-live-edit panels.
  */
 
 /* ------------------------------------------------------------------
- * AI-140: collapse the sidebar on mobile.
+ * Sidebar on mobile.
  *
- * AI-150 corrigendum (cycle-143 2026-05-09): the original cycle-126
- * design was a 56px-wide always-visible icon strip. That conflicted
- * with the live-edit slide-out drawer pattern in
- * src/MicroweberPackages/Filament/resources/views/filament/components/
- * layout/live-edit.blade.php (lines 21-35) which positions the
- * sidebar `position:absolute; transform:translateX(-100%)` — i.e.
- * the live-edit page already hides the sidebar entirely off-screen
- * by default, then slides it in via `.fi-sidebar.active`.
- *
- * The 56px icon-strip rule was therefore redundant when the drawer
- * was closed (already off-screen) and ignored when the drawer was
- * active (Filament's drawer fills the viewport on mobile). Tester
- * re-test after cycle-142 import-fix correctly reported "sidebar
- * still 390px wide" — that's the active-state drawer at full
- * viewport, NOT a missing-rule issue.
- *
- * The corrected fix lives in the AI-150 block further below:
- * width clamp on .fi-sidebar.active + visible toggle. The 56px
- * icon-strip is preserved BELOW for accessibility — the labels
- * are sr-only on mobile to keep keyboard navigation working when
- * the drawer is active. The width:56px rule itself is removed —
- * the drawer pattern owns sidebar width on mobile, not us.
+ * The live-edit slide-out drawer pattern positions the sidebar
+ * `position:absolute; transform:translateX(-100%)` and slides it in
+ * via `.fi-sidebar.active`. Sidebar width on mobile is owned by
+ * that drawer pattern; here we only ensure the open-drawer width is
+ * clamped (see below) and hide item labels visually so keyboard /
+ * AT users still hear them but the drawer is icon-focused.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     /* Hide sidebar item labels visually on mobile (sr-only) so
@@ -85,29 +62,16 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-141: toolbar buttons need text labels on mobile.
+ * Toolbar buttons need text labels on mobile.
  *
- * The Live Edit top toolbar has icon-only buttons. Below 768px we
- * stack a small text label below each icon so users understand
- * the button purpose without tapping first.
- *
- * Critical-action buttons (SAVE, VIEW) keep their full label
- * already; this rule covers the icon-only chevron-style buttons.
+ * The Live Edit top toolbar has icon-only buttons rendered as Vue
+ * components with `.btn-icon.live-edit-toolbar-buttons
+ * .mw-toolbar-icon-btn` (NOT Filament's `.fi-icon-btn`). Below
+ * 768px we stack a small text label below each icon so users
+ * understand the button purpose without tapping first. Critical-
+ * action buttons (SAVE, VIEW) keep their full label already; this
+ * rule covers the icon-only chevron-style buttons.
  * ------------------------------------------------------------------ */
-/*
- * AI-150 (cycle-143 2026-05-09) — corrected toolbar selector.
- *
- * The cycle-126 rule used `.fi-icon-btn` (a Filament class) which
- * NEVER matched the live-edit toolbar — those buttons are Vue
- * components rendered with `.btn-icon.live-edit-toolbar-buttons
- * .mw-toolbar-icon-btn` (see packages/frontend-assets/resources/
- * assets/ui/components/Toolbar/SettingsCustomize.vue line 346
- * onward). Tester re-test after cycle-142 confirmed the fix was
- * dead-on-arrival even after the live-edit-mobile.css import landed:
- * "Only 1 of 5 toolbar buttons has visible text (VIEW). Others
- * still icon-only." The fix landed in the bundle but couldn't bind
- * to anything. Cycle-143 swaps to the correct selector.
- */
 @media (max-width: 768px) {
     .mw-live-edit-page .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
     .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons {
@@ -130,52 +94,22 @@
         text-overflow: ellipsis;
     }
     /*
-     * AI-151 (cycle-144 2026-05-09): cycle-143 carried a `:has(*:not(:empty))`
-     * suppression rule intended to avoid double-labels on buttons that
-     * already had visible text. But every Vue toolbar button contains a
-     * non-empty `<span v-html="iconXxx" aria-hidden>SVG</span>` child
-     * (and a `<v-tooltip>` portal element), so the suppression matched
-     * EVERY button — content:none won the cascade and stripped the
-     * auto-label for all of them. Tester re-test: "1 of 5 buttons has
-     * visible text (VIEW)". The suppression rule is removed entirely:
-     * the Vue toolbar buttons have NO visible inline text content (only
-     * aria-hidden SVG icons), so `content: attr(aria-label)` cannot
-     * cause a visible double-label. Buttons that DO have inline text
-     * (e.g. ADMIN at Toolbar.vue:61, "View" at SaveButton.vue) use
-     * different classes (`.mw-live-edit-toolbar-link`, `.btn-light`)
-     * that this scoped selector doesn't match — they're untouched.
+     * No `:has(*:not(:empty))` suppression: the Vue toolbar buttons
+     * have NO visible inline text content (only aria-hidden SVG
+     * icons), so `content: attr(aria-label)` cannot cause a visible
+     * double-label. Buttons that DO have inline text use different
+     * classes (`.mw-live-edit-toolbar-link`, `.btn-light`) that this
+     * scoped selector doesn't match.
      */
 }
 
 /* ------------------------------------------------------------------
- * AI-150 (cycle-143 2026-05-09) — sidebar drawer width clamp on mobile.
- *
- * The cycle-126 AI-140 rule (width:56px on .mw-live-edit-page
- * .fi-sidebar) fought with the inline-style drawer pattern in
- * `src/MicroweberPackages/Filament/resources/views/filament/
- * components/layout/live-edit.blade.php` (lines 21-35) which
- * positions the sidebar `position:absolute;
- * transform: translateX(-100%);` and slides it in via `.fi-sidebar
- * .active`. The width:56px rule WAS in the built bundle but it
- * conflicted with how the drawer actually opens — when active
- * the sidebar takes the full default Filament width (~280px on
- * desktop, full viewport on mobile because of how
- * `--sidebar-width` resolves there).
- *
- * Tester re-test after cycle-142 reported "Sidebar still 390px
- * wide" — that is the active-state drawer at full viewport width.
- *
- * Corrected fix:
- *   - When .active (drawer open), clamp width to a sane mobile
- *     value (`min(280px, calc(100vw - 60px))`) so the user can
- *     still see + tap the close-overlay to the right of the drawer.
- *   - Ensure the sidebar starts CLOSED on mobile by stripping any
- *     persistent `.active` class on first paint via the reset rule
- *     below (`.fi-sidebar:not(.active)` keeps the drawer hidden;
- *     when JS adds `.active` for a real toggle event the sidebar
- *     opens cleanly).
- *   - Force the live-edit-toolbar back-to-admin link to be visible
- *     on mobile so users have a tappable hamburger affordance.
+ * Sidebar drawer width clamp on mobile.
+ * When `.active` (drawer open), clamp width to
+ *   `min(280px, calc(100vw - 60px))`
+ * so the user can still see + tap the close-overlay to the right of
+ * the drawer. Also force the live-edit-toolbar back-to-admin link to
+ * be visible on mobile so users have a tappable hamburger affordance.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     .mw-live-edit-page .fi-sidebar.active {
@@ -185,21 +119,14 @@
         max-width: min(280px, calc(100vw - 60px)) !important;
     }
 
-    /* Make the live-edit toolbar's back-to-admin link visible
-       on mobile so users can tap to open the drawer. The button
-       is set up in live-edit.blade.php's @push('scripts') block. */
-    /*
-     * AI-170 (cycle-147 2026-05-09): the cycle-143 visibility +
-     * 44x44 rule landed but lost the cascade fight against an
-     * external 32x32 rule (Toolbar.vue scope or a higher-specificity
-     * .mw-live-edit-toolbar-link declaration). Bumping min-width/
-     * min-height to !important and hiding the misleading "ADMIN"
-     * text + arrow icon on mobile so the affordance reads as a
-     * dedicated sidebar-toggle hamburger. The existing JS handler
-     * (live-edit.blade.php @push('scripts') line 9-16) calls
-     * mw.app.liveEditWidgets.toggleAdminSidebar() — that behavior
-     * is preserved; only the visual presentation changes.
-     */
+    /* Make the live-edit toolbar's back-to-admin link visible on
+       mobile so users can tap to open the drawer. !important is
+       needed because the visibility + 44x44 rule otherwise loses
+       the cascade fight against an external 32x32 rule on the
+       same anchor. Hide the misleading "ADMIN" text + arrow icon
+       on mobile so the affordance reads as a dedicated
+       sidebar-toggle hamburger; the JS toggle handler is preserved
+       — only the visual presentation changes. */
     .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link {
         display: inline-flex !important;
         align-items: center;
@@ -210,16 +137,13 @@
         position: relative;
     }
     /* Hide the existing arrow-circle SVG on mobile so the hamburger
-       glyph becomes the dominant affordance. The SVG class is
-       `.mw-live-edit-toolbar-arrow-icon` per Toolbar.vue:55. */
+       glyph becomes the dominant affordance. */
     .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link .mw-live-edit-toolbar-arrow-icon {
         display: none !important;
     }
     /* Hide the "ADMIN" text label on mobile — it was misleading
        (the link doesn't navigate to admin, it toggles the sidebar
-       drawer). The aria-label remains "Back to admin" via the Vue
-       source — that semantic mismatch is documented as phase-2 in
-       the AI-170 JIRA comment; CSS can't rewrite ARIA attributes. */
+       drawer). */
     .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link > span {
         display: none !important;
     }
@@ -238,23 +162,16 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-143 — menu-editing modal overflow on mobile.
- * AI-144 — content-adding modals (Add new content, Add page/post/
- *         product/category) overflow on mobile.
+ * Live-edit modal mobile overflow fix.
+ * The menu-editing and content-adding modals use explicit
+ * `Width::Medium` / `MaxWidth::FiveExtraLarge` which resolve LARGER
+ * than a 390px viewport, causing horizontal overflow + clipped
+ * Cancel/Save buttons. Below 768px collapse every live-edit Filament
+ * modal to `100vw - 16px` with sticky-footer actions inside a flex-
+ * column body so Save/Cancel are always reachable.
  *
- * Shared root cause: cycle-N flipped these modals from slide-over
- * to centered with explicit `Width::Medium` / `MaxWidth::FiveExtraLarge`.
- * On a 390px viewport those tiers resolve LARGER than the viewport
- * — the modal renders with horizontal overflow + clipped
- * Cancel/Save buttons.
- *
- * Fix is CSS-only — below 768px every live-edit Filament modal
- * collapses to `100vw - 16px` with sticky-footer actions inside
- * a flex-column body so Save/Cancel are always reachable.
- *
- * Critical: scoped under `.mw-live-edit-page` so the regular admin
- * panel's CRUD modals (which already have their own mobile styles)
- * aren't disturbed.
+ * Scoped under `.mw-live-edit-page` so the regular admin panel's
+ * CRUD modals (which have their own mobile styles) are not disturbed.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     .mw-live-edit-page .fi-modal-window,
@@ -295,37 +212,22 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-176 (cycle-148 2026-05-10) — Add-content picker rows cramp on
- * mobile.
+ * Add-content picker row density on mobile.
+ * The +ADD picker shows 6 rows, each with Tailwind `flex gap-6 p-5`
+ * + an 80x80 icon container holding a 40x40 SVG. On a 390px viewport
+ * description text wraps to 3-4 lines and each row stands ~140px
+ * tall, so the 6 rows stack taller than the viewport.
  *
- * User report (task-2026-05-10-e20f8d): "the add posts/content/...
- * etc modal is not ok on mobile". The +ADD picker shows 6 rows
- * (Page / Post / Category / Product / Image / Add-to-this-page).
- * Each row is `.mw-add-content-modal-action-wrapper` with Tailwind
- * `flex gap-6 p-5` + an 80×80 icon container holding a 40×40 SVG.
+ *   1. Shrink the icon container 80->56 and its inner padding so the
+ *      SVG doesn't break out.
+ *   2. Shrink the SVG 40->28 to fit the smaller container.
+ *   3. Drop the row gap 24->12 and outer padding 20->12 to free width
+ *      for the title + description column.
+ *   4. Tighten the title/description vertical gap and clamp the
+ *      description to 3 lines so each row stays a predictable height.
  *
- * On a 390px viewport the AI-144 modal-width clamp gives the picker
- * `calc(100vw - 16px)` ≈ 374px. Inside that:
- *   - 20px outer padding + 80px icon + 24px gap + 20px outer padding
- *     = 144px chrome, leaving ~230px for title + description.
- *   - Description text wraps to 3-4 lines on the longer entries
- *     ("To add text, headings, or modules…") so each row stands ~140px
- *     tall and the 6 rows stack to ~840px — taller than the iPhone-13
- *     viewport (844 minus chrome). The picker becomes a long scroll.
- *
- * Cycle-148 fix is CSS-only — scoped under .mw-live-edit-page so the
- * desktop layout, the 2x2 grid (≥640px in iframe-page.blade.php), and
- * non-live-edit panels stay untouched. We:
- *   1. Shrink the icon container 80→56 (w-20 h-20 → 56×56) and shrink
- *      its inner padding so the SVG inside doesn't break out.
- *   2. Shrink the SVG 40→28 (h-10 w-10 → 28×28) so it sits comfortably
- *      inside the smaller container.
- *   3. Drop the row gap 24→12 and outer padding 20→12 so more content
- *      width is available for the title + description column.
- *   4. Tighten the title/description column vertical gap and clamp the
- *      description to 3 lines (line-clamp) so any single row stays a
- *      predictable height — picker no longer requires lots of scrolling
- *      on mobile.
+ * Scoped under `.mw-live-edit-page` so the desktop layout, the 2x2
+ * grid at >=640px, and non-live-edit panels stay untouched.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
@@ -364,43 +266,21 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-177 (cycle-149 2026-05-10) — live-edit toolbar leaks through
- * Filament modals on mobile.
+ * Live-edit toolbar leaks through Filament modals on mobile.
+ * The live-edit `#toolbar` (z-index: 999) and its inner
+ * `.mw-live-edit-search-dropdown` (z-index: 1000) win the stacking
+ * fight against `.fi-modal-window-ctn` (z-index: 200), so toolbar
+ * buttons visually leak through Filament modals on mobile and the
+ * dark close-overlay backdrop cannot be tapped to dismiss.
  *
- * User report (task-2026-05-10-2f4c73): "there are bobile issses in
- * live edit on eitiyng them odule settgis update pic, etc, pls fix"
- * — i.e. mobile issues when editing module settings (image, etc.).
+ * Below 768px hoist `.fi-modal-window-ctn` and `.fi-modal-close-
+ * overlay` above the toolbar's 1000 ceiling. Desktop is untouched:
+ * at >=769px the slide-over is a right-side strip and the toolbar
+ * should remain visible + tappable to the LEFT of the panel.
  *
- * Reproduction at 390x844 with the SocialLinks module-settings
- * slide-over open: the live-edit `#toolbar` (z-index: 999, position:
- * relative) and its inner `.mw-live-edit-search-dropdown` (z-index:
- * 1000) win the stacking fight against `.fi-modal-window-ctn`
- * (z-index: 200, position: fixed) — the toolbar buttons (Add content,
- * Save, kebab, eye, ☰) plus the toolbar's tablet-overflow arrow
- * controls visually leak through the empty band between the modal
- * heading and the form iframe inside the slide-over. Also breaks
- * the close-overlay (the dark backdrop tap-to-dismiss) which sits at
- * z-index: 200 — the toolbar covers it, so the user can't dismiss
- * by tapping outside the panel.
- *
- * Cycle-149 fix: scoped CSS-only z-index promotion on viewports
- * <=768px so:
- *   - `.fi-modal-window-ctn` (the modal's stacking-context root) is
- *     hoisted above the toolbar's 1000 ceiling — every Filament
- *     modal inside live-edit (slide-over module settings, picker,
- *     centered create, etc.) renders ABOVE the toolbar on mobile
- *     where the panel fills the screen.
- *   - `.fi-modal-close-overlay` is independently bumped too so the
- *     dark backdrop is reachable for tap-to-dismiss.
- *
- * Desktop is untouched: at >=769px the slide-over is a right-side
- * strip and the user expects the toolbar to remain visible + tappable
- * to the LEFT of the panel — the original z=200 behaviour stays.
- *
- * Scoped under `.mw-live-edit-page` so non-live-edit Filament admin
- * pages (Pages list, Posts list, Settings, etc.) keep their normal
- * z-index stack. The live-edit page is the only surface where the
- * page-level toolbar conflicts with Filament's modal stack.
+ * Scoped under `.mw-live-edit-page` / `.mw-admin-live-edit-page`
+ * so non-live-edit Filament admin pages keep their normal z-index
+ * stack.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     /*
@@ -408,14 +288,9 @@
      * `.mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn`
      * rule in live-edit-classes.css (z-index:200 !important) so we
      * win the cascade on tie via source order — live-edit-mobile.css
-     * is @import'd AFTER live-edit-classes.css in index.css.
-     *
-     * Both `.mw-live-edit-page` and `.mw-admin-live-edit-page` are
-     * present on the live-edit ancestry (see fi-layout root +
-     * mw-admin-live-edit-page wrapper) so we use the admin scope to
-     * match the existing rule's specificity; the .mw-live-edit-page
-     * variant is also covered for any future contexts that carry
-     * only that class.
+     * is @import'd AFTER live-edit-classes.css. Both
+     * `.mw-live-edit-page` and `.mw-admin-live-edit-page` are
+     * present on the live-edit ancestry; cover both.
      */
     .mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn,
     .mw-live-edit-page .fi-modal > .fi-modal-window-ctn {
@@ -428,42 +303,18 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-178 (cycle-152 2026-05-10) — Live Edit toolbar "Search content"
- * input collapses to 2px wide on mobile.
+ * Hide the Live Edit toolbar "Search content" input on mobile.
+ * On a 390px viewport, between the surrounding toolbar buttons only
+ * ~48px of horizontal space is left for the search slot — and after
+ * the autoComplete dropdown's `ps-4` prefix padding the actual input
+ * collapses to ~2px wide (measurable but unusable). Content-search
+ * is a power-user affordance; mobile users typically edit one page
+ * at a time and can navigate via the sidebar hamburger. Hiding the
+ * slot also frees ~48px for the remaining toolbar buttons.
  *
- * UX-audit P1 finding (agent-test mobile-ux-audit-report.md):
- * "Invisible/untappable search field in Live Edit toolbar at 390×844".
- *
- * Reproduction at 390×844: `#mw-live-edit-search-content` (the slot
- * that mw.autoComplete renders the search input into) sits inside a
- * Bootstrap `col col-xl-auto toolbar-col-container` parent. At >=xl
- * the parent is `auto` (content-sized); below xl the col falls back
- * to default flex behaviour — between the cycle-126/143 toolbar
- * buttons (☰ + ← + → + +ADD on the left, device-toggle + tools menu
- * + VIEW + SAVE on the right) only ~48px of horizontal space remains
- * for the search slot. With the autoComplete dropdown's `ps-4`
- * padding-left for the search-icon prefix, the actual <input> ends
- * up ~2px wide — measurable but unusable.
- *
- * Cycle-152 fix is CSS-only: hide the toolbar's content-search slot
- * on viewports <=768px. Rationale:
- *   - The 2px input is functionally broken — users can't type into
- *     a 2px target. Showing a broken control is worse than showing
- *     no control.
- *   - Content-search is a power-user "jump to a different page in
- *     edit mode" affordance. Mobile users typically edit ONE page
- *     at a time and can navigate via the admin sidebar (Pages list /
- *     Posts list) which is reachable through the AI-170 sidebar
- *     hamburger.
- *   - Hiding the slot also frees ~48px of horizontal space in the
- *     mobile toolbar — gives the remaining buttons more breathing
- *     room without any layout work.
- *
- * Scoped to `.mw-admin-live-edit-page` (matches the existing toolbar
- * scope rules) AND only inside the live-edit toolbar — this does NOT
- * affect non-live-edit Filament admin search inputs (e.g. table
- * search, global Filament search). The `#mw-live-edit-search-content`
- * id is unique to the toolbar component.
+ * Scoped to the live-edit toolbar via `#mw-live-edit-search-content`
+ * + `.mw-live-edit-search-dropdown` — does NOT affect non-live-edit
+ * Filament admin search inputs.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     .mw-admin-live-edit-page #mw-live-edit-search-content,
@@ -490,38 +341,26 @@
 }
 
 /* ------------------------------------------------------------------
- * AI-181 + AI-182 (cycle-155 2026-05-10) — Two toolbar buttons
- * below WCAG 2.5.5 / iOS HIG 44×44 touch-target floor.
+ * Live-edit toolbar buttons below the WCAG 2.5.5 / iOS HIG 44x44
+ * touch-target floor.
  *
- * UX-audit P2 findings (agent-test systematic mobile scan):
+ *   - VIEW button (`#mw-page-set-preview-mode` /
+ *     `.live-edit-toolbar-buttons-view`) renders ~34x38 from Bootstrap
+ *     `.btn` defaults.
+ *   - Toolbar user-menu hamburger (`#toolbar-user-menu-button` /
+ *     `.mw-le-hamburger`) renders ~24x17 because `gui.css` pins the
+ *     visual bar size. The three inner `<span>` bars are absolute-
+ *     positioned, so the parent's box can grow without disturbing
+ *     the bar layout.
  *
- * AI-181 — VIEW button `#mw-page-set-preview-mode`
- *          (`.live-edit-toolbar-buttons-view`) measured 34×38 in the
- *          live toolbar at 390×844. Bootstrap `.btn` defaults pad to
- *          ~38px tall and the inline `me-2` margin gives the strip
- *          breathing room — but the touchable area is below the floor.
- *
- * AI-182 — Toolbar user-menu hamburger `#toolbar-user-menu-button`
- *          (`.mw-le-hamburger`) measured 24×17 — the cycle-N hamburger
- *          glyph rule in `frontend-assets/.../ui/css/gui.css:118-123`
- *          pins width: 24px / height: 17px (the visual bar size). The
- *          three inner `<span>` bars are absolute-positioned, so the
- *          parent's box can grow without disturbing the bar layout.
- *
- * Cycle-155 fix (CSS-only, scoped under .mw-admin-live-edit-page +
- * .mw-live-edit-page so non-live-edit Filament admin chrome is
- * untouched):
- *
- *   - Bump both buttons to min-width/min-height: 44px on
- *     `(max-width: 768px), (pointer: coarse)` so the floor applies on
- *     mobile viewports AND any touch device regardless of width.
- *   - Use display:inline-flex + center alignment on the hamburger so
- *     the visual bars stay centered inside the larger 44×44 hit area
- *     (the bars themselves keep their absolute position).
+ * Bump both buttons to 44x44 on `(max-width: 768px), (pointer: coarse)`.
+ * Use inline-flex + center alignment so the visual bars stay centered
+ * inside the larger hit area. Scoped under live-edit so non-live-edit
+ * Filament admin chrome is untouched.
  * ------------------------------------------------------------------ */
 @media (max-width: 768px), (pointer: coarse) {
-    /* AI-181 — VIEW button. Cover both the id and the class so the
-       fix binds whichever selector future refactors keep. */
+    /* VIEW button. Cover both the id and the class so the fix
+       binds whichever selector future refactors keep. */
     .mw-admin-live-edit-page #mw-page-set-preview-mode,
     .mw-admin-live-edit-page .live-edit-toolbar-buttons-view,
     .mw-live-edit-page #mw-page-set-preview-mode,
@@ -534,9 +373,9 @@
         justify-content: center;
     }
 
-    /* AI-182 — User-menu hamburger. The cycle-N gui.css rule pins
-       24x17 on the visual bar — bump the parent box to 44x44 while
-       keeping the inner spans (`position: absolute`) where they are. */
+    /* User-menu hamburger. The gui.css rule pins 24x17 on the visual
+       bar — bump the parent box to 44x44 while keeping the inner
+       spans (`position: absolute`) where they are. */
     .mw-admin-live-edit-page #toolbar-user-menu-button,
     .mw-admin-live-edit-page .mw-le-hamburger,
     .mw-live-edit-page #toolbar-user-menu-button,
@@ -552,19 +391,9 @@
     }
 
     /*
-     * AI-216 (cycle-167 2026-05-10) — Live Edit SAVE button below
-     * 44x44 floor.
-     *
-     * agent-test reported the toolbar SAVE button at 66x36px — height
-     * 8px below WCAG 2.5.5 / iOS HIG 44 floor. The button source
-     * (SaveButton.vue:109) is `<button class="btn btn-dark live-edit-
-     * toolbar-buttons" id="save-button">` — Bootstrap `.btn` defaults
-     * to ~36px tall.
-     *
-     * Same pattern as AI-181 (VIEW button) — pin min-width/min-height
-     * 44x44 + inline-flex centering. Targets both the id and the
-     * class so the rule binds whichever selector future refactors
-     * keep.
+     * Live Edit SAVE button. Bootstrap `.btn` defaults to ~36px tall,
+     * 8px below the WCAG 2.5.5 / iOS HIG 44 floor. Pin 44x44 +
+     * inline-flex centering, same pattern as the VIEW button above.
      */
     .mw-admin-live-edit-page #save-button,
     .mw-live-edit-page #save-button {
@@ -577,35 +406,20 @@
     }
 
     /*
-     * AI-231 (cycle-173 2026-05-10) — Live Edit sidebar / panel
-     * touch-target floors discovered by agent-test's audit.
+     * Live Edit sidebar / panel touch-target floors. Five sub-44
+     * controls in the live-edit chrome:
+     *   1. `.mw-control-boxclose` panel close icon (25x25) — the
+     *      existing rule hard-sets `width/height: 20px` so we must
+     *      override `width/height !important` (NOT `min-width`).
+     *   2. `.reset-template-settings-and-stylesheet-button` (20x20)
+     *      — dangerously small for a reset action on mobile.
+     *   3. `.mw-ai-chat-box-action-voice` (30x30).
+     *   4. `.mw-ai-chat-box-action-send` (width OK, height 4px short).
+     *   5. Tools-menu dropdown trigger (height 9px short).
      *
-     * Five sub-44 controls in the live-edit chrome at 390×844:
-     *
-     *   1. `.mw-control-boxclose` panel close icon — 25×25 (4
-     *      instances; Element Style Editor + Template Settings
-     *      panel close). Existing rule
-     *      `.mw-control-box-default .mw-control-boxclose` hard-
-     *      sets `width: 20px; height: 20px;` — must override
-     *      with `width/height !important` (NOT `min-width` —
-     *      the existing rule's fixed `width` would still win).
-     *   2. `.reset-template-settings-and-stylesheet-button`
-     *      ("Reset stylesheet settings") — 20×20. Tester flagged
-     *      this as actively dangerous on mobile because users
-     *      will miss-tap and accidentally reset.
-     *   3. `.mw-ai-chat-box-action-voice` AI chat voice input —
-     *      30×30 (2 instances)
-     *   4. `.mw-ai-chat-box-action-send` AI chat send button —
-     *      320×40 (width OK, height 4px below floor)
-     *   5. `a.dropdown-trigger[aria-label="Tools menu"]` Tools
-     *      menu in toolbar — 46×35 (height 9px below floor)
-     *
-     * Note on scoping: these elements (control-boxes + AI chat)
-     * are portaled to body root, NOT inside the
-     * `.mw-live-edit-page` wrapper. The `.mw-*` class names
-     * themselves are live-edit-specific (they don't appear
-     * outside the live-edit chrome) so direct-class selectors
-     * are safe.
+     * Scoping: control-boxes + AI chat are portaled to body root,
+     * NOT inside `.mw-live-edit-page`. The `.mw-*` class names are
+     * live-edit-specific so direct-class selectors are safe.
      */
     .mw-control-box .mw-control-boxclose,
     .mw-control-box-default .mw-control-boxclose,
@@ -660,20 +474,13 @@
     }
 
     /*
-     * AI-232 (cycle-173 2026-05-10) — Live Edit toolbar overflow.
-     *
-     * The `<div id="toolbar" class="shadow-sm md:px-6 px-3 gap-3">`
-     * (admin live-edit toolbar) measured `scrollWidth=446` on a
-     * 390px viewport — overflows by 56px. Tester saw this as
-     * horizontal-scroll-required which is poor UX on mobile.
-     *
-     * Two fixes layered:
+     * Live Edit toolbar overflow. The admin live-edit toolbar
+     * overflows ~56px on a 390px viewport. Two layered fixes:
      *   (a) `flex-wrap: wrap` lets the toolbar break onto a second
      *       row instead of overflowing horizontally.
      *   (b) Defensive `overflow-x: auto` with `scroll-snap-type`
-     *       so if (a) fails for some reason (e.g. min-content too
-     *       wide), the user still gets a scrollable toolbar with
-     *       snap points instead of a hard-cut overflow.
+     *       so if (a) fails (e.g. min-content too wide) the user
+     *       still gets a scrollable toolbar with snap points.
      */
     .mw-admin-live-edit-page #toolbar,
     .mw-live-edit-page #toolbar {

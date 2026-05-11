@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-157 (2026-05-10) — Big2 demo-page seeder contract.
+ * Big2 demo-page seeder contract.
  *
  * The `mw:big2-demo-seed` command (`Modules\Backup\Console\Commands\
  * Big2DemoSeedCommand`) builds a public Page that renders one block
- * from every Big2 layout category so mobile-audit testers can hit a
- * single URL and measure touch targets / overflow without manually
- * inserting each layout via Live Edit.
+ * from every Big2 layout category so mobile audits can hit a single
+ * URL and measure touch targets / overflow without manually inserting
+ * each layout via Live Edit.
  *
  * This contract pins the load-bearing pieces of the command source so
  * future refactors that accidentally drop the slug-default, the
@@ -35,7 +35,7 @@ class Big2DemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/Big2DemoSeedCommand.php');
         $this->assertStringContainsString('Cycle-157', $src,
-            'Big2DemoSeedCommand.php MUST carry the cycle-157 anchor.');
+            'Big2DemoSeedCommand.php MUST carry its source anchor.');
         $this->assertStringContainsString('mw:big2-demo-seed', $src,
             'Big2DemoSeedCommand.php MUST declare the canonical command '
             . 'signature `mw:big2-demo-seed`.');
@@ -46,8 +46,7 @@ class Big2DemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/Big2DemoSeedCommand.php');
         // The command MUST expose --slug, --title, --include-wrappers
-        // and --replace options. PM email + agent-test workflow
-        // depend on these flags.
+        // and --replace options.
         $this->assertMatchesRegularExpression('/--slug=/', $src,
             'Command MUST expose --slug option for custom slugs.');
         $this->assertMatchesRegularExpression('/--title=/', $src,
@@ -151,14 +150,12 @@ class Big2DemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/Big2DemoSeedCommand.php');
 
-        // Cycle-165 / wave3-f (2026-05-10) — PM brief: re-runs must
-        // produce the same outcome without flags. The cycle-N
-        // behaviour required `--replace` or warned-and-exited; the
-        // cycle-165 default is upsert-in-place so the page id stays
-        // stable across runs.
+        // Idempotency hardening: re-runs must produce the same outcome
+        // without flags. The default is upsert-in-place so the page id
+        // stays stable across runs (a "warn unless --replace" path
+        // would break idempotency).
         $this->assertMatchesRegularExpression('/[Cc]ycle-165/', $src,
-            'Big2DemoSeedCommand.php MUST carry the cycle-165 anchor for '
-            . 'the wave3-f idempotency hardening.');
+            'Big2DemoSeedCommand.php MUST carry the idempotency-hardening anchor.');
         // The upsert MUST reuse the existing Content instance (not
         // delete-then-recreate) when --replace is NOT set.
         $this->assertMatchesRegularExpression(
@@ -167,14 +164,14 @@ class Big2DemoSeedCommandContractTest extends TestCase
             'Command MUST upsert in place via `$page = $existing ?? new '
             . 'Content()` so re-runs preserve the auto-increment id.'
         );
-        // The cycle-N "warn and exit if not --replace" path MUST be gone.
+        // The "warn and exit if not --replace" path MUST be gone.
         $strippedComments = preg_replace('#/\*[\s\S]*?\*/#', '', $src);
         $strippedComments = preg_replace('#//.*#', '', (string) $strippedComments);
         $this->assertDoesNotMatchRegularExpression(
             '/already exists.*Re-run with --replace/',
             (string) $strippedComments,
-            'Command MUST NOT carry the cycle-N "warn and exit unless '
-            . '--replace" path — that broke idempotency.'
+            'Command MUST NOT carry the "warn and exit unless --replace" '
+            . 'path — that broke idempotency.'
         );
     }
 }

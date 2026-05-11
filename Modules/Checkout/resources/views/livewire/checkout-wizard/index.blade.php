@@ -1,23 +1,9 @@
 <div class="checkout-wizard-container"
-     {{-- AI-60 / TICKET-DD (cycle-75 2026-05-08): keyboard focus
-          leak fix. Filament v5's wizard CSS hides inactive steps via
-          `.fi-sc-wizard-step:not(.fi-active) { visibility: hidden;
-          position: absolute; height: 0; overflow: hidden; }`.
-          `visibility: hidden` is supposed to remove focusable
-          descendants from the focus tree, but multi-step Filament
-          forms re-mount Alpine on step transitions and Firefox in
-          particular has been observed letting Tab leak into
-          inactive-step inputs while the visibility recompute is
-          still in flight.
-
-          Defence-in-depth: an Alpine MutationObserver on this
-          wrapper toggles the HTML5 `inert` attribute on each
-          `.fi-sc-wizard-step` based on whether `.fi-active` is
-          present. `inert` is the modern, browser-native way to
-          remove a subtree from BOTH the focus tree AND the AT
-          accessibility tree — strictly stronger than visibility:
-          hidden, and doesn't depend on visibility recompute timing.
-          See WHATWG inert spec / WCAG 2.4.3 Focus Order. --}}
+     {{-- Defence-in-depth keyboard-focus fix: Filament v5 hides inactive wizard steps with
+          `visibility: hidden`, but Firefox has been observed letting Tab leak into them while
+          the visibility recompute is in flight. An Alpine MutationObserver toggles the HTML5
+          `inert` attribute in sync with `.fi-active` so an inactive step is removed from both
+          the focus tree and the accessibility tree (WHATWG inert / WCAG 2.4.3 Focus Order). --}}
      x-data="checkoutWizardInertShim()"
      x-init="init($el)">
     <div class="max-w-5xl mx-auto">
@@ -49,36 +35,19 @@
     }
 
     /*
-     * AI-267 (cycle-179 2026-05-11) — checkout breadcrumb / progress
-     * indicator.
+     * Checkout breadcrumb / progress indicator.
      *
-     * PM filed AI-267 as Phase 1 UX after the design audit: customers
-     * need a clear "where am I in checkout" signal. The Filament
-     * Wizard ALREADY renders a header with step icons + labels, but
-     * the default styling looks like a navigation menu, not a
-     * progress indicator — there's no visual distinction between
-     * "completed", "current", and "future" steps, and on a 390px
-     * viewport the 5-step header overflows or wraps awkwardly.
+     * Enhances the Filament `.fi-fo-wizard-header` into a breadcrumb-style
+     * progress indicator using shared design tokens:
+     *   - Current step: filled `--color-primary` background + white text
+     *   - Past steps: filled `--color-primary` (completed markers)
+     *   - Future steps: hollow with muted color and border
+     *   - Connecting line between steps anchored at the icon row Y,
+     *     colored `--color-primary` for past/current and `--color-border` otherwise
+     *   - On <=768px the header uses overflow-x: auto + scroll-snap so all
+     *     steps stay reachable without breaking the row layout
      *
-     * This block enhances the existing `.fi-fo-wizard-header` into
-     * a true breadcrumb-style progress indicator using design tokens
-     * from cycle-178:
-     *   - Current step: filled `--color-primary` background + white
-     *     text, slight elevation via `--shadow-1`
-     *   - Past steps: hollow with `--color-primary` text + thin
-     *     `--color-primary` border (visited markers)
-     *   - Future steps: dimmed `--color-text-muted`
-     *   - Connecting line between steps anchored at 50% Y of the
-     *     icon row, colored `--color-primary` for past->current
-     *     and `--color-border` for current->future
-     *   - On <768px, the header uses `overflow-x: auto` with
-     *     `scroll-snap-type: x mandatory` so all 5 steps stay
-     *     reachable without breaking the row layout.
-     *
-     * Scope: `.checkout-wizard-container` so other Filament wizards
-     * (admin install, etc.) keep their existing visual. The rule
-     * sits BEFORE the cycle-161 floor block so the floor's
-     * `!important` rules can still win where they overlap.
+     * Scoped to `.checkout-wizard-container` so other Filament wizards keep their visual.
      */
     .checkout-wizard-container .fi-fo-wizard-header {
         display: flex;
@@ -120,10 +89,7 @@
         position: relative;
         z-index: 2;
     }
-    /* Visited / past steps — Filament marks completed steps with
-       `.fi-completed` (or absence of `.fi-active` on a step that
-       precedes the current one in source order). The most reliable
-       marker is `.fi-completed`. */
+    /* Visited / past steps — Filament marks completed steps with `.fi-completed`. */
     .checkout-wizard-container .fi-fo-wizard-header-step.fi-completed .fi-fo-wizard-header-step-button {
         background-color: var(--color-primary, #0d6efd);
         border-color: var(--color-primary, #0d6efd);
@@ -186,39 +152,16 @@
     }
 
     /*
-     * Cycle-161 (2026-05-10): /checkout mobile touch-target floor.
+     * /checkout mobile touch-target floor — enforce WCAG 2.5.5 / iOS HIG 44x44 on
+     * the Wizard "Next" button and the user-menu trigger inside the checkout panel.
      *
-     * UX-audit P2 follow-up findings (agent-test verification of
-     * AI-186 cycle-160 fix):
-     *   - Filament Wizard "Next" button (.fi-sc-wizard-footer .fi-btn)
-     *     measured 83x42 — height below WCAG 2.5.5 / iOS HIG 44x44.
-     *   - User-menu trigger (.fi-user-menu-trigger) measured 32x32 —
-     *     well below floor.
-     *
-     * Both rules are scoped to the checkout panel via .fi-panel-checkout
-     * so we don't touch other Filament panels' user-menu sizing (admin
-     * panel keeps its current density).
-     *
-     * The Wizard Next button uses min-height (not height) so the
-     * button still grows to fit longer translated labels ("Continue",
-     * "Place Order", etc.). User menu is fixed at 44x44 — it's an
-     * icon-only trigger, no label growth concern.
+     * Scoped to `.fi-panel-checkout` so other Filament panels keep their density.
+     * `min-height` (not `height`) so the button still grows for longer translated labels.
      */
     @media (max-width: 768px), (pointer: coarse) {
-        /* !important here because Filament's bundled `.fi-btn
-           { min-height: 36px }` rule loads AFTER this scoped style
-           tag in source order — even though our selector specificity
-           is higher, a later same-specificity rule with !important
-           on the Filament side could still win. Be defensive.
-           Cycle-162 (2026-05-10 / AI-203 follow-up): added defensive
-           higher-specificity duplicates per PM after agent-test
-           reported the cycle-161 rule losing in their environment.
-           My direct probe at /checkout?nocache=99 showed cycle-161
-           winning (Next 83×44, UserMenu 44×44, computedMinH 44px),
-           so the failure was likely a stale CSS bundle on their
-           side — but adding extra winning paths costs nothing and
-           protects against any future Filament base-CSS bump that
-           might actually beat the original (0,3,1) selector. */
+        /* `!important` and defensive higher-specificity duplicates: Filament's bundled
+           `.fi-btn { min-height: 36px }` rule loads AFTER this scoped style tag, so a later
+           same-specificity rule could otherwise win. */
         .fi-panel-checkout .fi-sc-wizard-footer .fi-btn,
         .fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
         .fi-panel-checkout .checkout-wizard-container .fi-sc-wizard-footer .fi-btn,
@@ -238,40 +181,14 @@
     }
 
     /*
-     * AI-212 (cycle-166 2026-05-10) — primary CTA color unification.
+     * Primary CTA color unification — align the two checkout buttons (`fi-color-primary`
+     * "Next" and `fi-color-success` "Place Order") to Bootstrap's `--bs-primary` #0d6efd
+     * with a 4px radius so the public-facing flow has one consistent CTA color.
      *
-     * agent-test design audit found 4 different primary-button colors
-     * across 4 surfaces:
-     *   - /shop "All Categories": #0d6efd Bootstrap blue (radius 0)
-     *   - /checkout "Next": #4299e1 Tailwind cyan (radius 4)
-     *   - /checkout "Place Order": #2fb344 green (radius 4)
-     *   - Admin "Save": #7c3aed purple (radius 4)
-     *
-     * Scope decision: align the two CHECKOUT buttons to Bootstrap's
-     * canonical `--bs-primary: #0d6efd` so the public-facing flow has
-     * one consistent color. Admin Save stays purple (Filament admin
-     * theme — different surface/persona; PM "audit" brief listed it
-     * but didn't ask for cross-application unification).
-     *
-     * Scoped to `.fi-panel-checkout` so other Filament admin panels
-     * keep their existing color tokens. Both `.fi-color-primary`
-     * (Next) and `.fi-color-success` (Place Order) bumped to the
-     * same blue + 4px radius.
-     *
-     * Filament v5's button colors are CSS custom properties that
-     * Tailwind's `bg-fi-color-600` etc. resolve via the `--fi-color-N`
-     * vars. Override the resolved background + border-radius directly
-     * with !important to beat both the cycle-N tailwind utility class
-     * AND any future Filament theme upgrade.
+     * Scoped to `.fi-panel-checkout` so other Filament panels keep their tokens. The
+     * `html body.fi-panel-checkout` prefix raises specificity so we beat both the
+     * light-mode and `html.dark` Filament theme defaults regardless of source order.
      */
-    /* Bumped specificity from `(0,4,1)` → `(0,5,2)` by prefixing
-       with `html body.fi-panel-checkout` so we beat both the cycle-N
-       admin theme rule `html.dark .fi-btn.fi-color-primary:not(...)`
-       (0,4,1 with 2 :not pseudo-classes) AND the light-mode
-       `.fi-btn.fi-color-primary:not(.admin-toolbar-buttons)` (0,3,1).
-       Same-specificity ties + later-loaded Filament theme were
-       beating my (0,4,1) `.fi-panel-checkout .fi-sc-wizard-footer
-       .fi-btn.fi-color-primary` first-pass rule. */
     html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
     html body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-success,
     html.dark body.fi-panel-checkout .fi-sc-wizard-footer .fi-btn.fi-color-primary,
@@ -294,13 +211,9 @@
 
 <script>
     /*
-     * AI-60 / TICKET-DD (cycle-75 2026-05-08): defence-in-depth focus
-     * shim. Sync the HTML5 `inert` attribute with Filament's
-     * `.fi-active` class on each wizard step so Tab can never reach
-     * an inactive step's inputs.
-     *
-     * No-op on browsers without MutationObserver (IE10 and below) —
-     * those don't matter for the Filament target set anyway.
+     * Defence-in-depth focus shim: sync the HTML5 `inert` attribute with Filament's
+     * `.fi-active` class on each wizard step so Tab can never reach an inactive step's
+     * inputs. No-op on browsers without MutationObserver.
      */
     if (typeof window.checkoutWizardInertShim === 'undefined') {
         window.checkoutWizardInertShim = function () {

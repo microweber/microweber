@@ -8,32 +8,26 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-113 — multi-ticket landing test for the
- * Architecture & Infrastructure Wave's documentation + skeleton
- * tickets.
+ * Architecture & Infrastructure Wave documentation + skeleton contract.
  *
  * Pins:
- *   - AI-119 / TICKET-BA — docs/MIGRATION.md exists with the
- *     per-module migration inventory.
- *   - AI-119 / TICKET-BF — docs/DEEP_AUDIT_TODO.md documents the
- *     chunkById backfill convention.
- *   - AI-119 / TICKET-BI — docs/DEEP_AUDIT_TODO.md documents the
- *     FK + onDelete audit findings.
- *   - AI-119 / TICKET-BJ — docs/DEEP_AUDIT_TODO.md documents the
- *     cycle-43 encrypt extension scope.
- *   - AI-122 / TICKET-CB — PROJECT.md extended with the
- *     architecture overview + module map + deployment topology.
- *   - AI-122 / TICKET-CE — docs/MODULE_GUIDE.md exists.
- *   - AI-105 / TICKET-AY (phase 1) — Modules/Cart/Contracts/
- *     CartManagerContract.php exists with the canonical Cart API.
- *   - AI-106 / TICKET-AZ (phase 1) — event_log migration creates
- *     the table with name + payload + fired_at + replayed_at.
- *   - AI-125 / TICKET-CQ — _post-skin-base.scss + SKIN_GUIDE.md
- *     demonstrate the consolidation pattern.
+ *   - docs/MIGRATION.md exists with the per-module migration inventory.
+ *   - docs/DEEP_AUDIT_TODO.md documents the chunkById backfill
+ *     convention.
+ *   - docs/DEEP_AUDIT_TODO.md documents the FK + onDelete audit
+ *     findings.
+ *   - docs/DEEP_AUDIT_TODO.md documents the encrypt extension scope.
+ *   - PROJECT.md extended with the architecture overview + module map
+ *     + deployment topology.
+ *   - docs/MODULE_GUIDE.md exists.
+ *   - Modules/Cart/Contracts/CartManagerContract.php exists with the
+ *     canonical Cart API.
+ *   - event_log migration creates the table with name + payload +
+ *     fired_at + replayed_at.
+ *   - _post-skin-base.scss + SKIN_GUIDE.md demonstrate the
+ *     consolidation pattern.
  *
- * Style after the cycle-52..112 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class ArchitectureWaveDocsContractTest extends TestCase
 {
@@ -71,7 +65,7 @@ class ArchitectureWaveDocsContractTest extends TestCase
     {
         $src = $this->read('docs/DEEP_AUDIT_TODO.md');
 
-        // Each of the 3 sub-tickets has a section.
+        // Each of the 3 sub-tickets has a section in the target doc.
         foreach ([
             'TICKET-BF — chunkById() backfill convention',
             'TICKET-BI — Foreign-key + onDelete audit',
@@ -90,18 +84,17 @@ class ArchitectureWaveDocsContractTest extends TestCase
     {
         $src = $this->read('PROJECT.md');
 
-        // The cycle-113 extension marker.
         $this->assertStringContainsString(
             'AI-122 / TICKET-CB extension (cycle-113',
             $src,
-            'PROJECT.md must contain the AI-122 cycle-113 extension'
+            'PROJECT.md must contain the architecture extension marker'
         );
 
         // Critical-ADR list.
         $this->assertStringContainsString(
             'ADR-0001 — Helper-layer security',
             $src,
-            'PROJECT.md cycle-113 extension must list ADR-0001'
+            'PROJECT.md must list ADR-0001 in the architecture overview'
         );
     }
 
@@ -143,10 +136,9 @@ class ArchitectureWaveDocsContractTest extends TestCase
             'CartManagerContract must declare an interface'
         );
 
-        // Required methods from the public surface (post-cycle-118
-        // alignment with the actual CartManager — see
-        // ModuleContractsPhase1ContractTest for the canonical
-        // signatures pin).
+        // Required methods from the public surface — aligned with the
+        // actual CartManager. See ModuleContractsPhase1ContractTest for
+        // the canonical signatures pin.
         foreach ([
             'public function get_cart',
             'public function update_cart',
@@ -208,7 +200,7 @@ class ArchitectureWaveDocsContractTest extends TestCase
         $this->assertStringContainsString(
             'AI-125 / TICKET-CQ',
             $guide,
-            'docs/SKIN_GUIDE.md must reference the AI-125 ticket'
+            'docs/SKIN_GUIDE.md must reference the skin-consolidation ticket marker'
         );
     }
 }

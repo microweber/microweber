@@ -58,29 +58,20 @@ mw.log = function() {
 
 
 /*
- * AI-263 Phase B5 (cycle-185 2026-05-11) — `mw.$` vanilla
- * shim with jQuery passthrough.
- *
- * `mw.$()` used to call `jQuery(...)` directly — would throw
- * `ReferenceError: jQuery is not defined` on public Bootstrap
- * pages that don't eagerly load jQuery. After Phase B5, mw.$:
+ * `mw.$` — vanilla DOM wrapper with jQuery passthrough.
  *
  *   - When jQuery IS loaded: passes through to jQuery (admin,
  *     legacy admin, anywhere mw_require_jquery() opted in).
- *     Zero regression on those surfaces.
  *
- *   - When jQuery is NOT loaded: returns a vanilla DOM
- *     wrapper (MwDomCollection) that implements the chainable
- *     subset PM specified (addClass/removeClass/hasClass/attr/
- *     on/off/html/text/val/css/remove/find/first/last/eq/
- *     parent/children/each/length/[idx] indexed access).
+ *   - When jQuery is NOT loaded: returns a vanilla DOM wrapper
+ *     (MwDomCollection) that implements the chainable subset
+ *     (addClass/removeClass/hasClass/attr/on/off/html/text/val/
+ *     css/remove/find/first/last/eq/parent/children/each/length
+ *     /[idx] indexed access).
  *
  *   - Missing methods on the vanilla wrapper log a `mw.$`
- *     warning + fall back to a no-op (preferable to a
- *     hard throw that kills the rest of the JS execution).
- *
- * This is the cycle that finally lets `mw_require_jquery()`
- * drop from Bootstrap master.blade.php → 806KB savings.
+ *     warning + fall back to a no-op (preferable to a hard
+ *     throw that kills the rest of the JS execution).
  */
 function __mwDomToArray(selector, context) {
     if (selector == null) return [];
@@ -430,16 +421,12 @@ mw.$.fn = MwDomCollection.prototype; // For plugins that extend `mw.$.fn.foo = .
 mw.MwDomCollection = MwDomCollection;
 
 /*
- * AI-263 Phase B5 (cycle-185 2026-05-11) — global `$` alias +
- * static-method compatibility.
+ * Global `$` alias + static-method compatibility.
  *
  * Microweber's legacy core code (`core/_.js`, `core/options.js`,
  * `core/ajax.js`, etc.) uses bare `$()` / `$.each` / `$.ajax` /
- * `$.extend` throughout — historically OK because jQuery was
- * always loaded eagerly. To unblock dropping
- * `mw_require_jquery()` from the Bootstrap template, expose a
- * global `window.$` (and `window.jQuery`) that points at
- * `mw.$` so:
+ * `$.extend` throughout. When jQuery isn't loaded, expose a
+ * global `window.$` (and `window.jQuery`) that points at `mw.$`:
  *
  *   - `$('.foo')` → mw.$ wrapper (vanilla or jQuery passthrough)
  *   - `$.each(arr, fn)` → forEach

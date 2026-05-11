@@ -1,13 +1,13 @@
 /*
- * AI-263 Phase B3 (cycle-183 2026-05-11) — Bootstrap Datetimepicker
- * → native `<input type="datetime-local">` adapter.
+ * Bootstrap Datetimepicker → native `<input type="datetime-local">`
+ * adapter.
  *
  * Replaces the jQuery Bootstrap Datetimepicker plugin (used by
  * Modules/CustomFields *time.blade.php skins) with a vanilla
  * adapter that swaps `<input type="text">` for HTML5
- * `<input type="datetime-local">` (or `time`/`date` depending on
- * the Slick-style options). Browsers ship the native picker —
- * no jQuery library required.
+ * `<input type="datetime-local">` (or `time` / `date` depending
+ * on options). Browsers ship the native picker — no jQuery
+ * library required.
  *
  * Module skins call:
  *   $('.js-bootstrap4-timepicker').datetimepicker({pickDate:false,

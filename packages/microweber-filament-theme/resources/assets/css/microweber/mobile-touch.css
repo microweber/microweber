@@ -1,13 +1,8 @@
 /*
- * AI-276/277/278 design-system token block (cycle-178 2026-05-11).
- *
- * Mirror of the canonical token file
+ * Design-system token block — inline mirror of
  *   packages/frontend-assets/resources/assets/css/microweber/css/design-system.css
- * defined inline at the top of this file so the var()s referenced
- * by AI-278 checkout-alignment overrides below resolve regardless
- * of design-system.css load order. The two definitions are pinned
- * to stay in sync by
- *   tests/Feature/Ai276Ai277Ai278DesignSystemContractTest.php
+ * so the var()s referenced below resolve regardless of
+ * design-system.css load order.
  */
 :root {
     --color-primary: #0d6efd;
@@ -51,30 +46,22 @@
 /*
  * Mobile-touch refinements for the Filament admin shell.
  *
- * Closes:
- *   - Mobile Issue 02 (P1): every Filament admin input <16px font-size
- *     triggers iOS Safari auto-zoom on focus. Bumping to 16px on touch
- *     devices stops the zoom; desktop density (≥1024px) unchanged.
- *   - Mobile Issue 04 (P1-P2): Filament topbar / sidebar icon-buttons
- *     are below the WCAG 2.5.5 / iOS HIG 44×44 minimum on touch.
- *
- * Source: agent-test mobile-audit pass 2026-05-06T15:03 — see
- * .autodev/messages/attachments/email_mou6ub*. Recommended by agent-test
- * as "Option A" (touch-only) so desktop layout is preserved for
- * power-users on ≥1024px viewports.
+ * - Inputs <16px trigger iOS Safari auto-zoom on focus; bump to 16px on touch.
+ * - Filament topbar / sidebar icon-buttons fall below the WCAG 2.5.5 /
+ *   iOS HIG 44x44 minimum on touch.
  *
  * The match-list `(max-width: 1023.98px), (hover: none) and (pointer: coarse)`
  * covers (a) phones / small tablets in landscape and (b) any pointer-coarse
- * device regardless of viewport (foldables, larger tablets in landscape,
- * touch-screen laptops). Both heuristics are needed because either one in
- * isolation misses a real device class.
+ * device regardless of viewport. Both heuristics are needed because either
+ * one in isolation misses a real device class. Desktop density on >=1024px
+ * is preserved.
  */
 
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* Issue 02 — input font-size 16px stops iOS auto-zoom on focus.
+    /* Input font-size 16px stops iOS auto-zoom on focus.
        Targets every Filament-rendered text input, textarea, and select.
-       Filament's `.fi-input` class wraps inputs; `.fi-input-wrp input`
-       covers Filament's input-with-prefix/suffix wrapper variant. */
+       `.fi-input` wraps inputs; `.fi-input-wrp input` covers Filament's
+       input-with-prefix/suffix wrapper variant. */
     .fi input[type="text"],
     .fi input[type="email"],
     .fi input[type="password"],
@@ -98,32 +85,23 @@
         font-size: 16px;
     }
 
-    /* Issue 02 final straggler (audit-test re-test 2026-05-07T07:56):
-       The Filament topbar global-search input #input-1 has a project-
-       specific override with `font-size: 13px !important` + height 34px,
-       which beats the generic `input[type="search"]` rule above. Override
-       it explicitly inside the same touch-viewport media block. Bumping
-       height to 44px also satisfies Issue 04 tap-target on the same
-       element (kills two birds with one rule). */
+    /* The Filament topbar global-search input has a project-specific
+       override (`font-size: 13px !important` + height 34px) that beats
+       the generic `input[type="search"]` rule above. Override here and
+       bump height to 44px to also meet the tap-target floor. */
     .fi-topbar .fi-global-search-field input {
         font-size: 16px !important;
         height: 44px !important;
         padding: 10px 12px !important;
     }
 
-    /* Issue 02 stragglers (audit-test follow-up 2026-05-06T16:18):
-       After the rule above shipped, agent-test re-ran the probe and
-       found 5/231 inputs still <16px. Two diagnoses:
-       (a) The page-tree search input #input-1 lives OUTSIDE `.fi`
-           (it's a Microweber tree-component widget, not a Filament
-           form field). Drop the `.fi` ancestor for `input[type="search"]`
-           on touch viewports — Microweber search inputs aren't at
-           desktop-density risk so a bare type-selector is safer.
-       (b) Description textareas (`form.description`,
-           `form.content_meta_description`, `form.og_description`) sit
-           inside `.fi` so the `.fi textarea` rule SHOULD match — but
-           a more-specific Filament `text-sm` utility class wins the
-           cascade. Bump specificity with `[id]` + `!important`. */
+    /* Two stragglers that escape the generic rule above:
+       (a) The page-tree search input lives OUTSIDE `.fi` (Microweber
+           tree-component widget, not a Filament form field) — drop the
+           `.fi` ancestor for `input[type="search"]` on touch viewports.
+       (b) Description textareas sit inside `.fi` but a more-specific
+           Filament `text-sm` utility class wins the cascade — bump
+           specificity with `[id]` + `!important`. */
     input[type="search"] {
         font-size: 16px;
     }
@@ -133,7 +111,7 @@
         font-size: 16px !important;
     }
 
-    /* Issue 04 — topbar / sidebar icon buttons up to 44×44.
+    /* Topbar / sidebar icon buttons up to 44x44.
        `.fi-icon-btn` is Filament's stable utility for icon-only buttons
        (notifications popover trigger, dark-mode toggle, sidebar collapse,
        resource-table per-row icon actions). Padding stays auto so the
@@ -145,35 +123,22 @@
 }
 
 /*
- * TICKET-I (audit-test mobile-audit Issue 05 + DOM dump 2026-05-06T16:19):
- * Live-Edit toolbar wraps to a second row at <576px because the device-
- * toggle (`.mw-live-edit-resolutions-wrapper`, ~92px) plus the SAVE
- * button cannot fit on one row. The wrapped row pushes SAVE down to
- * y=57, overlapping the iframe canvas top at y=60 (33px overlap).
- *
- * Two-leg fix:
+ * Live-Edit toolbar phone overflow fix.
+ * At <576px the device-toggle (~92px) + SAVE cannot fit on one row;
+ * the wrapped row pushes SAVE down and overlaps the iframe canvas top.
  *   1. Hide the device-toggle on phones (the user IS on a phone — the
- *      desktop preview is the wrong default). Frees enough horizontal
- *      space to keep the toolbar on one row.
+ *      desktop preview is the wrong default).
  *   2. Push the iframe down by the toolbar height so SAVE no longer
  *      overlaps the canvas content even if the toolbar wraps.
- *
- * Real DOM hooks confirmed by agent-test DOM dump:
- *   - `#live-edit-frame-holder` wraps the iframe; height set on it.
- *   - `.mw-live-edit-resolutions-wrapper` is the device-toggle nav.
  */
 @media (max-width: 575.98px) {
-    /* `general-styles.css` line 132 sets `.mw-live-edit-resolutions-wrapper`
-       to Tailwind's `flex` utility via `@apply`. That declaration loads
-       later in the cascade, so a bare `display: none` here loses. Use
-       `!important` to force the hide on phones — matching the pattern
-       used by the surrounding `background-color !important` overrides
-       on the same selector. (audit-test re-test 2026-05-07T07:56). */
+    /* `general-styles.css` sets `.mw-live-edit-resolutions-wrapper` to
+       Tailwind's `flex` utility via `@apply` later in the cascade, so a
+       bare `display: none` loses — use `!important` to force the hide. */
     .mw-live-edit-resolutions-wrapper {
         display: none !important;
     }
-    /* TICKET-I polish (audit-test ack 2026-05-07): use a CSS variable
-       for the toolbar height so future changes to the toolbar's
+    /* CSS variable for toolbar height so changes to the toolbar's
        intrinsic height don't silently break the iframe offset. */
     :root { --mw-live-edit-toolbar-h: 60px; }
     #live-edit-frame-holder {
@@ -183,117 +148,74 @@
 }
 
 /*
- * TICKET-L (UX audit Finding 03 — agent-test 2026-05-06T16:36):
- * The Filament filter-trigger badge renders a literal "0" when no
- * filters are active. A "0" badge is the universal sign of
- * "no notifications / nothing to see" — users misread it as
- * "filter feature unavailable" and miss the affordance entirely.
- *
- * Hide the badge when its visible text content is exactly "0".
- * `:has()` is the right tool: it targets the badge whose direct
- * text node is "0". Modern browser support is sufficient for the
- * Filament admin (no IE / legacy targets).
+ * Hide the Filament filter-trigger "0" badge.
+ * Users misread the universal "no notifications" "0" badge as
+ * "filter feature unavailable" and miss the affordance. The live
+ * Filament version wraps the badge in `.fi-icon-btn-badge-ctn`
+ * rather than `.fi-ta-filters-trigger`, so cover both.
+ * `:has(> :only-child:empty)` keeps non-zero badges visible —
+ * only badges whose only child is empty (literal "0" rendered
+ * as an empty inner span) are hidden.
  */
 .fi-ta-filters-trigger .fi-badge:has(> :only-child:empty),
 .fi-ta-filters-trigger .fi-badge[data-count="0"],
-/* TICKET-L follow-up (audit-test re-test 2026-05-07T07:56): the live
-   Filament version wraps the filter badge in `.fi-icon-btn-badge-ctn`,
-   not `.fi-ta-filters-trigger`. Broaden the selector to cover the
-   real wrapper. The `:has(> :only-child:empty)` part keeps non-zero
-   badges visible — only badges whose only child is empty (literal
-   "0" rendered as an empty inner span) are hidden. */
 .fi-icon-btn-badge-ctn .fi-badge:has(> :only-child:empty),
 .fi-icon-btn-badge-ctn .fi-badge[data-count="0"] {
     display: none;
 }
 
 /*
- * TICKET-P (UX audit Finding 07 — agent-test 2026-05-06T16:36):
- * Status pills use mixed casing across resources: Posts shows
- * `PUBLISHED` (uppercase) while Orders shows `shipped` /
- * `processing` (sentence-case). Pick sentence-case as the canonical
- * rule — Orders is already on this style, so the sweep is one-way.
- *
- * The CSS layer of the fix: kill any `text-transform: uppercase`
- * on `.fi-badge` so existing literal "Published" / "Draft" labels
- * render as-is. The accompanying server-side label changes belong
- * in the resource definitions (deferred to TICKET-P/SERVER below).
- *
- * Also fixes the i18n footgun called out in the audit: CSS
- * `text-transform: uppercase` breaks German `ß`, Turkish `i`, etc.
+ * Status pill casing — keep sentence-case as the canonical rule.
+ * Kill any `text-transform: uppercase` on `.fi-badge` so existing
+ * literal "Published" / "Draft" labels render as-is. Also avoids
+ * the i18n footgun where `text-transform: uppercase` breaks German
+ * `ß`, Turkish `i`, etc.
  */
 .fi-badge {
     text-transform: none;
 }
 
 /*
- * TASK-020 / TICKET-T / AI-38 (cycle-60 2026-05-08):
- * Hide single-level breadcrumb everywhere — when the breadcrumb only
- * contains one entry (e.g. "Posts" on the list page) it is pure visual
- * noise; the page title already says "Posts". Edit/view/create pages
- * always have a multi-level trail (e.g. Posts > Edit > "My Title")
- * which has 2+ entries and stays visible.
- *
- * Filament v5 renders the breadcrumb list as
- *   `.fi-breadcrumbs > nav > ol > li` (default).
- * `:has(> li:only-child)` matches the <ol> whose only child is a
- * single <li> — the exact single-level shape PM specified. Modern
- * browser :has() support is sufficient for Filament's targets
- * (no IE / legacy).
+ * Hide single-level breadcrumb — when the breadcrumb only contains
+ * one entry (e.g. "Posts" on the list page) it is pure visual noise;
+ * the page title already says "Posts". Multi-level trails stay
+ * visible. `:has(> li:only-child)` matches the <ol> whose only child
+ * is a single <li>.
  */
 .fi-breadcrumbs ol:has(> li:only-child) {
     display: none;
 }
 
 /*
- * TASK-021 / TICKET-R / AI-39 (cycle-61 2026-05-08):
- * On Filament list pages, both the topbar global search AND the
- * per-table `->searchable()` toolbar search render at the same
- * time — two parallel search inputs that admins find confusing.
- * Per the brief option (a), hide the topbar global search ONLY
- * on resource-list pages; edit/view/create pages and dashboards
- * keep the global search since they do not carry a per-table
- * search input.
- *
- * Scoped to `.fi-resource-list-records-page .fi-topbar
- * .fi-global-search-field` so:
- *   - dashboards / settings / non-list admin pages are unaffected
- *   - the wrapper `<div class="fi-global-search">` is left in place
- *     (the Microweber quick-nav widget anchors content to that
- *     parent — see livewire/filament/search-quick-nav.blade.php
- *     line 72)
+ * On Filament list pages both the topbar global search and the
+ * per-table `->searchable()` toolbar search render at the same time
+ * — two parallel search inputs that admins find confusing. Hide the
+ * topbar global search on resource-list pages only; edit/view/create
+ * pages and dashboards keep it since they don't carry a per-table
+ * search input. The wrapper `<div class="fi-global-search">` is left
+ * in place (the Microweber quick-nav widget anchors content there).
  */
 .fi-resource-list-records-page .fi-topbar .fi-global-search-field {
     display: none;
 }
 
 /*
- * TICKET-U/V/W (cycle-62 2026-05-08) — mobile-audit follow-up:
- * touch-target sweep across admin chrome (topbar) + list-page
- * row controls + Orders status tabs. Mirror of the cycle-58
- * `public-touch.css` strategy — TARGETED selector list scoped
- * to the touch-viewport media block so desktop power-user
- * density on >=1024px is preserved.
- *
- * Source: agent-test mobile-audit brief 2026-05-08T18:32:56Z
- * (iPhone 14 Pro, 390x844px). Selectors verified against the
- * Filament v5 dist CSS in packages/microweber-filament-theme/
- * resources/dist/build/microweber-filament-theme.css.
+ * Touch-target sweep across admin chrome (topbar) + list-page row
+ * controls + Orders status tabs. Targeted selector list scoped to
+ * the touch-viewport media block so desktop power-user density on
+ * >=1024px is preserved.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* TICKET-U — Admin topbar controls.
-       - .fi-topbar-nav-button is the sidebar toggle (52x36 measured)
-       - .fi-topbar-item-button is the user-profile button (32x32)
-       - .fi-global-search-field input is the quick-nav search (36x34) */
+    /* Admin topbar controls — sidebar toggle, user-profile button,
+       quick-nav search input. */
     .fi-topbar-nav-button,
     .fi-topbar-item-button,
     .fi-global-search-field input {
         min-width: 44px;
         min-height: 44px;
     }
-    /* "Live Edit" link is rendered inline in the topbar via
-       livewire/filament/top-navigation-go-live-edit.blade.php; bump
-       the wrapper anchor without touching the visible chip styling. */
+    /* "Live Edit" link is rendered inline in the topbar; bump the
+       wrapper anchor without touching the visible chip styling. */
     .fi-topbar a.mw-go-live-edit,
     .fi-topbar .mw-go-live-edit {
         min-height: 44px;
@@ -301,7 +223,7 @@
         align-items: center;
     }
 
-    /* TICKET-V — Admin list-page row controls.
+    /* Admin list-page row controls.
        Row checkboxes are wrapped in <label> by Filament; bumping the
        label gets the whole hit-area without breaking native click
        semantics on the input. Row action icon buttons / status badges
@@ -336,9 +258,8 @@
         min-height: 44px;
     }
 
-    /* TICKET-W — Orders status tabs.
-       7 tabs (All/New/Processing/Shipped/Delivered/Cancelled/Refunded)
-       render at 31px height. Scoped to list pages so other Filament
+    /* Orders status tabs (All/New/Processing/Shipped/...) render at
+       31px height by default. Scoped to list pages so other Filament
        tab usages are unaffected. */
     .fi-resource-list-records-page .fi-tabs-item {
         min-height: 44px;
@@ -347,23 +268,16 @@
 }
 
 /*
- * AI-64 / TICKET-PP (cycle-77 2026-05-08): live-edit toolbar
- * `.btn-icon.live-edit-toolbar-buttons` controls were converted from
- * <div>/<span> to real <button> elements (see SettingsCustomize.vue
- * cycle-77 changes). The wrapper rule at live-edit-classes.css:162
- * forces `!max-h-[35px]` on the wrapper, which would clamp these
- * buttons to 35px tall and bust the 44x44 floor.
+ * Live-edit toolbar `.btn-icon.live-edit-toolbar-buttons` controls.
+ * The wrapper rule at `live-edit-classes.css` forces `!max-h-[35px]`
+ * which would clamp these buttons to 35px tall and bust the 44x44
+ * floor. `mw-toolbar-icon-btn` is a marker class — the sizing override
+ * is scoped to it so we don't inflate the wrapper itself (which needs
+ * to stay 35px in desktop-density mode).
  *
- * `mw-toolbar-icon-btn` is a marker class added in cycle-77; the
- * sizing override is scoped to it so we DO NOT inflate the wrapper
- * itself (which has other content + needs to stay 35px in
- * desktop-density mode).
- *
- * Applies at ALL viewports (not gated by the touch-viewport media
- * query above) because keyboard + AT users on desktop benefit from
- * the larger hit-area too — these are icon-only controls with no
- * text label, so the visual change at desktop is negligible (icons
- * stay the same, padding grows by ~9px each axis).
+ * Applies at all viewports because keyboard + AT users on desktop
+ * benefit from the larger hit-area too — icon-only controls with no
+ * text label, so the visual change at desktop is negligible.
  */
 .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
 button.btn-icon.live-edit-toolbar-buttons,
@@ -378,16 +292,10 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-168 follow-up (cycle-146b 2026-05-09): tester verified the
- * cycle-146 dark-mode toggle render-hook works (theme switcher
- * present in topbar, dark class toggles correctly), but flagged
- * the buttons render at 36x36px — below WCAG 2.5.5 / iOS HIG 44x44.
- * The theme-switcher uses .fi-theme-switcher-btn (per
- * vendor/filament/filament/resources/views/components/theme-switcher/
- * button.blade.php line 19). Bumping to 44x44 on mobile only so
- * desktop density is preserved. Applies to ALL theme-switcher
- * buttons (light / dark / system) regardless of where they render
- * (topbar via cycle-146 hook OR user-menu by Filament default).
+ * Theme-switcher buttons render at 36x36px from Filament base —
+ * below WCAG 2.5.5 / iOS HIG 44x44. Bump to 44x44 on mobile only so
+ * desktop density is preserved. Applies to all theme-switcher
+ * buttons (light / dark / system) regardless of where they render.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
     .fi-theme-switcher-btn {
@@ -400,28 +308,18 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-123 / TICKET-CO (cycle-136 2026-05-09): Novice-UX hover affordances
- * for clickable cards across the admin shell. Brief: "All clickable cards
- * must have hover feedback (cursor-pointer + subtle bg change)".
- *
- * The cycle-58/-62 mobile-touch sweep already covers 44×44 targets on
- * topbar + sidebar + list-row + Orders-tabs (see TICKET-U/V/W above).
- * This block fills the remaining gap: clickable Filament + Microweber
- * cards that currently look identical at rest and on hover, leaving
- * users uncertain whether the card is interactive.
- *
- * Strategy: opt-in via a marker (Filament's recordUrl-bound
- * .fi-ta-record + project-blessed .mw-clickable-card / .mw-tile /
- * .mw-card-link). Generic <a class="card"> tags are NOT touched —
- * other CSS already styles them and a global hover would clash.
+ * Hover affordances for clickable cards across the admin shell so
+ * users can tell cards are interactive. Opt-in via a marker
+ * (Filament's recordUrl-bound `.fi-ta-record` + project-blessed
+ * `.mw-clickable-card` / `.mw-tile` / `.mw-card-link`). Generic
+ * `<a class="card">` tags are NOT touched — other CSS already styles
+ * them and a global hover would clash.
  */
 
 /*
- * Filament resource-table rows that have a recordUrl() bound
- * become an <a> link wrapping the row content; without an explicit
- * hover state, novices can't tell rows are clickable. Filament
- * already adds `data-rowurl` (or similar) when bound, but the
- * .fi-ta-record class is stable so we hook on that.
+ * Filament resource-table rows with a recordUrl() bound become an
+ * <a> link wrapping the row content. The `.fi-ta-record` class is
+ * stable so we hook on that.
  */
 .fi-ta-record:has(a[href]),
 .fi-ta-record[data-rowurl] {
@@ -444,10 +342,9 @@ button.btn-icon.live-edit-toolbar-buttons,
  *   - .mw-card-link       — card wrapped in an <a> link
  *   - .mw-grid-item       — grid-layout item (template/layout/skin pickers)
  *
- * Includes 44×44 floor + cursor-pointer + subtle bg + transform on
- * hover so novices get clear visual + tactile feedback. Touch
- * devices skip the transform (pointer:fine media query) since hover
- * doesn't apply there anyway.
+ * 44x44 floor + cursor-pointer + subtle bg + transform on hover so
+ * users get clear visual + tactile feedback. Touch devices skip the
+ * transform (pointer:fine media query) since hover doesn't apply.
  */
 .mw-clickable-card,
 .mw-tile,
@@ -475,7 +372,7 @@ button.btn-icon.live-edit-toolbar-buttons,
     }
 }
 /* Keyboard focus-visible parity — every hover state must also fire on
-   focus-visible so keyboard + AT users get the same novice cue. */
+   focus-visible so keyboard + AT users get the same cue. */
 .mw-clickable-card:focus-visible,
 .mw-tile:focus-visible,
 .mw-card-link:focus-visible,
@@ -489,9 +386,8 @@ button.btn-icon.live-edit-toolbar-buttons,
 /*
  * Filament empty-state action buttons (the "Create your first X"
  * call-to-action that Filament renders inside an empty table).
- * The cycle-N empty-state.blade.php in Modules/Content carries
- * the illustration; this rule guarantees the action button below
- * the illustration is the standard 44×44 size + clearly hoverable.
+ * Guarantee the action button below the illustration is the
+ * standard 44x44 size + clearly hoverable.
  */
 .fi-ta-empty-state .fi-btn,
 .fi-ta-empty-state a.fi-btn,
@@ -503,36 +399,22 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-219 / AI-220 / AI-221 (cycle-168 2026-05-10) — admin-mobile
- * touch-target floors discovered by agent-test's AI-217 audit.
- *
- * The cycle-N TICKET-U/V/W rules above (lines 232+) covered some
- * surfaces but missed the actual selectors that Filament v5 renders
- * for the admin Add + Live Edit buttons (`.fi-btn` inside `.fi-topbar`,
- * NOT `.fi-topbar-nav-button`) and the user-menu wrapper
- * (`.fi-dropdown-trigger`, NOT `.fi-topbar-item-button`). The cycle-N
- * row-action floors covered .fi-ta-actions descendants but missed
- * the View / Live edit / Edit anchor cells that live in custom
- * `<td>` cells outside `.fi-ta-actions`.
+ * Admin-mobile touch-target floors for surfaces missed by the
+ * generic sweep above: Filament v5 renders the admin Add + Live
+ * Edit buttons as `.fi-btn` inside `.fi-topbar` (not
+ * `.fi-topbar-nav-button`), the user-menu wrapper as
+ * `.fi-dropdown-trigger` (not `.fi-topbar-item-button`), and the
+ * View / Live edit / Edit row anchors live in custom <td> cells
+ * outside `.fi-ta-actions`.
  *
  * Scoped under `body.fi-panel-admin` so checkout panel + other
  * Filament panels are not affected.
- *
- * Scope decision (AI-220):
- *   The sidebar 167×40-42 measurement comes from the open-drawer
- *   state; Filament already collapses the sidebar to off-screen at
- *   <1024 (sidebar.x = -256 measured during cycle-168 browser-verify).
- *   Sidebar items already ship at 44px tall. The "overflows past
- *   screen edge" complaint is the deliberate slide-out drawer
- *   behaviour. No layout change needed; just make sure individual
- *   items stay ≥44 (they do).
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* AI-219 — Topbar Add + Live Edit + user-menu trigger.
-       Floor every .fi-btn inside .fi-topbar (covers the Add +
-       Live Edit Filament-action buttons). Use !important because
-       Filament's bundled `.fi-btn { min-height: 36px }` rule
-       loads after our css and wins on equal specificity. */
+    /* Topbar Add + Live Edit + user-menu trigger.
+       Floor every .fi-btn inside .fi-topbar. Use !important because
+       Filament's bundled `.fi-btn { min-height: 36px }` rule loads
+       after our css and wins on equal specificity. */
     body.fi-panel-admin .fi-topbar .fi-btn,
     body.fi-panel-admin .fi-topbar a.fi-btn,
     body.fi-panel-admin .fi-topbar button.fi-btn {
@@ -553,12 +435,11 @@ button.btn-icon.live-edit-toolbar-buttons,
         justify-content: center;
     }
 
-    /* AI-221 — Table row custom anchor cells.
-       The cycle-N TICKET-V floors covered .fi-ta-actions descendants
-       but the View / Live edit / Edit row-anchor links live in
-       separate <td> cells outside .fi-ta-actions. Floor any anchor
-       inside .fi-ta-row that is NOT inside .fi-ta-actions (which is
-       already covered) so View / Live edit / Edit get the floor too. */
+    /* Table row custom anchor cells.
+       View / Live edit / Edit row-anchor links live in separate <td>
+       cells outside .fi-ta-actions. Floor any anchor inside
+       .fi-ta-row that is NOT inside .fi-ta-actions (already covered)
+       so View / Live edit / Edit get the floor too. */
     body.fi-panel-admin .fi-ta-row td a,
     body.fi-panel-admin .fi-ta-row .fi-ta-cell a {
         min-width: 44px;
@@ -574,8 +455,8 @@ button.btn-icon.live-edit-toolbar-buttons,
         min-height: 44px;
         min-width: 44px;
     }
-    /* Bulk-select checkbox label wrapper (already covered by cycle-N
-       rule but defensive duplicate scoped to admin panel). */
+    /* Bulk-select checkbox label wrapper — defensive duplicate
+       scoped to admin panel. */
     body.fi-panel-admin .fi-ta-row .fi-checkbox-input,
     body.fi-panel-admin .fi-ta-row input[type="checkbox"] {
         min-width: 22px;
@@ -592,37 +473,19 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-226 / AI-227 (cycle-169 2026-05-10) — admin-mobile touch-target
- * floors from agent-test's Drunk Designer admin-settings audit.
- *
- *   AI-226 — Filament toggle switches (.fi-toggle / .fi-fo-toggle)
- *            measured 44×24 on /admin/settings/general. The visible
- *            switch is a `<button class="fi-toggle">` rendered by
- *            vendor/filament/support/resources/views/components/toggle.blade.php.
- *            Filament's base CSS sets the height to `1.5rem` (24px) —
- *            below WCAG 2.5.5 / iOS HIG 44 floor on the smaller axis.
- *            Floor `min-height: 44px` so the tap area meets the
- *            standard. Width already at 44px from Filament base.
- *
- *   AI-227 — Reorder records icon button (.fi-icon-btn with the
- *            wire:click="toggleTableReordering" / "Reorder records"
- *            label) measured 36×36. Filament base sets `.fi-icon-btn`
- *            to `size-9` (36px). Floor every `.fi-icon-btn` inside
- *            `.fi-ta-header-toolbar` (where the reorder trigger
- *            lives) to 44×44 so it — plus any other table-header
- *            icon buttons (column manager, search-input clear, etc.)
- *            — meets the floor.
+ * Admin-mobile touch-target floors for Filament toggles + table-header
+ * icon buttons. Filament base sets `.fi-toggle` height to 1.5rem (24px)
+ * and `.fi-icon-btn` to size-9 (36px) — both below the WCAG 2.5.5 /
+ * iOS HIG 44px floor on the smaller axis.
  *
  * Scoped to `body.fi-panel-admin` so checkout panel + other Filament
- * panels keep their existing densities. Same media query as cycle-168
- * (`max-width: 1023.98px`, `hover: none and pointer: coarse`).
+ * panels keep their existing densities.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* AI-226 — Filament toggle switches.
-       The visible switch is `<button class="fi-toggle fi-fo-toggle"
+    /* Filament toggle switches — `<button class="fi-toggle fi-fo-toggle"
        role="switch">`. Filament's base height is 24px; bump to 44.
-       Use !important because Filament's bundled .fi-toggle rule
-       loads after our css and wins on equal specificity. */
+       Use !important because Filament's bundled .fi-toggle rule loads
+       after our css and wins on equal specificity. */
     body.fi-panel-admin .fi-toggle,
     body.fi-panel-admin .fi-fo-toggle,
     body.fi-panel-admin button.fi-toggle[role="switch"] {
@@ -630,11 +493,10 @@ button.btn-icon.live-edit-toolbar-buttons,
         min-width: 44px !important;
     }
 
-    /* AI-227 — Reorder records icon button + sibling table-header
-       icon buttons. Filament's `.fi-icon-btn` defaults to size-9
-       (36px). Floor any icon button inside the table header toolbar
-       to 44×44 so the reorder trigger (and column manager, etc.)
-       meets the touch-target floor. */
+    /* Table-header icon buttons (Reorder records, column manager,
+       etc.). Filament's `.fi-icon-btn` defaults to size-9 (36px) —
+       floor every icon button inside the table header toolbar to
+       44x44. */
     body.fi-panel-admin .fi-ta-header-toolbar .fi-icon-btn,
     body.fi-panel-admin .fi-ta .fi-icon-btn[wire\:click*="Reorder"],
     body.fi-panel-admin .fi-ta .fi-icon-btn[wire\:click*="reorder"],
@@ -645,28 +507,13 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-228 (cycle-170 2026-05-10) — admin Rich Text Editor toolbar
- * touch-target floor.
- *
- * agent-test's Drunk Designer modal audit found ALL ~30 admin RTE
- * toolbar buttons measure 32×32 — Bold, Italic, Underline, Link,
- * Heading 2/3, Align, Blockquote, Code, Lists, Table, Undo/Redo,
- * Attach files, table sub-buttons. Filament's base style (vendor/
- * filament/forms/resources/css/components/rich-editor.css line 56)
- * sets `.fi-fo-rich-editor-tool` to `h-8 min-w-8` = 32×32, below
- * WCAG 2.5.5 / iOS HIG 44 floor.
- *
- * Note: PM's email mentioned `.tiptap-toolbar button` but in this
- * project the admin RTE is Filament's native Rich Editor — the
- * actual class is `.fi-fo-rich-editor-tool` (verified by
- * playwright probe at /admin/products/create 390×844).
+ * Admin Rich Text Editor toolbar touch-target floor.
+ * Filament's base style sets `.fi-fo-rich-editor-tool` to h-8 min-w-8
+ * (32x32), below the WCAG 2.5.5 / iOS HIG 44 floor.
  *
  * The toolbar wrapper `.fi-fo-rich-editor-toolbar` is already
- * `display: flex; flex-wrap: wrap; overflow-x: visible` — bumping
- * each button to 44×44 simply causes more rows naturally; no
- * 2-row-layout special case is needed (as PM speculated). At 245px
- * available width the toolbar will wrap to ~5 rows, same wrapping
- * behaviour as the current 32×32 layout (which already wraps).
+ * `display: flex; flex-wrap: wrap` so bumping each button to 44x44
+ * just causes more rows naturally.
  *
  * Scope: `body.fi-panel-admin` so this doesn't bleed to checkout
  * panel or any other Filament panel that might embed an RTE.
@@ -680,7 +527,7 @@ button.btn-icon.live-edit-toolbar-buttons,
     }
 
     /* Tighten internal padding so the icon stays visually centred
-       at the new 44×44 size — the icon itself is sized via
+       at the new 44x44 size — the icon itself is sized via
        Filament's IconSize::Small (16px) and we don't change that. */
     body.fi-panel-admin .fi-fo-rich-editor-toolbar {
         gap: 0.125rem !important;
@@ -688,33 +535,20 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-229 / AI-230 (cycle-171 2026-05-10) — admin form tabs +
- * category tree radio button touch-target floors.
+ * Admin form tabs + category tree radio button touch-target floors.
+ *   - `.fi-tabs-item` ([role="tab"]) renders ~31px tall from
+ *     Filament's base padding, below the 44 floor on the smaller axis.
+ *   - Native `<input type="radio">` (16x16) in the category tree —
+ *     floor the parent label wrapper to 44x44 so the tap area meets
+ *     the floor, while leaving the native input sized as browsers
+ *     render it (same pattern as the bulk-checkbox above).
  *
- *   AI-229 — `.fi-tabs-item` ([role="tab"]) measured 36×31 in
- *            agent-test's audit (Content/Product Details/Variants/
- *            Custom Fields/SEO/Advanced tabs on /admin/products/
- *            create). Filament's base padding gives ~31px height;
- *            below the 44 floor on the smaller axis. The widths
- *            vary by label length; only the height is the failing
- *            axis.
- *
- *   AI-230 — Native `<input type="radio">` (16×16) in the category
- *            tree at /admin/products/create. The radio sits inside
- *            `<tree-label class="form-check">`. The fix follows the
- *            same pattern as AI-221 bulk-checkbox: floor the parent
- *            label wrapper to 44×44 so the tap area meets the
- *            floor, while leaving the native input sized as
- *            browsers render it.
- *
- * Scope: `body.fi-panel-admin` so the rules don't bleed to
- * checkout panel or any other Filament panel. Same media query
- * as cycle-168/169/170.
+ * Scope: `body.fi-panel-admin` so the rules don't bleed to checkout
+ * panel or any other Filament panel.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* AI-229 — admin form tabs.
-       Floor the height; let the width grow naturally by content
-       so longer translated labels fit. */
+    /* Admin form tabs — floor the height; let the width grow
+       naturally by content so longer translated labels fit. */
     body.fi-panel-admin .fi-tabs-item,
     body.fi-panel-admin .fi-tabs button[role="tab"],
     body.fi-panel-admin .fi-tabs [role="tab"] {
@@ -723,14 +557,12 @@ button.btn-icon.live-edit-toolbar-buttons,
         padding-bottom: 0.5rem !important;
     }
 
-    /* AI-230 — category tree radio button label wrapper.
+    /* Category tree radio button label wrapper.
        The `<tree-label class="form-check">` element is the
-       row-clickable container for each category radio. Floor
-       it to 44×44 so the tap area meets the floor on both axes;
-       the native radio inside stays at its rendered 16×16
-       (browser default — bumping it visually doesn't help if
-       the hit area is wrong). Same pattern as AI-221 bulk-select
-       checkbox. */
+       row-clickable container for each category radio. Floor it to
+       44x44 so the tap area meets the floor on both axes; the native
+       radio inside stays at its rendered 16x16 (browser default —
+       bumping it visually doesn't help if the hit area is wrong). */
     body.fi-panel-admin tree-label.form-check,
     body.fi-panel-admin .form-check:has(> input[type="radio"]),
     body.fi-panel-admin label.form-check:has(input[type="radio"]) {
@@ -744,28 +576,14 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-227 follow-up (cycle-172 2026-05-10) — admin card-layout row
- * action anchors.
- *
- * agent-test verified cycle-169 AI-227 PASS for the table-header
- * Reorder/Filter/Column-manager buttons but flagged 25 per-row
- * Actions still failing at 36×24 / 30×18. Investigation: those
- * are NOT inside `.fi-ta-row` containers — /admin/posts (and
- * /admin/products, /admin/orders) uses a card-grid layout where
- * each row is a `.fi-ta-split` div, not a `<tr class="fi-ta-row">`.
- *
- * The View / Live edit / Edit controls are `<a aria-label="…">`
- * anchors styled with Tailwind text-gray classes — no
- * `.fi-ta-row td a` selector reaches them, so cycle-168's anchor
- * floor missed them. Verified at /admin/posts 390×844:
- *   View      36×24
- *   Live edit 30×18
- *   Edit      30×18
- *
- * Fix: floor any `<a aria-label>` action anchor inside `.fi-ta-split`
- * and inside the broader `.fi-ta` container (catches both
- * card-layout and table-layout admin pages). Scoped to
- * `body.fi-panel-admin` and the same admin-mobile media query.
+ * Admin card-layout row action anchors.
+ * /admin/posts, /admin/products, /admin/orders use a card-grid
+ * layout where each row is a `.fi-ta-split` div, not a
+ * `<tr class="fi-ta-row">`. The View / Live edit / Edit controls
+ * are `<a aria-label="...">` anchors so `.fi-ta-row td a` doesn't
+ * reach them. Floor any `<a aria-label>` action anchor inside
+ * `.fi-ta-split` and the broader `.fi-ta` container so both
+ * card-layout and table-layout admin pages are covered.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
     body.fi-panel-admin .fi-ta-split a[aria-label],
@@ -780,49 +598,20 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-235 (cycle-176 2026-05-10) — admin tables mobile density.
- *
- * agent-test reported: "275px per row × 25 rows = 6,875px scroll"
- * at 390×844 — mobile users see only 1 row per viewport, making
- * the admin tables ("Posts", "Products", "Orders") effectively
- * unusable for browsing. After cycle-167-cycle-175 row-height
- * was already brought down to ~226px; cycle-176 tightens further
- * to a target ~140px.
- *
- * Each `.fi-ta-split` row in the card-grid layout is structured:
- *   - `.fi-ta-col fi-growable` main content area (186h)
- *     - `.group.flex.flex-col.sm:flex-row.py-4.gap-4` (Tailwind
- *       mobile-first: column on <640px, row on ≥640px) — the
- *       py-4 (16px vert) + gap-4 (16px) accumulates to ~32px
- *       of fixed chrome around the title/status content.
- *     - `.w-full.flex.flex-col.sm:flex-row.gap-3` (title row;
- *       column on <640px so title + meta + status badge stack)
- *     - `.flex.flex-row.items-center.mt-2.sm:mt-0` (44h actions
- *       row from cycle-172).
- *
- * Cycle-176 fix (mobile + touch only via media query):
- *   1. Tighten the row's outer flex-column padding from py-4
- *      → py-2 and the gap from gap-4 → gap-2 so each row sheds
- *      ~16-24px of vertical chrome.
- *   2. Tighten the inner title-row gap from gap-3 → gap-1 so
- *      title + status badge sit closer together on stacked
- *      mobile column layout.
- *   3. Tighten `.mt-2` action-row top margin → 0.5rem (8px,
- *      half the Tailwind mt-2 8→2 factor) so the action row
- *      hugs the title block.
- *   4. Cap `.fi-ta-col` overflow so multi-line meta strings
- *      truncate to 2 lines instead of wrapping to 3-4.
- *
- * Touch-target floors from cycle-168/172 are NOT changed — the
- * 44×44 row-action anchor floor is preserved (only outer padding
- * tightens).
+ * Admin tables mobile density.
+ * Each `.fi-ta-split` card-grid row's outer flex-column padding
+ * (Tailwind py-4 + gap-4) plus inner gaps stack to >270px per row
+ * on a 390px viewport — mobile users see only 1 row per viewport.
+ * Tighten outer padding, inner gaps, and the action-row top margin;
+ * clamp multi-line meta strings to 2 lines so each row stays a
+ * predictable height. The 44x44 row-action anchor floor above is
+ * preserved.
  *
  * Scope: `body.fi-panel-admin` so checkout panel + other Filament
- * panels keep their existing densities. Same media query as
- * cycle-168/169/170/171/172.
+ * panels keep their existing densities.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
-    /* Outer row: Tailwind py-4 (16px) + gap-4 (16px) → py-2 + gap-2 */
+    /* Outer row: Tailwind py-4 (16px) + gap-4 (16px) -> py-2 + gap-2 */
     body.fi-panel-admin .fi-ta-split > .fi-ta-col .group.flex.flex-col,
     body.fi-panel-admin .fi-ta-split .group.flex {
         padding-top: 0.5rem !important;
@@ -830,14 +619,14 @@ button.btn-icon.live-edit-toolbar-buttons,
         gap: 0.5rem !important;
     }
 
-    /* Inner title row: Tailwind gap-3 (12px) → gap-1 (4px) so title
+    /* Inner title row: Tailwind gap-3 (12px) -> gap-1 (4px) so title
        and status badge sit closer in stacked column layout. */
     body.fi-panel-admin .fi-ta-split .w-full.flex.flex-col.sm\:flex-row.gap-3,
     body.fi-panel-admin .fi-ta-split .w-full.flex.flex-col {
         gap: 0.25rem !important;
     }
 
-    /* Action-row top margin: Tailwind mt-2 (8px) → mt-1 (4px). */
+    /* Action-row top margin: Tailwind mt-2 (8px) -> mt-1 (4px). */
     body.fi-panel-admin .fi-ta-split .flex.flex-row.mt-2,
     body.fi-panel-admin .fi-ta-split .mt-2 {
         margin-top: 0.25rem !important;
@@ -857,33 +646,21 @@ button.btn-icon.live-edit-toolbar-buttons,
 }
 
 /*
- * AI-278 (cycle-178 2026-05-11) — Checkout panel alignment with
- * public design system on mobile.
+ * Checkout panel alignment with the public design system on mobile.
+ * The `body.fi-panel-checkout` surface otherwise inherits Filament's
+ * full admin chrome (dark surface tokens, 7px input radius, gray-900
+ * text) which clashes with the public-facing checkout flow.
  *
- * agent-test's audit found that the `body.fi-panel-checkout`
- * surface inherits Filament's full admin chrome (dark surface
- * tokens, 7px radius on inputs, gray-900 text) which clashes
- * with the rest of the public-facing checkout flow. The
- * checkout is a customer-facing surface — it should look like
- * the rest of the public site, not the admin panel.
- *
- * Cycle-178 fix scoped to `body.fi-panel-checkout` only (admin
- * panel `body.fi-panel-admin` is unaffected):
- *
- *   1. Force light-surface tokens (white background, gray-300
- *      borders, gray-900 text) on mobile + touch viewports.
- *      Filament's `.fi.dark` cascade still applies for the
- *      explicit dark-mode toggle.
- *   2. Bump input border-radius from Filament's default 7px to
- *      4px (`var(--radius-sm)`) so checkout inputs match the
- *      Bootstrap public-site `.form-control` 4px radius.
- *   3. Override `.fi-input` height to `var(--touch-target-min)`
- *      (44px) so checkout inputs hit WCAG 2.5.5 even when
- *      Filament base sets them shorter.
- *
- * Same media query as cycle-168/169/170/171/172/176 admin
- * batch — `(max-width: 1023.98px), (hover: none) and
- * (pointer: coarse)`.
+ * Scoped to `body.fi-panel-checkout` only (admin panel
+ * `body.fi-panel-admin` is unaffected):
+ *   1. Force light-surface tokens. Filament's `.fi.dark` cascade
+ *      still applies for the explicit dark-mode toggle.
+ *   2. Bump input border-radius from Filament's default 7px to 4px
+ *      (`var(--radius-sm)`) so checkout inputs match the Bootstrap
+ *      public-site `.form-control` 4px radius.
+ *   3. Override `.fi-input` height to `var(--touch-target-min)` so
+ *      checkout inputs hit WCAG 2.5.5 even when Filament base sets
+ *      them shorter.
  */
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
     /* Surface alignment — force light tokens unless dark mode

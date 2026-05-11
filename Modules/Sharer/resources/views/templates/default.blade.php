@@ -2,14 +2,6 @@
 
 <div class="mw-social-share-links">
     @if($facebook_enabled)
-        {{-- AI-215 (cycle-167 2026-05-10): cycle-N had `rel="noopener
-             noreferrer"` accidentally injected INSIDE the PHP
-             expression as `mw()- rel="noopener noreferrer">url->current()`,
-             which broke the `->` chain and produced "syntax error,
-             unexpected token =" at blade-compile time on every
-             post-detail page render (FrontendController->frontend()
-             called for any /post-slug). Restored to `mw()->url->
-             current()` and moved the rel attribute onto the <a> tag. --}}
         <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
             @svg('modules.social_links-facebook')
         </a>
@@ -57,8 +49,6 @@
     @endif
 
     @if($whatsapp_enabled)
-        {{-- AI-215 (cycle-167): same `mw()- rel="..."` corruption as
-             facebook above. --}}
         <a target="_blank" rel="noopener noreferrer" href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}"
            data-action="share/whatsapp/share">
             @svg('modules.social_links-whatsapp')
@@ -66,7 +56,6 @@
     @endif
 
     @if($telegram_enabled)
-        {{-- AI-215 (cycle-167): same `mw()- rel="..."` corruption. --}}
         <a target="_blank" rel="noopener noreferrer" href="tg://msg_url?url={{ mw()->url->current() }}&text=Check this out: {{ mw()->url->current() }}">
             @svg('modules.social_links-telegram')
         </a>

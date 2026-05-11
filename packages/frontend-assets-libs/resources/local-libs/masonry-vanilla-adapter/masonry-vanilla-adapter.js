@@ -1,13 +1,11 @@
 /*
- * AI-263 Phase B3 (cycle-183 2026-05-11) — Masonry → CSS Grid /
- * column-layout vanilla adapter.
+ * Masonry → CSS Grid / column-layout vanilla adapter.
  *
  * Replaces the jQuery `masonry.pkgd.js` plugin (used by Pictures
- * module skin-18 / skin-20 / masonry.blade.php and Content module
- * masonry.blade.php) with a CSS-only layout. Module skins continue
- * to call `$(el).masonry({itemSelector, gutter})` unchanged but
- * get a CSS-grid-or-column based masonry layout — no jQuery
- * plugin required.
+ * and Content module skins) with a CSS-only layout. Module skins
+ * continue to call `$(el).masonry({itemSelector, gutter})`
+ * unchanged but get a CSS-grid-or-column based masonry layout —
+ * no jQuery plugin required.
  *
  * Strategy:
  *   1. Detect support for native `grid-template-rows: masonry`
@@ -20,11 +18,9 @@
  *      and stores a marker on the element. No periodic
  *      re-layout needed (CSS handles reflow on resize).
  *
- * The Microweber Pictures `masonry.blade.php` previously ran a
- * `setInterval` every 500ms to re-call `.masonry()` when new
- * items appeared. The adapter doesn't need this — CSS auto-
- * recomputes on DOM mutations. The .masonry() call is now an
- * idempotent style application.
+ * The .masonry() call is idempotent style application — the
+ * previous setInterval-based re-layout in module skins is
+ * unnecessary because CSS auto-recomputes on DOM mutations.
  */
 
 (function () {

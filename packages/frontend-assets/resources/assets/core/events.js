@@ -2,8 +2,7 @@
 
 mw.on = function(eventName, callback){
     eventName = eventName.trim();
-    // AI-263 Phase B5 (cycle-185 2026-05-11): $.each → vanilla
-    // forEach so this works without jQuery loaded.
+    // Vanilla forEach so this works without jQuery loaded.
     eventName.split(' ').forEach(function (name) {
         mw.$(mw._on._eventsRegister).on(name.toString(), callback);
     });
@@ -302,18 +301,13 @@ mw.prevHash = function(){
 
 
 /*
- * AI-263 Phase B4 (cycle-184 2026-05-11) — vanilla replacement
- * for `$(window).on("hashchange load", ...)`.
+ * Vanilla replacement for `$(window).on("hashchange load", ...)`.
+ * Uses native addEventListener so this file can load before
+ * jQuery (or without jQuery at all).
  *
- * Use native addEventListener so this file can load BEFORE
- * jQuery (or without jQuery at all) — the lasting blocker that
- * forced Bootstrap template's master.blade.php to call
- * `mw_require_jquery()` per cycle-181.
- *
- * Also swapped `mw.$('html').addClass('showpostscat')` →
- * `document.documentElement.classList.add('showpostscat')` so
- * frontend.js no longer depends on `mw.$` (the jseldom-jquery
- * wrapper that ALSO requires jQuery).
+ * Also uses `document.documentElement.classList` instead of
+ * `mw.$('html').addClass(...)` so the hash-driven `showpostscat`
+ * toggle doesn't depend on the jseldom-jquery wrapper.
  */
 function __mwHashChangeOrLoad(event) {
     if (event.type === 'load') {

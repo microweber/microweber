@@ -88,41 +88,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /*
- * AI-247 + AI-248 (cycle-177 2026-05-11) — modal a11y shim:
- * body scroll lock + focus trap + Escape close + focus return.
+ * Defensive modal a11y shim: body scroll lock + focus trap +
+ * Escape close + focus return.
  *
- * Filament v5's modal blade
- * (vendor/filament/support/resources/views/components/modal/index.blade.php
- * line 113) uses Alpine's `x-trap.noscroll` which provides BOTH
- * focus trap AND body scroll lock when @alpinejs/focus plugin is
- * loaded. But agent-test's audit reported scroll-not-locked +
- * focus-not-trapped at 390×844 across "Live Edit modals, admin
- * form modals, Filament modal components" — so x-trap is either
- * not loaded in some iframe contexts (live-edit) or not working
- * on touch devices.
+ * Filament v5 modals use Alpine's `x-trap.noscroll` for both
+ * focus trap and body scroll lock when @alpinejs/focus is loaded
+ * (vendor/filament/support/resources/views/components/modal/
+ * index.blade.php). This shim hooks Filament's own
+ * `x-modal-opened` / `modal-closed` events and composes
+ * additively: when x-trap is working it's a no-op (body already
+ * locked, focus already inside), when not (some iframe contexts,
+ * touch edge cases) it fills the gap.
  *
- * This shim hooks Filament's own `x-modal-opened` and
- * `modal-closed` events (vendor/filament/support/resources/js/
- * components/modal.js lines 120, 109) and applies a defensive
- * fallback. When Alpine's x-trap IS working, this shim is a
- * no-op (body already has overflow:hidden, focus is already
- * inside the modal — both checks fail and we exit early).
+ *   - Body scroll lock when modal opens. Stack-aware: locks only
+ *     on first open, unlocks only when the last modal closes.
+ *     Preserves scroll position via data-mw-modal-scroll-y.
  *
- *   AI-247 — Body scroll lock when modal opens. Stack-aware:
- *            locks only on first modal open, unlocks only when
- *            the last modal closes. Preserves scroll position
- *            via data-mw-modal-scroll-y on body.
- *
- *   AI-248 — Focus management:
- *            - Capture trigger (document.activeElement) at
- *              open dispatch time
- *            - If no element inside the modal is focused 100ms
- *              after open, focus first tabbable
- *            - Tab cycles within modal (no leak out) — only if
- *              Alpine's x-trap didn't already trap
- *            - Escape dispatches Filament's `close-modal` event
- *              with id (Filament's own listener handles it)
- *            - On modal-closed: restore focus to trigger
+ *   - Focus management:
+ *     - Capture trigger (document.activeElement) at open time
+ *     - If no element inside the modal is focused 100ms after
+ *       open, focus first tabbable
+ *     - Tab cycles within modal (no leak out) — only when
+ *       Alpine's x-trap didn't already trap
+ *     - Escape dispatches Filament's `close-modal` event with id
+ *     - On modal-closed: restore focus to trigger
  *
  * WCAG: 2.4.3 Focus Order, 2.1.1 Keyboard, 2.1.2 No Keyboard Trap.
  */

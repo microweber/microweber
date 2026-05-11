@@ -1,65 +1,59 @@
 /*
- * AI-263 Phase B2 (cycle-182 2026-05-11) — Slick → Swiper
- * compatibility adapter.
+ * Slick → Swiper compatibility adapter.
  *
  * Replaces the Slick library's `$.fn.slick` jQuery plugin with a
- * shim that constructs a Swiper instance using translated options.
- * Module skins (Teamcard, Testimonials, Post, Product, Pictures —
- * 22 blade files) continue to call `.slick(options)` unchanged but
- * get Swiper under the hood — no Slick library required.
+ * shim that constructs a Swiper instance using translated
+ * options. Module skins continue to call `.slick(options)`
+ * unchanged but get Swiper under the hood — no Slick library
+ * required.
  *
  * Architecture:
- *   1. Microweber loads this file INSTEAD of the original
- *      `slick/slick.js` via `mw.lib.require('slick')`. The
- *      slick library entry in `api-core/core/core/libs.js`
- *      now points to this adapter.
+ *   1. Loaded instead of the original `slick/slick.js` via
+ *      `mw.lib.require('slick')`; the slick libs entry points
+ *      at this adapter.
  *   2. Swiper is loaded alongside as a dependency.
  *   3. Adapter defines `$.fn.slick` to translate Slick options
- *      → Swiper options, construct a Swiper instance, and store
- *      it on the element for later imperative-API calls
+ *      → Swiper options, construct a Swiper instance, and
+ *      store it on the element for later imperative-API calls
  *      (`.slick('slickGoTo', index)` etc.).
  *   4. Slick CSS classes (`slick-slider`, `slick-list`,
  *      `slick-track`, `slick-slide`, `slick-prev`, `slick-next`,
  *      `slick-dots`) are aliased to Swiper equivalents via
- *      structural wrapping at init time so existing CSS in the
- *      module skins still applies.
+ *      structural wrapping at init time so existing CSS still
+ *      applies.
  *
- * Coverage of Slick options (the ones actually used in the 22
- * Microweber skins inventoried during Phase A audit):
- *   ✓ slidesToShow      → slidesPerView
- *   ✓ slidesToScroll    → slidesPerGroup
- *   ✓ dots              → pagination.el / pagination.clickable
- *   ✓ arrows            → navigation.nextEl / prevEl
- *   ✓ autoplay          → autoplay.enabled
- *   ✓ autoplaySpeed     → autoplay.delay
- *   ✓ infinite          → loop
- *   ✓ rtl               → dir / rtlTranslate
- *   ✓ adaptiveHeight    → autoHeight
- *   ✓ centerMode        → centeredSlides
- *   ✓ centerPadding     → spaceBetween (best-effort approx)
- *   ✓ fade              → effect: "fade"
- *   ✓ speed             → speed
- *   ✓ responsive[]      → breakpoints{}
+ * Option translation:
+ *   slidesToShow      → slidesPerView
+ *   slidesToScroll    → slidesPerGroup
+ *   dots              → pagination.el / pagination.clickable
+ *   arrows            → navigation.nextEl / prevEl
+ *   autoplay          → autoplay.enabled
+ *   autoplaySpeed     → autoplay.delay
+ *   infinite          → loop
+ *   rtl               → dir / rtlTranslate
+ *   adaptiveHeight    → autoHeight
+ *   centerMode        → centeredSlides
+ *   centerPadding     → spaceBetween (best-effort approx)
+ *   fade              → effect: "fade"
+ *   speed             → speed
+ *   responsive[]      → breakpoints{}
  *
  * Imperative API:
- *   ✓ .slick('slickGoTo', n) → swiper.slideTo(n)
- *   ✓ .slick('slickNext')    → swiper.slideNext()
- *   ✓ .slick('slickPrev')    → swiper.slidePrev()
- *   ✓ .slick('unslick')      → swiper.destroy()
- *   ✓ .slick('slickPause')   → swiper.autoplay.stop()
- *   ✓ .slick('slickPlay')    → swiper.autoplay.start()
+ *   .slick('slickGoTo', n) → swiper.slideTo(n)
+ *   .slick('slickNext')    → swiper.slideNext()
+ *   .slick('slickPrev')    → swiper.slidePrev()
+ *   .slick('unslick')      → swiper.destroy()
+ *   .slick('slickPause')   → swiper.autoplay.stop()
+ *   .slick('slickPlay')    → swiper.autoplay.start()
  *
- * Events — Slick uses jQuery `.on('beforeChange init reInit afterChange', cb)`.
- * Swiper has different event names. The adapter listens for
- * `.on('beforeChange ...', cb)` calls AFTER `.slick()` init and
- * proxies them to Swiper event subscribers when possible:
- *   ✓ beforeChange      → slideChangeTransitionStart
- *   ✓ afterChange       → slideChangeTransitionEnd
- *   ✓ init / reInit     → afterInit (one-shot)
- * NOTE: Slick passes (event, slick, currentSlide, nextSlide) — the
+ * Event proxying:
+ *   beforeChange      → slideChangeTransitionStart
+ *   afterChange       → slideChangeTransitionEnd
+ *   init / reInit     → afterInit (one-shot)
+ * NOTE: Slick passes (event, slick, currentSlide, nextSlide); the
  * adapter passes (event, {slideCount, currentSlide}, currentSlide,
- * nextSlide). Skins that read `slick.slideCount` etc. work; skins
- * that use other Slick-specific args may need manual migration.
+ * nextSlide). Skins that read `slick.slideCount` work; skins that
+ * use other Slick-specific args may need manual migration.
  */
 
 (function () {
@@ -69,7 +63,7 @@
 
     // Adapter requires jQuery (existing skins call `$(...).slick()`).
     // If jQuery isn't loaded, register a deferred init via the
-    // cycle-181 lazy-extension hook.
+    // lazy jQuery-extension hook.
     function registerAdapter() {
         if (typeof window.jQuery === 'undefined' || !window.jQuery.fn) {
             return false;
@@ -87,13 +81,11 @@
             var opts = optsOrCommand || {};
             return this.each(function () {
                 if (this.__mwSwiperInstance) return;
-                // Adapter merges the existing mw-slick.js
-                // `data-slick` HTML attribute parser into options
-                // (was previously a separate library file —
-                // removed from the slick libs definition in
-                // api_settings.js so this adapter is the SOLE
-                // owner of $.fn.slick, avoiding double-wrap
-                // arg-swallow bugs).
+                // Merge the `data-slick` HTML attribute parser
+                // into options. The adapter is the sole owner of
+                // $.fn.slick (mw-slick.js is no longer loaded
+                // separately) to avoid double-wrap arg-swallow
+                // bugs.
                 var attrSource = this.getAttribute && this.getAttribute('data-slick');
                 var attrOpts = {};
                 if (attrSource) {
@@ -167,8 +159,8 @@
                     return swiper;
                 default:
                     // Unknown command — silent no-op for forward
-                    // compatibility. Document missing translations in
-                    // SUMMARY for future cycles.
+                    // compatibility, with a console warning so
+                    // missing translations are visible.
                     if (window.console && window.console.warn) {
                         window.console.warn('[mw slick→swiper] unhandled command: ' + command);
                     }
@@ -266,9 +258,9 @@
         } catch (e) { /* no-op */ }
     }
 
-    // Try immediate registration. If jQuery isn't loaded yet (public
-    // page without `mw_require_jquery()` opt-in), defer until the
-    // cycle-181 late-bootstrap script loads jQuery.
+    // Try immediate registration. If jQuery isn't loaded yet
+    // (public page without `mw_require_jquery()` opt-in), defer
+    // until the late-bootstrap script loads jQuery.
     if (!registerAdapter()) {
         window.__mwRegisterJqueryExtensions = window.__mwRegisterJqueryExtensions || [];
         window.__mwRegisterJqueryExtensions.push(registerAdapter);

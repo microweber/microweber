@@ -125,22 +125,19 @@
             }
         ],
         slick: [
-            // AI-263 Phase B2 (cycle-182 2026-05-11): replaced the
-            // Slick library JS load with the Swiper-backed adapter.
-            // Module skins (Teamcard / Testimonials / Post / Product
-            // / Pictures — 22 blade files inventoried in Phase A
-            // audit) still call `$('.x').slick(options)` unchanged
-            // but get Swiper under the hood — no Slick library
-            // required. Slick CSS is kept so existing `.slick-dots`,
-            // `.slick-prev`, `.slick-next` styling continues to
-            // apply (the adapter aliases Swiper-emitted elements
-            // to those class names). Swiper-bundle CSS loaded for
-            // baseline Swiper rendering. `mw-slick.js` is NOT
-            // loaded — the data-slick HTML attribute parser is
-            // baked into the adapter so the adapter is the SOLE
-            // owner of `$.fn.slick` (mw-slick.js wrapping caused
-            // arg-swallow bugs with the imperative API in
-            // playwright smoke).
+            // The Slick library JS is replaced with the Swiper-
+            // backed adapter. Module skins still call
+            // `$('.x').slick(options)` unchanged but get Swiper
+            // under the hood. Slick CSS is kept so existing
+            // `.slick-dots`, `.slick-prev`, `.slick-next` styling
+            // continues to apply (the adapter aliases Swiper-
+            // emitted elements to those class names). Swiper-
+            // bundle CSS is loaded for baseline Swiper rendering.
+            // `mw-slick.js` is NOT loaded — the data-slick HTML
+            // attribute parser is baked into the adapter so it is
+            // the sole owner of `$.fn.slick`, avoiding the arg-
+            // swallow bugs caused by double-wrapping the
+            // imperative API.
             function () {
                 mw.require(mw.settings.libs_url + 'slick/slick.css', true, undefined, true);
                 mw.require(mw.settings.libs_url + 'slick/slick-theme.css', undefined, undefined, true);
@@ -151,16 +148,15 @@
         ],
 
         bootstrap_datetimepicker: [
-            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
-            // jQuery Bootstrap Datetimepicker plugin with a vanilla
-            // adapter that swaps the <input type="text"> for HTML5
-            // <input type="datetime-local" | "time" | "date"> so
-            // the browser provides the native picker. Module skins
-            // (Modules/CustomFields *time.blade.php) continue to
-            // call `.datetimepicker(options)` unchanged — the
-            // adapter translates Slick-style options to native
-            // input attributes (minuteStep → step seconds,
-            // startDate → min, endDate → max).
+            // The jQuery Bootstrap Datetimepicker plugin is
+            // replaced with a vanilla adapter that swaps the
+            // <input type="text"> for HTML5 <input
+            // type="datetime-local" | "time" | "date"> so the
+            // browser provides the native picker. Module skins
+            // still call `.datetimepicker(options)` unchanged —
+            // the adapter translates the options into native
+            // input attributes (minuteStep -> step seconds,
+            // startDate -> min, endDate -> max).
             function () {
                 mw.require(mw.settings.libs_url + 'native-datetimepicker-adapter/native-datetimepicker-adapter.js');
             }
@@ -190,15 +186,14 @@
         ],
 
         chosen: [
-            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
-            // jQuery Chosen plugin with a vanilla adapter that
-            // leaves the native <select multiple> as-is + applies
-            // mw-styled classes with 44px touch-target floor +
-            // 4px design-system radius. Module skins
-            // (Modules/CustomFields *dropdown.blade.php) continue
-            // to call `.chosen(options)` unchanged. Search-inside-
-            // dropdown is lost; if needed, swap in Choices.js
-            // (vanilla, ~30KB) via the same adapter pattern.
+            // The jQuery Chosen plugin is replaced with a vanilla
+            // adapter that leaves the native <select multiple>
+            // as-is and applies mw-styled classes with a 44px
+            // touch-target floor and 4px design-system radius.
+            // Module skins still call `.chosen(options)`
+            // unchanged. Search-inside-dropdown is lost; if
+            // needed, swap in Choices.js (vanilla, ~30KB) via the
+            // same adapter pattern.
             function () {
                 mw.require(mw.settings.libs_url + 'native-chosen-adapter/native-chosen-adapter.js');
             }
@@ -224,15 +219,13 @@
             }
         ],
         masonry: [
-            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
-            // jQuery `masonry.pkgd.js` plugin with a vanilla CSS-
-            // Grid / column-layout adapter. Module skins (Pictures
-            // skin-18 / skin-20 / masonry.blade.php, Content
-            // masonry.blade.php) continue to call
-            // `.masonry(options)` unchanged but get CSS-driven
-            // layout — no jQuery plugin required, no periodic
-            // setInterval re-layout (CSS reflows automatically on
-            // DOM mutations + resize).
+            // The jQuery `masonry.pkgd.js` plugin is replaced
+            // with a vanilla CSS-Grid / column-layout adapter.
+            // Module skins still call `.masonry(options)`
+            // unchanged but get CSS-driven layout — no jQuery
+            // plugin required, no periodic setInterval re-layout
+            // (CSS reflows automatically on DOM mutations and
+            // resize).
             function () {
                 mw.require(mw.settings.libs_url + 'masonry-vanilla-adapter/masonry-vanilla-adapter.js');
             }

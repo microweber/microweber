@@ -1,38 +1,20 @@
 /*
- * AI-263 Phase B4 (cycle-184 2026-05-11) — vanilla rewrite of
- * CollapseNav.js. Previously used jQuery throughout — the LAST
- * blocker that forced Bootstrap template's master.blade.php to
- * call `mw_require_jquery()`. Now jQuery-free.
+ * Vanilla CollapseNav — jQuery-free rewrite of the original
+ * CollapseNav.js v1.0 by Petko Yovchevski (MIT,
+ * https://github.com/PYovchevski/collapse-nav).
  *
- * Original library:
- *   CollapseNav.js v1.0 by Petko Yovchevski (MIT)
- *   https://github.com/PYovchevski/collapse-nav
- *
- * Behavior preserved:
+ * Behavior:
  *   - Init on `load` + `resize` + `collapseNavReInit` event +
  *     `orientationchange`.
  *   - Below `mobile_break` (default 992px), no-op (Bootstrap's
  *     own collapse handles the mobile nav).
- *   - At ≥mobile_break, measures each `<li>` width, fits as many
- *     as the parent allows, collapses the rest into a "More"
- *     dropdown.
+ *   - At >= mobile_break, measures each `<li>` width, fits as
+ *     many as the parent allows, collapses the rest into a
+ *     "More" dropdown.
  *   - Exposes `MwCollapseNav(selector, config)` as a global +
- *     a no-op `$.fn.collapseNav` shim that calls
- *     MwCollapseNav so any legacy `$('#nav').collapseNav()`
- *     calls keep working IF jQuery happens to be loaded.
- *
- * Vanilla replacements:
- *   $(selector).html()             → element.innerHTML
- *   $().addClass / removeClass     → element.classList.add/remove
- *   $().outerWidth(true)           → boundingRect with margins
- *   $().children('li').each(cb)    → Array.from(...).forEach
- *   $().children().first().clone() → cloneNode(true)
- *   $().children().last().find('a').html(...) → manual querySelector
- *   $(window).on('load'/'resize'/etc.) → window.addEventListener
- *   $(window).width()              → window.innerWidth
- *   $.extend({}, defaults, config) → Object.assign({}, defaults, config)
- *   $(navigation).append(html)     → insertAdjacentHTML('beforeend', ...)
- *   $(navigation).children('li:gt(N)') → Array.slice(N+1)
+ *     a `$.fn.collapseNav` shim that calls MwCollapseNav so
+ *     legacy `$('#nav').collapseNav()` keeps working if jQuery
+ *     happens to be loaded.
  */
 
 (function () {
@@ -170,9 +152,9 @@
             ul += '</ul>';
 
             // Remove every <li> at index > number_of_buttons - 1
-            // (the jQuery `:gt(N)` selector is 0-indexed and
-            // exclusive, so `li:gt(3)` removes the 5th, 6th, …
-            // matches the original — replicate with slice + remove).
+            // (the original jQuery `:gt(N)` selector is 0-indexed
+            // and exclusive, so `li:gt(3)` removes the 5th, 6th,
+            // ... — replicate with slice + remove).
             var removeStartIdx = number_of_buttons - 1;
             remainingLis.forEach(function (li, idx) {
                 if (idx > removeStartIdx) {

@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-108 / AI-117 / TICKET-CK — Image-picker first-use UX
- * regression coverage.
+ * Image-picker first-use UX regression coverage.
  *
  * Pins:
  *   - filepicker.js gains a `firstActiveComponent` setting that
@@ -24,9 +23,7 @@ use Tests\TestCase;
  *     rendered) and is fully overridable by an explicit caller-side
  *     `firstActiveComponent` value.
  *
- * Style after the cycle-52..107 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class ImagePickerFirstUseUxContractTest extends TestCase
 {
@@ -50,11 +47,10 @@ class ImagePickerFirstUseUxContractTest extends TestCase
             self::PICKER_JS . ': defaults must declare `firstActiveComponent: null` (caller-overridable)'
         );
 
-        // The audit-trail comment must reference AI-117.
         $this->assertStringContainsString(
             'AI-117 / TICKET-CK (cycle-108',
             $src,
-            self::PICKER_JS . ': must carry the AI-117 audit-trail comment'
+            self::PICKER_JS . ': must carry the first-use UX audit-trail marker'
         );
     }
 

@@ -10,14 +10,12 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-123 / AI-130 / SEC-05 — SSRF + stored-XSS regression
- * coverage.
+ * SSRF + stored-XSS regression coverage.
  *
  * Pins:
- *   - SsrfGuard rejects every private IPv4 range in the brief
- *     (10.x, 172.16-31.x, 192.168.x, 127.x), the literal
- *     `localhost` hostname, the reserved TLD suffixes, and
- *     non-http schemes.
+ *   - SsrfGuard rejects every private IPv4 range (10.x, 172.16-31.x,
+ *     192.168.x, 127.x), the literal `localhost` hostname, the
+ *     reserved TLD suffixes, and non-http schemes.
  *   - SsrfGuard accepts public-routable hostnames.
  *   - StoredXssStripper removes `on*=` event handlers from EVERY
  *     element (img, button, svg, etc.), strips `<script>` blocks
@@ -27,8 +25,6 @@ use Tests\TestCase;
  *   - SearchComponent::search() runs `strip_tags` + 200-char cap
  *     on the user-supplied keyword (defense-in-depth alongside
  *     Eloquent's parameterized query builder).
- *
- * Style after the cycle-52..122 contract tests.
  */
 class Sec05SsrfAndStoredXssContractTest extends TestCase
 {
@@ -42,7 +38,7 @@ class Sec05SsrfAndStoredXssContractTest extends TestCase
     #[Test]
     public function ssrf_guard_rejects_every_brief_required_private_range(): void
     {
-        // Every URL the brief explicitly calls out must be denied.
+        // Every URL below must be denied.
         $denied = [
             'http://127.0.0.1',
             'http://127.255.255.255',
@@ -174,7 +170,7 @@ class Sec05SsrfAndStoredXssContractTest extends TestCase
         $this->assertStringContainsString(
             'AI-130 / SEC-05 (cycle-123',
             $src,
-            'SearchComponent must carry the AI-130 audit-trail comment'
+            'SearchComponent must carry the keyword-sanitization audit-trail marker'
         );
 
         $this->assertStringContainsString(

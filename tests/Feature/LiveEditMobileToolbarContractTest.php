@@ -8,8 +8,8 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-86 / AI-73 / TICKET-I — live-edit mobile one-row toolbar +
- * canvas iframe padding-top regression coverage.
+ * Live-edit mobile one-row toolbar + canvas iframe padding-top
+ * regression coverage.
  *
  * Pins:
  *   - The toolbar collapses to a single horizontally-scrolling row
@@ -22,11 +22,9 @@ use Tests\TestCase;
  *     button text) collapse to icon-only at < 768px to save
  *     horizontal space; aria-labels preserve AT semantics.
  *   - The mobile rules live INSIDE a `@media (max-width: 767.98px)`
- *     block — the < 768px breakpoint matches the brief.
+ *     block.
  *
- * Style after the cycle-52..85 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class LiveEditMobileToolbarContractTest extends TestCase
 {
@@ -43,14 +41,14 @@ class LiveEditMobileToolbarContractTest extends TestCase
     #[Test]
     public function mobile_breakpoint_uses_767_98px_max_width(): void
     {
-        // The brief's "< 768px" target maps to the canonical
-        // `max-width: 767.98px` Bootstrap breakpoint (avoids the
-        // off-by-one fractional pixel where viewport is exactly
-        // 768.000... and neither rule wins).
+        // "< 768px" maps to the canonical `max-width: 767.98px`
+        // Bootstrap breakpoint (avoids the off-by-one fractional
+        // pixel where viewport is exactly 768.000... and neither
+        // rule wins).
         $this->assertStringContainsString(
             '@media (max-width: 767.98px)',
             $this->cssSrc,
-            'live-edit-classes.css: cycle-86 rules must live inside @media (max-width: 767.98px)'
+            'live-edit-classes.css: mobile rules must live inside @media (max-width: 767.98px)'
         );
     }
 
@@ -89,10 +87,9 @@ class LiveEditMobileToolbarContractTest extends TestCase
     #[Test]
     public function canvas_iframe_wrapper_gets_56px_padding_top(): void
     {
-        // AI-116 / TICKET-CI (cycle-107 2026-05-09): the rule is now
-        // scoped under `.mw-live-edit-page` so it doesn't leak to
-        // non-live-edit Filament panels. The selectors are still
-        // required (just prefixed by the scope class).
+        // Rule is scoped under `.mw-live-edit-page` so it doesn't
+        // leak to non-live-edit Filament panels. The selectors are
+        // still required (just prefixed by the scope class).
         $required = [
             '.mw-live-edit-page.fi-layout .fi-main-ctn',
             '.mw-live-edit-page #iframe-holder',
@@ -102,7 +99,7 @@ class LiveEditMobileToolbarContractTest extends TestCase
             $this->assertStringContainsString(
                 $sel,
                 $this->cssSrc,
-                "live-edit-classes.css: canvas wrapper rule must include selector `{$sel}` so all mount-points pad the toolbar (AI-116 scoped variant)"
+                "live-edit-classes.css: canvas wrapper rule must include selector `{$sel}` so all mount-points pad the toolbar"
             );
         }
         $this->assertMatchesRegularExpression(

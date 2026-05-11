@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-115 / AI-133 / SEC-02 — IDOR + role-based menu-hiding
- * regression coverage.
+ * IDOR + role-based menu-hiding regression coverage.
  *
  * Pins:
  *   - `Modules\Content\Filament\Admin\ContentResource` declares
@@ -26,9 +25,7 @@ use Tests\TestCase;
  *     that drives the menu-hiding CSS, so server-side and
  *     client-side state stay aligned.
  *
- * Style after the cycle-52..114 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class Sec02IdorAccessControlContractTest extends TestCase
 {
@@ -48,14 +45,13 @@ class Sec02IdorAccessControlContractTest extends TestCase
     {
         $src = $this->read(self::CONTENT_RESOURCE);
 
-        // Audit-trail.
         $this->assertStringContainsString(
             'AI-133 / SEC-02 (cycle-115',
             $src,
-            'ContentResource: must carry the AI-133 audit-trail comment'
+            'ContentResource: must carry the IDOR-access-gates audit-trail marker'
         );
 
-        // Each of the 5 access methods called out by the brief.
+        // Each of the 5 access methods.
         foreach ([
             'public static function canAccess',
             'public static function canCreate',
@@ -77,8 +73,8 @@ class Sec02IdorAccessControlContractTest extends TestCase
         $src = $this->read(self::CONTENT_RESOURCE);
 
         // Each gate must call `user_can_access(...)` — the same gate
-        // that drives the topbar Live-Edit chip (cycle-97) so server-
-        // side and client-side state stay aligned.
+        // that drives the topbar Live-Edit chip so server-side and
+        // client-side state stay aligned.
         $count = preg_match_all(
             '/user_can_access\\(\'module\\.\'\\s*\\.\\s*static::getContentTypeForAccess\\(\\)\\s*\\.\\s*\'\\.[a-z]+\'\\)/',
             $src
@@ -121,7 +117,7 @@ class Sec02IdorAccessControlContractTest extends TestCase
         $this->assertStringContainsString(
             'class ProductResource extends ContentResource',
             $src,
-            'ProductResource: must extend ContentResource (inherits the AI-133 access gates)'
+            'ProductResource: must extend ContentResource (inherits the access gates)'
         );
 
         // And declares $contentType so getContentTypeForAccess()
@@ -141,7 +137,7 @@ class Sec02IdorAccessControlContractTest extends TestCase
         $this->assertStringContainsString(
             'class PostResource extends ContentResource',
             $src,
-            'PostResource: must extend ContentResource (inherits the AI-133 access gates)'
+            'PostResource: must extend ContentResource (inherits the access gates)'
         );
     }
 }

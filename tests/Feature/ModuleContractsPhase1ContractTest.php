@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-118 / AI-105 / TICKET-AY — Module Contracts Foundation
- * Phase 1 regression coverage.
+ * Module Contracts Foundation (Phase 1) regression coverage.
  *
  * Pins:
  *   - Cart, Order, and Product (InventoryService) contracts exist
@@ -19,11 +18,9 @@ use Tests\TestCase;
  *     so callers can `app(Contract::class)` to receive the
  *     concrete implementation.
  *   - The Cart contract's method signatures match the actual
- *     CartManager surface (the cycle-113 placeholder names were
- *     wrong — verified with grep against the impl).
+ *     CartManager surface (verified with grep against the impl).
  *
- * Style after the cycle-52..117 contract tests (file-system reads only,
- * no DB touch).
+ * Contract test style: file-system reads only, no DB touch.
  */
 class ModuleContractsPhase1ContractTest extends TestCase
 {
@@ -59,7 +56,7 @@ class ModuleContractsPhase1ContractTest extends TestCase
             $this->assertStringContainsString(
                 'AI-105',
                 $src,
-                "{$rel}: must carry the AI-105 audit-trail comment"
+                "{$rel}: must carry the module-contracts audit-trail marker"
             );
         }
     }
@@ -70,9 +67,8 @@ class ModuleContractsPhase1ContractTest extends TestCase
         $src = $this->read(self::CONTRACTS['Cart']);
 
         // Real CartManager methods (verified via grep `public function`
-        // in Modules/Cart/Repositories/CartManager.php) —
-        // cycle-113 had non-matching placeholder names that would
-        // crash at DI-resolution time.
+        // in Modules/Cart/Repositories/CartManager.php). Mismatched
+        // names would crash at DI-resolution time.
         foreach ([
             'public function get_cart',
             'public function get(',

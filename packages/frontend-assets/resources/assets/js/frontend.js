@@ -36,16 +36,16 @@ import "./animations.js";
 
 
 /*
- * AI-263 Phase B1 (cycle-181 2026-05-11) — guard jQuery extensions
- * behind a typeof check so frontend.js can load on public pages
- * BEFORE jQuery is present (jQuery is now lazy-loaded only when
- * a public page actually needs it — see ApijsScriptTag.php +
- * TemplateManager::injectConditionalJqueryFooter).
+ * Guard jQuery extensions behind a typeof check so frontend.js
+ * can load on public pages BEFORE jQuery is present (jQuery is
+ * lazy-loaded only when a public page actually needs it — see
+ * ApijsScriptTag.php + TemplateManager::injectConditionalJquery
+ * Footer).
  *
- * If jQuery loads later (because the page renders a Slick/Masonry/
- * Datetimepicker/Chosen module skin), we re-register the extensions
- * via a `window.__mwRegisterJqueryExtensions` hook that the
- * conditional footer script calls after jQuery loads.
+ * If jQuery loads later (because the page renders a Slick /
+ * Masonry / Datetimepicker / Chosen module skin), re-register the
+ * extensions via a `window.__mwRegisterJqueryExtensions` hook
+ * that the conditional footer script calls after jQuery loads.
  */
 if (typeof window !== 'undefined') {
     var __mwRegisterCommuter = function () {
@@ -93,9 +93,8 @@ for ( let i in Helpers ) {
 }
 
 /*
- * AI-263 Phase B1 (cycle-181 2026-05-11) — `jQuery.fn.reload_module`
- * extension also guarded behind a typeof check. Same lazy-register
- * hook as `.commuter` above.
+ * `jQuery.fn.reload_module` extension also guarded behind a
+ * typeof check. Same lazy-register hook as `.commuter` above.
  */
 if (typeof window !== 'undefined') {
     var __mwRegisterReloadModule = function () {

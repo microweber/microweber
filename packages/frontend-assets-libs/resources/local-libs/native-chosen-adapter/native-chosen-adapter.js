@@ -1,22 +1,21 @@
 /*
- * AI-263 Phase B3 (cycle-183 2026-05-11) — Chosen → native
- * `<select multiple>` adapter.
+ * Chosen → native `<select multiple>` adapter.
  *
  * Replaces the jQuery Chosen plugin (used by CustomFields
  * *dropdown.blade.php skins when `settings.multiple == true`)
  * with a vanilla adapter that leaves the native
- * `<select multiple>` as-is, applies basic CSS to make it
- * look reasonable, and ensures it meets the WCAG 2.5.5 44×44
+ * `<select multiple>` as-is, applies basic CSS to make it look
+ * reasonable, and ensures it meets the WCAG 2.5.5 44x44
  * touch-target floor.
  *
  * Module skins call:
  *   $(".js-mw-select-X").chosen({width: '100%'});
  *
- * Vanilla approach: native multi-select with mw-styled
- * classes. Modern browsers handle keyboard nav + accessibility
- * natively. The Chosen "search inside dropdown" feature is
- * lost — if a future cycle needs it, swap in Choices.js
- * (vanilla, ~30KB) via the same adapter pattern.
+ * Vanilla approach: native multi-select with mw-styled classes.
+ * Modern browsers handle keyboard nav + accessibility natively.
+ * Chosen's "search inside dropdown" feature is lost — if needed,
+ * swap in Choices.js (vanilla, ~30KB) via the same adapter
+ * pattern.
  */
 
 (function () {

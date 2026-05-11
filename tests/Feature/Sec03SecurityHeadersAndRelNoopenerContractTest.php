@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-116 / AI-128 / SEC-03 — security headers + rel=noopener
- * regression coverage.
+ * Security headers + rel=noopener regression coverage.
  *
  * Pins:
  *   - `MicroweberPackages\App\Http\Middleware\SecurityHeaders`
@@ -18,13 +17,10 @@ use Tests\TestCase;
  *     Referrer-Policy: strict-origin-when-cross-origin.
  *   - The middleware is registered in `bootstrap/app.php`.
  *   - Every `<a target="_blank">` in `Modules/` + `src/` carries
- *     `rel="..."` containing both `noopener` AND `noreferrer`.
- *     The cycle-116 sweep landed 85 sites; the contract test
- *     enforces zero remaining gaps.
+ *     `rel="..."` containing both `noopener` AND `noreferrer`. The
+ *     contract test enforces zero remaining gaps.
  *
- * Style after the cycle-52..115 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class Sec03SecurityHeadersAndRelNoopenerContractTest extends TestCase
 {
@@ -123,7 +119,7 @@ class Sec03SecurityHeadersAndRelNoopenerContractTest extends TestCase
 
         $this->assertEmpty(
             $offenders,
-            "AI-128 / SEC-03: every <a target=\"_blank\"> in Modules/ + src/ must carry rel=\"noopener noreferrer\". Offenders:\n  "
+            "Every <a target=\"_blank\"> in Modules/ + src/ must carry rel=\"noopener noreferrer\". Offenders:\n  "
             . implode("\n  ", array_slice($offenders, 0, 30))
             . (count($offenders) > 30 ? "\n  ... (" . (count($offenders) - 30) . " more)" : '')
         );

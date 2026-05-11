@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-107 / AI-116 / TICKET-CI — live-edit CSS scoping regression
- * coverage.
+ * Live-edit CSS scoping regression coverage.
  *
  * Pins:
  *   - The live-edit layout root carries a `mw-live-edit-page` class
@@ -21,14 +20,11 @@ use Tests\TestCase;
  *
  * Background: per the live-edit-css-must-be-scoped skill, any rule
  * matching a raw `.fi-*` selector in any `live-edit-*.css` file
- * leaks to every Filament admin page. The brief asked for scoping
- * to `.live-edit-iframe`; we use `.mw-live-edit-page` because the
- * canonical hook is the layout root (added in
+ * leaks to every Filament admin page. Scoping uses `.mw-live-edit-page`
+ * because the canonical hook is the layout root (added in
  * `src/MicroweberPackages/Filament/resources/views/filament/components/layout/live-edit.blade.php`).
  *
- * Style after the cycle-52..106 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class LiveEditCssScopingContractTest extends TestCase
 {
@@ -60,8 +56,8 @@ class LiveEditCssScopingContractTest extends TestCase
         $src = $this->read(self::CSS);
 
         // A "bare" top-level selector starts at column 0 with `.fi-`.
-        // After cycle-107 every such selector should be prefixed by
-        // `.mw-live-edit-page` (or be a comment / inside a block).
+        // Every such selector must be prefixed by `.mw-live-edit-page`
+        // (or be a comment / inside a block).
         $offenders = [];
         foreach (explode("\n", $src) as $i => $line) {
             if (preg_match('/^\\.fi-[a-z0-9_-]+/', $line)) {
@@ -81,7 +77,7 @@ class LiveEditCssScopingContractTest extends TestCase
     {
         $src = $this->read(self::CSS);
 
-        // The 3 specific rules cycle-107 fixed.
+        // The 3 specific rules that must be scoped.
         $this->assertStringContainsString(
             '.mw-live-edit-page.fi-layout .fi-main-ctn',
             $src,

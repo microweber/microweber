@@ -8,8 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-105 / AI-115 / TICKET-CG — eager-first-image regression
- * coverage.
+ * Eager-first-image regression coverage.
  *
  * Pins:
  *   - The `responsive_thumbnail()` helper consults a request-scoped
@@ -20,9 +19,7 @@ use Tests\TestCase;
  *     `loading="{{ $loop->first ? 'eager' : 'lazy' }}"` shape.
  *   - The Newsletter choose-template-modal first preview ditto.
  *
- * Style after the cycle-52..104 contract tests (file-system reads only,
- * no DB touch). Per project memory `feedback_testing`: contract tests
- * never mount Filament resources or hit MySQL.
+ * Contract test style: file-system reads only, no DB touch.
  */
 class EagerFirstImageContractTest extends TestCase
 {
@@ -42,11 +39,10 @@ class EagerFirstImageContractTest extends TestCase
     {
         $src = $this->read(self::HELPER);
 
-        // Audit-trail header.
         $this->assertStringContainsString(
             'AI-115 / TICKET-CG (cycle-105',
             $src,
-            self::HELPER . ': must carry the AI-115 audit-trail comment'
+            self::HELPER . ': must carry the eager-first-image audit-trail marker'
         );
 
         // Default eager_first_n = 2 (covers a typical 4-card product

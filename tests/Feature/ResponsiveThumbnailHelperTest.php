@@ -8,9 +8,9 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * audit-test 2026-05-08 PM TASK-012 / TICKET-CX regression coverage.
+ * responsive_thumbnail() helper regression coverage.
  *
- * Pins acceptance #6 of the responsive_thumbnail helper:
+ * Pins:
  *   - <img> output contains src + srcset + sizes + alt + loading + decoding
  *   - sizes default is 100vw, overridable via $options
  *   - loading default is lazy, override to eager works
@@ -53,13 +53,11 @@ class ResponsiveThumbnailHelperTest extends TestCase
     #[Test]
     public function default_sizes_is_100vw_and_default_loading_is_lazy(): void
     {
-        // AI-115 / TICKET-CG (cycle-105 2026-05-09): the helper now
-        // consults a request-scoped counter and emits `loading="eager"`
-        // for the FIRST `eager_first_n` (default 2) calls of a
-        // request, then falls back to "lazy". To pin the historical
+        // The helper consults a request-scoped counter and emits
+        // `loading="eager"` for the FIRST `eager_first_n` (default 2)
+        // calls of a request, then falls back to "lazy". To pin the
         // "default is lazy" guarantee we explicitly pass
-        // `eager_first_n => 0` here so the counter never gates
-        // eager.
+        // `eager_first_n => 0` here so the counter never gates eager.
         $out = responsive_thumbnail('userfiles/media/test.jpg', 800, 600, [
             'eager_first_n' => 0,
         ]);
@@ -112,9 +110,9 @@ class ResponsiveThumbnailHelperTest extends TestCase
     #[Test]
     public function omitted_alt_falls_back_to_filename_basename(): void
     {
-        // TASK-012 addition 2026-05-08: empty alt is forbidden on
-        // product/content imagery. The helper must emit a non-empty alt
-        // — derived from the src filename basename when no alt is passed.
+        // Empty alt is forbidden on product/content imagery. The
+        // helper must emit a non-empty alt — derived from the src
+        // filename basename when no alt is passed.
         $out = responsive_thumbnail('userfiles/media/sunset-beach.jpg', 800, 600);
 
         $this->assertStringNotContainsString('alt=""', $out);

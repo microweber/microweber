@@ -1,12 +1,8 @@
 <script>
     mw.lib.require('nouislider');
-    // AI-263 Phase C (cycle-186 2026-05-11): wait for the lazy-
-    // loaded nouislider library before constructing the slider.
-    // Before AI-263, `$(document).ready` waited for jQuery's
-    // slower init, giving nouislider.js time to arrive. Now
-    // that mw.$ uses vanilla DOMContentLoaded, ready fires
-    // before the dynamic `<script>` finishes loading. Use a
-    // small retry loop instead of $(document).ready.
+    // Wait for the lazy-loaded nouislider library before constructing the slider —
+    // vanilla DOMContentLoaded fires before the dynamic <script> finishes loading,
+    // so poll briefly instead of using $(document).ready.
     (function waitForNoUiSlider(retries) {
         if (typeof noUiSlider === 'undefined') {
             if (retries > 0) {

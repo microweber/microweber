@@ -1,13 +1,8 @@
 /*
- * AI-276/277/278 design-system token block (cycle-178 2026-05-11).
- *
- * Mirror of the canonical token file
+ * Design-system token block — inline mirror of
  *   packages/frontend-assets/resources/assets/css/microweber/css/design-system.css
- * defined inline at the top of this file so the var()s referenced
- * by AI-276 button rules + AI-277 footer color rules below resolve
- * regardless of design-system.css load order. The two definitions
- * are pinned to stay in sync by
- *   tests/Feature/Ai276Ai277Ai278DesignSystemContractTest.php
+ * so the var()s referenced below resolve regardless of
+ * design-system.css load order.
  */
 :root {
     --color-primary: #0d6efd;
@@ -55,29 +50,20 @@ html.dark {
 }
 
 /*
- * Public-site mobile-touch refinements (TASK-013 / TICKET-CY / AI-30).
- *
- * Mirror of the Filament admin file
+ * Public-site mobile-touch refinements — mirror of the Filament admin
  *   packages/microweber-filament-theme/resources/assets/css/microweber/mobile-touch.css
- * for the *public* Bootstrap site + module public skins.
+ * for the public Bootstrap site + module public skins.
  *
- * Closes mobile QA findings 2026-05-08 (iPhone 13 — 390x844px):
- *   - Social link icons rendered at 16x25 / 20x24 (icon-only <a>)
- *   - Cart badge link at 58x22 (height too small)
- *   - Footer nav links at ~24px tall
- *   - Carousel/swiper dot buttons at 8x8
- *   plus the long tail of public-site interactive controls below
- *   WCAG 2.5.5 / iOS HIG 44x44 minimum.
+ * Floors a TARGETED set of public-site interactive controls
+ * (social links, cart link, footer nav, swiper dots, etc.) up to
+ * the WCAG 2.5.5 / iOS HIG 44x44 minimum. Targeted selector list
+ * — not a universal `a, button { min-height: 44px }` sweep — so
+ * desktop power-user density on >=1024px is preserved and inline
+ * links in body copy aren't bumped to a chunky 44px.
  *
- * The match-list `(max-width: 1023.98px), (hover: none) and (pointer: coarse)`
- * matches the admin file: covers (a) phones / small tablets in landscape and
- * (b) any pointer-coarse device regardless of viewport. Both heuristics are
- * needed because either one in isolation misses a real device class.
- *
- * Per AC#2 the rule-set is TARGETED — explicit selector list, not a
- * universal `a, button { min-height: 44px }` sweep — so desktop power-user
- * density on >=1024px is preserved AND we do not accidentally bump every
- * inline link inside body copy to a chunky 44px.
+ * The match-list `(max-width: 1023.98px), (hover: none) and
+ * (pointer: coarse)` covers phones / small tablets in landscape
+ * AND any pointer-coarse device regardless of viewport.
  */
 
 @media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
@@ -95,12 +81,11 @@ html.dark {
         justify-content: center;
     }
 
-    /* Cart icon link in the public layout header
-       (Templates/Bootstrap/resources/views/modules/layouts/templates/menus/skin-1.blade.php
-       line 73). The visible badge `.js-shopping-cart-quantity` is small;
-       the tap target is the wrapping `<a class="nav-link ...">`. The
-       `.nav-link` carries `px-0` so we cannot rely on padding for the
-       hit-area — use min-width/min-height on the wrapper. */
+    /* Cart icon link in the public layout header. The visible badge
+       `.js-shopping-cart-quantity` is small; the tap target is the
+       wrapping `<a class="nav-link ...">`. The `.nav-link` carries
+       `px-0` so we cannot rely on padding for the hit-area — use
+       min-width/min-height on the wrapper. */
     .btn-shopping-cart > a.nav-link,
     .btn-shopping-cart > .nav-link {
         min-width: 44px;
@@ -156,12 +141,10 @@ html.dark {
         min-height: 44px;
     }
 
-    /* Cart action buttons that already use `.btn` already meet the
-       Bootstrap `.btn` 38px-ish baseline; the regression risk is the
-       `.btn-sm` qty +/- pair around the qty input
-       (Modules/Cart/.../templates/bootstrap.blade.php line 76-83).
-       Bump the qty group buttons specifically — leave the larger
-       primary "Add to cart" alone. */
+    /* Cart action buttons that already use `.btn` meet the Bootstrap
+       `.btn` 38px-ish baseline; the regression risk is the `.btn-sm`
+       qty +/- pair around the qty input. Bump the qty group buttons
+       specifically — leave the larger primary "Add to cart" alone. */
     .quantity-selector .btn-sm,
     .cart-actions .quantity-selector .btn,
     .mw-add-to-cart-disabled-btn,
@@ -195,12 +178,10 @@ html.dark {
     }
 
     /*
-     * TICKET-X (cycle-62 2026-05-08) — public-site primary nav links.
-     * Mobile-audit measured "My new product" 121x22, "My page" 65x22,
-     * "Test product..." 184x22 — all 22px tall, half the WCAG floor.
-     * The Bootstrap layouts use `.mw-nav-list` and the menu module
-     * wraps in <nav>. `inline-flex` (not block) keeps horizontal
-     * navbar layouts intact while vertically centering the text.
+     * Public-site primary nav links — Bootstrap layouts render these
+     * ~22px tall, half the WCAG floor. `inline-flex` (not block)
+     * keeps horizontal navbar layouts intact while vertically
+     * centering the text.
      */
     .mw-nav-list a,
     .mw-main-nav a,
@@ -213,15 +194,11 @@ html.dark {
     }
 
     /*
-     * TICKET-Y (cycle-62 2026-05-08) — public-site footer links.
-     * Mailto / footer-link anchors render at 20-23px. Use a footer
-     * wrapper class to avoid bumping every inline link inside the
-     * footer column copy (which would visually break dense small-print
-     * lists). `.mw-footer` is the Microweber convention; also cover
-     * the bare <footer> element for templates that don't carry the
-     * marker class. The cycle-58 footer rules already covered
-     * `footer .menu a`, `footer nav a`, etc.; this adds the catch-all
-     * for direct `<footer> > a` and `.mw-footer a` shapes.
+     * Public-site footer link catch-all for direct `<footer> > a` and
+     * `.mw-footer a` shapes (the `footer .menu a` / `footer nav a`
+     * rules above already cover the nav variants). Use a footer
+     * wrapper class to avoid bumping every inline link inside footer
+     * column copy (which would visually break dense small-print lists).
      */
     .mw-footer a,
     footer.mw-footer a {
@@ -231,12 +208,10 @@ html.dark {
     }
 
     /*
-     * TICKET-Z (cycle-62 2026-05-08) — "Go Live Edit" chip.
-     * Measured 151x38 — exactly 6px short. The chip is rendered by
-     * top-navigation-go-live-edit.blade.php as `.mw-go-live-edit`.
-     * Rule kept narrow (no padding override) so the chip's existing
-     * inline padding/typography is preserved and only the floor
-     * lifts.
+     * "Go Live Edit" chip (`.mw-go-live-edit`) ships 6px short of
+     * the 44px floor. Rule kept narrow (no padding override) so the
+     * chip's existing inline padding/typography is preserved and
+     * only the floor lifts.
      */
     .mw-go-live-edit {
         min-height: 44px;
@@ -244,38 +219,19 @@ html.dark {
 }
 
 /*
- * AI-205 (cycle-164 2026-05-10) — public header icon size unification.
+ * Public header icon size unification. Header icons (search / user /
+ * cart / menu) otherwise render at mismatched sizes from the compiled
+ * `main.scss` size pin. `public-touch.css` is loaded AFTER `app.css`
+ * so this rule wins the cascade without needing a template-side
+ * `npm run build`.
  *
- * UX-audit P3 finding: header icons (search/user/cart/menu) had
- * mismatched sizes — search 20px, user 20px, cart 22px in the
- * cycle-N main.scss `@media (max-width: 576px)` rule. Combined with
- * the inline-SVG height/width attribute drift in skin-1.blade.php
- * (cycle-164 normalised to 28×28) the header looked inconsistent on
- * mobile. PM brief: "All header icons same size (match hamburger/
- * cart as reference)".
- *
- * `public-touch.css` is loaded AFTER `app.css` in the master layout
- * (master.blade.php) so this rule wins the cascade against the
- * compiled main.scss size pin without needing a template-side
- * `npm run build`. Same delivery pattern as the AI-166/AI-169
- * hamburger 44×44 floor in default.css.
+ * Lift the 44x44 floor onto the parent `<a class="nav-link">` so the
+ * tap area stays 44x44 (accessibility) while the inner SVG renders at
+ * 28x28 (visual consistency). Higher specificity (4 classes) beats
+ * the `.main a > svg:only-child` (3 classes) bare-icon floor so the
+ * SVG sizing rule below wins.
  */
 @media (max-width: 768px), (pointer: coarse) {
-    /*
-     * AI-205 first-pass set 28x28 directly on the SVG, but the cycle-N
-     * `.main a > svg:only-child { min-width: 44px; min-height: 44px }`
-     * rule (touch-target floor for bare-icon links) won via specificity
-     * and forced the SVG to 44x44. The cart SVG escaped the floor only
-     * because its sibling `.js-shopping-cart-quantity` badge made it
-     * NOT :only-child — that's why cart was 22x22 while search/user
-     * were 44x44.
-     *
-     * Resolution: lift the 44x44 floor onto the parent `<a class="nav-
-     * link">` so the tap area stays 44x44 (accessibility) while the
-     * inner SVG renders at 28x28 (visual consistency). Higher
-     * specificity (4 classes) beats `.main a > svg:only-child` (3
-     * classes) so the SVG sizing rule below wins.
-     */
     .templates-top-header-menu .top-header-background.header-top .btn-search .nav-link,
     .templates-top-header-menu .top-header-background.header-top .btn-member .nav-link,
     .templates-top-header-menu .top-header-background.header-top .btn-shopping-cart .nav-link {
@@ -295,24 +251,15 @@ html.dark {
     }
 
     /*
-     * AI-233 (cycle-174 2026-05-10) — footer link touch-target floor.
+     * Footer link touch-target floor. Footers in the Bootstrap
+     * template render inside a `<section class="footer-background ...">`
+     * wrapper with links variously inside `<p>`, `<li>`, and
+     * `<span class="mw-powered-by">` containers — no single common
+     * parent class.
      *
-     * agent-test's design audit measured footer text links at 20-23px
-     * tall on every public page (/, /shop, /cart, /checkout, /blog,
-     * /contact). Footers in the Bootstrap template render inside a
-     * `<section class="footer-background ...">` wrapper, with links
-     * variously inside `<p>`, `<li>`, and `<span class="mw-powered-by">`
-     * containers — no single common parent class.
-     *
-     * Floor `min-height: 44px` on every `<a>` inside the
-     * `.footer-background` section, with `inline-flex` so the tap area
-     * grows visually without breaking the inline text flow. Width
-     * grows naturally by content length (text links keep their natural
-     * width).
-     *
-     * The `mw-powered-by` "Create a website" + "Microweber" sub-links
-     * also caught — these are inline within a sentence so they get
-     * `inline-flex` + `padding: 6px 4px` for vertical breathing room.
+     * Floor every `<a>` inside `.footer-background` with `inline-flex`
+     * so the tap area grows visually without breaking inline text
+     * flow. Width grows naturally by content length.
      */
     .footer-background a,
     section.footer-background a,
@@ -323,9 +270,9 @@ html.dark {
         padding-top: 6px;
         padding-bottom: 6px;
     }
-    /* The mw-powered-by inline-credit links sit inside a sentence —
-       they need to keep wrapping naturally with the surrounding text,
-       so reduce padding and use baseline alignment. */
+    /* The `mw-powered-by` inline-credit links sit inside a sentence
+       — they need to keep wrapping naturally with the surrounding
+       text, so reduce padding and use baseline alignment. */
     .footer-background .mw-powered-by a,
     section.footer-background .mw-powered-by a {
         min-height: 44px;
@@ -334,27 +281,18 @@ html.dark {
     }
 
     /*
-     * AI-277 (cycle-178 2026-05-11) — Footer text color token
-     * separation.
+     * Footer text color token separation. Footer text uses
+     * `--color-footer-text` while product titles use
+     * `--color-product-title` so the two surfaces never share a
+     * theme value (preventing footer links from inheriting the
+     * orange product-title color through template overrides).
      *
-     * agent-test's design audit found footer text inheriting the
-     * orange product-title-style color (was rgb(244,162,97) =
-     * #f4a261 from the Bootstrap template's `--mw-footer-link-
-     * color` theme variable) on some pages, making footer links
-     * look identical to Big2 product titles. Token approach:
-     * footer text uses `--color-footer-text` (off-white #F8F9FA
-     * on light backgrounds, gray-300 #d1d5db in dark mode) while
-     * product titles use `--color-product-title` (amber #d97706
-     * light, lighter amber #f59e0b dark). The two tokens are
-     * intentionally distinct so the public template can apply
-     * footer color without the product-title rule bleeding in.
-     *
-     * !important needed because the Bootstrap template's app.css
+     * !important is needed because the Bootstrap template's app.css
      * `.footer-background a { color: var(--mw-footer-link-color); }`
-     * uses a token (`--mw-footer-link-color`) that may be set to
-     * page-edit-overridden values like `#f4a261` (orange) and
-     * loads in the same media-query-less context — without !important
-     * the equal-specificity tie + the template-set var wins.
+     * uses a token that may be set to page-edit-overridden values
+     * and loads in the same media-query-less context — without
+     * !important the equal-specificity tie + the template-set var
+     * wins.
      */
     .footer-background,
     .footer-background a,
@@ -371,19 +309,13 @@ html.dark {
     }
 
     /*
-     * AI-276 (cycle-178 2026-05-11) — Unify primary button colors,
-     * heights, radii via design-system tokens.
-     *
-     * agent-test's audit found Bootstrap `.btn-primary` and the
+     * Unify primary button colors, heights, and radii via
+     * design-system tokens. Bootstrap `.btn-primary` and the
      * various `.shop-cta` / `.add-to-cart-button` / similar
-     * primary-action buttons rendering in different hex blues +
-     * different heights + different radii across the public site
-     * (/shop "All Categories" was Bootstrap blue radius 0, /cart
-     * checkout-next was tailwind cyan radius 4 — these were
-     * partially aligned by cycle-166 to Bootstrap blue 4px, but
-     * the hex value was hardcoded). Cycle-178 routes all primary
-     * buttons through `var(--color-primary)` so the single
-     * source-of-truth is design-system.css.
+     * primary-action buttons otherwise render in different hex
+     * blues, heights, and radii across the public site. Route
+     * everything through `var(--color-primary)` so the single
+     * source-of-truth is `design-system.css`.
      */
     .btn-primary,
     .btn.btn-primary,
@@ -420,48 +352,29 @@ html.dark {
     }
 
     /*
-     * AI-236 (cycle-175 2026-05-10) — Live Edit mobile editing chrome
-     * (P1 ROOT UNBLOCKER for AI-208 / AI-218 / AI-222).
+     * Live Edit mobile editing chrome.
+     * The base `.element-active` outline in
+     * `frontend-assets-libs/css/liveedit.css` is `1px dotted #A6A6A6`
+     * — barely visible on mobile and disappears against most
+     * backgrounds, especially in dark mode or against colored
+     * sections. `public-touch.css` is loaded INSIDE the iframe so
+     * a higher-specificity rule wins on the iframe's text/module
+     * elements without needing a separate frontend-assets package
+     * rebuild. Desktop's 1px dotted gray is preserved by being
+     * outside this media query.
      *
-     * agent-test reported (at /admin/live-edit?url=AI207-Test-Blog-Post
-     * 390×844):
-     *   - No visible cursor after double-click on editable element
-     *   - No focus ring / highlight around element in edit mode
-     *   - No inline/bottom-sheet toolbar surfaces
-     *
-     * Root cause: the existing `.element-active` outline rule (in
-     * `frontend-assets-libs/css/liveedit.css` line 1697:
-     * `outline: 1px dotted #A6A6A6`) is a barely-visible 1px gray
-     * outline that disappears against most backgrounds on mobile —
-     * especially in dark mode or against high-contrast images /
-     * colored sections. The element IS getting the `.element-active`
-     * class on dblclick (verified — JS edit-mode infrastructure
-     * works), but the visual signal is too subtle for mobile users
-     * to perceive.
-     *
-     * `public-touch.css` is loaded INSIDE the iframe (via the
-     * Bootstrap template's master layout) so a rule placed here at
-     * higher specificity than the cycle-N base rule wins on the
-     * iframe's text/module elements without needing a separate
-     * frontend-assets package rebuild.
-     *
-     * Cycle-175 fix (mobile + touch only — desktop's 1px dotted
-     * gray is preserved by being outside this media query):
-     *
-     *   1. `.element-active` outline → 2px solid Bootstrap-blue
+     *   1. `.element-active` outline -> 2px solid Bootstrap-blue
      *      with 2px offset + outer box-shadow halo so the focus
      *      ring is high-contrast on every background.
      *   2. `caret-color: #0d6efd` on `.element-active *` so the
-     *      blinking text cursor is visible and clearly tracks
-     *      where typing will go.
-     *   3. Floor `#mw-text-editor` inline-toolbar buttons to 44×44
-     *      with bottom-sheet positioning (fixed to viewport
-     *      bottom, full-width) so the Bold/Italic/Link/Heading
-     *      toolbar actually surfaces on mobile above the iOS
+     *      blinking text cursor is visible.
+     *   3. Floor `#mw-text-editor` inline-toolbar buttons to 44x44
+     *      with bottom-sheet positioning (fixed to viewport bottom,
+     *      full-width) so the toolbar surfaces above the iOS
      *      keyboard.
      *   4. Bump `body.mw-live-edit .plain-text` empty-state
-     *      min-height from 12px → 24px so empty paragraphs have
-     *      a usable tap area.
+     *      min-height to 24px so empty paragraphs have a usable
+     *      tap area.
      */
     .mw-live-edit .element-active,
     body.mw-live-edit .element-active {

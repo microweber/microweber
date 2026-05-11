@@ -1,20 +1,13 @@
 /*
- * design-system.css (cycle-178a 2026-05-11) — Microweber design
- * system tokens. Source of truth for colors, typography, spacing,
- * touch targets, radius, elevation, and motion.
+ * design-system.css — Microweber design system tokens. Source of
+ * truth for colors, typography, spacing, touch targets, radius,
+ * elevation, and motion.
  *
- * Authority: this file mirrors the PROPOSED tokens in
- * `/home/headless/Documents/GitHub/pm-agent/DESIGN_SYSTEM.md`.
- * PM approval received via task-2026-05-11-16d516; ship-go for
- * Phase 1 tickets AI-276/277/278.
- *
- * Implementation note: until the full @import load-order audit
- * is complete (planned Phase 2), consumer files (public-touch.css,
- * mobile-touch.css, live-edit-mobile.css) duplicate the same
- * :root token block inline at the top. This file is the canonical
- * spec. A contract test (Ai276Ai277Ai278DesignSystemContractTest)
- * pins every token in this file to be present in the consumer
- * files so they stay in sync.
+ * Until the full @import load-order audit is complete, consumer
+ * files (public-touch.css, mobile-touch.css, live-edit-mobile.css)
+ * duplicate the same :root token block inline at the top. This
+ * file is the canonical spec; a contract test pins every token
+ * here to be present in the consumer files so they stay in sync.
  */
 
 :root {
@@ -37,8 +30,8 @@
     --color-border: #d1d5db;
     --color-border-focus: #0d6efd;
 
-    /* Surface-specific color tokens — AI-277 prevents color leak
-       between footer text and product titles. */
+    /* Surface-specific color tokens — kept distinct from base text
+       tokens so footer text and product titles can't share a value. */
     --color-footer-text: #F8F9FA;
     --color-product-title: #d97706;
 

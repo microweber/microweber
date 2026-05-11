@@ -1,32 +1,25 @@
 <script>
 /*
- * AI-271 (cycle-179 2026-05-11) — Save → "Save & Publish" rename +
- * 30s draft auto-save.
+ * "Save & Publish" button + 30s draft auto-save.
  *
- * PM filed AI-271 as Phase 1 UX after the UX Engineer evaluation:
- * the "SAVE" button label doesn't convey that the action publishes
- * changes to the live site immediately — users reported expecting
- * a separate "Publish" step. Fix:
+ * The visible label is "Save & Publish" so the user knows the
+ * action publishes changes to the live site immediately rather
+ * than expecting a separate publish step. The aria-label still
+ * references the Ctrl+S shortcut.
  *
- *   1. Visible label: "SAVE" → "Save & Publish" so the
- *      consequence of the click is explicit.
- *   2. aria-label updated to match the new label + still
- *      reference the Ctrl+S shortcut.
- *   3. Add a 30-second draft auto-save timer that runs while
- *      the editor is open. The auto-save:
- *      - Only fires AFTER the canvas is loaded (no auto-save
- *        on a blank/loading editor)
- *      - Only fires if `_dirty` flag is set (user has edited
- *        since the last save)
- *      - Calls save() in SILENT mode so the success toast
- *        doesn't spam every 30 seconds
- *      - Failure toast still fires so the user is alerted
- *        to lost work
+ * The 30-second draft auto-save:
+ *   - Only fires AFTER the canvas is loaded (no auto-save on a
+ *     blank/loading editor)
+ *   - Only fires if `_dirty` is set (user has edited since the
+ *     last save)
+ *   - Calls save() in SILENT mode so the success toast doesn't
+ *     spam every 30 seconds
+ *   - Failure toast still fires so the user is alerted to lost
+ *     work
  *
- * The dirty flag is tracked via canvas activity events. Editor
- * events that fire on user input (`liveEditChange` / paste /
- * Mutation) all set _dirty = true. Each successful save resets
- * _dirty = false.
+ * The dirty flag is tracked via canvas activity events: editor
+ * input, paste, and Mutation events all set _dirty = true. Each
+ * successful save resets _dirty = false.
  */
 
 const AUTO_SAVE_INTERVAL_MS = 30000;
@@ -60,11 +53,11 @@ export default {
             // "Add New Post" / "Add Page" / module settings form),
             // submit it as part of the page save. The user expects the
             // live-edit SAVE button to be a one-click "save everything
-            // visible" rather than only saving the page DOM —
-            // task-2026-04-29-dc57b7. Dispatch a window event that the
-            // iframe-page Alpine listener picks up and forwards to
-            // $wire.callMountedAction(); the Filament action's own
-            // submit handler then runs the form's create/update logic.
+            // visible" rather than only saving the page DOM. Dispatch
+            // a window event that the iframe-page Alpine listener
+            // picks up and forwards to $wire.callMountedAction(); the
+            // Filament action's own submit handler then runs the
+            // form's create/update logic.
             try {
                 window.dispatchEvent(new Event('liveEditSaveCallMountedAction'));
             } catch (_) { /* no-op */ }
@@ -96,15 +89,15 @@ export default {
                     if (result === 'success') {
                         self.$data._dirty = false;
                         if (silent) {
-                            // AI-271 auto-save: no success toast on
-                            // silent draft saves — the user is editing,
-                            // they don't want a status toast every 30s.
+                            // No success toast on silent draft saves
+                            // — the user is editing, they don't want
+                            // a status toast every 30s.
                             return;
                         }
-                        // AI-174 (cycle-151 2026-05-10): include a
-                        // real SVG ✓ glyph so the page-saved toast
-                        // reads as a definitive confirmation, not just
-                        // a status sentence the user might miss.
+                        // Include a real SVG check glyph so the
+                        // page-saved toast reads as a definitive
+                        // confirmation, not just a status sentence
+                        // the user might miss.
                         var savedToastHtml = '<span class="mw-notification-saved-toast"><svg xmlns="http://www.w3.org/2000/svg" class="mw-notification-saved-toast__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> <span class="mw-notification-saved-toast__label">Saved &amp; published</span></span>';
                         mw.notification.success(savedToastHtml, 7500);
                         return;
@@ -159,9 +152,9 @@ export default {
                 event.preventDefault();
                 saveButtonInstance.save();
             });
-            // AI-271: start 30s draft auto-save once the canvas is
-            // ready. We mark dirty on any DOM-level edit signal
-            // (Editor change event + click-to-edit dblclick).
+            // Start 30s draft auto-save once the canvas is ready.
+            // Mark dirty on any DOM-level edit signal (Editor
+            // change event + click-to-edit dblclick).
             try {
                 saveButtonInstance.startAutoSave();
                 var canvasWin = mw.app.canvas.getWindow();

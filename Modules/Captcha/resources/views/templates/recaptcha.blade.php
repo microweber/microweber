@@ -48,8 +48,6 @@
                         'sitekey': '{{ get_option('recaptcha_v2_site_key', 'captcha') }}',
                         'action': '{{ $captcha_name }}',
                         'callback': function (response) {
-                            // AI-263 Phase B3 (cycle-183 2026-05-11):
-                            // vanilla replacement for `$('#x').val(response)`.
                             var __el = document.getElementById('{{ $input_id }}');
                             if (__el) { __el.value = response; }
                             @if($callback)
@@ -65,8 +63,6 @@
         }
 
 
-        // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
-        // for $(document).ready / $().find / $().first().remove().
         document.addEventListener('DOMContentLoaded', function () {
             var __captchaHolder = document.getElementById('js-mw-google-recaptcha-v2-{{ $params['id'] }}');
             if (__captchaHolder && __captchaHolder.querySelector('iframe')) {
@@ -96,10 +92,6 @@
     <script>
 
         window.runRecaptchaV3Attach{{ $js_function_hash }} = function () {
-            // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
-            // for $('#x') wrapper — use getElementById and pass the
-            // raw element to firstParentWithTag (which already accepts
-            // a DOM node).
             var captcha_el = document.getElementById('{{ $input_id }}');
             if (captcha_el) {
                 var parent_form = mw.tools.firstParentWithTag(captcha_el, 'form')
@@ -150,9 +142,6 @@
 
 
     <script>
-        // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
-        // for $(document).ready and $.getScript — use DOMContentLoaded
-        // and dynamic <script> element insertion.
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof (window.grecaptcha) === 'undefined') {
                 var __s = document.createElement('script');

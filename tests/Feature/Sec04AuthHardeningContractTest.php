@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-122 / AI-129 / SEC-04 — auth hardening regression coverage.
+ * Auth hardening regression coverage.
  *
  * Pins:
  *   - Login throttle: 5 attempts per 15 minutes (Fortify config),
@@ -22,8 +22,6 @@ use Tests\TestCase;
  *   - The middleware uses `Hash::check()` (not raw string compare)
  *     to detect default-seeded passwords.
  *   - Test-environment bypass works (config('app.env') === 'testing').
- *
- * Style after the cycle-52..121 contract tests.
  */
 class Sec04AuthHardeningContractTest extends TestCase
 {
@@ -46,7 +44,7 @@ class Sec04AuthHardeningContractTest extends TestCase
         $this->assertStringContainsString(
             "AI-129 / SEC-04 (cycle-122",
             $src,
-            'Fortify provider must carry the AI-129 audit-trail comment'
+            'Fortify provider must carry the auth-hardening audit-trail marker'
         );
 
         $this->assertMatchesRegularExpression(
@@ -76,10 +74,10 @@ class Sec04AuthHardeningContractTest extends TestCase
         $this->assertStringContainsString(
             'AI-129 / SEC-04 (cycle-122',
             $src,
-            'Middleware must carry the AI-129 audit-trail comment'
+            'Middleware must carry the auth-hardening audit-trail marker'
         );
 
-        // Brief: detect the well-known default values.
+        // Must detect the well-known default values.
         foreach (["'admin'", "'password'", "'admin123'", "'microweber'", "'123456'"] as $needle) {
             $this->assertStringContainsString(
                 $needle,

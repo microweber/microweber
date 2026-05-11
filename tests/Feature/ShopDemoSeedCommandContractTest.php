@@ -8,14 +8,14 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Cycle-159 (2026-05-10) — Shop demo seeder contract.
+ * Shop demo seeder contract.
  *
  * The `mw:shop-demo-seed` command (`Modules\Backup\Console\Commands\
  * ShopDemoSeedCommand`) creates a populated demo shop (Demo Shop
  * category + N products with picsum.photos placeholder images +
  * realistic titles/prices/descriptions + an upserted /shop page) so
- * agent-test can verify mobile shop layouts at 390x844 without
- * hand-clicking through the admin to add products.
+ * mobile shop layouts can be verified at 390x844 without hand-clicking
+ * through the admin to add products.
  *
  * Pins the load-bearing pieces of the command so future refactors
  * that drop the SUBTYPE_VALUE_MARKER (used by idempotent re-runs),
@@ -37,7 +37,7 @@ class ShopDemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
         $this->assertStringContainsString('Cycle-159', $src,
-            'ShopDemoSeedCommand.php MUST carry the cycle-159 anchor.');
+            'ShopDemoSeedCommand.php MUST carry its source anchor.');
         $this->assertStringContainsString('mw:shop-demo-seed', $src,
             'ShopDemoSeedCommand.php MUST declare the canonical command '
             . 'signature `mw:shop-demo-seed`.');
@@ -84,8 +84,7 @@ class ShopDemoSeedCommandContractTest extends TestCase
     public function catalog_has_at_least_six_entries(): void
     {
         $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
-        // PM email asked for 4-6 products. Ship 6 minimum so the
-        // default --count=6 doesn\'t fall back.
+        // Ship 6 minimum so the default --count=6 doesn't fall back.
         $titleCount = preg_match_all('/[\'"]title[\'"]\s*=>\s*[\'"][^\'"]{6,}[\'"]/', $src, $m);
         $this->assertGreaterThanOrEqual(6, $titleCount,
             "ShopDemoSeedCommand CATALOG MUST contain at least 6 entries "
@@ -184,14 +183,12 @@ class ShopDemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
 
-        // Cycle-165 / wave3-f (2026-05-10): cycle-159 deleted prior
-        // demo products on every run + assigned new auto-increment ids,
-        // which (a) made ids drift across runs (breaks any persisted
-        // cart with the old ids) and (b) lost any runtime state on the
-        // products. Cycle-165: build a slug → id map up front + upsert
-        // in place by slug.
+        // Idempotency hardening: build a slug → id map up front and
+        // upsert in place by slug so re-runs preserve auto-increment
+        // ids (a delete-then-create path drifts ids across runs and
+        // breaks any persisted cart with the old ids).
         $this->assertMatchesRegularExpression('/[Cc]ycle-165/', $src,
-            'ShopDemoSeedCommand.php MUST carry the cycle-165 anchor.');
+            'ShopDemoSeedCommand.php MUST carry the idempotency anchor.');
         $this->assertMatchesRegularExpression(
             '/\$existingBySlug\s*=\s*Content::query\(\)[\s\S]{0,500}->pluck\([\'"]id[\'"]\s*,\s*[\'"]url[\'"]\)/',
             $src,
@@ -206,11 +203,11 @@ class ShopDemoSeedCommandContractTest extends TestCase
             . '$existingId)` to fetch the existing row when the slug '
             . 'is already in the map (preserves the auto-increment id).'
         );
-        // The cycle-N delete-then-create path MUST be gone.
+        // The delete-then-create path MUST be gone.
         $this->assertDoesNotMatchRegularExpression(
             '/Removing \{[\s\S]{0,80}prior demo product/',
             $src,
-            'ShopDemoSeedCommand MUST NOT carry the cycle-159 '
+            'ShopDemoSeedCommand MUST NOT carry the '
             . '"Removing N prior demo products" delete-then-create path '
             . '— that broke id stability across re-runs.'
         );
@@ -221,10 +218,10 @@ class ShopDemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
 
-        // Cycle-165: cycle-N called Media::query()->create() which
-        // accumulated duplicate Media rows across re-runs. firstOrCreate
-        // keys on (rel_type, rel_id, filename) so re-runs are no-op
-        // when the image is already attached.
+        // Media::query()->create() would accumulate duplicate Media
+        // rows across re-runs. firstOrCreate keys on
+        // (rel_type, rel_id, filename) so re-runs are no-op when the
+        // image is already attached.
         $this->assertMatchesRegularExpression(
             '/Media::query\(\)->firstOrCreate\(/',
             $src,
@@ -239,12 +236,12 @@ class ShopDemoSeedCommandContractTest extends TestCase
     {
         $src = $this->read('Modules/Backup/Console/Commands/ShopDemoSeedCommand.php');
 
-        // Cycle-165 first pass introduced a `$slug` inner-loop variable
-        // that shadowed the outer `$slug` (= --slug option / shop page
-        // slug), causing the post-loop `Content::query()->where(\'url\','
-        // ' $slug)` lookup to fail and create a new /shop page with the
-        // last product\'s slug + timestamp on every run. Renamed to
-        // `$productSlug` as a regression guard.
+        // A `$slug` inner-loop variable would shadow the outer `$slug`
+        // (= --slug option / shop page slug), causing the post-loop
+        // `Content::query()->where('url', $slug)` lookup to fail and
+        // create a new /shop page with the last product's slug +
+        // timestamp on every run. Use `$productSlug` as a regression
+        // guard.
         $this->assertStringContainsString('$productSlug', $src,
             'ShopDemoSeedCommand MUST use `$productSlug` for the inner-'
             . 'loop product slug — `$slug` is the OUTER variable for '
