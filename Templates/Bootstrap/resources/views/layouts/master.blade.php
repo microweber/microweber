@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html {!! lang_attributes() !!}>
+
 @php
     /*
      * Cycle-188 EMERGENCY ROLLBACK (2026-05-11):
