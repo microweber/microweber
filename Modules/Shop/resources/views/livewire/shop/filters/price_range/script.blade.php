@@ -1,7 +1,19 @@
 <script>
     mw.lib.require('nouislider');
-    $(document).ready(function() {
-
+    // AI-263 Phase C (cycle-186 2026-05-11): wait for the lazy-
+    // loaded nouislider library before constructing the slider.
+    // Before AI-263, `$(document).ready` waited for jQuery's
+    // slower init, giving nouislider.js time to arrive. Now
+    // that mw.$ uses vanilla DOMContentLoaded, ready fires
+    // before the dynamic `<script>` finishes loading. Use a
+    // small retry loop instead of $(document).ready.
+    (function waitForNoUiSlider(retries) {
+        if (typeof noUiSlider === 'undefined') {
+            if (retries > 0) {
+                setTimeout(function () { waitForNoUiSlider(retries - 1); }, 100);
+            }
+            return;
+        }
         let priceRangeElement = document.getElementById('{{$priceRangeElement}}');
         if(priceRangeElement && priceRangeElement.noUiSlider){
             priceRangeElement.noUiSlider.destroy();
@@ -44,5 +56,5 @@
 
         });
 
-    });
+    })(30);  // 30 × 100ms = 3s max wait for nouislider to load
 </script>
