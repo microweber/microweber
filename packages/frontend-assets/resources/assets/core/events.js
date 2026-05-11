@@ -299,42 +299,57 @@ mw.prevHash = function(){
 
 
 
-$(window).on("hashchange load", function(event){
-    if(event.type === 'load'){
+/*
+ * AI-263 Phase B4 (cycle-184 2026-05-11) — vanilla replacement
+ * for `$(window).on("hashchange load", ...)`.
+ *
+ * Use native addEventListener so this file can load BEFORE
+ * jQuery (or without jQuery at all) — the lasting blocker that
+ * forced Bootstrap template's master.blade.php to call
+ * `mw_require_jquery()` per cycle-181.
+ *
+ * Also swapped `mw.$('html').addClass('showpostscat')` →
+ * `document.documentElement.classList.add('showpostscat')` so
+ * frontend.js no longer depends on `mw.$` (the jseldom-jquery
+ * wrapper that ALSO requires jQuery).
+ */
+function __mwHashChangeOrLoad(event) {
+    if (event.type === 'load') {
         mw._on.userIteractionInit();
     }
 
     mw.on.hashParamEventInit();
 
-   var hash =  location.hash;
+    var hash = location.hash;
 
-   var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
-   if (isMWHash) {
-       var MWHash = hash.replace(/\#/g, '').replace('mw@', '');
-       var el = document.getElementById(MWHash);
-       if(el) {
-           mw.tools.scrollTo(el);
-       }
-   }
-   if(hash.includes("showpostscat")){
-      mw.$("html").addClass("showpostscat");
-   }
-   else{
-      mw.$("html").removeClass("showpostscat");
-   }
+    var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
+    if (isMWHash) {
+        var MWHash = hash.replace(/\#/g, '').replace('mw@', '');
+        var el = document.getElementById(MWHash);
+        if (el) {
+            mw.tools.scrollTo(el);
+        }
+    }
+    if (hash.includes('showpostscat')) {
+        document.documentElement.classList.add('showpostscat');
+    } else {
+        document.documentElement.classList.remove('showpostscat');
+    }
 
-
-   if (event.type === 'hashchange') {
-     mw.hashHistory.push(location.hash);
-     var size = mw.hashHistory.length;
-     var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
-     if (l>0) {
-       for( ; i < l; i++ ){
-          mw.on.hashParam(changes[i], "", true, true);
-       }
-     }
-   }
-});
+    if (event.type === 'hashchange') {
+        mw.hashHistory.push(location.hash);
+        var size = mw.hashHistory.length;
+        var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]),
+            l = changes.length, i = 0;
+        if (l > 0) {
+            for (; i < l; i++) {
+                mw.on.hashParam(changes[i], '', true, true);
+            }
+        }
+    }
+}
+window.addEventListener('hashchange', __mwHashChangeOrLoad);
+window.addEventListener('load', __mwHashChangeOrLoad);
 
 
 mw.event = {

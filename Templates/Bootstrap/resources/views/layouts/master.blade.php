@@ -3,25 +3,40 @@
 
 @php
     /*
-     * AI-263 Phase B1 (cycle-181 2026-05-11) — opt-in to eager
-     * jQuery loading.
+     * AI-263 Phase B4 (cycle-184 2026-05-11) — opt-in to eager
+     * jQuery loading STILL REQUIRED (partial-progress).
      *
-     * The Bootstrap template's `dist/build/app.js` references `$`
-     * (jQuery) at module-init time, AND the Microweber
-     * frontend.js's `core/events.js` does the same. Until both
-     * are refactored to be jQuery-optional (future cycles),
-     * Bootstrap-template pages MUST eagerly load jQuery in
-     * <head> so the existing JS doesn't ReferenceError.
+     * Cycle-184 refactored two of the three Phase B4 jQuery
+     * dependencies:
      *
-     * `mw_require_jquery()` sets a request-scoped flag that
-     * ApijsScriptTag.toHtml() reads to decide whether to emit
-     * the eager `<script src=".../jquery.js">` tag. Removing
-     * this call will save 806KB on every Bootstrap page render
-     * — but only AFTER the underlying JS is jQuery-free.
+     *   1. `packages/frontend-assets/resources/assets/core/events.js`
+     *      line 302 — `$(window).on('hashchange load', ...)` is
+     *      now `window.addEventListener('hashchange'/'load',
+     *      ...)`.
      *
-     * Templates that are already jQuery-free (e.g. Big2 future
-     * refactor) should NOT call this helper. The 806KB saving
-     * applies to those automatically.
+     *   2. `Templates/Bootstrap/resources/assets/js/collapseNav.js`
+     *      — full vanilla rewrite (211 lines), no `$` references.
+     *      Exposes `window.MwCollapseNav(selector, config)`.
+     *
+     * REMAINING BLOCKER (deferred to Phase B5+):
+     *
+     *   3. `frontend.js` uses `mw.$()` (the jseldom-jquery
+     *      wrapper at libs/jseldom/jseldom-jquery.js) at
+     *      module-init time throughout core/events.js,
+     *      core/ajax.js, core/forms.js, etc. The wrapper itself
+     *      throws `ReferenceError: jQuery is not defined` when
+     *      jQuery is missing. Refactoring `mw.$` to be
+     *      jQuery-optional requires either swapping it for a
+     *      vanilla DOM wrapper OR guarding every `mw.$` call
+     *      site (~30 across core/ + apis/). Multi-cycle work.
+     *
+     * Until Phase B5 lands, this template MUST still call
+     * `mw_require_jquery()` so jQuery loads in `<head>` before
+     * frontend.js's module-init code runs.
+     *
+     * Net cycle-184 progress: 2/3 of the Phase B4 work done.
+     * Phase B5 (mw.$ refactor) will deliver the actual 806KB
+     * savings on every Bootstrap-template page.
      */
     if (function_exists('mw_require_jquery')) {
         mw_require_jquery();
