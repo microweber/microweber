@@ -125,11 +125,28 @@
             }
         ],
         slick: [
+            // AI-263 Phase B2 (cycle-182 2026-05-11): replaced the
+            // Slick library JS load with the Swiper-backed adapter.
+            // Module skins (Teamcard / Testimonials / Post / Product
+            // / Pictures — 22 blade files inventoried in Phase A
+            // audit) still call `$('.x').slick(options)` unchanged
+            // but get Swiper under the hood — no Slick library
+            // required. Slick CSS is kept so existing `.slick-dots`,
+            // `.slick-prev`, `.slick-next` styling continues to
+            // apply (the adapter aliases Swiper-emitted elements
+            // to those class names). Swiper-bundle CSS loaded for
+            // baseline Swiper rendering. `mw-slick.js` is NOT
+            // loaded — the data-slick HTML attribute parser is
+            // baked into the adapter so the adapter is the SOLE
+            // owner of `$.fn.slick` (mw-slick.js wrapping caused
+            // arg-swallow bugs with the imperative API in
+            // playwright smoke).
             function () {
                 mw.require(mw.settings.libs_url + 'slick/slick.css', true, undefined, true);
                 mw.require(mw.settings.libs_url + 'slick/slick-theme.css', undefined, undefined, true);
-                mw.require(mw.settings.libs_url + 'slick/slick.js', true);
-                mw.require(mw.settings.libs_url + 'slick/mw-slick.js', true);
+                mw.require(mw.settings.libs_url + 'swiper/swiper-bundle.min.css', true, undefined, true);
+                mw.require(mw.settings.libs_url + 'swiper/swiper-bundle.min.js', true);
+                mw.require(mw.settings.libs_url + 'slick-to-swiper-adapter/slick-to-swiper-adapter.js', true);
             }
         ],
 

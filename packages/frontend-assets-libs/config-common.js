@@ -6,6 +6,11 @@ const localScripts = [
 
      {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
      {target: `slick`, path: `./resources/local-libs/mw-slick.js`},
+     // AI-263 Phase B2 (cycle-182 2026-05-11): Slick → Swiper adapter.
+     // Copies the adapter into the slick-to-swiper-adapter/ dist
+     // folder so `mw.lib.require('slick')` (which now also requires
+     // swiper + this adapter) can resolve the path.
+     {target: `slick-to-swiper-adapter`, path: `./resources/local-libs/slick-to-swiper-adapter/slick-to-swiper-adapter.js`},
      {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.js`},
      {target: `bootstrap_datetimepicker`, path: `./resources/local-libs/bootstrap_datetimepicker/bootstrap-datetimepicker.js`},
 

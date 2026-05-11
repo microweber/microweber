@@ -63,11 +63,19 @@
             }
         ],
         slick: [
+            // AI-263 Phase B2 (cycle-182 2026-05-11): see
+            // src/MicroweberPackages/App/resources/includes/api/
+            // api_settings.js for the canonical runtime
+            // definition. This file mirrors it so the source
+            // stays in lockstep. mw-slick.js is NOT loaded —
+            // the data-slick attribute parser is baked into
+            // the adapter.
             function () {
                 mw.require(mw.settings.libs_url + 'slick/slick.css', true, undefined, true);
                 mw.require(mw.settings.libs_url + 'slick/slick-theme.css', undefined, undefined, true);
-                mw.require(mw.settings.libs_url + 'slick/slick.js', true);
-                mw.require(mw.settings.libs_url + 'slick/mw-slick.js', true);
+                mw.require(mw.settings.libs_url + 'swiper/swiper-bundle.min.css', true, undefined, true);
+                mw.require(mw.settings.libs_url + 'swiper/swiper-bundle.min.js', true);
+                mw.require(mw.settings.libs_url + 'slick-to-swiper-adapter/slick-to-swiper-adapter.js', true);
             }
         ],
 
