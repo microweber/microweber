@@ -353,7 +353,7 @@ html.dark {
      * `.footer-background a { color: var(--mw-footer-link-color); }`
      * uses a token (`--mw-footer-link-color`) that may be set to
      * page-edit-overridden values like `#f4a261` (orange) and
-     * loads in the same @media-less context — without !important
+     * loads in the same media-query-less context — without !important
      * the equal-specificity tie + the template-set var wins.
      */
     .footer-background,

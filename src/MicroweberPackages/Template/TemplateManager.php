@@ -262,9 +262,110 @@ class TemplateManager
         if (!$is_laravel_template) {
             $meta = mw_footer_scripts();
             $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
+
+            // AI-263 Phase B1 (cycle-181 2026-05-11): conditional
+            // jQuery + jQuery UI injection. Scan the rendered
+            // public-page layout for module-skin markers that need
+            // jQuery (slick, masonry, datetimepicker, chosen) plus
+            // the explicit `data-mw-needs-jquery` opt-in. If any
+            // found, inject jquery.js + jquery-ui.js before </body>
+            // along with a `__mwRegisterJqueryExtensions` runner
+            // that re-registers the frontend.js extensions now that
+            // jQuery is present. If no marker found, ship NOTHING —
+            // public pages save 806KB of blocking JS.
+            $layout = $this->injectConditionalJqueryFooter($layout);
         }
 
         return $layout;
+    }
+
+    /**
+     * AI-263 Phase B1 (cycle-181 2026-05-11) — conditional jQuery
+     * footer injection for public pages.
+     *
+     * Scans the rendered layout for jQuery-plugin markers from the
+     * Microweber module skins inventory (see Phase A audit:
+     *   - Slick carousel: `.slick-slider`, `.slick-track`, common
+     *     marker `slick-` class prefix from skin templates
+     *   - Masonry: `.masonry`, `data-masonry`
+     *   - Bootstrap Datetimepicker: `.datetimepicker`,
+     *     `data-datetimepicker`
+     *   - Chosen: `.chosen-select`, `.chosen-container`
+     *   - Explicit opt-in: any element with `data-mw-needs-jquery`
+     * ).
+     *
+     * If any marker is found, inject jquery.js + jquery-ui.js +
+     * the legacy `$.ajaxSetup` CSRF shim before </body>, along with
+     * a runner that calls `window.__mwRegisterJqueryExtensions[]`
+     * so frontend.js's `$.fn.commuter` / `jQuery.fn.reload_module`
+     * extensions get registered now that jQuery is loaded.
+     */
+    public function injectConditionalJqueryFooter(string $layout): string
+    {
+        if (stripos($layout, '</body>') === false) {
+            return $layout;
+        }
+
+        if (!$this->layoutNeedsJquery($layout)) {
+            return $layout;
+        }
+
+        $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.js';
+        $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
+        $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
+
+        $inject = '<!-- AI-263 Phase B1: jQuery loaded conditionally because page has jQuery-dependent module skin markers -->' . "\r\n";
+        $inject .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";
+        $inject .= '<script src="' . $jquery . '" id="mw-jquery-js-libs-scripts"></script>' . "\r\n";
+        $inject .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
+        // Re-register frontend.js extensions now that jQuery is loaded
+        // + bootstrap the legacy `$.ajaxSetup` CSRF shim.
+        $inject .= '<script id="mw-jquery-late-bootstrap" type="text/javascript">' . "\r\n";
+        $inject .= '(function () {' . "\r\n";
+        $inject .= '    if (typeof window.jQuery === "undefined") return;' . "\r\n";
+        $inject .= '    var token = (document.querySelector(\'meta[name="csrf-token"]\') || {}).content;' . "\r\n";
+        $inject .= '    if (token) {' . "\r\n";
+        $inject .= '        window.jQuery.ajaxSetup({ headers: { "X-CSRF-TOKEN": token } });' . "\r\n";
+        $inject .= '    }' . "\r\n";
+        $inject .= '    var ext = window.__mwRegisterJqueryExtensions || [];' . "\r\n";
+        $inject .= '    for (var i = 0; i < ext.length; i++) {' . "\r\n";
+        $inject .= '        try { ext[i](); } catch (e) {}' . "\r\n";
+        $inject .= '    }' . "\r\n";
+        $inject .= '    window.__mwRegisterJqueryExtensions = [];' . "\r\n";
+        $inject .= '})();' . "\r\n";
+        $inject .= '</script>' . "\r\n";
+
+        return Str::replaceFirst('</body>', $inject . '</body>', $layout);
+    }
+
+    /**
+     * AI-263 Phase B1 — detect whether the rendered layout contains
+     * any marker that requires jQuery. Pure-string scan (fast) over
+     * the FINAL HTML so module skins rendered ANYWHERE in <body>
+     * are detected, including dynamically-injected content from
+     * Livewire/Alpine.
+     */
+    protected function layoutNeedsJquery(string $layout): bool
+    {
+        $markers = [
+            'slick-slider',        // Slick carousel container
+            'slick-track',         // Slick inner track
+            'data-slick',          // Slick options data attribute
+            'class="slick',        // Loose slick- class prefix
+            "class='slick",
+            'masonry',             // Masonry layout (covers class + data attr)
+            'datetimepicker',      // Bootstrap Datetimepicker
+            'chosen-select',       // Chosen <select> opt-in class
+            'chosen-container',    // Chosen rendered wrapper
+            'data-mw-needs-jquery', // Explicit opt-in marker
+        ];
+
+        foreach ($markers as $marker) {
+            if (stripos($layout, $marker) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

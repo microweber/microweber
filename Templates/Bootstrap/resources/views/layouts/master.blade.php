@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html {!! lang_attributes() !!}>
 
+@php
+    /*
+     * AI-263 Phase B1 (cycle-181 2026-05-11) — opt-in to eager
+     * jQuery loading.
+     *
+     * The Bootstrap template's `dist/build/app.js` references `$`
+     * (jQuery) at module-init time, AND the Microweber
+     * frontend.js's `core/events.js` does the same. Until both
+     * are refactored to be jQuery-optional (future cycles),
+     * Bootstrap-template pages MUST eagerly load jQuery in
+     * <head> so the existing JS doesn't ReferenceError.
+     *
+     * `mw_require_jquery()` sets a request-scoped flag that
+     * ApijsScriptTag.toHtml() reads to decide whether to emit
+     * the eager `<script src=".../jquery.js">` tag. Removing
+     * this call will save 806KB on every Bootstrap page render
+     * — but only AFTER the underlying JS is jQuery-free.
+     *
+     * Templates that are already jQuery-free (e.g. Big2 future
+     * refactor) should NOT call this helper. The 806KB saving
+     * applies to those automatically.
+     */
+    if (function_exists('mw_require_jquery')) {
+        mw_require_jquery();
+    }
+@endphp
+
 <head>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">

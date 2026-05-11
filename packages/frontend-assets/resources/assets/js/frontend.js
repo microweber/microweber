@@ -35,18 +35,41 @@ import "./animations.js";
 
 
 
-$.fn.commuter = function (a, b) {
-    if (!a) { return }
-    var b = b || function () {};
-    return this.each(function () {
-        if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
-            this.cmactivated = true;
-            mw.$(this).on("change", function () {
-                this.checked === true ? a.call(this) : b.call(this);
+/*
+ * AI-263 Phase B1 (cycle-181 2026-05-11) — guard jQuery extensions
+ * behind a typeof check so frontend.js can load on public pages
+ * BEFORE jQuery is present (jQuery is now lazy-loaded only when
+ * a public page actually needs it — see ApijsScriptTag.php +
+ * TemplateManager::injectConditionalJqueryFooter).
+ *
+ * If jQuery loads later (because the page renders a Slick/Masonry/
+ * Datetimepicker/Chosen module skin), we re-register the extensions
+ * via a `window.__mwRegisterJqueryExtensions` hook that the
+ * conditional footer script calls after jQuery loads.
+ */
+if (typeof window !== 'undefined') {
+    var __mwRegisterCommuter = function () {
+        if (typeof window.$ === 'undefined' || !window.$.fn) return false;
+        if (window.$.fn.commuter) return true;
+        window.$.fn.commuter = function (a, b) {
+            if (!a) { return }
+            var b = b || function () {};
+            return this.each(function () {
+                if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
+                    this.cmactivated = true;
+                    mw.$(this).on("change", function () {
+                        this.checked === true ? a.call(this) : b.call(this);
+                    });
+                }
             });
-        }
-    });
-};
+        };
+        return true;
+    };
+    if (!__mwRegisterCommuter()) {
+        window.__mwRegisterJqueryExtensions = window.__mwRegisterJqueryExtensions || [];
+        window.__mwRegisterJqueryExtensions.push(__mwRegisterCommuter);
+    }
+}
 
 
 import { AdminTools } from "./admin-tools.service.js";
@@ -69,22 +92,32 @@ for ( let i in Helpers ) {
     mw.tools[i] = Helpers[i];
 }
 
-if(!jQuery.fn.reload_module) {
-
-    jQuery.fn.reload_module = function (c) {
-        return this.each(function () {
-            //   if($(this).hasClass("module")){
-            (function (el) {
-                mw.reload_module(el, function () {
-                    if (typeof(c) != 'undefined') {
-                        c.call(el, el)
-                    }
-                })
-            })(this)
-            //   }
-        })
+/*
+ * AI-263 Phase B1 (cycle-181 2026-05-11) — `jQuery.fn.reload_module`
+ * extension also guarded behind a typeof check. Same lazy-register
+ * hook as `.commuter` above.
+ */
+if (typeof window !== 'undefined') {
+    var __mwRegisterReloadModule = function () {
+        if (typeof window.jQuery === 'undefined' || !window.jQuery.fn) return false;
+        if (window.jQuery.fn.reload_module) return true;
+        window.jQuery.fn.reload_module = function (c) {
+            return this.each(function () {
+                (function (el) {
+                    mw.reload_module(el, function () {
+                        if (typeof(c) != 'undefined') {
+                            c.call(el, el)
+                        }
+                    })
+                })(this)
+            })
+        };
+        return true;
     };
-
+    if (!__mwRegisterReloadModule()) {
+        window.__mwRegisterJqueryExtensions = window.__mwRegisterJqueryExtensions || [];
+        window.__mwRegisterJqueryExtensions.push(__mwRegisterReloadModule);
+    }
 }
 
 

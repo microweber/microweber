@@ -70,6 +70,39 @@ if (!function_exists('mw_admin_footer_scripts')) {
     }
 }
 
+/*
+ * AI-263 Phase B1 (cycle-181 2026-05-11) — opt-in helper for
+ * templates that genuinely need eager jQuery loading on public
+ * pages.
+ *
+ * Usage: call `mw_require_jquery()` at the TOP of the template's
+ * master.blade.php, BEFORE `{!! meta_tags_head() !!}`. ApijsScriptTag
+ * reads the flag at head-render time and emits the eager jquery.js
+ * + jquery-ui.js <script> tags if true.
+ *
+ * Templates that don't call this helper skip 806KB of blocking JS
+ * on every public-page render — that's the AI-263 P1 perf win.
+ * Public-side JS that uses $/jQuery must either:
+ *   a) Defer execution until after the
+ *      TemplateManager::injectConditionalJqueryFooter script runs
+ *      (use the `window.__mwRegisterJqueryExtensions[]` queue
+ *      pattern from frontend.js)
+ *   b) Mark a body element with `data-mw-needs-jquery` (triggers
+ *      the conditional footer injection)
+ *   c) Have the template call `mw_require_jquery()` (eager head
+ *      load — same as before B1)
+ */
+if (!function_exists('mw_require_jquery')) {
+    function mw_require_jquery(): void
+    {
+        try {
+            app()->instance('mw.requires_jquery', true);
+        } catch (\Throwable $e) {
+            // Bootstrapped too early — no-op.
+        }
+    }
+}
+
 /**
  * @deprecated , pls use fimanent hooks
  */
