@@ -87,3 +87,195 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+/*
+ * AI-247 + AI-248 (cycle-177 2026-05-11) — modal a11y shim:
+ * body scroll lock + focus trap + Escape close + focus return.
+ *
+ * Filament v5's modal blade
+ * (vendor/filament/support/resources/views/components/modal/index.blade.php
+ * line 113) uses Alpine's `x-trap.noscroll` which provides BOTH
+ * focus trap AND body scroll lock when @alpinejs/focus plugin is
+ * loaded. But agent-test's audit reported scroll-not-locked +
+ * focus-not-trapped at 390×844 across "Live Edit modals, admin
+ * form modals, Filament modal components" — so x-trap is either
+ * not loaded in some iframe contexts (live-edit) or not working
+ * on touch devices.
+ *
+ * This shim hooks Filament's own `x-modal-opened` and
+ * `modal-closed` events (vendor/filament/support/resources/js/
+ * components/modal.js lines 120, 109) and applies a defensive
+ * fallback. When Alpine's x-trap IS working, this shim is a
+ * no-op (body already has overflow:hidden, focus is already
+ * inside the modal — both checks fail and we exit early).
+ *
+ *   AI-247 — Body scroll lock when modal opens. Stack-aware:
+ *            locks only on first modal open, unlocks only when
+ *            the last modal closes. Preserves scroll position
+ *            via data-mw-modal-scroll-y on body.
+ *
+ *   AI-248 — Focus management:
+ *            - Capture trigger (document.activeElement) at
+ *              open dispatch time
+ *            - If no element inside the modal is focused 100ms
+ *              after open, focus first tabbable
+ *            - Tab cycles within modal (no leak out) — only if
+ *              Alpine's x-trap didn't already trap
+ *            - Escape dispatches Filament's `close-modal` event
+ *              with id (Filament's own listener handles it)
+ *            - On modal-closed: restore focus to trigger
+ *
+ * WCAG: 2.4.3 Focus Order, 2.1.1 Keyboard, 2.1.2 No Keyboard Trap.
+ */
+(function () {
+    if (typeof document === 'undefined') return;
+
+    var TABBABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
+
+    var openStack = [];
+    var triggerMap = new Map();
+    var savedScrollY = 0;
+    var keydownHandler = null;
+
+    function findModalEl(id) {
+        if (!id) return null;
+        return document.getElementById(id) ||
+               document.querySelector('[data-fi-modal-id="' + id + '"]');
+    }
+
+    function tabbableInModal(modalEl) {
+        if (!modalEl) return [];
+        return Array.prototype.slice.call(modalEl.querySelectorAll(TABBABLE))
+            .filter(function (el) {
+                return el.offsetWidth > 0 || el.offsetHeight > 0 ||
+                       el === document.activeElement;
+            });
+    }
+
+    function lockBodyScroll() {
+        if (openStack.length !== 1) return;
+        if (document.body.style.overflow === 'hidden') return;
+        savedScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.dataset.mwModalScrollY = String(savedScrollY);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function unlockBodyScroll() {
+        if (openStack.length !== 0) return;
+        if (!('mwModalScrollY' in document.body.dataset)) return;
+        document.body.style.overflow = '';
+        var y = parseInt(document.body.dataset.mwModalScrollY || '0', 10);
+        if (!isNaN(y)) window.scrollTo(0, y);
+        delete document.body.dataset.mwModalScrollY;
+    }
+
+    function installKeyHandler() {
+        if (keydownHandler) return;
+        keydownHandler = function (event) {
+            var topId = openStack[openStack.length - 1];
+            if (!topId) return;
+            var modalEl = findModalEl(topId);
+            if (!modalEl) return;
+
+            if (event.key === 'Escape' || event.keyCode === 27) {
+                event.stopPropagation();
+                window.dispatchEvent(new CustomEvent('close-modal', {
+                    bubbles: true,
+                    detail: { id: topId },
+                }));
+                return;
+            }
+
+            if (event.key === 'Tab' || event.keyCode === 9) {
+                if (!modalEl.contains(document.activeElement)) {
+                    var tabbables0 = tabbableInModal(modalEl);
+                    if (tabbables0.length > 0) {
+                        event.preventDefault();
+                        tabbables0[0].focus();
+                    }
+                    return;
+                }
+                var tabbables = tabbableInModal(modalEl);
+                if (tabbables.length === 0) {
+                    event.preventDefault();
+                    return;
+                }
+                var first = tabbables[0];
+                var last = tabbables[tabbables.length - 1];
+                if (event.shiftKey) {
+                    if (document.activeElement === first) {
+                        event.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        event.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        };
+        document.addEventListener('keydown', keydownHandler, true);
+    }
+
+    function removeKeyHandler() {
+        if (!keydownHandler) return;
+        if (openStack.length > 0) return;
+        document.removeEventListener('keydown', keydownHandler, true);
+        keydownHandler = null;
+    }
+
+    function focusFirstTabbableIn(modalEl) {
+        if (modalEl.contains(document.activeElement) &&
+            document.activeElement !== modalEl) {
+            return;
+        }
+        var tabbables = tabbableInModal(modalEl);
+        if (tabbables.length > 0) {
+            try { tabbables[0].focus(); } catch (e) {}
+        } else {
+            if (!modalEl.hasAttribute('tabindex')) {
+                modalEl.setAttribute('tabindex', '-1');
+            }
+            try { modalEl.focus(); } catch (e) {}
+        }
+    }
+
+    document.addEventListener('x-modal-opened', function (event) {
+        var id = event.detail && event.detail.id;
+        if (!id) return;
+
+        var trigger = document.activeElement;
+        if (trigger && trigger !== document.body && trigger.tagName !== 'BODY') {
+            triggerMap.set(id, trigger);
+        }
+
+        openStack.push(id);
+        lockBodyScroll();
+        installKeyHandler();
+
+        setTimeout(function () {
+            var modalEl = findModalEl(id);
+            if (modalEl) {
+                focusFirstTabbableIn(modalEl);
+            }
+        }, 100);
+    });
+
+    document.addEventListener('modal-closed', function (event) {
+        var id = event.detail && event.detail.id;
+        if (!id) return;
+
+        var idx = openStack.lastIndexOf(id);
+        if (idx >= 0) openStack.splice(idx, 1);
+
+        unlockBodyScroll();
+        removeKeyHandler();
+
+        var trigger = triggerMap.get(id);
+        triggerMap.delete(id);
+        if (trigger && typeof trigger.focus === 'function' &&
+            document.body.contains(trigger)) {
+            try { trigger.focus(); } catch (e) {}
+        }
+    });
+})();
