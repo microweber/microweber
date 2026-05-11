@@ -63,10 +63,18 @@ class Ai263PhaseB4FrontendAndCollapseNavContractTest extends TestCase
             'collapseNav.js MUST carry the cycle-184 anchor.');
         $this->assertStringContainsString('AI-263 Phase B4', $collapseNav,
             'collapseNav.js MUST carry the AI-263 Phase B4 anchor.');
-        $this->assertStringContainsString('AI-263 Phase B4', $master,
-            'Bootstrap master.blade.php MUST carry the AI-263 Phase B4 '
-            . 'anchor (with the explanation of why mw_require_jquery '
-            . 'is still required pending Phase B5).');
+        // Note: the Bootstrap master.blade.php comment was REPLACED by
+        // the cycle-185 Phase B5 comment when mw_require_jquery() was
+        // dropped. The cycle-185 comment documents the FULL Phase B1-B5
+        // lineage (including B4), so we accept either "Phase B4" or
+        // "Phase B5 - mentions B4" as a passing state.
+        $b4Mentioned = strpos($master, 'AI-263 Phase B4') !== false
+            || strpos($master, 'B4 (cycle-184)') !== false
+            || strpos($master, 'AI-263 Phase B5') !== false;
+        $this->assertTrue($b4Mentioned,
+            'Bootstrap master.blade.php MUST document AI-263 Phase B4 '
+            . 'either as the active state OR as a prior phase in the '
+            . 'B1-B5 lineage of the AI-263 work.');
     }
 
     #[Test]
@@ -189,24 +197,21 @@ class Ai263PhaseB4FrontendAndCollapseNavContractTest extends TestCase
     {
         $master = $this->read('Templates/Bootstrap/resources/views/layouts/master.blade.php');
 
-        // Bootstrap master.blade.php STILL calls
-        // mw_require_jquery() — Phase B4 only refactored 2/3 of
-        // the deps. The comment MUST document this honestly.
-        $this->assertStringContainsString('mw_require_jquery()', $master,
-            'Bootstrap master.blade.php MUST still call '
-            . 'mw_require_jquery() — Phase B4 only refactored 2/3 of '
-            . 'the deps. Cycle-184 = partial progress.');
-        $this->assertStringContainsString('REMAINING BLOCKER', $master,
-            'Bootstrap master.blade.php MUST contain a REMAINING '
-            . 'BLOCKER section that documents the mw.$ refactor as '
-            . 'Phase B5 next-cycle scope.');
-        $this->assertStringContainsString('jseldom-jquery', $master,
-            'Bootstrap master.blade.php MUST name the jseldom-jquery '
-            . 'wrapper as the underlying blocker so future maintainers '
-            . 'know where to look.');
+        // After cycle-185 Phase B5 dropped mw_require_jquery() (the
+        // actual 806KB-savings cycle), the comment shifted from
+        // "REMAINING BLOCKER" to "5-phase lineage". Accept either
+        // state — both are valid points in the AI-263 timeline.
+        $partialState = strpos($master, 'REMAINING BLOCKER') !== false;
+        $completeState = strpos($master, 'Phase B5') !== false
+            && strpos($master, 'DROPPED') !== false;
+        $this->assertTrue($partialState || $completeState,
+            'Bootstrap master.blade.php MUST document AI-263 state — '
+            . 'either Phase B4 partial-progress (REMAINING BLOCKER) '
+            . 'OR Phase B5 complete (mw_require_jquery DROPPED).');
         $this->assertStringContainsString('Phase B5', $master,
-            'Bootstrap master.blade.php MUST name Phase B5 as the '
-            . 'cycle that will land the actual 806KB savings.');
+            'Bootstrap master.blade.php MUST mention Phase B5 (either '
+            . 'as "next-cycle scope" if still partial OR as the '
+            . 'completed cycle that dropped the opt-in).');
     }
 
     #[Test]

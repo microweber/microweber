@@ -2,8 +2,10 @@
 
 mw.on = function(eventName, callback){
     eventName = eventName.trim();
-    $.each(eventName.split(' '), function(){
-        mw.$(mw._on._eventsRegister).on(this.toString(), callback);
+    // AI-263 Phase B5 (cycle-185 2026-05-11): $.each → vanilla
+    // forEach so this works without jQuery loaded.
+    eventName.split(' ').forEach(function (name) {
+        mw.$(mw._on._eventsRegister).on(name.toString(), callback);
     });
 };
 mw.trigger = function(eventName, paramsArray){

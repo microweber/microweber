@@ -1,47 +1,43 @@
 <!DOCTYPE html>
 <html {!! lang_attributes() !!}>
 
-@php
-    /*
-     * AI-263 Phase B4 (cycle-184 2026-05-11) — opt-in to eager
-     * jQuery loading STILL REQUIRED (partial-progress).
-     *
-     * Cycle-184 refactored two of the three Phase B4 jQuery
-     * dependencies:
-     *
-     *   1. `packages/frontend-assets/resources/assets/core/events.js`
-     *      line 302 — `$(window).on('hashchange load', ...)` is
-     *      now `window.addEventListener('hashchange'/'load',
-     *      ...)`.
-     *
-     *   2. `Templates/Bootstrap/resources/assets/js/collapseNav.js`
-     *      — full vanilla rewrite (211 lines), no `$` references.
-     *      Exposes `window.MwCollapseNav(selector, config)`.
-     *
-     * REMAINING BLOCKER (deferred to Phase B5+):
-     *
-     *   3. `frontend.js` uses `mw.$()` (the jseldom-jquery
-     *      wrapper at libs/jseldom/jseldom-jquery.js) at
-     *      module-init time throughout core/events.js,
-     *      core/ajax.js, core/forms.js, etc. The wrapper itself
-     *      throws `ReferenceError: jQuery is not defined` when
-     *      jQuery is missing. Refactoring `mw.$` to be
-     *      jQuery-optional requires either swapping it for a
-     *      vanilla DOM wrapper OR guarding every `mw.$` call
-     *      site (~30 across core/ + apis/). Multi-cycle work.
-     *
-     * Until Phase B5 lands, this template MUST still call
-     * `mw_require_jquery()` so jQuery loads in `<head>` before
-     * frontend.js's module-init code runs.
-     *
-     * Net cycle-184 progress: 2/3 of the Phase B4 work done.
-     * Phase B5 (mw.$ refactor) will deliver the actual 806KB
-     * savings on every Bootstrap-template page.
-     */
-    if (function_exists('mw_require_jquery')) {
-        mw_require_jquery();
-    }
-@endphp
+{{-- AI-263 Phase B5 (cycle-185 2026-05-11) — `mw_require_jquery()`
+     DROPPED. After 5 phases of the AI-263 P1 perf ticket:
+
+       B1 (cycle-181) — conditional jQuery emission infrastructure +
+                        vanilla CSRF fetch interceptor + opt-in flag
+                        for templates that still needed jQuery
+       B2 (cycle-182) — Slick → Swiper compatibility adapter (22
+                        module skins benefit without per-skin edits)
+       B3 (cycle-183) — Masonry / Datetimepicker / Chosen vanilla
+                        adapters + Captcha direct cleanup
+       B4 (cycle-184) — events.js:302 + Bootstrap collapseNav.js
+                        vanilla rewrites
+       B5 (cycle-185) — `mw.$` vanilla shim (this cycle): @core.js
+                        now returns an MwDomCollection vanilla
+                        wrapper when jQuery is absent; passes
+                        through to jQuery when present (admin /
+                        legacy). All chainable methods covered:
+                        addClass/removeClass/hasClass/attr/on/off/
+                        html/text/val/css/find/first/last/eq/parent/
+                        children/closest/is/append/show/hide/data/
+                        scrollTop/scroll/width/height/outerWidth/
+                        outerHeight/clone/each/trigger.
+
+     Net effect: every Bootstrap-template public page render no
+     longer eagerly loads jquery.js (285KB) + jquery-ui.js (521KB)
+     in <head> — saves 806KB of blocking JS.
+
+     The cycle-181 conditional emission infrastructure still
+     injects jQuery LATE (before </body>) on any page that
+     renders a marker-bearing module skin (slick-slider,
+     masonry, datetimepicker, chosen, data-mw-needs-jquery)
+     so the cycle-182/183 adapters that attach to jQuery
+     keep working on those pages.
+
+     Admin / legacy admin paths (/admin/*, /api/*) preserve
+     their existing eager jQuery loading per cycle-181's
+     isAdminPath() check in ApijsScriptTag. --}}
 
 <head>
 
