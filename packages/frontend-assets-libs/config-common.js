@@ -11,6 +11,13 @@ const localScripts = [
      // folder so `mw.lib.require('slick')` (which now also requires
      // swiper + this adapter) can resolve the path.
      {target: `slick-to-swiper-adapter`, path: `./resources/local-libs/slick-to-swiper-adapter/slick-to-swiper-adapter.js`},
+     // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla adapters
+     // for masonry, datetimepicker, chosen so module skins can
+     // continue calling those jQuery-plugin APIs without
+     // actually loading the jQuery plugins.
+     {target: `masonry-vanilla-adapter`, path: `./resources/local-libs/masonry-vanilla-adapter/masonry-vanilla-adapter.js`},
+     {target: `native-datetimepicker-adapter`, path: `./resources/local-libs/native-datetimepicker-adapter/native-datetimepicker-adapter.js`},
+     {target: `native-chosen-adapter`, path: `./resources/local-libs/native-chosen-adapter/native-chosen-adapter.js`},
      {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.js`},
      {target: `bootstrap_datetimepicker`, path: `./resources/local-libs/bootstrap_datetimepicker/bootstrap-datetimepicker.js`},
 

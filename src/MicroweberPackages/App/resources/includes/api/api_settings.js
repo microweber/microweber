@@ -151,9 +151,18 @@
         ],
 
         bootstrap_datetimepicker: [
+            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
+            // jQuery Bootstrap Datetimepicker plugin with a vanilla
+            // adapter that swaps the <input type="text"> for HTML5
+            // <input type="datetime-local" | "time" | "date"> so
+            // the browser provides the native picker. Module skins
+            // (Modules/CustomFields *time.blade.php) continue to
+            // call `.datetimepicker(options)` unchanged — the
+            // adapter translates Slick-style options to native
+            // input attributes (minuteStep → step seconds,
+            // startDate → min, endDate → max).
             function () {
-                mw.require(mw.settings.libs_url + 'bootstrap_datetimepicker/bootstrap-datetimepicker.min.css', true);
-                mw.require(mw.settings.libs_url + 'bootstrap_datetimepicker/bootstrap-datetimepicker.js', true);
+                mw.require(mw.settings.libs_url + 'native-datetimepicker-adapter/native-datetimepicker-adapter.js');
             }
         ],
         bootstrap3ns: [
@@ -181,9 +190,17 @@
         ],
 
         chosen: [
+            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
+            // jQuery Chosen plugin with a vanilla adapter that
+            // leaves the native <select multiple> as-is + applies
+            // mw-styled classes with 44px touch-target floor +
+            // 4px design-system radius. Module skins
+            // (Modules/CustomFields *dropdown.blade.php) continue
+            // to call `.chosen(options)` unchanged. Search-inside-
+            // dropdown is lost; if needed, swap in Choices.js
+            // (vanilla, ~30KB) via the same adapter pattern.
             function () {
-                mw.require(mw.settings.libs_url + 'chosen' + '/chosen.jquery.min.js');
-                mw.require(mw.settings.libs_url + 'chosen' + '/chosen.min.css', true);
+                mw.require(mw.settings.libs_url + 'native-chosen-adapter/native-chosen-adapter.js');
             }
         ],
         datetimepicker: [
@@ -207,8 +224,17 @@
             }
         ],
         masonry: [
+            // AI-263 Phase B3 (cycle-183 2026-05-11): replaced
+            // jQuery `masonry.pkgd.js` plugin with a vanilla CSS-
+            // Grid / column-layout adapter. Module skins (Pictures
+            // skin-18 / skin-20 / masonry.blade.php, Content
+            // masonry.blade.php) continue to call
+            // `.masonry(options)` unchanged but get CSS-driven
+            // layout — no jQuery plugin required, no periodic
+            // setInterval re-layout (CSS reflows automatically on
+            // DOM mutations + resize).
             function () {
-                mw.require(mw.settings.libs_url + 'masonry/masonry.pkgd.js');
+                mw.require(mw.settings.libs_url + 'masonry-vanilla-adapter/masonry-vanilla-adapter.js');
             }
         ],
         codemirror: [

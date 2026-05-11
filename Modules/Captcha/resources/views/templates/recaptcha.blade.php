@@ -48,7 +48,10 @@
                         'sitekey': '{{ get_option('recaptcha_v2_site_key', 'captcha') }}',
                         'action': '{{ $captcha_name }}',
                         'callback': function (response) {
-                            $('#{{ $input_id }}').val(response);
+                            // AI-263 Phase B3 (cycle-183 2026-05-11):
+                            // vanilla replacement for `$('#x').val(response)`.
+                            var __el = document.getElementById('{{ $input_id }}');
+                            if (__el) { __el.value = response; }
                             @if($callback)
                                 {{ $callback }}(response);
                             @endif
@@ -62,10 +65,12 @@
         }
 
 
-        $(document).ready(function () {
-
-            if ($('#js-mw-google-recaptcha-v2-{{ $params['id'] }}').find('iframe').length > 0) {
-                $('#js-mw-google-recaptcha-v2-{{ $params['id'] }}').first().remove();
+        // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
+        // for $(document).ready / $().find / $().first().remove().
+        document.addEventListener('DOMContentLoaded', function () {
+            var __captchaHolder = document.getElementById('js-mw-google-recaptcha-v2-{{ $params['id'] }}');
+            if (__captchaHolder && __captchaHolder.querySelector('iframe')) {
+                __captchaHolder.parentNode && __captchaHolder.parentNode.removeChild(__captchaHolder);
             }
 
             mw.on('refreshCaptchaToken', function () {
@@ -91,9 +96,13 @@
     <script>
 
         window.runRecaptchaV3Attach{{ $js_function_hash }} = function () {
-            var captcha_el = $('#{{ $input_id }}')
+            // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
+            // for $('#x') wrapper — use getElementById and pass the
+            // raw element to firstParentWithTag (which already accepts
+            // a DOM node).
+            var captcha_el = document.getElementById('{{ $input_id }}');
             if (captcha_el) {
-                var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
+                var parent_form = mw.tools.firstParentWithTag(captcha_el, 'form')
                 //   window.runRecaptchaV3<?php print $js_function_hash ?>();
                 if (parent_form) {
 
@@ -141,14 +150,19 @@
 
 
     <script>
-        $(document).ready(function () {
-
+        // AI-263 Phase B3 (cycle-183 2026-05-11): vanilla replacement
+        // for $(document).ready and $.getScript — use DOMContentLoaded
+        // and dynamic <script> element insertion.
+        document.addEventListener('DOMContentLoaded', function () {
             if (typeof (window.grecaptcha) === 'undefined') {
-
-                $.getScript("//www.google.com/recaptcha/api.js?render={{ get_option('recaptcha_v3_site_key', 'captcha') }}&hl={{ app()->getLocale() }}", function (data, textStatus, jqxhr) {
+                var __s = document.createElement('script');
+                __s.src = "//www.google.com/recaptcha/api.js?render={{ get_option('recaptcha_v3_site_key', 'captcha') }}&hl={{ app()->getLocale() }}";
+                __s.async = true;
+                __s.onload = function () {
                     window.runRecaptchaV3Attach{{ $js_function_hash }}();
                     window.runRecaptchaV3{{ $js_function_hash }}();
-                });
+                };
+                document.head.appendChild(__s);
             } else {
                 window.runRecaptchaV3Attach{{ $js_function_hash }}();
                 window.runRecaptchaV3{{ $js_function_hash }}();
