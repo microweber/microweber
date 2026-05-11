@@ -49,6 +49,143 @@
     }
 
     /*
+     * AI-267 (cycle-179 2026-05-11) — checkout breadcrumb / progress
+     * indicator.
+     *
+     * PM filed AI-267 as Phase 1 UX after the design audit: customers
+     * need a clear "where am I in checkout" signal. The Filament
+     * Wizard ALREADY renders a header with step icons + labels, but
+     * the default styling looks like a navigation menu, not a
+     * progress indicator — there's no visual distinction between
+     * "completed", "current", and "future" steps, and on a 390px
+     * viewport the 5-step header overflows or wraps awkwardly.
+     *
+     * This block enhances the existing `.fi-fo-wizard-header` into
+     * a true breadcrumb-style progress indicator using design tokens
+     * from cycle-178:
+     *   - Current step: filled `--color-primary` background + white
+     *     text, slight elevation via `--shadow-1`
+     *   - Past steps: hollow with `--color-primary` text + thin
+     *     `--color-primary` border (visited markers)
+     *   - Future steps: dimmed `--color-text-muted`
+     *   - Connecting line between steps anchored at 50% Y of the
+     *     icon row, colored `--color-primary` for past->current
+     *     and `--color-border` for current->future
+     *   - On <768px, the header uses `overflow-x: auto` with
+     *     `scroll-snap-type: x mandatory` so all 5 steps stay
+     *     reachable without breaking the row layout.
+     *
+     * Scope: `.checkout-wizard-container` so other Filament wizards
+     * (admin install, etc.) keep their existing visual. The rule
+     * sits BEFORE the cycle-161 floor block so the floor's
+     * `!important` rules can still win where they overlap.
+     */
+    .checkout-wizard-container .fi-fo-wizard-header {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 0;
+        padding: 1rem 0.5rem 1.5rem;
+        position: relative;
+    }
+    .checkout-wizard-container .fi-fo-wizard-header-step {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        scroll-snap-align: start;
+        position: relative;
+    }
+    /* Step indicator circle (Filament renders an icon button — we
+       size the icon button as the indicator + add ::after as the
+       connecting line). */
+    .checkout-wizard-container .fi-fo-wizard-header-step-button {
+        width: var(--touch-target-min, 44px);
+        height: var(--touch-target-min, 44px);
+        min-width: var(--touch-target-min, 44px);
+        min-height: var(--touch-target-min, 44px);
+        border-radius: 9999px;
+        background-color: var(--color-surface, #ffffff);
+        border: 2px solid var(--color-border, #d1d5db);
+        color: var(--color-text-muted, #9ca3af);
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color var(--duration-fast, 150ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1)),
+                    border-color var(--duration-fast, 150ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1)),
+                    color var(--duration-fast, 150ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1));
+        position: relative;
+        z-index: 2;
+    }
+    /* Visited / past steps — Filament marks completed steps with
+       `.fi-completed` (or absence of `.fi-active` on a step that
+       precedes the current one in source order). The most reliable
+       marker is `.fi-completed`. */
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-completed .fi-fo-wizard-header-step-button {
+        background-color: var(--color-primary, #0d6efd);
+        border-color: var(--color-primary, #0d6efd);
+        color: #ffffff;
+    }
+    /* Active / current step — filled primary, slightly larger
+       focus ring via box-shadow. */
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-active .fi-fo-wizard-header-step-button {
+        background-color: var(--color-primary, #0d6efd);
+        border-color: var(--color-primary, #0d6efd);
+        color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15), var(--shadow-1, 0 1px 3px rgba(0, 0, 0, 0.1));
+    }
+    /* Connecting horizontal line — sits behind the indicator
+       circles, runs through their centers. */
+    .checkout-wizard-container .fi-fo-wizard-header-step:not(:first-child)::before {
+        content: "";
+        position: absolute;
+        left: -50%;
+        right: 50%;
+        top: calc(0.5rem + var(--touch-target-min, 44px) / 2);
+        height: 2px;
+        background-color: var(--color-border, #d1d5db);
+        z-index: 1;
+    }
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-completed::before,
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-active::before {
+        background-color: var(--color-primary, #0d6efd);
+    }
+    /* Step label — small text under each indicator. */
+    .checkout-wizard-container .fi-fo-wizard-header-step-label {
+        font-size: var(--text-small-size, 12px);
+        line-height: var(--text-small-line, 1.4);
+        color: var(--color-text-secondary, #6b7280);
+        text-align: center;
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-active .fi-fo-wizard-header-step-label,
+    .checkout-wizard-container .fi-fo-wizard-header-step.fi-completed .fi-fo-wizard-header-step-label {
+        color: var(--color-text-primary, #111827);
+        font-weight: 600;
+    }
+
+    /* Mobile (<768px) — let the header scroll horizontally with
+       snap so the user can swipe between step indicators while
+       always seeing the current step on entry. */
+    @media (max-width: 768px), (pointer: coarse) {
+        .checkout-wizard-container .fi-fo-wizard-header {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.5rem 0.25rem 1rem;
+        }
+        .checkout-wizard-container .fi-fo-wizard-header-step {
+            min-width: 100px;
+        }
+    }
+
+    /*
      * Cycle-161 (2026-05-10): /checkout mobile touch-target floor.
      *
      * UX-audit P2 follow-up findings (agent-test verification of
