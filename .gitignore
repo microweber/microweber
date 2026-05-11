@@ -170,7 +170,15 @@ docs/research/
 TEMP_PROMPT.md
 TEMP_SESSION_OUT.txt
 .autodev-session-state.json
-.autodev/
+# Cycle-176e (2026-05-10): use .autodev/* (not .autodev/) so the
+# !.autodev/skills/ exception below actually re-includes the skill
+# files. Git won't traverse into an excluded directory, so the
+# bare `.autodev/` blanket form blocks re-inclusion regardless of
+# `!` ancestor exceptions — `.autodev/*` is needed for the
+# exception to bite.
+.autodev/*
+!.autodev/skills/
+!.autodev/skills/**
 dashboard-snapshot.yml
 /screenshots
 .claude/settings.20260413_185635.bak
@@ -181,3 +189,8 @@ dashboard-snapshot.yml
 /dist
 /.claude
 .claude/settings.json
+CLAUDE.md
+AGENTS.md
+.opencode/plugins/autodev-hooks.ts
+.github/copilot/settings.json
+.github/copilot-instructions.md
