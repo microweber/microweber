@@ -1,4 +1,60 @@
 /*
+ * AI-276/277/278 design-system token block (cycle-178 2026-05-11).
+ *
+ * Mirror of the canonical token file
+ *   packages/frontend-assets/resources/assets/css/microweber/css/design-system.css
+ * defined inline at the top of this file so the var()s referenced
+ * by AI-276 button rules + AI-277 footer color rules below resolve
+ * regardless of design-system.css load order. The two definitions
+ * are pinned to stay in sync by
+ *   tests/Feature/Ai276Ai277Ai278DesignSystemContractTest.php
+ */
+:root {
+    --color-primary: #0d6efd;
+    --color-primary-hover: #0b5ed7;
+    --color-success: #22c55e;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+
+    --color-surface: #ffffff;
+    --color-surface-raised: #f8f9fa;
+
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-muted: #9ca3af;
+
+    --color-border: #d1d5db;
+    --color-border-focus: #0d6efd;
+
+    --color-footer-text: #F8F9FA;
+    --color-product-title: #d97706;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+
+    --touch-target-min: 44px;
+    --space-11: 44px;
+    --space-4: 16px;
+    --space-5: 24px;
+
+    --duration-fast: 150ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-bs-theme="dark"],
+html.dark {
+    --color-surface: #111827;
+    --color-surface-raised: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #9ca3af;
+    --color-text-muted: #6b7280;
+    --color-border: #374151;
+    --color-border-focus: #60a5fa;
+    --color-footer-text: #d1d5db;
+    --color-product-title: #f59e0b;
+}
+
+/*
  * Public-site mobile-touch refinements (TASK-013 / TICKET-CY / AI-30).
  *
  * Mirror of the Filament admin file
@@ -275,6 +331,92 @@
         min-height: 44px;
         padding: 6px 4px;
         align-items: center;
+    }
+
+    /*
+     * AI-277 (cycle-178 2026-05-11) — Footer text color token
+     * separation.
+     *
+     * agent-test's design audit found footer text inheriting the
+     * orange product-title-style color (was rgb(244,162,97) =
+     * #f4a261 from the Bootstrap template's `--mw-footer-link-
+     * color` theme variable) on some pages, making footer links
+     * look identical to Big2 product titles. Token approach:
+     * footer text uses `--color-footer-text` (off-white #F8F9FA
+     * on light backgrounds, gray-300 #d1d5db in dark mode) while
+     * product titles use `--color-product-title` (amber #d97706
+     * light, lighter amber #f59e0b dark). The two tokens are
+     * intentionally distinct so the public template can apply
+     * footer color without the product-title rule bleeding in.
+     *
+     * !important needed because the Bootstrap template's app.css
+     * `.footer-background a { color: var(--mw-footer-link-color); }`
+     * uses a token (`--mw-footer-link-color`) that may be set to
+     * page-edit-overridden values like `#f4a261` (orange) and
+     * loads in the same @media-less context — without !important
+     * the equal-specificity tie + the template-set var wins.
+     */
+    .footer-background,
+    .footer-background a,
+    .footer-background p,
+    .footer-background h1,
+    .footer-background h2,
+    .footer-background h3,
+    .footer-background h4,
+    .footer-background h5,
+    .footer-background h6,
+    section.footer-background,
+    section.footer-background a {
+        color: var(--color-footer-text) !important;
+    }
+
+    /*
+     * AI-276 (cycle-178 2026-05-11) — Unify primary button colors,
+     * heights, radii via design-system tokens.
+     *
+     * agent-test's audit found Bootstrap `.btn-primary` and the
+     * various `.shop-cta` / `.add-to-cart-button` / similar
+     * primary-action buttons rendering in different hex blues +
+     * different heights + different radii across the public site
+     * (/shop "All Categories" was Bootstrap blue radius 0, /cart
+     * checkout-next was tailwind cyan radius 4 — these were
+     * partially aligned by cycle-166 to Bootstrap blue 4px, but
+     * the hex value was hardcoded). Cycle-178 routes all primary
+     * buttons through `var(--color-primary)` so the single
+     * source-of-truth is design-system.css.
+     */
+    .btn-primary,
+    .btn.btn-primary,
+    a.btn-primary,
+    button.btn-primary,
+    .shop-cta,
+    a.shop-cta,
+    button.shop-cta,
+    .add-to-cart-button,
+    .mw-btn-primary,
+    [data-button="primary"] {
+        background-color: var(--color-primary) !important;
+        border-color: var(--color-primary) !important;
+        color: #ffffff !important;
+        min-height: var(--touch-target-min);
+        min-width: var(--touch-target-min);
+        border-radius: var(--radius-sm) !important;
+        padding: 0 var(--space-5);
+        transition: background-color var(--duration-fast) var(--ease-default),
+                    border-color var(--duration-fast) var(--ease-default);
+    }
+    .btn-primary:hover,
+    .btn.btn-primary:hover,
+    a.btn-primary:hover,
+    button.btn-primary:hover,
+    .shop-cta:hover,
+    a.shop-cta:hover,
+    button.shop-cta:hover,
+    .add-to-cart-button:hover,
+    .mw-btn-primary:hover,
+    [data-button="primary"]:hover {
+        background-color: var(--color-primary-hover) !important;
+        border-color: var(--color-primary-hover) !important;
     }
 
     /*

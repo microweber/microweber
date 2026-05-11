@@ -122,6 +122,7 @@ export default defineConfig(({ mode }) => {
                     'element-style-editor-scss': path.resolve(__dirname, 'resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.scss'),
                     'liveedit': path.resolve(__dirname, 'resources/assets/css/scss/liveedit.scss'),
                     'default': path.resolve(__dirname, 'resources/assets/css/microweber/css/default.css'),
+                    'design-system': path.resolve(__dirname, 'resources/assets/css/microweber/css/design-system.css'),
                     'mw-grid': path.resolve(__dirname, 'resources/assets/css/microweber/css/mw-grid.css'),
                     'core': path.resolve(__dirname, 'resources/assets/js/core.js'),
                     'admin': path.resolve(__dirname, 'resources/assets/js/admin.js'),

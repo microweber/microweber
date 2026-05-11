@@ -1,4 +1,54 @@
 /*
+ * AI-276/277/278 design-system token block (cycle-178 2026-05-11).
+ *
+ * Mirror of the canonical token file
+ *   packages/frontend-assets/resources/assets/css/microweber/css/design-system.css
+ * defined inline at the top of this file so the var()s referenced
+ * by AI-278 checkout-alignment overrides below resolve regardless
+ * of design-system.css load order. The two definitions are pinned
+ * to stay in sync by
+ *   tests/Feature/Ai276Ai277Ai278DesignSystemContractTest.php
+ */
+:root {
+    --color-primary: #0d6efd;
+    --color-primary-hover: #0b5ed7;
+    --color-success: #22c55e;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+
+    --color-surface: #ffffff;
+    --color-surface-raised: #f8f9fa;
+
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-muted: #9ca3af;
+
+    --color-border: #d1d5db;
+    --color-border-focus: #0d6efd;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+
+    --touch-target-min: 44px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+
+    --duration-fast: 150ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fi.dark {
+    --color-surface: #111827;
+    --color-surface-raised: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #9ca3af;
+    --color-text-muted: #6b7280;
+    --color-border: #374151;
+    --color-border-focus: #60a5fa;
+}
+
+/*
  * Mobile-touch refinements for the Filament admin shell.
  *
  * Closes:
@@ -803,5 +853,80 @@ button.btn-icon.live-edit-toolbar-buttons,
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+
+/*
+ * AI-278 (cycle-178 2026-05-11) — Checkout panel alignment with
+ * public design system on mobile.
+ *
+ * agent-test's audit found that the `body.fi-panel-checkout`
+ * surface inherits Filament's full admin chrome (dark surface
+ * tokens, 7px radius on inputs, gray-900 text) which clashes
+ * with the rest of the public-facing checkout flow. The
+ * checkout is a customer-facing surface — it should look like
+ * the rest of the public site, not the admin panel.
+ *
+ * Cycle-178 fix scoped to `body.fi-panel-checkout` only (admin
+ * panel `body.fi-panel-admin` is unaffected):
+ *
+ *   1. Force light-surface tokens (white background, gray-300
+ *      borders, gray-900 text) on mobile + touch viewports.
+ *      Filament's `.fi.dark` cascade still applies for the
+ *      explicit dark-mode toggle.
+ *   2. Bump input border-radius from Filament's default 7px to
+ *      4px (`var(--radius-sm)`) so checkout inputs match the
+ *      Bootstrap public-site `.form-control` 4px radius.
+ *   3. Override `.fi-input` height to `var(--touch-target-min)`
+ *      (44px) so checkout inputs hit WCAG 2.5.5 even when
+ *      Filament base sets them shorter.
+ *
+ * Same media query as cycle-168/169/170/171/172/176 admin
+ * batch — `(max-width: 1023.98px), (hover: none) and
+ * (pointer: coarse)`.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Surface alignment — force light tokens unless dark mode
+       is explicitly toggled. */
+    body.fi-panel-checkout {
+        background-color: var(--color-surface) !important;
+        color: var(--color-text-primary) !important;
+    }
+    body.fi-panel-checkout .fi-main,
+    body.fi-panel-checkout .fi-section,
+    body.fi-panel-checkout .fi-section-content,
+    body.fi-panel-checkout .checkout-wizard-container {
+        background-color: var(--color-surface) !important;
+        color: var(--color-text-primary) !important;
+    }
+
+    /* Input border-radius alignment — Filament default ~7px,
+       public Bootstrap 4px. Use design-system var(--radius-sm). */
+    body.fi-panel-checkout .fi-input,
+    body.fi-panel-checkout .fi-input-wrp,
+    body.fi-panel-checkout .fi-select-input,
+    body.fi-panel-checkout .fi-textarea-input,
+    body.fi-panel-checkout input.fi-input,
+    body.fi-panel-checkout textarea.fi-textarea-input,
+    body.fi-panel-checkout select.fi-select-input {
+        border-radius: var(--radius-sm) !important;
+        border-color: var(--color-border) !important;
+        min-height: var(--touch-target-min);
+    }
+    body.fi-panel-checkout .fi-input:focus,
+    body.fi-panel-checkout .fi-input-wrp:focus-within,
+    body.fi-panel-checkout .fi-select-input:focus,
+    body.fi-panel-checkout .fi-textarea-input:focus,
+    body.fi-panel-checkout input.fi-input:focus,
+    body.fi-panel-checkout textarea.fi-textarea-input:focus,
+    body.fi-panel-checkout select.fi-select-input:focus {
+        border-color: var(--color-border-focus) !important;
+    }
+
+    /* Label alignment — checkout form labels should be the same
+       gray-500 secondary-text as public form labels. */
+    body.fi-panel-checkout label,
+    body.fi-panel-checkout .fi-fo-field-wrp-label {
+        color: var(--color-text-secondary);
     }
 }
