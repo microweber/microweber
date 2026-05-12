@@ -68,6 +68,18 @@
     --card-padding: var(--space-card);
     --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
+    /* AI-292 form-element tokens — mirror of design-system.css. */
+    --input-height: var(--touch-target-min);
+    --input-border-width: 1px;
+    --input-radius: 6px;
+    --input-padding-x: var(--space-3);
+    --input-focus-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    --label-font-size: var(--font-size-small);
+    --label-font-weight: 500;
+    --label-color: var(--color-text-secondary);
+    --helper-text-font-size: 12px;
+    --helper-text-color: var(--color-text-muted);
+
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -243,6 +255,100 @@ small,
     border-radius: var(--card-radius);
     padding: var(--card-padding);
     box-shadow: var(--card-shadow);
+}
+
+/*
+ * AI-292 form elements.
+ *
+ * Applies design-system form tokens to Bootstrap's form classes
+ * (.form-control, .form-select, .form-label, .form-text, .is-invalid,
+ * .is-valid, .invalid-feedback, .valid-feedback) so every input on
+ * the public site has the same height/border/radius/focus behavior
+ * regardless of the module template rendering it.
+ *
+ * Why scope to Bootstrap classes vs. bare elements: Bootstrap-styled
+ * forms already opt in via .form-control. Bare <input> elements
+ * inside admin widgets, Vue components, and Filament partials have
+ * their own styling stacks — bumping every bare input to 44px would
+ * regress those. .form-control covers the public-facing surface this
+ * audit measured.
+ *
+ * The 44px height matches the AI-219..234 touch-target sweep already
+ * applied to interactive controls — forms inherit the same floor.
+ */
+
+.form-control,
+.form-select,
+textarea.form-control {
+    min-height: var(--input-height);
+    border: var(--input-border-width) solid var(--color-border);
+    border-radius: var(--input-radius);
+    padding-left: var(--input-padding-x);
+    padding-right: var(--input-padding-x);
+}
+
+textarea.form-control {
+    /* Textareas grow vertically, so min-height is the floor not the
+       fixed height — let the user-resize / rows attribute work. */
+    height: auto;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: var(--input-focus-shadow);
+    outline: none;
+}
+
+.form-label {
+    font-size: var(--label-font-size);
+    font-weight: var(--label-font-weight);
+    color: var(--label-color);
+    /* Sentence case: don't transform; rely on copy authors. Resetting
+       any inherited uppercase rule keeps the AI-292 sentence-case
+       requirement intact. */
+    text-transform: none;
+}
+
+.form-text {
+    font-size: var(--helper-text-font-size);
+    color: var(--helper-text-color);
+}
+
+/* Error state — Bootstrap toggles .is-invalid on inputs and
+   .invalid-feedback / .invalid-tooltip on the message. We bind both
+   to the design-system error color so the validation styling matches
+   the audit-approved palette instead of Bootstrap's default red. */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--color-error);
+}
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+.invalid-feedback,
+.invalid-tooltip {
+    color: var(--color-error);
+    font-size: var(--helper-text-font-size);
+}
+
+/* Success state — Bootstrap's .is-valid toggle, paired with a
+   checkmark via the existing valid-feedback Bootstrap class. We
+   override the border + feedback color; the checkmark glyph is part
+   of Bootstrap's default `.form-control.is-valid` background-image. */
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: var(--color-success);
+}
+.form-control.is-valid:focus,
+.form-select.is-valid:focus {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+.valid-feedback,
+.valid-tooltip {
+    color: var(--color-success);
+    font-size: var(--helper-text-font-size);
 }
 
 /*

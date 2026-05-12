@@ -239,6 +239,39 @@
     --card-radius: 8px;
     --card-padding: var(--space-card);
     --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    /* ============================================================
+     * Form-element tokens (AI-292)
+     * ============================================================
+     *
+     * Input height = --touch-target-min so all form controls satisfy
+     * the WCAG 2.5.5 / iOS HIG 44×44 touch-target floor without
+     * needing a per-control override. Label + helper-text font sizes
+     * ride on top of the AI-283 typography scale; their colors reuse
+     * the AI-284 text tokens that already cleared WCAG AA contrast.
+     *
+     * Focus shadow uses an `rgba()` literal of the primary blue
+     * because CSS doesn't let us interpolate `var(--color-primary)`
+     * with an opacity inside `box-shadow`. Kept in sync manually with
+     * the `--color-primary` hex via DesignSystemFormElementsContractTest.
+     *
+     * --input-padding-x is the inline padding so a 44px-tall input
+     * still reads as touch-comfortable; the AI-285 `--space-3`
+     * (12px) is the canonical value for this — referenced via the
+     * scale alias, not hardcoded.
+     */
+    --input-height: var(--touch-target-min);
+    --input-border-width: 1px;
+    --input-radius: 6px;
+    --input-padding-x: var(--space-3);
+    --input-focus-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+
+    --label-font-size: var(--font-size-small);
+    --label-font-weight: 500;
+    --label-color: var(--color-text-secondary);
+
+    --helper-text-font-size: 12px;
+    --helper-text-color: var(--color-text-muted);
 }
 
 /*
