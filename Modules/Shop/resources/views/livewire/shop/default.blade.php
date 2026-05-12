@@ -28,8 +28,14 @@
              aria-busy="true" while Livewire is fetching so SR users hear
              "loading" instead of stale results. --}}
         <div class="row mt-4" aria-live="polite" wire:loading.attr="aria-busy">
+            {{-- AI-286: 3-col (lg/xl) → 2-col (md) → 1-col (sm) responsive
+                 product grid. Previously `col-12 col-lg-6 col-xl-6` produced
+                 a 1→2 jump with no intermediate 2-col state at tablet widths
+                 and stopped at 2 cols on wide desktop. Updated breakpoints
+                 land cleanly on the AI-286 test viewports
+                 (320/390/768/1024/1440). --}}
             @forelse($products as $product)
-                <div class="col-12 col-lg-6 col-xl-6 mb-5">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 mb-5">
                     @include('modules.shop::livewire.shop.product-card')
                 </div>
             @empty

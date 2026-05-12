@@ -49,6 +49,14 @@
     --space-form: var(--space-5);
     --space-modal: var(--space-6);
 
+    /* AI-286 responsive breakpoint tokens — mirror of design-system.css. */
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1440px;
+
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -128,6 +136,67 @@ h6 { font-size: var(--font-size-h6); line-height: var(--line-height-heading); }
 body { font-size: var(--font-size-body); line-height: var(--line-height-body); }
 small,
 .text-small { font-size: var(--font-size-small); line-height: var(--line-height-body); }
+
+/*
+ * AI-286 responsive utility classes.
+ *
+ * Three reusable patterns that the audit called out:
+ *   1. .mw-stack-below-sm — flex children stack vertically below 576px
+ *      (contact form, footer columns). Above 576px the parent's normal
+ *      row layout applies; below, children become full-width and align
+ *      top-to-bottom.
+ *   2. .mw-hero-split — hero left/right halves go side-by-side from
+ *      768px+ and stack vertically below. Built with flex so it works
+ *      regardless of how many child blocks the editor drops in.
+ *   3. .mw-grid-shop — same 3→2→1 column flow as the shop livewire
+ *      blade but available as a CSS class for module blade authors
+ *      who can't reach into the Livewire markup.
+ *
+ * Each rule keys off the breakpoint TOKENS so the
+ * DesignSystemBreakpointsContractTest can pin the @media min-widths
+ * to the canonical values.
+ */
+
+@media (max-width: 575.98px) {
+    .mw-stack-below-sm {
+        flex-direction: column;
+    }
+    .mw-stack-below-sm > * {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.mw-hero-split {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+@media (min-width: 768px) {
+    .mw-hero-split {
+        flex-direction: row;
+        align-items: center;
+    }
+    .mw-hero-split > * {
+        flex: 1 1 0;
+    }
+}
+
+.mw-grid-shop {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+    .mw-grid-shop {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 992px) {
+    .mw-grid-shop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
 /*
  * AI-291 button states.

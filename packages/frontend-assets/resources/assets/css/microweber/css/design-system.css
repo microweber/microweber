@@ -153,6 +153,29 @@
     --touch-target-min: 44px;
 
     /* ============================================================
+     * Responsive breakpoint tokens (AI-286)
+     * ============================================================
+     *
+     * Six explicit breakpoint stops aligned with Bootstrap 5's
+     * defaults plus an --breakpoint-xxl bump to 1440px for the wide
+     * desktop class the AI-286 audit asked us to support.
+     *
+     * These tokens make breakpoint values referenceable from
+     * JavaScript via `getComputedStyle(document.documentElement)
+     * .getPropertyValue('--breakpoint-md')` and from blade Style
+     * blocks, so a single source of truth replaces hardcoded
+     * `@media (min-width: 768px)` literals.
+     *
+     * Pinned by DesignSystemBreakpointsContractTest.
+     */
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1440px;
+
+    /* ============================================================
      * Border radius tokens
      * ============================================================ */
     --radius-sm: 4px;
