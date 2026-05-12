@@ -73,6 +73,44 @@
 
             document.addEventListener('livewire:init', function () {
 
+                /*
+                 * AI-239 body-scroll lock for public-side Livewire modals.
+                 *
+                 * The admin Filament theme bundle already locks `body` scroll on
+                 * `x-modal-opened` / `modal-closed` events, but the
+                 * livewire-ui-modal (MwModal) component used on public pages and
+                 * in some admin partials runs outside that event bus. When a
+                 * modal opens via `activeModalComponentChanged`, the overlay sits
+                 * at `position: fixed` with `background: rgba(0,0,0,0.4)` — but
+                 * `body` is still scrollable, so the page behind the dim scrolls
+                 * away from under the modal on touch.
+                 *
+                 * Lock policy:
+                 *   - save current scrollY into `body.dataset.mwModalScrollY`
+                 *   - set `body.style.overflow = 'hidden'`
+                 *   - reverse on close + restore scrollY
+                 *
+                 * Idempotent — guarded by a stack counter so nested opens don't
+                 * double-restore.
+                 */
+                let mwModalOpenStack = 0;
+                function mwLockBodyScrollForModal() {
+                    if (mwModalOpenStack++ > 0) return;
+                    document.body.dataset.mwModalScrollY = String(window.scrollY || window.pageYOffset || 0);
+                    document.body.style.overflow = 'hidden';
+                }
+                function mwUnlockBodyScrollForModal() {
+                    if (mwModalOpenStack > 0) mwModalOpenStack--;
+                    if (mwModalOpenStack > 0) return;
+                    document.body.style.overflow = '';
+                    const y = parseInt(document.body.dataset.mwModalScrollY || '0', 10);
+                    if (!isNaN(y)) window.scrollTo(0, y);
+                    delete document.body.dataset.mwModalScrollY;
+                }
+
+                Livewire.on('activeModalComponentChanged', () => {
+                    mwLockBodyScrollForModal();
+                });
 
                 Livewire.on('closeMwTopDialogIframe', () => {
                     let dialog = mw.top().dialog.get('#mw-livewire-component-iframe');
@@ -115,6 +153,8 @@
                             //Livewire.dispatch('destroyComponent', ['id', openedModalId]);
                         }
                     }
+                    // AI-239: release the body scroll lock symmetrically with open.
+                    mwUnlockBodyScrollForModal();
                 });
 
 
