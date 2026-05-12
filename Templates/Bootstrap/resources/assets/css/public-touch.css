@@ -81,7 +81,32 @@
     --helper-text-color: var(--color-text-muted);
 
     --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+    /* AI-289 elevation tokens — mirror of design-system.css. */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --z-base: 0;
+    --z-sticky: 10;
+    --z-dropdown: 20;
+    --z-fixed: 30;
+    --z-overlay: 40;
+    --z-popover: 50;
+    --z-modal: 100;
+    --z-toast: 200;
+
+    /* AI-290 icon size tokens — mirror of design-system.css. */
+    --icon-size-xs: 12px;
+    --icon-size-sm: 16px;
+    --icon-size-md: 20px;
+    --icon-size-lg: 24px;
+    --icon-size-xl: 32px;
 
     /* AI-283 typography scale — mirror of design-system.css. */
     --font-size-h1: 32px;
@@ -350,6 +375,66 @@ textarea.form-control {
     color: var(--color-success);
     font-size: var(--helper-text-font-size);
 }
+
+/*
+ * AI-289 elevation scale application.
+ *
+ * Cards hover-elevate from shadow-sm → shadow-md (AI-289 acceptance).
+ * The transition fires under the AI-288 motion tokens so the hover
+ * feels coordinated rather than independent. prefers-reduced-motion
+ * is already respected by the existing motion guard further up the
+ * file (the button-state @media (prefers-reduced-motion: reduce)
+ * block) — adding it again here would duplicate the rule.
+ */
+.card {
+    transition: box-shadow var(--duration-normal) var(--ease-default),
+                transform var(--duration-fast) var(--ease-default);
+}
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+    .card:hover {
+        /* keep the elevation cue but skip the animation */
+    }
+}
+
+/*
+ * AI-290 icon size scale.
+ *
+ * Apply --icon-size-* tokens to a five-step class scale. Targets:
+ *  - Bare <svg> and <i class="mdi-...">/<i class="fa-..."> glyphs.
+ *  - Sizes the box AND the font (for icon-font glyphs) so the same
+ *    class works whether the icon is an inline SVG or a Material/
+ *    FontAwesome glyph rendered via ::before pseudo.
+ *  - vertical-align: -0.125em keeps the icon on the text baseline
+ *    (the 0.125em offset is the canonical fix for SVG icons rendering
+ *    too high relative to inline text).
+ *
+ * Per AI-290 audit recommendation: FontAwesome 6 is the canonical
+ * library. Migrating every mdi-* / image-icon to fa-* is the AI-251
+ * scope (icon consolidation umbrella) — out of scope here. This PR
+ * ships the SIZE scale + classes so future per-template sweeps can
+ * apply them consistently.
+ */
+.icon-xs,
+.icon-sm,
+.icon-md,
+.icon-lg,
+.icon-xl {
+    display: inline-block;
+    vertical-align: -0.125em;
+    line-height: 1;
+}
+.icon-xs { width: var(--icon-size-xs); height: var(--icon-size-xs); font-size: var(--icon-size-xs); }
+.icon-sm { width: var(--icon-size-sm); height: var(--icon-size-sm); font-size: var(--icon-size-sm); }
+.icon-md { width: var(--icon-size-md); height: var(--icon-size-md); font-size: var(--icon-size-md); }
+.icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); font-size: var(--icon-size-lg); }
+.icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); font-size: var(--icon-size-xl); }
 
 /*
  * AI-291 button states.

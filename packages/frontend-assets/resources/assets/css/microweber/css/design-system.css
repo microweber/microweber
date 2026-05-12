@@ -183,19 +183,80 @@
     --radius-lg: 12px;
 
     /* ============================================================
-     * Elevation (shadow) tokens
-     * ============================================================ */
-    --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-2: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-3: 0 10px 15px rgba(0, 0, 0, 0.1);
+     * Elevation (shadow) tokens (AI-289)
+     * ============================================================
+     *
+     * Six-step elevation scale (sm/md/lg/xl + the legacy 1/2/3
+     * aliases below for compat). Shadows grow in spread + offset so
+     * higher elevations read as "further off the surface" — pair
+     * with the z-index scale to avoid visual depth contradicting
+     * stacking order (a popover with shadow-xl but z-index 10 below
+     * a card with shadow-sm at z-index 30 reads as wrong).
+     *
+     * Z-index scale uses semantic targets (modal=100, toast=200) so
+     * future stacking changes are a one-token edit rather than a
+     * project-wide grep. The 0/10/20/30/40/50 lower steps are for
+     * in-flow elements (sticky headers, fixed navs).
+     */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+    /* Legacy aliases — pre-AI-289 consumers use these names. */
+    --shadow-1: var(--shadow-sm);
+    --shadow-2: var(--shadow-md);
+    --shadow-3: var(--shadow-lg);
+
+    --z-base: 0;
+    --z-sticky: 10;
+    --z-dropdown: 20;
+    --z-fixed: 30;
+    --z-overlay: 40;
+    --z-popover: 50;
+    --z-modal: 100;
+    --z-toast: 200;
 
     /* ============================================================
-     * Motion tokens
-     * ============================================================ */
+     * Motion tokens (AI-288)
+     * ============================================================
+     *
+     * Duration scale audit-aligned (was 150/300/500 in the legacy
+     * block; AI-288 spec is 150/250/350 which reads as snappier on
+     * modern devices). The three easing curves cover the three
+     * canonical interaction patterns:
+     *   --ease-default — standard ease in-out for entry/exit
+     *   --ease-in      — accelerate to leaving screen (exit)
+     *   --ease-out     — decelerate into rest (entry)
+     */
     --duration-fast: 150ms;
-    --duration-normal: 300ms;
-    --duration-slow: 500ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+    /* ============================================================
+     * Icon size scale (AI-290)
+     * ============================================================
+     *
+     * Standardizes icon sizing on a five-step scale matching the
+     * AI-283 typography vertical rhythm (icons inside body text use
+     * --icon-size-sm = 16px, which equals --font-size-h6, so the
+     * glyph and the surrounding text share a baseline).
+     *
+     * The project currently ships a mix of FontAwesome 6, Material
+     * Design Icons (mdi-*), and inline SVG. Per AI-290 audit recommendation
+     * the canonical icon library is FontAwesome 6, but the
+     * per-template sweep to migrate every mdi-* and image icon to
+     * fa-* is out of scope for this token PR — see AI-251 (icon
+     * consolidation) for the broader migration ticket.
+     */
+    --icon-size-xs: 12px;
+    --icon-size-sm: 16px;
+    --icon-size-md: 20px;
+    --icon-size-lg: 24px;
+    --icon-size-xl: 32px;
 
     /* ============================================================
      * Button state tokens (AI-291)
