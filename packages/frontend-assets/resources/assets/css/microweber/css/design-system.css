@@ -37,34 +37,56 @@
 
     /* ============================================================
      * Typography tokens
+     *
+     * AI-283: full H1→H6 + Body + Small scale. The legacy `--text-*`
+     * tokens below are kept as aliases pointing at the canonical
+     * `--font-size-*` tokens so any consumer using either name keeps
+     * working. New code should use `--font-size-*` and the two
+     * line-height tokens.
      * ============================================================ */
     --font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-    --text-h1-size: 40px;
-    --text-h1-line: 1.25;
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-h5: 18px;
+    --font-size-h6: 16px;
+    --font-size-body: 16px;
+    --font-size-small: 14px;
+
+    --line-height-heading: 1.25;
+    --line-height-body: 1.5;
+
+    /* Legacy aliases — old consumers (compiled bundles, blade inline
+       styles written before AI-283) reference these names. Kept until
+       the next bundle build sweep so removing them doesn't surprise
+       a downstream stylesheet. */
+    --text-h1-size: var(--font-size-h1);
+    --text-h1-line: var(--line-height-heading);
     --text-h1-weight: 700;
 
-    --text-h2-size: 32px;
-    --text-h2-line: 1.3;
+    --text-h2-size: var(--font-size-h2);
+    --text-h2-line: var(--line-height-heading);
     --text-h2-weight: 600;
 
-    --text-h3-size: 25.6px;
-    --text-h3-line: 1.33;
+    --text-h3-size: var(--font-size-h3);
+    --text-h3-line: var(--line-height-heading);
     --text-h3-weight: 600;
 
-    --text-body-size: 16px;
-    --text-body-line: 1.5;
+    --text-body-size: var(--font-size-body);
+    --text-body-line: var(--line-height-body);
     --text-body-weight: 400;
 
-    --text-label-size: 14px;
+    --text-label-size: var(--font-size-small);
     --text-label-line: 1.4;
     --text-label-weight: 500;
 
-    --text-small-size: 12px;
+    --text-small-size: var(--font-size-small);
     --text-small-line: 1.4;
     --text-small-weight: 400;
 
-    --text-button-size: 16px;
+    --text-button-size: var(--font-size-body);
     --text-button-line: 1.0;
     --text-button-weight: 600;
 

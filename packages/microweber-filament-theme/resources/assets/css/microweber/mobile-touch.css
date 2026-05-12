@@ -31,6 +31,18 @@
 
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* AI-283 typography scale — mirror of design-system.css. */
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-h5: 18px;
+    --font-size-h6: 16px;
+    --font-size-body: 16px;
+    --font-size-small: 14px;
+    --line-height-heading: 1.25;
+    --line-height-body: 1.5;
 }
 
 .fi.dark {

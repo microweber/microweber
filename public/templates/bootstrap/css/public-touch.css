@@ -34,7 +34,44 @@
 
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* AI-283 typography scale — mirror of design-system.css. */
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-h5: 18px;
+    --font-size-h6: 16px;
+    --font-size-body: 16px;
+    --font-size-small: 14px;
+    --line-height-heading: 1.25;
+    --line-height-body: 1.5;
 }
+
+/*
+ * AI-283 global type scale.
+ *
+ * Apply the design-system font-size + line-height tokens to the standard
+ * heading + body elements so every public page inherits the same scale,
+ * regardless of which Bootstrap template skin renders the content. Rules
+ * live outside the mobile-only `@media` block below so the scale applies
+ * at every viewport — `--font-size-*` itself is the same value at every
+ * width (the audit's complaint was the lack of any consistent scale, not
+ * mobile-specific sizing).
+ *
+ * Selectors target the bare elements rather than `.h1`, `.h2`, etc., so
+ * Bootstrap's utility classes (.h1, .display-1, .lead) remain free to
+ * override on a case-by-case basis without us fighting them globally.
+ */
+h1 { font-size: var(--font-size-h1); line-height: var(--line-height-heading); }
+h2 { font-size: var(--font-size-h2); line-height: var(--line-height-heading); }
+h3 { font-size: var(--font-size-h3); line-height: var(--line-height-heading); }
+h4 { font-size: var(--font-size-h4); line-height: var(--line-height-heading); }
+h5 { font-size: var(--font-size-h5); line-height: var(--line-height-heading); }
+h6 { font-size: var(--font-size-h6); line-height: var(--line-height-heading); }
+body { font-size: var(--font-size-body); line-height: var(--line-height-body); }
+small,
+.text-small { font-size: var(--font-size-small); line-height: var(--line-height-body); }
 
 [data-bs-theme="dark"],
 html.dark {
