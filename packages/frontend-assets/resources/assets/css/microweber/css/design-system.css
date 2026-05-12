@@ -209,6 +209,36 @@
     --btn-focus-ring-offset: 2px;
     --btn-active-scale: 0.98;
     --btn-disabled-opacity: 0.5;
+
+    /* ============================================================
+     * Component tokens (AI-287)
+     * ============================================================
+     *
+     * Primary button   — 6px radius, 8px/16px padding (default size)
+     * Secondary button — 6px radius, 6px/12px padding, outline only
+     * Card             — 8px radius, 16px padding, soft elevation-1
+     *
+     * Token names use the `--btn-primary-*` / `--btn-secondary-*` /
+     * `--card-*` pattern so a downstream consumer can see at a glance
+     * which component it's reading. `--card-padding` references the
+     * AI-285 semantic alias `--space-card` (which itself resolves to
+     * `--space-4`, 16px) so the AI-287 card padding spec rides on
+     * top of the canonical 8-px spacing scale — no parallel hardcoded
+     * value to drift independently.
+     *
+     * Pinned by DesignSystemComponentsContractTest.
+     */
+    --btn-primary-radius: 6px;
+    --btn-primary-padding-y: 8px;
+    --btn-primary-padding-x: 16px;
+
+    --btn-secondary-radius: 6px;
+    --btn-secondary-padding-y: 6px;
+    --btn-secondary-padding-x: 12px;
+
+    --card-radius: 8px;
+    --card-padding: var(--space-card);
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /*

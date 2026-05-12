@@ -57,6 +57,17 @@
     --breakpoint-xl: 1200px;
     --breakpoint-xxl: 1440px;
 
+    /* AI-287 component tokens — mirror of design-system.css. */
+    --btn-primary-radius: 6px;
+    --btn-primary-padding-y: 8px;
+    --btn-primary-padding-x: 16px;
+    --btn-secondary-radius: 6px;
+    --btn-secondary-padding-y: 6px;
+    --btn-secondary-padding-x: 12px;
+    --card-radius: 8px;
+    --card-padding: var(--space-card);
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -196,6 +207,42 @@ small,
     .mw-grid-shop {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/*
+ * AI-287 component consistency.
+ *
+ * Apply the canonical component tokens to Bootstrap's `.btn-primary`,
+ * `.btn-secondary`/`.btn-outline-*`, and `.card` classes so every
+ * variant has the same radius / padding / shadow regardless of which
+ * module template renders it.
+ *
+ * Each rule scopes to Bootstrap class names rather than the bare
+ * element so it stacks on top of AI-291's focus/active/disabled state
+ * rules (which target both `<button>` and `.btn`).
+ *
+ * Active/hover/disabled/loading variants are already shipped in the
+ * AI-291 block — they cascade through these AI-287 base styles
+ * automatically because the AI-291 rules don't override radius,
+ * padding, or shadow.
+ */
+
+.btn.btn-primary {
+    border-radius: var(--btn-primary-radius);
+    padding: var(--btn-primary-padding-y) var(--btn-primary-padding-x);
+}
+
+.btn.btn-secondary,
+.btn.btn-outline-primary,
+.btn.btn-outline-secondary {
+    border-radius: var(--btn-secondary-radius);
+    padding: var(--btn-secondary-padding-y) var(--btn-secondary-padding-x);
+}
+
+.card {
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--card-shadow);
 }
 
 /*
