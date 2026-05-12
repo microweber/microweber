@@ -197,7 +197,7 @@ $limit = 40;
                         {{-- AI-113 / TICKET-CP (cycle-103 2026-05-09): inline
                              style background-image lifted to real <img>. --}}
                         <span class="mwt-face-holder" data-index="{{ $count }}">
-                        @if (isset($item['client_website']))
+                        @if (isset($item['client_website']) && !empty($item['client_website']))
                             <a href="{{ $item['client_website'] }}" class="mwt-face">
                                 <img src="{{ thumbnail($item['client_image'], 650) }}" alt="{{ $item['client_name'] ?? '' }}" loading="lazy" decoding="async" class="mwt-face-img"/>
                             </a>
@@ -215,7 +215,7 @@ $limit = 40;
                     @foreach ($testimonials as $item)
                         @php $count++; @endphp
                         <span class="mwt-face-holder" data-index="{{ $count }}">
-                        @if (isset($item['client_website']))
+                        @if (isset($item['client_website']) && !empty($item['client_website']))
                             <a href="{{ $item['client_website'] }}" class="mwt-face-name">{{ $item['name'] }}</a>
                         @else
                             <span class="mwt-face-name">{{ $item['name'] }}</span>

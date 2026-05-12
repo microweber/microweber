@@ -81,7 +81,7 @@ $limit = 40;
                      `style="background-image: url(...)"` lifted to a real
                      `<img>` for CSP + apostrophe-injection. --}}
                 <span class="mwt-face-holder" data-index="{{ $count }}">
-                @if (isset($item['client_website']))
+                @if (isset($item['client_website']) && !empty($item['client_website']))
                     <a href="{{ $item['client_website'] }}" class="mwt-face">
                         <img src="{{ thumbnail($item['client_image'], 250) }}" alt="{{ $item['client_name'] ?? '' }}" loading="lazy" decoding="async" class="mwt-face-img"/>
                     </a>
@@ -99,7 +99,7 @@ $limit = 40;
             @foreach ($testimonials as $item)
                 @php $count++; @endphp
                 <span class="mwt-face-holder" data-index="{{ $count }}">
-                @if (isset($item['client_website']))
+                @if (isset($item['client_website']) && !empty($item['client_website']))
                     <a href="{{ $item['client_website'] }}" class="mwt-face-name">{{ $item['name'] }}</a>
                 @else
                     <span class="mwt-face-name">{{ $item['name'] }}</span>
@@ -123,7 +123,7 @@ $limit = 40;
                                     <p class="mb-0">{{ $item['client_company'] }}</p>
                                 @endif
 
-                                @if (isset($item['client_website']))
+                                @if (isset($item['client_website']) && !empty($item['client_website']))
                                     <a class="my-1 d-block" href="{{ $item['client_website'] }}">{{ $item['client_website'] }}</a>
                                 @endif
 

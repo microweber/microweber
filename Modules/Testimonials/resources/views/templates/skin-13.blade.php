@@ -70,7 +70,7 @@ if (!window.SliderV2) {
                                 <p class="mb-0">{{ $item['client_company'] }}</p>
                             @endif
 
-                            @if (isset($item['client_website']))
+                            @if (isset($item['client_website']) && !empty($item['client_website']))
                                 <a class="my-1 d-block" href="{{ $item['client_website'] }}">{{ $item['client_website'] }}</a>
                             @endif
 

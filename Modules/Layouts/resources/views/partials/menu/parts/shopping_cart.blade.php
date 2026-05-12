@@ -11,8 +11,10 @@
         // remove it from the AT tree when the count is 0.
         $cart_qty = (int) cart_sum(false);
     ?>
+    {{-- AI-295: see profile_link.blade.php — drop href="#" from
+         the dropdown toggle; role + tabindex carry the semantics. --}}
     <li class="nav-item dropdown btn-shopping-cart ps-md-3">
-        <a href="#" class="nav-link px-0 d-flex align-items-center" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link px-0 d-flex align-items-center" data-bs-toggle="dropdown" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-label="{{ _e('Shopping cart', true) }}">
             <span class="btn btn-outline-primary btn-sm mx-2 js-shopping-cart-quantity"
                   data-cart-count="{{ $cart_qty }}"
                   @if ($cart_qty <= 0) hidden aria-hidden="true" @endif><?php print $cart_qty; ?></span>

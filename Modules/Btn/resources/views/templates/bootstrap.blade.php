@@ -68,10 +68,27 @@ description: Bootstrap button
         @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
     </a>
 @else
+{{-- AI-295: when a button has no URL set yet (fresh install demo buttons,
+     editor hasn't configured a destination), the legacy markup emitted
+     `<a href="" target="_blank" rel="noopener noreferrer">` — an empty
+     anchor that registers as a broken link in SEO crawlers and reads as
+     "link, blank" to screen readers. Render the same button skin as a
+     non-link `<button type="button">` when `$url` is empty: visually
+     identical, no broken navigation, no a11y noise, and clicking it
+     in Live Edit still selects the element so the editor can configure
+     a URL. --}}
+@if(empty($url))
+<button type="button" id="{{ $btnId }}" class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!}>
+    @if($hasIcon && $iconPosition == 'left'){!! $iconHtml !!}@endif
+    {{ $text }}
+    @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
+</button>
+@else
 <a id="{{ $btnId }}" href="{{ $url }}" @if ($blank) target="_blank" @endif class="btn {{ $style . ' ' . $size . ' ' . $class}}" {!! $attributes !!} rel="noopener noreferrer">
     @if($hasIcon && $iconPosition == 'left'){!! $iconHtml !!}@endif
     {{ $text }}
     @if($hasIcon && $iconPosition == 'right'){!! $iconHtml !!}@endif
 </a>
+@endif
 @endif
 </div>

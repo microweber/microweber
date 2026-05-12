@@ -15,7 +15,7 @@ description: Skin-1
 @endphp
 
 <ul class="mw-socialLinks list-inline no-style mb-0">
-    @if ($facebook_enabled)
+    @if ($facebook_enabled && !empty($facebook_url))
         <li class="me-3">
             <a href="{{ $facebook_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-facebook')
@@ -23,7 +23,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($x_enabled)
+    @if ($x_enabled && !empty($x_url))
         <li class="me-3">
             <a href="{{ $x_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-x')
@@ -31,7 +31,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($pinterest_enabled)
+    @if ($pinterest_enabled && !empty($pinterest_url))
         <li class="me-3">
             <a href="{{ $pinterest_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-pinterest')
@@ -39,7 +39,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($youtube_enabled)
+    @if ($youtube_enabled && !empty($youtube_url))
         <li class="me-3">
             <a href="{{ $youtube_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-youtube')
@@ -47,7 +47,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($instagram_enabled)
+    @if ($instagram_enabled && !empty($instagram_url))
         <li class="me-3">
             <a href="{{ $instagram_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-instagram')
@@ -55,7 +55,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($linkedin_enabled)
+    @if ($linkedin_enabled && !empty($linkedin_url))
         <li class="me-3">
             <a href="{{ $linkedin_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-linkedin')
@@ -63,7 +63,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($github_enabled)
+    @if ($github_enabled && !empty($github_url))
         <li class="me-3">
             <a href="{{ $github_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-github')
@@ -71,7 +71,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($soundcloud_enabled)
+    @if ($soundcloud_enabled && !empty($soundcloud_url))
         <li class="me-3">
             <a href="{{ $soundcloud_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-soundcloud')
@@ -80,7 +80,7 @@ description: Skin-1
     @endif
 
 
-    @if ($discord_enabled)
+    @if ($discord_enabled && !empty($discord_url))
         <li class="mx-1">
             <a href="{{ $discord_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-discord')
@@ -88,7 +88,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($skype_enabled)
+    @if ($skype_enabled && !empty($skype_url))
         <li class="mx-1">
             <a href="{{ $skype_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-skype')
@@ -96,7 +96,7 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($telegram_enabled)
+    @if ($telegram_enabled && !empty($telegram_url))
         <li class="mx-1">
             <a href="{{ $telegram_url }}" target="_blank" rel="noopener noreferrer">
                 @svg('modules.social_links-telegram')

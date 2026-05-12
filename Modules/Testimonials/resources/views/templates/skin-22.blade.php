@@ -136,7 +136,7 @@ $limit = 40;
                                     <small>{{ $item['client_company'] }}</small>
                                 @endif
 
-                                @if (isset($item['client_website']))
+                                @if (isset($item['client_website']) && !empty($item['client_website']))
                                     <a class="my-1 d-block" href="{{ $item['client_website'] }}">{{ $item['client_website'] }}</a>
                                 @endif
                             </div>
