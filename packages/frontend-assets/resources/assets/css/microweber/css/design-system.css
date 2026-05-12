@@ -127,6 +127,19 @@
     --duration-normal: 300ms;
     --duration-slow: 500ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ============================================================
+     * Button state tokens (AI-291)
+     * ============================================================
+     *
+     * Focus ring uses `--color-border-focus` (already defined) so the
+     * focus indicator matches the form-input focus border color and
+     * inherits the dark-mode override automatically.
+     */
+    --btn-focus-ring-width: 2px;
+    --btn-focus-ring-offset: 2px;
+    --btn-active-scale: 0.98;
+    --btn-disabled-opacity: 0.5;
 }
 
 /*

@@ -46,6 +46,12 @@
     --font-size-small: 14px;
     --line-height-heading: 1.25;
     --line-height-body: 1.5;
+
+    /* AI-291 button-state tokens — mirror of design-system.css. */
+    --btn-focus-ring-width: 2px;
+    --btn-focus-ring-offset: 2px;
+    --btn-active-scale: 0.98;
+    --btn-disabled-opacity: 0.5;
 }
 
 /*
@@ -72,6 +78,129 @@ h6 { font-size: var(--font-size-h6); line-height: var(--line-height-heading); }
 body { font-size: var(--font-size-body); line-height: var(--line-height-body); }
 small,
 .text-small { font-size: var(--font-size-small); line-height: var(--line-height-body); }
+
+/*
+ * AI-291 button states.
+ *
+ * Scope: bare <button>, <input type="submit|button|reset">, and the
+ * Bootstrap `.btn` class. We deliberately target both because Bootstrap
+ * resets `<button>` styles only when `.btn` is present — leaving
+ * unclassed `<button>` elements (used by the AI-281 admin login + the
+ * AI-295 Btn module rewrite) with no focus/active/disabled feedback.
+ *
+ * Why `:focus-visible` instead of `:focus`:
+ *   `:focus` fires for both keyboard and mouse interactions. The
+ *   keyboard-only `:focus-visible` ring is the WCAG-recommended
+ *   pattern — mouse users don't see the ring after a click (which
+ *   feels noisy), but keyboard users always do.
+ *
+ * Each rule is scoped to the public template surface (Bootstrap +
+ * unclassed buttons in module blades). Filament admin buttons have
+ * their own focus-ring already in the Filament theme.
+ */
+
+/* Focus ring — keyboard-only via :focus-visible */
+button:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="button"]:focus-visible,
+input[type="reset"]:focus-visible,
+.btn:focus-visible {
+    outline: var(--btn-focus-ring-width) solid var(--color-border-focus);
+    outline-offset: var(--btn-focus-ring-offset);
+}
+
+/* Active state — slight scale + relative dim. Uses `filter` instead of
+   overriding background-color so it stacks on top of every variant
+   (.btn-primary, .btn-outline-secondary, custom modules) without
+   needing per-variant rules. */
+button:not(:disabled):not(.disabled):active,
+input[type="submit"]:not(:disabled):active,
+input[type="button"]:not(:disabled):active,
+input[type="reset"]:not(:disabled):active,
+.btn:not(:disabled):not(.disabled):active {
+    transform: scale(var(--btn-active-scale));
+    filter: brightness(0.9);
+    transition: transform var(--duration-fast) var(--ease-default),
+                filter var(--duration-fast) var(--ease-default);
+}
+
+/* Disabled state — visually dim, not-allowed cursor, NO hover/active.
+   `pointer-events: none` is intentionally omitted so screen readers
+   still announce the disabled button; the cursor + opacity + the
+   `:hover` neutralizer below carry the affordance. */
+button:disabled,
+button.disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled,
+.btn:disabled,
+.btn.disabled {
+    opacity: var(--btn-disabled-opacity);
+    cursor: not-allowed;
+}
+button:disabled:hover,
+button.disabled:hover,
+.btn:disabled:hover,
+.btn.disabled:hover {
+    transform: none;
+    filter: none;
+}
+
+/*
+ * Loading state — opt-in via `[data-loading="true"]` or `.is-loading`.
+ * Spinner is inserted as a `::before` pseudo so the button's existing
+ * label content is preserved. `aria-busy="true"` is the canonical ARIA
+ * attribute; we also gate on it so screen readers + visual users see
+ * the loading affordance in lock-step.
+ */
+button[data-loading="true"],
+button.is-loading,
+button[aria-busy="true"],
+.btn[data-loading="true"],
+.btn.is-loading,
+.btn[aria-busy="true"] {
+    cursor: progress;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+button[data-loading="true"]::before,
+button.is-loading::before,
+button[aria-busy="true"]::before,
+.btn[data-loading="true"]::before,
+.btn.is-loading::before,
+.btn[aria-busy="true"]::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    vertical-align: -0.15em;
+    animation: mw-btn-spin var(--duration-slow) linear infinite;
+}
+
+@keyframes mw-btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Respect reduced-motion preference — drop the spin + active scale. */
+@media (prefers-reduced-motion: reduce) {
+    button[data-loading="true"]::before,
+    button.is-loading::before,
+    button[aria-busy="true"]::before,
+    .btn[data-loading="true"]::before,
+    .btn.is-loading::before,
+    .btn[aria-busy="true"]::before {
+        animation: none;
+    }
+    button:not(:disabled):not(.disabled):active,
+    .btn:not(:disabled):not(.disabled):active {
+        transform: none;
+    }
+}
 
 [data-bs-theme="dark"],
 html.dark {
