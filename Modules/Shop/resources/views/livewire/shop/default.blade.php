@@ -23,21 +23,50 @@
     <div class="col-12 col-md-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
-        {{-- audit-test 2026-05-08 PM TASK-017 / TICKET-AB finding #9 (a11y half):
-             aria-live="polite" announces grid updates to SR users when filters
-             or search change the visible products. wire:loading.attr toggles
-             aria-busy="true" while Livewire is fetching, so SR users hear
+        {{-- aria-live="polite" announces grid updates to screen readers when filters
+             or search change the visible products; wire:loading.attr toggles
+             aria-busy="true" while Livewire is fetching so SR users hear
              "loading" instead of stale results. --}}
         <div class="row mt-4" aria-live="polite" wire:loading.attr="aria-busy">
-            @foreach($products as $product)
+            @forelse($products as $product)
                 <div class="col-12 col-lg-6 col-xl-6 mb-5">
                     @include('modules.shop::livewire.shop.product-card')
                 </div>
-            @endforeach
+            @empty
+                <div class="col-12">
+                    <div class="mw-shop-empty-state text-center py-5 px-3">
+                        <svg class="mw-shop-empty-state__illustration mb-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="160" height="160" viewBox="0 0 160 160"
+                             fill="none" aria-hidden="true" role="img">
+                            <circle cx="80" cy="80" r="76" fill="#f8f9fa" stroke="#d1d5db" stroke-width="2"/>
+                            <path d="M48 64 L48 56 C48 49 53 44 60 44 L100 44 C107 44 112 49 112 56 L112 64"
+                                  stroke="#9ca3af" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            <path d="M40 64 L120 64 L114 116 C113 121 109 124 104 124 L56 124 C51 124 47 121 46 116 Z"
+                                  fill="#ffffff" stroke="#9ca3af" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="64" y1="80" x2="64" y2="100" stroke="#9ca3af" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="96" y1="80" x2="96" y2="100" stroke="#9ca3af" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <h3 class="mw-shop-empty-state__title h4 mb-2">
+                            {{ _e('No products found', true) }}
+                        </h3>
+                        <p class="mw-shop-empty-state__body text-muted mb-4">
+                            {{ _e('Try clearing the filters or searching for something else.', true) }}
+                        </p>
+                        <button type="button"
+                                class="btn btn-primary mw-shop-empty-state__reset"
+                                wire:click="resetFilters">
+                            {{ _e('Clear all filters', true) }}
+                        </button>
+                    </div>
+                </div>
+            @endforelse
         </div>
 
-        <div class="d-flex justify-content-center mb-3">
-            {{ $products->links() }}
-        </div>
+        @if(!$products->isEmpty())
+            <div class="d-flex justify-content-center mb-3">
+                {{ $products->links() }}
+            </div>
+        @endif
     </div>
 </div>

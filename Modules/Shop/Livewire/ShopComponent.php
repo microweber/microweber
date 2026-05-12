@@ -90,14 +90,10 @@ class ShopComponent extends BlogComponent
     }
 
     /*
-     * audit-test 2026-05-07 Shop audit finding 1 (BLOCKER):
-     * The original blade used `wire:click` on `<option>` elements — the
-     * browser does not fire `click` on `<option>`; it fires `change` on
-     * the parent `<select>`. So Sort/Limit dropdowns were doing nothing.
-     * Fixed shape: `<select wire:model.live="sortKey">` + handler below
-     * splits "field_direction" into the two state slots. Same shape for
-     * limit (handled by Livewire's automatic property hydration since
-     * `$limit` is already a public).
+     * `<select wire:model.live="sortKey">` binds the sort dropdown; the
+     * handler below splits the "<field>_<direction>" payload into the
+     * separate $sort + $direction slots. (`<option>` elements don't fire
+     * `click` — the parent `<select>` fires `change`.)
      */
     public $sortKey = '';
 
@@ -127,6 +123,25 @@ class ShopComponent extends BlogComponent
 
     public function updatedLimit(): void
     {
+        $this->setPage(1);
+    }
+
+    /**
+     * Clear every user-applied filter so the product grid shows everything again.
+     * Used by the shop empty-state CTA when no products match the current filters.
+     */
+    public function resetFilters(): void
+    {
+        $this->keywords = null;
+        $this->category = null;
+        $this->tags = '';
+        $this->customFields = [];
+        $this->offers = null;
+        $this->priceFrom = null;
+        $this->priceTo = null;
+        $this->sort = null;
+        $this->direction = null;
+        $this->sortKey = '';
         $this->setPage(1);
     }
 
