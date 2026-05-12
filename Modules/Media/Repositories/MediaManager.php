@@ -218,7 +218,7 @@ class MediaManager
             }
         }
 
-        exit(json_encode($rerturn));
+        return json_encode($rerturn);
     }
 
     private function base64_to_file($data, $target)
