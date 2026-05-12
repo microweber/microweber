@@ -33,8 +33,21 @@
 
     --touch-target-min: 44px;
     --space-11: 44px;
+    /* AI-285 8px-based scale — full mirror of design-system.css. */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
     --space-4: 16px;
     --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-12: 96px;
+
+    /* Semantic component-padding aliases. */
+    --space-card: var(--space-4);
+    --space-form: var(--space-5);
+    --space-modal: var(--space-6);
 
     --duration-fast: 150ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);

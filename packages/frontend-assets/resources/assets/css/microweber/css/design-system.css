@@ -109,17 +109,45 @@
     --text-button-weight: 600;
 
     /* ============================================================
-     * Spacing tokens — 4px grid, mobile-first
-     * ============================================================ */
+     * Spacing tokens — 8px-based scale (AI-285)
+     * ============================================================
+     *
+     * Eight-step canonical scale per AI-285 acceptance:
+     *   --space-1: 4px   half-step (icon padding, badge insets)
+     *   --space-2: 8px   base unit
+     *   --space-3: 12px
+     *   --space-4: 16px
+     *   --space-5: 24px
+     *   --space-6: 32px
+     *   --space-7: 48px  (AI-285 — was missing)
+     *   --space-8: 64px
+     *
+     * The --space-11 / --space-12 entries below the scale are kept
+     * because they alias semantic targets (44px = touch-target floor,
+     * 96px = hero block spacing). They're not part of the linear
+     * scale and shouldn't be renamed to --space-9/10.
+     *
+     * Component padding aliases (--space-card/-form/-modal) are
+     * semantic names that point at the canonical scale steps. Use
+     * these in component CSS rather than hardcoding `padding: 16px`
+     * — switching a component's density later becomes a one-token
+     * change instead of a project-wide sweep.
+     */
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 12px;
     --space-4: 16px;
     --space-5: 24px;
     --space-6: 32px;
+    --space-7: 48px;
     --space-8: 64px;
     --space-11: 44px;
     --space-12: 96px;
+
+    /* Semantic component-padding aliases (AI-285 acceptance #4). */
+    --space-card: var(--space-4);
+    --space-form: var(--space-5);
+    --space-modal: var(--space-6);
 
     /* Semantic alias for --space-11 — WCAG 2.5.5 floor. */
     --touch-target-min: 44px;
