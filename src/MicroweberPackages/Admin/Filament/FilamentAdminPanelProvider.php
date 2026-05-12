@@ -102,7 +102,7 @@ class FilamentAdminPanelProvider extends PanelProvider
               ->spaUrlExceptions(fn (): array => [
                    AdminLiveEditPage::getUrl(),
               ])*/
-            ->login()
+            ->login(\MicroweberPackages\Admin\Filament\Pages\Login::class)
             // ->registration()
             ->font('Inter')
             // ->sidebarCollapsibleOnDesktop()
