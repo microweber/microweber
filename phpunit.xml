@@ -166,6 +166,18 @@
 
         <testsuite name="Templates">
             <exclude>Templates/*/Tests/Browser</exclude>
+            <!--
+                Templates/Big2/Tests/Unit/LayoutsRenderTest.php ships from
+                upstream without a setUp() that activates the Big2 template,
+                so it asserts against Bootstrap's skin-1 (no inner btn module)
+                and always fails. The tracked canonical version lives at
+                tests/Unit/Template/Big2LayoutsRenderTest.php, activates Big2
+                in setUp(), and markTestSkipped() when Big2 isn't installed.
+                Exclude the upstream copy here so installs that have Big2
+                still get coverage via the tracked test without the duplicate
+                failure / state-leak conflict between the two tests.
+            -->
+            <exclude>Templates/Big2/Tests/Unit/LayoutsRenderTest.php</exclude>
             <directory>Templates/*/Tests</directory>
         </testsuite>
     </testsuites>
